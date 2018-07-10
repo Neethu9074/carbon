@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
 import { defaultProps, compose } from 'recompose';
+import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import { get } from 'lodash';
 
 import {
   applicationFilter as applicationFilterMatrixParameter,
@@ -24,10 +23,10 @@ import AnalyzeHeader from 'in-analyze/CallsList/AnalyzeHeader';
 import getCalls from 'in-subscription/application/getCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
+import cursorPaginated from 'in-hoc/cursorPaginated';
 import GroupedCalls from 'in-analyze/GroupedCalls';
 import RawCalls from 'in-analyze/RawCalls';
 import Title from 'in-components/Title';
-import connect from 'in-hoc/connectTo';
 
 export default compose(
   defaultProps({
@@ -78,26 +77,28 @@ export default compose(
       return objectToStore;
     }
   }),
-  connect(props => ({
-    totalNumberOfCalls: getCalls({
-      pagination: {
-        cursor: null,
-        retrievalSize: 1
-      },
-      order: {
-        by: 't',
-        direction: 'ASC'
-      },
-      filter: {
-        timeConfig: getTimeConfig(props.location)
-      },
-      tagFilters: []
-    }).map(result => get(result, ['data', 'totalHits'], null))
-  }))
+  cursorPaginated({
+    getResettingProps: () => ['location'],
+    get: ({ location }) =>
+      getCalls({
+        pagination: {
+          cursor: null,
+          retrievalSize: 1
+        },
+        order: {
+          by: 't',
+          direction: 'ASC'
+        },
+        filter: {
+          timeConfig: getTimeConfig(location)
+        },
+        tagFilters: []
+      })
+  })
 )(CallList);
 
 function CallList(props) {
-  const { onChangeFilters, location, totalNumberOfCalls } = props;
+  const { onChangeFilters, location, totalHits } = props;
 
   let filters = fromJS({
     tagFilter: props[tagFilterMatrixParameter],
@@ -111,7 +112,7 @@ function CallList(props) {
   return (
     <Fragment>
       <Title title="Calls" />
-      <AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalNumberOfCalls} />
+      <AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalHits} />
       <MaxWidthFullscreenContainer>
         {filters.get('group') && (
           <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
