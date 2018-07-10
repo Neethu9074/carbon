@@ -39,15 +39,9 @@ export default connectTo(
       });
       const labels = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
-      const colors = endpointTypes.map((type, i) => {
-        let idx = i;
-
-        if (type === 'SELF') {
-          idx = theme.lib.colors.chart.strokeColors25.length - 1;
-        }
-
-        return theme.lib.colors.chart.strokeColors25[idx];
-      });
+      const colors = endpointTypes.map(
+        (type, i) => (type === 'SELF' ? theme.lib.colors.chart.self25 : theme.lib.colors.chart.strokeColors25[i])
+      );
 
       config = {
         cardTitle: config.cardTitle,

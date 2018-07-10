@@ -202,11 +202,14 @@ function buildLib() {
     lib.colors.teal800,
     lib.colors.purple800,
     lib.colors.indigo800,
-
-    lib.colors.N500 // SELF (added here so that it is included in the 100 <-> 25 mapping)
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));
+
+  // self
+  lib.colors.chart.self100 = lib.colors.N500;
+  lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05)
+
   return lib;
 }
 
