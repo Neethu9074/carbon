@@ -51,7 +51,7 @@ export default class extends React.Component {
 
     return (
       <Fragment>
-        <NamedSection name="Type">
+        <NamedSection name="Category">
           <TagCategorySwitcher {...this.props} />
         </NamedSection>
         <NamedSection name="Tag">

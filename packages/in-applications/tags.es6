@@ -387,22 +387,7 @@ export function findChildByName(node, childName) {
   return null;
 }
 
-let tagCategories = null;
+const tagCategories = ['CALL', 'CLOUD', 'CONTAINER', 'SYSTEM', 'LANGUAGE', 'FRAMEWORK', 'DATABASE', 'MESSAGING'];
 export function getTagCategories() {
-  if (!tagCategories) {
-    getTagTree();
-
-    const tags = Object.keys(tagMap);
-
-    const categories = {};
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tagMap[tags[i]];
-      if (!isOnBlacklist(tag, generalBlacklist) && !isOnBlacklist(tag, customFilterBlacklist) && tag.category) {
-        categories[tag.category] = true;
-      }
-    }
-    tagCategories = Object.keys(categories);
-  }
-
   return tagCategories;
 }
