@@ -1,3 +1,4 @@
+import { padStart } from 'lodash';
 import React from 'react';
 
 import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
@@ -19,19 +20,21 @@ export default connectTo(
     };
     const backendTracesList = props.span.getIn(['data', 'page', 'backend_traces']);
     if (backendTracesList && backendTracesList.size === 1) {
-      observables.backendTraceIdResult = getTraceSummary({ id: backendTracesList.get(0) }).map(result => {
-        if (!result.progress.loading && result.errors.length === 0) {
-          return {
-            progress: {
-              loading: false
-            },
-            errors: [],
-            data: result.data.id
-          };
-        } else {
-          return result;
+      observables.backendTraceIdResult = getTraceSummary({ id: padStart(backendTracesList.get(0), 16, '0') }).map(
+        result => {
+          if (!result.progress.loading && result.errors.length === 0) {
+            return {
+              progress: {
+                loading: false
+              },
+              errors: [],
+              data: result.data.id
+            };
+          } else {
+            return result;
+          }
         }
-      });
+      );
     }
     return observables;
   },
