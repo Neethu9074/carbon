@@ -19,6 +19,46 @@ import Button from 'in-new-components/Button';
 import locals from './Group.mless';
 
 export default function Group({ item, filters, onChangeFilters, dotColor }) {
+  const onGroupClick = keepGrouping => {
+    if (!isQueryBuilderEnabled) {
+      return;
+    }
+
+    const group = filters.get('group');
+    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
+    const applicationFilter = filters.get('applicationFilter').toJS();
+    const newState = {};
+    newState[applicationFilterMatrixParameter] = applicationFilter;
+
+    if (group.get('name') === APPLICATION.name) {
+      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(item.name);
+    } else if (group.get('name') === SERVICE.name) {
+      applicationFilter[SERVICE.id] = SERVICE.createFilter(item.name);
+    } else if (group.get('name') === ENDPOINT.name) {
+      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(item.name);
+    } else {
+      const tagFilter = filters.get('tagFilter');
+
+      for (let i = 0; i < tagFilter.size; i++) {
+        const filter = tagFilter.get(i);
+        if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
+          // dont add filter twice if they have the same name and value
+          return;
+        }
+      }
+
+      newState[tagFilterMatrixParameter] = tagFilter
+        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
+        .toJS();
+    }
+
+    if (!keepGrouping) {
+      newState[groupByMatrixParameter] = null;
+    }
+
+    onChangeFilters(newState);
+  };
+
   return (
     <Fragment>
       <Tr size="compact">
@@ -33,47 +73,10 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             </span>
             {isQueryBuilderEnabled && (
               <Fragment>
-                <span className={locals.groupLabel}>{item.name}</span>
-                <Button
-                  size="compact"
-                  className={locals.filterButton}
-                  onClick={() => {
-                    if (!isQueryBuilderEnabled) {
-                      return;
-                    }
-
-                    const group = filters.get('group');
-                    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
-                    const applicationFilter = filters.get('applicationFilter').toJS();
-                    const newState = {};
-                    newState[applicationFilterMatrixParameter] = applicationFilter;
-
-                    if (group.get('name') === APPLICATION.name) {
-                      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(item.name);
-                    } else if (group.get('name') === SERVICE.name) {
-                      applicationFilter[SERVICE.id] = SERVICE.createFilter(item.name);
-                    } else if (group.get('name') === ENDPOINT.name) {
-                      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(item.name);
-                    } else {
-                      const tagFilter = filters.get('tagFilter');
-
-                      for (let i = 0; i < tagFilter.size; i++) {
-                        const filter = tagFilter.get(i);
-                        if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-                          // dont add filter twice if they have the same name and value
-                          return;
-                        }
-                      }
-
-                      newState[tagFilterMatrixParameter] = tagFilter
-                        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
-                        .toJS();
-                    }
-
-                    newState[groupByMatrixParameter] = null;
-                    onChangeFilters(newState);
-                  }}
-                >
+                <span className={locals.groupLabel} onClick={() => onGroupClick(false)}>
+                  {item.name}
+                </span>
+                <Button size="compact" className={locals.filterButton} onClick={() => onGroupClick(true)}>
                   Filter by
                 </Button>
               </Fragment>

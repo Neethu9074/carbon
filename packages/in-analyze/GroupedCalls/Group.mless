@@ -36,7 +36,12 @@
   }
 
   .groupLabel {
-    color: @lib__colors__navy900;
+    color: @lib__colors__blue800;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .metricValue {
