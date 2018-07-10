@@ -137,6 +137,15 @@ function createForm(config) {
       })
     )
     .put(
+      'validationResult',
+      createField({
+        value: {
+          valid:true,
+          error:null
+        }
+      })
+    )
+    .put(
       'timeOpened',
       createField({
         value: Date.now()

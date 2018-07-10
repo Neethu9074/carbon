@@ -1,15 +1,18 @@
+import { fromJS } from 'immutable';
 import React from 'react';
 
-import {
-  getLinkColumn,
-  getEnableToggleColumn,
-  getDeleteButtonColumn
-} from 'in-views/configurationView/components/tableColumnPresets';
+import { getEnableToggleColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import AlertingConfigurationDetails from 'in-views/configurationView/subview/AlertingConfigurations/components/AlertingConfigurationDetails';
 import { alertingConfigurationPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import { getAlertingConfigs, deleteAlertingConfig, setEnabled } from 'in-api/alertingConfiguration';
 import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntitiesOverview';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { combineLatest, just } from 'reactive-observables';
 import { goToPath } from 'in-stores/navigation';
+import { validate } from 'in-api/search';
+import Badge from 'in-components/Badge';
+import Link from 'in-components/Link';
 
 export default function AlertingConfigurations() {
   const cols = [
@@ -23,7 +26,11 @@ export default function AlertingConfigurations() {
   return (
     <BasicEntitiesOverview
       title="Alerting Configurations"
-      getEntities={getAlertingConfigs}
+      getEntities={() =>
+        getAlertingConfigs()
+          .flatMap(configs => combineLatest(configs.toArray().map(validateConfig)))
+          .map(fromJS)
+      }
       deleteEntity={deleteAlertingConfig}
       setEnabled={setEnabled}
       openEntityConfiguration={() => goToPath(alertingConfigurationPath)}
@@ -40,6 +47,40 @@ export default function AlertingConfigurations() {
   );
 }
 
+function validateConfig(config) {
+  if (twoZeroModeEnabled && config.getIn(['eventFilteringConfiguration', 'query'])) {
+    return validate({
+      query: config.getIn(['eventFilteringConfiguration', 'query']),
+      newApplicationModelEnabled: true
+    }).map(response => config.set('valid', response.body.valid));
+  } else {
+    return just(config.set('valid', true));
+  }
+}
+
 function getRowDetails(row) {
   return <AlertingConfigurationDetails config={row.entity} />;
+}
+
+function getLinkColumn(getLink, propertyName = 'name', linkParams) {
+  return {
+    title: 'Name',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get$(row) {
+        return getLink(row.key, linkParams).map(href => {
+          return {
+            value: row.entity.get(propertyName),
+            content: (
+              <Link href={href}>
+                {row.entity.get(propertyName)}{' '}
+                {!row.entity.get('valid') && <Badge size="sm">invalid in application preview mode</Badge>}
+              </Link>
+            )
+          };
+        });
+      }
+    }
+  };
 }

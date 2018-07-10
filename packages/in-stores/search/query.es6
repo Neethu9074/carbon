@@ -1,9 +1,9 @@
 import { parse } from 'lucene';
 
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { validate } from 'in-api/search';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
+import { validate } from 'in-api/search';
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
@@ -96,7 +96,7 @@ unvalidatedQuery$
     } else if (previousResult.query.length === 0) {
       return always(previousResult);
     }
-    return validate(previousResult.query, previousResult.searchContext).map(validationResult => {
+    return validate({ query: previousResult.query, context: previousResult.searchContext }).map(validationResult => {
       return {
         query: previousResult.query,
         parsedQuery: previousResult.parsedQuery,
