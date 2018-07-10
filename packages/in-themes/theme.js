@@ -8,14 +8,14 @@ let zIndex = 1;
 module.exports = {
   zIndex: {
     timeline: zIndex++,
-    tooltips: zIndex++,
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
     overlays: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,
-    messageFlyout: zIndex++
+    messageFlyout: zIndex++,
+    tooltips: zIndex++
   },
   fontColor: '#222627',
   fontFamilySansSerif:
