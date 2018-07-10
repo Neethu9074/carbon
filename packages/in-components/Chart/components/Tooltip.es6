@@ -68,12 +68,7 @@ export default connectTo(
               </div>
             </div>
           ) : null}
-          <div
-            ref={glassPane => {
-              this.glassPane = glassPane;
-            }}
-            className={locals.glassPane}
-          />
+          <div ref={glassPane => (this.glassPane = glassPane)} className={locals.glassPane} />
           {this.state.shouldRenderButtons && <ApplyTimeframeButtons xScale={this.state.xScale} />}
         </div>
       );

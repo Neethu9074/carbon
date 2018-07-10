@@ -3,7 +3,10 @@
 
 'use strict';
 
-let zIndex = 1;
+// zIndex start at 100, because some components need to raise their content above
+// sibling content. This is typically achieved by adding zIndex: 1. We start at
+// zIndex 100 to avoid any conflicts.
+let zIndex = 100;
 
 module.exports = {
   zIndex: {

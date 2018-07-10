@@ -7,7 +7,9 @@
     bottom: 2.1875rem;
     left: 3.125rem;
     right: 3.125rem;
-    z-index: @z-index__tooltips;
+
+    // position above remaining chart content.
+    z-index: 1;
 
     font-size: 0.875rem;
   }
