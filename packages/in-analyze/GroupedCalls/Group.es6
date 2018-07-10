@@ -3,8 +3,9 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
 import {
-  groupBy as groupByMatrixParameter,
-  applicationFilter as applicationFilterMatrixParameter
+  applicationFilter as applicationFilterMatrixParameter,
+  tagFilter as tagFilterMatrixParameter,
+  groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -43,7 +44,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
 
                     const group = filters.get('group');
                     const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
-                    const applicationFilter = filters.get(applicationFilterMatrixParameter).toJS();
+                    const applicationFilter = filters.get('applicationFilter').toJS();
                     const newState = {};
                     newState[applicationFilterMatrixParameter] = applicationFilter;
 
@@ -64,7 +65,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                         }
                       }
 
-                      newState.tagFilter = tagFilter
+                      newState[tagFilterMatrixParameter] = tagFilter
                         .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
                         .toJS();
                     }

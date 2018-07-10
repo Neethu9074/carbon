@@ -5,9 +5,11 @@ import AnalyzeFilterForm, {
   KeyListGroup,
   KeyPart,
   FieldSeperator,
-  SelectBox,
-  ValueGroup
-} from 'in-analyze/Dialogs/AnalyzeFilterForm';
+  ValueGroup,
+  TagCategorySwitcher,
+  NamedSection,
+  SelectBox
+} from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
 import {
   getTreeNodesTillName,
   getFullPathTillNode,
@@ -46,25 +48,38 @@ export default class extends React.Component {
     const { form, onCustomNameChanged } = this.props;
 
     return (
-      <AnalyzeFilterForm>
-        {form.get('name').map(field => (
-          <KeyListGroup field={field}>
-            <KeySelection
+      <Fragment>
+        <NamedSection name="Category">
+          <TagCategorySwitcher {...this.props} />
+        </NamedSection>
+        <NamedSection name="Tag">
+          <AnalyzeFilterForm>
+            {form.get('name').map(field => (
+              <KeyListGroup field={field}>
+                <KeySelection
+                  {...this.props}
+                  treeNodesTillName={treeNodesTillName}
+                  field={field}
+                  onNameChanged={this.onNameChanged}
+                />
+              </KeyListGroup>
+            ))}
+
+            <CustomKey
               {...this.props}
               treeNodesTillName={treeNodesTillName}
-              field={field}
-              onNameChanged={this.onNameChanged}
+              onCustomNameChanged={onCustomNameChanged}
             />
-          </KeyListGroup>
-        ))}
-
-        <CustomKey {...this.props} treeNodesTillName={treeNodesTillName} onCustomNameChanged={onCustomNameChanged} />
-      </AnalyzeFilterForm>
+          </AnalyzeFilterForm>
+        </NamedSection>
+      </Fragment>
     );
   }
 
   onNameChanged = (oldNode, newName) => {
-    this.props.onNameChanged(getDeepestPossibleNodePath(getFullPathTillNode(oldNode, newName), false));
+    this.props.onNameChanged(
+      getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: false })
+    );
   };
 }
 
@@ -76,69 +91,68 @@ function KeySelection(props) {
   return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
 }
 
-function UnknownKeySelection({ name, onNameChanged }) {
+function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
   const rootNode = getTagTree();
   const parts = name.split('.');
-  return parts.map((part, i) => (
-    <KeyPart key={part}>
-      <SelectBox
-        id={part}
-        value={part}
-        onChange={e => {
-          if (i === 0) {
-            onNameChanged(getTagTree(), e.target.value);
-          }
-        }}
-      >
-        <option key={part} value={part}>
-          {part}
-        </option>
-        {i === 0 &&
-          rootNode.getChildren().map(childNode => (
-            <option key={childNode.name} value={childNode.name}>
-              {childNode.name}
-            </option>
-          ))}
-      </SelectBox>
-    </KeyPart>
-  ));
+  return parts.map((part, i) => {
+    let options = getNodesChildren(rootNode, selectedCategory).map(childNode => ({
+      label: childNode.name,
+      value: childNode.name
+    }));
+    if (part) {
+      options = [{ value: part, label: part }].concat(options);
+    }
+
+    return (
+      <KeyPart key={part}>
+        <SelectBox
+          id={part}
+          value={part}
+          onChange={e => {
+            if (i === 0) {
+              onNameChanged(getTagTree(), e.value);
+            }
+          }}
+          options={options}
+        />
+      </KeyPart>
+    );
+  });
 }
 
-function KnownKeySelection({ onNameChanged, treeNodesTillName }) {
+function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory }) {
   const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
 
   return (
     <Fragment>
       {treeNodesTillName.map(node => (
         <KeyPart key={node.fullyQualifiedName}>
-          <SelectBox id={node.name} value={node.name} onChange={e => onNameChanged(node, e.target.value)}>
-            {node.parentNode.isTag && <option key="" value="" />}
-            {node.parentNode.getChildren().map(childNode => (
-              <option key={childNode.name} value={childNode.name}>
-                {childNode.name}
-              </option>
-            ))}
-          </SelectBox>
+          <SelectBox
+            id={node.name}
+            value={node.name}
+            onChange={e => onNameChanged(node, e.value)}
+            options={getNodesChildren(node.parentNode, selectedCategory).map(childNode => ({
+              label: childNode.name,
+              value: childNode.name
+            }))}
+          />
         </KeyPart>
       ))}
 
-      {lastNode.getChildren().length > 0 && (
+      {getNodesChildren(lastNode, selectedCategory).length > 0 && (
         <KeyPart key={lastNode.fullyQualifiedName}>
           <SelectBox
             id={lastNode.name}
             value=""
             onChange={e => {
-              const childNode = findChildByName(lastNode, e.target.value);
-              onNameChanged(childNode, e.target.value);
+              const childNode = findChildByName(lastNode, e.value);
+              onNameChanged(childNode, e.value);
             }}
-          >
-            {lastNode.getChildren().length > 1 && <option key="" value="" />}
-            {lastNode.getChildren().map(childNode => (
-              <option key={childNode.name} value={childNode.name}>
-                {childNode.name}
-              </option>
-            ))}
-          </SelectBox>
+            options={getNodesChildren(lastNode, selectedCategory).map(childNode => ({
+              label: childNode.name,
+              value: childNode.name
+            }))}
+          />
         </KeyPart>
       )}
     </Fragment>
@@ -175,9 +189,13 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
   );
 }
 
+function getNodesChildren(node, selectedCategory) {
+  return node.getChildren({ category: selectedCategory });
+}
+
 export function getInitialForm(group) {
-  const name = group.name;
-  let customName = group.value;
+  const name = group.name || '';
+  let customName = group.value || '';
 
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;

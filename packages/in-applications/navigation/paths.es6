@@ -11,6 +11,7 @@ import {
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
 export const newApplicationView = '/application/new';
+export const newApplicationWaiterView = '/application/waiter';
 
 export const servicesList = '/services';
 export const serviceDashboard = '/service';

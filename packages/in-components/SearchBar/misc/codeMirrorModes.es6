@@ -3,12 +3,12 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';
 import { getTree, aliasMap } from 'in-stores/search/fields';
 
-CodeMirror.defineMode('instanaSearch', () => {
+CodeMirror.defineMode('instanaSearch', config => {
   return {
     currentLexResult: null,
 
     startState() {
-      getTree();
+      getTree(config.searchContext);
 
       return {
         lexedFor: '',

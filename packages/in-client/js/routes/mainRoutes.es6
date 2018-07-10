@@ -31,7 +31,6 @@ import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
-import { applicationsList } from 'in-applications/navigation/paths';
 import applicationRoutes from 'in-applications/navigation/routes';
 import GraphView from 'in-components/graphView/GraphView';
 import analyzeRoutes from 'in-analyze/navigation/routes';
@@ -52,7 +51,7 @@ export default (
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
     {!twoZeroModeEnabled && <Route component={GraphView} path={graphPath} />}
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
-    {!twoZeroModeEnabled && <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />}
+    <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
@@ -65,7 +64,6 @@ export default (
     {twoZeroModeEnabled && analyzeRoutes}
 
     {/* landing page */}
-    {!twoZeroModeEnabled && <RedirectWithHash from="/" to={physicalPath} />}
-    {twoZeroModeEnabled && <RedirectWithHash from="/" to={applicationsList} />}
+    <RedirectWithHash from="/" to={physicalPath} />
   </FragmentSupportingSwitch>
 );

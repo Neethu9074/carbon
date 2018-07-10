@@ -61,9 +61,9 @@ export default function Step2({ form, onChange }) {
                     className={`${block}__input`}
                     value={eventQueryField.value}
                     onChange={e => onChange('query', e.target.value)}
-                    hasError={form.get('validationResult') && !form.get('validationResult').value.valid }
+                    hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                   />
-                  <BackendValidationMessages field={eventQueryField} validationResult={form.get('validationResult').value} />
+                  <BackendValidationMessages validationResult={form.get('validationResult').value} />
                   <MatchingEntitiesIndicator form={form} />
                 </div>
               ))}
@@ -91,18 +91,13 @@ function LabelledToggle({ onChange, types, title, type }) {
   );
 }
 
-function BackendValidationMessages({ field, validationResult }) {
+function BackendValidationMessages({ validationResult }) {
   if (validationResult.valid) {
     return null;
   }
 
-  return (
-    <ValidationBlock hasError>
-      {`Dynamic Focus query is not valid: ${validationResult.error}.`}
-    </ValidationBlock>
-  );
+  return <ValidationBlock hasError>{`Dynamic focus query is not valid: ${validationResult.error}.`}</ValidationBlock>;
 }
-
 
 function onSelectChanged(types, onChange, type) {
   const containsType = types.includes(type);

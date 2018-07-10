@@ -132,14 +132,15 @@ export function mapToServerResponse(config) {
   return config;
 }
 
-const filterBlackList = {
+export const customFilterBlacklist = {
   application: true,
   'application.name': true,
   service: true,
   'service.name': true,
+  endpoint: true,
   'endpoint.name': true
 };
-const generalBlacklist = {
+export const generalBlacklist = {
   'application.id': true,
   'service.id': true,
   'endpoint.id': true,
@@ -149,9 +150,9 @@ const generalBlacklist = {
 };
 function isOnBlacklist(serverTag, blacklist) {
   if (blacklist[serverTag.fullyQualifiedName || serverTag.name]) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 
 let tagTree = null;
@@ -178,7 +179,7 @@ function buildTagTree() {
     tags = [];
   }
   tags = deepCopy(tags)
-    .filter(tag => isOnBlacklist(tag, generalBlacklist))
+    .filter(tag => !isOnBlacklist(tag, generalBlacklist))
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
   const tagsAsMap = {};
@@ -211,6 +212,7 @@ function buildCategories(path, tags) {
 
     if (!categories[tagCategory]) {
       categories[tagCategory] = {
+        category: tag.category,
         path,
         prefix: tagCategory,
         children: []
@@ -278,13 +280,15 @@ function mapCategoriesToNodes(parentNode, categories) {
 
     const node = createNode(category.prefix, {
       fullyQualifiedName: category.path + category.prefix,
-      parentNode
+      parentNode,
+      category: category.category
     });
 
     tagMap[node.fullyQualifiedName] = node;
     if (category.isTag) {
       node.isTag = true;
       node.type = category.type;
+      node.category = category.category;
     }
     parentNode.addChild(node);
 
@@ -298,11 +302,17 @@ function createNode(name, props = {}) {
     name,
     parentNode: props.parentNode,
     fullyQualifiedName: props.fullyQualifiedName,
-    getChildren() {
-      return children;
-    },
-    getFilteredChildren() {
-      return children.filter(tag => isOnBlacklist(tag, filterBlackList));
+    category: props.category,
+    getChildren(params = {}) {
+      const { category, blacklist } = params;
+      let _children = children;
+      if (blacklist) {
+        _children = _children.filter(tag => !isOnBlacklist(tag, blacklist));
+      }
+      if (category) {
+        _children = _children.filter(tag => tag.category === category);
+      }
+      return _children;
     },
     addChild(child) {
       children.push(child);
@@ -347,10 +357,12 @@ export function getFullPathTillNode(node, name) {
   return name;
 }
 
-export function getDeepestPossibleNodePath(name, filtered = false) {
+export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory }) {
   let cursor = findSubTreeByFullyQualifiedName(name);
   while (cursor) {
-    const children = filtered ? cursor.getFilteredChildren() : cursor.getChildren();
+    const children = filtered
+      ? cursor.getChildren({ blacklist: customFilterBlacklist, category: filterbyCategory })
+      : cursor.getChildren();
     if (children.length !== 1) {
       break;
     }
@@ -373,4 +385,9 @@ export function findChildByName(node, childName) {
     }
   }
   return null;
+}
+
+const tagCategories = ['CALL', 'CLOUD', 'CONTAINER', 'SYSTEM', 'LANGUAGE', 'FRAMEWORK', 'DATABASE', 'MESSAGING'];
+export function getTagCategories() {
+  return tagCategories;
 }

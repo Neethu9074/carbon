@@ -1,6 +1,13 @@
 @import '~in-themes/active.less';
 
 :local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+
+    margin: 1.5rem 0;
+  }
+
   .result {
     margin-right: 0.5rem;
     font-size: 1rem;
@@ -8,13 +15,9 @@
     color: @lib__colors__N900Primary;
   }
 
-  .text {
-    display: flex;
-    align-items: center;
-
-    margin: 1.5rem 0;
-
+  .number {
     color: @lib__colors__N700Medium;
     font-size: 1rem;
+    margin-right: 0.75rem;
   }
 }

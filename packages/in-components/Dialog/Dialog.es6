@@ -13,8 +13,8 @@ export default function Dialog({
   header,
   customHeaderClassName,
   customHeader,
-  onClose,
   contentClassName,
+  onClose,
   contentWrapperClassName
 }) {
   let contentClasses = `${block}__content`;

@@ -49,9 +49,10 @@ export default function AlertingConfigurations() {
 
 function validateConfig(config) {
   if (twoZeroModeEnabled && config.getIn(['eventFilteringConfiguration', 'query'])) {
-    return validate(config.getIn(['eventFilteringConfiguration', 'query']), true).map(response =>
-      config.set('valid', response.body.valid)
-    );
+    return validate({
+      query: config.getIn(['eventFilteringConfiguration', 'query']),
+      newApplicationModelEnabled: true
+    }).map(response => config.set('valid', response.body.valid));
   } else {
     return just(config.set('valid', true));
   }

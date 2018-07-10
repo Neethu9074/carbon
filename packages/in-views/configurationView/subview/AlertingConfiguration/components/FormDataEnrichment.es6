@@ -34,7 +34,10 @@ export default class FormDataEnrichment extends React.Component {
       });
     this.validationResultSubscription = debouncedQuery
       .flatMap(query => {
-        return combineLatest([validate(query, false), validate(query, true)]);
+        return combineLatest([
+          validate({ query, newApplicationModelEnabled: false }),
+          validate({ query, newApplicationModelEnabled: true })
+        ]);
       })
       .subscribe(([validationResponse10, validationResponse20]) => {
         this.props.onChange(

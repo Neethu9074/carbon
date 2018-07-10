@@ -1,13 +1,14 @@
 import React from 'react';
 
 import EditFilterForm, { getInitialForm } from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
-import AnalyzeFilterDialog from 'in-analyze/Dialogs/AnalyzeFilterDialog';
+import AnalyzeFilterDialog from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
 
 export default function EditFilterDialog(props) {
   return (
     <AnalyzeFilterDialog
       {...props}
       getInitialForm={() => getInitialForm(props.tag.name, props.tag.value)}
+      getClearForm={() => getInitialForm('', '')}
       renderForm={formProps => <EditFilterForm {...props} {...formProps} />}
       onChange={onChange}
     />

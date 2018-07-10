@@ -1,6 +1,7 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
+import { applicationFilter as applicationFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
@@ -8,7 +9,7 @@ import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
 
-  return class StatefulFlowMapComponent extends Component {
+  return class StatefulWithTagSuggestionsComponent extends Component {
     static displayName = getDisplayName('withTagSuggestions', ComposedComponent);
 
     constructor(props) {
@@ -72,7 +73,7 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: this.props.filters.get('timeConfig')
         },
-        tagFilters: getTagFilterList(this.props.filters),
+        tagFilters: getTagFilterList(this.state.name, this.props.filters),
         tagName: this.state.name,
         secondLevelKeyTagName: null,
         requestingSecondaryKeySuggestions: false,
@@ -102,19 +103,24 @@ export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   }));
 }
 
-function getTagFilterList(filters) {
+function getTagFilterList(tagName, filters) {
   const tagFilters = [];
 
-  const application = filters.getIn(['applicationFilter', APPLICATION.id]);
-  const service = filters.getIn(['applicationFilter', SERVICE.id]);
-  const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
-  if (application) {
+  const application = filters.getIn([applicationFilterMatrixParameter, APPLICATION.id]);
+  const service = filters.getIn([applicationFilterMatrixParameter, SERVICE.id]);
+  const endpoint = filters.getIn([applicationFilterMatrixParameter, ENDPOINT.id]);
+
+  const isApplicationTag = tagName !== APPLICATION.name;
+  const isServiceTag = tagName !== SERVICE.name;
+  const isEndpointTag = tagName !== ENDPOINT.name;
+
+  if (application && isApplicationTag) {
     tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
   }
-  if (service) {
+  if (service && (isApplicationTag && isServiceTag)) {
     tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
   }
-  if (endpoint) {
+  if (endpoint && (isApplicationTag && isServiceTag && isEndpointTag)) {
     tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
   }
 

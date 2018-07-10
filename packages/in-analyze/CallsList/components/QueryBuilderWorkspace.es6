@@ -10,9 +10,9 @@ import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
 import Filter from 'in-analyze/Filter';
 
-import locals from './ExpandedContent.mless';
+import locals from './QueryBuilderWorkspace.mless';
 
-export default function ExpandedContent(props) {
+export default function QueryBuilderWorkspace(props) {
   const { filters, onAddFilter, onUpdateTagFilter, onRemoveTagFilter } = props;
 
   const application = filters.getIn(['applicationFilter', APPLICATION.id]);
@@ -22,7 +22,7 @@ export default function ExpandedContent(props) {
   const group = filters.get('group');
 
   return (
-    <div className={locals.content}>
+    <div className={locals.workspace}>
       <FilterGroup className={locals.filtersFilterGroup} name="Filter by">
         <div className={locals.filterListing}>
           <AppendAnd>

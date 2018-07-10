@@ -8,7 +8,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: '',
+    title: 'Name',
     type: 'string',
     typeArgs: {
       getValue(row) {

@@ -418,10 +418,10 @@ describe('in-applications/tags', () => {
     });
 
     it('should resolve to the deepest possible node path (getDeepestPossibleNodePath)', () => {
-      expect(getDeepestPossibleNodePath('unknown')).to.equal('unknown');
-      expect(getDeepestPossibleNodePath('x')).to.equal('x');
-      expect(getDeepestPossibleNodePath('a')).to.equal('a.b');
-      expect(getDeepestPossibleNodePath('this.is.a.unique.path')).to.equal('this.is.a.unique.path');
+      expect(getDeepestPossibleNodePath({ name: 'unknown' })).to.equal('unknown');
+      expect(getDeepestPossibleNodePath({ name: 'x' })).to.equal('x');
+      expect(getDeepestPossibleNodePath({ name: 'a' })).to.equal('a.b');
+      expect(getDeepestPossibleNodePath({ name: 'this.is.a.unique.path' })).to.equal('this.is.a.unique.path');
     });
 
     it('should find child by name (findChildByName)', () => {

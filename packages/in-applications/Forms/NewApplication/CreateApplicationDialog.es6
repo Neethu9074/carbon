@@ -30,14 +30,14 @@ const trackUpdateApplication = createTracker('application.update');
 
 import locals from './CreateApplicationDialog.mless';
 
-export default function CreateApplicationDialog({ applicationId, onCancelHref$, onSavePath }) {
+export default function CreateApplicationDialog({ applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <BasicForm
       title={applicationId ? 'Update Application' : 'Create Application'}
       generalHelpText="Applications provide a means to model environments, sets of services, tenants, or just about anything. They can be thought of as perspectives on services and their endpoints."
       saveButtonLabel={applicationId ? 'Save' : 'Create'}
       onCancelHref$={onCancelHref$}
-      onSavePath={onSavePath}
+      getOnSavePath={getOnSavePath}
       getEntity={() =>
         applicationId
           ? getApplicationConfig(applicationId)

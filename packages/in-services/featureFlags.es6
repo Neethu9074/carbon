@@ -66,8 +66,8 @@ export const twoZeroModeEnabled =
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
-export function getBlackListedSearchFieldKeywords() {
-  if (twoZeroModeEnabled) {
+export function getBlackListedSearchFieldKeywords(searchContext) {
+  if (twoZeroModeEnabled && searchContext !== 'traces') {
     return ['log', 'span', 'trace'];
   } else {
     return ['log'];

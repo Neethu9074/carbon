@@ -146,6 +146,9 @@ export default class Config {
       if (colorIndex !== -1) {
         return theme.lib.colors.chart.strokeColors100[colorIndex];
       }
+      if (color === theme.lib.colors.chart.self25) {
+        return theme.lib.colors.chart.self100;
+      }
       return color;
     });
   }

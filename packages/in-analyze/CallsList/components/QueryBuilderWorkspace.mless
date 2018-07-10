@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .content {
+  .workspace {
     position: relative;
 
     display: flex;

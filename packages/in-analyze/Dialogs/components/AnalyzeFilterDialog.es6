@@ -52,7 +52,8 @@ class AnalyzeFilterBasicDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: props.getInitialForm()
+      form: props.getInitialForm(),
+      selectedCategory: null
     };
   }
 
@@ -68,7 +69,9 @@ class AnalyzeFilterBasicDialog extends React.Component {
               form,
               onValueChanged: value => this.onChange('value', value),
               onNameChanged: name => this.onChange('name', name),
-              onCustomNameChanged: name => this.onChange('customName', name)
+              onCustomNameChanged: name => this.onChange('customName', name),
+              selectedCategory: this.state.selectedCategory,
+              setSelectedCategory: this.setSelectedCategory
             })}
           </div>
 
@@ -154,4 +157,11 @@ class AnalyzeFilterBasicDialog extends React.Component {
     }
     this.props.onSave(tag);
   }
+
+  setSelectedCategory = newCategory => {
+    this.setState({
+      form: this.props.getClearForm(),
+      selectedCategory: newCategory
+    });
+  };
 }

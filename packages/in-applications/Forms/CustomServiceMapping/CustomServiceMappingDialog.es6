@@ -34,7 +34,7 @@ export default function CustomServiceMappingDialog() {
       title="Configure Custom Services"
       saveButtonLabel="Save"
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
-      onSavePath={servicesList}
+      getOnSavePath={() => servicesList}
       getEntity={() =>
         getServiceConfigs().map(result => {
           if (result.data) {

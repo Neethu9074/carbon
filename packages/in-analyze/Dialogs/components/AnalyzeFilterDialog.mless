@@ -37,10 +37,6 @@
     padding: 0;
   }
 
-  .content {
-    min-height: 5rem;
-  }
-
   .cancelIcon {
     cursor: pointer;
     fill: @lib__colors__N400;
