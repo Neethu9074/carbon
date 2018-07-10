@@ -1,8 +1,8 @@
-import { create, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { create, combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
@@ -12,13 +12,14 @@ export default class FormDataEnrichment extends React.Component {
     matchingEntities: null
   };
 
-  debouncedQuery = create();
-  subscription = null;
+  queryInput = create();
+  matchingEntitesSubscription = null;
+  validationResultSubscription = null;
 
   componentWillMount() {
-    this.debouncedQuery.emit(this.props.form.get('query').value);
-    this.subscription = this.debouncedQuery
-      .debounce(1000)
+    const debouncedQuery = this.queryInput.debounce(1000);
+    this.queryInput.emit(this.props.form.get('query').value);
+    this.matchingEntitesSubscription = debouncedQuery
       .flatMap(query => {
         const timeOpened = this.props.form.get('timeOpened').value;
         const eventTypes = this.props.form.get('eventTypes').value;
@@ -31,8 +32,7 @@ export default class FormDataEnrichment extends React.Component {
       .subscribe(events => {
         this.props.onChange('matchingEntities', events ? events.length : events);
       });
-    this.subscription = this.debouncedQuery
-      .debounce(1000)
+    this.validationResultSubscription = debouncedQuery
       .flatMap(query => {
         return combineLatest([validate(query, false), validate(query, true)]);
       })
@@ -45,7 +45,7 @@ export default class FormDataEnrichment extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    this.debouncedQuery.emit(nextProps.form.get('query').value);
+    this.queryInput.emit(nextProps.form.get('query').value);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -60,9 +60,13 @@ export default class FormDataEnrichment extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.subscription) {
-      this.subscription.dispose();
-      this.subscription = null;
+    if (this.matchingEntitesSubscription) {
+      this.matchingEntitesSubscription.dispose();
+      this.matchingEntitesSubscription = null;
+    }
+    if (this.validationResultSubscription) {
+      this.validationResultSubscription.dispose();
+      this.validationResultSubscription = null;
     }
   }
 
