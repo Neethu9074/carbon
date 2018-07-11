@@ -5,19 +5,30 @@
     position: relative;
   }
 
-  .timeIcon {
-    display: block;
-    fill: #7d8b8f;
-  }
-
   .dark {
-    background: @lib__colors__navy900;
-    border: 1px solid @lib__colors__navy900;
+    .timeIcon {
+      fill: @lib__colors__N600Light;
+    }
+
+    .pastLiveDataIndicator {
+      background: @lib__colors__navy900;
+      border: 1px solid @lib__colors__navy900;
+    }
   }
 
   .light {
-    background: #fff;
-    border: 1px solid #fff;
+    .timeIcon {
+      fill: @lib__colors__N400;
+    }
+
+    .pastLiveDataIndicator {
+      background: #fff;
+      border: 1px solid #fff;
+    }
+  }
+
+  .timeIcon {
+    display: block;
   }
 
   .timeIconExpanded {

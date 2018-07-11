@@ -7,7 +7,12 @@ import locals from './TimeIcon.mless';
 
 export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark', className }) {
   return (
-    <div className={locals.iconWrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.iconWrapper]: true,
+        [locals[theme]]: true
+      })}
+    >
       <SvgIcon
         className={evaluateClassNames({
           [locals.timeIcon]: true,
@@ -18,14 +23,7 @@ export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark
         width={24}
       />
       {containsPastLiveData && (
-        <SvgIcon
-          width={16}
-          className={evaluateClassNames({
-            [locals.pastLiveDataIndicator]: true,
-            [locals[theme]]: true
-          })}
-          type="lib_help_error_error_circle"
-        />
+        <SvgIcon width={16} className={locals.pastLiveDataIndicator} type="lib_help_error_error_circle" />
       )}
     </div>
   );
