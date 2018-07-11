@@ -25,6 +25,8 @@ function onChangeCallback(form, fieldName, value) {
       return subForm.setValue(updatedSubForm).setTouched(true);
     });
 
+    form = form.updateIn(['value'], field => field.setValue('').setTouched(true));
+
     const newType = get(findSubTreeByFullyQualifiedName(value), ['type']);
     const oldType = get(findSubTreeByFullyQualifiedName(form.get('name').value), ['type']);
 

@@ -119,8 +119,6 @@ class AnalyzeFilterBasicDialog extends React.Component {
           return subForm.setValue(updatedSubForm).setTouched(true);
         });
       }
-
-      form = form.updateIn(['value'], field => field.setValue('').setTouched(true));
     }
 
     if (this.props.onChangeCallback) {

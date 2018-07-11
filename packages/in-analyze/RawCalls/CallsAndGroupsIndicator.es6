@@ -17,12 +17,19 @@ export default connectTo(
   }),
 
   function CallsAndGroupsIndicator({ numCalls, numGroups, containsPastLiveData }) {
+    let counter;
+    if (numCalls != undefined && numGroups != undefined) {
+      counter = `${number.compact(numCalls)} Calls (in ${numGroups} Groups)`;
+    } else if (numCalls != undefined) {
+      counter = `${number.compact(numCalls)} Calls`;
+    } else if (numGroups != undefined) {
+      counter = `${numGroups} Groups`;
+    }
+
     return (
       <div className={locals.wrapper}>
         <span className={locals.result}>Result</span>
-        <span className={locals.number}>
-          {`${number.compact(numCalls)} Calls${numGroups ? ` (in ${numGroups} Groups)` : ''}`}
-        </span>
+        <span className={locals.number}>{counter}</span>
         {containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
       </div>
     );
