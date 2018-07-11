@@ -323,7 +323,7 @@ export const fullyQualifiedPlugins = {
   pageResourceServiceInstance: 'com.instana.forge.connection.eum.PageResourceServiceInstance',
   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',
   phpRuntimePlatform: 'com.instana.forge.infrastructure.runtime.php.PhpRuntimePlatform',
-  ping: 'com.instana.forge.infrastructure.Ping',
+  ping: 'com.instana.forge.infrastructure.synthetic.Ping',
   postgreSqlDatabase: 'com.instana.forge.infrastructure.database.postgresql.PostgreSqlDatabase',
   process: 'com.instana.forge.infrastructure.os.process.Process',
   pythonRuntimePlatform: 'com.instana.forge.infrastructure.runtime.python.PythonRuntimePlatform',
