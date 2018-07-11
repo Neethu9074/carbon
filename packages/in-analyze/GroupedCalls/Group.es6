@@ -48,7 +48,15 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
       }
 
       newState[tagFilterMatrixParameter] = tagFilter
-        .push(fromJS(createFilter({ name: group.get('name'), value: currentGroupValue })))
+        .push(
+          fromJS(
+            createFilter({
+              name: group.get('name'),
+              value: currentGroupValue,
+              operator: 'EQUALS'
+            })
+          )
+        )
         .toJS();
     }
 
