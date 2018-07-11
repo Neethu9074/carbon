@@ -83,6 +83,7 @@ import './php.error';
 import './php';
 import './play2.ws';
 import './play2';
+import './postgres';
 import './py.hc';
 import './py.http';
 import './quartz';
