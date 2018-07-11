@@ -96,7 +96,7 @@ function BackendValidationMessages({ validationResult }) {
     return null;
   }
 
-  return <ValidationBlock hasError>{`Dynamic focus query is not valid: ${validationResult.error}.`}</ValidationBlock>;
+  return <ValidationBlock hasError>{`${validationResult.error}.`}</ValidationBlock>;
 }
 
 function onSelectChanged(types, onChange, type) {
