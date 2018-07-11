@@ -75,7 +75,7 @@ function getLinkColumn(getLink, propertyName = 'name', linkParams) {
             content: (
               <Link href={href}>
                 {row.entity.get(propertyName)}{' '}
-                {!row.entity.get('valid') && <Badge size="sm">invalid in application preview mode</Badge>}
+                {!row.entity.get('valid') && <Badge size="sm">deprecated Dynamic Focus query</Badge>}
               </Link>
             )
           };
