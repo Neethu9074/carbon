@@ -90,7 +90,11 @@ function combinedValidationResults(validationResult10, validationResult20) {
     if (validationResult20.valid) {
       return validationResult20;
     } else {
-      return validationResult10;
+      if (validationResult10.valid) {
+        return validationResult10;
+      } else {
+        return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult10.error };
+      }
     }
   }
 }
