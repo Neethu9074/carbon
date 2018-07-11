@@ -1,6 +1,7 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
+import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FilterConnector from 'in-analyze/Filter/FilterConnector';
@@ -37,7 +38,6 @@ export function SelectBox({ options, id, value, onChange }) {
       value={value}
       onChange={e => onChange(e.value ? e : { value: '' })}
       autoComplete="off"
-      hasValue={false}
       options={options}
       clearable={false}
     />
@@ -57,7 +57,7 @@ export function ValueGroup({ className, field, children }) {
   );
 }
 
-export function AutoCompletedSelect({ field, onValueChanged, autoCompletedOptions }) {
+export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
   let isValueInsideOptions = false;
   if (field.value) {
     for (let i = 0; i < autoCompletedOptions.length; i++) {
@@ -79,7 +79,7 @@ export function AutoCompletedSelect({ field, onValueChanged, autoCompletedOption
     <CreatableSelect
       id="value"
       value={field.value}
-      onChange={e => onValueChanged(e ? e.value : '')}
+      onChange={e => onChange('value', e ? e.value : '')}
       options={autoCompletedOptions}
       placeholder=""
       isClearable
@@ -137,5 +137,38 @@ export function NamedSection({ name, children }) {
       <span className={locals.name}>{name}</span>
       <div className={locals.content}>{children}</div>
     </div>
+  );
+}
+
+export function OperatorSelection({ field, onChange, node }) {
+  const operators = TAG_TYPES[node.type].operators;
+  if (!operators || operators.length === 1) {
+    return <FieldSeperator>:</FieldSeperator>;
+  }
+
+  if (operators.length === 1) {
+    return (
+      <Input
+        className={locals.fixedOperator}
+        id="operator"
+        value={getOperatorLabel(node.type, operators[0])}
+        autoComplete="off"
+        disabled
+      />
+    );
+  }
+
+  return (
+    <ComboBox
+      className={locals.operatorSelectBox}
+      id="operator"
+      clearable={false}
+      value={field.value}
+      onChange={e => onChange('operator', e.value)}
+      options={operators.map(operator => ({
+        label: getOperatorLabel(node.type, operator),
+        value: operator
+      }))}
+    />
   );
 }

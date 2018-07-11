@@ -110,4 +110,17 @@
   .content {
     width: 100%;
   }
+
+  .fixedOperator {
+    width: 6.5rem;
+    margin: 0 0.25rem;
+
+    &[disabled] {
+      color: @lib__colors__navy900;
+    }
+  }
+
+  .operatorSelectBox {
+    margin: 0 0.25rem;
+  }
 }

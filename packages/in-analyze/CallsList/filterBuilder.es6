@@ -35,7 +35,7 @@ export function getGroupFromUrlString(urlString) {
 }
 
 export function getTagFilterToUrlString(tagFilter) {
-  let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value }));
+  let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value, operator: tag.operator }));
 
   return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
 }
@@ -77,6 +77,7 @@ export function createFilter(config = {}) {
     id,
     name: config.name || '',
     value: config.value || '',
+    operator: config.operator,
     icon: config.icon || 'lib_views_tag'
   };
 }

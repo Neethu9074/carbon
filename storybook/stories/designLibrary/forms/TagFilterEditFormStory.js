@@ -44,5 +44,17 @@ const StatefulEditView = compose(
 )(StatefulEditViewComponent);
 
 function StatefulEditViewComponent({ name, value, setName, setValue }) {
-  return <EditForm form={getInitialForm(name, value)} onNameChanged={setName} onValueChanged={setValue} />;
+  return (
+    <EditForm
+      form={getInitialForm(name, value)}
+      onChange={(fieldName, value) => {
+        if (fieldName === 'name') {
+          setName(value);
+        }
+        if (fieldName === 'value') {
+          setValue(value);
+        }
+      }}
+    />
+  );
 }

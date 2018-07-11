@@ -5,6 +5,7 @@ import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
+import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import FilterConnector from 'in-analyze/Filter/FilterConnector';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
@@ -13,7 +14,7 @@ import Filter from 'in-analyze/Filter';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onAddFilter, onUpdateTagFilter, onRemoveTagFilter } = props;
+  const { filters, onAddTagFilter, onUpdateTagFilter, onRemoveTagFilter } = props;
 
   const application = filters.getIn(['applicationFilter', APPLICATION.id]);
   const service = filters.getIn(['applicationFilter', SERVICE.id]);
@@ -78,7 +79,19 @@ export default function QueryBuilderWorkspace(props) {
             </AppendAnd>
           ))}
 
-          <FilterPlaceholder className={locals.filter} onClick={onAddFilter}>
+          <FilterPlaceholder
+            className={locals.filter}
+            onClick={() => {
+              setActiveDialog(
+                <EditFilterDialog
+                  tag={createFilter({})}
+                  onSave={_tag => {
+                    onAddTagFilter(_tag);
+                  }}
+                />
+              );
+            }}
+          >
             Custom Filter
           </FilterPlaceholder>
         </div>

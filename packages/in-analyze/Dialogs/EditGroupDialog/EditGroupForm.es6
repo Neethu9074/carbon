@@ -45,7 +45,7 @@ export default class extends React.Component {
 
   render() {
     const treeNodesTillName = this.state.treeNodesTillName;
-    const { form, onCustomNameChanged } = this.props;
+    const { form, onChange } = this.props;
 
     return (
       <Fragment>
@@ -60,7 +60,7 @@ export default class extends React.Component {
                   {...this.props}
                   treeNodesTillName={treeNodesTillName}
                   field={field}
-                  onNameChanged={this.onNameChanged}
+                  onChange={this.onChange}
                 />
               </KeyListGroup>
             ))}
@@ -68,7 +68,7 @@ export default class extends React.Component {
             <CustomKey
               {...this.props}
               treeNodesTillName={treeNodesTillName}
-              onCustomNameChanged={onCustomNameChanged}
+              onChange={value => onChange('customName', value)}
             />
           </AnalyzeFilterForm>
         </NamedSection>
@@ -76,22 +76,23 @@ export default class extends React.Component {
     );
   }
 
-  onNameChanged = (oldNode, newName) => {
-    this.props.onNameChanged(
+  onChange = (oldNode, newName) => {
+    this.props.onChange(
+      'name',
       getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: false })
     );
   };
 }
 
 function KeySelection(props) {
-  const { treeNodesTillName, field, onNameChanged } = props;
+  const { treeNodesTillName, field, onChange } = props;
   if (!treeNodesTillName) {
-    return <UnknownKeySelection {...props} name={field.value} onNameChanged={onNameChanged} />;
+    return <UnknownKeySelection {...props} name={field.value} onChange={onChange} />;
   }
-  return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
+  return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onChange={onChange} />;
 }
 
-function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
+function UnknownKeySelection({ name, onChange, selectedCategory }) {
   const rootNode = getTagTree();
   const parts = name.split('.');
   return parts.map((part, i) => {
@@ -110,7 +111,7 @@ function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
           value={part}
           onChange={e => {
             if (i === 0) {
-              onNameChanged(getTagTree(), e.value);
+              onChange(getTagTree(), e.value);
             }
           }}
           options={options}
@@ -120,7 +121,7 @@ function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
   });
 }
 
-function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory }) {
+function KnownKeySelection({ onChange, treeNodesTillName, selectedCategory }) {
   const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
 
   return (
@@ -130,7 +131,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
           <SelectBox
             id={node.name}
             value={node.name}
-            onChange={e => onNameChanged(node, e.value)}
+            onChange={e => onChange(node, e.value)}
             options={getNodesChildren(node.parentNode, selectedCategory).map(childNode => ({
               label: childNode.name,
               value: childNode.name
@@ -146,7 +147,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
             value=""
             onChange={e => {
               const childNode = findChildByName(lastNode, e.value);
-              onNameChanged(childNode, e.value);
+              onChange(childNode, e.value);
             }}
             options={getNodesChildren(lastNode, selectedCategory).map(childNode => ({
               label: childNode.name,
@@ -159,13 +160,13 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
   );
 }
 
-function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
+function CustomKey({ form, onChange, treeNodesTillName }) {
   if (!treeNodesTillName) {
     return null;
   }
   const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
   const currentSelectedNode = findSubTreeByFullyQualifiedName(lastNode.fullyQualifiedName);
-  if (currentSelectedNode.type !== TAG_TYPES.KEY_VALUE_PAIR) {
+  if (currentSelectedNode.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
   return (
@@ -179,7 +180,7 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
               type="text"
               id="customName"
               value={field.value}
-              onChange={e => onCustomNameChanged(e.target.value)}
+              onChange={e => onChange(e.target.value)}
               autoComplete="off"
             />
           </ValueGroup>
@@ -198,7 +199,7 @@ export function getInitialForm(group) {
   let customName = group.value || '';
 
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;
+  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
 
   const customNameSubform = createMapForm()
     .put(
@@ -272,7 +273,7 @@ function nameValidator(name) {
 
 function customNameSubformValidator(customNameSubform) {
   const type = customNameSubform.get('type').value;
-  if (type !== TAG_TYPES.KEY_VALUE_PAIR) {
+  if (type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
 

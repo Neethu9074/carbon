@@ -67,9 +67,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
           <div className={locals.content}>
             {renderForm({
               form,
-              onValueChanged: value => this.onChange('value', value),
-              onNameChanged: name => this.onChange('name', name),
-              onCustomNameChanged: name => this.onChange('customName', name),
+              onChange: this.onChange,
               selectedCategory: this.state.selectedCategory,
               setSelectedCategory: this.setSelectedCategory
             })}
@@ -121,10 +119,12 @@ class AnalyzeFilterBasicDialog extends React.Component {
           return subForm.setValue(updatedSubForm).setTouched(true);
         });
       }
+
+      form = form.updateIn(['value'], field => field.setValue('').setTouched(true));
     }
 
-    if (this.props.onChange) {
-      form = this.props.onChange(form, fieldName, value);
+    if (this.props.onChangeCallback) {
+      form = this.props.onChangeCallback(form, fieldName, value);
     }
 
     this.setState({
@@ -146,7 +146,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
     const tag = form.toJS();
     const customNameSubform = tag.customNameSubform ? tag.customNameSubform.toJS() : {};
-    if (customNameSubform.type === TAG_TYPES.KEY_VALUE_PAIR) {
+    if (customNameSubform.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
       if (customNameSubform.customName) {
         if (tag.value) {
           tag.value = `${customNameSubform.customName}=${tag.value}`;

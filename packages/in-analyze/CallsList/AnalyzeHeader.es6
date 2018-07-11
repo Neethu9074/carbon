@@ -1,4 +1,3 @@
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import {
@@ -9,7 +8,6 @@ import {
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QueryBuilderWorkspace from 'in-analyze/CallsList/components/QueryBuilderWorkspace';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -41,7 +39,7 @@ export default function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfC
             onRemoveTagFilter={id => onRemoveTagFilter(id, filters, onChangeFilters)}
             onUpdateApplicationTag={(id, tag) => onUpdateApplicationTag(id, tag, filters, onChangeFilters)}
             onResetApplicationFilter={id => onResetApplicationFilter(id, filters, onChangeFilters)}
-            onAddFilter={() => onAddFilter(filters, onChangeFilters)}
+            onAddTagFilter={tag => onAddTagFilter(tag, filters, onChangeFilters)}
             onAddGroup={() => onUpdateGroup(onChangeFilters)}
             onUpdateGroup={group => onUpdateGroup(onChangeFilters, group)}
             onRemoveGroup={() => onRemoveGroup(onChangeFilters)}
@@ -52,24 +50,21 @@ export default function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfC
   );
 }
 
-function onAddFilter(filters, onChangeFilters) {
-  const tag = createFilter({});
+function onAddTagFilter(tag, filters, onChangeFilters) {
+  const tagFilter = filters.get('tagFilter').toJS();
 
-  setActiveDialog(
-    <EditFilterDialog
-      tag={tag}
-      onSave={_tag => {
-        tag.name = _tag.name;
-        tag.value = _tag.value;
-        const newState = {};
-        newState[tagFilterMatrixParameter] = filters
-          .get('tagFilter')
-          .push(fromJS(tag))
-          .toJS();
-        onChangeFilters(newState);
-      }}
-    />
+  tagFilter.push(
+    createFilter({
+      id: tag.id,
+      name: tag.name,
+      value: tag.value,
+      operator: tag.operator
+    })
   );
+
+  const newState = {};
+  newState[tagFilterMatrixParameter] = tagFilter;
+  onChangeFilters(newState);
 }
 
 function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
@@ -77,7 +72,8 @@ function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
   tagFilter[findTagIndexById(tagFilter, id)] = createFilter({
     id,
     name: tag.name,
-    value: tag.value
+    value: tag.value,
+    operator: tag.operator
   });
 
   const newState = {};

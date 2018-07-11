@@ -8,7 +8,8 @@ import AnalyzeFilterForm, {
   SelectBox,
   ValueGroup,
   TagCategorySwitcher,
-  NamedSection
+  NamedSection,
+  OperatorSelection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
 import {
   getTreeNodesTillName,
@@ -46,8 +47,10 @@ export default class extends React.Component {
 
   render() {
     const treeNodesTillName = this.state.treeNodesTillName;
-    const { form, onCustomNameChanged, onValueChanged } = this.props;
+    const { form, onChange } = this.props;
     const isKeyValid = form.get('name').valid;
+
+    let node = isKeyValid ? findSubTreeByFullyQualifiedName(form.get('name').value) : null;
 
     return (
       <Fragment>
@@ -62,48 +65,51 @@ export default class extends React.Component {
                   {...this.props}
                   treeNodesTillName={treeNodesTillName}
                   field={field}
-                  onNameChanged={this.onNameChanged}
+                  onChange={this.onChange}
                 />
               </KeyListGroup>
             ))}
 
-            {isKeyValid && <FieldSeperator>:</FieldSeperator>}
             {isKeyValid && (
-              <CustomKey
-                {...this.props}
-                treeNodesTillName={treeNodesTillName}
-                onCustomNameChanged={onCustomNameChanged}
-              />
-            )}
+              <Fragment>
+                {form.get('operator').map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
 
-            {isKeyValid &&
-              form.get('value').map(field => (
-                <ValueGroup field={field}>
-                  <ValueInputByType form={form} field={field} onValueChanged={onValueChanged} />
-                </ValueGroup>
-              ))}
+                <CustomKey
+                  {...this.props}
+                  treeNodesTillName={treeNodesTillName}
+                  onChange={value => onChange('customName', value)}
+                />
+
+                {form.get('value').map(field => (
+                  <ValueGroup field={field}>
+                    <ValueInputByType form={form} field={field} onChange={onChange} />
+                  </ValueGroup>
+                ))}
+              </Fragment>
+            )}
           </AnalyzeFilterForm>
         </NamedSection>
       </Fragment>
     );
   }
 
-  onNameChanged = (oldNode, newName) => {
-    this.props.onNameChanged(
+  onChange = (oldNode, newName) => {
+    this.props.onChange(
+      'name',
       getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: true })
     );
   };
 }
 
 function KeySelection(props) {
-  const { treeNodesTillName, field, onNameChanged } = props;
+  const { treeNodesTillName, field, onChange } = props;
   if (!treeNodesTillName) {
-    return <UnknownKeySelection {...props} name={field.value} onNameChanged={onNameChanged} />;
+    return <UnknownKeySelection {...props} name={field.value} onChange={onChange} />;
   }
-  return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onNameChanged={onNameChanged} />;
+  return <KnownKeySelection treeNodesTillName={treeNodesTillName} {...props} onChange={onChange} />;
 }
 
-function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
+function UnknownKeySelection({ name, onChange, selectedCategory }) {
   const rootNode = getTagTree();
   const parts = name.split('.');
 
@@ -123,7 +129,7 @@ function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
           value={part}
           onChange={e => {
             if (i === 0) {
-              onNameChanged(rootNode, e.value);
+              onChange(rootNode, e.value);
             }
           }}
           options={options}
@@ -133,7 +139,7 @@ function UnknownKeySelection({ name, onNameChanged, selectedCategory }) {
   });
 }
 
-function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory }) {
+function KnownKeySelection({ onChange, treeNodesTillName, selectedCategory }) {
   const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
 
   return (
@@ -143,7 +149,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
           <SelectBox
             id={node.name}
             value={node.name}
-            onChange={e => onNameChanged(node, e.value)}
+            onChange={e => onChange(node, e.value)}
             options={getNodesChildren(node.parentNode, selectedCategory).map(childNode => ({
               label: childNode.name,
               value: childNode.name
@@ -159,7 +165,7 @@ function KnownKeySelection({ onNameChanged, treeNodesTillName, selectedCategory 
             value=""
             onChange={e => {
               const childNode = findChildByName(lastNode, e.value);
-              onNameChanged(childNode, e.value);
+              onChange(childNode, e.value);
             }}
             options={getNodesChildren(lastNode, selectedCategory).map(childNode => ({
               label: childNode.name,
@@ -176,13 +182,13 @@ function getNodesChildren(node, selectedCategory) {
   return node.getChildren({ category: selectedCategory, blacklist: customFilterBlacklist });
 }
 
-function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
+function CustomKey({ form, onChange, treeNodesTillName }) {
   if (!treeNodesTillName) {
     return null;
   }
   const lastNode = treeNodesTillName[treeNodesTillName.length - 1];
   const currentSelectedNode = findSubTreeByFullyQualifiedName(lastNode.fullyQualifiedName);
-  if (currentSelectedNode.type !== TAG_TYPES.KEY_VALUE_PAIR) {
+  if (currentSelectedNode.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
   return (
@@ -194,7 +200,7 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
               type="text"
               id="customName"
               value={field.value}
-              onChange={e => onCustomNameChanged(e.target.value)}
+              onChange={e => onChange(e.target.value)}
               autoComplete="off"
             />
           </ValueGroup>
@@ -205,35 +211,39 @@ function CustomKey({ form, onCustomNameChanged, treeNodesTillName }) {
   );
 }
 
-function ValueInputByType({ form, field, onValueChanged }) {
-  if (form.get('customNameSubform').value.get('type').value === TAG_TYPES.BOOLEAN) {
+function ValueInputByType({ form, field, onChange }) {
+  if (form.get('customNameSubform').value.get('type').value === TAG_TYPES.BOOLEAN.technicalName) {
     return (
       <SelectBox
         id="value"
         value={field.value}
-        onChange={e => onValueChanged(e.value)}
+        onChange={e => onChange('value', e.value)}
         options={[{ label: 'false', value: 'false' }, { label: 'true', value: 'true' }]}
       />
     );
   }
   return (
     <Input
-      type={form.get('customNameSubform').value.get('type').value === TAG_TYPES.NUMBER ? 'number' : 'text'}
+      type={
+        form.get('customNameSubform').value.get('type').value === TAG_TYPES.NUMBER.technicalName ? 'number' : 'text'
+      }
       id="value"
       value={field.value}
-      onChange={e => onValueChanged(e.target.value)}
+      onChange={e => onChange('value', e.target.value)}
       autoComplete="off"
       autoFocus
     />
   );
 }
 
-export function getInitialForm(name, value) {
+export function getInitialForm(tag = {}) {
+  let { name = '', value = '', operator } = tag;
+
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING;
+  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
 
   let customName = '';
-  if (type === TAG_TYPES.KEY_VALUE_PAIR) {
+  if (type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     const parts = value.split('=');
     if (parts.length > 1) {
       customName = parts[0];
@@ -275,6 +285,12 @@ export function getInitialForm(name, value) {
       createField({
         value: customNameSubform,
         validator: customNameSubformValidator
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: operator
       })
     )
     .put(
@@ -320,7 +336,7 @@ function nameValidator(name) {
 
 function customNameSubformValidator(customNameSubform) {
   const type = customNameSubform.get('type').value;
-  if (type !== TAG_TYPES.KEY_VALUE_PAIR) {
+  if (type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
 

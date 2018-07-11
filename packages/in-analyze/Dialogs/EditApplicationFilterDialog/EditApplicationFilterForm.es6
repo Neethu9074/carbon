@@ -11,7 +11,7 @@ import AnalyzeFilterForm, {
   NamedSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
 
-export default function EditApplicationFilterForm({ form, onValueChanged, tagSuggestionOptions }) {
+export default function EditApplicationFilterForm({ form, onChange, tagSuggestionOptions }) {
   return (
     <NamedSection name="Tag">
       <AnalyzeFilterForm>
@@ -34,7 +34,7 @@ export default function EditApplicationFilterForm({ form, onValueChanged, tagSug
           <ValueGroup field={field}>
             <AutoCompletedSelect
               field={field}
-              onValueChanged={onValueChanged}
+              onChange={onChange}
               autoCompletedOptions={tagSuggestionOptions}
               clearable
             />
