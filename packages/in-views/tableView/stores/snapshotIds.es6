@@ -18,7 +18,8 @@ const entityTypeToFullyQualifiedPlugin = {
   service: fullyQualifiedPlugins.defaultLogicalService,
   dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
   agent: fullyQualifiedPlugins.instanaAgent,
-  process: fullyQualifiedPlugins.process
+  process: fullyQualifiedPlugins.process,
+  ping: fullyQualifiedPlugins.ping
 };
 
 export const selectedType$ = createTrackingStore({
