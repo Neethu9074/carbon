@@ -1,10 +1,12 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
+import { defaultAndUnknownPluginNames, plugins10, plugins20 } from 'in-forge/constants';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
@@ -12,20 +14,15 @@ import ComboBox from 'in-components/ComboBox';
 import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { plugins } from 'in-forge/constants';
 
 import './RuleForm.less';
 
 const block = 'in-rule-form';
-const furtherPluginsToFilter = [
-  'unknownService',
-  'defaultLogicalService',
-  'defaultServiceInstance',
-  'defaultLogicalConnection'
-];
+
+const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
 const pluginsWithMetricDefinitions = Object.keys(plugins)
   .map(key => plugins[key])
-  .filter(plugin => furtherPluginsToFilter.indexOf(plugin) < 0)
+  .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
