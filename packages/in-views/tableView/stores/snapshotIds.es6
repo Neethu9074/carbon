@@ -22,15 +22,28 @@ const entityTypeToFullyQualifiedPlugin = {
   ping: fullyQualifiedPlugins.ping
 };
 
+const pluginsRequiringTableViewInSearch = ['ping'];
+
 export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
   observable: navigationParameters$
     .map(location => {
       const isPhysicalView = getMatrixParameter(location, tablePath, 'view') === 'physical';
       const defaultType = isPhysicalView ? 'host' : 'service';
+      const type = getMatrixParameter(location, tablePath, 'plugin') || defaultType;
+
+      let view;
+      if (pluginsRequiringTableViewInSearch.indexOf(type)) {
+        view = 'TABLE';
+      } else if (isPhysicalView) {
+        view = 'PHYSICAL';
+      } else {
+        view = 'LOGICAL';
+      }
+
       return {
-        type: getMatrixParameter(location, tablePath, 'plugin') || defaultType,
-        view: isPhysicalView ? 'PHYSICAL' : 'LOGICAL'
+        type,
+        view
       };
     })
     .filter(selectedType => entityTypeToFullyQualifiedPlugin[selectedType.type])
