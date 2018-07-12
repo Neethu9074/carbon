@@ -3,10 +3,10 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { defaultRole, fallbackRoleId } from 'in-stores/user';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import { getRoles } from 'in-api/roles';
-import { fallbackRoleId } from 'in-stores/user';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -56,9 +56,11 @@ export default connectTo(
           .sort((a, b) => a.get('name').localeCompare(b.get('name')));
       }
 
+      const canSelectRole = sortedRoles !== undefined && sortedRoles.length !== 0;
+
       return (
         <Dialog header={`Invite user to ${config.tenant}`} onClose={close}>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit(canSelectRole)}>
             {form.get('email').map(field => (
               <FormGroup>
                 <Label htmlFor="invitation-email" hasError={!field.valid && field.touched}>
@@ -75,28 +77,28 @@ export default connectTo(
                 <TouchedMessages field={field} />
               </FormGroup>
             ))}
-
-            {form.get('roleId').map(field => (
-              <FormGroup>
-                <Label htmlFor="invitation-role-id" hasError={!field.valid && field.touched}>
-                  Role
-                </Label>
-                <Select
-                  id="invitation-role-id"
-                  value={field.value}
-                  onChange={e => this.onChange('roleId', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                >
-                  {sortedRoles &&
-                    sortedRoles.map(role => (
-                      <option value={role.get('id')} key={role.get('id')}>
-                        {role.get('name')}
-                      </option>
-                    ))}
-                </Select>
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+            {canSelectRole &&
+              form.get('roleId').map(field => (
+                <FormGroup>
+                  <Label htmlFor="invitation-role-id" hasError={!field.valid && field.touched}>
+                    Role
+                  </Label>
+                  <Select
+                    id="invitation-role-id"
+                    value={field.value}
+                    onChange={e => this.onChange('roleId', e.target.value)}
+                    hasError={!field.valid && field.touched}
+                  >
+                    {sortedRoles &&
+                      sortedRoles.map(role => (
+                        <option value={role.get('id')} key={role.get('id')}>
+                          {role.get('name')}
+                        </option>
+                      ))}
+                  </Select>
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
 
             <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
               Invite User
@@ -114,17 +116,22 @@ export default connectTo(
       });
     };
 
-    onSubmit = e => {
-      e.preventDefault();
+    onSubmit = canSelectRole => {
+      return event => {
+        event.preventDefault();
 
-      if (!this.state.form.hierarchyValid) {
-        this.setState({
-          form: this.state.form.setTouched(true, { recurse: true })
-        });
-        return;
-      }
+        if (!this.state.form.hierarchyValid) {
+          this.setState({
+            form: this.state.form.setTouched(true, { recurse: true })
+          });
+          return;
+        }
 
-      this.props.onSubmit(this.state.form.get('email').value, this.state.form.get('roleId').value);
+        // use default role when user is not allowed to choose a role
+        const roleId = canSelectRole ? this.state.form.get('roleId').value : defaultRole;
+
+        this.props.onSubmit(this.state.form.get('email').value, roleId);
+      };
     };
   }
 );
