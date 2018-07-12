@@ -5,8 +5,8 @@ import React from 'react';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRole, fallbackRoleId } from 'in-stores/user';
 import { close } from 'in-components/DialogPresenter/store';
+import { combineDataAndError } from 'in-services/util/ro';
 import FormGroup from 'in-components/form/FormGroup';
-import { getRoles } from 'in-api/roles';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -15,17 +15,18 @@ import { config } from 'in-services/config';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
+import { getRoles } from 'in-api/roles';
 
 export default connectTo(
   {
-    roles: getRoles()
+    roles: combineDataAndError(getRoles())
   },
-  class extends React.Component {
+  class UserInvitationDialog extends React.Component {
     static displayName = 'UserInvitatonDialog';
 
     static propTypes = {
       onSubmit: rpt.func.isRequired,
-      roles: rpt.any
+      roles: rpt.object
     };
 
     state = {
@@ -47,10 +48,15 @@ export default connectTo(
     };
 
     render() {
+      if (!this.props.roles) {
+        // skip inital rendering, but render when the data has been loaded
+        return null;
+      }
+
       const { form } = this.state;
       let sortedRoles;
-      if (this.props.roles) {
-        sortedRoles = this.props.roles
+      if (this.props.roles.data) {
+        sortedRoles = this.props.roles.data
           .toArray()
           .filter(role => role.get('id') !== fallbackRoleId)
           .sort((a, b) => a.get('name').localeCompare(b.get('name')));
