@@ -47,7 +47,6 @@ export default connectTo(
     endpointId,
     applicationLabel,
     serviceLabel,
-    endpointLabel,
     backButtonLabels
   }) {
     if (value == null || (serviceId && !serviceLabel) || (applicationId && !applicationLabel)) {
@@ -76,7 +75,7 @@ export default connectTo(
     } else if (isServiceRow) {
       label = serviceLabel;
     } else if (isEndpointRow) {
-      label = endpointLabel;
+      label = endpointId;
     }
 
     return (
