@@ -49,7 +49,7 @@ class Summary extends React.Component {
       <Fragment>
         {callId && (
           <ErrorBoundary name="call tree sidebar">
-            <Sidebar relativeTopOffset={-16}>
+            <Sidebar relativeTopOffset={-24}>
               <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
             </Sidebar>
           </ErrorBoundary>
