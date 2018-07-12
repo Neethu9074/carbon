@@ -20,7 +20,7 @@
   }
 
   .toggleIcon {
-    fill: #7d8b8f;
+    fill: @lib__colors__N600Light;
   }
 
   .toggleIconExpanded {

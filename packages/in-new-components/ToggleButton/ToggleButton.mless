@@ -53,10 +53,9 @@
   }
 
   .off {
-    opacity: 0.56;
     color: @lib__colors__black;
-    border-color: @lib__colors__white;
-    background: @lib__colors__white;
+    border-color: @lib__colors__N600Light;
+    background: @lib__colors__N600Light;
 
     &.hover:not(.disabled) {
       opacity: 1;
@@ -67,13 +66,5 @@
   .disabled:focus,
   .disabled:hover {
     cursor: not-allowed;
-  }
-
-  .disabled.on {
-    opacity: 0.56;
-  }
-
-  .disabled.off {
-    opacity: 0.33;
   }
 }
