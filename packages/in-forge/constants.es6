@@ -99,13 +99,11 @@ export const nonServicePlugins = {
 };
 
 export const servicePlugins = {
-  application: 'application',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
-  defaultEntity20: 'defaultEntity20',
   defaultLogicalConnection: 'defaultLogicalConnection',
   defaultLogicalService: 'defaultLogicalService',
   defaultServiceInstance: 'defaultServiceInstance',
@@ -162,14 +160,31 @@ export const servicePlugins = {
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
-  service: 'service',
   shellLogicalConnection: 'shellLogicalConnection',
   shellLogicalService: 'shellLogicalService',
   unknownService: 'unknownService',
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
-export const plugins = assign({}, servicePlugins, nonServicePlugins);
+export const applicationPlugins = {
+  application: 'application',
+  defaultEntity20: 'defaultEntity20',
+  service: 'service'
+};
+
+export const plugins = assign({}, applicationPlugins, servicePlugins, nonServicePlugins);
+
+export const plugins10 = assign({}, servicePlugins, nonServicePlugins);
+
+export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
+
+export const defaultAndUnknownPluginNames = [
+  'unknownService',
+  'defaultEntity20',
+  'defaultLogicalConnection',
+  'defaultLogicalService',
+  'defaultServiceInstance'
+];
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
