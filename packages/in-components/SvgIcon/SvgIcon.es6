@@ -48,6 +48,9 @@ export default function SvgIcon({
     }
     iconHeight = height ? height : iconWidth / icon.ratio;
   } else if (maxHeight != null) {
+    if (!maxWidth) {
+      maxWidth = width || height || maxHeight;
+    }
     iconHeight = maxHeight;
     iconWidth = maxWidth * icon.ratio;
   } else {
@@ -56,6 +59,10 @@ export default function SvgIcon({
     }
     iconWidth = maxWidth;
     iconHeight = maxWidth / icon.ratio;
+  }
+
+  if (type === 'lib_help_error_warning') {
+    console.log(iconWidth, iconHeight, width, height, maxWidth, maxHeight);
   }
 
   style = style || {};
