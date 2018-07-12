@@ -7,7 +7,8 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Endpoint">{data.get('endpoint')}</DescriptionItem>
+      <DescriptionItem title="Label">{data.get('label')}</DescriptionItem>
+      <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
       <DescriptionItem title="Host">{data.get('host')}</DescriptionItem>
     </DescriptionList>
   );

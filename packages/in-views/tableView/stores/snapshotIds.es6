@@ -33,7 +33,7 @@ export const selectedType$ = createTrackingStore({
       const type = getMatrixParameter(location, tablePath, 'plugin') || defaultType;
 
       let view;
-      if (pluginsRequiringTableViewInSearch.indexOf(type)) {
+      if (pluginsRequiringTableViewInSearch.indexOf(type) !== -1) {
         view = 'TABLE';
       } else if (isPhysicalView) {
         view = 'PHYSICAL';

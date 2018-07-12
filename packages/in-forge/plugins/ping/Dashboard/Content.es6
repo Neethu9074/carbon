@@ -1,7 +1,27 @@
+import { millis } from 'in-services/formatters/number';
+
 import React from 'react';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import Chart from 'in-components/Chart';
 
-import DashboardNotification from 'in-components/DashboardNotification';
-
-export default function PingDashboard() {
-  return <DashboardNotification type="info">There is no further information about this entity.</DashboardNotification>;
+export default function PingDashboard({ snapshot, timeConfig }) {
+  return (
+    <div>
+      <Columize>
+        <DashboardSection title="Duration">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: millis.fixedCompact,
+              metrics: ['duration'],
+              labels: ['Duration'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+    </div>
+  );
 }
