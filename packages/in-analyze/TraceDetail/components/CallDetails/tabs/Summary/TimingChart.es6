@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper.es6';
 import {
   NETWORK_TIME_COLOR,
   NETWORK_TIME_LABEL,
@@ -9,7 +8,7 @@ import {
   WAITING_TIME_LABEL,
   WAITING_TIME_COLOR,
   NETWORK_TIME_COLOR_OPACITY
-} from 'in-analyze/TraceDetail/components/TimingConstants.es6';
+} from 'in-analyze/TraceDetail/components/TimingConstants';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
@@ -24,7 +23,7 @@ export default function TimingChart({ call, callTreeNode }) {
   let globalProcessingStart = start;
   let globalProcessingEnd = end;
 
-  if (!duration || hasOnlyExitSpan(call)) {
+  if (!duration) {
     return null;
   }
 
