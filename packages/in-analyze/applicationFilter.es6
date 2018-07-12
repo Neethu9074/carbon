@@ -65,10 +65,12 @@ export const TAG_TYPES = {
     operators: [operators.EQUALS, operators.LESS_THAN, operators.GREATER_THAN]
   },
   BOOLEAN: {
-    technicalName: 'BOOLEAN'
+    technicalName: 'BOOLEAN',
+    operators: [operators.EQUALS]
   },
   KEY_VALUE_PAIR: {
-    technicalName: 'KEY_VALUE_PAIR'
+    technicalName: 'KEY_VALUE_PAIR',
+    operators: [operators.EQUALS, operators.CONTAINS]
   }
 };
 

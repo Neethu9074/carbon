@@ -142,10 +142,6 @@ export function NamedSection({ name, children }) {
 
 export function OperatorSelection({ field, onChange, node }) {
   const operators = TAG_TYPES[node.type].operators;
-  if (!operators || operators.length === 1) {
-    return <FieldSeperator>:</FieldSeperator>;
-  }
-
   if (operators.length === 1) {
     return (
       <Input

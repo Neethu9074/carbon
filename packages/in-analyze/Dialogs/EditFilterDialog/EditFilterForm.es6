@@ -72,13 +72,13 @@ export default class extends React.Component {
 
             {isKeyValid && (
               <Fragment>
-                {form.get('operator').map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
-
                 <CustomKey
                   {...this.props}
                   treeNodesTillName={treeNodesTillName}
                   onChange={value => onChange('customName', value)}
                 />
+
+                {form.get('operator').map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
 
                 {form.get('value').map(field => (
                   <ValueGroup field={field}>
@@ -193,6 +193,7 @@ function CustomKey({ form, onChange, treeNodesTillName }) {
   }
   return (
     <Fragment>
+      <FieldSeperator>:</FieldSeperator>
       {form.get('customNameSubform').map(subForm =>
         subForm.value.get('customName').map(field => (
           <ValueGroup field={subForm}>
@@ -206,7 +207,6 @@ function CustomKey({ form, onChange, treeNodesTillName }) {
           </ValueGroup>
         ))
       )}
-      <FieldSeperator>=</FieldSeperator>
     </Fragment>
   );
 }
