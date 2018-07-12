@@ -229,7 +229,8 @@ function EntityLink({ entity }) {
     <Link
       className={locals.link}
       href$={getDashboardLink(entity.id, {
-        pathname: '/physical/dashboard'
+        pathname: '/physical/dashboard',
+        to: entity.time
       })}
     >
       <PluginIcon className={locals.pluginIcon} dimension={18} plugin={entity.plugin} />
