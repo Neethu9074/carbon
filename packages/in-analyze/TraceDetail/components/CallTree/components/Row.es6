@@ -118,6 +118,11 @@ function CallInformation(props) {
         <span className={locals.label} onClick={() => onCallClicked(call)}>
           {call.label}
         </span>
+        {call.batchSize > 1 && (
+          <Pill className={locals.batchSizeIndicator} kind="lighter">
+            {call.batchSize}
+          </Pill>
+        )}
         {call.endpoint && (
           <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
             {call.endpoint.type}
