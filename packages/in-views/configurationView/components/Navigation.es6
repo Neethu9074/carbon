@@ -114,7 +114,7 @@ export default function Navigation() {
           </NavItem>
         ) : null}
 
-        {role.canConfigureCustomAlerts ? (
+        {role.canConfigureCustomAlerts && !twoZeroModeEnabled ? (
           <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
             <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
             <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
