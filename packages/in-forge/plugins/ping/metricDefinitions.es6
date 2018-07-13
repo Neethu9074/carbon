@@ -1,4 +1,4 @@
-import { millis, number } from 'in-services/formatters/number';
+import { millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -10,13 +10,5 @@ export default [
       return snapshot.getIn(['data', 'duration']);
     },
     formatter: millis.fixedCompact
-  },
-  {
-    metric: 'status',
-    label: 'Status',
-    category: ['Ping'],
-    min: 0,
-    max: 1,
-    formatter: number
   }
 ];
