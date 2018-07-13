@@ -101,7 +101,7 @@ export default pure(function ViewSwitcher() {
           isQueryBuilderEnabled && (
             <View
               label="Analyze"
-              icon="lib_analyze"
+              icon="lib_analyze_inverted"
               isActive$={isView(isAnalyzeView)}
               href$={getLinkToAnalyze({ preGrouped: true })}
             />

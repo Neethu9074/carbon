@@ -7,6 +7,7 @@ export const TooltipShape = rpt.shape({
   content: rpt.oneOfType([rpt.element, rpt.string]),
   focusedElement: rpt.oneOfType([rpt.instanceOf(window.HTMLElement), rpt.instanceOf(window.SVGSVGElement)]),
   themeStyle: rpt.string,
+  bindToMousePosition: rpt.bool,
   focusedPoint: rpt.shape({
     x: rpt.number,
     y: rpt.number
@@ -24,7 +25,8 @@ export const TooltipShape = rpt.shape({
     'bottomLeft',
     'bottomMiddle',
     'bottomRight',
-    'auto'
+    'auto',
+    'mousePosition'
   ])
 });
 

@@ -222,11 +222,24 @@ function ValueInputByType({ form, field, onChange }) {
       />
     );
   }
+
+  const isNumberInput =
+    form.get('customNameSubform').value.get('type').value === TAG_TYPES.NUMBER.technicalName ? true : false;
+  if (isNumberInput) {
+    <Input
+      type="number"
+      min={0}
+      step="1"
+      id="value"
+      value={field.value}
+      onChange={e => onChange('value', e.target.value)}
+      autoComplete="off"
+      autoFocus
+    />;
+  }
   return (
     <Input
-      type={
-        form.get('customNameSubform').value.get('type').value === TAG_TYPES.NUMBER.technicalName ? 'number' : 'text'
-      }
+      type="text"
       id="value"
       value={field.value}
       onChange={e => onChange('value', e.target.value)}

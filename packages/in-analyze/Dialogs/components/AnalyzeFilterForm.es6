@@ -4,13 +4,14 @@ import React from 'react';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import FilterConnector from 'in-analyze/Filter/FilterConnector';
 import { joinClassNames } from 'in-services/util/classnames';
 import { getTagCategories } from 'in-applications/tags';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
+import Pill from 'in-new-components/Pill';
+import theme from 'in-themes/theme';
 
 import locals from './AnalyzeFilterForm.mless';
 
@@ -45,7 +46,11 @@ export function SelectBox({ options, id, value, onChange }) {
 }
 
 export function FieldSeperator({ children }) {
-  return <FilterConnector className={locals.fieldSeperator}>{children}</FilterConnector>;
+  return (
+    <Pill className={locals.fieldSeperator} color={theme.lib.colors.N500}>
+      {children}
+    </Pill>
+  );
 }
 
 export function ValueGroup({ className, field, children }) {
@@ -144,27 +149,28 @@ export function OperatorSelection({ field, onChange, node }) {
   const operators = TAG_TYPES[node.type].operators;
   if (operators.length === 1) {
     return (
-      <Input
+      <input
         className={locals.fixedOperator}
+        type="text"
         id="operator"
         value={getOperatorLabel(node.type, operators[0])}
-        autoComplete="off"
         disabled
       />
     );
   }
 
   return (
-    <ComboBox
-      className={locals.operatorSelectBox}
+    <select
+      className={locals.operator}
       id="operator"
-      clearable={false}
       value={field.value}
-      onChange={e => onChange('operator', e.value)}
-      options={operators.map(operator => ({
-        label: getOperatorLabel(node.type, operator),
-        value: operator
-      }))}
-    />
+      onChange={e => onChange('operator', e.target.value)}
+    >
+      {operators.map(operator => (
+        <option key={operator} value={operator}>
+          {getOperatorLabel(node.type, operator)}
+        </option>
+      ))}
+    </select>
   );
 }

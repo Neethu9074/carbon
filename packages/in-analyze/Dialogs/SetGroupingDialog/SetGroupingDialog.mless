@@ -1,0 +1,66 @@
+@import '~in-themes/active.less';
+
+:local {
+  .customHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.375rem 0.625rem 0.25rem 1rem;
+    background: #fff;
+    border-radius: @lib__shapes__radius_large @lib__shapes__radius_large 0 0;
+  }
+
+  .checkBoxWrapper {
+    display: flex;
+    align-items: center;
+
+    color: @lib__colors__N600Light;
+  }
+
+  .checkBox {
+    margin-right: 0.5rem;
+  }
+
+  .contentWrapper {
+    overflow: unset;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 1rem 8rem 3rem;
+    border-radius: 0 0 @lib__shapes__radius_large @lib__shapes__radius_large;
+  }
+
+  .cancelIcon {
+    cursor: pointer;
+    fill: @lib__colors__N400;
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .analyzeIcon {
+    margin-bottom: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .heading {
+    margin-bottom: 1rem;
+    color: @lib__colors__N900Primary;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .text {
+    max-width: 28rem;
+    color: @lib__colors__N700Medium;
+    text-align: center;
+    line-height: 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 100;
+  }
+}

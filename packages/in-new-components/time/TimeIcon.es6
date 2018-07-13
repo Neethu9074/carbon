@@ -2,11 +2,12 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './TimeIcon.mless';
 
 export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark', className }) {
-  return (
+  const content = (
     <div
       className={evaluateClassNames({
         [locals.iconWrapper]: true,
@@ -27,4 +28,14 @@ export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark
       )}
     </div>
   );
+
+  if (containsPastLiveData) {
+    return (
+      <Tooltip themeStyle="light" content="Sampled Data - Significant calls and all KPIs have been preserved.">
+        {content}
+      </Tooltip>
+    );
+  }
+
+  return content;
 }

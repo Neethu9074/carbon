@@ -9,8 +9,7 @@ import Root from '../../../_helpers/Root';
 storiesOf('designLibrary/Components/Time/TimePresenter', module)
   .addDecorator(withKnobs)
   .add('Fixed', () => <Example to={Date.now()} />)
-  .add('Live', () => <Example to={null} />)
-  .add('Past Live', () => <PastLive />);
+  .add('Live', () => <Example to={null} />);
 
 function Example({ to }) {
   const windowSize = number('Window Size', 3600000, {
@@ -22,25 +21,6 @@ function Example({ to }) {
   return (
     <Root style={{ background: '#0C2227', padding: '1rem' }}>
       <TimePresenter expanded={boolean('Expanded', false)} timeConfig={{ windowSize, to }} onClick={action('click')} />
-    </Root>
-  );
-}
-
-function PastLive() {
-  const windowSize = number('Window Size', 3600000, {
-    range: true,
-    min: 60000,
-    max: 2592000000,
-    step: 60000
-  });
-  return (
-    <Root style={{ background: '#0C2227', padding: '1rem' }}>
-      <TimePresenter
-        containsPastLiveData
-        expanded={boolean('Expanded', false)}
-        timeConfig={{ windowSize, to: null }}
-        onClick={action('click')}
-      />
     </Root>
   );
 }

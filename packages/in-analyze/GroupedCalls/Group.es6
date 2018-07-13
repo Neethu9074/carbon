@@ -19,92 +19,96 @@ import Button from 'in-new-components/Button';
 import locals from './Group.mless';
 
 export default function Group({ item, filters, onChangeFilters, dotColor }) {
-  const onGroupClick = keepGrouping => {
-    if (!isQueryBuilderEnabled) {
-      return;
-    }
-
-    const group = filters.get('group');
-    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
-    const applicationFilter = filters.get('applicationFilter').toJS();
-    const newState = {};
-    newState[applicationFilterMatrixParameter] = applicationFilter;
-
-    if (group.get('name') === APPLICATION.name) {
-      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(item.name);
-    } else if (group.get('name') === SERVICE.name) {
-      applicationFilter[SERVICE.id] = SERVICE.createFilter(item.name);
-    } else if (group.get('name') === ENDPOINT.name) {
-      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(item.name);
-    } else {
-      const tagFilter = filters.get('tagFilter');
-
-      for (let i = 0; i < tagFilter.size; i++) {
-        const filter = tagFilter.get(i);
-        if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-          // dont add filter twice if they have the same name and value
-          return;
-        }
-      }
-
-      newState[tagFilterMatrixParameter] = tagFilter
-        .push(
-          fromJS(
-            createFilter({
-              name: group.get('name'),
-              value: currentGroupValue,
-              operator: 'EQUALS'
-            })
-          )
-        )
-        .toJS();
-    }
-
-    if (!keepGrouping) {
-      newState[groupByMatrixParameter] = null;
-    }
-
-    onChangeFilters(newState);
-  };
-
-  return (
+  const rowContent = (
     <Fragment>
-      <Tr size="compact">
-        <Td className={locals.labelCell}>
-          <div className={locals.cell}>
-            <span className={locals.dot}>
-              {dotColor ? (
-                <div className={locals.rect} style={{ background: dotColor }} />
-              ) : (
-                <span className={locals.rectPlaceHolder} />
-              )}
-            </span>
-            {isQueryBuilderEnabled && (
-              <Fragment>
-                <span className={locals.groupLabel} onClick={() => onGroupClick(false)}>
-                  {item.name}
-                </span>
-                <Button size="compact" className={locals.filterButton} onClick={() => onGroupClick(true)}>
-                  Filter by
-                </Button>
-              </Fragment>
+      <Td className={locals.labelCell}>
+        <div className={locals.cell}>
+          <span className={locals.dot}>
+            {dotColor ? (
+              <div className={locals.rect} style={{ background: dotColor }} />
+            ) : (
+              <span className={locals.rectPlaceHolder} />
             )}
-            {!isQueryBuilderEnabled && (
-              <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
-            )}
-          </div>
-        </Td>
+          </span>
+          {isQueryBuilderEnabled ? (
+            <Fragment>
+              <span
+                className={locals.groupLabel}
+                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, false)}
+              >
+                {item.name}
+              </span>
+              <Button
+                className={locals.filterButton}
+                size="compact"
+                kind="action"
+                icon="lib_actions_filter"
+                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, true)}
+              >
+                Filter by
+              </Button>
+            </Fragment>
+          ) : (
+            <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
+          )}
+        </div>
+      </Td>
 
-        <Td>{number.compact(get(item, ['metrics', 'calls', 0, 1]))}</Td>
+      <Td>{number.compact(get(item, ['metrics', 'calls', 0, 1]))}</Td>
 
-        <Td>{formatDateTime(item.timestamp)}</Td>
+      <Td>{formatDateTime(item.timestamp)}</Td>
 
-        <Td>
-          <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</span>
-        </Td>
+      <Td>
+        <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'duration', 0, 1]))}</span>
+      </Td>
 
-        <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errors', 0, 1]))}</Td>
-      </Tr>
+      <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errors', 0, 1]))}</Td>
     </Fragment>
   );
+
+  return <Tr size="compact">{rowContent}</Tr>;
+}
+
+function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
+  const group = filters.get('group');
+  const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
+  const applicationFilter = filters.get('applicationFilter').toJS();
+  const newState = {};
+  newState[applicationFilterMatrixParameter] = applicationFilter;
+
+  if (group.get('name') === APPLICATION.name) {
+    applicationFilter[APPLICATION.id] = APPLICATION.createFilter(tagName);
+  } else if (group.get('name') === SERVICE.name) {
+    applicationFilter[SERVICE.id] = SERVICE.createFilter(tagName);
+  } else if (group.get('name') === ENDPOINT.name) {
+    applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(tagName);
+  } else {
+    const tagFilter = filters.get('tagFilter');
+
+    for (let i = 0; i < tagFilter.size; i++) {
+      const filter = tagFilter.get(i);
+      if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
+        // dont add filter twice if they have the same name and value
+        return;
+      }
+    }
+
+    newState[tagFilterMatrixParameter] = tagFilter
+      .push(
+        fromJS(
+          createFilter({
+            name: group.get('name'),
+            value: currentGroupValue,
+            operator: 'EQUALS'
+          })
+        )
+      )
+      .toJS();
+  }
+
+  if (!keepGrouping) {
+    newState[groupByMatrixParameter] = null;
+  }
+
+  onChangeFilters(newState);
 }

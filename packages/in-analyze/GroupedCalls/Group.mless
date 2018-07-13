@@ -1,6 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .clickableRow {
+    cursor: pointer;
+  }
+
   .rect {
     width: 0.75rem;
     height: 0.75rem;
@@ -18,14 +22,9 @@
 
     &:hover {
       .filterButton {
-        display: block;
+        display: flex;
       }
     }
-  }
-
-  .cell {
-    display: flex;
-    align-items: center;
   }
 
   .filterButton {
@@ -42,6 +41,11 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .cell {
+    display: flex;
+    align-items: center;
   }
 
   .metricValue {

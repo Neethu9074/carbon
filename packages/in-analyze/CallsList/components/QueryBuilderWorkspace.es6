@@ -6,10 +6,11 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
-import FilterConnector from 'in-analyze/Filter/FilterConnector';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-new-components/Pill';
 import Filter from 'in-analyze/Filter';
+import theme from 'in-themes/theme';
 
 import locals from './QueryBuilderWorkspace.mless';
 
@@ -175,7 +176,9 @@ function AppendAnd({ children }) {
   return (
     <div className={locals.flexWrapper}>
       {children}
-      <FilterConnector>AND</FilterConnector>
+      <Pill className={locals.filterConnector} color={theme.lib.colors.N400}>
+        AND
+      </Pill>
     </div>
   );
 }
