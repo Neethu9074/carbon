@@ -23,7 +23,7 @@ const block = 'in-dynamic-rule-dialog-step-1';
 
 const plugins = twoZeroModeEnabled ? applicationPlugins : servicePlugins;
 const pluginsWithMetricDefinitions = Object.keys(plugins)
-  .map(key => servicePlugins[key])
+  .map(key => plugins[key])
   .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));

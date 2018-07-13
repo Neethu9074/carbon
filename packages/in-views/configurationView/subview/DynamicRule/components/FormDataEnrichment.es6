@@ -1,8 +1,7 @@
-import { create } from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import createSearchObservable from 'in-subscription/search';
-import { getSnapshots } from 'in-stores/snapshot/snapshot';
+import { searchSnapshots, getSnapshot } from 'in-api/snapshots';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/timeline';
 
@@ -31,7 +30,9 @@ export default class FormDataEnrichment extends React.Component {
           return search(`entity.pluginId:${entityType} AND (${query})`);
         }
       })
-      .subscribe(matchingEntities => this.props.onChange('matchingEntities', matchingEntities));
+      .subscribe(matchingEntities => {
+        this.props.onChange('matchingEntities', matchingEntities);
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -62,23 +63,20 @@ export default class FormDataEnrichment extends React.Component {
 }
 
 function search(query) {
-  return timeConfig$.flatMap(timeConfig => {
-    return createSearchObservable({
-      query,
-      view: 'LOGICAL',
-      timeConfig
-    })
-      .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds).map(snapshots => {
-          return {
-            snapshots,
-            snapshotIds,
-            query
-          };
-        });
-      })
-      .startWith({
-        query
+  return timeConfig$
+    .flatMap(timeConfig => {
+      return searchSnapshots(query, timeConfig, 100).map(snapshotIds => {
+        return { snapshotIds, timeConfig };
       });
-  });
+    })
+    .flatMap(result => {
+      return combineLatest(
+        result.snapshotIds.toArray().map(snapshotId => getSnapshot(snapshotId, result.timeConfig))
+      ).map(snapshots => {
+        return { snapshots: snapshots, snapshotIds: result.snapshotIds, query: query };
+      });
+    })
+    .startWith({
+      query
+    });
 }
