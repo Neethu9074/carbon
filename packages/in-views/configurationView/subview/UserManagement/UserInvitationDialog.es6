@@ -3,14 +3,13 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { defaultRole, fallbackRoleId } from 'in-stores/user';
+import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { close } from 'in-components/DialogPresenter/store';
 import { combineDataAndError } from 'in-services/util/ro';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { ownerRoleId } from 'in-stores/user';
 import { config } from 'in-services/config';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
@@ -41,7 +40,7 @@ export default connectTo(
         .put(
           'roleId',
           createField({
-            value: ownerRoleId,
+            value: defaultRoleId,
             validator: notBlankValidator
           })
         )
@@ -134,7 +133,7 @@ export default connectTo(
         }
 
         // use default role when user is not allowed to choose a role
-        const roleId = canSelectRole ? this.state.form.get('roleId').value : defaultRole;
+        const roleId = canSelectRole ? this.state.form.get('roleId').value : defaultRoleId;
 
         this.props.onSubmit(this.state.form.get('email').value, roleId);
       };
