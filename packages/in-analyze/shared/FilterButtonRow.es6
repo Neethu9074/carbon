@@ -15,7 +15,7 @@ const filterKeyTranslation = {
   application: 'Application',
   service: 'Service',
   endpoint: 'Endpoint',
-  traceGroupName: 'trace.name'
+  traceGroupName: 'call.name'
 };
 
 export default connectTo(
