@@ -73,8 +73,8 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       defaultPageSize={5}
       columnDefinitions={columnDefinitions}
       paginationResettingProps={{ traceId }}
-      defaultOrderBy="firstTimestamp"
-      defaultOrderDirection="ASC"
+      defaultOrderBy="aggregatedTime"
+      defaultOrderDirection="DESC"
       size="compact"
       traceId={traceId}
       onRowMouseEnter={onListItemMouseEnter}

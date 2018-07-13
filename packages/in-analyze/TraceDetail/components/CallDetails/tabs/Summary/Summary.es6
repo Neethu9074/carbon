@@ -13,9 +13,9 @@ export default function Summary({ call, callTreeNode, getColor }) {
   return (
     <Fragment>
       <CallStatus call={call} />
+      <CallTimingSummary call={call} />
       {!onlyHasExitSpan && (
         <Fragment>
-          <CallTimingSummary call={call} />
           <TimingChart call={call} callTreeNode={callTreeNode} getColor={getColor} />
           <TimingInformation call={call} />
         </Fragment>
