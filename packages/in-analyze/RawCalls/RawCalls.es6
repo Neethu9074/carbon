@@ -164,7 +164,7 @@ function RawCalls({
           <HorizontalIndicatorRow cols={6} progress={progress} />
           <ErrorRows cols={6} errors={errors} size="compact" />
           {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={6} />}
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" />}
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={6} />}
         </Tbody>
       </Table>
     </Fragment>

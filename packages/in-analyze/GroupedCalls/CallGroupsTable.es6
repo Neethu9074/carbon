@@ -51,7 +51,7 @@ export default function CallGroupsTable(props) {
         </Thead>
         <Tbody>
           <Groups {...props} />
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={4} size="compact" />}
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} size="compact" />}
         </Tbody>
       </Table>
     </Fragment>
