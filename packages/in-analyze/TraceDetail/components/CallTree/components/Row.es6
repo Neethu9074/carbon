@@ -6,6 +6,7 @@ import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTr
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import connect from 'in-hoc/connectTo';
 
@@ -119,9 +120,11 @@ function CallInformation(props) {
           {call.label}
         </span>
         {call.batchSize > 1 && (
-          <Pill className={locals.batchSizeIndicator} kind="lighter">
-            {call.batchSize}
-          </Pill>
+          <Tooltip themeStyle="light" content="This call is batched and represents xxx individual calls.">
+            <Pill className={locals.batchSizeIndicator} kind="lighter">
+              {call.batchSize}
+            </Pill>
+          </Tooltip>
         )}
         {call.endpoint && (
           <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
