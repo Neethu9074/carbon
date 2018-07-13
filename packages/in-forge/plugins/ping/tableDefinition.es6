@@ -1,7 +1,7 @@
 import { millis } from 'in-services/formatters/number';
 
 export default {
-  initialSortColumn: 1,
+  initialSortColumn: 0,
   initialSortDirection: 'asc',
 
   cols: [

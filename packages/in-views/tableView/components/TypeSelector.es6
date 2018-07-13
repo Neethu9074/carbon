@@ -13,7 +13,8 @@ const physicalDomains = {
   jvm: 'JVMs',
   nodejs: 'Node.js Apps',
   docker: 'Docker Containers',
-  process: 'Processes'
+  process: 'Processes',
+  ping: 'Ping'
 };
 
 // This list exists because we have the special type
