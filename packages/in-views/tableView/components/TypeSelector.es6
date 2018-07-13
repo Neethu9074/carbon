@@ -38,7 +38,7 @@ export default connectTo(
             .sort()
             .map(val => (
               <option value={val} key={val}>
-                {[val]}
+                {domains[val]}
               </option>
             ))}
         </select>
