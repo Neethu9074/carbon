@@ -3,7 +3,7 @@ import React from 'react';
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import { twoZeroModeEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import { ownerRoleId, fallbackRoleId, defaultRole } from 'in-stores/user';
+import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -37,7 +37,7 @@ export default function RoleForm({ form, onChange, roleId }) {
               value={field.value}
               onChange={e => onChange('name', e.target.value)}
               hasError={!field.valid && field.touched}
-              disabled={disabled || roleId === defaultRole}
+              disabled={disabled || roleId === defaultRoleId}
               autoFocus
             />
             <TouchedMessages field={field} />
