@@ -179,6 +179,8 @@ export const plugins10 = assign({}, servicePlugins, nonServicePlugins);
 
 export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
 
+export const pluginsDeprecatedIn20 = assign({}, servicePlugins);
+
 export const defaultAndUnknownPluginNames = [
   'unknownService',
   'defaultEntity20',
