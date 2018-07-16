@@ -1,4 +1,4 @@
-import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
@@ -18,6 +18,7 @@ import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
+import { isBlank } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
@@ -199,7 +200,7 @@ function getInitialForm(application) {
       'label',
       createField({
         value: application.label,
-        validator: notBlankValidator
+        validator: applicationLabelValidator
       })
     )
     .put(
@@ -211,6 +212,28 @@ function getInitialForm(application) {
         })
       )
     );
+}
+
+function applicationLabelValidator(name) {
+  if (isBlank(name)) {
+    return [
+      {
+        severity: 'error',
+        message: 'The application name must not be blank.'
+      }
+    ];
+  }
+
+  if (name.length > 128) {
+    return [
+      {
+        severity: 'error',
+        message: 'The application name must not be smaller or equal than 128 characters.'
+      }
+    ];
+  }
+
+  return null;
 }
 
 function mapTagsForTracking(applicationConfig) {
