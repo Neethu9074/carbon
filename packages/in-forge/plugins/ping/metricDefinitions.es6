@@ -6,9 +6,6 @@ export default [
     label: 'Duration',
     category: ['Ping'],
     min: 0,
-    getMax(snapshot) {
-      return snapshot.getIn(['data', 'duration']);
-    },
     formatter: millis.fixedCompact
   }
 ];
