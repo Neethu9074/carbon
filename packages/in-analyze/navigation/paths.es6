@@ -54,7 +54,7 @@ export function getLinkToAnalyze(
           params,
           analyze,
           groupByMatrixParameter,
-          getGroupToUrlString({ name: 'trace.name', value: '' })
+          getGroupToUrlString({ name: 'call.name', value: '' })
         );
       }
 
