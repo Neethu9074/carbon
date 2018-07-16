@@ -2,9 +2,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const clearModule = require('clear-module');
 
 module.exports = function main(themeName, sourceDir, targetDir, targetName) {
-  const theme = require(path.join(sourceDir, themeName + '.js'));
+  const modulePath = path.join(sourceDir, themeName + '.js');
+  // ensure that the theme file is reevaluated (required for dev mode watches)
+  clearModule(modulePath);
+  const theme = require(modulePath);
 
   var stylesheet = '';
   walkConstants([], theme);

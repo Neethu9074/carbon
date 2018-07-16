@@ -74,19 +74,18 @@ export default pure(function ViewSwitcher() {
           </View>
         )}
 
-        {twoZeroModeEnabled &&
-          !previewTwoZeroWithoutHybrid && (
-            <View
-              label="application"
-              icon="lib_application_invert"
-              isActive$={
-                isQueryBuilderEnabled
-                  ? isView(isApplicationsView)
-                  : combine(isView(isApplicationsView), isView(isAnalyzeView))
-              }
-              href$={getView(applicationsList)}
-            />
-          )}
+        {twoZeroModeEnabled && (
+          <View
+            label="application"
+            icon="lib_application_invert"
+            isActive$={
+              isQueryBuilderEnabled
+                ? isView(isApplicationsView)
+                : combine(isView(isApplicationsView), isView(isAnalyzeView))
+            }
+            href$={getView(applicationsList)}
+          />
+        )}
 
         <View
           label="Websites"

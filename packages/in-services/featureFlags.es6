@@ -35,17 +35,14 @@ export const showTenantSwitcher = config.tenant !== 'edmunds';
 // shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
 // the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
 // v2 query param and/or the v2Enabled ui setting  of the current user.
-export const oneZeroAppDataEnabled =
-  __DEV__ || isFeatureFlagEnabled('oneZeroAppDataEnabled') || !isFeatureFlagEnabled('withoutInstana1Features');
+export const oneZeroAppDataEnabled = isFeatureFlagEnabled('oneZeroAppDataEnabled');
 
-// twoZeroAppDataEnabled is the deployment time feature flag that controls whether or not Instana 2.0 could possibly be
+// twoZeroAppDataPresentationEnabled is the deployment time feature flag that controls whether or not Instana 2.0 could possibly be
 // shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
 // the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
 // v2 query param and/or the v2Enabled ui setting of the current user.
-export const twoZeroAppDataEnabled =
-  __DEV__ || isFeatureFlagEnabled('twoZeroAppDataEnabled') || isFeatureFlagEnabled('newApplicationMonitoringEnabled');
+export const twoZeroAppDataEnabled = isFeatureFlagEnabled('twoZeroAppDataPresentationEnabled');
 
-export const previewTwoZeroWithoutHybrid = !oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
 const v2EnabledUserPreference =

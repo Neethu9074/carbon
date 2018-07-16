@@ -183,6 +183,7 @@ gulp.task('enableDevWatches', () => {
   gulp.watch(path.join(paths.themeDir, 'theme.js'), ['translateTheme']);
   gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
+  gulp.watch(paths.featureFlags, ['writeDevConfigFile']);
 });
 
 gulp.task('startDevProxy', function startDevProxy() {
