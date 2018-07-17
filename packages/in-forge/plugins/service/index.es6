@@ -17,6 +17,6 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   getLabel(entity) {
-    return entity != null ? (entity.get('label') != null ? entity.get('label') : 'Service') : 'Service';
+    return entity.get('label', 'Service');
   }
 });

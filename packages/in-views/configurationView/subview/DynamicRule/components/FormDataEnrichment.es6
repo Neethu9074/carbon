@@ -1,9 +1,11 @@
 import { create, combineLatest } from 'reactive-observables';
+import { fromJS } from 'immutable';
 import React from 'react';
 
-import { searchSnapshots, getSnapshot } from 'in-api/snapshots';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/timeline';
+import http from 'in-services/http';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -60,6 +62,33 @@ export default class FormDataEnrichment extends React.Component {
   render() {
     return null;
   }
+}
+
+function searchSnapshots(query, timeConfig, maxResults) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/snapshots`,
+    queryParams: {
+      time: timeConfig.to,
+      from: timeConfig.from,
+      to: timeConfig.to,
+      q: query,
+      size: maxResults,
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
+  }).map(response => fromJS(response.body));
+}
+
+function getSnapshot(snapshotId, timeConfig) {
+  return http({
+    method: 'GET',
+    url: `/api/snapshots/${encodeURIComponent(snapshotId)}`,
+    maxRetries: 3,
+    queryParams: {
+      time: timeConfig.to
+    }
+  }).map(response => fromJS(response.body));
 }
 
 function search(query) {
