@@ -49,6 +49,32 @@ function putAggregationField(form, rule) {
   );
 }
 
+function isDeprecatedEntityType(entityType) {
+  return Object.keys(pluginsDeprecatedIn20).indexOf(entityType) > -1;
+}
+
+function notBlankOrDeprecatedValidator(entityType) {
+  if (!entityType || entityType.trim().length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'The entity type value must not be blank'
+      }
+    ];
+  }
+
+  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+    return [
+      {
+        severity: 'error',
+        message: `This entity type has been deprecated. Please choose a different type.`
+      }
+    ];
+  }
+
+  return null;
+}
+
 export function ruleFormDefinition(rule) {
   let form = createMapForm()
     .put(
@@ -62,7 +88,7 @@ export function ruleFormDefinition(rule) {
       'entityType',
       createField({
         value: rule ? rule.get('entityType') : undefined,
-        validator: notBlankValidator
+        validator: notBlankOrDeprecatedValidator
       })
     )
     .put(
@@ -149,10 +175,6 @@ export default function RuleForm({ form, onChange }) {
     let metricName = localForm.get('metricName').value;
     let entityType = localForm.get('entityType').value;
     return isMetricPercentile(entityType, metricName);
-  }
-
-  function isDeprecatedEntityType(entityType) {
-    return Object.keys(pluginsDeprecatedIn20).indexOf(entityType) > -1;
   }
 
   const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
