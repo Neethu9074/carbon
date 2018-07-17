@@ -38,23 +38,22 @@ export default connectTo(
           <h2>Select a region to load the filler stats</h2>
           <Button onClick={() => this.handleButtonClick('EU')}>EU</Button>
           <Button onClick={() => this.handleButtonClick('US')}>US</Button>
+
           <div>
             Region;snapshotId;label;
             {STATS.map(stat => `${stat.label} (avg)`).join(';')};
             {STATS.map(stat => `${stat.label} (top)`).join(';')};
           </div>
 
-          {snapshots
-            .slice(0, 3)
-            .map(snapshot => (
-              <FillerStatsRow
-                key={snapshot.id}
-                region={region}
-                snapshotId={snapshot.id}
-                snapshotLabel={snapshot.label}
-                timeConfig={timeConfig}
-              />
-            ))}
+          {snapshots.map(snapshot => (
+            <FillerStatsRow
+              key={snapshot.id}
+              region={region}
+              snapshotId={snapshot.id}
+              snapshotLabel={snapshot.label}
+              timeConfig={timeConfig}
+            />
+          ))}
         </div>
       );
     }

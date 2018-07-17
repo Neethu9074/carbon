@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getMetrics } from 'in-api/metrics';
+import createHistoricMetricsSubscription from 'in-subscription/historicMetrics';
 
 export const STATS = [
   {
@@ -35,13 +35,16 @@ export default class FillerStatsRow extends React.Component {
 
   componentDidMount() {
     const { snapshotId, timeConfig } = this.props;
-    const to = timeConfig.to ? timeConfig.to : Date.now();
-    const from = to - timeConfig.windowSize;
 
     if (snapshotId != null && timeConfig != null) {
       STATS.map(stat =>
-        getMetrics(METER_METRIC_PREFIX + stat.metric, from, to, snapshotId, ROLL_UP).once(response => {
-          const values = response.values.map(value => value.value);
+        createHistoricMetricsSubscription({
+          snapshotId,
+          metric: METER_METRIC_PREFIX + stat.metric,
+          timeConfig,
+          rollup: ROLL_UP
+        }).once(response => {
+          const values = response.map(values => values[1]);
           const average = calculateAverage(values, timeConfig.windowSize, ROLL_UP);
           const top = calculateTop(values);
 
