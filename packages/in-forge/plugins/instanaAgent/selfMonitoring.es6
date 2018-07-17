@@ -82,3 +82,13 @@ export function updateAgent(snapshot) {
     logger.info('Agent update response', response);
   });
 }
+
+export function rebootAgent(snapshot) {
+  createAgentResponseObservable({
+    action: 'agent.reboot',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('Agent reboot response', response);
+  });
+}
