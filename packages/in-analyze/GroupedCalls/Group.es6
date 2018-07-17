@@ -36,7 +36,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             <Fragment>
               <span
                 className={locals.groupLabel}
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, false)}
+                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, false)}
               >
                 {item.name}
               </span>
@@ -46,7 +46,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
                   size="compact"
                   kind="action"
                   icon="lib_actions_filter"
-                  onClick={() => onSetGrouping(filters, onChangeFilters, item.name, true)}
+                  onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, true)}
                 >
                   Filter by
                 </Button>
@@ -97,12 +97,21 @@ function isAlreadyFilteredByThisGroup(item, filters) {
   return false;
 }
 
-function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
+function onSetGrouping(filters, onChangeFilters, tagName, isAlreadyFiltered, keepGrouping) {
   const group = filters.get('group');
   const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
   const applicationFilter = filters.get('applicationFilter').toJS();
   const newState = {};
   newState[applicationFilterMatrixParameter] = applicationFilter;
+
+  if (!keepGrouping) {
+    newState[groupByMatrixParameter] = null;
+  }
+
+  if (isAlreadyFiltered) {
+    onChangeFilters(newState);
+    return;
+  }
 
   if (group.get('name') === APPLICATION.name) {
     applicationFilter[APPLICATION.id] = APPLICATION.createFilter(tagName);
@@ -112,13 +121,6 @@ function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
     applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(tagName);
   } else {
     const tagFilter = filters.get('tagFilter');
-    for (let i = 0; i < tagFilter.size; i++) {
-      const filter = tagFilter.get(i);
-      if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-        // dont add filter twice if they have the same name and value
-        return;
-      }
-    }
 
     newState[tagFilterMatrixParameter] = tagFilter
       .push(
@@ -131,10 +133,6 @@ function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
         )
       )
       .toJS();
-  }
-
-  if (!keepGrouping) {
-    newState[groupByMatrixParameter] = null;
   }
 
   onChangeFilters(newState);
