@@ -19,6 +19,8 @@ import Button from 'in-new-components/Button';
 import locals from './Group.mless';
 
 export default function Group({ item, filters, onChangeFilters, dotColor }) {
+  const isAlreadyFiltered = isAlreadyFilteredByThisGroup(item, filters);
+
   const rowContent = (
     <Fragment>
       <Td className={locals.labelCell}>
@@ -38,15 +40,17 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
               >
                 {item.name}
               </span>
-              <Button
-                className={locals.filterButton}
-                size="compact"
-                kind="action"
-                icon="lib_actions_filter"
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, true)}
-              >
-                Filter by
-              </Button>
+              {!isAlreadyFiltered && (
+                <Button
+                  className={locals.filterButton}
+                  size="compact"
+                  kind="action"
+                  icon="lib_actions_filter"
+                  onClick={() => onSetGrouping(filters, onChangeFilters, item.name, true)}
+                >
+                  Filter by
+                </Button>
+              )}
             </Fragment>
           ) : (
             <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
@@ -69,6 +73,30 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
+function isAlreadyFilteredByThisGroup(item, filters) {
+  const currentGroup = filters.getIn(['group', 'name']);
+
+  const applicationFilter = filters.get('applicationFilter').toJS();
+
+  if (currentGroup === APPLICATION.name) {
+    return item.name === get(applicationFilter, [APPLICATION.id, 'value']);
+  } else if (currentGroup === SERVICE.name) {
+    return item.name === get(applicationFilter, [SERVICE.id, 'value']);
+  } else if (currentGroup === ENDPOINT.name) {
+    return item.name === get(applicationFilter, [ENDPOINT.id, 'value']);
+  }
+
+  const tagFilter = filters.get('tagFilter');
+  for (let i = 0; i < tagFilter.size; i++) {
+    const filter = tagFilter.get(i);
+    if (filter.get('name') === currentGroup && filter.get('value') === item.name) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
   const group = filters.get('group');
   const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
@@ -84,7 +112,6 @@ function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
     applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(tagName);
   } else {
     const tagFilter = filters.get('tagFilter');
-
     for (let i = 0; i < tagFilter.size; i++) {
       const filter = tagFilter.get(i);
       if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
