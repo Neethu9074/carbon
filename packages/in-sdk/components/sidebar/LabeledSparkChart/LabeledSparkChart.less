@@ -1,8 +1,18 @@
+@import '~in-themes/active.less';
+
 .in-labeled-spark-chart {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   margin: 0.6rem 0;
+
+  &__dark {
+    color: @lib__colors__N400;
+  }
+
+  &__light {
+    color: @lib__colors__N900Primary;
+  }
 
   &__description {
     display: flex;

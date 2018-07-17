@@ -84,6 +84,7 @@ export default connectTo(
           <div className={`${block}__kpi-wrapper`}>
             {isExpanded ? (
               <SparkChartsSection
+                theme="dark"
                 snapshot={snapshot}
                 metrics={kpis.map(kpi => {
                   return {

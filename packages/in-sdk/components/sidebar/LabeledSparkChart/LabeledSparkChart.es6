@@ -13,11 +13,11 @@ export default connectTo(
   {
     timeConfig: timeConfig$
   },
-  function LabeledSparkChart({ snapshotId, timeConfig, metric, className }) {
+  function LabeledSparkChart({ snapshotId, timeConfig, metric, theme = 'light', className }) {
     const { label, formatter, aggregation } = metric;
     const metricName = metric.metric;
 
-    let classes = block;
+    let classes = `${block} ${block}__${theme}`;
     if (className) {
       classes = `${classes} ${className}`;
     }
@@ -25,6 +25,7 @@ export default connectTo(
       <div className={classes}>
         <HistoricMetricSparkChart
           width={115}
+          theme={theme}
           timeConfig={timeConfig}
           snapshotId={snapshotId}
           metric={metricName}

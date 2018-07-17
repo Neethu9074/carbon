@@ -11,6 +11,7 @@ export default class LineMetricRenderer {
 
     this.width = props.width;
     this.height = props.height;
+    this.theme = props.theme;
 
     const { paddingLeft = 0, paddingRight = 0, paddingTop = 0, paddingBottom = 0 } = props;
 
@@ -113,7 +114,12 @@ export default class LineMetricRenderer {
   }
 
   renderBlocks() {
-    this.ctx.fillStyle = theme.lib.colors.chart.strokeColors25[0];
+    if (this.theme === 'light') {
+      this.ctx.fillStyle = theme.lib.colors.chart.strokeColors25[0];
+    } else {
+      this.ctx.fillStyle = theme.lib.colors.N700Medium;
+    }
+
     for (let i = 0; i < this.blocks.length; i++) {
       this.drawBlock(this.blocks[i]);
     }
@@ -142,7 +148,11 @@ export default class LineMetricRenderer {
   }
 
   renderDataPoints() {
-    this.drawPoints('#ffffff', 3);
+    if (this.theme === 'light') {
+      this.drawPoints('#ffffff', 3);
+    } else {
+      this.drawPoints(theme.lib.colors.N900Primary, 3);
+    }
     this.drawPoints(theme.lib.colors.chart.strokeColors100[0], 2);
   }
 

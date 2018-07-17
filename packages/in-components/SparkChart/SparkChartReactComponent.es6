@@ -25,7 +25,7 @@ class SparkChartReactWrapper extends React.Component {
   };
 
   componentDidMount() {
-    this.sparkChart = new SparkChart(this.canvas, this.props.width, this.props.height);
+    this.sparkChart = new SparkChart(this.canvas, this.props);
     this.sparkChart.update(this.props);
   }
 
