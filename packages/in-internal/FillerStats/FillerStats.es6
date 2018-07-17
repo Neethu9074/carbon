@@ -13,8 +13,10 @@ import Button from 'in-new-components/Button';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    us: getSearchResult(`entity.zone:*US* entity.label:*filler* entity.selfType:dropwizard`),
-    eu: getSearchResult(`entity.zone:*EU* entity.label:*filler* entity.selfType:dropwizard`)
+    fillerSnapshotsUS: searchFillerSnapshots(`entity.zone:*US* entity.label:*filler* entity.selfType:dropwizard`),
+    fillerSnapshotsEU: searchFillerSnapshots(`entity.zone:*EU* entity.label:*filler* entity.selfType:dropwizard`),
+    esClusterSnapshotUS: searchEsClusterSnapshot(`entity.elasticsearch.cluster.name:*traces*us*`),
+    esClusterSnapshotEU: searchEsClusterSnapshot(`entity.elasticsearch.cluster.name:*traces*eu*`)
   },
   class FillerStats extends React.Component {
     state = {
@@ -22,15 +24,18 @@ export default connectTo(
     };
 
     render() {
-      const { eu, us, timeConfig } = this.props;
+      const { fillerSnapshotsEU, fillerSnapshotsUS, esClusterSnapshotUS, esClusterSnapshotEU, timeConfig } = this.props;
       const { region } = this.state;
 
       let snapshots = [];
+      let esSnapshotId = null;
       if (region == 'EU') {
-        snapshots = eu;
+        snapshots = fillerSnapshotsEU;
+        esSnapshotId = esClusterSnapshotEU;
       }
       if (region == 'US') {
-        snapshots = us;
+        snapshots = fillerSnapshotsUS;
+        esSnapshotId = esClusterSnapshotUS;
       }
 
       return (
@@ -42,7 +47,7 @@ export default connectTo(
           <div>
             Region;snapshotId;label;
             {STATS.map(stat => `${stat.label} (avg)`).join(';')};
-            {STATS.map(stat => `${stat.label} (top)`).join(';')};
+            {STATS.map(stat => `${stat.label} (top)`).join(';')}; ES Index size;
           </div>
 
           {snapshots.map(snapshot => (
@@ -50,7 +55,8 @@ export default connectTo(
               key={snapshot.id}
               region={region}
               snapshotId={snapshot.id}
-              snapshotLabel={snapshot.label}
+              esSnapshotId={esSnapshotId}
+              tuName={snapshot.label.substr(0, snapshot.label.lastIndexOf('-'))}
               timeConfig={timeConfig}
             />
           ))}
@@ -64,7 +70,7 @@ export default connectTo(
   }
 );
 
-function getSearchResult(query) {
+function searchFillerSnapshots(query) {
   return timeConfig$
     .flatMap(timeConfig =>
       search({
@@ -92,4 +98,19 @@ function getSearchResult(query) {
         })
     )
     .startWith(emptyArray);
+}
+
+function searchEsClusterSnapshot(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query,
+        view: 'TABLE',
+        timeConfig
+      })
+        .map(ids => ids.toJS()[0])
+        .flatMap(nodeId => getSnapshotFromPhysicalHierarchyByPlugin(nodeId, 'elasticsearchCluster'))
+        .map(esClusterSnapshot => esClusterSnapshot.get('id'))
+    )
+    .startWith(null);
 }
