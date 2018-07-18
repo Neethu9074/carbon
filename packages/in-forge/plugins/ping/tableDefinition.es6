@@ -1,4 +1,5 @@
 import { millis } from 'in-services/formatters/number';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 
 export default {
   initialSortColumn: 0,
@@ -24,11 +25,20 @@ export default {
       }
     },
     {
-      title: 'Host',
+      title: 'Source',
+      type: 'snapshotLink',
+      typeArgs: {
+        getSnapshotId$(row) {
+          return getHostSnapshotId(row.snapshot);
+        }
+      }
+    },
+    {
+      title: 'Target',
       type: 'string',
       typeArgs: {
         getValue(row) {
-          return row.snapshot.getIn(['data', 'host']);
+          return row.snapshot.getIn(['data', 'target']);
         }
       }
     },
