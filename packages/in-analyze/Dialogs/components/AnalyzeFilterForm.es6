@@ -10,6 +10,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes/theme';
 
@@ -63,6 +64,21 @@ export function ValueGroup({ className, field, children }) {
 }
 
 export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
+  if (!autoCompletedOptions) {
+    return (
+      <div className={locals.loadingSelectPlaceholder}>
+        <Input
+          className={locals.loadingSelectPlaceholderInput}
+          type="text"
+          id="value"
+          value={field.value}
+          onChange={e => onChange('value', e.target.value)}
+        />
+        <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+      </div>
+    );
+  }
+
   let isValueInsideOptions = false;
   if (field.value) {
     for (let i = 0; i < autoCompletedOptions.length; i++) {

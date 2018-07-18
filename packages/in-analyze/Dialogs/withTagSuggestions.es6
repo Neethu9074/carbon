@@ -18,7 +18,7 @@ export default () => ComposedComponent => {
       this.state = {
         name: props.name || '',
         value: props.value || '',
-        tagSuggestionOptions: []
+        tagSuggestionOptions: null
       };
 
       this.applyChangesQueue$ = create();
@@ -94,7 +94,7 @@ export default () => ComposedComponent => {
 
 export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   if (!autoCompletedValuesResult.data) {
-    return [];
+    return null;
   }
 
   return autoCompletedValuesResult.data.suggestions.map(suggestion => ({
