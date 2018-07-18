@@ -9,10 +9,8 @@ import {
 } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
-import { isQueryBuilderEnabled } from 'in-services/featureFlags';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import Button from 'in-new-components/Button';
 
@@ -32,29 +30,25 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
               <span className={locals.rectPlaceHolder} />
             )}
           </span>
-          {isQueryBuilderEnabled ? (
-            <Fragment>
-              <span
-                className={locals.groupLabel}
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, false)}
+          <Fragment>
+            <span
+              className={locals.groupLabel}
+              onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, false)}
+            >
+              {item.name}
+            </span>
+            {!isAlreadyFiltered && (
+              <Button
+                className={locals.filterButton}
+                size="compact"
+                kind="action"
+                icon="lib_actions_filter"
+                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, true)}
               >
-                {item.name}
-              </span>
-              {!isAlreadyFiltered && (
-                <Button
-                  className={locals.filterButton}
-                  size="compact"
-                  kind="action"
-                  icon="lib_actions_filter"
-                  onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, true)}
-                >
-                  Filter by
-                </Button>
-              )}
-            </Fragment>
-          ) : (
-            <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
-          )}
+                Filter by
+              </Button>
+            )}
+          </Fragment>
         </div>
       </Td>
 

@@ -1,5 +1,0 @@
-:local {
-  .traceTablePage {
-    margin-top: 2rem;
-  }
-}

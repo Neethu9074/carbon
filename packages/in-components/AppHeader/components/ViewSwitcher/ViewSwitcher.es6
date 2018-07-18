@@ -14,12 +14,7 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import {
-  isQueryBuilderEnabled,
-  cockpitEnabled,
-  previewTwoZeroWithoutHybrid,
-  twoZeroModeEnabled
-} from 'in-services/featureFlags';
+import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
@@ -78,11 +73,7 @@ export default pure(function ViewSwitcher() {
           <View
             label="application"
             icon="lib_application_invert"
-            isActive$={
-              isQueryBuilderEnabled
-                ? isView(isApplicationsView)
-                : combine(isView(isApplicationsView), isView(isAnalyzeView))
-            }
+            isActive$={isView(isApplicationsView)}
             href$={getView(applicationsList)}
           />
         )}
@@ -96,15 +87,14 @@ export default pure(function ViewSwitcher() {
 
         {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
 
-        {twoZeroModeEnabled &&
-          isQueryBuilderEnabled && (
-            <View
-              label="Analyze"
-              icon="lib_analyze_inverted"
-              isActive$={isView(isAnalyzeView)}
-              href$={getLinkToAnalyze({ preGrouped: true })}
-            />
-          )}
+        {twoZeroModeEnabled && (
+          <View
+            label="Analyze"
+            icon="lib_analyze_inverted"
+            isActive$={isView(isAnalyzeView)}
+            href$={getLinkToAnalyze({ preGrouped: true })}
+          />
+        )}
       </ul>
     </div>
   );
