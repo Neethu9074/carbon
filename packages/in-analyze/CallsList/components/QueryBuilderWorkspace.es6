@@ -159,14 +159,10 @@ function ApplicationFilterOrPlaceholder({
 
 function GroupSection({ group, onAddGroup, onUpdateGroup, onRemoveGroup }) {
   if (!group) {
-    return (
-      <FilterPlaceholder size="compact" onClick={onAddGroup}>
-        Group
-      </FilterPlaceholder>
-    );
+    return <FilterPlaceholder onClick={onAddGroup}>Group</FilterPlaceholder>;
   }
   return (
-    <Filter size="compact" onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)} removePostPhrase="Group">
+    <Filter onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)} removePostPhrase="Group">
       {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
     </Filter>
   );
