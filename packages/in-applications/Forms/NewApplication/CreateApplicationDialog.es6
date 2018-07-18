@@ -228,7 +228,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application name must not be smaller or equal than 128 characters.'
+        message: 'The application name must not be larger than 128 characters.'
       }
     ];
   }
