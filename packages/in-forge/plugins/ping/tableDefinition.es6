@@ -1,5 +1,5 @@
-import { millis } from 'in-services/formatters/number';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { millis } from 'in-services/formatters/number';
 
 export default {
   initialSortColumn: 0,
