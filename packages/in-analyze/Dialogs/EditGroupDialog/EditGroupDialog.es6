@@ -8,10 +8,15 @@ export default function EditGroupDialog(props) {
     <AnalyzeFilterDialog
       {...props}
       title="Group"
-      getInitialForm={() => getInitialForm(props.group)}
+      getInitialForm={() => {
+        const initialForm = getInitialForm(props);
+        return initialForm;
+      }}
       getClearForm={() => getInitialForm({})}
       renderForm={formProps => <EditGroupFrom {...props} {...formProps} />}
-      onChangeCallback={onChangeCallback}
+      onChangeCallback={(form, fieldName, value) =>
+        onChangeCallback(form, fieldName, value, props.setNameForTagSuggestion)
+      }
     />
   );
 }
@@ -23,6 +28,5 @@ function onChangeCallback(form, fieldName, value) {
       return subForm.setValue(updatedSubForm).setTouched(true);
     });
   }
-
   return form;
 }

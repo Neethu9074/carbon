@@ -194,9 +194,8 @@ function getNodesChildren(node, selectedCategory) {
   return node.getChildren({ category: selectedCategory });
 }
 
-export function getInitialForm(group) {
-  const name = group.name || '';
-  let customName = group.value || '';
+export function getInitialForm(props = {}) {
+  let { name = '', value = '' } = props;
 
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
@@ -212,7 +211,7 @@ export function getInitialForm(group) {
     .put(
       'customName',
       createField({
-        value: customName
+        value: value
       })
     )
     .put(

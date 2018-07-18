@@ -51,6 +51,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       form: props.getInitialForm(),
       selectedCategory: null
@@ -99,6 +100,10 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
   onChange = (fieldName, value) => {
     let form = this.state.form;
+    if (this.props.onChangeCallback) {
+      form = this.props.onChangeCallback(form, fieldName, value);
+    }
+
     if (fieldName === 'customName') {
       this.setState({
         form: form.updateIn(['customNameSubform'], subForm => {
@@ -119,10 +124,6 @@ class AnalyzeFilterBasicDialog extends React.Component {
           return subForm.setValue(updatedSubForm).setTouched(true);
         });
       }
-    }
-
-    if (this.props.onChangeCallback) {
-      form = this.props.onChangeCallback(form, fieldName, value);
     }
 
     this.setState({

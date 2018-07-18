@@ -10,10 +10,15 @@ export default function EditFilterDialog(props) {
   return (
     <AnalyzeFilterDialog
       {...props}
-      getInitialForm={() => getInitialForm(props.tag)}
+      getInitialForm={() => {
+        const initialForm = getInitialForm(props);
+        return initialForm;
+      }}
       getClearForm={() => getInitialForm()}
       renderForm={formProps => <EditFilterForm {...props} {...formProps} />}
-      onChangeCallback={onChangeCallback}
+      onChangeCallback={(form, fieldName, value) =>
+        onChangeCallback(form, fieldName, value, props.setNameForTagSuggestion, props.set2ndLevelNameForTagSuggestion)
+      }
     />
   );
 }
@@ -28,13 +33,8 @@ function onChangeCallback(form, fieldName, value) {
     form = form.updateIn(['value'], field => field.setValue('').setTouched(true));
 
     const newType = get(findSubTreeByFullyQualifiedName(value), ['type']);
-    const oldType = get(findSubTreeByFullyQualifiedName(form.get('name').value), ['type']);
-
-    if (newType !== oldType) {
-      const type = newType || oldType;
-      const operator = get(TAG_TYPES, [type, 'operators', 0], null);
-      form = form.updateIn(['operator'], field => field.setValue(operator).setTouched(true));
-    }
+    const operator = newType ? get(TAG_TYPES, [newType, 'operators', 0], null) : null;
+    form = form.updateIn(['operator'], field => field.setValue(operator).setTouched(true));
   }
 
   return form;

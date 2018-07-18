@@ -252,8 +252,8 @@ function ValueInputByType({ form, field, onChange }) {
   );
 }
 
-export function getInitialForm(tag = {}) {
-  let { name = '', value = '', operator } = tag;
+export function getInitialForm(props = {}) {
+  let { name = '', value = '', operator } = props;
 
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;

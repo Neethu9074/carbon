@@ -45,7 +45,9 @@ export default function EditApplicationFilterForm({ form, onChange, tagSuggestio
   );
 }
 
-export function getInitialForm(name, value) {
+export function getInitialForm(props = {}) {
+  let { name = '', value = '' } = props;
+
   return createMapForm()
     .put(
       'name',

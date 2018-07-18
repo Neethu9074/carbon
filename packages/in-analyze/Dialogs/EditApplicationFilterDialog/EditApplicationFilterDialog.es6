@@ -13,19 +13,14 @@ function EditApplicationFilterDialog(props) {
   return (
     <AnalyzeFilterDialog
       {...props}
-      getInitialForm={() => getInitialForm(props.name, props.value)}
+      getInitialForm={() => {
+        const initialForm = getInitialForm(props);
+
+        props.setNameForTagSuggestion(initialForm.get('name').value);
+
+        return initialForm;
+      }}
       renderForm={formProps => <EditApplicationFilterForm {...props} {...formProps} />}
     />
   );
-}
-
-export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
-  if (!autoCompletedValuesResult.data) {
-    return [];
-  }
-
-  return autoCompletedValuesResult.data.suggestions.map(suggestion => ({
-    value: suggestion,
-    label: suggestion
-  }));
 }
