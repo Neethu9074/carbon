@@ -17,6 +17,7 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
         y1={{
           renderer: Renderer.bar,
           formatter: percentage,
+          detailedFormatting: true,
           labels: ['Errors'],
           colors: [theme.lib.colors.failure],
           metricIds: ['errors']

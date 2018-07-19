@@ -11,7 +11,15 @@ export default connectTo(
       .map(filteredDataSeries => getAxisScale(props.axis, filteredDataSeries))
   }),
   function MetricAwareAxis({ scale, axis, height, align }) {
-    return <VerticalAxis formatter={axis.formatter[0]} scale={scale} align={align} height={height} />;
+    return (
+      <VerticalAxis
+        formatter={axis.formatter[0]}
+        detailedFormatting={axis.detailedFormatting}
+        scale={scale}
+        align={align}
+        height={height}
+      />
+    );
   }
 );
 
