@@ -5,7 +5,7 @@ import React from 'react';
 import createHistoricMetricsSubscription from 'in-subscription/historicMetrics';
 import createSingleHistoricMetricSubscription from 'in-subscription/historicMetric';
 
-export const STATS = [
+export const DROPWIZARD_STATS = [
   {
     id: 'spanMessageReceived',
     label: 'Span Message Received',
@@ -29,7 +29,6 @@ export const STATS = [
 ];
 
 const METER_METRIC_PREFIX = 'metrics.meters.';
-const INDEX_METRIC_PREFIX = 'index.';
 const ROLL_UP = 3600000; // 1h
 
 export default class FillerStatsRow extends React.Component {
@@ -38,9 +37,15 @@ export default class FillerStatsRow extends React.Component {
   state = {};
 
   componentDidMount() {
-    const { snapshotId, esSnapshotId, timeConfig, tuName } = this.props;
+    this.getDropwizardStats();
+    this.getEsIndexSize();
+    this.getCassandraDiskSize();
+  }
 
-    STATS.map(stat =>
+  getDropwizardStats() {
+    const { snapshotId, timeConfig } = this.props;
+
+    DROPWIZARD_STATS.map(stat =>
       createHistoricMetricsSubscription({
         snapshotId,
         metric: METER_METRIC_PREFIX + stat.metric,
@@ -59,6 +64,10 @@ export default class FillerStatsRow extends React.Component {
         this.setState(stateObject);
       })
     );
+  }
+
+  getEsIndexSize() {
+    const { esSnapshotId, timeConfig, tuName } = this.props;
 
     combineLatest(
       getDateStrings(timeConfig)
@@ -79,9 +88,32 @@ export default class FillerStatsRow extends React.Component {
     });
   }
 
+  getCassandraDiskSize() {
+    const { cassandraSnapshotId, timeConfig, tuName } = this.props;
+
+    createHistoricMetricsSubscription({
+      snapshotId: cassandraSnapshotId,
+      metric: getCassandraDiskSizeMetric(tuName),
+      timeConfig,
+      rollup: ROLL_UP
+    }).once(response => {
+      const avgDiskSize = response.map(value => value[1]).reduce((a, b) => a + b, 0) / response.length;
+      this.setState({
+        cassandraDiskSize: avgDiskSize
+      });
+    });
+  }
+
   render() {
     const { region, snapshotId, tuName } = this.props;
-    const { spanMessageReceived, spanMessageDropped, spanProcessed, spanStored, esSize } = this.state;
+    const {
+      spanMessageReceived,
+      spanMessageDropped,
+      spanProcessed,
+      spanStored,
+      esSize,
+      cassandraDiskSize
+    } = this.state;
 
     return (
       <div>
@@ -95,6 +127,7 @@ export default class FillerStatsRow extends React.Component {
         {spanProcessed ? spanProcessed.top : ''};
         {spanStored ? spanStored.top : ''};
         {esSize ? esSize : ''};
+        {cassandraDiskSize ? cassandraDiskSize : ''};
       </div>
     );
   }
@@ -122,6 +155,13 @@ function getDateStrings(timeConfig) {
 }
 
 function getESIndexSizeMetric(tuName, dateStr) {
-  const tuNameInMetric = tuName.replace('-', '_');
-  return `${INDEX_METRIC_PREFIX}saas_${tuNameInMetric}_traces_${dateStr}.size`;
+  return `index.saas_${getTUNameInMetric(tuName)}_traces_${dateStr}.size`;
+}
+
+function getCassandraDiskSizeMetric(tuName) {
+  return `keyspace.saas_${getTUNameInMetric(tuName)}.diskSize`;
+}
+
+function getTUNameInMetric(tuName) {
+  return tuName.replace('-', '_');
 }
