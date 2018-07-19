@@ -3,11 +3,11 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
   type: 'gwt',
-  category: 'http',
+  category: 'rpc',
 
   typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
+    singular: 'RPC Call',
+    plural: 'RPC Calls'
   },
 
   detailView: 'GwtSpanDetailView',
