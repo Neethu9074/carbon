@@ -1,3 +1,3 @@
-import HttpSpanDetailView from '../http/HttpSpanDetailView';
+import RpcSpanDetailView from '../rpc/RpcSpanDetailView';
 
-export default HttpSpanDetailView;
+export default RpcSpanDetailView;
