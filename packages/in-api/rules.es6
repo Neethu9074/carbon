@@ -2,12 +2,16 @@ import { fromJS } from 'immutable';
 
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 export function getRules() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/rules`
+    url: `/api/rules`,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => fromJS(response.body));
 }
 
@@ -16,7 +20,6 @@ export function getSystemRules() {
     method: 'GET',
     maxRetries: 3,
     url: `/api/rules/systemRules`
-
     // no need to make it immutable since it would be converted directly
   }).map(response => response.body);
 }
@@ -25,7 +28,10 @@ export function getRule(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/rules/${encodeURIComponent(id)}`
+    url: `/api/rules/${encodeURIComponent(id)}`,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => fromJS(response.body));
 }
 
@@ -68,4 +74,20 @@ export function createRule(
     conditionOperator,
     conditionValue
   };
+}
+
+export function isRuleDeprecated(rule) {
+  if (!rule) {
+    return false;
+  }
+  const flag = rule.get('deprecated', false);
+  // if the deprecated flag is not present, the fallback value of entity.get will be false, but if it is present and
+  // has value null we still need to convert null into false.
+  return flag != null ? flag : false;
+}
+
+export function getRuleLabelWithDeprecationFlag(rule) {
+  const flag = rule.get('deprecated');
+  const name = rule.get('name');
+  return twoZeroModeEnabled && flag ? name + ' (deprecated)' : name;
 }
