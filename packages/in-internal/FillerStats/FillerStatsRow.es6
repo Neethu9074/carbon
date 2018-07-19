@@ -4,6 +4,7 @@ import React from 'react';
 
 import createHistoricMetricsSubscription from 'in-subscription/historicMetrics';
 import createSingleHistoricMetricSubscription from 'in-subscription/historicMetric';
+import connectTo from 'in-hoc/connectTo';
 
 export const DROPWIZARD_STATS = [
   {
@@ -31,89 +32,21 @@ export const DROPWIZARD_STATS = [
 const METER_METRIC_PREFIX = 'metrics.meters.';
 const ROLL_UP = 3600000; // 1h
 
-export default class FillerStatsRow extends React.Component {
-  static displayName = 'FillerStatsRow';
+export default connectTo(
+  props => {
+    return {
+      dropwizardStats: getDropwizardStats(props),
+      esIndexSize: getEsIndexSize(props),
+      cassandraDiskSize: getCassandraDiskSize(props)
+    };
+  },
+  function FillerStatsRow({ region, snapshotId, tuName, dropwizardStats, esIndexSize, cassandraDiskSize }) {
+    let dropwizardStatsObj = {};
+    if (dropwizardStats) {
+      dropwizardStats.map(stat => (dropwizardStatsObj[stat.id] = stat.values));
+    }
 
-  state = {};
-
-  componentDidMount() {
-    this.getDropwizardStats();
-    this.getEsIndexSize();
-    this.getCassandraDiskSize();
-  }
-
-  getDropwizardStats() {
-    const { snapshotId, timeConfig } = this.props;
-
-    DROPWIZARD_STATS.map(stat =>
-      createHistoricMetricsSubscription({
-        snapshotId,
-        metric: METER_METRIC_PREFIX + stat.metric,
-        timeConfig,
-        rollup: ROLL_UP
-      }).once(response => {
-        const values = response.map(values => values[1]);
-        const average = calculateAverage(values, timeConfig.windowSize, ROLL_UP);
-        const top = calculateTop(values);
-
-        let stateObject = {};
-        stateObject[stat.id] = {
-          average,
-          top
-        };
-        this.setState(stateObject);
-      })
-    );
-  }
-
-  getEsIndexSize() {
-    const { esSnapshotId, timeConfig, tuName } = this.props;
-
-    combineLatest(
-      getDateStrings(timeConfig)
-        .map(dateStr => getESIndexSizeMetric(tuName, dateStr))
-        .map(metric =>
-          createSingleHistoricMetricSubscription({
-            snapshotId: esSnapshotId,
-            metric: metric,
-            timeConfig,
-            rollup: ROLL_UP
-          })
-        )
-    ).once(responses => {
-      const totalSize = responses.map(response => response[1]).reduce((a, b) => a + b, 0);
-      this.setState({
-        esSize: totalSize
-      });
-    });
-  }
-
-  getCassandraDiskSize() {
-    const { cassandraSnapshotId, timeConfig, tuName } = this.props;
-
-    createHistoricMetricsSubscription({
-      snapshotId: cassandraSnapshotId,
-      metric: getCassandraDiskSizeMetric(tuName),
-      timeConfig,
-      rollup: ROLL_UP
-    }).once(response => {
-      const avgDiskSize = response.map(value => value[1]).reduce((a, b) => a + b, 0) / response.length;
-      this.setState({
-        cassandraDiskSize: avgDiskSize
-      });
-    });
-  }
-
-  render() {
-    const { region, snapshotId, tuName } = this.props;
-    const {
-      spanMessageReceived,
-      spanMessageDropped,
-      spanProcessed,
-      spanStored,
-      esSize,
-      cassandraDiskSize
-    } = this.state;
+    const { spanMessageReceived, spanMessageDropped, spanProcessed, spanStored } = dropwizardStatsObj;
 
     return (
       <div>
@@ -126,11 +59,70 @@ export default class FillerStatsRow extends React.Component {
         {spanMessageDropped ? spanMessageDropped.top : ''};
         {spanProcessed ? spanProcessed.top : ''};
         {spanStored ? spanStored.top : ''};
-        {esSize ? esSize : ''};
+        {esIndexSize ? esIndexSize : ''};
         {cassandraDiskSize ? cassandraDiskSize : ''};
       </div>
     );
   }
+);
+
+function getDropwizardStats(props) {
+  const { snapshotId, timeConfig } = props;
+
+  return combineLatest(
+    DROPWIZARD_STATS.map(stat =>
+      createHistoricMetricsSubscription({
+        snapshotId,
+        metric: METER_METRIC_PREFIX + stat.metric,
+        timeConfig,
+        rollup: ROLL_UP
+      }).map(response => {
+        const values = response.map(values => values[1]);
+        const average = calculateAverage(values, timeConfig.windowSize, ROLL_UP);
+        const top = calculateTop(values);
+
+        return {
+          id: stat.id,
+          values: {
+            average,
+            top
+          }
+        };
+      })
+    )
+  );
+}
+
+function getEsIndexSize(props) {
+  const { esSnapshotId, timeConfig, tuName } = props;
+
+  return combineLatest(
+    getDateStrings(timeConfig)
+      .map(dateStr => getESIndexSizeMetric(tuName, dateStr))
+      .map(metric =>
+        createSingleHistoricMetricSubscription({
+          snapshotId: esSnapshotId,
+          metric: metric,
+          timeConfig,
+          rollup: ROLL_UP
+        })
+      )
+  ).map(responses => {
+    return responses.map(response => response[1]).reduce((a, b) => a + b, 0);
+  });
+}
+
+function getCassandraDiskSize(props) {
+  const { cassandraSnapshotId, timeConfig, tuName } = props;
+
+  return createHistoricMetricsSubscription({
+    snapshotId: cassandraSnapshotId,
+    metric: getCassandraDiskSizeMetric(tuName),
+    timeConfig,
+    rollup: ROLL_UP
+  }).map(response => {
+    return response.map(value => value[1]).reduce((a, b) => a + b, 0) / response.length;
+  });
 }
 
 function calculateAverage(values, windowSize, rollup) {
