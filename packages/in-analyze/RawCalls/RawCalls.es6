@@ -25,6 +25,8 @@ import getCalls from 'in-subscription/application/getCalls';
 import { millis } from 'in-services/formatters/number';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-new-components/Pill';
 
 import locals from './RawCalls.mless';
 
@@ -113,6 +115,7 @@ function RawCalls({
               technicalName="duration"
               label="Latency"
             />
+
             <SortableCallColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
@@ -131,6 +134,16 @@ function RawCalls({
                   <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}
+                    {item.call.batchCount > 1 && (
+                      <Tooltip
+                        themeStyle="light"
+                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                      >
+                        <Pill className={locals.batchSizeIndicator} kind="lighter">
+                          {item.call.batchCount}
+                        </Pill>
+                      </Tooltip>
+                    )}
                   </Link>
                 </div>
               </Td>
