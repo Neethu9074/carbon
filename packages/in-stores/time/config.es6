@@ -65,6 +65,15 @@ export function getTimeConfigAtMoment(moment) {
   };
 }
 
+export function getWaitForEntityCreationTimeConfig() {
+  return {
+    windowSize: 1000 * 60,
+    to: null,
+    focusedMoment: null,
+    autoRefresh: true
+  };
+}
+
 export function getTimeConfigAlignedToResultTime(timeConfig, result) {
   return {
     windowSize: timeConfig.windowSize,

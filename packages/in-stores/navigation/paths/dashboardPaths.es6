@@ -10,7 +10,7 @@ export function goToDashboard(snapshotId) {
   });
 }
 
-export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname } = {}) {
+export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname, autoRefresh } = {}) {
   return getModifiedUrlStream(params => {
     if (pathname) {
       params.pathname = pathname;
@@ -26,6 +26,9 @@ export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pa
     }
     if (focusedMoment !== undefined) {
       params.query[urlQueryKeys.focusedMoment] = focusedMoment == null ? '' : focusedMoment;
+    }
+    if (autoRefresh !== undefined) {
+      params.query[urlQueryKeys.autoRefresh] = String(Boolean(autoRefresh));
     }
     params.query.snapshotId = snapshotId;
   });
