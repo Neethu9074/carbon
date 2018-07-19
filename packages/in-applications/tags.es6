@@ -89,6 +89,7 @@ function mapConfig(config) {
     id: config.id,
     label: config.label,
     name: config.name,
+    enabled: config.enabled,
     matchSpecification: matchSpecificationCopy
   };
 }
