@@ -26,6 +26,7 @@ export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const showTenantSwitcher = config.tenant !== 'edmunds';
+export const showPingComparison = config.tenant === 'nielsen' || config.tenant === 'instana';
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
