@@ -1,9 +1,9 @@
 import React from 'react';
 
+import MetricSelector from 'in-views/tableView/components/MetricSelector';
+import { addMetric, metrics$ } from 'in-views/tableView/stores/metrics';
 import TypeSelector from 'in-views/tableView/components/TypeSelector';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
-import { addMetric } from 'in-views/tableView/stores/metrics';
-import MetricSelector from 'in-components/MetricSelector';
 import { getPlural } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,9 +13,10 @@ const block = 'in-table-view-left-header';
 
 export default connectTo(
   {
-    plugin: plugin$
+    plugin: plugin$,
+    selectedMetrics: metrics$
   },
-  function Header({ plugin }) {
+  function Header({ plugin, selectedMetrics }) {
     return (
       <header className={block}>
         <TypeSelector />
@@ -23,6 +24,7 @@ export default connectTo(
           className={`${block}__selector`}
           plugin={plugin}
           onChange={addSelectedMetric}
+          selectedMetrics={selectedMetrics}
           label={`Visualize metric for selected ${getPlural(plugin)}`}
         />
       </header>
