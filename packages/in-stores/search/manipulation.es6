@@ -1,6 +1,8 @@
 import { parse, toString } from 'lucene';
 import { assign } from 'lodash';
 
+const implicitMarker = '<implicit>';
+
 export function removeField(query, fieldName, value = undefined) {
   const fieldMatcher = buildFieldMatcher(fieldName, value);
 
@@ -29,13 +31,13 @@ export function setField(query, fieldName, value) {
   let ast = parse(query);
   if (ast.left && !ast.right) {
     if (!ast.operator) {
-      ast.operator = '<implicit>';
+      ast.operator = implicitMarker;
     }
     ast.right = astForField;
   } else {
     ast = {
       left: ast,
-      operator: '<implicit>',
+      operator: implicitMarker,
       right: astForField
     };
   }
@@ -49,12 +51,28 @@ export function getFieldTerms(query, fieldName) {
     parse(query),
     (agg, node) => {
       if (fieldMatcher(node)) {
-        agg.push(luceneUnescapeString(node.term));
+        if (typeof node.term === 'string') {
+          agg.push(luceneUnescapeString(node.term));
+        } else {
+          if (node.left) {
+            reduce(node.left, implicitFieldTermAdder, agg);
+          }
+          if (node.right) {
+            reduce(node.right, implicitFieldTermAdder, agg);
+          }
+        }
       }
       return agg;
     },
     []
   );
+}
+
+function implicitFieldTermAdder(agg, node) {
+  if (node.field === implicitMarker && typeof node.term === 'string') {
+    agg.push(luceneUnescapeString(node.term));
+  }
+  return agg;
 }
 
 export function luceneEscapeString(s) {

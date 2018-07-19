@@ -103,5 +103,14 @@ describe('in-stores/search/manipulation', () => {
         'hostname:amgen-dispatcher03.us-east-1.aetion.net'
       ]);
     });
+
+    it('must support multi valued terms', () => {
+      expect(
+        getFieldTerms(
+          'entity.tag:Environment=UAT AND entity.tag:("ApplicationName=NCP*" OR "CreatedBy=Ans*" )',
+          'entity.tag'
+        )
+      ).to.deep.equal(['Environment=UAT', 'ApplicationName=NCP*', 'CreatedBy=Ans*']);
+    });
   });
 });
