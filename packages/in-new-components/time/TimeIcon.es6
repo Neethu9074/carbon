@@ -31,7 +31,7 @@ export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark
 
   if (containsPastLiveData) {
     return (
-      <Tooltip themeStyle="light" content="Sampled Data - Significant calls and all KPIs have been preserved.">
+      <Tooltip themeStyle="light" content="Sampled Data - Significant calls and KPIs have been preserved.">
         {content}
       </Tooltip>
     );
