@@ -218,6 +218,12 @@ export function getMatchSpecificationForm(matchSpecification = {}, defaultValue 
         value: get(matchSpecification, 'value', defaultValue),
         validator: composeValidators(notBlankValidator, regularExpressionValidator)
       })
+    )
+    .put(
+      'operator',
+      createField({
+        value: get(matchSpecification, 'operator', 'EQUALS')
+      })
     );
 }
 

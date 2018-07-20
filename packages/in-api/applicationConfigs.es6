@@ -49,6 +49,6 @@ export function deleteApplicationConfig(id) {
 export function createNewApplicationConfig() {
   return {
     label: '',
-    matchSpecification: [{}]
+    matchSpecification: []
   };
 }

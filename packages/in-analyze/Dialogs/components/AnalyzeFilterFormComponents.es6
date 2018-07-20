@@ -14,9 +14,9 @@ import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes/theme';
 
-import locals from './AnalyzeFilterForm.mless';
+import locals from './AnalyzeFilterFormComponents.mless';
 
-export default function AnalyzeFilterForm({ children }) {
+export default function AnalyzeFilterFormComponents({ children }) {
   return <div className={locals.editForm}>{children}</div>;
 }
 
@@ -188,5 +188,13 @@ export function OperatorSelection({ field, onChange, node }) {
         </option>
       ))}
     </select>
+  );
+}
+
+export function FilterConnector({ children }) {
+  return (
+    <Pill className={locals.filterConnector} color={theme.lib.colors.N400}>
+      {children}
+    </Pill>
   );
 }

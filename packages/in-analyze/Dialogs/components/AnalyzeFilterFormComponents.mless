@@ -60,14 +60,15 @@
   .categoryList {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 
     list-style: none;
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.25rem;
     padding: 0;
   }
 
   .categoryButton {
-    margin-right: 0.25rem;
+    margin: 0 0.25rem 0.25rem 0;
     border: none;
     background: @lib__colors__N200;
     font-weight: 100;
@@ -130,6 +131,10 @@
     &[disabled] {
       color: #fff;
     }
+  }
+
+  .filterConnector {
+    margin: 0 0.25rem;
   }
 
   .loadingSelectPlaceholder {
