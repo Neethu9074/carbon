@@ -1,12 +1,13 @@
+import { interval, just } from 'reactive-observables';
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getApplication from 'in-subscription/application/getApplication';
-import { interval, just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
-import { Redirect } from 'react-router-dom';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NewApplicationWaiter.mless';
@@ -16,12 +17,19 @@ export default connectTo(
     const appId = props.match.params.appId;
     return {
       result: interval(3000)
-        .flatMap(() => getApp(appId))
+        .flatMap(() =>
+          getApplication({
+            id: appId,
+            requestTime: Date.now() // subscription cache busting
+          })
+        )
         .flatMap(result => {
           if (result.progress.loading || result.errors.length > 0) {
             return just(result);
           } else {
-            return getApplicationDashboard(result.data.id);
+            return getApplicationDashboard(result.data.id, {
+              timeConfig: getWaitForEntityCreationTimeConfig()
+            });
           }
         })
     };
@@ -54,10 +62,3 @@ export default connectTo(
     );
   }
 );
-
-function getApp(applicationId) {
-  return getApplication({
-    id: applicationId,
-    requestTime: Date.now() // subscription cache busting
-  });
-}

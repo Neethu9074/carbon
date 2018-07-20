@@ -7,6 +7,7 @@ import {
   serviceId as matrixServiceId,
   endpointId as matrixEndpointId
 } from 'in-applications/navigation/matrix';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
@@ -26,45 +27,70 @@ export const isApplicationsView = getRootPathPredicate(
   endpointDashboard
 );
 
-export function getApplicationDashboard(applicationId, { serviceId, endpointId, tab, tabMatrix } = emptyObject) {
+export function getApplicationDashboard(
+  applicationId,
+  { serviceId, endpointId, tab, tabMatrix, timeConfig } = emptyObject
+) {
   return getDashboard({
     base: applicationDashboard,
     applicationId,
     serviceId,
     endpointId,
     tab,
-    tabMatrix
+    tabMatrix,
+    timeConfig
   });
 }
 
-export function getServiceDashboard(serviceId, { applicationId, endpointId, tab, tabMatrix } = emptyObject) {
+export function getServiceDashboard(
+  serviceId,
+  { applicationId, endpointId, tab, tabMatrix, timeConfig } = emptyObject
+) {
   return getDashboard({
     base: serviceDashboard,
     applicationId,
     serviceId,
     endpointId,
     tab,
-    tabMatrix
+    tabMatrix,
+    timeConfig
   });
 }
 
-export function getEndpointDashboard(endpointId, { applicationId, serviceId, tab, tabMatrix } = emptyObject) {
+export function getEndpointDashboard(
+  endpointId,
+  { applicationId, serviceId, tab, tabMatrix, timeConfig } = emptyObject
+) {
   return getDashboard({
     base: endpointDashboard,
     applicationId,
     serviceId,
     endpointId,
     tab,
-    tabMatrix
+    tabMatrix,
+    timeConfig
   });
 }
 
-function getDashboard({ base, applicationId, serviceId, endpointId, tab = '/summary', tabMatrix = emptyObject }) {
+function getDashboard({
+  base,
+  applicationId,
+  serviceId,
+  endpointId,
+  tab = '/summary',
+  tabMatrix = emptyObject,
+  timeConfig
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${base}${tab}`;
     setOrDeleteMatrixKey(params, base, matrixApplicationId, applicationId);
     setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
+
+    if (timeConfig != null) {
+      setTimeConfig(params, timeConfig);
+    }
+
     params.matrix[tab] = tabMatrix;
   });
 }
