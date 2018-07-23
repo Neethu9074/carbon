@@ -1,4 +1,3 @@
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { generateUniqueShortId } from 'in-services/util/id';
 
 export function getTagFilterFromUrlString(urlString) {
@@ -12,40 +11,12 @@ export function getTagFilterFromUrlString(urlString) {
   return tagFilter;
 }
 
-export function getApplicationFilterFromUrlString(urlString) {
-  const parsedApplicationFilter = parsedUrlOrDefault(urlString, []);
-
-  const applicationFilter = {};
-  for (let i = 0; i < parsedApplicationFilter.length; i++) {
-    const urlTag = parsedApplicationFilter[i];
-    if (urlTag.name === APPLICATION.name) {
-      applicationFilter[APPLICATION.id] = APPLICATION.createFilter(urlTag.value);
-    } else if (urlTag.name === SERVICE.name) {
-      applicationFilter[SERVICE.id] = SERVICE.createFilter(urlTag.value);
-    } else if (urlTag.name === ENDPOINT.name) {
-      applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(urlTag.value);
-    }
-  }
-
-  return applicationFilter;
-}
-
 export function getGroupFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value, operator: tag.operator }));
-
-  return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
-}
-
-export function getApplicationFilterToUrlString(applicationFilter) {
-  const keys = Object.keys(applicationFilter);
-  let urlReadyTagFilter = keys
-    .map(key => applicationFilter[key])
-    .filter(tag => tag)
-    .map(tag => ({ name: tag.name, value: tag.value }));
 
   return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
 }
@@ -77,7 +48,6 @@ export function createFilter(config = {}) {
     id,
     name: config.name || '',
     value: config.value || '',
-    operator: config.operator,
-    icon: config.icon || 'lib_views_tag'
+    operator: config.operator
   };
 }

@@ -1,0 +1,12 @@
+:local {
+  .group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    min-width: 8.5rem;
+    max-width: 8.5rem;
+  }
+}

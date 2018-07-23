@@ -8,7 +8,8 @@ import AnalyzeFilterForm, {
   ValueGroup,
   TagCategorySwitcher,
   NamedSection,
-  OperatorSelection
+  OperatorSelection,
+  AutoCompletedSelect
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import {
   getTreeNodesTillName,
@@ -80,7 +81,7 @@ export default class extends React.Component {
 
                 {form.get('value').map(field => (
                   <ValueGroup field={field}>
-                    <ValueInputByType form={form} field={field} onChange={onChange} />
+                    <ValueInputByType field={field} {...this.props} />
                   </ValueGroup>
                 ))}
               </Fragment>
@@ -214,7 +215,7 @@ function CustomKey({ form, onChange, treeNodesTillName }) {
   );
 }
 
-function ValueInputByType({ form, field, onChange }) {
+function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
   if (form.get('nameForm').value.get('type').value === TAG_TYPES.BOOLEAN.technicalName) {
     return (
       <SelectBox
@@ -242,14 +243,8 @@ function ValueInputByType({ form, field, onChange }) {
       />
     );
   }
+
   return (
-    <Input
-      type="text"
-      id="value"
-      value={field.value}
-      onChange={e => onChange('value', e.target.value)}
-      autoComplete="off"
-      autoFocus
-    />
+    <AutoCompletedSelect field={field} onChange={onChange} autoCompletedOptions={tagSuggestionOptions} clearable />
   );
 }

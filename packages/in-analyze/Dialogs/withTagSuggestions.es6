@@ -1,11 +1,11 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
-import { applicationFilter as applicationFilterMatrixParameter } from 'in-analyze/navigation/matrix';
-import { TAG_TYPES, APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 
 export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
@@ -17,9 +17,9 @@ export default () => ComposedComponent => {
       super(props);
 
       this.state = {
-        _name: '',
+        _name: props.name,
         custom2ndLevelName: null,
-        tagSuggestionOptions: null,
+        tagSuggestionOptions: undefined,
         tag2ndLevelSuggestionOptions: []
       };
 
@@ -30,9 +30,13 @@ export default () => ComposedComponent => {
         .debounce(500)
         .subscribe(state => this.getValueSuggestions(state));
 
-      this.get2ndLevelTagQueueSubscription = this.get2ndLevelTagQueue$
-        .debounce(500)
-        .subscribe(state => this.get2ndLevelNameSuggestions(state));
+      // temp disable until we support it
+      // this.get2ndLevelTagQueueSubscription = this.get2ndLevelTagQueue$
+      //   .debounce(500)
+      //   .subscribe(state => this.get2ndLevelNameSuggestions(state));
+
+      this.getValueQueue$.emit(this.state);
+      this.get2ndLevelTagQueue$.emit(this.state);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -55,8 +59,8 @@ export default () => ComposedComponent => {
       this.getValueQueueSubscription.dispose();
       this.getValueQueueSubscription = null;
 
-      this.get2ndLevelTagQueueSubscription.dispose();
-      this.get2ndLevelTagQueueSubscription = null;
+      // this.get2ndLevelTagQueueSubscription.dispose();
+      // this.get2ndLevelTagQueueSubscription = null;
 
       this.getValueQueue$ = null;
       this.get2ndLevelTagQueue$ = null;
@@ -82,6 +86,11 @@ export default () => ComposedComponent => {
     getValueSuggestions({ _name, custom2ndLevelName }) {
       this.disposeValueSuggestion();
 
+      if (_name !== APPLICATION.name && _name !== SERVICE.name && _name !== ENDPOINT.name) {
+        this.setState({ tagSuggestionOptions: undefined });
+        return;
+      }
+
       const tagName = _name;
       const filters = this.props.filters;
       const node = findSubTreeByFullyQualifiedName(tagName);
@@ -99,6 +108,7 @@ export default () => ComposedComponent => {
         requestingSecondaryKeySuggestions: false,
         valueFilter: null
       })
+        .startWith(null)
         .map(getEndpointTypesComboBoxItems)
         .subscribe(tagSuggestionOptions => this.setState({ tagSuggestionOptions }));
     }
@@ -149,7 +159,7 @@ export default () => ComposedComponent => {
 };
 
 function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
-  if (!autoCompletedValuesResult.data) {
+  if (!autoCompletedValuesResult || !autoCompletedValuesResult.data) {
     return null;
   }
 
@@ -162,22 +172,35 @@ function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
 function getTagFilterList(tagName, filters) {
   const tagFilters = [];
 
-  const application = filters.getIn([applicationFilterMatrixParameter, APPLICATION.id]);
-  const service = filters.getIn([applicationFilterMatrixParameter, SERVICE.id]);
-  const endpoint = filters.getIn([applicationFilterMatrixParameter, ENDPOINT.id]);
+  const tagFilter = filters.get('tagFilter').toJS();
+
+  let application;
+  let service;
+  let endpoint;
+
+  for (let i = 0; i < tagFilter.length; i++) {
+    const tag = tagFilter[i];
+    if (tag.name === APPLICATION.name) {
+      application = tag;
+    } else if (tag.name === SERVICE.name) {
+      service = tag;
+    } else if (tag.name === ENDPOINT.name) {
+      endpoint = tag;
+    }
+  }
 
   const isApplicationTag = tagName !== APPLICATION.name;
   const isServiceTag = tagName !== SERVICE.name;
   const isEndpointTag = tagName !== ENDPOINT.name;
 
   if (application && isApplicationTag) {
-    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
+    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.value });
   }
   if (service && (isApplicationTag && isServiceTag)) {
-    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
+    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.value });
   }
   if (endpoint && (isApplicationTag && isServiceTag && isEndpointTag)) {
-    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
+    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.value });
   }
 
   return tagFilters;

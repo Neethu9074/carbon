@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+
+:local {
+  .analyzeHeader {
+    padding-top: 2rem;
+    background: @lib__colors__N200;
+  }
+
+  .maxWidthFullscreenContainer {
+    position: relative;
+  }
+
+  .title {
+    margin: 0;
+    color: @lib__colors__N900Primary;
+  }
+
+  .callsIndicator {
+    color: @lib__colors__N700Medium;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+}

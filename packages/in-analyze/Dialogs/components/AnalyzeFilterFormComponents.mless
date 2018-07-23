@@ -93,6 +93,11 @@
     }
   }
 
+  .instanCategoryButton {
+    background: @lib__colors__primary1;
+    color: #fff;
+  }
+
   .namedSection {
     display: flex;
     align-items: flex-start;

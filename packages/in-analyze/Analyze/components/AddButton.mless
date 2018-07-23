@@ -1,0 +1,14 @@
+:local {
+  .addButton {
+    margin-top: 0.25rem;
+  }
+
+  .optionList {
+    margin: 0.5rem;
+    padding: 0;
+  }
+
+  .option {
+    list-style: none;
+  }
+}

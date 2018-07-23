@@ -74,7 +74,9 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
           value={field.value}
           onChange={e => onChange('value', e.target.value)}
         />
-        <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+        {autoCompletedOptions === null && (
+          <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+        )}
       </div>
     );
   }
@@ -114,8 +116,8 @@ export function FixedSelection({ value }) {
   return <Input className={locals.fixedValue} id={value} value={value} autoComplete="off" disabled />;
 }
 
-export function TagCategorySwitcher({ selectedCategory, setSelectedCategory }) {
-  const categories = getTagCategories();
+export function TagCategorySwitcher({ selectedCategory, setSelectedCategory, withInstanaCategory = true }) {
+  const categories = getTagCategories(withInstanaCategory);
   return (
     <ul className={locals.categoryList}>
       <li>
@@ -138,6 +140,7 @@ export function TagCategorySwitcher({ selectedCategory, setSelectedCategory }) {
             <Button
               className={evaluateClassNames({
                 [locals.categoryButton]: true,
+                [locals.instanCategoryButton]: category === 'INSTANA' && !isActive,
                 [locals.activeCategoryButton]: isActive
               })}
               kind="secondary"

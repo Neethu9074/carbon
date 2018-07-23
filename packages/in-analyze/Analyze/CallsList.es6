@@ -2,25 +2,19 @@ import { defaultProps, compose } from 'recompose';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
+import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import {
-  applicationFilter as applicationFilterMatrixParameter,
-  tagFilter as tagFilterMatrixParameter,
-  groupBy as groupByMatrixParameter
-} from 'in-analyze/navigation/matrix';
-import {
-  getApplicationFilterToUrlString,
   getTagFilterToUrlString,
   getGroupToUrlString,
-  getApplicationFilterFromUrlString,
   getTagFilterFromUrlString,
   getGroupFromUrlString
-} from 'in-analyze/CallsList/filterBuilder';
+} from 'in-analyze/filterBuilder';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { TAG_TYPES, APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import AnalyzeHeader from 'in-analyze/CallsList/AnalyzeHeader';
+import AnalyzeHeader from 'in-analyze/Analyze/AnalyzeHeader';
 import getCalls from 'in-subscription/application/getCalls';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -35,12 +29,11 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => '',
-    boundKeys: [applicationFilterMatrixParameter, tagFilterMatrixParameter, groupByMatrixParameter],
+    boundKeys: [tagFilterMatrixParameter, groupByMatrixParameter],
     getResettingProps: () => [],
     getInitialState: () => {
       const initialState = {};
       initialState[tagFilterMatrixParameter] = [];
-      initialState[applicationFilterMatrixParameter] = {};
       return initialState;
     },
     reducerName: 'onChangeFilters',
@@ -51,11 +44,7 @@ export default compose(
       const urlGroup = values[groupByMatrixParameter];
       const group = getGroupFromUrlString(urlGroup);
 
-      const urlApplicationFilters = values[applicationFilterMatrixParameter];
-      const applicationFilter = getApplicationFilterFromUrlString(urlApplicationFilters);
-
       const objectToReturn = {};
-      objectToReturn[applicationFilterMatrixParameter] = applicationFilter;
       objectToReturn[tagFilterMatrixParameter] = tagFilter;
       objectToReturn[groupByMatrixParameter] = group;
       return objectToReturn;
@@ -67,12 +56,8 @@ export default compose(
       const group = props[groupByMatrixParameter];
       const urlReadyGroup = getGroupToUrlString(group);
 
-      const applicationFilter = props[applicationFilterMatrixParameter];
-      const urlReadyApplicationFilter = getApplicationFilterToUrlString(applicationFilter);
-
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
-      objectToStore[applicationFilterMatrixParameter] = urlReadyApplicationFilter;
       objectToStore[groupByMatrixParameter] = urlReadyGroup;
       return objectToStore;
     }
@@ -102,7 +87,6 @@ function CallList(props) {
 
   let filters = fromJS({
     tagFilter: props[tagFilterMatrixParameter],
-    applicationFilter: props[applicationFilterMatrixParameter],
     group: props[groupByMatrixParameter]
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
@@ -134,19 +118,6 @@ function getTagFilterList(filters) {
       getValueByTag(backendTagFilter, tag);
       return backendTagFilter;
     });
-
-  const application = filters.getIn(['applicationFilter', APPLICATION.id]);
-  const service = filters.getIn(['applicationFilter', SERVICE.id]);
-  const endpoint = filters.getIn(['applicationFilter', ENDPOINT.id]);
-  if (application) {
-    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.get('value') });
-  }
-  if (service) {
-    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.get('value') });
-  }
-  if (endpoint) {
-    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.get('value') });
-  }
 
   return tagFilters;
 }

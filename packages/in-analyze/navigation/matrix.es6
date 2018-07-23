@@ -7,7 +7,6 @@ export const expandId = 'expanded';
 
 // tags
 export const tagFilter = 'tagFilter';
-export const applicationFilter = 'applicationFilter';
 
 // groups
 export const groupBy = 'groupBy';

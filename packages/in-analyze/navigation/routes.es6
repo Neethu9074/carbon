@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { analyze, analyzeGroups, analyzeRaw, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import TraceDetail from 'promise-loader?global,analyze!in-analyze/TraceDetail';
-import CallsList from 'promise-loader?global,analyze!in-analyze/CallsList';
+import CallsList from 'promise-loader?global,analyze!in-analyze/Analyze';
 
 export default (
   <Fragment>

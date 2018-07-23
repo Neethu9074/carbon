@@ -1,0 +1,25 @@
+@import '~in-themes/active.less';
+
+:local {
+  .workspace {
+    margin: 1rem 0;
+    padding-bottom: 1rem;
+  }
+
+  .groupingGroupTitle,
+  .filterGroupTitle {
+    font-size: 0.875rem;
+    color: @lib__colors__N500;
+    margin-top: 0.5rem;
+  }
+
+  .filterGroupTitle {
+    margin-top: 0.75rem;
+  }
+
+  .filterSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

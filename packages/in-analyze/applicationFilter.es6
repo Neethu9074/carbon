@@ -1,51 +1,26 @@
 import { get } from 'lodash';
 
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
-import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 
 export const APPLICATION = {
   id: applicationId,
   name: 'application.name',
   technicalName: 'application.name',
-  label: 'Application Name',
-  icon: 'lib_application',
-  createFilter: value => {
-    return createFilter({
-      id: applicationId,
-      name: 'application.name',
-      value
-    });
-  }
+  label: 'Application'
 };
 
 export const SERVICE = {
   id: serviceId,
   name: 'service.name',
   technicalName: 'service.name',
-  label: 'Service Name',
-  icon: 'lib_application_service',
-  createFilter: value => {
-    return createFilter({
-      id: serviceId,
-      name: 'service.name',
-      value
-    });
-  }
+  label: 'Service'
 };
 
 export const ENDPOINT = {
   id: endpointId,
   name: 'endpoint.name',
   technicalName: 'endpoint.name',
-  label: 'Endpoint Name',
-  icon: 'lib_application_endpoint',
-  createFilter: value => {
-    return createFilter({
-      id: endpointId,
-      name: 'endpoint.name',
-      value
-    });
-  }
+  label: 'Endpoint'
 };
 
 const operators = {
@@ -70,7 +45,22 @@ export const TAG_TYPES = {
   },
   KEY_VALUE_PAIR: {
     technicalName: 'KEY_VALUE_PAIR',
-    operators: [operators.EQUALS, operators.CONTAINS]
+    operators: [operators.EQUALS, operators.CONTAINS],
+    splitValue: value => {
+      if (value.indexOf('=') === -1) {
+        return {
+          key: '',
+          value
+        };
+      }
+      const parts = value.split('=');
+      const key = parts[0];
+
+      if (parts.length > 1) {
+        value = value.slice(key.length + 1); // also remove the =
+      }
+      return { key, value };
+    }
   }
 };
 

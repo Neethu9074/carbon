@@ -111,6 +111,10 @@ class AnalyzeFilterBasicDialog extends React.Component {
     if (fieldName === 'name') {
       const node = findSubTreeByFullyQualifiedName(value);
 
+      if (this.props.setNameForTagSuggestion) {
+        this.props.setNameForTagSuggestion(value);
+      }
+
       form = form.updateIn(['nameForm'], subForm => {
         let updatedSubForm = changeFormValue(subForm.value, 'name', value);
         updatedSubForm = changeFormValue(updatedSubForm, 'customName', '');
@@ -180,12 +184,9 @@ function getInitialForm(props) {
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
 
   if (type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    const parts = value.split('=');
-    customName = parts[0];
-
-    if (parts.length > 1) {
-      value = value.slice(customName.length + 1); // also remove the =
-    }
+    const result = TAG_TYPES.KEY_VALUE_PAIR.splitValue(value);
+    customName = result.key;
+    value = result.value;
   }
 
   let form = createMapForm()

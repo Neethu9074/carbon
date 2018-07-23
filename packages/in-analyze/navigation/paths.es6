@@ -1,20 +1,15 @@
 import {
-  applicationFilter as applicationFilterMatrixParameter,
+  tagFilter as tagFilterMatrixParameter,
   traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
   callId as callIdMatrixParameter
 } from 'in-analyze/navigation/matrix';
-import {
-  getGroupToUrlString,
-  getApplicationFilterToUrlString,
-  getApplicationFilterFromUrlString
-} from 'in-analyze/CallsList/filterBuilder';
+import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
-import { deepCopy } from 'in-services/util/object';
 
 export const analyze = '/analyze';
 export const analyzeGroups = `${analyze}/groups`;
@@ -40,23 +35,18 @@ export function getLinkToAnalyze({ applicationName, serviceName, endpointName, p
       );
     }
 
-    let applicationFilter = deepCopy(getApplicationFilterFromUrlString(params));
+    const tagFilter = [];
     if (applicationName) {
-      applicationFilter[APPLICATION.id] = { name: APPLICATION.name, value: applicationName };
+      tagFilter.push({ name: APPLICATION.name, value: applicationName });
     }
     if (serviceName) {
-      applicationFilter[SERVICE.id] = { name: SERVICE.name, value: serviceName };
+      tagFilter.push({ name: SERVICE.name, value: serviceName });
     }
     if (endpointName) {
-      applicationFilter[ENDPOINT.id] = { name: ENDPOINT.name, value: endpointName };
+      tagFilter.push({ name: ENDPOINT.name, value: endpointName });
     }
 
-    setOrDeleteMatrixKey(
-      params,
-      analyze,
-      applicationFilterMatrixParameter,
-      getApplicationFilterToUrlString(applicationFilter)
-    );
+    setOrDeleteMatrixKey(params, analyze, tagFilterMatrixParameter, getTagFilterToUrlString(tagFilter));
   });
 }
 

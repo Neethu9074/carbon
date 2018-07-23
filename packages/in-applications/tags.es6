@@ -346,9 +346,19 @@ export function findChildByName(node, childName) {
   return null;
 }
 
-const tagCategories = ['CALL', 'CLOUD', 'CONTAINER', 'SYSTEM', 'LANGUAGE', 'FRAMEWORK', 'DATABASE', 'MESSAGING'];
-export function getTagCategories() {
-  return tagCategories;
+const tagCategories = [
+  'INSTANA',
+  'CALL',
+  'CLOUD',
+  'CONTAINER',
+  'SYSTEM',
+  'LANGUAGE',
+  'FRAMEWORK',
+  'DATABASE',
+  'MESSAGING'
+];
+export function getTagCategories(withInstanaCategory) {
+  return withInstanaCategory ? tagCategories : tagCategories.slice(1);
 }
 
 const blacklists = {

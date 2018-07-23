@@ -1,0 +1,160 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .tagFilterWrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .background {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    left: 1px;
+    right: 4.8125rem;
+    background: @lib__colors__N100;
+    border-radius: @lib__shapes__radius_medium;
+    z-index: 0;
+  }
+
+  .progressBar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    border-radius: @lib__shapes__radius_medium;
+    z-index: 1;
+  }
+
+  .tagFilter {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 2.375rem;
+
+    padding: 0 0.5rem;
+
+    color: @lib__colors__N900Primary;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+    font-size: 0.875rem;
+    cursor: pointer;
+    z-index: 2;
+    overflow: hidden;
+
+    &:hover {
+      background: @lib__colors__N050;
+      box-shadow: @lib__shadows__subtle;
+    }
+  }
+
+  .icon {
+    fill: @lib__colors__N500;
+    margin-right: 0.25rem;
+  }
+
+  .name {
+    color: @lib__colors__N500;
+    .ellipsis();
+  }
+
+  .operator {
+    margin-left: 0.5rem;
+    padding: 0.125rem 0.25rem;
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+    color: @lib__colors__N500;
+  }
+
+  .value {
+    margin-left: 0.5rem;
+    color: @lib__colors__N900Primary;
+    font-weight: 600;
+    .ellipsis();
+  }
+
+  .removeIcon {
+    margin-left: 1rem;
+    fill: @lib__colors__N400;
+    cursor: pointer;
+
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .firstOperatorPlaceholder,
+  .operatorPlaceholder,
+  .onlyOperatorPlaceholder,
+  .lastOperatorPlaceholder {
+    min-width: 2.25rem;
+    max-width: 2.25rem;
+  }
+
+  .firstOperatorPlaceholder,
+  .lastOperatorPlaceholder {
+    min-width: 1.125rem;
+    max-width: 1.125rem;
+    margin-right: 1.125rem;
+  }
+
+  .firstOperatorPlaceholder {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      content: '';
+      height: 1px;
+      width: 10px;
+      background: @lib__colors__N300;
+    }
+
+    &::after {
+      position: absolute;
+      top: 100%;
+      left: 100%;
+      content: '';
+      height: 2.125rem;
+      width: 1px;
+      background: @lib__colors__N300;
+    }
+  }
+
+  .operatorPlaceholder {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      content: '';
+      height: 2.125rem;
+      width: 1px;
+      background: @lib__colors__N300;
+    }
+  }
+
+  .lastOperatorPlaceholder {
+    position: relative;
+    height: 1px;
+    background: @lib__colors__N300;
+
+    &::after {
+      position: absolute;
+      bottom: 100%;
+      left: 100%;
+      content: '';
+      height: 2.125rem;
+      width: 1px;
+      background: @lib__colors__N300;
+    }
+  }
+}

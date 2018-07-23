@@ -8,10 +8,9 @@ import {
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { createFilter } from 'in-analyze/CallsList/filterBuilder';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
+import { createFilter } from 'in-analyze/filterBuilder';
 import Button from 'in-new-components/Button';
 
 import locals from './Group.mless';
@@ -70,16 +69,6 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
 function isAlreadyFilteredByThisGroup(item, filters) {
   const currentGroup = filters.getIn(['group', 'name']);
 
-  const applicationFilter = filters.get('applicationFilter').toJS();
-
-  if (currentGroup === APPLICATION.name) {
-    return item.name === get(applicationFilter, [APPLICATION.id, 'value']);
-  } else if (currentGroup === SERVICE.name) {
-    return item.name === get(applicationFilter, [SERVICE.id, 'value']);
-  } else if (currentGroup === ENDPOINT.name) {
-    return item.name === get(applicationFilter, [ENDPOINT.id, 'value']);
-  }
-
   const tagFilter = filters.get('tagFilter');
   for (let i = 0; i < tagFilter.size; i++) {
     const filter = tagFilter.get(i);
@@ -94,9 +83,7 @@ function isAlreadyFilteredByThisGroup(item, filters) {
 function onSetGrouping(filters, onChangeFilters, tagName, isAlreadyFiltered, keepGrouping) {
   const group = filters.get('group');
   const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
-  const applicationFilter = filters.get('applicationFilter').toJS();
   const newState = {};
-  newState[applicationFilterMatrixParameter] = applicationFilter;
 
   if (!keepGrouping) {
     newState[groupByMatrixParameter] = null;
@@ -107,27 +94,19 @@ function onSetGrouping(filters, onChangeFilters, tagName, isAlreadyFiltered, kee
     return;
   }
 
-  if (group.get('name') === APPLICATION.name) {
-    applicationFilter[APPLICATION.id] = APPLICATION.createFilter(tagName);
-  } else if (group.get('name') === SERVICE.name) {
-    applicationFilter[SERVICE.id] = SERVICE.createFilter(tagName);
-  } else if (group.get('name') === ENDPOINT.name) {
-    applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(tagName);
-  } else {
-    const tagFilter = filters.get('tagFilter');
+  const tagFilter = filters.get('tagFilter');
 
-    newState[tagFilterMatrixParameter] = tagFilter
-      .push(
-        fromJS(
-          createFilter({
-            name: group.get('name'),
-            value: currentGroupValue,
-            operator: 'EQUALS'
-          })
-        )
+  newState[tagFilterMatrixParameter] = tagFilter
+    .push(
+      fromJS(
+        createFilter({
+          name: group.get('name'),
+          value: currentGroupValue,
+          operator: 'EQUALS'
+        })
       )
-      .toJS();
-  }
+    )
+    .toJS();
 
   onChangeFilters(newState);
 }

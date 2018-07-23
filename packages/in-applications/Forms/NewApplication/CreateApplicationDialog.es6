@@ -10,10 +10,9 @@ import {
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { FilterConnector } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import { getApplicationCreationFilterBlacklist } from 'in-applications/tags';
+import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -25,7 +24,6 @@ import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Filter from 'in-analyze/Filter';
 
 const trackCreateApplication = createTracker('application.create');
 const trackUpdateApplication = createTracker('application.update');
@@ -97,6 +95,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                     </FormGroup>
                   ))
                 },
+
                 {
                   stepTitle: 'Define the application through as many tags (key/value pairs) as desired.',
                   content: (
@@ -107,72 +106,61 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
 
                       <Spacer />
 
-                      <div className={locals.matchSspecifications}>
-                        {form.get('matchSpecification').map((matchSpecification, i) => (
-                          <Fragment key={i}>
-                            <Filter
-                              className={locals.filter}
-                              title={matchSpecification.get('key').value}
-                              onRemove={() => removeMatchSpecification(i, form, updateForm)}
-                              onClick={() =>
-                                setActiveDialog(
-                                  <EditFilterDialog
-                                    blacklist={getApplicationCreationFilterBlacklist()}
-                                    name={matchSpecification.get('key').value}
-                                    value={matchSpecification.get('value').value}
-                                    operator={matchSpecification.get('operator').value}
-                                    onSave={_tag => {
-                                      form = form.updateIn(['matchSpecification', i, 'value'], field =>
-                                        field.setValue(_tag.value).setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'key'], field =>
-                                        field.setValue(_tag.name).setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'operator'], field =>
-                                        field.setValue(_tag.operator).setTouched(true)
-                                      );
-
-                                      updateForm(form);
-                                    }}
-                                    onRemove={() => removeMatchSpecification(i, form, updateForm)}
-                                    removePostPhrase="Filter"
-                                  />
-                                )
-                              }
-                            >
-                              {matchSpecification.get('value').value}
-                            </Filter>
-                            {i < form.get('matchSpecification').size && <FilterConnector>OR</FilterConnector>}
-                          </Fragment>
-                        ))}
-
-                        <FilterPlaceholder
-                          className={locals.filter}
-                          onClick={() => {
+                      <TagFilterList
+                        filterConnectionOperator="OR"
+                        onAddTagFilter={() =>
+                          setActiveDialog(
+                            <EditFilterDialog
+                              withInstanaCategory={false}
+                              blacklist={getApplicationCreationFilterBlacklist()}
+                              onSave={_tag => {
+                                const additionalSubForm = getMatchSpecificationForm({
+                                  key: _tag.name,
+                                  value: _tag.value,
+                                  operator: _tag.operator
+                                });
+                                updateForm(
+                                  form.updateIn(['matchSpecification'], list =>
+                                    list.push(additionalSubForm).setTouched(true)
+                                  )
+                                );
+                              }}
+                            />
+                          )
+                        }
+                        tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
+                          name: matchSpecification.get('key').value,
+                          value: matchSpecification.get('value').value,
+                          operator: matchSpecification.get('operator').value,
+                          progress: 1,
+                          onClick: () =>
                             setActiveDialog(
                               <EditFilterDialog
+                                withInstanaCategory={false}
                                 blacklist={getApplicationCreationFilterBlacklist()}
+                                name={matchSpecification.get('key').value}
+                                value={matchSpecification.get('value').value}
+                                operator={matchSpecification.get('operator').value}
                                 onSave={_tag => {
-                                  const additionalSubForm = getMatchSpecificationForm({
-                                    key: _tag.name,
-                                    value: _tag.value,
-                                    operator: _tag.operator
-                                  });
-                                  updateForm(
-                                    form.updateIn(['matchSpecification'], list =>
-                                      list.push(additionalSubForm).setTouched(true)
-                                    )
+                                  form = form.updateIn(['matchSpecification', i, 'value'], field =>
+                                    field.setValue(_tag.value).setTouched(true)
                                   );
-                                }}
-                              />
-                            );
-                          }}
-                        >
-                          Tag
-                        </FilterPlaceholder>
+                                  form = form.updateIn(['matchSpecification', i, 'key'], field =>
+                                    field.setValue(_tag.name).setTouched(true)
+                                  );
+                                  form = form.updateIn(['matchSpecification', i, 'operator'], field =>
+                                    field.setValue(_tag.operator).setTouched(true)
+                                  );
 
-                        <TouchedMessages field={form.get('matchSpecification')} />
-                      </div>
+                                  updateForm(form);
+                                }}
+                                onRemove={() => removeMatchSpecification(i, form, updateForm)}
+                                removePostPhrase="Filter"
+                              />
+                            ),
+                          onRemove: () => removeMatchSpecification(i, form, updateForm)
+                        }))}
+                      />
                     </Fragment>
                   )
                 }
