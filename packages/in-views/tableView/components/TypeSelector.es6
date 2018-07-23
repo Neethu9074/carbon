@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-views/tableView/stores/snapshotIds';
-import { showPingComparison } from 'in-services/featureFlags';
+import { pingComparisonEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 
 import './TypeSelector.less';
@@ -16,7 +16,7 @@ const physicalDomains = {
   docker: 'Docker Containers',
   process: 'Processes'
 };
-if (showPingComparison) {
+if (pingComparisonEnabled) {
   physicalDomains.ping = 'Ping';
 }
 
