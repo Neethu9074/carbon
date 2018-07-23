@@ -1,5 +1,7 @@
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
+import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 
 export function getApplicationConfigs() {
@@ -51,4 +53,35 @@ export function createNewApplicationConfig() {
     label: '',
     matchSpecification: []
   };
+}
+
+function mapToServerResponse(config) {
+  for (let i = 0; i < config.matchSpecification.length; i++) {
+    const matchSpecification = config.matchSpecification[i];
+    if (matchSpecification.secondLevelName) {
+      matchSpecification.value = `${matchSpecification.secondLevelName}=${matchSpecification.value}`;
+      delete matchSpecification.secondLevelName;
+    }
+  }
+  return config;
+}
+
+function mapFromServerResponse(config) {
+  if (!config.data) {
+    return config;
+  }
+
+  config = deepCopy(config);
+
+  for (let i = 0; i < config.data.matchSpecification.length; i++) {
+    const matchSpecification = config.data.matchSpecification[i];
+    let node = findSubTreeByFullyQualifiedName(matchSpecification.key);
+    if (node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+      const { key, value } = TAG_TYPES.KEY_VALUE_PAIR.splitValue(matchSpecification.value);
+      matchSpecification.secondLevelName = key;
+      matchSpecification.value = value;
+    }
+  }
+
+  return config;
 }

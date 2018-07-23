@@ -133,7 +133,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                           name: matchSpecification.get('key').value,
                           value: matchSpecification.get('value').value,
                           operator: matchSpecification.get('operator').value,
-                          progress: 1,
+                          secondLevelName: matchSpecification.get('secondLevelName').value,
                           onClick: () =>
                             setActiveDialog(
                               <EditFilterDialog
@@ -152,6 +152,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                                   );
                                   form = form.updateIn(['matchSpecification', i, 'operator'], field =>
                                     field.setValue(_tag.operator).setTouched(true)
+                                  );
+                                  form = form.updateIn(['matchSpecification', i, 'secondLevelName'], field =>
+                                    field.setValue(_tag.secondLevelName).setTouched(true)
                                   );
 
                                   updateForm(form);

@@ -222,7 +222,7 @@ export function getMatchSpecificationForm(matchSpecification = {}, defaultValue 
       'value',
       createField({
         value: get(matchSpecification, 'value', defaultValue),
-        validator: composeValidators(notBlankValidator, regularExpressionValidator)
+        validator: composeValidators(regularExpressionValidator)
       })
     )
     .put(
