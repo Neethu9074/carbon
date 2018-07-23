@@ -5,6 +5,7 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
+import CustomMetrics from 'in-sdk/components/dashboard/customMetrics/CustomMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLabel, getCodeView } from 'in-sdk/snapshot';
@@ -89,6 +90,8 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <CustomMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Dropwizard" />
     </div>
   );
 }
