@@ -94,7 +94,11 @@ export default class extends React.Component {
   onChange = (oldNode, newName) => {
     this.props.onChange(
       'name',
-      getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: true })
+      getDeepestPossibleNodePath({
+        name: getFullPathTillNode(oldNode, newName),
+        filtered: true,
+        blacklist: this.props.blacklist
+      })
     );
   };
 }

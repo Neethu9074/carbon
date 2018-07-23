@@ -316,9 +316,7 @@ export function getFullPathTillNode(node, name) {
   return name;
 }
 
-export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory }) {
-  const blacklist = getCustomFilterBlacklist();
-
+export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory, blacklist }) {
   let cursor = findSubTreeByFullyQualifiedName(name);
   while (cursor) {
     const children = filtered
@@ -379,6 +377,15 @@ export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
     blacklists.applicationCreationFilterBlacklist = {};
 
+    const manualAddedTags = {
+      'host.mac': true,
+      'docker.container.name': true,
+      'call.technology': true,
+      'aws.service.type': true,
+      'application.id': true,
+      'application.name': true
+    };
+
     getTagTree();
     const keys = Object.keys(tagMap);
     for (let i = 0; i < keys.length; i++) {
@@ -387,7 +394,8 @@ export function getApplicationCreationFilterBlacklist() {
         (tag.type &&
           tag.type !== TAG_TYPES.STRING.technicalName &&
           tag.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) ||
-        tag.category === 'INSTANA'
+        tag.category === 'INSTANA' ||
+        manualAddedTags[tag.fullyQualifiedName]
       ) {
         blacklists.applicationCreationFilterBlacklist[tag.fullyQualifiedName] = true;
 
