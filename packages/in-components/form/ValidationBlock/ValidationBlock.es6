@@ -9,3 +9,11 @@ const block = 'in-form-validation-block';
 export default function ValidationBlock({ children, className }) {
   return <p className={joinClassNames(block, className)}>{children}</p>;
 }
+
+export function BackendValidationMessages({ validationResult }) {
+  if (validationResult.valid) {
+    return null;
+  }
+
+  return <ValidationBlock hasError>{`${validationResult.error}.`}</ValidationBlock>;
+}

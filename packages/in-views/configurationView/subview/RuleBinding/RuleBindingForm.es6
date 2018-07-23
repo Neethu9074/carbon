@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import BackendValidationMessages from 'in-components/form/ValidationBlock';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
@@ -87,8 +88,9 @@ export default connectTo(
                   className={`${block}__helpfified_input`}
                   value={field.value}
                   onChange={e => onChange('query', e.target.value)}
-                  hasError={!field.valid && field.touched}
+                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                 />
+                <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
               </Helpify>
             </FormGroup>
