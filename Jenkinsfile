@@ -29,7 +29,8 @@ def deliveryBranches = [
   'develop',
   'master',
   'release',
-  'prerelease'
+  'prerelease',
+  'sensors-develop'
 ]
 
 stage('Node Build') {
@@ -119,6 +120,20 @@ stage('Deployment') {
         ]
 
         slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult)
+      }
+    }
+  }
+  deployments['deploy-sensors'] = {
+    if ( env.BRANCH_NAME == 'sensors-develop' ) {
+      node {
+        echo "Deploying sensors-develop:${instanaVersion} to sensors-instana.instana.io ..."
+
+        build job: '/deployment/fullstack-deploy-ui-client', parameters: [
+          string(name: 'ENVIRONMENT', value: 'sensors'),
+          string(name: 'VERSION', value: instanaVersion)
+        ]
+
+        slackNotification('Deploy Sensors', 'ui-client', gitCommitId, currentBuild.currentResult)
       }
     }
   }
