@@ -25,6 +25,10 @@ function Horizontal() {
         <HorizontalTimeAxis align="bottom" scale={{ from: 1521117675027, to: 1521117875027 }} />
         <br />
         <HorizontalTimeAxis align="bottom" scale={{ from: 1521117675027, to: 1521117735027 }} />
+        <br />
+        <HorizontalTimeAxis align="bottom" scale={{ from: 1532732400000, to: 1532815200000 }} />
+        <br />
+        <HorizontalTimeAxis align="bottom" scale={{ from: 1532210400000, to: 1532815200000 }} />
       </AxisType>
     </Root>
   );
