@@ -89,7 +89,7 @@ export default class extends React.Component {
 
                   return valueFormField.value.get('value').map(field => (
                     <ValueGroup field={valueFormField}>
-                      <ValueInputByType form={form} field={field} onChange={onChange} />
+                      <ValueInputByType {...this.props} field={field} />
                     </ValueGroup>
                   ));
                 })}
