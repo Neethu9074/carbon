@@ -5,12 +5,7 @@ import AddButton from 'in-analyze/Analyze/components/AddButton';
 
 import locals from './TagFilterList.mless';
 
-export default function TagFilterList({
-  onAddTagFilter,
-  tagFilters,
-  withApplicationOptions,
-  filterConnectionOperator = 'AND'
-}) {
+export default function TagFilterList({ onAddTagFilter, tagFilters, filterConnectionOperator = 'AND' }) {
   return (
     <div className={locals.tagFilterListWrapper}>
       <ul className={locals.tagFilterList}>
@@ -28,12 +23,7 @@ export default function TagFilterList({
       </ul>
 
       <div className={locals.buttonWrapper}>
-        <AddButton
-          text="Add filter"
-          onClick={option => onAddTagFilter(option)}
-          withApplicationOptions={withApplicationOptions}
-          tagFilters={tagFilters}
-        />
+        <AddButton text="Add filter" onClick={option => onAddTagFilter(option)} tagFilters={tagFilters} />
       </div>
     </div>
   );
