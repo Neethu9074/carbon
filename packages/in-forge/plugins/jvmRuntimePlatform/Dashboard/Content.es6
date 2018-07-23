@@ -3,7 +3,6 @@ import React from 'react';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
-import DropwizardMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/DropwizardMetrics';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -90,8 +89,6 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <DropwizardMetrics snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
