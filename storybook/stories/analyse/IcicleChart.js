@@ -8,8 +8,10 @@ import { always } from 'in-services/fixedStreams';
 
 import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
+import theme from 'in-themes';
 
-const getColorByEndpointType = ({ endpoint }) => getColor(endpoint.type);
+const getColorByEndpointType = ({ endpoint }) =>
+  (!endpoint || !endpoint.type) ? theme.lib.colors.N500 : getColor(endpoint.type);
 
 storiesOf('analyse/IcicleChart', module)
   .add('Icicle Chart', () => <IcicleChartStory />)

@@ -4,6 +4,7 @@ import React from 'react';
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
+import { FAKE_ROOT_ID } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -56,7 +57,7 @@ function Row(props) {
           marginLeft={marginLeft}
           lineWidth={lineWidth}
           hasChildren={hasChildren}
-          onCallClicked={onCallClicked}
+          onCallClicked={call.id == FAKE_ROOT_ID ? null : onCallClicked}
           onSubCallClicked={call => {
             setIsExpanded(true);
             onSubCallClicked(call);
@@ -116,7 +117,13 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
-        <span className={locals.label} onClick={() => onCallClicked(call)}>
+        <span
+          className={evaluateClassNames({
+            [locals.label]: true,
+            [locals.clickable]: onCallClicked != null
+          })}
+          onClick={() => onCallClicked(call)}
+        >
           {call.label}
         </span>
         {call.batchSize > 1 && (
