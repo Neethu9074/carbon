@@ -2,7 +2,9 @@ import connect from 'in-hoc/connectTo';
 import React from 'react';
 
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
+import { FAKE_ROOT_ID } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
 
@@ -23,11 +25,15 @@ export default connect(
 );
 
 function callIsInServiceEndpoint(call, serviceEndpoint) {
-  return serviceEndpoint.service.id == call.service.id && serviceEndpoint.endpoint.id == call.endpoint.id;
+  if (!call.service || call.endpoint) {
+    return false;
+  } else {
+    return serviceEndpoint.service.id == call.service.id && serviceEndpoint.endpoint.id == call.endpoint.id;
+  }
 }
 
 function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked }) {
-  const { label, errorCount, depth, x, dx } = callFrame;
+  const { id, label, errorCount, depth, x, dx } = callFrame;
 
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
@@ -44,7 +50,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
         left: `${left}%`,
         width: `${width}%`,
         height: `${FRAME_HEIGHT}px`,
-        background: getColor(callFrame)
+        background: id == FAKE_ROOT_ID ? theme.lib.colors.N400 : getColor(callFrame)
       }}
       onClick={() => onCallClicked(callFrame)}
     >

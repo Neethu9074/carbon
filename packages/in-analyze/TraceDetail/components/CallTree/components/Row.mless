@@ -57,6 +57,9 @@
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .clickable {
     cursor: pointer;
 
     &:hover {

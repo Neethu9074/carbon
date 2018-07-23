@@ -2,7 +2,7 @@ export default [
   {
     id: '1',
     label: 'call1',
-    start: 0,
+    start: 1,
     duration: 10,
     parent: null,
     depth: 0,
@@ -12,7 +12,7 @@ export default [
   {
     id: '2',
     label: 'call2',
-    start: 1,
+    start: 2,
     duration: 6,
     parent: '1',
     depth: 1,
@@ -21,8 +21,8 @@ export default [
   },
   {
     id: '3',
-    label: 'call4',
-    start: 2,
+    label: 'call3',
+    start: 3,
     duration: 1,
     parent: '2',
     depth: 2,
@@ -32,7 +32,7 @@ export default [
   {
     id: '4',
     label: 'call4',
-    start: 4,
+    start: 5,
     duration: 2,
     parent: '1',
     depth: 2,

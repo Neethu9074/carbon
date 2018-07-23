@@ -358,5 +358,41 @@ export default {
     ],
     service: {},
     endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+  },
+
+  'Trace with missing root span': {
+    id: 'fake_root',
+    label: 'Root call not yet received',
+    children: [
+      {
+        id: '2',
+        label: 'span2',
+        start: 80,
+        duration: 20,
+        children: [
+          {
+            id: '4',
+            label: 'span4',
+            start: 85,
+            duration: 5,
+            children: [],
+            service: {},
+            endpoint: { id: 'unknown', label: 'Unknown', type: 'DATABASE' }
+          }
+        ],
+        service: {},
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+      },
+      {
+        id: '3',
+        label: 'span3',
+        start: 110,
+        duration: 5,
+        children: [],
+        service: {},
+        endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
+      }
+    ]
   }
+
 };
