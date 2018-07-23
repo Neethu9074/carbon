@@ -1,10 +1,10 @@
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { operators, TAG_TYPES } from 'in-analyze/applicationFilter';
 import { close } from 'in-components/DialogPresenter/store';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -124,16 +124,32 @@ class AnalyzeFilterBasicDialog extends React.Component {
         return subForm.setValue(updatedSubForm).setTouched(true);
       });
 
-      const operator = node ? get(TAG_TYPES, [node.type, 'operators', 0], null) : null;
-      form = changeFormValue(form, 'operator', operator);
+      form = form.updateIn(['valueForm'], subForm => {
+        let updatedSubForm = changeFormValue(subForm.value, 'value', '');
 
-      if (this.props.withValue !== false) {
-        form = changeFormValue(form, 'value', '');
-      }
+        const operator = node ? get(TAG_TYPES, [node.type, 'operators', 0], null) : null;
+        updatedSubForm = changeFormValue(updatedSubForm, 'operator', operator);
+        return subForm.setValue(updatedSubForm).setTouched(true);
+      });
     } else if (fieldName === 'customName') {
       form = form.updateIn(['nameForm'], subForm =>
         subForm.setValue(changeFormValue(subForm.value, 'customName', value)).setTouched(true)
       );
+    } else if (fieldName === 'value') {
+      form = form.updateIn(['valueForm'], subForm => {
+        const updatedSubForm = changeFormValue(subForm.value, 'value', value);
+        return subForm.setValue(updatedSubForm).setTouched(true);
+      });
+    } else if (fieldName === 'operator') {
+      form = form.updateIn(['valueForm'], subForm => {
+        let updatedSubForm = changeFormValue(subForm.value, 'operator', value);
+
+        if (value === operators.NOT_EMPTY) {
+          updatedSubForm = changeFormValue(updatedSubForm, 'value', '');
+        }
+
+        return subForm.setValue(updatedSubForm).setTouched(true);
+      });
     } else {
       form = form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
     }
@@ -154,6 +170,11 @@ class AnalyzeFilterBasicDialog extends React.Component {
     close();
 
     const tag = form.toJS();
+
+    const valueForm = tag.valueForm.toJS();
+    tag.operator = valueForm.operator;
+    tag.value = valueForm.value;
+
     const nameForm = tag.nameForm ? tag.nameForm.toJS() : {};
     tag.name = nameForm.name;
 
@@ -217,21 +238,24 @@ function getInitialForm(props) {
       })
     )
     .put(
-      'operator',
+      'valueForm',
       createField({
-        value: operator
+        value: createMapForm()
+          .put(
+            'operator',
+            createField({
+              value: operator
+            })
+          )
+          .put(
+            'value',
+            createField({
+              value: value
+            })
+          ),
+        validator: valueForm => valueFormValidator(valueForm, withValue)
       })
     );
-
-  if (withValue) {
-    form = form.put(
-      'value',
-      createField({
-        value: value,
-        validator: notBlankValidator
-      })
-    );
-  }
 
   return form;
 }
@@ -287,6 +311,29 @@ function nameFormValidator(nameForm) {
       {
         severity: 'error',
         message: 'Please define a sub-key.'
+      }
+    ];
+  }
+
+  return null;
+}
+
+function valueFormValidator(valueForm, withValue) {
+  if (!withValue) {
+    return null;
+  }
+
+  const operator = valueForm.get('operator').value;
+  if (operator === operators.NOT_EMPTY) {
+    return null;
+  }
+
+  const value = valueForm.get('value').value;
+  if (isBlank(value)) {
+    return [
+      {
+        severity: 'error',
+        message: 'The value must not be blank.'
       }
     ];
   }

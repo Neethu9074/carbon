@@ -32,16 +32,19 @@ export default function EditApplicationFilterForm({ form, onChange, tagSuggestio
 
         <FieldSeperator>:</FieldSeperator>
 
-        {form.get('value').map(field => (
-          <ValueGroup field={field}>
-            <AutoCompletedSelect
-              field={field}
-              onChange={onChange}
-              autoCompletedOptions={tagSuggestionOptions}
-              clearable
-            />
-          </ValueGroup>
-        ))}
+        {form
+          .get('valueForm')
+          .value.get('value')
+          .map(field => (
+            <ValueGroup field={field}>
+              <AutoCompletedSelect
+                field={field}
+                onChange={onChange}
+                autoCompletedOptions={tagSuggestionOptions}
+                clearable
+              />
+            </ValueGroup>
+          ))}
       </AnalyzeFilterForm>
     </NamedSection>
   );

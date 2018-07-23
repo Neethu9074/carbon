@@ -19,7 +19,7 @@ import {
   findSubTreeByFullyQualifiedName,
   getTagTree
 } from 'in-applications/tags';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
+import { operators, TAG_TYPES } from 'in-analyze/applicationFilter';
 import Input from 'in-components/form/Input';
 
 export default class extends React.Component {
@@ -76,14 +76,23 @@ export default class extends React.Component {
                   treeNodesTillName={treeNodesTillName}
                   onChange={value => onChange('customName', value)}
                 />
+                {form
+                  .get('valueForm')
+                  .value.get('operator')
+                  .map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
 
-                {form.get('operator').map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
+                {form.get('valueForm').map(valueFormField => {
+                  const operator = valueFormField.value.get('operator').value;
+                  if (operator === operators.NOT_EMPTY) {
+                    return null;
+                  }
 
-                {form.get('value').map(field => (
-                  <ValueGroup field={field}>
-                    <ValueInputByType field={field} {...this.props} />
-                  </ValueGroup>
-                ))}
+                  return valueFormField.value.get('value').map(field => (
+                    <ValueGroup field={valueFormField}>
+                      <ValueInputByType form={form} field={field} onChange={onChange} />
+                    </ValueGroup>
+                  ));
+                })}
               </Fragment>
             )}
           </AnalyzeFilterForm>
