@@ -25,7 +25,7 @@ export default connect(
 );
 
 function callIsInServiceEndpoint(call, serviceEndpoint) {
-  if (!call.service || call.endpoint) {
+  if (!call.service || !call.endpoint) {
     return false;
   } else {
     return serviceEndpoint.service.id == call.service.id && serviceEndpoint.endpoint.id == call.endpoint.id;
