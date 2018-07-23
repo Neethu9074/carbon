@@ -2,11 +2,12 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
+import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
-import { getSystemRules } from 'in-api/rules';
+import { getSystemRules, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
@@ -87,8 +88,9 @@ export default connectTo(
                   className={`${block}__helpfified_input`}
                   value={field.value}
                   onChange={e => onChange('query', e.target.value)}
-                  hasError={!field.valid && field.touched}
+                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                 />
+                <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
               </Helpify>
             </FormGroup>
@@ -212,7 +214,7 @@ function RulesDropDown({ value, rules, systemRules, onChangeInRuleIds }) {
           rules.toArray().map(rule => {
             return {
               value: rule.get('id'),
-              label: rule.get('name')
+              label: getRuleLabelWithDeprecationFlag(rule)
             };
           })
         )

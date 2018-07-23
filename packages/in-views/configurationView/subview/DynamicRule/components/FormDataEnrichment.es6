@@ -1,10 +1,11 @@
-import { create } from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
+import { fromJS } from 'immutable';
 import React from 'react';
 
-import createSearchObservable from 'in-subscription/search';
-import { getSnapshots } from 'in-stores/snapshot/snapshot';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/timeline';
+import http from 'in-services/http';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -31,7 +32,9 @@ export default class FormDataEnrichment extends React.Component {
           return search(`entity.pluginId:${entityType} AND (${query})`);
         }
       })
-      .subscribe(matchingEntities => this.props.onChange('matchingEntities', matchingEntities));
+      .subscribe(matchingEntities => {
+        this.props.onChange('matchingEntities', matchingEntities);
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -61,24 +64,48 @@ export default class FormDataEnrichment extends React.Component {
   }
 }
 
+function searchSnapshots(query, timeConfig, maxResults) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/snapshots`,
+    queryParams: {
+      time: timeConfig.to,
+      from: timeConfig.from,
+      to: timeConfig.to,
+      q: query,
+      size: maxResults,
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
+  }).map(response => fromJS(response.body));
+}
+
+function getSnapshot(snapshotId, timeConfig) {
+  return http({
+    method: 'GET',
+    url: `/api/snapshots/${encodeURIComponent(snapshotId)}`,
+    maxRetries: 3,
+    queryParams: {
+      time: timeConfig.to
+    }
+  }).map(response => fromJS(response.body));
+}
+
 function search(query) {
-  return timeConfig$.flatMap(timeConfig => {
-    return createSearchObservable({
-      query,
-      view: 'LOGICAL',
-      timeConfig
-    })
-      .flatMap(snapshotIds => {
-        return getSnapshots(snapshotIds).map(snapshots => {
-          return {
-            snapshots,
-            snapshotIds,
-            query
-          };
-        });
-      })
-      .startWith({
-        query
+  return timeConfig$
+    .flatMap(timeConfig => {
+      return searchSnapshots(query, timeConfig, 100).map(snapshotIds => {
+        return { snapshotIds, timeConfig };
       });
-  });
+    })
+    .flatMap(result => {
+      return combineLatest(
+        result.snapshotIds.toArray().map(snapshotId => getSnapshot(snapshotId, result.timeConfig))
+      ).map(snapshots => {
+        return { snapshots: snapshots, snapshotIds: result.snapshotIds, query: query };
+      });
+    })
+    .startWith({
+      query
+    });
 }

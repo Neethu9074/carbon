@@ -1,4 +1,3 @@
-import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import AnalyzeFilterForm, {
@@ -9,7 +8,7 @@ import AnalyzeFilterForm, {
   TagCategorySwitcher,
   NamedSection,
   SelectBox
-} from 'in-analyze/Dialogs/components/AnalyzeFilterForm';
+} from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import {
   getTreeNodesTillName,
   getFullPathTillNode,
@@ -19,7 +18,6 @@ import {
   getTagTree
 } from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
-import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 
 export default class extends React.Component {
@@ -29,13 +27,13 @@ export default class extends React.Component {
     super(props);
 
     this.state = {
-      treeNodesTillName: getTreeNodesTillName(props.form.get('name').value)
+      treeNodesTillName: getTreeNodesTillName(props.form.get('nameForm').value.get('name').value)
     };
   }
 
   componentWillUpdate(nextProps) {
-    const oldName = this.props.form.get('name').value;
-    const newName = nextProps.form.get('name').value;
+    const oldName = this.props.form.get('nameForm').value.get('name').value;
+    const newName = nextProps.form.get('nameForm').value.get('name').value;
     if (oldName !== newName) {
       this.setState({
         treeNodesTillName: getTreeNodesTillName(newName)
@@ -54,16 +52,24 @@ export default class extends React.Component {
         </NamedSection>
         <NamedSection name="Tag">
           <AnalyzeFilterForm>
-            {form.get('name').map(field => (
-              <KeyListGroup field={field}>
-                <KeySelection
-                  {...this.props}
-                  treeNodesTillName={treeNodesTillName}
-                  field={field}
-                  onChange={this.onChange}
-                />
-              </KeyListGroup>
-            ))}
+            {form
+              .get('nameForm')
+              .value.get('name')
+              .map(field => (
+                <KeyListGroup field={field}>
+                  <KeySelection
+                    {...this.props}
+                    treeNodesTillName={treeNodesTillName}
+                    field={field}
+                    onChange={(oldNode, newName) => {
+                      onChange(
+                        'name',
+                        getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: false })
+                      );
+                    }}
+                  />
+                </KeyListGroup>
+              ))}
 
             <CustomKey
               {...this.props}
@@ -75,13 +81,6 @@ export default class extends React.Component {
       </Fragment>
     );
   }
-
-  onChange = (oldNode, newName) => {
-    this.props.onChange(
-      'name',
-      getDeepestPossibleNodePath({ name: getFullPathTillNode(oldNode, newName), filtered: false })
-    );
-  };
 }
 
 function KeySelection(props) {
@@ -173,7 +172,7 @@ function CustomKey({ form, onChange, treeNodesTillName }) {
     <Fragment>
       <FieldSeperator>:</FieldSeperator>
 
-      {form.get('customNameSubform').map(subForm =>
+      {form.get('nameForm').map(subForm =>
         subForm.value.get('customName').map(field => (
           <ValueGroup field={subForm}>
             <Input
@@ -192,107 +191,4 @@ function CustomKey({ form, onChange, treeNodesTillName }) {
 
 function getNodesChildren(node, selectedCategory) {
   return node.getChildren({ category: selectedCategory });
-}
-
-export function getInitialForm(group) {
-  const name = group.name || '';
-  let customName = group.value || '';
-
-  const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
-
-  const customNameSubform = createMapForm()
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: nameValidator
-      })
-    )
-    .put(
-      'customName',
-      createField({
-        value: customName
-      })
-    )
-    .put(
-      'type',
-      createField({
-        value: type
-      })
-    );
-
-  return createMapForm()
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: nameValidator
-      })
-    )
-    .put(
-      'customNameSubform',
-      createField({
-        value: customNameSubform,
-        validator: customNameSubformValidator
-      })
-    );
-}
-
-function nameValidator(name) {
-  if (isBlank(name)) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please select a key.'
-      }
-    ];
-  }
-
-  const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  if (!nodeInTree) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please select a valid key.'
-      }
-    ];
-  }
-
-  if (!nodeInTree.isTag) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please select a full key.'
-      }
-    ];
-  }
-
-  return null;
-}
-
-function customNameSubformValidator(customNameSubform) {
-  const type = customNameSubform.get('type').value;
-  if (type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    return null;
-  }
-
-  const customName = customNameSubform.get('customName').value;
-  const keyName = customNameSubform.get('name').value;
-
-  // for backwards compatibility reasons, we need to support agent.tag tags with an empty 2nd level key
-  if (keyName === 'agent.tag') {
-    return null;
-  }
-
-  if (isBlank(customName)) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please define a sub-key.'
-      }
-    ];
-  }
-
-  return null;
 }

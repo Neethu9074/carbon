@@ -1,7 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
-import { defaultAndUnknownPluginNames, plugins10, plugins20 } from 'in-forge/constants';
+import { defaultAndUnknownPluginNames, plugins10, plugins20, pluginsDeprecatedIn20 } from 'in-forge/constants';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
@@ -18,13 +18,6 @@ import Input from 'in-components/form/Input';
 import './RuleForm.less';
 
 const block = 'in-rule-form';
-
-const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
-const pluginsWithMetricDefinitions = Object.keys(plugins)
-  .map(key => plugins[key])
-  .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
-  .filter(plugin => getCategories(plugin).length > 0)
-  .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 
 function putWindowField(form, rule) {
   return form.put(
@@ -56,6 +49,32 @@ function putAggregationField(form, rule) {
   );
 }
 
+function isDeprecatedEntityType(entityType) {
+  return Object.keys(pluginsDeprecatedIn20).indexOf(entityType) > -1;
+}
+
+function notBlankOrDeprecatedValidator(entityType) {
+  if (!entityType || entityType.trim().length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'The entity type value must not be blank'
+      }
+    ];
+  }
+
+  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+    return [
+      {
+        severity: 'error',
+        message: `This entity type has been deprecated. Please choose a different type.`
+      }
+    ];
+  }
+
+  return null;
+}
+
 export function ruleFormDefinition(rule) {
   let form = createMapForm()
     .put(
@@ -69,7 +88,7 @@ export function ruleFormDefinition(rule) {
       'entityType',
       createField({
         value: rule ? rule.get('entityType') : undefined,
-        validator: notBlankValidator
+        validator: notBlankOrDeprecatedValidator
       })
     )
     .put(
@@ -158,6 +177,28 @@ export default function RuleForm({ form, onChange }) {
     return isMetricPercentile(entityType, metricName);
   }
 
+  const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
+  const pluginsWithMetricDefinitions = Object.keys(plugins)
+    .map(k => plugins[k])
+    .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
+    .filter(plugin => getCategories(plugin).length > 0)
+    .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
+    .map(plugin => {
+      return {
+        value: plugin,
+        label: getSingular(plugin)
+      };
+    });
+  form.get('entityType').map(field => {
+    if (twoZeroModeEnabled && isDeprecatedEntityType(field.value)) {
+      pluginsWithMetricDefinitions.push({
+        value: field.value,
+        label: getSingular(field.value) + ' (deprecated)'
+      });
+      pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+    }
+  });
+
   return (
     <fieldset>
       <Section>
@@ -191,14 +232,7 @@ export default function RuleForm({ form, onChange }) {
             <ComboBox
               name="rule-entityType"
               value={field.value}
-              options={[{ value: '', label: 'Please select' }].concat(
-                pluginsWithMetricDefinitions.map(plugin => {
-                  return {
-                    value: plugin,
-                    label: getSingular(plugin)
-                  };
-                })
-              )}
+              options={[{ value: '', label: 'Please select...' }].concat(pluginsWithMetricDefinitions)}
               onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
             />
             <TouchedMessages field={field} />

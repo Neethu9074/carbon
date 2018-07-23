@@ -1,10 +1,6 @@
 import {
-  traceId as traceIdMatrixParameter,
-  applicationId as appIdMatrixParameter,
-  serviceId as serviceIdMatrixParameter,
-  endpointId as endpointIdMatrixParameter,
   applicationFilter as applicationFilterMatrixParameter,
-  traceGroupName as traceGroupNameMatrixParameter,
+  traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
   callId as callIdMatrixParameter
 } from 'in-analyze/navigation/matrix';
@@ -17,7 +13,6 @@ import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { isQueryBuilderEnabled } from 'in-services/featureFlags';
 import { emptyObject } from 'in-services/fixedObjects';
 import { deepCopy } from 'in-services/util/object';
 
@@ -29,68 +24,39 @@ export const traceDetailFullyQualified = `${analyze}/trace`;
 
 export const isAnalyzeView = getRootPathPredicate(analyze);
 
-export function getLinkToAnalyze(
-  {
-    applicationName,
-    serviceName,
-    endpointName,
-    applicationId,
-    serviceId,
-    endpointId,
-    traceGroupName,
-    preGrouped,
-    raw
-  } = emptyObject
-) {
+export function getLinkToAnalyze({ applicationName, serviceName, endpointName, preGrouped, raw } = emptyObject) {
   return getModifiedUrlStream(params => {
-    if (isQueryBuilderEnabled) {
-      params.pathname = analyze;
-      if (raw) {
-        setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter, null);
-      }
+    params.pathname = analyze;
+    if (raw) {
+      setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter, null);
+    }
 
-      if (preGrouped) {
-        setOrDeleteMatrixKey(
-          params,
-          analyze,
-          groupByMatrixParameter,
-          getGroupToUrlString({ name: 'call.name', value: '' })
-        );
-      }
-
-      let applicationFilter = deepCopy(getApplicationFilterFromUrlString(params));
-      if (applicationName) {
-        applicationFilter[APPLICATION.id] = { name: APPLICATION.name, value: applicationName };
-      }
-      if (serviceName) {
-        applicationFilter[SERVICE.id] = { name: SERVICE.name, value: serviceName };
-      }
-      if (endpointName) {
-        applicationFilter[ENDPOINT.id] = { name: ENDPOINT.name, value: endpointName };
-      }
-
+    if (preGrouped) {
       setOrDeleteMatrixKey(
         params,
         analyze,
-        applicationFilterMatrixParameter,
-        getApplicationFilterToUrlString(applicationFilter)
+        groupByMatrixParameter,
+        getGroupToUrlString({ name: 'call.name', value: '' })
       );
-    } else {
-      params.pathname = raw ? analyzeRaw : analyzeGroups;
-
-      if (applicationId !== undefined) {
-        setOrDeleteMatrixKey(params, analyze, appIdMatrixParameter, applicationId);
-      }
-      if (serviceId !== undefined) {
-        setOrDeleteMatrixKey(params, analyze, serviceIdMatrixParameter, serviceId);
-      }
-      if (endpointId !== undefined) {
-        setOrDeleteMatrixKey(params, analyze, endpointIdMatrixParameter, endpointId);
-      }
-      if (traceGroupName !== undefined) {
-        setOrDeleteMatrixKey(params, analyze, traceGroupNameMatrixParameter, traceGroupName);
-      }
     }
+
+    let applicationFilter = deepCopy(getApplicationFilterFromUrlString(params));
+    if (applicationName) {
+      applicationFilter[APPLICATION.id] = { name: APPLICATION.name, value: applicationName };
+    }
+    if (serviceName) {
+      applicationFilter[SERVICE.id] = { name: SERVICE.name, value: serviceName };
+    }
+    if (endpointName) {
+      applicationFilter[ENDPOINT.id] = { name: ENDPOINT.name, value: endpointName };
+    }
+
+    setOrDeleteMatrixKey(
+      params,
+      analyze,
+      applicationFilterMatrixParameter,
+      getApplicationFilterToUrlString(applicationFilter)
+    );
   });
 }
 

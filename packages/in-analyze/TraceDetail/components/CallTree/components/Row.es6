@@ -120,7 +120,10 @@ function CallInformation(props) {
           {call.label}
         </span>
         {call.batchSize > 1 && (
-          <Tooltip themeStyle="light" content="This call is batched and represents xxx individual calls.">
+          <Tooltip
+            themeStyle="light"
+            content={`This call is batched and represents ${call.batchSize} individual calls.`}
+          >
             <Pill className={locals.batchSizeIndicator} kind="lighter">
               {call.batchSize}
             </Pill>

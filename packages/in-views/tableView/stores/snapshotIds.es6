@@ -18,8 +18,11 @@ const entityTypeToFullyQualifiedPlugin = {
   service: fullyQualifiedPlugins.defaultLogicalService,
   dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
   agent: fullyQualifiedPlugins.instanaAgent,
-  process: fullyQualifiedPlugins.process
+  process: fullyQualifiedPlugins.process,
+  ping: fullyQualifiedPlugins.ping
 };
+
+const pluginsRequiringTableViewInSearch = ['ping'];
 
 export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
@@ -27,9 +30,20 @@ export const selectedType$ = createTrackingStore({
     .map(location => {
       const isPhysicalView = getMatrixParameter(location, tablePath, 'view') === 'physical';
       const defaultType = isPhysicalView ? 'host' : 'service';
+      const type = getMatrixParameter(location, tablePath, 'plugin') || defaultType;
+
+      let view;
+      if (pluginsRequiringTableViewInSearch.indexOf(type) !== -1) {
+        view = 'TABLE';
+      } else if (isPhysicalView) {
+        view = 'PHYSICAL';
+      } else {
+        view = 'LOGICAL';
+      }
+
       return {
-        type: getMatrixParameter(location, tablePath, 'plugin') || defaultType,
-        view: isPhysicalView ? 'PHYSICAL' : 'LOGICAL'
+        type,
+        view
       };
     })
     .filter(selectedType => entityTypeToFullyQualifiedPlugin[selectedType.type])

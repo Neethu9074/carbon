@@ -130,9 +130,9 @@ export const getMetricForFocusedMoment = memoize(
 
 export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
   const now = Date.now();
+  const resolvedFocusedMoment = timeConfig.focusedMoment || now;
   const availableRollupDefinitions = rollupDurationThresholds.filter(
-    rollupDefinition =>
-      timeConfig.focusedMoment >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
+    rollupDefinition => resolvedFocusedMoment >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
   );
   const rollup = availableRollupDefinitions[0].rollup;
 

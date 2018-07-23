@@ -26,7 +26,8 @@ export default function HttpSpanDetailView({ span }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Host">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
-        {path ? <DescriptionItem title="Request Path">{path}</DescriptionItem> : null}
+        <DescriptionItem title="Request Path">{path}</DescriptionItem>
+        <DescriptionItem title="Path Template">{span.getIn(['data', 'http', 'path_tpl'])}</DescriptionItem>
         {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
         <DescriptionItem title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</DescriptionItem>
         {params != null && (

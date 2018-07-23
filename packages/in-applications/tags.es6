@@ -2,6 +2,7 @@ import { get, assign } from 'lodash';
 import React from 'react';
 
 import { compareIgnoreCase } from 'in-services/util/string';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepCopy } from 'in-services/util/object';
 
 const tagKeys = [
@@ -89,6 +90,7 @@ function mapConfig(config) {
     id: config.id,
     label: config.label,
     name: config.name,
+    enabled: config.enabled,
     matchSpecification: matchSpecificationCopy
   };
 }
@@ -132,24 +134,8 @@ export function mapToServerResponse(config) {
   return config;
 }
 
-export const customFilterBlacklist = {
-  application: true,
-  'application.name': true,
-  service: true,
-  'service.name': true,
-  endpoint: true,
-  'endpoint.name': true
-};
-export const generalBlacklist = {
-  'application.id': true,
-  'service.id': true,
-  'endpoint.id': true,
-  'host.snapshotId': true,
-  'docker.snapshotId': true,
-  'process.snapshotId': true
-};
 function isOnBlacklist(serverTag, blacklist) {
-  if (blacklist[serverTag.fullyQualifiedName || serverTag.name]) {
+  if (blacklist[serverTag.fullyQualifiedName] || blacklist[serverTag.name]) {
     return true;
   }
   return false;
@@ -165,10 +151,6 @@ export function getTagTree() {
   return tagTree;
 }
 
-export function clearTagTree() {
-  tagTree = null;
-}
-
 function buildTagTree() {
   const rootNode = createNode('root');
   tagTree = rootNode;
@@ -178,8 +160,9 @@ function buildTagTree() {
   if (!(tags instanceof Array)) {
     tags = [];
   }
+
   tags = deepCopy(tags)
-    .filter(tag => !isOnBlacklist(tag, generalBlacklist))
+    .filter(tag => !isOnBlacklist(tag, blacklists.generalBlacklist))
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
   const tagsAsMap = {};
@@ -191,7 +174,6 @@ function buildTagTree() {
 
 function buildNodes(parentNode, level, tagsAsMap) {
   const categories = buildCategories('', level);
-  // mergeCategories(categories, tagsAsMap);
   markTags('', categories, tagsAsMap);
   mapCategoriesToNodes(parentNode, categories);
 }
@@ -232,29 +214,6 @@ function buildCategories(path, tags) {
 
   return categories;
 }
-
-// function mergeCategories(categories, tagsAsMap) {
-//   if (!categories) {
-//     return;
-//   }
-
-//   for (let i = 0; i < categories.length; i++) {
-//     const category = categories[i];
-//     mergeCategories(category.children, tagsAsMap);
-
-//     const fullyQualifiedPath = category.path + category.prefix;
-//     const tagDefinition = tagsAsMap[fullyQualifiedPath];
-//     if (tagDefinition) {
-//       category.type = tagDefinition.type;
-//     } else if (category.children.length === 1) {
-//       // it's not a tag and only has one child? flat/merge
-//       const child = category.children[0];
-//       category.prefix = category.prefix + '.' + child.prefix;
-//       category.type = tagsAsMap[category.prefix] ? tagsAsMap[category.prefix].type : null;
-//       category.children = child.children;
-//     }
-//   }
-// }
 
 function markTags(path, categories, tagsAsMap) {
   if (!categories) {
@@ -357,11 +316,11 @@ export function getFullPathTillNode(node, name) {
   return name;
 }
 
-export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory }) {
+export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory, blacklist }) {
   let cursor = findSubTreeByFullyQualifiedName(name);
   while (cursor) {
     const children = filtered
-      ? cursor.getChildren({ blacklist: customFilterBlacklist, category: filterbyCategory })
+      ? cursor.getChildren({ blacklist: blacklist, category: filterbyCategory })
       : cursor.getChildren();
     if (children.length !== 1) {
       break;
@@ -390,4 +349,64 @@ export function findChildByName(node, childName) {
 const tagCategories = ['CALL', 'CLOUD', 'CONTAINER', 'SYSTEM', 'LANGUAGE', 'FRAMEWORK', 'DATABASE', 'MESSAGING'];
 export function getTagCategories() {
   return tagCategories;
+}
+
+const blacklists = {
+  generalBlacklist: {
+    'application.id': true,
+    'service.id': true,
+    'endpoint.id': true,
+    'host.snapshotId': true,
+    'docker.snapshotId': true,
+    'process.snapshotId': true
+  },
+
+  customFilterBlacklist: {
+    application: true,
+    'application.name': true,
+    service: true,
+    'service.name': true,
+    endpoint: true,
+    'endpoint.name': true
+  }
+};
+export function getCustomFilterBlacklist() {
+  return blacklists.customFilterBlacklist;
+}
+export function getApplicationCreationFilterBlacklist() {
+  if (!blacklists.applicationCreationFilterBlacklist) {
+    blacklists.applicationCreationFilterBlacklist = {};
+
+    const manualAddedTags = {
+      'host.mac': true,
+      'docker.container.name': true,
+      'call.technology': true,
+      'aws.service.type': true,
+      'application.id': true,
+      'application.name': true
+    };
+
+    getTagTree();
+    const keys = Object.keys(tagMap);
+    for (let i = 0; i < keys.length; i++) {
+      const tag = tagMap[keys[i]];
+      if (
+        (tag.type &&
+          tag.type !== TAG_TYPES.STRING.technicalName &&
+          tag.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) ||
+        tag.category === 'INSTANA' ||
+        manualAddedTags[tag.fullyQualifiedName]
+      ) {
+        blacklists.applicationCreationFilterBlacklist[tag.fullyQualifiedName] = true;
+
+        const isParentNodeLeftWithZeroChildren =
+          tag.parentNode.getChildren({ blacklist: blacklists.applicationCreationFilterBlacklist }).length === 0;
+        if (isParentNodeLeftWithZeroChildren) {
+          blacklists.applicationCreationFilterBlacklist[tag.parentNode.fullyQualifiedName] = true;
+        }
+      }
+    }
+  }
+
+  return blacklists.applicationCreationFilterBlacklist;
 }

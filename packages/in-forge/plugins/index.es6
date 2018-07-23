@@ -128,6 +128,7 @@ import './openLDAP';
 import './pageResourceLogicalConnection';
 import './pageResourceLogicalService';
 import './pageResourceServiceInstance';
+import './ping';
 import './phpFpmRuntimePlatform';
 import './phpRuntimePlatform';
 import './postgreSqlDatabase';

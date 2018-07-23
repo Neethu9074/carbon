@@ -9,16 +9,16 @@ import {
 } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { Tr, Td, Link } from 'in-components/tables/sharedComponents';
 import { createFilter } from 'in-analyze/CallsList/filterBuilder';
-import { isQueryBuilderEnabled } from 'in-services/featureFlags';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import Button from 'in-new-components/Button';
 
 import locals from './Group.mless';
 
 export default function Group({ item, filters, onChangeFilters, dotColor }) {
+  const isAlreadyFiltered = isAlreadyFilteredByThisGroup(item, filters);
+
   const rowContent = (
     <Fragment>
       <Td className={locals.labelCell}>
@@ -30,27 +30,25 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
               <span className={locals.rectPlaceHolder} />
             )}
           </span>
-          {isQueryBuilderEnabled ? (
-            <Fragment>
-              <span
-                className={locals.groupLabel}
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, false)}
-              >
-                {item.name}
-              </span>
+          <Fragment>
+            <span
+              className={locals.groupLabel}
+              onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, false)}
+            >
+              {item.name}
+            </span>
+            {!isAlreadyFiltered && (
               <Button
                 className={locals.filterButton}
                 size="compact"
                 kind="action"
                 icon="lib_actions_filter"
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, true)}
+                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered, true)}
               >
                 Filter by
               </Button>
-            </Fragment>
-          ) : (
-            <Link href$={getLinkToAnalyze({ traceGroupName: item.name, raw: true })}>{item.name}</Link>
-          )}
+            )}
+          </Fragment>
         </div>
       </Td>
 
@@ -69,12 +67,45 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
-function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
+function isAlreadyFilteredByThisGroup(item, filters) {
+  const currentGroup = filters.getIn(['group', 'name']);
+
+  const applicationFilter = filters.get('applicationFilter').toJS();
+
+  if (currentGroup === APPLICATION.name) {
+    return item.name === get(applicationFilter, [APPLICATION.id, 'value']);
+  } else if (currentGroup === SERVICE.name) {
+    return item.name === get(applicationFilter, [SERVICE.id, 'value']);
+  } else if (currentGroup === ENDPOINT.name) {
+    return item.name === get(applicationFilter, [ENDPOINT.id, 'value']);
+  }
+
+  const tagFilter = filters.get('tagFilter');
+  for (let i = 0; i < tagFilter.size; i++) {
+    const filter = tagFilter.get(i);
+    if (filter.get('name') === currentGroup && filter.get('value') === item.name) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function onSetGrouping(filters, onChangeFilters, tagName, isAlreadyFiltered, keepGrouping) {
   const group = filters.get('group');
   const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
   const applicationFilter = filters.get('applicationFilter').toJS();
   const newState = {};
   newState[applicationFilterMatrixParameter] = applicationFilter;
+
+  if (!keepGrouping) {
+    newState[groupByMatrixParameter] = null;
+  }
+
+  if (isAlreadyFiltered) {
+    onChangeFilters(newState);
+    return;
+  }
 
   if (group.get('name') === APPLICATION.name) {
     applicationFilter[APPLICATION.id] = APPLICATION.createFilter(tagName);
@@ -84,14 +115,6 @@ function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
     applicationFilter[ENDPOINT.id] = ENDPOINT.createFilter(tagName);
   } else {
     const tagFilter = filters.get('tagFilter');
-
-    for (let i = 0; i < tagFilter.size; i++) {
-      const filter = tagFilter.get(i);
-      if (filter.get('name') === group.get('name') && filter.get('value') === currentGroupValue) {
-        // dont add filter twice if they have the same name and value
-        return;
-      }
-    }
 
     newState[tagFilterMatrixParameter] = tagFilter
       .push(
@@ -104,10 +127,6 @@ function onSetGrouping(filters, onChangeFilters, tagName, keepGrouping) {
         )
       )
       .toJS();
-  }
-
-  if (!keepGrouping) {
-    newState[groupByMatrixParameter] = null;
   }
 
   onChangeFilters(newState);

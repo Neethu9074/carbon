@@ -97,9 +97,7 @@ export function getAxisMinMax(axis, filteredDataSeries) {
     if (maxValue <= 0) {
       maxValue = 1;
     } else {
-      // use scale [0, 2*max] to center the data vertically
       minValue = 0;
-      maxValue = 2 * maxValue;
     }
   }
 

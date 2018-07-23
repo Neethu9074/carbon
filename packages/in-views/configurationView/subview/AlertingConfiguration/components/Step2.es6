@@ -1,8 +1,8 @@
 import React from 'react';
 
+import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
@@ -89,14 +89,6 @@ function LabelledToggle({ onChange, types, title, type }) {
       </Button>
     </Col>
   );
-}
-
-function BackendValidationMessages({ validationResult }) {
-  if (validationResult.valid) {
-    return null;
-  }
-
-  return <ValidationBlock hasError>{`${validationResult.error}.`}</ValidationBlock>;
 }
 
 function onSelectChanged(types, onChange, type) {

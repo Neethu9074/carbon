@@ -32,4 +32,8 @@
   .serviceLink {
     color: @lib__colors__N600Light;
   }
+
+  .batchSizeIndicator {
+    margin-left: 0.5rem;
+  }
 }

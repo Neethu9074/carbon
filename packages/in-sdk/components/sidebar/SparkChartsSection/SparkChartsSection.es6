@@ -6,11 +6,16 @@ import './SparkChartsSection.less';
 
 const block = 'in-spark-chart-section';
 
-export default function SparkChartsSection({ snapshot, metrics }) {
+export default function SparkChartsSection({ snapshot, metrics, theme }) {
   return (
     <div className={block}>
       {metrics.map(metric => (
-        <LabeledSparkChart key={metric.metric + metric.aggregation} snapshotId={snapshot.get('id')} metric={metric} />
+        <LabeledSparkChart
+          key={metric.metric + metric.aggregation}
+          snapshotId={snapshot.get('id')}
+          metric={metric}
+          theme={theme}
+        />
       ))}
     </div>
   );

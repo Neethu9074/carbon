@@ -61,10 +61,6 @@ export default function SvgIcon({
     iconHeight = maxWidth / icon.ratio;
   }
 
-  if (type === 'lib_help_error_warning') {
-    console.log(iconWidth, iconHeight, width, height, maxWidth, maxHeight);
-  }
-
   style = style || {};
   style.minHeight = `${iconHeight}px`;
   style.maxHeight = style.minHeight;

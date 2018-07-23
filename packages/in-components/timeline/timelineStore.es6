@@ -25,7 +25,14 @@ let maxAvailableWindowSize = undefined;
 let currentBigBangTimestamp;
 let currentServerTime;
 
+let initialized = false;
+
 export function init() {
+  if (initialized) {
+    return;
+  }
+  initialized = true;
+
   timelineHeight$.subscribe(height => (document.body.style.paddingBottom = `${height}px`));
 
   combineLatest([bigBangTimestamp$, serverTime$]).subscribe(props => {

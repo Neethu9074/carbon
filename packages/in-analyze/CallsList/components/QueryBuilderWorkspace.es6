@@ -1,16 +1,15 @@
 import React from 'react';
 
+import { FilterConnector } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import EditApplicationFilterDialog from 'in-analyze/Dialogs/EditApplicationFilterDialog';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import FilterPlaceholder from 'in-analyze/Filter/FilterPlaceholder';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
-import { createFilter } from 'in-analyze/CallsList/filterBuilder';
+import { getCustomFilterBlacklist } from 'in-applications/tags';
 import FilterGroup from 'in-analyze/Filter/FilterGroup';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
 import Filter from 'in-analyze/Filter';
-import theme from 'in-themes/theme';
 
 import locals from './QueryBuilderWorkspace.mless';
 
@@ -64,16 +63,20 @@ export default function QueryBuilderWorkspace(props) {
                 title={tag.get('name')}
                 icon={tag.get('icon')}
                 onRemove={() => onRemoveTagFilter(tag.get('id'))}
-                onClick={() =>
+                onClick={() => {
                   setActiveDialog(
                     <EditFilterDialog
-                      tag={tag.toJS()}
+                      blacklist={getCustomFilterBlacklist()}
+                      filters={filters}
+                      name={tag.get('name')}
+                      value={tag.get('value')}
+                      operator={tag.get('operator')}
                       onSave={_tag => onUpdateTagFilter(tag.get('id'), _tag)}
                       onRemove={() => onRemoveTagFilter(tag.get('id'))}
                       removePostPhrase="Filter"
                     />
-                  )
-                }
+                  );
+                }}
               >
                 {tag.get('value')}
               </Filter>
@@ -85,7 +88,8 @@ export default function QueryBuilderWorkspace(props) {
             onClick={() => {
               setActiveDialog(
                 <EditFilterDialog
-                  tag={createFilter({})}
+                  blacklist={getCustomFilterBlacklist()}
+                  filters={filters}
                   onSave={_tag => {
                     onAddTagFilter(_tag);
                   }}
@@ -159,14 +163,10 @@ function ApplicationFilterOrPlaceholder({
 
 function GroupSection({ group, onAddGroup, onUpdateGroup, onRemoveGroup }) {
   if (!group) {
-    return (
-      <FilterPlaceholder size="compact" onClick={onAddGroup}>
-        Group
-      </FilterPlaceholder>
-    );
+    return <FilterPlaceholder onClick={onAddGroup}>Group</FilterPlaceholder>;
   }
   return (
-    <Filter size="compact" onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)} removePostPhrase="Group">
+    <Filter onRemove={onRemoveGroup} onClick={() => onUpdateGroup(group)} removePostPhrase="Group">
       {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
     </Filter>
   );
@@ -176,9 +176,7 @@ function AppendAnd({ children }) {
   return (
     <div className={locals.flexWrapper}>
       {children}
-      <Pill className={locals.filterConnector} color={theme.lib.colors.N400}>
-        AND
-      </Pill>
+      <FilterConnector>AND</FilterConnector>
     </div>
   );
 }

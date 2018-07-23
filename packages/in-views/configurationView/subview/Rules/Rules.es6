@@ -16,7 +16,7 @@ import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRules, deleteRule } from 'in-api/rules';
+import { getRules, deleteRule, isRuleDeprecated } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
@@ -26,7 +26,7 @@ const logger = createLogger('Rules');
 const cols = [
   getLinkColumnWithBadge(
     getEntityIdPath.bind(null, rulePath),
-    getDeprecatedFlagFromRule,
+    isRuleDeprecated,
     twoZeroModeEnabled ? 'Disabled' : 'Deprecated'
   ),
   getDeleteButtonColumn()
@@ -167,13 +167,6 @@ export default class extends React.Component {
       </SubViewWrapper>
     );
   }
-}
-
-function getDeprecatedFlagFromRule(entity) {
-  const flag = entity.get('deprecated', false);
-  // if the deprecated flag is not present, the fallback value of entity.get will be false, but if it is present and
-  // has value null we still need to convert null into false.
-  return flag != null ? flag : false;
 }
 
 function getRowDetails(row) {

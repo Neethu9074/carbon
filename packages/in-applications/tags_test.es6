@@ -8,7 +8,6 @@ import {
   findChildByName,
   findSubTreeByFullyQualifiedName,
   getTagTree,
-  clearTagTree,
   mapFromServerResponse,
   mapToServerResponse
 } from 'in-applications/tags';
@@ -271,22 +270,19 @@ describe('in-applications/tags', () => {
   });
 
   describe('tag tree', () => {
-    beforeEach(() => {
-      clearTagTree();
-      window.instana.tags = [
-        { name: 'a.b.c' },
-        { name: 'a.b.c.d' },
-        { name: 'a.b' },
-        { name: 'a.b.d' },
-        { name: 'b' },
-        { name: 'b.c.d' },
-        { name: 'x.c.d' },
-        { name: 'x.y.z' },
-        { name: 'z.a.c' },
-        { name: 'z.a.b' },
-        { name: 'this.is.a.unique.path' }
-      ];
-    });
+    window.instana.tags = [
+      { name: 'a.b.c' },
+      { name: 'a.b.c.d' },
+      { name: 'a.b' },
+      { name: 'a.b.d' },
+      { name: 'b' },
+      { name: 'b.c.d' },
+      { name: 'x.c.d' },
+      { name: 'x.y.z' },
+      { name: 'z.a.c' },
+      { name: 'z.a.b' },
+      { name: 'this.is.a.unique.path' }
+    ];
 
     it('should build a categorized tag tree', () => {
       const tree = getTagTree();
@@ -361,17 +357,6 @@ describe('in-applications/tags', () => {
           .getChildren()[0].name
       ).to.equal('d');
     });
-
-    // it('should deep merge keys', () => {
-    //   window.instana.tags = [{ name: 'a.b.c.d' }, { name: 'b.c.d' }];
-    //   const tree = getTagTree();
-
-    //   expect(tree).to.not.equal(null);
-
-    //   expect(tree.children).to.have.length(2);
-    //   expect(tree.children[0].name).to.equal('a.b.c.d');
-    //   expect(tree.children[1].name).to.equal('b.c.d');
-    // });
 
     it('should find tree node by given fully qualified name', () => {
       expect(findSubTreeByFullyQualifiedName('a')).to.not.equal(null);

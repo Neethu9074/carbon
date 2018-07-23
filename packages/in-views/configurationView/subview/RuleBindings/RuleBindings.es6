@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import {
-  getLinkColumn,
+  getLinkColumnWithBadge,
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
@@ -23,15 +23,26 @@ import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import { getRule } from 'in-api/rules';
+import { getRule, isRuleDeprecated, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 import './RuleBindings.less';
 
 const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
+function isRuleBindingDeprecated(ruleBindings) {
+  const rule$ = getRule(ruleBindings.getIn(['ruleIds', 0], ''));
+  return rule$.once(rule => isRuleDeprecated(rule));
+}
+
 const cols = [
-  getLinkColumn(getEntityIdPath.bind(null, bindingPath), 'text'),
+  getLinkColumnWithBadge(
+    getEntityIdPath.bind(null, bindingPath),
+    isRuleBindingDeprecated,
+    twoZeroModeEnabled ? 'Disabled' : 'Deprecated',
+    'text'
+  ),
   getEnableToggleColumn(),
   getDeleteButtonColumn('text')
 ];
@@ -261,7 +272,7 @@ const Details = connectTo(
             {ruleBinding.get('triggering') ? 'true' : 'false'}
           </DescriptionItem>
           <DescriptionItem title="Bound rule">
-            {rule ? rule.get('name') : ruleBinding.getIn(['ruleIds', 0], '')}
+            {rule ? getRuleLabelWithDeprecationFlag(rule) : ruleBinding.getIn(['ruleIds', 0], '')}
           </DescriptionItem>
           <DescriptionItem title="Applied on filter query">{ruleBinding.get('query', '')}</DescriptionItem>
 

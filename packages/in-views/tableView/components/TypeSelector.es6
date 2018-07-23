@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-views/tableView/stores/snapshotIds';
+import { pingComparisonEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 
 import './TypeSelector.less';
@@ -15,6 +16,9 @@ const physicalDomains = {
   docker: 'Docker Containers',
   process: 'Processes'
 };
+if (pingComparisonEnabled) {
+  physicalDomains.ping = 'Ping';
+}
 
 // This list exists because we have the special type
 // "service" which is an aggregation of multiple types.
@@ -37,7 +41,7 @@ export default connectTo(
             .sort()
             .map(val => (
               <option value={val} key={val}>
-                {[val]}
+                {domains[val]}
               </option>
             ))}
         </select>

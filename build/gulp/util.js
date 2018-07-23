@@ -3,14 +3,15 @@
 
 'use strict';
 
-var fs = require('fs');
-var os = require('os');
-var opn = require('opn');
-var util = require('util');
-var path = require('path');
-var execSync = require('child_process').execSync;
+const fs = require('fs');
+const os = require('os');
+const opn = require('opn');
+const util = require('util');
+const path = require('path');
+const clearModule = require('clear-module');
+const execSync = require('child_process').execSync;
 
-var paths = require('./paths');
+const paths = require('./paths');
 
 exports.getBanner = function getBanner() {
   var year = new Date().getFullYear();
@@ -49,14 +50,18 @@ exports.startProxrox = function startProxrox(config) {
 exports.openBrowser = opn;
 
 exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
-  var devConfig = {
+  // ensure that feature flags file is reevaluated (required for dev mode watches)
+  clearModule(paths.featureFlags);
+
+  const devConfig = {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
     tenantUnitDomainSuffix: 'instana.io',
     environment: envConfig.environment,
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
-    operationMode: 'saas'
+    operationMode: 'fleet',
+    featureFlags: require(paths.featureFlags)
   };
   fs.writeFileSync(path.join(paths.assetDir, 'config.json'), JSON.stringify(devConfig));
 };

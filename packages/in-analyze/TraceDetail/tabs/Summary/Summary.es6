@@ -141,7 +141,7 @@ export default compose(
     resets: [
       // Reset the call when the trace changes
       {
-        getResettingProps: () => ['data'],
+        getResettingProps: () => ['traceId'],
         onReset: () => ({ callId: null })
       }
     ]

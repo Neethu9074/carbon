@@ -12,6 +12,7 @@ paths.targetDir = path.join(paths.rootDir, 'target');
 paths.assetDir = path.join(paths.targetDir, 'assets');
 paths.bundleDir = path.join(paths.assetDir, 'bundle');
 paths.binDir = path.join(paths.rootDir, 'node_modules', '.bin');
+paths.devDir = path.join(paths.rootDir, 'dev');
 
 // ## Source Files:
 paths.packageDir = path.join(paths.rootDir, 'packages');
@@ -19,6 +20,7 @@ paths.themeDir = path.join(paths.packageDir, 'in-themes');
 paths.devIndexHtmlSrc = path.join(paths.packageDir, 'in-client', 'index.html');
 paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon.png');
 paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**/*');
+paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');
 
 // ## Target Files:
 paths.devIndexHtmlTarget = path.join(paths.assetDir, 'index.html');

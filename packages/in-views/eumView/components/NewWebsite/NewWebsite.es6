@@ -3,11 +3,11 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import { eumKeysView$ } from 'in-stores/navigation/paths/settingPaths';
 import Waiting from 'in-views/eumView/components/NewWebsite/Waiting';
 import { websitePath } from 'in-stores/navigation/paths/mainPaths';
 import From from 'in-views/eumView/components/NewWebsite/Form';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { combineDataAndError } from 'in-services/util/ro';
 import LegacyView from 'in-components/LegacyView';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -62,8 +62,7 @@ export default connectTo(
               eumKey={this.state.saveResult.id}
               isWaiting={this.state.snapshot == null}
               href$={getDashboardLink(this.state.saveResult.websiteSnapshotId, {
-                to: null,
-                focusedMoment: null,
+                ...getWaitForEntityCreationTimeConfig(),
                 pathname: `${websitePath}/dashboard`
               })}
             />
@@ -108,9 +107,10 @@ export default connectTo(
             snapshot: null
           });
 
-          this.snapshotSubscription = getSnapshot(data.websiteSnapshotId, getTimeConfigAtMoment(null)).subscribe(
-            snapshot => this.setState({ snapshot })
-          );
+          this.snapshotSubscription = getSnapshot(
+            data.websiteSnapshotId,
+            getWaitForEntityCreationTimeConfig()
+          ).subscribe(snapshot => this.setState({ snapshot }));
         }
       });
     };

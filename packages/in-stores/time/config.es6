@@ -65,6 +65,15 @@ export function getTimeConfigAtMoment(moment) {
   };
 }
 
+export function getWaitForEntityCreationTimeConfig() {
+  return {
+    windowSize: 1000 * 60 * 10,
+    to: null,
+    focusedMoment: null,
+    autoRefresh: true
+  };
+}
+
 export function getTimeConfigAlignedToResultTime(timeConfig, result) {
   return {
     windowSize: timeConfig.windowSize,
@@ -72,4 +81,26 @@ export function getTimeConfigAlignedToResultTime(timeConfig, result) {
     to: result.time,
     focusedMoment: result.time
   };
+}
+
+export function setTimeConfig(location, timeConfig) {
+  if (timeConfig.windowSize != null) {
+    location.query[urlQueryKeys.windowSize] = timeConfig.windowSize;
+  }
+
+  if (timeConfig.to === undefined) {
+    delete location.query[urlQueryKeys.to];
+  } else {
+    location.query[urlQueryKeys.to] = timeConfig.to == null ? '' : timeConfig.to;
+  }
+
+  if (timeConfig.focusedMoment === undefined) {
+    delete location.query[urlQueryKeys.focusedMoment];
+  } else {
+    location.query[urlQueryKeys.focusedMoment] = timeConfig.focusedMoment == null ? '' : timeConfig.focusedMoment;
+  }
+
+  if (timeConfig.autoRefresh !== undefined) {
+    location.query[urlQueryKeys.autoRefresh] = String(Boolean(timeConfig.autoRefresh));
+  }
 }

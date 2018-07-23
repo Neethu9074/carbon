@@ -1,5 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { combineLatest } from 'reactive-observables';
+import { create, combineLatest } from 'reactive-observables';
 import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
 import React from 'react';
@@ -9,18 +9,22 @@ import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/Rule
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { bindingsPath } from 'in-stores/navigation/paths/settingPaths';
+import combinedValidationResults from 'in-services/util/validation';
 import Section from 'in-views/configurationView/components/Section';
-import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { getRules } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
+import { validate } from 'in-api/search';
 import Title from 'in-components/Title';
 
 const logger = createLogger('RuleBinding');
 
 export default class extends React.Component {
   static displayName = 'RuleBinding';
+
+  queryInput = create();
+  validationResultSubscription = null;
 
   state = {
     loading: true,
@@ -33,6 +37,20 @@ export default class extends React.Component {
 
   componentWillMount() {
     this.loadRuleBinding(this.props.match.params.ruleBindingId);
+    const debouncedQuery = this.queryInput.debounce(1000);
+    this.matchingEntitesSubscription = debouncedQuery
+      .flatMap(query => {
+        return combineLatest([
+          validate({ query, newApplicationModelEnabled: false }),
+          validate({ query, newApplicationModelEnabled: true })
+        ]);
+      })
+      .subscribe(([validationResponse10, validationResponse20]) => {
+        this.onChange(
+          'validationResult',
+          combinedValidationResults(validationResponse10.body, validationResponse20.body)
+        );
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,6 +61,10 @@ export default class extends React.Component {
 
   componentWillUnmount() {
     this.disposeAsyncAction();
+    if (this.matchingEntitesSubscription) {
+      this.matchingEntitesSubscription.dispose();
+      this.matchingEntitesSubscription = null;
+    }
   }
 
   render() {
@@ -120,6 +142,7 @@ export default class extends React.Component {
         rules,
         form: createForm(ruleBinding)
       });
+      this.queryInput.emit(ruleBinding.get('query', ''));
     });
 
     this.errorSubscription = combineLatest([ruleResult$.errors(), ruleBindingResult$.errors()]).once(() => {
@@ -149,6 +172,10 @@ export default class extends React.Component {
       }
     } else {
       updatedForm = updatedForm.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+    }
+
+    if (fieldName == 'query') {
+      this.queryInput.emit(value);
     }
 
     this.setState({
@@ -263,8 +290,13 @@ function createForm(ruleBinding) {
     .put(
       'query',
       createField({
-        value: ruleBinding.get('query'),
-        validator: queryValidator
+        value: ruleBinding.get('query')
+      })
+    )
+    .put(
+      'validationResult',
+      createField({
+        value: { valid: true, error: null }
       })
     )
     .put(

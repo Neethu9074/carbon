@@ -34,130 +34,67 @@ describe('feature flags', () => {
 
   describe('twoZeroModeEnabled', () => {
     it('is false if 2.0 is disabled', () => {
-      setFeatureFlag('twoZeroAppDataEnabled', false);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', false);
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
     it('is true if only 2.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', false);
-      setFeatureFlag('withoutInstana1Features', true); // compatibility test fix
-      setFeatureFlag('twoZeroAppDataEnabled', true);
-      expectFeatureFlag('twoZeroModeEnabled', true);
-    });
-
-    it('[compatibilty] is true if newApplicationMonitoringEnabled and withoutInstana1Features are enabled', () => {
-      setFeatureFlag('newApplicationMonitoringEnabled', true);
-      setFeatureFlag('withoutInstana1Features', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
 
     it('is true if 1.0 and 2.0 are enabled and query param v2 is true', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       window.location.hash = 'whatever?foo=bar&v2=true&this=that';
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
 
-    it(
-      '[compatibilty] is true if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
-        'is disabled and query param v2 is true',
-      () => {
-        setFeatureFlag('newApplicationMonitoringEnabled', true);
-        setFeatureFlag('withoutInstana1Features', false);
-        window.location.hash = 'whatever?foo=bar&v2=true&this=that';
-        expectFeatureFlag('twoZeroModeEnabled', true);
-      }
-    );
-
     it('is false if 1.0 and 2.0 are enabled and query param v2 is false', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       window.location.hash = 'whatever?foo=bar&v2=false&this=that';
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
-    it(
-      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
-        'is disabled and query param v2 is false',
-      () => {
-        setFeatureFlag('newApplicationMonitoringEnabled', true);
-        setFeatureFlag('withoutInstana1Features', false);
-        window.location.hash = 'whatever?foo=bar&v2=false&this=that';
-        expectFeatureFlag('twoZeroModeEnabled', false);
-      }
-    );
-
     it('is false if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is unspecified', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
-    it(
-      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
-        'is disabled and query param v2 is not present and user setting is unspecified',
-      () => {
-        setFeatureFlag('newApplicationMonitoringEnabled', true);
-        setFeatureFlag('withoutInstana1Features', false);
-        expectFeatureFlag('twoZeroModeEnabled', false);
-      }
-    );
-
     it('is false if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is false', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       window.instana.settings.v2Enabled = false;
       expectFeatureFlag('twoZeroModeEnabled', false);
     });
 
-    it(
-      '[compatibilty] is false if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
-        'is disabled and query param v2 is not present and user setting is false',
-      () => {
-        setFeatureFlag('newApplicationMonitoringEnabled', true);
-        setFeatureFlag('withoutInstana1Features', false);
-        window.instana.settings.v2Enabled = false;
-        expectFeatureFlag('twoZeroModeEnabled', false);
-      }
-    );
-
     it('is true if 1.0 and 2.0 are enabled and query param v2 is not present and user setting is true', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       window.instana.settings.v2Enabled = true;
       expectFeatureFlag('twoZeroModeEnabled', true);
     });
-
-    it(
-      '[compatibilty] is true if newApplicationMonitoringEnabled is enabled and withoutInstana1Features ' +
-        'is disabled and query param v2 is not present and user setting is true',
-      () => {
-        setFeatureFlag('newApplicationMonitoringEnabled', true);
-        setFeatureFlag('withoutInstana1Features', false);
-        window.instana.settings.v2Enabled = true;
-        expectFeatureFlag('twoZeroModeEnabled', true);
-      }
-    );
   });
 
   describe('isTwoZeroBetaPhase', () => {
     it('is true if 1.0 and 2.0 are enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       expectFeatureFlag('isTwoZeroBetaPhase', true);
     });
 
     it('is false if only 1.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', true);
-      setFeatureFlag('withoutInstana1Features', false); // compatibility test fix
-      setFeatureFlag('twoZeroAppDataEnabled', false);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', false);
       expectFeatureFlag('isTwoZeroBetaPhase', false);
     });
 
     it('is false if only 2.0 is enabled', () => {
       setFeatureFlag('oneZeroAppDataEnabled', false);
-      setFeatureFlag('withoutInstana1Features', true); // compatibility test fix
-      setFeatureFlag('twoZeroAppDataEnabled', true);
+      setFeatureFlag('twoZeroAppDataPresentationEnabled', true);
       expectFeatureFlag('isTwoZeroBetaPhase', false);
     });
   });

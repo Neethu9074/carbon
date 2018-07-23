@@ -8,7 +8,7 @@ export default function MuleServerSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="Protocol">{span.getIn(['data', 'mule', 'protocol'])}</DescriptionItem>
         <DescriptionItem title="Address">{span.getIn(['data', 'mule', 'address'])}</DescriptionItem>
-        <DescriptionItem title="ID">{span.getIn(['data', 'mule', 'id'])}</DescriptionItem>
+        <DescriptionItem title="Flow">{span.getIn(['data', 'mule', 'flow'])}</DescriptionItem>
         <DescriptionItem title="Pattern">{span.getIn(['data', 'mule', 'pattern'])}</DescriptionItem>
         <DescriptionItem title="Error">{span.getIn(['data', 'mule', 'error'])}</DescriptionItem>
       </DescriptionList>

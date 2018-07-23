@@ -6,14 +6,14 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
-import BackToExploreBreadcrumb from 'in-analyze/shared/BackToExploreBreadcrumb';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
-import AnalyzeRootBreadcrumb from 'in-analyze/shared/AnalyzeRootBreadcrumb';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getColorPool } from 'in-services/util/ColorGenerator';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
@@ -56,11 +56,7 @@ function TraceDetail({ location, colorCode: getColor }) {
   return (
     <Fragment>
       <Breadcrumbs
-        items={[
-          <BackToExploreBreadcrumb />,
-          <AnalyzeRootBreadcrumb location={location} />,
-          <TraceDetailBreadcrumb traceId={traceId} />
-        ]}
+        items={[<Breadcrumb label="Analyze" href$={getLinkToAnalyze()} />, <TraceDetailBreadcrumb traceId={traceId} />]}
       />
       <TabView
         HeaderComponent={Header}

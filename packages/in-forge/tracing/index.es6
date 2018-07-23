@@ -36,6 +36,7 @@ import './g.http';
 import './g.rpc';
 import './gcd';
 import './gcs';
+import './gwt';
 import './grizzly';
 import './hc';
 import './hc.nio';

@@ -40,8 +40,8 @@ export default function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfC
             onUpdateApplicationTag={(id, tag) => onUpdateApplicationTag(id, tag, filters, onChangeFilters)}
             onResetApplicationFilter={id => onResetApplicationFilter(id, filters, onChangeFilters)}
             onAddTagFilter={tag => onAddTagFilter(tag, filters, onChangeFilters)}
-            onAddGroup={() => onUpdateGroup(onChangeFilters)}
-            onUpdateGroup={group => onUpdateGroup(onChangeFilters, group)}
+            onAddGroup={() => onUpdateGroup(filters, onChangeFilters)}
+            onUpdateGroup={group => onUpdateGroup(filters, onChangeFilters, group)}
             onRemoveGroup={() => onRemoveGroup(onChangeFilters)}
           />
         </MaxWidthFullscreenContainer>
@@ -119,10 +119,12 @@ function onResetApplicationFilter(id, filters, onChangeFilters) {
   onChangeFilters(newState);
 }
 
-function onUpdateGroup(onChangeFilters, group) {
+function onUpdateGroup(filters, onChangeFilters, group) {
   setActiveDialog(
     <EditGroupDialog
-      group={group ? group.toJS() : createFilter({})}
+      filters={filters}
+      name={group ? group.get('name') : ''}
+      value={group ? group.get('value') : ''}
       onSave={_group => {
         const newState = {};
 

@@ -106,8 +106,7 @@ function createForm(config) {
     .put(
       'query',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'query'], ''),
-        validator: queryValidator
+        value: config.getIn(['eventFilteringConfiguration', 'query'], '')
       })
     )
     .put(
@@ -140,8 +139,8 @@ function createForm(config) {
       'validationResult',
       createField({
         value: {
-          valid:true,
-          error:null
+          valid: true,
+          error: null
         }
       })
     )

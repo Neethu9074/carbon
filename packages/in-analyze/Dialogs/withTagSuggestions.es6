@@ -2,8 +2,9 @@ import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
 import { applicationFilter as applicationFilterMatrixParameter } from 'in-analyze/navigation/matrix';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { TAG_TYPES, APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 
 export default () => ComposedComponent => {
@@ -16,66 +17,85 @@ export default () => ComposedComponent => {
       super(props);
 
       this.state = {
-        name: props.name || '',
-        value: props.value || '',
-        tagSuggestionOptions: []
+        _name: '',
+        custom2ndLevelName: null,
+        tagSuggestionOptions: null,
+        tag2ndLevelSuggestionOptions: []
       };
 
-      this.applyChangesQueue$ = create();
+      this.getValueQueue$ = create();
+      this.get2ndLevelTagQueue$ = create();
 
-      this.applyChangesQueueSubscription = this.applyChangesQueue$.throttle(500).subscribe(() => this.getSuggestions());
-    }
+      this.getValueQueueSubscription = this.getValueQueue$
+        .debounce(500)
+        .subscribe(state => this.getValueSuggestions(state));
 
-    componentDidMount() {
-      this.applyChangesQueue$.emit('signal', true);
+      this.get2ndLevelTagQueueSubscription = this.get2ndLevelTagQueue$
+        .debounce(500)
+        .subscribe(state => this.get2ndLevelNameSuggestions(state));
     }
 
     componentWillUpdate(nextProps, nextState) {
-      if (this.state.name === nextState.name && this.state.value === nextState.value) {
-        return;
-      }
+      const isNameEqual = this.state._name === nextState._name;
+      const is2ndLevelNameEqual = this.state.custom2ndLevelName === nextState.custom2ndLevelName;
 
-      this.applyChangesQueue$.emit('signal', true);
+      if (isNameEqual && is2ndLevelNameEqual) {
+        return;
+      } else if (isNameEqual && !is2ndLevelNameEqual) {
+        this.getValueQueue$.emit(nextState);
+      } else {
+        this.getValueQueue$.emit(nextState);
+        this.get2ndLevelTagQueue$.emit(nextState);
+      }
     }
 
     componentWillUnmount() {
-      this.disposeTagSubscription();
+      this.disposeTagSubscriptions();
 
-      this.applyChangesQueueSubscription.dispose();
-      this.applyChangesQueueSubscription = null;
+      this.getValueQueueSubscription.dispose();
+      this.getValueQueueSubscription = null;
+
+      this.get2ndLevelTagQueueSubscription.dispose();
+      this.get2ndLevelTagQueueSubscription = null;
+
+      this.getValueQueue$ = null;
+      this.get2ndLevelTagQueue$ = null;
     }
 
     render() {
       return factory({
-        setName: this.setNameForTagSuggestion,
-        setValue: this.setValueForTagSuggestion,
+        setNameForTagSuggestion: this.setNameForTagSuggestion,
+        set2ndLevelNameForTagSuggestion: this.set2ndLevelNameForTagSuggestion,
         ...this.props,
         ...this.state
       });
     }
 
     setNameForTagSuggestion = name => {
-      this.setState = { name };
+      this.setState({ _name: name });
     };
 
-    setValueForTagSuggestion = value => {
-      this.setState = { value };
+    set2ndLevelNameForTagSuggestion = custom2ndLevelName => {
+      this.setState({ custom2ndLevelName });
     };
 
-    queueNextFlowMapState = nextFlowMapState => {
-      this.flowMapStateQueue$.emit(nextFlowMapState);
-    };
+    getValueSuggestions({ _name, custom2ndLevelName }) {
+      this.disposeValueSuggestion();
 
-    getSuggestions() {
-      this.disposeTagSubscription();
+      const tagName = _name;
+      const filters = this.props.filters;
+      const node = findSubTreeByFullyQualifiedName(tagName);
+      if (!node || !node.isTag) {
+        return;
+      }
 
-      this.tagSuggestions$ = getTagSuggestions({
+      this.tagValueSuggestions$ = getTagSuggestions({
         filter: {
-          timeConfig: this.props.filters.get('timeConfig')
+          timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterList(this.state.name, this.props.filters),
-        tagName: this.state.name,
-        secondLevelKeyTagName: null,
+        tagFilters: getTagFilterList(tagName, filters),
+        tagName,
+        secondLevelKeyTagName: custom2ndLevelName,
         requestingSecondaryKeySuggestions: false,
         valueFilter: null
       })
@@ -83,18 +103,54 @@ export default () => ComposedComponent => {
         .subscribe(tagSuggestionOptions => this.setState({ tagSuggestionOptions }));
     }
 
-    disposeTagSubscription = () => {
-      if (this.tagSuggestions$) {
-        this.tagSuggestions$.dispose();
-        this.tagSuggestions$ = null;
+    get2ndLevelNameSuggestions({ _name }) {
+      this.dispose2ndLevelNameSuggestion();
+
+      const tagName = _name;
+      const filters = this.props.filters;
+      const node = findSubTreeByFullyQualifiedName(tagName);
+      if (!node || !node.isTag || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+        return;
       }
+
+      this.tag2ndLevelNameSuggestions$ = getTagSuggestions({
+        filter: {
+          timeConfig: filters.get('timeConfig')
+        },
+        tagFilters: getTagFilterList(tagName, filters),
+        tagName,
+        secondLevelKeyTagName: tagName,
+        requestingSecondaryKeySuggestions: true,
+        valueFilter: null
+      })
+        .map(getEndpointTypesComboBoxItems)
+        .subscribe(tag2ndLevelSuggestionOptions => this.setState({ tag2ndLevelSuggestionOptions }));
+    }
+
+    disposeValueSuggestion = () => {
+      if (this.tagValueSuggestions$) {
+        this.tagValueSuggestions$.dispose();
+        this.tagValueSuggestions$ = null;
+      }
+    };
+
+    dispose2ndLevelNameSuggestion = () => {
+      if (this.tag2ndLevelNameSuggestions$) {
+        this.tag2ndLevelNameSuggestions$.dispose();
+        this.tag2ndLevelNameSuggestions$ = null;
+      }
+    };
+
+    disposeTagSubscriptions = () => {
+      this.disposeValueSuggestion();
+      this.dispose2ndLevelNameSuggestion();
     };
   };
 };
 
-export function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
+function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   if (!autoCompletedValuesResult.data) {
-    return [];
+    return null;
   }
 
   return autoCompletedValuesResult.data.suggestions.map(suggestion => ({

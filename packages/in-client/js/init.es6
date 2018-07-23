@@ -83,7 +83,7 @@ initUsageInfo();
 initMaintenanceNoteStore();
 initUnhandledErrorHandling();
 initAutoFocus();
-!twoZeroModeEnabled && initEvents();
+initEvents();
 !twoZeroModeEnabled && initEventsInTimeframe();
 initFaviconHandling();
 initErrorBoundary();

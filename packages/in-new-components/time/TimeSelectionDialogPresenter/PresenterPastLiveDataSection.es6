@@ -10,7 +10,7 @@ export default function PresenterPastLiveDataSection() {
       <SvgIcon className={locals.icon} type="lib_help_error_error_circle" width={32} />
       <h2 className={locals.title}>Sampled Data</h2>
       <p className={locals.text}>
-        The current time range is based on sampled raw data. All KPIs, metrics and graphs have been preserved.
+        The current time range is based on sampled raw data. KPIs, metrics and graphs have been preserved.
       </p>
     </div>
   );

@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { app_service } from 'in-components/SvgIcon/registry';
 import metricDefinitions from './metricDefinitions';
@@ -19,6 +17,6 @@ registerSnapshotDefinition({
   chartWiggleRoom: 20000,
 
   getLabel(entity) {
-    return get(entity, ['data', 'label'], 'Service');
+    return entity.get('label', 'Service');
   }
 });

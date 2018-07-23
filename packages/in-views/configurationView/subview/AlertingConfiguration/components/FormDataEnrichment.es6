@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import combinedValidationResults from 'in-services/util/validation';
 import { create, combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
@@ -75,27 +75,6 @@ export default class FormDataEnrichment extends React.Component {
 
   render() {
     return null;
-  }
-}
-
-function combinedValidationResults(validationResult10, validationResult20) {
-  if (twoZeroModeEnabled) {
-    if (validationResult10.valid && !validationResult20.valid) {
-      return { valid: false, error: 'Dynamic Focus query is deprecated: ' + validationResult20.error };
-    } else if (!validationResult10.valid && !validationResult20.valid) {
-      return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult20.error };
-    }
-    return validationResult20;
-  } else {
-    if (validationResult20.valid) {
-      return validationResult20;
-    } else {
-      if (validationResult10.valid) {
-        return validationResult10;
-      } else {
-        return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult10.error };
-      }
-    }
   }
 }
 

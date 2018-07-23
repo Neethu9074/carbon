@@ -16,11 +16,7 @@ import {
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-import {
-  previewTwoZeroWithoutHybrid,
-  twoZeroModeEnabled,
-  instanaInternalFeaturesEnabled
-} from 'in-services/featureFlags';
+import { twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -45,7 +41,7 @@ export default (
     {!twoZeroModeEnabled && <Route path={logicalPath} component={Map} />}
     <Route path={containerPath} component={Map} />
 
-    {!previewTwoZeroWithoutHybrid && <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />}
+    <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
     <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />

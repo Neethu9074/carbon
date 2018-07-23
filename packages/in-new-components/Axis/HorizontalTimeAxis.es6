@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import { formatDateShort } from 'in-services/formatters/date';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import { formatDateShort } from 'in-services/formatters/date';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
@@ -12,9 +12,13 @@ export default function HorizontalTimeAxis(props) {
   const formattingConfig = getAxisConfig(scale.to - scale.from);
 
   function format(timestamp) {
+    const time = formattingConfig
+      .formatter(timestamp)
+      .replace(/^\d\d\d\d-\d\d-\d\d/, '')
+      .trim();
     return (
       <Fragment>
-        <div className={locals.horizontalTickFirstLabel}>{formattingConfig.formatter(timestamp)}</div>
+        {time && <div className={locals.horizontalTickFirstLabel}>{time}</div>}
         <span>{formatDateShort(timestamp)}</span>
       </Fragment>
     );
