@@ -6,7 +6,7 @@ import EventDurationMarker from 'in-views/eventView/components/marker/EventDurat
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
-import { getTimeConfigFromEvent } from 'in-views/eventView/services/timeframe';
+import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
@@ -52,7 +52,7 @@ export default connectTo(
       const isExpanded = this.state.isExpanded;
       const background = this.props.background;
       const event = this.props.event;
-      const timeConfigFromEvent = getTimeConfigFromEvent(event);
+      const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
 
       let rightClassName = `${block}__right`;
       if (this.props.highlightedEventId === event.get('id')) {
@@ -146,7 +146,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
           </div>
           <EntityInformation
             entityId={event.get('entityId')}
-            entitType={event.get('entitType')}
+            entityType={event.get('entityType')}
             timeConfig={timeConfig}
           />
         </div>

@@ -13,9 +13,6 @@ import Title from 'in-components/Title';
 
 import locals from './TraceTablePage.mless';
 
-/*
- * Shared layout for trace groups and raw traces.
- */
 export default function TraceTablePage({ location, children }) {
   const filter = buildFilter(location);
   return (

@@ -7,13 +7,15 @@ import { isDateTimeValid$ as fromValid$ } from 'in-components/timeline/component
 import { isDateTimeValid$ as toValid$ } from 'in-components/timeline/components/DatePicker/stores/toDatePickerStore';
 import { windowSize$ } from 'in-components/timeline/components/DatePicker/stores/windowSizeStore';
 import { MAX_ZOOM_LEVEL, MIN_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
-import { selectedMomentPlacedViaTimeSelector } from 'in-services/tracking';
 import { closeTimeSelector } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+export const trackSelectedMomentPlacedViaTimeSelector = createTracker('time.selectedMoment.viaTimeSelector');
 
 export default connectTo(
   props => {
@@ -104,5 +106,5 @@ export default connectTo(
 function stopAndCloseDialog(e) {
   e.stopPropagation();
   closeTimeSelector();
-  selectedMomentPlacedViaTimeSelector();
+  trackSelectedMomentPlacedViaTimeSelector();
 }

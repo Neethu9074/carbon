@@ -81,19 +81,15 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: msZeroDecimalPlaces,
-          metrics: ['servlets.' + servletKey + '.avgResponseTime'],
-          labels: ['Average Response Time'],
-          type: 'line'
-        }}
-      />
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.requests'],
           labels: ['Requests'],
+          type: 'line'
+        }}
+        y2={{
+          formatter: msZeroDecimalPlaces,
+          metrics: ['servlets.' + servletKey + '.avgResponseTime'],
+          labels: ['Average Response Time'],
           type: 'line'
         }}
       />

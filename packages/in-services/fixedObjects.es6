@@ -18,5 +18,5 @@ export const indeterminateProgress: Progress = Object.freeze({
 
 export const pendingResult: Result<any> = Object.freeze({
   progress: indeterminateProgress,
-  errors: []
+  errors: emptyArray
 });

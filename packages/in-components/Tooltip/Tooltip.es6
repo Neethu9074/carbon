@@ -28,7 +28,8 @@ export default class extends React.PureComponent {
       'bottomLeft',
       'bottomMiddle',
       'bottomRight',
-      'auto'
+      'auto',
+      'mousePosition'
     ])
   };
 

@@ -19,17 +19,8 @@
     }
   }
 
-  .timeIcon {
-    display: block;
-    fill: #7d8b8f;
-  }
-
-  .timeIconExpanded {
-    fill: #fff;
-  }
-
   .toggleIcon {
-    fill: #7d8b8f;
+    fill: @lib__colors__N500;
   }
 
   .toggleIconExpanded {

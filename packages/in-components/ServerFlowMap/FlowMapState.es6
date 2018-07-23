@@ -1,8 +1,7 @@
 import PathFinder from 'in-components/ServerFlowMap/PathFinder';
-import { generateUniqueShortId } from 'in-services/util/id';
 import { find } from 'in-services/arrayUtils';
 
-const placeHolderNodeIdPrephrase = 'placeholder_';
+const emptyChildrenMap = new Map();
 
 export default class FlowMapState {
   constructor() {
@@ -74,7 +73,7 @@ export default class FlowMapState {
     }
   }
 
-  processResult(result, onError, onLoading, onResult, direction, path) {
+  processResult(nodeId, endpointId, result, onError, onLoading, onResult, direction, path) {
     const hasErrors = result.errors.length > 0;
     onError(result.errors);
     if (hasErrors) {
@@ -87,17 +86,27 @@ export default class FlowMapState {
       return;
     }
 
-    this.clearCurrentNodesFromDummies();
+    this.clearCurrentNodesFromDummies(nodeId, endpointId);
 
     const nodes = this.mapResult(result, path, direction);
     onResult(nodes);
   }
 
-  mutateNodesWithPlaceHolderIfNecessary(node, nodes, result, direction, createPlaceHolderNodeFunction) {
+  mutateNodesWithPlaceHolderIfNecessary(node, endpointId, nodes, result, direction, createPlaceHolderNodeFunction) {
     const cursor = result.data.page;
     const numRemainingNodes = Math.max(0, result.data.totalHits - cursor * result.data.pageSize);
     if (numRemainingNodes > 0) {
-      const placeHolderNode = createPlaceHolderNodeFunction();
+      const placeholderNodeId = createRemainingPlaceholderId(node.id, endpointId);
+      if (this.nodes.has(placeholderNodeId)) {
+        this.nodes.get(placeholderNodeId).paginationInformation = {
+          connectedNode: node,
+          direction,
+          numRemainingNodes,
+          cursor
+        };
+        return;
+      }
+      const placeHolderNode = createPlaceHolderNodeFunction(node.id);
       placeHolderNode.paginationInformation = { connectedNode: node, direction, numRemainingNodes, cursor };
       nodes.push(placeHolderNode);
     }
@@ -110,7 +119,7 @@ export default class FlowMapState {
       node.isLoading[direction] = false;
       node.hasRelatedNodes[direction] = false;
 
-      this.mutateNodesWithPlaceHolderIfNecessary(node, nodes, result, direction, createPlaceHolderNode);
+      this.mutateNodesWithPlaceHolderIfNecessary(node, endpointId, nodes, result, direction, createPlaceHolderNode);
 
       for (let i = 0; i < nodes.length; i++) {
         const newNode = nodes[i];
@@ -137,7 +146,7 @@ export default class FlowMapState {
     const onError = errors => (node.errors[direction] = errors);
     const onLoad = isLoading => (node.isLoading[direction] = isLoading);
 
-    this.processResult(result, onError, onLoad, onResult, direction, path);
+    this.processResult(node.id, null, result, onError, onLoad, onResult, direction, path);
   }
 
   processEndpointResult(nodeId, endpointId, result, direction, path) {
@@ -147,7 +156,14 @@ export default class FlowMapState {
       const child = node.children.get(endpointId);
       child.hasRelatedNodes[direction] = false;
 
-      this.mutateNodesWithPlaceHolderIfNecessary(node, children, result, direction, createPlaceHolderNodeWithEndpoint);
+      this.mutateNodesWithPlaceHolderIfNecessary(
+        node,
+        endpointId,
+        children,
+        result,
+        direction,
+        createPlaceHolderNodeWithEndpoint
+      );
 
       for (let i = 0; i < children.length; i++) {
         const newChild = children[i];
@@ -183,6 +199,7 @@ export default class FlowMapState {
         child.errors[direction] = errors;
       }
     };
+
     const onLoad = isLoading => {
       const child = node.children.get(endpointId);
       if (child) {
@@ -190,7 +207,7 @@ export default class FlowMapState {
       }
     };
 
-    this.processResult(result, onError, onLoad, onResult, direction, path);
+    this.processResult(nodeId, endpointId, result, onError, onLoad, onResult, direction, path);
   }
 
   mapResult(result, path, direction) {
@@ -204,10 +221,11 @@ export default class FlowMapState {
     }));
   }
 
-  clearCurrentNodesFromDummies() {
+  clearCurrentNodesFromDummies(nodeId) {
+    const placeholderNodeId = createRemainingPlaceholderId(nodeId);
     const nodesIterator = this.nodes.values();
     for (const node of nodesIterator) {
-      if (node.id.indexOf(placeHolderNodeIdPrephrase) === 0) {
+      if (node.id === placeholderNodeId) {
         this.nodes.delete(node.id);
       }
     }
@@ -259,17 +277,21 @@ function createBasicNode(id, applicationId, data, metricValues) {
   };
 }
 
-function createPlaceHolderNode() {
-  const node = createBasicNode(`${placeHolderNodeIdPrephrase}${generateUniqueShortId()}`);
+function createPlaceHolderNode(nodeId, endpointId) {
+  const node = createBasicNode(createRemainingPlaceholderId(nodeId, endpointId));
   node.isRemainingNodesPlaceHolder = true;
-  node.children = new Map();
+  node.children = emptyChildrenMap;
   return node;
 }
 
-function createPlaceHolderNodeWithEndpoint() {
-  const node = createPlaceHolderNode();
+function createPlaceHolderNodeWithEndpoint(nodeId, endpointId) {
+  const node = createPlaceHolderNode(nodeId);
   node.endpoint = {
-    id: generateUniqueShortId()
+    id: createPlaceHolderNode(endpointId)
   };
   return node;
+}
+
+function createRemainingPlaceholderId(id) {
+  return `placeholder_${id}`;
 }

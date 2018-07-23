@@ -275,7 +275,9 @@ export default class extends React.Component {
               <SectionHeading>Application</SectionHeading>
               <Group>
                 <Heading
-                  text={`Number of shown hops when filtering services (${settings['map_logical_numServiceHops']})`}
+                  text={`Number of shown hops when filtering services on the map (${
+                    settings['map_logical_numServiceHops']
+                  })`}
                   htmlFor="num_service_hops"
                 />
                 <input
@@ -301,7 +303,7 @@ function Group({ children, helpText, isWarning }) {
   return (
     <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
       {helpText ? (
-        <Tooltip content={helpText} align="leftMiddle">
+        <Tooltip content={helpText} align="rightMiddle">
           <SvgIcon
             className={`${block}__info-icon`}
             type="info"

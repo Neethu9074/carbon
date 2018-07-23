@@ -16,8 +16,7 @@ export default connectTo(
       response: createAgentResponseObservable({
         action: 'java.threadDump',
         target: props.snapshot.get('volatileId'),
-        args: {},
-        time: props.time
+        args: {}
       })
     };
   },

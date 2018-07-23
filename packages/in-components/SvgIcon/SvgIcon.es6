@@ -38,7 +38,7 @@ export default function SvgIcon({
   let iconWidth;
   let iconHeight;
 
-  if (maxWidth == null && maxHeight == null) {
+  if (!maxWidth && !maxHeight) {
     if (width) {
       iconWidth = width;
     } else if (height) {
@@ -48,16 +48,28 @@ export default function SvgIcon({
     }
     iconHeight = height ? height : iconWidth / icon.ratio;
   } else if (maxHeight != null) {
+    if (!maxWidth) {
+      maxWidth = width || height || maxHeight;
+    }
     iconHeight = maxHeight;
     iconWidth = maxWidth * icon.ratio;
   } else {
+    if (!maxWidth) {
+      maxWidth = width || height || maxHeight;
+    }
     iconWidth = maxWidth;
     iconHeight = maxWidth / icon.ratio;
   }
 
+  if (type === 'lib_help_error_warning') {
+    console.log(iconWidth, iconHeight, width, height, maxWidth, maxHeight);
+  }
+
   style = style || {};
-  style.width = `${iconWidth}px`;
-  style.height = `${iconHeight}px`;
+  style.minHeight = `${iconHeight}px`;
+  style.maxHeight = style.minHeight;
+  style.minWidth = `${iconWidth}px`;
+  style.maxWidth = style.minWidth;
 
   let classNames = block;
   if (className) {

@@ -14,24 +14,12 @@
     margin-right: 0.5rem;
   }
 
-  .metricLink {
-    padding: 0.25rem 0.5rem;
-    text-decoration: none;
-    color: @lib__colors__N700Medium;
-    font-size: 0.875rem;
-    border-radius: @lib__shapes__radius_small;
-
-    &:hover {
-      background: @lib__colors__N300;
-      text-decoration: none;
-    }
-  }
-
   .active {
     color: #fff;
     background: @lib__colors__light-blue800;
 
     &:hover {
+      color: #fff;
       background: @lib__colors__light-blue800;
       cursor: default;
     }

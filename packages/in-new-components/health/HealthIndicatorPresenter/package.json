@@ -1,0 +1,6 @@
+{
+  "name": "HealthIndicatorPresenter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HealthIndicatorPresenter.es6"
+}

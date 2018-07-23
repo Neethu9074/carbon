@@ -1,13 +1,14 @@
 import React from 'react';
 
 import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/components/MatchingEntityTable';
+import { applicationPlugins, defaultAndUnknownPluginNames, servicePlugins } from 'in-forge/constants';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import RuleControl from 'in-components/form/RuleControl';
 import FormGroup from 'in-components/form/FormGroup';
-import { servicePlugins } from 'in-forge/constants';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/Grid';
@@ -19,15 +20,11 @@ import Step from 'in-components/form/Step';
 import './Step1.less';
 
 const block = 'in-dynamic-rule-dialog-step-1';
-const furtherPluginsToFilter = [
-  'unknownService',
-  'defaultLogicalService',
-  'defaultServiceInstance',
-  'defaultLogicalConnection'
-];
-const pluginsWithMetricDefinitions = Object.keys(servicePlugins)
+
+const plugins = twoZeroModeEnabled ? applicationPlugins : servicePlugins;
+const pluginsWithMetricDefinitions = Object.keys(plugins)
   .map(key => servicePlugins[key])
-  .filter(plugin => furtherPluginsToFilter.indexOf(plugin) < 0)
+  .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
   .filter(plugin => getCategories(plugin).length > 0)
   .sort((a, b) => getSingular(a).localeCompare(getSingular(b)));
 

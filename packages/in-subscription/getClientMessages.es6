@@ -6,7 +6,8 @@ import type { Observable } from 'reactive-observables';
 export type Message = {
   title: string,
   text: string,
-  errorCode?: ErrorCode
+  errorCode?: ErrorCode,
+  subscriptionId?: number
 };
 
 const subscriptionFactory: () => Observable<Message> = createSubscription({

@@ -1,0 +1,6 @@
+{
+  "name": "CallsList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CallsList.es6"
+}

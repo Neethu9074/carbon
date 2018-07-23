@@ -3,6 +3,7 @@ import React from 'react';
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
 
 export default function HttpSpanDetailView({ span }) {
@@ -19,6 +20,7 @@ export default function HttpSpanDetailView({ span }) {
   }
 
   const error = span.getIn(['data', 'http', 'error']);
+  const params = span.getIn(['data', 'http', 'params']);
 
   return (
     <div>
@@ -27,7 +29,9 @@ export default function HttpSpanDetailView({ span }) {
         {path ? <DescriptionItem title="Request Path">{path}</DescriptionItem> : null}
         {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
         <DescriptionItem title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</DescriptionItem>
-        <DescriptionItem title="Parameters">{span.getIn(['data', 'http', 'params'])}</DescriptionItem>
+        {params != null && (
+          <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
+        )}
         <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
         <DescriptionItem title="Status Code">{span.getIn(['data', 'http', 'status'])}</DescriptionItem>
         <DescriptionItem title="Content Length">

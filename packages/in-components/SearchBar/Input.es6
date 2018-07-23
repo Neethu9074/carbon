@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
-import { setInputString, unvalidatedQuery$ } from 'in-stores/search/query';
+import { setQueryInput, unvalidatedQuery$ } from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
 import { replaceWith } from 'in-components/SearchBar/misc/stringUtils';
 import { tryFocusSearch } from 'in-components/SearchBar/stores/focus';
@@ -30,7 +30,7 @@ const block = 'in-searchbar-input';
 export default getElementDimensions(
   connectTo(
     {
-      query: unvalidatedQuery$
+      contextQuery: unvalidatedQuery$
     },
     class extends React.Component {
       displayname = 'SearchBar-Input';
@@ -38,9 +38,10 @@ export default getElementDimensions(
       componentDidMount() {
         const editor = (this.editor = CodeMirror(this.input, {
           mode: 'instanaSearch',
-          value: this.props.query,
+          value: this.props.contextQuery.query,
           autofocus: false,
-          scrollbarStyle: null
+          scrollbarStyle: null,
+          searchContext: this.props.contextQuery.searchContext
         }));
 
         let autocompleteShownForCursorPosition = null;
@@ -77,7 +78,7 @@ export default getElementDimensions(
           ) {
             event.preventDefault();
 
-            const query = this.props.query;
+            const query = this.props.contextQuery.query;
             const tokens = lex(query);
             const { left } = editor.cursorCoords({ line: 0, ch: autocompleteShownForCursorPosition }, 'local');
             const { field, fieldValue } = this.getFieldConfig(tokens, autocompleteShownForCursorPosition - 1);
@@ -277,8 +278,11 @@ export default getElementDimensions(
 
       componentWillUpdate(nextProps) {
         // update the editor state if the query gets manipulated from outside
-        if (this.props.query !== nextProps.query && nextProps.query !== this.editor.getValue()) {
-          this.editor.setValue(nextProps.query);
+        if (
+          this.props.contextQuery.query !== nextProps.contextQuery.query &&
+          nextProps.contextQuery.query !== this.editor.getValue()
+        ) {
+          this.editor.setValue(nextProps.contextQuery.query);
         }
       }
 
@@ -292,6 +296,7 @@ export default getElementDimensions(
                 eventEmitter={this.state.eventEmitter}
                 onSelectSuggestion={this.onSelectSuggestion}
                 config={this.state.suggestionConfig}
+                searchContext={this.props.contextQuery.searchContext}
               />
             </div>
           </ErrorBoundary>
@@ -304,7 +309,7 @@ export default getElementDimensions(
         }
 
         let { string, cursorAfterInsertion } = replaceWith(
-          this.props.query, // complete query
+          this.props.contextQuery.query, // complete query
           e.replaceFrom, // position of the starting character of the current token
           e.replaceTo, // position of the ending character of the current token
           e.replaceWith // sequence which should be replaced with
@@ -326,7 +331,7 @@ export default getElementDimensions(
           this.editor.setValue(newQuery);
         }
 
-        setInputString(newQuery);
+        setQueryInput(newQuery, this.props.contextQuery.searchContext);
       };
 
       removeBlockFromQuery = blockId => {

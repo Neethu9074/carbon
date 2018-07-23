@@ -25,7 +25,7 @@ export function getChartTimeframeByEvent({
   return timeConfig;
 }
 
-export function getTimeConfigFromEvent(event) {
+export function getTimeConfigFromEventForCharts(event) {
   const from = getFromOfEvent(event);
   if (from === undefined) {
     throw new Error('Could not derive time config from event.');
@@ -40,6 +40,26 @@ export function getTimeConfigFromEvent(event) {
   return {
     to,
     focusedMoment: to,
+    windowSize: toForWs - from,
+    autoRefresh: false
+  };
+}
+
+export function getTimeConfigFromEventForSnapshotRetrieval(event) {
+  const from = getFromOfEvent(event);
+  if (from === undefined) {
+    throw new Error('Could not derive time config from event.');
+  }
+
+  const focusedMoment =
+    typeof event.get === 'function'
+      ? event.get('triggeringTime', event.get('start'))
+      : event.triggeringTime || event.start;
+
+  const toForWs = focusedMoment || Date.now();
+  return {
+    to: focusedMoment,
+    focusedMoment,
     windowSize: toForWs - from,
     autoRefresh: false
   };

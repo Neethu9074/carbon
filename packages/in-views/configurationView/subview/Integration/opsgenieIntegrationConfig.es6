@@ -6,6 +6,7 @@ import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
+import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
@@ -23,6 +24,7 @@ export default {
   enrichIntegrationObject(integration) {
     integration.apiKey = '';
     integration.tags = '';
+    integration.region = '';
   },
 
   createDetails(integration) {
@@ -30,6 +32,7 @@ export default {
       <DescriptionList>
         <DescriptionItem title="Api Key">{integration.get('apiKey')}</DescriptionItem>
         <DescriptionItem title="Tags">{integration.get('tags')}</DescriptionItem>
+        <DescriptionItem title="Region">{integration.get('region')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -62,6 +65,13 @@ export default {
           value: integration ? integration.get('tags') : '',
           validator: notBlankValidator
         })
+      )
+      .put(
+        'region',
+        createField({
+          value: integration ? integration.get('region') : '',
+          validator: notBlankValidator
+        })
       );
   },
 
@@ -71,7 +81,8 @@ export default {
       kind: form.get('kind').value,
       name: form.get('name').value,
       apiKey: form.get('apiKey').value,
-      tags: form.get('tags').value
+      tags: form.get('tags').value,
+      region: form.get('region').value
     };
   },
 
@@ -131,6 +142,25 @@ function Form({ form, onChange }) {
               value={field.value}
               onChange={e => onChange('tags', e.target.value)}
             />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
+
+        {form.get('region').map(field => (
+          <FormGroup>
+            <Label htmlFor="region" hasError={!field.valid && field.touched}>
+              Region
+            </Label>
+            <Select
+              className={`${block}__input`}
+              id="region"
+              value={field.value}
+              onChange={e => onChange('region', e.target.value)}
+            >
+              <option value="">Please Select</option>
+              <option value="US">US</option>
+              <option value="EU">EU</option>
+            </Select>
             <TouchedMessages field={field} />
           </FormGroup>
         ))}

@@ -8,7 +8,7 @@ import Root from '../../../_helpers/Root';
 
 storiesOf('designLibrary/Components/Time/TimePresenter', module)
   .addDecorator(withKnobs)
-  .add('Fixed', () => <Example to={1519297047052} />)
+  .add('Fixed', () => <Example to={Date.now()} />)
   .add('Live', () => <Example to={null} />);
 
 function Example({ to }) {

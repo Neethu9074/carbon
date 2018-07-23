@@ -12,8 +12,6 @@ registerSpanDefinition({
 
   detailView: 'MySqlSpanDetailView',
 
-  groupingDetailView: 'MySqlSpanGroupingDetailView',
-
   getLabel(span) {
     const statement = span.getIn(['data', 'mysql', 'stmt'], span.getIn(['data', 'mysql', 'sql']));
     if (statement != null) {

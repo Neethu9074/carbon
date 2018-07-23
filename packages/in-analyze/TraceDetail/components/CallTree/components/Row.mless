@@ -64,6 +64,10 @@
     }
   }
 
+  .batchSizeIndicator {
+    margin-right: 0.5rem;
+  }
+
   .dashedLine {
     border-bottom: 1px dashed @lineColor;
     flex-grow: 1;

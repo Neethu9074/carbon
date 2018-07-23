@@ -10,7 +10,7 @@ export default function EntityWithTypeAndIcon({ label, type, iconType, href$ }) 
     <div className={locals.wrapper}>
       {iconType && <SvgIcon className={locals.entityIcon} type={iconType} width={24} height={24} />}
       <div className={locals.labelWrapper}>
-        <span className={locals.type}>{type}</span>
+        <div className={locals.type}>{type}</div>
         {href$ ? (
           <Link className={locals.link} href$={href$}>
             {label}

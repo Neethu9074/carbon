@@ -99,13 +99,11 @@ export const nonServicePlugins = {
 };
 
 export const servicePlugins = {
-  application20: 'application20',
   batchServiceInstance: 'batchServiceInstance',
   browserLogicalConnection: 'browserLogicalConnection',
   browserLogicalService: 'browserLogicalService',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
-  defaultEntity20: 'defaultEntity20',
   defaultLogicalConnection: 'defaultLogicalConnection',
   defaultLogicalService: 'defaultLogicalService',
   defaultServiceInstance: 'defaultServiceInstance',
@@ -141,6 +139,8 @@ export const servicePlugins = {
   logicalMessagePublisherConnection: 'logicalMessagePublisherConnection',
   logicalMongoDbConnection: 'logicalMongoDbConnection',
   logicalMongoDbDatabase: 'logicalMongoDbDatabase',
+  logicalMsmqConsumerConnection: 'logicalMsmqConsumerConnection',
+  logicalMsmqPublisherConnection: 'logicalMsmqPublisherConnection',
   logicalPdoConnection: 'logicalPdoConnection',
   logicalRabbitMqConsumerConnection: 'logicalRabbitMqConsumerConnection',
   logicalRabbitMqPublisherConnection: 'logicalRabbitMqPublisherConnection',
@@ -160,18 +160,35 @@ export const servicePlugins = {
   sdkLogicalConnection: 'sdkLogicalConnection',
   sdkLogicalService: 'sdkLogicalService',
   sdkServiceInstance: 'sdkServiceInstance',
-  service20: 'service20',
   shellLogicalConnection: 'shellLogicalConnection',
   shellLogicalService: 'shellLogicalService',
   unknownService: 'unknownService',
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
-export const plugins = assign({}, servicePlugins, nonServicePlugins);
+export const applicationPlugins = {
+  application: 'application',
+  defaultEntity20: 'defaultEntity20',
+  service: 'service'
+};
+
+export const plugins = assign({}, applicationPlugins, servicePlugins, nonServicePlugins);
+
+export const plugins10 = assign({}, servicePlugins, nonServicePlugins);
+
+export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
+
+export const defaultAndUnknownPluginNames = [
+  'unknownService',
+  'defaultEntity20',
+  'defaultLogicalConnection',
+  'defaultLogicalService',
+  'defaultServiceInstance'
+];
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
-  application20: 'com.instana.forge.application.Application',
+  application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
@@ -269,6 +286,8 @@ export const fullyQualifiedPlugins = {
   logicalMessagePublisherConnection: 'com.instana.forge.connection.messaging.LogicalMessagePublisherConnection',
   logicalMongoDbConnection: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbConnection',
   logicalMongoDbDatabase: 'com.instana.forge.connection.database.mongodb.LogicalMongoDbDatabase',
+  logicalMsmqConsumerConnection: 'com.instana.forge.connection.messaging.msmq.LogicalMsmqConsumerConnection',
+  logicalMsmqPublisherConnection: 'com.instana.forge.connection.messaging.msmq.LogicalMsmqPublisherConnection',
   logicalPdoConnection: 'com.instana.forge.connection.database.pdo.LogicalPdoConnection',
   logicalRabbitMqConsumerConnection:
     'com.instana.forge.connection.messaging.rabbitmq.LogicalRabbitMqConsumerConnection',
@@ -315,7 +334,7 @@ export const fullyQualifiedPlugins = {
   sdkLogicalConnection: 'com.instana.forge.connection.sdk.SdkLogicalConnection',
   sdkLogicalService: 'com.instana.forge.connection.sdk.SdkLogicalService',
   sdkServiceInstance: 'com.instana.forge.connection.sdk.SdkServiceInstance',
-  service20: 'com.instana.forge.application.Service',
+  service: 'com.instana.forge.application.Service',
   shellLogicalService: 'com.instana.forge.connection.shell.ShellLogicalService',
   shellLogicalConnection: 'com.instana.forge.connection.shell.ShellLogicalConnection',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',

@@ -33,7 +33,12 @@ export default getElementDimensions(
       } else {
         const flowMapStateHasChanged = this.props.flowMapStateVersion !== nextProps.flowMapStateVersion;
         if (flowMapStateHasChanged) {
-          this.flowMap.updateState(nextProps.flowMapState);
+          if (!this.flowMap) {
+            this.initFlowMap(nextProps);
+          }
+          if (this.flowMap) {
+            this.flowMap.updateState(nextProps.flowMapState);
+          }
         }
       }
       if (

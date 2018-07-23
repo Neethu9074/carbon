@@ -6,12 +6,30 @@ import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import Root from '../../../_helpers/Root';
 
-storiesOf('designLibrary/Components/Time/TimeSelectionDialog', module).add('default', () => <Default />);
+storiesOf('designLibrary/Components/Time/TimeSelectionDialog', module)
+  .add('default', () => <Default />)
+  .add('Past Live', () => <PastLive />);
 
 function Default() {
   return (
     <Root>
-      <TimeSelectionDialogPresenter timeframe={{ windowSize: 1000 * 60 * 5, to: null }} onChange={action('onChange')} />
+      <TimeSelectionDialogPresenter
+        timeConfig={{ windowSize: 1000 * 60 * 5, to: null, focusedMoment: null }}
+        onChange={action('onChange')}
+      />
+      <OverlayPresenter />
+    </Root>
+  );
+}
+
+function PastLive() {
+  return (
+    <Root>
+      <TimeSelectionDialogPresenter
+        timeConfig={{ windowSize: 1000 * 60 * 5, to: null, focusedMoment: null }}
+        onChange={action('onChange')}
+        containsPastLiveData
+      />
       <OverlayPresenter />
     </Root>
   );

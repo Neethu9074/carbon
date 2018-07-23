@@ -26,10 +26,8 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
  * Returns a function (Param => Observable<Result>) that, when called, yields an observable of Result values.
  *
  * Type params:
- * - Param: the type of object this subscription needs for getId and getData
- * - ServerResult: the type of values the back end emits
- * - Result: the type of values the new subscription will emit (might be different from ServerResult when using
- *   transformData.
+ * - PARAM: the type of object this subscription needs for getId and getData
+ * - RESULT: the type of values the new subscription will emit
  */
 export default function<PARAM, RESULT>({
   eventId,
@@ -59,7 +57,8 @@ function createObservable<PARAM, RESULT>(
     event,
     payload: getData(subscriptionId, opts),
     disposeSubscriptionOnDocumentHidden,
-    listener: onData
+    listener: onData,
+    initializationCallStack: new Error('Subscription failed. Stack shows subscription initialization.')
   };
 
   const observable = create({

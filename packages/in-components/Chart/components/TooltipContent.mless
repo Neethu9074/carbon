@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .tooltipContent {
@@ -40,14 +41,19 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 0.5rem;
+
+    .ellipsis();
   }
 
   .entry {
     display: flex;
     align-items: center;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
+    .ellipsis();
+  }
+
+  .label {
+    .ellipsis();
   }
 
   .dot,
@@ -68,6 +74,7 @@
   }
 
   .value {
+    margin-left: 1rem;
     font-weight: bold;
     color: @lib__colors__N900Primary;
   }

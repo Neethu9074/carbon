@@ -1,6 +1,7 @@
-import { blackListedSearchFieldValues, blackListedSearchFieldKeywords } from 'in-services/featureFlags';
+import { blackListedSearchFieldValues, getBlackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { find } from 'in-services/arrayUtils';
 
@@ -55,12 +56,13 @@ filters$.subscribe(_filters => {
   );
 });
 
-let tree;
-export function getTree() {
-  if (!tree) {
-    buildCategorizedFields();
+let treeBySearchContext = {};
+export function getTree(searchContext) {
+  if (!(searchContext in treeBySearchContext)) {
+    const fields = buildCategorizedFields(searchContext);
+    treeBySearchContext[searchContext] = fields;
   }
-  return tree;
+  return treeBySearchContext[searchContext];
 }
 
 export function node(name, props = {}) {
@@ -75,9 +77,10 @@ export function node(name, props = {}) {
   };
 }
 
-export function buildCategorizedFields(fields) {
+export function buildCategorizedFields(searchContext, fields) {
   const root = node('root');
-  fields = fields || window.instana.searchFields;
+  fields = fields || getGlobalFields(searchContext);
+  const blackListedSearchFieldKeywords = getBlackListedSearchFieldKeywords(searchContext);
 
   fields.forEach(field => {
     for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
@@ -117,7 +120,12 @@ export function buildCategorizedFields(fields) {
 
   mapChildrenObjectsToArrays(root);
   clearNode(root);
-  tree = root;
+
+  // workaround needed to make the fields_test run sucessfully, which calls this
+  // method explicitly to override the available search fields
+  treeBySearchContext[searchContext] = root;
+
+  return root;
 }
 
 function mapChildrenObjectsToArrays(node) {
@@ -145,8 +153,8 @@ function clearNode(node) {
   }
 }
 
-export function findNode(query) {
-  const root = getTree();
+export function findNode(query, searchContext) {
+  const root = getTree(searchContext);
   if (!query || query.length === 0) {
     return root;
   }
@@ -182,8 +190,9 @@ export const operatorTree = node('root', {
   children: [node('AND', { isPreset: true }), node('OR', { isPreset: true }), node('NOT', { isPreset: true })]
 });
 
-export function getValueSuggestions(keyword, currentValue) {
-  const field = find(window.instana.searchFields, field => field.keyword === keyword);
+export function getValueSuggestions(keyword, currentValue, searchContext) {
+  const fields = getGlobalFields(searchContext);
+  const field = find(fields, field => field.keyword === keyword);
   if (!field) {
     return emptyArray;
   }
@@ -202,4 +211,9 @@ export function getValueSuggestions(keyword, currentValue) {
     .filter(
       value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
     );
+}
+
+function getGlobalFields(searchContext) {
+  const fieldsKey = twoZeroModeEnabled ? (searchContext == 'traces' ? 'v2-traceList' : 'v2') : 'v1';
+  return window.instana.searchFields[fieldsKey];
 }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
@@ -60,9 +61,9 @@ export default function Step2({ form, onChange }) {
                     className={`${block}__input`}
                     value={eventQueryField.value}
                     onChange={e => onChange('query', e.target.value)}
-                    hasError={!eventQueryField.valid && eventQueryField.touched}
+                    hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                   />
-                  <TouchedMessages field={eventQueryField} />
+                  <BackendValidationMessages validationResult={form.get('validationResult').value} />
                   <MatchingEntitiesIndicator form={form} />
                 </div>
               ))}
@@ -88,6 +89,14 @@ function LabelledToggle({ onChange, types, title, type }) {
       </Button>
     </Col>
   );
+}
+
+function BackendValidationMessages({ validationResult }) {
+  if (validationResult.valid) {
+    return null;
+  }
+
+  return <ValidationBlock hasError>{`${validationResult.error}.`}</ValidationBlock>;
 }
 
 function onSelectChanged(types, onChange, type) {

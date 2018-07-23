@@ -206,8 +206,8 @@ export default function createConnectionsService(serviceLocatorUid) {
   }
 
   function connectChildren(node, xOffset, connections) {
-    const yOffset = 0.9;
-    const yOffsetStep = 0.915;
+    const yOffset = 0;
+    const yOffsetStep = 2.02;
     let iFrom = 0;
 
     for (const fromChild of node.children.values()) {
@@ -222,9 +222,8 @@ export default function createConnectionsService(serviceLocatorUid) {
         const fromPos = cFrom.parentNode.position.clone();
         const iChild = indexOf(cFrom, fromChild.incoming[i].parentNode.children);
 
-        fromPos.y -= iChild * yOffsetStep;
         if (!cFrom.parentNode.isRemainingNodesPlaceHolder) {
-          fromPos.y -= yOffset;
+          fromPos.y -= iChild * yOffsetStep;
         }
         fromPos.x += xOffset;
         connections.push(getChildConnection(cFrom, cSource, fromPos, sourcePos, 'incoming'));
@@ -237,9 +236,8 @@ export default function createConnectionsService(serviceLocatorUid) {
         const toPos = cTo.parentNode.position.clone();
         const iChild = indexOf(cTo, fromChild.outgoing[i].parentNode.children);
 
-        toPos.y -= iChild * yOffsetStep;
         if (!cTo.parentNode.isRemainingNodesPlaceHolder) {
-          toPos.y -= yOffset;
+          toPos.y -= iChild * yOffsetStep;
         }
         toPos.x -= xOffset;
         connections.push(getChildConnection(cSource, cTo, sourcePos, toPos, 'outgoing'));

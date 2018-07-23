@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .analyzeHeader {
+    background: @lib__colors__N200;
+  }
+
+  .heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    height: 4.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .title {
+    max-width: 70vw;
+    margin: 0 0.25rem 0 0;
+
+    color: @lib__colors__N900Primary;
+  }
+
+  .numberOfCalls {
+    color: @lib__colors__N700Medium;
+    font-size: 1rem;
+    margin-left: 0.75rem;
+    font-weight: 300;
+  }
+
+  .expandIcon {
+    fill: @lib__colors__N500;
+  }
+
+  .filterRow {
+    padding: 0.5rem 0;
+
+    transition: height 0.125s ease-in-out;
+  }
+}

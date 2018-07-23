@@ -42,15 +42,8 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: [
-              'threads.new',
-              'threads.runnable',
-              'threads.timed-waiting',
-              'threads.waiting',
-              'threads.blocked',
-              'threads.terminated'
-            ],
-            labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked', 'Terminated'],
+            metrics: ['threads.new', 'threads.runnable', 'threads.timed-waiting', 'threads.waiting', 'threads.blocked'],
+            labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked'],
             type: 'stackedArea',
             formatter: twoDecimalPlaces
           }}

@@ -84,7 +84,7 @@ export default function({
               (!treat400AsError && 399 < response.status && response.status < 500)
             ) {
               observable.emit(response);
-            } else if (!attemptRetry()) {
+            } else {
               observable.emitError(new HttpResponseStatusCodeError(response, method, url));
             }
           }
@@ -129,4 +129,8 @@ function formatUrl(url, queryParams = {}) {
     .join('&');
 
   return url + '?' + queryPart;
+}
+
+export function isSuccess(response) {
+  return response && response.status >= 200 && response.status < 300;
 }

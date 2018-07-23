@@ -4,11 +4,10 @@ import React from 'react';
 
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import RoleForm from 'in-views/configurationView/subview/RoleConfig/RoleForm';
-import { rolesConfigPath } from 'in-stores/navigation/paths/settingPaths';
+import { rolesConfigsPath } from 'in-stores/navigation/paths/settingPaths';
 import { getRole, saveRole, createRole } from 'in-api/roles';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
-import { ownerRoleId, fallbackRoleId, defaultRole } from 'in-stores/user';
 import Notification from 'in-components/form/Notification';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -24,7 +23,7 @@ export default function AlertingConfiguration(props) {
       createDefaultEntity={createRole}
       createForm={createForm}
       getEntityFromApi={getRole}
-      openEntities={() => goToPath(rolesConfigPath)}
+      openEntities={() => goToPath(rolesConfigsPath)}
       saveEntity={save}
     />
   );
@@ -34,8 +33,6 @@ const Form = entityForm(function IntegrationForm(props) {
   const { entity, form, message, error, loading } = props;
 
   const roleId = form ? form.get('id').value : null;
-  // do not allow editing of the owner or fallback role
-  const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId || roleId === defaultRole;
 
   return (
     <div>
@@ -53,7 +50,7 @@ const Form = entityForm(function IntegrationForm(props) {
         ) : null}
       </Section>
 
-      <RoleForm {...props} disabled={disabled} />
+      <RoleForm {...props} roleId={roleId} />
     </div>
   );
 });

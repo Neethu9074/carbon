@@ -3,19 +3,22 @@
 
 'use strict';
 
-let zIndex = 1;
+// zIndex start at 100, because some components need to raise their content above
+// sibling content. This is typically achieved by adding zIndex: 1. We start at
+// zIndex 100 to avoid any conflicts.
+let zIndex = 100;
 
 module.exports = {
   zIndex: {
-    stickyHeader: (zIndex += 20),
     timeline: zIndex++,
+    stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,
-    tooltips: zIndex++,
     overlays: zIndex++,
     dialog: zIndex++,
     subMenu: zIndex++,
-    messageFlyout: zIndex++
+    messageFlyout: zIndex++,
+    tooltips: zIndex++
   },
   fontColor: '#222627',
   fontFamilySansSerif:
@@ -50,6 +53,11 @@ module.exports = {
     height: 36,
     heightExpanded: 97,
     heightOpen: 171
+  },
+  footerTimelineEvents20: {
+    height: 36,
+    heightExpanded: 73,
+    heightOpen: 147
   },
   header: {
     height: 88
@@ -183,6 +191,7 @@ function buildLib() {
   // success & failure
   lib.colors.success = lib.colors.green800;
   lib.colors.failure = lib.colors.red800;
+  lib.colors.warning = lib.colors.yellow800;
 
   // stroke colors
   lib.colors.chart.strokeColors100 = [
@@ -195,9 +204,14 @@ function buildLib() {
     lib.colors.pink800,
     lib.colors.teal800,
     lib.colors.purple800,
-    lib.colors.indigo800
+    lib.colors.indigo800,
   ];
+
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));
+
+  // self
+  lib.colors.chart.self100 = lib.colors.N500;
+  lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05)
 
   return lib;
 }

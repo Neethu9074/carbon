@@ -14,15 +14,19 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
-import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import {
+  isQueryBuilderEnabled,
+  cockpitEnabled,
+  previewTwoZeroWithoutHybrid,
+  twoZeroModeEnabled
+} from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
-import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
-import Badge from 'in-new-components/Badge';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewSwitcher.less';
@@ -37,24 +41,22 @@ export default pure(function ViewSwitcher() {
           <View label="cockpit" icon="dashboard" isActive$={isView(containerPath)} href$={getView(cockpitPath)} />
         ) : null}
 
-        {!twoZeroModeEnabled && (
-          <View
-            label="infrastructure"
-            icon="lib_infrastructure_inverted"
-            isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-          >
-            <SubMenuItem
-              label="Map"
-              href$={getView(physicalPath)}
-              isActive$={combine(isView(physicalPath), isView(containerPath))}
-            />
-            <SubMenuItem
-              label="Comparison Table"
-              href$={getView(physicalTablePath)}
-              isActive$={isTableView('physical')}
-            />
-          </View>
-        )}
+        <View
+          label="infrastructure"
+          icon="lib_infrastructure_inverted"
+          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+        >
+          <SubMenuItem
+            label="Map"
+            href$={getView(physicalPath)}
+            isActive$={combine(isView(physicalPath), isView(containerPath))}
+          />
+          <SubMenuItem
+            label="Comparison Table"
+            href$={getView(physicalTablePath)}
+            isActive$={isTableView('physical')}
+          />
+        </View>
 
         {!twoZeroModeEnabled && (
           <View
@@ -75,22 +77,35 @@ export default pure(function ViewSwitcher() {
         {twoZeroModeEnabled &&
           !previewTwoZeroWithoutHybrid && (
             <View
+              label="application"
               icon="lib_application_invert"
-              isActive$={isView(isApplicationsView, isAnalyzeView)}
+              isActive$={
+                isQueryBuilderEnabled
+                  ? isView(isApplicationsView)
+                  : combine(isView(isApplicationsView), isView(isAnalyzeView))
+              }
               href$={getView(applicationsList)}
             />
           )}
 
-        {!twoZeroModeEnabled && (
-          <View
-            label="Websites"
-            icon="lib_website_inverted"
-            href$={getView(websitePath)}
-            isActive$={isView(websitePath)}
-          />
-        )}
+        <View
+          label="Websites"
+          icon="lib_website_inverted"
+          href$={getView(websitePath)}
+          isActive$={isView(websitePath)}
+        />
 
         {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
+
+        {twoZeroModeEnabled &&
+          isQueryBuilderEnabled && (
+            <View
+              label="Analyze"
+              icon="lib_analyze_inverted"
+              isActive$={isView(isAnalyzeView)}
+              href$={getLinkToAnalyze({ preGrouped: true })}
+            />
+          )}
       </ul>
     </div>
   );
@@ -112,17 +127,12 @@ const IncidentsMenuPoint = connectTo(
     return (
       <div className={`${block}__incident-menu`}>
         <View
-          label={!twoZeroModeEnabled ? 'Incidents' : null}
+          label={numIncidents > 0 ? `${numIncidents} Incident${numIncidents > 1 ? 's' : ''}` : 'Incidents'}
           icon="lib_events_inverted"
           href$={getView(eventsPath)}
           color={color}
           isActive$={isView(eventsPath)}
         />
-        {numIncidents > 0 && (
-          <Badge className={`${block}__counter`} color={color}>
-            {numIncidents}
-          </Badge>
-        )}
       </div>
     );
   }

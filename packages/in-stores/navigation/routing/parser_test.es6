@@ -139,21 +139,6 @@ describe('in-stores/navigation/routing/parser', () => {
       });
     });
 
-    // this test is for testing a workaround of a history issue in matrixAwareHistory
-    it('must decode URI decoded matrix parameters and query parameters', () => {
-      expect(parseUrl('/foo;b=c %2Fd%20e?b=c %2Fd%20e', true)).to.deep.equal({
-        pathname: '/foo',
-        query: {
-          b: 'c /d e'
-        },
-        matrix: {
-          '/foo': {
-            b: 'c /d%20e'
-          }
-        }
-      });
-    });
-
     it('must support table use case', () => {
       expect(parseUrl('/table;view=physical;plugin=host?timeline.to&timeline.ws=600000')).to.deep.equal({
         pathname: '/table',

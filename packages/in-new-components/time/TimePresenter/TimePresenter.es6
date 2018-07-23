@@ -21,15 +21,6 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
         }}
         ref={refSetter}
       >
-        <SvgIcon
-          className={evaluateClassNames({
-            [locals.timeIcon]: true,
-            [locals.timeIconExpanded]: expanded
-          })}
-          type="lib_datetime_time_inverted"
-          width={24}
-        />
-
         <span
           className={evaluateClassNames({
             [locals.timeSetting]: true,

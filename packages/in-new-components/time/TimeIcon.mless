@@ -1,0 +1,47 @@
+@import '~in-themes/active.less';
+
+:local {
+  .iconWrapper {
+    position: relative;
+  }
+
+  .dark {
+    .timeIcon {
+      fill: @lib__colors__N600Light;
+    }
+
+    .pastLiveDataIndicator {
+      background: @lib__colors__navy900;
+      border: 1px solid @lib__colors__navy900;
+    }
+  }
+
+  .light {
+    .timeIcon {
+      fill: @lib__colors__N400;
+    }
+
+    .pastLiveDataIndicator {
+      background: #fff;
+      border: 1px solid #fff;
+    }
+  }
+
+  .timeIcon {
+    display: block;
+  }
+
+  .timeIconExpanded {
+    fill: #fff;
+  }
+
+  .pastLiveDataIndicator {
+    position: absolute;
+    top: -0.25rem;
+    left: -0.5rem;
+
+    border-radius: 50%;
+
+    fill: @lib__colors__primary1;
+  }
+}

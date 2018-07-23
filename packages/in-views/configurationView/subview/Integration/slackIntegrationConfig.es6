@@ -61,15 +61,13 @@ export default {
       .put(
         'iconUrl',
         createField({
-          value: integration ? integration.get('iconUrl') : '',
-          validator: notBlankValidator
+          value: integration ? integration.get('iconUrl') : ''
         })
       )
       .put(
         'channel',
         createField({
-          value: integration ? integration.get('channel') : '',
-          validator: notBlankValidator
+          value: integration ? integration.get('channel') : ''
         })
       );
   },

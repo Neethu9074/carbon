@@ -1,7 +1,7 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
+import { assign, get } from 'lodash';
 
 import {
   createNewApplicationConfig,
@@ -10,13 +10,14 @@ import {
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import RemoveSection from 'in-applications/Forms/NewApplication/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { getTagValuesAsOptions } from 'in-applications/tags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
+import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
@@ -24,16 +25,19 @@ import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
+const trackCreateApplication = createTracker('application.create');
+const trackUpdateApplication = createTracker('application.update');
+
 import locals from './CreateApplicationDialog.mless';
 
-export default function CreateApplicationDialog({ applicationId, onCancelHref$, onSavePath }) {
+export default function CreateApplicationDialog({ applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <BasicForm
-      title="Create Application"
+      title={applicationId ? 'Update Application' : 'Create Application'}
       generalHelpText="Applications provide a means to model environments, sets of services, tenants, or just about anything. They can be thought of as perspectives on services and their endpoints."
       saveButtonLabel={applicationId ? 'Save' : 'Create'}
       onCancelHref$={onCancelHref$}
-      onSavePath={onSavePath}
+      getOnSavePath={getOnSavePath}
       getEntity={() =>
         applicationId
           ? getApplicationConfig(applicationId)
@@ -42,9 +46,13 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
       updateEntity={applicationConfig => {
         const isNewConfig = !applicationConfig.id ? true : false;
         if (isNewConfig) {
-          return addApplicationConfig(applicationConfig);
+          return addApplicationConfig(applicationConfig).tap(() =>
+            trackCreateApplication(mapTagsForTracking(applicationConfig))
+          );
         }
-        return updateApplicationConfig(applicationConfig);
+        return updateApplicationConfig(applicationConfig).tap(() =>
+          trackUpdateApplication(mapTagsForTracking(applicationConfig))
+        );
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {
@@ -71,6 +79,14 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                       />
                       <TouchedMessages field={field} />
 
+                      {applicationId && (
+                        <HelpText>
+                          Renaming an application is an eventually consistent action within the Instana system. For this
+                          reason, a change to an application name may take <em>up to a few minutes</em> until it has
+                          populated throughout the whole system.
+                        </HelpText>
+                      )}
+
                       <DescriptionText className={locals.applicationNameText}>
                         {`Application names should have a well established definition within an organization. For example,
                       to model an environment: "Production Blue", to model a set of services "Users", or to model a
@@ -84,7 +100,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                   content: (
                     <div>
                       <DescriptionText>
-                        {`For example: key as "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value. When all conditions specified here match a call, it will be considered part of this application.`}
+                        {`For example: key as "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value. When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
                       <Spacer />
@@ -155,7 +171,6 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                 }
               ]}
             />
-            {applicationId && <RemoveSection application={appConfig} />}
           </Fragment>
         );
       }}
@@ -196,4 +211,12 @@ function getInitialForm(application) {
         })
       )
     );
+}
+
+function mapTagsForTracking(applicationConfig) {
+  const configForTracking = assign({}, applicationConfig);
+  configForTracking.tags = applicationConfig.matchSpecification
+    ? applicationConfig.matchSpecification.map(matchSpec => matchSpec.key)
+    : [];
+  return configForTracking;
 }

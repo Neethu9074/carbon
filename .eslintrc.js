@@ -5,13 +5,7 @@ module.exports = {
 
   parser: 'babel-eslint',
 
-  extends: [
-    'eslint:recommended',
-    'plugin:flowtype/recommended',
-    'prettier',
-    'prettier/react'
-  ],
-
+  extends: ['eslint:recommended', 'plugin:flowtype/recommended', 'prettier', 'prettier/react'],
 
   parserOptions: {
     ecmaFeatures: {
@@ -21,11 +15,9 @@ module.exports = {
     sourceType: 'module'
   },
 
-
   ecmaFeatures: {
     jsx: true
   },
-
 
   plugins: [
     'flowtype',
@@ -34,24 +26,21 @@ module.exports = {
     'mocha'
   ],
 
-
   settings: {
     flowtype: {
       onlyFilesWithFlowAnnotation: true
     }
   },
 
-
-  globals: (function(){
-    var globals = require("globals").browser;
-    delete globals["name"];
-    delete globals["Notification"];
+  globals: (function() {
+    var globals = require('globals').browser;
+    delete globals['name'];
+    delete globals['Notification'];
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.preval = false;
     return globals;
-  }()),
-
+  })(),
 
   rules: {
     // ###########################################################
@@ -69,7 +58,7 @@ module.exports = {
     // ###########################################################
     indent: ['off', 2],
     'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: ['error', 'always'],
 
     // editor integration for flow errors, see
@@ -110,10 +99,13 @@ module.exports = {
 
     // Enforce event handler naming conventions in JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
-    'react/jsx-handler-names': ['off', {
-      eventHandlerPrefix: 'handle',
-      eventHandlerPropPrefix: 'on',
-    }],
+    'react/jsx-handler-names': [
+      'off',
+      {
+        eventHandlerPrefix: 'handle',
+        eventHandlerPropPrefix: 'on'
+      }
+    ],
 
     // Validate props indentation in JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md
@@ -129,11 +121,14 @@ module.exports = {
 
     // Prevent usage of .bind() in JSX props
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
-    'react/jsx-no-bind': ['error', {
-      ignoreRefs: true,
-      allowArrowFunctions: true,
-      allowBind: false,
-    }],
+    'react/jsx-no-bind': [
+      'error',
+      {
+        ignoreRefs: true,
+        allowArrowFunctions: true,
+        allowBind: false
+      }
+    ],
 
     // Prevent duplicate props in JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-duplicate-props.md
@@ -149,18 +144,24 @@ module.exports = {
 
     // Enforce PascalCase for user-defined JSX components
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md
-    'react/jsx-pascal-case': ['error', {
-      allowAllCaps: true,
-      ignore: [],
-    }],
+    'react/jsx-pascal-case': [
+      'error',
+      {
+        allowAllCaps: true,
+        ignore: []
+      }
+    ],
 
     // Enforce propTypes declarations alphabetical sorting
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-prop-types.md
-    'react/sort-prop-types': ['off', {
-      ignoreCase: true,
-      callbacksLast: false,
-      requiredFirst: false,
-    }],
+    'react/sort-prop-types': [
+      'off',
+      {
+        ignoreCase: true,
+        callbacksLast: false,
+        requiredFirst: false
+      }
+    ],
 
     // Deprecated in favor of react/jsx-sort-props
     'react/jsx-sort-prop-types': 'off',
@@ -256,11 +257,14 @@ module.exports = {
 
     // Prevent missing parentheses around multilines JSX
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-wrap-multilines.md
-    'react/jsx-wrap-multilines': ['warn', {
-      declaration: true,
-      assignment: true,
-      return: true
-    }],
+    'react/jsx-wrap-multilines': [
+      'warn',
+      {
+        declaration: true,
+        assignment: true,
+        return: true
+      }
+    ],
     'react/wrap-multilines': 'off', // deprecated version
 
     // Require that the first prop in a JSX element be on a new line when the element is multiline
@@ -306,11 +310,13 @@ module.exports = {
 
     // Prevent unused propType definitions
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md
-    'react/no-unused-prop-types': ['warn', {
-      customValidators: [
-      ],
-      skipShapeProps: true,
-    }],
+    'react/no-unused-prop-types': [
+      'warn',
+      {
+        customValidators: [],
+        skipShapeProps: true
+      }
+    ],
 
     // Require style prop value be an object or var
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/style-prop-object.md
@@ -326,11 +332,14 @@ module.exports = {
 
     // Validate whitespace in and around the JSX opening and closing brackets
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
-    'react/jsx-tag-spacing': ['warn', {
-      closingSlash: 'never',
-      beforeSelfClosing: 'always',
-      afterOpening: 'never'
-    }],
+    'react/jsx-tag-spacing': [
+      'warn',
+      {
+        closingSlash: 'never',
+        beforeSelfClosing: 'always',
+        afterOpening: 'never'
+      }
+    ],
 
     // prettier formats this for us
     'flowtype/generic-spacing': 0

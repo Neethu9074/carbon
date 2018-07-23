@@ -2,6 +2,7 @@ import React from 'react';
 
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
+import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
@@ -45,6 +46,11 @@ export default function NodejsDashboard({ snapshot, timeConfig }) {
         {__DEV__ && (
           <Button onClick={() => getSource(snapshot)} kind="secondary">
             Get source for arbitrary file
+          </Button>
+        )}
+        {__DEV__ && (
+          <Button onClick={() => getModuleAnalysis(snapshot)} kind="secondary">
+            Analyse Modules
           </Button>
         )}
       </KpiSection>
@@ -205,4 +211,8 @@ function getSource(snapshot) {
     return;
   }
   setActiveDialog(getCodeView(snapshot, filename));
+}
+
+function getModuleAnalysis(snapshot) {
+  setActiveDialog(<ModuleAnalysisDialog snapshot={snapshot} />);
 }

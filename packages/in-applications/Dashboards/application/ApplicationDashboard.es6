@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -44,15 +46,24 @@ function Header(props) {
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
-    <TracesButton
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      timeConfig={timeConfig}
-      backButtonLabels={{
-        label1: 'Application',
-        label2: result.data ? result.data.label : 'Dashboard'
-      }}
-    />
+    <Fragment>
+      <TracesButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        backButtonLabels={{
+          label1: 'Application',
+          label2: result.data ? result.data.label : 'Dashboard'
+        }}
+      />
+      <ApplicationEntityHealthIndicatorBehavior
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }

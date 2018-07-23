@@ -72,15 +72,15 @@ class BasicForm extends React.Component {
       error: false
     });
 
-    result$.once(() => {
+    result$.once(result => {
       this.setState({
         success: true,
         saving: false,
         error: false
       });
 
-      if (this.props.onSavePath) {
-        goToPath(this.props.onSavePath);
+      if (this.props.getOnSavePath) {
+        goToPath(this.props.getOnSavePath(result));
       }
     });
 

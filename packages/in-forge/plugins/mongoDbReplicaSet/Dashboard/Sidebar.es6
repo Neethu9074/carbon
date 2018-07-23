@@ -1,9 +1,10 @@
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 
 import { emptyList } from 'in-services/fixedImmutables';
 
@@ -26,6 +27,7 @@ export default function ReplicaSetSidebar({ snapshot }) {
       <ClusterMemberList snapshotId={snapshot.get('id')} />
 
       <KeyValuePopup header="Replica Set Members" data={rsMembers} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

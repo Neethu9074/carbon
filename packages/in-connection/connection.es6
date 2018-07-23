@@ -33,7 +33,8 @@ const sharedState = (window.instana.dev.ws = {
   //     payload: 'payload to be send to establish subscription'
   //     isSubscribedToBackend: true|false
   //     disposeSubscriptionOnDocumentHidden: true|false
-  //     listener
+  //     listener,
+  //     initializationCallStack: ?Error
   //   }
   // }
   subscriptions: new Map(),
@@ -78,4 +79,14 @@ export function getDebuggingData() {
   subscriptions.sort((a, b) => compare(a.event, b.event));
 
   return { subscriptions, counts };
+}
+
+export function getInitializationCallStack(subscriptionId) {
+  const subscription = sharedState.subscriptions.get(subscriptionId);
+  return subscription ? subscription.initializationCallStack : null;
+}
+
+export function getSubscriptionPayload(subscriptionId) {
+  const subscription = sharedState.subscriptions.get(subscriptionId);
+  return subscription ? subscription.payload : null;
 }

@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: @lib__shapes__radius_medium;
+    font-size: @lib__typography__body__font-size;
+    font-weight: 600;
+    color: #3D464D;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .icon {
+    margin: 0 2px 0 0;
+  }
+}

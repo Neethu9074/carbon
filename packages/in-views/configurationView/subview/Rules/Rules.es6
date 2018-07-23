@@ -1,25 +1,36 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import {
+  getLinkColumnWithBadge,
+  getDeleteButtonColumn
+} from 'in-views/configurationView/components/tableColumnPresets';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import { rulePath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
-import { getRules, deleteRule } from 'in-api/rules';
 import { close } from 'in-components/DialogPresenter/store';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getRules, deleteRule } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
 const logger = createLogger('Rules');
 
-const cols = [getLinkColumn(getEntityIdPath.bind(null, rulePath)), getDeleteButtonColumn()];
+const cols = [
+  getLinkColumnWithBadge(
+    getEntityIdPath.bind(null, rulePath),
+    getDeprecatedFlagFromRule,
+    twoZeroModeEnabled ? 'Disabled' : 'Deprecated'
+  ),
+  getDeleteButtonColumn()
+];
 
 export default class extends React.Component {
   static displayName = 'Rules';
@@ -156,6 +167,13 @@ export default class extends React.Component {
       </SubViewWrapper>
     );
   }
+}
+
+function getDeprecatedFlagFromRule(entity) {
+  const flag = entity.get('deprecated', false);
+  // if the deprecated flag is not present, the fallback value of entity.get will be false, but if it is present and
+  // has value null we still need to convert null into false.
+  return flag != null ? flag : false;
 }
 
 function getRowDetails(row) {

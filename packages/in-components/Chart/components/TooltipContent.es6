@@ -25,12 +25,18 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
     return null;
   }
 
+  let labels = axis.labels;
+  const restrictItems = config.restrictTooltipItemsTo && labels.length > config.restrictTooltipItemsTo;
+  if (restrictItems) {
+    labels = labels.slice(0, config.restrictTooltipItemsTo);
+  }
+
   return (
     <Fragment>
       {addSpacer && <div className={locals.spacer} />}
 
       <ul className={locals.tooltipMetricList}>
-        {axis.labels.map((label, i) => {
+        {labels.map((label, i) => {
           if (!config.filteredDataSeries.has(label)) {
             const dataPointsForAxis = dataPointsAtTime[axisName];
             const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
@@ -44,7 +50,8 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
                     style={{ background: axis.colors100[i] }}
                     className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
                   />
-                  {label} <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>
+                  <span className={locals.label}>{label}</span>
+                  <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>
                 </div>
                 <span className={locals.value}>
                   {dataPoint
@@ -57,6 +64,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer }) {
             );
           }
         })}
+        {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
       </ul>
     </Fragment>
   );

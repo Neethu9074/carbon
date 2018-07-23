@@ -27,8 +27,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
   );
   return (
     <div>
-      <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
-
       <DashboardSection title="Thread Pool">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -62,6 +60,8 @@ export default function Dashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
+
+      <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
 

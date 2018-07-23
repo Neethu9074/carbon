@@ -19,7 +19,7 @@ export default function App20ServicesPresenter({ result }) {
         <Collapsible.Header>Services</Collapsible.Header>
         <Collapsible.Content>
           <ClickableList>
-            {result.data.items.map(({ service }) => (
+            {result.data.items.map(service => (
               <ClickableListItem key={service.id} href$={getServiceDashboard(service.id)}>
                 {service.label}
               </ClickableListItem>

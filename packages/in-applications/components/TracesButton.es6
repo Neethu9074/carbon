@@ -19,16 +19,16 @@ export default connect(
     }
 
     return (
-      <Overlay props={{ ...props, traceCount }} content={TraceList} position="fixed">
+      <Overlay props={{ ...props, traceCount }} content={TraceList} position="fixed" withoutWrapper>
         {TraceButton}
       </Overlay>
     );
   }
 );
 
-function TraceButton({ size, kind = 'primary', traceCount, toggle }) {
+function TraceButton({ size, kind = 'primary', traceCount, toggle, refSetter }) {
   return (
-    <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle}>
+    <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle} refSetter={refSetter}>
       {number.compact(traceCount)} Traces
     </Button>
   );

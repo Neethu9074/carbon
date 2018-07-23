@@ -8,20 +8,27 @@ import locals from './EntityLink.mless';
 
 export function ServiceLink({ serviceId, node, isOutofAppContext, className, children }) {
   const link = (
-    <EntityLink className={className} getLink={() => getLinkToService(serviceId, node.applicationId)}>
+    <EntityLink className={className} getLink={() => getLinkToService(node.applicationId, serviceId)}>
       {children}
     </EntityLink>
   );
   return isOutofAppContext ? <Tooltip content="The service is not in the current application.">{link}</Tooltip> : link;
 }
 
-export function EndpointLink({ serviceId, endpointId, applicationId, className, children }) {
-  return (
-    <EntityLink className={className} getLink={() => getLinkToEndpoint(serviceId, endpointId, applicationId)}>
-      {children}
-    </EntityLink>
-  );
-}
+import connectTo from 'in-hoc/connectTo';
+
+export const EndpointLink = connectTo(
+  props => ({
+    serviceData: props.node.events$.on('data')
+  }),
+  function EndpointLink({ node, serviceData, className, children, data }) {
+    return (
+      <EntityLink className={className} getLink={() => getLinkToEndpoint(node.applicationId, serviceData.id, data.id)}>
+        {children}
+      </EntityLink>
+    );
+  }
+);
 
 function EntityLink({ className, getLink, children }) {
   return (
@@ -33,14 +40,14 @@ function EntityLink({ className, getLink, children }) {
   );
 }
 
-function getLinkToService(serviceId, applicationId) {
+function getLinkToService(applicationId, serviceId) {
   if (isUnspecified(serviceId)) {
     return null;
   }
   return getServiceDashboard(serviceId, { applicationId });
 }
 
-function getLinkToEndpoint(serviceId, endpointId, applicationId) {
+function getLinkToEndpoint(applicationId, serviceId, endpointId) {
   if (isUnspecified(serviceId) || isUnspecified(endpointId)) {
     return null;
   }
