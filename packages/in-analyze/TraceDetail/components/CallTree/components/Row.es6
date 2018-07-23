@@ -122,7 +122,7 @@ function CallInformation(props) {
             [locals.label]: true,
             [locals.clickable]: onCallClicked != null
           })}
-          onClick={() => onCallClicked(call)}
+          onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
         >
           {call.label}
         </span>
