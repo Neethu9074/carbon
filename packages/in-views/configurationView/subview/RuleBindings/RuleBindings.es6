@@ -32,6 +32,9 @@ const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
 function isRuleBindingDeprecated(ruleBindings) {
+  if (!twoZeroModeEnabled) {
+    return false;
+  }
   const rule$ = getRule(ruleBindings.getIn(['ruleIds', 0], ''));
   return rule$.once(rule => isRuleDeprecated(rule));
 }
