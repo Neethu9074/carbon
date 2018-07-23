@@ -9,8 +9,8 @@ import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/Rule
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { bindingsPath } from 'in-stores/navigation/paths/settingPaths';
+import combinedValidationResults from 'in-services/util/validation';
 import Section from 'in-views/configurationView/components/Section';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { getRules } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
@@ -61,6 +61,10 @@ export default class extends React.Component {
 
   componentWillUnmount() {
     this.disposeAsyncAction();
+    if (this.matchingEntitesSubscription) {
+      this.matchingEntitesSubscription.dispose();
+      this.matchingEntitesSubscription = null;
+    }
   }
 
   render() {
@@ -327,25 +331,4 @@ function ruleIdsValidator(rules) {
 
 function setFieldValue(value, field) {
   return field.setValue(value).setTouched(true);
-}
-
-function combinedValidationResults(validationResult10, validationResult20) {
-  if (twoZeroModeEnabled) {
-    if (validationResult10.valid && !validationResult20.valid) {
-      return { valid: false, error: 'Dynamic Focus query is deprecated: ' + validationResult20.error };
-    } else if (!validationResult10.valid && !validationResult20.valid) {
-      return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult20.error };
-    }
-    return validationResult20;
-  } else {
-    if (validationResult20.valid) {
-      return validationResult20;
-    } else {
-      if (validationResult10.valid) {
-        return validationResult10;
-      } else {
-        return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult10.error };
-      }
-    }
-  }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BackendValidationMessages from 'in-components/form/ValidationBlock';
+import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import RuleControl from 'in-components/form/RuleControl';

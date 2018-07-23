@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import BackendValidationMessages from 'in-components/form/ValidationBlock';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
+import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
