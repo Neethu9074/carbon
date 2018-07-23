@@ -41,14 +41,7 @@ export default function AnalyzeHeader({ filters, onChangeFilters, totalNumberOfC
 function onAddTagFilter(tag, filters, onChangeFilters) {
   const tagFilter = filters.get('tagFilter').toJS();
 
-  tagFilter.push(
-    createFilter({
-      id: tag.id,
-      name: tag.name,
-      value: tag.value,
-      operator: tag.operator
-    })
-  );
+  tagFilter.push(createFilter(tag));
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
@@ -60,6 +53,7 @@ function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
   tagFilter[findTagIndexById(tagFilter, id)] = createFilter({
     id,
     name: tag.name,
+    secondLevelName: tag.secondLevelName,
     value: tag.value,
     operator: tag.operator
   });

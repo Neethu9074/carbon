@@ -125,11 +125,12 @@ function getTagFilterList(filters) {
 function getValueByTag(backendTagFilter, tag) {
   const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
   const type = node ? node.type : TAG_TYPES.STRING.technicalName;
+
   if (type === TAG_TYPES.NUMBER.technicalName) {
     backendTagFilter.numberValue = tag.value;
   } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
     backendTagFilter.booleanValue = tag.value;
   } else {
-    backendTagFilter.stringValue = tag.value;
+    backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
   }
 }

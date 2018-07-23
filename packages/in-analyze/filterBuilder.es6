@@ -16,7 +16,12 @@ export function getGroupFromUrlString(urlString) {
 }
 
 export function getTagFilterToUrlString(tagFilter) {
-  let urlReadyTagFilter = tagFilter.map(tag => ({ name: tag.name, value: tag.value, operator: tag.operator }));
+  let urlReadyTagFilter = tagFilter.map(tag => ({
+    name: tag.name,
+    value: tag.value,
+    operator: tag.operator,
+    secondLevelName: tag.secondLevelName
+  }));
 
   return stringifyIfTrue(urlReadyTagFilter, urlReadyTagFilter.length > 0);
 }
@@ -47,6 +52,7 @@ export function createFilter(config = {}) {
   return {
     id,
     name: config.name || '',
+    secondLevelName: config.secondLevelName,
     value: config.value || '',
     operator: config.operator
   };

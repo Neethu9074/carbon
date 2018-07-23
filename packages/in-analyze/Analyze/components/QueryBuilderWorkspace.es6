@@ -29,6 +29,7 @@ export default function QueryBuilderWorkspace(props) {
               name: tag.name,
               value: tag.value,
               operator: tag.operator,
+              secondLevelName: tag.secondLevelName,
               icon: tag.icon,
               progress: 1,
               onClick: () => {
@@ -38,6 +39,7 @@ export default function QueryBuilderWorkspace(props) {
                     name={tag.name}
                     value={tag.value}
                     operator={tag.operator}
+                    secondLevelName={tag.secondLevelName}
                     onSave={_tag => onUpdateTagFilter(tag.id, _tag)}
                     onRemove={() => onRemoveTagFilter(tag.id)}
                     removePostPhrase="Filter"

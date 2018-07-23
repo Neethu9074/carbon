@@ -2,7 +2,6 @@ import React from 'react';
 
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes/theme';
@@ -16,15 +15,11 @@ export default function TagFilter({
   isLastOperator,
   isOnlyFilter
 }) {
-  let { name, value, operator } = tagFilter;
+  let { name, secondLevelName, value, operator } = tagFilter;
   const node = findSubTreeByFullyQualifiedName(name);
 
-  if (node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    const result = TAG_TYPES.KEY_VALUE_PAIR.splitValue(value);
-    if (result.key) {
-      name = `${name}.${result.key}`;
-    }
-    value = result.value;
+  if (secondLevelName) {
+    name = `${name}.${secondLevelName}`;
   }
 
   return (

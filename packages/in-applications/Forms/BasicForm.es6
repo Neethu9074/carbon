@@ -213,6 +213,12 @@ export function getMatchSpecificationForm(matchSpecification = {}, defaultValue 
       })
     )
     .put(
+      'secondLevelName',
+      createField({
+        value: get(matchSpecification, 'secondLevelName', '')
+      })
+    )
+    .put(
       'value',
       createField({
         value: get(matchSpecification, 'value', defaultValue),

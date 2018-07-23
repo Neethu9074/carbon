@@ -171,22 +171,14 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
     const tag = form.toJS();
 
+    const nameForm = tag.nameForm.toJS();
+    tag.name = nameForm.name;
+    tag.secondLevelName = nameForm.customName;
+
     const valueForm = tag.valueForm.toJS();
     tag.operator = valueForm.operator;
     tag.value = valueForm.value;
 
-    const nameForm = tag.nameForm ? tag.nameForm.toJS() : {};
-    tag.name = nameForm.name;
-
-    if (nameForm.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-      if (nameForm.customName) {
-        if (tag.value) {
-          tag.value = `${nameForm.customName}=${tag.value}`;
-        } else {
-          tag.value = nameForm.customName;
-        }
-      }
-    }
     this.props.onSave(tag);
   }
 
@@ -199,16 +191,10 @@ class AnalyzeFilterBasicDialog extends React.Component {
 }
 
 function getInitialForm(props) {
-  let { name = '', value = '', customName = '', operator, withValue = true } = props;
+  let { name = '', value = '', secondLevelName = '', operator, withValue = true } = props;
 
   const nodeInTree = findSubTreeByFullyQualifiedName(name);
   const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
-
-  if (type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    const result = TAG_TYPES.KEY_VALUE_PAIR.splitValue(value);
-    customName = result.key;
-    value = result.value;
-  }
 
   let form = createMapForm()
     .put(
@@ -225,7 +211,7 @@ function getInitialForm(props) {
           .put(
             'customName',
             createField({
-              value: customName
+              value: secondLevelName
             })
           )
           .put(

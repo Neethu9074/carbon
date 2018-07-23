@@ -116,6 +116,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                               onSave={_tag => {
                                 const additionalSubForm = getMatchSpecificationForm({
                                   key: _tag.name,
+                                  secondLevelName: _tag.secondLevelName,
                                   value: _tag.value,
                                   operator: _tag.operator
                                 });
@@ -141,6 +142,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                                 name={matchSpecification.get('key').value}
                                 value={matchSpecification.get('value').value}
                                 operator={matchSpecification.get('operator').value}
+                                secondLevelName={matchSpecification.get('secondLevelName').value}
                                 onSave={_tag => {
                                   form = form.updateIn(['matchSpecification', i, 'value'], field =>
                                     field.setValue(_tag.value).setTouched(true)
