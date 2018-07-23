@@ -2,11 +2,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
-import {
-  applicationFilter as applicationFilterMatrixParameter,
-  tagFilter as tagFilterMatrixParameter,
-  groupBy as groupByMatrixParameter
-} from 'in-analyze/navigation/matrix';
+import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
