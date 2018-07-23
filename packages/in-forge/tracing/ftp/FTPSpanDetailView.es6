@@ -11,6 +11,7 @@ export default function FTPSpanDetailView({ span }) {
         <DescriptionItem title="Command">{span.getIn(['data', 'ftp', 'command'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'ftp', 'type'])}</DescriptionItem>
         <DescriptionItem title="File">{span.getIn(['data', 'ftp', 'file'])}</DescriptionItem>
+        <DescriptionItem title="Error">{span.getIn(['data', 'ftp', 'error'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );
