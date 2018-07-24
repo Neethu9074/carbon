@@ -1,6 +1,6 @@
 import { create } from 'reactive-observables';
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
@@ -14,7 +14,6 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
 import locals from './Summary.mless';
@@ -46,61 +45,61 @@ class Summary extends React.Component {
   render() {
     const { data: trace, getColor, callId, traceId } = this.props;
     return (
-      <Fragment>
-        {callId && (
-          <ErrorBoundary name="call tree sidebar">
-            <Sidebar relativeTopOffset={-24}>
-              <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
-            </Sidebar>
-          </ErrorBoundary>
-        )}
-        <Row>
-          <Col lg={4}>
-            <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
-          </Col>
-          <Col lg={4}>
-            <KpiCard title="Latency" value={millis.compact(trace.duration)} />
-          </Col>
-          <Col lg={4}>
-            <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
-          </Col>
-        </Row>
+      <div className={locals.wrapper}>
+        <div className={locals.left}>
+          <Row>
+            <Col lg={4}>
+              <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
+            </Col>
+            <Col lg={4}>
+              <KpiCard title="Latency" value={millis.compact(trace.duration)} />
+            </Col>
+            <Col lg={4}>
+              <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
+            </Col>
+          </Row>
 
-        <Row>
-          <Col lg={12}>
-            <Card title="Timeline" withoutPadding>
-              <div className={locals.icicleChartWrapper}>
-                <ServerIcicleChart
+          <Row>
+            <Col lg={12}>
+              <Card title="Timeline" withoutPadding framed>
+                <div className={locals.icicleChartWrapper}>
+                  <ServerIcicleChart
+                    traceId={traceId}
+                    getColor={getColor}
+                    onCallClicked={this.onSubCallClicked}
+                    hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                  />
+                </div>
+                <ServiceEndpointList
                   traceId={traceId}
                   getColor={getColor}
-                  onCallClicked={this.onSubCallClicked}
-                  hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                  onListItemMouseEnter={this.onListItemMouseEnter}
+                  onListItemMouseLeave={this.onListItemMouseLeave}
                 />
-              </div>
-              <ServiceEndpointList
-                traceId={traceId}
-                getColor={getColor}
-                onListItemMouseEnter={this.onListItemMouseEnter}
-                onListItemMouseLeave={this.onListItemMouseLeave}
-              />
-            </Card>
-          </Col>
-        </Row>
+              </Card>
+            </Col>
+          </Row>
 
-        <Row>
-          <Col lg={12}>
-            <Card title="Calls">
-              <ServerCallTree
-                traceId={traceId}
-                getColor={getColor}
-                selectedCall$={this.selectedCall$}
-                onSubCallClicked={this.onSubCallClicked}
-                onCallClicked={this.onCallClicked}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </Fragment>
+          <Row>
+            <Col lg={12}>
+              <Card title="Calls" framed>
+                <ServerCallTree
+                  traceId={traceId}
+                  getColor={getColor}
+                  selectedCall$={this.selectedCall$}
+                  onSubCallClicked={this.onSubCallClicked}
+                  onCallClicked={this.onCallClicked}
+                />
+              </Card>
+            </Col>
+          </Row>
+        </div>
+        {callId && (
+          <ErrorBoundary name="call tree sidebar">
+            <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+          </ErrorBoundary>
+        )}
+      </div>
     );
   }
 

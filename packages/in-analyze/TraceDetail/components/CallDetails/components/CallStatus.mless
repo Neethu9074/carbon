@@ -1,12 +1,14 @@
+@import '~in-themes/active.less';
+
 :local {
   .callStatus {
     display: flex;
     align-items: center;
 
-    margin-bottom: 2rem;
     padding: 0.5rem 0.75rem;
-    background: #fafbfc;
-    color: #47626a;
+
+    background: @lib__colors__N050;
+    color: @lib__colors__N900Primary;
   }
 
   .errorIndicator,
@@ -22,7 +24,7 @@
   }
 
   .errorIndicator {
-    color: #ff5d3b;
+    color: @lib__colors__failure;
   }
 
   .errorIconWrapper {

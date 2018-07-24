@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
+import React from 'react';
 
 import convert from 'in-analyze/TraceDetail/components/CallDetails/fakedSpanConverter';
+import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
 import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
 import { find } from 'in-services/arrayUtils';
 
@@ -9,10 +10,10 @@ import locals from './Details.mless';
 
 export default function Details({ call }) {
   return (
-    <Fragment>
+    <Group title="Details">
       <SpanDetails call={call} kind="ENTRY" />
       <SpanDetails call={call} kind="EXIT" />
-    </Fragment>
+    </Group>
   );
 }
 

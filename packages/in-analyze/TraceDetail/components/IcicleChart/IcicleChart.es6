@@ -36,7 +36,11 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
         {callFrames.map(callFrame => {
           return (
             <Fragment key={callFrame.id}>
-              <Tooltip themeStyle="light" content={<CallTooltipContent call={callFrame} />} align={tooltipAlignment}>
+              <Tooltip
+                themeStyle="light"
+                content={<CallTooltipContent call={callFrame} getColor={getColor} />}
+                align={tooltipAlignment}
+              >
                 <CallFrame
                   callFrame={callFrame}
                   xScale={xScale}

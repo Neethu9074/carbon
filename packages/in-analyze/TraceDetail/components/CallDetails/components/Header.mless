@@ -1,27 +1,66 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
-  .header {
+  .entityInformation {
     position: relative;
 
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
 
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .closeIcon {
     position: absolute;
-    top: 0;
+    top: -4px;
     right: 0;
 
     cursor: pointer;
-    fill: @lib__colors__N600Light;
+    fill: @lib__colors__N400;
+
+    &:hover {
+      fill: @lib__colors__N500;
+    }
   }
 
   .callLabel {
     font-size: 1rem;
-    color: #0c1415;
+    color: @lib__colors__N900Primary;
     margin-right: 1rem;
+    .ellipsis();
+  }
+
+  .serviceLabel {
+    font-size: 0.75rem;
+    color: @lib__colors__N900Primary;
+  }
+
+  .serviceLine {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    color: @lib__colors__blue800;
+  }
+
+  .rect {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+
+    margin-right: 0.5rem;
+  }
+
+  .chevron {
+    margin: 0 0.25rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .entityIcon {
+    margin-right: 0.25rem;
+    fill: @lib__colors__blue800;
+  }
+
+  .link {
+    .ellipsis();
   }
 }
