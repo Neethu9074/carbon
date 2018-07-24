@@ -50,7 +50,7 @@ function putAggregationField(form, rule) {
 }
 
 function isDeprecatedEntityType(entityType) {
-  return Object.keys(pluginsDeprecatedIn20).indexOf(entityType) > -1;
+  return Boolean(pluginsDeprecatedIn20[entityType]);
 }
 
 function is20EntityType(entityType) {
