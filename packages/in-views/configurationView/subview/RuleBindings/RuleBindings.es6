@@ -19,12 +19,13 @@ import Section from 'in-views/configurationView/components/Section';
 import { formatDateTime } from 'in-services/formatters/date';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
+import { combineLatest, just } from 'reactive-observables';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { combineLatest } from 'reactive-observables';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { validate } from 'in-api/search';
 import Title from 'in-components/Title';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
@@ -45,6 +46,25 @@ function getRuleDeprecationBadgeText(ruleDeprecatedFlag) {
     return 'Rule is deprecated';
   } else {
     return '';
+  }
+}
+
+function getDfqValidationBadgeText(dfqValidFlag) {
+  if (twoZeroModeEnabled && !dfqValidFlag) {
+    return 'Dynamic Focus query is deprecated';
+  } else {
+    return '';
+  }
+}
+
+function validateDfq(ruleBinding) {
+  if (twoZeroModeEnabled && ruleBinding.get('query')) {
+    return validate({
+      query: ruleBinding.get('query'),
+      newApplicationModelEnabled: true
+    }).map(response => extendBadgeMessage(ruleBinding, getDfqValidationBadgeText(response.body.valid)));
+  } else {
+    return just(ruleBinding);
   }
 }
 
@@ -97,6 +117,9 @@ export default class extends React.Component {
     this.responseSubscription = result$
       .flatMap(ruleBindings => {
         return combineLatest(ruleBindings.toArray().map(ruleBinding => checkRuleDeprecation(ruleBinding)));
+      })
+      .flatMap(ruleBindings => {
+        return combineLatest(ruleBindings.map(ruleBinding => validateDfq(ruleBinding)));
       })
       .once(ruleBindings => {
         this.setState({
