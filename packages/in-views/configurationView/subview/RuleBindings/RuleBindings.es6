@@ -119,11 +119,7 @@ export default class extends React.Component {
         return combineLatest(ruleBindings.toArray().map(ruleBinding => checkRuleDeprecation(ruleBinding)));
       })
       .flatMap(ruleBindings => {
-        return combineLatest(
-          fromJS(ruleBindings)
-            .toArray()
-            .map(ruleBinding => validateDfq(ruleBinding))
-        );
+        return combineLatest(ruleBindings.map(ruleBinding => validateDfq(ruleBinding)));
       })
       .once(ruleBindings => {
         this.setState({
