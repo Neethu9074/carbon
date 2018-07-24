@@ -65,7 +65,7 @@ function EndpointListNode(props) {
             entity={child}
             Link={EndpointLink}
             expandLeft={childId => props.expandChildLeft(node.id, childId)}
-            expandRight={childId => props.expandChilRight(node.id, childId)}
+            expandRight={childId => props.expandChildRight(node.id, childId)}
           />
         </li>
       ))}
