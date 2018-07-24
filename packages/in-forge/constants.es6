@@ -99,7 +99,7 @@ export const nonServicePlugins = {
   zookeeper: 'zooKeeper'
 };
 
-export const servicePlugins = {
+export const oneZeroLogicalPlugins = {
   batchServiceInstance: 'batchServiceInstance',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
@@ -162,6 +162,26 @@ export const servicePlugins = {
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
+export const oneZeroServicePlugins = {
+  defaultLogicalService: 'defaultLogicalService',
+  ejbLogicalService: 'ejbLogicalService',
+  javaMailLogicalService: 'javaMailLogicalService',
+  ldapLogicalService: 'ldapLogicalService',
+  logicalBatch: 'logicalBatch',
+  logicalCassandraKeyspace: 'logicalCassandraKeyspace',
+  logicalDatabase: 'logicalDatabase',
+  logicalElasticSearchIndex: 'logicalElasticSearchIndex',
+  logicalFtpService: 'logicalFtpService',
+  logicalMessageBroker: 'logicalMessageBroker',
+  logicalMessageConsumer: 'logicalMessageConsumer',
+  logicalMongoDbDatabase: 'logicalMongoDbDatabase',
+  logicalRedisDatabase: 'logicalRedisDatabase',
+  logicalWebApp: 'logicalWebApp',
+  sdkLogicalService: 'sdkLogicalService',
+  shellLogicalService: 'shellLogicalService',
+  unknownService: 'unknownService'
+};
+
 export const applicationPlugins = {
   application: 'application',
   defaultEntity20: 'defaultEntity20',
@@ -176,9 +196,9 @@ const websiteMonitoring = {
   pageResourceServiceInstance: 'pageResourceServiceInstance'
 };
 
-export const plugins10 = assign({}, servicePlugins, nonServicePlugins, websiteMonitoring);
+export const plugins10 = assign({}, oneZeroLogicalPlugins, nonServicePlugins, websiteMonitoring);
 export const plugins20 = assign({}, applicationPlugins, nonServicePlugins, websiteMonitoring);
-export const pluginsDeprecatedIn20 = omit(plugins10, Object.keys(plugins20));
+export const pluginsDeprecatedIn20 = omit(plugins10, Object.keys(plugins20), Object.keys(oneZeroServicePlugins));
 export const plugins = assign({}, plugins10, plugins20);
 
 export const defaultAndUnknownPluginNames = [

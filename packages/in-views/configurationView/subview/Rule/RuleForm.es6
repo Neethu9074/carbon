@@ -1,7 +1,13 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
-import { defaultAndUnknownPluginNames, plugins10, plugins20, pluginsDeprecatedIn20 } from 'in-forge/constants';
+import {
+  defaultAndUnknownPluginNames,
+  plugins10,
+  plugins20,
+  pluginsDeprecatedIn20,
+  oneZeroServicePlugins
+} from 'in-forge/constants';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
@@ -54,7 +60,11 @@ function isDeprecatedEntityType(entityType) {
 }
 
 function is20EntityType(entityType) {
-  return Object.keys(plugins20).indexOf(entityType) > -1;
+  return Boolean(plugins20[entityType]);
+}
+
+function is10ServiceType(entityType) {
+  return Boolean(oneZeroServicePlugins[entityType]);
 }
 
 function notBlankOrDeprecatedValidator(entityType) {
@@ -198,6 +208,13 @@ export default function RuleForm({ form, onChange }) {
       pluginsWithMetricDefinitions.push({
         value: field.value,
         label: getSingular(field.value) + ' (deprecated)'
+      });
+      pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+    }
+    if (twoZeroModeEnabled && is10ServiceType(field.value)) {
+      pluginsWithMetricDefinitions.push({
+        value: field.value,
+        label: getSingular(field.value)
       });
       pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
     }
