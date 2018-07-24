@@ -1,16 +1,20 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
+import React from 'react';
 
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
+import StackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTrace';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
+import Details from 'in-analyze/TraceDetail/components/CallDetails/components/Details/Details';
+import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/components/CallStatus';
+import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
-import tabs from 'in-analyze/TraceDetail/components/CallDetails/tabs/index';
 import { pendingResult } from 'in-services/fixedObjects';
-import TabView from 'in-new-components/TabView';
 import connect from 'in-hoc/connectTo';
+
+import locals from './CallDetails.mless';
 
 export default compose(
   connect(props => ({
@@ -26,22 +30,33 @@ function CallDetails(props) {
 
   const isLoading = get(callResult, ['progress', 'loading']) || get(callTreeResult, ['progress', 'loading']);
   if (isLoading) {
-    return <LoadingCallDetails onClose={onClose} progress={callResult.progress} />;
+    return (
+      <div className={locals.callDetails}>
+        <LoadingCallDetails onClose={onClose} progress={callResult.progress} />
+      </div>
+    );
   }
 
   const hasErrors = get(callResult, ['errors', 'length']) + get(callTreeResult, ['errors', 'length']) > 0;
   if (hasErrors) {
-    return <ErroneousResultPresenter errors={callResult.errors} />;
+    return (
+      <div className={locals.callDetails}>
+        <ErroneousResultPresenter errors={callResult.errors} />
+      </div>
+    );
   }
 
   const call = callResult.data;
   const callTreeNode = findCallTreeNode(callTreeResult.data, call.id);
 
   return (
-    <Fragment>
-      <Header call={call} callTreeNode={callTreeNode} onClose={onClose} />
-      <TabView tabs={tabs} call={call} callTreeNode={callTreeNode} getColor={getColor} />
-    </Fragment>
+    <div className={locals.callDetails}>
+      <Header call={call} callTreeNode={callTreeNode} getColor={getColor} onClose={onClose} />
+      <Seperator />
+      <CallStatus call={call} />
+      <Details call={call} />
+      <StackTrace call={call} />
+    </div>
   );
 }
 

@@ -1,4 +1,12 @@
 :local {
+  .wrapper {
+    display: flex;
+  }
+
+  .left {
+    width: 100%;
+  }
+
   .icicleChartWrapper {
     padding: 1rem 1rem 0;
   }

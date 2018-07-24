@@ -12,6 +12,10 @@
     border-radius: @lib__shapes__radius_small;
   }
 
+  .framed {
+    border: 1px solid @lib__colors__N200;
+  }
+
   .title {
     font-size: 1rem;
     font-weight: 200;

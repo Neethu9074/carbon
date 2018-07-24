@@ -35,7 +35,7 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
       : scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} getColor={getColor} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,
@@ -105,7 +105,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
       : scale.getRange(call.start + call.duration) - left;
 
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<CallTooltipContent call={call} getColor={getColor} />} align="topMiddle">
       <div
         style={{
           left: `${left}%`,
