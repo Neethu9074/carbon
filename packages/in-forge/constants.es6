@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, omit } from 'lodash';
 
 /* eslint-disable max-len */
 export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
@@ -101,8 +101,6 @@ export const nonServicePlugins = {
 
 export const servicePlugins = {
   batchServiceInstance: 'batchServiceInstance',
-  browserLogicalConnection: 'browserLogicalConnection',
-  browserLogicalService: 'browserLogicalService',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
   defaultLogicalConnection: 'defaultLogicalConnection',
@@ -153,9 +151,6 @@ export const servicePlugins = {
   messageBrokerServiceInstance: 'messageBrokerServiceInstance',
   messageConsumerServiceInstance: 'messageConsumerServiceInstance',
   mongoDbDatabaseServiceInstance: 'mongoDbDatabaseServiceInstance',
-  pageResourceLogicalConnection: 'pageResourceLogicalConnection',
-  pageResourceLogicalService: 'pageResourceLogicalService',
-  pageResourceServiceInstance: 'pageResourceServiceInstance',
   redisServiceInstance: 'redisServiceInstance',
   rpcEndpointServiceInstance: 'rpcEndpointServiceInstance',
   sdkLogicalConnection: 'sdkLogicalConnection',
@@ -173,13 +168,18 @@ export const applicationPlugins = {
   service: 'service'
 };
 
-export const plugins = assign({}, applicationPlugins, servicePlugins, nonServicePlugins);
+const websiteMonitoring = {
+  browserLogicalConnection: 'browserLogicalConnection',
+  browserLogicalService: 'browserLogicalService',
+  pageResourceLogicalConnection: 'pageResourceLogicalConnection',
+  pageResourceLogicalService: 'pageResourceLogicalService',
+  pageResourceServiceInstance: 'pageResourceServiceInstance'
+};
 
-export const plugins10 = assign({}, servicePlugins, nonServicePlugins);
-
-export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
-
-export const pluginsDeprecatedIn20 = assign({}, servicePlugins);
+export const plugins10 = assign({}, servicePlugins, nonServicePlugins, websiteMonitoring);
+export const plugins20 = assign({}, applicationPlugins, nonServicePlugins, websiteMonitoring);
+export const pluginsDeprecatedIn20 = omit(plugins10, Object.keys(plugins20));
+export const plugins = assign({}, plugins10, plugins20);
 
 export const defaultAndUnknownPluginNames = [
   'unknownService',
