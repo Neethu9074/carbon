@@ -77,11 +77,11 @@ function onUpdateGroup(filters, onChangeFilters, group) {
     <EditGroupDialog
       filters={filters}
       name={group ? group.get('name') : ''}
-      value={group ? group.get('value') : ''}
+      secondLevelName={group ? group.get('value') : ''}
       onSave={_group => {
         const newState = {};
 
-        newState[groupByMatrixParameter] = { name: _group.name, value: _group.value };
+        newState[groupByMatrixParameter] = { name: _group.name, value: _group.secondLevelName };
         onChangeFilters(newState);
       }}
       onRemove={

@@ -184,7 +184,9 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
   setSelectedCategory = newCategory => {
     this.setState({
-      form: getInitialForm({}),
+      form: getInitialForm({
+        withValue: this.props.withValue
+      }),
       selectedCategory: newCategory
     });
   };
