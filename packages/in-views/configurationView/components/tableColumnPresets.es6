@@ -36,7 +36,8 @@ export function getLinkColumnWithBadge(getLink, badgeCheck, badgeContent, proper
             value: row.entity.get(propertyName),
             content: (
               <Link href={href}>
-                {row.entity.get(propertyName)} {badgeCheck(row.entity) && <Badge size="sm">{badgeContent}</Badge>}
+                {row.entity.get(propertyName)}{' '}
+                {badgeCheck(row.entity) && <Badge size="sm">{badgeContent(row.entity)}</Badge>}
               </Link>
             )
           };
