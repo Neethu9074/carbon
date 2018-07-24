@@ -53,6 +53,10 @@ function isDeprecatedEntityType(entityType) {
   return Object.keys(pluginsDeprecatedIn20).indexOf(entityType) > -1;
 }
 
+function is20EntityType(entityType) {
+  return Object.keys(plugins20).indexOf(entityType) > -1;
+}
+
 function notBlankOrDeprecatedValidator(entityType) {
   if (!entityType || entityType.trim().length === 0) {
     return [
@@ -194,6 +198,13 @@ export default function RuleForm({ form, onChange }) {
       pluginsWithMetricDefinitions.push({
         value: field.value,
         label: getSingular(field.value) + ' (deprecated)'
+      });
+      pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+    }
+    if (!twoZeroModeEnabled && is20EntityType(field.value)) {
+      pluginsWithMetricDefinitions.push({
+        value: field.value,
+        label: getSingular(field.value)
       });
       pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
     }
