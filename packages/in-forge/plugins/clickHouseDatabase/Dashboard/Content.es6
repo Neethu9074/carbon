@@ -3,8 +3,8 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { number, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
@@ -125,7 +125,8 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['MemoryTracking', 'MemoryTrackingInBackgroundProcessingPool', 'MemoryTrackingForMerges'],
               labels: ['Memory Tracking', 'Background Processing Pool', 'For Merges'],
-              type: 'line'
+              type: 'line',
+              formatter: bytes.compact
             }}
           />
         </DashboardSection>
