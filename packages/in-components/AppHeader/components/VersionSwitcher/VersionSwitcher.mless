@@ -1,7 +1,44 @@
+@import '~in-themes/active.less';
+
 :local {
-  .versionSwitcher {
+  .switcher {
     position: absolute;
-    left: 8.5rem;
-    transform: scale(0.9);
+    top: 0.7rem;
+    left: 7.4rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .arrow {
+    fill: @lib__colors__N400;
+    padding: .1rem;
+
+    &:hover {
+      fill: #fff;
+    }
+  }
+
+  .arrow.active {
+    fill: #fff;
+
+    &:hover {
+      fill: @lib__colors__N400;
+    }
+  }
+
+  .state {
+    color: @lib__colors__N400;
+    margin: 0 0 0 1rem;
+    font-size: 0.8rem;
+  }
+
+  .beta {
+    color: @lib__colors__N200;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid @lib__colors__N200;
+    padding: 2px 4px;
+    margin: 0 0 0 0.3rem;
+    font-size: 0.6rem;
   }
 }

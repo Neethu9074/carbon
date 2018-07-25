@@ -1,54 +1,42 @@
 import React from 'react';
 
-import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
-import { applicationsList } from 'in-applications/navigation/paths';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import Button from 'in-new-components/Button';
-import { setIn } from 'in-services/settings';
-import Tooltip from 'in-components/Tooltip';
+import VersionSwitcherFlyout from 'in-components/AppHeader/components/VersionSwitcher/VersionSwitcherFlyout';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import Overlay from 'in-new-components/overlays/Overlay';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './VersionSwitcher.mless';
 
-function switchVersion() {
-  v2UsageDurationTracker.stop({ v2Was: twoZeroModeEnabled });
-  setIn('v2Enabled', !twoZeroModeEnabled);
-
-  const a = document.createElement('a');
-  a.href = window.location.href;
-
-  if (!twoZeroModeEnabled) {
-    a.hash = `#${applicationsList}?v2=true`;
-  } else {
-    a.hash = `#/?v2=false`;
-  }
-
-  // If we only change the hash, then the browser will try to update the current document's state.
-  // This results in weird artifacts that we don't want to have. Instead, force a document reload
-  // by setting an unused query parameter.
-  a.search = `?bust=${Date.now()}`;
-
-  window.location.href = a.href;
-}
-
 export default function VersionSwitcher() {
-  const btn = (
-    <Button
-      size="compact"
-      kind={twoZeroModeEnabled ? 'secondary' : 'primary'}
-      className={locals.versionSwitcher}
-      onClick={switchVersion}
-    >
-      {twoZeroModeEnabled ? 'Application Perspectives: Disable' : 'Application Perspectives: Enable'}
-    </Button>
-  );
-
-  if (twoZeroModeEnabled) {
-    return btn;
+  if (!isTwoZeroBetaPhase) {
+    return null;
   }
 
   return (
-    <Tooltip content="For a limited time, we're providing a preview to the upcoming application perspectives release. Use this time to familiarize yourself with the new application model and upcoming changes.">
-      {btn}
-    </Tooltip>
+    <div className={locals.switcher}>
+      <Overlay content={VersionSwitcherFlyout} withoutWrapper>
+        {OverlayActivation}
+      </Overlay>
+
+      <span className={locals.state}>{twoZeroModeEnabled ? 'Application 2.0' : 'Application 1.0'}</span>
+
+      {twoZeroModeEnabled && <span className={locals.beta}>Beta</span>}
+    </div>
+  );
+}
+
+function OverlayActivation({ refSetter, toggle, isOpen }) {
+  return (
+    <SvgIcon
+      type="lib_arrow_drop_down"
+      className={evaluateClassNames({
+        [locals.arrow]: true,
+        [locals.active]: isOpen
+      })}
+      width={24}
+      refSetter={refSetter}
+      onClick={toggle}
+    />
   );
 }
