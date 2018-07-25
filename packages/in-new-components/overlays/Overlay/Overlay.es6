@@ -1,3 +1,4 @@
+import { create, just, timeout } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import { throttle } from 'lodash';
 
@@ -21,6 +22,7 @@ export default class Overlay extends React.Component {
   toggle = () => this.setOpen(!this.state.isOpen);
   open = () => this.setOpen(true);
   close = () => this.setOpen(false);
+  delayedAutoOpenStateChange$ = create();
 
   /*
    * Avoid competing changes when toggling the menu. This issue occurs when the overlay
@@ -40,6 +42,9 @@ export default class Overlay extends React.Component {
     trailing: false
   });
 
+  delayedOpen = () => this.delayedAutoOpenStateChange$.emit(true);
+  delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
+
   refSetter = r => {
     this.wrapper = r;
     const parentOverlayDomNode = identifyOverlay(r);
@@ -47,6 +52,21 @@ export default class Overlay extends React.Component {
       this.parentOverlay = parentOverlayDomNode.dataset.overlayId;
     }
   };
+
+  componentDidMount() {
+    this.delayedOpenSubscription = this.delayedAutoOpenStateChange$
+      .flatMap(open => {
+        if (open) {
+          return just(true);
+        }
+        return timeout(500).map(() => false);
+      })
+      .subscribe(open => this.setOpen(open));
+  }
+
+  componentWillUnmount() {
+    this.delayedOpenSubscription.dispose();
+  }
 
   render() {
     const {
@@ -62,6 +82,7 @@ export default class Overlay extends React.Component {
       content: OverlayContent
     } = this.props;
     const { isOpen, id } = this.state;
+    const autoClose = this.props.autoClose === undefined ? autoOpen : this.props.autoClose;
 
     let content;
     if (withoutWrapper) {
@@ -70,7 +91,9 @@ export default class Overlay extends React.Component {
           isOpen={isOpen}
           toggle={this.toggle}
           open={this.open}
+          delayedOpen={this.delayedOpen}
           close={this.close}
+          delayedClose={this.delayedClose}
           {...props}
           refSetter={this.refSetter}
         />
@@ -80,8 +103,8 @@ export default class Overlay extends React.Component {
         <div
           style={wrapperStyle}
           className={wrapperClassName}
-          onMouseEnter={autoOpen ? this.open : undefined}
-          onMouseLeave={autoOpen ? this.close : undefined}
+          onMouseEnter={autoOpen ? this.delayedOpen : undefined}
+          onMouseLeave={autoClose ? this.delayedClose : undefined}
           ref={this.refSetter}
         >
           <Content isOpen={isOpen} toggle={this.toggle} open={this.open} close={this.close} {...props} />
@@ -105,6 +128,10 @@ export default class Overlay extends React.Component {
               position={position}
               kind={kind}
               close={this.close}
+              delayedOpen={this.delayedOpen}
+              delayedClose={this.delayedClose}
+              autoOpen={autoOpen}
+              autoClose={autoClose}
               withoutArrow={withoutArrow}
             />
           )}

@@ -17,20 +17,18 @@ export default function VersionSwitcherFlyout() {
     <section className={locals.flyout}>
       <Item active={twoZeroModeEnabled}>
         <Title>
-          <span className={locals.new}>New</span>
-          <div className={locals.twoZeroRow}>
-            Application 2.0
-            <span className={locals.beta}>Beta</span>
-          </div>
+          Application Perspectives <span className={locals.beta}>New</span>
         </Title>
 
-        <Description>something to do and awrite all the day long</Description>
+        <Description>Explore the new application hierarchy and trace/call analytics.</Description>
       </Item>
 
       <Item active={!twoZeroModeEnabled}>
-        <Title>Application 1.0</Title>
+        <Title>
+          Old Version <span className={locals.beta}>Deprecated</span>
+        </Title>
 
-        <Description>something to do and awrite all the day long</Description>
+        <Description>Access the old version during the transition period.</Description>
       </Item>
     </section>
   );

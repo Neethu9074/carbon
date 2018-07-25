@@ -1,6 +1,20 @@
 @import '~in-themes/active.less';
 
 :local {
+  .wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 10px;
+  }
+
+  .lettering {
+    cursor: pointer;
+    position: absolute;
+    top: 1.125rem;
+    left: 1rem;
+  }
+
   .switcher {
     position: absolute;
     top: 0.7rem;
@@ -30,6 +44,7 @@
     color: @lib__colors__N400;
     margin: 0 0 0 1rem;
     font-size: 1rem;
+    white-space: nowrap;
   }
 
   .beta {

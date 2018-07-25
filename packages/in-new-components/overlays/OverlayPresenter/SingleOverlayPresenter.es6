@@ -61,9 +61,15 @@ export default class SingleOverlayPresenter extends React.PureComponent {
   }
 
   render() {
-    const { content: Content, props, id } = this.props;
+    const { content: Content, props, id, autoOpen, autoClose, delayedOpen, delayedClose } = this.props;
     return (
-      <div data-overlay-id={id} ref={r => (this.tooltipElement = r)} className={locals.overlay}>
+      <div
+        data-overlay-id={id}
+        ref={r => (this.tooltipElement = r)}
+        className={locals.overlay}
+        onMouseEnter={autoOpen ? delayedOpen : undefined}
+        onMouseLeave={autoClose ? delayedClose : undefined}
+      >
         <Content {...props} />
       </div>
     );
