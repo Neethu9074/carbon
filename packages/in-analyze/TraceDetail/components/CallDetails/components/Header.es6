@@ -10,8 +10,8 @@ import Link from 'in-components/Link';
 import locals from './Header.mless';
 
 export default function Header({ call, callTreeNode, onClose, getColor }) {
-  const service = get(call, ['source', 'service']);
-  const endpoint = get(call, ['source', 'endpoint']);
+  const service = get(call, ['destination', 'service']);
+  const endpoint = get(call, ['destination', 'endpoint']);
 
   return (
     <div>
