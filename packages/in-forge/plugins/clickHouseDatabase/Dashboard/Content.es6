@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number, bytes } from 'in-services/formatters/number';
@@ -143,35 +144,8 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      {
-        // More available metrics:
-        // OpenFileForRead
-        // OpenFileForWrite
-        // DiskSpaceReservedForMerge
-        // DelayedInserts
-        // ReplicatedFetch
-        // ReplicatedSend
-        // ReplicatedChecks
-        // ReadonlyReplica
-        // LeaderReplica
-        // LeaderElection
-        // BackgroundPoolTask
-        // DistributedSend
-        // QueryPreempted
-        // SendExternalTables
-        // QueryThread
-        // EphemeralNode
-        // ZooKeeperWatch
-        // ContextLockWait
-        // StorageBufferRows
-        // StorageBufferBytes
-        // DictCacheRequests
-        // Revision
-        // RWLockWaitingReaders
-        // RWLockWaitingWriters
-        // RWLockActiveReaders
-        // RWLockActiveWriters
-      }
+
+      <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
