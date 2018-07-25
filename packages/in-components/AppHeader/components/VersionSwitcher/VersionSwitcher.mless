@@ -35,7 +35,7 @@
   .beta {
     color: @lib__colors__N200;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 2px solid @lib__colors__N200;
     padding: 2px 4px;
     margin: 0 0 0 0.4rem;

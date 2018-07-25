@@ -4,6 +4,7 @@ import VersionSwitcherFlyout from 'in-components/AppHeader/components/VersionSwi
 import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './VersionSwitcher.mless';
@@ -28,15 +29,17 @@ export default function VersionSwitcher() {
 
 function OverlayActivation({ refSetter, toggle, isOpen }) {
   return (
-    <SvgIcon
-      type="lib_arrow_drop_down"
-      className={evaluateClassNames({
-        [locals.arrow]: true,
-        [locals.active]: isOpen
-      })}
-      width={24}
-      refSetter={refSetter}
-      onClick={toggle}
-    />
+    <Tooltip content="Switch application perspectives">
+      <SvgIcon
+        type="lib_arrow_drop_down"
+        className={evaluateClassNames({
+          [locals.arrow]: true,
+          [locals.active]: isOpen
+        })}
+        width={24}
+        refSetter={refSetter}
+        onClick={toggle}
+      />
+    </Tooltip>
   );
 }
