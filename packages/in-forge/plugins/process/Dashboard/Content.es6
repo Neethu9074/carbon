@@ -7,7 +7,7 @@ import Chart from 'in-components/Chart';
 
 export default function ProcessDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-  const contextSwitchesEnabled = snapshot.get('ctx_switches_enabled');
+  const data = snapshot.get('data');
   return (
     <div>
       <DashboardSection title="Memory">
@@ -37,7 +37,7 @@ export default function ProcessDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      {contextSwitchesEnabled ? (
+      {data.get('ctx_switches_enabled') ? (
         <DashboardSection title="Number of context switches">
           <Chart
             snapshotId={snapshotId}
