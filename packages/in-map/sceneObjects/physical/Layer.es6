@@ -18,6 +18,7 @@ export default class Layer extends SceneObject {
 
     this._cachedPlugin = 'unknown';
     this.node = params.node;
+    this.metadata = params.metadata;
   }
 
   initComponents() {

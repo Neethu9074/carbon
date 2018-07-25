@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
@@ -9,6 +10,8 @@ import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './Layer.mless';
+
 export default createTooltip(
   connectTo(
     props => {
@@ -17,16 +20,23 @@ export default createTooltip(
         mostImportantEvent: getMostImportantEventAtFocusedMoment(props.entity.id).startWith(null)
       };
     },
-    function Layer({ snapshot, mostImportantEvent }) {
+    function Layer({ snapshot, mostImportantEvent, entity }) {
       if (!snapshot) {
         return null;
       }
 
-      return mostImportantEvent ? (
-        <EventDescription event={mostImportantEvent} showFullTextIfToLong={false} snapshotId={snapshot.get('id')} />
-      ) : (
+      if (mostImportantEvent) {
+        return (
+          <EventDescription event={mostImportantEvent} showFullTextIfToLong={false} snapshotId={snapshot.get('id')} />
+        );
+      }
+
+      const containerLabel = get(entity, ['metadata', 'container.label']);
+
+      return (
         <Content>
           {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}
+          {containerLabel && <span className={locals.container}>in container: {containerLabel}</span>}
         </Content>
       );
     }
