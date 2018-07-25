@@ -35,8 +35,8 @@ export default createTooltip(
 
       return (
         <Content>
-          {getSingular(snapshot.get('plugin'))} : {getLabel(snapshot)}
-          {containerLabel && <span className={locals.container}>in container: {containerLabel}</span>}
+          {getSingular(snapshot.get('plugin'))}: {getLabel(snapshot)}
+          {containerLabel && <span className={locals.container}>Container: {containerLabel}</span>}
         </Content>
       );
     }
