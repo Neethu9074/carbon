@@ -107,6 +107,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                       <Spacer />
 
                       <TagFilterList
+                        addButtonLabel="Tag"
                         filterConnectionOperator="OR"
                         onAddTagFilter={() =>
                           setActiveDialog(
@@ -130,10 +131,12 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                           )
                         }
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
-                          name: matchSpecification.get('key').value,
-                          value: matchSpecification.get('value').value,
-                          operator: matchSpecification.get('operator').value,
-                          secondLevelName: matchSpecification.get('secondLevelName').value,
+                          tag: {
+                            name: matchSpecification.get('key').value,
+                            value: matchSpecification.get('value').value,
+                            operator: matchSpecification.get('operator').value,
+                            secondLevelName: matchSpecification.get('secondLevelName').value
+                          },
                           onClick: () =>
                             setActiveDialog(
                               <EditFilterDialog

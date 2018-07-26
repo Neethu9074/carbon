@@ -52,7 +52,7 @@ export default compose(
   }),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection }) =>
+    get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
       getCalls({
         pagination: {
           cursor,
@@ -65,7 +65,11 @@ export default compose(
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: tagFiltersForSubscription
+        tagFilters: filterByGroup
+          ? tagFiltersForSubscription.concat([
+              { name: filterByGroup.name, operator: 'EQUALS', stringValue: filterByGroup.value }
+            ])
+          : tagFiltersForSubscription
       })
   })
 )(RawCalls);
@@ -83,7 +87,7 @@ function RawCalls({
 }) {
   return (
     <Fragment>
-      <CallsAndGroupsIndicator numCalls={totalHits} />
+      <CallsAndGroupsIndicator className={locals.callsAndGroupsIndicator} numCalls={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

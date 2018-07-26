@@ -1,25 +1,47 @@
 @import '~in-themes/active.less';
 
 :local {
-  .workspace {
-    margin: 1rem 0;
-    padding-bottom: 1rem;
+  .firstRow {
+    background: @lib__colors__N300;
   }
 
-  .groupingGroupTitle,
-  .filterGroupTitle {
-    font-size: 0.875rem;
-    color: @lib__colors__N500;
-    margin-top: 0.5rem;
-  }
+  .firstRowMaxWidthFullscreenContainer {
+    position: relative;
 
-  .filterGroupTitle {
-    margin-top: 0.75rem;
-  }
-
-  .filterSection {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+
+    padding: 0.5rem 0;
+  }
+
+  .quickFilterRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .filterRow {
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .filterRowWrapper {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  .groupRow {
+    display: flex;
+    align-items: center;
+
+    margin-top: 1.5rem;
+  }
+
+  .groupByLabel {
+    margin-right: 1rem;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
   }
 }

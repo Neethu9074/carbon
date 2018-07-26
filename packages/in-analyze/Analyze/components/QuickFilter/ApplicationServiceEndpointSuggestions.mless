@@ -1,0 +1,71 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 25rem;
+    max-width: 25rem;
+
+    padding: 1.5rem;
+    background: #fff;
+  }
+
+  .searchRow {
+    display: flex;
+    align-items: center;
+    padding-bottom: 1.5rem;
+  }
+
+  .loadingSelectPlaceholderInput {
+    margin-right: 0.5rem;
+    flex-grow: 1;
+  }
+
+  .saveButton {
+    margin-left: 0.25rem;
+  }
+
+  .suggestionList {
+    margin: 0;
+    padding: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 12rem;
+  }
+
+  .suggestion {
+    display: flex;
+    align-items: center;
+
+    padding: 0.5rem 0.5rem;
+    list-style: none;
+    background: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N100;
+    }
+  }
+
+  .entityIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N700Medium;
+  }
+
+  .itemText {
+    color: @lib__colors__N700Medium;
+    .ellipsis();
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
+  .noSuggestionsLabel {
+    color: @lib__colors__N600Light;
+  }
+}

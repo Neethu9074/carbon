@@ -61,8 +61,7 @@ export default connectTo(
             endpointId,
             applicationName: applicationLabel,
             serviceName: serviceLabel,
-            endpointName: endpointId,
-            preGrouped: true
+            endpointName: endpointId
           })
         : null;
     const trackAndPrepareBackButton = trackAndStoreBackButtonParameters.bind(null, backButtonLabels);

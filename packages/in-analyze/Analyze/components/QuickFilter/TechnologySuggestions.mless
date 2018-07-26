@@ -1,0 +1,30 @@
+@import '~in-themes/active.less';
+
+:local {
+  .suggestionList {
+    width: 15rem;
+    margin: 0;
+    padding: 1rem;
+    background: #fff;
+  }
+
+  .suggestion {
+    display: flex;
+    align-items: center;
+
+    padding: 0.5rem 0.5rem;
+    list-style: none;
+    background: #fff;
+    color: @lib__colors__N700Medium;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N100;
+    }
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N700Medium;
+  }
+}

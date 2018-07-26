@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';

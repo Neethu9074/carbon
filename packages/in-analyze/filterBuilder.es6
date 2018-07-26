@@ -15,6 +15,10 @@ export function getGroupFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 
+export function getShowRawFromUrlString(urlString) {
+  return parsedUrlOrDefault(urlString, null);
+}
+
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({
     name: tag.name,
@@ -28,6 +32,10 @@ export function getTagFilterToUrlString(tagFilter) {
 
 export function getGroupToUrlString(group) {
   return stringifyIfTrue(group, group);
+}
+
+export function getShowRawToUrlString(active) {
+  return stringifyIfTrue(active, active);
 }
 
 function parsedUrlOrDefault(urlString, defaultValue) {
@@ -54,6 +62,6 @@ export function createFilter(config = {}) {
     name: config.name || '',
     secondLevelName: config.secondLevelName,
     value: config.value || '',
-    operator: config.operator
+    operator: config.operator || 'EQUALS'
   };
 }

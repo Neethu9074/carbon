@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .callTraceSwitch {
+    display: flex;
+    align-items: center;
+
+    margin-right: 1rem;
+    padding: 0.1875rem 0.625rem;
+
+    color: @lib__colors__N700Medium;
+    background: #fff;
+    font-size: 0.875rem;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_large;
+    box-shadow: @lib__shadows__subtle;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+    margin-right: 0.25rem;
+  }
+
+  .icon {
+    fill: @lib__colors__primary1;
+    margin-right: 0.25rem;
+  }
+}

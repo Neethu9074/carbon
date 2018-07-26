@@ -1,0 +1,13 @@
+:local {
+  .keyGroup {
+    flex-grow: 3;
+  }
+
+  .customKeyGroup {
+    flex-grow: 1;
+  }
+
+  .valueFormGroup {
+    flex-grow: 1;
+  }
+}
