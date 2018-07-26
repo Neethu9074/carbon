@@ -24,9 +24,7 @@ export default function VersionSwitcherFlyout() {
       </Item>
 
       <Item active={!twoZeroModeEnabled}>
-        <Title>
-          Old Version <span className={locals.beta}>Deprecated</span>
-        </Title>
+        <Title>Previous Version</Title>
 
         <Description>Access the old version during the transition period.</Description>
       </Item>

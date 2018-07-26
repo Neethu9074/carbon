@@ -1,6 +1,13 @@
 @import '~in-themes/active.less';
 
 :local {
+  .lettering {
+    cursor: pointer;
+    position: absolute;
+    top: 1.125rem;
+    left: 1rem;
+  }
+
   .header {
     height: 3rem;
 

@@ -1,57 +1,46 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 10px;
-  }
-
-  .lettering {
-    cursor: pointer;
-    position: absolute;
-    top: 1.125rem;
-    left: 1rem;
-  }
-
   .switcher {
     position: absolute;
-    top: 0.7rem;
-    left: 7.4rem;
+    top: 0.8rem;
+    left: 8rem;
     display: flex;
     align-items: center;
+    color: @lib__colors__N400;
+
+    &:hover, &.active {
+      color: #fff;
+
+      .arrow {
+        fill: #fff;
+      }
+
+      .beta {
+        color: #fff;
+        border-color: #fff;
+      }
+    }
   }
 
   .arrow {
     fill: @lib__colors__N400;
-    padding: .1rem;
 
-    &:hover {
+    &:hover, &.active {
       fill: #fff;
     }
   }
 
-  .arrow.active {
-    fill: #fff;
-
-    &:hover {
-      fill: @lib__colors__N400;
-    }
-  }
-
   .state {
-    color: @lib__colors__N400;
-    margin: 0 0 0 1rem;
     font-size: 1rem;
     white-space: nowrap;
   }
 
   .beta {
-    color: @lib__colors__N200;
+    color: @lib__colors__N400;
+    border: 2px solid @lib__colors__N400;
     font-weight: bold;
     border-radius: 8px;
-    border: 2px solid @lib__colors__N200;
     padding: 2px 4px;
     margin: 0 0 0 0.4rem;
     font-size: 0.7rem;
