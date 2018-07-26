@@ -19,7 +19,7 @@ export default connect(
     }
 
     return (
-      <Overlay props={{ ...props, traceCount }} content={TraceList} position="fixed" withoutWrapper>
+      <Overlay props={{ ...props, traceCount }} content={TraceList} withoutWrapper>
         {TraceButton}
       </Overlay>
     );

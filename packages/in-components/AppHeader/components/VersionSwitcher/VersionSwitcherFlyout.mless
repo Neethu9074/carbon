@@ -1,0 +1,66 @@
+@import '~in-themes/active.less';
+
+:local {
+  .flyout {
+    background: #fff;
+    max-width: 40.625rem;
+  }
+
+  .item, .item:hover {
+    color: @lib__colors__N900Primary;
+    text-decoration: none;
+    position: relative;
+    display: block;
+    padding: 1.125rem 1.125rem 1.125rem 1.75rem;
+    margin: 1.375rem 1.375rem;
+
+    &:first-child {
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      margin-top: .313rem;
+    }
+  }
+
+  .active, .active:hover, .item:hover {
+    background: @lib__colors__N200;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: .5rem;
+      content: "";
+      display: block;
+      background: @lib__colors__green800;
+    }
+  }
+
+  .active, .active:hover {
+    cursor: default;
+  }
+
+  .title {
+    font-size: @lib__typography__h300__font-size;
+    margin: 0 0 0.625rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+
+  .description {
+    font-size: @lib__typography__body-large__font-size;
+    margin: 0;
+  }
+
+  .beta {
+    font-size: 0.8rem;
+    border: 2px solid black;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 1px 5px;
+    margin: 0 0 0 5px;
+  }
+}

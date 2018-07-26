@@ -10,6 +10,7 @@ export const tagFilter = 'tagFilter';
 
 // groups
 export const groupBy = 'groupBy';
+export const showRawData = 'showRawData';
 
 // trace detail view
 export const traceId = 'traceId';

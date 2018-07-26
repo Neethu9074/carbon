@@ -12,7 +12,7 @@ import Input from 'in-components/form/Input';
 import locals from './DateInput.mless';
 
 export default function DatePicker(props) {
-  const { value, onChange = identity, disabled, overlayPosition } = props;
+  const { value, onChange = identity, disabled } = props;
   const inputProps = assign({}, props);
   delete inputProps.onChange;
   delete inputProps.type;
@@ -23,12 +23,7 @@ export default function DatePicker(props) {
     return <Input type="text" {...inputProps} />;
   }
   return (
-    <Overlay
-      content={DatePickerOverlay}
-      props={{ value, onChange, inputProps }}
-      withoutWrapper
-      position={overlayPosition}
-    >
+    <Overlay content={DatePickerOverlay} props={{ value, onChange, inputProps }} withoutWrapper>
       {DatePickerInput}
     </Overlay>
   );

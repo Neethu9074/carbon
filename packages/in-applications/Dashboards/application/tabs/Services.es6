@@ -271,6 +271,7 @@ const columnDefinitions = [
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           IndicatorPresenter={HealthIndicatorPresenter}
+          inContentArea
         />
       );
     }

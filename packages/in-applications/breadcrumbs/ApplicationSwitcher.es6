@@ -11,9 +11,9 @@ export const trackApplicationSwitcher = createTracker('application.applicationSw
 
 import locals from './ApplicationSwitcher.mless';
 
-export default function ApplicationSwitcher({ applicationId, applications, viewPath, refSetter, close }) {
+export default function ApplicationSwitcher({ applicationId, applications, viewPath, delayedOpen, delayedClose }) {
   return (
-    <div ref={refSetter} onMouseLeave={close}>
+    <div onMouseEnter={delayedOpen} onMouseLeave={delayedClose}>
       <div className={locals.header}>
         <SvgIcon className={locals.headingIcon} type="lib_application_invert" width={40} height={40} />
         You are looking at this Service in<br />context of an Application

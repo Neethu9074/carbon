@@ -15,7 +15,7 @@ export default function TagFilter({
   isLastOperator,
   isOnlyFilter
 }) {
-  let { name, secondLevelName, value, operator } = tagFilter;
+  let { name, secondLevelName, value, operator } = tagFilter.tag;
   const node = findSubTreeByFullyQualifiedName(name);
 
   if (secondLevelName) {

@@ -58,9 +58,9 @@ function ApplicationBreadcrumbWithSwitcher(props) {
     >
       {hasOnlyOneApplication && <span className={locals.appName}>{application.data.label}</span>}
       {!hasOnlyOneApplication && (
-        <Overlay content={ApplicationSwitcher} props={props} position="fixed">
-          {({ open }) => (
-            <div onMouseEnter={open}>
+        <Overlay content={ApplicationSwitcher} props={props} autoOpen>
+          {() => (
+            <div>
               <span className={locals.appName}>{application.data.label}</span>
               <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
             </div>

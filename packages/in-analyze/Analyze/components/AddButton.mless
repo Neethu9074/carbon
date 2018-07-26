@@ -1,6 +1,9 @@
+@import '~in-themes/active.less';
+
 :local {
   .addButton {
-    margin-top: 0.25rem;
+    padding-left: 0.25rem;
+    border-radius: @lib__shapes__radius_medium;
   }
 
   .optionList {

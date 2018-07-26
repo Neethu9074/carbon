@@ -24,13 +24,7 @@ export default connect({
 
 function AppHeaderTimeSelection({ timeConfig }) {
   return (
-    <Overlay
-      props={{ timeConfig }}
-      content={TimeSelectionDialogPresenterWrapper}
-      withoutWrapper
-      withoutArrow
-      position="fixed"
-    >
+    <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
       {TimePresenterWrapper}
     </Overlay>
   );

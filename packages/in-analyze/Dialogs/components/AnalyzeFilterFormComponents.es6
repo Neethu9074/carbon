@@ -3,10 +3,7 @@ import React from 'react';
 
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import { joinClassNames } from 'in-services/util/classnames';
 import { getTagCategories } from 'in-applications/tags';
-import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
@@ -20,25 +17,12 @@ export default function AnalyzeFilterFormComponents({ children }) {
   return <div className={locals.editForm}>{children}</div>;
 }
 
-export function KeyListGroup({ field, children }) {
-  return (
-    <FormGroup>
-      <ol className={locals.keyList}>{children}</ol>
-      <TouchedMessages field={field} />
-    </FormGroup>
-  );
-}
-
-export function KeyPart({ children }) {
-  return <li className={locals.key}>{children}</li>;
-}
-
 export function SelectBox({ options, id, value, onChange }) {
   return (
     <ComboBox
       id={id}
       value={value}
-      onChange={e => onChange(e.value ? e : { value: '' })}
+      onChange={e => onChange(e && e.value ? e : { value: '' })}
       autoComplete="off"
       options={options}
       clearable={false}
@@ -54,15 +38,6 @@ export function FieldSeperator({ children }) {
   );
 }
 
-export function ValueGroup({ className, field, children }) {
-  return (
-    <FormGroup className={joinClassNames(locals.valueFormGroup, className)}>
-      {children}
-      <TouchedMessages field={field} />
-    </FormGroup>
-  );
-}
-
 export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
   if (!autoCompletedOptions) {
     return (
@@ -72,6 +47,7 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
           type="text"
           id="value"
           value={field.value}
+          autoComplete="off"
           onChange={e => onChange('value', e.target.value)}
         />
         {autoCompletedOptions === null && (
@@ -110,10 +86,6 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
       searchable
     />
   );
-}
-
-export function FixedSelection({ value }) {
-  return <Input className={locals.fixedValue} id={value} value={value} autoComplete="off" disabled />;
 }
 
 export function TagCategorySwitcher({ selectedCategory, setSelectedCategory, withInstanaCategory = true }) {
@@ -165,6 +137,10 @@ export function NamedSection({ name, children }) {
 }
 
 export function OperatorSelection({ field, onChange, node }) {
+  if (!node) {
+    return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
+  }
+
   const operators = TAG_TYPES[node.type].operators;
   if (operators.length === 1) {
     return (
@@ -172,6 +148,7 @@ export function OperatorSelection({ field, onChange, node }) {
         className={locals.fixedOperator}
         type="text"
         id="operator"
+        autoComplete="off"
         value={getOperatorLabel(node.type, operators[0])}
         disabled
       />
@@ -191,13 +168,5 @@ export function OperatorSelection({ field, onChange, node }) {
         </option>
       ))}
     </select>
-  );
-}
-
-export function FilterConnector({ children }) {
-  return (
-    <Pill className={locals.filterConnector} color={theme.lib.colors.N400}>
-      {children}
-    </Pill>
   );
 }

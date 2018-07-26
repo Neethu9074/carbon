@@ -16,45 +16,9 @@
     padding: 0;
   }
 
-  .key {
-    position: relative;
-    margin-right: 0.5rem;
-
-    &:after {
-      position: absolute;
-      left: 100%;
-      top: 50%;
-
-      content: '';
-      width: 0.5rem;
-      height: 1px;
-      background: @lib__colors__N400;
-    }
-
-    &:last-child {
-      margin-right: 0;
-
-      &:after {
-        width: 0;
-        height: 0;
-      }
-    }
-  }
-
   .fieldSeperator {
     margin: 0.5rem;
     min-width: 1.25rem;
-  }
-
-  .valueFormGroup {
-    flex-grow: 1;
-    min-width: 12.5rem;
-  }
-
-  .fixedValue {
-    &[disabled] {
-      color: @lib__colors__navy900;
-    }
   }
 
   .categoryList {
@@ -129,17 +93,13 @@
   }
 
   .fixedOperator {
-    max-width: 2.25rem;
+    max-width: 3.5rem;
     padding-left: 0.5rem;
     border-radius: @lib__shapes__radius_large;
 
     &[disabled] {
       color: #fff;
     }
-  }
-
-  .filterConnector {
-    margin: 0 0.25rem;
   }
 
   .loadingSelectPlaceholder {

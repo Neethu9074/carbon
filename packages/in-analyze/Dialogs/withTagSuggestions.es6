@@ -6,6 +6,7 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
+import { getTagFromList } from 'in-applications/tags';
 
 export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
@@ -94,7 +95,7 @@ export default () => ComposedComponent => {
       const tagName = _name;
       const filters = this.props.filters;
       const node = findSubTreeByFullyQualifiedName(tagName);
-      if (!node || !node.isTag) {
+      if (!node) {
         return;
       }
 
@@ -119,7 +120,7 @@ export default () => ComposedComponent => {
       const tagName = _name;
       const filters = this.props.filters;
       const node = findSubTreeByFullyQualifiedName(tagName);
-      if (!node || !node.isTag || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+      if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
         return;
       }
 
@@ -174,20 +175,9 @@ function getTagFilterList(tagName, filters) {
 
   const tagFilter = filters.get('tagFilter').toJS();
 
-  let application;
-  let service;
-  let endpoint;
-
-  for (let i = 0; i < tagFilter.length; i++) {
-    const tag = tagFilter[i];
-    if (tag.name === APPLICATION.name) {
-      application = tag;
-    } else if (tag.name === SERVICE.name) {
-      service = tag;
-    } else if (tag.name === ENDPOINT.name) {
-      endpoint = tag;
-    }
-  }
+  let application = getTagFromList(APPLICATION.name, tagFilter);
+  let service = getTagFromList(SERVICE.name, tagFilter);
+  let endpoint = getTagFromList(ENDPOINT.name, tagFilter);
 
   const isApplicationTag = tagName !== APPLICATION.name;
   const isServiceTag = tagName !== SERVICE.name;

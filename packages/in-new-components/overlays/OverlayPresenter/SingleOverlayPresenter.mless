@@ -2,7 +2,7 @@
 
 :local {
   .overlay {
-    position: absolute;
+    position: fixed;
     z-index: @z-index__overlays;
 
     &::after,
@@ -35,5 +35,10 @@
       background: @background;
       border: @border-width solid @border-color;
     }
+  }
+
+  .inContentArea {
+    position: absolute;
+    z-index: @z-index__overlays-in-content-area;
   }
 }

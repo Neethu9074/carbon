@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import { joinClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './CallsAndGroupsIndicator.mless';
-
-import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
@@ -16,7 +16,7 @@ export default connectTo(
     )
   }),
 
-  function CallsAndGroupsIndicator({ numCalls, numGroups, containsPastLiveData }) {
+  function CallsAndGroupsIndicator({ numCalls, numGroups, containsPastLiveData, className }) {
     let counter;
     if (numCalls != undefined && numGroups != undefined) {
       counter = `${number.compact(numCalls)} Calls (in ${numGroups} Groups)`;
@@ -27,7 +27,7 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.wrapper}>
+      <div className={joinClassNames(locals.wrapper, className)}>
         <span className={locals.result}>Result</span>
         <span className={locals.number}>{counter}</span>
         {containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
