@@ -112,7 +112,6 @@ export function TagCategorySwitcher({ selectedCategory, setSelectedCategory, wit
             <Button
               className={evaluateClassNames({
                 [locals.categoryButton]: true,
-                [locals.instanCategoryButton]: category === 'INSTANA' && !isActive,
                 [locals.activeCategoryButton]: isActive
               })}
               kind="secondary"
@@ -169,4 +168,8 @@ export function OperatorSelection({ field, onChange, node }) {
       ))}
     </select>
   );
+}
+
+export function HelpText({ helpText }) {
+  return <p className={locals.helpText}>{helpText}</p>;
 }

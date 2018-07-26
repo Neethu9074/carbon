@@ -101,6 +101,8 @@ function QuickFilterSection(props) {
           { Component: ApplicationServiceEndpointSuggestions, tagName: 'application.name', icon: 'lib_application' },
           props
         )}
+        position="fixed"
+        tagName="application.name"
       >
         {({ toggle, isOpen }) => <QuickFilter label="By Application" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
@@ -115,6 +117,8 @@ function QuickFilterSection(props) {
           },
           props
         )}
+        position="fixed"
+        tagName="service.name"
       >
         {({ toggle, isOpen }) => <QuickFilter label="By Service" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
@@ -136,21 +140,30 @@ function QuickFilterSection(props) {
             onClick={toggle}
             opensOverlay
             isOpen={isOpen}
-            notAvailable={!getTagFromList('service.name', tagFilter)}
+            notAvailable={!getTagFromList(tagFilter, { name: 'service.name' })}
             helpText="Please define a service first"
+            tagName="endpoint.name"
           />
         )}
       </Overlay>
 
-      <Overlay content={SuggestionContent} props={assign({ Component: TypeSuggestions, tagName: 'call.type' }, props)}>
-        {({ toggle, isOpen }) => <QuickFilter label="Type" onClick={toggle} opensOverlay isOpen={isOpen} />}
+      <Overlay
+        content={SuggestionContent}
+        props={assign({ Component: TypeSuggestions, tagName: 'call.type' }, props)}
+        position="fixed"
+      >
+        {({ toggle, isOpen }) => (
+          <QuickFilter tagName="call.type" label="Type" onClick={toggle} opensOverlay isOpen={isOpen} />
+        )}
       </Overlay>
 
       <Overlay
         content={SuggestionContent}
         props={assign({ Component: TechnologySuggestions, tagName: 'call.technology' }, props)}
       >
-        {({ toggle, isOpen }) => <QuickFilter label="Technology" onClick={toggle} opensOverlay isOpen={isOpen} />}
+        {({ toggle, isOpen }) => (
+          <QuickFilter tagName="call.technology" label="Technology" onClick={toggle} opensOverlay isOpen={isOpen} />
+        )}
       </Overlay>
 
       <Overlay
@@ -166,7 +179,7 @@ function QuickFilterSection(props) {
       <QuickFilter
         label="Erroneous"
         onClick={() => onAddTagFilter({ name: 'call.erroneous', value: 'true' }, props.filters, props.onChangeFilters)}
-        deactivated={getTagFromList('call.erroneous', tagFilter)}
+        deactivated={getTagFromList(tagFilter, { name: 'call.erroneous' })}
         helpText="The filters already contains this filter"
       />
     </div>

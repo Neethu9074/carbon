@@ -175,9 +175,9 @@ function getTagFilterList(tagName, filters) {
 
   const tagFilter = filters.get('tagFilter').toJS();
 
-  let application = getTagFromList(APPLICATION.name, tagFilter);
-  let service = getTagFromList(SERVICE.name, tagFilter);
-  let endpoint = getTagFromList(ENDPOINT.name, tagFilter);
+  let application = getTagFromList(tagFilter, { name: APPLICATION.name });
+  let service = getTagFromList(tagFilter, { name: SERVICE.name });
+  let endpoint = getTagFromList(tagFilter, { name: ENDPOINT.name });
 
   const isApplicationTag = tagName !== APPLICATION.name;
   const isServiceTag = tagName !== SERVICE.name;

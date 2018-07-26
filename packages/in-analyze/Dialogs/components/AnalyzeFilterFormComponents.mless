@@ -57,11 +57,6 @@
     }
   }
 
-  .instanCategoryButton {
-    background: @lib__colors__primary1;
-    color: #fff;
-  }
-
   .namedSection {
     display: flex;
     align-items: flex-start;
@@ -114,5 +109,11 @@
 
   .loadingIcon {
     fill: @lib__colors__blue800;
+  }
+
+  .helpText {
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__N050;
+    padding: 1rem;
   }
 }

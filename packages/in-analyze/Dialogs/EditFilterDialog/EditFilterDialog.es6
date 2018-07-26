@@ -8,11 +8,23 @@ import withTagSuggestions from 'in-analyze/Dialogs/withTagSuggestions';
 export default compose(withTagSuggestions())(EditFilterDialog);
 
 function EditFilterDialog(props) {
+  const isNewFilter = !props.name && !props.value;
+
   return (
     <AnalyzeFilterDialog
       {...props}
       title="Filter"
-      renderForm={formProps => <EditFilterForm {...props} {...formProps} />}
+      renderForm={formProps => (
+        <EditFilterForm
+          {...props}
+          {...formProps}
+          helpText={
+            isNewFilter
+              ? 'Select a tag by which your calls should be filtered.'
+              : 'Change the tag by which your calls should be filtered.'
+          }
+        />
+      )}
     />
   );
 }

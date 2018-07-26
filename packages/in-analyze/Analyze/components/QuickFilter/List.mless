@@ -2,32 +2,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper {
-    display: flex;
-    flex-direction: column;
-
-    min-width: 25rem;
-    max-width: 25rem;
-
-    padding: 1.5rem;
-    background: #fff;
-  }
-
-  .searchRow {
-    display: flex;
-    align-items: center;
-    padding-bottom: 1.5rem;
-  }
-
-  .loadingSelectPlaceholderInput {
-    margin-right: 0.5rem;
-    flex-grow: 1;
-  }
-
-  .saveButton {
-    margin-left: 0.25rem;
-  }
-
   .suggestionList {
     margin: 0;
     padding: 0;
@@ -38,16 +12,26 @@
   }
 
   .suggestion {
+    position: relative;
+
     display: flex;
     align-items: center;
 
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem;
     list-style: none;
     background: #fff;
     cursor: pointer;
 
     &:hover {
       background: @lib__colors__N100;
+    }
+  }
+
+  .containsItem {
+    cursor: not-allowed;
+
+    &:hover {
+      background: #fff;
     }
   }
 
@@ -61,11 +45,10 @@
     .ellipsis();
   }
 
-  .loadingIcon {
-    fill: @lib__colors__light-blue800;
-  }
+  .containsItemIcon {
+    position: absolute;
+    right: 0.5rem;
 
-  .noSuggestionsLabel {
-    color: @lib__colors__N600Light;
+    fill: @lib__colors__primary1;
   }
 }
