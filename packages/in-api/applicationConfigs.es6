@@ -1,7 +1,7 @@
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
+import { getTagMap } from 'in-applications/tags';
 import http from 'in-services/http';
 
 export function getApplicationConfigs() {
@@ -59,7 +59,7 @@ function mapToServerResponse(config) {
   for (let i = 0; i < config.matchSpecification.length; i++) {
     const matchSpecification = config.matchSpecification[i];
     if (matchSpecification.secondLevelName) {
-      matchSpecification.value = `${matchSpecification.secondLevelName}=${matchSpecification.value}`;
+      matchSpecification.key = `${matchSpecification.key}.${matchSpecification.secondLevelName}`;
       delete matchSpecification.secondLevelName;
     }
   }
@@ -75,13 +75,31 @@ function mapFromServerResponse(config) {
 
   for (let i = 0; i < config.data.matchSpecification.length; i++) {
     const matchSpecification = config.data.matchSpecification[i];
-    let node = findSubTreeByFullyQualifiedName(matchSpecification.key);
-    if (node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-      const { key, value } = TAG_TYPES.KEY_VALUE_PAIR.splitValue(matchSpecification.value);
-      matchSpecification.secondLevelName = key;
-      matchSpecification.value = value;
+
+    const keyValueTag = getKeyValuePairTag(matchSpecification.key);
+    if (keyValueTag) {
+      const name = keyValueTag.fullyQualifiedName;
+      const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the  first .
+      if (secondLevelName) {
+        matchSpecification.secondLevelName = secondLevelName;
+      }
+      matchSpecification.key = name;
     }
   }
 
   return config;
+}
+
+function getKeyValuePairTag(_tag) {
+  const tagMap = getTagMap();
+  const tags = Object.keys(tagMap).map(key => tagMap[key]);
+  for (let i = 0; i < tags.length; i++) {
+    const tag = tags[i];
+    if (tag.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+      if (_tag.indexOf(tag.fullyQualifiedName) === 0) {
+        return tag;
+      }
+    }
+  }
+  return null;
 }
