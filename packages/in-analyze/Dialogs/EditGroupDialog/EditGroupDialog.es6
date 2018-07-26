@@ -9,7 +9,9 @@ export default function EditGroupDialog(props) {
       {...props}
       title="Group"
       withValue={false}
-      renderForm={formProps => <EditGroupFrom {...props} {...formProps} />}
+      renderForm={formProps => (
+        <EditGroupFrom {...props} {...formProps} helpText="Select a tag by which your calls should be grouped." />
+      )}
     />
   );
 }

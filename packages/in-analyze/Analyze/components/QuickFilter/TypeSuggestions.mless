@@ -1,22 +1,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .suggestionList {
-    width: 15rem;
-    margin: 0;
+  .wrapper {
     padding: 1rem;
     background: #fff;
-  }
-
-  .suggestion {
-    padding: 0.5rem 0.5rem;
-    list-style: none;
-    background: #fff;
-    color: @lib__colors__N700Medium;
-    cursor: pointer;
-
-    &:hover {
-      background: @lib__colors__N100;
-    }
   }
 }

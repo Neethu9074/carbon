@@ -6,7 +6,8 @@ import AnalyzeFilterForm, {
   TagCategorySwitcher,
   NamedSection,
   OperatorSelection,
-  AutoCompletedSelect
+  AutoCompletedSelect,
+  HelpText
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
 import { operators, TAG_TYPES } from 'in-analyze/applicationFilter';
@@ -18,11 +19,13 @@ import Input from 'in-components/form/Input';
 import locals from './EditFilterForm.mless';
 
 export default function EditFilterForm(props) {
-  const { form, onChange } = props;
+  const { form, helpText, onChange } = props;
   const node = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
 
   return (
     <Fragment>
+      <HelpText helpText={helpText} />
+
       <NamedSection name="Category">
         <TagCategorySwitcher {...props} />
       </NamedSection>
@@ -38,7 +41,7 @@ export default function EditFilterForm(props) {
                   field={field}
                   onChange={newName => onChange('name', findSubTreeByFullyQualifiedName(newName).fullyQualifiedName)}
                 />
-                {field.messages.map((message, i) => (
+                {subForm.messages.map((message, i) => (
                   <ValidationBlock hasError key={i}>
                     {message.message}
                   </ValidationBlock>
