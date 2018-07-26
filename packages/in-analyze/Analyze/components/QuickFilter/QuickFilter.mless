@@ -56,6 +56,14 @@
     .icon {
       fill: #fff;
     }
+
+    &:hover {
+      color: @lib__colors__N200;
+
+      .icon {
+        fill: @lib__colors__N200;
+      }
+    }
   }
 
   .icon {
