@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import emptyList from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ClickHouseInfo({ snapshot }) {
   const data = snapshot.get('data');
