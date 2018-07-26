@@ -3,7 +3,7 @@
 :local {
   .callDetails {
     max-width: 35rem;
-    margin-left: 1.2rem;
+    margin-left: 1.5rem;
 
     overflow: hidden;
   }
