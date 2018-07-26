@@ -20,7 +20,7 @@ export default function AlertingConfigurations() {
     getLinkColumnWithBadge(
       getEntityIdPath.bind(null, alertingConfigurationPath),
       entity => !entity.get('valid'),
-      'deprecated Dynamic Focus query',
+      () => 'Deprecated Dynamic Focus query',
       'alertName'
     ),
     getEnableToggleColumn(entity => entity.get('muteUntil') === 0),

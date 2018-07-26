@@ -12,7 +12,6 @@ import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -24,11 +23,7 @@ import Title from 'in-components/Title';
 const logger = createLogger('Rules');
 
 const cols = [
-  getLinkColumnWithBadge(
-    getEntityIdPath.bind(null, rulePath),
-    isRuleDeprecated,
-    twoZeroModeEnabled ? 'Disabled' : 'Deprecated'
-  ),
+  getLinkColumnWithBadge(getEntityIdPath.bind(null, rulePath), isRuleDeprecated, () => 'Rule is deprecated'),
   getDeleteButtonColumn()
 ];
 

@@ -90,7 +90,8 @@ export default class HostNode extends Node {
           params: {
             id: layer.id,
             entity: layer,
-            node: this.sceneObjectInstance
+            node: this.sceneObjectInstance,
+            metadata: layer.metadata
           }
         };
       }

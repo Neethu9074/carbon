@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: block;
+    margin: 3px 0 0;
+    color: @lib__colors__N400;
+    font-weight: normal;
+  }
+}

@@ -1,4 +1,5 @@
 import { createLogger } from 'instalog';
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import {
@@ -6,6 +7,7 @@ import {
   getEnableToggleColumn,
   getDeleteButtonColumn
 } from 'in-views/configurationView/components/tableColumnPresets';
+import { getRule, isRuleDeprecated, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
 import { bindingPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import { getRuleBindings, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
@@ -17,13 +19,14 @@ import Section from 'in-views/configurationView/components/Section';
 import { formatDateTime } from 'in-services/formatters/date';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
+import { combineLatest, just } from 'reactive-observables';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { validate } from 'in-api/search';
 import Title from 'in-components/Title';
-import { getRule, isRuleDeprecated, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 import './RuleBindings.less';
@@ -31,19 +34,55 @@ import './RuleBindings.less';
 const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
-function isRuleBindingDeprecated(ruleBindings) {
-  if (!twoZeroModeEnabled) {
-    return false;
+function checkRuleDeprecation(ruleBinding) {
+  const rule$ = getRule(ruleBinding.getIn(['ruleIds', 0], ''));
+  return rule$
+    .map(rule => getRuleDeprecationBadgeText(isRuleDeprecated(rule)))
+    .map(deprecationText => extendBadgeMessage(ruleBinding, deprecationText));
+}
+
+function getRuleDeprecationBadgeText(ruleDeprecatedFlag) {
+  if (twoZeroModeEnabled && ruleDeprecatedFlag) {
+    return 'Rule is deprecated';
+  } else {
+    return '';
   }
-  const rule$ = getRule(ruleBindings.getIn(['ruleIds', 0], ''));
-  return rule$.once(rule => isRuleDeprecated(rule));
+}
+
+function getDfqValidationBadgeText(dfqValidFlag) {
+  if (twoZeroModeEnabled && !dfqValidFlag) {
+    return 'Dynamic Focus query is deprecated';
+  } else {
+    return '';
+  }
+}
+
+function validateDfq(ruleBinding) {
+  if (twoZeroModeEnabled && ruleBinding.get('query')) {
+    return validate({
+      query: ruleBinding.get('query'),
+      newApplicationModelEnabled: true
+    }).map(response => extendBadgeMessage(ruleBinding, getDfqValidationBadgeText(response.body.valid)));
+  } else {
+    return just(ruleBinding);
+  }
+}
+
+function extendBadgeMessage(ruleBinding, text) {
+  if (!text) {
+    return ruleBinding;
+  }
+  if (!ruleBinding.get('badgeMessage')) {
+    return ruleBinding.set('badgeMessage', text);
+  }
+  return ruleBinding.set('badgeMessage', ruleBinding.get('badgeMessage') + ', ' + text);
 }
 
 const cols = [
   getLinkColumnWithBadge(
     getEntityIdPath.bind(null, bindingPath),
-    isRuleBindingDeprecated,
-    twoZeroModeEnabled ? 'Disabled' : 'Deprecated',
+    entity => entity.get('badgeMessage'),
+    entity => entity.get('badgeMessage'),
     'text'
   ),
   getEnableToggleColumn(),
@@ -75,14 +114,21 @@ export default class extends React.Component {
     });
 
     const result$ = getRuleBindings();
-    this.responseSubscription = result$.once(ruleBindings => {
-      this.setState({
-        error: false,
-        loading: false,
-        message: null,
-        ruleBindings
+    this.responseSubscription = result$
+      .flatMap(ruleBindings => {
+        return combineLatest(ruleBindings.toArray().map(ruleBinding => checkRuleDeprecation(ruleBinding)));
+      })
+      .flatMap(ruleBindings => {
+        return combineLatest(ruleBindings.map(ruleBinding => validateDfq(ruleBinding)));
+      })
+      .once(ruleBindings => {
+        this.setState({
+          error: false,
+          loading: false,
+          message: null,
+          ruleBindings: fromJS(ruleBindings)
+        });
       });
-    });
 
     this.errorSubscription = result$.errors().once(error => {
       const message = `Failed to retrieve custom issues: ${error.message}`;

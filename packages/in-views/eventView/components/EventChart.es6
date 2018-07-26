@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getChartTimeframeByEvent, getTimeConfigFromEventForCharts } from 'in-views/eventView/services/timeframe';
+import {
+  getChartTimeframeByEvent,
+  getTimeConfigFromEventForCharts,
+  getTimeConfigFromEventForSnapshotRetrieval
+} from 'in-views/eventView/services/timeframe';
 import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -69,7 +73,12 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    return getEntityOfType(props.entityId, props.entityType, props.timeConfig, props.start);
+    return getEntityOfType(
+      props.entityId,
+      props.entityType,
+      getTimeConfigFromEventForSnapshotRetrieval(props.event),
+      props.start
+    );
   },
   function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
     if (!entity || (entity.progress && entity.progress.loading)) {

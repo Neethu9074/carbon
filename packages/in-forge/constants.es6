@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, omit } from 'lodash';
 
 /* eslint-disable max-len */
 export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
@@ -99,10 +99,8 @@ export const nonServicePlugins = {
   zookeeper: 'zooKeeper'
 };
 
-export const servicePlugins = {
+export const oneZeroLogicalPlugins = {
   batchServiceInstance: 'batchServiceInstance',
-  browserLogicalConnection: 'browserLogicalConnection',
-  browserLogicalService: 'browserLogicalService',
   cassandraKeyspaceServiceInstance: 'cassandraKeyspaceServiceInstance',
   databaseServiceInstance: 'databaseServiceInstance',
   defaultLogicalConnection: 'defaultLogicalConnection',
@@ -153,9 +151,6 @@ export const servicePlugins = {
   messageBrokerServiceInstance: 'messageBrokerServiceInstance',
   messageConsumerServiceInstance: 'messageConsumerServiceInstance',
   mongoDbDatabaseServiceInstance: 'mongoDbDatabaseServiceInstance',
-  pageResourceLogicalConnection: 'pageResourceLogicalConnection',
-  pageResourceLogicalService: 'pageResourceLogicalService',
-  pageResourceServiceInstance: 'pageResourceServiceInstance',
   redisServiceInstance: 'redisServiceInstance',
   rpcEndpointServiceInstance: 'rpcEndpointServiceInstance',
   sdkLogicalConnection: 'sdkLogicalConnection',
@@ -167,19 +162,44 @@ export const servicePlugins = {
   webAppServiceInstance: 'webAppServiceInstance'
 };
 
+export const oneZeroServicePlugins = {
+  defaultLogicalService: 'defaultLogicalService',
+  ejbLogicalService: 'ejbLogicalService',
+  javaMailLogicalService: 'javaMailLogicalService',
+  ldapLogicalService: 'ldapLogicalService',
+  logicalBatch: 'logicalBatch',
+  logicalCassandraKeyspace: 'logicalCassandraKeyspace',
+  logicalDatabase: 'logicalDatabase',
+  logicalElasticSearchIndex: 'logicalElasticSearchIndex',
+  logicalFtpService: 'logicalFtpService',
+  logicalMessageBroker: 'logicalMessageBroker',
+  logicalMessageConsumer: 'logicalMessageConsumer',
+  logicalMongoDbDatabase: 'logicalMongoDbDatabase',
+  logicalRedisDatabase: 'logicalRedisDatabase',
+  logicalWebApp: 'logicalWebApp',
+  sdkLogicalService: 'sdkLogicalService',
+  shellLogicalService: 'shellLogicalService',
+  unknownService: 'unknownService'
+};
+
 export const applicationPlugins = {
   application: 'application',
   defaultEntity20: 'defaultEntity20',
   service: 'service'
 };
 
-export const plugins = assign({}, applicationPlugins, servicePlugins, nonServicePlugins);
+const websiteMonitoring = {
+  browserLogicalConnection: 'browserLogicalConnection',
+  browserLogicalService: 'browserLogicalService',
+  pageResourceLogicalConnection: 'pageResourceLogicalConnection',
+  pageResourceLogicalService: 'pageResourceLogicalService',
+  pageResourceServiceInstance: 'pageResourceServiceInstance'
+};
 
-export const plugins10 = assign({}, servicePlugins, nonServicePlugins);
-
-export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
-
-export const pluginsDeprecatedIn20 = assign({}, servicePlugins);
+export const plugins10 = assign({}, oneZeroLogicalPlugins, nonServicePlugins, websiteMonitoring);
+export const plugins20 = assign({}, applicationPlugins, nonServicePlugins, websiteMonitoring);
+export const pluginsDeprecatedIn20 = omit(plugins10, Object.keys(plugins20), Object.keys(oneZeroServicePlugins));
+export const plugins = assign({}, plugins10, plugins20);
 
 export const defaultAndUnknownPluginNames = [
   'unknownService',

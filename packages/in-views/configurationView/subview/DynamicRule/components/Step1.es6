@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MatchingEntityTable from 'in-views/configurationView/subview/DynamicRule/components/MatchingEntityTable';
-import { applicationPlugins, defaultAndUnknownPluginNames, servicePlugins } from 'in-forge/constants';
+import { applicationPlugins, defaultAndUnknownPluginNames, oneZeroLogicalPlugins } from 'in-forge/constants';
 import TooltipIcon from 'in-views/configurationView/subview/DynamicRule/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/subview/DynamicRule/components/Spacer';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
@@ -21,7 +21,7 @@ import './Step1.less';
 
 const block = 'in-dynamic-rule-dialog-step-1';
 
-const plugins = twoZeroModeEnabled ? applicationPlugins : servicePlugins;
+const plugins = twoZeroModeEnabled ? applicationPlugins : oneZeroLogicalPlugins;
 const pluginsWithMetricDefinitions = Object.keys(plugins)
   .map(key => plugins[key])
   .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
