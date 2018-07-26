@@ -4,6 +4,7 @@
   .tagFilterListWrapper {
     width: 100%;
     overflow: hidden;
+    padding-right: 0.25rem;
   }
 
   .tagFilterList {
