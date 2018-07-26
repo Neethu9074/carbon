@@ -17,6 +17,15 @@ const cols = [
     }
   },
   {
+    title: 'State',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.state;
+      }
+    }
+  },
+  {
     title: 'Available Connections',
     type: 'metric',
     typeArgs: {
@@ -124,6 +133,7 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
+      state: snapshot.getIn(['data', 'datasources.' + key + '.state']),
       timeConfig
     };
   });
