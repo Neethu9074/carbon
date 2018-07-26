@@ -1,16 +1,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import {
-  getTreeNodesTillName,
-  getFullPathTillNode,
-  getDeepestPossibleNodePath,
-  findChildByName,
-  findSubTreeByFullyQualifiedName,
-  getTagTree,
-  mapFromServerResponse,
-  mapToServerResponse
-} from 'in-applications/tags';
+import { findSubTreeByFullyQualifiedName, mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 
 describe('in-applications/tags', () => {
   describe('mapFromServerResponse', () => {
@@ -284,136 +275,25 @@ describe('in-applications/tags', () => {
       { name: 'this.is.a.unique.path' }
     ];
 
-    it('should build a categorized tag tree', () => {
-      const tree = getTagTree();
-
-      expect(tree).to.not.equal(null);
-
-      expect(tree.getChildren()).to.have.length(5);
-      expect(tree.getChildren()[0].name).to.equal('a');
-      expect(tree.getChildren()[1].name).to.equal('b');
-      expect(tree.getChildren()[2].name).to.equal('this');
-      expect(tree.getChildren()[3].name).to.equal('x');
-      expect(tree.getChildren()[4].name).to.equal('z');
-
-      expect(tree.getChildren()[0].getChildren()).to.have.length(1);
-      expect(tree.getChildren()[0].getChildren()[0].name).to.equal('b');
-
-      expect(tree.getChildren()[0].getChildren()[0].isTag).to.equal(true);
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()
-      ).to.have.length(2);
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[0].name
-      ).to.equal('c');
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[1].name
-      ).to.equal('d');
-
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[0].isTag
-      ).to.equal(true);
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()
-      ).to.have.length(1);
-      expect(
-        tree
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[0]
-          .getChildren()[0].name
-      ).to.equal('d');
-
-      expect(tree.getChildren()[1].isTag).to.equal(true);
-      expect(tree.getChildren()[1].getChildren()).to.have.length(1);
-      expect(tree.getChildren()[1].getChildren()[0].name).to.equal('c');
-
-      expect(
-        tree
-          .getChildren()[1]
-          .getChildren()[0]
-          .getChildren()
-      ).to.have.length(1);
-      expect(
-        tree
-          .getChildren()[1]
-          .getChildren()[0]
-          .getChildren()[0].name
-      ).to.equal('d');
-    });
-
     it('should find tree node by given fully qualified name', () => {
-      expect(findSubTreeByFullyQualifiedName('a')).to.not.equal(null);
+      expect(findSubTreeByFullyQualifiedName('a')).to.equal(undefined);
 
       let match = findSubTreeByFullyQualifiedName('a.b');
       expect(match).to.not.equal(null);
-      expect(match.name).to.equal('b');
       expect(match.fullyQualifiedName).to.equal('a.b');
 
       match = findSubTreeByFullyQualifiedName('a.b.c.d');
       expect(match).to.not.equal(null);
-      expect(match.name).to.equal('d');
       expect(match.fullyQualifiedName).to.equal('a.b.c.d');
     });
 
     it('should find tree node by given fully qualified name (findSubTreeByFullyQualifiedName)', () => {
       expect(findSubTreeByFullyQualifiedName('foo.bar')).to.equal(undefined);
-      expect(findSubTreeByFullyQualifiedName('a.b.c').name).to.equal('c');
-      expect(findSubTreeByFullyQualifiedName('a.b').name).to.equal('b');
-      expect(findSubTreeByFullyQualifiedName('a.b.d').name).to.equal('d');
+      expect(findSubTreeByFullyQualifiedName('a.b.c').name).to.equal('a.b.c');
+      expect(findSubTreeByFullyQualifiedName('a.b').name).to.equal('a.b');
+      expect(findSubTreeByFullyQualifiedName('a.b.d').name).to.equal('a.b.d');
       expect(findSubTreeByFullyQualifiedName('b').name).to.equal('b');
-      expect(findSubTreeByFullyQualifiedName('b.c.d').name).to.equal('d');
-    });
-
-    it('should find tree nodes till the given name', () => {
-      expect(getTreeNodesTillName('foo.bar')).to.equal(null);
-      expect(
-        getTreeNodesTillName('a.b.c')
-          .map(n => n.name)
-          .join('.')
-      ).to.equal('a.b.c');
-      expect(getTreeNodesTillName('foo.bar')).to.equal(null);
-      expect(
-        getTreeNodesTillName('a.b.c.d')
-          .map(n => n.name)
-          .join('.')
-      ).to.equal('a.b.c.d');
-    });
-
-    it('should return the full path till node (getFullPathTillNode)', () => {
-      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('a.b.c.d'))).to.equal('a.b.c');
-      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('a.b.c.d'), 'f')).to.equal('a.b.c.f');
-      expect(getFullPathTillNode(findSubTreeByFullyQualifiedName('b'), 'f')).to.equal('f');
-    });
-
-    it('should resolve to the deepest possible node path (getDeepestPossibleNodePath)', () => {
-      expect(getDeepestPossibleNodePath({ name: 'unknown' })).to.equal('unknown');
-      expect(getDeepestPossibleNodePath({ name: 'x' })).to.equal('x');
-      expect(getDeepestPossibleNodePath({ name: 'a' })).to.equal('a.b');
-      expect(getDeepestPossibleNodePath({ name: 'this.is.a.unique.path' })).to.equal('this.is.a.unique.path');
-    });
-
-    it('should find child by name (findChildByName)', () => {
-      expect(findChildByName(findSubTreeByFullyQualifiedName('unknown'), 'unknown')).to.equal(null);
-      expect(findChildByName(findSubTreeByFullyQualifiedName('a.b'), 'unknown')).to.equal(null);
-      expect(findChildByName(findSubTreeByFullyQualifiedName('a.b'), 'c').name).to.equal('c');
-      expect(findChildByName(findSubTreeByFullyQualifiedName('this.is.a'), 'unique').name).to.equal('unique');
+      expect(findSubTreeByFullyQualifiedName('b.c.d').name).to.equal('b.c.d');
     });
   });
 });

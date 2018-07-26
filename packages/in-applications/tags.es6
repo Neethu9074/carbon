@@ -173,93 +173,18 @@ function buildTagTree() {
     .filter(tag => !isOnBlacklist(tag, blacklists.generalBlacklist))
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
-  const tagsAsMap = {};
-  for (let i = 0; i < tags.length; i++) {
-    tagsAsMap[tags[i].name] = tags[i];
-  }
-  buildNodes(rootNode, tags, tagsAsMap);
-}
-
-function buildNodes(parentNode, level, tagsAsMap) {
-  const categories = buildCategories('', level);
-  markTags('', categories, tagsAsMap);
-  mapCategoriesToNodes(parentNode, categories);
-}
-
-function buildCategories(path, tags) {
-  if (tags.length === 0) {
-    return [];
-  }
-
-  let categories = {};
-
   for (let i = 0; i < tags.length; i++) {
     const tag = tags[i];
-    const tagCategory = tag.name.split('.')[0];
-    if (!tagCategory) {
-      continue;
-    }
 
-    if (!categories[tagCategory]) {
-      categories[tagCategory] = {
-        category: tag.category,
-        path,
-        prefix: tagCategory,
-        children: []
-      };
-    }
-    tag.name = tag.name.slice(tagCategory.length + 1);
-    if (tag.name.length > 0) {
-      categories[tagCategory].children.push(tag);
-    }
-  }
-
-  categories = Object.keys(categories).map(key => categories[key]);
-  for (let i = 0; i < categories.length; i++) {
-    const category = categories[i];
-    category.children = buildCategories(path + category.prefix + '.', category.children);
-  }
-
-  return categories;
-}
-
-function markTags(path, categories, tagsAsMap) {
-  if (!categories) {
-    return;
-  }
-
-  for (let i = 0; i < categories.length; i++) {
-    const category = categories[i];
-    const fullyQualifiedPath = path ? path + '.' + category.prefix : category.prefix;
-    const tagDefinition = tagsAsMap[fullyQualifiedPath];
-    if (tagDefinition) {
-      category.isTag = true;
-      category.type = tagDefinition.type;
-    }
-
-    markTags(fullyQualifiedPath, category.children, tagsAsMap);
-  }
-}
-
-function mapCategoriesToNodes(parentNode, categories) {
-  for (let i = 0; i < categories.length; i++) {
-    const category = categories[i];
-
-    const node = createNode(category.prefix, {
-      fullyQualifiedName: category.path + category.prefix,
-      parentNode,
-      category: category.category
+    const node = createNode(tag.name, {
+      fullyQualifiedName: tag.name,
+      rootNode,
+      category: tag.category
     });
 
     tagMap[node.fullyQualifiedName] = node;
-    if (category.isTag) {
-      node.isTag = true;
-      node.type = category.type;
-      node.category = category.category;
-    }
-    parentNode.addChild(node);
-
-    mapCategoriesToNodes(node, category.children);
+    node.type = tag.type;
+    rootNode.addChild(node);
   }
 }
 
@@ -290,54 +215,6 @@ function createNode(name, props = {}) {
 export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
   getTagTree();
   return tagMap[fullyQualifiedName];
-}
-
-export function getTreeNodesTillName(name) {
-  const treeNode = findSubTreeByFullyQualifiedName(name);
-  if (!treeNode) {
-    return null;
-  }
-
-  const nodesTillRoot = [];
-  let nodeCursor = treeNode;
-  while (nodeCursor) {
-    if (nodeCursor.parentNode) {
-      nodesTillRoot.push(nodeCursor);
-    }
-    nodeCursor = nodeCursor.parentNode;
-  }
-  return nodesTillRoot.reverse();
-}
-
-export function getFullPathTillNode(node, name) {
-  let cursor = node.parentNode;
-  while (cursor) {
-    if (cursor && cursor.parentNode) {
-      if (name) {
-        name = `${cursor.name}.${name}`;
-      } else {
-        name = cursor.name;
-      }
-    }
-    cursor = cursor.parentNode;
-  }
-  return name;
-}
-
-export function getDeepestPossibleNodePath({ name, filtered = false, filterbyCategory, blacklist }) {
-  let cursor = findSubTreeByFullyQualifiedName(name);
-  while (cursor) {
-    const children = filtered
-      ? cursor.getChildren({ blacklist: blacklist, category: filterbyCategory })
-      : cursor.getChildren();
-    if (children.length !== 1) {
-      break;
-    }
-
-    cursor = children[0];
-    name = `${name}.${cursor.name}`;
-  }
-  return name;
 }
 
 export function findChildByName(node, childName) {
@@ -388,9 +265,11 @@ const blacklists = {
     'endpoint.name': true
   }
 };
+
 export function getCustomFilterBlacklist() {
   return blacklists.customFilterBlacklist;
 }
+
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
     blacklists.applicationCreationFilterBlacklist = {};
@@ -416,15 +295,20 @@ export function getApplicationCreationFilterBlacklist() {
         manualAddedTags[tag.fullyQualifiedName]
       ) {
         blacklists.applicationCreationFilterBlacklist[tag.fullyQualifiedName] = true;
-
-        const isParentNodeLeftWithZeroChildren =
-          tag.parentNode.getChildren({ blacklist: blacklists.applicationCreationFilterBlacklist }).length === 0;
-        if (isParentNodeLeftWithZeroChildren) {
-          blacklists.applicationCreationFilterBlacklist[tag.parentNode.fullyQualifiedName] = true;
-        }
       }
     }
   }
 
   return blacklists.applicationCreationFilterBlacklist;
+}
+
+export function getTagFromList(tagName, tagFilter) {
+  for (let i = 0; i < tagFilter.length; i++) {
+    const tag = tagFilter[i];
+    if (tag.name === tagName) {
+      return tag;
+    }
+  }
+
+  return null;
 }

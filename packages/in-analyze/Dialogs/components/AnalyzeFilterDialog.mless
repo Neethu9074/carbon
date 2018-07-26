@@ -27,7 +27,6 @@
 
   .content {
     overflow: unset;
-
     border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
   }
 

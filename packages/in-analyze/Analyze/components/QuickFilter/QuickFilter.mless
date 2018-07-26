@@ -1,0 +1,64 @@
+@import '~in-themes/active.less';
+
+:local {
+  .quickFilter {
+    display: flex;
+    align-items: center;
+
+    margin-right: 1rem;
+    padding: 0.25rem 0.5rem;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    cursor: pointer;
+
+    &:hover {
+      color: @lib__colors__N800Dark;
+
+      .icon {
+        fill: @lib__colors__N800Dark;
+      }
+    }
+  }
+
+  .deactivated {
+    background: @lib__colors__N600Light;
+    border-radius: 10px;
+    color: #fff;
+    cursor: not-allowed;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .notAvailable {
+    color: @lib__colors__N500;
+    cursor: not-allowed;
+    .icon {
+      fill: @lib__colors__N500;
+    }
+
+    &:hover {
+      color: @lib__colors__N500;
+
+      .icon {
+        fill: @lib__colors__N500;
+      }
+    }
+  }
+
+  .isOpen {
+    background: @lib__colors__N600Light;
+    border-radius: 10px;
+    color: #fff;
+
+    .icon {
+      fill: #fff;
+    }
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+}

@@ -13,7 +13,7 @@ import Dialog from 'in-components/Dialog';
 import locals from './AnalyzeFilterDialog.mless';
 
 export default function AnalyzeFilterDialog(props) {
-  const { onCancel, title = 'Filter' } = props;
+  const { onCancel, title } = props;
 
   return (
     <Dialog
@@ -66,7 +66,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
     const { form } = this.state;
 
     return (
-      <form onSubmit={e => this.onSubmit(e, form)} className={locals.form}>
+      <form onSubmit={e => this.onSubmit(e, form)}>
         <div className={locals.dialog}>
           <div className={locals.content}>
             {renderForm({
@@ -78,7 +78,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
           </div>
 
           <div className={locals.footer}>
-            <Button kind="create" type="submit" disabled={!form.hierarchyValid && form.touched}>
+            <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
               Save
             </Button>
             {onRemove && (
@@ -206,8 +206,7 @@ function getInitialForm(props) {
           .put(
             'name',
             createField({
-              value: name,
-              validator: nameValidator
+              value: name
             })
           )
           .put(
@@ -268,26 +267,22 @@ function nameValidator(name) {
     ];
   }
 
-  if (!nodeInTree.isTag) {
-    return [
-      {
-        severity: 'error',
-        message: 'Please select a full key.'
-      }
-    ];
-  }
-
   return null;
 }
 
 function nameFormValidator(nameForm) {
+  const customName = nameForm.get('customName').value;
+  const keyName = nameForm.get('name').value;
+
+  const nameValidationResult = nameValidator(keyName);
+  if (nameValidationResult !== null) {
+    return nameValidationResult;
+  }
+
   const type = nameForm.get('type').value;
   if (type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
-
-  const customName = nameForm.get('customName').value;
-  const keyName = nameForm.get('name').value;
 
   // for backwards compatibility reasons, we need to support agent.tag tags with an empty 2nd level key
   if (keyName === 'agent.tag') {

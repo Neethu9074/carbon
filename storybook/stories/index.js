@@ -46,8 +46,6 @@ import './analyse/IcicleChart';
 import './analyse/TraceConverter';
 import './analyse/TimingChart';
 
-import './designLibrary/analyze/FilterStory';
-
 import './designLibrary/application/AppHeaderStory';
 import './designLibrary/application/EmptyAppListStory';
 

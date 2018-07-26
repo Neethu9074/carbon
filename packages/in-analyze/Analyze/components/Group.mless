@@ -2,45 +2,26 @@
 @import '~in-themes/active.less';
 
 :local {
-  .groupWrapper {
-    display: flex;
-    align-items: center;
-  }
-
   .group {
     display: flex;
     align-items: center;
 
-    height: 2.375rem;
+    margin-right: 1rem;
+    padding: 0.4375rem 0.625rem;
 
-    padding: 0 1rem;
+    color: #fff;
+    background: @lib__colors__light-blue800;
 
-    color: @lib__colors__N900Primary;
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_medium;
-    background: #fff;
     font-size: 0.875rem;
-    cursor: pointer;
+    border-radius: @lib__shapes__radius_large;
+
     overflow: hidden;
-
-    &:hover {
-      background: @lib__colors__N050;
-      box-shadow: @lib__shadows__subtle;
-    }
-  }
-
-  .name {
-    color: @lib__colors__N500;
-    .ellipsis();
-  }
-
-  .removeIcon {
-    margin-left: 0.5rem;
-    fill: @lib__colors__N400;
     cursor: pointer;
+    .ellipsis();
 
     &:hover {
-      fill: @lib__colors__N500;
+      background: #178cc7;
+      box-shadow: @lib__shadows__subtle;
     }
   }
 }

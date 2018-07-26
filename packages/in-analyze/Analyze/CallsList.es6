@@ -1,35 +1,38 @@
-import { defaultProps, compose } from 'recompose';
-import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 import { fromJS } from 'immutable';
+import React from 'react';
 
-import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
+import {
+  showRawData as showRawDataMatrixParameter,
+  tagFilter as tagFilterMatrixParameter,
+  groupBy as groupByMatrixParameter
+} from 'in-analyze/navigation/matrix';
 import {
   getTagFilterToUrlString,
   getGroupToUrlString,
   getTagFilterFromUrlString,
-  getGroupFromUrlString
+  getGroupFromUrlString,
+  getShowRawFromUrlString,
+  getShowRawToUrlString
 } from 'in-analyze/filterBuilder';
+import RawDataOverlayMounter from 'in-analyze/Analyze/components/RawDataOverlay/RawDataOverlayMounter';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import AnalyzeHeader from 'in-analyze/Analyze/AnalyzeHeader';
 import getCalls from 'in-subscription/application/getCalls';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import GroupedCalls from 'in-analyze/GroupedCalls';
-import RawCalls from 'in-analyze/RawCalls';
 import Title from 'in-components/Title';
 
 export default compose(
-  defaultProps({
-    repalceHistory: false
-  }),
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => '',
-    boundKeys: [tagFilterMatrixParameter, groupByMatrixParameter],
+    boundKeys: [tagFilterMatrixParameter, groupByMatrixParameter, showRawDataMatrixParameter],
     getResettingProps: () => [],
     getInitialState: () => {
       const initialState = {};
@@ -44,9 +47,13 @@ export default compose(
       const urlGroup = values[groupByMatrixParameter];
       const group = getGroupFromUrlString(urlGroup);
 
+      const urlShowRawActive = values[showRawDataMatrixParameter];
+      const showRawActive = getShowRawFromUrlString(urlShowRawActive);
+
       const objectToReturn = {};
       objectToReturn[tagFilterMatrixParameter] = tagFilter;
       objectToReturn[groupByMatrixParameter] = group;
+      objectToReturn[showRawDataMatrixParameter] = showRawActive;
       return objectToReturn;
     },
     getSerializedUrlValues: props => {
@@ -56,9 +63,13 @@ export default compose(
       const group = props[groupByMatrixParameter];
       const urlReadyGroup = getGroupToUrlString(group);
 
+      const showRawActive = props[showRawDataMatrixParameter];
+      const urlReadyShowRawActive = getShowRawToUrlString(showRawActive);
+
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
       objectToStore[groupByMatrixParameter] = urlReadyGroup;
+      objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
       return objectToStore;
     }
   }),
@@ -80,32 +91,32 @@ export default compose(
         tagFilters: []
       })
   })
-)(CallList);
+)(CallsList);
 
-function CallList(props) {
+function CallsList(props) {
   const { onChangeFilters, location, totalHits } = props;
+  const tagFilter = props[tagFilterMatrixParameter];
 
   let filters = fromJS({
-    tagFilter: props[tagFilterMatrixParameter],
-    group: props[groupByMatrixParameter]
+    tagFilter,
+    group: props[groupByMatrixParameter] || { name: 'call.name', value: '' }
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
   const tagFiltersForSubscription = getTagFilterList(filters);
 
   return (
-    <Fragment>
-      <Title title="Calls" />
-      <AnalyzeHeader filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalHits} />
+    <div>
+      <Title title="Analyze" />
+
+      <QueryBuilderWorkspace filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalHits} />
+
       <MaxWidthFullscreenContainer>
-        {filters.get('group') && (
-          <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-        )}
-        {!filters.get('group') && (
-          <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-        )}
+        <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
       </MaxWidthFullscreenContainer>
-    </Fragment>
+
+      <RawDataOverlayMounter {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+    </div>
   );
 }
 
