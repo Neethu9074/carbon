@@ -160,7 +160,7 @@ function QuickFilterSection(props) {
           props
         )}
       >
-        {({ toggle, isOpen }) => <QuickFilter label="Slowest" onClick={toggle} opensOverlay isOpen={isOpen} />}
+        {({ toggle, isOpen }) => <QuickFilter label="Latency" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
 
       <QuickFilter

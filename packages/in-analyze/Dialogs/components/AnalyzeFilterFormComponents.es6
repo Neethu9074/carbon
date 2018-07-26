@@ -22,7 +22,7 @@ export function SelectBox({ options, id, value, onChange }) {
     <ComboBox
       id={id}
       value={value}
-      onChange={e => onChange(e.value ? e : { value: '' })}
+      onChange={e => onChange(e && e.value ? e : { value: '' })}
       autoComplete="off"
       options={options}
       clearable={false}
