@@ -1,7 +1,12 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { findSubTreeByFullyQualifiedName, mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
+import {
+  findSubTreeByFullyQualifiedName,
+  mapFromServerResponse,
+  mapToServerResponse,
+  getTagFromList
+} from 'in-applications/tags';
 
 describe('in-applications/tags', () => {
   describe('mapFromServerResponse', () => {
@@ -294,6 +299,46 @@ describe('in-applications/tags', () => {
       expect(findSubTreeByFullyQualifiedName('a.b.d').name).to.equal('a.b.d');
       expect(findSubTreeByFullyQualifiedName('b').name).to.equal('b');
       expect(findSubTreeByFullyQualifiedName('b.c.d').name).to.equal('b.c.d');
+    });
+  });
+
+  describe('tag tree', () => {
+    const list = [
+      { name: 'name1', value: 'value1', operator: 'operator1' },
+      { name: 'name2', value: 'value2', operator: 'operator2' },
+      { name: 'name3', value: 'value3', operator: 'operator3' },
+      { name: 'name4', value: 'value4', operator: 'operator4' }
+    ];
+
+    it('should find tag based on name', () => {
+      expect(getTagFromList(list, { name: 'a' })).to.equal(null);
+      expect(getTagFromList(list, { name: 'name1' })).to.not.equal(null);
+      expect(getTagFromList(list, { name: 'name2' })).to.not.equal(null);
+      expect(getTagFromList(list, { name: 'name3' })).to.not.equal(null);
+      expect(getTagFromList(list, { name: 'name4' })).to.not.equal(null);
+    });
+
+    it('should find tag based on value', () => {
+      expect(getTagFromList(list, { value: 'a' })).to.equal(null);
+      expect(getTagFromList(list, { value: 'value1' })).to.not.equal(null);
+      expect(getTagFromList(list, { value: 'value2' })).to.not.equal(null);
+      expect(getTagFromList(list, { value: 'value3' })).to.not.equal(null);
+      expect(getTagFromList(list, { value: 'value4' })).to.not.equal(null);
+    });
+
+    it('should find tag based on operator', () => {
+      expect(getTagFromList(list, { operator: 'a' })).to.equal(null);
+      expect(getTagFromList(list, { operator: 'operator1' })).to.not.equal(null);
+      expect(getTagFromList(list, { operator: 'operator2' })).to.not.equal(null);
+      expect(getTagFromList(list, { operator: 'operator3' })).to.not.equal(null);
+      expect(getTagFromList(list, { operator: 'operator4' })).to.not.equal(null);
+    });
+
+    it('should find tag based on name, value annd operator', () => {
+      expect(getTagFromList(list, { name: 'name1', value: 'value1', operator: 'unknown' })).to.equal(null);
+      expect(getTagFromList(list, { name: 'name1', value: 'unknown', operator: 'operator1' })).to.equal(null);
+      expect(getTagFromList(list, { name: 'unknown', value: 'value1', operator: 'operator1' })).to.equal(null);
+      expect(getTagFromList(list, { name: 'name1', value: 'value1', operator: 'operator1' })).to.not.equal(null);
     });
   });
 });

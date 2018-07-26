@@ -4,7 +4,8 @@ import AnalyzeFilterForm, {
   FieldSeperator,
   TagCategorySwitcher,
   NamedSection,
-  SelectBox
+  SelectBox,
+  HelpText
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -15,12 +16,14 @@ import Input from 'in-components/form/Input';
 import locals from './EditGroupForm.mless';
 
 export default function EditGroupForm(props) {
-  const { form, onChange } = props;
+  const { form, onChange, helpText } = props;
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
     <Fragment>
+      <HelpText helpText={helpText} />
+
       <NamedSection name="Category">
         <TagCategorySwitcher {...props} />
       </NamedSection>

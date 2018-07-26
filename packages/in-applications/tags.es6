@@ -302,12 +302,20 @@ export function getApplicationCreationFilterBlacklist() {
   return blacklists.applicationCreationFilterBlacklist;
 }
 
-export function getTagFromList(tagName, tagFilter) {
+export function getTagFromList(tagFilter, _tag) {
   for (let i = 0; i < tagFilter.length; i++) {
     const tag = tagFilter[i];
-    if (tag.name === tagName) {
-      return tag;
+    if (_tag.name && _tag.name !== tag.name) {
+      continue;
     }
+    if (_tag.value && _tag.value !== tag.value) {
+      continue;
+    }
+    if (_tag.operator && _tag.operator !== tag.operator) {
+      continue;
+    }
+
+    return tag;
   }
 
   return null;

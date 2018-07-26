@@ -1,15 +1,16 @@
 import React from 'react';
 
+import List from 'in-analyze/Analyze/components/QuickFilter/List';
+
 import locals from './TypeSuggestions.mless';
 
-export default function TypeSuggestions({ onValueClick }) {
+export default function TypeSuggestions(props) {
   return (
-    <ul className={locals.suggestionList}>
-      {['Batch', 'Database', 'Http', 'Messaging', 'Rpc', 'Undefined'].map(type => (
-        <li key={type} className={locals.suggestion} onClick={() => onValueClick(type.toUpperCase())}>
-          {type}
-        </li>
-      ))}
-    </ul>
+    <div className={locals.wrapper}>
+      <List
+        {...props}
+        items={['Batch', 'Database', 'Http', 'Messaging', 'Rpc', 'Undefined'].map(label => ({ label }))}
+      />
+    </div>
   );
 }
