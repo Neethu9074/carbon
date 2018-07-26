@@ -54,9 +54,18 @@ export default class SingleOverlayPresenter extends React.PureComponent {
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     set(tooltipElement, 'left', result.left);
-    set(tooltipElement, 'top', result.top);
     set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
-    set(tooltipElement, 'bottom', result.bottom !== null ? windowHeight - result.bottom : null);
+    if (this.props.inContentArea) {
+      if (result.top != null) {
+        set(tooltipElement, 'top', result.top + window.scrollY);
+      }
+      if (result.bottom != null) {
+        set(tooltipElement, 'top', result.bottom - tooltipElementBox.height + window.scrollY);
+      }
+    } else {
+      set(tooltipElement, 'top', result.top);
+      set(tooltipElement, 'bottom', result.bottom != null ? windowHeight - result.bottom : null);
+    }
 
     if (!this.props.withoutArrow) {
       tooltipElement.classList.add(locals[`align--${tooltip.align}`]);
