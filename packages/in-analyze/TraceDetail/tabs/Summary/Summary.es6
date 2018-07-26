@@ -3,10 +3,12 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
+import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
@@ -14,7 +16,6 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
 import locals from './Summary.mless';
@@ -45,7 +46,7 @@ class Summary extends React.Component {
 
   render() {
     const { data: trace, getColor, callId, traceId } = this.props;
-    return (
+    const traceDetails = (
       <div className={locals.wrapper}>
         <div className={locals.left}>
           <Row>
@@ -95,14 +96,33 @@ class Summary extends React.Component {
             </Col>
           </Row>
         </div>
-        {callId && (
-          <ErrorBoundary name="call tree sidebar">
-            <Sidebar relativeTopOffset={-24}>
-              <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
-            </Sidebar>
-          </ErrorBoundary>
-        )}
       </div>
+    );
+
+    const callDetails = (
+      <ErrorBoundary name="call tree sidebar">
+        <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+      </ErrorBoundary>
+    );
+
+    const leftContent = <HeightRestrictedView render={() => traceDetails} />;
+    const rightContent = <HeightRestrictedView render={() => callDetails} />;
+
+    return (
+      <TwoColumnView
+        leftContent={leftContent}
+        rightContent={rightContent}
+        leftWidth="65%"
+        expandedSide$={
+          callId
+            ? create()
+                .emit(null)
+                .freeze()
+            : create()
+                .emit('left')
+                .freeze()
+        }
+      />
     );
   }
 
