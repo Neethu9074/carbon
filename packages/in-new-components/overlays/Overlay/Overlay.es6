@@ -71,6 +71,7 @@ export default class Overlay extends React.Component {
   render() {
     const {
       autoOpen,
+      inContentArea,
       wrapperStyle,
       wrapperClassName,
       withoutWrapper,
@@ -133,6 +134,7 @@ export default class Overlay extends React.Component {
               autoOpen={autoOpen}
               autoClose={autoClose}
               withoutArrow={withoutArrow}
+              inContentArea={inContentArea}
             />
           )}
         {content}
