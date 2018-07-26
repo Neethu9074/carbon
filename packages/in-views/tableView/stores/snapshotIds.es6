@@ -19,7 +19,8 @@ const entityTypeToFullyQualifiedPlugin = {
   dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
   agent: fullyQualifiedPlugins.instanaAgent,
   process: fullyQualifiedPlugins.process,
-  ping: fullyQualifiedPlugins.ping
+  ping: fullyQualifiedPlugins.ping,
+  clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase
 };
 
 const pluginsRequiringTableViewInSearch = ['ping'];
