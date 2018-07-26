@@ -14,6 +14,7 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Sidebar from 'in-new-components/layout/Sidebar';
 import Card from 'in-new-components/Card';
 
 import locals from './Summary.mless';
@@ -96,7 +97,9 @@ class Summary extends React.Component {
         </div>
         {callId && (
           <ErrorBoundary name="call tree sidebar">
-            <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+            <Sidebar relativeTopOffset={-24}>
+              <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+            </Sidebar>
           </ErrorBoundary>
         )}
       </div>
