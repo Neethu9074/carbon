@@ -151,6 +151,14 @@ export function getTagTree() {
   return tagTree;
 }
 
+export function getTagMap() {
+  if (tagMap == null) {
+    buildTagTree();
+  }
+
+  return tagMap;
+}
+
 function buildTagTree() {
   const rootNode = createNode('root');
   tagTree = rootNode;
