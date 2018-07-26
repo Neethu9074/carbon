@@ -101,7 +101,6 @@ function QuickFilterSection(props) {
           { Component: ApplicationServiceEndpointSuggestions, tagName: 'application.name', icon: 'lib_application' },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => <QuickFilter label="By Application" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
@@ -116,7 +115,6 @@ function QuickFilterSection(props) {
           },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => <QuickFilter label="By Service" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
@@ -131,7 +129,6 @@ function QuickFilterSection(props) {
           },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => (
           <QuickFilter
@@ -145,18 +142,13 @@ function QuickFilterSection(props) {
         )}
       </Overlay>
 
-      <Overlay
-        content={SuggestionContent}
-        props={assign({ Component: TypeSuggestions, tagName: 'call.type' }, props)}
-        position="fixed"
-      >
+      <Overlay content={SuggestionContent} props={assign({ Component: TypeSuggestions, tagName: 'call.type' }, props)}>
         {({ toggle, isOpen }) => <QuickFilter label="Type" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
 
       <Overlay
         content={SuggestionContent}
         props={assign({ Component: TechnologySuggestions, tagName: 'call.technology' }, props)}
-        position="fixed"
       >
         {({ toggle, isOpen }) => <QuickFilter label="Technology" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
@@ -167,7 +159,6 @@ function QuickFilterSection(props) {
           { Component: SlowestSuggestions, tagName: 'call.latency', operator: operators.GREATER_THAN },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => <QuickFilter label="Slowest" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>
