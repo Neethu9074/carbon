@@ -3,11 +3,8 @@
 :local {
   .callDetails {
     max-width: 35rem;
-    min-width: 35rem;
-    padding: 1.5rem 1.5rem 10rem 1.5rem;
-    margin-left: 1.5rem;
+    margin-left: 1.2rem;
 
-    border-left: 1px solid @lib__colors__N300;
     overflow: hidden;
   }
 }
