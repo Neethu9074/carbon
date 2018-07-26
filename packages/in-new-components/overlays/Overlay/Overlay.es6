@@ -76,7 +76,6 @@ export default class Overlay extends React.Component {
       wrapperClassName,
       withoutWrapper,
       withoutArrow,
-      position = 'absolute',
       kind,
       children: Content,
       props = emptyObject,
@@ -126,7 +125,6 @@ export default class Overlay extends React.Component {
               }}
               relativeTo={this.wrapper}
               parentOverlay={this.parentOverlay}
-              position={position}
               kind={kind}
               close={this.close}
               delayedOpen={this.delayedOpen}
