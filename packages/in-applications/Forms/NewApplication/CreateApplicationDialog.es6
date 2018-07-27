@@ -101,7 +101,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        {`For example: key as "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value. When at least one specified condition matches a call, it will be considered part of this application.`}
+                        {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
                       <Spacer />

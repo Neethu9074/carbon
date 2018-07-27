@@ -16,14 +16,14 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
     <div onMouseEnter={delayedOpen} onMouseLeave={delayedClose}>
       <div className={locals.header}>
         <SvgIcon className={locals.headingIcon} type="lib_application_invert" width={40} height={40} />
-        You are looking at this Service in<br />context of an Application
+        You are viewing this service in the<br />context of an application perspective
       </div>
 
       <div className={locals.content}>
         {applications.data.items
           .filter(item => item.application.id === applicationId)
           .map(item => <SelectedItem key={item.application.id} item={item} />)}
-        <p className={locals.subSectionHeading}>Change application context:</p>
+        <p className={locals.subSectionHeading}>Change application perspective:</p>
         <ul className={locals.menu}>
           {applications.data.items.filter(item => item.application.id !== applicationId).map(item => {
             return (
