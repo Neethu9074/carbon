@@ -50,7 +50,7 @@ export default compose(
             metric: 'calls',
             aggregation: 'SUM'
           },
-          duration: {
+          latency: {
             metric: 'latency',
             aggregation: 'MEAN'
           },
