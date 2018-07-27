@@ -8,7 +8,7 @@
 
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 12rem;
+    max-height: 20rem;
   }
 
   .suggestion {

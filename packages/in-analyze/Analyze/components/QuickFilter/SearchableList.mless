@@ -19,9 +19,16 @@
     padding-bottom: 1.5rem;
   }
 
-  .loadingSelectPlaceholderInput {
-    margin-right: 0.5rem;
+  .searchInputWrapper {
     flex-grow: 1;
+  }
+
+  .searchInput {
+    width: 100%;
+
+    &:focus {
+      width: 100%;
+    }
   }
 
   .loadingIcon {

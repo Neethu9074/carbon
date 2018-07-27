@@ -4,10 +4,10 @@ import React from 'react';
 import Input from 'in-components/form/Input/Input';
 import Button from 'in-new-components/Button';
 
-import locals from './SlowestSuggestions.mless';
+import locals from './LatencySuggestions.mless';
 
-export default withState('value', 'setValue', 1000)(SlowestSuggestions);
-function SlowestSuggestions({ value, setValue, onValueClick }) {
+export default withState('value', 'setValue', 1000)(LatencySuggestions);
+function LatencySuggestions({ value, setValue, onValueClick }) {
   return (
     <form
       onSubmit={e => {
@@ -18,7 +18,7 @@ function SlowestSuggestions({ value, setValue, onValueClick }) {
       }}
     >
       <div className={locals.wrapper}>
-        <span className={locals.text}>Slower than</span>
+        <span className={locals.text}>Higher than</span>
         <Input
           className={locals.input}
           type="number"

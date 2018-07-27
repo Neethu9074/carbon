@@ -87,7 +87,7 @@ function RawCalls({
 }) {
   return (
     <Fragment>
-      <CallsAndGroupsIndicator className={locals.callsAndGroupsIndicator} numCalls={totalHits} />
+      <CallsAndGroupsIndicator numCalls={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

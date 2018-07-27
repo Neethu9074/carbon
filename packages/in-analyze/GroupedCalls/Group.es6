@@ -7,11 +7,13 @@ import {
   showRawData as showRawDataMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { getLinkToRawData } from 'in-analyze/navigation/paths';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
-import { createFilter } from 'in-analyze/filterBuilder';
 import { operators } from 'in-analyze/applicationFilter';
+import { createFilter } from 'in-analyze/filterBuilder';
 import Button from 'in-new-components/Button';
+import Link from 'in-components/Link';
 
 import locals from './Group.mless';
 
@@ -30,9 +32,9 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             )}
           </span>
           <Fragment>
-            <span className={locals.groupLabel} onClick={() => openRawData(filters, onChangeFilters, item.name)}>
+            <Link href$={getLinkToRawData()} onClick={() => setRawData(filters, onChangeFilters, item.name)}>
               {item.name}
-            </span>
+            </Link>
             {!isAlreadyFiltered && (
               <Button
                 className={locals.filterButton}
@@ -81,7 +83,7 @@ function isAlreadyFilteredByThisGroup(item, filters) {
   return false;
 }
 
-function openRawData(filters, onChangeFilters, tagName) {
+function setRawData(filters, onChangeFilters, tagName) {
   const group = filters.get('group');
   const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
 

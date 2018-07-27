@@ -320,3 +320,24 @@ export function getTagFromList(tagFilter, _tag) {
 
   return null;
 }
+
+export function getMultipleTagFromList(tagFilter, _tag) {
+  const result = [];
+
+  for (let i = 0; i < tagFilter.length; i++) {
+    const tag = tagFilter[i];
+    if (_tag.name && _tag.name !== tag.name) {
+      continue;
+    }
+    if (_tag.value && _tag.value !== tag.value) {
+      continue;
+    }
+    if (_tag.operator && _tag.operator !== tag.operator) {
+      continue;
+    }
+
+    result.push(tag);
+  }
+
+  return result;
+}

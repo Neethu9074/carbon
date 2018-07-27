@@ -13,7 +13,6 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const analyze = '/analyze';
-export const analyzeGroups = `${analyze}/groups`;
 export const analyzeRaw = `${analyze}/raw`;
 export const traceDetail = `/trace`;
 export const traceDetailFullyQualified = `${analyze}/trace`;
@@ -49,5 +48,11 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
     setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
     callId;
+  });
+}
+
+export function getLinkToRawData() {
+  return getModifiedUrlStream(params => {
+    params.pathname = analyzeRaw;
   });
 }

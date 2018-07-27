@@ -5,6 +5,7 @@ import {
   findSubTreeByFullyQualifiedName,
   mapFromServerResponse,
   mapToServerResponse,
+  getMultipleTagFromList,
   getTagFromList
 } from 'in-applications/tags';
 
@@ -302,7 +303,7 @@ describe('in-applications/tags', () => {
     });
   });
 
-  describe('tag tree', () => {
+  describe('getTagFromList', () => {
     const list = [
       { name: 'name1', value: 'value1', operator: 'operator1' },
       { name: 'name2', value: 'value2', operator: 'operator2' },
@@ -339,6 +340,32 @@ describe('in-applications/tags', () => {
       expect(getTagFromList(list, { name: 'name1', value: 'unknown', operator: 'operator1' })).to.equal(null);
       expect(getTagFromList(list, { name: 'unknown', value: 'value1', operator: 'operator1' })).to.equal(null);
       expect(getTagFromList(list, { name: 'name1', value: 'value1', operator: 'operator1' })).to.not.equal(null);
+    });
+  });
+
+  describe('getMultipleTagFromList', () => {
+    const list = [
+      { name: 'name1', value: 'value1', operator: 'operator1' },
+      { name: 'name1', value: 'value1', operator: 'operator2' },
+      { name: 'name2', value: 'value3', operator: 'operator3' },
+      { name: 'name1', value: 'value4', operator: 'operator2' }
+    ];
+
+    it('should find tag based on name', () => {
+      expect(getMultipleTagFromList(list, { name: 'a' })).to.have.length(0);
+      expect(getMultipleTagFromList(list, { name: 'name1' })).to.have.length(3);
+      expect(getMultipleTagFromList(list, { name: 'name2' })).to.have.length(1);
+      expect(getMultipleTagFromList(list, { name: 'name3' })).to.have.length(0);
+
+      expect(getMultipleTagFromList(list, { name: 'name1', value: 'value1' })).to.have.length(2);
+      expect(getMultipleTagFromList(list, { name: 'name1', operator: 'operator1' })).to.have.length(1);
+      expect(getMultipleTagFromList(list, { name: 'name1', operator: 'operator2' })).to.have.length(2);
+
+      expect(getMultipleTagFromList(list, { operator: 'operator2' })).to.have.length(2);
+
+      expect(getMultipleTagFromList(list, { value: 'value1' })).to.have.length(2);
+      expect(getMultipleTagFromList(list, { value: 'value3' })).to.have.length(1);
+      expect(getMultipleTagFromList(list, { value: 'value2' })).to.have.length(0);
     });
   });
 });

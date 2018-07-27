@@ -5,8 +5,8 @@ import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { getMultipleTagFromList } from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
-import { getTagFromList } from 'in-applications/tags';
 
 export default () => ComposedComponent => {
   const factory = createFactory(ComposedComponent);
@@ -170,27 +170,34 @@ function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   }));
 }
 
-function getTagFilterList(tagName, filters) {
+export function getTagFilterList(tagName, filters) {
   const tagFilters = [];
 
   const tagFilter = filters.get('tagFilter').toJS();
 
-  let application = getTagFromList(tagFilter, { name: APPLICATION.name });
-  let service = getTagFromList(tagFilter, { name: SERVICE.name });
-  let endpoint = getTagFromList(tagFilter, { name: ENDPOINT.name });
+  const applications = getMultipleTagFromList(tagFilter, { name: APPLICATION.name });
+  const services = getMultipleTagFromList(tagFilter, { name: SERVICE.name });
+  const endpoints = getMultipleTagFromList(tagFilter, { name: ENDPOINT.name });
+
+  function addTags(tags) {
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
+      tagFilters.push({ name: tag.name, stringValue: tag.value, operator: tag.operator });
+    }
+  }
 
   const isApplicationTag = tagName !== APPLICATION.name;
   const isServiceTag = tagName !== SERVICE.name;
   const isEndpointTag = tagName !== ENDPOINT.name;
 
-  if (application && isApplicationTag) {
-    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.value });
+  if (applications && isApplicationTag) {
+    addTags(applications);
   }
-  if (service && (isApplicationTag && isServiceTag)) {
-    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.value });
+  if (services && (isApplicationTag && isServiceTag)) {
+    addTags(services);
   }
-  if (endpoint && (isApplicationTag && isServiceTag && isEndpointTag)) {
-    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.value });
+  if (endpoints && (isApplicationTag && isServiceTag && isEndpointTag)) {
+    addTags(endpoints);
   }
 
   return tagFilters;

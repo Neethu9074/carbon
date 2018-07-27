@@ -19,8 +19,6 @@
     }
   }
 
-
-
   .icon {
     fill: @lib__colors__primary1;
     margin: 0 0.25rem;

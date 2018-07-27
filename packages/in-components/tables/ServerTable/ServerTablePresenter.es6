@@ -11,12 +11,12 @@ import {
   Tr,
   Td
 } from 'in-components/tables/sharedComponents';
-import SearchInput from 'in-components/tables/ServerTable/internalComponents/SearchInput';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
+import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import Card from 'in-new-components/Card';
 

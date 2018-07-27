@@ -3,7 +3,7 @@ import React from 'react';
 
 import List from 'in-analyze/Analyze/components/QuickFilter/List';
 import { containsIgnoreCase } from 'in-services/util/string';
-import Input from 'in-components/form/Input/Input';
+import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SearchableList.mless';
@@ -18,13 +18,11 @@ function SearchableList(props) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.searchRow}>
-        <Input
-          className={locals.loadingSelectPlaceholderInput}
-          type="text"
-          id="value"
-          autoComplete="off"
-          value={value}
-          onChange={e => setValue(e.target.value)}
+        <SearchInput
+          wrapperClassName={locals.searchInputWrapper}
+          inputClassName={locals.searchInput}
+          onChange={setValue}
+          query={value}
         />
       </div>
       {!items && <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={36} height={36} />}

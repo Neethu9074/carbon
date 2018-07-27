@@ -22,7 +22,7 @@
   }
 
   .millis {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     font-size: 0.875rem;
     font-weight: 600;
   }

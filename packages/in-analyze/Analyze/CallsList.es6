@@ -1,6 +1,7 @@
+import { Route, Switch } from 'react-router-dom';
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { fromJS } from 'immutable';
-import React from 'react';
 
 import {
   showRawData as showRawDataMatrixParameter,
@@ -15,9 +16,9 @@ import {
   getShowRawFromUrlString,
   getShowRawToUrlString
 } from 'in-analyze/filterBuilder';
-import RawDataOverlayMounter from 'in-analyze/Analyze/components/RawDataOverlay/RawDataOverlayMounter';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
+import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import getCalls from 'in-subscription/application/getCalls';
@@ -106,17 +107,44 @@ function CallsList(props) {
   const tagFiltersForSubscription = getTagFilterList(filters);
 
   return (
-    <div>
+    <Fragment>
       <Title title="Analyze" />
 
-      <QueryBuilderWorkspace filters={filters} onChangeFilters={onChangeFilters} totalNumberOfCalls={totalHits} />
+      <Switch>
+        <Route
+          path="*/raw"
+          render={() => {
+            return (
+              <RawDataView
+                {...props}
+                filters={filters}
+                onChangeFilters={onChangeFilters}
+                tagFiltersForSubscription={tagFiltersForSubscription}
+                filterByGroup={props[showRawDataMatrixParameter]}
+              />
+            );
+          }}
+        />
+        <Route
+          path="*/"
+          render={() => {
+            return (
+              <Fragment>
+                <QueryBuilderWorkspace
+                  filters={filters}
+                  onChangeFilters={onChangeFilters}
+                  totalNumberOfCalls={totalHits}
+                />
 
-      <MaxWidthFullscreenContainer>
-        <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-      </MaxWidthFullscreenContainer>
-
-      <RawDataOverlayMounter {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-    </div>
+                <MaxWidthFullscreenContainer>
+                  <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                </MaxWidthFullscreenContainer>
+              </Fragment>
+            );
+          }}
+        />
+      </Switch>
+    </Fragment>
   );
 }
 
