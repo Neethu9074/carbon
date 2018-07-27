@@ -20,13 +20,13 @@ export default function VersionSwitcherFlyout() {
           Application Perspectives <span className={locals.beta}>New</span>
         </Title>
 
-        <Description>Explore the new application hierarchy and trace/call analytics.</Description>
+        <Description>Get started with the new Application perspectives and Analyze capabilities.</Description>
       </Item>
 
       <Item active={!twoZeroModeEnabled}>
-        <Title>Previous Version</Title>
+        <Title>Legacy Mode</Title>
 
-        <Description>Access the old version during the transition period.</Description>
+        <Description>Access the traditional Instana experience during the transition period.</Description>
       </Item>
     </section>
   );
