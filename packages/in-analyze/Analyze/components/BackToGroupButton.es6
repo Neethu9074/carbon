@@ -6,11 +6,20 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { analyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 
+import locals from './BackToGroupButton.mless';
+
 export default function BackToGroupButton(props) {
   const { onClick } = props;
 
   return (
-    <Button href$={getLinkAnalyze()} size="compact" icon="lib_arrow_left" kind="secondary" onClick={onClick}>
+    <Button
+      className={locals.button}
+      href$={getLinkAnalyze()}
+      size="compact"
+      icon="lib_arrow_left"
+      kind="secondary"
+      onClick={onClick}
+    >
       Analyze
     </Button>
   );
