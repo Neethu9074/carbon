@@ -286,8 +286,8 @@ describe('in-components/SearchBar/misc/fields', () => {
   });
 
   function setHybridModeV2Enabled(v2Enabled) {
-    config.featureFlags['oneZeroAppDataEnabled'] = true;
-    config.featureFlags['twoZeroAppDataEnabled'] = true;
+    config.featureFlags['oneZeroAppDataPresentationEnabled'] = true;
+    config.featureFlags['twoZeroAppDataPresentationEnabled'] = true;
     window.instana.settings.v2Enabled = v2Enabled;
     updateFeatureFlags();
   }
