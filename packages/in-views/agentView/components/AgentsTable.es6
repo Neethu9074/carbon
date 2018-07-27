@@ -3,19 +3,24 @@ import React from 'react';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
+import { resetAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { compare as compareBoolean } from 'in-services/util/boolean';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
+import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Button from 'in-components/Button';
 import Table from 'in-components/Table';
 import Link from 'in-components/Link';
 
@@ -148,10 +153,54 @@ export default connectTo(
       });
     });
 
+    let adminButtonBar;
+    if (__DEV__) {
+      adminButtonBar = (
+        <div className={block}>
+          <Button className={`${block}__button`} onClick={() => resetAllAgents({ agentSnapshots })} size="lg">
+            Reset All Agents
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <DashboardTile title="Agents">
+        {adminButtonBar}
         <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
       </DashboardTile>
     );
   }
 );
+
+function onResetAllAgents({ agentSnapshots }) {
+  const sleep = 60000;
+  const count = agentSnapshots.get('online', emptyList).forEach((snapshot, i) => {
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.log('Resetting agent (%s/%s): %s', i + 1, count, snapshot.get('id'));
+      resetAgent(snapshot);
+    }, sleep * i);
+  });
+  setTimeout(() => {
+    close();
+  }, sleep * count);
+}
+
+function resetAllAgents({ agentSnapshots }) {
+  setActiveDialog(
+    <ConfirmationDialog
+      header="Confirm reset of all agents"
+      description={
+        <span>
+          Are you sure you want to <strong>reset all reporting agents</strong>? This will take{' '}
+          {agentSnapshots.get('online', emptyList).count()} minutes.
+        </span>
+      }
+      bButtonLabel="Reset"
+      onB={() => {
+        onResetAllAgents({ agentSnapshots });
+      }}
+    />
+  );
+}
