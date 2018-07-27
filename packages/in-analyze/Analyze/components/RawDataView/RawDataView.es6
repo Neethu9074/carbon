@@ -13,8 +13,8 @@ export default function RawDataView(props) {
   return (
     <Sticky
       header={
-        <div className={locals.header}>
-          <MaxWidthFullscreenContainer>
+        <div className={locals.headerWrapper}>
+          <MaxWidthFullscreenContainer className={locals.header}>
             <BackToGroupButton />
             {filterByGroup && <span className={locals.groupName}>Group: {filterByGroup.value}</span>}
           </MaxWidthFullscreenContainer>
