@@ -33,8 +33,8 @@ import locals from './CreateApplicationDialog.mless';
 export default function CreateApplicationDialog({ applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <BasicForm
-      title={applicationId ? 'Update Application Perspective' : 'Create Application Perspective'}
-      generalHelpText="Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
+      title={applicationId ? 'Update Application' : 'Create Application'}
+      generalHelpText="Applications provide a means to model environments, sets of services, tenants, or just about anything. They can be thought of as perspectives on services and their endpoints."
       saveButtonLabel={applicationId ? 'Save' : 'Create'}
       onCancelHref$={onCancelHref$}
       getOnSavePath={getOnSavePath}
@@ -61,11 +61,12 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
             <Steps
               steps={[
                 {
-                  stepTitle: 'Define a name for your application perspective.',
+                  stepTitle:
+                    'Define a Name for your Application that will be used throughout Instana to refer to this application.',
                   content: form.get('label').map(field => (
                     <FormGroup>
                       <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                        Application Perspective Name
+                        Application Name
                       </Label>
                       <Input
                         type="text"
@@ -87,20 +88,20 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                       )}
 
                       <DescriptionText className={locals.applicationNameText}>
-                        {`Application perspective names should have a well established definition within an organization. For example,
-                      to model an environment: "Production Blue", to model a set of services: "Payment", or to model a
-                      tenant: "ACME Customer".`}
+                        {`Application names should have a well established definition within an organization. For example,
+                      to model an environment: "Production Blue", to model a set of services "Users", or to model a
+                      tenant: "ACME Customer."`}
                       </DescriptionText>
                     </FormGroup>
                   ))
                 },
 
                 {
-                  stepTitle: 'Define the application perspective using one or more tags.',
+                  stepTitle: 'Define the application through as many tags (key/value pairs) as desired.',
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
+                        {`For example: key as "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value. When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
                       <Spacer />
@@ -215,7 +216,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be blank.'
+        message: 'The application name must not be blank.'
       }
     ];
   }
@@ -224,7 +225,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be larger than 128 characters.'
+        message: 'The application name must not be larger than 128 characters.'
       }
     ];
   }

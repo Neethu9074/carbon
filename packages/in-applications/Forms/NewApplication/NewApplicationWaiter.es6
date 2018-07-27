@@ -44,12 +44,12 @@ export default connectTo(
         render={() => (
           <div className={locals.wrapper}>
             <FullscreenViewHeading iconClassName={locals.headingIcon} iconType="lib_application">
-              Application perspective is being created…
+              Application is being created…
             </FullscreenViewHeading>
 
             <div className={locals.loading}>
               <div>
-                We are preparing everything to monitor your application perspective <strong>{label}</strong>.
+                We are preparing everything to monitor your application <strong>{label}</strong>.
               </div>
               <div>Please wait.</div>
               <div>

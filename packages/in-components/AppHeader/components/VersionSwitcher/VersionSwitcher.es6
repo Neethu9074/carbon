@@ -39,7 +39,7 @@ function OverlayActivation({ refSetter, isOpen, delayedOpen, delayedClose }) {
         })}
         width={24}
       />
-      <span className={locals.state}>{twoZeroModeEnabled ? 'Application Perspectives' : 'Legacy Mode'}</span>
+      <span className={locals.state}>{twoZeroModeEnabled ? 'Application Perspectives' : 'Previous Version'}</span>
       {twoZeroModeEnabled && <span className={locals.beta}>New</span>}
     </div>
   );
