@@ -87,6 +87,7 @@ class Summary extends React.Component {
               <Card title="Calls" framed>
                 <ServerCallTree
                   traceId={traceId}
+                  openedCall={callId}
                   getColor={getColor}
                   selectedCall$={this.selectedCall$}
                   onSubCallClicked={this.onSubCallClicked}

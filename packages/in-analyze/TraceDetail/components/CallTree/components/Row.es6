@@ -28,6 +28,7 @@ function Row(props) {
     call,
     getColor,
     isExpanded,
+    openedCall,
     depth = 0,
     onCallClicked,
     onSubCallClicked,
@@ -39,6 +40,7 @@ function Row(props) {
   const hasChildren = call.children && call.children.length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
   const lineWidth = getLineWidth(depth, hasChildren);
+  const isOpened = openedCall === call.id;
 
   return (
     <div className={locals.wrapper}>
@@ -49,7 +51,8 @@ function Row(props) {
         className={evaluateClassNames({
           [locals.rootRow]: depth === 0,
           [locals.row]: true,
-          [locals.selectedRow]: isSelected
+          [locals.selectedRow]: isSelected,
+          [locals.openedRow]: isOpened
         })}
       >
         <CallInformation

@@ -11,6 +11,7 @@ import createScale from 'in-charts/scale';
 import locals from './CallTree.mless';
 
 export default function CallTree({
+  openedCall,
   callTreeResult,
   getColor = () => '#e6e6e6',
   selectedCall$,
@@ -41,6 +42,7 @@ export default function CallTree({
     <div className={locals.callTree}>
       <TreeHeader rootCall={rootCall} scale={scale} />
       <Row
+        openedCall={openedCall}
         call={rootCall}
         getColor={getColor}
         scale={scale}
