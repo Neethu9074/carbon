@@ -8,76 +8,56 @@ export default [
       'threadPool.totalThreads',
       'threadPool.hoggingThreads',
       'threadPool.standbyThreads',
-      'threadPool.stuckThreads'
-    ],
-    labels: ['Idle Threads', 'Total Threads', 'Hogging Threads', 'Stand by Threads', 'Stuck Threads'],
-    min: 0,
-    category: ['Thread Pool'],
-    formatter: number
-  },
-  {
-    metrics: [
+      'threadPool.stuckThreads',
+
       'serverLogMessages.warnings',
       'serverLogMessages.errors',
       'serverLogMessages.alerts',
       'serverLogMessages.criticals',
-      'serverLogMessages.emergencies'
+      'serverLogMessages.emergencies',
+
+      getMetricMatch('webApps', 'activeSessions'),
+      getMetricMatch('webApps', 'createdSessions'),
+
+      getMetricMatch('datasources', 'availableConnections'),
+      getMetricMatch('datasources', 'currentActiveConnections'),
+      getMetricMatch('datasources', 'connectionsInPool'),
+      getMetricMatch('datasources', 'requestsWaitingForConnection'),
+      getMetricMatch('datasources', 'connectionsCreated'),
+      getMetricMatch('datasources', 'leakedConnections'),
+      getMetricMatch('datasources', 'stateCode'),
+
+      getMetricMatch('jmsDestinations', 'messagesPendingCount'),
+      getMetricMatch('jmsDestinations', 'messagesCurrentCount'),
+      getMetricMatch('jmsDestinations', 'messagesReceivedCount'),
+
+      getMetricMatch('servlets', 'requests')
     ],
-    labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('webApps', 'activeSessions'),
-    label: 'Active Sessions',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('webApps', 'createdSessions'),
-    label: 'Created Sessions',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'availableConnections'),
-    label: 'Available Connections',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'currentActiveConnections'),
-    label: 'Current Active Connections',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'connectionsInPool'),
-    label: 'Connections in Pool',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'requestsWaitingForConnection'),
-    label: 'Requests Waiting for Connection',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'connectionsCreated'),
-    label: 'Connections Created',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('datasources', 'leakedConnections'),
-    label: 'Leaked Connections',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('servlets', 'requests'),
-    label: 'Requests',
+    labels: [
+      'Idle Threads',
+      'Total Threads',
+      'Hogging Threads',
+      'Stand by Threads',
+      'Stuck Threads',
+      'Warning',
+      'Error',
+      'Alert',
+      'Critical',
+      'Emergency',
+      'Active Sessions',
+      'Created Sessions',
+      'Available Connections',
+      'Current Active Connections',
+      'Connections in Pool',
+      'Requests Waiting for Connection',
+      'Connections Created',
+      'Leaked Connections',
+      'State code',
+      'Messages Pending Count',
+      'Messages Current Count',
+      'Messages Received Count',
+      'Requests'
+    ],
     min: 0,
     formatter: number
   },
@@ -86,23 +66,5 @@ export default [
     label: 'Average Response Time',
     min: 0,
     formatter: millis
-  },
-  {
-    metric: getMetricMatch('jmsDestinations', 'messagesCurrentCount'),
-    label: 'Messages Current Count',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('jmsDestinations', 'messagesPendingCount'),
-    label: 'Messages Pending Count',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: getMetricMatch('jmsDestinations', 'messagesReceivedCount'),
-    label: 'Messages Received Count',
-    min: 0,
-    formatter: number
   }
 ];
