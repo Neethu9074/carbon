@@ -12,6 +12,7 @@ export default function Details({ call }) {
   return (
     <Group title="Details">
       <SpanDetails call={call} kind="ENTRY" />
+      <SpanDetails call={call} kind="INTERMEDIATE" />
       <SpanDetails call={call} kind="EXIT" />
     </Group>
   );
