@@ -10,7 +10,7 @@ import locals from './SearchableList.mless';
 
 export default withState('value', 'setValue', '')(SearchableList);
 function SearchableList(props) {
-  let { items, value, setValue, renderIcon = renderIconDefault } = props;
+  let { items, value, setValue, renderIcon } = props;
   if (items) {
     items = items.filter(suggestion => containsIgnoreCase(suggestion.label, value));
   }
@@ -30,11 +30,4 @@ function SearchableList(props) {
       {items && items.length > 0 && <List {...props} renderIcon={renderIcon} items={items} />}
     </div>
   );
-}
-
-function renderIconDefault(item) {
-  if (!item.icon) {
-    return null;
-  }
-  return <SvgIcon className={locals.entityIcon} type={item.icon} width={24} height={24} />;
 }
