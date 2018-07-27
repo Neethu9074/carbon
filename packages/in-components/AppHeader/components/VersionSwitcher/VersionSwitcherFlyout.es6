@@ -4,6 +4,8 @@ import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags
 import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { stopPropagation } from 'in-services/util/function';
+import Button from 'in-new-components/Button';
 import { setIn } from 'in-services/settings';
 
 import locals from './VersionSwitcherFlyout.mless';
@@ -20,8 +22,19 @@ export default function VersionSwitcherFlyout() {
           Application Perspectives <span className={locals.beta}>New</span>
         </Title>
 
-        <Description>Get started with the new Application perspectives and Analyze capabilities.</Description>
+        <Description>Get started with the new Application Perspectives and Analyze capabilities.</Description>
       </Item>
+
+      <Button
+        href="https://www.instana.com/application-perspectives"
+        target="_blank"
+        className={locals.learnMore}
+        onClick={stopPropagation}
+        size="compact"
+        kind="primary"
+      >
+        Learn More
+      </Button>
 
       <Item active={!twoZeroModeEnabled}>
         <Title>Legacy Mode</Title>

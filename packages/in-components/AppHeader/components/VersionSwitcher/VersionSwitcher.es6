@@ -14,7 +14,7 @@ export default function VersionSwitcher() {
   }
 
   return (
-    <Overlay content={VersionSwitcherFlyout} autoOpen withoutWrapper>
+    <Overlay content={VersionSwitcherFlyout} autoOpen autoClose={false} withoutWrapper>
       {OverlayActivation}
     </Overlay>
   );
