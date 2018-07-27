@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
+import { Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import SortableCallColumn from 'in-analyze/RawCalls/SortableCallColumn';
 import { LoadMoreRow } from 'in-components/tables/sharedComponents';
 import Groups from 'in-analyze/GroupedCalls/Groups';
@@ -19,7 +19,7 @@ export default function CallGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="label"
+              technicalName="group"
               label="Group"
             />
             <SortableCallColumn
@@ -30,13 +30,20 @@ export default function CallGroupsTable(props) {
               technicalName="calls"
               label="Calls"
             />
-            <Th>Time</Th>
             <SortableCallColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="duration"
+              technicalName="firstTimestamp"
+              label="Time"
+            />
+            <SortableCallColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="DESC"
+              technicalName="latency"
               label="Latency"
             />
             <SortableCallColumn

@@ -30,14 +30,7 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './RawCalls.mless';
 
-const orderTranslation = {
-  timestamp: 't',
-  label: 'destination_endpoint',
-  duration: 'duration',
-  errors: 'errorCount'
-};
-
-const defaultOrder = orderTranslation['timestamp'];
+const defaultOrder = 'timestamp';
 
 export default compose(
   withUrlDependingState({
@@ -59,7 +52,7 @@ export default compose(
           retrievalSize: 50
         },
         order: {
-          by: orderTranslation[orderBy] || defaultOrder,
+          by: orderBy || defaultOrder,
           direction: orderDirection
         },
         filter: {
@@ -91,14 +84,7 @@ function RawCalls({
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="label"
-              label="Call"
-            />
+            <Th>Call</Th>
 
             <Th>Service</Th>
 
@@ -116,7 +102,7 @@ function RawCalls({
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="duration"
+              technicalName="latency"
               label="Latency"
             />
 
