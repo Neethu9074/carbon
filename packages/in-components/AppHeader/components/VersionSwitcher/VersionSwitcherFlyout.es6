@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled, twoZeroLearnModeButtonEnabled } from 'in-services/featureFlags';
 import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -25,16 +25,18 @@ export default function VersionSwitcherFlyout() {
         <Description>Get started with the new Application Perspectives and Analyze capabilities.</Description>
       </Item>
 
-      <Button
-        href="https://www.instana.com/application-perspectives"
-        target="_blank"
-        className={locals.learnMore}
-        onClick={stopPropagation}
-        size="compact"
-        kind="primary"
-      >
-        Learn More
-      </Button>
+      {twoZeroLearnModeButtonEnabled && (
+        <Button
+          href="https://www.instana.com/application-perspectives"
+          target="_blank"
+          className={locals.learnMore}
+          onClick={stopPropagation}
+          size="compact"
+          kind="primary"
+        >
+          Learn More
+        </Button>
+      )}
 
       <Item active={!twoZeroModeEnabled}>
         <Title>Legacy Mode</Title>
