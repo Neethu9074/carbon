@@ -15,14 +15,7 @@ import theme from 'in-themes/theme';
 
 import locals from './GroupedCalls.mless';
 
-const orderTranslation = {
-  service: 'concat_dest_service_endpoint',
-  calls: 'calls',
-  duration: 'duration',
-  errors: 'errors'
-};
-
-const defaultOrder = orderTranslation['calls'];
+const defaultOrder = 'calls';
 
 export default compose(
   withUrlDependingState({
@@ -46,7 +39,7 @@ export default compose(
           retrievalSize: 20
         },
         order: {
-          by: orderTranslation[orderBy] || defaultOrder,
+          by: orderBy || defaultOrder,
           direction: orderDirection
         },
         filter: {
