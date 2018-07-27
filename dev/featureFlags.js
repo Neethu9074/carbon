@@ -3,6 +3,6 @@
 module.exports = {
   oneZeroAppDataPresentationEnabled: true,
   twoZeroAppDataPresentationEnabled: true,
-  twoZeroLearnModeButtonEnabled: true,
+  twoZeroLearnMoreButtonEnabled: true,
   pingComparisonEnabled: true
 };

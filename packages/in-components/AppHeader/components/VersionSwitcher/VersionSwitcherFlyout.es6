@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isTwoZeroBetaPhase, twoZeroModeEnabled, twoZeroLearnModeButtonEnabled } from 'in-services/featureFlags';
+import { isTwoZeroBetaPhase, twoZeroModeEnabled, twoZeroLearnMoreButtonEnabled } from 'in-services/featureFlags';
 import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -25,7 +25,7 @@ export default function VersionSwitcherFlyout() {
         <Description>Get started with the new Application Perspectives and Analyze capabilities.</Description>
       </Item>
 
-      {twoZeroLearnModeButtonEnabled && (
+      {twoZeroLearnMoreButtonEnabled && (
         <Button
           href="https://www.instana.com/application-perspectives"
           target="_blank"

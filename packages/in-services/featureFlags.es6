@@ -44,7 +44,7 @@ export const oneZeroAppDataEnabled = isFeatureFlagEnabled('oneZeroAppDataPresent
 // v2 query param and/or the v2Enabled ui setting of the current user.
 export const twoZeroAppDataEnabled = isFeatureFlagEnabled('twoZeroAppDataPresentationEnabled');
 
-export const twoZeroLearnModeButtonEnabled = isFeatureFlagEnabled('twoZeroLearnModeButtonEnabled');
+export const twoZeroLearnMoreButtonEnabled = isFeatureFlagEnabled('twoZeroLearnMoreButtonEnabled');
 
 export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
