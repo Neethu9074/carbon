@@ -110,8 +110,8 @@ function GroupedCalls(props) {
             [locals.activeChartIcon]: isChartSectionExpanded
           })}
           type="lib_views_stats"
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
         />
       </div>

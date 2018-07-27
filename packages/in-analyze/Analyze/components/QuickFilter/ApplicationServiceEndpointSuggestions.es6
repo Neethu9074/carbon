@@ -2,9 +2,8 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
-import { getTagFromList } from 'in-applications/tags';
+import { getTagFilterList } from 'in-analyze/Dialogs/withTagSuggestions';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -44,30 +43,4 @@ function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
   }
 
   return autoCompletedValuesResult.data.suggestions;
-}
-
-function getTagFilterList(tagName, filters) {
-  const tagFilters = [];
-
-  const tagFilter = filters.get('tagFilter').toJS();
-
-  let application = getTagFromList(tagFilter, { name: APPLICATION.name });
-  let service = getTagFromList(tagFilter, { name: SERVICE.name });
-  let endpoint = getTagFromList(tagFilter, { name: ENDPOINT.name });
-
-  const isApplicationTag = tagName !== APPLICATION.name;
-  const isServiceTag = tagName !== SERVICE.name;
-  const isEndpointTag = tagName !== ENDPOINT.name;
-
-  if (application && isApplicationTag) {
-    tagFilters.push({ name: APPLICATION.technicalName, stringValue: application.value });
-  }
-  if (service && (isApplicationTag && isServiceTag)) {
-    tagFilters.push({ name: SERVICE.technicalName, stringValue: service.value });
-  }
-  if (endpoint && (isApplicationTag && isServiceTag && isEndpointTag)) {
-    tagFilters.push({ name: ENDPOINT.technicalName, stringValue: endpoint.value });
-  }
-
-  return tagFilters;
 }

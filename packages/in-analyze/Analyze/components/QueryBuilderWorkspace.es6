@@ -4,7 +4,7 @@ import { assign } from 'lodash';
 import ApplicationServiceEndpointSuggestions from 'in-analyze/Analyze/components/QuickFilter/ApplicationServiceEndpointSuggestions';
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import TechnologySuggestions from 'in-analyze/Analyze/components/QuickFilter/TechnologySuggestions';
-import SlowestSuggestions from 'in-analyze/Analyze/components/QuickFilter/SlowestSuggestions';
+import LatencySuggestions from 'in-analyze/Analyze/components/QuickFilter/LatencySuggestions';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TypeSuggestions from 'in-analyze/Analyze/components/QuickFilter/TypeSuggestions';
 import CallTraceSwitch from 'in-analyze/Analyze/components/CallTraceSwitch';
@@ -171,7 +171,7 @@ function QuickFilterSection(props) {
       <Overlay
         content={SuggestionContent}
         props={assign(
-          { Component: SlowestSuggestions, tagName: 'call.latency', operator: operators.GREATER_THAN },
+          { Component: LatencySuggestions, tagName: 'call.latency', operator: operators.GREATER_THAN },
           props
         )}
         position="fixed"

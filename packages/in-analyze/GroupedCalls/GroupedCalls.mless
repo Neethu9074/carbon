@@ -12,11 +12,11 @@
     cursor: pointer;
 
     &:hover {
-      fill: @lib__colors__blue800;
+      fill: @lib__colors__light-blue800;
     }
   }
 
   .activeChartIcon {
-    fill: @lib__colors__blue800;
+    fill: @lib__colors__light-blue800;
   }
 }

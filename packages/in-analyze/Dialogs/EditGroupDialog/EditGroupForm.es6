@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import AnalyzeFilterForm, {
   FieldSeperator,
@@ -35,7 +36,9 @@ export default function EditGroupForm(props) {
               <KeySelection
                 {...props}
                 field={field}
-                onChange={newName => onChange('name', findSubTreeByFullyQualifiedName(newName).fullyQualifiedName)}
+                onChange={newName =>
+                  onChange('name', get(findSubTreeByFullyQualifiedName(newName), ['fullyQualifiedName'], newName))
+                }
               />
               <TouchedMessages field={field} />
             </FormGroup>
