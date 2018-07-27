@@ -1,3 +1,4 @@
+import { just, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
@@ -5,6 +6,7 @@ import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots'
 import { metrics$, removeMetric } from 'in-views/tableView/stores/metrics';
 import { plugin$ } from 'in-views/tableView/stores/snapshotIds';
 import DownloadButton from 'in-components/DownloadButton';
+import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { getPlural } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
@@ -17,7 +19,7 @@ import './ChartsForSelectedEntities.less';
 
 const block = 'in-table-view-charts';
 
-function SelectedChart({ metric, snapshots }) {
+function SelectedChart({ metric, snapshots, labels }) {
   const definition = getMetricDefinition(snapshots[0].get('plugin'), metric);
 
   let max = undefined;
@@ -64,7 +66,7 @@ function SelectedChart({ metric, snapshots }) {
         snapshotIds={snapshots.map(s => s.get('id'))}
         y1={{
           metrics: snapshots.map(() => definition.metric),
-          labels: snapshots.map(s => getLabel(s)),
+          labels,
           type: 'line',
           min,
           max,
@@ -80,12 +82,21 @@ export default connectTo(
   {
     metrics: metrics$,
     snapshots: selectedSnapshots$,
-    plugin: plugin$
+    plugin: plugin$,
+    labels: combineLatest([plugin$, selectedSnapshots$]).flatMap(([plugin, selectedSnapshots]) => {
+      const tableDefinition = getTableDefinition(plugin);
+      if (tableDefinition.getChartLabel$ == null) {
+        return just(selectedSnapshots.map(getLabel));
+      }
+
+      return combineLatest(selectedSnapshots.map(s => tableDefinition.getChartLabel$(s).startWith(getLabel(s))));
+    })
   },
-  function ChartsForSelectedEntities({ metrics, snapshots, plugin }) {
+  function ChartsForSelectedEntities({ metrics, snapshots, plugin, labels }) {
     metrics = metrics || [];
     snapshots = snapshots || [];
     snapshots = snapshots.filter(snapshot => !!snapshot);
+    labels = labels || [];
 
     if (snapshots.length === 0 && metrics.length === 0) {
       return null;
@@ -103,9 +114,13 @@ export default connectTo(
       );
     }
 
+    if (labels.length !== snapshots.length) {
+      return null;
+    }
+
     return (
       <div className={block}>
-        {metrics.map(metric => <SelectedChart snapshots={snapshots} metric={metric} key={metric} />)}
+        {metrics.map(metric => <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} />)}
       </div>
     );
   }

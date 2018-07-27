@@ -20,7 +20,7 @@ export const nonServicePlugins = {
   cassandraCluster: 'cassandraCluster',
   ceph: 'ceph',
   clrRuntimePlatform: 'clrRuntimePlatform',
-  clickHouse: 'clickHouseDatabase',
+  clickHouseDatabase: 'clickHouseDatabase',
   cloudFoundry: 'cloudFoundry',
   consul: 'consul',
   couchbase: 'couchbaseNode',
