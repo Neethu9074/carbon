@@ -61,8 +61,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
             <Steps
               steps={[
                 {
-                  stepTitle:
-                    'Define a Name for your Application that will be used throughout Instana to refer to this application.',
+                  stepTitle: 'Define a name for your application:',
                   content: form.get('label').map(field => (
                     <FormGroup>
                       <Label htmlFor="label" hasError={!field.valid && field.touched}>
@@ -97,11 +96,11 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                 },
 
                 {
-                  stepTitle: 'Define the application through as many tags (key/value pairs) as desired.',
+                  stepTitle: 'Define the application through one ore more tags:',
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        {`For example: key as "docker.label" and value as "environment=Production Blue". Regular expressions can be used for the value. When at least one specified condition matches a call, it will be considered part of this application.`}
+                        {`For example: key as "docker.label" and value as "environment=Production Blue". When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
                       <Spacer />
