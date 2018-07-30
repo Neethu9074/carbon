@@ -27,7 +27,7 @@ export default function CallGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="calls"
+              technicalName="callsAgg"
               label="Calls"
             />
             <SortableCallColumn
@@ -43,7 +43,7 @@ export default function CallGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="latency"
+              technicalName="latencyAgg"
               label="Latency"
             />
             <SortableCallColumn
@@ -51,7 +51,7 @@ export default function CallGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="errors"
+              technicalName="errorsAgg"
               label="Error Rate"
             />
           </Tr>

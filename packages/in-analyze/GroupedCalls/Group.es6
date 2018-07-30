@@ -50,15 +50,15 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
         </div>
       </Td>
 
-      <Td>{number.compact(get(item, ['metrics', 'calls', 0, 1]))}</Td>
+      <Td>{number.compact(get(item, ['metrics', 'callsAgg', 0, 1]))}</Td>
 
       <Td>{formatDateTime(item.timestamp)}</Td>
 
       <Td>
-        <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'latency', 0, 1]))}</span>
+        <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'latencyAgg', 0, 1]))}</span>
       </Td>
 
-      <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errors', 0, 1]))}</Td>
+      <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errorsAgg', 0, 1]))}</Td>
     </Fragment>
   );
 

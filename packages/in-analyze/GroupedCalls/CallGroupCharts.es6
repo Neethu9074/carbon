@@ -10,7 +10,7 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 
 import locals from './CallGroupCharts.mless';
 
-export default withState('selectedChart', 'setSelectedChart', 'latencyChartData')(CallGroupCharts);
+export default withState('selectedChart', 'setSelectedChart', 'latency')(CallGroupCharts);
 
 function CallGroupCharts({ items, errors, progress, time, filters, callGroupColors, selectedChart, setSelectedChart }) {
   if (errors.length > 0) {
@@ -23,8 +23,8 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
         <div className={locals.whitespace} />
       </Fragment>
     );
-  } else if (!items || items.length === 0) {
-    // No groups found, just omit the charts element.
+  } else if (!items || items.length === 0 || !items[0].metrics.latency) {
+    // No groups found or no chart metrics found, just omit the charts element.
     return null;
   }
 
@@ -33,19 +33,19 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
     <div className={locals.charts}>
       <div className={locals.buttonGroup}>
         <ChartSelectButton
-          chartId="latencyChartData"
+          chartId="latency"
           label="Latency"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
         <ChartSelectButton
-          chartId="callsChartData"
+          chartId="calls"
           label="Calls"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
         />
         <ChartSelectButton
-          chartId="errorsChartData"
+          chartId="errors"
           label="Error Rate"
           activeChartId={selectedChart}
           setSelectedChart={setSelectedChart}
@@ -79,16 +79,16 @@ function ChartSelectButton({ chartId, label, setSelectedChart, activeChartId }) 
 }
 
 const chartDefinitions = {
-  callsChartData: {
+  calls: {
     renderer: Renderer.line,
     aggregation: 'SUM'
   },
-  errorsChartData: {
+  errors: {
     renderer: Renderer.line,
     aggregation: 'MEAN',
     formatter: percentage
   },
-  latencyChartData: {
+  latency: {
     renderer: Renderer.line,
     formatter: millis,
     min: 0
