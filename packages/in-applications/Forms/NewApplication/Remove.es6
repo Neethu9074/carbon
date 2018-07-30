@@ -45,12 +45,12 @@ export default class Remove extends React.PureComponent {
       <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
         <Title title="Remove Application" />
         <div className={locals.header}>
-          <h1 className={locals.heading}>Remove Application</h1>
+          <h1 className={locals.heading}>Remove Application Perspective</h1>
         </div>
         <Spacer type="dark" />
         <DescriptionText>
-          If you no longer wish to monitor the application <strong>{application.label}</strong>, please use the button
-          below to remove it. Removing an application may take up to a few minutes.
+          If you no longer wish to monitor the application perspective <strong>{application.label}</strong>, please use
+          the button below to remove it. Removing an application perspective may take up to a few minutes.
         </DescriptionText>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
@@ -62,7 +62,7 @@ export default class Remove extends React.PureComponent {
             onClick={this.remove}
             className={locals.removeButton}
           >
-            Remove Application
+            Remove Application Perspective
           </Button>
         </div>
       </MaxWidthFullscreenContainer>
