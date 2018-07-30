@@ -8,15 +8,15 @@ import { config } from 'in-services/config';
 const mixpanel = window.mixpanel;
 const registeredTrackers = [];
 
-export function init() {
+export function init(callback) {
   if (mixpanel) {
-    initMixpanel();
-    return true;
+    initMixpanel(callback);
+  } else {
+    callback(false);
   }
-  return false;
 }
 
-function initMixpanel() {
+function initMixpanel(callback) {
   // Possible options for anonymizing or identifying users for mixpanel tracking:
   // a) Sending either the GK user ID () or the email address.
   //    mixpanel.identify(user.id)/mixpanel.identify(user.email)
@@ -43,21 +43,19 @@ function initMixpanel() {
     tenantWithUnits => {
       const units = tenantWithUnits[tenant.name];
       if (!units) {
-        mixpanel.track('pageLoadOrPageReload');
-        return;
+        return callback(true);
       }
       const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
       if (!currentUnit) {
-        mixpanel.track('pageLoadOrPageReload');
-        return;
+        return callback(true);
       }
       mixpanel.register({
         tenantUnitId: currentUnit.id
       });
-      mixpanel.track('pageLoadOrPageReload');
+      return callback(true);
     },
     () => {
-      mixpanel.track('pageLoadOrPageReload');
+      return callback(true);
     }
   );
 }
