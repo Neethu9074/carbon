@@ -23,6 +23,9 @@ export function isInstanaTenant() {
   return config.tenant === 'instana';
 }
 
-export function isFeatureFlagEnabled(ff) {
-  return config.featureFlags != null && config.featureFlags[ff] === true;
+export function isFeatureFlagEnabled(ff, fallback = false) {
+  if (config.featureFlags == null || config.featureFlags[ff] == null) {
+    return fallback;
+  }
+  return config.featureFlags[ff] === true;
 }

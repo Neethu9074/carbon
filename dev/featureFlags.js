@@ -2,6 +2,9 @@
 // https://github.com/instana/fleet/blob/master/ansible/roles/fleet_deploy_component/templates/ui-client.hcl.j2
 module.exports = {
   oneZeroAppDataPresentationEnabled: true,
+  oneZeroSupportedUntilMessageEnabled: true,
+  twoZeroAppDataEnabled: true,
   twoZeroAppDataPresentationEnabled: true,
+  twoZeroLearnMoreButtonEnabled: true,
   pingComparisonEnabled: true
 };

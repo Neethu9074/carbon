@@ -26,10 +26,13 @@ const tabNames = [
 export const v2UsageDurationTracker = createDurationTracker('hybrid.v2');
 
 export function init() {
-  if (initMixpanelCore()) {
-    initUsageDurationTrackers();
-    initActivityHeartbeat();
-  }
+  initMixpanelCore(mixpanelIsActive => {
+    if (mixpanelIsActive) {
+      createTracker('pageLoadOrPageReload')();
+      initActivityHeartbeat();
+      initUsageDurationTrackers();
+    }
+  });
 }
 
 /**

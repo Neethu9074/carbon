@@ -21,7 +21,8 @@ export default function SvgIcon({
   spinning,
   tabIndex,
   role,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
+  refSetter
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
@@ -95,6 +96,7 @@ export default function SvgIcon({
       role={role}
       tabIndex={tabIndex}
       aria-label={ariaLabel}
+      ref={refSetter}
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
       <rect width="100%" height="100%" fill="rgba(0, 0, 0, 0)" />

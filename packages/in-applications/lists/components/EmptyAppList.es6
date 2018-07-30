@@ -12,15 +12,17 @@ export default function EmptyAppList() {
   return (
     <div className={locals.wrapper}>
       <SvgIcon className={locals.icon} type="lib_application" width={56} height={56} />
-      <h1 className={locals.title}>Applications</h1>
+      <h1 className={locals.title}>Application Perspectives</h1>
       <p className={locals.text}>
-        Applications provide a means to model environments, sets of services, tenants, or just about anything.
-        <br />They can be thought of as perspectives on services and their endpoints.
+        Application perspectives provide a means to model environments, sets of services, tenants, or just about
+        anything.
       </p>
-      {role.canConfigureApplications && (
+      {role.canConfigureApplications ? (
         <Button kind="create" href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}>
-          Create Application
+          Create Application Perspective
         </Button>
+      ) : (
+        <p>They will appear here once an account administrator creates them. Until then, click on Services above.</p>
       )}
     </div>
   );

@@ -37,12 +37,17 @@ export const pingComparisonEnabled = isFeatureFlagEnabled('pingComparisonEnabled
 // the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
 // v2 query param and/or the v2Enabled ui setting  of the current user.
 export const oneZeroAppDataEnabled = isFeatureFlagEnabled('oneZeroAppDataPresentationEnabled');
+export const oneZeroSupportedUntilMessageEnabled = isFeatureFlagEnabled('oneZeroSupportedUntilMessageEnabled', true);
 
 // twoZeroAppDataPresentationEnabled is the deployment time feature flag that controls whether or not Instana 2.0 could possibly be
 // shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
 // the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
 // v2 query param and/or the v2Enabled ui setting of the current user.
-export const twoZeroAppDataEnabled = isFeatureFlagEnabled('twoZeroAppDataPresentationEnabled');
+export const twoZeroAppDataEnabled =
+  isFeatureFlagEnabled('twoZeroAppDataPresentationEnabled') ||
+  (isFeatureFlagEnabled('twoZeroAppDataEnabled') && isInstanaEngineer);
+
+export const twoZeroLearnMoreButtonEnabled = isFeatureFlagEnabled('twoZeroLearnMoreButtonEnabled');
 
 export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 

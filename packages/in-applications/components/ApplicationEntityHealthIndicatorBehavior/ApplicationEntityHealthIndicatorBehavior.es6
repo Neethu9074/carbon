@@ -33,7 +33,7 @@ export default connectTo(
     }
 
     return (
-      <Overlay props={props} content={Content} withoutWrapper>
+      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
         {Indicator}
       </Overlay>
     );

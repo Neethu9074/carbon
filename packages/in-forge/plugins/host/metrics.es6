@@ -18,11 +18,6 @@ addMaxValueLocator(/^fs\.(.*)\.free/, (snapshot, matches) =>
 );
 addMinValueLocator(/^fs\.(.*)\.free/, zero);
 
-addMaxValueLocator(/^fs\.(.*)\.ifree/, (snapshot, matches) =>
-  snapshot.getIn(['data', 'filesystems', matches[1], 'icapacity'])
-);
-addMinValueLocator(/^fs\.(.*)\.ifree/, zero);
-
 addFormattedValueLocator(
   /^memory\.free/,
   // translates free -> used -> whateverBytes

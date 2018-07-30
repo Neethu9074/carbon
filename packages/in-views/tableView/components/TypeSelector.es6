@@ -14,7 +14,8 @@ const physicalDomains = {
   jvm: 'JVMs',
   nodejs: 'Node.js Apps',
   docker: 'Docker Containers',
-  process: 'Processes'
+  process: 'Processes',
+  clickHouseDatabase: 'ClickHouse'
 };
 if (pingComparisonEnabled) {
   physicalDomains.ping = 'Ping';

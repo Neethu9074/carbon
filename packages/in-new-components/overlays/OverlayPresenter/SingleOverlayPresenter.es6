@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import toPx from 'in-services/formatters/toPx';
 
 import locals from './SingleOverlayPresenter.mless';
@@ -22,6 +23,9 @@ export default class SingleOverlayPresenter extends React.PureComponent {
     tooltipElement.className = '';
     tooltipElement.classList.add(locals.overlay);
     tooltipElement.classList.add(locals[`style--${this.props.kind || 'popover'}`]);
+    if (this.props.inContentArea) {
+      tooltipElement.classList.add(locals.inContentArea);
+    }
 
     const focusedElementBox = this.props.relativeTo.getBoundingClientRect();
     const tooltipElementBox = tooltipElement.getBoundingClientRect();
@@ -50,10 +54,18 @@ export default class SingleOverlayPresenter extends React.PureComponent {
 
     const result = TooltipCalculator.calculate(bounds, tooltip, reference);
     set(tooltipElement, 'left', result.left);
-    set(tooltipElement, 'top', result.top);
     set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
-    set(tooltipElement, 'bottom', result.bottom !== null ? windowHeight - result.bottom : null);
-    tooltipElement.style.position = this.props.position;
+    if (this.props.inContentArea) {
+      if (result.top != null) {
+        set(tooltipElement, 'top', result.top + window.scrollY);
+      }
+      if (result.bottom != null) {
+        set(tooltipElement, 'top', result.bottom - tooltipElementBox.height + window.scrollY);
+      }
+    } else {
+      set(tooltipElement, 'top', result.top);
+      set(tooltipElement, 'bottom', result.bottom != null ? windowHeight - result.bottom : null);
+    }
 
     if (!this.props.withoutArrow) {
       tooltipElement.classList.add(locals[`align--${tooltip.align}`]);
@@ -61,9 +73,18 @@ export default class SingleOverlayPresenter extends React.PureComponent {
   }
 
   render() {
-    const { content: Content, props, id } = this.props;
+    const { content: Content, props, id, autoOpen, autoClose, delayedOpen, delayedClose, inContentArea } = this.props;
     return (
-      <div data-overlay-id={id} ref={r => (this.tooltipElement = r)} className={locals.overlay}>
+      <div
+        data-overlay-id={id}
+        ref={r => (this.tooltipElement = r)}
+        className={evaluateClassNames({
+          [locals.overlay]: true,
+          [locals.inContentArea]: inContentArea
+        })}
+        onMouseEnter={autoOpen ? delayedOpen : undefined}
+        onMouseLeave={autoClose ? delayedClose : undefined}
+      >
         <Content {...props} />
       </div>
     );

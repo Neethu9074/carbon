@@ -71,6 +71,7 @@ function Button({
     <a
       href={href}
       target={target}
+      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
       className={classes}
       onClick={onClick ? onClick : stopPropagation}
       style={style}

@@ -15,7 +15,7 @@ export default connect(({ traceId }) => ({
 
   return (
     <Breadcrumb label="Trace" href$={getLinkToTraceDetail(traceId)}>
-      {shorten(trace.data.label)}
+      {shorten(trace.data.label, 30)}
     </Breadcrumb>
   );
 });

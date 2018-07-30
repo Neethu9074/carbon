@@ -34,7 +34,7 @@ const rightHeader = role.canConfigureApplications && (
     href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
     icon="lib_openclose_add_circle_outline"
   >
-    Create Application
+    Create Application Perspective
   </Button>
 );
 
@@ -46,7 +46,7 @@ export default connectTo(
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
-    const leftHeader = <h1 className={locals.title}>Applications</h1>;
+    const leftHeader = <h1 className={locals.title}>Application Perspectives</h1>;
 
     return (
       <Sticky header={<ViewSwitcher />}>
@@ -171,6 +171,7 @@ const columnDefinitions = [
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          inContentArea
         />
       );
     }

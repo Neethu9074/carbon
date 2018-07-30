@@ -1,7 +1,48 @@
+@import '~in-themes/active.less';
+
 :local {
-  .versionSwitcher {
+  .switcher {
     position: absolute;
-    left: 8.5rem;
-    transform: scale(0.9);
+    top: 0.8rem;
+    left: 8rem;
+    display: flex;
+    align-items: center;
+    color: @lib__colors__N400;
+
+    &:hover, &.active {
+      color: #fff;
+
+      .arrow {
+        fill: #fff;
+      }
+
+      .beta {
+        color: #fff;
+        border-color: #fff;
+      }
+    }
+  }
+
+  .arrow {
+    fill: @lib__colors__N400;
+
+    &:hover, &.active {
+      fill: #fff;
+    }
+  }
+
+  .state {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .beta {
+    color: @lib__colors__N400;
+    border: 2px solid @lib__colors__N400;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 2px 4px;
+    margin: 0 0 0 0.4rem;
+    font-size: 0.7rem;
   }
 }

@@ -133,7 +133,6 @@ function QuickFilterSection(props) {
           },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => (
           <QuickFilter
@@ -161,7 +160,6 @@ function QuickFilterSection(props) {
       <Overlay
         content={SuggestionContent}
         props={assign({ Component: TechnologySuggestions, tagName: 'call.technology' }, props)}
-        position="fixed"
       >
         {({ toggle, isOpen }) => (
           <QuickFilter tagName="call.technology" label="Technology" onClick={toggle} opensOverlay isOpen={isOpen} />
@@ -174,7 +172,6 @@ function QuickFilterSection(props) {
           { Component: LatencySuggestions, tagName: 'call.latency', operator: operators.GREATER_THAN },
           props
         )}
-        position="fixed"
       >
         {({ toggle, isOpen }) => <QuickFilter label="Latency" onClick={toggle} opensOverlay isOpen={isOpen} />}
       </Overlay>

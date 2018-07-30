@@ -14,10 +14,6 @@ function getMaxFilesystemCapacity(snapshot, match) {
   return snapshot.getIn(['data', 'filesystems', match[1], 'capacity']);
 }
 
-function getMaxFilesystemICapacity(snapshot, match) {
-  return snapshot.getIn(['data', 'filesystems', match[1], 'icapacity']);
-}
-
 function getFilesystemLabel(prefix, snapshot, match) {
   return `${prefix} ${match[1]}`;
 }
@@ -107,17 +103,6 @@ export default [
     min: 0,
     max: getMaxFilesystemCapacity,
     formatter: kiloBytes
-  },
-  {
-    metric: getMetricMatch('fs', 'ifree'),
-    label: getFilesystemLabel.bind(null, 'iFree'),
-    category: ['Filesystem'],
-    min: 0,
-    max: getMaxFilesystemICapacity,
-    formatter: siMultiplyPrefix,
-    isAvailable(snapshot, match) {
-      return isWindows(snapshot) && getMaxFilesystemICapacity(snapshot, match) != null;
-    }
   },
   {
     metric: getMetricMatch('fs', 'reads'),
