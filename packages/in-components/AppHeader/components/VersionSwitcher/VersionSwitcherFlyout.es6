@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { isTwoZeroBetaPhase, twoZeroModeEnabled, twoZeroLearnMoreButtonEnabled } from 'in-services/featureFlags';
+import {
+  isTwoZeroBetaPhase,
+  twoZeroModeEnabled,
+  twoZeroLearnMoreButtonEnabled,
+  oneZeroSupportedUntilMessageEnabled
+} from 'in-services/featureFlags';
 import { v2UsageDurationTracker } from 'in-services/tracking/mixpanelTrackers';
 import { applicationsList } from 'in-applications/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -41,7 +46,11 @@ export default function VersionSwitcherFlyout() {
       <Item active={!twoZeroModeEnabled}>
         <Title>Previous Version</Title>
 
-        <Description>Access the old version during the transition period.</Description>
+        <Description>
+          Access the traditional Instana experience during the transition period{oneZeroSupportedUntilMessageEnabled
+            ? ', until August 31'
+            : ''}.
+        </Description>
       </Item>
     </section>
   );

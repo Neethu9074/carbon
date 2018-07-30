@@ -3,7 +3,7 @@
 :local {
   .flyout {
     background: #fff;
-    max-width: 40.625rem;
+    max-width: 31.25rem;
   }
 
   .item, .item:hover {
