@@ -54,5 +54,20 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
 export function getLinkToRawData() {
   return getModifiedUrlStream(params => {
     params.pathname = analyzeRaw;
+    setOrDeleteMatrixKey(params, analyze, 'calls.orderBy', null);
+    cleanupSortingMatrixParams(params);
   });
+}
+
+export function getLinkToGroupedData() {
+  return getModifiedUrlStream(params => {
+    params.pathname = analyze;
+    setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
+    cleanupSortingMatrixParams(params);
+  });
+}
+
+function cleanupSortingMatrixParams(params) {
+  setOrDeleteMatrixKey(params, analyze, 'calls.orderBy', null);
+  setOrDeleteMatrixKey(params, analyze, 'calls.orderDirection', null);
 }
