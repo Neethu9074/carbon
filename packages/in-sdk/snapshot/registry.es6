@@ -1,6 +1,7 @@
 import { clone } from 'lodash';
 
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
+import { addToRegistry } from 'in-applications/technologyRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { addLabelFinder } from 'in-sdk/snapshot';
@@ -16,6 +17,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerLegacySdkHooks(snapshotDefinition);
   registerMetricDefinitions(snapshotDefinition);
   registerIconPath(snapshotDefinition);
+  registerNewApplicationModelHooks(snapshotDefinition);
 }
 
 export function getSnapshotDefinition(plugin) {
@@ -87,4 +89,16 @@ function registerIconPath(snapshotDefinition) {
   if (iconPath) {
     addIconSvgPathToRegistry(snapshotDefinition.plugin, iconPath);
   }
+}
+
+function registerNewApplicationModelHooks(snapshotDefinition) {
+  if (!snapshotDefinition.technologyDescriptor) {
+    return;
+  }
+
+  addToRegistry({
+    id: snapshotDefinition.plugin,
+    label: snapshotDefinition.technologyDescriptor.label,
+    icon: snapshotDefinition.iconSvgPath || snapshotDefinition.icons[snapshotDefinition.plugin]
+  });
 }

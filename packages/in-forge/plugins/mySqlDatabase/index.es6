@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'MySQL DB',
     plural: 'MySQL DBs'
+  },
+  technologyDescriptor: {
+    label: 'MySQL'
   }
 });

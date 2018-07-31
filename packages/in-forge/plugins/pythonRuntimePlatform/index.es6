@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Python App',
     plural: 'Python Apps'
+  },
+  technologyDescriptor: {
+    label: 'Python'
   }
 });

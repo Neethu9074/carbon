@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'MsSQL Instance',
     plural: 'MsSQL Instances'
+  },
+  technologyDescriptor: {
+    label: 'MsSQL'
   }
 });

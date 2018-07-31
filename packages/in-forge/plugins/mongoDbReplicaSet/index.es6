@@ -1,7 +1,6 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
-
 import iconSvgPath from 'in-forge/plugins/mongoDb/iconPath';
+import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
 
@@ -10,7 +9,10 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'MongoDb Replica Set',
-    plural: 'MongoDb Replica Set'
+    singular: 'MongoDB Replica Set',
+    plural: 'MongoDB Replica Set'
+  },
+  technologyDescriptor: {
+    label: 'MongoDB Replica Set'
   }
 });

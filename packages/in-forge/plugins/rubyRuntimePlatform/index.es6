@@ -15,5 +15,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Ruby App',
     plural: 'Ruby Apps'
+  },
+  technologyDescriptor: {
+    label: 'Ruby'
   }
 });

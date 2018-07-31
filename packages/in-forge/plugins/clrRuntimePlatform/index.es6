@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: '.NET App',
     plural: '.NET Apps'
+  },
+  technologyDescriptor: {
+    label: '.NET'
   }
 });

@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Crystal App',
     plural: 'Crystal Apps'
+  },
+  technologyDescriptor: {
+    label: 'Crystal'
   }
 });

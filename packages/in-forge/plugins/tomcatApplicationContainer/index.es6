@@ -10,7 +10,10 @@ registerSnapshotDefinition({
   supportsCodeView,
   getCodeView,
   pluginName: {
-    singular: 'Tomcat Server',
-    plural: 'Tomcat Servers'
+    singular: 'Tomcat',
+    plural: 'Tomcats'
+  },
+  technologyDescriptor: {
+    label: 'Tomcat'
   }
 });

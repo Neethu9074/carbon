@@ -15,5 +15,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'HBase',
     plural: 'HBase'
+  },
+  technologyDescriptor: {
+    label: 'HBase'
   }
 });

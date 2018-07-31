@@ -16,5 +16,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Dropwizard App',
     plural: 'Dropwizard Apps'
+  },
+  technologyDescriptor: {
+    label: 'Dropwizard'
   }
 });

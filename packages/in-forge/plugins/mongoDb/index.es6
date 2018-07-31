@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'MongoDB Node',
     plural: 'MongoDB Nodes'
+  },
+  technologyDescriptor: {
+    label: 'MongoDB'
   }
 });
