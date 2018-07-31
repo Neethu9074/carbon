@@ -8,5 +8,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'PHP Runtime',
     plural: 'PHP Runtimes'
+  },
+  technologyDescriptor: {
+    label: 'PHP'
   }
 });

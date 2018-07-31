@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Go App',
     plural: 'Go Apps'
+  },
+  technologyDescriptor: {
+    label: 'Go'
   }
 });

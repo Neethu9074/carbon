@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Glassfish',
     plural: 'Glassfish'
+  },
+  technologyDescriptor: {
+    label: 'Glassfish'
   }
 });

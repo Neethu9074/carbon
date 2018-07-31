@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'MariaDB',
     plural: 'MariaDBs'
+  },
+  technologyDescriptor: {
+    label: 'MariaDB'
   }
 });

@@ -1,48 +1,28 @@
 import { get } from 'lodash';
 
-import { getIconSvgPath as getIconSvgPathForPlugin } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
+import { compareIgnoreCase } from 'in-services/util/string';
 
 const registry = {};
 export default registry;
-registry[plugins.mongodb] = { label: 'MongoDB' };
-registry[plugins.redis] = { label: 'Redis' };
-registry[plugins.elasticsearchCluster] = { label: 'Elasticsearch' };
-registry[plugins.postgresql] = { label: 'PostgreSQL' };
-registry[plugins.rabbitmq] = { label: 'RabbitMQ' };
-registry[plugins.activemq] = { label: 'ActiveMQ' };
-registry[plugins.kafkaCluster] = { label: 'Kafka' };
-registry[plugins.hbase] = { label: 'HBase' };
-registry[plugins.mariaDbDatabase] = { label: 'MariaDB' };
-registry[plugins.mssql] = { label: 'MSSQL' };
-registry[plugins.mysql] = { label: 'MySQL' };
-registry[plugins.mongodbReplicaSet] = { label: 'MongoDb Replica Set' };
-registry[plugins.oracledb] = { label: 'OracleDB' };
-registry[plugins.cassandraCluster] = { label: 'Cassandra' };
-registry[plugins.clickHouse] = { label: 'ClickHouse' };
-registry[plugins.dropwizard] = { label: 'Dropwizard' };
-registry[plugins.springboot] = { label: 'Springboot' };
-registry[plugins.tomcat] = { label: 'Tomcat' };
-registry[plugins.glassfish] = { label: 'Glassfish' };
 
-export function getIconSvgPath(groupTypeId) {
-  return get(registry[groupTypeId], ['getIconSvgPath'], getIconSvgPathForPlugin)(groupTypeId);
+export function addToRegistry({ id, label, icon }) {
+  registry[id] = {
+    label,
+    icon
+  };
 }
 
-export function getLabel(groupTypeId) {
-  const config = registry[groupTypeId];
-  if (config) {
-    return config.label;
-  }
-  return null;
+export function getIconSvgPath(id) {
+  return get(registry, [id, 'icon']);
+}
+
+export function getLabel(id) {
+  return get(registry, [id, 'label']);
 }
 
 export function getTechnologyComboBoxItems(restrict = null) {
   return Object.keys(registry)
     .filter(key => restrict == null || restrict.indexOf(key) !== -1)
-    .sort()
-    .map(key => {
-      const registryValue = registry[key];
-      return { value: key, label: registryValue.label };
-    });
+    .map(key => ({ value: key, label: registry[key].label }))
+    .sort((a, b) => compareIgnoreCase(a.label, b.label));
 }

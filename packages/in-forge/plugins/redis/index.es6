@@ -9,5 +9,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Redis Node',
     plural: 'Redis Nodes'
+  },
+  technologyDescriptor: {
+    label: 'Redis'
   }
 });

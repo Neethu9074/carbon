@@ -8,9 +8,11 @@ registerSnapshotDefinition({
   plugin: plugins.activemq,
   iconSvgPath,
   metricDefinitions,
-
   pluginName: {
     singular: 'ActiveMQ',
     plural: 'ActiveMQs'
+  },
+  technologyDescriptor: {
+    label: 'ActiveMQ'
   }
 });
