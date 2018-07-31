@@ -37,7 +37,8 @@ export default class extends React.PureComponent {
     line: rpt.number,
     className: rpt.string,
     wrapperClassName: rpt.string,
-    showLineNumbers: rpt.bool
+    showLineNumbers: rpt.bool,
+    scrollElementClassName: rpt.string
   };
 
   static defaultProps = {
@@ -78,10 +79,12 @@ export default class extends React.PureComponent {
     codeElement.textContent = code;
     Prism.highlightElement(codeElement);
 
-    const lineHighlight = preElement.querySelector('.line-highlight');
-    const scrollElement = document.querySelector('.in-code-retrieval-dialog__content');
-    if (scrollElement && lineHighlight) {
-      scrollElement.scrollTop = lineHighlight.offsetTop - scrollElement.clientHeight / 2;
+    if (this.props.scrollElementClassName) {
+      const lineHighlight = preElement.querySelector('.line-highlight');
+      const scrollElement = document.querySelector(`.${this.props.scrollElementClassName}`);
+      if (scrollElement && lineHighlight) {
+        scrollElement.scrollTop = lineHighlight.offsetTop - scrollElement.clientHeight / 2;
+      }
     }
   };
 
