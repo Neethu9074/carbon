@@ -9,9 +9,7 @@ import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
-import './CodeRetrievalDialog.less';
-
-const block = 'in-code-retrieval-dialog';
+import locals from './CodeRetrievalDialog.mless';
 
 export default connectTo(
   props => {
@@ -20,6 +18,8 @@ export default connectTo(
     };
   },
   function CodeDialog({ file, response, lang, line }) {
+    const hasLine = line != null && !isNaN(parseInt(line, 10));
+
     let header;
     if (!response) {
       header = `Retrieving file: ${file}`;
@@ -28,8 +28,9 @@ export default connectTo(
     } else {
       header = (
         <CenterAlignment>
-          <span>
-            File: {file} - Line: {line}
+          <span className={locals.title}>
+            File: {file}
+            {hasLine ? ` – Line: ${line}` : null}
           </span>
 
           <CopyToClipboardButton getText={() => response.data} />
@@ -38,7 +39,7 @@ export default connectTo(
     }
 
     return (
-      <Dialog header={header} onClose={close} contentClassName={`${block}__content`}>
+      <Dialog header={header} onClose={close} contentClassName={locals.content}>
         {!response ? <LoadingIndicator type="dark" /> : null}
 
         {response && response.error ? (
@@ -48,10 +49,11 @@ export default connectTo(
         {response && response.data ? (
           <Code
             lang={lang}
-            line={line}
+            line={parseInt(line, 10)}
             code={response.data}
-            className={`${block}__code`}
+            className={locals.code}
             showLineNumbers={lang !== 'java'}
+            scrollElementClassName={locals.content}
           />
         ) : null}
       </Dialog>

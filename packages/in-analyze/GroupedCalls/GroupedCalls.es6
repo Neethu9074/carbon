@@ -1,5 +1,6 @@
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { assign } from 'lodash';
 
 import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator';
 import getCallGroups from 'in-subscription/application/getCallGroups';
@@ -15,7 +16,7 @@ import theme from 'in-themes/theme';
 
 import locals from './GroupedCalls.mless';
 
-const defaultOrder = 'calls';
+const defaultOrder = 'callsAgg';
 
 export default compose(
   withUrlDependingState({
@@ -28,11 +29,44 @@ export default compose(
     }),
     reducerName: 'onChangeOrder'
   }),
+  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection }) => {
+    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded'],
+    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection, isChartSectionExpanded }) => {
       const timeConfig = filters.get('timeConfig');
       const granularity = getChartGranularity(timeConfig);
+      const tableMetrics = {
+        callsAgg: {
+          metric: 'calls',
+          aggregation: 'SUM'
+        },
+        latencyAgg: {
+          metric: 'latency',
+          aggregation: 'MEAN'
+        },
+        errorsAgg: {
+          metric: 'errors',
+          aggregation: 'MEAN'
+        }
+      };
+      const chartMetrics = {
+        calls: {
+          metric: 'calls',
+          aggregation: 'SUM',
+          granularity
+        },
+        errors: {
+          metric: 'errors',
+          aggregation: 'MEAN',
+          granularity
+        },
+        latency: {
+          metric: 'latency',
+          aggregation: 'MEAN',
+          granularity
+        }
+      };
+
       return getCallGroups({
         pagination: {
           cursor,
@@ -45,35 +79,7 @@ export default compose(
         filter: {
           timeConfig
         },
-        metrics: {
-          calls: {
-            metric: 'calls',
-            aggregation: 'SUM'
-          },
-          latency: {
-            metric: 'latency',
-            aggregation: 'MEAN'
-          },
-          errors: {
-            metric: 'errors',
-            aggregation: 'MEAN'
-          },
-          callsChartData: {
-            metric: 'calls',
-            aggregation: 'SUM',
-            granularity
-          },
-          errorsChartData: {
-            metric: 'errors',
-            aggregation: 'MEAN',
-            granularity
-          },
-          latencyChartData: {
-            metric: 'latency',
-            aggregation: 'MEAN',
-            granularity
-          }
-        },
+        metrics: isChartSectionExpanded ? assign(tableMetrics, chartMetrics) : tableMetrics,
         tagFilters: tagFiltersForSubscription,
         group: {
           groupbyTag: filters.getIn(['group', 'name']),
@@ -81,8 +87,7 @@ export default compose(
         }
       });
     }
-  }),
-  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false)
+  })
 )(GroupedCalls);
 
 function GroupedCalls(props) {
