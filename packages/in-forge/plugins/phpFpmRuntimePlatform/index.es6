@@ -14,5 +14,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'PHP-FPM Runtime',
     plural: 'PHP-FPM Runtimes'
+  },
+  technologyDescriptor: {
+    label: 'PHP-FPM'
   }
 });

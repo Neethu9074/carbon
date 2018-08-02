@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'PostgreSQL DB',
     plural: 'PostgreSQL DBs'
+  },
+  technologyDescriptor: {
+    label: 'PostgreSQL'
   }
 });

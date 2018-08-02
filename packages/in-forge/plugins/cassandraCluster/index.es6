@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Cassandra Cluster',
     plural: 'Cassandra Clusters'
+  },
+  technologyDescriptor: {
+    label: 'Cassandra'
   }
 });

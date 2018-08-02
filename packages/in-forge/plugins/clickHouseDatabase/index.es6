@@ -13,5 +13,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'ClickHouse DB',
     plural: 'ClickHouse DBs'
+  },
+  technologyDescriptor: {
+    label: 'ClickHouse'
   }
 });

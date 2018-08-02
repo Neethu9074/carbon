@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Kafka Cluster',
     plural: 'Kafka Cluster'
+  },
+  technologyDescriptor: {
+    label: 'Kafka'
   }
 });

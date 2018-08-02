@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'OracleDB',
     plural: 'OracleDBs'
+  },
+  technologyDescriptor: {
+    label: 'OracleDB'
   }
 });

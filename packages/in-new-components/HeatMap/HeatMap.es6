@@ -77,7 +77,7 @@ function calculateScale(data) {
   if (!data || data.length === 0) {
     return { from: 0, to: 0 };
   }
-  return { from: data[data.length - 1].key, to: data[0].key };
+  return { from: data[data.length - 1].axisValue, to: data[0].axisValue };
 }
 
 // how to recalculate colors
