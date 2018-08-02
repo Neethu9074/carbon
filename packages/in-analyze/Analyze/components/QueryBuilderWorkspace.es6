@@ -13,6 +13,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import QuickFilter from 'in-analyze/Analyze/components/QuickFilter';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
+import AddButton from 'in-analyze/Analyze/components/AddButton';
 import Controls from 'in-analyze/Analyze/components/Controls';
 import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -25,6 +26,28 @@ import locals from './QueryBuilderWorkspace.mless';
 export default function QueryBuilderWorkspace(props) {
   const { filters, onChangeFilters, totalNumberOfCalls } = props;
   const group = filters.get('group');
+  const tagFilters = filters
+    .get('tagFilter')
+    .toJS()
+    .map(tag => ({
+      tag,
+      progress: 1,
+      onClick: () => {
+        setActiveDialog(
+          <EditFilterDialog
+            filters={filters}
+            name={tag.name}
+            value={tag.value}
+            operator={tag.operator}
+            secondLevelName={tag.secondLevelName}
+            onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
+            onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
+            removePostPhrase="Filter"
+          />
+        );
+      },
+      onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeFilters)
+    }));
 
   return (
     <Fragment>
@@ -32,15 +55,10 @@ export default function QueryBuilderWorkspace(props) {
         <MaxWidthFullscreenContainer className={locals.firstRowMaxWidthFullscreenContainer}>
           <CallTraceSwitch totalNumberOfCalls={totalNumberOfCalls} />
           <QuickFilterSection {...props} />
-          <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
-        </MaxWidthFullscreenContainer>
-      </div>
-
-      <div className={locals.filterRow}>
-        <MaxWidthFullscreenContainer className={locals.filterRowWrapper}>
-          <TagFilterList
-            addButtonLabel="Filter"
-            onAddTagFilter={() =>
+          <AddButton
+            text="More"
+            tagFilters={tagFilters}
+            onClick={() =>
               setActiveDialog(
                 <EditFilterDialog
                   filters={props.filters}
@@ -48,31 +66,18 @@ export default function QueryBuilderWorkspace(props) {
                 />
               )
             }
+          />
+          <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
+        </MaxWidthFullscreenContainer>
+      </div>
+
+      <div className={locals.filterRow}>
+        <MaxWidthFullscreenContainer className={locals.filterRowWrapper}>
+          <TagFilterList
             onUpdateTagFilter={(id, tag) => onUpdateTagFilter(id, tag, filters, onChangeFilters)}
             onRemoveTagFilter={id => onRemoveTagFilter(id, filters, onChangeFilters)}
             onUpdateGroup={group => onUpdateGroup(filters, onChangeFilters, group)}
-            tagFilters={filters
-              .get('tagFilter')
-              .toJS()
-              .map(tag => ({
-                tag,
-                progress: 1,
-                onClick: () => {
-                  setActiveDialog(
-                    <EditFilterDialog
-                      filters={filters}
-                      name={tag.name}
-                      value={tag.value}
-                      operator={tag.operator}
-                      secondLevelName={tag.secondLevelName}
-                      onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
-                      onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
-                      removePostPhrase="Filter"
-                    />
-                  );
-                },
-                onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeFilters)
-              }))}
+            tagFilters={tagFilters}
           />
         </MaxWidthFullscreenContainer>
       </div>

@@ -19,10 +19,6 @@
     align-items: center;
   }
 
-  .filterRow {
-    border-bottom: 1px solid @lib__colors__N300;
-  }
-
   .filterRowWrapper {
     display: flex;
     align-items: center;
@@ -34,8 +30,6 @@
   .groupRow {
     display: flex;
     align-items: center;
-
-    margin-top: 1.5rem;
   }
 
   .groupByLabel {
