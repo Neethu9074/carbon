@@ -1,9 +1,5 @@
 import React from 'react';
-
-import { showRawData as showRawDataMatrixParameter } from 'in-analyze/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { analyze } from 'in-analyze/navigation/paths';
+import { getLinkToGroupedData } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 
 import locals from './BackToGroupButton.mless';
@@ -14,7 +10,7 @@ export default function BackToGroupButton(props) {
   return (
     <Button
       className={locals.button}
-      href$={getLinkAnalyze()}
+      href$={getLinkToGroupedData()}
       size="compact"
       icon="lib_arrow_left"
       kind="secondary"
@@ -23,11 +19,4 @@ export default function BackToGroupButton(props) {
       Analyze
     </Button>
   );
-}
-
-function getLinkAnalyze() {
-  return getModifiedUrlStream(params => {
-    params.pathname = analyze;
-    setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
-  });
 }

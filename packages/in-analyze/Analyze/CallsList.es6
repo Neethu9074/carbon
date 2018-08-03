@@ -21,9 +21,11 @@ import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWor
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import getCalls from 'in-subscription/application/getCalls';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
+import cursorPaginated from 'in-hoc/cursorPaginated';
 import GroupedCalls from 'in-analyze/GroupedCalls';
 import Title from 'in-components/Title';
 
@@ -71,6 +73,24 @@ export default compose(
       objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
       return objectToStore;
     }
+  }),
+  cursorPaginated({
+    getResettingProps: () => ['location'],
+    get: ({ location }) =>
+      getCalls({
+        pagination: {
+          cursor: null,
+          retrievalSize: 1
+        },
+        order: {
+          by: 't',
+          direction: 'ASC'
+        },
+        filter: {
+          timeConfig: getTimeConfig(location)
+        },
+        tagFilters: []
+      })
   })
 )(CallsList);
 

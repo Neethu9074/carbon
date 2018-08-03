@@ -1,10 +1,9 @@
 import { range } from 'lodash';
 import React from 'react';
 
+import SelectableItem from 'in-new-components/time/TimeSelectionDialogPresenter/SelectableItem';
 import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/timePresets';
 import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
-import formatTime from 'in-new-components/time/timeframeFormatter';
-import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Presets.mless';
 
@@ -27,24 +26,5 @@ export default function Presets({ timeConfig, onChange }) {
         </div>
       ))}
     </div>
-  );
-}
-
-function SelectableItem({ timeConfig, newTimeframe, onChange }) {
-  return (
-    <a
-      className={evaluateClassNames({
-        [locals.item]: true,
-        [locals.activeItem]: timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize
-      })}
-      href="#"
-      onClick={e => {
-        e.stopPropagation();
-        e.preventDefault();
-        onChange(newTimeframe);
-      }}
-    >
-      {newTimeframe.label || formatTime(newTimeframe)}
-    </a>
   );
 }

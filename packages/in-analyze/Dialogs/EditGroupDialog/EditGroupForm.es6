@@ -3,7 +3,6 @@ import { get } from 'lodash';
 
 import AnalyzeFilterForm, {
   FieldSeperator,
-  TagCategorySwitcher,
   NamedSection,
   SelectBox,
   HelpText
@@ -24,10 +23,6 @@ export default function EditGroupForm(props) {
   return (
     <Fragment>
       <HelpText helpText={helpText} />
-
-      <NamedSection name="Category">
-        <TagCategorySwitcher {...props} />
-      </NamedSection>
 
       <NamedSection name="Tag">
         <AnalyzeFilterForm>

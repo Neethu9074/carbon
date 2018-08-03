@@ -7,7 +7,6 @@ import {
   Tbody,
   Tr,
   Td,
-  Th,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
   ErrorRows,
@@ -84,9 +83,23 @@ function RawCalls({
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
-            <Th>Call</Th>
+            <SortableCallColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="ASC"
+              technicalName="callName"
+              label="Call"
+            />
 
-            <Th>Service</Th>
+            <SortableCallColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="ASC"
+              technicalName="serviceName"
+              label="Service"
+            />
 
             <SortableCallColumn
               orderBy={orderBy}

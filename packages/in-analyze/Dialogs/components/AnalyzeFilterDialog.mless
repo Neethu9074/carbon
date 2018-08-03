@@ -22,6 +22,7 @@
   }
 
   .contentWrapper {
+    min-width: 40%;
     overflow: unset;
   }
 

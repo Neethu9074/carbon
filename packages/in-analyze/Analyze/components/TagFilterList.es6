@@ -1,16 +1,10 @@
 import React from 'react';
 
 import TagFilter from 'in-analyze/Analyze/components/TagFilter';
-import AddButton from 'in-analyze/Analyze/components/AddButton';
 
 import locals from './TagFilterList.mless';
 
-export default function TagFilterList({
-  onAddTagFilter,
-  tagFilters,
-  addButtonLabel,
-  filterConnectionOperator = 'AND'
-}) {
+export default function TagFilterList({ tagFilters, filterConnectionOperator = 'AND' }) {
   return (
     <div className={locals.tagFilterListWrapper}>
       <ul className={locals.tagFilterList}>
@@ -26,10 +20,6 @@ export default function TagFilterList({
           </li>
         ))}
       </ul>
-
-      <div className={locals.buttonWrapper}>
-        <AddButton text={addButtonLabel} onClick={option => onAddTagFilter(option)} tagFilters={tagFilters} />
-      </div>
     </div>
   );
 }
