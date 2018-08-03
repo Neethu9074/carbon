@@ -8,9 +8,9 @@ import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBrea
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import TracesButton from 'in-applications/components/TracesButton';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
+import CallsButton from 'in-applications/components/CallsButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -53,7 +53,7 @@ function Header(props) {
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
-    <TracesButton
+    <CallsButton
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}

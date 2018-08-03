@@ -10,7 +10,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import TracesButton from 'in-applications/components/TracesButton';
+import CallsButton from 'in-applications/components/CallsButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -47,7 +47,7 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
     <Fragment>
-      <TracesButton
+      <CallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
