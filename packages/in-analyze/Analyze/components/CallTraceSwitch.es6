@@ -8,11 +8,11 @@ import locals from './CallTraceSwitch.mless';
 export default function CallTraceSwitch({ totalNumberOfCalls }) {
   return (
     <div className={locals.callTraceSwitch}>
-      {totalNumberOfCalls && <SvgIcon className={locals.icon} type="lib_analyze" width={24} height={24} />}
-      {!totalNumberOfCalls && (
+      {totalNumberOfCalls != undefined && <SvgIcon className={locals.icon} type="lib_analyze" width={24} height={24} />}
+      {totalNumberOfCalls == undefined && (
         <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
       )}
-      {totalNumberOfCalls && `${number.compact(totalNumberOfCalls)} `}
+      {totalNumberOfCalls != undefined && `${number.compact(totalNumberOfCalls)} `}
       Calls
     </div>
   );
