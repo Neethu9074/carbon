@@ -11,14 +11,14 @@ export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark
     <div
       className={evaluateClassNames({
         [locals.iconWrapper]: true,
-        [locals[theme]]: true
+        [locals[theme]]: true,
+        [className]: className
       })}
     >
       <SvgIcon
         className={evaluateClassNames({
           [locals.timeIcon]: true,
-          [locals.timeIconExpanded]: selected,
-          [className]: className
+          [locals.timeIconExpanded]: selected
         })}
         type="lib_datetime_time_inverted"
         width={24}
@@ -31,7 +31,7 @@ export default function TimeIcon({ selected, containsPastLiveData, theme = 'dark
 
   if (containsPastLiveData) {
     return (
-      <Tooltip themeStyle="light" content="Sampled Data - Significant calls and KPIs have been preserved.">
+      <Tooltip themeStyle="light" content="Historic Data - Significant calls and KPIs have been preserved.">
         {content}
       </Tooltip>
     );
