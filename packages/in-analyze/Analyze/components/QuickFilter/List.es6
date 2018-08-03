@@ -14,18 +14,18 @@ export default function List({ items, tagName, onValueClick, filters, renderIcon
         const tagFilter = filters.get('tagFilter').toJS();
         const containsItem = getTagFromList(tagFilter, {
           name: tagName,
-          value: suggestion.label,
+          value: suggestion.value,
           operator: operators.EQUALS
         });
 
         return (
           <li
-            key={suggestion.label}
+            key={suggestion.value}
             className={evaluateClassNames({
               [locals.suggestion]: true,
               [locals.containsItem]: containsItem
             })}
-            onClick={() => (containsItem ? {} : onValueClick(suggestion.label))}
+            onClick={() => (containsItem ? {} : onValueClick(suggestion.value))}
           >
             {renderIcon(suggestion)}
             <span className={locals.itemText}>{suggestion.label}</span>

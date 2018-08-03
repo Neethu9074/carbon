@@ -9,7 +9,10 @@ export default function TypeSuggestions(props) {
     <div className={locals.wrapper}>
       <List
         {...props}
-        items={['Batch', 'Database', 'Http', 'Messaging', 'Rpc', 'Undefined'].map(label => ({ label }))}
+        items={['Batch', 'Database', 'Http', 'Messaging', 'Rpc', 'Undefined'].map(item => ({
+          value: item,
+          label: item
+        }))}
       />
     </div>
   );

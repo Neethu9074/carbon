@@ -27,7 +27,7 @@ function ApplicationServiceEndpointSuggestions(props) {
   let { icon, tagValueSuggestions } = props;
 
   if (tagValueSuggestions) {
-    tagValueSuggestions = tagValueSuggestions.map(suggestion => ({ label: suggestion, icon }));
+    tagValueSuggestions = tagValueSuggestions.map(suggestion => ({ value: suggestion, label: suggestion, icon }));
   }
 
   return <SearchableList {...props} items={tagValueSuggestions} />;
