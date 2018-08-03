@@ -10,7 +10,7 @@ import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBread
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
-import TracesButton from 'in-applications/components/TracesButton';
+import CallsButton from 'in-applications/components/CallsButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
@@ -57,7 +57,7 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
   return (
     <Fragment>
-      <TracesButton
+      <CallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
