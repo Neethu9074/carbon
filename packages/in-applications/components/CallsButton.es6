@@ -1,62 +1,37 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import CallsButtonDialog from 'in-applications/components/CallsButtonDialog/CallsButtonDialog';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import getMetrics from 'in-subscription/application/getMetrics';
-import Overlay from 'in-new-components/overlays/Overlay';
-import { number } from 'in-services/formatters/number';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getApplication from 'in-subscription/application/getApplication';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 
-export default connect(
-  ({ timeConfig, applicationId, serviceId, endpointId }) => {
-    const callCountResult = getMetrics({
-      filter: {
-        timeConfig,
-        application: applicationId,
-        service: serviceId,
-        endpoint: endpointId
-      },
-      metrics: {
-        callCount: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        }
-      }
-    });
-    return {
-      callCountResult,
-      callCount: callCountResult.map(result => {
-        if (!result || !result.data) {
-          return null;
-        }
-        return get(result, ['data', 'callCount', '0', '1'], null);
-      })
-    };
-  },
-  function CallsButton(props) {
-    const { callCount, callCountResult, timeConfig } = props;
-    if (!callCount) {
-      return null;
-    }
-
-    return (
-      <Overlay
-        props={{ ...props, callCount, timeConfig: getTimeConfigAlignedToResultTime(timeConfig, callCountResult) }}
-        content={CallsButtonDialog}
-        withoutWrapper
-      >
-        {CallButton}
-      </Overlay>
-    );
+export default connect(({ applicationId, serviceId }) => {
+  const observables = {};
+  if (applicationId) {
+    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
   }
-);
-
-function CallButton({ size, kind = 'primary', callCount, toggle, refSetter }) {
+  if (serviceId) {
+    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
+  }
+  return observables;
+})(function CallsButton({ applicationLabel, serviceLabel, endpointId }) {
   return (
-    <Button kind={kind} size={size} icon="lib_application_trace" onClick={toggle} refSetter={refSetter}>
-      {number.compact(callCount)} Calls
+    <Button
+      kind="primary"
+      icon="lib_application_trace"
+      href$={getLinkToAnalyze({
+        applicationName: applicationLabel,
+        serviceName: serviceLabel,
+        endpointName: endpointId
+      })}
+    >
+      Analyze Calls
     </Button>
   );
+});
+
+function getLabel(result) {
+  return get(result, ['data', 'label'], null);
 }
