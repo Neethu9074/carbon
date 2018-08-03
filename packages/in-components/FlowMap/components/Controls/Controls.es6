@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import RoundButton from 'in-components/FlowMap/components/Controls/Button';
+import { particlesInFlowMapEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
 
@@ -49,7 +50,9 @@ export default function Controls({ serviceLocatorUid }) {
         </HeatmapButton>
       </div>
       <div className={locals.bottomLeftControls}>
-        <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
+        {particlesInFlowMapEnabled && (
+          <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
+        )}
         <RoundButton onClick={() => zoomIn(serviceLocatorUid)} iconType="lib_openclose_add" />
         <RoundButton onClick={() => zoomOut(serviceLocatorUid)} iconType="lib_openclose_remove" />
       </div>
