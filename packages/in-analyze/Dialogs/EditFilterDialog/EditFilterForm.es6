@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import AnalyzeFilterForm, {
   FieldSeperator,
   SelectBox,
-  TagCategorySwitcher,
   NamedSection,
   OperatorSelection,
   AutoCompletedSelect,
@@ -25,10 +24,6 @@ export default function EditFilterForm(props) {
   return (
     <Fragment>
       <HelpText helpText={helpText} />
-
-      <NamedSection name="Category">
-        <TagCategorySwitcher {...props} />
-      </NamedSection>
 
       <NamedSection name="Tag">
         <AnalyzeFilterForm>
