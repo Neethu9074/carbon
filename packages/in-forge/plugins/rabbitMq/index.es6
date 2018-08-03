@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'RabbitMQ',
     plural: 'RabbitMQ'
+  },
+  technologyDescriptor: {
+    label: 'RabbitMQ'
   }
 });

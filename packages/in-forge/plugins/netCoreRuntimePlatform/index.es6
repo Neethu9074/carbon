@@ -11,5 +11,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: '.NET Core App',
     plural: '.NET Core Apps'
+  },
+  technologyDescriptor: {
+    label: '.NET Core'
   }
 });

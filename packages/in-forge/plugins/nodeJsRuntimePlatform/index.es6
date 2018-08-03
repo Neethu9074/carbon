@@ -15,8 +15,9 @@ registerSnapshotDefinition({
     singular: 'Node.js App',
     plural: 'Node.js Apps'
   },
-
   tableDefinition,
-
-  getCodeView
+  getCodeView,
+  technologyDescriptor: {
+    label: 'Node.js'
+  }
 });

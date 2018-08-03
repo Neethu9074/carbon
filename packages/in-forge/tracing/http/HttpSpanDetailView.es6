@@ -2,8 +2,8 @@ import React from 'react';
 
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { emptyMap } from 'in-services/fixedImmutables';
-import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
 
 export default function HttpSpanDetailView({ span }) {
@@ -21,6 +21,7 @@ export default function HttpSpanDetailView({ span }) {
 
   const error = span.getIn(['data', 'http', 'error']);
   const params = span.getIn(['data', 'http', 'params']);
+  const traceContextState = span.getIn(['data', 'traceContext', 'state']);
 
   return (
     <div>
@@ -42,6 +43,12 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
         <DescriptionItem title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
         {getCustomHeaders(span)}
+
+        {isNotBlank(traceContextState) && (
+          <DescriptionItem title="Trace Context State">
+            <Code code={traceContextState} lang="plain" />
+          </DescriptionItem>
+        )}
 
         {error && (
           <DescriptionItem title="Error">

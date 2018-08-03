@@ -14,5 +14,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Spring Boot App',
     plural: 'Spring Boot Apps'
+  },
+  technologyDescriptor: {
+    label: 'Spring Boot'
   }
 });
