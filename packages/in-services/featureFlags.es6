@@ -48,6 +48,7 @@ export const twoZeroAppDataEnabled =
   (isFeatureFlagEnabled('twoZeroAppDataEnabled') && isInstanaEngineer);
 
 export const twoZeroLearnMoreButtonEnabled = isFeatureFlagEnabled('twoZeroLearnMoreButtonEnabled');
+export const particlesInFlowMapEnabled = isFeatureFlagEnabled('particlesInFlowMapEnabled');
 
 export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
 
