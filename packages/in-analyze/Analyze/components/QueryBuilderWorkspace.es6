@@ -26,28 +26,6 @@ import locals from './QueryBuilderWorkspace.mless';
 export default function QueryBuilderWorkspace(props) {
   const { filters, onChangeFilters, totalNumberOfCalls } = props;
   const group = filters.get('group');
-  const tagFilters = filters
-    .get('tagFilter')
-    .toJS()
-    .map(tag => ({
-      tag,
-      progress: 1,
-      onClick: () => {
-        setActiveDialog(
-          <EditFilterDialog
-            filters={filters}
-            name={tag.name}
-            value={tag.value}
-            operator={tag.operator}
-            secondLevelName={tag.secondLevelName}
-            onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
-            onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
-            removePostPhrase="Filter"
-          />
-        );
-      },
-      onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeFilters)
-    }));
 
   return (
     <Fragment>
@@ -57,7 +35,6 @@ export default function QueryBuilderWorkspace(props) {
           <QuickFilterSection {...props} />
           <AddButton
             text="More"
-            tagFilters={tagFilters}
             onClick={() =>
               setActiveDialog(
                 <EditFilterDialog
@@ -74,10 +51,28 @@ export default function QueryBuilderWorkspace(props) {
       <div className={locals.filterRow}>
         <MaxWidthFullscreenContainer className={locals.filterRowWrapper}>
           <TagFilterList
-            onUpdateTagFilter={(id, tag) => onUpdateTagFilter(id, tag, filters, onChangeFilters)}
-            onRemoveTagFilter={id => onRemoveTagFilter(id, filters, onChangeFilters)}
-            onUpdateGroup={group => onUpdateGroup(filters, onChangeFilters, group)}
-            tagFilters={tagFilters}
+            tagFilters={filters
+              .get('tagFilter')
+              .toJS()
+              .map(tag => ({
+                tag,
+                progress: 1,
+                onClick: () => {
+                  setActiveDialog(
+                    <EditFilterDialog
+                      filters={filters}
+                      name={tag.name}
+                      value={tag.value}
+                      operator={tag.operator}
+                      secondLevelName={tag.secondLevelName}
+                      onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
+                      onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
+                      removePostPhrase="Filter"
+                    />
+                  );
+                },
+                onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeFilters)
+              }))}
           />
         </MaxWidthFullscreenContainer>
       </div>

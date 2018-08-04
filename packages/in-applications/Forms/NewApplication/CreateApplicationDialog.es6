@@ -16,6 +16,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import AddButton from 'in-analyze/Analyze/components/AddButton';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -103,12 +104,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                         {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
-                      <Spacer />
-
-                      <TagFilterList
-                        addButtonLabel="Tag"
-                        filterConnectionOperator="OR"
-                        onAddTagFilter={() =>
+                      <AddButton
+                        text="Tag"
+                        onClick={() =>
                           setActiveDialog(
                             <EditFilterDialog
                               withInstanaCategory={false}
@@ -129,6 +127,12 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                             />
                           )
                         }
+                      />
+
+                      <Spacer />
+
+                      <TagFilterList
+                        filterConnectionOperator="OR"
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
                           tag: {
                             name: matchSpecification.get('key').value,
