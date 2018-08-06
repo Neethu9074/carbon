@@ -21,13 +21,7 @@ export default function HttpSpanDetailView({ span }) {
 
   const error = span.getIn(['data', 'http', 'error']);
   const params = span.getIn(['data', 'http', 'params']);
-  const traceContextState = span
-    .getIn(['data', 'tc', 's'], emptyList)
-    .toJS()
-    .reduce((agg, { k, v }) => {
-      agg[k] = v;
-      return agg;
-    }, {});
+  const traceContextState = span.getIn(['data', 'tc', 's'], emptyList);
 
   return (
     <div>
@@ -50,11 +44,22 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
         {getCustomHeaders(span)}
 
-        {traceContextState && (
-          <DescriptionItem title="Trace Context State">
-            <Code code={JSON.stringify(traceContextState, 0, 2)} lang="json" />
-          </DescriptionItem>
-        )}
+        {traceContextState &&
+          traceContextState.size > 0 && (
+            <DescriptionItem title="Trace Context State">
+              <Code
+                code={JSON.stringify(
+                  traceContextState.toJS().reduce((agg, { k, v }) => {
+                    agg[k] = v;
+                    return agg;
+                  }, {}),
+                  0,
+                  2
+                )}
+                lang="json"
+              />
+            </DescriptionItem>
+          )}
 
         {error && (
           <DescriptionItem title="Error">

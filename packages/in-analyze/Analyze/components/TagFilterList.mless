@@ -87,8 +87,4 @@
     list-style: none;
     margin-bottom: 0.25rem;
   }
-
-  .buttonWrapper {
-    display: flex;
-  }
 }
