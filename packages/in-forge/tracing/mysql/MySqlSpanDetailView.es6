@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
@@ -13,7 +14,7 @@ export default function MySqlSpanDetailView({ span }) {
       <DescriptionItem title="Port">{span.getIn(['data', 'mysql', 'port'])}</DescriptionItem>
       <DescriptionItem title="Database">{span.getIn(['data', 'mysql', 'db'])}</DescriptionItem>
       <DescriptionItem title="User">{span.getIn(['data', 'mysql', 'user'])}</DescriptionItem>
-      <DescriptionItem title="Error">{span.getIn(['data', 'mysql', 'error'])}</DescriptionItem>
+      <ErrorDescriptionItem error={span.getIn(['data', 'mysql', 'error'])} />
 
       {statement ? (
         <DescriptionItem title="Query">

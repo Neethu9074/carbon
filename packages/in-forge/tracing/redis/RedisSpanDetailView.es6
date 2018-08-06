@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 
@@ -14,7 +15,7 @@ export default function RedisSpanDetailView({ span }) {
         {subCommands.size > 0 ? (
           <DescriptionItem title="Commands in Transaction">{subCommands.join(', ')}</DescriptionItem>
         ) : null}
-        <DescriptionItem title="Error">{span.getIn(['data', 'redis', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'redis', 'error'])} />
       </DescriptionList>
     </div>
   );

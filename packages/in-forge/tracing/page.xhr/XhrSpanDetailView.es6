@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PageLoadAndBackendTraceButtons from 'in-components/PageLoadAndBackendTraceButtons';
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/paths/tracePaths';
 import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -47,7 +48,7 @@ export default connectTo(
           <DescriptionItem title="URL">{span.getIn(['data', 'http', 'url'])}</DescriptionItem>
           <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
           <DescriptionItem title="Status Code">{span.getIn(['data', 'http', 'status'])}</DescriptionItem>
-          <DescriptionItem title="Error">{span.getIn(['data', 'http', 'error'])}</DescriptionItem>
+          <ErrorDescriptionItem error={span.getIn(['data', 'http', 'error'])} />
 
           {getCommonDescriptionItems(span)}
         </DescriptionList>

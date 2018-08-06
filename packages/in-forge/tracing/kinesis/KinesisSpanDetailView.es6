@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function KinesisSpanDetailView({ span }) {
@@ -14,7 +15,7 @@ export default function KinesisSpanDetailView({ span }) {
         <DescriptionItem title="Start Sequence Number">
           {span.getIn(['data', 'kinesis', 'startSequenceNumber'])}
         </DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'kinesis', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'kinesis', 'error'])} />
       </DescriptionList>
     </div>
   );

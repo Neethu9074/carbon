@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function LdapSpanDetailView({ span }) {
@@ -8,7 +9,7 @@ export default function LdapSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="URL">{span.getIn(['data', 'ldap', 'url'])}</DescriptionItem>
         <DescriptionItem title="Query">{span.getIn(['data', 'ldap', 'query'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'ldap', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'ldap', 'error'])} />
       </DescriptionList>
     </div>
   );

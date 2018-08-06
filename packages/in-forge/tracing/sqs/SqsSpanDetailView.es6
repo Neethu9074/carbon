@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function SqsSpanDetailView({ span }) {
@@ -10,7 +11,7 @@ export default function SqsSpanDetailView({ span }) {
         <DescriptionItem title="Batch Size">{span.getIn(['data', 'sqs', 'size'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'sqs', 'type'])}</DescriptionItem>
         <DescriptionItem title="Response Code">{span.getIn(['data', 'sqs', 'responseCode'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'sqs', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'sqs', 'error'])} />
       </DescriptionList>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function JmsSpanDetailView({ span }) {
@@ -10,7 +11,7 @@ export default function JmsSpanDetailView({ span }) {
         <DescriptionItem title="Message">{span.getIn(['data', 'jms', 'message'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'jms', 'type'])}</DescriptionItem>
         <DescriptionItem title="Selector">{span.getIn(['data', 'jms', 'selector'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'jms', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'jms', 'error'])} />
       </DescriptionList>
     </div>
   );

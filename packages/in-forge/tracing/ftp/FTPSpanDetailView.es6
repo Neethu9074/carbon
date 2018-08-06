@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function FTPSpanDetailView({ span }) {
@@ -11,7 +12,7 @@ export default function FTPSpanDetailView({ span }) {
         <DescriptionItem title="Command">{span.getIn(['data', 'ftp', 'command'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'ftp', 'type'])}</DescriptionItem>
         <DescriptionItem title="File">{span.getIn(['data', 'ftp', 'file'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'ftp', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'ftp', 'error'])} />
       </DescriptionList>
     </div>
   );

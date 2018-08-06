@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
@@ -13,7 +14,7 @@ export default function ActiveRecordSpanDetailView({ span }) {
       <DescriptionItem title="Database">{span.getIn(['data', 'activerecord', 'db'])}</DescriptionItem>
       <DescriptionItem title="Database Host">{span.getIn(['data', 'activerecord', 'host'])}</DescriptionItem>
       <DescriptionItem title="Username">{span.getIn(['data', 'activerecord', 'username'])}</DescriptionItem>
-      <DescriptionItem title="Error">{span.getIn(['data', 'activerecord', 'error'])}</DescriptionItem>
+      <ErrorDescriptionItem error={span.getIn(['data', 'activerecord', 'error'])} />
 
       {sql ? (
         <DescriptionItem title="SQL">

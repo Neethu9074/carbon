@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function WebApiSpanDetailView({ span }) {
@@ -13,7 +14,7 @@ export default function WebApiSpanDetailView({ span }) {
         <DescriptionItem title="Action">{span.getIn(['data', 'wcf', 'svcmethod'])}</DescriptionItem>
         <DescriptionItem title="Binding">{binding ? binding : 'unknown'}</DescriptionItem>
         <DescriptionItem title="Url">{span.getIn(['data', 'wcf', 'localaddress'])}</DescriptionItem>
-        {error ? <DescriptionItem title="Error">{error}</DescriptionItem> : null}
+        <ErrorDescriptionItem error={error} />
       </DescriptionList>
     </div>
   );

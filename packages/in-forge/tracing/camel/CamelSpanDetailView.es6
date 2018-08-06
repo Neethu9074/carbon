@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function CamelSpanDetailView({ span }) {
@@ -11,7 +12,7 @@ export default function CamelSpanDetailView({ span }) {
         <DescriptionItem title="Timer">{span.getIn(['data', 'camel', 'timer'])}</DescriptionItem>
         <DescriptionItem title="Sort">{span.getIn(['data', 'camel', 'sort'])}</DescriptionItem>
         <DescriptionItem title="Size">{span.getIn(['data', 'camel', 'size'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'camel', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'camel', 'error'])} />
       </DescriptionList>
     </div>
   );

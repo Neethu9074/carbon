@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -13,7 +14,7 @@ export default function ElasticsearchSpanDetailView({ span }) {
         <DescriptionItem title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</DescriptionItem>
         <DescriptionItem title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</DescriptionItem>
         <DescriptionItem title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'elasticsearch', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'elasticsearch', 'error'])} />
 
         {query ? (
           <DescriptionItem title="Query">

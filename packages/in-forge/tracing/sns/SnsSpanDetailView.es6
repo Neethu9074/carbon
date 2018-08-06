@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function SnsSpanDetailView({ span }) {
@@ -11,7 +12,7 @@ export default function SnsSpanDetailView({ span }) {
         <DescriptionItem title="Phone">{span.getIn(['data', 'sns', 'phone'])}</DescriptionItem>
         <DescriptionItem title="Subject">{span.getIn(['data', 'sns', 'subject'])}</DescriptionItem>
         <DescriptionItem title="Response Code">{span.getIn(['data', 'sns', 'responseCode'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'sns', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'sns', 'error'])} />
       </DescriptionList>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function AerospikeSpanDetailView({ span }) {
@@ -7,7 +8,7 @@ export default function AerospikeSpanDetailView({ span }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'aerospike', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
       </DescriptionList>
     </div>
   );
