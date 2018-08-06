@@ -13,7 +13,9 @@ const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release'
 const trainingTu = config.tenant === 'training';
 
 const onlyInternally =
-  __DEV__ || (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu);
+  __DEV__ ||
+  (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu) ||
+  config.tenant === 'instanaops';
 const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 
 // ########################################################################################
