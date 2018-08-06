@@ -55,23 +55,30 @@ export default function CustomServiceMappingDialog() {
             <Steps
               steps={[
                 {
-                  stepTitle: 'Instana automatically configures services based on an extensive set of tag-based rules.',
+                  stepTitle: 'Extend the automatic service mapping by adding a custom service rule.',
                   content: (
                     <div>
                       <DescriptionText>
-                        For example, if the tag nodejs.app.name is found, and there are calls tagged with
+                        Instana automatically maps services based on an extensive set of predefined rules. For example,
+                        if the tag nodejs.app.name is found, and there are calls tagged with
                         <strong>{` "nodejs.app.name=user service" `}</strong>and with
                         <strong>{` "nodejs.app.name=cart service"`}</strong>, then
                         <strong>{` "user service" `}</strong> and
                         <strong>{` "cart service" `}</strong> will appear as services.
                         <br />
                         <br />
-                        To extend the default configuration, define a custom rule below:
-                        <ol className={locals.descriptionTextList}>
-                          <li>Select a set of tags</li>
-                          <li>If all tags are present on a call, the service will appear</li>
-                          <li>If not, the call will be mapped using the default configuration</li>
-                        </ol>
+                        Please visit the{' '}
+                        <strong>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://docs.instana.io/products/application_service_management/"
+                          >
+                            Docs on Application and Service Management{' '}
+                          </a>
+                        </strong>{' '}
+                        to learn more on the predefined rules. To define a custom rule start below by selecting a set of
+                        tags. If all tags are present on a call, it will mapped to that service.
                       </DescriptionText>
 
                       <Spacer />
