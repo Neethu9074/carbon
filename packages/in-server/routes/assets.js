@@ -15,7 +15,7 @@ const sendImmutableFilesConfig = {
 
 // do not permit access to our internal chunk
 router.use('/bundle/internal.*.js', (req, res, next) => {
-  if (clientConfig.tenant !== 'instana') {
+  if (clientConfig.tenant !== 'instana' && clientConfig.tenant !== 'instanaops') {
     res.sendStatus(403);
     return;
   }
