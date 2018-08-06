@@ -1,3 +1,4 @@
+import { createLogger } from 'instalog';
 import React, { Fragment } from 'react';
 
 import AnalyzeFilterForm, {
@@ -17,6 +18,8 @@ import Input from 'in-components/form/Input';
 
 import locals from './EditFilterForm.mless';
 
+const logger = createLogger('ServiceExtraction');
+
 export default function EditFilterForm(props) {
   const { form, helpText, onChange } = props;
   const node = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
@@ -34,7 +37,15 @@ export default function EditFilterForm(props) {
                   {...props}
                   node={node}
                   field={field}
-                  onChange={newName => onChange('name', findSubTreeByFullyQualifiedName(newName).fullyQualifiedName)}
+                  onChange={newName => {
+                    const node = findSubTreeByFullyQualifiedName(newName);
+                    if (node) {
+                      onChange('name', node.fullyQualifiedName);
+                    } else {
+                      logger.warn('No tree node found for:', newName);
+                      onChange('name', '');
+                    }
+                  }}
                 />
                 {subForm.messages.map((message, i) => (
                   <ValidationBlock hasError key={i}>
