@@ -8,12 +8,14 @@ export default function SortableCallColumn({
   defaultDirection,
   technicalName,
   label,
-  onChangeOrder
+  onChangeOrder,
+  noWrap
 }) {
   return (
     <SortableTh
       isSortedByThisColumn={orderBy === technicalName}
       sortDirection={orderDirection}
+      noWrap={noWrap}
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();

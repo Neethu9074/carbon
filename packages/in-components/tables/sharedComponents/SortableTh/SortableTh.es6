@@ -6,9 +6,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SortableTh.mless';
 
-export default function SortableTh({ isSortedByThisColumn, sortDirection, onClick, children }) {
+export default function SortableTh({ isSortedByThisColumn, sortDirection, onClick, children, noWrap }) {
   return (
-    <Th>
+    <Th noWrap={noWrap}>
       <a
         href=""
         className={evaluateClassNames({

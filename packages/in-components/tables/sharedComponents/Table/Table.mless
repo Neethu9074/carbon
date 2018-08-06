@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .table {
@@ -74,25 +75,34 @@
     padding: 0.8125rem 0;
     background: #fff;
     border-bottom: 1px solid @lib__colors__N400;
-
-    &:first-child {
-      padding-left: 1rem;
-    }
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     &:hover {
       color: @lib__colors__N800Dark;
+    }
+
+    &.noWrap {
+      white-space: nowrap;
     }
   }
 
   .td {
     border-top: 1px solid @lib__colors__N200;
 
-    &:first-child {
-      padding-left: 1rem;
-    }
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     .tr:first-child > .tr {
       border-top: 0;
+    }
+
+    &.noWrap {
+      white-space: nowrap;
+    }
+
+    &.ellipsis {
+      .ellipsis();
     }
   }
 
