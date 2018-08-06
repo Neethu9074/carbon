@@ -130,6 +130,22 @@ export default connectTo({
         />
       </DashboardSection>
 
+      <DashboardSection title={`appdata-writer ClickHouse Write Failures`}>
+        <Chart
+          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+          timeConfig={timeConfig}
+          minRollup={5000}
+          y1={{
+            min: 0,
+            formatter: percentage.detailed,
+            tooltipFormatter: percentage.detailed,
+            metrics: rows.map(() => `metrics.gauges.clickHouse.error_rate`),
+            labels: rows.map(r => r.host.get('label')),
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title={`appdata-writers (${rows.length})`}>
         <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
