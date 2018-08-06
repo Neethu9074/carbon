@@ -13,6 +13,9 @@ export default function Details({ call }) {
     <Group title="Details">
       <SpanDetails call={call} kind="ENTRY" />
       <SpanDetails call={call} kind="INTERMEDIATE" />
+      {/* Show data for spans which do not have a kind (or an invalid one) */}
+      <SpanDetails call={call} kind={null} />
+      <SpanDetails call={call} kind={undefined} />
       <SpanDetails call={call} kind="EXIT" />
     </Group>
   );
