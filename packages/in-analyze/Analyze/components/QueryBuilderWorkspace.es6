@@ -31,7 +31,6 @@ export default function QueryBuilderWorkspace(props) {
     .toJS()
     .map(tag => ({
       tag,
-      progress: 1,
       onClick: () => {
         setActiveDialog(
           <EditFilterDialog
