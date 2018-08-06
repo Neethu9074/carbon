@@ -18,7 +18,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import AddButton from 'in-analyze/Analyze/components/AddButton';
 import { createTracker } from 'in-services/tracking/mixpanel';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -104,33 +103,6 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                         {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
-                      <AddButton
-                        text="Tag"
-                        onClick={() =>
-                          setActiveDialog(
-                            <EditFilterDialog
-                              withInstanaCategory={false}
-                              blacklist={getApplicationCreationFilterBlacklist()}
-                              onSave={_tag => {
-                                const additionalSubForm = getMatchSpecificationForm({
-                                  key: _tag.name,
-                                  secondLevelName: _tag.secondLevelName,
-                                  value: _tag.value,
-                                  operator: _tag.operator
-                                });
-                                updateForm(
-                                  form.updateIn(['matchSpecification'], list =>
-                                    list.push(additionalSubForm).setTouched(true)
-                                  )
-                                );
-                              }}
-                            />
-                          )
-                        }
-                      />
-
-                      <Spacer />
-
                       <TagFilterList
                         filterConnectionOperator="OR"
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
@@ -171,6 +143,31 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                             ),
                           onRemove: () => removeMatchSpecification(i, form, updateForm)
                         }))}
+                      />
+
+                      <AddButton
+                        text="Tag"
+                        onClick={() =>
+                          setActiveDialog(
+                            <EditFilterDialog
+                              withInstanaCategory={false}
+                              blacklist={getApplicationCreationFilterBlacklist()}
+                              onSave={_tag => {
+                                const additionalSubForm = getMatchSpecificationForm({
+                                  key: _tag.name,
+                                  secondLevelName: _tag.secondLevelName,
+                                  value: _tag.value,
+                                  operator: _tag.operator
+                                });
+                                updateForm(
+                                  form.updateIn(['matchSpecification'], list =>
+                                    list.push(additionalSubForm).setTouched(true)
+                                  )
+                                );
+                              }}
+                            />
+                          )
+                        }
                       />
                     </Fragment>
                   )
