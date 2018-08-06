@@ -1,6 +1,6 @@
 :local {
   .keyGroup {
-    flex-grow: 3;
+    min-width: 18rem;
   }
 
   .customKeyGroup {
