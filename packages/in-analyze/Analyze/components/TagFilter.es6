@@ -24,10 +24,6 @@ export default function TagFilter({
 
   return (
     <div className={locals.tagFilterWrapper}>
-      <div className={locals.background}>
-        <div style={{ width: `${tagFilter.progress * 100}%` }} className={locals.progressBar} />
-      </div>
-
       <div className={locals.tagFilter} onClick={tagFilter.onClick}>
         <SvgIcon className={locals.icon} type={getIconByName(name)} width={24} height={24} />
 
