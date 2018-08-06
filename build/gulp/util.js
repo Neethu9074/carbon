@@ -61,6 +61,7 @@ exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     operationMode: 'fleet',
+    mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags)
   };
   fs.writeFileSync(path.join(paths.assetDir, 'config.json'), JSON.stringify(devConfig));

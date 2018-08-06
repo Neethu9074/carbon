@@ -50,16 +50,16 @@ gulp.task('dev', cb => {
 gulp.task('askForDevOptions', cb => {
   var testEnvironment = {
     uiBackendUrl: 'https://test-instana.instana.io',
-    groundskeeperUrl: 'https://test-fullstack-0-us-west-2.instana.io',
+    butlerUrl: 'https://test-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'test',
-    environment: 'internal',
+    environment: 'saas',
     butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
   };
   var localBackendEnvironment = {
     uiBackendUrl: 'http://localhost:8080',
     websocketEndpoint: 'http://localhost:8082/',
-    groundskeeperUrl: 'http://localhost:8480',
+    butlerUrl: 'http://localhost:8480',
     withoutAuthPrefix: true,
     local: true,
     tenant: 'instana',
@@ -107,7 +107,6 @@ gulp.task('askForDevOptions', cb => {
         {
           name: 'saas',
           value: {
-            groundskeeperUrl: 'https://instana.io',
             butlerDomain: 'instana.io'
           }
         }
@@ -116,7 +115,7 @@ gulp.task('askForDevOptions', cb => {
         if (target) {
           answers.target = target;
         }
-        return answers.target.groundskeeperUrl == null;
+        return answers.target.butlerUrl == null;
       }
     },
     {
@@ -155,10 +154,10 @@ gulp.task('askForDevOptions', cb => {
   inquirer.prompt(questions, selectedOptions => {
     selectedOptions.buildMode = buildMode || selectedOptions.buildMode;
     // no premade target selected, we need to build it up!
-    if (selectedOptions.target.groundskeeperUrl == null) {
+    if (selectedOptions.target.butlerUrl == null) {
       selectedOptions.target = {
         uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
-        groundskeeperUrl: selectedOptions.environment.groundskeeperUrl,
+        butlerUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
         environment: selectedOptions.environment,
@@ -189,24 +188,24 @@ gulp.task('enableDevWatches', () => {
 gulp.task('startDevProxy', function startDevProxy() {
   const envConfig = devModeOptions.target;
   const uiBackendUrl = envConfig.uiBackendUrl;
-  const groundskeeperUrl = envConfig.groundskeeperUrl;
+  const butlerUrl = envConfig.butlerUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  let gkApiPrefix = '';
+  let butlerApiPrefix = '';
   if (!envConfig.withoutAuthPrefix) {
-    gkApiPrefix = '/auth';
+    butlerApiPrefix = '/auth';
   }
 
   const httpProxy = {
     '/': 'http://127.0.0.1:3000',
     '/api/': `${uiBackendUrl}/api/`,
-    '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
-    '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
-    '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
-    '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
-    '/ump': groundskeeperUrl + '/ump',
+    '/auth/signIn': butlerUrl + butlerApiPrefix + '/signIn',
+    '/auth/signOut': butlerUrl + butlerApiPrefix + '/signOut',
+    '/auth/users/current': butlerUrl + butlerApiPrefix + '/users/current',
+    '/auth/users/tenants': butlerUrl + butlerApiPrefix + '/users/tenants',
+    '/ump': butlerUrl + '/ump',
+    '/assets/': butlerUrl + '/assets/',
     '/uiTracker/': 'http://127.0.0.1:8484/',
-    '/assets/': groundskeeperUrl + '/assets/',
     '/notifications/': 'https://instana.github.io/ui-notifications/content/'
   };
 

@@ -1,6 +1,5 @@
 import { find } from 'lodash';
 
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
@@ -15,9 +14,7 @@ export const role = tenant.role;
 
 export const isInstanaEngineer = user.email === 'stan@instana.com';
 
-export const tenantUnitStructure$ = __DEV__
-  ? alwaysEmptyArray
-  : createTrackingStore({
-      name: 'tenantUnitStructure',
-      observable: getTenantsWithUnits()
-    }).observable;
+export const tenantUnitStructure$ = createTrackingStore({
+  name: 'tenantUnitStructure',
+  observable: getTenantsWithUnits()
+}).observable;

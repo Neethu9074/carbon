@@ -45,7 +45,7 @@ function initMixpanel(callback) {
       if (!units) {
         return callback(true);
       }
-      const currentUnit = find(units, unit => (unit.name = config.tenantUnit));
+      const currentUnit = find(units, unit => unit.name === config.tenantUnit);
       if (!currentUnit) {
         return callback(true);
       }
