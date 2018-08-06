@@ -17,6 +17,7 @@ import {
 import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
@@ -118,7 +119,7 @@ const IncidentsMenuPoint = connectTo(
         <View
           label={numIncidents > 0 ? `${numIncidents} Incident${numIncidents > 1 ? 's' : ''}` : 'Incidents'}
           icon="lib_events_inverted"
-          href$={getView(eventsPath)}
+          href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
           color={color}
           isActive$={isView(eventsPath)}
         />
