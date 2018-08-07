@@ -126,6 +126,22 @@ export default connectTo({
         />
       </DashboardSection>
 
+      <DashboardSection title={`appdata-writer Calls Dropped Due To "Too Old"`}>
+        <Chart
+          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: rows.map(
+              () => `metrics.meters.com.instana.backend.common.kafka.GenericReactorKafkaConsumer.calls.too-old`
+            ),
+            labels: rows.map(r => r.host.get('label')),
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title={`appdata-writers (${rows.length})`}>
         <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
