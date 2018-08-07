@@ -1,20 +1,29 @@
+import { withState } from 'recompose';
 import React from 'react';
 
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
 import locals from './CallTimeAxis.mless';
 
-export default getElementDimensions(({ width, call, showStartLabel }) => {
+export default withState('width', 'setWidth', 0)(CallTimeAxis);
+
+function CallTimeAxis({ width, setWidth, call, showStartLabel }) {
   const startTime = getStart(call);
   const endTime = getEnd(call);
 
   return (
-    <div className={locals.timeAxis}>
+    <div
+      ref={domElement => {
+        if (domElement && width !== domElement.clientWidth) {
+          setWidth(domElement.clientWidth);
+        }
+      }}
+      className={locals.timeAxis}
+    >
       {showStartLabel && <CallStartLabel startTime={startTime} />}
       {width && (
         <HorizontalAxis
@@ -31,4 +40,4 @@ export default getElementDimensions(({ width, call, showStartLabel }) => {
       )}
     </div>
   );
-});
+}
