@@ -2,11 +2,12 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
+import Marker, { hasServiceOrApplicationImpact } from 'in-views/eventView/components/Marker';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
-import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
@@ -15,7 +16,6 @@ import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import EntityInformation from 'in-components/EntityInformation';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import Marker from 'in-views/eventView/components/Marker';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -59,9 +59,9 @@ export default connectTo(
         rightClassName += ` ${rightClassName}--highlighted`;
       }
 
-      const hasServiceImpact = event.get('affectedService');
+      const hasServiceOrAppImpact = hasServiceOrApplicationImpact(event);
       let className = block;
-      if (hasServiceImpact) {
+      if (hasServiceOrAppImpact) {
         className += ` ${className}__service-impact`;
       }
 
@@ -69,7 +69,7 @@ export default connectTo(
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
-          {hasServiceImpact ? (
+          {hasServiceOrAppImpact ? (
             <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
           ) : null}
 
