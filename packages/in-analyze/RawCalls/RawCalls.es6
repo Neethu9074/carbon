@@ -130,8 +130,8 @@ function RawCalls({
           </Tr>
         </Thead>
         <Tbody>
-          {items.map((item, i) => (
-            <Tr key={item.call.id + i} size="compact">
+          {items.map(item => (
+            <Tr key={item.call.id} size="compact">
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
