@@ -5,13 +5,4 @@
     padding-left: 0.25rem;
     border-radius: @lib__shapes__radius_medium;
   }
-
-  .optionList {
-    margin: 0.5rem;
-    padding: 0;
-  }
-
-  .option {
-    list-style: none;
-  }
 }

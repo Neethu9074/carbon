@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
 
-    margin-right: 1rem;
+    margin-right: 2rem;
     padding: 0.1875rem 0.625rem;
 
     color: @lib__colors__N700Medium;
