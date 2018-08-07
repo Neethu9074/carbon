@@ -37,22 +37,6 @@ const cols = [
     }
   },
   {
-    title: 'KPI.incoming.calls.error_rate',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName() {
-        return `metrics.gauges.KPI.incoming.calls.error_rate`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'ClickHouse Error Rate',
     type: 'metric',
     typeArgs: {
@@ -72,7 +56,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-writer"')
+  rows: getDropwizardWithContext('entity.label:"appdata-reader"')
 })(function AppdataWriterStatistics({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
@@ -82,7 +66,7 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title={`appdata-writer Host CPU load`}>
+      <DashboardSection title={`appdata-reader Host CPU load`}>
         <Chart
           snapshotIds={rows.map(r => r.host.get('id'))}
           timeConfig={timeConfig}
@@ -90,7 +74,6 @@ export default connectTo({
           y1={{
             min: 0,
             formatter: number.detailed,
-            tooltipFormatter: number.detailed,
             metrics: rows.map(() => 'load.1min'),
             labels: rows.map(r => r.host.get('label')),
             type: 'line'
@@ -126,7 +109,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`appdata-writers (${rows.length})`}>
+      <DashboardSection title={`appdata-readers (${rows.length})`}>
         <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
     </div>
