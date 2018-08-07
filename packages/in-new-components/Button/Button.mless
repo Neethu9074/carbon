@@ -111,7 +111,7 @@
       // bg
       @lib__colors__white,
       // hover bg
-      rgba(0, 189, 203, 0.08),
+      #E8F6F8,
       // font
       @lib__colors__primary1,
       // hover font

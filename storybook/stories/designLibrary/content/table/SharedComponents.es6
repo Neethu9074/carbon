@@ -24,6 +24,8 @@ storiesOf('designLibrary/Content/table/Shared Components', module).add('default'
 function Default() {
   return (
     <Root>
+      <h1>Overview</h1>
+
       <Row>
         <Col xs={6}>
           <Table>
@@ -104,6 +106,8 @@ function Default() {
         </Col>
       </Row>
 
+      <h1>Loading State</h1>
+
       <Row>
         <Col xs={6}>
           <Table>
@@ -155,6 +159,8 @@ function Default() {
           </Table>
         </Col>
       </Row>
+
+      <h1>Tree Table with Load More</h1>
 
       <Row>
         <Col xs={6}>
@@ -223,6 +229,52 @@ function Default() {
           </Table>
         </Col>
       </Row>
+
+      <h1>Table with large cell content</h1>
+
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Label</Th>
+            <SortableTh noWrap>Calls</SortableTh>
+            <SortableTh noWrap>Time</SortableTh>
+            <SortableTh noWrap>Latency</SortableTh>
+            <SortableTh noWrap>Error Rate</SortableTh>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td ellipsis="60vw">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex placeat eum voluptatibus modi vel odit illo
+              cum et, totam nisi incidunt sapiente tempore quibusdam sed! Amet dolore ad laudantium molestiae! Lorem
+              ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt, nam, architecto? Ab unde nam, quibusdam
+              nesciunt dolore enim cum asperiores qui consequuntur voluptates repudiandae quia soluta delectus tenetur
+              accusantium sed.
+            </Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+          <Tr>
+            <Td ellipsis="60vw">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex placeat eum voluptatibus modi vel odit illo
+              cum et
+            </Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+          <Tr>
+            <Td ellipsis="60vw">GET /:repository/search/:search</Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+        </Tbody>
+      </Table>
     </Root>
   );
 }

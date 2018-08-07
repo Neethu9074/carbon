@@ -242,9 +242,6 @@ export default function createAnimatableContentRenderer(config) {
         min = Math.min(min, bounds[0]);
       }
 
-      const rangeBeforeOverride = max - min;
-      min = min - rangeBeforeOverride * 0.1;
-
       if (axisConfig.min != null) {
         min = axisConfig.min;
       }

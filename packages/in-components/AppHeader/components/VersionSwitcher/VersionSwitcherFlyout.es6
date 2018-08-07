@@ -44,7 +44,7 @@ export default function VersionSwitcherFlyout() {
       )}
 
       <Item active={!twoZeroModeEnabled}>
-        <Title>Legacy Mode</Title>
+        <Title>Classic Mode</Title>
 
         <Description>
           Access the traditional Instana experience during the transition period{oneZeroSupportedUntilMessageEnabled

@@ -1,8 +1,8 @@
-import { assign } from 'lodash';
+import { assign, omit } from 'lodash';
 import React from 'react';
 
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Table.mless';
 
 export function Table(props) {
@@ -41,11 +41,35 @@ export function Tr(props) {
 }
 
 export function Th(props) {
-  return <th {...props} className={joinClassNames(props.className, locals.th)} />;
+  return (
+    <th
+      {...omit(props, ['noWrap'])}
+      className={evaluateClassNames({
+        [props.className]: true,
+        [locals.th]: true,
+        [locals.noWrap]: props.noWrap
+      })}
+    />
+  );
 }
 
 export function Td(props) {
-  return <td {...props} className={joinClassNames(props.className, locals.td)} />;
+  const style = props.style ? { ...props.style } : {};
+  if (props.ellipsis) {
+    style.maxWidth = props.ellipsis;
+  }
+  return (
+    <td
+      {...omit(props, ['noWrap', 'ellipsis'])}
+      style={style}
+      className={evaluateClassNames({
+        [props.className]: true,
+        [locals.td]: true,
+        [locals.noWrap]: props.noWrap,
+        [locals.ellipsis]: props.ellipsis
+      })}
+    />
+  );
 }
 
 export function SeverityIndicatorCellContentWrapper({ severity, children }) {

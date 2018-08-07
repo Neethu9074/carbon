@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import invariant from 'invariant';
 import React from 'react';
 
@@ -10,8 +11,8 @@ export const type = 'metric';
 
 export function validate(col) {
   invariant(
-    typeof col.typeArgs.getSnapshotId === 'function',
-    'Columns with type=metric must have a getSnapshotId(row) function.'
+    typeof col.typeArgs.getSnapshotId === 'function' || typeof col.typeArgs.getSnapshotId$ === 'function',
+    'Columns with type=metric must have a getSnapshotId(row) or getSnapshotId$(row) function.'
   );
   invariant(
     typeof col.typeArgs.getMetricName === 'function',
@@ -42,20 +43,31 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   };
   column.refreshContent = refreshContent.bind(null, row, column);
 
-  column.subscription = getMetric({
-    snapshotId: columnDefinition.typeArgs.getSnapshotId(row.rowConfig),
-    metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
-    timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
-    // this flag enforces the metric subscription to always use the time window aggregated metric values
-    forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
-  }).subscribe(v => {
-    if (column.value !== v) {
-      column.value = v;
-      column.requiresContentRefresh = true;
-      row.mutationCount++;
-      emitRawDataChange();
-    }
-  });
+  let snapshotId$;
+  if (columnDefinition.typeArgs.getSnapshotId) {
+    snapshotId$ = just(columnDefinition.typeArgs.getSnapshotId(row.rowConfig));
+  } else {
+    snapshotId$ = columnDefinition.typeArgs.getSnapshotId$(row.rowConfig);
+  }
+
+  column.subscription = snapshotId$
+    .flatMap(snapshotId =>
+      getMetric({
+        snapshotId,
+        metric: columnDefinition.typeArgs.getMetricName(row.rowConfig),
+        timeWindowAggregation: columnDefinition.typeArgs.getTimeWindowAggregation(row.rowConfig),
+        // this flag enforces the metric subscription to always use the time window aggregated metric values
+        forceTimeWindowAggregation: columnDefinition.typeArgs.forceTimeWindowAggregation
+      })
+    )
+    .subscribe(v => {
+      if (column.value !== v) {
+        column.value = v;
+        column.requiresContentRefresh = true;
+        row.mutationCount++;
+        emitRawDataChange();
+      }
+    });
 
   return column;
 }

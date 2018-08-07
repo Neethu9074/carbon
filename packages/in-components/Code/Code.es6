@@ -38,7 +38,8 @@ export default class extends React.PureComponent {
     className: rpt.string,
     wrapperClassName: rpt.string,
     showLineNumbers: rpt.bool,
-    scrollElementClassName: rpt.string
+    scrollElementClassName: rpt.string,
+    softWrap: rpt.bool
   };
 
   static defaultProps = {
@@ -103,6 +104,9 @@ export default class extends React.PureComponent {
     }
     if (this.props.wrapperClassName) {
       preClasses += ` ${this.props.wrapperClassName}`;
+    }
+    if (this.props.softWrap) {
+      preClasses += ` ${block}__wrapper--soft-wrap`;
     }
 
     return (

@@ -13,6 +13,7 @@ export default function TimeZones() {
       <TimeZone timeZone="America/Chicago" label="Austin" />
       <TimeZone timeZone="America/New_York" label="New York City" />
       <TimeZone timeZone="Europe/Berlin" label="Solingen" />
+      <TimeZone timeZone="Europe/Belgrade" label="Novi Sad" />
     </dl>
   );
 }

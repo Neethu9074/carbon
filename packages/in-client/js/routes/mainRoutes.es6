@@ -52,9 +52,9 @@ export default (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
 
-    {instanaInternalFeaturesEnabled && !twoZeroModeEnabled ? (
+    {instanaInternalFeaturesEnabled && (
       <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
-    ) : null}
+    )}
 
     {twoZeroModeEnabled && applicationRoutes}
     {twoZeroModeEnabled && analyzeRoutes}

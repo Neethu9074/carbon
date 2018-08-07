@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function FaunaDBSpanDetailView({ span }) {
@@ -7,7 +8,7 @@ export default function FaunaDBSpanDetailView({ span }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Query">{span.getIn(['data', 'faunadb', 'query'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'faunadb', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'faunadb', 'error'])} />
       </DescriptionList>
     </div>
   );

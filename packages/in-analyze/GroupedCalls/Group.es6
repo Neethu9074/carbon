@@ -22,7 +22,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
 
   const rowContent = (
     <Fragment>
-      <Td className={locals.labelCell}>
+      <Td className={locals.labelCell} ellipsis="50vw">
         <div className={locals.cell}>
           <span className={locals.dot}>
             {dotColor ? (
@@ -32,7 +32,11 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             )}
           </span>
           <Fragment>
-            <Link href$={getLinkToRawData()} onClick={() => setRawData(filters, onChangeFilters, item.name)}>
+            <Link
+              href$={getLinkToRawData()}
+              onClick={() => setRawData(filters, onChangeFilters, item.name)}
+              className={locals.name}
+            >
               {item.name}
             </Link>
             {!isAlreadyFiltered && (
@@ -50,15 +54,15 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
         </div>
       </Td>
 
-      <Td>{number.compact(get(item, ['metrics', 'callsAgg', 0, 1]))}</Td>
+      <Td noWrap>{number.compact(get(item, ['metrics', 'callsAgg', 0, 1]))}</Td>
 
-      <Td>{formatDateTime(item.timestamp)}</Td>
+      <Td noWrap>{formatDateTime(item.timestamp)}</Td>
 
-      <Td>
+      <Td noWrap>
         <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'latencyAgg', 0, 1]))}</span>
       </Td>
 
-      <Td>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errorsAgg', 0, 1]))}</Td>
+      <Td noWrap>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errorsAgg', 0, 1]))}</Td>
     </Fragment>
   );
 

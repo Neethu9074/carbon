@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function WebApiSpanDetailView({ span }) {
@@ -17,7 +18,7 @@ export default function WebApiSpanDetailView({ span }) {
         <DescriptionItem title="Binding">{binding ? binding : 'unknown'}</DescriptionItem>
         <DescriptionItem title="Oneway">{oneway ? oneway : 'no'}</DescriptionItem>
         <DescriptionItem title="Channel">{channeltype ? channeltype : 'unknown'}</DescriptionItem>
-        {error ? <DescriptionItem title="Error">{error}</DescriptionItem> : null}
+        <ErrorDescriptionItem error={error} />
       </DescriptionList>
     </div>
   );

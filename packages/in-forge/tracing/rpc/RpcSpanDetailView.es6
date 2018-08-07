@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function RpcSpanDetailView({ span }) {
@@ -12,7 +13,7 @@ export default function RpcSpanDetailView({ span }) {
       <DescriptionItem title="Call Type">{span.getIn(['data', 'rpc', 'call_type'])}</DescriptionItem>
       <DescriptionItem title="Parameters">{span.getIn(['data', 'rpc', 'params'])}</DescriptionItem>
       <DescriptionItem title="Baggage">{span.getIn(['data', 'rpc', 'baggage'])}</DescriptionItem>
-      <DescriptionItem title="Error">{span.getIn(['data', 'rpc', 'error'])}</DescriptionItem>
+      <ErrorDescriptionItem error={span.getIn(['data', 'rpc', 'error'])} />
     </DescriptionList>
   );
 }

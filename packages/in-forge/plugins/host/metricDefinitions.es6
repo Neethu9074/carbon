@@ -56,6 +56,17 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['topPID'],
+    labels: ['Top PID'],
+    min: 0,
+    formatter: {
+      // to handle the pid as a metric is a very special case in the backend and so it is in the UI
+      // please don't even make things worse and try to format a PID.
+      compact: n => n,
+      detailed: n => n
+    }
+  },
+  {
     metrics: ['swap.pgin', 'swap.pgout'],
     labels: ['Page-In', 'Page-Out'],
     category: ['Memory'],

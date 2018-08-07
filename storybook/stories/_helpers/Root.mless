@@ -1,0 +1,9 @@
+:local {
+  .root {
+    margin: 1rem;
+
+    & > h1 {
+      margin: 2rem 0 0.5rem;
+    }
+  }
+}

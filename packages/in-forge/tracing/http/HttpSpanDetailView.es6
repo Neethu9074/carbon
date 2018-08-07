@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
@@ -19,7 +20,10 @@ export default function HttpSpanDetailView({ span }) {
     }
   }
 
-  const error = span.getIn(['data', 'http', 'error']);
+  const error = span.getIn(
+    ['data', 'http', 'error'],
+    'dsadsasa\n\ndasdasda\n Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+  );
   const params = span.getIn(['data', 'http', 'params']);
   const traceContextState = span.getIn(['data', 'tc', 's'], emptyList);
 
@@ -61,11 +65,7 @@ export default function HttpSpanDetailView({ span }) {
             </DescriptionItem>
           )}
 
-        {error && (
-          <DescriptionItem title="Error">
-            <Code code={error} lang="plain" />
-          </DescriptionItem>
-        )}
+        <ErrorDescriptionItem error={error} />
         <CustomDataDescriptionItem span={span} />
       </DescriptionList>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function MemcacheSpanDetailView({ span }) {
@@ -8,7 +9,7 @@ export default function MemcacheSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="Operation">{span.getIn(['data', 'memcached', 'operation'])}</DescriptionItem>
         <DescriptionItem title="Key">{span.getIn(['data', 'memcached', 'key'])}</DescriptionItem>
-        <DescriptionItem title="Error">{span.getIn(['data', 'memcached', 'error'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'memcached', 'error'])} />
       </DescriptionList>
     </div>
   );
