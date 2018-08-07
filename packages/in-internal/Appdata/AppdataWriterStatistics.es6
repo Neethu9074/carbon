@@ -60,7 +60,7 @@ const cols = [
         return row.dropwizard.get('id');
       },
       getMetricName() {
-        return `metrics.gauges.clickHouse.error_rate`;
+        return `metrics.gauges.clickHouse.clustered.error_rate`;
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -105,7 +105,7 @@ export default connectTo({
           y1={{
             min: 0,
             formatter: number.perSecond.compact,
-            metrics: rows.map(() => `metrics.meters.clickHouse.calls`),
+            metrics: rows.map(() => `metrics.meters.clickHouse.clustered.calls`),
             labels: rows.map(r => r.host.get('label')),
             type: 'stackedArea'
           }}
@@ -119,7 +119,7 @@ export default connectTo({
           y1={{
             min: 0,
             formatter: percentage.detailed,
-            metrics: rows.map(() => `metrics.gauges.clickHouse.error_rate`),
+            metrics: rows.map(() => `metrics.gauges.clickHouse.clustered.error_rate`),
             labels: rows.map(r => r.host.get('label')),
             type: 'line'
           }}
@@ -156,14 +156,17 @@ function getRowDetails(row) {
         y1={{
           min: 0,
           formatter: number.compact,
-          metrics: ['metrics.gauges.clickHouse.runningCalls', 'metrics.meters.clickHouse.queueAttempts.calls'],
+          metrics: [
+            'metrics.gauges.clickHouse.clustered.runningCalls',
+            'metrics.meters.clickHouse.clustered.queueAttempts.calls'
+          ],
           labels: ['Running ClickHouse Calls', 'Newly queued ClickHouse Calls'],
           type: 'line'
         }}
         y2={{
           min: 0,
           formatter: number.compact,
-          metrics: ['metrics.gauges.clickHouse.queuedCalls'],
+          metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
           labels: ['Queued ClickHouse Calls'],
           type: 'line'
         }}
