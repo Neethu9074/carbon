@@ -98,7 +98,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`appdata-reader ClickHouse Calls`}>
+      <DashboardSection title={`appdata-writer ClickHouse Calls`}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -112,7 +112,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`appdata-reader ClickHouse Error Rate`}>
+      <DashboardSection title={`appdata-writer ClickHouse Error Rate`}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
