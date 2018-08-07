@@ -27,6 +27,14 @@
     padding: 0.5rem 0;
   }
 
+  .filterRow {
+    margin-bottom: 2rem;
+  }
+
+  .moreFilterLabel {
+    font-weight: 600;
+  }
+
   .groupRow {
     display: flex;
     align-items: center;

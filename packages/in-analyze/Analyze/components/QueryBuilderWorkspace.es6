@@ -13,7 +13,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import QuickFilter from 'in-analyze/Analyze/components/QuickFilter';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
-import AddButton from 'in-analyze/Analyze/components/AddButton';
 import Controls from 'in-analyze/Analyze/components/Controls';
 import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -33,17 +32,6 @@ export default function QueryBuilderWorkspace(props) {
         <MaxWidthFullscreenContainer className={locals.firstRowMaxWidthFullscreenContainer}>
           <CallTraceSwitch totalNumberOfCalls={totalNumberOfCalls} />
           <QuickFilterSection {...props} />
-          <AddButton
-            text="More"
-            onClick={() =>
-              setActiveDialog(
-                <EditFilterDialog
-                  filters={props.filters}
-                  onSave={_tag => onAddTagFilter(_tag, props.filters, props.onChangeFilters)}
-                />
-              )
-            }
-          />
           <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
         </MaxWidthFullscreenContainer>
       </div>
@@ -180,6 +168,18 @@ function QuickFilterSection(props) {
         onClick={() => onAddTagFilter({ name: 'call.erroneous', value: 'true' }, props.filters, props.onChangeFilters)}
         deactivated={getTagFromList(tagFilter, { name: 'call.erroneous' })}
         helpText="The filters already contains this filter"
+      />
+
+      <QuickFilter
+        renderLabel={() => <span className={locals.moreFilterLabel}>More</span>}
+        onClick={() =>
+          setActiveDialog(
+            <EditFilterDialog
+              filters={props.filters}
+              onSave={_tag => onAddTagFilter(_tag, props.filters, props.onChangeFilters)}
+            />
+          )
+        }
       />
     </div>
   );
