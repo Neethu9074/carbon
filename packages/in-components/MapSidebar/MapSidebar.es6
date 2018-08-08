@@ -30,7 +30,12 @@ export default connectTo(
     const SidebarImpl = getForgeComponent(`./${plugin}/Sidebar/Details.es6`);
 
     return (
-      <div className={block}>
+      <div
+        className={block}
+        style={{
+          maxHeight: toPx(windowHeight - timelineHeight - 120)
+        }}
+      >
         <DetailPopupPresenter />
         <MapSidebarHeader snapshot={snapshot} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
@@ -38,7 +43,7 @@ export default connectTo(
         <div
           className={`${block}__scroll-wrapper`}
           style={{
-            maxHeight: toPx(windowHeight - timelineHeight - 150)
+            maxHeight: toPx(windowHeight - timelineHeight - 170)
           }}
         >
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
