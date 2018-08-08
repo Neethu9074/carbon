@@ -311,7 +311,7 @@ function valueFormValidator(valueForm, withValue) {
     return null;
   }
 
-  const value = valueForm.get('value').value;
+  const value = String(valueForm.get('value').value);
   if (isBlank(value)) {
     return [
       {

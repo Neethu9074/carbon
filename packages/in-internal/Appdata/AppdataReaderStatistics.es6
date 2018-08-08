@@ -38,22 +38,6 @@ const cols = [
     }
   },
   {
-    title: 'KPI.incoming.calls.error_rate',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName() {
-        return `metrics.gauges.KPI.incoming.calls.error_rate`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: 'ClickHouse Error Rate',
     type: 'metric',
     typeArgs: {
@@ -73,7 +57,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-writer"')
+  rows: getDropwizardWithContext('entity.label:"appdata-reader"')
 })(function AppdataWriterStatistics({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
@@ -83,7 +67,7 @@ export default connectTo({
 
   return (
     <div>
-      <h1>appdata-writer</h1>
+      <h1>appdata-reader</h1>
 
       <DashboardSection title={`Host CPU load`}>
         <Chart
@@ -93,7 +77,6 @@ export default connectTo({
           y1={{
             min: 0,
             formatter: number.detailed,
-            tooltipFormatter: number.detailed,
             metrics: rows.map(() => 'load.1min'),
             labels: rows.map(r => r.host.get('label')),
             type: 'line'
@@ -160,37 +143,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`Calls Processing Pipeline Error Rate`}>
-        <Chart
-          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: percentage.detailed,
-            metrics: rows.map(() => `metrics.gauges.KPI.incoming.calls.error_rate`),
-            labels: rows.map(r => r.host.get('label')),
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title={`Calls Dropped Due To "Too Old"`}>
-        <Chart
-          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: rows.map(
-              () => `metrics.meters.com.instana.backend.common.kafka.GenericReactorKafkaConsumer.calls.too-old`
-            ),
-            labels: rows.map(r => r.host.get('label')),
-            type: 'stackedArea'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title={`appdata-writers (${rows.length})`}>
+      <DashboardSection title={`appdata-readers (${rows.length})`}>
         <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
       </DashboardSection>
     </div>

@@ -6,16 +6,13 @@ import { isInstanaEngineer } from 'in-stores/user';
 // ########################################################################################
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
-const releaseTu = config.tenant === 'instana' && config.tenantUnit === 'release';
 // const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
 // const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
 // const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 
 const onlyInternally =
-  __DEV__ ||
-  (config.tenant === 'instana' && !stagingTu && !currentTu && !trainingTu && !releaseTu) ||
-  config.tenant === 'instanaops';
+  __DEV__ || (config.tenant === 'instana' && config.tenantUnit === 'test') || config.tenant === 'instanaops';
 const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 
 // ########################################################################################
