@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, percentage, millis } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
-import { number, percentage } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -66,7 +67,9 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title={`appdata-reader Host CPU load`}>
+      <h1>appdata-reader</h1>
+
+      <DashboardSection title={`Host CPU load`}>
         <Chart
           snapshotIds={rows.map(r => r.host.get('id'))}
           timeConfig={timeConfig}
@@ -81,7 +84,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`appdata-reader ClickHouse Calls`}>
+      <DashboardSection title={`ClickHouse Calls`}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -95,7 +98,38 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`appdata-reader ClickHouse Error Rate`}>
+      <Row>
+        <Col xs={6}>
+          <DashboardSection title="ClickHouse Query Latency (50th)">
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: millis.fixedCompact,
+                metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.50th`),
+                labels: rows.map(r => r.host.get('label')),
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Col>
+        <Col xs={6}>
+          <DashboardSection title="ClickHouse Query Latency (99th)">
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: millis.fixedCompact,
+                metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.99th`),
+                labels: rows.map(r => r.host.get('label')),
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Col>
+      </Row>
+
+      <DashboardSection title={`ClickHouse Error Rate`}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -119,41 +153,102 @@ export default connectTo({
 function getRowDetails(row) {
   return (
     <Fragment>
-      <Chart
-        snapshotId={row.host.get('id')}
-        timeConfig={row.timeConfig}
-        minRollup={5000}
-        y1={{
-          min: 0,
-          formatter: number.detailed,
-          tooltipFormatter: number.detailed,
-          metrics: ['load.1min'],
-          labels: ['Host CPU Load'],
-          type: 'stackedArea'
-        }}
-      />
+      <DashboardSection title="Host Load">
+        <Chart
+          snapshotId={row.host.get('id')}
+          timeConfig={row.timeConfig}
+          minRollup={5000}
+          y1={{
+            min: 0,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
+            metrics: ['load.1min'],
+            labels: ['Host CPU Load'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
 
-      <Chart
-        snapshotId={row.dropwizard.get('id')}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          formatter: number.compact,
-          metrics: [
-            'metrics.gauges.clickHouse.clustered.runningCalls',
-            'metrics.meters.clickHouse.clustered.queueAttempts.calls'
-          ],
-          labels: ['Running ClickHouse Calls', 'Newly queued ClickHouse Calls'],
-          type: 'line'
-        }}
-        y2={{
-          min: 0,
-          formatter: number.compact,
-          metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
-          labels: ['Queued ClickHouse Calls'],
-          type: 'line'
-        }}
-      />
+      <DashboardSection title="ClickHouse Query Queueing">
+        <Chart
+          snapshotId={row.dropwizard.get('id')}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            formatter: number.compact,
+            metrics: ['metrics.meters.clickHouse.clustered.queueAttempts.calls'],
+            labels: ['Newly queued ClickHouse Calls'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: number.compact,
+            metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
+            labels: ['Queued ClickHouse Calls'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="ClickHouse Query Latency">
+        <Chart
+          snapshotId={row.dropwizard.get('id')}
+          timeConfig={row.timeConfig}
+          margins={{
+            left: 90,
+            right: 90
+          }}
+          y1={{
+            formatter: number.perSecond.compact,
+            metrics: ['metrics.timers.clickHouse.clustered.timer.rate'],
+            labels: ['Calls'],
+            type: 'stackedArea'
+          }}
+          y2={{
+            formatter: millis.fixedCompact,
+            metrics: [
+              'metrics.timers.clickHouse.clustered.timer.mean',
+              'metrics.timers.clickHouse.clustered.timer.50th',
+              'metrics.timers.clickHouse.clustered.timer.99th'
+            ],
+            labels: ['mean', '50th', '99th'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      {row.jvm.getIn(['data', 'jvm.collectors']) ? (
+        <DashboardSection title="Garbage Collection">
+          <Chart
+            snapshotId={row.jvm.get('id')}
+            timeConfig={row.timeConfig}
+            y1={{
+              metrics: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => 'gc.' + name + '.time')
+                .toArray(),
+              labels: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => name + ' Time')
+                .toArray(),
+              type: 'line',
+              formatter: millis.fixedCompact
+            }}
+            y2={{
+              metrics: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => 'gc.' + name + '.inv')
+                .toArray(),
+              labels: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => name + ' Invocations')
+                .toArray(),
+              type: 'point',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      ) : null}
     </Fragment>
   );
 }
