@@ -160,6 +160,20 @@ export default connectTo({
         />
       </DashboardSection>
 
+      <DashboardSection title={`Calls Processing Pipeline Error Rate`}>
+        <Chart
+          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: percentage.detailed,
+            metrics: rows.map(() => `metrics.gauges.KPI.incoming.calls.error_rate`),
+            labels: rows.map(r => r.host.get('label')),
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title={`Calls Dropped Due To "Too Old"`}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}

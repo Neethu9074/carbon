@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest, just } from 'reactive-observables';
 import { pure } from 'recompose';
 import React from 'react';
 
@@ -14,7 +14,12 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, previewTwoZeroWithoutHybrid, twoZeroModeEnabled } from 'in-services/featureFlags';
+import {
+  cockpitEnabled,
+  previewTwoZeroWithoutHybrid,
+  twoZeroModeEnabled,
+  instanaInternalFeaturesEnabled
+} from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -95,6 +100,10 @@ export default pure(function ViewSwitcher() {
             isActive$={isView(isAnalyzeView)}
             href$={getLinkToAnalyze()}
           />
+        )}
+
+        {instanaInternalFeaturesEnabled && (
+          <View label="Internal" icon="lib_actions_lock" isActive$={just(false)} href$={just('/#/internal')} />
         )}
       </ul>
     </div>
