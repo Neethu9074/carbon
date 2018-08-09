@@ -38,7 +38,7 @@ export default function CallGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="firstTimestamp"
-              label="Time"
+              label="Earliest Timestamp"
               noWrap
             />
             <SortableCallColumn
@@ -47,7 +47,7 @@ export default function CallGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="latencyAgg"
-              label="Latency"
+              label="Avg. Latency"
               noWrap
             />
             <SortableCallColumn

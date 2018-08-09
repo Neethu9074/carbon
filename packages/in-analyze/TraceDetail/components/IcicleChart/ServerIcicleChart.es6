@@ -1,10 +1,10 @@
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
+import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import Skeleton from 'in-components/Progress/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 
