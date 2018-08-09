@@ -1,12 +1,4 @@
 :local {
-  .keyGroup {
-    min-width: 18rem;
-  }
-
-  .customKeyGroup {
-    flex-grow: 1;
-  }
-
   .valueFormGroup {
     flex-grow: 1;
   }

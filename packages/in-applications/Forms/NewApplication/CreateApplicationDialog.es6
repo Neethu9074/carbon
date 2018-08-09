@@ -138,7 +138,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                                   updateForm(form);
                                 }}
                                 onRemove={() => removeMatchSpecification(i, form, updateForm)}
-                                removePostPhrase="Filter"
+                                removeItemName="Filter"
                               />
                             ),
                           onRemove: () => removeMatchSpecification(i, form, updateForm)

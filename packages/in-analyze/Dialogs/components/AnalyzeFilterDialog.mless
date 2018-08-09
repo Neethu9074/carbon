@@ -1,11 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .dialog {
-    padding: 0.875rem;
-    min-width: 3rem;
-  }
-
   .customHeader {
     display: flex;
     justify-content: space-between;
@@ -22,11 +17,12 @@
   }
 
   .contentWrapper {
-    min-width: 40%;
+    min-width: 25rem;
     overflow: unset;
   }
 
   .content {
+    padding: 1.5rem;
     overflow: unset;
     border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
   }

@@ -1,9 +1,0 @@
-:local {
-  .keyGroup {
-    flex-grow: 1;
-  }
-
-  .customKeyGroup {
-    flex-grow: 1;
-  }
-}

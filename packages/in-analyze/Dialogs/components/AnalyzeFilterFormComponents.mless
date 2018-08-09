@@ -1,60 +1,16 @@
 @import '~in-themes/active.less';
 
 :local {
-  .editForm {
+  .flexWrapper {
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
   }
 
-  .keyList {
-    display: flex;
-    align-items: center;
-
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .fieldSeperator {
-    margin: 0.5rem;
-    min-width: 1.25rem;
-  }
-
-  .categoryList {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-
-    list-style: none;
-    margin: 0 0 1.25rem;
-    padding: 0;
-  }
-
-  .categoryButton {
-    margin: 0 0.25rem 0.25rem 0;
-    border: none;
-    background: @lib__colors__N200;
-    font-weight: 100;
-    text-transform: capitalize;
-
-    &:hover {
-      border: none;
-      background: @lib__colors__N300;
-    }
-  }
-
-  .activeCategoryButton {
-    background: #000;
-    border: none;
-    color: #fff;
-    cursor: default;
-
-    &:hover {
-      border: none;
-      background: #000;
-      color: #fff;
-    }
+  .helpText {
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__N050;
+    padding: 1rem;
   }
 
   .namedSection {
@@ -66,14 +22,30 @@
     }
   }
 
-  .name {
+  .namedSectionName {
     margin-top: 0.625rem;
     min-width: 5rem;
+    min-height: 4rem;
     color: @lib__colors__N600Light;
   }
 
-  .content {
+  .namedSectionContent {
     width: 100%;
+  }
+
+  .keyGroup {
+    min-width: 18rem;
+    max-width: 18rem;
+  }
+
+  .customKeyGroup {
+    min-width: 9rem;
+    max-width: 9rem;
+  }
+
+  .fieldSeperator {
+    margin: 0.5rem;
+    min-width: 1.25rem;
   }
 
   .fixedOperator,
@@ -109,11 +81,5 @@
 
   .loadingIcon {
     fill: @lib__colors__blue800;
-  }
-
-  .helpText {
-    color: @lib__colors__N700Medium;
-    background: @lib__colors__N050;
-    padding: 1rem;
   }
 }

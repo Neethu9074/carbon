@@ -52,7 +52,7 @@ export default function QueryBuilderWorkspace(props) {
                       secondLevelName={tag.secondLevelName}
                       onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
                       onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
-                      removePostPhrase="Filter"
+                      removeItemName="Filter"
                     />
                   );
                 },
@@ -76,7 +76,8 @@ export default function QueryBuilderWorkspace(props) {
 }
 
 function QuickFilterSection(props) {
-  const tagFilter = props.filters.get('tagFilter').toJS();
+  const { filters, onChangeFilters } = props;
+  const tagFilter = filters.get('tagFilter').toJS();
 
   return (
     <div className={locals.quickFilterRow}>
@@ -163,7 +164,7 @@ function QuickFilterSection(props) {
 
       <QuickFilter
         label="Erroneous"
-        onClick={() => onAddTagFilter({ name: 'call.erroneous', value: 'true' }, props.filters, props.onChangeFilters)}
+        onClick={() => onAddTagFilter({ name: 'call.erroneous', value: 'true' }, filters, onChangeFilters)}
         deactivated={getTagFromList(tagFilter, { name: 'call.erroneous' })}
         helpText="The filters already contains this filter"
       />
@@ -172,10 +173,7 @@ function QuickFilterSection(props) {
         renderLabel={() => <span className={locals.moreFilterLabel}>More</span>}
         onClick={() =>
           setActiveDialog(
-            <EditFilterDialog
-              filters={props.filters}
-              onSave={_tag => onAddTagFilter(_tag, props.filters, props.onChangeFilters)}
-            />
+            <EditFilterDialog filters={filters} onSave={_tag => onAddTagFilter(_tag, filters, onChangeFilters)} />
           )
         }
       />

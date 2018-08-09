@@ -1,62 +1,50 @@
-import { createLogger } from 'instalog';
 import React, { Fragment } from 'react';
 
-import AnalyzeFilterForm, {
-  FieldSeperator,
+import {
+  FlexWrapper,
+  CustomKeySection,
   SelectBox,
   NamedSection,
   OperatorSelection,
   AutoCompletedSelect,
-  HelpText
+  HelpText,
+  KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
-import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { operators, TAG_TYPES } from 'in-analyze/applicationFilter';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 
 import locals from './EditFilterForm.mless';
 
-const logger = createLogger('ServiceExtraction');
-
 export default function EditFilterForm(props) {
   const { form, helpText, onChange } = props;
-  const node = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
+  const nameField = form.get('nameForm').value.get('name');
+  const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
     <Fragment>
-      <HelpText helpText={helpText} />
+      <HelpText>{helpText}</HelpText>
 
       <NamedSection name="Tag">
-        <AnalyzeFilterForm>
-          {form.get('nameForm').map(subForm =>
-            subForm.value.get('name').map(field => (
-              <FormGroup className={locals.keyGroup}>
-                <KeySelection
-                  {...props}
-                  node={node}
-                  field={field}
-                  onChange={newName => {
-                    const node = findSubTreeByFullyQualifiedName(newName);
-                    if (node) {
-                      onChange('name', node.fullyQualifiedName);
-                    } else {
-                      logger.warn('No tree node found for:', newName);
-                      onChange('name', '');
-                    }
-                  }}
-                />
-                {subForm.messages.map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))}
-              </FormGroup>
-            ))
-          )}
+        <FlexWrapper>
+          {form
+            .get('nameForm')
+            .map(subForm =>
+              subForm.value
+                .get('name')
+                .map(field => (
+                  <KeySelectionSection
+                    {...props}
+                    field={field}
+                    messages={subForm.messages}
+                    getNodesChildren={getNodesChildren}
+                  />
+                ))
+            )}
 
-          <CustomKey {...props} node={node} onChange={value => onChange('customName', value)} />
+          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
 
           {form
             .get('valueForm')
@@ -72,59 +60,25 @@ export default function EditFilterForm(props) {
             return valueFormField.value.get('value').map(field => (
               <FormGroup className={locals.valueFormGroup}>
                 <ValueInputByType {...props} field={field} />
-
                 <TouchedMessages field={valueFormField} />
               </FormGroup>
             ));
           })}
-        </AnalyzeFilterForm>
+        </FlexWrapper>
       </NamedSection>
     </Fragment>
   );
-}
-
-function KeySelection({ selectedCategory, field, blacklist, onChange }) {
-  const rootNode = getTagTree();
-  const options = getNodesChildren(rootNode, selectedCategory, blacklist).map(childNode => ({
-    label: childNode.name,
-    value: childNode.name
-  }));
-
-  return <SelectBox id="key" value={field.value} onChange={e => onChange(e.value)} options={options} />;
 }
 
 function getNodesChildren(node, selectedCategory, blacklist) {
   return node.getChildren({ category: selectedCategory, blacklist });
 }
 
-function CustomKey({ form, onChange, node }) {
-  if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    return null;
-  }
-
-  return (
-    <Fragment>
-      <FieldSeperator>:</FieldSeperator>
-      {form.get('nameForm').map(subForm =>
-        subForm.value.get('customName').map(field => (
-          <FormGroup className={locals.customKeyGroup}>
-            <Input
-              type="text"
-              id="customName"
-              value={field.value || ''}
-              onChange={e => onChange(e.target.value)}
-              autoComplete="off"
-            />
-            <TouchedMessages field={subForm} />
-          </FormGroup>
-        ))
-      )}
-    </Fragment>
-  );
-}
-
 function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
-  if (form.get('nameForm').value.get('type').value === TAG_TYPES.BOOLEAN.technicalName) {
+  const nodeInTree = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
+  const type = nodeInTree ? nodeInTree.type : null;
+
+  if (type === TAG_TYPES.BOOLEAN.technicalName) {
     return (
       <SelectBox
         id="value"
@@ -135,7 +89,7 @@ function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
     );
   }
 
-  const isNumberInput = form.get('nameForm').value.get('type').value === TAG_TYPES.NUMBER.technicalName ? true : false;
+  const isNumberInput = type === TAG_TYPES.NUMBER.technicalName ? true : false;
   if (isNumberInput) {
     return (
       <Input

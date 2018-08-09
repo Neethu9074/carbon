@@ -1,20 +1,127 @@
 import CreatableSelect from 'react-select/lib/Creatable';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
+import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
-import { evaluateClassNames } from 'in-services/util/classnames';
-import { getTagCategories } from 'in-applications/tags';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes/theme';
 
 import locals from './AnalyzeFilterFormComponents.mless';
 
-export default function AnalyzeFilterFormComponents({ children }) {
-  return <div className={locals.editForm}>{children}</div>;
+export function FlexWrapper({ children }) {
+  return <div className={locals.flexWrapper}>{children}</div>;
+}
+
+export function HelpText({ children }) {
+  return <p className={locals.helpText}>{children}</p>;
+}
+
+export function NamedSection({ name, children }) {
+  return (
+    <div className={locals.namedSection}>
+      <span className={locals.namedSectionName}>{name}</span>
+      <div className={locals.namedSectionContent}>{children}</div>
+    </div>
+  );
+}
+
+export function KeySelectionSection(props) {
+  const { field, onChange, messages } = props;
+
+  return (
+    <FormGroup className={locals.keyGroup}>
+      <KeySelection
+        {...props}
+        field={field}
+        onChange={newName =>
+          onChange('name', get(findSubTreeByFullyQualifiedName(newName), ['fullyQualifiedName'], ''))
+        }
+      />
+      {messages.filter(message => message.field === 'name').map((message, i) => (
+        <ValidationBlock hasError key={i}>
+          {message.message}
+        </ValidationBlock>
+      ))}
+    </FormGroup>
+  );
+}
+
+export function CustomKeySection({ form, onChange, node }) {
+  if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+    return null;
+  }
+
+  return (
+    <Fragment>
+      <FieldSeperator>:</FieldSeperator>
+      {form.get('nameForm').map(subForm =>
+        subForm.value.get('secondLevelName').map(field => (
+          <FormGroup className={locals.customKeyGroup}>
+            <Input
+              type="text"
+              id="secondLevelName"
+              value={field.value || ''}
+              onChange={e => onChange(e.target.value)}
+              autoComplete="off"
+            />
+            <TouchedMessages field={subForm} />
+          </FormGroup>
+        ))
+      )}
+    </Fragment>
+  );
+}
+
+export function OperatorSelection({ field, onChange, node }) {
+  if (!node) {
+    return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
+  }
+
+  const operators = TAG_TYPES[node.type].operators;
+  if (operators.length === 1) {
+    return (
+      <input
+        className={locals.fixedOperator}
+        type="text"
+        id="operator"
+        autoComplete="off"
+        value={getOperatorLabel(node.type, operators[0])}
+        disabled
+      />
+    );
+  }
+
+  return (
+    <select
+      className={locals.operator}
+      id="operator"
+      value={field.value}
+      onChange={e => onChange('operator', e.target.value)}
+    >
+      {operators.map(operator => (
+        <option key={operator} value={operator}>
+          {getOperatorLabel(node.type, operator)}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function KeySelection({ getNodesChildren, selectedCategory, field, blacklist, onChange }) {
+  const rootNode = getTagTree();
+  const options = getNodesChildren(rootNode, selectedCategory, blacklist).map(childNode => ({
+    label: childNode.name,
+    value: childNode.name
+  }));
+
+  return <SelectBox id="key" value={field.value} onChange={e => onChange(e.value)} options={options} />;
 }
 
 export function SelectBox({ options, id, value, onChange }) {
@@ -86,90 +193,4 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
       searchable
     />
   );
-}
-
-export function TagCategorySwitcher({ selectedCategory, setSelectedCategory, withInstanaCategory = true }) {
-  const categories = getTagCategories(withInstanaCategory);
-  return (
-    <ul className={locals.categoryList}>
-      <li>
-        <Button
-          className={evaluateClassNames({
-            [locals.categoryButton]: true,
-            [locals.activeCategoryButton]: !selectedCategory
-          })}
-          kind="secondary"
-          onClick={selectedCategory ? () => setSelectedCategory(null) : null}
-        >
-          All
-        </Button>
-      </li>
-
-      {categories.map(category => {
-        const isActive = category === selectedCategory;
-        return (
-          <li key={category}>
-            <Button
-              className={evaluateClassNames({
-                [locals.categoryButton]: true,
-                [locals.activeCategoryButton]: isActive
-              })}
-              kind="secondary"
-              onClick={isActive ? null : () => setSelectedCategory(category)}
-            >
-              {category.toLowerCase()}
-            </Button>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-export function NamedSection({ name, children }) {
-  return (
-    <div className={locals.namedSection}>
-      <span className={locals.name}>{name}</span>
-      <div className={locals.content}>{children}</div>
-    </div>
-  );
-}
-
-export function OperatorSelection({ field, onChange, node }) {
-  if (!node) {
-    return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
-  }
-
-  const operators = TAG_TYPES[node.type].operators;
-  if (operators.length === 1) {
-    return (
-      <input
-        className={locals.fixedOperator}
-        type="text"
-        id="operator"
-        autoComplete="off"
-        value={getOperatorLabel(node.type, operators[0])}
-        disabled
-      />
-    );
-  }
-
-  return (
-    <select
-      className={locals.operator}
-      id="operator"
-      value={field.value}
-      onChange={e => onChange('operator', e.target.value)}
-    >
-      {operators.map(operator => (
-        <option key={operator} value={operator}>
-          {getOperatorLabel(node.type, operator)}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-export function HelpText({ helpText }) {
-  return <p className={locals.helpText}>{helpText}</p>;
 }

@@ -8,10 +8,8 @@ export default function EditGroupDialog(props) {
     <AnalyzeFilterDialog
       {...props}
       title="Group"
-      withValue={false}
-      renderForm={formProps => (
-        <EditGroupFrom {...props} {...formProps} helpText="Select a tag by which your calls should be grouped." />
-      )}
+      validateValue={false}
+      renderForm={formProps => <EditGroupFrom {...props} {...formProps} />}
     />
   );
 }

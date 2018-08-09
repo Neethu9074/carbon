@@ -13,7 +13,7 @@ import Dialog from 'in-components/Dialog';
 import locals from './AnalyzeFilterDialog.mless';
 
 export default function AnalyzeFilterDialog(props) {
-  const { onCancel, title } = props;
+  const { title } = props;
 
   return (
     <Dialog
@@ -28,21 +28,11 @@ export default function AnalyzeFilterDialog(props) {
             type="lib_openclose_cancel"
             width={32}
             height={32}
-            onClick={() => {
-              close();
-              if (onCancel) {
-                onCancel();
-              }
-            }}
+            onClick={() => close()}
           />
         </Fragment>
       }
-      onClose={() => {
-        close();
-        if (props.onCancel) {
-          props.onCancel();
-        }
-      }}
+      onClose={() => close()}
     >
       <AnalyzeFilterBasicDialog {...props} />
     </Dialog>
@@ -62,100 +52,40 @@ class AnalyzeFilterBasicDialog extends React.Component {
   }
 
   render() {
-    const { renderForm, onRemove, removePostPhrase } = this.props;
+    const { renderForm, onRemove, removeItemName } = this.props;
     const { form } = this.state;
 
     return (
       <form onSubmit={e => this.onSubmit(e, form)}>
-        <div className={locals.dialog}>
-          <div className={locals.content}>
-            {renderForm({
-              form,
-              onChange: this.onChange,
-              selectedCategory: this.state.selectedCategory,
-              setSelectedCategory: this.setSelectedCategory
-            })}
-          </div>
+        {renderForm({
+          form,
+          onChange: this.onChange,
+          selectedCategory: this.state.selectedCategory,
+          setSelectedCategory: this.setSelectedCategory
+        })}
 
-          <div className={locals.footer}>
-            <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
-              Save
+        <div className={locals.footer}>
+          <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
+            Save
+          </Button>
+          {onRemove && (
+            <Button
+              style={{ marginLeft: 0 }}
+              kind="subtle"
+              size="compact"
+              icon="lib_actions_delete"
+              onClick={() => {
+                close();
+                onRemove();
+              }}
+            >
+              Delete {removeItemName}
             </Button>
-            {onRemove && (
-              <Button
-                style={{ marginLeft: 0 }}
-                kind="subtle"
-                size="compact"
-                icon="lib_actions_delete"
-                onClick={() => {
-                  close();
-                  onRemove();
-                }}
-              >
-                Delete {removePostPhrase && ` ${removePostPhrase}`}
-              </Button>
-            )}
-          </div>
+          )}
         </div>
       </form>
     );
   }
-
-  onChange = (fieldName, value) => {
-    let form = this.state.form;
-
-    function changeFormValue(_form, _fieldName, _value) {
-      return _form.updateIn([_fieldName], field => field.setValue(_value).setTouched(true));
-    }
-
-    if (fieldName === 'name') {
-      const node = findSubTreeByFullyQualifiedName(value);
-
-      if (this.props.setNameForTagSuggestion) {
-        this.props.setNameForTagSuggestion(value);
-      }
-
-      form = form.updateIn(['nameForm'], subForm => {
-        let updatedSubForm = changeFormValue(subForm.value, 'name', value);
-        updatedSubForm = changeFormValue(updatedSubForm, 'customName', '');
-        if (node && node.type) {
-          updatedSubForm = changeFormValue(updatedSubForm, 'type', node.type);
-        }
-        return subForm.setValue(updatedSubForm).setTouched(true);
-      });
-
-      form = form.updateIn(['valueForm'], subForm => {
-        let updatedSubForm = changeFormValue(subForm.value, 'value', '');
-
-        const operator = node ? get(TAG_TYPES, [node.type, 'operators', 0], null) : null;
-        updatedSubForm = changeFormValue(updatedSubForm, 'operator', operator);
-        return subForm.setValue(updatedSubForm).setTouched(true);
-      });
-    } else if (fieldName === 'customName') {
-      form = form.updateIn(['nameForm'], subForm =>
-        subForm.setValue(changeFormValue(subForm.value, 'customName', value)).setTouched(true)
-      );
-    } else if (fieldName === 'value') {
-      form = form.updateIn(['valueForm'], subForm => {
-        const updatedSubForm = changeFormValue(subForm.value, 'value', value);
-        return subForm.setValue(updatedSubForm).setTouched(true);
-      });
-    } else if (fieldName === 'operator') {
-      form = form.updateIn(['valueForm'], subForm => {
-        let updatedSubForm = changeFormValue(subForm.value, 'operator', value);
-
-        if (value === operators.NOT_EMPTY) {
-          updatedSubForm = changeFormValue(updatedSubForm, 'value', '');
-        }
-
-        return subForm.setValue(updatedSubForm).setTouched(true);
-      });
-    } else {
-      form = form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-    }
-
-    this.setState({ form });
-  };
 
   onSubmit(e, form) {
     e.preventDefault();
@@ -173,7 +103,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
     const nameForm = tag.nameForm.toJS();
     tag.name = nameForm.name;
-    tag.secondLevelName = nameForm.customName;
+    tag.secondLevelName = nameForm.secondLevelName;
 
     const valueForm = tag.valueForm.toJS();
     tag.operator = valueForm.operator;
@@ -182,23 +112,86 @@ class AnalyzeFilterBasicDialog extends React.Component {
     this.props.onSave(tag);
   }
 
+  onChange = (fieldName, value) => {
+    let form = this.state.form;
+
+    if (fieldName === 'name') {
+      if (this.props.setNameForTagSuggestion) {
+        this.props.setNameForTagSuggestion(value);
+      }
+      form = onChangeName(form, value);
+    } else if (fieldName === 'secondLevelName') {
+      form = onChangeSecondLevelName(form, value);
+    } else if (fieldName === 'value') {
+      form = onChangeValue(form, value);
+    } else if (fieldName === 'operator') {
+      form = onChangeOperator(form, value);
+    }
+
+    this.setState({ form });
+  };
+
   setSelectedCategory = newCategory => {
     this.setState({
       form: getInitialForm({
-        withValue: this.props.withValue
+        validateValue: this.props.validateValue
       }),
       selectedCategory: newCategory
     });
   };
 }
 
+function onChangeName(form, value) {
+  form = form.updateIn(['nameForm'], subForm => {
+    let updatedSubForm = subForm.value.updateIn(['name'], field => field.setValue(value).setTouched(true));
+    updatedSubForm = updatedSubForm.updateIn(['secondLevelName'], field => field.setValue('').setTouched(true));
+
+    return subForm.setValue(updatedSubForm).setTouched(true);
+  });
+
+  return form.updateIn(['valueForm'], subForm => {
+    let updatedSubForm = subForm.value.updateIn(['value'], field => field.setValue('').setTouched(true));
+
+    const node = findSubTreeByFullyQualifiedName(value);
+    const operator = node ? get(TAG_TYPES, [node.type, 'operators', 0], null) : null;
+    updatedSubForm = updatedSubForm.updateIn(['operator'], field => field.setValue(operator).setTouched(true));
+
+    return subForm.setValue(updatedSubForm).setTouched(true);
+  });
+}
+
+function onChangeSecondLevelName(form, value) {
+  return form.updateIn(['nameForm'], subForm =>
+    subForm
+      .setValue(subForm.value.updateIn(['secondLevelName'], field => field.setValue(value).setTouched(true)))
+      .setTouched(true)
+  );
+}
+
+function onChangeValue(form, value) {
+  return form.updateIn(['valueForm'], subForm =>
+    subForm
+      .setValue(subForm.value.updateIn(['value'], field => field.setValue(value).setTouched(true)))
+      .setTouched(true)
+  );
+}
+
+function onChangeOperator(form, value) {
+  return form.updateIn(['valueForm'], subForm => {
+    let updatedSubForm = subForm.value.updateIn(['operator'], field => field.setValue(value).setTouched(true));
+
+    if (value === operators.NOT_EMPTY) {
+      updatedSubForm = updatedSubForm.updateIn(['value'], field => field.setValue('').setTouched(true));
+    }
+
+    return subForm.setValue(updatedSubForm).setTouched(true);
+  });
+}
+
 function getInitialForm(props) {
-  let { name = '', value = '', secondLevelName = '', operator, withValue = true } = props;
+  let { name = '', value = '', secondLevelName = '', operator, validateValue = true } = props;
 
-  const nodeInTree = findSubTreeByFullyQualifiedName(name);
-  const type = nodeInTree ? nodeInTree.type : TAG_TYPES.STRING.technicalName;
-
-  let form = createMapForm()
+  return createMapForm()
     .put(
       'nameForm',
       createField({
@@ -210,15 +203,9 @@ function getInitialForm(props) {
             })
           )
           .put(
-            'customName',
+            'secondLevelName',
             createField({
               value: secondLevelName
-            })
-          )
-          .put(
-            'type',
-            createField({
-              value: type
             })
           ),
         validator: nameFormValidator
@@ -240,17 +227,16 @@ function getInitialForm(props) {
               value: value
             })
           ),
-        validator: valueForm => valueFormValidator(valueForm, withValue)
+        validator: validateValue ? valueFormValidator : null
       })
     );
-
-  return form;
 }
 
 function nameValidator(name) {
   if (isBlank(name)) {
     return [
       {
+        field: 'name',
         severity: 'error',
         message: 'Please select a key.'
       }
@@ -261,25 +247,26 @@ function nameValidator(name) {
   if (!nodeInTree) {
     return [
       {
+        field: 'name',
         severity: 'error',
         message: 'Please select a valid key.'
       }
     ];
   }
-
-  return null;
 }
 
 function nameFormValidator(nameForm) {
-  const customName = nameForm.get('customName').value;
   const keyName = nameForm.get('name').value;
-
   const nameValidationResult = nameValidator(keyName);
-  if (nameValidationResult !== null) {
+  if (nameValidationResult) {
     return nameValidationResult;
   }
 
-  const type = nameForm.get('type').value;
+  const secondLevelName = nameForm.get('secondLevelName').value;
+
+  const nodeInTree = findSubTreeByFullyQualifiedName(keyName);
+  const type = nodeInTree ? nodeInTree.type : null;
+
   if (type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
@@ -289,9 +276,10 @@ function nameFormValidator(nameForm) {
     return null;
   }
 
-  if (isBlank(customName)) {
+  if (isBlank(secondLevelName)) {
     return [
       {
+        field: 'secondLevelName',
         severity: 'error',
         message: 'Please define a sub-key.'
       }
@@ -301,11 +289,7 @@ function nameFormValidator(nameForm) {
   return null;
 }
 
-function valueFormValidator(valueForm, withValue) {
-  if (!withValue) {
-    return null;
-  }
-
+function valueFormValidator(valueForm) {
   const operator = valueForm.get('operator').value;
   if (operator === operators.NOT_EMPTY) {
     return null;

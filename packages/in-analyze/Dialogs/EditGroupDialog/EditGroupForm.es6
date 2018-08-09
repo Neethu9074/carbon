@@ -1,84 +1,37 @@
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
 
-import AnalyzeFilterForm, {
-  FieldSeperator,
+import {
+  FlexWrapper,
   NamedSection,
-  SelectBox,
-  HelpText
+  HelpText,
+  CustomKeySection,
+  KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
-import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
-import FormGroup from 'in-components/form/FormGroup';
-import Input from 'in-components/form/Input';
-
-import locals from './EditGroupForm.mless';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 
 export default function EditGroupForm(props) {
-  const { form, onChange, helpText } = props;
+  const { form, onChange } = props;
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
     <Fragment>
-      <HelpText helpText={helpText} />
+      <HelpText>Select a tag by which your calls should be grouped.</HelpText>
 
       <NamedSection name="Tag">
-        <AnalyzeFilterForm>
+        <FlexWrapper>
           {nameField.map(field => (
-            <FormGroup className={locals.keyGroup}>
-              <KeySelection
-                {...props}
-                field={field}
-                onChange={newName =>
-                  onChange('name', get(findSubTreeByFullyQualifiedName(newName), ['fullyQualifiedName'], newName))
-                }
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
+            <KeySelectionSection
+              {...props}
+              field={field}
+              messages={nameField.messages}
+              getNodesChildren={getNodesChildren}
+            />
           ))}
 
-          <CustomKey {...props} node={node} onChange={value => onChange('customName', value)} />
-        </AnalyzeFilterForm>
+          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
+        </FlexWrapper>
       </NamedSection>
-    </Fragment>
-  );
-}
-
-function KeySelection({ selectedCategory, field, blacklist, onChange }) {
-  const rootNode = getTagTree();
-  const options = getNodesChildren(rootNode, selectedCategory, blacklist).map(childNode => ({
-    label: childNode.name,
-    value: childNode.name
-  }));
-
-  return <SelectBox id="key" value={field.value} onChange={e => onChange(e.value)} options={options} />;
-}
-
-function CustomKey({ form, onChange, node }) {
-  if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-    return null;
-  }
-
-  return (
-    <Fragment>
-      <FieldSeperator>:</FieldSeperator>
-
-      {form.get('nameForm').map(subForm =>
-        subForm.value.get('customName').map(field => (
-          <FormGroup className={locals.customKeyGroup}>
-            <Input
-              type="text"
-              id="customName"
-              value={field.value}
-              onChange={e => onChange(e.target.value)}
-              autoComplete="off"
-            />
-            <TouchedMessages field={subForm} />
-          </FormGroup>
-        ))
-      )}
     </Fragment>
   );
 }
