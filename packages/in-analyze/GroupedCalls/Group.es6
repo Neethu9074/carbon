@@ -69,6 +69,38 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
+function setRawData(filters, onChangeFilters, tagName) {
+  const group = filters.get('group');
+  const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
+
+  const newState = {};
+  newState[showRawDataMatrixParameter] = { name: group.get('name'), value: currentGroupValue };
+  onChangeFilters(newState);
+}
+
+function onSetGrouping(filters, onChangeFilters, tagName) {
+  const group = filters.get('group');
+  const currentGroupValue = tagName;
+  const newState = {};
+
+  const tagFilter = filters.get('tagFilter');
+
+  newState[tagFilterMatrixParameter] = tagFilter
+    .push(
+      fromJS(
+        createFilter({
+          name: group.get('name'),
+          secondLevelName: group.get('value'),
+          value: currentGroupValue,
+          operator: operators.EQUALS
+        })
+      )
+    )
+    .toJS();
+
+  onChangeFilters(newState);
+}
+
 function isAlreadyFilteredByThisGroup(item, filters) {
   const currentGroup = filters.getIn(['group', 'name']);
 
@@ -85,40 +117,4 @@ function isAlreadyFilteredByThisGroup(item, filters) {
   }
 
   return false;
-}
-
-function setRawData(filters, onChangeFilters, tagName) {
-  const group = filters.get('group');
-  const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
-
-  const newState = {};
-  newState[showRawDataMatrixParameter] = { name: group.get('name'), value: currentGroupValue };
-  onChangeFilters(newState);
-}
-
-function onSetGrouping(filters, onChangeFilters, tagName, isAlreadyFiltered) {
-  const group = filters.get('group');
-  const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
-  const newState = {};
-
-  if (isAlreadyFiltered) {
-    onChangeFilters(newState);
-    return;
-  }
-
-  const tagFilter = filters.get('tagFilter');
-
-  newState[tagFilterMatrixParameter] = tagFilter
-    .push(
-      fromJS(
-        createFilter({
-          name: group.get('name'),
-          value: currentGroupValue,
-          operator: operators.EQUALS
-        })
-      )
-    )
-    .toJS();
-
-  onChangeFilters(newState);
 }
