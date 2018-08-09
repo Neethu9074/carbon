@@ -51,13 +51,13 @@ class Summary extends React.Component {
         <div className={locals.left}>
           <Row>
             <Col lg={4}>
-              <KpiCard title="Service Calls" value={number.compact(trace.callCount)} />
-            </Col>
-            <Col lg={4}>
-              <KpiCard title="Latency" value={millis.compact(trace.duration)} />
+              <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
             </Col>
             <Col lg={4}>
               <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
+            </Col>
+            <Col lg={4}>
+              <KpiCard title="Latency" value={millis.compact(trace.duration)} />
             </Col>
           </Row>
 
@@ -68,7 +68,7 @@ class Summary extends React.Component {
                   <ServerIcicleChart
                     traceId={traceId}
                     getColor={getColor}
-                    onCallClicked={this.onSubCallClicked}
+                    onCallClicked={this.onCallClicked}
                     hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
                   />
                 </div>

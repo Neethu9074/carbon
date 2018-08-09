@@ -172,7 +172,7 @@ function RawCalls({
               </Td>
 
               <Td>
-                <ErrorIndicator errorCount={item.call.errorCount} />
+                <ErrorIndicator errorCount={item.call.errorCount} allowZero />
               </Td>
             </Tr>
           ))}
