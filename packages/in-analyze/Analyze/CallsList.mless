@@ -1,14 +1,25 @@
+@import '~in-themes/active.less';
+
 :local {
-  .callList {
-    position: relative;
+  .headerWrapper {
+    background: @lib__colors__navy800;
+    padding: 1rem 0;
   }
 
-  .rawCallView {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
+  .header {
+    display: flex;
+    align-items: center;
+
+    background: @lib__colors__navy800;
+    font-size: 1rem;
+    font-weight: lighter;
+    overflow: hidden;
+
+    color: #fff;
+  }
+
+  .icon {
+    fill: @lib__colors__primary1;
+    margin-right: 0.25rem;
   }
 }

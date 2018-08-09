@@ -21,13 +21,15 @@ import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWor
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import getCalls from 'in-subscription/application/getCalls';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
-import cursorPaginated from 'in-hoc/cursorPaginated';
 import GroupedCalls from 'in-analyze/GroupedCalls';
+import SvgIcon from 'in-components/SvgIcon';
+import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+
+import locals from './CallsList.mless';
 
 export default compose(
   withUrlDependingState({
@@ -73,24 +75,6 @@ export default compose(
       objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
       return objectToStore;
     }
-  }),
-  cursorPaginated({
-    getResettingProps: () => ['location'],
-    get: ({ location }) =>
-      getCalls({
-        pagination: {
-          cursor: null,
-          retrievalSize: 1
-        },
-        order: {
-          by: 't',
-          direction: 'ASC'
-        },
-        filter: {
-          timeConfig: getTimeConfig(location)
-        },
-        tagFilters: []
-      })
   })
 )(CallsList);
 
@@ -129,17 +113,19 @@ function CallsList(props) {
           path="*/"
           render={() => {
             return (
-              <Fragment>
-                <QueryBuilderWorkspace
-                  filters={filters}
-                  onChangeFilters={onChangeFilters}
-                  totalNumberOfCalls={totalHits}
-                />
+              <Sticky header={<AnalyzeHeader />}>
+                <Fragment>
+                  <QueryBuilderWorkspace
+                    filters={filters}
+                    onChangeFilters={onChangeFilters}
+                    totalNumberOfCalls={totalHits}
+                  />
 
-                <MaxWidthFullscreenContainer>
-                  <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-                </MaxWidthFullscreenContainer>
-              </Fragment>
+                  <MaxWidthFullscreenContainer>
+                    <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                  </MaxWidthFullscreenContainer>
+                </Fragment>
+              </Sticky>
             );
           }}
         />
@@ -172,4 +158,16 @@ function getValueByTag(backendTagFilter, tag) {
   } else {
     backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
   }
+}
+
+function AnalyzeHeader() {
+  return (
+    <div className={locals.headerWrapper}>
+      <MaxWidthFullscreenContainer>
+        <div className={locals.header}>
+          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />Calls
+        </div>
+      </MaxWidthFullscreenContainer>
+    </div>
+  );
 }

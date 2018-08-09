@@ -7,7 +7,6 @@ import TechnologySuggestions from 'in-analyze/Analyze/components/QuickFilter/Tec
 import LatencySuggestions from 'in-analyze/Analyze/components/QuickFilter/LatencySuggestions';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TypeSuggestions from 'in-analyze/Analyze/components/QuickFilter/TypeSuggestions';
-import CallTraceSwitch from 'in-analyze/Analyze/components/CallTraceSwitch';
 import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import QuickFilter from 'in-analyze/Analyze/components/QuickFilter';
@@ -23,14 +22,13 @@ import { getTagFromList } from 'in-applications/tags';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeFilters, totalNumberOfCalls } = props;
+  const { filters, onChangeFilters } = props;
   const group = filters.get('group');
 
   return (
     <Fragment>
       <div className={locals.firstRow}>
         <MaxWidthFullscreenContainer className={locals.firstRowMaxWidthFullscreenContainer}>
-          <CallTraceSwitch totalNumberOfCalls={totalNumberOfCalls} />
           <QuickFilterSection {...props} />
           <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
         </MaxWidthFullscreenContainer>
