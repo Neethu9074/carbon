@@ -45,7 +45,7 @@ export default (
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
     <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
     <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
-    {!twoZeroModeEnabled && <Route component={GraphView} path={graphPath} />}
+    <Route component={GraphView} path={graphPath} />
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents && (

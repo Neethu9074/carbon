@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { applicationsList } from 'in-applications/navigation/paths';
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Button from 'in-components/Button';
@@ -42,7 +44,9 @@ export default function Explanation() {
       </p>
 
       <p>
-        <Button onClick={() => goToPath(physicalPath)}>Close Graph</Button>
+        <Button onClick={() => (twoZeroModeEnabled ? goToPath(applicationsList) : goToPath(physicalPath))}>
+          Close Graph
+        </Button>
       </p>
     </div>
   );
