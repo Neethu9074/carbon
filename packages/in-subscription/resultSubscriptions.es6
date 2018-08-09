@@ -3,9 +3,10 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
 import 'in-subscription/subscription';
 
-export function createResultSubscriptionFactory({ eventId, disposeSubscriptionOnDocumentHidden = true }) {
+export function createResultSubscriptionFactory({ eventId, memoizeFor, disposeSubscriptionOnDocumentHidden = true }) {
   return createSubscription({
     eventId,
+    memoizeFor,
     disposeSubscriptionOnDocumentHidden,
 
     getData(subscriptionId, params) {

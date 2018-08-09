@@ -3,7 +3,8 @@ import { get } from 'lodash';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const containsPastLiveData = createResultSubscriptionFactory({
-  eventId: 'containsPastLiveData'
+  eventId: 'containsPastLiveData',
+  memoizeFor: 1000
 });
 export default containsPastLiveData;
 

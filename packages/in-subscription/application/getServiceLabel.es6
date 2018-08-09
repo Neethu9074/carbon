@@ -1,5 +1,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getServiceLabel'
+  eventId: 'getServiceLabel',
+  memoizeFor: 100
 });
