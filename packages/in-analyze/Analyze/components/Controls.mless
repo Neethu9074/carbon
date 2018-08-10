@@ -1,7 +1,25 @@
+@import '~in-themes/active.less';
+
 :local {
-  .controls {
-    position: absolute;
-    right: 0;
-    top: 0.75rem;
+  .resetButton {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.875rem;
+    color: @lib__colors__N600Light;
+    cursor: pointer;
+
+    &:hover {
+      color: @lib__colors__N800Dark;
+
+      .icon {
+        fill: @lib__colors__N800Dark;
+      }
+    }
+  }
+
+  .icon {
+    margin-right: 0.25rem;
+    fill: @lib__colors__N600Light;
   }
 }
