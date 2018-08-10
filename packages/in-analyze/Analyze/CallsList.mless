@@ -19,7 +19,7 @@
   }
 
   .icon {
-    fill: @lib__colors__primary1;
+    fill: #fff;
     margin-right: 0.25rem;
   }
 }
