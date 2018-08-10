@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-
+import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
 export default function ProcessDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-
+  const data = snapshot.get('data');
   return (
     <div>
       <DashboardSection title="Memory">
@@ -37,6 +36,22 @@ export default function ProcessDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      {data.get('ctx_switches_enabled') ? (
+        <DashboardSection title="Number of context switches">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['ctx_switches.voluntary', 'ctx_switches.nonvoluntary'],
+              labels: ['Voluntary', 'Nonvoluntary'],
+              formatter: number.compact,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      ) : null}
 
       <ProcessCompanionMetrics snapshotId={snapshotId} />
     </div>
