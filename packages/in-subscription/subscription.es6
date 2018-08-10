@@ -17,7 +17,7 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
   eventId: string,
   getId?: PARAM => string,
   getData: (subscriptionId: number, param: PARAM) => any,
-  memoizeFor?: number,
+  memoizeFor?: number | Function,
   disposeSubscriptionOnDocumentHidden?: boolean,
   transform?: (Observable<any>, PARAM) => Observable<RESULT>
 };

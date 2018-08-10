@@ -1,18 +1,22 @@
 // @flow
 import { setTimeoutFn, clearTimeoutFn } from '../timers';
-import Observer from '../Observer';
 import TerminalObserver from '../TerminalObserver';
+import Observer from '../Observer';
 
 const dummyChild: any = {
   _onNext() {}
 };
 
 export default function delayedStop<T>(
-  millis: number,
+  millis: number | Function,
   stopObserver: () => void,
   setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
   clearTimeout: (timeoutId?: number) => void = clearTimeoutFn
 ): Observer<T, T> {
+  if (typeof millis === 'function') {
+    millis = millis();
+  }
+
   const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
   observer._setOnNext((v: ?T) => {
     observer._emit(v);
