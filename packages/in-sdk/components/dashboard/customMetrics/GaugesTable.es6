@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function Gauges({ snapshot, timeConfig }) {
+export default function Gauges({ snapshot, timeConfig, titlePrefix }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'metrics.gauges'], emptyList)
@@ -52,8 +52,9 @@ export default function Gauges({ snapshot, timeConfig }) {
     return null;
   }
 
+  const title = titlePrefix ? titlePrefix + ' Gauges (' + rows.length + ')' : 'Gauges (' + rows.length + ')';
   return (
-    <DashboardSection title={`Gauges (${rows.length})`}>
+    <DashboardSection title={title}>
       <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
     </DashboardSection>
   );

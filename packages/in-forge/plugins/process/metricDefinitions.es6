@@ -1,4 +1,4 @@
-import { percentage, bytes } from 'in-services/formatters/number';
+import { percentage, bytes, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -14,5 +14,11 @@ export default [
     min: 0,
     category: ['CPU Usage'],
     formatter: percentage
+  },
+  {
+    metrics: ['ctx_switches.voluntary', 'ctx_switches.nonvoluntary'],
+    labels: ['Voluntary', 'Nonvoluntary'],
+    min: 0,
+    formatter: number
   }
 ];

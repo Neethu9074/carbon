@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function CountersTable({ snapshot, timeConfig }) {
+export default function CountersTable({ snapshot, timeConfig, titlePrefix }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'metrics.counters'], emptyList)
@@ -52,8 +52,9 @@ export default function CountersTable({ snapshot, timeConfig }) {
     return null;
   }
 
+  const title = titlePrefix ? titlePrefix + ' Counters (' + rows.length + ')' : 'Counters (' + rows.length + ')';
   return (
-    <DashboardSection title={`Counters (${rows.length})`}>
+    <DashboardSection title={title}>
       <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
     </DashboardSection>
   );

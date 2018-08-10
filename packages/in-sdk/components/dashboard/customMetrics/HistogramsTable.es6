@@ -34,7 +34,7 @@ const cols = [
   }
 ];
 
-export default function MetersTable({ snapshot, timeConfig }) {
+export default function MetersTable({ snapshot, timeConfig, titlePrefix }) {
   const snapshotId = snapshot.get('id');
   const rows = snapshot
     .getIn(['data', 'metrics.histograms'], emptyList)
@@ -52,8 +52,9 @@ export default function MetersTable({ snapshot, timeConfig }) {
     return null;
   }
 
+  const title = titlePrefix ? titlePrefix + ' Histograms (' + rows.length + ')' : 'Histograms (' + rows.length + ')';
   return (
-    <DashboardSection title={`Histograms (${rows.length})`}>
+    <DashboardSection title={title}>
       <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
     </DashboardSection>
   );
