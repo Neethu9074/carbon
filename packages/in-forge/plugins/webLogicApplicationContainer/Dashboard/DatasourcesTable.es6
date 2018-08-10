@@ -161,7 +161,7 @@ function getRowDetails(row) {
             'datasources.' + row.key + '.requestsWaitingForConnection',
             'datasources.' + row.key + '.leakedConnections'
           ],
-          labels: ['Available', 'Current Active', 'In Pool', 'Created', 'Requests Waiting', 'Leaked'],
+          labels: ['Available', 'Active', 'In Pool', 'Created', 'Requests Waiting', 'Leaked'],
           type: 'line'
         }}
       />
