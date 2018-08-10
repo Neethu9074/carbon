@@ -2,6 +2,7 @@ import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
+import ActiveParts from 'in-forge/plugins/clickHouseDatabase/Dashboard/ActiveParts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number, bytes } from 'in-services/formatters/number';
@@ -146,6 +147,8 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <ActiveParts snapshot={snapshot} />
     </div>
   );
 }

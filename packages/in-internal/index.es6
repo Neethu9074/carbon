@@ -2,6 +2,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
 import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
+import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import TuStatistics from 'in-internal/TuStatistics';
 import DevDashboard from 'in-internal/DevDashboard';
 import FillerStats from 'in-internal/FillerStats';
@@ -17,6 +18,7 @@ export default function Internal() {
       <Route path="/internal/fillerStats" component={FillerStats} />
       <Route path="/internal/appdata" component={Appdata} />
       <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
+      <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );
