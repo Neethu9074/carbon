@@ -16,10 +16,10 @@ export default function Dashboard({ snapshot, timeConfig }) {
     'threadPool.hoggingThreads',
     'threadPool.standbyThreads'
   ];
-  const threadPoolLabels = ['Idle Threads', 'Total Threads', 'Hogging Threads', 'Stand by Threads'];
+  const threadPoolLabels = ['Idle', 'Total', 'Hogging', 'Stand by'];
   if (threadPoolStuckThreadsMetricAvailable) {
     threadPoolMetrics.push('threadPool.stuckThreads');
-    threadPoolLabels.push('Stuck Threads');
+    threadPoolLabels.push('Stuck');
   }
   const serverLogRuntimeMBeanAvailable = snapshot.getIn(
     ['data', 'serverLogMessages.serverLogRuntimeMBeanAvailable'],

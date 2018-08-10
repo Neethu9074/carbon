@@ -26,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Connections',
+    title: 'Available',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -42,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Current Active Connections',
+    title: 'Active',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -58,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections in Pool',
+    title: 'In Pool',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -74,7 +74,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections Created',
+    title: 'Created',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -90,7 +90,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests Waiting for Connection',
+    title: 'Requests Waiting',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -106,7 +106,7 @@ const cols = [
     }
   },
   {
-    title: 'Leaked Connections',
+    title: 'Leaked',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -161,14 +161,7 @@ function getRowDetails(row) {
             'datasources.' + row.key + '.requestsWaitingForConnection',
             'datasources.' + row.key + '.leakedConnections'
           ],
-          labels: [
-            'Available Connections',
-            'Current Active Connections',
-            'Connections in Pool',
-            'Connections Created',
-            'Requests Waiting for Connection',
-            'Leaked Connections'
-          ],
+          labels: ['Available', 'Current Active', 'In Pool', 'Created', 'Requests Waiting', 'Leaked'],
           type: 'line'
         }}
       />
