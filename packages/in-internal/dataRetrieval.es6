@@ -16,24 +16,24 @@ export function getDropwizardWithContext(query) {
       })
         .flatMap(getSnapshots)
         .flatMap(dropwizardSnapshots =>
-          combineLatest(
-            dropwizardSnapshots.map(dropwizard =>
-              getPhysicalHierarchy(dropwizard.get('id'), false)
-                .flatMap(getSnapshots)
-                .map(snapshots => {
-                  return {
-                    key: dropwizard.get('id'),
-                    host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
-                    container: snapshots.find(s => s.getIn(['plugin']) === 'docker'),
-                    jvm: snapshots.find(s => s.getIn(['plugin']) === 'jvmRuntimePlatform'),
-                    dropwizard,
-                    timeConfig
-                  };
-                })
-                .filter(row => row.host != null && row.container != null)
-            )
-          )
+          combineLatest(dropwizardSnapshots.map(dropwizard => getContextForDropwizard(dropwizard, timeConfig)))
         )
     )
     .startWith(emptyArray);
+}
+
+export function getContextForDropwizard(dropwizard, timeConfig) {
+  return getPhysicalHierarchy(dropwizard.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: dropwizard.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        container: snapshots.find(s => s.getIn(['plugin']) === 'docker'),
+        jvm: snapshots.find(s => s.getIn(['plugin']) === 'jvmRuntimePlatform'),
+        dropwizard,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null && row.container != null && row.jvm != null);
 }
