@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './Controls.mless';
 
 export default function Controls({ filters, onResetClicked }) {
-  const shouldShowResetButton = filters.get('tagFilter').size > 0 || filters.get('group');
+  const shouldShowResetButton = filters.get('tagFilter').size > 0 || filters.getIn(['group', 'name']) !== 'call.name';
 
   if (!shouldShowResetButton) {
     return null;
