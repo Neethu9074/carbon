@@ -973,6 +973,50 @@ describe('reactive-observables', () => {
       expect(stopCb.callCount).to.equal(1);
     });
 
+    it('should call the callback after a conditioned number of millis ticked and paste the last emitted value', () => {
+      const observable = create({
+        start(o) {
+          o.emit(42);
+        },
+
+        stop: stopSubscriber
+      }).delayedStop(a => (a == 42 ? 300 : 200), sinon.stub(), setTimeout, clearTimeout);
+      observable.once(() => {}).dispose();
+      expect(stopSubscriber.callCount).to.equal(0);
+      clock.tick(200);
+      expect(stopSubscriber.callCount).to.equal(0);
+      clock.tick(100);
+      expect(stopSubscriber.callCount).to.equal(1);
+    });
+
+    it('should call the callback after a conditioned number of millis ticked and paste the last emitted value', () => {
+      const observable = create({
+        start(o) {
+          o.emit(1337);
+        },
+
+        stop: stopSubscriber
+      }).delayedStop(a => (a == 42 ? 300 : 200), sinon.stub(), setTimeout, clearTimeout);
+      observable.once(() => {}).dispose();
+      expect(stopSubscriber.callCount).to.equal(0);
+      clock.tick(200);
+      expect(stopSubscriber.callCount).to.equal(1);
+      clock.tick(100);
+      expect(stopSubscriber.callCount).to.equal(1);
+    });
+
+    it('should call the callback after a conditioned number of millis ticked', () => {
+      const observable = create({
+        stop: stopSubscriber
+      }).delayedStop(a => (a == 42 ? 300 : 200), sinon.stub(), setTimeout, clearTimeout);
+      observable.once(() => {}).dispose();
+      expect(stopSubscriber.callCount).to.equal(0);
+      clock.tick(200);
+      expect(stopSubscriber.callCount).to.equal(1);
+      clock.tick(100);
+      expect(stopSubscriber.callCount).to.equal(1);
+    });
+
     it('should not add itself twice to the parent', () => {
       const parentStart = sinon.stub();
       const parentStop = sinon.stub();
