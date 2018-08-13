@@ -1,9 +1,9 @@
 // @flow
+import type { Observable } from 'reactive-observables';
+import { create } from 'reactive-observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from 'in-services/util/id';
-import type { Observable } from 'reactive-observables';
-import { create } from 'reactive-observables';
 import { connection } from 'in-connection';
 
 /**
