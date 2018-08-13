@@ -21,7 +21,7 @@ const defaultOrder = 'callsAgg';
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'calls.',
+    getMatrixPrefix: () => 'groupedCalls.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,
