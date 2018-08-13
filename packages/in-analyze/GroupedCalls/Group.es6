@@ -6,7 +6,7 @@ import {
   tagFilter as tagFilterMatrixParameter,
   showRawData as showRawDataMatrixParameter
 } from 'in-analyze/navigation/matrix';
-import { number, millis, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import { getLinkToRawData } from 'in-analyze/navigation/paths';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -19,6 +19,7 @@ import locals from './Group.mless';
 
 export default function Group({ item, filters, onChangeFilters, dotColor }) {
   const isAlreadyFiltered = isAlreadyFilteredByThisGroup(item, filters);
+  const errorMetric = get(item, ['metrics', 'errorsAgg', 0, 1]);
 
   const rowContent = (
     <Fragment>
@@ -62,7 +63,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
         <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'latencyAgg', 0, 1]))}</span>
       </Td>
 
-      <Td noWrap>{percentageTwoDecimalPlaces(get(item, ['metrics', 'errorsAgg', 0, 1]))}</Td>
+      <Td noWrap>{errorMetric == 0 ? percentage.compact(errorMetric) : percentage.detailed(errorMetric)}</Td>
     </Fragment>
   );
 
