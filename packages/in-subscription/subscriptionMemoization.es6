@@ -20,7 +20,7 @@ export default function memoizeOnCases({
 
 const defaultMemoizeConfig = {
   noDataMillis: 200,
-  liveMillis: 1000 * 30,
+  liveMillis: 1000 * 5,
   defaultMillis: 1000 * 60 * 2
 };
 
