@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 
-export default function memoizeOnCases(millis = {}) {
-  const noDataMillis = millis.noDataMillis || 200;
-  const liveMillis = millis.liveMillis || 1000 * 30;
-  const defaultMillis = millis.defaultMillis || 1000 * 60 * 2;
-
+export default function memoizeOnCases({
+  noDataMillis = defaultMemoizeConfig.noDataMillis,
+  liveMillis = defaultMemoizeConfig.liveMillis,
+  defaultMillis = defaultMemoizeConfig.defaultMillis
+}) {
   return ([data], lastEmittedValue) => {
     if (!lastEmittedValue || !lastEmittedValue.data) {
       return noDataMillis;
@@ -17,6 +17,14 @@ export default function memoizeOnCases(millis = {}) {
     return defaultMillis;
   };
 }
+
+const defaultMemoizeConfig = {
+  noDataMillis: 200,
+  liveMillis: 1000 * 30,
+  defaultMillis: 1000 * 60 * 2
+};
+
+export const defaultMemoize = memoizeOnCases(defaultMemoizeConfig);
 
 function isLiveSubscription(data) {
   const timeConfig = get(data, ['filter', 'timeConfig'], get(data, ['timeConfig'], undefined));
