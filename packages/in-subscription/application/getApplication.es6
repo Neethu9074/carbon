@@ -1,8 +1,7 @@
-import { createResultSubscriptionFactory, isLiveSubscription } from 'in-subscription/resultSubscriptions';
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import memoizeOnCases from 'in-subscription/subscriptionMemoization';
 
-export default function(data) {
-  return createResultSubscriptionFactory({
-    eventId: 'getApplication',
-    memoizeFor: isLiveSubscription(data) ? 1000 * 10 : 1000 * 60 * 2
-  })(data);
-}
+export default createResultSubscriptionFactory({
+  eventId: 'getApplication',
+  memoizeFor: memoizeOnCases(200, 1000 * 30, 1000 * 60 * 2)
+});
