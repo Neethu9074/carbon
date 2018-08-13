@@ -35,7 +35,7 @@ export default compose(
   }),
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => '',
+    getMatrixPrefix: () => 'callList.',
     boundKeys: [tagFilterMatrixParameter, groupByMatrixParameter, showRawDataMatrixParameter],
     getResettingProps: () => [],
     getInitialState: () => {
