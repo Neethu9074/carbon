@@ -2,13 +2,18 @@ export default function memoize(createObservable, idGenerator, tti = 10000) {
   const originalTti = tti;
   const cache = new Map();
 
-  return function memoizedObservableCreator(...args) {
+  return function memoizedObservableCreator() {
     const id = idGenerator.apply(this, arguments);
     if (cache.has(id)) {
       return cache.get(id);
     }
 
     if (typeof tti === 'function') {
+      // non-deopt arguments copy
+      const args = new Array(arguments.length);
+      for (let i = 0; i < arguments.length; i++) {
+        args[i] = arguments[i];
+      }
       tti = lastEmittedValue => originalTti(args, lastEmittedValue);
     }
 
