@@ -13,12 +13,10 @@ export default function delayedStop<T>(
   setTimeout: (callback: Function, ms?: number, ...args: Array<any>) => number = setTimeoutFn,
   clearTimeout: (timeoutId?: number) => void = clearTimeoutFn
 ): Observer<T, T> {
-  if (typeof millis === 'function') {
-    millis = millis();
-  }
-
   const observer: Observer<T, T> = new Observer(this, this._subjectSpec);
+  let lastEmittedValue: ?T = null;
   observer._setOnNext((v: ?T) => {
+    lastEmittedValue = v;
     observer._emit(v);
   });
 
@@ -51,11 +49,13 @@ export default function delayedStop<T>(
         if (observer._children.length === 1) {
           dummyChildAdded = false;
           observer._originalRemoveChild(dummyChild);
+          lastEmittedValue = null;
+
           if (stopObserver) {
             stopObserver();
           }
         }
-      }, millis);
+      }, typeof millis === 'function' ? millis(lastEmittedValue) : millis);
     }
   };
 
