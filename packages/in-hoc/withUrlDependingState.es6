@@ -147,7 +147,7 @@ export default ({
       mutateUrl(params => {
         const matrixValues = (params.matrix[forPathSegment] = params.matrix[forPathSegment] || {});
         Object.keys(serializedValues).forEach(k => (matrixValues[`${matrixPrefix}${k}`] = serializedValues[k]));
-      }, this.props.repalceHistory == false ? false : true);
+      }, this.props.replaceHistory == false ? false : true);
     }
 
     reducer = change => {

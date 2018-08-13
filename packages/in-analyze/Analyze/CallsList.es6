@@ -1,6 +1,6 @@
+import { compose, defaultProps } from 'recompose';
 import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 import { fromJS } from 'immutable';
 
 import {
@@ -30,6 +30,9 @@ import GroupedCalls from 'in-analyze/GroupedCalls';
 import Title from 'in-components/Title';
 
 export default compose(
+  defaultProps({
+    replaceHistory: false
+  }),
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => '',
