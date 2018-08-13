@@ -63,7 +63,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       id: 'errorCount',
       label: 'Errors',
       getContent(item) {
-        return <ErrorIndicator errorCount={item.errorCount} />;
+        return <ErrorIndicator errorCount={item.errorCount} allowZero />;
       }
     }
   ];
