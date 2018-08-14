@@ -12,6 +12,10 @@
     padding: 0.5rem 0;
   }
 
+  .button {
+    margin-right: 2rem;
+  }
+
   .groupName {
     font-size: 0.875rem;
     color: @lib__colors__N600Light;
