@@ -100,6 +100,7 @@ import './rpc-client';
 import './rpc-server';
 import './rpc';
 import './s3';
+import './scalatra';
 import './sdk';
 import './sdk.database';
 import './sdk.http.entry';
