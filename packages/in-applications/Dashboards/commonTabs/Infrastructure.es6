@@ -126,7 +126,7 @@ const getColumnDefinitions = type => {
       id: 'process',
       label: 'Process',
       getContent(item) {
-        if (!item.physicalContext.process.id) {
+        if (!item.physicalContext.process) {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
@@ -145,7 +145,7 @@ const getColumnDefinitions = type => {
       id: 'container',
       label: 'Container',
       getContent(item) {
-        if (!item.physicalContext.container.id) {
+        if (!item.physicalContext.container) {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.docker} />
@@ -164,7 +164,7 @@ const getColumnDefinitions = type => {
       id: 'host',
       label: 'Host',
       getContent(item) {
-        if (!item.physicalContext.host.id) {
+        if (!item.physicalContext.host) {
           return (
             <div className={locals.cell}>
               <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.host} />
