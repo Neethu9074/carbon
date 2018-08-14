@@ -12,6 +12,8 @@ export default function Info({ snapshot }) {
 
         <DescriptionItem title="Instance ID">{data.get('instance-id')}</DescriptionItem>
 
+        <DescriptionItem title="Project ID">{data.get('project-id')}</DescriptionItem>
+
         <DescriptionItem title="Availability Zone">{data.get('availability-zone')}</DescriptionItem>
       </DescriptionList>
     </div>

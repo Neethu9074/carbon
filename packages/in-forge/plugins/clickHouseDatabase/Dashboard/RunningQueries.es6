@@ -2,39 +2,59 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { number, millis, bytes } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import getAgentResponse from 'in-subscription/agentResponse';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Database',
+    title: 'Query ID',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.database;
+        return row.query_id || '<without query id>';
       }
     }
   },
   {
-    title: 'Table',
+    title: 'Query',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.table;
+        return row.query;
       }
     }
   },
   {
-    title: 'Active Parts',
+    title: 'Elapsed',
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return parseInt(row.activeParts, 10);
+        return row.elapsed;
+      },
+      getContent: millis.fixedDetailed
+    }
+  },
+  {
+    title: 'Read Rows',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return Number(row.read_rows);
       },
       getContent: number.compact
+    }
+  },
+  {
+    title: 'Read Bytes',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return Number(row.read_bytes);
+      },
+      getContent: bytes.detailed
     }
   }
 ];
@@ -44,7 +64,7 @@ export default connectTo(
     response:
       timeConfig.focusedMoment == null &&
       getAgentResponse({
-        action: 'clickHouse.getActiveParts',
+        action: 'clickHouse.getRunningQueries',
         target: snapshot.get('volatileId'),
         args: {}
       })
@@ -54,14 +74,14 @@ export default connectTo(
 
     if (timeConfig.focusedMoment != null) {
       content = (
-        <DashboardNotification type="info">Active part analysis is only available in live mode.</DashboardNotification>
+        <DashboardNotification type="info">Running queries list is only available in live mode.</DashboardNotification>
       );
     } else if (response == null) {
       content = <LoadingIndicator type="dark" />;
     } else if (response.error) {
       content = (
         <DashboardNotification type="danger">
-          Failed to retrieve active part analysis: {response.error}
+          Failed to retrieve running queries: {response.error}
         </DashboardNotification>
       );
     } else {
@@ -75,6 +95,6 @@ export default connectTo(
       );
     }
 
-    return <DashboardSection title="Active Parts">{content}</DashboardSection>;
+    return <DashboardSection title="Running Queries">{content}</DashboardSection>;
   }
 );

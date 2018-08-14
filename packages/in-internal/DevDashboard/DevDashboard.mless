@@ -1,0 +1,5 @@
+:local {
+  .links {
+    font-size: 1rem;
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -9,6 +10,8 @@ export default function NomadInfo({ snapshot }) {
   if (!nomad || nomad.size === 0) {
     return null;
   }
+
+  const ports = nomad.get('ports');
 
   return (
     <div>
@@ -30,6 +33,12 @@ export default function NomadInfo({ snapshot }) {
               {nomad.get('memoryLimit') ? `${nomad.get('memoryLimit')} MB` : null}
             </DescriptionItem>
           </DescriptionList>
+
+          {ports && ports.size > 0 ? (
+            <KeyValuePopupButton title="Port Names" data={ports}>
+              Show port names
+            </KeyValuePopupButton>
+          ) : null}
         </Collapsible.Content>
       </Collapsible>
     </div>
