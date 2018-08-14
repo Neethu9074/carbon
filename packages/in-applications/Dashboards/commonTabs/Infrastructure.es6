@@ -2,7 +2,6 @@ import { withState } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
-import InfraTypeSelectButtonGroup from 'in-applications/Dashboards/commonTabs/InfraTypeSelectButtonGroup';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
@@ -12,6 +11,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ServerTable from 'in-components/tables/ServerTable';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Card from 'in-new-components/Card';
@@ -26,7 +26,16 @@ function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, sele
     <MaxWidthFullscreenContainer>
       <Card
         title="Infrastructure"
-        header={<InfraTypeSelectButtonGroup selectedType={selectedType} setType={setType} />}
+        header={
+          <ButtonGroup
+            buttonPropsList={[
+              { text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') },
+              { text: 'Container', key: 'DOCKER', onClick: () => setType('DOCKER') },
+              { text: 'Host', key: 'HOST', onClick: () => setType('HOST') }
+            ]}
+            activeKey={selectedType}
+          />
+        }
         withoutPadding
       >
         <ServerTable

@@ -18,13 +18,18 @@
     }
 
     & + .button {
-      margin: 0;
+      margin-left: 0.25rem;
     }
   }
 
   .active {
     background: @lib__colors__light-blue800;
     color: #fff;
+
+    &:hover {
+      background: @lib__colors__light-blue800;
+      color: #fff;
+    }
   }
 
   .first {

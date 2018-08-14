@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import RoundButton from 'in-components/FlowMap/components/Controls/Button';
 import { particlesInFlowMapEnabled } from 'in-services/featureFlags';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Controls.mless';
@@ -27,27 +27,7 @@ export default function Controls({ serviceLocatorUid }) {
   return (
     <Fragment>
       <div className={locals.topLeftControls}>
-        <HeatmapButton
-          signal={SIGNAL_VALUES.HEATMAP_CALLS}
-          serviceLocatorUid={serviceLocatorUid}
-          onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)}
-        >
-          Calls
-        </HeatmapButton>
-        <HeatmapButton
-          signal={SIGNAL_VALUES.HEATMAP_LATENCY}
-          serviceLocatorUid={serviceLocatorUid}
-          onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)}
-        >
-          Latency
-        </HeatmapButton>
-        <HeatmapButton
-          signal={SIGNAL_VALUES.HEATMAP_ERRORRATE}
-          serviceLocatorUid={serviceLocatorUid}
-          onClick={() => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)}
-        >
-          Errors
-        </HeatmapButton>
+        <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
       </div>
       <div className={locals.bottomLeftControls}>
         {particlesInFlowMapEnabled && (
@@ -58,16 +38,6 @@ export default function Controls({ serviceLocatorUid }) {
       </div>
     </Fragment>
   );
-
-  function toggleHeatMapSignal(signal) {
-    eventBusServiceLocator.on(SIGNALS.HEATMAP).once(currentSignal => {
-      if (currentSignal === signal) {
-        eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
-      } else {
-        eventBusServiceLocator.emit(SIGNALS.HEATMAP, signal);
-      }
-    });
-  }
 
   function toggleParticles() {
     eventBusServiceLocator
@@ -97,24 +67,44 @@ const ParticlesButton = connectTo(
   }
 );
 
-const HeatmapButton = connectTo(
+const HeatmapButtons = connectTo(
   props => ({
-    isEnabled: getServiceLocators(props.serviceLocatorUid)
-      .eventBusServiceLocator.on(SIGNALS.HEATMAP)
-      .map(currentSignal => currentSignal === props.signal)
+    currentSignal: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP)
   }),
-  function HeatmapButton({ isEnabled, children, onClick, disabled }) {
+  function HeatmapButtons({ serviceLocatorUid, currentSignal }) {
+    const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
+
+    function toggleHeatMapSignal(signal) {
+      eventBusServiceLocator.on(SIGNALS.HEATMAP).once(currentSignal => {
+        if (currentSignal === signal) {
+          eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+        } else {
+          eventBusServiceLocator.emit(SIGNALS.HEATMAP, signal);
+        }
+      });
+    }
+
     return (
-      <div
-        className={evaluateClassNames({
-          [locals.heatMapButton]: true,
-          [locals.selectedHeatMapButton]: isEnabled
-        })}
-        onClick={onClick}
-        disabled={disabled}
-      >
-        {children}
-      </div>
+      <ButtonGroup
+        buttonPropsList={[
+          {
+            text: 'Calls',
+            key: SIGNAL_VALUES.HEATMAP_CALLS,
+            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
+          },
+          {
+            text: 'Latency',
+            key: SIGNAL_VALUES.HEATMAP_LATENCY,
+            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
+          },
+          {
+            text: 'Errors',
+            key: SIGNAL_VALUES.HEATMAP_ERRORRATE,
+            onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)
+          }
+        ]}
+        activeKey={currentSignal}
+      />
     );
   }
 );

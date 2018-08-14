@@ -1,13 +1,10 @@
 import React from 'react';
 
 import NoContent from 'in-components/Chart/components/NoContent';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { createTracker } from 'in-services/tracking/mixpanel';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
-import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
-
-import locals from './TopListCardPresenter.mless';
 
 const trackTopListMetricChanged = createTracker('toplist.metricChanged');
 
@@ -15,27 +12,17 @@ export default function TopListCard(props) {
   const { result, title, metrics, labels, onChangeMetric, selectedMetric, List: ListRenderer = List } = props;
 
   const header = metrics.length > 1 && (
-    <ul className={locals.metrics}>
-      {metrics.map((metric, i) => (
-        <li key={metric} className={locals.metric}>
-          <Button
-            className={evaluateClassNames({
-              [locals.active]: selectedMetric === metric
-            })}
-            kind="secondary"
-            href="#"
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              trackTopListMetricChanged({ title, metric: labels[i] });
-              onChangeMetric(metric);
-            }}
-          >
-            {labels[i]}
-          </Button>
-        </li>
-      ))}
-    </ul>
+    <ButtonGroup
+      buttonPropsList={metrics.map((metric, i) => ({
+        text: labels[i],
+        key: metrics[i],
+        onClick: () => {
+          trackTopListMetricChanged({ title, metric: labels[i] });
+          onChangeMetric(metric);
+        }
+      }))}
+      activeKey={selectedMetric}
+    />
   );
 
   let content;
@@ -48,7 +35,7 @@ export default function TopListCard(props) {
   } else if (result.errors.length > 0) {
     content = <NoContent height={height} errors={result.errors} />;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
-    content = <div className={locals.noDataFound}>No data available.</div>;
+    content = 'No data available.';
   } else {
     content = <ListRenderer {...props} />;
   }

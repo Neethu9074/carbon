@@ -4,9 +4,9 @@ import { withState } from 'recompose';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import { millis, percentage } from 'in-services/formatters/number';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import ButtonGroup from 'in-new-components/ButtonGroup';
 
 import locals from './CallGroupCharts.mless';
 
@@ -32,23 +32,13 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
   return (
     <div className={locals.charts}>
       <div className={locals.buttonGroup}>
-        <ChartSelectButton
-          chartId="latency"
-          label="Latency"
-          activeChartId={selectedChart}
-          setSelectedChart={setSelectedChart}
-        />
-        <ChartSelectButton
-          chartId="calls"
-          label="Calls"
-          activeChartId={selectedChart}
-          setSelectedChart={setSelectedChart}
-        />
-        <ChartSelectButton
-          chartId="errors"
-          label="Error Rate"
-          activeChartId={selectedChart}
-          setSelectedChart={setSelectedChart}
+        <ButtonGroup
+          buttonPropsList={[
+            { text: 'Latency', key: 'latency', onClick: () => setSelectedChart('latency') },
+            { text: 'Calls', key: 'calls', onClick: () => setSelectedChart('calls') },
+            { text: 'Error Rate', key: 'errors', onClick: () => setSelectedChart('errors') }
+          ]}
+          activeKey={selectedChart}
         />
       </div>
 
@@ -60,20 +50,6 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
         selectedChart={selectedChart}
       />
       <div className={locals.whitespace} />
-    </div>
-  );
-}
-
-function ChartSelectButton({ chartId, label, setSelectedChart, activeChartId }) {
-  return (
-    <div
-      className={evaluateClassNames({
-        [locals.chartSelectButton]: true,
-        [locals.chartSelectedButton]: activeChartId === chartId
-      })}
-      onClick={() => setSelectedChart(chartId)}
-    >
-      {label}
     </div>
   );
 }
