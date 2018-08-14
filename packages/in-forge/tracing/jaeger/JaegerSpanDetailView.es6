@@ -10,7 +10,7 @@ export default function JaegerSpanDetailView({ span }) {
         <DescriptionItem title="Service">{span.getIn(['data', 'service'])}</DescriptionItem>
         <DescriptionItem title="Operation">{span.getIn(['data', 'operation'])}</DescriptionItem>
         <DescriptionItem title="Tags">
-          <Code code={JSON.stringify(span.getIn(['data']).toJS(), 0, 2)} lang="json" />
+          <Code code={JSON.stringify(span.getIn(['data', 'tags']).toJS(), 0, 2)} lang="json" />
         </DescriptionItem>
       </DescriptionList>
     </div>
