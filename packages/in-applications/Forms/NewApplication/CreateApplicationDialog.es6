@@ -16,12 +16,12 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import AddButton from 'in-analyze/Analyze/components/AddButton';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
@@ -145,8 +145,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                         }))}
                       />
 
-                      <AddButton
-                        text="Tag"
+                      <Button
+                        icon="lib_openclose_add"
+                        kind="secondary"
                         onClick={() =>
                           setActiveDialog(
                             <EditFilterDialog
@@ -168,7 +169,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                             />
                           )
                         }
-                      />
+                      >
+                        Tag
+                      </Button>
                     </Fragment>
                   )
                 }

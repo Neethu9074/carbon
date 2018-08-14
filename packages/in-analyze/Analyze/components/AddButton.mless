@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .addButton {
-    padding-left: 0.25rem;
-    border-radius: @lib__shapes__radius_medium;
-  }
-}
