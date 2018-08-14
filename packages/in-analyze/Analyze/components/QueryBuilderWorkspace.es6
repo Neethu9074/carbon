@@ -10,9 +10,9 @@ import TypeSuggestions from 'in-analyze/Analyze/components/QuickFilter/TypeSugge
 import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import QuickFilter from 'in-analyze/Analyze/components/QuickFilter';
+import ResetButton from 'in-analyze/Analyze/components/ResetButton';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
-import Controls from 'in-analyze/Analyze/components/Controls';
 import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { createFilter } from 'in-analyze/filterBuilder';
@@ -30,7 +30,7 @@ export default function QueryBuilderWorkspace(props) {
       <div className={locals.firstRow}>
         <MaxWidthFullscreenContainer className={locals.firstRowMaxWidthFullscreenContainer}>
           <QuickFilterSection {...props} />
-          <Controls filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
+          <ResetButton filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
         </MaxWidthFullscreenContainer>
       </div>
 
