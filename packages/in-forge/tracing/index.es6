@@ -46,6 +46,7 @@ import './http';
 import './httpkit.server';
 import './ibmdb2';
 import './ios.error';
+import './jaeger';
 import './jdbc';
 import './jersey.client';
 import './jersey';
