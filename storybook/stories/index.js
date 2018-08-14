@@ -59,6 +59,7 @@ import './designLibrary/utilities/ShapesStory';
 
 import './designLibrary/components/BadgeStory';
 import './designLibrary/components/ButtonStory';
+import './designLibrary/components/ButtonGroupStory';
 import './designLibrary/components/CardStory';
 import './designLibrary/components/ChartStory';
 import './designLibrary/components/DashboardHeaderStory';

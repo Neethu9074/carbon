@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .buttonGroup {
+    display: flex;
+    align-items: center;
+  }
+
+  .button {
+    background: #fff;
+    color: @lib__colors__N700Medium;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N300;
+      color: @lib__colors__N700Medium;
+    }
+
+    & + .button {
+      margin: 0;
+    }
+  }
+
+  .active {
+    background: @lib__colors__light-blue800;
+    color: #fff;
+  }
+
+  .first {
+    border-top-left-radius: @lib__shapes__radius_medium;
+    border-bottom-left-radius: @lib__shapes__radius_medium;
+  }
+
+  .last {
+    border-top-right-radius: @lib__shapes__radius_medium;
+    border-bottom-right-radius: @lib__shapes__radius_medium;
+  }
+}
