@@ -23,6 +23,7 @@ import './clickHouseDatabase';
 import './clrRuntimePlatform';
 import './cloudFoundry';
 import './consul';
+import './consulCluster';
 import './couchbaseCluster';
 import './couchbaseNode';
 import './crystalRuntimePlatform';
