@@ -40,7 +40,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.node.getIn(['data', 'raft.state'], 'Agent');
+        return row.node.getIn(['data', 'raft.state'], 'Client');
       }
     }
   }
