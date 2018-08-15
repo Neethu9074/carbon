@@ -37,7 +37,7 @@ export function getLinkToAnalyze({ applicationName, serviceName, endpointName, r
       tagFilter.push({ name: ENDPOINT.name, value: endpointName });
     }
 
-    setOrDeleteMatrixKey(params, analyze, tagFilterMatrixParameter, getTagFilterToUrlString(tagFilter));
+    setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
   });
 }
 
