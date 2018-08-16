@@ -55,7 +55,7 @@
     color: @lib__colors__primary1;
     font-size: 0.875rem;
 
-    overflow-x: hidden;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
