@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'Elasticsearch Cluster',
     plural: 'Elasticsearch Clusters'
+  },
+  technologyDescriptor: {
+    label: 'elasticsearchCluster'
   }
 });
