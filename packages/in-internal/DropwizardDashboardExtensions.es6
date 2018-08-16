@@ -4,6 +4,11 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getContextForDropwizard } from 'in-internal/dataRetrieval';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
+import Select from 'in-components/form/Select';
+
+import './DropwizardDashboardExtension.less';
+
+const block = 'dropwizard-extension-select-box';
 
 export default connect(({ snapshot, timeConfig }) => ({
   context: getContextForDropwizard(snapshot, timeConfig)
@@ -44,6 +49,20 @@ export default connect(({ snapshot, timeConfig }) => ({
       <Button href={`${adminUrl}/hystrix`} target="_blank">
         Hystrix
       </Button>
+      {container.get('label').includes('appdata-processor') && (
+        <Select
+          id="tag-selection"
+          value=""
+          className={block + '__select'}
+          onChange={e => window.open(e.target.value, '_blank')}
+          autoFocus
+        >
+          <option value="">Tag data (select one)</option>
+          <option value={`${adminUrl}/admin/physicalAttributeStore`}>All Tags</option>
+          <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>Cluster Tags</option>
+          <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>Host/port references</option>
+        </Select>
+      )}
     </DashboardSection>
   );
 });
