@@ -33,10 +33,13 @@ export default function<PARAM, RESULT>({
   eventId,
   getId = generateStableHash,
   getData = defaultGetData,
-  memoizeFor = 10000,
+  memoizeFor,
   disposeSubscriptionOnDocumentHidden = true,
   transform
 }: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
+  if (!memoizeFor) {
+    memoizeFor = 10000;
+  }
   return memoize(
     createObservable.bind(null, eventId, getData, disposeSubscriptionOnDocumentHidden, transform),
     getId,

@@ -20,10 +20,10 @@ function Simple() {
     <Root>
       <SparkChart
         rollup={10000}
-        timeframe={{ windowSize: 60000, to: 60000 }}
+        timeConfig={{ windowSize: 60000, to: 60000 }}
         metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
       />
-      <SparkChart rollup={5000} timeframe={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />
+      <SparkChart rollup={5000} timeConfig={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />
     </Root>
   );
 }
@@ -33,7 +33,7 @@ function Missing() {
     <Root>
       <SparkChart
         rollup={1000}
-        timeframe={{ windowSize: 8000, to: 8000 }}
+        timeConfig={{ windowSize: 8000, to: 8000 }}
         metrics={[[0, 1], [1000, 1], [4000, 1], [5000, 2], [8000, 1]]}
       />
     </Root>
@@ -45,12 +45,12 @@ function Sizes() {
     <Root>
       <SparkChart
         rollup={10000}
-        timeframe={{ windowSize: 60000, to: 60000 }}
+        timeConfig={{ windowSize: 60000, to: 60000 }}
         metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
       />
       <SparkChart
         rollup={10000}
-        timeframe={{ windowSize: 60000, to: 60000 }}
+        timeConfig={{ windowSize: 60000, to: 60000 }}
         metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
         width={200}
         height={100}
