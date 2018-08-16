@@ -87,7 +87,7 @@ function CallsList(props) {
 
   let filters = fromJS({
     tagFilter,
-    group: props[groupByMatrixParameter] || { name: 'call.name', value: '' }
+    group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' }
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
