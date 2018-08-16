@@ -14,6 +14,6 @@ registerSnapshotDefinition({
     plural: 'Elasticsearch Clusters'
   },
   technologyDescriptor: {
-    label: 'Elasticsearch Cluster'
+    label: 'Elasticsearch'
   }
 });

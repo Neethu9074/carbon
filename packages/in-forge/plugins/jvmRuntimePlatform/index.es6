@@ -18,5 +18,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'JVM',
     plural: 'JVMs'
+  },
+  technologyDescriptor: {
+    label: 'JVM'
   }
 });

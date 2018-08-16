@@ -11,8 +11,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'MongoDB Replica Set',
     plural: 'MongoDB Replica Set'
-  },
-  technologyDescriptor: {
-    label: 'MongoDB Replica Set'
   }
 });
