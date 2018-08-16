@@ -29,7 +29,7 @@ export default connect(({ snapshot, timeConfig }) => ({
       <Button href={adminUrl} target="_blank">
         Admin
       </Button>
-      <Button href={`${adminUrl}/admin/config.json`} target="_blank">
+      <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
         Config
       </Button>
       <Button href={logUrl} target="_blank">

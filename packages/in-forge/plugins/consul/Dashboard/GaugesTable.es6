@@ -2,8 +2,8 @@ import React from 'react';
 
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
 import Table from 'in-sdk/components/dashboard/Table';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {

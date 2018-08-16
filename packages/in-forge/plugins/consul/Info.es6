@@ -9,7 +9,7 @@ export default function ConsulInfo({ snapshot }) {
       <DescriptionList>
         <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
         <DescriptionItem title="Consul Version">{data.get('consul_version')}</DescriptionItem>
-        <DescriptionItem title="State">{data.get('raft.state')}</DescriptionItem>
+        <DescriptionItem title="State">{data.get('raft.state', 'Client')}</DescriptionItem>
         <DescriptionItem title="Leader">{data.get('leader')}</DescriptionItem>
         <DescriptionItem title="Peers">{data.get('peers')}</DescriptionItem>
         <DescriptionItem title="Datacenter">{data.get('datacenter')}</DescriptionItem>

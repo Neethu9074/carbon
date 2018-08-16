@@ -42,7 +42,8 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         {semver.valid(consulVersion) &&
-          semver.satisfies(consulVersion, '>=1.0.0') && (
+          semver.satisfies(consulVersion, '>=1.0.0') &&
+          snapshot.getIn(['data', 'raft.state']) && (
             <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
           )}
         <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
@@ -59,11 +60,13 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
       )}
       <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={serfLanMetrics} title="SerfLan" />
       {semver.valid(consulVersion) &&
-        semver.satisfies(consulVersion, '>=1.0.0') && (
+        semver.satisfies(consulVersion, '>=1.0.0') &&
+        snapshot.getIn(['data', 'raft.state']) && (
           <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={raftMetrics} title="Raft" />
         )}
       {semver.valid(consulVersion) &&
-        semver.satisfies(consulVersion, '>=1.0.0') && (
+        semver.satisfies(consulVersion, '>=1.0.0') &&
+        snapshot.getIn(['data', 'raft.state']) && (
           <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={autopilotMetrics} title="Autopilot" />
         )}
       {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
