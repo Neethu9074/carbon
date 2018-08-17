@@ -8,18 +8,18 @@ export default function NoContent({ width, height, isLoading, errors }) {
   let content;
 
   if (isLoading) {
-    content = <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning height={56} />;
+    content = <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning height={48} />;
   } else if (errors) {
     content = (
       <Fragment>
-        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" height={56} />
+        <SvgIcon className={locals.icon} type="lib_help_error_error_circle" height={48} />
         An unexpected error occurred
       </Fragment>
     );
   } else {
     content = (
       <Fragment>
-        <SvgIcon className={locals.icon} type="lib_views_stats" height={56} />
+        <SvgIcon className={locals.icon} type="lib_views_stats" height={48} />
         No data available
       </Fragment>
     );

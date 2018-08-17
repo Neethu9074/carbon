@@ -3,7 +3,7 @@ import React from 'react';
 
 import ScreenPositionWrapper from 'in-components/FlowMap/components/Node/ScreenPositionWrapper';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';

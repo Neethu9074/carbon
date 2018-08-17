@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';

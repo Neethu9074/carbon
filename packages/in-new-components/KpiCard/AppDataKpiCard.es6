@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import getMetrics from 'in-subscription/application/getMetrics';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';

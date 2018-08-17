@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { longSelectedTrace$ } from 'in-views/traceView/stores/longSelectedTrace';
 import TraceFlameGraph from 'in-views/traceView/components/TraceFlameGraph';
 import TreeElement from 'in-views/traceView/components/tree/Element';

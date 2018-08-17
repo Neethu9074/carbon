@@ -2,9 +2,10 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import SparkChart from 'in-components/SparkChart';
-import Root from '../_helpers/Root';
 
-storiesOf('components/SparkChart', module)
+import Root from '../../_helpers/Root';
+
+storiesOf('designLibrary/Components/SparkChart', module)
   .add('Simple', () => <Simple />)
   .add('Missing Datapoints', () => <Missing />)
   .add('Sizes', () => <Sizes />)

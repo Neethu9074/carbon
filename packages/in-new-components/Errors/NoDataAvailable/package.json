@@ -1,0 +1,6 @@
+{
+  "name": "NoDataAvailable",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./NoDataAvailable.es6"
+}

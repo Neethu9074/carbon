@@ -1,28 +1,37 @@
+import { defaultProps } from 'recompose';
 import React from 'react';
 
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Tooltip from 'in-components/SparkChart/components/Tooltip';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { number } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SparkChart.mless';
 
-export default function SparkChartReactComponent(props) {
+export default defaultProps({
+  height: 24,
+  width: 72
+})(SparkChartReactComponent);
+function SparkChartReactComponent(props) {
   const timeConfig = props.timeConfig || props.timeConfig;
   const { metrics } = props;
-  if (!timeConfig || !metrics) {
-    return <SvgIcon className={locals.noContentIcon} type="crossed_circle" height={26} color="#bec7cb" />;
+  if (!timeConfig || !metrics || metrics.length === 0) {
+    return (
+      <div
+        style={{
+          width: props.width,
+          height: props.height
+        }}
+      >
+        <NoDataAvailable size="small" />
+      </div>
+    );
   }
   return <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
 }
 
 class SparkChartReactWrapper extends React.Component {
   static displayName = 'SparkChart';
-
-  static defaultProps = {
-    height: 24,
-    width: 72
-  };
 
   componentDidMount() {
     this.sparkChart = new SparkChart(this.canvas, this.props);

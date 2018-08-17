@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import getDatabaseStatement from 'in-subscription/application/getDatabaseStatement';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';

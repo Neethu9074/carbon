@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';

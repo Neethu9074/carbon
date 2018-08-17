@@ -8,9 +8,9 @@ import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/Lo
 import Details from 'in-analyze/TraceDetail/components/CallDetails/components/Details/Details';
 import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/components/CallStatus';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 

@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
 import Skeleton from 'in-components/Progress/Skeleton';

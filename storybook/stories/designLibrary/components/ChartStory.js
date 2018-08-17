@@ -8,6 +8,7 @@ import { percentage } from 'in-services/formatters/number';
 import { just, interval } from 'reactive-observables';
 import { compare } from 'in-services/util/number';
 import connectTo from 'in-hoc/connectTo';
+
 import Root from '../../_helpers/Root';
 
 const oneSecond = 1000;

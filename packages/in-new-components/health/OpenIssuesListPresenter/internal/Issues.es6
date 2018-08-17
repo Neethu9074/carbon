@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-new-components/health/OpenIssuesListPresenter/internal/Issue';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
 import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
 import Skeleton from 'in-components/Progress/Skeleton';
 

@@ -4,7 +4,7 @@ import React from 'react';
 import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
 import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
-import ErroneousResultPresenter from 'in-new-components/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
 import createScale from 'in-charts/scale';
 

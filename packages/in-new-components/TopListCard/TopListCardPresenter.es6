@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import NoContent from 'in-components/Chart/components/NoContent';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -33,9 +34,11 @@ export default function TopListCard(props) {
     content = <NoContent height={height} isLoading />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
-    content = <NoContent height={height} errors={result.errors} />;
+    content = <NoDataAvailable height={height} />;
+    withoutPadding = true;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
-    content = 'No data available.';
+    content = <NoDataAvailable height={height} />;
+    withoutPadding = true;
   } else {
     content = <ListRenderer {...props} />;
   }

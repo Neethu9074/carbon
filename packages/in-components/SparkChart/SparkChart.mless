@@ -13,8 +13,4 @@
   .number {
     margin-left: 0.5rem;
   }
-
-  .noContentIcon {
-    margin: 0.125rem 2.3125rem;
-  }
 }
