@@ -1,6 +1,0 @@
-{
-  "name": "BadgeKeyValue",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./BadgeKeyValue.es6"
-}
