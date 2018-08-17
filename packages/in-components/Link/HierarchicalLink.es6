@@ -22,7 +22,11 @@ export default connectTo(
   props => {
     const snapshotId = props.snapshot.get('id');
     const observables = {
-      href: props.useSnapshotLink ? getLinkToSnapshotInCurrentView(snapshotId) : getDashboardLink(snapshotId),
+      href: props.useSnapshotLink
+        ? getLinkToSnapshotInCurrentView(snapshotId)
+        : getDashboardLink(snapshotId, {
+            pathname: props.pathname
+          }),
       hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId, false) : alwaysNull
     };
     if (props.useSnapshotFromHierarchyCallback) {

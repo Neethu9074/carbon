@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
@@ -16,6 +17,7 @@ const cols = [
     title: 'Host',
     type: 'snapshotLink',
     typeArgs: {
+      pathname: physicalDashboardPath,
       getSnapshotId(row) {
         return row.host.get('id');
       }

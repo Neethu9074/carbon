@@ -49,6 +49,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
       <HierarchicalLink
         snapshot={snapshot}
         calculateHierarchy={withHierarchy}
+        pathname={columnDefinition.typeArgs.pathname}
         kind="dark"
         useSnapshotFromHierarchyCallback={columnDefinition.typeArgs.useSnapshotFromHierarchyCallback}
         className="in-table-snapshot-link"

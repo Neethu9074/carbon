@@ -1,7 +1,8 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getHostsWithNomadContext } from 'in-internal/dataRetrieval';
 import { number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -14,6 +15,7 @@ const cols = [
     title: 'Host',
     type: 'snapshotLink',
     typeArgs: {
+      pathname: physicalDashboardPath,
       getSnapshotId(row) {
         return row.host.get('id');
       }
