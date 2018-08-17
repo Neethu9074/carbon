@@ -7,12 +7,11 @@ import {
   Tbody,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
-  ErrorRows,
-  Tr,
-  Td
+  ErrorRows
 } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -66,9 +65,11 @@ export default function ServerTablePresenter(props) {
     body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} size={size} />;
   } else if (result.data.totalHits === 0) {
     body = (
-      <Tr size={size}>
-        <Td colSpan={columnDefinitions.length}>No data found</Td>
-      </Tr>
+      <tr size={size}>
+        <td colSpan={columnDefinitions.length}>
+          <NoDataAvailable height={80} />
+        </td>
+      </tr>
     );
   } else {
     body = result.data.items.map((item, i) => (

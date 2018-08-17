@@ -23,12 +23,16 @@ export default function ErrorneousResultPresenter({ errors, className }) {
   return (
     <ul className={joinClassNames(locals.errors, className)}>
       {getUniqueErrors(errors).map((error, i) => (
-        <li key={i} className={locals.error}>
-          {error}
+        <li key={i} className={locals.item}>
+          <Error>{error}</Error>
         </li>
       ))}
     </ul>
   );
+}
+
+export function Error({ children }) {
+  return <span className={locals.error}>{children}</span>;
 }
 
 export function getUniqueErrors(errors = emptyArray) {

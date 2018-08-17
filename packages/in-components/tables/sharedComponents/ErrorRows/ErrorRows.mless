@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .error {
-    font-weight: bold;
-    color: @lib__colors__failure;
-  }
-}

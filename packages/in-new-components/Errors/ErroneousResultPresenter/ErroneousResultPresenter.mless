@@ -14,9 +14,11 @@
     padding: 0.3rem;
     line-height: 1.3;
     display: block;
+  }
 
-    & + .error {
-      margin-top: .125rem;
+  .item {
+    & + .item {
+      margin-top: 0.125rem;
     }
   }
 }
