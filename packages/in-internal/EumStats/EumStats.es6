@@ -1,58 +1,155 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import CrossRegionStats from 'in-internal/EumStats/CrossRegionStats';
-import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import EumAcceptors from 'in-internal/EumStats/EumAcceptors';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { emptyArray } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSnapshots } from 'in-stores/snapshot';
-import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
-
+import Chart from 'in-components/Chart';
 export default connectTo(
   {
-    us: getSearchResult(`eum-acceptor "us-west-*" entity.selfType:dropwizard`),
-    eu: getSearchResult(`eum-acceptor "eu-west-*" entity.selfType:dropwizard`)
+    timeConfig: timeConfig$,
+    rows: getDropwizardWithContext('entity.label:"eum-acceptor"')
   },
-  function EumStats({ us, eu }) {
+  function EumStats({ rows, timeConfig }) {
+    if (rows.length === 0) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
+
+    const labels = rows.map(r => r.host.get('label').replace(/^(eum-acceptor-\d+).*$/i, '$1'));
+
     return (
-      <div style={{ margin: '1rem' }}>
-        <CrossRegionStats from="eu-west-1" fromNodes={eu} to="us-west-2" toNodes={us} />
-        <CrossRegionStats from="us-west-2" fromNodes={us} to="eu-west-1" toNodes={eu} />
-        <EumAcceptors region="us-west-2" nodes={us} />
-        <EumAcceptors region="eu-west-1" nodes={eu} />
+      <div>
+        <h1>eum-acceptor</h1>
+
+        <DashboardSection title={`Host CPU load`}>
+          <Chart
+            snapshotIds={rows.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            minRollup={5000}
+            y1={{
+              min: 0,
+              formatter: number.detailed,
+              metrics: rows.map(() => 'load.1min'),
+              labels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <Columize>
+          <DashboardSection title={`Beacon Requests`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconRequests.total`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Dropped Due To Load / Backpressure`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.dropped`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Deliberately Dropped Beacons Due To Invalid Data`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.ignored`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Page Load Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.pl`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={`XHR / Fetch Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.xhr`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Error Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.err`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={`SPA Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.spa`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
       </div>
     );
   }
 );
-
-function getSearchResult(query) {
-  return timeConfig$
-    .flatMap(timeConfig =>
-      search({
-        query,
-        view: 'TABLE',
-        timeConfig
-      })
-        .flatMap(getSnapshots, timeConfig)
-        .flatMap(dropwizardSnapshots => {
-          return combineLatest(dropwizardSnapshots.map(getHostSnapshotId))
-            .flatMap(getSnapshots)
-            .map(hosts => hosts.filter(h => !!h))
-            .map(hosts => {
-              return hosts.map(host => ({
-                hostLabel: host.get('label'),
-                hostSnapshotId: host.get('id'),
-                dropwizardSnapshotId: dropwizardSnapshots
-                  .find(s => s.getIn(['entityId', 'host']) === host.getIn(['entityId', 'host']))
-                  .get('id')
-              }));
-            });
-        })
-        .map(n => n.slice().sort((a, b) => compareIgnoreCase(a.hostLabel, b.hostLabel)))
-        .distinct((a, b) => JSON.stringify(a) !== JSON.stringify(b))
-    )
-    .startWith(emptyArray);
-}
