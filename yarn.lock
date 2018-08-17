@@ -731,7 +731,7 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-babel-cli@^6.0.0, babel-cli@^6.26.0:
+babel-cli@^6.0.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-cli/-/babel-cli-6.26.0.tgz#502ab54874d7db88ad00b887a06383ce03d002f1"
   dependencies:
@@ -4343,12 +4343,6 @@ flatten@^1.0.2:
 flow-bin@^0.62.0:
   version "0.62.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
-
-flow-webpack-plugin@basti1302/flow-webpack-plugin#v1.2.0-fix-watch-mode:
-  version "1.2.0"
-  resolved "https://codeload.github.com/basti1302/flow-webpack-plugin/tar.gz/f9ab5c8116dfe80331f3574d8ca8d1bc5d3865d5"
-  dependencies:
-    babel-cli "^6.26.0"
 
 flush-write-stream@^1.0.0:
   version "1.0.2"

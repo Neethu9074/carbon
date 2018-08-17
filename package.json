@@ -21,7 +21,7 @@
       "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev":
-      "yarn && yarn run cleanup-flow && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
+      "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "storybook":
       "export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && start-storybook -p 9001 -c storybook/config",
     "storybookBuild": "gulp prepareTestExecution && build-storybook -c storybook/config -o storybookTarget",
@@ -145,7 +145,6 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.1",
     "flow-bin": "^0.62.0",
-    "flow-webpack-plugin": "basti1302/flow-webpack-plugin#v1.2.0-fix-watch-mode",
     "gulp": "^3.8.10",
     "gulp-cssnano": "^2.1.2",
     "gulp-size": "^2.0.0",
