@@ -30,6 +30,9 @@ export default function DevDashboard() {
         <li>
           <a href="/#/internal/eumstats">Website Monitoring Processing</a>
         </li>
+        <li>
+          <a href="/#/internal/qualityOfServiceStats">QualityOfServiceStats</a>
+        </li>
       </ul>
     </div>
   );
