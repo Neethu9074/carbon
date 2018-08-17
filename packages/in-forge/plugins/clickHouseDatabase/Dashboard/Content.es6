@@ -147,12 +147,9 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
+      <ActiveParts snapshot={snapshot} timeConfig={timeConfig} />
+      <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
       <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <Columize>
-        <ActiveParts snapshot={snapshot} timeConfig={timeConfig} />
-        <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
-      </Columize>
     </div>
   );
 }
