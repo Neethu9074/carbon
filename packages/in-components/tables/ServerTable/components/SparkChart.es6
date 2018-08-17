@@ -1,9 +1,6 @@
 import React from 'react';
 
-import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import SparkChart from 'in-components/SparkChart';
-
-import locals from './SparkChart.mless';
 
 export default function TableSparkChart(props) {
   const { metric, tooltipFormatter } = props;
@@ -14,10 +11,5 @@ export default function TableSparkChart(props) {
     aggregationContent = tooltipFormatter(metric[0][1]);
   }
 
-  return (
-    <div className={locals.wrapper}>
-      <SparkChart {...props} />
-      <MetricValue className={locals.metricValue} value={aggregationContent} />
-    </div>
-  );
+  return <SparkChart {...props} horizontalMetricValue={aggregationContent} />;
 }

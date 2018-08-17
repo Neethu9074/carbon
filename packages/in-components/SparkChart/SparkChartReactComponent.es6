@@ -1,7 +1,9 @@
 import { defaultProps } from 'recompose';
 import React from 'react';
 
+import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Tooltip from 'in-components/SparkChart/components/Tooltip';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { number } from 'in-services/formatters/number';
@@ -15,10 +17,36 @@ export default defaultProps({
 function SparkChartReactComponent(props) {
   const timeConfig = props.timeConfig || props.timeConfig;
   const { metrics } = props;
-  if (!timeConfig || !metrics || metrics.length === 0) {
+
+  if (!timeConfig || !metrics) {
+    return <InfiniteCircle width={props.width} height={props.height} />;
+  }
+
+  if (metrics.length === 0) {
     return <NoDataAvailable width={props.width} height={props.height} />;
   }
-  return <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
+
+  const sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
+
+  if (props.horizontalMetricValue) {
+    return (
+      <div className={locals.withHorizontalMetricValueWrapper}>
+        {sparkChart}
+        <MetricValue className={locals.horizontalMetricValue} value={props.horizontalMetricValue} />
+      </div>
+    );
+  }
+
+  if (props.verticalMetricValue) {
+    return (
+      <div className={locals.withVerticalMetricValueWrapper}>
+        <MetricValue className={locals.verticalMetricValue} value={props.verticalMetricValue} />
+        {sparkChart}
+      </div>
+    );
+  }
+
+  return sparkChart;
 }
 
 class SparkChartReactWrapper extends React.Component {

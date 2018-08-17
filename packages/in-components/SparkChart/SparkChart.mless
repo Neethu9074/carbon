@@ -1,4 +1,23 @@
 :local {
+  .withHorizontalMetricValueWrapper {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .withVerticalMetricValueWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .horizontalMetricValue {
+    margin-left: 0.25rem;
+  }
+
+  .verticalMetricValue {
+    margin-bottom: 0.25rem;
+  }
+
   .sparkChart {
     position: relative;
 
