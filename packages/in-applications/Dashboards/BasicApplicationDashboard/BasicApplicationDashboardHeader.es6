@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import Skeleton from 'in-components/Progress/Skeleton';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 

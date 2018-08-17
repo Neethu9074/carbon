@@ -2,8 +2,8 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-new-components/health/OpenIssuesListPresenter/internal/Issue';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import Skeleton from 'in-components/Progress/Skeleton';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './Issues.mless';
 

@@ -50,10 +50,6 @@
     margin-left: 0.5rem;
   }
 
-  .loadingIcon {
-    fill: @lib__colors__light-blue800;
-  }
-
   .footer {
     display: flex;
     align-items: center;

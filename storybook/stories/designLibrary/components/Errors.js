@@ -22,14 +22,10 @@ function ErrorsStory() {
       </Section>
 
       <Section title="No Data available default">
-        <div style={{ width: 400, height: 100 }}>
-          <NoDataAvailable />
-        </div>
+        <NoDataAvailable width={400} height={100} />
       </Section>
       <Section title="No Data available small">
-        <div style={{ width: 72, height: 24 }}>
-          <NoDataAvailable size="small" />
-        </div>
+        <NoDataAvailable width={72} height={24} />
       </Section>
     </Root>
   );

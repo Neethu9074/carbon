@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { millis, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';

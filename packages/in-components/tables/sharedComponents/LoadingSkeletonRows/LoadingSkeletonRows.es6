@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { range } from 'lodash';
 
 import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
-import Skeleton from 'in-components/Progress/Skeleton';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import locals from './LoadingSkeletonRows.mless';
 
 const loadingRowSkeletonDimensions = [[0.9, 0.3, 0.5, 0.2, 0.3], [0.4, 0.3, 0.4, 0.3, 0.3], [0.7, 0.3, 0.4, 0.2, 0.3]];

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 
 import locals from './HorizontalIndicatorRow.mless';
 

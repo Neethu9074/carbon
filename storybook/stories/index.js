@@ -28,7 +28,6 @@ import './components/ComboBoxStory';
 import './components/IconStory';
 import './components/KeyValuePopup';
 import './components/MultiSelectStory';
-import './components/ProgressStory';
 import './components/sdk/CollapsibleStory';
 import './components/sdk/Descriptions';
 
@@ -63,6 +62,7 @@ import './designLibrary/components/DashboardHeaderStory';
 import './designLibrary/components/Errors';
 import './designLibrary/components/EntityWithTypeAndIconStory';
 import './designLibrary/components/KpiCardStory';
+import './designLibrary/components/Loading';
 import './designLibrary/components/MultiSelectDropdownStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';

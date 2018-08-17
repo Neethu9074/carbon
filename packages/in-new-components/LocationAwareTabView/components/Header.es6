@@ -1,7 +1,7 @@
 import React from 'react';
 
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator/HorizontalIndicator';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import TabList from 'in-new-components/TabView/sharedComponents/TabList';
 import Tab from 'in-new-components/TabView/sharedComponents/Tab';
 import { evaluateClassNames } from 'in-services/util/classnames';

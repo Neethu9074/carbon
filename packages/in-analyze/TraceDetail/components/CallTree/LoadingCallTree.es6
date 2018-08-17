@@ -1,8 +1,8 @@
 import React from 'react';
 
 import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import Skeleton from 'in-components/Progress/Skeleton';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './CallTree.mless';
 

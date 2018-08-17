@@ -3,9 +3,9 @@ import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
-import Skeleton from 'in-components/Progress/Skeleton';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';

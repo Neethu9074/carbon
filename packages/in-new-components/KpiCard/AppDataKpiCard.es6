@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import getMetrics from 'in-subscription/application/getMetrics';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';

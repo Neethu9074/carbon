@@ -4,9 +4,9 @@ import React from 'react';
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
-import Skeleton from 'in-components/Progress/Skeleton';
 import connect from 'in-hoc/connectTo';
 
 import locals from './ServerHeatMap.mless';

@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -114,7 +115,7 @@ class BasicForm extends React.Component {
 
     let content;
     if (isLoading) {
-      content = <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning height={56} />;
+      content = <InfiniteCircle height={100} />;
     } else if (hasErrors) {
       content = <ErroneousResultPresenter errors={entityResult.errors} />;
     } else {

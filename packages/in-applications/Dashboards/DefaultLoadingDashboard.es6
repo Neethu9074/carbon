@@ -1,8 +1,8 @@
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Skeleton from 'in-components/Progress/Skeleton';
 
 import locals from './DefaultLoadingDashboard.mless';
 

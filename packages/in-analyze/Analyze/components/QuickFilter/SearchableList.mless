@@ -31,14 +31,6 @@
     }
   }
 
-  .loadingIcon {
-    fill: @lib__colors__light-blue800;
-  }
-
-  .noSuggestionsLabel {
-    color: @lib__colors__N600Light;
-  }
-
   .containsItemIcon {
     position: absolute;
     right: 0.5rem;

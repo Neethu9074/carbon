@@ -2,6 +2,6 @@
 
 :local {
   .icon {
-    fill: @lib__colors__N500;
+    fill: @lib__colors__light-blue800;
   }
 }

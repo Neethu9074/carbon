@@ -1,10 +1,11 @@
 import { withState } from 'recompose';
 import React from 'react';
 
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import List from 'in-analyze/Analyze/components/QuickFilter/List';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SearchableList.mless';
 
@@ -25,8 +26,14 @@ function SearchableList(props) {
           query={value}
         />
       </div>
-      {!items && <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={36} height={36} />}
-      {items && items.length === 0 && <span className={locals.noSuggestionsLabel}>No suggestions found</span>}
+      {!items && (
+        <HorizontalIndicator
+          progress={{
+            loading: true
+          }}
+        />
+      )}
+      {items && items.length === 0 && <NoDataAvailable text="No suggestions found" />}
       {items && items.length > 0 && <List {...props} renderIcon={renderIcon} items={items} />}
     </div>
   );

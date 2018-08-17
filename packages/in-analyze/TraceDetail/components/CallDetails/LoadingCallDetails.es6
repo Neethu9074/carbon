@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
-import Skeleton from 'in-components/Progress/Skeleton';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import SvgIcon from 'in-components/SvgIcon';
 
 import headerLocals from 'in-analyze/TraceDetail/components/CallDetails/components/Header.mless';

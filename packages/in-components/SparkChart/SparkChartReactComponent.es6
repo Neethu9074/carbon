@@ -16,16 +16,7 @@ function SparkChartReactComponent(props) {
   const timeConfig = props.timeConfig || props.timeConfig;
   const { metrics } = props;
   if (!timeConfig || !metrics || metrics.length === 0) {
-    return (
-      <div
-        style={{
-          width: props.width,
-          height: props.height
-        }}
-      >
-        <NoDataAvailable size="small" />
-      </div>
-    );
+    return <NoDataAvailable width={props.width} height={props.height} />;
   }
   return <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
 }

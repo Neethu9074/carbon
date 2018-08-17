@@ -1,7 +1,7 @@
 import React from 'react';
 
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import NoContent from 'in-components/Chart/components/NoContent';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
@@ -31,7 +31,7 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <NoContent height={height} isLoading />;
+    content = <InfiniteCircle height={height} />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <NoDataAvailable height={height} />;

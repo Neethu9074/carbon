@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import HorizontalIndicator from 'in-components/Progress/HorizontalIndicator';
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import Histogram from 'in-new-components/Histogram/Histogram';
 import Card from 'in-new-components/Card';
 

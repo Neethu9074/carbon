@@ -78,8 +78,4 @@
     flex-grow: 1;
     margin-right: 0.25rem;
   }
-
-  .loadingIcon {
-    fill: @lib__colors__blue800;
-  }
 }

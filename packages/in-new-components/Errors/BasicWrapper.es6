@@ -1,0 +1,30 @@
+import React, { Fragment } from 'react';
+
+import locals from './BasicWrapper.mless';
+
+export default function BasicWrapper({ width, height, text, renderIcon }) {
+  let size = 'default';
+  let iconSize = 48;
+  if (height < 48) {
+    size = 'small';
+    iconSize = 24;
+  }
+
+  return (
+    <div
+      style={{
+        width,
+        height
+      }}
+      className={locals.wrapper}
+    >
+      {size === 'small' && renderIcon(iconSize)}
+      {size === 'default' && (
+        <Fragment>
+          {renderIcon(iconSize)}
+          <span className={locals.text}>{text}</span>
+        </Fragment>
+      )}
+    </div>
+  );
+}

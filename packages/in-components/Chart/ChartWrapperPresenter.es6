@@ -1,7 +1,7 @@
 import React from 'react';
 
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import NoContent from 'in-components/Chart/components/NoContent';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import Card from 'in-new-components/Card';
 
@@ -14,7 +14,7 @@ export default function ChartWrapperPresenter({ result, config, renderLegend = t
   if (result.errors.length > 0) {
     content = <NoDataAvailable width={width} height={height} />;
   } else if (result.progress.loading) {
-    content = <NoContent height={height} width={width} isLoading />;
+    content = <InfiniteCircle height={height} width={width} />;
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics) {
