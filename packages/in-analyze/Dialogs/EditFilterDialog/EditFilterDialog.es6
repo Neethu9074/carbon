@@ -18,11 +18,11 @@ function EditFilterDialog(props) {
         <EditFilterForm
           {...props}
           {...formProps}
-          helpText={
+          helpText={`${
             isNewFilter
               ? 'Select a tag by which your calls should be filtered.'
               : 'Change the tag by which your calls should be filtered.'
-          }
+          } Tags are case-sensitive.`}
         />
       )}
     />
