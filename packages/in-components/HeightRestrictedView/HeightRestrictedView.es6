@@ -3,7 +3,8 @@ import React from 'react';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
-import locals from './HeightRestrictedView.less';
+
+import locals from './HeightRestrictedView.mless';
 
 export default class HeightRestrictedView extends React.Component {
   static displayName = 'HeightRestrictedView';

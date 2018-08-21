@@ -13,7 +13,7 @@ import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
-import locals from './Remove.less';
+import locals from './Remove.mless';
 
 const trackDeleteApplication = createTracker('application.delete');
 

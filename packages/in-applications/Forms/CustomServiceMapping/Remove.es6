@@ -10,7 +10,7 @@ import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 
-import locals from './Remove.less';
+import locals from './Remove.mless';
 
 export default class Remove extends React.PureComponent {
   constructor(props) {
