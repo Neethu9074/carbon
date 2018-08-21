@@ -33,8 +33,9 @@ const tagKeys = [
   'nomad.job.name',
   'nomad.task.name',
   'ruby.name',
-  'springboot.name'
-];
+  'springboot.name',
+  'call.http.header'
+].sort();
 
 export function getTagValuesAsOptions() {
   return [{ value: '', label: 'Please select' }].concat(tagKeys.map(label => ({ label }))).map(tag => (
@@ -83,6 +84,11 @@ function mapConfig(config) {
     } else if (matchSpecification.key.indexOf('agent.tag.') === 0) {
       matchSpecification.value = `${matchSpecification.key.slice('agent.tag.'.length)}=${matchSpecification.value}`;
       matchSpecification.key = 'agent.tag';
+    } else if (matchSpecification.key.indexOf('call.http.header.') === 0) {
+      matchSpecification.value = `${matchSpecification.key.slice('call.http.header.'.length)}=${
+        matchSpecification.value
+      }`;
+      matchSpecification.key = 'call.http.header';
     }
   }
 
@@ -105,7 +111,8 @@ export function mapToServerResponse(config) {
     if (
       matchSpecification.key === 'docker.label' ||
       matchSpecification.key === 'kubernetes.pod.label' ||
-      matchSpecification.key === 'agent.tag'
+      matchSpecification.key === 'agent.tag' ||
+      matchSpecification.key === 'call.http.header'
     ) {
       const indexOfFirstEqual = matchSpecification.value.indexOf('=');
       const stringBeforeEqual = matchSpecification.value.slice(0, Math.max(0, indexOfFirstEqual));
@@ -113,6 +120,9 @@ export function mapToServerResponse(config) {
 
       if (matchSpecification.key === 'docker.label') {
         matchSpecification.key = `docker.label.${stringBeforeEqual}`;
+        matchSpecification.value = stringAfterEqual;
+      } else if (matchSpecification.key === 'call.http.header') {
+        matchSpecification.key = `call.http.header.${stringBeforeEqual}`;
         matchSpecification.value = stringAfterEqual;
       } else if (matchSpecification.key === 'kubernetes.pod.label') {
         matchSpecification.key = `kubernetes.pod.label.${stringBeforeEqual}`;
