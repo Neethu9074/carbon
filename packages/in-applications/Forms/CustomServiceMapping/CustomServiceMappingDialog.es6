@@ -105,12 +105,7 @@ export default function CustomServiceMappingDialog() {
 
                           {matchSpecification.get('value').map(field => {
                             const key = matchSpecification.get('key').value;
-                            if (
-                              key !== 'docker.label' &&
-                              key !== 'kubernetes.pod.label' &&
-                              key !== 'agent.tag' &&
-                              key !== 'call.http.header'
-                            ) {
+                            if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'agent.tag') {
                               return null;
                             }
 
