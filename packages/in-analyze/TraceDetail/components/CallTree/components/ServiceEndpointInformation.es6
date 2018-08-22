@@ -7,6 +7,10 @@ import Link from 'in-components/Link';
 import locals from './ServiceEndpointInformation.mless';
 
 export default function ServiceEndpointInformation({ call, marginLeft }) {
+  if (!call.service.label && !call.endpoint.label) {
+    return null;
+  }
+
   return (
     <div
       style={{
