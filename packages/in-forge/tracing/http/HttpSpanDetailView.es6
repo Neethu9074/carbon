@@ -31,6 +31,8 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="Request Path">{path}</DescriptionItem>
         <DescriptionItem title="Path Template">{span.getIn(['data', 'http', 'path_tpl'])}</DescriptionItem>
         {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
+        <DescriptionItem title="WSDL Service">{span.getIn(['data', 'http', 'wsdl_srv'])}</DescriptionItem>
+        <DescriptionItem title="WSDL Operation">{span.getIn(['data', 'http', 'wsdl_op'])}</DescriptionItem>
         <DescriptionItem title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</DescriptionItem>
         {params != null && (
           <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
