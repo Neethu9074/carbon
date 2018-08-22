@@ -6,7 +6,7 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.application,
 
-  iconSvgPath: app_application,
+  iconSvgPath: app_application.path,
   metricDefinitions,
 
   pluginName: {
