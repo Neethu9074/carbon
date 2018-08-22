@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
-import { resetAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
@@ -157,6 +157,9 @@ export default connectTo(
     if (__DEV__) {
       adminButtonBar = (
         <div className={block}>
+          <Button className={`${block}__button`} onClick={() => updateAllAgents({ agentSnapshots })} size="lg">
+            Update All Agents
+          </Button>
           <Button className={`${block}__button`} onClick={() => resetAllAgents({ agentSnapshots })} size="lg">
             Reset All Agents
           </Button>
@@ -172,6 +175,38 @@ export default connectTo(
     );
   }
 );
+
+function onUpdateAllAgents({ agentSnapshots }) {
+  const sleep = 30000;
+  const count = agentSnapshots.get('online', emptyList).forEach((snapshot, i) => {
+    setTimeout(() => {
+      // eslint-disable-next-line no-console
+      console.log('Updating agent (%s/%s): %s', i + 1, count, snapshot.get('id'));
+      updateAgent(snapshot);
+    }, sleep * i);
+  });
+  setTimeout(() => {
+    close();
+  }, sleep * count);
+}
+
+function updateAllAgents({ agentSnapshots }) {
+  setActiveDialog(
+    <ConfirmationDialog
+      header="Confirm update of all agents"
+      description={
+        <span>
+          Are you sure you want to <strong>update all reporting agents</strong>? This will take{' '}
+          {agentSnapshots.get('online', emptyList).count() / 2} minutes.
+        </span>
+      }
+      bButtonLabel="Update"
+      onB={() => {
+        onUpdateAllAgents({ agentSnapshots });
+      }}
+    />
+  );
+}
 
 function onResetAllAgents({ agentSnapshots }) {
   const sleep = 60000;
