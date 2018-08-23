@@ -1,6 +1,5 @@
 const admin = require('admin');
 const serverConfig = require('./serverConfig.js');
-const clientConfig = require('./assets/config.json');
 const uiBackend = require('./healthcheck/uiBackend');
 
 admin.configure({
@@ -15,10 +14,7 @@ admin.configure({
     require('admin-plugin-environment')(),
     require('admin-plugin-terminate')(),
     require('admin-plugin-config')({
-      config: {
-        serverConfig,
-        clientConfig
-      }
+      config: serverConfig
     }),
     require('admin-plugin-healthcheck')({
       checks: {

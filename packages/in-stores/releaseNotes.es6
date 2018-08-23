@@ -1,8 +1,8 @@
 import { combineLatest } from 'reactive-observables';
 
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { hashCode } from 'in-services/formatters/string';
 import { trySet, get } from 'in-services/localStorage';
-import { isOnPremise } from 'in-services/config';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
@@ -40,7 +40,7 @@ export const releaseNotes$ = combineLatest([readReleaseNotesStore.observable, cu
   }
 );
 
-if (!isOnPremise()) {
+if (releaseNotesEnabled) {
   retrieveLatestReleaseNotes();
   setInterval(retrieveLatestReleaseNotes, 1000 * 60 * 10);
 }
