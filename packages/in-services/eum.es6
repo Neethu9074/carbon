@@ -1,4 +1,5 @@
-import { isOnPremise, region } from 'in-services/config';
+import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
+import { region } from 'in-services/config';
 
 export function ineum() {
   if (typeof window !== 'undefined' && window.ineum) {
@@ -8,7 +9,8 @@ export function ineum() {
 
 export function getEumSnippet({ key, additionalScript = null }) {
   const lines = [`<script>`];
-  if (isOnPremise()) {
+
+  if (!useInstanaSaasEumTrackingUrlEnabled) {
     lines.push(
       `  // Note: Replace the <trackingBaseUrl> with the base URL under which you proxy`,
       `  // the Instana eumtracer (note that this needs to be replaced two times in this snippet).`,
@@ -22,7 +24,7 @@ export function getEumSnippet({ key, additionalScript = null }) {
     `  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)`
   );
 
-  if (isOnPremise()) {
+  if (!useInstanaSaasEumTrackingUrlEnabled) {
     lines.push(
       `  })(window,document,'script','<trackingBaseUrl>/eum.min.js','ineum');`,
       `  ineum('reportingUrl', '<trackingBaseUrl>');`

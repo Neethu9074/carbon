@@ -1,25 +1,26 @@
 /* eslint-env mocha */
 
-import { expect } from 'chai';
-import sinon from 'sinon';
 import proxyquire from 'proxyquire';
+import { expect } from 'chai';
 
 describe('in-services/eum', () => {
   let mod;
-  let isOnPremise;
 
   beforeEach(() => {
-    isOnPremise = sinon.stub();
-    isOnPremise.returns(false);
+    mod = null;
+  });
+
+  function loadWithFeatureFlags(useInstanaSaasEumTrackingUrlEnabled) {
     mod = proxyquire('in-services/eum', {
-      'in-services/config': {
-        isOnPremise: isOnPremise
+      'in-services/featureFlags': {
+        useInstanaSaasEumTrackingUrlEnabled: useInstanaSaasEumTrackingUrlEnabled
       }
     });
-  });
+  }
 
   describe('getEumSnippet', () => {
     it('must provide regular SAAS eum snippet', () => {
+      loadWithFeatureFlags(true);
       expect(mod.getEumSnippet({ key: '123' })).to.equal(
         `
 <script>
@@ -34,6 +35,7 @@ describe('in-services/eum', () => {
     });
 
     it('must support additional lines', () => {
+      loadWithFeatureFlags(true);
       expect(mod.getEumSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
         `
 <script>
@@ -50,7 +52,7 @@ describe('in-services/eum', () => {
     });
 
     it('must provide onprem eum snippet', () => {
-      isOnPremise.returns(true);
+      loadWithFeatureFlags(false);
       expect(mod.getEumSnippet({ key: '123' })).to.equal(
         `
 <script>

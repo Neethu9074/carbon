@@ -1,12 +1,11 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
+import { twoZeroModeEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
-import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -95,7 +94,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           label="Access to license usage"
         />
 
-        {isOnPremise ? (
+        {onPremLicenseInformationEnabled && (
           <Permission
             form={form}
             disabled={disabled}
@@ -103,7 +102,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             name="canSeeOnPremLicenseInformation"
             label="Access to on prem license usage"
           />
-        ) : null}
+        )}
 
         <Permission
           form={form}

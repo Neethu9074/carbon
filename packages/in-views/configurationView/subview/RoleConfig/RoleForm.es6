@@ -1,14 +1,13 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
-import { twoZeroModeEnabled, roleViewFilterEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
-import { isOnPremise } from 'in-services/config';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -124,7 +123,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           helpText="Permits access to license usage information."
         />
 
-        {isOnPremise ? (
+        {onPremLicenseInformationEnabled && (
           <Permission
             form={form}
             disabled={disabled}
@@ -133,7 +132,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             label="Access to on prem license usage"
             helpText="Permits access to on prem license usage information."
           />
-        ) : null}
+        )}
 
         <Permission
           form={form}

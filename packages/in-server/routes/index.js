@@ -5,7 +5,6 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 
 const buildInformation = require('../assets/build.json');
-const clientConfig = require('../assets/config.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');
@@ -21,7 +20,7 @@ const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
 const indexJsSri = checkSumMod.getSriIntegrityForFile(paths.indexJs);
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
-const stringifiedClientConfig = JSON.stringify(clientConfig);
+const stringifiedClientConfig = JSON.stringify(serverConfig.clientConfig);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 // Array of all the JS chunks which may be prefetched by the browser
@@ -141,7 +140,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
 
   const nonces = Array(maxNonces)
     .fill(maxNonces)
-    .map(i => uuid.v4());
+    .map(() => uuid.v4());
 
   let cspExtensions = '';
   // Ff this route was called by safari -> add the unsafe inline Content-Security-Policy

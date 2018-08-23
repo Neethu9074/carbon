@@ -3,14 +3,14 @@ import React from 'react';
 
 import TenantUnitSwitcher from 'in-components/AppHeader/components/AccountMenu/components/TenantUnitSwitcher';
 import { isOpen$, closeMenu } from 'in-components/AppHeader/components/AccountMenu/accountMenuStore';
+import { tenantSwitcherEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { showTenantSwitcher } from 'in-services/featureFlags';
 import { getView } from 'in-stores/navigation/navigation';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
-import { config, isOnPremise } from 'in-services/config';
+import { config } from 'in-services/config';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -60,7 +60,7 @@ export default connectTo(
 
           <Separator />
 
-          {!isOnPremise() && showTenantSwitcher ? [<TenantUnitSwitcher key="0" />, <Separator key="1" />] : null}
+          {tenantSwitcherEnabled && [<TenantUnitSwitcher key="0" />, <Separator key="1" />]}
 
           <Link className={linkElement} href$={getView(settingsPath)} onClick={closeMenu}>
             Settings
@@ -72,11 +72,11 @@ export default connectTo(
             </Link>
           ) : null}
 
-          {!isOnPremise() ? (
+          {releaseNotesEnabled && (
             <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
               Release Notes
             </Link>
-          ) : null}
+          )}
 
           <Link className={linkElement} href="https://docs.instana.com" onClick={closeMenu} target="_block">
             Documentation
