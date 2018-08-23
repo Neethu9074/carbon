@@ -16,6 +16,7 @@ const router = (module.exports = express.Router());
 const indexHtmlTemplate = fs.readFileSync(paths.indexHtmlTemplate, { encoding: 'utf8' });
 const maxNonces = findMaxNonces(indexHtmlTemplate);
 const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
+const compiledRedirectTemplate = Handlebars.compile(fs.readFileSync(paths.redirectToSignInTemplate, { encoding: 'utf8' }));
 
 const indexJsSri = checkSumMod.getSriIntegrityForFile(paths.indexJs);
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
@@ -126,8 +127,12 @@ function getFilterTags(req) {
 
 function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags) {
   if (getUserStatusCode === 401) {
-    const requestedAbsoluteUrl = serverConfig.baseUrl + req.originalUrl;
-    res.redirect(serverConfig.baseUrl + '/auth/signIn?returnUrl=' + encodeURIComponent(requestedAbsoluteUrl));
+    res.status(401).send(
+      compiledRedirectTemplate({
+        signInUrl: serverConfig.baseUrl + '/auth/signIn',
+        returnUrlWithoutHash: encodeURIComponent(serverConfig.baseUrl + req.originalUrl)
+      })
+    );
     return;
   } else if (getUserStatusCode === 403) {
     errorPages.send403(req, res);

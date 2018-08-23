@@ -9,18 +9,13 @@ var gulp = require('gulp');
 var size = require('gulp-size');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
-var inquirer = require('inquirer');
 var runSequence = require('run-sequence');
 var nano = require('gulp-cssnano');
 var execSync = require('child_process').execSync;
 
 var webpackConfig = require('../../webpack.config.js');
-var environments = require('./environments');
 var buildUtil = require('./util');
 var paths = require('./paths');
-
-// will be populated with data using the identifyTryBuildTargetEnvironment task
-var tryBuildModeOptions;
 
 gulp.task('build', cb => {
   runSequence(
@@ -36,19 +31,8 @@ gulp.task('build', cb => {
 
 gulp.task('try-build', cb => {
   runSequence(
-    'identifyTryBuildTargetEnvironment',
-    'build',
-    ['startTryBuildProxy', 'openTryBuildUrlInBrowser', 'writeTryBuildConfigFile', 'writeTryBuildServerConfigFile'],
-    'startTryBuildServer',
-    cb
-  );
-});
-
-gulp.task('try-build-without-building', cb => {
-  runSequence(
-    'identifyTryBuildTargetEnvironment',
     'copyServerSources',
-    ['startTryBuildProxy', 'openTryBuildUrlInBrowser', 'writeTryBuildConfigFile', 'writeTryBuildServerConfigFile'],
+    ['startTryBuildProxy', 'copyServerSources', 'openTryBuildUrlInBrowser', 'writeTryBuildServerConfigFile'],
     'startTryBuildServer',
     cb
   );
@@ -119,30 +103,6 @@ gulp.task('webpack:build', callback => {
   });
 });
 
-gulp.task('identifyTryBuildTargetEnvironment', cb => {
-  var questions = [
-    {
-      type: 'list',
-      name: 'environment',
-      message: 'Which environment would you like to run against?',
-      choices: Object.keys(environments),
-      filter: env => {
-        // extract environment name
-        return env.match(/(\w+)/)[1];
-      }
-    }
-  ];
-
-  inquirer.prompt(questions, selectedOptions => {
-    tryBuildModeOptions = selectedOptions;
-    cb();
-  });
-});
-
-gulp.task('writeTryBuildConfigFile', () => {
-  buildUtil.writeDevModeConfig(environments[tryBuildModeOptions.environment]);
-});
-
 gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
@@ -151,13 +111,21 @@ gulp.task('writeTryBuildServerConfigFile', () => {
     adminPort: 3132,
     bindAddress: '0.0.0.0',
     cookie: {
-      name: 'in-token-internal'
+      name: 'in-token-test'
     },
     googleAnalyticsTrackingId: '',
     eum: {
       apiKey: '',
       domain: ''
-    }
+    },
+    clientConfig: buildUtil.getDevModeConfig({
+      uiBackendUrl: 'https://test-instana.instana.io',
+      butlerUrl: 'https://test-instana.instana.io',
+      tenant: 'instana',
+      tenantUnit: 'test',
+      environment: 'saas',
+      butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
+    })
   };
   fs.writeFileSync(path.join(paths.targetDir, 'serverConfig.json'), JSON.stringify(config, 0, 2));
 });
@@ -170,39 +138,30 @@ gulp.task('startTryBuildServer', () => {
 });
 
 gulp.task('startTryBuildProxy', () => {
-  var envConfig = environments[tryBuildModeOptions.environment];
-  var uiBackendUrl = envConfig.uiBackendUrl;
-  var groundskeeperUrl = envConfig.groundskeeperUrl;
-
-  var gkApiPrefix = '';
-  if (!envConfig.withoutAuthPrefix) {
-    gkApiPrefix = '/auth';
-  }
-
-  var config = {
-    serverName: 'local-instana.instana.io',
-    port: 4000,
-    root: false,
-    ssi: true,
-    tls: true,
-    proxy: {
+  buildUtil.startProxrox({
+    'serverName': 'local-instana.instana.io',
+    'port': 4000,
+    'root': false,
+    'ssi': true,
+    'tls': true,
+    'tlsCertificateFile': path.join(__dirname, '..', 'cert', 'server.crt'),
+    'tlsCertificateKeyFile': path.join(__dirname, '..', 'cert', 'server.key'),
+    'proxy': {
       '/': 'http://127.0.0.1:3131',
-      '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
-      '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
-      '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
-      '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
+      '/api/': 'https://test-instana.instana.io/api/',
+      '/auth/signIn': 'https://test-instana.instana.io/auth/signIn',
+      '/auth/signOut': 'https://test-instana.instana.io/auth/signOut',
+      '/auth/users/current': 'https://test-instana.instana.io/auth/users/current',
+      '/auth/users/tenants': 'https://test-instana.instana.io/auth/users/tenants',
+      '/ump': 'https://test-instana.instana.io/ump',
+      '/assets/': 'https://test-instana.instana.io/assets/',
       '/uiTracker/': 'http://127.0.0.1:8484/',
-      '/api/': uiBackendUrl + '/api/',
-      '/assets/': groundskeeperUrl + '/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/'
     },
-
-    websocketProxy: {
-      '/api/data': uiBackendUrl
+    'websocketProxy': {
+      '/api/data/': 'https://test-instana.instana.io'
     }
-  };
-
-  buildUtil.startProxrox(config);
+  });
 });
 
 gulp.task('openTryBuildUrlInBrowser', () => {

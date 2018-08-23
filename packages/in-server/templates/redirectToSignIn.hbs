@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Unauthorized - Instana</title>
+
+  <script>
+    window.location.href = '{{{signInUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash);
+  </script>
+</head>
+<body>
+  <h1 class="title">
+    Unauthorized
+  </h1>
+
+  <p class="message">
+    You are not signed in.
+  </p>
+</body>
+</html>

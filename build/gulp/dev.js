@@ -160,7 +160,6 @@ gulp.task('askForDevOptions', cb => {
         butlerUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
-        environment: selectedOptions.environment,
         butlerDomain: selectedOptions.environment.butlerDomain,
         buildMode: selectedOptions.buildMode
       };

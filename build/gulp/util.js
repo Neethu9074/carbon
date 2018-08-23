@@ -50,18 +50,20 @@ exports.startProxrox = function startProxrox(config) {
 exports.openBrowser = opn;
 
 exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
+  fs.writeFileSync(path.join(paths.assetDir, 'config.json'), JSON.stringify(exports.getDevModeConfig(envConfig)));
+};
+
+exports.getDevModeConfig = function getDevModeConfig(envConfig) {
   // ensure that feature flags file is reevaluated (required for dev mode watches)
   clearModule(paths.featureFlags);
 
-  const devConfig = {
+  return {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
     tenantUnitDomainSuffix: 'instana.io',
-    environment: envConfig.environment,
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags)
   };
-  fs.writeFileSync(path.join(paths.assetDir, 'config.json'), JSON.stringify(devConfig));
 };

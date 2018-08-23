@@ -7,18 +7,6 @@ export const baseUrl = window.location.origin;
 export const build = window.instana.build;
 export const region = theConfig.region;
 
-export function isInternalEnvironment() {
-  return theConfig.environment === 'internal';
-}
-
-export function isStagingEnvironment() {
-  return theConfig.environment === 'staging';
-}
-
-export function isInstanaTenant() {
-  return config.tenant === 'instana';
-}
-
 export function isFeatureFlagEnabled(ff, fallback = false) {
   if (config.featureFlags == null || config.featureFlags[ff] == null) {
     return fallback;
