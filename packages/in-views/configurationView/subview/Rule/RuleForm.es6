@@ -120,32 +120,6 @@ export function ruleFormDefinition(rule) {
               ];
         }
       })
-    );
-  form = putWindowField(form, rule);
-  form = putRollupField(form, rule);
-  form = putAggregationField(form, rule);
-
-  return form
-    .put(
-      'window',
-      createField({
-        value: String(rule.get('window')),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'rollup',
-      createField({
-        value: String(rule.get('rollup')),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'aggregation',
-      createField({
-        value: rule.get('aggregation'),
-        validator: notBlankValidator
-      })
     )
     .put(
       'conditionOperator',
@@ -172,6 +146,9 @@ export function ruleFormDefinition(rule) {
         }
       })
     );
+  form = putWindowField(form, rule);
+  form = putRollupField(form, rule);
+  return putAggregationField(form, rule);
 }
 
 export default function RuleForm({ form, onChange }) {
