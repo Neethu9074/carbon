@@ -99,6 +99,13 @@ export function ruleFormDefinition(rule) {
       })
     )
     .put(
+      'origin',
+      createField({
+        value: rule ? rule.get('origin') : undefined,
+        validator: notBlankValidator
+      })
+    )
+    .put(
       'entityType',
       createField({
         value: rule ? rule.get('entityType') : undefined,
@@ -229,172 +236,194 @@ export default function RuleForm({ form, onChange }) {
       </Section>
 
       <Section>
-        {form.get('entityType').map(field => (
+        {form.get('origin').map(field => (
           <FormGroup>
-            <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
-              Entity type
+            <Label htmlFor="rule-origin" hasError={!field.valid && field.touched}>
+              Origin
             </Label>
             <ComboBox
-              name="rule-entityType"
+              name="rule-origin"
               value={field.value}
-              options={[{ value: '', label: 'Please select...' }].concat(pluginsWithMetricDefinitions)}
-              onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
+              options={[
+                { value: '', label: 'Please select' },
+                { value: 'built-in', label: 'Built-in metrics' },
+                { value: 'custom', label: 'Custom metrics' }
+              ]}
+              onChange={e => onChange('origin', e.value)}
             />
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
 
-        <Row>
-          <Col cols={4}>
-            {form.get('entityType').value
-              ? form.get('metricName').map(field => (
-                  <FormGroup>
-                    <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
-                      Metric
-                    </Label>
-                    <MetricSelector
-                      id="rule-metricName"
-                      plugin={form.get('entityType').value}
-                      value={form.get('metricName').value}
-                      useComboBox
-                      onChange={e =>
-                        onChange(
-                          'metricName', //
-                          e ? e.value : '', //
-                          (updatedForm, rule) => {
-                            if (isPercentile(updatedForm)) {
-                              updatedForm = updatedForm.remove('window').remove('aggregation');
-                              updatedForm = putRollupField(updatedForm, rule);
-                              return updatedForm;
-                            } else {
-                              updatedForm = updatedForm.remove('rollup');
-                              updatedForm = putWindowField(updatedForm, rule);
-                              updatedForm = putAggregationField(updatedForm, rule);
-                              return updatedForm;
-                            }
-                          }
-                        )
+        {form.get('origin').value && form.get('origin').value === 'built-in'
+          ? form.get('entityType').map(field => (
+              <FormGroup>
+                <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
+                  Entity type
+                </Label>
+                <ComboBox
+                  name="rule-entityType"
+                  value={field.value}
+                  options={[{ value: '', label: 'Please select...' }].concat(pluginsWithMetricDefinitions)}
+                  onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))
+          : null}
+
+        {form.get('origin').value && form.get('entityType').value
+          ? form.get('metricName').map(field => (
+              <FormGroup>
+                <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
+                  Metric
+                </Label>
+                <MetricSelector
+                  id="rule-metricName"
+                  plugin={form.get('entityType').value}
+                  value={form.get('metricName').value}
+                  useComboBox
+                  onChange={e =>
+                    onChange(
+                      'metricName', //
+                      e ? e.value : '', //
+                      (updatedForm, rule) => {
+                        if (isPercentile(updatedForm)) {
+                          updatedForm = updatedForm.remove('window').remove('aggregation');
+                          updatedForm = putRollupField(updatedForm, rule);
+                          return updatedForm;
+                        } else {
+                          updatedForm = updatedForm.remove('rollup');
+                          updatedForm = putWindowField(updatedForm, rule);
+                          updatedForm = putAggregationField(updatedForm, rule);
+                          return updatedForm;
+                        }
                       }
+                    )
+                  }
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))
+          : null}
+
+        {form.get('origin').value && form.get('entityType').value && form.get('metricName').value ? (
+          <Row>
+            {!isPercentile() && (
+              <Col cols={3}>
+                {form.get('window').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
+                      Time window
+                    </Label>
+                    <ComboBox
+                      name="rule-window"
+                      value={field.value}
+                      options={[
+                        { value: '', label: 'Please select' },
+                        { value: '1000', label: '1 s' },
+                        { value: '5000', label: '5 s' },
+                        { value: '10000', label: '10 s' },
+                        { value: '60000', label: '1 min' },
+                        { value: '300000', label: '5 min' },
+                        { value: '600000', label: '10 min' }
+                      ]}
+                      onChange={e => onChange('window', e ? e.value : '')}
                     />
                     <TouchedMessages field={field} />
                   </FormGroup>
-                ))
-              : null}
-          </Col>
-          {!isPercentile() && (
-            <Col cols={2}>
-              {form.get('window').map(field => (
+                ))}
+              </Col>
+            )}
+            {isPercentile() && (
+              <Col cols={3}>
+                {form.get('rollup').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="rule-rollup" hasError={!field.valid && field.touched}>
+                      Window Size
+                    </Label>
+                    <ComboBox
+                      name="rule-rollup"
+                      value={field.value}
+                      options={[
+                        { value: '', label: 'Please select' },
+                        { value: '5000', label: '5s' },
+                        { value: '60000', label: '1 min' },
+                        { value: '300000', label: '5 min' },
+                        { value: '3600000', label: '1 hour' }
+                      ]}
+                      onChange={e => onChange('rollup', e ? e.value : '')}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+              </Col>
+            )}
+            {!isPercentile() && (
+              <Col cols={3}>
+                {form.get('aggregation').map(field => (
+                  <FormGroup>
+                    <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
+                      Aggregation
+                    </Label>
+                    <ComboBox
+                      name="rule-aggregation"
+                      value={field.value}
+                      options={[
+                        { value: '', label: 'Please select' },
+                        { value: 'avg', label: 'avg' },
+                        { value: 'sum', label: 'sum' }
+                      ]}
+                      onChange={e => onChange('aggregation', e ? e.value : e)}
+                    />
+                    <TouchedMessages field={field} />
+                  </FormGroup>
+                ))}
+              </Col>
+            )}
+            <Col cols={3}>
+              {form.get('conditionOperator').map(field => (
                 <FormGroup>
-                  <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
-                    Time window
+                  <Label htmlFor="rule-conditionOperator" hasError={!field.valid && field.touched}>
+                    Operator
                   </Label>
                   <ComboBox
-                    name="rule-window"
+                    name="rule-conditionOperator"
                     value={field.value}
                     options={[
                       { value: '', label: 'Please select' },
-                      { value: '1000', label: '1 s' },
-                      { value: '5000', label: '5 s' },
-                      { value: '10000', label: '10 s' },
-                      { value: '60000', label: '1 min' },
-                      { value: '300000', label: '5 min' },
-                      { value: '600000', label: '10 min' }
+                      { value: '<', label: '<' },
+                      { value: '<=', label: '<=' },
+                      { value: '==', label: '==' },
+                      { value: '>=', label: '>=' },
+                      { value: '>', label: '>' },
+                      { value: '!=', label: '!=' }
                     ]}
-                    onChange={e => onChange('window', e ? e.value : '')}
+                    onChange={e => onChange('conditionOperator', e ? e.value : e)}
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>
               ))}
             </Col>
-          )}
-          {isPercentile() && (
-            <Col cols={2}>
-              {form.get('rollup').map(field => (
+            <Col cols={3}>
+              {form.get('conditionValue').map(field => (
                 <FormGroup>
-                  <Label htmlFor="rule-rollup" hasError={!field.valid && field.touched}>
-                    Window Size
+                  <Label htmlFor="rule-conditionValue" hasError={!field.valid && field.touched}>
+                    Value
                   </Label>
-                  <ComboBox
-                    name="rule-rollup"
+                  <Input
+                    id="rule-conditionValue"
+                    type="text"
                     value={field.value}
-                    options={[
-                      { value: '', label: 'Please select' },
-                      { value: '5000', label: '5s' },
-                      { value: '60000', label: '1 min' },
-                      { value: '300000', label: '5 min' },
-                      { value: '3600000', label: '1 hour' }
-                    ]}
-                    onChange={e => onChange('rollup', e ? e.value : '')}
+                    onChange={e => onChange('conditionValue', e.target.value)}
+                    hasError={!field.valid && field.touched}
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>
               ))}
             </Col>
-          )}
-          {!isPercentile() && (
-            <Col cols={2}>
-              {form.get('aggregation').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
-                    Aggregation
-                  </Label>
-                  <ComboBox
-                    name="rule-aggregation"
-                    value={field.value}
-                    options={[
-                      { value: '', label: 'Please select' },
-                      { value: 'avg', label: 'avg' },
-                      { value: 'sum', label: 'sum' }
-                    ]}
-                    onChange={e => onChange('aggregation', e ? e.value : e)}
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))}
-            </Col>
-          )}
-          <Col cols={2}>
-            {form.get('conditionOperator').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-conditionOperator" hasError={!field.valid && field.touched}>
-                  Operator
-                </Label>
-                <ComboBox
-                  name="rule-conditionOperator"
-                  value={field.value}
-                  options={[
-                    { value: '', label: 'Please select' },
-                    { value: '<', label: '<' },
-                    { value: '<=', label: '<=' },
-                    { value: '==', label: '==' },
-                    { value: '>=', label: '>=' },
-                    { value: '>', label: '>' },
-                    { value: '!=', label: '!=' }
-                  ]}
-                  onChange={e => onChange('conditionOperator', e ? e.value : e)}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-          <Col cols={2}>
-            {form.get('conditionValue').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-conditionValue" hasError={!field.valid && field.touched}>
-                  Value
-                </Label>
-                <Input
-                  id="rule-conditionValue"
-                  type="text"
-                  value={field.value}
-                  onChange={e => onChange('conditionValue', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
+          </Row>
+        ) : null}
       </Section>
     </fieldset>
   );
