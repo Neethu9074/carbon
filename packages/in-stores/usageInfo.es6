@@ -3,17 +3,14 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import createUsageInfoSubscription from 'in-subscription/usageInfo';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { createTrackingStore, createStore } from 'in-stores/store';
+import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
+import { reportLicenseType } from 'in-services/tracking/appcues';
 import { toHtml } from 'in-services/formatters/markdown';
+import getUsageInfo from 'in-subscription/getUsageInfo';
+import { createStore } from 'in-stores/store';
 
 const messageId = 'usageInfo';
-
-const usageInfo$ = createTrackingStore({
-  name: 'usageInfo/usageInfo',
-  observable: createUsageInfoSubscription()
-}).observable;
 
 const usageInfoVisibleStore = createStore({
   name: 'usageInfo/usageInfoVisible',
@@ -26,24 +23,29 @@ export function hideUsageInfo() {
 }
 
 export function init() {
-  // deactivate usage info handling in dev mode for some peace of mind
-  if (__DEV__) {
-    return;
-  }
-
-  combineLatest([usageInfo$, usageInfoVisible$]).subscribe(([usageInfo, visible]) => {
-    if (usageInfo == null || !visible) {
+  combineLatest([getUsageInfo(), usageInfoVisible$]).subscribe(([usageInfo, visible]) => {
+    if (usageInfo == null) {
       removeMessage(messageId);
-    } else if (usageInfo) {
-      addMessage(
-        {
-          type: usageInfo.get('type'),
-          icon: 'info',
-          content: <DangerousHtmlPresenter html={toHtml(usageInfo.get('note'))} />,
-          onClick: hideUsageInfo
-        },
-        messageId
-      );
+      return;
     }
+
+    if (usageInfo.activeLicenseType) {
+      reportLicenseType(usageInfo.activeLicenseType);
+    }
+
+    if (!visible || usageInfo.type === 'OK' || !isUsageInfoPopupEnabled) {
+      removeMessage(messageId);
+      return;
+    }
+
+    addMessage(
+      {
+        type: usageInfo.type.toLowerCase(),
+        icon: 'info',
+        content: <DangerousHtmlPresenter html={toHtml(usageInfo.note)} />,
+        onClick: hideUsageInfo
+      },
+      messageId
+    );
   });
 }

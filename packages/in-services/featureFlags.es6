@@ -30,6 +30,7 @@ export const releaseNotesEnabled = isFeatureFlagEnabled('releaseNotesEnabled');
 export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEnabled');
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
+export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

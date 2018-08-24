@@ -6,6 +6,9 @@ const featureFlagPrefix = 'featureFlag.';
 
 let Appcues;
 
+// extra targeting properties which are asynchronously loaded
+const extraTargetingProperties = {};
+
 export function init() {
   if (window.Appcues) {
     onAppcuesLoaded();
@@ -31,8 +34,17 @@ export function onRouteChange() {
 
 function onAppcuesLoaded() {
   Appcues = window.Appcues;
+  identify();
+}
+
+function identify() {
+  if (!Appcues) {
+    return;
+  }
 
   const targetingProperties = {
+    ...extraTargetingProperties,
+
     tenant: config.tenant,
     unit: config.tenantUnit,
 
@@ -50,4 +62,9 @@ function onAppcuesLoaded() {
   Object.keys(role).forEach(key => (targetingProperties[`role.${key}`] = role[key]));
 
   Appcues.identify(user.id, targetingProperties);
+}
+
+export function reportLicenseType(licenseType) {
+  extraTargetingProperties.activeLicenseType = licenseType;
+  identify();
 }
