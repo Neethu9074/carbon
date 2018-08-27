@@ -60,7 +60,6 @@ gulp.task('askForDevOptions', cb => {
     uiBackendUrl: 'http://localhost:8080',
     websocketEndpoint: 'http://localhost:8082/',
     butlerUrl: 'http://localhost:8480',
-    withoutAuthPrefix: true,
     local: true,
     tenant: 'instana',
     tenantUnit: 'test',
@@ -191,15 +190,10 @@ gulp.task('startDevProxy', function startDevProxy() {
   const butlerUrl = envConfig.butlerUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  let butlerApiPrefix = '';
-  if (!envConfig.withoutAuthPrefix) {
-    butlerApiPrefix = '/auth';
-  }
-
   const httpProxy = {
     '/': 'http://127.0.0.1:3000',
     '/api/': `${uiBackendUrl}/api/`,
-    '/auth/': butlerUrl + butlerApiPrefix + '/',
+    '/auth/': butlerUrl + '/auth/',
     '/ump/': butlerUrl + '/ump/',
     '/assets/': butlerUrl + '/assets/',
     '/secured/': butlerUrl + '/secured/',
