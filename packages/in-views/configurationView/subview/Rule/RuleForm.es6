@@ -117,7 +117,7 @@ export function ruleFormDefinition(rule) {
       createField({
         value: rule ? rule.get('metricName') : '',
         validator: metricName => {
-          return metricName && metricName != '-1' && metricName.length > 0
+          return metricName && metricName != '' && metricName.length > 0
             ? null
             : [
                 {
@@ -244,12 +244,19 @@ export default function RuleForm({ form, onChange }) {
             <ComboBox
               name="rule-origin"
               value={field.value}
-              options={[
-                { value: '', label: 'Please select' },
-                { value: 'built-in', label: 'Built-in metrics' },
-                { value: 'custom', label: 'Custom metrics' }
-              ]}
-              onChange={e => onChange('origin', e.value)}
+              options={[{ value: 'built-in', label: 'Built-in metrics' }, { value: 'custom', label: 'Custom metrics' }]}
+              onChange={e =>
+                onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
+                  // manually set to not-touched to prevent showing the validation-error
+                  updatedForm = updatedForm.updateIn(['entityType'], function(f) {
+                    return f.setTouched(false);
+                  });
+                  updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                    return f.setTouched(false);
+                  });
+                  return updatedForm;
+                })
+              }
             />
             <TouchedMessages field={field} />
           </FormGroup>
@@ -264,15 +271,23 @@ export default function RuleForm({ form, onChange }) {
                 <ComboBox
                   name="rule-entityType"
                   value={field.value}
-                  options={[{ value: '', label: 'Please select...' }].concat(pluginsWithMetricDefinitions)}
-                  onChange={e => onChange(['entityType', 'metricName'], [e ? e.value : '-1', '-1'])}
+                  options={pluginsWithMetricDefinitions}
+                  onChange={e =>
+                    onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
+                      // manually set to not-touched to prevent showing the validation-error
+                      updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                        return f.setTouched(false);
+                      });
+                      return updatedForm;
+                    })
+                  }
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
             ))
           : null}
 
-        {form.get('origin').value && form.get('entityType').value
+        {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value)
           ? form.get('metricName').map(field => (
               <FormGroup>
                 <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
@@ -307,7 +322,7 @@ export default function RuleForm({ form, onChange }) {
             ))
           : null}
 
-        {form.get('origin').value && form.get('entityType').value && form.get('metricName').value ? (
+        {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value) ? (
           <Row>
             {!isPercentile() && (
               <Col cols={3}>
@@ -320,7 +335,6 @@ export default function RuleForm({ form, onChange }) {
                       name="rule-window"
                       value={field.value}
                       options={[
-                        { value: '', label: 'Please select' },
                         { value: '1000', label: '1 s' },
                         { value: '5000', label: '5 s' },
                         { value: '10000', label: '10 s' },
@@ -346,7 +360,6 @@ export default function RuleForm({ form, onChange }) {
                       name="rule-rollup"
                       value={field.value}
                       options={[
-                        { value: '', label: 'Please select' },
                         { value: '5000', label: '5s' },
                         { value: '60000', label: '1 min' },
                         { value: '300000', label: '5 min' },
@@ -369,11 +382,7 @@ export default function RuleForm({ form, onChange }) {
                     <ComboBox
                       name="rule-aggregation"
                       value={field.value}
-                      options={[
-                        { value: '', label: 'Please select' },
-                        { value: 'avg', label: 'avg' },
-                        { value: 'sum', label: 'sum' }
-                      ]}
+                      options={[{ value: 'avg', label: 'avg' }, { value: 'sum', label: 'sum' }]}
                       onChange={e => onChange('aggregation', e ? e.value : e)}
                     />
                     <TouchedMessages field={field} />
@@ -391,7 +400,6 @@ export default function RuleForm({ form, onChange }) {
                     name="rule-conditionOperator"
                     value={field.value}
                     options={[
-                      { value: '', label: 'Please select' },
                       { value: '<', label: '<' },
                       { value: '<=', label: '<=' },
                       { value: '==', label: '==' },

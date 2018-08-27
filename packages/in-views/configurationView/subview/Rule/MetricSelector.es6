@@ -6,7 +6,7 @@ import { getPlainMetricList } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
 export default function MetricSelector({ id, plugin, onChange, value }) {
-  const metrics = [{ value: '', label: 'Please select' }].concat(getPlainMetricList(plugin));
+  const metrics = getPlainMetricList(plugin);
   if (instanaInternalFeaturesEnabled) {
     metrics.push({
       value: 'custom',
