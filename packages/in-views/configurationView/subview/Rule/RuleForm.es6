@@ -166,13 +166,15 @@ export default connectTo(
       const customMetricsList = [];
       metricInstances.map(metricInstance => {
         const metricId = metricInstance.get('metricId');
+        const metricPluginId = metricInstance.get('pluginId');
         const metricDescription = metricInstance.get('metricDescription');
         const metricLabel = metricDescription.get('label');
 
         customMetricsList.push({
           value: metricId,
           formatter: metricDescription.get('formatter'),
-          label: `${metricLabel} (${metricId})`
+          label: `${metricLabel} (${metricId})`,
+          pluginId: metricPluginId
         });
       });
 
@@ -194,6 +196,15 @@ export default connectTo(
       let metricName = localForm.get('metricName').value;
       let entityType = localForm.get('entityType').value;
       return isMetricPercentile(entityType, metricName);
+    }
+
+    function getPluginIdOfCustomMetric(metricId) {
+      for (var i = 0; i < customMetrics.length; i++) {
+        if (customMetrics[i].value === metricId) {
+          return customMetrics[i].pluginId;
+        }
+      }
+      return null;
     }
 
     const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
@@ -302,7 +313,7 @@ export default connectTo(
                       if (e && e.value != field.value) {
                         onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
                           // manually set to not-touched to prevent showing the validation-error
-                          updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                          updatedForm = updatedForm.updateIn(['metricName'], f => {
                             return f.setTouched(false);
                           });
                           return updatedForm;
@@ -333,13 +344,20 @@ export default connectTo(
                           if (isPercentile(updatedForm)) {
                             updatedForm = updatedForm.remove('window').remove('aggregation');
                             updatedForm = putRollupField(updatedForm, rule);
-                            return updatedForm;
                           } else {
                             updatedForm = updatedForm.remove('rollup');
                             updatedForm = putWindowField(updatedForm, rule);
                             updatedForm = putAggregationField(updatedForm, rule);
-                            return updatedForm;
                           }
+
+                          if (form.get('origin').value === 'custom') {
+                            // manually update the hidden hidden entityType field in case of custom metrics
+                            updatedForm = updatedForm.updateIn(['entityType'], f => {
+                              const pluginId = getPluginIdOfCustomMetric(e.value);
+                              return f.setValue(pluginId);
+                            });
+                          }
+                          return updatedForm;
                         });
                       }
                     }}
