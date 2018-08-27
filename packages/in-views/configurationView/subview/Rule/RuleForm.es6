@@ -245,18 +245,20 @@ export default function RuleForm({ form, onChange }) {
               name="rule-origin"
               value={field.value}
               options={[{ value: 'built-in', label: 'Built-in metrics' }, { value: 'custom', label: 'Custom metrics' }]}
-              onChange={e =>
-                onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
-                  // manually set to not-touched to prevent showing the validation-error
-                  updatedForm = updatedForm.updateIn(['entityType'], function(f) {
-                    return f.setTouched(false);
+              onChange={e => {
+                if (e && e.value != field.value) {
+                  onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
+                    // manually set to not-touched to prevent showing the validation-error
+                    updatedForm = updatedForm.updateIn(['entityType'], function(f) {
+                      return f.setTouched(false);
+                    });
+                    updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                      return f.setTouched(false);
+                    });
+                    return updatedForm;
                   });
-                  updatedForm = updatedForm.updateIn(['metricName'], function(f) {
-                    return f.setTouched(false);
-                  });
-                  return updatedForm;
-                })
-              }
+                }
+              }}
             />
             <TouchedMessages field={field} />
           </FormGroup>
@@ -272,15 +274,17 @@ export default function RuleForm({ form, onChange }) {
                   name="rule-entityType"
                   value={field.value}
                   options={pluginsWithMetricDefinitions}
-                  onChange={e =>
-                    onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
-                      // manually set to not-touched to prevent showing the validation-error
-                      updatedForm = updatedForm.updateIn(['metricName'], function(f) {
-                        return f.setTouched(false);
+                  onChange={e => {
+                    if (e && e.value != field.value) {
+                      onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
+                        // manually set to not-touched to prevent showing the validation-error
+                        updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                          return f.setTouched(false);
+                        });
+                        return updatedForm;
                       });
-                      return updatedForm;
-                    })
-                  }
+                    }
+                  }}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -298,11 +302,9 @@ export default function RuleForm({ form, onChange }) {
                   plugin={form.get('entityType').value}
                   value={form.get('metricName').value}
                   useComboBox
-                  onChange={e =>
-                    onChange(
-                      'metricName', //
-                      e ? e.value : '', //
-                      (updatedForm, rule) => {
+                  onChange={e => {
+                    if (e && e.value != field.value) {
+                      onChange('metricName', e ? e.value : '', (updatedForm, rule) => {
                         if (isPercentile(updatedForm)) {
                           updatedForm = updatedForm.remove('window').remove('aggregation');
                           updatedForm = putRollupField(updatedForm, rule);
@@ -313,9 +315,9 @@ export default function RuleForm({ form, onChange }) {
                           updatedForm = putAggregationField(updatedForm, rule);
                           return updatedForm;
                         }
-                      }
-                    )
-                  }
+                      });
+                    }
+                  }}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
