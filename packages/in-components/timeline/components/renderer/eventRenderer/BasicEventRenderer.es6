@@ -77,7 +77,7 @@ export default function createEventRenderer(ctx, scale) {
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
     if (!selectedEvent && (!focusedMoment || getEventStart(event) <= focusedMoment)) {
-      const snapshotId = event.getIn(['problem', 'snapshotId']);
+      const snapshotId = event.get('entityId');
       if (
         (!highlightedEntityId || snapshotId === highlightedEntityId) &&
         (!selectedSnapshotId || snapshotId === selectedSnapshotId)
@@ -115,7 +115,10 @@ export default function createEventRenderer(ctx, scale) {
 
     ctx.fillStyle = isHighlighted
       ? highlightedColor
-      : getColorByEvent({ event, timeConfig: getTimeConfigAtMoment(focusedMoment) });
+      : getColorByEvent({
+          event,
+          timeConfig: getTimeConfigAtMoment(focusedMoment)
+        });
 
     const prevValue = ctx.globalAlpha;
     ctx.globalAlpha = 0.2;

@@ -41,7 +41,8 @@ describe('BasicEventRenderer', () => {
       start: 100,
       problem: {
         snapshotId: 'schnipi'
-      }
+      },
+      entityId: 'schnipi'
     });
   }
 });

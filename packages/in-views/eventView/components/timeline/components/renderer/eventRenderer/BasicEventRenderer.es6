@@ -69,7 +69,7 @@ export default function createEventRenderer(ctx, scale) {
   function isEventActive(event) {
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     if (!selectedEvent) {
-      const snapshotId = event.getIn(['problem', 'snapshotId']);
+      const snapshotId = event.getIn(['entityId']);
       if (
         (!highlightedEntityId || snapshotId === highlightedEntityId) &&
         (!selectedSnapshotId || snapshotId === selectedSnapshotId)

@@ -41,7 +41,7 @@ export default connectTo(
           <EventDescription
             event={highlightedEvent}
             showFullTextIfToLong={false}
-            snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}
+            snapshotId={highlightedEvent.get('entityId', '')}
           />
         </TooltipFrame>
       </div>

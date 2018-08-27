@@ -20,7 +20,7 @@ export default connectTo(props => {
   const events = eventIds.toArray().map(id => getEvent(id));
 
   return {
-    snapshot: getSnapshot(props.incident.getIn(['problem', 'snapshotId'])),
+    snapshot: getSnapshot(props.incident.get('entityId')),
     events: combineLatest(events).map(events => events.sort((a, b) => a.get('start') - b.get('start')))
   };
 }, IncidentContent);
@@ -48,7 +48,7 @@ function IncidentContent({ incident, events, snapshot }) {
       <DangerousHtmlPresenter className={`${block}__suggestion`} html={toHtml(problem.get('fixSuggestion', ''))} />
 
       <SnapshotDescription
-        snapshotId={problem.get('snapshotId', '')}
+        snapshotId={firstEvent.get('entityId', '')}
         timeConfig={getTimeConfigAtMoment(firstEvent.get('start'))}
       />
     </div>

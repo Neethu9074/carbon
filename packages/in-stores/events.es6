@@ -122,7 +122,7 @@ export const highlightedEvent$ = highlightedEvent.observable
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
   if (event) {
-    setHighlightedEntityId(event.getIn(['problem', 'snapshotId']));
+    setHighlightedEntityId(event.getIn(['entityId']));
   } else {
     clearHighlightedEntityId();
   }
@@ -199,7 +199,9 @@ export function getColorForEventAtFocusedMomentAsStream(event, theme) {
 
 export function getColorByEventState({ event, theme = 'night' }) {
   if (event.get('state') === 'open') {
-    return getColorBySeverity(event.getIn(['problem', 'severity'], 0), { theme });
+    return getColorBySeverity(event.getIn(['problem', 'severity'], 0), {
+      theme
+    });
   } else {
     return getColorBySeverity(0, { theme });
   }

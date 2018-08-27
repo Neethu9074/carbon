@@ -21,7 +21,7 @@ export default addSection(
   connectTo(
     props => {
       const event = props.event;
-      const serviceId = event.getIn(['problem', 'snapshotId']);
+      const serviceId = event.getIn(['entityId']);
       const timeConfig = getChartTimeframeByEvent({ event });
 
       return {
@@ -42,7 +42,7 @@ export default addSection(
       };
     },
     function EventTraces({ event, href, numberOfTraces }) {
-      const serviceId = event.getIn(['problem', 'snapshotId']);
+      const serviceId = event.getIn(['entityId']);
       const timeConfig = getChartTimeframeByEvent({ event });
       const tracesAvailable = numberOfTraces > 0;
 
