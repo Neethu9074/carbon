@@ -60,7 +60,6 @@ gulp.task('askForDevOptions', cb => {
     uiBackendUrl: 'http://localhost:8080',
     websocketEndpoint: 'http://localhost:8082/',
     butlerUrl: 'http://localhost:8480',
-    withoutAuthPrefix: true,
     local: true,
     tenant: 'instana',
     tenantUnit: 'test',
@@ -190,20 +189,13 @@ gulp.task('startDevProxy', function startDevProxy() {
   const butlerUrl = envConfig.butlerUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
-  let butlerApiPrefix = '';
-  if (!envConfig.withoutAuthPrefix) {
-    butlerApiPrefix = '/auth';
-  }
-
   const httpProxy = {
     '/': 'http://127.0.0.1:3000',
     '/api/': `${uiBackendUrl}/api/`,
-    '/auth/signIn': butlerUrl + butlerApiPrefix + '/signIn',
-    '/auth/signOut': butlerUrl + butlerApiPrefix + '/signOut',
-    '/auth/users/current': butlerUrl + butlerApiPrefix + '/users/current',
-    '/auth/users/tenants': butlerUrl + butlerApiPrefix + '/users/tenants',
-    '/ump': butlerUrl + '/ump',
+    '/auth/': butlerUrl + '/auth/',
+    '/ump/': butlerUrl + '/ump/',
     '/assets/': butlerUrl + '/assets/',
+    '/secured/': butlerUrl + '/secured/',
     '/uiTracker/': 'http://127.0.0.1:8484/',
     '/notifications/': 'https://instana.github.io/ui-notifications/content/'
   };
