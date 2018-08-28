@@ -8,6 +8,7 @@ import {
   pluginsDeprecatedIn20,
   oneZeroServicePlugins
 } from 'in-forge/constants';
+import { containsMetricInList, createMetricListItem, isBuiltInMetric } from 'in-sdk/metrics';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
 import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
@@ -15,7 +16,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import { getCustom } from 'in-api/metricsCatalog';
-import { isBuiltInMetric } from 'in-sdk/metrics';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
@@ -179,18 +179,55 @@ export default connectTo(
         const metricDescription = metricInstance.get('metricDescription');
         const metricLabel = metricDescription.get('label');
 
-        customMetricsList.push({
-          value: metricId,
-          formatter: metricDescription.get('formatter'),
-          label: `${metricLabel} (${metricId})`,
-          pluginId: metricPluginId
-        });
+        customMetricsList.push(
+          createMetricListItem(
+            metricId,
+            metricDescription.get('formatter'),
+            `${metricLabel} (${metricId})`,
+            metricPluginId
+          )
+        );
       });
 
       return customMetricsList;
     })
   },
   function RuleForm({ form, onChange, customMetrics }) {
+    // extend custom-metrics list with current selected custom-metric,
+    // in case it is not contained in the list. This might happen due to
+    // deprecation or there is no such metric anymore
+    addCurrentCustomMetricToListIfMissing(form, customMetrics);
+
+    function addCurrentCustomMetricToListIfMissing(form, customMetricsList) {
+      if (!form || !customMetricsList) {
+        return;
+      }
+
+      if (
+        form.get('origin') &&
+        form.get('origin').value === 'custom' &&
+        form.get('entityType') &&
+        !!form.get('entityType').value &&
+        form.get('metricName') &&
+        !!form.get('metricName').value
+      ) {
+        const entityType = form.get('entityType').value;
+        const metricName = form.get('metricName').value;
+        if (!!entityType && !!metricName) {
+          if (!containsMetricInList(customMetricsList, metricName)) {
+            customMetrics.push(
+              createMetricListItem(
+                metricName,
+                'UNKNOWN', // TODO
+                `Unknown Label (${metricName})`, // TODO
+                entityType
+              )
+            );
+          }
+        }
+      }
+    }
+
     function isPercentile(localForm = form) {
       if (
         !localForm ||
