@@ -59,8 +59,8 @@ function save(rule, form) {
         form.get('name').value,
         form.get('entityType').value,
         form.get('metricName').value,
-        form.get('rollup') ? Number(form.get('rollup').value) : -1,
-        form.get('window') ? Number(form.get('window').value) : -1,
+        form.get('rollup') ? Number(form.get('rollup').value) : '',
+        form.get('window') ? Number(form.get('window').value) : '',
         form.get('aggregation') ? form.get('aggregation').value : null,
         form.get('conditionOperator').value,
         Number(form.get('conditionValue').value)
