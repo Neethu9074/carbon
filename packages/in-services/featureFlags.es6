@@ -24,8 +24,12 @@ export const cockpitEnabled = false;
 export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
-export const showTenantSwitcher = config.tenant !== 'edmunds';
+export const tenantSwitcherEnabled = isFeatureFlagEnabled('tenantSwitcherEnabled');
 export const pingComparisonEnabled = isFeatureFlagEnabled('pingComparisonEnabled');
+export const releaseNotesEnabled = isFeatureFlagEnabled('releaseNotesEnabled');
+export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEnabled');
+export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
+export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

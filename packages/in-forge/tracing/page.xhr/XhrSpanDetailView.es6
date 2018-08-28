@@ -6,6 +6,7 @@ import { getTraceViewLinkShowingTrace } from 'in-stores/navigation/paths/tracePa
 import { getCommonDescriptionItems } from 'in-forge/tracing/page/commonEumSpanItems';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import getTraceDetails20TraceId from 'in-subscription/getTraceDetails20TraceId';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import convertHexToLong from 'in-subscription/hexToLong';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -34,6 +35,8 @@ export default connectTo(
     return observables;
   },
   function XhrSpanDetailView({ span, pageLoadTraceLink, pageLoadTraceId, selectedTraceId, backendTraceIdResult }) {
+    const hidden = span.getIn(['data', 'page_xhr', 'h'], false);
+
     return (
       <div>
         <PageLoadAndBackendTraceButtons
@@ -52,6 +55,21 @@ export default connectTo(
 
           {getCommonDescriptionItems(span)}
         </DescriptionList>
+
+        {hidden && (
+          <DashboardNotification type="info">
+            This HTTP call was made while the browser window was hidden, i.e.{' '}
+            <code>document.visibilityState === &#39;hidden&#39;</code>. As a result, browsers may throttle down code
+            execution. This can negatively impact measured request durations. More information can be found in our{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://docs.instana.io/products/website_monitoring/faq/#why-are-the-recorded-timings-for-my-http-calls-so-unusually-huge"
+            >
+              website monitoring FAQ
+            </a>.
+          </DashboardNotification>
+        )}
       </div>
     );
   }

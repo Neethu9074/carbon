@@ -12,11 +12,10 @@ import locals from './Header.mless';
 export default function Header({ call, callTreeNode, onClose, getColor }) {
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
-
   return (
     <div>
       <div className={locals.entityInformation}>
-        <span className={locals.callLabel}>{call.label}</span>
+        <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
         {callTreeNode.endpoint && (
           <Pill kind="light" color={getColorForEndpointType(callTreeNode.endpoint.type)}>
             {callTreeNode.endpoint.type}
@@ -25,7 +24,8 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
         <CloseButton onClick={onClose} />
       </div>
       {service &&
-        service.id !== 'ROOT' && (
+        service.id !== 'ROOT' &&
+        service.id !== 'UNKNOWN' && (
           <Fragment>
             <span className={locals.serviceLabel}>Service</span>
             <div className={locals.serviceLine}>

@@ -15,10 +15,6 @@ export function isStagingEnvironment() {
   return theConfig.environment === 'staging';
 }
 
-export function isOnPremise() {
-  return theConfig.operationMode === 'on-prem';
-}
-
 export function isInstanaTenant() {
   return config.tenant === 'instana';
 }

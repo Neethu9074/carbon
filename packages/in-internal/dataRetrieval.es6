@@ -37,3 +37,32 @@ export function getContextForDropwizard(dropwizard, timeConfig) {
     })
     .filter(row => row.host != null && row.container != null && row.jvm != null);
 }
+
+export function getHostsWithNomadContext(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'nomadScheduler'
+      })
+        .flatMap(getSnapshots)
+        .flatMap(nomadSnapshots => combineLatest(nomadSnapshots.map(nomad => getContextForNomad(nomad, timeConfig))))
+    )
+    .startWith(emptyArray);
+}
+
+export function getContextForNomad(nomad, timeConfig) {
+  return getPhysicalHierarchy(nomad.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: nomad.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        nomad,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
+}

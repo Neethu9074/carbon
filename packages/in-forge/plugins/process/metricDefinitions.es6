@@ -19,6 +19,7 @@ export default [
     metrics: ['ctx_switches.voluntary', 'ctx_switches.nonvoluntary'],
     labels: ['Voluntary', 'Nonvoluntary'],
     min: 0,
+    category: ['Context switches'],
     formatter: number
   }
 ];
