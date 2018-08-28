@@ -27,6 +27,16 @@ export function getPlainMetricList(plugin) {
   return metrics;
 }
 
+export function isBuiltInMetric(plugin, metricName) {
+  const metrics = getPlainMetricList(plugin);
+  for (let i = 0; i < metrics.length; i++) {
+    if (metrics[i].value === metricName) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function getMetrics(allOptions, categoryNode) {
   if (categoryNode.type === 'metric') {
     allOptions.push({

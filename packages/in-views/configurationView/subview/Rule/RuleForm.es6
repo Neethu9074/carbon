@@ -15,6 +15,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-components/form/FormGroup';
 import { getCustom } from 'in-api/metricsCatalog';
+import { isBuiltInMetric } from 'in-sdk/metrics';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
@@ -92,6 +93,14 @@ function notBlankOrDeprecatedValidator(entityType) {
 }
 
 export function ruleFormDefinition(rule) {
+  const entityType = rule ? rule.get('entityType') : '';
+  const metricName = rule ? rule.get('metricName') : '';
+
+  let origin = rule ? rule.get('origin') : '';
+  if (!origin && !!entityType && !!metricName) {
+    origin = isBuiltInMetric(entityType, metricName) ? 'built-in' : 'custom';
+  }
+
   let form = createMapForm()
     .put(
       'name',
@@ -103,21 +112,21 @@ export function ruleFormDefinition(rule) {
     .put(
       'origin',
       createField({
-        value: rule ? rule.get('origin') : undefined,
+        value: origin,
         validator: notBlankValidator
       })
     )
     .put(
       'entityType',
       createField({
-        value: rule ? rule.get('entityType') : undefined,
+        value: entityType,
         validator: notBlankOrDeprecatedValidator
       })
     )
     .put(
       'metricName',
       createField({
-        value: rule ? rule.get('metricName') : '',
+        value: metricName,
         validator: metricName => {
           return metricName && metricName != '' && metricName.length > 0
             ? null
