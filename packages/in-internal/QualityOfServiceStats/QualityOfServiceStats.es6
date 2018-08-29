@@ -103,7 +103,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getHostsWithNomadContext('entity.zone:fleet*worker')
+  rows: getHostsWithNomadContext('entity.zone:fleet*worker*')
 })(function QualityOfServiceStats({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
