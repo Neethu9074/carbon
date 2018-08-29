@@ -41,5 +41,40 @@ export default [
     category: ['Traffic'],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'bts',
+    label: 'Bytes Sent',
+    category: ['Traffic'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'btr',
+    label: 'Bytes Received',
+    category: ['Traffic'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'g0c',
+    label: 'Generation 0 Collections',
+    category: ['Runtime'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'g1c',
+    label: 'Generation 1 Collections',
+    category: ['Runtime'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'g2c',
+    label: 'Generation 2 Collections',
+    category: ['Runtime'],
+    min: 0,
+    formatter: number
   }
 ];
