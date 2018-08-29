@@ -38,6 +38,7 @@ import './gcd';
 import './gcs';
 import './gwt';
 import './grizzly';
+import './hangfire';
 import './hc';
 import './hc.nio';
 import './hibernate';
