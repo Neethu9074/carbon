@@ -74,6 +74,7 @@ import './mysql';
 import './mysqli';
 import './nanohttpd';
 import './net-http';
+import './neo4j';
 import './node.http.client';
 import './node.http.server';
 import './oci8';
