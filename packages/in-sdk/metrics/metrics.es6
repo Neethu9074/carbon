@@ -46,6 +46,12 @@ export function containsMetricInList(metricList, metricName) {
 }
 
 export function createMetricListItem(metricName, formatter, label, pluginId) {
+  if (!label) {
+    label = `Unknown label (${metricName})`;
+  } else if (!label.includes(metricName)) {
+    label += ` (${metricName})`;
+  }
+
   return {
     value: metricName,
     formatter: formatter,

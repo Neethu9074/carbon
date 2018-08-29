@@ -174,22 +174,20 @@ export default connectTo(
     customMetrics: getCustom().map(metricInstances => {
       const customMetricsList = [];
       metricInstances.map(metricInstance => {
-        const metricId = metricInstance.get('metricId');
-        const metricFormatter = metricInstance.get('formatter');
-        const metricPluginId = metricInstance.get('pluginId');
-
-        let metricLabel = metricInstance.get('label');
-        if (!metricLabel.includes(metricId)) {
-          metricLabel += ` (${metricId})`;
-        }
-
-        customMetricsList.push(createMetricListItem(metricId, metricFormatter, metricLabel, metricPluginId));
+        customMetricsList.push(
+          createMetricListItem(
+            metricInstance.get('metricId'),
+            metricInstance.get('formatter'),
+            metricInstance.get('pluginId'),
+            metricInstance.get('label')
+          )
+        );
       });
 
       return customMetricsList;
     })
   },
-  function RuleForm({ form, onChange, customMetrics }) {
+  function RuleForm({ entity, form, onChange, customMetrics }) {
     // extend custom-metrics list with current selected custom-metric,
     // in case it is not contained in the list. This might happen due to
     // deprecation or there is no such metric anymore
@@ -210,15 +208,11 @@ export default connectTo(
       ) {
         const entityType = form.get('entityType').value;
         const metricName = form.get('metricName').value;
+
         if (!!entityType && !!metricName) {
           if (!containsMetricInList(customMetricsList, metricName)) {
             customMetrics.push(
-              createMetricListItem(
-                metricName,
-                'UNKNOWN', // TODO
-                `Unknown Label (${metricName})`, // TODO
-                entityType
-              )
+              createMetricListItem(metricName, entity.get('formatter'), entity.get('label'), entityType)
             );
           }
         }

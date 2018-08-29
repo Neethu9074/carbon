@@ -29,7 +29,6 @@ export default function Rule(props) {
 
 const Form = entityForm(function IntegrationForm(props) {
   const { entity, form, message, error, loading } = props;
-
   return (
     <div>
       <SubViewHeader>Configure Rule: {entity.get('name')}</SubViewHeader>
