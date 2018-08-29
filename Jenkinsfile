@@ -29,7 +29,8 @@ def deliveryBranches = [
   'develop',
   'master',
   'release',
-  'prerelease'
+  'prerelease',
+  'onprem-hotfix'
 ]
 
 stage('Node Build') {
@@ -73,7 +74,7 @@ stage ('Container Build') {
       version      = instanaVersion
     }
   }
-  
+
   slackNotification('Container Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
