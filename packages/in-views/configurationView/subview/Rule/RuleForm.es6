@@ -175,18 +175,15 @@ export default connectTo(
       const customMetricsList = [];
       metricInstances.map(metricInstance => {
         const metricId = metricInstance.get('metricId');
+        const metricFormatter = metricInstance.get('formatter');
         const metricPluginId = metricInstance.get('pluginId');
-        const metricDescription = metricInstance.get('metricDescription');
-        const metricLabel = metricDescription.get('label');
 
-        customMetricsList.push(
-          createMetricListItem(
-            metricId,
-            metricDescription.get('formatter'),
-            `${metricLabel} (${metricId})`,
-            metricPluginId
-          )
-        );
+        let metricLabel = metricInstance.get('label');
+        if (!metricLabel.includes(metricId)) {
+          metricLabel += ` (${metricId})`;
+        }
+
+        customMetricsList.push(createMetricListItem(metricId, metricFormatter, metricLabel, metricPluginId));
       });
 
       return customMetricsList;
