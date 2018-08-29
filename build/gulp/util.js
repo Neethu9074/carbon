@@ -60,7 +60,6 @@ exports.writeDevModeConfig = function writeDevModeConfig(envConfig) {
     environment: envConfig.environment,
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
-    operationMode: 'fleet',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags)
   };

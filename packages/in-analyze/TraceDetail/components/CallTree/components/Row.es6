@@ -127,7 +127,7 @@ function CallInformation(props) {
           })}
           onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
         >
-          {call.label}
+          {call.label || 'Undefined'}
         </span>
         {call.batchSize > 1 && (
           <Tooltip

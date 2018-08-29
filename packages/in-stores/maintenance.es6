@@ -4,9 +4,9 @@ import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { maintenanceNotesEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import { getSetting$ } from 'in-services/settings';
-import { isOnPremise } from 'in-services/config';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
@@ -29,7 +29,7 @@ function markAsRead() {
 }
 
 export function init() {
-  if (!isOnPremise()) {
+  if (maintenanceNotesEnabled) {
     retrieveLatestMessage();
     setInterval(retrieveLatestMessage, 1000 * 60 * 10);
 

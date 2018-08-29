@@ -1,6 +1,6 @@
 const express = require('express');
 
-const clientConfig = require('../assets/config.json');
+const serverConfig = require('../serverConfig.js');
 const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
@@ -15,7 +15,7 @@ const sendImmutableFilesConfig = {
 
 // do not permit access to our internal chunk
 router.use('/bundle/internal.*.js', (req, res, next) => {
-  if (clientConfig.tenant !== 'instana' && clientConfig.tenant !== 'instanaops') {
+  if (serverConfig.clientConfig.tenant !== 'instana' && serverConfig.clientConfig.tenant !== 'instanaops') {
     res.sendStatus(403);
     return;
   }
