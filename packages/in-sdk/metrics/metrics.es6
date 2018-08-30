@@ -45,6 +45,15 @@ export function containsMetricInList(metricList, metricName) {
   return false;
 }
 
+export function getEntityTypeOfMetricInList(metricList, metricName) {
+  for (var i = 0; i < metricList.length; i++) {
+    if (metricList[i].value === metricName) {
+      return metricList[i].entityType;
+    }
+  }
+  return null;
+}
+
 export function createMetricListItem(metricName, formatter, label, entityType) {
   if (!label) {
     label = `Unknown label (${metricName})`;
