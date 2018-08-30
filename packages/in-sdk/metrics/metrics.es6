@@ -45,7 +45,7 @@ export function containsMetricInList(metricList, metricName) {
   return false;
 }
 
-export function createMetricListItem(metricName, formatter, label, pluginId) {
+export function createMetricListItem(metricName, formatter, label, entityType) {
   if (!label) {
     label = `Unknown label (${metricName})`;
   } else if (!label.includes(metricName)) {
@@ -56,7 +56,7 @@ export function createMetricListItem(metricName, formatter, label, pluginId) {
     value: metricName,
     formatter: formatter,
     label: label,
-    pluginId: pluginId
+    entityType: entityType
   };
 }
 

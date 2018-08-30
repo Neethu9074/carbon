@@ -235,10 +235,10 @@ export default connectTo(
       return isMetricPercentile(entityType, metricName);
     }
 
-    function getPluginIdOfCustomMetric(metricId) {
+    function getEntityTypeOfCustomMetric(metricId) {
       for (var i = 0; i < customMetrics.length; i++) {
         if (customMetrics[i].value === metricId) {
-          return customMetrics[i].pluginId;
+          return customMetrics[i].entityType;
         }
       }
       return null;
@@ -390,8 +390,8 @@ export default connectTo(
                           if (form.get('origin').value === 'custom') {
                             // manually update the hidden hidden entityType field in case of custom metrics
                             updatedForm = updatedForm.updateIn(['entityType'], f => {
-                              const pluginId = getPluginIdOfCustomMetric(e.value);
-                              return f.setValue(pluginId);
+                              const entityType = getEntityTypeOfCustomMetric(e.value);
+                              return f.setValue(entityType);
                             });
                           }
                           return updatedForm;
