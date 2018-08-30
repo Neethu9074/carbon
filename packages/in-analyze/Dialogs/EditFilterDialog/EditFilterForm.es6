@@ -44,7 +44,7 @@ export default function EditFilterForm(props) {
                 ))
             )}
 
-          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
+          <CustomKeySection {...props} node={node} onChange={onChange} />
 
           {form
             .get('valueForm')
@@ -105,5 +105,11 @@ function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
     );
   }
 
-  return <AutoCompletedSelect field={field} onChange={onChange} autoCompletedOptions={tagSuggestionOptions} />;
+  return (
+    <AutoCompletedSelect
+      field={field}
+      onChange={value => onChange('value', value)}
+      autoCompletedOptions={tagSuggestionOptions}
+    />
+  );
 }

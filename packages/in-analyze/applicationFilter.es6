@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 
 export const APPLICATION = {
   id: applicationId,
@@ -86,6 +87,28 @@ const operatorLabelLUT = {
     NOT_EMPTY: 'not empty'
   }
 };
+
 export function getOperatorLabel(type, operator) {
   return get(operatorLabelLUT, [type, operator], operator);
+}
+
+export function getTagFilterListForSubscription(tagFilters) {
+  return tagFilters.map(tag => {
+    const backendTagFilter = { name: tag.name, operator: tag.operator };
+    getValueByTag(backendTagFilter, tag);
+    return backendTagFilter;
+  });
+}
+
+function getValueByTag(backendTagFilter, tag) {
+  const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
+  const type = node ? node.type : TAG_TYPES.STRING.technicalName;
+
+  if (type === TAG_TYPES.NUMBER.technicalName) {
+    backendTagFilter.numberValue = tag.value;
+  } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
+    backendTagFilter.booleanValue = tag.value;
+  } else {
+    backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
+  }
 }

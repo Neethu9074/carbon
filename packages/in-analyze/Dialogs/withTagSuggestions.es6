@@ -1,11 +1,10 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
-import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
-import { getMultipleTagFromList } from 'in-applications/tags';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 
 export default () => ComposedComponent => {
@@ -21,7 +20,7 @@ export default () => ComposedComponent => {
         _name: props.name,
         custom2ndLevelName: null,
         tagSuggestionOptions: undefined,
-        tag2ndLevelSuggestionOptions: []
+        tag2ndLevelNameSuggestionOptions: undefined
       };
 
       this.getValueQueue$ = create();
@@ -31,10 +30,9 @@ export default () => ComposedComponent => {
         .debounce(500)
         .subscribe(state => this.getValueSuggestions(state));
 
-      // temp disable until we support it
-      // this.get2ndLevelTagQueueSubscription = this.get2ndLevelTagQueue$
-      //   .debounce(500)
-      //   .subscribe(state => this.get2ndLevelNameSuggestions(state));
+      this.get2ndLevelTagQueueSubscription = this.get2ndLevelTagQueue$
+        .debounce(500)
+        .subscribe(state => this.get2ndLevelNameSuggestions(state));
 
       this.getValueQueue$.emit(this.state);
       this.get2ndLevelTagQueue$.emit(this.state);
@@ -60,8 +58,8 @@ export default () => ComposedComponent => {
       this.getValueQueueSubscription.dispose();
       this.getValueQueueSubscription = null;
 
-      // this.get2ndLevelTagQueueSubscription.dispose();
-      // this.get2ndLevelTagQueueSubscription = null;
+      this.get2ndLevelTagQueueSubscription.dispose();
+      this.get2ndLevelTagQueueSubscription = null;
 
       this.getValueQueue$ = null;
       this.get2ndLevelTagQueue$ = null;
@@ -87,15 +85,16 @@ export default () => ComposedComponent => {
     getValueSuggestions({ _name, custom2ndLevelName }) {
       this.disposeValueSuggestion();
 
-      if (_name !== APPLICATION.name && _name !== SERVICE.name && _name !== ENDPOINT.name) {
-        this.setState({ tagSuggestionOptions: undefined });
-        return;
-      }
-
       const tagName = _name;
       const filters = this.props.filters;
       const node = findSubTreeByFullyQualifiedName(tagName);
-      if (!node) {
+      if (
+        !node ||
+        node.type == TAG_TYPES.NUMBER.technicalName || // no value suggestion for number type tag
+        node.type == TAG_TYPES.BOOLEAN.technicalName || // no value suggestion for boolean type tag
+        (node.type == TAG_TYPES.KEY_VALUE_PAIR.technicalName && !custom2ndLevelName)
+      ) {
+        this.setState({ tagSuggestionOptions: undefined });
         return;
       }
 
@@ -103,14 +102,13 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterList(tagName, filters),
+        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
         tagName,
         secondLevelKeyTagName: custom2ndLevelName,
-        requestingSecondaryKeySuggestions: false,
         valueFilter: null
       })
         .startWith(null)
-        .map(getEndpointTypesComboBoxItems)
+        .map(getTagSuggestionOptions)
         .subscribe(tagSuggestionOptions => this.setState({ tagSuggestionOptions }));
     }
 
@@ -128,14 +126,13 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterList(tagName, filters),
+        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
         tagName,
-        secondLevelKeyTagName: tagName,
-        requestingSecondaryKeySuggestions: true,
+        secondLevelKeyTagName: null,
         valueFilter: null
       })
-        .map(getEndpointTypesComboBoxItems)
-        .subscribe(tag2ndLevelSuggestionOptions => this.setState({ tag2ndLevelSuggestionOptions }));
+        .map(getTagSuggestionOptions)
+        .subscribe(tag2ndLevelNameSuggestionOptions => this.setState({ tag2ndLevelNameSuggestionOptions }));
     }
 
     disposeValueSuggestion = () => {
@@ -159,46 +156,21 @@ export default () => ComposedComponent => {
   };
 };
 
-function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
-  if (!autoCompletedValuesResult || !autoCompletedValuesResult.data) {
+function getTagSuggestionOptions(getTagSuggestionsResult) {
+  if (!getTagSuggestionsResult) {
     return null;
   }
 
-  return autoCompletedValuesResult.data.suggestions.map(suggestion => ({
+  if (getTagSuggestionsResult.errors.length > 0) {
+    return [];
+  }
+
+  if (!getTagSuggestionsResult.data) {
+    return null;
+  }
+
+  return getTagSuggestionsResult.data.suggestions.map(suggestion => ({
     value: suggestion,
     label: suggestion
   }));
-}
-
-export function getTagFilterList(tagName, filters) {
-  const tagFilters = [];
-
-  const tagFilter = filters.get('tagFilter').toJS();
-
-  const applications = getMultipleTagFromList(tagFilter, { name: APPLICATION.name });
-  const services = getMultipleTagFromList(tagFilter, { name: SERVICE.name });
-  const endpoints = getMultipleTagFromList(tagFilter, { name: ENDPOINT.name });
-
-  function addTags(tags) {
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tags[i];
-      tagFilters.push({ name: tag.name, stringValue: tag.value, operator: tag.operator });
-    }
-  }
-
-  const isApplicationTag = tagName !== APPLICATION.name;
-  const isServiceTag = tagName !== SERVICE.name;
-  const isEndpointTag = tagName !== ENDPOINT.name;
-
-  if (applications && isApplicationTag) {
-    addTags(applications);
-  }
-  if (services && (isApplicationTag && isServiceTag)) {
-    addTags(services);
-  }
-  if (endpoints && (isApplicationTag && isServiceTag && isEndpointTag)) {
-    addTags(endpoints);
-  }
-
-  return tagFilters;
 }

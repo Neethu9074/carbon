@@ -2,8 +2,8 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
+import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
-import { getTagFilterList } from 'in-analyze/Dialogs/withTagSuggestions';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -12,14 +12,13 @@ export default compose(
       filter: {
         timeConfig: filters.get('timeConfig')
       },
-      tagFilters: getTagFilterList(tagName, filters),
+      tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
       tagName,
       secondLevelKeyTagName: null,
-      requestingSecondaryKeySuggestions: false,
       valueFilter: null
     })
       .startWith(null)
-      .map(getEndpointTypesComboBoxItems)
+      .map(getTagSuggestionItems)
   }))
 )(ApplicationServiceEndpointSuggestions);
 
@@ -33,14 +32,18 @@ function ApplicationServiceEndpointSuggestions(props) {
   return <SearchableList {...props} items={tagValueSuggestions} />;
 }
 
-function getEndpointTypesComboBoxItems(autoCompletedValuesResult) {
-  if (!autoCompletedValuesResult || !autoCompletedValuesResult.data) {
+function getTagSuggestionItems(tagSuggestionResult) {
+  if (!tagSuggestionResult) {
     return null;
   }
 
-  if (autoCompletedValuesResult.errors.length > 0) {
+  if (tagSuggestionResult.errors.length > 0) {
     return [];
   }
 
-  return autoCompletedValuesResult.data.suggestions;
+  if (!tagSuggestionResult.data) {
+    return null;
+  }
+
+  return tagSuggestionResult.data.suggestions;
 }

@@ -114,13 +114,20 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
   onChange = (fieldName, value) => {
     let form = this.state.form;
+    const { setNameForTagSuggestion, set2ndLevelNameForTagSuggestion } = this.props;
 
     if (fieldName === 'name') {
-      if (this.props.setNameForTagSuggestion) {
-        this.props.setNameForTagSuggestion(value);
+      if (setNameForTagSuggestion) {
+        setNameForTagSuggestion(value);
+      }
+      if (set2ndLevelNameForTagSuggestion) {
+        set2ndLevelNameForTagSuggestion(null);
       }
       form = onChangeName(form, value);
     } else if (fieldName === 'secondLevelName') {
+      if (set2ndLevelNameForTagSuggestion) {
+        set2ndLevelNameForTagSuggestion(value);
+      }
       form = onChangeSecondLevelName(form, value);
     } else if (fieldName === 'value') {
       form = onChangeValue(form, value);

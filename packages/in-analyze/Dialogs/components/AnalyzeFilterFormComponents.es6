@@ -53,7 +53,7 @@ export function KeySelectionSection(props) {
   );
 }
 
-export function CustomKeySection({ form, onChange, node }) {
+export function CustomKeySection({ form, onChange, node, tag2ndLevelNameSuggestionOptions }) {
   if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
@@ -64,12 +64,11 @@ export function CustomKeySection({ form, onChange, node }) {
       {form.get('nameForm').map(subForm =>
         subForm.value.get('secondLevelName').map(field => (
           <FormGroup className={locals.customKeyGroup}>
-            <Input
-              type="text"
+            <AutoCompletedSelect
               id="secondLevelName"
-              value={field.value || ''}
-              onChange={e => onChange(e.target.value)}
-              autoComplete="off"
+              field={field}
+              onChange={value => onChange('secondLevelName', value)}
+              autoCompletedOptions={tag2ndLevelNameSuggestionOptions}
             />
             <TouchedMessages field={subForm} />
           </FormGroup>
@@ -155,7 +154,7 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
           id="value"
           value={field.value}
           autoComplete="off"
-          onChange={e => onChange('value', e.target.value)}
+          onChange={e => onChange(e ? e.target.value : '')}
         />
         {autoCompletedOptions === null && (
           <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
@@ -185,7 +184,7 @@ export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
     <CreatableSelect
       id="value"
       value={field.value}
-      onChange={e => onChange('value', e ? e.value : '')}
+      onChange={e => onChange(e ? e.value : '')}
       options={autoCompletedOptions}
       placeholder=""
       isClearable

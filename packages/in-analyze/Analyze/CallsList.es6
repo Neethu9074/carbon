@@ -19,9 +19,8 @@ import {
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import GroupedCalls from 'in-analyze/GroupedCalls';
@@ -91,7 +90,7 @@ function CallsList(props) {
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
-  const tagFiltersForSubscription = getTagFilterList(filters);
+  const tagFiltersForSubscription = getTagFilterListForSubscription(filters.get('tagFilter').toJS());
 
   return (
     <Fragment>
@@ -135,32 +134,6 @@ function CallsList(props) {
       </Switch>
     </Fragment>
   );
-}
-
-function getTagFilterList(filters) {
-  const tagFilters = filters
-    .get('tagFilter')
-    .toJS()
-    .map(tag => {
-      const backendTagFilter = { name: tag.name, operator: tag.operator };
-      getValueByTag(backendTagFilter, tag);
-      return backendTagFilter;
-    });
-
-  return tagFilters;
-}
-
-function getValueByTag(backendTagFilter, tag) {
-  const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
-  const type = node ? node.type : TAG_TYPES.STRING.technicalName;
-
-  if (type === TAG_TYPES.NUMBER.technicalName) {
-    backendTagFilter.numberValue = tag.value;
-  } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
-    backendTagFilter.booleanValue = tag.value;
-  } else {
-    backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
-  }
 }
 
 function AnalyzeHeader() {
