@@ -67,6 +67,17 @@ export default function RoleForm({ form, onChange, roleId }) {
       <Section>
         <SectionHeading>Permissions</SectionHeading>
 
+        {twoZeroModeEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureServiceMapping"
+            label="Service & Endpoint Mapping"
+            helpText="Permits configuration of services and endpoints."
+          />
+        )}
+
         {!twoZeroModeEnabled && (
           <Permission
             form={form}
