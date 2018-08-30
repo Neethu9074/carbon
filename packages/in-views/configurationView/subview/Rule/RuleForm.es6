@@ -187,335 +187,344 @@ export default connectTo(
       return customMetricsList;
     })
   },
-  function RuleForm({ entity, form, onChange, customMetrics }) {
-    // extend custom-metrics list with current selected custom-metric,
-    // in case it is not contained in the list. This might happen due to
-    // deprecation or there is no such metric anymore
-    addCurrentCustomMetricToListIfMissing(form, customMetrics);
+  class RuleForm extends React.Component {
+    render() {
+      const { entity, form, onChange, customMetrics } = this.props;
 
-    function addCurrentCustomMetricToListIfMissing(form, customMetricsList) {
-      if (!form || !customMetricsList) {
-        return;
-      }
+      // extend custom-metrics list with current selected custom-metric,
+      // in case it is not contained in the list. This might happen due to
+      // deprecation or there is no such metric anymore
+      addCurrentCustomMetricToListIfMissing(form, customMetrics);
 
-      if (
-        form.get('origin') &&
-        form.get('origin').value === 'custom' &&
-        form.get('entityType') &&
-        form.get('entityType').value &&
-        form.get('metricName') &&
-        form.get('metricName').value
-      ) {
-        const entityType = form.get('entityType').value;
-        const metricName = form.get('metricName').value;
+      function addCurrentCustomMetricToListIfMissing(form, customMetricsList) {
+        if (!form || !customMetricsList) {
+          return;
+        }
 
-        if (entityType && metricName) {
-          if (!containsMetricInList(customMetricsList, metricName)) {
-            customMetrics.push(
-              createMetricListItem(metricName, entity.get('formatter'), entity.get('label'), entityType)
-            );
+        if (
+          form.get('origin') &&
+          form.get('origin').value === 'custom' &&
+          form.get('entityType') &&
+          form.get('entityType').value &&
+          form.get('metricName') &&
+          form.get('metricName').value
+        ) {
+          const entityType = form.get('entityType').value;
+          const metricName = form.get('metricName').value;
+
+          if (entityType && metricName) {
+            if (!containsMetricInList(customMetricsList, metricName)) {
+              customMetrics.push(
+                createMetricListItem(metricName, entity.get('formatter'), entity.get('label'), entityType)
+              );
+            }
           }
         }
       }
-    }
 
-    function isPercentile(localForm = form) {
-      if (
-        !localForm ||
-        !localForm.get('entityType') ||
-        !localForm.get('entityType').value ||
-        !localForm.get('metricName') ||
-        !localForm.get('metricName').value
-      ) {
-        return false;
-      }
-
-      let metricName = localForm.get('metricName').value;
-      let entityType = localForm.get('entityType').value;
-      return isMetricPercentile(entityType, metricName);
-    }
-
-    function getEntityTypeOfCustomMetric(metricId) {
-      for (var i = 0; i < customMetrics.length; i++) {
-        if (customMetrics[i].value === metricId) {
-          return customMetrics[i].entityType;
+      function isPercentile(localForm = form) {
+        if (
+          !localForm ||
+          !localForm.get('entityType') ||
+          !localForm.get('entityType').value ||
+          !localForm.get('metricName') ||
+          !localForm.get('metricName').value
+        ) {
+          return false;
         }
-      }
-      return null;
-    }
 
-    const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
-    const pluginsWithMetricDefinitions = Object.keys(plugins)
-      .map(k => plugins[k])
-      .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
-      .filter(plugin => getCategories(plugin).length > 0)
-      .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
-      .map(plugin => {
-        return {
-          value: plugin,
-          label: getSingular(plugin)
-        };
+        let metricName = localForm.get('metricName').value;
+        let entityType = localForm.get('entityType').value;
+        return isMetricPercentile(entityType, metricName);
+      }
+
+      function getEntityTypeOfCustomMetric(metricId) {
+        for (var i = 0; i < customMetrics.length; i++) {
+          if (customMetrics[i].value === metricId) {
+            return customMetrics[i].entityType;
+          }
+        }
+        return null;
+      }
+
+      const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
+      const pluginsWithMetricDefinitions = Object.keys(plugins)
+        .map(k => plugins[k])
+        .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
+        .filter(plugin => getCategories(plugin).length > 0)
+        .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
+        .map(plugin => {
+          return {
+            value: plugin,
+            label: getSingular(plugin)
+          };
+        });
+      form.get('entityType').map(field => {
+        if (twoZeroModeEnabled && isDeprecatedEntityType(field.value)) {
+          pluginsWithMetricDefinitions.push({
+            value: field.value,
+            label: getSingular(field.value) + ' (deprecated)'
+          });
+          pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+        }
+        if (twoZeroModeEnabled && is10ServiceType(field.value)) {
+          pluginsWithMetricDefinitions.push({
+            value: field.value,
+            label: getSingular(field.value)
+          });
+          pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+        }
+        if (!twoZeroModeEnabled && is20EntityType(field.value)) {
+          pluginsWithMetricDefinitions.push({
+            value: field.value,
+            label: getSingular(field.value)
+          });
+          pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+        }
       });
-    form.get('entityType').map(field => {
-      if (twoZeroModeEnabled && isDeprecatedEntityType(field.value)) {
-        pluginsWithMetricDefinitions.push({
-          value: field.value,
-          label: getSingular(field.value) + ' (deprecated)'
-        });
-        pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
-      }
-      if (twoZeroModeEnabled && is10ServiceType(field.value)) {
-        pluginsWithMetricDefinitions.push({
-          value: field.value,
-          label: getSingular(field.value)
-        });
-        pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
-      }
-      if (!twoZeroModeEnabled && is20EntityType(field.value)) {
-        pluginsWithMetricDefinitions.push({
-          value: field.value,
-          label: getSingular(field.value)
-        });
-        pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
-      }
-    });
 
-    return (
-      <fieldset>
-        <Section>
-          {form.get('name').map(field => (
-            <FormGroup>
-              <Label htmlFor="rule-name" hasError={!field.valid && field.touched}>
-                Name
-              </Label>
-              <Helpify helpText="Rules can be selected by name in the Custom Issues dialog.">
-                <Input
-                  id="rule-name"
-                  type="text"
-                  className={`${block}__helpfified_input`}
+      return (
+        <fieldset>
+          <Section>
+            {form.get('name').map(field => (
+              <FormGroup>
+                <Label htmlFor="rule-name" hasError={!field.valid && field.touched}>
+                  Name
+                </Label>
+                <Helpify helpText="Rules can be selected by name in the Custom Issues dialog.">
+                  <Input
+                    id="rule-name"
+                    type="text"
+                    className={`${block}__helpfified_input`}
+                    value={field.value}
+                    onChange={e => onChange('name', e.target.value)}
+                    hasError={!field.valid && field.touched}
+                    autoFocus
+                  />
+                  <TouchedMessages field={field} />
+                </Helpify>
+              </FormGroup>
+            ))}
+          </Section>
+
+          <Section>
+            {form.get('origin').map(field => (
+              <FormGroup>
+                <Label htmlFor="rule-origin" hasError={!field.valid && field.touched}>
+                  Origin
+                </Label>
+                <ComboBox
+                  name="rule-origin"
                   value={field.value}
-                  onChange={e => onChange('name', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                  autoFocus
+                  options={[
+                    { value: 'built-in', label: 'Built-in metrics' },
+                    { value: 'custom', label: 'Custom metrics' }
+                  ]}
+                  onChange={e => {
+                    if (e && e.value != field.value) {
+                      onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
+                        // manually set to not-touched to prevent showing the validation-error
+                        updatedForm = updatedForm.updateIn(['entityType'], function(f) {
+                          return f.setTouched(false);
+                        });
+                        updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                          return f.setTouched(false);
+                        });
+                        return updatedForm;
+                      });
+                    }
+                  }}
                 />
                 <TouchedMessages field={field} />
-              </Helpify>
-            </FormGroup>
-          ))}
-        </Section>
+              </FormGroup>
+            ))}
 
-        <Section>
-          {form.get('origin').map(field => (
-            <FormGroup>
-              <Label htmlFor="rule-origin" hasError={!field.valid && field.touched}>
-                Origin
-              </Label>
-              <ComboBox
-                name="rule-origin"
-                value={field.value}
-                options={[
-                  { value: 'built-in', label: 'Built-in metrics' },
-                  { value: 'custom', label: 'Custom metrics' }
-                ]}
-                onChange={e => {
-                  if (e && e.value != field.value) {
-                    onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
-                      // manually set to not-touched to prevent showing the validation-error
-                      updatedForm = updatedForm.updateIn(['entityType'], function(f) {
-                        return f.setTouched(false);
-                      });
-                      updatedForm = updatedForm.updateIn(['metricName'], function(f) {
-                        return f.setTouched(false);
-                      });
-                      return updatedForm;
-                    });
-                  }
-                }}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-
-          {form.get('origin').value && form.get('origin').value === 'built-in'
-            ? form.get('entityType').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
-                    Entity type
-                  </Label>
-                  <ComboBox
-                    name="rule-entityType"
-                    value={field.value}
-                    options={pluginsWithMetricDefinitions}
-                    onChange={e => {
-                      if (e && e.value != field.value) {
-                        onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
-                          // manually set to not-touched to prevent showing the validation-error
-                          updatedForm = updatedForm.updateIn(['metricName'], f => {
-                            return f.setTouched(false);
-                          });
-                          return updatedForm;
-                        });
-                      }
-                    }}
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))
-            : null}
-
-          {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value)
-            ? form.get('metricName').map(field => (
-                <FormGroup>
-                  <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
-                    Metric
-                  </Label>
-                  <MetricSelector
-                    id="rule-metricName"
-                    plugin={form.get('entityType').value}
-                    value={form.get('metricName').value}
-                    metrics={form.get('origin').value === 'custom' ? customMetrics : null}
-                    useComboBox
-                    onChange={e => {
-                      if (e && e.value != field.value) {
-                        onChange('metricName', e ? e.value : '', (updatedForm, rule) => {
-                          if (isPercentile(updatedForm)) {
-                            updatedForm = updatedForm.remove('window').remove('aggregation');
-                            updatedForm = putRollupField(updatedForm, rule);
-                          } else {
-                            updatedForm = updatedForm.remove('rollup');
-                            updatedForm = putWindowField(updatedForm, rule);
-                            updatedForm = putAggregationField(updatedForm, rule);
-                          }
-
-                          if (form.get('origin').value === 'custom') {
-                            // manually update the hidden hidden entityType field in case of custom metrics
-                            updatedForm = updatedForm.updateIn(['entityType'], f => {
-                              const entityType = getEntityTypeOfCustomMetric(e.value);
-                              return f.setValue(entityType);
-                            });
-                          }
-                          return updatedForm;
-                        });
-                      }
-                    }}
-                  />
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              ))
-            : null}
-
-          {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value) ? (
-            <Row>
-              {!isPercentile() && (
-                <Col cols={3}>
-                  {form.get('window').map(field => (
-                    <FormGroup>
-                      <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
-                        Time window
-                      </Label>
-                      <ComboBox
-                        name="rule-window"
-                        value={field.value}
-                        options={[
-                          { value: '1000', label: '1 s' },
-                          { value: '5000', label: '5 s' },
-                          { value: '10000', label: '10 s' },
-                          { value: '60000', label: '1 min' },
-                          { value: '300000', label: '5 min' },
-                          { value: '600000', label: '10 min' }
-                        ]}
-                        onChange={e => onChange('window', e ? e.value : '')}
-                      />
-                      <TouchedMessages field={field} />
-                    </FormGroup>
-                  ))}
-                </Col>
-              )}
-              {isPercentile() && (
-                <Col cols={3}>
-                  {form.get('rollup').map(field => (
-                    <FormGroup>
-                      <Label htmlFor="rule-rollup" hasError={!field.valid && field.touched}>
-                        Window Size
-                      </Label>
-                      <ComboBox
-                        name="rule-rollup"
-                        value={field.value}
-                        options={[
-                          { value: '5000', label: '5s' },
-                          { value: '60000', label: '1 min' },
-                          { value: '300000', label: '5 min' },
-                          { value: '3600000', label: '1 hour' }
-                        ]}
-                        onChange={e => onChange('rollup', e ? e.value : '')}
-                      />
-                      <TouchedMessages field={field} />
-                    </FormGroup>
-                  ))}
-                </Col>
-              )}
-              {!isPercentile() && (
-                <Col cols={3}>
-                  {form.get('aggregation').map(field => (
-                    <FormGroup>
-                      <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
-                        Aggregation
-                      </Label>
-                      <ComboBox
-                        name="rule-aggregation"
-                        value={field.value}
-                        options={[{ value: 'avg', label: 'avg' }, { value: 'sum', label: 'sum' }]}
-                        onChange={e => onChange('aggregation', e ? e.value : e)}
-                      />
-                      <TouchedMessages field={field} />
-                    </FormGroup>
-                  ))}
-                </Col>
-              )}
-              <Col cols={3}>
-                {form.get('conditionOperator').map(field => (
+            {form.get('origin').value && form.get('origin').value === 'built-in'
+              ? form.get('entityType').map(field => (
                   <FormGroup>
-                    <Label htmlFor="rule-conditionOperator" hasError={!field.valid && field.touched}>
-                      Operator
+                    <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
+                      Entity type
                     </Label>
                     <ComboBox
-                      name="rule-conditionOperator"
+                      name="rule-entityType"
                       value={field.value}
-                      options={[
-                        { value: '<', label: '<' },
-                        { value: '<=', label: '<=' },
-                        { value: '==', label: '==' },
-                        { value: '>=', label: '>=' },
-                        { value: '>', label: '>' },
-                        { value: '!=', label: '!=' }
-                      ]}
-                      onChange={e => onChange('conditionOperator', e ? e.value : e)}
+                      options={pluginsWithMetricDefinitions}
+                      onChange={e => {
+                        if (e && e.value != field.value) {
+                          onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
+                            // manually set to not-touched to prevent showing the validation-error
+                            updatedForm = updatedForm.updateIn(['metricName'], f => {
+                              return f.setTouched(false);
+                            });
+                            return updatedForm;
+                          });
+                        }
+                      }}
                     />
                     <TouchedMessages field={field} />
                   </FormGroup>
-                ))}
-              </Col>
-              <Col cols={3}>
-                {form.get('conditionValue').map(field => (
+                ))
+              : null}
+
+            {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value)
+              ? form.get('metricName').map(field => (
                   <FormGroup>
-                    <Label htmlFor="rule-conditionValue" hasError={!field.valid && field.touched}>
-                      Value
+                    <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
+                      Metric
                     </Label>
-                    <Input
-                      id="rule-conditionValue"
-                      type="text"
-                      value={field.value}
-                      onChange={e => onChange('conditionValue', e.target.value)}
-                      hasError={!field.valid && field.touched}
+                    <MetricSelector
+                      id="rule-metricName"
+                      plugin={form.get('entityType').value}
+                      value={form.get('metricName').value}
+                      metrics={form.get('origin').value === 'custom' ? customMetrics : null}
+                      useComboBox
+                      onChange={e => {
+                        if (e && e.value != field.value) {
+                          onChange('metricName', e ? e.value : '', (updatedForm, rule) => {
+                            if (isPercentile(updatedForm)) {
+                              updatedForm = updatedForm.remove('window').remove('aggregation');
+                              updatedForm = putRollupField(updatedForm, rule);
+                            } else {
+                              updatedForm = updatedForm.remove('rollup');
+                              updatedForm = putWindowField(updatedForm, rule);
+                              updatedForm = putAggregationField(updatedForm, rule);
+                            }
+
+                            if (form.get('origin').value === 'custom') {
+                              // manually update the hidden hidden entityType field in case of custom metrics
+                              updatedForm = updatedForm.updateIn(['entityType'], f => {
+                                const entityType = getEntityTypeOfCustomMetric(e.value);
+                                return f.setValue(entityType);
+                              });
+                            }
+                            return updatedForm;
+                          });
+                        }
+                      }}
                     />
                     <TouchedMessages field={field} />
                   </FormGroup>
-                ))}
-              </Col>
-            </Row>
-          ) : null}
-        </Section>
-      </fieldset>
-    );
+                ))
+              : null}
+
+            {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value) ? (
+              <Row>
+                {!isPercentile() && (
+                  <Col cols={3}>
+                    {form.get('window').map(field => (
+                      <FormGroup>
+                        <Label htmlFor="rule-window" hasError={!field.valid && field.touched}>
+                          Time window
+                        </Label>
+                        <ComboBox
+                          name="rule-window"
+                          value={field.value}
+                          options={[
+                            { value: '1000', label: '1 s' },
+                            { value: '5000', label: '5 s' },
+                            { value: '10000', label: '10 s' },
+                            { value: '60000', label: '1 min' },
+                            { value: '300000', label: '5 min' },
+                            { value: '600000', label: '10 min' }
+                          ]}
+                          onChange={e => onChange('window', e ? e.value : '')}
+                        />
+                        <TouchedMessages field={field} />
+                      </FormGroup>
+                    ))}
+                  </Col>
+                )}
+                {isPercentile() && (
+                  <Col cols={3}>
+                    {form.get('rollup').map(field => (
+                      <FormGroup>
+                        <Label htmlFor="rule-rollup" hasError={!field.valid && field.touched}>
+                          Window Size
+                        </Label>
+                        <ComboBox
+                          name="rule-rollup"
+                          value={field.value}
+                          options={[
+                            { value: '5000', label: '5s' },
+                            { value: '60000', label: '1 min' },
+                            { value: '300000', label: '5 min' },
+                            { value: '3600000', label: '1 hour' }
+                          ]}
+                          onChange={e => onChange('rollup', e ? e.value : '')}
+                        />
+                        <TouchedMessages field={field} />
+                      </FormGroup>
+                    ))}
+                  </Col>
+                )}
+                {!isPercentile() && (
+                  <Col cols={3}>
+                    {form.get('aggregation').map(field => (
+                      <FormGroup>
+                        <Label htmlFor="rule-aggregation" hasError={!field.valid && field.touched}>
+                          Aggregation
+                        </Label>
+                        <ComboBox
+                          name="rule-aggregation"
+                          value={field.value}
+                          options={[{ value: 'avg', label: 'avg' }, { value: 'sum', label: 'sum' }]}
+                          onChange={e => onChange('aggregation', e ? e.value : e)}
+                        />
+                        <TouchedMessages field={field} />
+                      </FormGroup>
+                    ))}
+                  </Col>
+                )}
+                <Col cols={3}>
+                  {form.get('conditionOperator').map(field => (
+                    <FormGroup>
+                      <Label htmlFor="rule-conditionOperator" hasError={!field.valid && field.touched}>
+                        Operator
+                      </Label>
+                      <ComboBox
+                        name="rule-conditionOperator"
+                        value={field.value}
+                        options={[
+                          { value: '<', label: '<' },
+                          { value: '<=', label: '<=' },
+                          { value: '==', label: '==' },
+                          { value: '>=', label: '>=' },
+                          { value: '>', label: '>' },
+                          { value: '!=', label: '!=' }
+                        ]}
+                        onChange={e => onChange('conditionOperator', e ? e.value : e)}
+                      />
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+                <Col cols={2}>
+                  {form.get('conditionValue').map(field => (
+                    <FormGroup>
+                      <Label htmlFor="rule-conditionValue" hasError={!field.valid && field.touched}>
+                        Value
+                      </Label>
+                      <Input
+                        id="rule-conditionValue"
+                        type="text"
+                        value={field.value}
+                        onChange={e => onChange('conditionValue', e.target.value)}
+                        hasError={!field.valid && field.touched}
+                      />
+                      <TouchedMessages field={field} />
+                    </FormGroup>
+                  ))}
+                </Col>
+                <Col cols={1}>
+                  <span id="rule-conditionValue-formatter" className={`${block}__value_format_text`}>
+                    Format
+                  </span>
+                </Col>
+              </Row>
+            ) : null}
+          </Section>
+        </fieldset>
+      );
+    }
   }
 );
