@@ -97,7 +97,7 @@ export function ruleFormDefinition(rule) {
   const metricName = rule ? rule.get('metricName') : '';
 
   let origin = rule ? rule.get('origin') : '';
-  if (!origin && !!entityType && !!metricName) {
+  if (!origin && entityType && metricName) {
     origin = isBuiltInMetric(entityType, metricName) ? 'built-in' : 'custom';
   }
 
@@ -178,8 +178,8 @@ export default connectTo(
           createMetricListItem(
             metricInstance.get('metricId'),
             metricInstance.get('formatter'),
-            metricInstance.get('pluginId'),
-            metricInstance.get('label')
+            metricInstance.get('label'),
+            metricInstance.get('pluginId')
           )
         );
       });
@@ -202,14 +202,14 @@ export default connectTo(
         form.get('origin') &&
         form.get('origin').value === 'custom' &&
         form.get('entityType') &&
-        !!form.get('entityType').value &&
+        form.get('entityType').value &&
         form.get('metricName') &&
-        !!form.get('metricName').value
+        form.get('metricName').value
       ) {
         const entityType = form.get('entityType').value;
         const metricName = form.get('metricName').value;
 
-        if (!!entityType && !!metricName) {
+        if (entityType && metricName) {
           if (!containsMetricInList(customMetricsList, metricName)) {
             customMetrics.push(
               createMetricListItem(metricName, entity.get('formatter'), entity.get('label'), entityType)
@@ -288,7 +288,7 @@ export default connectTo(
               <Label htmlFor="rule-name" hasError={!field.valid && field.touched}>
                 Name
               </Label>
-              <Helpify helpText="Rules can be selected by name in the rule binding dialog.">
+              <Helpify helpText="Rules can be selected by name in the Custom Issues dialog.">
                 <Input
                   id="rule-name"
                   type="text"

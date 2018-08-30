@@ -62,13 +62,7 @@ export function createMetricListItem(metricName, formatter, label, pluginId) {
 
 function getMetrics(allOptions, categoryNode) {
   if (categoryNode.type === 'metric') {
-    allOptions.push(
-      createMetricListItem(
-        categoryNode.metric,
-        categoryNode.formatter,
-        `${categoryNode.label} (${categoryNode.metric})`
-      )
-    );
+    allOptions.push(createMetricListItem(categoryNode.metric, categoryNode.formatter, categoryNode.label));
   } else {
     for (let i = 0, length = categoryNode.children.length; i < length; i++) {
       getMetrics(allOptions, categoryNode.children[i]);

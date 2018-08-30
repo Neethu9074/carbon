@@ -269,7 +269,7 @@ export default class extends React.Component {
     return (
       <SubViewWrapper>
         <Title title="Custom Issues" />
-        <SubViewHeader>Custom issues</SubViewHeader>
+        <SubViewHeader>Custom Issues</SubViewHeader>
 
         <Section>
           <Button kind="info" onClick={this.addNewRuleBinding}>
