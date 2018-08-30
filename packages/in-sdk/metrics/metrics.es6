@@ -45,10 +45,10 @@ export function containsMetricInList(metricList, metricName) {
   return false;
 }
 
-export function getEntityTypeOfMetricInList(metricList, metricName) {
+export function getMetricListItemFromList(metricList, metricName) {
   for (var i = 0; i < metricList.length; i++) {
     if (metricList[i].value === metricName) {
-      return metricList[i].entityType;
+      return metricList[i];
     }
   }
   return null;

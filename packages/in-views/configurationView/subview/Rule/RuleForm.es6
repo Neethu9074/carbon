@@ -11,7 +11,8 @@ import {
 import {
   containsMetricInList,
   createMetricListItem,
-  getEntityTypeOfMetricInList,
+  getMetricListItemFromList,
+  getPlainMetricList,
   isBuiltInMetric
 } from 'in-sdk/metrics';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
@@ -251,6 +252,21 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form, entity) 
   }
 }
 
+function formatterToLabel(formatter) {
+  switch (formatter) {
+    case 'MILLIS':
+      return 'ms';
+    case 'PERCENTAGE':
+      return '%';
+    case 'RATE':
+      return '1/s';
+    case 'NUMBER':
+    case 'UNDEFINED':
+    default:
+      return '';
+  }
+}
+
 export default connectTo(
   {
     customMetrics: getCustom().map(metricInstances => {
@@ -273,6 +289,10 @@ export default connectTo(
     constructor(props) {
       super(props);
       this.entity = props.entity;
+
+      this.state = {
+        metricFormatter: 'UNDEFINED' // TODO set propriate formatter when loading the form
+      };
     }
 
     render() {
@@ -396,12 +416,36 @@ export default connectTo(
                             if (form.get('origin').value === 'custom') {
                               // manually update the hidden hidden entityType field in case of custom metrics
                               updatedForm = updatedForm.updateIn(['entityType'], f => {
-                                const entityType = getEntityTypeOfMetricInList(customMetrics, e.value);
-                                return f.setValue(entityType);
+                                const metricItem = getMetricListItemFromList(customMetrics, e.value);
+                                if (metricItem == null) {
+                                  return f.setValue('');
+                                }
+                                return f.setValue(metricItem.entityType);
                               });
                             }
                             return updatedForm;
                           });
+
+                          if (form.get('origin').value === 'custom') {
+                            const metricItem = getMetricListItemFromList(customMetrics, e.value);
+                            // TODO same for the built-in metrics, which have currently no formatter.
+                            if (metricItem != null) {
+                              this.setState({
+                                metricFormatter: metricItem.formatter
+                              });
+                            }
+                          }
+                          if (form.get('origin').value === 'built-in') {
+                            const entityType = form.get('entityType').value;
+                            const buildInMetricsList = getPlainMetricList(entityType);
+                            const metricItem = getMetricListItemFromList(buildInMetricsList, e.value);
+                            // TODO handle hard-coded built-in formatters differently, because their formatter is defined differently
+                            if (metricItem != null) {
+                              this.setState({
+                                metricFormatter: metricItem.formatter
+                              });
+                            }
+                          }
                         }
                       }}
                     />
@@ -520,7 +564,7 @@ export default connectTo(
                 </Col>
                 <Col cols={1}>
                   <span id="rule-conditionValue-formatter" className={`${block}__value_format_text`}>
-                    Format
+                    {formatterToLabel(this.state.metricFormatter)}
                   </span>
                 </Col>
               </Row>
