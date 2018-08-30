@@ -10,6 +10,7 @@ import {
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
 import { getApplicationCreationFilterBlacklist } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -24,13 +25,14 @@ import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { fromJS } from 'immutable';
 
 const trackCreateApplication = createTracker('application.create');
 const trackUpdateApplication = createTracker('application.update');
 
 import locals from './CreateApplicationDialog.mless';
 
-export default function CreateApplicationDialog({ applicationId, onCancelHref$, getOnSavePath }) {
+export default function CreateApplicationDialog({ timeConfig, applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <BasicForm
       title={applicationId ? 'Update Application Perspective' : 'Create Application Perspective'}
@@ -56,6 +58,11 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {
+        const tagFiltersForSubscription = getTagFilterListForSubscription(form.get('matchSpecification').toJS());
+        const filters = fromJS({
+          timeConfig,
+          tagFilter: tagFiltersForSubscription
+        });
         return (
           <Fragment>
             <Steps
@@ -115,6 +122,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                           onClick: () =>
                             setActiveDialog(
                               <EditFilterDialog
+                                filters={filters}
                                 withInstanaCategory={false}
                                 blacklist={getApplicationCreationFilterBlacklist()}
                                 name={matchSpecification.get('key').value}
@@ -151,6 +159,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                         onClick={() =>
                           setActiveDialog(
                             <EditFilterDialog
+                              filters={filters}
                               withInstanaCategory={false}
                               blacklist={getApplicationCreationFilterBlacklist()}
                               onSave={_tag => {

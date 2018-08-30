@@ -5,7 +5,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepCopy } from 'in-services/util/object';
 
-const tagKeys = [
+const customServiceMappingTagKeys = [
   'agent.tag',
   'cassandra.cluster.name',
   'docker.container.name',
@@ -37,11 +37,13 @@ const tagKeys = [
 ];
 
 export function getTagValuesAsOptions() {
-  return [{ value: '', label: 'Please select' }].concat(tagKeys.map(label => ({ label }))).map(tag => (
-    <option key={tag.label} value={tag.value || tag.label}>
-      {tag.label}
-    </option>
-  ));
+  return [{ value: '', label: 'Please select' }]
+    .concat(customServiceMappingTagKeys.map(label => ({ label })))
+    .map(tag => (
+      <option key={tag.label} value={tag.value || tag.label}>
+        {tag.label}
+      </option>
+    ));
 }
 
 export function mapFromServerResponse(response) {
@@ -251,24 +253,15 @@ const blacklists = {
     'application.id': true,
     'service.id': true,
     'endpoint.id': true,
+    'process.id': true,
+    'trace.id': true,
+    'docker.container.id': true,
+    'marathon.app.id': true,
     'host.snapshotId': true,
     'docker.snapshotId': true,
     'process.snapshotId': true
-  },
-
-  customFilterBlacklist: {
-    application: true,
-    'application.name': true,
-    service: true,
-    'service.name': true,
-    endpoint: true,
-    'endpoint.name': true
   }
 };
-
-export function getCustomFilterBlacklist() {
-  return blacklists.customFilterBlacklist;
-}
 
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
@@ -277,7 +270,6 @@ export function getApplicationCreationFilterBlacklist() {
     const manualAddedTags = {
       'host.mac': true,
       'docker.container.name': true,
-      'call.technology': true,
       'aws.service.type': true,
       'application.id': true,
       'application.name': true
@@ -291,7 +283,6 @@ export function getApplicationCreationFilterBlacklist() {
         (tag.type &&
           tag.type !== TAG_TYPES.STRING.technicalName &&
           tag.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) ||
-        tag.category === 'INSTANA' ||
         manualAddedTags[tag.fullyQualifiedName]
       ) {
         blacklists.applicationCreationFilterBlacklist[tag.fullyQualifiedName] = true;

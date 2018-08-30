@@ -94,7 +94,7 @@ export function getOperatorLabel(type, operator) {
 
 export function getTagFilterListForSubscription(tagFilters) {
   return tagFilters.map(tag => {
-    const backendTagFilter = { name: tag.name, operator: tag.operator };
+    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator };
     getValueByTag(backendTagFilter, tag);
     return backendTagFilter;
   });
