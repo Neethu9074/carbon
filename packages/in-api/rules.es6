@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 export function getRules() {
   return http({

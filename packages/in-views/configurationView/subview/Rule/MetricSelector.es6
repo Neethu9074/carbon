@@ -5,15 +5,17 @@ import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
-export default function MetricSelector({ id, plugin, onChange, value }) {
-  const metrics = [{ value: '', label: 'Please select' }].concat(getPlainMetricList(plugin));
+export default function MetricSelector({ id, plugin, onChange, value, metrics }) {
+  const metricsList = Array.isArray(metrics) ? metrics.slice() : getPlainMetricList(plugin);
+
   if (instanaInternalFeaturesEnabled) {
-    metrics.push({
+    metricsList.push({
       value: 'custom',
       label: 'custom'
     });
   }
-  const select = <ComboBox name={id} value={value} options={metrics} onChange={onChange} />;
+
+  const select = <ComboBox name={id} value={value} options={metricsList} onChange={onChange} />;
 
   if (value === 'custom') {
     return (

@@ -27,13 +27,42 @@ export function getPlainMetricList(plugin) {
   return metrics;
 }
 
+export function isBuiltInMetric(plugin, metricName) {
+  const metrics = getPlainMetricList(plugin);
+  return containsMetricInList(metrics, metricName);
+}
+
+export function containsMetricInList(metricList, metricName) {
+  if (!metricList || !metricName) {
+    return false;
+  }
+
+  for (let i = 0; i < metricList.length; i++) {
+    if (metricList[i].value === metricName) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function createMetricListItem(metricName, formatter, label, entityType) {
+  if (!label) {
+    label = `Unknown label (${metricName})`;
+  } else if (!label.includes(metricName)) {
+    label += ` (${metricName})`;
+  }
+
+  return {
+    value: metricName,
+    formatter: formatter,
+    label: label,
+    entityType: entityType
+  };
+}
+
 function getMetrics(allOptions, categoryNode) {
   if (categoryNode.type === 'metric') {
-    allOptions.push({
-      value: categoryNode.metric,
-      formatter: categoryNode.formatter,
-      label: `${categoryNode.label} (${categoryNode.metric})`
-    });
+    allOptions.push(createMetricListItem(categoryNode.metric, categoryNode.formatter, categoryNode.label));
   } else {
     for (let i = 0, length = categoryNode.children.length; i < length; i++) {
       getMetrics(allOptions, categoryNode.children[i]);
