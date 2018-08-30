@@ -267,19 +267,23 @@ describe('in-applications/tags', () => {
   });
 
   describe('tag tree', () => {
-    window.instana.tags = [
-      { name: 'a.b.c' },
-      { name: 'a.b.c.d' },
-      { name: 'a.b' },
-      { name: 'a.b.d' },
-      { name: 'b' },
-      { name: 'b.c.d' },
-      { name: 'x.c.d' },
-      { name: 'x.y.z' },
-      { name: 'z.a.c' },
-      { name: 'z.a.b' },
-      { name: 'this.is.a.unique.path' }
-    ];
+    beforeEach(() => {
+      window.instana = {
+        tags: [
+          { name: 'a.b.c' },
+          { name: 'a.b.c.d' },
+          { name: 'a.b' },
+          { name: 'a.b.d' },
+          { name: 'b' },
+          { name: 'b.c.d' },
+          { name: 'x.c.d' },
+          { name: 'x.y.z' },
+          { name: 'z.a.c' },
+          { name: 'z.a.b' },
+          { name: 'this.is.a.unique.path' }
+        ]
+      };
+    });
 
     it('should find tree node by given fully qualified name', () => {
       expect(findSubTreeByFullyQualifiedName('a')).to.equal(undefined);
