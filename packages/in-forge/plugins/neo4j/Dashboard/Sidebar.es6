@@ -2,7 +2,7 @@ import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
-import { siPrefix, percentage } from 'in-services/formatters/number';
+import { hitRate, siPrefix } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -48,12 +48,12 @@ export default function Neo4jSidebar({ snapshot }) {
           {
             metric: 'pageCache.usageRatio',
             label: 'Usage Ratio',
-            formatter: percentage
+            formatter: hitRate
           },
           {
             metric: 'pageCache.hitRatio',
             label: 'Hit Ratio',
-            formatter: percentage
+            formatter: hitRate
           }
         ]}
       />
