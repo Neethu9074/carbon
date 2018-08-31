@@ -5,13 +5,18 @@ import { bytes, number, siPrefix } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
+import isAtLeastMinorVersion from '../Neo4jVersion.es6';
 import NodeSummary from '../NodeSummary.es6';
 
 export default function Neo4jDashboard({ snapshot, timeConfig }) {
   // we just want to show one of the store size metrics (or none, if the snapshot data is undefined)
   const dataStoreSizeMetrics = snapshot.getIn(['data', 'hasStoreSizeMetrics']);
   const hasStoreSizeMetrics = dataStoreSizeMetrics != undefined && dataStoreSizeMetrics;
-  const hasStoreFileSizeMetrics = dataStoreSizeMetrics != undefined && !hasStoreFileSizeMetrics;
+  const hasStoreFileSizeMetrics = dataStoreSizeMetrics != undefined && !hasStoreSizeMetrics;
+  const version = snapshot.getIn(['data', 'version']);
+  const isAtLeastMinorVersion3 = isAtLeastMinorVersion(version, 3, 3);
+  const hasPageCache = isAtLeastMinorVersion3;
+  const hasTransactions = isAtLeastMinorVersion3;
 
   return (
     <div>
@@ -37,34 +42,36 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <Columize>
-        <DashboardSection title="Bytes Read">
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes,
-              metrics: ['pageCache.bytesRead'],
-              labels: ['Bytes Read'],
-              type: 'area'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Bytes Written">
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes,
-              metrics: ['pageCache.bytesWritten'],
-              labels: ['Bytes Written'],
-              type: 'area'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
+      {hasPageCache && (
+        <Columize>
+          <DashboardSection title="Bytes Read">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: ['pageCache.bytesRead'],
+                labels: ['Bytes Read'],
+                type: 'area'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Bytes Written">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: ['pageCache.bytesWritten'],
+                labels: ['Bytes Written'],
+                type: 'area'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+      )}
 
       {hasStoreSizeMetrics && (
         <DashboardSection title="Store Sizes">
@@ -73,7 +80,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytes,
+              formatter: bytes.compact,
               metrics: [
                 'storeSize.nodeStoreSize',
                 'storeSize.propertyStoreSize',
@@ -112,7 +119,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytes,
+              formatter: bytes.compact,
               metrics: [
                 'storeFileSize.nodeStoreSize',
                 'storeFileSize.propertyStoreSize',
@@ -137,57 +144,61 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Transactions">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [
-              'transactions.openTransactions',
-              'transactions.openedTransactions',
-              'transactions.committedTransactions',
-              'transactions.rolledBackTransactions',
-              'transactions.peakConcurrentTransactions'
-            ],
-            labels: ['Open', 'Opened', 'Committed', 'Rolled Back', 'Peak Concurrent'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      {hasTransactions && (
+        <DashboardSection title="Transactions">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              tooltipFormatter: number.compact,
+              metrics: [
+                'transactions.openTransactions',
+                'transactions.openedTransactions',
+                'transactions.committedTransactions',
+                'transactions.rolledBackTransactions',
+                'transactions.peakConcurrentTransactions'
+              ],
+              labels: ['Open', 'Opened', 'Committed', 'Rolled Back', 'Peak Concurrent'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      )}
 
-      <DashboardSection title="Page Cache">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [
-              'pageCache.pins',
-              'pageCache.flushes',
-              'pageCache.faults',
-              'pageCache.evictions',
-              'pageCache.evictionExceptions',
-              'pageCache.fileMappings',
-              'pageCache.fileUnmappings'
-            ],
-            labels: [
-              'Pins',
-              'Flushes',
-              'Faults',
-              'Evictions',
-              'Eviction Exceptions',
-              'File Mappings',
-              'File Unmappings'
-            ],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      {hasPageCache && (
+        <DashboardSection title="Page Cache">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              tooltipFormatter: number.compact,
+              metrics: [
+                'pageCache.pins',
+                'pageCache.flushes',
+                'pageCache.faults',
+                'pageCache.evictions',
+                'pageCache.evictionExceptions',
+                'pageCache.fileMappings',
+                'pageCache.fileUnmappings'
+              ],
+              labels: [
+                'Pins',
+                'Flushes',
+                'Faults',
+                'Evictions',
+                'Eviction Exceptions',
+                'File Mappings',
+                'File Unmappings'
+              ],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      )}
     </div>
   );
 }
