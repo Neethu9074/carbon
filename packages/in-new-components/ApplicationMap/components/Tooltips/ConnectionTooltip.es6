@@ -52,16 +52,21 @@ export function ConnectionTooltipContent({ connection, data }) {
           </div>
         </div>
       )}
-      renderContent={
-        data ? (
-          <div className={locals.metrics}>
-            <MetricValue title="Total Calls" metric={data.calls} tooltipFormatter={number.compact} />
-            <MetricValue title="Error Rate" metric={data.errorRate} tooltipFormatter={percentage.compact} />
-            <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={millis.detailed} />
-          </div>
-        ) : null
-      }
+      renderContent={() => renderContent(data)}
     />
+  );
+}
+
+function renderContent(data) {
+  if (!data) {
+    return null;
+  }
+  return (
+    <div className={locals.metrics}>
+      <MetricValue title="Total Calls" metric={data.calls} tooltipFormatter={number.compact} />
+      <MetricValue title="Error Rate" metric={data.errorRate} tooltipFormatter={percentage.compact} />
+      <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={millis.detailed} />
+    </div>
   );
 }
 
