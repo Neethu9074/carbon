@@ -5,7 +5,7 @@ import AppHeader from 'in-components/AppHeader';
 
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Application/AppHeader', module).add('AppHeader', () => <AppHeaderStory />);
+storiesOf('designLibrary/Application/Application Header', module).add('AppHeader', () => <AppHeaderStory />);
 
 function AppHeaderStory() {
   return (

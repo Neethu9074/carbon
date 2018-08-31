@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import connect from 'in-hoc/connectTo';
 
@@ -12,7 +12,7 @@ export default compose(
       filter: {
         timeConfig: filters.get('timeConfig')
       },
-      tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+      tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
       tagName,
       secondLevelKeyTagName: null,
       valueFilter: null

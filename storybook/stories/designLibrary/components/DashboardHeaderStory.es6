@@ -6,7 +6,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/ApplicationDashboardHeader', module).add('default', () => <Default />);
+storiesOf('designLibrary/Components/Application Dashboard Header', module).add('default', () => <Default />);
 
 function Default() {
   return (

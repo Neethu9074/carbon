@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .sparkCharts {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  .sparkChartLabel {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: @lib__colors__N700Medium;
+  }
+}

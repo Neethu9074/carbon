@@ -4,11 +4,6 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import {
-  showRawData as showRawDataMatrixParameter,
-  tagFilter as tagFilterMatrixParameter,
-  groupBy as groupByMatrixParameter
-} from 'in-analyze/navigation/matrix';
-import {
   getTagFilterToUrlString,
   getGroupToUrlString,
   getTagFilterFromUrlString,
@@ -16,10 +11,15 @@ import {
   getShowRawFromUrlString,
   getShowRawToUrlString
 } from 'in-analyze/filterBuilder';
+import {
+  showRawData as showRawDataMatrixParameter,
+  tagFilter as tagFilterMatrixParameter,
+  groupBy as groupByMatrixParameter
+} from 'in-analyze/navigation/matrix';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -90,7 +90,7 @@ function CallsList(props) {
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
-  const tagFiltersForSubscription = getTagFilterListForSubscription(filters.get('tagFilter').toJS());
+  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS());
 
   return (
     <Fragment>

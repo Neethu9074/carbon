@@ -5,7 +5,7 @@ import React from 'react';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/EntityWithTypeAndIcon', module)
+storiesOf('designLibrary/Components/Entity with Type and Icon', module)
   .add('default', () => <Default />)
   .add('link', () => <Link />);
 

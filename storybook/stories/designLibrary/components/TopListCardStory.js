@@ -14,7 +14,7 @@ const onChangeMetric = action('onChangeMetric');
 const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
 const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 
-storiesOf('designLibrary/Components/TopListCard', module).add('default', () => <Default />);
+storiesOf('designLibrary/Components/Top-List Card', module).add('default', () => <Default />);
 
 function Default() {
   return (

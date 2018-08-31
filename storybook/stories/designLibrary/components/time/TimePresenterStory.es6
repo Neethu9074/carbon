@@ -6,7 +6,7 @@ import React from 'react';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import Root from '../../../_helpers/Root';
 
-storiesOf('designLibrary/Components/Time/TimePresenter', module)
+storiesOf('designLibrary/Components/Time/Time-Presenter', module)
   .addDecorator(withKnobs)
   .add('Fixed', () => <Example to={Date.now()} />)
   .add('Live', () => <Example to={null} />);

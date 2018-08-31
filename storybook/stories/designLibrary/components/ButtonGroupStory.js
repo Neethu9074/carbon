@@ -6,7 +6,7 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/ButtonGroup', module).add('ButtonGroup', () => <ButtonGroupStory />);
+storiesOf('designLibrary/Components/Button Group', module).add('ButtonGroup', () => <ButtonGroupStory />);
 
 function ButtonGroupStory() {
   return (

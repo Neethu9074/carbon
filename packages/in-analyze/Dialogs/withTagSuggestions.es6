@@ -1,7 +1,7 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
@@ -102,7 +102,7 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
         tagName,
         secondLevelKeyTagName: custom2ndLevelName,
         valueFilter: null
@@ -126,7 +126,7 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
         tagName,
         secondLevelKeyTagName: null,
         valueFilter: null

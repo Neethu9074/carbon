@@ -43,6 +43,7 @@ import './analyse/TraceConverter';
 
 import './designLibrary/application/AppHeaderStory';
 import './designLibrary/application/EmptyAppListStory';
+import './designLibrary/application/ApplicationMap';
 
 import './designLibrary/content/table/ServerTableStory';
 import './designLibrary/content/table/SharedComponents';
@@ -63,6 +64,7 @@ import './designLibrary/components/Errors';
 import './designLibrary/components/EntityWithTypeAndIconStory';
 import './designLibrary/components/KpiCardStory';
 import './designLibrary/components/Loading';
+import './designLibrary/components/MapControlsStory';
 import './designLibrary/components/MultiSelectDropdownStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';

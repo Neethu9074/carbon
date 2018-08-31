@@ -5,7 +5,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/KpiCard', module).add('default', () => <Default />);
+storiesOf('designLibrary/Components/Kpi Card', module).add('default', () => <Default />);
 
 function Default() {
   return (

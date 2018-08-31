@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
-import RoundButton from 'in-components/FlowMap/components/Controls/Button';
+import MapButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import { particlesInFlowMapEnabled } from 'in-services/featureFlags';
+import Button from 'in-new-components/MapControls/Button';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
 
@@ -29,12 +30,14 @@ export default function Controls({ serviceLocatorUid }) {
       <div className={locals.topLeftControls}>
         <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
       </div>
-      <div className={locals.bottomLeftControls}>
+      <div className={locals.bottomRightControls}>
         {particlesInFlowMapEnabled && (
           <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         )}
-        <RoundButton onClick={() => zoomIn(serviceLocatorUid)} iconType="lib_openclose_add" />
-        <RoundButton onClick={() => zoomOut(serviceLocatorUid)} iconType="lib_openclose_remove" />
+        <MapButtonGroup vertical>
+          <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+        </MapButtonGroup>
       </div>
     </Fragment>
   );
@@ -63,7 +66,7 @@ const ParticlesButton = connectTo(
     isEnabled: getServiceLocators(props.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.PARTICLES)
   }),
   function ParticlesButton({ onClick, isEnabled }) {
-    return <RoundButton isEnabled={isEnabled} onClick={onClick} iconType="particles" width={16} height={16} />;
+    return <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />;
   }
 );
 

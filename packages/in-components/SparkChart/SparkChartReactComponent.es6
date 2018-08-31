@@ -18,15 +18,14 @@ function SparkChartReactComponent(props) {
   const timeConfig = props.timeConfig || props.timeConfig;
   const { metrics } = props;
 
+  let sparkChart;
   if (!timeConfig || !metrics) {
-    return <InfiniteCircle width={props.width} height={props.height} />;
+    sparkChart = <InfiniteCircle width={props.width} height={props.height} />;
+  } else if (metrics.length === 0) {
+    sparkChart = <NoDataAvailable width={props.width} height={props.height} />;
+  } else {
+    sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
   }
-
-  if (metrics.length === 0) {
-    return <NoDataAvailable width={props.width} height={props.height} />;
-  }
-
-  const sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;
 
   if (props.horizontalMetricValue) {
     return (

@@ -1,0 +1,47 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .connectionTooltipMounter {
+    position: absolute;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+    margin-right: 0.5rem;
+  }
+
+  .labelFlexWrapper {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  .label {
+    font-size: 1rem;
+    color: @lib__colors__N900Primary;
+
+    .ellipsis();
+  }
+
+  .metrics {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  .metricLabel {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: @lib__colors__N700Medium;
+  }
+}

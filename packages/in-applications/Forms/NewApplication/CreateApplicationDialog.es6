@@ -10,7 +10,7 @@ import {
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { getApplicationCreationFilterBlacklist } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -58,7 +58,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {
-        const tagFiltersForSubscription = getTagFilterListForSubscription(form.get('matchSpecification').toJS());
+        const tagFiltersForSubscription = getTagFilterListForBackendSubscription(form.get('matchSpecification').toJS());
         const filters = fromJS({
           timeConfig,
           tagFilter: tagFiltersForSubscription

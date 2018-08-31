@@ -1,0 +1,34 @@
+import React, { Fragment } from 'react';
+
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './Header.mless';
+
+export default function Header({ service }) {
+  return (
+    <Fragment>
+      <div className={locals.labelRow}>
+        <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
+        <span className={locals.label}>{service.label} </span>
+      </div>
+
+      <div className={locals.typeAndTechRow}>
+        <div className={locals.types}>
+          <EndpointTypeBadgeList types={service.types} />
+        </div>
+        <div className={locals.technologies}>
+          <TechnologyIndicatorList technologies={service.technologies} />
+        </div>
+      </div>
+
+      {service.numberOfOpenIssues > 0 && (
+        <div className={locals.healthRow}>
+          <HealthIndicatorButtonPresenter openIssues={service.numberOfOpenIssues} maxSeverity={service.maxSeverity} />
+        </div>
+      )}
+    </Fragment>
+  );
+}
