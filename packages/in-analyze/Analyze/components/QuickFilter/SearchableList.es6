@@ -11,7 +11,7 @@ import locals from './SearchableList.mless';
 
 export default withState('value', 'setValue', '')(SearchableList);
 function SearchableList(props) {
-  let { items, value, setValue, renderIcon } = props;
+  let { items, error, loading, value, setValue, renderIcon } = props;
   if (items) {
     items = items.filter(suggestion => containsIgnoreCase(suggestion.label, value));
   }
@@ -26,14 +26,15 @@ function SearchableList(props) {
           query={value}
         />
       </div>
-      {!items && (
+      {loading && (
         <HorizontalIndicator
           progress={{
             loading: true
           }}
         />
       )}
-      {items && items.length === 0 && <NoDataAvailable text="No suggestions found" />}
+      {error && <NoDataAvailable text="Suggestions not available" />}
+      {!error && !loading && items && items.length === 0 && <NoDataAvailable text="No suggestions found" />}
       {items && items.length > 0 && <List {...props} renderIcon={renderIcon} items={items} />}
     </div>
   );

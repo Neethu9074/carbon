@@ -74,7 +74,7 @@ function getNodesChildren(node, selectedCategory, blacklist) {
   return node.getChildren({ category: selectedCategory, blacklist });
 }
 
-function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
+function ValueInputByType({ form, field, onChange, tagSuggestionResult }) {
   const nodeInTree = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
   const type = nodeInTree ? nodeInTree.type : null;
 
@@ -109,7 +109,7 @@ function ValueInputByType({ form, field, onChange, tagSuggestionOptions }) {
     <AutoCompletedSelect
       field={field}
       onChange={value => onChange('value', value)}
-      autoCompletedOptions={tagSuggestionOptions}
+      tagSuggestionResult={tagSuggestionResult}
     />
   );
 }

@@ -244,7 +244,7 @@ function nameValidator(name) {
     return [
       {
         field: 'name',
-        severity: 'error',
+        severity: 'info',
         message: 'Please select a key.'
       }
     ];
@@ -255,7 +255,7 @@ function nameValidator(name) {
     return [
       {
         field: 'name',
-        severity: 'error',
+        severity: 'info',
         message: 'Please select a valid key.'
       }
     ];
@@ -287,7 +287,7 @@ function nameFormValidator(nameForm) {
     return [
       {
         field: 'secondLevelName',
-        severity: 'error',
+        severity: 'info',
         message: 'Please define a sub-key.'
       }
     ];
@@ -306,7 +306,7 @@ function valueFormValidator(valueForm) {
   if (isBlank(value)) {
     return [
       {
-        severity: 'error',
+        severity: 'info',
         message: 'The value must not be blank.'
       }
     ];

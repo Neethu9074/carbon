@@ -8,7 +8,7 @@ export default function TouchedMessages({ field }) {
   }
 
   return field.messages.map((message, i) => (
-    <ValidationBlock hasError key={i}>
+    <ValidationBlock severity={message.severity} key={i}>
       {message.message}
     </ValidationBlock>
   ));

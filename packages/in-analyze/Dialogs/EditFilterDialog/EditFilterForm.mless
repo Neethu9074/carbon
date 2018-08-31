@@ -1,5 +1,7 @@
 :local {
   .valueFormGroup {
     flex-grow: 1;
+    min-width: 10rem;
+    max-width: 10rem;
   }
 }
