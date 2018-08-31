@@ -7,9 +7,5 @@ export default function TouchedMessages({ field }) {
     return null;
   }
 
-  return field.messages.map((message, i) => (
-    <ValidationBlock severity={message.severity} key={i}>
-      {message.message}
-    </ValidationBlock>
-  ));
+  return field.messages.map((message, i) => <ValidationBlock key={i}>{message.message}</ValidationBlock>);
 }
