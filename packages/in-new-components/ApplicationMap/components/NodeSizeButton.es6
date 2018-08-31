@@ -18,7 +18,7 @@ export default connectTo(
         {({ toggle, isOpen }) => (
           <Button
             onClick={toggle}
-            icon="lib_actions_zoom_in"
+            icon="lib_actions_map_node_size"
             renderContent={() => (
               <Fragment>
                 <span className={locals.sizeMetricLabel}>{getLabel(props.activeSizeMetric)}</span>
