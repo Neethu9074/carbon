@@ -20,17 +20,23 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
+import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import GroupedCalls from 'in-analyze/GroupedCalls';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
+import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
 import locals from './CallsList.mless';
 
 export default compose(
+  connectTo({
+    activeDialog: activeDialog$
+  }),
   defaultProps({
     replaceHistory: false
   }),
@@ -81,7 +87,7 @@ export default compose(
 )(CallsList);
 
 function CallsList(props) {
-  const { onChangeFilters, location, totalHits } = props;
+  const { activeDialog, onChangeFilters, location, totalHits } = props;
   const tagFilter = props[tagFilterMatrixParameter];
 
   let filters = fromJS({
@@ -126,6 +132,7 @@ function CallsList(props) {
                   <MaxWidthFullscreenContainer>
                     <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
                   </MaxWidthFullscreenContainer>
+                  {activeDialog && <DisabledBodyScroll />}
                 </Fragment>
               </Sticky>
             );

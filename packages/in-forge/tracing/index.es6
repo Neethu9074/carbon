@@ -124,6 +124,7 @@ import './spray.server';
 import './spring-batch';
 import './spring-rest';
 import './spring-web';
+import './spring-webflux';
 import './sqs';
 import './tabex';
 import './url';
