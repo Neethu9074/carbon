@@ -18,6 +18,7 @@ export const servicesList = '/services';
 export const serviceDashboard = '/service';
 export const newServiceView = '/service/new';
 export const endpointDashboard = '/endpoint';
+export const configureEndpointsView = '/service/endpoints/configure';
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,

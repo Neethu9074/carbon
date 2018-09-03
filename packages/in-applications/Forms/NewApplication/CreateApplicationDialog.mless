@@ -14,4 +14,13 @@
     align-items: center;
     flex-direction: column;
   }
+
+  .addRuleButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+  }
 }

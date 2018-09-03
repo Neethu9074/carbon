@@ -14,7 +14,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getTagValuesAsOptions } from 'in-applications/tags';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -81,7 +80,15 @@ export default function CustomServiceMappingDialog() {
                         tags. If all tags are present on a call, it will mapped to that service.
                       </DescriptionText>
 
-                      <Spacer />
+                      <div className={locals.addRuleButtonWrapper}>
+                        <Button
+                          kind="action"
+                          onClick={() => addMatchSpecification(form, updateForm)}
+                          icon="lib_openclose_add_circle_outline"
+                        >
+                          Add Key
+                        </Button>
+                      </div>
 
                       {form.get('matchSpecification').map((matchSpecification, i) => (
                         <div key={i} className={locals.matchSpecification}>
@@ -138,16 +145,6 @@ export default function CustomServiceMappingDialog() {
                           )}
                         </div>
                       ))}
-
-                      <div className={locals.addRuleButtonWrapper}>
-                        <Button
-                          kind="action"
-                          onClick={() => addMatchSpecification(form, updateForm)}
-                          icon="lib_openclose_add_circle_outline"
-                        >
-                          add key
-                        </Button>
-                      </div>
                     </div>
                   )
                 }
