@@ -10,7 +10,6 @@ const runSequence = require('run-sequence');
 const inquirer = require('inquirer');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const gutil = require('gulp-util');
 const clearConsole = require('react-dev-utils/clearConsole');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
@@ -274,9 +273,9 @@ gulp.task('webpack:dev', () => {
     }
   }).listen(3000, 'localhost', err => {
     if (err) {
-      throw new gutil.PluginError('webpack-dev-server', err);
+      throw err;
     }
-    gutil.log('[webpack:dev]', 'http://localhost:3000/');
+    console.log('[webpack:dev]', 'http://localhost:3000/');
   });
 
   // return a Promise so that Gulp knows that this task is going to
