@@ -26,7 +26,7 @@ module.exports = {
       onlyFilesWithFlowAnnotation: true
     },
     react: {
-      version: '16.2'
+      version: '16.3'
     }
   },
 
