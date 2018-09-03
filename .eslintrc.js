@@ -15,13 +15,8 @@ module.exports = {
     sourceType: 'module'
   },
 
-  ecmaFeatures: {
-    jsx: true
-  },
-
   plugins: [
     'flowtype',
-    // 'flowtype-errors',
     'react',
     'mocha'
   ],
@@ -29,6 +24,9 @@ module.exports = {
   settings: {
     flowtype: {
       onlyFilesWithFlowAnnotation: true
+    },
+    react: {
+      version: '16.2'
     }
   },
 
@@ -60,6 +58,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: ['error', 'always'],
+    'no-useless-escape': 'warn',
 
     // editor integration for flow errors, see
     // https://www.npmjs.com/package/eslint-plugin-flowtype-errors
@@ -184,7 +183,7 @@ module.exports = {
 
     // Prevent usage of deprecated methods
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-deprecated.md
-    'react/no-deprecated': ['error'],
+    'react/no-deprecated': ['warn'],
 
     // Prevent usage of setState in componentDidMount
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-mount-set-state.md
@@ -247,9 +246,7 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
     'react/self-closing-comp': 'warn',
 
-    // Enforce spaces before the closing bracket of self-closing JSX elements
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
-    'react/jsx-space-before-closing': ['warn', 'always'],
+    'react/jsx-tag-spacing': ['off'],
 
     // Enforce component methods order
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
