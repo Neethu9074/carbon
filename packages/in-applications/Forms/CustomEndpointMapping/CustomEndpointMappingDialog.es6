@@ -11,6 +11,7 @@ import {
 import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
+import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { serviceDashboard } from 'in-applications/navigation/paths';
@@ -33,7 +34,6 @@ export default function CustomEndpointMappingDialog({ location }) {
       getOnSavePath={() => `${serviceDashboard}/endpoints`}
       getEntity={() =>
         getEndpointConfig(serviceId).map(result => {
-          console.log(result);
           const errors = result.errors || [];
           for (let i = 0; i < errors.length; i++) {
             const error = errors[i];
@@ -86,25 +86,17 @@ export default function CustomEndpointMappingDialog({ location }) {
                         </Button>
                       </div>
 
-                      {form
-                        .get('rules')
-                        .map((rule, i) => (
-                          <ExtractionRule
-                            key={i}
-                            rule={rule.toJS()}
-                            onToggleEnable={enabled => setValue(['rules', i, 'enabled'], enabled, form)}
-                            reorderable={form.get('rules').size > 1}
-                            onClick={e =>
-                              setActiveDialog(
-                                <EndpointExtractionRuleDialog
-                                  rule={e}
-                                  onSave={_rule => setValue(['rules', i, 'query'], _rule.query, form)}
-                                  onRemove={() => removeRule(i, form, updateForm)}
-                                />
-                              )
-                            }
-                          />
-                        ))}
+                      <DragAndDropRuleList
+                        rules={form.get('rules')}
+                        form={form}
+                        setValue={setValue}
+                        onSave={(_rule, i) => setValue(['rules', i, 'query'], _rule.query, form)}
+                        onRemove={i => removeRule(i, form, updateForm)}
+                        switchIndices={(sourceIndex, destinationIndex) =>
+                          switchIndices(sourceIndex, destinationIndex, form, updateForm)
+                        }
+                      />
+
                       <ExtractionRule
                         rule={{
                           query: '/*(.*)$',
@@ -137,6 +129,21 @@ export default function CustomEndpointMappingDialog({ location }) {
         );
       }}
     />
+  );
+}
+
+function switchIndices(sourceIndex, destinationIndex, form, updateForm) {
+  updateForm(
+    form.updateIn(['rules'], originalList => {
+      const result = originalList.toJS();
+      const [removed] = result.splice(sourceIndex, 1);
+      result.splice(destinationIndex, 0, removed);
+
+      for (let i = 0; i < result.length; i++) {
+        originalList = originalList.set(i, getConfigRuleForm(result[i]));
+      }
+      return originalList;
+    })
   );
 }
 

@@ -9,6 +9,7 @@
 
     height: 4.5rem;
     padding: 0 0.5rem 0 1.5rem;
+    margin-bottom: 0.5rem;
 
     background: #fff;
     color: @lib__colors__N900Primary;
@@ -16,10 +17,7 @@
     border-left: 4px solid @lib__colors__success;
     border-radius: @lib__shapes__radius_large;
     font-size: 1rem;
-
-    & + .extractionRule {
-      margin-top: 0.5rem;
-    }
+    cursor: default;
   }
 
   .isInstanaDefaultRule {
@@ -33,7 +31,7 @@
   }
 
   .reorderable {
-    cursor: pointer;
+    cursor: unset;
     &:hover {
       box-shadow: @lib__shadows__subtle;
     }
