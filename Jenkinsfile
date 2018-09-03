@@ -58,7 +58,7 @@ stage('Node Build') {
 
 stage ('Container Build') {
 
-  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+  if ( isDeliveryBranch(env.BRANCH_NAME) ) {
     containerBuild {
       component    = 'ui-client'
       commitId     = gitCommitId
