@@ -14,6 +14,7 @@ export default function EJBSpanDetailView({ span }) {
       <DescriptionItem title="Connection">{span.getIn(['data', 'ejb', 'connection'])}</DescriptionItem>
       <DescriptionItem title="Result">{span.getIn(['data', 'ejb', 'result'])}</DescriptionItem>
       <DescriptionItem title="Type">{span.getIn(['data', 'ejb', 'sort'])}</DescriptionItem>
+      <DescriptionItem title="Error">{span.getIn(['data', 'ejb', 'error'])}</DescriptionItem>
     </DescriptionList>
   );
 }
