@@ -23,7 +23,6 @@ export default function ExtractionRule({
         [locals.isInstanaDefaultRule]: isInstanaDefaultRule,
         [locals.disabled]: !rule.enabled
       })}
-      onClick={isInstanaDefaultRule ? null : () => onClick(rule)}
     >
       <div className={locals.left}>
         <span className={locals.query}>{rule.query}</span>
@@ -39,7 +38,13 @@ export default function ExtractionRule({
       <div className={locals.right}>
         <Toggle className={locals.toggle} checked={rule.enabled} onChange={e => onToggleEnable(e.target.checked)} />
         {!isInstanaDefaultRule && (
-          <SvgIcon className={locals.icon} type="lib_menu_more_vertical" width={24} height={24} />
+          <SvgIcon
+            className={locals.icon}
+            type="lib_menu_more_vertical"
+            width={24}
+            height={24}
+            onClick={isInstanaDefaultRule ? null : () => onClick(rule)}
+          />
         )}
         {isInstanaDefaultRule && <div className={locals.iconPlaceholder} />}
       </div>

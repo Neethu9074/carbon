@@ -22,7 +22,7 @@
   }
 
   .content {
-    padding: 1.5rem;
+    padding: 0 0 1rem 0;
     overflow: unset;
     border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
   }
@@ -42,13 +42,25 @@
     }
   }
 
+  .queryFormSection {
+    background: @lib__colors__N200;
+    padding: 0 1rem 0.25rem;
+  }
+
+  .queryHelpText {
+    margin-top: 1rem;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+
   .footer {
     display: flex;
     align-items: flex-end;
     flex-direction: row-reverse;
     justify-content: space-between;
 
-    padding-top: 1rem;
+    padding: 1rem 1rem 0;
     border-top: 1px solid @lib__colors__N400;
   }
 }

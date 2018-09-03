@@ -1,7 +1,7 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 
-import ValidationBlock from 'in-components/form/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
@@ -47,23 +47,23 @@ class BasicDialog extends React.Component {
 
     return (
       <form onSubmit={e => this.onSubmit(e, form)}>
-        {form.get('query').map(field => (
-          <FormGroup>
-            <Input
-              type="text"
-              id="query"
-              value={field.value}
-              onChange={e => this.onChange('query', e.target.value)}
-              hasError={!field.valid}
-              autoFocus
-            />
-            {field.messages.map((message, i) => (
-              <ValidationBlock hasError key={i}>
-                {message.message}
-              </ValidationBlock>
-            ))}
-          </FormGroup>
-        ))}
+        <div className={locals.queryFormSection}>
+          {form.get('query').map(field => (
+            <FormGroup>
+              <Input
+                type="text"
+                id="query"
+                value={field.value}
+                onChange={e => this.onChange('query', e.target.value)}
+                hasError={!field.valid}
+                autoComplete="off"
+                autoFocus
+              />
+              <TouchedMessages field={field} />
+              <span className={locals.queryHelpText}>{`use {param} use *`}</span>
+            </FormGroup>
+          ))}
+        </div>
 
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
