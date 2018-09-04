@@ -1,7 +1,7 @@
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
-import { parse, validate } from 'in-services/validators/urlPath';
+import { parse, build, validate } from 'in-services/validators/urlPath';
 
 describe('in-services/validators/urlPath', () => {
   describe('parse', () => {
@@ -174,6 +174,72 @@ describe('in-services/validators/urlPath', () => {
       expect(validate(null)).to.equal(null);
       expect(validate(undefined)).to.equal(null);
       expect(validate([])).to.equal(null);
+    });
+
+    it('should give an invalid result when the parsed result contains an UNSUPPORTED type', () => {
+      expect(
+        validate([
+          {
+            type: 'FIXED',
+            name: 'api'
+          }
+        ])
+      ).to.equal(null);
+      expect(
+        validate([
+          {
+            type: 'FIXED',
+            name: 'api'
+          },
+          {
+            type: 'UNSUPPORTED',
+            name: 'api'
+          },
+          {
+            type: 'FIXED',
+            name: 'api'
+          }
+        ])
+      ).to.have.length(1);
+    });
+  });
+
+  describe('build', () => {
+    it('should return empty string when giving null, undefined, or empty array', () => {
+      expect(build(null)).to.equal('');
+      expect(build(undefined)).to.equal('');
+      expect(build([])).to.equal('');
+    });
+
+    it('should build the original string', () => {
+      expect(
+        build([
+          {
+            type: 'FIXED',
+            name: 'api'
+          }
+        ])
+      ).to.equal('/api');
+
+      expect(
+        build([
+          {
+            type: 'FIXED',
+            name: 'api'
+          },
+          {
+            type: 'PARAMETER',
+            name: 'query'
+          },
+          {
+            type: 'FIXED',
+            name: 'color'
+          },
+          {
+            type: 'MATCH_ALL'
+          }
+        ])
+      ).to.equal('/api/{query}/color/*');
     });
   });
 });

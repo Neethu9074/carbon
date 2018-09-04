@@ -1,7 +1,7 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
-import { parse, validate } from 'in-services/validators/urlPath';
+import { build, parse, validate } from 'in-services/validators/urlPath';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
@@ -103,6 +103,7 @@ class BasicDialog extends React.Component {
     close();
 
     const rule = form.toJS();
+    rule.query = parse(rule.query);
     this.props.onSave(rule);
   }
 
@@ -115,11 +116,12 @@ class BasicDialog extends React.Component {
 
 function getInitialForm(props) {
   const rule = props.rule || {};
+  const query = build(rule.query);
 
   return createMapForm().put(
     'query',
     createField({
-      value: rule.query || '',
+      value: query,
       validator: queryValidator
     })
   );

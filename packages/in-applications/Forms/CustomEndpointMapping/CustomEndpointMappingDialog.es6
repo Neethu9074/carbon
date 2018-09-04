@@ -1,4 +1,4 @@
-import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -182,19 +182,18 @@ function getInitialForm(config) {
     );
 }
 
-export function getConfigRuleForm(matchSpecification = {}) {
+export function getConfigRuleForm(rule = {}) {
   return createMapForm()
     .put(
       'query',
       createField({
-        value: get(matchSpecification, 'query', ''),
-        validator: notBlankValidator
+        value: get(rule, 'query', '')
       })
     )
     .put(
       'enabled',
       createField({
-        value: get(matchSpecification, 'enabled', true)
+        value: get(rule, 'enabled', true)
       })
     );
 }

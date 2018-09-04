@@ -1,3 +1,22 @@
+export function build(parsedResult) {
+  let result = '';
+  if (!parsedResult || parsedResult.length === 0) {
+    return result;
+  }
+
+  for (let i = 0; i < parsedResult.length; i++) {
+    const parsedPart = parsedResult[i];
+    if (parsedPart.type === 'FIXED') {
+      result += `/${parsedPart.name}`;
+    } else if (parsedPart.type === 'PARAMETER') {
+      result += `/{${parsedPart.name}}`;
+    } else if (parsedPart.type === 'MATCH_ALL') {
+      result += `/*`;
+    }
+  }
+  return result;
+}
+
 export function parse(str) {
   const parsedResult = [];
 
