@@ -99,7 +99,7 @@ export default function CustomEndpointMappingDialog({ location }) {
 
                       <ExtractionRule
                         rule={{
-                          query: '/*(.*)$',
+                          query: 'Collected Path Template',
                           enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
                         }}
                         onToggleEnable={enabled =>

@@ -1,9 +1,11 @@
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import { parse, validate } from 'in-services/validators/urlPath';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
+import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -118,7 +120,20 @@ function getInitialForm(props) {
     'query',
     createField({
       value: rule.query || '',
-      validator: notBlankValidator
+      validator: queryValidator
     })
   );
+}
+
+function queryValidator(query) {
+  if (isBlank(query)) {
+    return [
+      {
+        severity: 'error',
+        message: 'The value must not be blank.'
+      }
+    ];
+  }
+
+  return validate(parse(query));
 }
