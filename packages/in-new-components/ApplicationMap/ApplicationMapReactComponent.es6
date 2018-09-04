@@ -29,7 +29,7 @@ export default compose(
     getInitialState: () => {
       const initialState = {
         layouter: 'force',
-        particles: false,
+        particles: true,
         traffic: false,
         sizingMetric: null
       };
