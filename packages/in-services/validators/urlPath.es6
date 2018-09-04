@@ -3,6 +3,9 @@ export function build(parsedResult) {
   if (!parsedResult || parsedResult.length === 0) {
     return result;
   }
+  if (typeof parsedResult === 'string') {
+    return parsedResult;
+  }
 
   for (let i = 0; i < parsedResult.length; i++) {
     const parsedPart = parsedResult[i];
