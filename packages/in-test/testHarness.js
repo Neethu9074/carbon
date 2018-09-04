@@ -93,18 +93,5 @@ global.window.WebSocket = function() {
   this.close = function() {};
 };
 
-// simulate local storage
-['localStorage', 'sessionStorage'].forEach(function(type) {
-  var storage = {};
-  global.window[type] = {
-    setItem: function(k, v) {
-      storage[k] = v + '';
-    },
-    getItem: function(k) {
-      return storage[k];
-    }
-  };
-});
-
 // react unit tests with enzyme
 Enzyme.configure({ adapter: new Adapter() });
