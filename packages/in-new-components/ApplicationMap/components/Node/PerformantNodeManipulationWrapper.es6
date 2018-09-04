@@ -54,7 +54,7 @@ export default function performantNodeManipulationWrapper(ComposedComponent) {
           eventBusServiceLocator.on(SIGNALS.POWER_FUNCTIONS),
           eventBusServiceLocator.on(SIGNALS.SIZING_METRIC)
         ]).subscribe(([powerFunctions, sizeMetric]) => {
-          const power = powerFunctions.getPowerByName(node.id, sizeMetric, 0.25);
+          const power = powerFunctions.getPowerByName(node.id, sizeMetric, 0);
           if (this.state.power !== power) {
             this.setState({ power });
           }
