@@ -1,8 +1,11 @@
 import { get } from 'lodash';
 
 import getUiDebuggingInstructions from 'in-subscription/getUiDebuggingInstructions';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { connection, getDebuggingData } from 'in-connection';
 import { allStates } from 'in-stores/store';
+
+const windowOpenTime = Date.now();
 
 export function init() {
   getUiDebuggingInstructions().subscribe(gatherAndTransmitDebuggingData);
@@ -12,7 +15,9 @@ function gatherAndTransmitDebuggingData(instructions) {
   const debugData = {
     href: window.location.href,
     storeStates: allStates,
-    subscriptions: getDebuggingData()
+    ...getDebuggingData(),
+    visibilityState: document.visibilityState,
+    windowOpenTime: formatDurationAccurately(Date.now() - windowOpenTime, 1000)
   };
 
   if (instructions.selector.paths.length === 0) {

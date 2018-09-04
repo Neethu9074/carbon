@@ -33,7 +33,14 @@ instructions are transmitted with the post request `see the -d parameter`.
     // This is optional and not defining any paths means that no filtering will be applied.
     // Note that this might in turn result in too much data which might in itself result in problems.
     "paths": [
-      ["subscriptions", "counts"]
+      ["href"],
+      ["storeStates"],
+      ["visibilityState"],
+      ["windowOpenTime"],
+      ["subscriptions"],
+      ["perSubscriptionCounts"],
+      ["connectionMetrics"],
+      ["connectionType"]
     ]
   },
 
@@ -52,8 +59,12 @@ curl -X POST <ui-backend>:<admin-port>/admin/get-ui-debug-data -v --header "Cont
 {
   "selector": {
     "paths": [
-      ["subscriptions", "counts"],
-      ["href"]
+      ["href"],
+      ["visibilityState"],
+      ["windowOpenTime"],
+      ["perSubscriptionCounts"],
+      ["connectionMetrics"],
+      ["connectionType"]
     ]
   }
 }
