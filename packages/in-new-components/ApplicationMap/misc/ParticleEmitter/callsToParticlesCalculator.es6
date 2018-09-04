@@ -3,5 +3,5 @@ export default function calculate(calls) {
     return 0;
   }
 
-  return calls;
+  return Math.log2(calls);
 }
