@@ -1,4 +1,3 @@
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -8,7 +7,7 @@ export function getEndpointConfigs() {
     maxRetries: 3,
     url: `/api/httpEndpointConfigs`,
     mapToResultObject: true
-  }).map(mapFromServerResponse);
+  });
 }
 
 export function getEndpointConfig(id) {
@@ -17,14 +16,14 @@ export function getEndpointConfig(id) {
     maxRetries: 3,
     url: `/api/httpEndpointConfigs/${id}`,
     mapToResultObject: true
-  }).map(mapFromServerResponse);
+  });
 }
 
 export function addEndpointConfig(config) {
   return http({
     method: 'POST',
     url: `/api/httpEndpointConfigs`,
-    data: removeNewRuleFlag(mapToServerResponse(config))
+    data: mapToServerModel(config)
   }).map(response => deepFreeze(response.body));
 }
 
@@ -32,22 +31,22 @@ export function updateEndpointConfig(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/httpEndpointConfigs/${config.id}`,
-    data: removeNewRuleFlag(mapToServerResponse(config))
+    url: `/api/httpEndpointConfigs/${config.serviceId}`,
+    data: mapToServerModel(config)
   }).map(response => deepFreeze(response.body));
 }
 
-export function deleteEndpointConfig(id) {
+export function deleteEndpointConfig(serviceId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/httpEndpointConfigs/${id}`
+    url: `/api/httpEndpointConfigs/${serviceId}`
   });
 }
 
-export function createNewEndpointConfig(endpointId) {
+export function createNewEndpointConfig(serviceId) {
   return {
-    id: endpointId,
+    serviceId,
     isNewRule: true,
     endpointNameByFirstPathSegmentRuleEnabled: true,
     endpointNameByCollectedPathTemplateRuleEnabled: true,
@@ -55,7 +54,12 @@ export function createNewEndpointConfig(endpointId) {
   };
 }
 
-export function removeNewRuleFlag(config) {
+function mapToServerModel(config) {
+  for (let i = 0; i < config.rules.length; i++) {
+    const rule = config.rules[i];
+    rule.testCases = [];
+  }
+
   delete config.isNewRule;
   return config;
 }

@@ -103,7 +103,7 @@ class BasicDialog extends React.Component {
     close();
 
     const rule = form.toJS();
-    rule.query = parse(rule.query);
+    rule.pathSegments = parse(rule.query);
     this.props.onSave(rule);
   }
 
@@ -116,7 +116,7 @@ class BasicDialog extends React.Component {
 
 function getInitialForm(props) {
   const rule = props.rule || {};
-  const query = build(rule.query);
+  const query = build(rule.pathSegments);
 
   return createMapForm().put(
     'query',

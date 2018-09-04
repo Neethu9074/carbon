@@ -211,6 +211,10 @@ describe('in-services/validators/urlPath', () => {
       expect(build([])).to.equal('');
     });
 
+    it('should return the original string, if a string is given', () => {
+      expect(build('foobar')).to.equal('foobar');
+    });
+
     it('should build the original string', () => {
       expect(
         build([

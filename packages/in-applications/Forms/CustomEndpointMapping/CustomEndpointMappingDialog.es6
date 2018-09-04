@@ -13,6 +13,7 @@ import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMa
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
+import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -90,7 +91,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                         rules={form.get('rules')}
                         form={form}
                         setValue={setValue}
-                        onSave={(_rule, i) => setValue(['rules', i, 'query'], _rule.query, form)}
+                        onSave={(_rule, i) => setValue(['rules', i, 'pathSegments'], _rule.pathSegments, form)}
                         onRemove={i => removeRule(i, form, updateForm)}
                         switchIndices={(sourceIndex, destinationIndex) =>
                           switchIndices(sourceIndex, destinationIndex, form, updateForm)
@@ -125,6 +126,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                 }
               ]}
             />
+            {!config.isNewRule && <RemoveSection config={config} />}
           </Fragment>
         );
       }}
@@ -154,9 +156,15 @@ function removeRule(i, form, updateForm) {
 function getInitialForm(config) {
   return createMapForm()
     .put(
-      'id',
+      'serviceId',
       createField({
-        value: config.id
+        value: config.serviceId
+      })
+    )
+    .put(
+      'isNewRule',
+      createField({
+        value: config.isNewRule
       })
     )
     .put(
@@ -173,21 +181,16 @@ function getInitialForm(config) {
     )
     .put(
       'rules',
-      get(config, 'rules', []).reduce(
-        (form, rule) => form.push(getConfigRuleForm(rule)),
-        createListForm({
-          validator: ruleValidator
-        })
-      )
+      get(config, 'rules', []).reduce((form, rule) => form.push(getConfigRuleForm(rule)), createListForm({}))
     );
 }
 
 export function getConfigRuleForm(rule = {}) {
   return createMapForm()
     .put(
-      'query',
+      'pathSegments',
       createField({
-        value: get(rule, 'query', '')
+        value: get(rule, 'pathSegments', '')
       })
     )
     .put(
@@ -196,16 +199,4 @@ export function getConfigRuleForm(rule = {}) {
         value: get(rule, 'enabled', true)
       })
     );
-}
-
-export function ruleValidator(items) {
-  if (items.length < 1) {
-    return [
-      {
-        severity: 'error',
-        message: 'At least one rule is required.'
-      }
-    ];
-  }
-  return null;
 }

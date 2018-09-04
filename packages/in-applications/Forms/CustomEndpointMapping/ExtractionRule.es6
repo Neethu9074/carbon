@@ -26,7 +26,7 @@ export default function ExtractionRule({
       })}
     >
       <div className={locals.left}>
-        <span className={locals.query}>{build(rule.query)}</span>
+        <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
         <span
           className={evaluateClassNames({
             [locals.queryNote]: true,
