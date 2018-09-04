@@ -54,5 +54,19 @@ export function validate(parsedResult) {
     return null;
   }
 
-  return null;
+  const validationResult = [];
+  for (let i = 0; i < parsedResult.length; i++) {
+    const parsedPart = parsedResult[i];
+    if (parsedPart.type === 'UNSUPPORTED') {
+      validationResult.push({
+        severity: 'error',
+        message: `The given path is unsupported (${parsedPart.name})`
+      });
+    }
+  }
+
+  if (validationResult.length === 0) {
+    return null;
+  }
+  return validationResult;
 }
