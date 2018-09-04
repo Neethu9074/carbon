@@ -55,6 +55,7 @@ export default class ConnectionLostState extends AbstractState {
   }
 
   attemptConnection = () => {
+    this.sharedState.metrics.connectionAttempts++;
     this.connectionAttempts++;
 
     if (this.sharedState.socket) {

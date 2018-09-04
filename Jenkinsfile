@@ -50,7 +50,7 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
@@ -66,7 +66,7 @@ stage('Node Build') {
 
 stage ('Container Build') {
 
-  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+  if ( isDeliveryBranch(env.BRANCH_NAME) ) {
     containerBuild {
       component    = 'ui-client'
       commitId     = gitCommitId
