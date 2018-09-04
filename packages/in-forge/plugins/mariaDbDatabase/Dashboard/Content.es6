@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import twoDecimalPlaces from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 export default function MariaDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -35,7 +35,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
             labels: ['Connections', 'Max used connections', 'Aborted connects'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: number.detailed
           }}
         />
       </DashboardSection>

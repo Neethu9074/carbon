@@ -1,9 +1,9 @@
 import React from 'react';
 
-import number from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/hazelcastCluster/Dashboard/ClusterNodesTable';
 import ClusterSummary from 'in-forge/plugins/hazelcastCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
 export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
@@ -17,8 +17,8 @@ export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            formatter: number,
-            tooltipFormatter: number,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: ['nodeCount'],
             labels: ['Node Count'],
             type: 'line'
