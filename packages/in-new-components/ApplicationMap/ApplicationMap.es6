@@ -121,6 +121,10 @@ export default class ApplicationMap {
     getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.LAYOUTER, nextProps.layouter);
     getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.PARTICLES, nextProps.particles);
     getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
+      SIGNALS.SHOW_EXTERNAL_TRAFFIC,
+      nextProps.traffic
+    );
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
       SIGNALS.SIZING_METRIC,
       nextProps.sizingMetric
     );

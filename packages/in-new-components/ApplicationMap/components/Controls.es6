@@ -38,6 +38,7 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
       <ButtonGroup vertical>
         <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
         <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+        <TrafficButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
       </ButtonGroup>
     </div>
   );
@@ -70,20 +71,20 @@ const ParticlesButton = connectTo(
   }
 );
 
-// const TrafficButton = connectTo(
-//   ({ eventBusServiceLocator }) => ({
-//     isActive: eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC)
-//   }),
-//   function ParticlesButton({ isActive, onChangeUrlProperties }) {
-//     return (
-//       <Button
-//         icon="lib_actions_traffic"
-//         onClick={() => onChangeUrlProperties({ traffic: !isActive })}
-//         isActive={isActive}
-//       />
-//     );
-//   }
-// );
+const TrafficButton = connectTo(
+  ({ eventBusServiceLocator }) => ({
+    isActive: eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC)
+  }),
+  function ParticlesButton({ isActive, onChangeUrlProperties }) {
+    return (
+      <Button
+        icon="lib_actions_traffic"
+        onClick={() => onChangeUrlProperties({ traffic: !isActive })}
+        isActive={isActive}
+      />
+    );
+  }
+);
 
 const LayoutButton = connectTo(
   ({ eventBusServiceLocator, layouter }) => ({

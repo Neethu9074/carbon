@@ -48,8 +48,6 @@ export default class SceneGraph {
     const nodesServiceLocator = getServiceLocators(this.serviceLocatorUid).nodesServiceLocator;
     const currentNodes = nodesServiceLocator.getNodes();
     this.updateConnections(currentNodes);
-
-    this.requestLayout();
   }
 
   removeVanishedNodes(nodes) {
