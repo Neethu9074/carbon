@@ -83,8 +83,14 @@ export function getDebuggingData() {
   return {
     subscriptions,
     perSubscriptionCounts: counts,
-    connectionMetrics: sharedState.metrics,
-    connectionType: get(sharedState, ['socket', 'transport'])
+    transport: {
+      metrics: {
+        ...sharedState.metrics,
+        maxSubscriptionId: sharedState.subscriptionIdCounter
+      },
+      type: get(sharedState, ['socket', 'transport']),
+      url: get(sharedState, ['socket', '_transport', 'url'])
+    }
   };
 }
 
