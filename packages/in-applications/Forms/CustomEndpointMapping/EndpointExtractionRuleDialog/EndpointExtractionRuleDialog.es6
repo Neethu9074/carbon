@@ -1,6 +1,7 @@
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
+import RuleTester from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/RuleTester';
 import { build, parse, validate } from 'in-services/validators/urlPath';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
@@ -44,7 +45,7 @@ class BasicDialog extends React.Component {
   }
 
   render() {
-    const { onRemove } = this.props;
+    const { rules, onRemove, ruleIndex } = this.props;
     const { form } = this.state;
 
     return (
@@ -66,6 +67,15 @@ class BasicDialog extends React.Component {
             </FormGroup>
           ))}
         </div>
+
+        <RuleTester
+          rules={rules}
+          form={form}
+          addTestCase={this.addTestCase}
+          onChangeIn={this.onChangeIn}
+          ruleIndex={ruleIndex}
+          disabled={!form.hierarchyValid}
+        />
 
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
@@ -108,8 +118,26 @@ class BasicDialog extends React.Component {
   }
 
   onChange = (fieldName, value) => {
+    this.onChangeIn([fieldName], value);
+  };
+
+  onChangeIn = (path, value) => {
     this.setState({
-      form: this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
+      form: this.state.form.updateIn(path, field => field.setValue(value).setTouched(true))
+    });
+  };
+
+  addTestCase = () => {
+    this.setState({
+      form: this.state.form.updateIn(['testCases'], list =>
+        list
+          .push(
+            createField({
+              value: ''
+            })
+          )
+          .setTouched(true)
+      )
     });
   };
 }
@@ -118,13 +146,26 @@ function getInitialForm(props) {
   const rule = props.rule || {};
   const query = build(rule.pathSegments);
 
-  return createMapForm().put(
-    'query',
-    createField({
-      value: query,
-      validator: queryValidator
-    })
-  );
+  return createMapForm()
+    .put(
+      'query',
+      createField({
+        value: query,
+        validator: queryValidator
+      })
+    )
+    .put(
+      'testCases',
+      (rule.testCases || []).reduce(
+        (form, testCase) =>
+          form.push(
+            createField({
+              value: testCase || ''
+            })
+          ),
+        createListForm({})
+      )
+    );
 }
 
 function queryValidator(query) {

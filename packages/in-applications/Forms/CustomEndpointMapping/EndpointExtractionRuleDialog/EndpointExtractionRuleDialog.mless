@@ -22,7 +22,10 @@
   }
 
   .content {
+    max-width: 40rem;
+
     padding: 0 0 1rem 0;
+
     overflow: unset;
     border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
   }

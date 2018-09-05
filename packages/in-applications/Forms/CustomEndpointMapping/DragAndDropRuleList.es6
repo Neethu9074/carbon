@@ -39,7 +39,7 @@ export default class DragAndDropRuleList extends React.Component {
             rule={rule.toJS()}
             onToggleEnable={enabled => setValue(['rules', 0, 'enabled'], enabled, form)}
             reorderable={form.get('rules').size > 1}
-            onClick={e => this.onRuleClicked(e, 0)}
+            onClick={e => this.onRuleClicked(rules, e, 0)}
           />
         </div>
       );
@@ -63,7 +63,7 @@ export default class DragAndDropRuleList extends React.Component {
                         rule={rule.toJS()}
                         onToggleEnable={enabled => setValue(['rules', index, 'enabled'], enabled, form)}
                         reorderable={form.get('rules').size > 1}
-                        onClick={e => this.onRuleClicked(e, index)}
+                        onClick={e => this.onRuleClicked(rules, e, index)}
                       />
                     </div>
                   )}
@@ -77,9 +77,11 @@ export default class DragAndDropRuleList extends React.Component {
     );
   }
 
-  onRuleClicked = (rule, index) => {
+  onRuleClicked = (rules, rule, index) => {
     setActiveDialog(
       <EndpointExtractionRuleDialog
+        rules={rules}
+        ruleIndex={index}
         rule={rule}
         onSave={_rule => this.props.onSave(_rule, index)}
         onRemove={() => this.props.onRemove(index)}

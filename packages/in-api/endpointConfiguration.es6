@@ -44,6 +44,15 @@ export function deleteEndpointConfig(serviceId) {
   });
 }
 
+export function testRules(rules) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/httpEndpointConfigs/testRules`,
+    data: rules
+  }).map(response => deepFreeze(response.body));
+}
+
 export function createNewEndpointConfig(serviceId) {
   return {
     serviceId,
@@ -55,11 +64,6 @@ export function createNewEndpointConfig(serviceId) {
 }
 
 function mapToServerModel(config) {
-  for (let i = 0; i < config.rules.length; i++) {
-    const rule = config.rules[i];
-    rule.testCases = [];
-  }
-
   delete config.isNewRule;
   return config;
 }

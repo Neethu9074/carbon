@@ -61,9 +61,11 @@ export default function CustomEndpointMappingDialog({ location }) {
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        For example: key as{` "docker.label" `}and value as{` "environment=Production Blue"`}. Regular
-                        expressions can be used for the value. When all conditions specified here match a call, it will
-                        be considered part of this application.
+                        For example: key as
+                        {` "docker.label" `}
+                        and value as
+                        {` "environment=Production Blue"`}. Regular expressions can be used for the value. When all
+                        conditions specified here match a call, it will be considered part of this application.
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>
@@ -72,6 +74,8 @@ export default function CustomEndpointMappingDialog({ location }) {
                           onClick={() =>
                             setActiveDialog(
                               <EndpointExtractionRuleDialog
+                                ruleIndex={form.get('rules').size}
+                                rules={form.get('rules')}
                                 onSave={_rule => {
                                   const additionalSubForm = getConfigRuleForm(_rule);
                                   updateForm(
@@ -91,7 +95,15 @@ export default function CustomEndpointMappingDialog({ location }) {
                         rules={form.get('rules')}
                         form={form}
                         setValue={setValue}
-                        onSave={(_rule, i) => setValue(['rules', i, 'pathSegments'], _rule.pathSegments, form)}
+                        onSave={(_rule, i) => {
+                          form = form.updateIn(['rules', i, 'pathSegments'], field =>
+                            field.setValue(_rule.pathSegments).setTouched(true)
+                          );
+                          form = form.updateIn(['rules', i, 'testCases'], field =>
+                            field.setValue(_rule.testCases).setTouched(true)
+                          );
+                          updateForm(form);
+                        }}
                         onRemove={i => removeRule(i, form, updateForm)}
                         switchIndices={(sourceIndex, destinationIndex) =>
                           switchIndices(sourceIndex, destinationIndex, form, updateForm)
@@ -190,7 +202,13 @@ export function getConfigRuleForm(rule = {}) {
     .put(
       'pathSegments',
       createField({
-        value: get(rule, 'pathSegments', '')
+        value: get(rule, 'pathSegments', [])
+      })
+    )
+    .put(
+      'testCases',
+      createField({
+        value: get(rule, 'testCases', [])
       })
     )
     .put(

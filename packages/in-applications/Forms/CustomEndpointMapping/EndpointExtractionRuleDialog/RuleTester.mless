@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .ruleTesterWrapper {
+    padding: 0.5rem 1rem;
+  }
+
+  .title {
+    color: @lib__colors__N900Primary;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .item {
+    margin: 0.25rem 0;
+    list-style: none;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
+  .successTestResult,
+  .failedTestResult {
+    height: 24px;
+    padding-top: 0.5rem;
+  }
+
+  .successTestResult {
+    color: @lib__colors__success;
+  }
+
+  .failedTestResult {
+    color: @lib__colors__failure;
+  }
+
+  .buttonSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
