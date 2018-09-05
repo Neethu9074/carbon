@@ -7,7 +7,7 @@ import WebsiteHeading from 'in-views/eumView/components/WebsiteHeading';
 import { newWebsitePath } from 'in-stores/navigation/paths/mainPaths';
 import WebsiteTable from 'in-views/eumView/components/WebsiteTable';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { data$ } from 'in-views/eumView/stores/snapshots';
+import { search } from 'in-stores/snapshot/snapshot';
 import LegacyView from 'in-components/LegacyView';
 import { getView } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
@@ -33,7 +33,7 @@ const loadingState = (
 
 export default connectTo(
   {
-    data: data$
+    data: search({ customQuery: 'entity.selfType:website' })
   },
   function EumView({ data }) {
     if (!data) {
