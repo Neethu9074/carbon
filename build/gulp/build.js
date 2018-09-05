@@ -1,5 +1,5 @@
 /* eslint-env node */
-/* eslint-disable no-var, strict, vars-on-top */
+/* eslint-disable no-var, strict, vars-on-top, no-console */
 
 'use strict';
 
@@ -7,7 +7,6 @@ var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var size = require('gulp-size');
-var gutil = require('gulp-util');
 var webpack = require('webpack');
 var runSequence = require('run-sequence');
 var nano = require('gulp-cssnano');
@@ -89,10 +88,10 @@ gulp.task('webpack:build', callback => {
 
   webpack(config, (err, stats) => {
     if (err) {
-      throw new gutil.PluginError('webpack:build', err);
+      throw err;
     }
 
-    gutil.log(
+    console.log(
       '[webpack:build]',
       stats.toString({
         colors: true
@@ -131,7 +130,6 @@ gulp.task('writeTryBuildServerConfigFile', () => {
 });
 
 gulp.task('startTryBuildServer', () => {
-  gutil.log(path.join(paths.targetDir, 'index.js'));
   execSync('node "' + path.join(paths.targetDir, 'index.js') + '"', {
     stdio: 'inherit'
   });

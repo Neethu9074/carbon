@@ -122,7 +122,6 @@ export function mapToServerResponse(config) {
       } else if (matchSpecification.key === 'agent.tag') {
         if (indexOfFirstEqual === -1) {
           matchSpecification.key = `agent.tag`;
-          matchSpecification.value = matchSpecification.value;
         } else if (indexOfFirstEqual === 0) {
           matchSpecification.key = `agent.tag`;
           matchSpecification.value = matchSpecification.value.slice(1);

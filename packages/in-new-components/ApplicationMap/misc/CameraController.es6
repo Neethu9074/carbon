@@ -38,7 +38,10 @@ export default class CameraController {
 
     this.subscriber.addSubscriptions([
       eventBusServiceLocator.on(SIGNALS.UPDATE).subscribe(update),
-      eventBusServiceLocator.on(SIGNALS.LAYOUT).subscribe(setToMapCentralPositionAndAdaptZoom),
+      eventBusServiceLocator
+        .on(SIGNALS.LAYOUT)
+        .distinct((a, b) => a.layouter !== b.layouter)
+        .subscribe(setToMapCentralPositionAndAdaptZoom),
       eventBusServiceLocator.on(SIGNALS.WORLD_UNITS).subscribe(updatePanningSpeed)
     ]);
 

@@ -29,7 +29,7 @@ export default compose(
     getInitialState: () => {
       const initialState = {
         layouter: 'force',
-        particles: false,
+        particles: true,
         traffic: false,
         sizingMetric: null
       };
@@ -72,7 +72,7 @@ export default compose(
           filter: {
             timeConfig,
             // when we want to see all services, remove the application filter
-            application: props.applicationId
+            application: props.traffic ? null : props.applicationId
           }
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
