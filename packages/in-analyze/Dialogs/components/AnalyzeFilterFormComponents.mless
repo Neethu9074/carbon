@@ -34,13 +34,13 @@
   }
 
   .keyGroup {
-    min-width: 16rem;
-    max-width: 16rem;
+    min-width: 15rem;
+    max-width: 15rem;
   }
 
   .customKeyGroup {
-    min-width: 10rem;
-    max-width: 10rem;
+    min-width: 13rem;
+    max-width: 13rem;
   }
 
   .fieldSeperator {
