@@ -19,6 +19,24 @@
     list-style: none;
   }
 
+  .inputRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .removeTestCaseIcon {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
   .loadingIcon {
     fill: @lib__colors__light-blue800;
   }

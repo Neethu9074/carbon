@@ -72,6 +72,7 @@ class BasicDialog extends React.Component {
           rules={rules}
           form={form}
           addTestCase={this.addTestCase}
+          removeTestCase={this.removeTestCase}
           onChangeIn={this.onChangeIn}
           ruleIndex={ruleIndex}
           disabled={!form.hierarchyValid}
@@ -138,6 +139,12 @@ class BasicDialog extends React.Component {
           )
           .setTouched(true)
       )
+    });
+  };
+
+  removeTestCase = index => {
+    this.setState({
+      form: this.state.form.updateIn(['testCases'], list => list.remove(index).setTouched(true))
     });
   };
 }

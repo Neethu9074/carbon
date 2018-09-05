@@ -18,7 +18,7 @@ export default class RuleTester extends React.Component {
   };
 
   render() {
-    const { form, addTestCase, onChangeIn, disabled } = this.props;
+    const { form, addTestCase, removeTestCase, onChangeIn, disabled } = this.props;
     const { loading } = this.state;
     const testCases = form.get('testCases');
 
@@ -29,13 +29,23 @@ export default class RuleTester extends React.Component {
           {testCases.map((testCase, i) => (
             <li key={i} className={locals.item}>
               <FormGroup>
-                <Input
-                  type="text"
-                  id={'test_case_' + i}
-                  value={testCase.value}
-                  onChange={e => onChangeIn(['testCases', i], e.target.value)}
-                  autoComplete="off"
-                />
+                <div className={locals.inputRow}>
+                  <Input
+                    className={locals.input}
+                    type="text"
+                    id={'test_case_' + i}
+                    value={testCase.value}
+                    onChange={e => onChangeIn(['testCases', i], e.target.value)}
+                    autoComplete="off"
+                  />
+                  <SvgIcon
+                    className={locals.removeTestCaseIcon}
+                    type="lib_actions_delete"
+                    width={16}
+                    height={16}
+                    onClick={() => removeTestCase(i)}
+                  />
+                </div>
                 {loading ? (
                   <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
                 ) : (
