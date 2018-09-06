@@ -11,10 +11,11 @@ export default class CameraController {
     this.camera = camera;
     this.overlayDomElement = overlayDomElement;
 
-    this.unitsToZoomPerCall = 5;
-    this.targetCameraSize = 55;
-    this.minZoomLevel = 40;
-    this.maxZoomLevel = 200;
+    this.unitsToZoomPerCall = 15;
+    this.scrollSpeed = 10;
+    this.targetCameraSize = 60;
+    this.minZoomLevel = 30;
+    this.maxZoomLevel = 300;
     this.cameraZoomSpeed = 8;
     this.unitsPerPixel = 0.03; // heuristic initial value
 
@@ -75,7 +76,7 @@ export default class CameraController {
         // we erased the browsers deltaY completely, because it is to dynamic across all browsers / OS.
         // the only thing we extract is the scroll direction. To get the same feeling as before, a factor
         // is multiplied (15 here) which was found heuristically.
-        this.zoom(3 * event.scrollSpeed * event.scrollDirection);
+        this.zoom(this.scrollSpeed * event.scrollSpeed * event.scrollDirection);
       })
     );
   }
