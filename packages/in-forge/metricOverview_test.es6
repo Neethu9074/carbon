@@ -9,8 +9,7 @@ import { pluginsDeprecatedIn20, applicationPlugins } from 'in-forge/constants';
 import { getPlural } from 'in-sdk/pluginName';
 
 const oneZeroEntitiesDeprecationReason =
-  "Entities of this type are part of Instana's classic mode and are therefore deprecated. " +
-  'Deprecated entities will be available until October 1.';
+  'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
   describe.only('in-forge/metricOverview', doGenerate);
