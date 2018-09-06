@@ -78,4 +78,8 @@
     flex-grow: 1;
     margin-right: 0.25rem;
   }
+
+  .validationMessage {
+    color: @lib__colors__N600Light;
+  }
 }

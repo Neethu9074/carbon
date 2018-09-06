@@ -60,7 +60,7 @@ export default function EditFilterForm(props) {
             return valueFormField.value.get('value').map(field => (
               <FormGroup className={locals.valueFormGroup}>
                 <ValueInputByType {...props} field={field} />
-                <TouchedMessages field={valueFormField} />
+                <TouchedMessages field={valueFormField} className={locals.validationMessage} />
               </FormGroup>
             ));
           })}
