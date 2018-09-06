@@ -1,3 +1,4 @@
+import { create } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -13,20 +14,43 @@ import locals from './RuleTester.mless';
 export default class RuleTester extends React.Component {
   static displayName = 'RuleTester';
 
-  state = {
-    testResult: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      testResult: null
+    };
+
+    this.signal = create();
+  }
+
+  componentDidMount() {
+    this.signalSubscription = this.signal.debounce(500).subscribe(this.checkRule);
+    this.checkRule();
+  }
+
+  componentWillUnmount() {
+    if (this.signalSubscription) {
+      this.signalSubscription.dispose();
+      this.signalSubscription = null;
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.form !== this.props.form) {
+      this.signal.emit(true);
+    }
+  }
 
   render() {
-    const { form, addTestCase, removeTestCase, onChangeIn, disabled } = this.props;
+    const { form, addTestCase, removeTestCase, onChangeIn } = this.props;
     const { loading } = this.state;
-    const testCases = form.get('testCases');
 
     return (
       <div className={locals.ruleTesterWrapper}>
         <h4 className={locals.title}>Rule Tester</h4>
         <ul className={locals.list}>
-          {testCases.map((testCase, i) => (
+          {form.get('testCases').map((testCase, i) => (
             <li key={i} className={locals.item}>
               <FormGroup>
                 <div className={locals.inputRow}>
@@ -59,11 +83,6 @@ export default class RuleTester extends React.Component {
           <Button kind="action" icon="lib_openclose_add" onClick={addTestCase}>
             Add Test
           </Button>
-          {testCases.size > 0 && (
-            <Button kind="action" icon="lib_actions_refresh" disabled={disabled || loading} onClick={this.checkRule}>
-              Check
-            </Button>
-          )}
         </div>
       </div>
     );
@@ -71,9 +90,18 @@ export default class RuleTester extends React.Component {
 
   checkRule = () => {
     const form = this.props.form;
-    const query = form.get('query').value;
-    const testCases = form.get('testCases').map(testCaseField => testCaseField.value);
 
+    const testCases = form.get('testCases').map(testCaseField => testCaseField.value);
+    if (testCases.size === 0) {
+      this.setState({
+        testResult: null,
+        loading: false,
+        error: false
+      });
+      return;
+    }
+
+    const query = form.get('query').value;
     let rulesToCheck = this.getRulesToCheck(testCases);
     rulesToCheck.push({
       enabled: true,

@@ -27,7 +27,7 @@ export default function ExtractionRule({
       <div className={locals.left}>
         <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
         {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA Default Rule</span>}
-        <TestResult testResult={testResult} />
+        <TestResult testResult={testResult} rule={rule} />
       </div>
       <div className={locals.right}>
         <Toggle className={locals.toggle} checked={rule.enabled} onChange={e => onToggleEnable(e.target.checked)} />
@@ -46,13 +46,17 @@ export default function ExtractionRule({
   );
 }
 
-function TestResult({ testResult }) {
+function TestResult({ testResult, rule }) {
+  if (!rule.enabled) {
+    return <span className={locals.notTestedTestResult}>Disabled</span>;
+  }
+
   if (!testResult) {
     return null;
   }
 
-  if (testResult.length === 0) {
-    return <span className={locals.notTestedTestResult}>Not tested</span>;
+  if (rule.testCases.length === 0) {
+    return <span className={locals.notTestedTestResult}>No tests defined</span>;
   }
 
   const containsOnlySucceededTests = testResult.reduce((a, b) => a && b, true);
