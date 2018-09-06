@@ -29,6 +29,7 @@ export default function ExtractionRule({
         {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA Default Rule</span>}
         <TestResult testResult={testResult} rule={rule} />
       </div>
+
       <div className={locals.right}>
         <Toggle className={locals.toggle} checked={rule.enabled} onChange={e => onToggleEnable(e.target.checked)} />
         {!isInstanaDefaultRule && (

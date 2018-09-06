@@ -51,8 +51,7 @@
 
   .successTestResult,
   .failedTestResult {
-    height: 24px;
-    padding-top: 0.5rem;
+    padding: 0.5rem 0 0.1875rem;
   }
 
   .successTestResult {

@@ -6,7 +6,6 @@
     justify-content: space-between;
     align-items: center;
 
-    height: 2.875rem;
     padding: 0.375rem 0.625rem 0.25rem 1rem;
     box-sizing: border-box;
     background: @lib__colors__N200;
