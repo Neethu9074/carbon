@@ -5,7 +5,11 @@ import path from 'path';
 import fs from 'fs';
 
 import { metricDefinitions as allMetricDefinitions } from 'in-sdk/metrics/metricDefinitions';
+import { pluginsDeprecatedIn20, applicationPlugins } from 'in-forge/constants';
 import { getPlural } from 'in-sdk/pluginName';
+
+const oneZeroEntitiesDeprecationReason =
+  'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
 
 if (process.env.GENERATE_METRIC_OVERVIEW) {
   describe.only('in-forge/metricOverview', doGenerate);
@@ -28,6 +32,17 @@ function doGenerate() {
 
       str += `**${getPlural(plugin)}** *(${plugin})*\n\n`;
 
+      if (pluginsDeprecatedIn20[plugin]) {
+        str += `${oneZeroEntitiesDeprecationReason}\n\n`;
+      }
+
+      if (applicationPlugins[plugin]) {
+        str +=
+          `These entities are part of Instana's Application Perspectives capabilities. Add the query ` +
+          `parameter \`newApplicationModelEnabled=true\` to your API calls when searching for / working ` +
+          `with these types of entities.\n\n`;
+      }
+
       metrics.forEach(metric => {
         str += ` - **${metric.label}:** \`${metric.metric}\`\n`;
       });
@@ -48,8 +63,11 @@ function doGenerate() {
           agg[metric.metric] = metric.label;
           return agg;
         }, {});
+      const deprecated = Boolean(pluginsDeprecatedIn20[pluginName]);
       plugins[pluginName.toLowerCase()] = {
         label: getPlural(pluginName),
+        deprecated: Boolean(pluginsDeprecatedIn20[pluginName]),
+        deprecationReason: deprecated ? oneZeroEntitiesDeprecationReason : undefined,
         metrics
       };
       return plugins;

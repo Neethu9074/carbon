@@ -46,7 +46,7 @@ export function KeySelectionSection(props) {
         }
       />
       {messages.filter(message => message.field === 'name').map((message, i) => (
-        <ValidationBlock hasError key={i}>
+        <ValidationBlock key={i} className={locals.validationMessage}>
           {message.message}
         </ValidationBlock>
       ))}
@@ -71,7 +71,7 @@ export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSugge
               onChange={value => onChange('secondLevelName', value)}
               tagSuggestionResult={tagSecondLevelNameSuggestionResult}
             />
-            <TouchedMessages field={subForm} />
+            <TouchedMessages field={subForm} className={locals.validationMessage} />
           </FormGroup>
         ))
       )}

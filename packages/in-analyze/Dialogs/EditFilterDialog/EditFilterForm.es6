@@ -49,7 +49,9 @@ export default function EditFilterForm(props) {
           {form
             .get('valueForm')
             .value.get('operator')
-            .map(field => <OperatorSelection field={field} onChange={onChange} node={node} />)}
+            .map(field => (
+              <OperatorSelection field={field} onChange={onChange} node={node} />
+            ))}
 
           {form.get('valueForm').map(valueFormField => {
             const operator = valueFormField.value.get('operator').value;
@@ -60,7 +62,7 @@ export default function EditFilterForm(props) {
             return valueFormField.value.get('value').map(field => (
               <FormGroup className={locals.valueFormGroup}>
                 <ValueInputByType {...props} field={field} />
-                <TouchedMessages field={valueFormField} />
+                <TouchedMessages field={valueFormField} className={locals.validationMessage} />
               </FormGroup>
             ));
           })}

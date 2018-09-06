@@ -1,5 +1,5 @@
-import { mapFromServerResponse, mapToServerResponse } from 'in-applications/tags';
-import { deepFreeze } from 'in-services/util/object';
+import { deepCopy, deepFreeze } from 'in-services/util/object';
+import { getKeyValuePairTag } from 'in-applications/tags';
 import http from 'in-services/http';
 
 export function getServiceConfigs() {
@@ -44,10 +44,47 @@ export function createNewServiceConfig() {
     matchSpecification: [
       {
         key: '',
-        value: '/(.*)' // the user maybe can't configure the value and empty is not allowed
+        value: '.*' // default value not editable by user
       }
     ]
   };
+}
+
+function mapToServerResponse(config) {
+  for (let i = 0; i < config.matchSpecification.length; i++) {
+    const matchSpecification = config.matchSpecification[i];
+    if (matchSpecification.secondLevelName) {
+      matchSpecification.key = `${matchSpecification.key}.${matchSpecification.secondLevelName}`;
+      delete matchSpecification.secondLevelName;
+    }
+  }
+  return config;
+}
+
+function mapFromServerResponse(response) {
+  if (!response.data) {
+    return response;
+  }
+
+  response = deepCopy(response);
+
+  response.data.map(config => {
+    for (let i = 0; i < config.matchSpecification.length; i++) {
+      const matchSpecification = config.matchSpecification[i];
+
+      const keyValueTag = getKeyValuePairTag(matchSpecification.key);
+      if (keyValueTag) {
+        const name = keyValueTag.fullyQualifiedName;
+        const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first .
+        matchSpecification.key = name;
+        if (secondLevelName) {
+          matchSpecification.secondLevelName = secondLevelName;
+        }
+      }
+      matchSpecification.value = '.*';
+    }
+  });
+  return response;
 }
 
 export function enrichWithLabel(config) {
