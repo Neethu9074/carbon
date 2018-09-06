@@ -43,6 +43,7 @@ import './analyse/TraceConverter';
 
 import './designLibrary/application/AppHeaderStory';
 import './designLibrary/application/EmptyAppListStory';
+import './designLibrary/application/CreatingNewApplicationWaiterStory';
 import './designLibrary/application/ApplicationMap';
 
 import './designLibrary/content/table/ServerTableStory';

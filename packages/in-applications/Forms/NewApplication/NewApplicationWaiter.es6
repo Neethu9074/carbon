@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import FullscreenViewHeading from 'in-components/layout/FullscreenViewHeading';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getApplication from 'in-subscription/application/getApplication';
@@ -43,19 +42,12 @@ export default connectTo(
       <FullHeightWrapper
         render={() => (
           <div className={locals.wrapper}>
-            <FullscreenViewHeading iconClassName={locals.headingIcon} iconType="lib_application">
-              Application perspective is being created…
-            </FullscreenViewHeading>
-
-            <div className={locals.loading}>
-              <div>
-                We are preparing everything to monitor your application perspective <strong>{label}</strong>.
-              </div>
-              <div>Please wait.</div>
-              <div>
-                <SvgIcon spinning type="spinner" width={20} className={locals.spinner} />
-              </div>
-            </div>
+            <SvgIcon className={locals.icon} type="lib_application" width={56} height={56} />
+            <h1 className={locals.title}>Application perspective is being created…</h1>
+            <p className={locals.text}>
+              We are preparing everything to monitor your application perspective <strong>{label}</strong>.
+            </p>
+            <SvgIcon spinning type="lib_actions_loading" width={32} className={locals.loadingIcon} />
           </div>
         )}
       />
