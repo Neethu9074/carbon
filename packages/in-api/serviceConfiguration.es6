@@ -44,7 +44,7 @@ export function createNewServiceConfig() {
     matchSpecification: [
       {
         key: '',
-        value: '/(.*)' // the user maybe can't configure the value and empty is not allowed
+        value: '.*' // default value not editable by user
       }
     ]
   };
@@ -76,11 +76,12 @@ function mapFromServerResponse(response) {
       if (keyValueTag) {
         const name = keyValueTag.fullyQualifiedName;
         const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first .
+        matchSpecification.key = name;
         if (secondLevelName) {
           matchSpecification.secondLevelName = secondLevelName;
         }
-        matchSpecification.key = name;
       }
+      matchSpecification.value = '.*';
     }
   });
   return response;
