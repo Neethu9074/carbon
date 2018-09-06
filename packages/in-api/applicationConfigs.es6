@@ -1,7 +1,6 @@
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
-import { getTagMap } from 'in-applications/tags';
+import { getKeyValuePairTag } from 'in-applications/tags';
 import http from 'in-services/http';
 
 export function getApplicationConfigs() {
@@ -88,18 +87,4 @@ function mapFromServerResponse(config) {
   }
 
   return config;
-}
-
-function getKeyValuePairTag(_tag) {
-  const tagMap = getTagMap();
-  const tags = Object.keys(tagMap).map(key => tagMap[key]);
-  for (let i = 0; i < tags.length; i++) {
-    const tag = tags[i];
-    if (tag.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
-      if (_tag.indexOf(tag.fullyQualifiedName) === 0) {
-        return tag;
-      }
-    }
-  }
-  return null;
 }
