@@ -48,7 +48,12 @@ export default class RuleTester extends React.Component {
 
     return (
       <div className={locals.ruleTesterWrapper}>
-        <h4 className={locals.title}>Rule Tester</h4>
+        <div className={locals.header}>
+          <h4 className={locals.title}>Rule Tester</h4>
+          <Button kind="action" icon="lib_openclose_add" onClick={addTestCase}>
+            Add Test
+          </Button>
+        </div>
         <ul className={locals.list}>
           {form.get('testCases').map((testCase, i) => (
             <li key={i} className={locals.item}>
@@ -79,11 +84,6 @@ export default class RuleTester extends React.Component {
             </li>
           ))}
         </ul>
-        <div className={locals.buttonSection}>
-          <Button kind="action" icon="lib_openclose_add" onClick={addTestCase}>
-            Add Test
-          </Button>
-        </div>
       </div>
     );
   }

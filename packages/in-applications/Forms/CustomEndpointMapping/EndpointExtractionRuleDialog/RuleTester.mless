@@ -5,6 +5,14 @@
     padding: 0.5rem 1rem;
   }
 
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
   .title {
     color: @lib__colors__N900Primary;
   }
@@ -53,11 +61,5 @@
 
   .failedTestResult {
     color: @lib__colors__failure;
-  }
-
-  .buttonSection {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 }
