@@ -1,9 +1,11 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { get } from 'lodash';
 import React from 'react';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { testRules } from 'in-api/endpointConfiguration';
 
 import locals from './DragAndDropRuleList.mless';
 
@@ -13,6 +15,20 @@ export default class DragAndDropRuleList extends React.Component {
   constructor(props) {
     super(props);
     this.onDragEnd = this.onDragEnd.bind(this);
+
+    this.state = {
+      testResult: null
+    };
+  }
+
+  componentDidMount() {
+    this.testRules();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.form !== this.props.form) {
+      this.testRules();
+    }
   }
 
   onDragEnd(result) {
@@ -25,8 +41,8 @@ export default class DragAndDropRuleList extends React.Component {
   }
 
   render() {
+    const testResult = this.state.testResult;
     const { rules, form, setValue } = this.props;
-
     if (rules.size === 0) {
       return null;
     }
@@ -40,6 +56,7 @@ export default class DragAndDropRuleList extends React.Component {
             onToggleEnable={enabled => setValue(['rules', 0, 'enabled'], enabled, form)}
             reorderable={form.get('rules').size > 1}
             onClick={e => this.onRuleClicked(rules, e, 0)}
+            testResult={testResult ? get(testResult, [0], []) : undefined}
           />
         </div>
       );
@@ -64,6 +81,7 @@ export default class DragAndDropRuleList extends React.Component {
                         onToggleEnable={enabled => setValue(['rules', index, 'enabled'], enabled, form)}
                         reorderable={form.get('rules').size > 1}
                         onClick={e => this.onRuleClicked(rules, e, index)}
+                        testResult={testResult ? get(testResult, [index], []) : undefined}
                       />
                     </div>
                   )}
@@ -76,6 +94,33 @@ export default class DragAndDropRuleList extends React.Component {
       </DragDropContext>
     );
   }
+
+  testRules = () => {
+    const form = this.props.form;
+    const rulesToCheck = form.get('rules').toJS();
+
+    const result$ = testRules(rulesToCheck);
+    this.setState({
+      testResult: null,
+      loading: true,
+      error: false
+    });
+
+    result$.once(testResult => {
+      this.setState({
+        testResult,
+        loading: false,
+        error: false
+      });
+    });
+
+    result$.errors().once(() => {
+      this.setState({
+        loading: false,
+        error: true
+      });
+    });
+  };
 
   onRuleClicked = (rules, rule, index) => {
     setActiveDialog(

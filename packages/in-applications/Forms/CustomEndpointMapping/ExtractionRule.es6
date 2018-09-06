@@ -11,9 +11,8 @@ export default function ExtractionRule({
   rule,
   reorderable,
   onToggleEnable,
-  queryNote,
-  queryNoteTested = false,
   isInstanaDefaultRule = false,
+  testResult,
   onClick
 }) {
   return (
@@ -27,14 +26,8 @@ export default function ExtractionRule({
     >
       <div className={locals.left}>
         <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
-        <span
-          className={evaluateClassNames({
-            [locals.queryNote]: true,
-            [locals.queryNoteTested]: queryNoteTested
-          })}
-        >
-          {isInstanaDefaultRule ? 'INSTANA Default Rule' : queryNote}
-        </span>
+        {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA Default Rule</span>}
+        <TestResult testResult={testResult} />
       </div>
       <div className={locals.right}>
         <Toggle className={locals.toggle} checked={rule.enabled} onChange={e => onToggleEnable(e.target.checked)} />
@@ -51,4 +44,21 @@ export default function ExtractionRule({
       </div>
     </div>
   );
+}
+
+function TestResult({ testResult }) {
+  if (!testResult) {
+    return null;
+  }
+
+  if (testResult.length === 0) {
+    return <span className={locals.notTestedTestResult}>Not tested</span>;
+  }
+
+  const containsOnlySucceededTests = testResult.reduce((a, b) => a && b, true);
+  if (containsOnlySucceededTests) {
+    return <span className={locals.successTestResult}>Passed</span>;
+  }
+
+  return <span className={locals.failedTestResult}>Not passed</span>;
 }

@@ -58,18 +58,6 @@
     .ellipsis();
   }
 
-  .queryNote {
-    margin-top: 0.25rem;
-
-    color: @lib__colors__N600Light;
-    font-weight: 300;
-    font-size: 0.75rem;
-  }
-
-  .queryNoteTested {
-    color: @lib__colors__success;
-  }
-
   .icon {
     cursor: pointer;
     fill: @lib__colors__N400;
@@ -81,5 +69,28 @@
 
   .iconPlaceholder {
     width: 1.5rem;
+  }
+
+  .successTestResult,
+  .notTestedTestResult,
+  .failedTestResult,
+  .queryNote {
+    margin-top: 0.25rem;
+
+    color: @lib__colors__N600Light;
+    font-weight: 300;
+    font-size: 0.75rem;
+  }
+
+  .successTestResult {
+    color: @lib__colors__success;
+  }
+
+  .failedTestResult {
+    color: @lib__colors__failure;
+  }
+
+  .notTestedTestResult {
+    color: @lib__colors__N600Light;
   }
 }
