@@ -109,7 +109,6 @@ export default class RuleTester extends React.Component {
     return rules
       .toJS()
       .slice(0, this.props.ruleIndex)
-      .filter(rule => rule.enabled)
       .map(rule => {
         rule.testCases = testCases;
         return rule;
@@ -124,6 +123,11 @@ export default class RuleTester extends React.Component {
 
     const ruleIndex = this.props.ruleIndex;
     for (let i = 0; i < ruleIndex; i++) {
+      const enabled = this.props.rules.get(i).get('enabled').value;
+      if (!enabled) {
+        continue;
+      }
+
       const resultAtRule = get(testResult, [i, testCaseIndex]);
       if (resultAtRule == true) {
         const query = build(this.props.rules.get(i).get('pathSegments').value);
