@@ -110,6 +110,37 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                         {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
                       </DescriptionText>
 
+                      <div className={locals.addRuleButtonWrapper}>
+                        <Button
+                          kind="action"
+                          onClick={() =>
+                            setActiveDialog(
+                              <EditFilterDialog
+                                filters={filters}
+                                withInstanaCategory={false}
+                                blacklist={getApplicationCreationFilterBlacklist()}
+                                onSave={_tag => {
+                                  const additionalSubForm = getMatchSpecificationForm({
+                                    key: _tag.name,
+                                    secondLevelName: _tag.secondLevelName,
+                                    value: _tag.value,
+                                    operator: _tag.operator
+                                  });
+                                  updateForm(
+                                    form.updateIn(['matchSpecification'], list =>
+                                      list.push(additionalSubForm).setTouched(true)
+                                    )
+                                  );
+                                }}
+                              />
+                            )
+                          }
+                          icon="lib_openclose_add_circle_outline"
+                        >
+                          Add Tag
+                        </Button>
+                      </div>
+
                       <TagFilterList
                         filterConnectionOperator="OR"
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
@@ -152,35 +183,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                           onRemove: () => removeMatchSpecification(i, form, updateForm)
                         }))}
                       />
-
-                      <Button
-                        icon="lib_openclose_add"
-                        kind="secondary"
-                        onClick={() =>
-                          setActiveDialog(
-                            <EditFilterDialog
-                              filters={filters}
-                              withInstanaCategory={false}
-                              blacklist={getApplicationCreationFilterBlacklist()}
-                              onSave={_tag => {
-                                const additionalSubForm = getMatchSpecificationForm({
-                                  key: _tag.name,
-                                  secondLevelName: _tag.secondLevelName,
-                                  value: _tag.value,
-                                  operator: _tag.operator
-                                });
-                                updateForm(
-                                  form.updateIn(['matchSpecification'], list =>
-                                    list.push(additionalSubForm).setTouched(true)
-                                  )
-                                );
-                              }}
-                            />
-                          )
-                        }
-                      >
-                        Tag
-                      </Button>
                     </Fragment>
                   )
                 }

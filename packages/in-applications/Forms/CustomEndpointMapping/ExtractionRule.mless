@@ -1,0 +1,99 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .extractionRule {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1rem 0.5rem 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+
+    background: #fff;
+    color: @lib__colors__N900Primary;
+    border: 1px solid @lib__colors__N300;
+    border-left: 4px solid @lib__colors__success;
+    border-radius: @lib__shapes__radius_large;
+    font-size: 1rem;
+    cursor: default;
+  }
+
+  .isInstanaDefaultRule {
+    border-left: 4px solid @lib__colors__primary1;
+    color: @lib__colors__N600Light;
+  }
+
+  .disabled {
+    color: @lib__colors__N600Light;
+    border-left: 4px solid @lib__colors__N300;
+  }
+
+  .reorderable {
+    cursor: unset;
+    &:hover {
+      box-shadow: @lib__shadows__subtle;
+    }
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    overflow: hidden;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .query {
+    margin-right: 1rem;
+
+    font-weight: 300;
+    width: 100%;
+    .ellipsis();
+  }
+
+  .icon {
+    cursor: pointer;
+    fill: @lib__colors__N400;
+
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .iconPlaceholder {
+    width: 1.5rem;
+  }
+
+  .successTestResult,
+  .notTestedTestResult,
+  .failedTestResult,
+  .queryNote {
+    margin-top: 0.25rem;
+
+    color: @lib__colors__N600Light;
+    font-weight: 300;
+    font-size: 0.75rem;
+  }
+
+  .successTestResult {
+    color: @lib__colors__success;
+  }
+
+  .failedTestResult {
+    color: @lib__colors__failure;
+  }
+
+  .notTestedTestResult {
+    color: @lib__colors__N600Light;
+  }
+
+  .labelRow {
+    display: flex;
+  }
+}

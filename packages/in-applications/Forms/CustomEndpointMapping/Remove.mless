@@ -1,0 +1,6 @@
+:local {
+  .removeButton {
+    display: block;
+    margin: 1rem 0 0;
+  }
+}
