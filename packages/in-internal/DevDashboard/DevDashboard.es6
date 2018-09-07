@@ -36,6 +36,9 @@ export default function DevDashboard() {
         <li>
           <a href="/#/internal/qualityOfServiceStats">Quality Of Service Stats</a>
         </li>
+        <li>
+          <a href="/#/internal/selfServiceQualityOfServiceStats">SelfService Quality Of Service Stats</a>
+        </li>
       </ul>
     </div>
   );
