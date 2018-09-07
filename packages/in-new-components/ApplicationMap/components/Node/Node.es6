@@ -86,7 +86,7 @@ function NodeShape({ node, serviceLocatorUid, toggle, power }) {
 }
 
 function getIconByType(node) {
-  const type = node.data.types[0];
+  const type = node.data.types ? node.data.types[0] : null;
   if (type === 'DATABASE') {
     return 'lib_application_endpoint_type_database';
   }
