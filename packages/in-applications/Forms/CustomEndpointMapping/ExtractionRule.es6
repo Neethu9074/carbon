@@ -26,7 +26,7 @@ export default function ExtractionRule({
     >
       <div className={locals.left}>
         <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
-        {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA Default Rule</span>}
+        {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA default rule</span>}
         <TestResult testResult={testResult} rule={rule} />
       </div>
 
@@ -60,10 +60,26 @@ function TestResult({ testResult, rule }) {
     return <span className={locals.notTestedTestResult}>No tests defined</span>;
   }
 
-  const containsOnlySucceededTests = testResult.reduce((a, b) => a && b, true);
-  if (containsOnlySucceededTests) {
-    return <span className={locals.successTestResult}>Passed</span>;
+  let numSucceededTests = 0;
+  for (let i = 0; i < testResult.length; i++) {
+    if (testResult[i]) {
+      numSucceededTests++;
+    }
+  }
+  let numFailedTests = testResult.length - numSucceededTests;
+
+  if (numSucceededTests === testResult.length) {
+    return <span className={locals.successTestResult}>All tests passed</span>;
   }
 
-  return <span className={locals.failedTestResult}>Not passed</span>;
+  if (numFailedTests === testResult.length) {
+    return <span className={locals.failedTestResult}>All tests failed</span>;
+  }
+
+  return (
+    <div className={locals.labelRow}>
+      <span className={locals.failedTestResult}>{`Tests failed: ${numFailedTests}`}</span>
+      <span className={locals.notTestedTestResult}>{`, passed: ${numSucceededTests} out of ${testResult.length}`}</span>
+    </div>
+  );
 }

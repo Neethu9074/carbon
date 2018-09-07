@@ -92,4 +92,8 @@
   .notTestedTestResult {
     color: @lib__colors__N600Light;
   }
+
+  .labelRow {
+    display: flex;
+  }
 }

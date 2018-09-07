@@ -167,10 +167,10 @@ export default class RuleTester extends React.Component {
 
     const result = get(testResult, [ruleIndex, testCaseIndex]);
     if (result === false) {
-      return <span className={locals.failedTestResult}>Not passed</span>;
+      return <span className={locals.failedTestResult}>Test Failed</span>;
     }
     if (result === true) {
-      return <span className={locals.successTestResult}>passed</span>;
+      return <span className={locals.successTestResult}>Test Passed</span>;
     }
     return null;
   };

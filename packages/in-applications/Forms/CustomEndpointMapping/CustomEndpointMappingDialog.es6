@@ -57,7 +57,7 @@ export default function CustomEndpointMappingDialog({ location }) {
             <Steps
               steps={[
                 {
-                  stepTitle: 'Define the application through as many filters (key/value pairs) as desired.',
+                  stepTitle: 'Configure how Instana extracts endpoints from the underlying calls to this service.',
                   content: (
                     <Fragment>
                       <DescriptionText>
