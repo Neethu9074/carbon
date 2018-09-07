@@ -4,12 +4,14 @@ export default (() => {
   let worker = null;
 
   function call(layouter, data, onFinished) {
-    this.disposeRunning();
+    disposeRunning();
     worker = new Worker();
     worker.onmessage = function(e) {
+      worker.hasReturned = true;
       disposeRunning();
       onFinished(e.data);
     };
+    worker.hasReturned = false;
     worker.postMessage([layouter, cloneData(data)]);
   }
 
