@@ -7,7 +7,7 @@ export default function KpiCard({ title, value }) {
   let minor = null;
 
   if (value != null) {
-    const match = String(value).match(/^([0-9\,\.]+)(.*)$/);
+    const match = String(value).match(/^([0-9\,.]+)(.*)$/);
     if (!match) {
       major = value;
     } else {

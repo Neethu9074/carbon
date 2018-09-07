@@ -76,13 +76,13 @@ function implicitFieldTermAdder(agg, node) {
 }
 
 export function luceneEscapeString(s) {
-  return s.replace(/[\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/]/g, c => {
+  return s.replace(/[+\\!(){}[\]^"?:\\&|'/]/g, c => {
     return `\\${c}`;
   });
 }
 
 function luceneUnescapeString(s) {
-  return s.replace(/\\([\+\-\!\(\)\{\}\[\]\^\"\?\:\\\&\|\'\/])/g, (m, c) => c);
+  return s.replace(/\\([+\\!(){}[\]^"?:\\&|'/])/g, (m, c) => c);
 }
 
 export function requiresQuotes(s) {

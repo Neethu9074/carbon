@@ -17,9 +17,9 @@ let cachedAnsiConverter;
  */
 export function replaceHtmlChars(s) {
   return s
-    .replace(/\&/g, '&amp;')
-    .replace(/\</g, '&lt;')
-    .replace(/\>/g, '&gt;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 export function sanitize(html) {
