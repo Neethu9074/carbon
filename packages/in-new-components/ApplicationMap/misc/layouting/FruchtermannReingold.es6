@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 const ITERATIONS = 1000;
-const GRAVITY = 100;
 const SPEED = 0.1;
 const SCALE = 2;
 
@@ -75,14 +74,15 @@ function go(graph) {
   const area = nodesCount * nodesCount;
   const maxDisplace = nodesCount / 10;
   const k = Math.sqrt(area / (1 + nodesCount));
+  const gravity = 5 * nodesCount;
 
   let i = 0;
-  while (i < ITERATIONS && !atomicGo(graph, maxDisplace, k)) {
+  while (i < ITERATIONS && !atomicGo(graph, maxDisplace, k, gravity)) {
     i++;
   }
 }
 
-function atomicGo(graph, maxDisplace, k) {
+function atomicGo(graph, maxDisplace, k, gravity) {
   const nodes = graph.nodes;
   const edges = graph.edges;
   const nodesCount = nodes.length;
@@ -170,7 +170,7 @@ function atomicGo(graph, maxDisplace, k) {
 
     // Gravity
     d = Math.sqrt(n.fr_x * n.fr_x + n.fr_y * n.fr_y);
-    gf = 0.01 * k * GRAVITY * d;
+    gf = 0.01 * k * gravity * d;
     n.fr.dx -= (gf * n.fr_x) / d;
     n.fr.dy -= (gf * n.fr_y) / d;
 
