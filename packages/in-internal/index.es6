@@ -3,6 +3,7 @@ import React from 'react';
 
 import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
 import QualityOfServiceStats from 'in-internal/QualityOfServiceStats/QualityOfServiceStats';
+import AppDataProcessorStatistics from 'in-internal/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import TuStatistics from 'in-internal/TuStatistics';
 import DevDashboard from 'in-internal/DevDashboard';
@@ -18,6 +19,7 @@ export default function Internal() {
       <Route path="/internal/eumStats" component={EumStats} />
       <Route path="/internal/fillerStats" component={FillerStats} />
       <Route path="/internal/appdata" component={Appdata} />
+      <Route path="/internal/appdataProcessing" component={AppDataProcessorStatistics} />
       <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
       <Route path="/internal/qualityOfServiceStats" component={QualityOfServiceStats} />
       <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
