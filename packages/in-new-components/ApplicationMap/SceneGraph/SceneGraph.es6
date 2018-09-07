@@ -1,6 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
+import concurrentLayouting from 'in-new-components/ApplicationMap/misc/layouting/concurrentLayouting';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
 import forceLayout from 'in-new-components/ApplicationMap/misc/layouting/FruchtermannReingold';
 import flowLayout from 'in-new-components/ApplicationMap/misc/layouting/Vizceral';
@@ -104,24 +105,44 @@ export default class SceneGraph {
   }
 
   relayout(layouter) {
-    if (layouter === 'flow') {
-      layouter = flowLayout;
-    } else {
-      layouter = forceLayout;
-    }
-
     const serviceLocators = getServiceLocators(this.serviceLocatorUid);
     const currentNodes = serviceLocators.nodesServiceLocator.getNodes().objects;
     const currentEdges = serviceLocators.connectionsServiceLocator.getConnections();
 
-    layouter.applyLayout({ nodes: currentNodes, edges: currentEdges, positionsMap: this.nodePositionsCache });
+    serviceLocators.eventBusServiceLocator.emit(SIGNALS.IS_LAYOUTING, true);
+    concurrentLayouting.call(
+      layouter,
+      {
+        nodes: currentNodes,
+        edges: currentEdges,
+        positionsMap: this.nodePositionsCache
+      },
+      result => {
+        this.applyResult(currentNodes, result);
+        serviceLocators.connectionsServiceLocator.updateAllConnectionPositions();
+        serviceLocators.eventBusServiceLocator.emit(SIGNALS.IS_LAYOUTING, false);
+        serviceLocators.eventBusServiceLocator.emit(SIGNALS.LAYOUT, {
+          currentNodes,
+          layouter: result.usedLayouter === 'flow' ? flowLayout : forceLayout
+        });
+        serviceLocators.sceneServiceLocator.getScene().requestRendering();
+      }
+    );
+  }
 
-    serviceLocators.connectionsServiceLocator.updateAllConnectionPositions();
-    serviceLocators.eventBusServiceLocator.emit(SIGNALS.LAYOUT, { currentNodes, layouter });
-    serviceLocators.sceneServiceLocator.getScene().requestRendering();
+  applyResult(currentNodes, result) {
+    const nodes = currentNodes.values();
+    for (const node of nodes) {
+      const layoutedNode = result.data.nodes.get(node.id);
+      if (layoutedNode) {
+        node.setPosition(layoutedNode.x, layoutedNode.y);
+      }
+    }
   }
 
   dispose() {
+    concurrentLayouting.disposeRunning();
+
     this.layoutSubscription.dispose();
     this.layoutSubscription = null;
 

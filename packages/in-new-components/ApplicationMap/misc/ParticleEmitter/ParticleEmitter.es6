@@ -102,7 +102,6 @@ export default class ParticleEmitter {
 
   setFromAndToPositions(fromPos, toPos) {
     this.mesh.position.set(fromPos.x, fromPos.y, fromPos.z);
-
     this.mesh.lookAt(toPos);
 
     const direction = toPos.clone().sub(this.mesh.position);

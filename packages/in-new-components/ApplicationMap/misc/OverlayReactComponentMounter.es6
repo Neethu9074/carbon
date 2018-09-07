@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
+import LayoutingLoadingScreen from 'in-new-components/ApplicationMap/components/LayoutingLoadingScreen';
 import ConnectionTooltip from 'in-new-components/ApplicationMap/components/Tooltips/ConnectionTooltip';
 import SearchBar from 'in-new-components/ApplicationMap/components/SearchBar';
 import Controls from 'in-new-components/ApplicationMap/components/Controls';
@@ -14,6 +15,7 @@ export default class OverlayReactComponentMounter {
     ReactDOM.render(
       <Fragment>
         <Nodes {...props} serviceLocatorUid={serviceLocatorUid} />
+        <LayoutingLoadingScreen serviceLocatorUid={serviceLocatorUid} />
         <Controls {...props} serviceLocatorUid={serviceLocatorUid} />
         <SearchBar serviceLocatorUid={serviceLocatorUid} />
         <ConnectionTooltip {...props} serviceLocatorUid={serviceLocatorUid} />

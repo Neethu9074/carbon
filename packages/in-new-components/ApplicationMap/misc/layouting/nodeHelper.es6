@@ -225,7 +225,8 @@ export function applyPosition(nodes) {
     const node = nodes[iN];
     // add noise to the screen y position to avoid orthogonal lines
     const noise = 0.1 * Math.random();
-    node.inNode.setPosition(node.x, node.y + noise);
+    node.inNode.x = node.x;
+    node.inNode.y = node.y + noise;
   }
 }
 

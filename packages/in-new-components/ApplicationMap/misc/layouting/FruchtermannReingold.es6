@@ -121,9 +121,9 @@ function atomicGo(graph, maxDisplace, k) {
         // var dist = Math.sqrt(xDist * xDist + yDist * yDist) - n1.size - n2.size;
 
         if (dist > 0) {
-          repulsiveF = k * k / dist;
-          n.fr.dx += xDist / dist * repulsiveF;
-          n.fr.dy += yDist / dist * repulsiveF;
+          repulsiveF = (k * k) / dist;
+          n.fr.dx += (xDist / dist) * repulsiveF;
+          n.fr.dy += (yDist / dist) * repulsiveF;
         }
       }
     }
@@ -150,10 +150,10 @@ function atomicGo(graph, maxDisplace, k) {
     dist = Math.sqrt(xDist * xDist + yDist * yDist) + 0.0001; // 0.0001 to avoid devide by 0 exceptions
     // dist = Math.sqrt(xDist * xDist + yDist * yDist) - nSource.size - nTarget.size;
 
-    attractiveF = dist * dist / k;
+    attractiveF = (dist * dist) / k;
 
-    const xDisplacement = xDist / dist * attractiveF;
-    const yDisplacement = yDist / dist * attractiveF;
+    const xDisplacement = (xDist / dist) * attractiveF;
+    const yDisplacement = (yDist / dist) * attractiveF;
     nSource.fr.dx -= xDisplacement;
     nSource.fr.dy -= yDisplacement;
     nTarget.fr.dx += xDisplacement;
@@ -171,8 +171,8 @@ function atomicGo(graph, maxDisplace, k) {
     // Gravity
     d = Math.sqrt(n.fr_x * n.fr_x + n.fr_y * n.fr_y);
     gf = 0.01 * k * GRAVITY * d;
-    n.fr.dx -= gf * n.fr_x / d;
-    n.fr.dy -= gf * n.fr_y / d;
+    n.fr.dx -= (gf * n.fr_x) / d;
+    n.fr.dy -= (gf * n.fr_y) / d;
 
     // Speed
     n.fr.dx *= SPEED;
@@ -187,8 +187,8 @@ function atomicGo(graph, maxDisplace, k) {
 
       if (dist > 0) {
         limitedDist = Math.min(maxDisplace * SPEED, dist);
-        n.fr_x += xDist / dist * limitedDist;
-        n.fr_y += yDist / dist * limitedDist;
+        n.fr_x += (xDist / dist) * limitedDist;
+        n.fr_y += (yDist / dist) * limitedDist;
       }
     }
   }
@@ -213,7 +213,8 @@ function applyPositionUpdate(graph, positionsMap) {
       nodeYPos = node.fr_y * SCALE;
     }
 
-    node.inNode.setPosition(nodeXPos, nodeYPos);
+    node.inNode.x = nodeXPos;
+    node.inNode.y = nodeYPos;
     positionsMap.set(node.inNode.id, { x: nodeXPos, y: nodeYPos });
   });
 }

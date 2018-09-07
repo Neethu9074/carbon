@@ -5,6 +5,7 @@ export const SIGNALS = {
   PARTICLES: 'particles',
   LAYOUT: 'layout',
   LAYOUTER: 'layouter',
+  IS_LAYOUTING: 'isLayouting',
   SHOW_EXTERNAL_TRAFFIC: 'showExternalTraffic',
   RESIZE: 'resize',
   CONNECTIONS: 'connections',
