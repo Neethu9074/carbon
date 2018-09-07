@@ -3,12 +3,20 @@ import { emptyArray } from 'in-services/fixedObjects';
 export default function getPowerFunctions(incomingConnectionsMap) {
   const nodes = new Map();
 
-  let maxCalls = 0;
-  let minCalls = Number.MAX_VALUE;
-  let maxLatency = 0;
-  let minLatency = Number.MAX_VALUE;
-  let maxErrorRate = 0;
-  let minErrorRate = Number.MAX_VALUE;
+  let minMax = {
+    calls: {
+      max: 0,
+      min: Number.MAX_VALUE
+    },
+    latency: {
+      max: 0,
+      min: Number.MAX_VALUE
+    },
+    errorRate: {
+      max: 0,
+      min: Number.MAX_VALUE
+    }
+  };
 
   let serviceIds = incomingConnectionsMap.keys();
   for (const serviceId of serviceIds) {
@@ -20,21 +28,21 @@ export default function getPowerFunctions(incomingConnectionsMap) {
 
     nodes.set(serviceId, { totalCalls, serviceMaxLatency, serviceMaxErrorRate });
 
-    maxCalls = Math.max(maxCalls, totalCalls);
-    minCalls = Math.min(minCalls, totalCalls);
-    maxLatency = Math.max(maxLatency, serviceMaxLatency);
-    minLatency = Math.min(minLatency, serviceMaxLatency);
-    maxErrorRate = Math.max(maxErrorRate, serviceMaxErrorRate);
-    minErrorRate = Math.min(minErrorRate, serviceMaxErrorRate);
+    minMax.calls.max = Math.max(minMax.calls.max, totalCalls);
+    minMax.calls.min = Math.min(minMax.calls.min, totalCalls);
+    minMax.latency.max = Math.max(minMax.latency.max, serviceMaxLatency);
+    minMax.latency.min = Math.min(minMax.latency.min, serviceMaxLatency);
+    minMax.errorRate.max = Math.max(minMax.errorRate.max, serviceMaxErrorRate);
+    minMax.errorRate.min = Math.min(minMax.errorRate.min, serviceMaxErrorRate);
   }
 
   serviceIds = nodes.keys();
   for (const serviceId of serviceIds) {
     const node = nodes.get(serviceId);
 
-    node.calls = get(minCalls, maxCalls, node.totalCalls);
-    node.latency = get(minLatency, maxLatency, node.serviceMaxLatency);
-    node.errorRate = get(minErrorRate, maxErrorRate, node.serviceMaxErrorRate);
+    node.calls = get(minMax.calls.min, minMax.calls.max, node.totalCalls);
+    node.latency = get(minMax.latency.min, minMax.latency.max, node.serviceMaxLatency);
+    node.errorRate = get(minMax.errorRate.min, minMax.errorRate.max, node.serviceMaxErrorRate);
     nodes.set(serviceId, node);
   }
 
@@ -51,6 +59,8 @@ export default function getPowerFunctions(incomingConnectionsMap) {
         return defaultValue;
       }
       return nodes.get(serviceId)[sizeMetric];
-    }
+    },
+    getMinMetricValueByName: sizeMetric => minMax[sizeMetric].min,
+    getMaxMetricValueByName: sizeMetric => minMax[sizeMetric].max
   };
 }

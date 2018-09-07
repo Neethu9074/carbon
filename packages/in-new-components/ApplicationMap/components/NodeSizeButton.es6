@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import Button from 'in-new-components/MapControls/Button';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
@@ -10,18 +11,19 @@ import locals from './NodeSizeButton.mless';
 
 export default connectTo(
   ({ eventBusServiceLocator }) => ({
-    activeSizeMetric: eventBusServiceLocator.on(SIGNALS.SIZING_METRIC)
+    activeSizeMetric: eventBusServiceLocator.on(SIGNALS.SIZING_METRIC),
+    powerFunctions: eventBusServiceLocator.on(SIGNALS.POWER_FUNCTIONS)
   }),
   function NodeSizeButton(props) {
     return (
       <Overlay content={ContextMenu} props={props}>
         {({ toggle, isOpen }) => (
           <Button
-            onClick={toggle}
             icon="lib_actions_map_node_size"
+            onClick={toggle}
             renderContent={() => (
               <Fragment>
-                <span className={locals.sizeMetricLabel}>{getLabel(props.activeSizeMetric)}</span>
+                {getLabel(props.activeSizeMetric, props.powerFunctions)}
                 <SvgIcon
                   className={locals.expandIcon}
                   type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
@@ -37,18 +39,47 @@ export default connectTo(
   }
 );
 
-function getLabel(metric) {
+function getLabel(metric, powerFunctions) {
   if (!metric) {
-    return 'No sizing';
+    return <span className={locals.sizeMetricLabel}>None</span>;
   }
+  const min = powerFunctions ? powerFunctions.getMinMetricValueByName(metric) : null;
+  const max = powerFunctions ? powerFunctions.getMaxMetricValueByName(metric) : null;
   if (metric === 'calls') {
-    return 'Calls';
+    return <RangeLabel metric="Calls" min={min} max={max} formatter={number.compact} />;
   }
   if (metric === 'errorRate') {
-    return 'Error Rate';
+    return <RangeLabel metric="Error Rate" min={min} max={max} formatter={percentage.compact} />;
   }
   if (metric === 'latency') {
-    return 'Latency';
+    return <RangeLabel metric="Latency" min={min} max={max} formatter={millis.detailed} />;
+  }
+}
+
+function RangeLabel({ metric, min, max, formatter }) {
+  return (
+    <div className={locals.labelWrapper}>
+      <span className={locals.sizeMetricLabel}>{metric} (</span>
+      <SvgIcon className={locals.arrowDownIcon} type="lib_arrow_down" width={16} height={16} />
+      <span className={locals.sizeMetricLabel}>{formatter(min)}</span>
+      <SvgIcon className={locals.arrowUpIcon} type="lib_arrow_up" width={16} height={16} />
+      <span className={locals.sizeMetricLabel}>{formatter(max)})</span>
+    </div>
+  );
+}
+
+function getLabelShort(metric) {
+  if (!metric) {
+    return 'Disable sizing';
+  }
+  if (metric === 'calls') {
+    return 'Incoming calls';
+  }
+  if (metric === 'errorRate') {
+    return 'Max error rate';
+  }
+  if (metric === 'latency') {
+    return 'Max latency';
   }
 }
 
@@ -62,7 +93,7 @@ function ContextMenu({ onChangeUrlProperties, close }) {
           close();
         }}
       >
-        {getLabel(metric)}
+        {getLabelShort(metric)}
       </li>
     );
   }
