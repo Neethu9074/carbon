@@ -47,21 +47,6 @@ export default class DragAndDropRuleList extends React.Component {
       return null;
     }
 
-    if (rules.size === 1) {
-      const rule = rules.get(0);
-      return (
-        <div className={locals.item}>
-          <ExtractionRule
-            rule={rule.toJS()}
-            onToggleEnable={enabled => setValue(['rules', 0, 'enabled'], enabled, form)}
-            reorderable={form.get('rules').size > 1}
-            onClick={e => this.onRuleClicked(rules, e, 0)}
-            testResult={testResult ? get(testResult, [0], []) : undefined}
-          />
-        </div>
-      );
-    }
-
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
@@ -77,9 +62,9 @@ export default class DragAndDropRuleList extends React.Component {
                       {...provided.dragHandleProps}
                     >
                       <ExtractionRule
+                        reorderable
                         rule={rule.toJS()}
                         onToggleEnable={enabled => setValue(['rules', index, 'enabled'], enabled, form)}
-                        reorderable={form.get('rules').size > 1}
                         onClick={e => this.onRuleClicked(rules, e, index)}
                         testResult={testResult ? get(testResult, [index], []) : undefined}
                       />
