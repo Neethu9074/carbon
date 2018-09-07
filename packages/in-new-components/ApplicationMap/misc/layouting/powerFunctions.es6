@@ -47,7 +47,7 @@ export default function getPowerFunctions(incomingConnectionsMap) {
 
   return {
     getPowerByName: (serviceId, sizeMetric, defaultValue = 0) => {
-      if (!nodes.has(serviceId)) {
+      if (!sizeMetric || !nodes.has(serviceId)) {
         return defaultValue;
       }
       return nodes.get(serviceId)[sizeMetric];
