@@ -32,9 +32,9 @@ export default function getPowerFunctions(incomingConnectionsMap) {
   for (const serviceId of serviceIds) {
     const node = nodes.get(serviceId);
 
-    node.callsPower = get(minCalls, maxCalls, node.totalCalls);
-    node.serviceLatencyPower = get(minLatency, maxLatency, node.serviceMaxLatency);
-    node.errorRatePower = get(minErrorRate, maxErrorRate, node.serviceMaxErrorRate);
+    node.calls = get(minCalls, maxCalls, node.totalCalls);
+    node.latency = get(minLatency, maxLatency, node.serviceMaxLatency);
+    node.errorRate = get(minErrorRate, maxErrorRate, node.serviceMaxErrorRate);
     nodes.set(serviceId, node);
   }
 
@@ -44,36 +44,13 @@ export default function getPowerFunctions(incomingConnectionsMap) {
     }
     return (value - min) / (max - min);
   }
-  function getMetric(id, metric) {
-    if (!nodes.has(id)) {
-      return 0;
-    }
-    return nodes.get(id)[metric];
-  }
 
   return {
-    getPowerByName: (serviceId, sizeMetric, defaultValue) => {
-      if (sizeMetric === 'calls') {
-        return getMetric(serviceId, 'callsPower');
+    getPowerByName: (serviceId, sizeMetric, defaultValue = 0) => {
+      if (!nodes.has(serviceId)) {
+        return defaultValue;
       }
-      if (sizeMetric === 'latency') {
-        return getMetric(serviceId, 'serviceLatencyPower');
-      }
-      if (sizeMetric === 'errorRate') {
-        return getMetric(serviceId, 'errorRatePower');
-      }
-      return defaultValue;
-    },
-    getMetricByName: (serviceId, sizeMetric) => {
-      if (sizeMetric === 'calls') {
-        return getMetric(serviceId, 'totalCalls');
-      }
-      if (sizeMetric === 'latency') {
-        return getMetric(serviceId, 'serviceMaxLatency');
-      }
-      if (sizeMetric === 'errorRate') {
-        return getMetric(serviceId, 'serviceMaxErrorRate');
-      }
+      return nodes.get(serviceId)[sizeMetric];
     }
   };
 }
