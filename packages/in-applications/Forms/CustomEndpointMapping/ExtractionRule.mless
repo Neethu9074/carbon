@@ -74,7 +74,7 @@
   .notTestedTestResult,
   .failedTestResult,
   .queryNote {
-    margin-top: 0.25rem;
+    margin: 0.25rem 0 0.4375rem;
 
     color: @lib__colors__N600Light;
     font-weight: 300;
@@ -95,5 +95,9 @@
 
   .labelRow {
     display: flex;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
   }
 }

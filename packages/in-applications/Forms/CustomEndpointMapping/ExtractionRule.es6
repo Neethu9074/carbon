@@ -26,8 +26,11 @@ export default function ExtractionRule({
     >
       <div className={locals.left}>
         <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
-        {isInstanaDefaultRule && <span className={locals.queryNote}>INSTANA default rule</span>}
-        <TestResult testResult={testResult} rule={rule} />
+        {isInstanaDefaultRule ? (
+          <span className={locals.queryNote}>INSTANA default rule</span>
+        ) : (
+          <TestResult testResult={testResult} rule={rule} />
+        )}
       </div>
 
       <div className={locals.right}>
@@ -52,12 +55,12 @@ function TestResult({ testResult, rule }) {
     return <span className={locals.notTestedTestResult}>Disabled</span>;
   }
 
-  if (!testResult) {
-    return null;
-  }
-
   if (rule.testCases.length === 0) {
     return <span className={locals.notTestedTestResult}>No tests defined</span>;
+  }
+
+  if (!testResult) {
+    return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />;
   }
 
   let numSucceededTests = 0;
