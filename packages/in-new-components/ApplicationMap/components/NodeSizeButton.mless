@@ -6,15 +6,6 @@
     color: @lib__colors__N600Light;
   }
 
-  .arrowDownIcon,
-  .arrowUpIcon {
-    fill: @lib__colors__N600Light;
-  }
-
-  .arrowUpIcon {
-    margin-left: 0.25rem;
-  }
-
   .labelWrapper {
     display: flex;
     align-items: center;
@@ -47,5 +38,10 @@
     &:hover {
       background: @lib__colors__N100;
     }
+  }
+
+  .sizeMetricLabelSeperator {
+    margin: 0 0.25rem;
+    color: @lib__colors__N600Light;
   }
 }

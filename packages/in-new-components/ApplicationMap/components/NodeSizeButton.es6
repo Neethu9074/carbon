@@ -60,9 +60,8 @@ function RangeLabel({ metric, min, max, formatter }) {
   return (
     <div className={locals.labelWrapper}>
       <span className={locals.sizeMetricLabel}>{metric} (</span>
-      <SvgIcon className={locals.arrowDownIcon} type="lib_arrow_down" width={16} height={16} />
       <span className={locals.sizeMetricLabel}>{formatter(min)}</span>
-      <SvgIcon className={locals.arrowUpIcon} type="lib_arrow_up" width={16} height={16} />
+      <span className={locals.sizeMetricLabelSeperator}>–</span>
       <span className={locals.sizeMetricLabel}>{formatter(max)})</span>
     </div>
   );
