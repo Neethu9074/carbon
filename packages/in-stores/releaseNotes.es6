@@ -33,7 +33,13 @@ const currentReleaseNotes$ = currentReleaseNotesStore.observable.distinct();
 
 export const releaseNotes$ = combineLatest([readReleaseNotesStore.observable, currentReleaseNotes$]).map(
   ([readState, currentReleaseNotes]) => {
-    if (readState === hashCode(currentReleaseNotes)) {
+    const currentReleaseNotesHash = hashCode(currentReleaseNotes);
+    if (readState === currentReleaseNotesHash) {
+      return null;
+    }
+    // never seen release notes
+    if (readState === 0) {
+      trySet(localStorageKey, currentReleaseNotesHash);
       return null;
     }
     return currentReleaseNotes;
