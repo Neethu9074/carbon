@@ -28,7 +28,7 @@ export default function TagFilter({
         <SvgIcon className={locals.icon} type={getIconByName(name)} width={24} height={24} />
 
         <span className={locals.name}>{name}</span>
-        {operator && <span className={locals.operator}>{getOperatorLabel(node.type, operator)}</span>}
+        {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
         {value && <span className={locals.value}>{value}</span>}
       </div>
 
