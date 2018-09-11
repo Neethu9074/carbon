@@ -1,3 +1,4 @@
+import { supportsCodeView, getCodeView } from 'in-forge/codeView/python';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -6,8 +7,11 @@ import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
   plugin: plugins.python,
+
   iconSvgPath,
   metricDefinitions,
+  supportsCodeView,
+  getCodeView,
   pluginName: {
     singular: 'Python App',
     plural: 'Python Apps'
