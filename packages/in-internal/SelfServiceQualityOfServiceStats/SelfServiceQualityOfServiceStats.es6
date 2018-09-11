@@ -5,9 +5,7 @@ import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getHostsWithNomadContext } from 'in-internal/dataRetrieval';
 import { number } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
-import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
@@ -103,21 +101,37 @@ const cols = [
   }
 ];
 
-export default connectTo({
-  timeConfig: timeConfig$,
-  rows: getHostsWithNomadContext('entity.zone:selfservice*worker*')
-})(function QualityOfServiceStats({ rows }) {
-  if (rows.length === 0) {
-    return <LoadingIndicator type="dark" />;
+export default connectTo(
+  {
+    rowsEuA: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1a'),
+    rowsUsA: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2a'),
+    rowsEuB: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1b'),
+    rowsUsB: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2b'),
+    rowsEuC: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1c'),
+    rowsUsC: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2c')
+  },
+  class SelfServiceQualityOfServiceStats extends React.Component {
+    render() {
+      const { rowsEuA, rowsUsA, rowsEuB, rowsUsB, rowsEuC, rowsUsC } = this.props;
+
+      let rowsA = rowsEuA.concat(rowsUsA);
+      let rowsB = rowsEuB.concat(rowsUsB);
+      let rowsC = rowsEuC.concat(rowsUsC);
+
+      return (
+        <div>
+          <h1>Quality of Service - SelfService Fleet Worker</h1>
+          <DashboardSection title={`Region A (${rowsA.length})`}>
+            <Table cols={cols} rows={rowsA} maxItemsPerPage={200} />
+          </DashboardSection>
+          <DashboardSection title={`Region B (${rowsB.length})`}>
+            <Table cols={cols} rows={rowsB} maxItemsPerPage={200} />
+          </DashboardSection>
+          <DashboardSection title={`Region C (${rowsC.length})`}>
+            <Table cols={cols} rows={rowsC} maxItemsPerPage={200} />
+          </DashboardSection>
+        </div>
+      );
+    }
   }
-
-  return (
-    <div>
-      <h1>Quality of Service</h1>
-
-      <DashboardSection title={`SelfService Fleet Worker (${rows.length})`}>
-        <Table cols={cols} rows={rows} maxItemsPerPage={200} />
-      </DashboardSection>
-    </div>
-  );
-});
+);

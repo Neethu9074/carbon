@@ -166,7 +166,6 @@ const blacklists = {
     'process.id': true,
     'trace.id': true,
     'docker.container.id': true,
-    'marathon.app.id': true,
     'host.snapshotId': true,
     'docker.snapshotId': true,
     'process.snapshotId': true

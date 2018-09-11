@@ -36,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped Spans',
+    title: 'Dropped Spans (span_messages.error_rate)',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +56,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:filler*')
+  rows: getDropwizardWithContext('entity.label:appdata-processor*')
 })(function FillerSpanProcessingStats({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
@@ -64,7 +64,7 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title={`fillers (${rows.length})`}>
+      <DashboardSection title={`appdata-processors (${rows.length})`}>
         <Table cols={cols} rows={rows} maxItemsPerPage={200} />
       </DashboardSection>
     </div>

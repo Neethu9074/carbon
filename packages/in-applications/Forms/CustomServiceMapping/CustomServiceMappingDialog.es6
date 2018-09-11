@@ -9,11 +9,11 @@ import {
   getServiceConfigs
 } from 'in-api/serviceConfiguration';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { getTagValuesAsOptions } from 'in-applications/tags';
 import RemoveSection from 'in-applications/Forms/CustomServiceMapping/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
+import { getTagValuesAsOptions } from 'in-applications/tags';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
