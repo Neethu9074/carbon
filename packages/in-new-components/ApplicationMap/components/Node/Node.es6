@@ -17,6 +17,7 @@ export default performantNodeManipulationWrapper(NodeComponent);
 export function NodeComponent(props) {
   const { node, nodesSize, applicationId, serviceLocatorUid, power } = props;
   const dimensionInPx = 32 + 32 * power;
+  const isExternalService = (node.data.applications || []).indexOf(applicationId) === -1;
 
   return (
     <div
@@ -46,15 +47,22 @@ export function NodeComponent(props) {
       >
         {({ toggle, isOpen }) => {
           if (isOpen) {
-            return <NodeShape {...props} toggle={toggle} />;
+            return <NodeShape {...props} toggle={toggle} isExternalService={isExternalService} />;
           }
           return (
             <Tooltip
               align="rightMiddle"
               themeStyle="unset"
-              content={<ServiceInformation service={node.data} applicationId={applicationId} serviceId={node.id} />}
+              content={
+                <ServiceInformation
+                  service={node.data}
+                  applicationId={applicationId}
+                  serviceId={node.id}
+                  isExternalService={isExternalService}
+                />
+              }
             >
-              <NodeShape {...props} toggle={toggle} />
+              <NodeShape {...props} toggle={toggle} isExternalService={isExternalService} />
             </Tooltip>
           );
         }}
@@ -65,9 +73,9 @@ export function NodeComponent(props) {
   );
 }
 
-function NodeShape({ node, serviceLocatorUid, toggle, power }) {
+function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }) {
   const maxSeverity = node.data.maxSeverity;
-  const iconSize = 24 + 24 * power;
+  const iconSize = isExternalService ? 16 + 12 * power : 24 + 24 * power;
   const kind = getButtonKindBySeverity(maxSeverity, 'healthy');
 
   return (
@@ -80,12 +88,20 @@ function NodeShape({ node, serviceLocatorUid, toggle, power }) {
       onMouseLeave={() => getServiceLocators(serviceLocatorUid).hiddenEntitiesServiceLocator.setHoveredNodeId(null)}
       onClick={toggle}
     >
-      <SvgIcon className={locals.icon} type={getIconByType(node)} width={iconSize} height={iconSize} />
+      <SvgIcon
+        className={locals.icon}
+        type={getIconByType(node, isExternalService)}
+        width={iconSize}
+        height={iconSize}
+      />
     </div>
   );
 }
 
-function getIconByType(node) {
+function getIconByType(node, isExternalService) {
+  if (isExternalService) {
+    return 'lib_views_cloud';
+  }
   const type = node.data.types ? node.data.types[0] : null;
   if (type === 'DATABASE') {
     return 'lib_application_endpoint_type_database';

@@ -10,16 +10,17 @@ import SparkChart from 'in-components/SparkChart';
 
 import locals from './ServiceInformation.mless';
 
-export default function ServiceInformation({ service, timeConfig, metricsResult }) {
+export default function ServiceInformation(props) {
+  const { service, metricsResult } = props;
   const isLoading = get(metricsResult, ['progress', 'loading'], false);
   const hasErrors = metricsResult.errors.length > 0;
   let content;
   if (hasErrors) {
     content = <ErroneousServiceInformation service={service} errors={metricsResult.errors} />;
   } else if (isLoading) {
-    content = <DefaultServiceInformation metricsResult={null} service={service} timeConfig={timeConfig} />;
+    content = <DefaultServiceInformation {...props} />;
   } else {
-    content = <DefaultServiceInformation metricsResult={metricsResult} service={service} timeConfig={timeConfig} />;
+    content = <DefaultServiceInformation {...props} />;
   }
 
   return content;
