@@ -40,8 +40,8 @@ export default class Remove extends React.PureComponent {
       <Fragment>
         <Spacer type="light" />
         <DescriptionText>
-          If you no longer wish to apply a custom rule to extract endpoints, please use the button below to remove it.
-          Removing a custom rule may take up to a few minutes.
+          If you wish to reset to default extractions rules, please use the button below. Resetting may take up to a few
+          minutes to register.
         </DescriptionText>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
         understand that this action cannot be undone.
@@ -52,7 +52,7 @@ export default class Remove extends React.PureComponent {
           onClick={this.remove}
           className={locals.removeButton}
         >
-          Remove Rule
+          Reset to default
         </Button>
       </Fragment>
     );

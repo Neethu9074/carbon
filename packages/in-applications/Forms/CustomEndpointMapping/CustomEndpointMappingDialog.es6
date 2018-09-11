@@ -1,5 +1,6 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
+import { withState } from 'recompose';
 import { get } from 'lodash';
 
 import {
@@ -22,15 +23,17 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './CustomEndpointMappingDialog.mless';
 
-export default function CustomEndpointMappingDialog({ location }) {
+export default withState('isNewConfig', 'setIsNewConfig', false)(CustomEndpointMappingDialog);
+function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) {
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
   return (
     <BasicForm
       title="Configure Endpoint Extraction"
-      saveButtonLabel="Save"
+      saveButtonLabel={isNewConfig ? 'Add' : 'Save'}
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
       getOnSavePath={() => `${serviceDashboard}/endpoints`}
       getEntity={() =>
@@ -39,6 +42,7 @@ export default function CustomEndpointMappingDialog({ location }) {
           for (let i = 0; i < errors.length; i++) {
             const error = errors[i];
             if (error.code === 'NOT_FOUND') {
+              setIsNewConfig(true);
               return {
                 progress: { loading: false },
                 errors: [],
@@ -49,7 +53,7 @@ export default function CustomEndpointMappingDialog({ location }) {
           return result;
         })
       }
-      updateEntity={config => (config.isNewRule ? addEndpointConfig(config) : updateEndpointConfig(config))}
+      updateEntity={config => (isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config))}
       getInitialForm={getInitialForm}
       renderFormContent={(config, form, setValue, updateForm) => {
         return (
@@ -57,15 +61,12 @@ export default function CustomEndpointMappingDialog({ location }) {
             <Steps
               steps={[
                 {
-                  stepTitle: 'Configure how Instana extracts endpoints from the underlying calls to this service.',
+                  stepTitle: 'Configure how endpoints are extracted from the underlying calls to this service.',
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        For example: key as
-                        {` "docker.label" `}
-                        and value as
-                        {` "environment=Production Blue"`}. Regular expressions can be used for the value. When all
-                        conditions specified here match a call, it will be considered part of this application.
+                        Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the
+                        first rule it matches. Once configured, new calls will be assigned according to updated rules.
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>
@@ -74,20 +75,21 @@ export default function CustomEndpointMappingDialog({ location }) {
                           onClick={() =>
                             setActiveDialog(
                               <EndpointExtractionRuleDialog
-                                ruleIndex={form.get('rules').size}
+                                ruleIndex={0}
                                 rules={form.get('rules')}
-                                onSave={_rule => {
-                                  const additionalSubForm = getConfigRuleForm(_rule);
+                                onSave={_rule =>
                                   updateForm(
-                                    form.updateIn(['rules'], list => list.push(additionalSubForm).setTouched(true))
-                                  );
-                                }}
+                                    form.updateIn(['rules'], list =>
+                                      list.unshift(getConfigRuleForm(_rule)).setTouched(true)
+                                    )
+                                  )
+                                }
                               />
                             )
                           }
                           icon="lib_openclose_add_circle_outline"
                         >
-                          Add Custom Rule
+                          Add Custom HTTP Rule
                         </Button>
                       </div>
 
@@ -110,35 +112,54 @@ export default function CustomEndpointMappingDialog({ location }) {
                         }
                       />
 
-                      <ExtractionRule
-                        rule={{
-                          query: 'Collected Path Template',
-                          enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
-                        }}
-                        onToggleEnable={enabled =>
-                          setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)
-                        }
-                        reorderable={false}
-                        isInstanaDefaultRule
-                      />
-                      <ExtractionRule
-                        rule={{
-                          query: '/*',
-                          enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
-                        }}
-                        onToggleEnable={enabled =>
-                          setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)
-                        }
-                        reorderable={false}
-                        isInstanaDefaultRule
-                      />
-                      <UnspecifiedExtractionRule />
+                      <Tooltip
+                        align="topMiddle"
+                        themeStyle="light"
+                        content="Extracts endpoints as specified in detected framework (if accessible)"
+                      >
+                        <ExtractionRule
+                          rule={{
+                            query: 'Detected Framework',
+                            enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
+                          }}
+                          onToggleEnable={enabled =>
+                            setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)
+                          }
+                          reorderable={false}
+                          isInstanaDefaultRule
+                        />
+                      </Tooltip>
+
+                      <Tooltip
+                        align="topMiddle"
+                        themeStyle="light"
+                        content="Extracts endpoints based on first path parameter"
+                      >
+                        <ExtractionRule
+                          rule={{
+                            query: '/*',
+                            enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
+                          }}
+                          onToggleEnable={enabled =>
+                            setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)
+                          }
+                          reorderable={false}
+                          isInstanaDefaultRule
+                        />
+                      </Tooltip>
+                      <Tooltip
+                        align="topMiddle"
+                        themeStyle="light"
+                        content="Calls that do not match a preceding rule are assigned to this endpoint"
+                      >
+                        <UnspecifiedExtractionRule />
+                      </Tooltip>
                     </Fragment>
                   )
                 }
               ]}
             />
-            {!config.isNewRule && <RemoveSection config={config} />}
+            {!isNewConfig && <RemoveSection config={config} />}
           </Fragment>
         );
       }}
@@ -171,12 +192,6 @@ function getInitialForm(config) {
       'serviceId',
       createField({
         value: config.serviceId
-      })
-    )
-    .put(
-      'isNewRule',
-      createField({
-        value: config.isNewRule
       })
     )
     .put(

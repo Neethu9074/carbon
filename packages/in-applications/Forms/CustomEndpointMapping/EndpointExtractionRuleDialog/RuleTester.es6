@@ -17,6 +17,9 @@ export default class RuleTester extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onSuccess$ = null;
+    this.onError$ = null;
+
     this.state = {
       testResult: null
     };
@@ -33,6 +36,14 @@ export default class RuleTester extends React.Component {
     if (this.signalSubscription) {
       this.signalSubscription.dispose();
       this.signalSubscription = null;
+    }
+    if (this.onSuccess$) {
+      this.onSuccess$.dispose();
+      this.onSuccess$ = null;
+    }
+    if (this.onError$) {
+      this.onError$.dispose();
+      this.onError$ = null;
     }
   }
 
@@ -116,19 +127,21 @@ export default class RuleTester extends React.Component {
       error: false
     });
 
-    result$.once(testResult => {
+    this.onSuccess$ = result$.once(testResult => {
       this.setState({
         testResult,
         loading: false,
         error: false
       });
+      this.onSuccess$ = null;
     });
 
-    result$.errors().once(() => {
+    this.onError$ = result$.errors().once(() => {
       this.setState({
         loading: false,
         error: true
       });
+      this.onError$ = null;
     });
   };
 

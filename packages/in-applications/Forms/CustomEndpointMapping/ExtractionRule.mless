@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
 
+    height: 4.75rem;
     padding: 1rem 0.5rem 1rem 1.5rem;
     margin-bottom: 0.5rem;
 
@@ -17,11 +18,6 @@
     border-radius: @lib__shapes__radius_large;
     font-size: 1rem;
     cursor: default;
-  }
-
-  .isInstanaDefaultRule {
-    border-left: 4px solid @lib__colors__primary1;
-    color: @lib__colors__N600Light;
   }
 
   .disabled {
@@ -74,7 +70,7 @@
   .notTestedTestResult,
   .failedTestResult,
   .queryNote {
-    margin: 0.25rem 0 0.4375rem;
+    margin-top: 0.25rem;
 
     color: @lib__colors__N600Light;
     font-weight: 300;

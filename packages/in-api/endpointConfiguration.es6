@@ -23,7 +23,7 @@ export function addEndpointConfig(config) {
   return http({
     method: 'POST',
     url: `/api/httpEndpointConfigs`,
-    data: mapToServerModel(config)
+    data: config
   }).map(response => deepFreeze(response.body));
 }
 
@@ -32,7 +32,7 @@ export function updateEndpointConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/httpEndpointConfigs/${config.serviceId}`,
-    data: mapToServerModel(config)
+    data: config
   }).map(response => deepFreeze(response.body));
 }
 
@@ -56,14 +56,8 @@ export function testRules(rules) {
 export function createNewEndpointConfig(serviceId) {
   return {
     serviceId,
-    isNewRule: true,
     endpointNameByFirstPathSegmentRuleEnabled: true,
     endpointNameByCollectedPathTemplateRuleEnabled: true,
     rules: []
   };
-}
-
-function mapToServerModel(config) {
-  delete config.isNewRule;
-  return config;
 }

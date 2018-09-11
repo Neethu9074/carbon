@@ -20,17 +20,12 @@ export default function ExtractionRule({
       className={evaluateClassNames({
         [locals.extractionRule]: true,
         [locals.reorderable]: reorderable,
-        [locals.isInstanaDefaultRule]: isInstanaDefaultRule,
         [locals.disabled]: !rule.enabled
       })}
     >
       <div className={locals.left}>
         <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
-        {isInstanaDefaultRule ? (
-          <span className={locals.queryNote}>INSTANA default rule</span>
-        ) : (
-          <TestResult testResult={testResult} rule={rule} />
-        )}
+        {!isInstanaDefaultRule && <TestResult testResult={testResult} rule={rule} />}
       </div>
 
       <div className={locals.right}>
@@ -38,7 +33,7 @@ export default function ExtractionRule({
         {!isInstanaDefaultRule && (
           <SvgIcon
             className={locals.icon}
-            type="lib_menu_more_vertical"
+            type="lib_actions_edit"
             width={24}
             height={24}
             onClick={isInstanaDefaultRule ? null : () => onClick(rule)}
@@ -52,7 +47,7 @@ export default function ExtractionRule({
 
 function TestResult({ testResult, rule }) {
   if (!rule.enabled) {
-    return <span className={locals.notTestedTestResult}>Disabled</span>;
+    return null;
   }
 
   if (rule.testCases.length === 0) {

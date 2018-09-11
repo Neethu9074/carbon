@@ -48,18 +48,21 @@ export default compose(
 )(Endpoints);
 
 function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
+  const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = (
     <Fragment>
-      {role.canConfigureServiceMapping && (
-        <Button
-          className={locals.button}
-          icon="lib_actions_settings"
-          kind="action"
-          href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
-        >
-          Configure Endpoints
-        </Button>
-      )}
+      {hasHttpType &&
+        role.canConfigureServiceMapping && (
+          <Button
+            className={locals.button}
+            icon="lib_actions_settings"
+            kind="action"
+            href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
+          >
+            Configure Endpoints
+          </Button>
+        )}
+
       <Filters
         endpointTypes={endpointTypes}
         restrictedEndpointTypes={data.types}

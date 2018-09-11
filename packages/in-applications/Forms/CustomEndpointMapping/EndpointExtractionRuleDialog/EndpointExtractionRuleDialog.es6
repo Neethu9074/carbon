@@ -22,7 +22,7 @@ export default function EndpointExtractionRuleDialog(props) {
       contentClassName={locals.content}
       customHeader={
         <Fragment>
-          <h3 className={locals.title}>Custom Rule</h3>
+          <h3 className={locals.title}>Custom HTTP Rule</h3>
           <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" width={32} height={32} onClick={close} />
         </Fragment>
       }
@@ -63,7 +63,10 @@ class BasicDialog extends React.Component {
                 autoFocus
               />
               <TouchedMessages field={field} />
-              <span className={locals.queryHelpText}>{`use {param} use *`}</span>
+              <span className={locals.queryHelpText}>{`Specify the path to match, eg. /api/{version}/*`}</span>
+              <span
+                className={locals.queryHelpText}
+              >{`Optionally, add test cases below to ensure the rule works as expected, eg. /api/v2/anything`}</span>
             </FormGroup>
           ))}
         </div>
