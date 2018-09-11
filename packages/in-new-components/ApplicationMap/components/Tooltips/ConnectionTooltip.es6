@@ -15,7 +15,10 @@ export default connectTo(
     ).hoveredConncetionsServiceLocator.getHoveredConnection$()
   }),
   function ConnectionTooltipMounter({ highlightedConnectionResult }) {
-    if (!highlightedConnectionResult) {
+    if (
+      !highlightedConnectionResult ||
+      (highlightedConnectionResult.screenHitPosition.x === 0 && highlightedConnectionResult.screenHitPosition === 0)
+    ) {
       return null;
     }
 
