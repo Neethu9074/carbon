@@ -46,21 +46,10 @@ export default function createConnectionsService(serviceLocatorUid, eventBusServ
   function initSubscriptions(hiddenEntitiesServiceLocator) {
     subscriber.addSubscriptions([
       combineLatest([
-        eventBusServiceLocator.on(SIGNALS.WORLD_UNITS).distinct((a, b) => a.aspectRatio !== b.aspectRatio),
-        events$.on('updateVertices')
-      ])
-        .debounce(100)
-        .subscribe(() => {
-          const vertices = updateVertices();
-          events$.emit('verticesUpdated', vertices);
-        }),
-      combineLatest([
         hiddenEntitiesServiceLocator.getResolvedId$(),
-        events$.on('verticesUpdated'),
-        events$.on('updateOpacity')
-      ]).subscribe(([hiddenIds, vertices]) => {
-        updateOpacities(hiddenIds, vertices);
-      })
+        eventBusServiceLocator.on(SIGNALS.WORLD_UNITS).distinct((a, b) => a.aspectRatio !== b.aspectRatio),
+        events$.on('updateVerticesAndOpacity')
+      ]).subscribe(([hiddenIds]) => updateVerticesAndOpacity(hiddenIds))
     ]);
   }
 
@@ -158,44 +147,26 @@ export default function createConnectionsService(serviceLocatorUid, eventBusServ
   }
 
   function updateGeometry() {
-    events$.emit('updateVertices', true);
-    events$.emit('updateOpacity', true);
+    events$.emit('updateVerticesAndOpacity', true);
   }
 
-  function updateVertices() {
+  function updateVerticesAndOpacity(hiddenIds) {
     const vertices = [];
-    let currentArrayIndex = 0;
+    const opacities = [];
+
+    let verticesArrayIndex = 0;
+    let opacityArrayIndex = 0;
     const iterator = connections.values();
     for (const connection of iterator) {
       const { from, to } = connection;
 
-      vertices[currentArrayIndex++] = from.node.position.x;
-      vertices[currentArrayIndex++] = from.node.position.y;
-      vertices[currentArrayIndex++] = 0;
-      vertices[currentArrayIndex++] = to.node.position.x;
-      vertices[currentArrayIndex++] = to.node.position.y;
-      vertices[currentArrayIndex++] = 0;
-    }
+      vertices[verticesArrayIndex++] = from.node.position.x;
+      vertices[verticesArrayIndex++] = from.node.position.y;
+      vertices[verticesArrayIndex++] = 0;
+      vertices[verticesArrayIndex++] = to.node.position.x;
+      vertices[verticesArrayIndex++] = to.node.position.y;
+      vertices[verticesArrayIndex++] = 0;
 
-    updateAttribute(geometry, 'position', vertices);
-
-    const scene = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene();
-    if (vertices.length === 0) {
-      scene.removeSceneObject(line);
-    } else {
-      scene.addSceneObject(line);
-    }
-    scene.requestRendering();
-    return vertices;
-  }
-
-  function updateOpacities(hiddenIds) {
-    const opacities = [];
-    let items = connections.values();
-
-    let currentArrayIndex = 0;
-    items = connections.values();
-    for (const connection of items) {
       let opacity;
       if (hiddenIds && hiddenIds.size > 0 && (hiddenIds.has(connection.from.id) || hiddenIds.has(connection.to.id))) {
         opacity = 0.05;
@@ -205,15 +176,21 @@ export default function createConnectionsService(serviceLocatorUid, eventBusServ
         connection.setParticlesOpacity(0.5);
       }
 
-      opacities[currentArrayIndex++] = opacity;
-      opacities[currentArrayIndex++] = opacity;
+      opacities[opacityArrayIndex++] = opacity;
+      opacities[opacityArrayIndex++] = opacity;
     }
 
+    updateAttribute(geometry, 'position', vertices);
     updateAttribute(geometry, 'opacity', opacities, 1);
 
-    getServiceLocators(serviceLocatorUid)
-      .sceneServiceLocator.getScene()
-      .requestRendering();
+    const scene = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene();
+    if (vertices.length === 0) {
+      scene.removeSceneObject(line);
+    } else {
+      scene.addSceneObject(line);
+    }
+
+    scene.requestRendering();
   }
 
   function dispose() {
