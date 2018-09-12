@@ -5,6 +5,7 @@ import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLoca
 import NodeSizeButton from 'in-new-components/ApplicationMap/components/NodeSizeButton';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import Button from 'in-new-components/MapControls/Button';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Controls.mless';
@@ -77,11 +78,13 @@ const TrafficButton = connectTo(
   }),
   function ParticlesButton({ isActive, onChangeUrlProperties }) {
     return (
-      <Button
-        icon="lib_actions_traffic"
-        onClick={() => onChangeUrlProperties({ traffic: !isActive })}
-        isActive={isActive}
-      />
+      <Tooltip themeStyle="light" content="Toggle dependent services outside this application">
+        <Button
+          icon="lib_actions_traffic"
+          onClick={() => onChangeUrlProperties({ traffic: !isActive })}
+          isActive={isActive}
+        />
+      </Tooltip>
     );
   }
 );
