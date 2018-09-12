@@ -9,6 +9,12 @@ let Appcues;
 // extra targeting properties which are asynchronously loaded
 const extraTargetingProperties = {};
 
+// Events which will be `Appcues.track`ed once Appcues is loaded
+const eventQueue = [];
+// A lot of events may be queued and never drained, e.g. for onprem. In order to not accumulated
+// an infinite amount of events, we just drop them when this threshold is exceeded.
+const maxEventQueueLength = 100;
+
 export function init() {
   if (window.Appcues) {
     onAppcuesLoaded();
@@ -67,4 +73,23 @@ function identify() {
 export function reportLicenseType(licenseType) {
   extraTargetingProperties.activeLicenseType = licenseType;
   identify();
+}
+
+export function track(name, properties) {
+  eventQueue.push({ name, properties });
+  if (eventQueue.length > maxEventQueueLength) {
+    eventQueue.shift();
+  }
+  drainEventQueue();
+}
+
+function drainEventQueue() {
+  if (!Appcues) {
+    return;
+  }
+
+  while (eventQueue.length > 0) {
+    const { name, properties } = eventQueue.shift();
+    Appcues.track(name, properties || {});
+  }
 }
