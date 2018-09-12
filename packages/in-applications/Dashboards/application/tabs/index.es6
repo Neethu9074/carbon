@@ -18,7 +18,7 @@ export default [
     component: Summary
   },
   (isInstanaEngineer || applicationMapEnabled) && {
-    label: 'Map',
+    label: 'Dependencies',
     path: `${applicationDashboard}/map`,
     component: Map,
     stickToHeader: true,
