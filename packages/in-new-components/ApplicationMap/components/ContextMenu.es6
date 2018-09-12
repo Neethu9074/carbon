@@ -4,7 +4,9 @@ import React from 'react';
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import getApplication from 'in-subscription/application/getApplication';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -12,10 +14,13 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ContextMenu.mless';
 
 export default connectTo(
-  ({ serviceLocatorUid }) => ({
-    isTrafficEnabled: getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC)
+  ({ applicationId, serviceLocatorUid }) => ({
+    isTrafficEnabled: getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
+    application: getApplication({
+      id: applicationId
+    }).map(result => result.data)
   }),
-  function ContextMenu({ applicationId, node, isTrafficEnabled }) {
+  function ContextMenu({ applicationId, application, node, isTrafficEnabled }) {
     // when traffic is disabled, we only see services filtered by this applicaiton id, therefore we can straight use it.
     // if traffic is enabled, the user wants to break the border of the application, therefore don't use a context at all.
     if (isTrafficEnabled) {
@@ -42,6 +47,18 @@ export default connectTo(
           href$={getServiceDashboard(node.id, { applicationId, tab: '/flowMap' })}
         >
           Go to Flowmap
+        </Button>
+
+        <Button
+          className={locals.button}
+          kind="subtle"
+          icon="lib_analyze"
+          href$={getLinkToAnalyze({
+            applicationName: isTrafficEnabled ? null : application.label,
+            serviceName: node.data.label
+          })}
+        >
+          Go to Analyze
         </Button>
 
         {openIssues > 0 && (
