@@ -89,20 +89,12 @@ function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }
       onMouseLeave={() => getServiceLocators(serviceLocatorUid).hiddenEntitiesServiceLocator.setHoveredNodeId(null)}
       onClick={toggle}
     >
-      <SvgIcon
-        className={locals.icon}
-        type={getIconByType(node, isExternalService)}
-        width={iconSize}
-        height={iconSize}
-      />
+      <SvgIcon className={locals.icon} type={getIconByType(node)} width={iconSize} height={iconSize} />
     </div>
   );
 }
 
-function getIconByType(node, isExternalService) {
-  if (isExternalService) {
-    return 'lib_views_cloud';
-  }
+function getIconByType(node) {
   const type = node.data.types ? node.data.types[0] : null;
   if (type === 'DATABASE') {
     return 'lib_application_endpoint_type_database';
