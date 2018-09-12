@@ -25,6 +25,7 @@ import { init as initTracking } from 'in-services/tracking/mixpanelTrackers';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
+import { init as initIsMonitoring } from 'in-stores/isMonitoring';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initAppcues } from 'in-services/tracking/appcues';
 import { init as initFaviconHandling } from 'in-services/favicon';
@@ -94,6 +95,7 @@ initErrorBoundary();
 initDebuggingBackchannel();
 initTracking();
 initAppcues();
+initIsMonitoring();
 
 ReactDOM.render(
   <Router history={history}>
