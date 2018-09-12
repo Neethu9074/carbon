@@ -54,7 +54,6 @@ export const twoZeroAppDataEnabled =
 export const twoZeroLearnMoreButtonEnabled = isFeatureFlagEnabled('twoZeroLearnMoreButtonEnabled');
 export const particlesInFlowMapEnabled = isFeatureFlagEnabled('particlesInFlowMapEnabled');
 
-export const applicationMapEnabled = isFeatureFlagEnabled('applicationMapEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
 export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;

@@ -7,8 +7,6 @@ import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
-import { applicationMapEnabled } from 'in-services/featureFlags';
-import { isInstanaEngineer } from 'in-stores/user';
 import { role } from 'in-stores/user';
 
 export default [
@@ -17,7 +15,7 @@ export default [
     path: `${applicationDashboard}/summary`,
     component: Summary
   },
-  (isInstanaEngineer || applicationMapEnabled) && {
+  {
     label: 'Dependencies',
     path: `${applicationDashboard}/map`,
     component: Map,
