@@ -103,12 +103,12 @@ const cols = [
 
 export default connectTo(
   {
-    rowsEuA: getHostsWithNomadContext('entity.zone:fleet*worker eu-west-1a'),
-    rowsUsA: getHostsWithNomadContext('entity.zone:fleet*worker us-west-2a'),
-    rowsEuB: getHostsWithNomadContext('entity.zone:fleet*worker eu-west-1b'),
-    rowsUsB: getHostsWithNomadContext('entity.zone:fleet*worker us-west-2b'),
-    rowsEuC: getHostsWithNomadContext('entity.zone:fleet*worker eu-west-1c'),
-    rowsUsC: getHostsWithNomadContext('entity.zone:fleet*worker us-west-2c')
+    rowsEuA: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1a'),
+    rowsUsA: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2a'),
+    rowsEuB: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1b'),
+    rowsUsB: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2b'),
+    rowsEuC: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1c'),
+    rowsUsC: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2c')
   },
   class QualityOfServiceStats extends React.Component {
     render() {
@@ -120,14 +120,14 @@ export default connectTo(
 
       return (
         <div>
-          <h1>Quality of Service - Fleet Worker (Regular/HighPerf)</h1>
-          <DashboardSection title={`Region A (${rowsA.length})`}>
+          <h1>Quality of Service - Fleet Worker</h1>
+          <DashboardSection title={`Availability Zone A (${rowsA.length})`}>
             <Table cols={cols} rows={rowsA} maxItemsPerPage={200} />
           </DashboardSection>
-          <DashboardSection title={`Region B (${rowsB.length})`}>
+          <DashboardSection title={`Availability Zone B (${rowsB.length})`}>
             <Table cols={cols} rows={rowsB} maxItemsPerPage={200} />
           </DashboardSection>
-          <DashboardSection title={`Region C (${rowsC.length})`}>
+          <DashboardSection title={`Availability Zone C (${rowsC.length})`}>
             <Table cols={cols} rows={rowsC} maxItemsPerPage={200} />
           </DashboardSection>
         </div>

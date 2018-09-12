@@ -34,10 +34,10 @@ export default function DevDashboard() {
           <a href="/#/internal/eumstats">Website Monitoring Processing</a>
         </li>
         <li>
-          <a href="/#/internal/qualityOfServiceStats">Quality Of Service Stats</a>
+          <a href="/#/internal/qualityOfServiceStats">Quality Of Service - Fleet Worker</a>
         </li>
         <li>
-          <a href="/#/internal/selfServiceQualityOfServiceStats">SelfService Quality Of Service Stats</a>
+          <a href="/#/internal/selfServiceQualityOfServiceStats">Quality Of Service - SelfService Fleet Worker</a>
         </li>
       </ul>
     </div>
