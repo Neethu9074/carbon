@@ -48,7 +48,7 @@ export function ConnectionTooltipContent({ connection, data }) {
     <ApplicationMapTootlip
       renderHeader={() => (
         <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.icon} type="lib_actions_traffic" width={20} height={20} />
+          <SvgIcon className={locals.icon} type="lib_application_connection" width={20} height={20} />
           <div className={locals.labelFlexWrapper}>
             <span className={locals.label}>{connection.from.node.data.label}</span>
             <span className={locals.label}>{connection.to.node.data.label}</span>

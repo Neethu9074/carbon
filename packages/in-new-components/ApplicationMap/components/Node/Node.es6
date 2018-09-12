@@ -82,6 +82,7 @@ function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }
     <div
       className={evaluateClassNames({
         [locals.shape]: true,
+        [locals.isExternal]: isExternalService,
         [locals[`health_${kind}`]]: true
       })}
       onMouseEnter={() => getServiceLocators(serviceLocatorUid).hiddenEntitiesServiceLocator.setHoveredNodeId(node.id)}
