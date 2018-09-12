@@ -46,7 +46,7 @@ export default connectTo(
           icon="lib_actions_flow_layout"
           href$={getServiceDashboard(node.id, { applicationId, tab: '/flowMap' })}
         >
-          Go to Flowmap
+          Go to Flow
         </Button>
 
         <Button
