@@ -137,7 +137,7 @@ class BasicDialog extends React.Component {
         list
           .push(
             createField({
-              value: ''
+              value: '/'
             })
           )
           .setTouched(true)
@@ -170,7 +170,7 @@ function getInitialForm(props) {
         (form, testCase) =>
           form.push(
             createField({
-              value: testCase || ''
+              value: testCase || '/'
             })
           ),
         createListForm({})
