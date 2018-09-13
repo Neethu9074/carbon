@@ -32,14 +32,17 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      {getPerformanceSchemaHint(snapshot)}
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Queries">
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
         </KpiKeyValue>
-        <KpiKeyValue label="avg. Query Latency">
-          <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={msZeroDecimalPlaces} />
-        </KpiKeyValue>
+        {performanceDataAvailable ? (
+          <KpiKeyValue label="avg. Query Latency">
+            <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={msZeroDecimalPlaces} />
+          </KpiKeyValue>
+        ) : null}
         <KpiKeyValue label="Client Connections">
           <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" />
         </KpiKeyValue>
@@ -143,4 +146,19 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
     </div>
   );
+}
+
+function getPerformanceSchemaHint(snapshot) {
+  const sensorPerformanceSchemaStatus = snapshot.getIn(['data', 'sensorPerformanceSchemaStatus']);
+
+  if (sensorPerformanceSchemaStatus !== 'OK') {
+    return (
+      <DashboardNotification type="info">
+        {sensorPerformanceSchemaStatus} In order to enable Average Query Latency and Wait Events metrics, access to this
+        table needs to be granted. Please contact us for installation support or refer to the{' '}
+        <a href="https://docs.instana.io/ecosystem/mysql/#configuration">Instana MySql Sensor configuration</a>.
+      </DashboardNotification>
+    );
+  }
+  return null;
 }
