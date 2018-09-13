@@ -1,4 +1,5 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
+import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 import { get } from 'lodash';
@@ -36,23 +37,27 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
       saveButtonLabel={isNewConfig ? 'Add' : 'Save'}
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
       getOnSavePath={() => `${serviceDashboard}/endpoints`}
-      getEntity={() =>
-        getEndpointConfig(serviceId).map(result => {
+      getEntity={() => {
+        if (isNewConfig) {
+          return just(isNewConfig);
+        }
+        return getEndpointConfig(serviceId).map(result => {
           const errors = result.errors || [];
           for (let i = 0; i < errors.length; i++) {
             const error = errors[i];
             if (error.code === 'NOT_FOUND') {
-              setIsNewConfig(true);
-              return {
+              const newConfig = {
                 progress: { loading: false },
                 errors: [],
                 data: createNewEndpointConfig(serviceId)
               };
+              setIsNewConfig(newConfig);
+              return newConfig;
             }
           }
           return result;
-        })
-      }
+        });
+      }}
       updateEntity={config => (isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config))}
       getInitialForm={getInitialForm}
       renderFormContent={(config, form, setValue, updateForm) => {
