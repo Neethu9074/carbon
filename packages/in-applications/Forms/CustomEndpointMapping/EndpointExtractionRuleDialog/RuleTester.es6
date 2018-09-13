@@ -103,7 +103,9 @@ export default class RuleTester extends React.Component {
     const form = this.props.form;
 
     const testCases = form.get('testCases').map(testCaseField => testCaseField.value);
-    if (testCases.size === 0) {
+    const query = form.get('query').value;
+
+    if (testCases.size === 0 || !query) {
       this.setState({
         testResult: null,
         loading: false,
@@ -112,7 +114,6 @@ export default class RuleTester extends React.Component {
       return;
     }
 
-    const query = form.get('query').value;
     let rulesToCheck = this.getRulesToCheck(testCases);
     rulesToCheck.push({
       enabled: true,

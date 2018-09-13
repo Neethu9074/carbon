@@ -15,6 +15,8 @@ export default class DragAndDropRuleList extends React.Component {
   constructor(props) {
     super(props);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.onSuccess$ = null;
+    this.onError$ = null;
 
     this.state = {
       testResult: null
@@ -28,6 +30,17 @@ export default class DragAndDropRuleList extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.form !== this.props.form) {
       this.testRules();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.onSuccess$) {
+      this.onSuccess$.dispose();
+      this.onSuccess$ = null;
+    }
+    if (this.onError$) {
+      this.onError$.dispose();
+      this.onError$ = null;
     }
   }
 
@@ -83,6 +96,14 @@ export default class DragAndDropRuleList extends React.Component {
   testRules = () => {
     const form = this.props.form;
     const rulesToCheck = form.get('rules').toJS();
+    if (rulesToCheck.length === 0) {
+      this.setState({
+        testResult: null,
+        loading: false,
+        error: false
+      });
+      return;
+    }
 
     const result$ = testRules(rulesToCheck);
     this.setState({
@@ -91,19 +112,21 @@ export default class DragAndDropRuleList extends React.Component {
       error: false
     });
 
-    result$.once(testResult => {
+    this.onSuccess$ = result$.once(testResult => {
       this.setState({
         testResult,
         loading: false,
         error: false
       });
+      this.onSuccess$ = null;
     });
 
-    result$.errors().once(() => {
+    this.onError$ = result$.errors().once(() => {
       this.setState({
         loading: false,
         error: true
       });
+      this.onError$ = null;
     });
   };
 
