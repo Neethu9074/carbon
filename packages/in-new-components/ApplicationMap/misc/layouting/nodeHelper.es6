@@ -1,9 +1,7 @@
-const DISCONNECTED_NODES_RANK = -10;
-const UNKNOWN_NODES_RANK = -5;
+const DISCONNECTED_NODES_RANK = -1;
 const DEFAULT_NODES_RANK = 0;
-const DISTANCE_BETWEEN_ROWS = 4;
-const DISTANCE_BETWEEN_COLUMNS = 20;
-const DISTANCE_OF_UNCONNECTED_NODES = 3;
+const DISTANCE_BETWEEN_ROWS = 2.5;
+const DISTANCE_BETWEEN_COLUMNS = 8;
 
 export function transformNodes(_nodes, _edges) {
   const LUT = {};
@@ -82,18 +80,11 @@ export function calcRanks(nodes, vizceralPosition) {
     const position = vizceralPosition[node.name];
     let isDisconnected = false;
 
-    if (
-      !position ||
-      (node.outgoingConnections.length === 0 &&
-        node.incomingConnections.length === 1 &&
-        isUnknown(node.incomingConnections[0]))
-    ) {
+    if (!position || (node.outgoingConnections.length === 0 && node.incomingConnections.length === 1)) {
       isDisconnected = true;
     }
 
-    if (isUnknown(node)) {
-      node.rank = UNKNOWN_NODES_RANK;
-    } else if (isDisconnected) {
+    if (isDisconnected) {
       node.rank = DISCONNECTED_NODES_RANK;
     } else {
       node.rank = position.x;
@@ -122,7 +113,6 @@ export function applyRanks(nodes, nodesLUT, edges, edgesLUT) {
 
   applyColumns(nodesLUT, sortedColumns, edgesLUT);
   applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
-  applyUnknown(nodesLUT, columns[UNKNOWN_NODES_RANK], edgesLUT);
 }
 
 function applyColumns(nodesLUT, columns, edgesLUT) {
@@ -176,23 +166,11 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
 
 function applyDisconnected(disconnectedNodes) {
   if (disconnectedNodes) {
-    const x = -5 * DISTANCE_OF_UNCONNECTED_NODES;
+    const x = -DISTANCE_BETWEEN_COLUMNS;
     for (let iN = 0, lengthN = disconnectedNodes.nodes.length; iN < lengthN; iN++) {
       const node = disconnectedNodes.nodes[iN];
       node.x = x;
       node.y = iN * DISTANCE_BETWEEN_ROWS;
-    }
-  }
-}
-
-function applyUnknown(nodesLUT, unknownNodes, edgesLUT) {
-  if (unknownNodes) {
-    for (let iN = 0, lengthN = unknownNodes.nodes.length; iN < lengthN; iN++) {
-      const node = unknownNodes.nodes[iN];
-      const connectedNode = nodesLUT[edgesLUT.outgoing[node.name]];
-
-      node.x = connectedNode ? connectedNode.x - DISTANCE_OF_UNCONNECTED_NODES : -DISTANCE_OF_UNCONNECTED_NODES;
-      node.y = connectedNode ? connectedNode.y : iN * 2;
     }
   }
 }
@@ -274,8 +252,4 @@ export function addConnected(node, graph) {
       target: node.inNode.id
     });
   }
-}
-
-function isUnknown(node) {
-  return node.inNode.isUnknown;
 }
