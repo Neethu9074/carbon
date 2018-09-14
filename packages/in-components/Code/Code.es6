@@ -77,7 +77,8 @@ export default class extends React.PureComponent {
         // Happened in Safari on 2016-11-08.
       }
     }
-    codeElement.textContent = code;
+    // trailing line breaks break the prism highlight line plugin. So replace any trailing line breaks…
+    codeElement.textContent = code.replace(/\s+$/, '');
     Prism.highlightElement(codeElement);
 
     if (this.props.scrollElementClassName) {
