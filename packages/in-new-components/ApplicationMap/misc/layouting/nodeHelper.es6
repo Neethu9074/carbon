@@ -1,7 +1,7 @@
 const DISCONNECTED_NODES_RANK = -1;
 const DEFAULT_NODES_RANK = 0;
-const DISTANCE_BETWEEN_ROWS = 2.5;
-const DISTANCE_BETWEEN_COLUMNS = 8;
+const DISTANCE_BETWEEN_ROWS = 3;
+const DISTANCE_BETWEEN_COLUMNS = 10;
 
 export function transformNodes(_nodes, _edges) {
   const LUT = {};
