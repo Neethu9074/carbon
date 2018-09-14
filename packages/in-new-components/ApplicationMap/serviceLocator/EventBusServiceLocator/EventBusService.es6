@@ -14,6 +14,7 @@ export const SIGNALS = {
   STATE_UPDATED: 'stateUpdated',
   SEARCH: 'search',
   MOUSE_MOVE: 'mouseMove',
+  CLICKED: 'clicked',
   SIZING_METRIC: 'sizingMetric',
   POWER_FUNCTIONS: 'power'
 };

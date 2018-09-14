@@ -17,6 +17,7 @@ export default class _Scene {
     this.canvas = canvas;
     this.shouldRenderScene = true;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
+    this.isHoveringConnection = false;
   }
 
   init() {
@@ -30,19 +31,18 @@ export default class _Scene {
   }
 
   initSubscriptions() {
+    const eventBusServiceLocator = getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator;
+
     this.subscriber = new Subscriber();
     this.subscriber.addSubscriptions([
-      getServiceLocators(this.serviceLocatorUid)
-        .eventBusServiceLocator.on(SIGNALS.RESIZE)
+      eventBusServiceLocator
+        .on(SIGNALS.RESIZE)
         .subscribe(dimensions => this.setSize(dimensions.width, dimensions.height)),
 
-      combineLatest([
-        getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.RESIZE),
-        getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.CAMERA_UPDATE)
-      ])
+      combineLatest([eventBusServiceLocator.on(SIGNALS.RESIZE), eventBusServiceLocator.on(SIGNALS.CAMERA_UPDATE)])
         .map(([{ width }, camera]) => {
           const worldUnits = {
-            unitsPerPixel: camera.camera.right * 2 / width,
+            unitsPerPixel: (camera.camera.right * 2) / width,
             aspectRatio: camera.aspect
           };
 
@@ -55,9 +55,7 @@ export default class _Scene {
 
           return worldUnits;
         })
-        .subscribe(units =>
-          getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.WORLD_UNITS, units)
-        )
+        .subscribe(units => eventBusServiceLocator.emit(SIGNALS.WORLD_UNITS, units))
     ]);
   }
 

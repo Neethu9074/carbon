@@ -18,6 +18,7 @@ export default class CameraController {
     this.maxZoomLevel = 300;
     this.cameraZoomSpeed = 8;
     this.unitsPerPixel = 0.03; // heuristic initial value
+    this.isHoveringConnection = false;
 
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };
@@ -43,7 +44,15 @@ export default class CameraController {
         .on(SIGNALS.LAYOUT)
         .distinct((a, b) => a.layouter !== b.layouter)
         .subscribe(setToMapCentralPositionAndAdaptZoom),
-      eventBusServiceLocator.on(SIGNALS.WORLD_UNITS).subscribe(updatePanningSpeed)
+
+      eventBusServiceLocator.on(SIGNALS.WORLD_UNITS).subscribe(updatePanningSpeed),
+
+      getServiceLocators(this.serviceLocatorUid)
+        .hoveredConncetionsServiceLocator.getHoveredConnection$()
+        .subscribe(isHoveringConnection => {
+          this.overlayDomElement.style.cursor = isHoveringConnection ? 'pointer' : 'auto';
+          this.isHoveringConnection = isHoveringConnection;
+        })
     ]);
 
     this.addPanSupport();
@@ -58,6 +67,7 @@ export default class CameraController {
       threshold: 5 // in px
     });
     eventHandler.on('pan', this.onPan.bind(this));
+    eventHandler.on('tap', this.onTab.bind(this));
   }
 
   addScrollSupport() {
@@ -94,6 +104,15 @@ export default class CameraController {
     this.cursor.y = pointer.clientY;
 
     this.scene.requestRendering();
+  }
+
+  onTab() {
+    if (this.isHoveringConnection) {
+      getServiceLocators(this.serviceLocatorUid).hoveredConncetionsServiceLocator.setClickedConnection(
+        this.isHoveringConnection
+      );
+    }
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.CLICKED, true);
   }
 
   onPanStart(event) {
