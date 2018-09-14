@@ -4,6 +4,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/awsLambda/Info';
+import TriggersList from './TriggersList';
 
 export default function AwsLambdaSidebar({ snapshot }) {
   return (
@@ -18,6 +19,8 @@ export default function AwsLambdaSidebar({ snapshot }) {
       </Collapsible>
 
       <TagList snapshot={snapshot} />
+
+      <TriggersList snapshotId={snapshot.get('id')} />
     </div>
   );
 }
