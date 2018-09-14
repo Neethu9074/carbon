@@ -11,22 +11,25 @@ export default function createHoveredConncetionsService(
   let screenSpaceCursorPosition = { x: 0, y: 0 };
   let screenHitPosition = new Vector3();
   let raycaster = new Raycaster();
+  let clickedConnectionId = null;
   let result = {};
   raycaster.linePrecision = 0.3;
 
   let hoveredConnection$ = combineLatest([
     eventBusServiceLocator.on(SIGNALS.MOUSE_MOVE),
-    connectionsServiceLocator.getConnections$()
+    connectionsServiceLocator.getConnections$(),
+    eventBusServiceLocator.on(SIGNALS.CLICKED).startWith(true)
   ])
     .debounce(50)
     .map(([{ x, y }, connections]) => {
       const camera = sceneServiceLocator.getScene().camera;
       if (!camera) {
+        clickedConnectionId = null;
         return null;
       }
 
       // transform into screen space
-      screenSpaceCursorPosition.x = x / camera.width * 2 - 1;
+      screenSpaceCursorPosition.x = (x / camera.width) * 2 - 1;
       screenSpaceCursorPosition.y = -(y / camera.height) * 2 + 1;
 
       // update raycaster
@@ -48,15 +51,24 @@ export default function createHoveredConncetionsService(
           screenHitPosition.y = (-screenHitPosition.y * 0.5 + 0.5) * camera.height;
 
           result.screenHitPosition = screenHitPosition;
+          result.enabled = clickedConnectionId && clickedConnectionId === result.connection.id;
+          if (!result.enabled) {
+            clickedConnectionId = null;
+          }
           return result;
         }
       }
 
+      clickedConnectionId = null;
       return null;
     });
 
   function getHoveredConnection$() {
     return hoveredConnection$;
+  }
+
+  function setClickedConnection(result) {
+    clickedConnectionId = result.connection.id;
   }
 
   function dispose() {
@@ -68,6 +80,7 @@ export default function createHoveredConncetionsService(
 
   return {
     getHoveredConnection$,
+    setClickedConnection,
     dispose
   };
 }

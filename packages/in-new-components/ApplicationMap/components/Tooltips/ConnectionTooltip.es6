@@ -17,6 +17,7 @@ export default connectTo(
   function ConnectionTooltipMounter({ highlightedConnectionResult }) {
     if (
       !highlightedConnectionResult ||
+      !highlightedConnectionResult.enabled ||
       (highlightedConnectionResult.screenHitPosition.x === 0 && highlightedConnectionResult.screenHitPosition === 0)
     ) {
       return null;

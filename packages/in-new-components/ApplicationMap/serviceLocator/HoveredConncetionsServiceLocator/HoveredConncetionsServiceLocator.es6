@@ -9,4 +9,8 @@ export default class HoveredConncetionsServiceLocator extends BaseServiceLocator
   getHoveredConnection$(id) {
     return this.service.getHoveredConnection$(id);
   }
+
+  setClickedConnection(connection) {
+    return this.service.setClickedConnection(connection);
+  }
 }
