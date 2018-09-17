@@ -10,29 +10,27 @@
     "build": "export BUILD_DEV='false' && gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "test": "yarn run test:unit && yarn run test:lint && yarn run test:flow",
-    "test:lint": "eslint --ext .es6 in-* gulpfile.js packages",
-    "test:unit":
-      "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
+    "test:lint": "eslint --ext .es6 gulpfile.js packages",
+    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
     "test:flow": "flow check",
-    "check:updates": "ncu",
     "check:licenses": "license-checker --production > licenses.txt",
-    "check:bundle-size":
-      "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
+    "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "dev":
-      "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
-    "storybook":
-      "export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && start-storybook -p 9001 -c storybook/config",
+    "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
+    "storybook": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && start-storybook -p 9001 -c storybook/config",
     "storybookBuild": "gulp prepareTestExecution && build-storybook -c storybook/config -o storybookTarget",
     "translateIconRegistry": "node packages/in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{es6,less}\"",
     "postinstall": "./build/postInstall",
-    "precommit":
-      "yarn run check:yarn-lock-exists && yarn run test:unit && markdown-toc -i README.md && git add README.md && lint-staged"
+    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && markdown-toc -i README.md && git add README.md && lint-staged"
   },
   "lint-staged": {
-    "*.es6": ["eslint --ext .es6", "prettier --single-quote --print-width 120 --write", "git add"]
+    "*.es6": [
+      "eslint --ext .es6",
+      "prettier --single-quote --print-width 120 --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -51,7 +49,7 @@
     "eventemitter3": "^2.0.3",
     "favico.js": "^0.3.10",
     "fbjs": "^0.8.3",
-    "formalistic": "^1.6.0",
+    "formalistic": "^1.8.0",
     "hammerjs": "^2.0.4",
     "immutable": "^3.8.1",
     "invariant": "^2.2.1",
@@ -65,11 +63,12 @@
     "prismjs": "^1.5.1",
     "prop-types": "^15.5.8",
     "qs": "^6.4.0",
-    "react": "^16.0.0",
+    "react": "^16.4.2",
     "react-addons-shallow-compare": "^15.6.2",
+    "react-beautiful-dnd": "^9.0.2",
     "react-codemirror": "^1.0.0",
     "react-day-picker": "^7.0.3",
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.4.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-motion": "^0.4.4",
     "react-router": "^4.1.1",
@@ -92,7 +91,7 @@
     "babel": "^6.0.0",
     "babel-cli": "^6.0.0",
     "babel-core": "^6.0.0",
-    "babel-eslint": "^7.2.2",
+    "babel-eslint": "^9.0.0",
     "babel-loader": "^7.1.0",
     "babel-plugin-check-es2015-constants": "^6.22.0",
     "babel-plugin-preval": "^1.6.0",
@@ -134,12 +133,11 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "es6-map": "^0.1.5",
-    "eslint": "^3.10.2",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype": "^2.40.1",
-    "eslint-plugin-flowtype-errors": "^3.3.6",
-    "eslint-plugin-mocha": "^4.7.0",
-    "eslint-plugin-react": "^6.7.1",
+    "eslint": "^5.5.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-mocha": "^5.2.0",
+    "eslint-plugin-react": "^7.11.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.1",
@@ -147,12 +145,10 @@
     "gulp": "^3.8.10",
     "gulp-cssnano": "^2.1.2",
     "gulp-size": "^2.0.0",
-    "gulp-util": "^3.0.3",
     "html-loader": "^0.4.5",
     "husky": "^0.13.1",
     "image-webpack-loader": "^3.3.1",
     "inquirer": "^0.9.0",
-    "instana-nodejs-sensor": "next",
     "jsdom": "^11.5.1",
     "json-loader": "^0.5.4",
     "less": "^2.3.1",
@@ -165,7 +161,6 @@
     "mkdirp": "^0.5.1",
     "mocha": "^3.3.0",
     "node-libs-browser": "^0.5.2",
-    "npm-check-updates": "2.11.0",
     "opn": "3.0.3",
     "postcss-loader": "^2.0.1",
     "prettier": "^1.8.2",
@@ -183,6 +178,7 @@
     "url-loader": "^0.5.5",
     "webpack": "^3.5.5",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.7.1",
+    "worker-loader": "^2.0.0"
   }
 }

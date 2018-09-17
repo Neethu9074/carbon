@@ -29,7 +29,7 @@ export default function EditGroupForm(props) {
             />
           ))}
 
-          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
+          <CustomKeySection {...props} node={node} onChange={onChange} />
         </FlexWrapper>
       </NamedSection>
     </Fragment>

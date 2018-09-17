@@ -5,6 +5,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import { role } from 'in-stores/user';
 
 // the following components are all part of the same bundle (application)
+import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMappingDialog';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
@@ -22,7 +23,8 @@ import {
   endpointDashboard,
   newApplicationView,
   newApplicationWaiterView,
-  newServiceView
+  newServiceView,
+  configureEndpointsView
 } from 'in-applications/navigation/paths';
 
 export default (
@@ -33,7 +35,10 @@ export default (
     <Route path={`${newApplicationWaiterView}/:appId`} component={createAsyncViewComponent(NewApplicationWaiter)} />
 
     {role.canConfigureServiceMapping && (
-      <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
+      <Fragment>
+        <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
+        <Route path={configureEndpointsView} component={createAsyncViewComponent(CustomEndpointMapping)} />
+      </Fragment>
     )}
 
     <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />

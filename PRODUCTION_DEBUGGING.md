@@ -33,7 +33,13 @@ instructions are transmitted with the post request `see the -d parameter`.
     // This is optional and not defining any paths means that no filtering will be applied.
     // Note that this might in turn result in too much data which might in itself result in problems.
     "paths": [
-      ["subscriptions", "counts"]
+      ["href"],
+      ["storeStates"],
+      ["visibilityState"],
+      ["windowOpenTime"],
+      ["subscriptions"],
+      ["perSubscriptionCounts"],
+      ["transport"]
     ]
   },
 
@@ -52,12 +58,21 @@ curl -X POST <ui-backend>:<admin-port>/admin/get-ui-debug-data -v --header "Cont
 {
   "selector": {
     "paths": [
-      ["subscriptions", "counts"],
-      ["href"]
+      ["href"],
+      ["visibilityState"],
+      ["windowOpenTime"],
+      ["perSubscriptionCounts"],
+      ["transport"]
     ]
   }
-}
-'
+}'
+```
+
+Which will result in log output like this:
+
+```
+2018-09-05 06:41:16,068 [vert.x-eventloop-thread-1] DEBUG c.i.ui.service.UiDebuggingService - Debugging data from stan@instana.com (role: Owner): {"visibilityState":"visible","role":{"id":"-1","name":"Owner","implicitViewFilter":"","canConfigureServiceMapping":true,"canConfigureEumApplications":true,"canConfigureUsers":true,"canInstallNewAgents":true,"canSeeUsageInformation":true,"canConfigureIntegrations":true,"canSeeOnPremLicenseInformation":true,"canConfigureRoles":true,"canConfigureCustomAlerts":true,"canConfigureApiTokens":true,"canConfigureAgentRunMode":true,"canViewAuditLog":true,"canConfigureObjectives":true,"canConfigureAgents":true,"canConfigureAuthenticationMethods":true,"canConfigureApplications":true},"windowOpenTime":"9s","perSubscriptionCounts":{"subscribe-view":1,"subscribe-snapshot":157,"subscribe-ui-debugging-instructions":1,"subscribe-usage-info":1,"subscribe-health-info":138,"subscribe-is-monitoring":1,"subscribe-raw-events-count":1,"subscribe-message":1,"timestamp":1},"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36","href":"https://local-instana.instana.io:4000/#/physical?timeline.to&timeline.ws=3600000&v2=true","transport":{"metrics":{"maxSubscriptionId":303,"connectionAttempts":1,"received":222,"transmitted":303},"type":"websocket","url":"wss://local-instana.instana.io:4000/api/data/076/soyqvymm/websocket"},"user":"stan@instana.com"}
+
 ```
 
 ## Signing out all users

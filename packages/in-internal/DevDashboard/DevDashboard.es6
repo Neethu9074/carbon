@@ -22,7 +22,10 @@ export default function DevDashboard() {
           <a href="/#/internal/fillerSpanProcessingStats">App 1.0 Data Processing</a>
         </li>
         <li>
-          <a href="/#/internal/appdata">App 2.0 Data Processing</a>
+          <a href="/#/internal/appdataProcessing">App 2.0 Data Processing</a>
+        </li>
+        <li>
+          <a href="/#/internal/appdata">App 2.0 Data Reading & Writing</a>
         </li>
         <li>
           <a href="/#/internal/appDataQueryPerformance">App 2.0 Query Performance</a>
@@ -31,7 +34,10 @@ export default function DevDashboard() {
           <a href="/#/internal/eumstats">Website Monitoring Processing</a>
         </li>
         <li>
-          <a href="/#/internal/qualityOfServiceStats">Quality Of Service Stats</a>
+          <a href="/#/internal/qualityOfServiceStats">Quality Of Service - Fleet Worker</a>
+        </li>
+        <li>
+          <a href="/#/internal/selfServiceQualityOfServiceStats">Quality Of Service - SelfService Fleet Worker</a>
         </li>
       </ul>
     </div>

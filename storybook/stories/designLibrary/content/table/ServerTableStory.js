@@ -11,7 +11,7 @@ import Root from '../../../_helpers/Root';
 
 const onChange = action('onChange');
 
-storiesOf('designLibrary/Content/table/ServerTable', module)
+storiesOf('designLibrary/Content/table/Server-Table', module)
   .addDecorator(withKnobs)
   .add('Pending', () => <Pending />)
   .add('Error', () => <Error />)

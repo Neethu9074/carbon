@@ -7,7 +7,6 @@ import {
   BufferAttribute as ThreeBufferAttribute,
   BufferGeometry as ThreeBufferGeometry,
   ClampToEdgeWrapping as ThreeClampToEdgeWrapping,
-  ColladaLoader as ThreeColladaLoader,
   Color as ThreeColor,
   DefaultLoadingManager as ThreeDefaultLoadingManager,
   DirectionalLight as ThreeDirectionalLight,
@@ -74,7 +73,6 @@ export const AnimationClip = ThreeAnimationClip;
 export const AnimationMixer = ThreeAnimationMixer;
 
 export const LoadingManager = ThreeLoadingManager;
-export const ColladaLoader = ThreeColladaLoader;
 export const SkinnedMesh = ThreeSkinnedMesh;
 export const AmbientLight = ThreeAmbientLight;
 export const BoxGeometry = ThreeBoxGeometry;

@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -16,11 +17,9 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
-import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -185,18 +184,7 @@ const columnDefinitions = [
     sortable: false,
     noWrap: true,
     getContent(item) {
-      return (
-        <Fragment>
-          {item.service.types
-            .slice()
-            .sort()
-            .map(type => (
-              <Badge color={getColor(type)} key={type}>
-                {type}
-              </Badge>
-            ))}
-        </Fragment>
-      );
+      return <EndpointTypeBadgeList types={item.service.types} />;
     }
   },
   {

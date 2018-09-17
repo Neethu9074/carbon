@@ -6,7 +6,7 @@ import SparkChart from 'in-components/SparkChart';
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/SparkChart', module).add('SparkChart', () => <SparkChartStory />);
+storiesOf('designLibrary/Components/Spark Chart', module).add('SparkChart', () => <SparkChartStory />);
 
 function SparkChartStory() {
   const lotsOfMetrics = [];
@@ -22,6 +22,8 @@ function SparkChartStory() {
 
       <Section title="Missing Data">
         <SparkChart timeConfig={{ windowSize: 60000, to: 60000 }} metrics={[]} />
+        <SparkChart timeConfig={{ windowSize: 60000, to: 60000 }} metrics={[]} horizontalMetricValue="12,435" />
+        <SparkChart timeConfig={{ windowSize: 60000, to: 60000 }} metrics={[]} verticalMetricValue="12,435" />
       </Section>
 
       <Section title="With Data">

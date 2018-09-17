@@ -6,7 +6,7 @@ import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import Root from '../../../_helpers/Root';
 
-storiesOf('designLibrary/Components/Time/TimeSelectionDialog', module)
+storiesOf('designLibrary/Components/Time/Time-Selection Dialog', module)
   .add('default', () => <Default />)
   .add('Past Live', () => <PastLive />);
 

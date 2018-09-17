@@ -1,49 +1,38 @@
 import { compose } from 'recompose';
+import { get } from 'lodash';
 import React from 'react';
 
 import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(({ filters, tagName }) => ({
-    tagValueSuggestions: getTagSuggestions({
+    tagSuggestionResult: getTagSuggestions({
       filter: {
         timeConfig: filters.get('timeConfig')
       },
-      tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+      tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
       tagName,
       secondLevelKeyTagName: null,
       valueFilter: null
-    })
-      .startWith(null)
-      .map(getTagSuggestionItems)
+    }).startWith(null)
   }))
 )(ApplicationServiceEndpointSuggestions);
 
 function ApplicationServiceEndpointSuggestions(props) {
-  let { icon, tagValueSuggestions } = props;
+  let { icon, tagSuggestionResult } = props;
 
-  if (tagValueSuggestions) {
-    tagValueSuggestions = tagValueSuggestions.map(suggestion => ({ value: suggestion, label: suggestion, icon }));
+  if (tagSuggestionResult) {
+    const error = get(tagSuggestionResult, ['errors', 'length']) > 0;
+    const loading = get(tagSuggestionResult, ['progress', 'loading'], false);
+    const tagSuggestions = get(tagSuggestionResult, ['data', 'suggestions'], []).map(suggestion => ({
+      value: suggestion,
+      label: suggestion,
+      icon
+    }));
+
+    return <SearchableList {...props} error={error} loading={loading} items={tagSuggestions} />;
   }
-
-  return <SearchableList {...props} items={tagValueSuggestions} />;
-}
-
-function getTagSuggestionItems(tagSuggestionResult) {
-  if (!tagSuggestionResult) {
-    return null;
-  }
-
-  if (tagSuggestionResult.errors.length > 0) {
-    return [];
-  }
-
-  if (!tagSuggestionResult.data) {
-    return null;
-  }
-
-  return tagSuggestionResult.data.suggestions;
 }

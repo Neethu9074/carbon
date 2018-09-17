@@ -22,7 +22,9 @@ export default function EmptyAppList() {
           Create Application Perspective
         </Button>
       ) : (
-        <p>They will appear here once an account administrator creates them. Until then, click on Services above.</p>
+        <p className={locals.text}>
+          They will appear here once an account administrator creates them. Until then, click on Services above.
+        </p>
       )}
     </div>
   );

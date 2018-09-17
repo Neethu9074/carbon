@@ -6,6 +6,7 @@ import MessagesTab from 'in-applications/Dashboards/commonTabs/messages/Messages
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationDashboard } from 'in-applications/navigation/paths';
+import Map from 'in-applications/Dashboards/application/tabs/Map';
 import { role } from 'in-stores/user';
 
 export default [
@@ -13,6 +14,13 @@ export default [
     label: 'Summary',
     path: `${applicationDashboard}/summary`,
     component: Summary
+  },
+  {
+    label: 'Dependencies',
+    path: `${applicationDashboard}/map`,
+    component: Map,
+    stickToHeader: true,
+    isFullWidth: true
   },
   {
     label: 'Services',

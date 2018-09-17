@@ -7,7 +7,7 @@ import registry from 'in-applications/technologyRegistry';
 import Section from '../../_helpers/Section';
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Components/TechnologyIndicator', module).add('TechnologyIndicator', () => (
+storiesOf('designLibrary/Components/Technology Indicator', module).add('TechnologyIndicator', () => (
   <TechnologyIndicatorStory />
 ));
 

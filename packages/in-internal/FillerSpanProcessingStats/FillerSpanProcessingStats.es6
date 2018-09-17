@@ -29,6 +29,7 @@ const cols = [
         return `load.1min`;
       },
       getContent: number.detailed,
+      forceTimeWindowAggregation: true,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -45,6 +46,7 @@ const cols = [
         return `metrics.gauges.KPI.incoming.span_messages.error_rate`;
       },
       getContent: percentage.detailed,
+      forceTimeWindowAggregation: true,
       getTimeWindowAggregation() {
         return 'mean';
       }

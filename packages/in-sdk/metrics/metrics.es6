@@ -54,10 +54,8 @@ export function getMetricListItemFromList(metricList, metricName) {
   return null;
 }
 
-export function createMetricListItem(metricName, formatter, label, entityType) {
-  if (!label) {
-    label = `Unknown label (${metricName})`;
-  } else if (!label.includes(metricName)) {
+export function createMetricListItem(metricName, formatter, label, appendMetricName, entityType) {
+  if (appendMetricName && !label.includes(metricName)) {
     label += ` (${metricName})`;
   }
 
@@ -71,7 +69,7 @@ export function createMetricListItem(metricName, formatter, label, entityType) {
 
 function getMetrics(allOptions, categoryNode) {
   if (categoryNode.type === 'metric') {
-    allOptions.push(createMetricListItem(categoryNode.metric, categoryNode.formatter, categoryNode.label));
+    allOptions.push(createMetricListItem(categoryNode.metric, categoryNode.formatter, categoryNode.label, true));
   } else {
     for (let i = 0, length = categoryNode.children.length; i < length; i++) {
       getMetrics(allOptions, categoryNode.children[i]);

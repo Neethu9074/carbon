@@ -13,7 +13,7 @@ export default [
     component: Summary
   },
   {
-    label: 'Flow Map',
+    label: 'Flow',
     path: `${endpointDashboard}/flowMap`,
     component: FlowMap,
     stickToHeader: true,

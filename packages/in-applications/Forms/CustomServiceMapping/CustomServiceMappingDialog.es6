@@ -14,7 +14,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getTagValuesAsOptions } from 'in-applications/tags';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -61,7 +60,8 @@ export default function CustomServiceMappingDialog() {
                       <DescriptionText>
                         Instana automatically maps services based on an extensive set of predefined rules. For example,
                         if the tag nodejs.app.name is found, and there are calls tagged with
-                        <strong>{` "nodejs.app.name=user service" `}</strong>and with
+                        <strong>{` "nodejs.app.name=user service" `}</strong>
+                        and with
                         <strong>{` "nodejs.app.name=cart service"`}</strong>, then
                         <strong>{` "user service" `}</strong> and
                         <strong>{` "cart service" `}</strong> will appear as services.
@@ -81,19 +81,36 @@ export default function CustomServiceMappingDialog() {
                         tags. If all tags are present on a call, it will mapped to that service.
                       </DescriptionText>
 
-                      <Spacer />
+                      <div className={locals.addRuleButtonWrapper}>
+                        <Button
+                          kind="action"
+                          onClick={() => addMatchSpecification(form, updateForm)}
+                          icon="lib_openclose_add_circle_outline"
+                        >
+                          Add Key
+                        </Button>
+                      </div>
 
                       {form.get('matchSpecification').map((matchSpecification, i) => (
                         <div key={i} className={locals.matchSpecification}>
                           {matchSpecification.get('key').map(field => (
                             <FormGroup className={locals.matchSpecificationGroupKey}>
                               <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
-                                Key
+                                Tag
                               </Label>
                               <Select
                                 id={`match-${i}-key`}
                                 value={field.value}
-                                onChange={e => setValue(['matchSpecification', i, 'key'], e.target.value, form)}
+                                onChange={e => {
+                                  let updatedForm = form.updateIn(['matchSpecification', i, 'key'], field =>
+                                    field.setValue(e.target.value).setTouched(true)
+                                  );
+                                  updatedForm = updatedForm.updateIn(
+                                    ['matchSpecification', i, 'secondLevelName'],
+                                    field => field.setValue('').setTouched(false)
+                                  );
+                                  updateForm(updatedForm);
+                                }}
                                 autoComplete="off"
                                 hasError={!field.valid && field.touched}
                               >
@@ -103,7 +120,7 @@ export default function CustomServiceMappingDialog() {
                             </FormGroup>
                           ))}
 
-                          {matchSpecification.get('value').map(field => {
+                          {matchSpecification.get('secondLevelName').map(field => {
                             const key = matchSpecification.get('key').value;
                             if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'agent.tag') {
                               return null;
@@ -113,9 +130,11 @@ export default function CustomServiceMappingDialog() {
                               <FormGroup className={locals.matchSpecificationGroupValue}>
                                 <Input
                                   type="text"
-                                  id={`match-${i}-value`}
+                                  id={`match-${i}-secondLevelName`}
                                   value={field.value}
-                                  onChange={e => setValue(['matchSpecification', i, 'value'], e.target.value, form)}
+                                  onChange={e =>
+                                    setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
+                                  }
                                   autoComplete="off"
                                   hasError={!field.valid && field.touched}
                                 />
@@ -138,16 +157,6 @@ export default function CustomServiceMappingDialog() {
                           )}
                         </div>
                       ))}
-
-                      <div className={locals.addRuleButtonWrapper}>
-                        <Button
-                          kind="action"
-                          onClick={() => addMatchSpecification(form, updateForm)}
-                          icon="lib_openclose_add_circle_outline"
-                        >
-                          add key
-                        </Button>
-                      </div>
                     </div>
                   )
                 }
@@ -162,7 +171,7 @@ export default function CustomServiceMappingDialog() {
 }
 
 function addMatchSpecification(form, updateForm) {
-  const additionalSubForm = getMatchSpecificationForm({}, 'a=b');
+  const additionalSubForm = getMatchSpecificationForm({});
   updateForm(form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true)));
 }
 

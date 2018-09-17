@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    width: 19rem;
+    padding: 1rem;
+
+    background: #fff;
+    border-radius: @lib__shapes__radius_large;
+    border: 1px solid @lib__colors__N400;
+
+    overflow: hidden;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .line {
+    width: ~'calc(100% + 2rem)';
+    height: 1px;
+    margin: 1rem -1rem 0 -1rem;
+
+    background: @lib__colors__N300;
+  }
+
+  .content {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}

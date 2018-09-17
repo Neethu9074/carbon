@@ -28,7 +28,7 @@ export function getColor(type) {
 }
 
 export function getEndpointTypesComboBoxItems(restrict = null) {
-  return Object.keys(colorTranslation)
+  return Object.keys(endpointNameTranslations)
     .filter(k => restrict == null || restrict.indexOf(k) !== -1)
     .filter(k => k !== 'SELF') // self is a special case which we never want to expose in a combobox
     .sort()
@@ -36,7 +36,7 @@ export function getEndpointTypesComboBoxItems(restrict = null) {
       (agg, k) =>
         agg.concat({
           value: k,
-          label: k
+          label: endpointNameTranslations[k]
         }),
       []
     );

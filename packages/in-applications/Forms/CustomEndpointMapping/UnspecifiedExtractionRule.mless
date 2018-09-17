@@ -1,0 +1,22 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .unspecifiedExtractionRule {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.625rem 1.5rem;
+
+    background: @lib__colors__N100;
+    border-radius: @lib__shapes__radius_large;
+    overflow: hidden;
+    font-size: 1rem;
+  }
+
+  .query {
+    color: @lib__colors__N600Light;
+    font-weight: 300;
+  }
+}

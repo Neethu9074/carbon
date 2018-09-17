@@ -14,12 +14,7 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import {
-  cockpitEnabled,
-  previewTwoZeroWithoutHybrid,
-  twoZeroModeEnabled,
-  instanaInternalFeaturesEnabled
-} from 'in-services/featureFlags';
+import { cockpitEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -91,7 +86,7 @@ export default pure(function ViewSwitcher() {
           isActive$={isView(websitePath)}
         />
 
-        {!previewTwoZeroWithoutHybrid && <IncidentsMenuPoint />}
+        <IncidentsMenuPoint />
 
         {twoZeroModeEnabled && (
           <View

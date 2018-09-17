@@ -56,7 +56,7 @@ export default class extends React.Component {
           .get(0)
           .get('value').value;
 
-        const [givenKey, givenValue] = (this.state[matchKey] || '').split(/\:|\=/, 2);
+        const [givenKey, givenValue] = (this.state[matchKey] || '').split(/:|=/, 2);
         if (givenKey === key) {
           const regex = new RegExp(`^${value}$`);
           matchesWithResolvedKeys[`${matchKey}-${key}-`] = matches[matchKey] = (givenValue || '').match(regex);

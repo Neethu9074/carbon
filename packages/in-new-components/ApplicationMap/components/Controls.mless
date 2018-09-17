@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .bottomRightControls {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.25rem;
+
+    display: flex;
+    align-items: flex-end;
+  }
+}

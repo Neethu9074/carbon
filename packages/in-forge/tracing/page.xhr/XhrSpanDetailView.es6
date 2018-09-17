@@ -35,7 +35,7 @@ export default connectTo(
     return observables;
   },
   function XhrSpanDetailView({ span, pageLoadTraceLink, pageLoadTraceId, selectedTraceId, backendTraceIdResult }) {
-    const hidden = span.getIn(['data', 'page_xhr', 'h'], false);
+    const hidden = span.getIn(['data', 'page_xhr', 'h'], 0);
 
     return (
       <div>
@@ -56,7 +56,7 @@ export default connectTo(
           {getCommonDescriptionItems(span)}
         </DescriptionList>
 
-        {hidden && (
+        {hidden === 1 && (
           <DashboardNotification type="info">
             This HTTP call was made while the browser window was hidden, i.e.{' '}
             <code>document.visibilityState === &#39;hidden&#39;</code>. As a result, browsers may throttle down code
@@ -67,7 +67,8 @@ export default connectTo(
               href="https://docs.instana.io/products/website_monitoring/faq/#why-are-the-recorded-timings-for-my-http-calls-so-unusually-huge"
             >
               website monitoring FAQ
-            </a>.
+            </a>
+            .
           </DashboardNotification>
         )}
       </div>

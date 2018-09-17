@@ -1,7 +1,12 @@
-import createIsMonitoringObservable from 'in-subscription/isMonitoring';
+import isMonitoring from 'in-subscription/isMonitoring';
 import { createTrackingStore } from 'in-stores/store';
+import { track } from 'in-services/tracking/appcues';
 
 export const isMonitoring$ = createTrackingStore({
   name: 'isMonitoring',
-  observable: createIsMonitoringObservable()
+  observable: isMonitoring()
 }).observable.distinct();
+
+export function init() {
+  isMonitoring$.filter(Boolean).once(() => track('isMonitoringHosts'));
+}

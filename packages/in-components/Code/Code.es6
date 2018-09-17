@@ -8,6 +8,7 @@ import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 
 // prism languages
+import 'prismjs/components/prism-markup-templating.min.js';
 import 'prismjs/components/prism-json.min.js';
 import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-sql.min.js';

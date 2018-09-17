@@ -1,0 +1,79 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  .shape {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: @lib__colors__N700Medium;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 2px 4px -2px @lib__colors__N300;
+    }
+
+    .icon {
+      fill: #fff;
+    }
+  }
+
+  .isExternal {
+    background: @lib__colors__N400;
+
+    .icon {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .health_healthy {
+    border: 1px solid @lib__colors__N700Medium;
+
+    &:hover {
+      border: 1px solid @lib__colors__N300;
+    }
+  }
+
+  .health_warning {
+    border: 5px solid @lib__colors__warning;
+  }
+
+  .health_danger {
+    border: 5px solid @lib__colors__failure;
+  }
+
+  .label {
+    position: absolute;
+    top: ~'calc(100% + 0.5rem)';
+
+    display: flex;
+    align-items: center;
+
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+
+    background: @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
+    color: @lib__colors__N900Primary;
+    .ellipsis();
+  }
+}

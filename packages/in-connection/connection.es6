@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import { get } from 'lodash';
 
 import WindowHiddenLongTimeState from 'in-connection/states/WindowHiddenLongTimeState';
 import ConnectionLostState from 'in-connection/states/ConnectionLostState';
@@ -23,7 +24,8 @@ const sharedState = (window.instana.dev.ws = {
 
   metrics: {
     received: 0,
-    transmitted: 0
+    transmitted: 0,
+    connectionAttempts: 0
   },
 
   // {
@@ -78,7 +80,18 @@ export function getDebuggingData() {
 
   subscriptions.sort((a, b) => compare(a.event, b.event));
 
-  return { subscriptions, counts };
+  return {
+    subscriptions,
+    perSubscriptionCounts: counts,
+    transport: {
+      metrics: {
+        ...sharedState.metrics,
+        maxSubscriptionId: sharedState.subscriptionIdCounter
+      },
+      type: get(sharedState, ['socket', 'transport']),
+      url: get(sharedState, ['socket', '_transport', 'url'])
+    }
+  };
 }
 
 export function getInitializationCallStack(subscriptionId) {

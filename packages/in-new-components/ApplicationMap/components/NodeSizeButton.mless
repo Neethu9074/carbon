@@ -1,0 +1,47 @@
+@import '~in-themes/active.less';
+
+:local {
+  .sizeMetricLabel {
+    font-size: 0.875rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+
+    margin-left: 0.25rem;
+  }
+
+  .expandIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .contextMenu {
+    padding: 1rem;
+    margin: 0;
+
+    background: #fff;
+  }
+
+  .metric {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0.5rem;
+    list-style: none;
+    background: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N100;
+    }
+  }
+
+  .sizeMetricLabelSeperator {
+    margin: 0 0.25rem;
+    color: @lib__colors__N600Light;
+  }
+}

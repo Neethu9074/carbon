@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .group {
+    display: flex;
+    align-items: center;
+  }
+
+  .vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

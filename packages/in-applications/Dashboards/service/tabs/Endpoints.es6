@@ -1,12 +1,13 @@
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -14,7 +15,9 @@ import Filters from 'in-applications/components/Filters';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import locals from './Endpoints.mless';
@@ -45,14 +48,29 @@ export default compose(
 )(Endpoints);
 
 function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
+  const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = (
-    <Filters
-      endpointTypes={endpointTypes}
-      restrictedEndpointTypes={data.types}
-      technologies={technologies}
-      restrictedTechnologies={data.technologies}
-      setFilter={setFilter}
-    />
+    <Fragment>
+      {hasHttpType &&
+        role.canConfigureServiceMapping && (
+          <Button
+            className={locals.button}
+            icon="lib_actions_settings"
+            kind="action"
+            href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
+          >
+            Configure Endpoints
+          </Button>
+        )}
+
+      <Filters
+        endpointTypes={endpointTypes}
+        restrictedEndpointTypes={data.types}
+        technologies={technologies}
+        restrictedTechnologies={data.technologies}
+        setFilter={setFilter}
+      />
+    </Fragment>
   );
 
   return (
@@ -67,7 +85,6 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
           endpointId={endpointId}
           timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
-          cardTitle="Endpoints"
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
           technologies={technologies}

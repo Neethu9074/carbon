@@ -1,7 +1,7 @@
 import { get_crash_thread, pad_hex, get_last_exception } from '../util';
 import { parse_errors } from '../errors';
-import { parse as parseThreads } from './threads';
-import { parse as parseCpu } from './cpu';
+import { parseThreads } from './threads';
+import { parseCpu } from './cpu';
 
 /**
  * Parses out the extra information available against the

@@ -1,8 +1,8 @@
 import StringStream from './StringStream';
 
 const OPERATORS = ['AND', 'OR', 'NOT', '+', '-'];
-const TERM_REGEXP_START = /[a-z0-9öäüß\*\?\.\_\>\<\=]/i;
-const TERM_REGEXP_CONTINUATION = /[a-z0-9öäüß\*\?\.\_\-\>\<\=]/i;
+const TERM_REGEXP_START = /[a-z0-9öäüß\*?.><=]/i;
+const TERM_REGEXP_CONTINUATION = /[a-z0-9öäüß\*?.\_\-\><=]/i;
 const WHITESPACE_REGEXP = /\s/;
 
 export default function lexFirstStage(source) {

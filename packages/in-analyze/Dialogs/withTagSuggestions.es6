@@ -1,7 +1,7 @@
 import { createFactory, Component } from 'react';
 import { create } from 'reactive-observables';
 
-import { getTagFilterListForSubscription } from 'in-analyze/applicationFilter';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
@@ -19,8 +19,8 @@ export default () => ComposedComponent => {
       this.state = {
         _name: props.name,
         custom2ndLevelName: null,
-        tagSuggestionOptions: undefined,
-        tag2ndLevelNameSuggestionOptions: undefined
+        tagSuggestionResult: null,
+        tagSecondLevelNameSuggestionResult: null
       };
 
       this.getValueQueue$ = create();
@@ -94,7 +94,7 @@ export default () => ComposedComponent => {
         node.type == TAG_TYPES.BOOLEAN.technicalName || // no value suggestion for boolean type tag
         (node.type == TAG_TYPES.KEY_VALUE_PAIR.technicalName && !custom2ndLevelName)
       ) {
-        this.setState({ tagSuggestionOptions: undefined });
+        this.setState({ tagSuggestionResult: null });
         return;
       }
 
@@ -102,14 +102,13 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
         tagName,
         secondLevelKeyTagName: custom2ndLevelName,
         valueFilter: null
       })
         .startWith(null)
-        .map(getTagSuggestionOptions)
-        .subscribe(tagSuggestionOptions => this.setState({ tagSuggestionOptions }));
+        .subscribe(tagSuggestionResult => this.setState({ tagSuggestionResult }));
     }
 
     get2ndLevelNameSuggestions({ _name }) {
@@ -119,6 +118,7 @@ export default () => ComposedComponent => {
       const filters = this.props.filters;
       const node = findSubTreeByFullyQualifiedName(tagName);
       if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
+        this.setState({ tagSecondLevelNameSuggestionResult: null });
         return;
       }
 
@@ -126,13 +126,11 @@ export default () => ComposedComponent => {
         filter: {
           timeConfig: filters.get('timeConfig')
         },
-        tagFilters: getTagFilterListForSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
         tagName,
         secondLevelKeyTagName: null,
         valueFilter: null
-      })
-        .map(getTagSuggestionOptions)
-        .subscribe(tag2ndLevelNameSuggestionOptions => this.setState({ tag2ndLevelNameSuggestionOptions }));
+      }).subscribe(tagSecondLevelNameSuggestionResult => this.setState({ tagSecondLevelNameSuggestionResult }));
     }
 
     disposeValueSuggestion = () => {
@@ -155,22 +153,3 @@ export default () => ComposedComponent => {
     };
   };
 };
-
-function getTagSuggestionOptions(getTagSuggestionsResult) {
-  if (!getTagSuggestionsResult) {
-    return null;
-  }
-
-  if (getTagSuggestionsResult.errors.length > 0) {
-    return [];
-  }
-
-  if (!getTagSuggestionsResult.data) {
-    return null;
-  }
-
-  return getTagSuggestionsResult.data.suggestions.map(suggestion => ({
-    value: suggestion,
-    label: suggestion
-  }));
-}

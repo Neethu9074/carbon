@@ -64,8 +64,6 @@ export default connectTo(
             endpointName: endpointId
           })
         : null;
-    const trackAndPrepareBackButton = trackAndStoreBackButtonParameters.bind(null, backButtonLabels);
-
     const isEndpointRow = endpointId ? true : false;
     const isServiceRow = !isEndpointRow && serviceId;
     const isApplicationRow = !isServiceRow && !isEndpointRow && applicationId;
@@ -78,7 +76,11 @@ export default connectTo(
     }
 
     return (
-      <Link className={locals.link} href$={linkToAnalyze} onClick={trackAndPrepareBackButton}>
+      <Link
+        className={locals.link}
+        href$={linkToAnalyze}
+        onClick={() => trackAndStoreBackButtonParameters(backButtonLabels)}
+      >
         <div
           className={evaluateClassNames({
             [locals.row]: true,

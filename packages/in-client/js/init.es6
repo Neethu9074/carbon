@@ -10,12 +10,12 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { init as initHighlightedSuggestionStore } from 'in-components/SearchBar/stores/highlightedSuggestion';
+import { isSelfService, isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initGlyphTexture } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDialogPresenter';
 import { init as initLayouterStorage } from 'in-map/services/logical/logicalLayouterStorage';
 import { init as initMessageStore } from 'in-components/MessageDialog/MessageDialogStores';
 import { init as initDebuggingBackchannel } from 'in-services/debuggingBackchannel';
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initUnhandledErrorHandling } from 'in-services/unhandledErrors';
 import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/timers';
 import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
@@ -25,6 +25,7 @@ import { init as initTracking } from 'in-services/tracking/mixpanelTrackers';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
+import { init as initIsMonitoring } from 'in-stores/isMonitoring';
 import { init as initTimeOffsetStore } from 'in-stores/timeOffset';
 import { init as initAppcues } from 'in-services/tracking/appcues';
 import { init as initFaviconHandling } from 'in-services/favicon';
@@ -77,7 +78,11 @@ initTimeOffsetStore();
 isTwoZeroBetaPhase && initTwoZeroBetaPhaseQueryParam();
 initMessageStore();
 initShortcuts();
-initNotMonitoringPresenter();
+
+if (!isSelfService) {
+  initNotMonitoringPresenter();
+}
+
 initHighlightedSuggestionStore();
 initUsageInfo();
 initMaintenanceNoteStore();
@@ -90,6 +95,7 @@ initErrorBoundary();
 initDebuggingBackchannel();
 initTracking();
 initAppcues();
+initIsMonitoring();
 
 ReactDOM.render(
   <Router history={history}>

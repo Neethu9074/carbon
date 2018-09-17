@@ -277,6 +277,7 @@ export default connectTo(
             metricInstance.get('metricId'),
             metricInstance.get('formatter'),
             metricInstance.get('label'),
+            false,
             metricInstance.get('pluginId')
           )
         );

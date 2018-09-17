@@ -6,6 +6,14 @@ def gitCommitAuthor = null
 def instanaVersion  = null
 def archiveName     = null
 
+def deliveryBranches = [
+  'develop',
+  'master',
+  'release',
+  'prerelease',
+  'onprem-hotfix'
+]
+
 stage('Checkout') {
   node {
 
@@ -25,14 +33,6 @@ stage('Checkout') {
   }
 }
 
-def deliveryBranches = [
-  'develop',
-  'master',
-  'release',
-  'prerelease',
-  'onprem-hotfix'
-]
-
 stage('Node Build') {
   def buildSteps = [:]
 
@@ -48,9 +48,9 @@ stage('Node Build') {
   }
   buildSteps['build'] = {
     node {
-      runNodeBuild(gitCommitId, 'yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
+      runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
@@ -66,7 +66,7 @@ stage('Node Build') {
 
 stage ('Container Build') {
 
-  if ( deliveryBranches.contains(env.BRANCH_NAME) ) {
+  if ( isDeliveryBranch(env.BRANCH_NAME) ) {
     containerBuild {
       component    = 'ui-client'
       commitId     = gitCommitId
@@ -130,7 +130,7 @@ stage('Deployment') {
 stage('Storybook build') {
   if (env.BRANCH_NAME == 'develop' ) {
     node {
-      runNodeBuild(gitCommitId, 'yarn && npm run storybookBuild')
+      runNodeBuild(gitCommitId, 'yarn && yarn run storybookBuild')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
         stash includes: "storybookTarget/**/*", name: "ui-client-storybook-build-${gitCommitId}"
       }
@@ -152,9 +152,11 @@ def runNodeBuild(gitCommitId, buildCommands) {
   deleteDir()
   unstash name: "ui-client-checkout-${gitCommitId}"
   sh '''
+    source $HOME/.nvm/nvm.sh
+    nvm use
     if [ -z "$(which yarn)" ]; then
       npm install -g yarn
     fi
   '''
-  sh buildCommands
+  sh 'source $HOME/.nvm/nvm.sh && nvm use && ' + buildCommands
 }

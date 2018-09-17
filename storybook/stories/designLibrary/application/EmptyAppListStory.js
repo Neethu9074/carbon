@@ -5,7 +5,9 @@ import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 
 import Root from '../../_helpers/Root';
 
-storiesOf('designLibrary/Application/EmptyAppList', module).add('EmptyAppList', () => <EmptyAppListStory />);
+storiesOf('designLibrary/Application/Empty Application List', module).add('Empty Application List', () => (
+  <EmptyAppListStory />
+));
 
 function EmptyAppListStory() {
   return (

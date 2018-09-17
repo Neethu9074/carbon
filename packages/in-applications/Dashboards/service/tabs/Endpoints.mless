@@ -10,4 +10,8 @@
     margin-right: 0.25rem;
     fill: @lib__colors__blue800;
   }
+
+  .button {
+    margin-right: 0.5rem;
+  }
 }

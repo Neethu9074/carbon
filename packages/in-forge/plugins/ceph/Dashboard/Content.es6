@@ -32,19 +32,7 @@ export default function CephDashboard({ snapshot, timeConfig }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Overall Status">
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="overall_status"
-            formatter={function(value) {
-              if (value === 0) {
-                return 'HEALTH_OK';
-              } else if (value === 1) {
-                return 'HEALTH_WARN';
-              } else {
-                return 'HEALTH_ERR';
-              }
-            }}
-          />
+          <MetricValue snapshotId={snapshotId} metric="overall_status" formatter={healthFormatter} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Monitors">
@@ -196,4 +184,14 @@ export default function CephDashboard({ snapshot, timeConfig }) {
       <PoolTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
+}
+
+function healthFormatter(value) {
+  if (value === 0) {
+    return 'HEALTH_OK';
+  } else if (value === 1) {
+    return 'HEALTH_WARN';
+  } else {
+    return 'HEALTH_ERR';
+  }
 }

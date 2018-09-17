@@ -9,6 +9,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes/theme';
@@ -45,7 +46,7 @@ export function KeySelectionSection(props) {
         }
       />
       {messages.filter(message => message.field === 'name').map((message, i) => (
-        <ValidationBlock hasError key={i}>
+        <ValidationBlock key={i} className={locals.validationMessage}>
           {message.message}
         </ValidationBlock>
       ))}
@@ -53,7 +54,7 @@ export function KeySelectionSection(props) {
   );
 }
 
-export function CustomKeySection({ form, onChange, node, tag2ndLevelNameSuggestionOptions }) {
+export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSuggestionResult }) {
   if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
@@ -68,9 +69,9 @@ export function CustomKeySection({ form, onChange, node, tag2ndLevelNameSuggesti
               id="secondLevelName"
               field={field}
               onChange={value => onChange('secondLevelName', value)}
-              autoCompletedOptions={tag2ndLevelNameSuggestionOptions}
+              tagSuggestionResult={tagSecondLevelNameSuggestionResult}
             />
-            <TouchedMessages field={subForm} />
+            <TouchedMessages field={subForm} className={locals.validationMessage} />
           </FormGroup>
         ))
       )}
@@ -132,6 +133,8 @@ export function SelectBox({ options, id, value, onChange }) {
       autoComplete="off"
       options={options}
       clearable={false}
+      autoFocus
+      openOnFocus
     />
   );
 }
@@ -144,52 +147,67 @@ export function FieldSeperator({ children }) {
   );
 }
 
-export function AutoCompletedSelect({ field, onChange, autoCompletedOptions }) {
-  if (!autoCompletedOptions) {
+export function AutoCompletedSelect({ field, onChange, tagSuggestionResult }) {
+  if (!tagSuggestionResult) {
+    return (
+      <Input
+        type="text"
+        id="value"
+        value={field.value}
+        autoComplete="off"
+        onChange={e => onChange(e ? e.target.value : '')}
+      />
+    );
+  } else {
+    let autoCompletedOptions = get(tagSuggestionResult, ['data', 'suggestions'], []).map(suggestion => ({
+      value: suggestion,
+      label: suggestion
+    }));
+
+    let isValueInsideOptions = false;
+    if (field.value) {
+      for (let i = 0; i < autoCompletedOptions.length; i++) {
+        const option = autoCompletedOptions[i];
+        if (option.value === field.value) {
+          isValueInsideOptions = true;
+          break;
+        }
+      }
+    } else {
+      isValueInsideOptions = true;
+    }
+
+    if (!isValueInsideOptions) {
+      autoCompletedOptions = [{ label: field.value, value: field.value }].concat(autoCompletedOptions);
+    }
+
     return (
       <div className={locals.loadingSelectPlaceholder}>
-        <Input
-          className={locals.loadingSelectPlaceholderInput}
-          type="text"
+        <CreatableSelect
           id="value"
+          className={locals.loadingSelectPlaceholderInput}
           value={field.value}
-          autoComplete="off"
-          onChange={e => onChange(e ? e.target.value : '')}
+          onChange={e => onChange(e ? e.value : '')}
+          options={autoCompletedOptions}
+          placeholder=""
+          isClearable
+          autoFocus
+          searchable
+          menuIsOpen
         />
-        {autoCompletedOptions === null && (
+        {get(tagSuggestionResult, ['progress', 'loading'], false) && (
           <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+        )}
+        {get(tagSuggestionResult, ['errors', 'length']) > 0 && (
+          <Tooltip
+            themeStyle="light"
+            align="bottomMiddle"
+            content="Suggestions currently not available, please type in the value"
+          >
+            <SvgIcon className={locals.errorIcon} type="lib_help_error_error_outline" width={24} height={24} />
+          </Tooltip>
         )}
       </div>
     );
   }
-
-  let isValueInsideOptions = false;
-  if (field.value) {
-    for (let i = 0; i < autoCompletedOptions.length; i++) {
-      const option = autoCompletedOptions[i];
-      if (option.value === field.value) {
-        isValueInsideOptions = true;
-        break;
-      }
-    }
-  } else {
-    isValueInsideOptions = true;
-  }
-
-  if (!isValueInsideOptions) {
-    autoCompletedOptions = [{ label: field.value, value: field.value }].concat(autoCompletedOptions);
-  }
-
-  return (
-    <CreatableSelect
-      id="value"
-      value={field.value}
-      onChange={e => onChange(e ? e.value : '')}
-      options={autoCompletedOptions}
-      placeholder=""
-      isClearable
-      autoFocus
-      searchable
-    />
-  );
 }

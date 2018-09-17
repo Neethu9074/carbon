@@ -1,5 +1,12 @@
+@import '~in-themes/active.less';
+
 :local {
   .valueFormGroup {
-    flex-grow: 1;
+    min-width: 13rem;
+    max-width: 13rem;
+  }
+
+  .validationMessage {
+    color: @lib__colors__N600Light;
   }
 }

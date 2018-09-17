@@ -14,7 +14,7 @@ export default [
     component: Summary
   },
   {
-    label: 'Flow Map',
+    label: 'Flow',
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap,
     stickToHeader: true,

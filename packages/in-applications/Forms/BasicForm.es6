@@ -103,11 +103,9 @@ class BasicForm extends React.Component {
       onCancelHref$,
       form,
       savingStateName = 'Saving…',
-      saveButtonLabel = 'Save',
-
-      // state update events
-      updateForm
+      saveButtonLabel = 'Save'
     } = this.props;
+    const updateForm = form => this.props.updateForm(form.setTouched(true, { recurse: true }));
     const { saving, error, success } = this.state;
 
     const isLoading = entityResult.progress.loading;
@@ -121,7 +119,7 @@ class BasicForm extends React.Component {
     } else {
       content = (
         <form onSubmit={e => this.onSubmit(e, form, updateForm)} className={locals.form}>
-          {form && renderFormContent(entityResult.data, form, this.setValue, updateForm)}
+          {form && renderFormContent(entityResult.data, form, this.setValue.bind(this, updateForm), updateForm)}
 
           <Spacer type="dark" />
           <div className={locals.footer}>
@@ -132,17 +130,18 @@ class BasicForm extends React.Component {
             )}
             {!onCancelHref$ && <div />}
 
-            {form && (
-              <Button
-                icon={saving ? 'spinner' : null}
-                iconSpinning
-                kind="create"
-                type="submit"
-                disabled={(!form.hierarchyValid && form.touched) || saving}
-              >
-                {saving ? savingStateName : saveButtonLabel}
-              </Button>
-            )}
+            {form &&
+              form.touched && (
+                <Button
+                  icon={saving ? 'spinner' : null}
+                  iconSpinning
+                  kind="create"
+                  type="submit"
+                  disabled={(!form.hierarchyValid && form.touched) || saving}
+                >
+                  {saving ? savingStateName : saveButtonLabel}
+                </Button>
+              )}
           </div>
         </form>
       );
@@ -170,8 +169,8 @@ class BasicForm extends React.Component {
     );
   }
 
-  setValue = (path, value, form) => {
-    this.props.updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
+  setValue = (updateForm, path, value, form) => {
+    updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
   };
 }
 

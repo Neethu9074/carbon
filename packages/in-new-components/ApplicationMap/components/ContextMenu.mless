@@ -1,0 +1,19 @@
+@import '~in-themes/active.less';
+
+:local {
+  .contextMenu {
+    width: 16rem;
+    padding: 0.5rem;
+
+    font-size: 0.875rem;
+  }
+
+  .button {
+    justify-content: flex-start;
+    width: 100%;
+
+    + .button {
+      margin: 0.4rem 0 0 0;
+    }
+  }
+}

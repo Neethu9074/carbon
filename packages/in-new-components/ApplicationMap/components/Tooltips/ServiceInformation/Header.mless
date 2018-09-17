@@ -1,0 +1,39 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .labelRow,
+  .typeAndTechRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .typeAndTechRow {
+    flex-wrap: wrap;
+  }
+
+  .healthRow {
+    margin-top: 0.25rem;
+  }
+
+  .serviceIcon {
+    fill: @lib__colors__N700Medium;
+    margin-right: 0.25rem;
+  }
+
+  .label {
+    font-size: 1rem;
+    color: @lib__colors__N900Primary;
+
+    .ellipsis();
+  }
+
+  .types {
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .technologies {
+    margin-top: 0.25rem;
+  }
+}

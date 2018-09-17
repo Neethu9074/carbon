@@ -38,9 +38,18 @@ export default class Overlay extends React.Component {
    * throttling with a very short duration. The only intention is to avoid these high
    * frequency competing updates.
    */
-  setOpen = throttle(open => this.setState({ isOpen: open }), 10, {
-    trailing: false
-  });
+  setOpen = throttle(
+    open => {
+      if (this.props.onToggle) {
+        this.props.onToggle(open);
+      }
+      this.setState({ isOpen: open });
+    },
+    10,
+    {
+      trailing: false
+    }
+  );
 
   delayedOpen = () => this.delayedAutoOpenStateChange$.emit(true);
   delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
