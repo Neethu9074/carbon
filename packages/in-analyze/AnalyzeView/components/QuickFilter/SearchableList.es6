@@ -3,7 +3,7 @@ import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import List from 'in-analyze/Analyze/components/QuickFilter/List';
+import List from 'in-analyze/AnalyzeView/components/QuickFilter/List';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 

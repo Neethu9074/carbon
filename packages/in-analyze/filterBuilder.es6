@@ -16,6 +16,10 @@ export function getGroupFromUrlString(urlString) {
 }
 
 export function getShowRawFromUrlString(urlString) {
+  return parsedUrlOrDefault(urlString, 'traces');
+}
+
+export function getDataSourceFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 

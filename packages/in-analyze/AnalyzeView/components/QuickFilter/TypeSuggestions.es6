@@ -1,6 +1,6 @@
 import React from 'react';
 
-import List from 'in-analyze/Analyze/components/QuickFilter/List';
+import List from 'in-analyze/AnalyzeView/components/QuickFilter/List';
 
 import locals from './TypeSuggestions.mless';
 

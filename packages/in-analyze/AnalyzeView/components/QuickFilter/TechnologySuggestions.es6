@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getIconSvgPath, getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
-import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
+import SearchableList from 'in-analyze/AnalyzeView/components/QuickFilter/SearchableList';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 import locals from './TechnologySuggestions.mless';

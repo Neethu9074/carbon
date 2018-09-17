@@ -11,6 +11,7 @@ export const tagFilter = 'tagFilter';
 // groups
 export const groupBy = 'groupBy';
 export const showRawData = 'showRawData';
+export const dataSource = 'dataSource';
 
 // trace detail view
 export const traceId = 'traceId';

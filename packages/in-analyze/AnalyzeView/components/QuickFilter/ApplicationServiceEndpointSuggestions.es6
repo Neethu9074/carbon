@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
-import SearchableList from 'in-analyze/Analyze/components/QuickFilter/SearchableList';
+import SearchableList from 'in-analyze/AnalyzeView/components/QuickFilter/SearchableList';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import connect from 'in-hoc/connectTo';

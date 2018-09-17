@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import ApplicationServiceEndpointSuggestions from 'in-analyze/Analyze/components/QuickFilter/ApplicationServiceEndpointSuggestions';
+import ApplicationServiceEndpointSuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/ApplicationServiceEndpointSuggestions';
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
-import TechnologySuggestions from 'in-analyze/Analyze/components/QuickFilter/TechnologySuggestions';
-import LatencySuggestions from 'in-analyze/Analyze/components/QuickFilter/LatencySuggestions';
+import TechnologySuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/TechnologySuggestions';
+import LatencySuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/LatencySuggestions';
+import TypeSuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/TypeSuggestions';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import TypeSuggestions from 'in-analyze/Analyze/components/QuickFilter/TypeSuggestions';
-import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
+import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
+import QuickFilter from 'in-analyze/AnalyzeView/components/QuickFilter';
+import ResetButton from 'in-analyze/AnalyzeView/components/ResetButton';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import QuickFilter from 'in-analyze/Analyze/components/QuickFilter';
-import ResetButton from 'in-analyze/Analyze/components/ResetButton';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { operators } from 'in-analyze/applicationFilter';

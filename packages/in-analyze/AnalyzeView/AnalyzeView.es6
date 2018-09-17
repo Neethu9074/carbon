@@ -9,17 +9,19 @@ import {
   getTagFilterFromUrlString,
   getGroupFromUrlString,
   getShowRawFromUrlString,
+  getDataSourceFromUrlString,
   getShowRawToUrlString
 } from 'in-analyze/filterBuilder';
 import {
   showRawData as showRawDataMatrixParameter,
+  dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
 } from 'in-analyze/navigation/matrix';
+import QueryBuilderWorkspace from 'in-analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import QueryBuilderWorkspace from 'in-analyze/Analyze/components/QueryBuilderWorkspace';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
+import RawDataView from 'in-analyze/AnalyzeView/components/RawDataView/RawDataView';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -31,7 +33,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
-import locals from './CallsList.mless';
+import locals from './AnalyzeView.mless';
 
 export default compose(
   connectTo({
@@ -43,10 +45,17 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [tagFilterMatrixParameter, groupByMatrixParameter, showRawDataMatrixParameter],
+    boundKeys: [
+      tagFilterMatrixParameter,
+      groupByMatrixParameter,
+      showRawDataMatrixParameter,
+      dataSourceMatrixParameter
+    ],
     getResettingProps: () => [],
     getInitialState: () => {
-      const initialState = {};
+      const initialState = {
+        dataSource: 'traces'
+      };
       initialState[tagFilterMatrixParameter] = [];
       return initialState;
     },
@@ -60,11 +69,13 @@ export default compose(
 
       const urlShowRawActive = values[showRawDataMatrixParameter];
       const showRawActive = getShowRawFromUrlString(urlShowRawActive);
+      const dataSource = getDataSourceFromUrlString(urlShowRawActive);
 
       const objectToReturn = {};
       objectToReturn[tagFilterMatrixParameter] = tagFilter;
       objectToReturn[groupByMatrixParameter] = group;
       objectToReturn[showRawDataMatrixParameter] = showRawActive;
+      objectToReturn[dataSourceMatrixParameter] = dataSource;
       return objectToReturn;
     },
     getSerializedUrlValues: props => {
@@ -77,26 +88,30 @@ export default compose(
       const showRawActive = props[showRawDataMatrixParameter];
       const urlReadyShowRawActive = getShowRawToUrlString(showRawActive);
 
+      const urlReadyDataSource = props[showRawDataMatrixParameter];
+
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
       objectToStore[groupByMatrixParameter] = urlReadyGroup;
       objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
+      objectToStore[dataSourceMatrixParameter] = urlReadyDataSource;
       return objectToStore;
     }
   })
-)(CallsList);
+)(AnalyzeView);
 
-function CallsList(props) {
+function AnalyzeView(props) {
   const { activeDialog, onChangeFilters, location, totalHits } = props;
+
   const tagFilter = props[tagFilterMatrixParameter];
-
-  let filters = fromJS({
+  const filters = fromJS({
     tagFilter,
-    group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' }
+    group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' },
+    dataSource: props[dataSourceMatrixParameter],
+    timeConfig: getTimeConfig(location)
   });
-  filters = filters.set('timeConfig', getTimeConfig(location));
 
-  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS());
+  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
 
   return (
     <Fragment>
@@ -148,7 +163,8 @@ function AnalyzeHeader() {
     <div className={locals.headerWrapper}>
       <MaxWidthFullscreenContainer>
         <div className={locals.header}>
-          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />Calls
+          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />
+          Calls
         </div>
       </MaxWidthFullscreenContainer>
     </div>

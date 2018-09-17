@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TagFilter from 'in-analyze/Analyze/components/TagFilter';
+import TagFilter from 'in-analyze/AnalyzeView/components/TagFilter';
 
 import locals from './TagFilterList.mless';
 
