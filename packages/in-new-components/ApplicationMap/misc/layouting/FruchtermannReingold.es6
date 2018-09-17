@@ -74,7 +74,7 @@ function go(graph) {
   const area = nodesCount * nodesCount;
   const maxDisplace = nodesCount / 10;
   const k = Math.sqrt(area / (1 + nodesCount));
-  const gravity = 5 * nodesCount;
+  const gravity = 10 * nodesCount;
 
   let i = 0;
   while (i < ITERATIONS && !atomicGo(graph, maxDisplace, k, gravity)) {
