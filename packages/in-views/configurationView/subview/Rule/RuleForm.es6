@@ -2,6 +2,17 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import {
+  number,
+  percentage,
+  bytes,
+  bytesPerSecondTwoDecimalPlaces,
+  millis,
+  ms,
+  msZeroDecimalPlaces,
+  muSecondsToMillis,
+  zeroDecimalPlacesPerSecond
+} from 'in-services/formatters/number';
+import {
   defaultAndUnknownPluginNames,
   plugins10,
   plugins20,
@@ -259,11 +270,33 @@ function formatterToLabel(formatter) {
     case 'PERCENTAGE':
       return '%';
     case 'RATE':
-      return '1/s';
-    case 'NUMBER':
+      return '/s';
     case 'UNDEFINED':
+    case 'NUMBER':
     default:
       return '';
+  }
+}
+
+function numberFormatterToFormatterType(numberFormatter) {
+  switch (numberFormatter) {
+    case millis:
+    case ms:
+    case msZeroDecimalPlaces:
+    case muSecondsToMillis:
+      return 'MILLIS';
+    case percentage:
+      return 'PERCENTAGE';
+    case number.perSecond:
+    case bytes.perSecond:
+    case bytesPerSecondTwoDecimalPlaces:
+    case zeroDecimalPlacesPerSecond:
+      return 'RATE';
+    case number:
+    case bytes:
+      return 'NUMBER';
+    default:
+      return 'UNDEFINED';
   }
 }
 
@@ -291,8 +324,9 @@ export default connectTo(
       super(props);
       this.entity = props.entity;
 
+      const formatter = this.entity.get('formatter');
       this.state = {
-        metricFormatter: 'UNDEFINED' // TODO set propriate formatter when loading the form
+        metricFormatter: formatter ? formatter : 'UNDEFINED'
       };
     }
 
@@ -356,6 +390,10 @@ export default connectTo(
                         });
                         return updatedForm;
                       });
+
+                      this.setState({
+                        metricFormatter: 'UNDEFINED'
+                      });
                     }
                   }}
                 />
@@ -381,6 +419,10 @@ export default connectTo(
                               return f.setTouched(false);
                             });
                             return updatedForm;
+                          });
+
+                          this.setState({
+                            metricFormatter: 'UNDEFINED'
                           });
                         }
                       }}
@@ -429,7 +471,6 @@ export default connectTo(
 
                           if (form.get('origin').value === 'custom') {
                             const metricItem = getMetricListItemFromList(customMetrics, e.value);
-                            // TODO same for the built-in metrics, which have currently no formatter.
                             if (metricItem != null) {
                               this.setState({
                                 metricFormatter: metricItem.formatter
@@ -440,10 +481,9 @@ export default connectTo(
                             const entityType = form.get('entityType').value;
                             const buildInMetricsList = getPlainMetricList(entityType);
                             const metricItem = getMetricListItemFromList(buildInMetricsList, e.value);
-                            // TODO handle hard-coded built-in formatters differently, because their formatter is defined differently
                             if (metricItem != null) {
                               this.setState({
-                                metricFormatter: metricItem.formatter
+                                metricFormatter: numberFormatterToFormatterType(metricItem.formatter)
                               });
                             }
                           }
