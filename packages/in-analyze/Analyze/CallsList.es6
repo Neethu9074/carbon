@@ -8,8 +8,7 @@ import {
   getGroupToUrlString,
   getTagFilterFromUrlString,
   getGroupFromUrlString,
-  getShowRawFromUrlString,
-  getShowRawToUrlString
+  getShowRawFromUrlString
 } from 'in-analyze/filterBuilder';
 import {
   showRawData as showRawDataMatrixParameter,
@@ -22,6 +21,7 @@ import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFi
 import RawDataView from 'in-analyze/Analyze/components/RawDataView/RawDataView';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -58,13 +58,9 @@ export default compose(
       const urlGroup = values[groupByMatrixParameter];
       const group = getGroupFromUrlString(urlGroup);
 
-      const urlShowRawActive = values[showRawDataMatrixParameter];
-      const showRawActive = getShowRawFromUrlString(urlShowRawActive);
-
       const objectToReturn = {};
       objectToReturn[tagFilterMatrixParameter] = tagFilter;
       objectToReturn[groupByMatrixParameter] = group;
-      objectToReturn[showRawDataMatrixParameter] = showRawActive;
       return objectToReturn;
     },
     getSerializedUrlValues: props => {
@@ -74,13 +70,9 @@ export default compose(
       const group = props[groupByMatrixParameter];
       const urlReadyGroup = getGroupToUrlString(group);
 
-      const showRawActive = props[showRawDataMatrixParameter];
-      const urlReadyShowRawActive = getShowRawToUrlString(showRawActive);
-
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
       objectToStore[groupByMatrixParameter] = urlReadyGroup;
-      objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
       return objectToStore;
     }
   })
@@ -95,6 +87,7 @@ function CallsList(props) {
     group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' }
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
+  const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
 
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS());
 
@@ -112,7 +105,7 @@ function CallsList(props) {
                 filters={filters}
                 onChangeFilters={onChangeFilters}
                 tagFiltersForSubscription={tagFiltersForSubscription}
-                filterByGroup={props[showRawDataMatrixParameter]}
+                filterByGroup={rawDataGroup}
               />
             );
           }}
@@ -148,7 +141,8 @@ function AnalyzeHeader() {
     <div className={locals.headerWrapper}>
       <MaxWidthFullscreenContainer>
         <div className={locals.header}>
-          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />Calls
+          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />
+          Calls
         </div>
       </MaxWidthFullscreenContainer>
     </div>
