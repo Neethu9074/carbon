@@ -3,7 +3,6 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 registerSpanDefinition({
   type: 'sidekiq-worker',
   category: 'messaging',
-  direction: 'local',
 
   typeName: {
     singular: 'Sidekiq Worker',
