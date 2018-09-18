@@ -311,10 +311,18 @@ function formatTime(t, units, formatNumber) {
 export function numberFormatterToFormatterType(numberFormatter) {
   switch (numberFormatter) {
     case millis:
+    case millis.detailed:
+    case millis.compact:
+    case millis.fixedDetailed:
+    case millis.fixedCompact:
     case ms:
     case msZeroDecimalPlaces:
     case msTwoDecimalPlaces:
       return 'MILLIS';
+    case micros:
+    case micros.detailed:
+    case micros.fixedDetailed:
+    case micros.compact:
     case muSecondsToMillis:
       return 'MUSECONDS';
     case percentage:
