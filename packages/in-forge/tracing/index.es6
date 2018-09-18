@@ -99,6 +99,8 @@ import './ratpack';
 import './ratpack.client';
 import './redis';
 import './render';
+import './resque-client';
+import './resque-worker';
 import './resteasy';
 import './resteasy.client';
 import './rpc-client';
