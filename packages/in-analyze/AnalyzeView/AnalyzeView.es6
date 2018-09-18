@@ -103,12 +103,13 @@ function AnalyzeView(props) {
   const { activeDialog, onChangeFilters, location, totalHits } = props;
 
   const tagFilter = props[tagFilterMatrixParameter];
-  const filters = fromJS({
+  let filters = fromJS({
     tagFilter,
     group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' },
-    dataSource: props[dataSourceMatrixParameter],
-    timeConfig: getTimeConfig(location)
+    dataSource: props[dataSourceMatrixParameter]
   });
+  filters = filters.set('timeConfig', getTimeConfig(location));
+
   const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
   const dataSource = props[dataSourceMatrixParameter];

@@ -6,12 +6,11 @@ import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallGroupsTable from 'in-analyze/GroupedCalls/CallGroupsTable';
 import CallGroupCharts from 'in-analyze/GroupedCalls/CallGroupCharts';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-new-components/Button';
 import theme from 'in-themes/theme';
 
 import locals from './GroupedCalls.mless';
@@ -102,16 +101,13 @@ function GroupedCalls(props) {
     <Fragment>
       <div className={locals.callsAndGroupsIndicatorWrapper}>
         <CallsAndGroupsIndicator numGroups={totalHits} />
-        <SvgIcon
-          className={evaluateClassNames({
-            [locals.chartIcon]: true,
-            [locals.activeChartIcon]: isChartSectionExpanded
-          })}
-          type="lib_views_stats"
-          width={40}
-          height={40}
+        <Button
+          kind="secondary"
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
-        />
+          icon="lib_views_stats"
+        >
+          {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
+        </Button>
       </div>
       {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={callGroupColors} />}
       <CallGroupsTable {...props} callGroupColors={callGroupColors} />

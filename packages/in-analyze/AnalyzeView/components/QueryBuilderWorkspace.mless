@@ -49,7 +49,7 @@
   }
 
   .changeGroupLabel {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 
     color: @lib__colors__light-blue800;
     cursor: pointer;
