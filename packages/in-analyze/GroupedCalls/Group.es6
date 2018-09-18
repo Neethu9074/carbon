@@ -6,8 +6,11 @@ import {
   tagFilter as tagFilterMatrixParameter,
   showRawData as showRawDataMatrixParameter
 } from 'in-analyze/navigation/matrix';
+import { analyzeRaw, analyze, cleanupSortingMatrixParams } from 'in-analyze/navigation/paths';
 import { number, millis, percentage } from 'in-services/formatters/number';
-import { getLinkToRawData } from 'in-analyze/navigation/paths';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getShowRawToUrlString } from 'in-analyze/filterBuilder';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
@@ -33,11 +36,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             )}
           </span>
           <Fragment>
-            <Link
-              href$={getLinkToRawData()}
-              onClick={() => setRawData(filters, onChangeFilters, item.name)}
-              className={locals.name}
-            >
+            <Link href$={getLinkToRawData(filters, item)} className={locals.name}>
               {item.name}
             </Link>
             {!isAlreadyFiltered && (
@@ -70,13 +69,25 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
-function setRawData(filters, onChangeFilters, tagName) {
-  const group = filters.get('group');
-  const currentGroupValue = group.get('value') ? `${group.get('value')}=${tagName}` : tagName;
+function getLinkToRawData(filters, item) {
+  return getModifiedUrlStream(params => {
+    const group = filters.get('group');
+    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
 
-  const newState = {};
-  newState[showRawDataMatrixParameter] = { name: group.get('name'), value: currentGroupValue };
-  onChangeFilters(newState);
+    params.pathname = analyzeRaw;
+    setOrDeleteMatrixKey(params, analyze, 'calls.orderBy', null);
+    setOrDeleteMatrixKey(
+      params,
+      analyze,
+      showRawDataMatrixParameter,
+      getShowRawToUrlString({
+        name: group.get('name'),
+        value: currentGroupValue
+      })
+    );
+
+    cleanupSortingMatrixParams(params);
+  });
 }
 
 function onSetGrouping(filters, onChangeFilters, tagName) {

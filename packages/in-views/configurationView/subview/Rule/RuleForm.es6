@@ -179,6 +179,7 @@ export default connectTo(
             metricInstance.get('metricId'),
             metricInstance.get('formatter'),
             metricInstance.get('label'),
+            false,
             metricInstance.get('pluginId')
           )
         );
@@ -212,7 +213,13 @@ export default connectTo(
         if (entityType && metricName) {
           if (!containsMetricInList(customMetricsList, metricName)) {
             customMetrics.push(
-              createMetricListItem(metricName, entity.get('formatter'), entity.get('label'), entityType)
+              createMetricListItem(
+                metricName,
+                entity.get('formatter'),
+                entity.get('label'),
+                true, // in this case we add the metric, to better understand the missing/deprecated metric
+                entityType
+              )
             );
           }
         }

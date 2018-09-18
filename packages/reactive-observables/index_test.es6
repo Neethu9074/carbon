@@ -327,12 +327,12 @@ describe('reactive-observables', () => {
   });
 
   describe('interval', () => {
-    it('should call every 100 millis', done => {
+    it('should call every 50 millis', done => {
       const start = Date.now();
       let callCount = 0;
-      const handle = interval(100).subscribe(() => {
+      const handle = interval(50).subscribe(() => {
         callCount++;
-        expect(Date.now()).to.be.above(start + callCount * 100);
+        expect(Date.now()).to.be.above(start + callCount * 50);
         if (callCount === 3) {
           handle.dispose();
           done();

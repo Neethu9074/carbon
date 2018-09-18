@@ -24,6 +24,7 @@ import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFi
 import RawDataView from 'in-analyze/AnalyzeView/components/RawDataView/RawDataView';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -72,10 +73,10 @@ export default compose(
       const dataSource = getDataSourceFromUrlString(urlShowRawActive);
 
       const objectToReturn = {};
-      objectToReturn[tagFilterMatrixParameter] = tagFilter;
-      objectToReturn[groupByMatrixParameter] = group;
       objectToReturn[showRawDataMatrixParameter] = showRawActive;
       objectToReturn[dataSourceMatrixParameter] = dataSource;
+      objectToReturn[tagFilterMatrixParameter] = tagFilter;
+      objectToReturn[groupByMatrixParameter] = group;
       return objectToReturn;
     },
     getSerializedUrlValues: props => {
@@ -110,7 +111,7 @@ function AnalyzeView(props) {
     dataSource: props[dataSourceMatrixParameter],
     timeConfig: getTimeConfig(location)
   });
-
+  const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
 
   return (
@@ -127,7 +128,7 @@ function AnalyzeView(props) {
                 filters={filters}
                 onChangeFilters={onChangeFilters}
                 tagFiltersForSubscription={tagFiltersForSubscription}
-                filterByGroup={props[showRawDataMatrixParameter]}
+                filterByGroup={rawDataGroup}
               />
             );
           }}
