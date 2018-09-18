@@ -51,6 +51,14 @@ const Form = entityForm(function IntegrationForm(props) {
 });
 
 function save(rule, form) {
+  const metricFormatter = form.get('formatter').value;
+
+  let conditionValue = Number(form.get('conditionValue').value);
+  if (metricFormatter === 'PERCENTAGE') {
+    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    conditionValue /= 100.0;
+  }
+
   return saveRule(
     fromJS(
       createRule(
@@ -62,7 +70,7 @@ function save(rule, form) {
         form.get('window') ? Number(form.get('window').value) : '',
         form.get('aggregation') ? form.get('aggregation').value : null,
         form.get('conditionOperator').value,
-        Number(form.get('conditionValue').value)
+        conditionValue
       )
     )
   );

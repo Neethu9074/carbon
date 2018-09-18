@@ -61,7 +61,9 @@ export function createRule(
   window = 1000,
   aggregation = '',
   conditionOperator = '',
-  conditionValue = 0.0
+  conditionValue = 0.0,
+  formatter = 'UNDEFINED',
+  label = ''
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -72,7 +74,9 @@ export function createRule(
     window,
     aggregation,
     conditionOperator,
-    conditionValue
+    conditionValue,
+    formatter,
+    label
   };
 }
 

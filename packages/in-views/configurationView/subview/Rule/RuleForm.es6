@@ -2,14 +2,15 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import {
-  number,
-  percentage,
   bytes,
   bytesPerSecondTwoDecimalPlaces,
   millis,
   ms,
   msZeroDecimalPlaces,
   muSecondsToMillis,
+  number,
+  percentage,
+  percentagePlainZeroDecimalPlaces,
   zeroDecimalPlacesPerSecond
 } from 'in-services/formatters/number';
 import {
@@ -143,6 +144,13 @@ function notBlankOrDeprecatedValidator(entityType) {
 export function ruleFormDefinition(rule) {
   const entityType = rule ? rule.get('entityType') : '';
   const metricName = rule ? rule.get('metricName') : '';
+  const formatter = rule ? rule.get('formatter') : 'UNDEFINED';
+
+  let conditionValue = rule ? rule.get('conditionValue') : 0;
+  if (formatter === 'PERCENTAGE') {
+    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    conditionValue *= 100.0;
+  }
 
   let origin = rule ? rule.get('origin') : '';
   if (!origin && entityType && metricName) {
@@ -197,7 +205,7 @@ export function ruleFormDefinition(rule) {
     .put(
       'conditionValue',
       createField({
-        value: String(rule.get('conditionValue')),
+        value: String(conditionValue),
         validator(value) {
           const n = Number(value);
           if (isNaN(n)) {
@@ -211,7 +219,15 @@ export function ruleFormDefinition(rule) {
           return null;
         }
       })
+    )
+    .put(
+      'formatter',
+      createField({
+        value: formatter,
+        validator: notBlankValidator
+      })
     );
+
   form = putWindowField(form, rule);
   form = putRollupField(form, rule);
   return putAggregationField(form, rule);
@@ -286,6 +302,7 @@ function numberFormatterToFormatterType(numberFormatter) {
     case muSecondsToMillis:
       return 'MILLIS';
     case percentage:
+    case percentagePlainZeroDecimalPlaces:
       return 'PERCENTAGE';
     case number.perSecond:
     case bytes.perSecond:
@@ -323,11 +340,6 @@ export default connectTo(
     constructor(props) {
       super(props);
       this.entity = props.entity;
-
-      const formatter = this.entity.get('formatter');
-      this.state = {
-        metricFormatter: formatter ? formatter : 'UNDEFINED'
-      };
     }
 
     render() {
@@ -380,20 +392,20 @@ export default connectTo(
                   ]}
                   onChange={e => {
                     if (e && e.value != field.value) {
-                      onChange(['origin', 'entityType', 'metricName'], [e ? e.value : '', '', ''], updatedForm => {
-                        // manually set to not-touched to prevent showing the validation-error
-                        updatedForm = updatedForm.updateIn(['entityType'], function(f) {
-                          return f.setTouched(false);
-                        });
-                        updatedForm = updatedForm.updateIn(['metricName'], function(f) {
-                          return f.setTouched(false);
-                        });
-                        return updatedForm;
-                      });
-
-                      this.setState({
-                        metricFormatter: 'UNDEFINED'
-                      });
+                      onChange(
+                        ['origin', 'entityType', 'metricName', 'formatter'],
+                        [e ? e.value : '', '', '', 'UNDEFINED'],
+                        updatedForm => {
+                          // manually set to not-touched to prevent showing the validation-error
+                          updatedForm = updatedForm.updateIn(['entityType'], function(f) {
+                            return f.setTouched(false);
+                          });
+                          updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                            return f.setTouched(false);
+                          });
+                          return updatedForm;
+                        }
+                      );
                     }
                   }}
                 />
@@ -413,17 +425,17 @@ export default connectTo(
                       options={pluginsWithMetricDefinitions}
                       onChange={e => {
                         if (e && e.value != field.value) {
-                          onChange(['entityType', 'metricName'], [e ? e.value : '', ''], updatedForm => {
-                            // manually set to not-touched to prevent showing the validation-error
-                            updatedForm = updatedForm.updateIn(['metricName'], f => {
-                              return f.setTouched(false);
-                            });
-                            return updatedForm;
-                          });
-
-                          this.setState({
-                            metricFormatter: 'UNDEFINED'
-                          });
+                          onChange(
+                            ['entityType', 'metricName', 'formatter'],
+                            [e ? e.value : '', '', 'UNDEFINED'],
+                            updatedForm => {
+                              // manually set to not-touched to prevent showing the validation-error
+                              updatedForm = updatedForm.updateIn(['metricName'], f => {
+                                return f.setTouched(false);
+                              });
+                              return updatedForm;
+                            }
+                          );
                         }
                       }}
                     />
@@ -466,27 +478,28 @@ export default connectTo(
                                 return f.setValue(metricItem.entityType);
                               });
                             }
+
+                            let metricFormatter = 'UNDEFINED';
+                            if (form.get('origin').value === 'custom') {
+                              const metricItem = getMetricListItemFromList(customMetrics, e.value);
+                              if (metricItem != null) {
+                                metricFormatter = metricItem.formatter;
+                              }
+                            } else if (form.get('origin').value === 'built-in') {
+                              const entityType = form.get('entityType').value;
+                              const buildInMetricsList = getPlainMetricList(entityType);
+                              const metricItem = getMetricListItemFromList(buildInMetricsList, e.value);
+                              if (metricItem != null) {
+                                metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
+                              }
+                            }
+
+                            updatedForm = updatedForm.updateIn(['formatter'], f => {
+                              return f.setValue(metricFormatter);
+                            });
+
                             return updatedForm;
                           });
-
-                          if (form.get('origin').value === 'custom') {
-                            const metricItem = getMetricListItemFromList(customMetrics, e.value);
-                            if (metricItem != null) {
-                              this.setState({
-                                metricFormatter: metricItem.formatter
-                              });
-                            }
-                          }
-                          if (form.get('origin').value === 'built-in') {
-                            const entityType = form.get('entityType').value;
-                            const buildInMetricsList = getPlainMetricList(entityType);
-                            const metricItem = getMetricListItemFromList(buildInMetricsList, e.value);
-                            if (metricItem != null) {
-                              this.setState({
-                                metricFormatter: numberFormatterToFormatterType(metricItem.formatter)
-                              });
-                            }
-                          }
                         }
                       }}
                     />
@@ -605,7 +618,7 @@ export default connectTo(
                 </Col>
                 <Col cols={1}>
                   <span id="rule-conditionValue-formatter" className={`${block}__value_format_text`}>
-                    {formatterToLabel(this.state.metricFormatter)}
+                    {formatterToLabel(form.get('formatter').value)}
                   </span>
                 </Col>
               </Row>
