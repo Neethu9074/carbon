@@ -13,7 +13,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    line-height: 1.1;
 
     &:hover,
     &:focus {
@@ -54,19 +53,20 @@
 
   .primary {
     .buttonStyle(
-      // bg
-      @lib__colors__primary1,
-      // hover bg
-      #12978e,
-      // font
-      #fff,
-      // hover font
-      #fff,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      @lib__typography__button__font-weight
-      );
+        // bg
+          @lib__colors__primary1,
+        // hover bg
+          #12978e,
+        // font
+          #fff,
+        // hover font
+          #fff,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
@@ -77,19 +77,20 @@
 
   .secondary {
     .buttonStyle(
-      // bg
-      @lib__colors__N050,
-      // hover bg
-      @lib__colors__N100,
-      // font
-      @lib__colors__N800Dark,
-      // hover font
-      @lib__colors__N800Dark,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      normal
-      );
+        // bg
+          @lib__colors__N050,
+        // hover bg
+          @lib__colors__N100,
+        // font
+          @lib__colors__N800Dark,
+        // hover font
+          @lib__colors__N800Dark,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
 
     border: 1px solid @lib__colors__N400;
 
@@ -101,28 +102,27 @@
     &.disabled:hover,
     &.disabled:focus {
       color: @lib__colors__N700Medium;
-      border: 1px solid #E2E4E6;
-      background: #FCFCFD;
+      border: 1px solid #e2e4e6;
+      background: #fcfcfd;
     }
   }
 
   .action {
     .buttonStyle(
-      // bg
-      @lib__colors__white,
-      // hover bg
-      #E8F6F8,
-      // font
-      @lib__colors__primary1,
-      // hover font
-      @lib__colors__primary1,
-
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      normal
-      );
+        // bg
+          @lib__colors__white,
+        // hover bg
+          #e8f6f8,
+        // font
+          @lib__colors__primary1,
+        // hover font
+          @lib__colors__primary1,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
@@ -134,19 +134,20 @@
 
   .subtle {
     .buttonStyle(
-      // bg
-      @lib__colors__white,
-      // hover bg
-      @lib__colors__N300,
-      // font
-      @lib__colors__N600Light,
-      // hover font
-      @lib__colors__N600Light,
-      //font size
-      @lib__typography__button__font-size,
-      //font weight
-      200
-      );
+        // bg
+          @lib__colors__white,
+        // hover bg
+          @lib__colors__N300,
+        // font
+          @lib__colors__N600Light,
+        // hover font
+          @lib__colors__N600Light,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          200
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
@@ -158,46 +159,44 @@
 
   .create {
     .buttonStyle(
-      // bg
-      @lib__colors__success,
-      // hover bg
-      #31a56b,
-      // font
-      #fff,
-      // hover font
-      #fff,
-
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      normal
-      );
+        // bg
+          @lib__colors__success,
+        // hover bg
+          #31a56b,
+        // font
+          #fff,
+        // hover font
+          #fff,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: #91DAB0;
+      background: #91dab0;
     }
   }
 
   .danger {
     .buttonStyle(
-      // bg
-      @lib__colors__failure,
-      // hover bg
-      #cc4238,
-      // font
-      #fff,
-      // hover font
-      #fff,
-
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      @lib__typography__button__font-weight
-      );
+        // bg
+          @lib__colors__failure,
+        // hover bg
+          #cc4238,
+        // font
+          #fff,
+        // hover font
+          #fff,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
@@ -208,26 +207,25 @@
 
   .warning {
     .buttonStyle(
-      // bg
-      @lib__colors__warning,
-      // hover bg
-      #f0bc00,
-      // font
-      #fff,
-      // hover font
-      #fff,
-
-      //font size
-      @lib__typography__button__font-size,
-
-      //font weight
-      @lib__typography__button__font-weight
-      );
+        // bg
+          @lib__colors__warning,
+        // hover bg
+          #f0bc00,
+        // font
+          #fff,
+        // hover font
+          #fff,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
 
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: #FFD86D;
+      background: #ffd86d;
     }
   }
 }

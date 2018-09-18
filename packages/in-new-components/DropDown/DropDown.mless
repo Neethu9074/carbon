@@ -1,0 +1,29 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+
+    padding: 0.25rem 0.5rem;
+
+    background: #fff;
+    box-shadow: @lib__shadows__subtle;
+    border-radius: @lib__shapes__radius_medium;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N050;
+    }
+  }
+
+  .chevronIcon {
+    margin-left: 1rem;
+    fill: @lib__colors__N900Primary;
+  }
+}

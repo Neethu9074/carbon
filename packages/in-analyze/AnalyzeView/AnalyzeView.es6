@@ -9,7 +9,6 @@ import {
   getTagFilterFromUrlString,
   getGroupFromUrlString,
   getShowRawFromUrlString,
-  getDataSourceFromUrlString,
   getShowRawToUrlString
 } from 'in-analyze/filterBuilder';
 import {
@@ -26,15 +25,12 @@ import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import GroupedCalls from 'in-analyze/GroupedCalls';
-import SvgIcon from 'in-components/SvgIcon';
-import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-
-import locals from './AnalyzeView.mless';
 
 export default compose(
   connectTo({
@@ -70,7 +66,8 @@ export default compose(
 
       const urlShowRawActive = values[showRawDataMatrixParameter];
       const showRawActive = getShowRawFromUrlString(urlShowRawActive);
-      const dataSource = getDataSourceFromUrlString(urlShowRawActive);
+
+      const dataSource = values[dataSourceMatrixParameter];
 
       const objectToReturn = {};
       objectToReturn[showRawDataMatrixParameter] = showRawActive;
@@ -89,7 +86,8 @@ export default compose(
       const showRawActive = props[showRawDataMatrixParameter];
       const urlReadyShowRawActive = getShowRawToUrlString(showRawActive);
 
-      const urlReadyDataSource = props[showRawDataMatrixParameter];
+      const dataSource = props[dataSourceMatrixParameter];
+      const urlReadyDataSource = dataSource;
 
       const objectToStore = {};
       objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
@@ -137,37 +135,23 @@ function AnalyzeView(props) {
           path="*/"
           render={() => {
             return (
-              <Sticky header={<AnalyzeHeader />}>
-                <Fragment>
-                  <QueryBuilderWorkspace
-                    filters={filters}
-                    onChangeFilters={onChangeFilters}
-                    totalNumberOfCalls={totalHits}
-                  />
+              <Fragment>
+                <AnalyzeHeader onChangeFilters={onChangeFilters} dataSource={props[dataSourceMatrixParameter]} />
+                <QueryBuilderWorkspace
+                  filters={filters}
+                  onChangeFilters={onChangeFilters}
+                  totalNumberOfCalls={totalHits}
+                />
 
-                  <MaxWidthFullscreenContainer>
-                    <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-                  </MaxWidthFullscreenContainer>
-                  {activeDialog && <DisabledBodyScroll />}
-                </Fragment>
-              </Sticky>
+                <MaxWidthFullscreenContainer>
+                  <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                </MaxWidthFullscreenContainer>
+                {activeDialog && <DisabledBodyScroll />}
+              </Fragment>
             );
           }}
         />
       </Switch>
     </Fragment>
-  );
-}
-
-function AnalyzeHeader() {
-  return (
-    <div className={locals.headerWrapper}>
-      <MaxWidthFullscreenContainer>
-        <div className={locals.header}>
-          <SvgIcon className={locals.icon} type="lib_analyze" width={32} height={32} />
-          Calls
-        </div>
-      </MaxWidthFullscreenContainer>
-    </div>
   );
 }

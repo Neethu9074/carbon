@@ -19,10 +19,6 @@ export function getShowRawFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, 'traces');
 }
 
-export function getDataSourceFromUrlString(urlString) {
-  return parsedUrlOrDefault(urlString, null);
-}
-
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({
     name: tag.name,
