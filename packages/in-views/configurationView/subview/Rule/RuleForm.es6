@@ -287,6 +287,10 @@ function formatterToLabel(formatter) {
       return '%';
     case 'RATE':
       return '/s';
+    case 'BYTE_RATE':
+      return 'Bytes/s';
+    case 'BYTES':
+      return 'Bytes';
     case 'UNDEFINED':
     case 'NUMBER':
     default:
@@ -305,13 +309,15 @@ function numberFormatterToFormatterType(numberFormatter) {
     case percentagePlainZeroDecimalPlaces:
       return 'PERCENTAGE';
     case number.perSecond:
-    case bytes.perSecond:
-    case bytesPerSecondTwoDecimalPlaces:
     case zeroDecimalPlacesPerSecond:
       return 'RATE';
+    case bytes.perSecond:
+    case bytesPerSecondTwoDecimalPlaces:
+      return 'BYTE_RATE';
     case number:
-    case bytes:
       return 'NUMBER';
+    case bytes:
+      return 'BYTES';
     default:
       return 'UNDEFINED';
   }
