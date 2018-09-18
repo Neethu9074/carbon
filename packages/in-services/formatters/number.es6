@@ -307,3 +307,36 @@ function formatTime(t, units, formatNumber) {
 
   return formatNumber(t) + units[units.length - 1].unit;
 }
+
+export function numberFormatterToFormatterType(numberFormatter) {
+  switch (numberFormatter) {
+    case millis:
+    case ms:
+    case msZeroDecimalPlaces:
+    case msTwoDecimalPlaces:
+      return 'MILLIS';
+    case muSecondsToMillis:
+      return 'MUSECONDS';
+    case percentage:
+    case percentageZeroDecimalPlaces:
+    case percentageTwoDecimalPlaces:
+    case percentagePlain:
+    case percentagePlainZeroDecimalPlaces:
+    case percentagePlainTwoDecimalPlaces:
+    case hitRate:
+      return 'PERCENTAGE';
+    case number.perSecond:
+    case zeroDecimalPlacesPerSecond:
+      return 'RATE';
+    case bytes.perSecond:
+    case bytesPerSecondZeroDecimalPlaces:
+    case bytesPerSecondTwoDecimalPlaces:
+      return 'BYTE_RATE';
+    case number:
+      return 'NUMBER';
+    case bytes:
+      return 'BYTES';
+    default:
+      return 'UNDEFINED';
+  }
+}

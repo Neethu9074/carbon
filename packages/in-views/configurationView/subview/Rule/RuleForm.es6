@@ -2,18 +2,6 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import {
-  bytes,
-  bytesPerSecondTwoDecimalPlaces,
-  millis,
-  ms,
-  msZeroDecimalPlaces,
-  muSecondsToMillis,
-  number,
-  percentage,
-  percentagePlainZeroDecimalPlaces,
-  zeroDecimalPlacesPerSecond
-} from 'in-services/formatters/number';
-import {
   defaultAndUnknownPluginNames,
   plugins10,
   plugins20,
@@ -27,7 +15,12 @@ import {
   getPlainMetricList,
   isBuiltInMetric
 } from 'in-sdk/metrics';
+import {
+  formatterTypeToLabel,
+  mapConditionValue
+} from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import MetricSelector from 'in-views/configurationView/subview/Rule/MetricSelector';
+import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -144,13 +137,20 @@ function notBlankOrDeprecatedValidator(entityType) {
 export function ruleFormDefinition(rule) {
   const entityType = rule ? rule.get('entityType') : '';
   const metricName = rule ? rule.get('metricName') : '';
-  const formatter = rule ? rule.get('formatter') : 'UNDEFINED';
+  let formatter = rule ? rule.get('formatter') : 'UNDEFINED';
+
+  // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
+  if (rule && formatter === 'UNDEFINED') {
+    const metricList = getPlainMetricList(entityType);
+    const metricItem = getMetricListItemFromList(metricList, metricName);
+
+    if (metricItem) {
+      formatter = numberFormatterToFormatterType(metricItem.formatter);
+    }
+  }
 
   let conditionValue = rule ? rule.get('conditionValue') : 0;
-  if (formatter === 'PERCENTAGE') {
-    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
-    conditionValue *= 100.0;
-  }
+  conditionValue = mapConditionValue(conditionValue, formatter);
 
   let origin = rule ? rule.get('origin') : '';
   if (!origin && entityType && metricName) {
@@ -276,50 +276,6 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form, entity) 
         );
       }
     }
-  }
-}
-
-function formatterToLabel(formatter) {
-  switch (formatter) {
-    case 'MILLIS':
-      return 'ms';
-    case 'PERCENTAGE':
-      return '%';
-    case 'RATE':
-      return '/s';
-    case 'BYTE_RATE':
-      return 'Bytes/s';
-    case 'BYTES':
-      return 'Bytes';
-    case 'UNDEFINED':
-    case 'NUMBER':
-    default:
-      return '';
-  }
-}
-
-function numberFormatterToFormatterType(numberFormatter) {
-  switch (numberFormatter) {
-    case millis:
-    case ms:
-    case msZeroDecimalPlaces:
-    case muSecondsToMillis:
-      return 'MILLIS';
-    case percentage:
-    case percentagePlainZeroDecimalPlaces:
-      return 'PERCENTAGE';
-    case number.perSecond:
-    case zeroDecimalPlacesPerSecond:
-      return 'RATE';
-    case bytes.perSecond:
-    case bytesPerSecondTwoDecimalPlaces:
-      return 'BYTE_RATE';
-    case number:
-      return 'NUMBER';
-    case bytes:
-      return 'BYTES';
-    default:
-      return 'UNDEFINED';
   }
 }
 
@@ -624,7 +580,7 @@ export default connectTo(
                 </Col>
                 <Col cols={1}>
                   <span id="rule-conditionValue-formatter" className={`${block}__value_format_text`}>
-                    {formatterToLabel(form.get('formatter').value)}
+                    {formatterTypeToLabel(form.get('formatter').value)}
                   </span>
                 </Col>
               </Row>

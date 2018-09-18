@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { unmapConditionValue } from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import RuleForm, { ruleFormDefinition } from 'in-views/configurationView/subview/Rule/RuleForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
@@ -51,13 +52,10 @@ const Form = entityForm(function IntegrationForm(props) {
 });
 
 function save(rule, form) {
-  const metricFormatter = form.get('formatter').value;
+  const formatterType = form.get('formatter').value;
 
   let conditionValue = Number(form.get('conditionValue').value);
-  if (metricFormatter === 'PERCENTAGE') {
-    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
-    conditionValue /= 100.0;
-  }
+  conditionValue = unmapConditionValue(conditionValue, formatterType);
 
   return saveRule(
     fromJS(

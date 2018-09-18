@@ -1,13 +1,14 @@
 import React from 'react';
 
+import { getCategories, getMetricListItemFromList, getPlainMetricList } from 'in-sdk/metrics';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
 import { getRule } from 'in-api/rules';
 import { getSingular } from 'in-sdk/pluginName';
-import { getCategories } from 'in-sdk/metrics';
 import connectTo from 'in-hoc/connectTo';
 
 import './RuleDetails.less';
@@ -31,6 +32,24 @@ export default connectTo(
       return null;
     }
 
+    const entityType = rule ? rule.get('entityType') : '';
+    const metricName = rule ? rule.get('metricName') : '';
+    let formatter = rule ? rule.get('formatter') : 'UNDEFINED';
+
+    // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
+    if (rule && formatter === 'UNDEFINED') {
+      const metricList = getPlainMetricList(entityType);
+      const metricItem = getMetricListItemFromList(metricList, metricName);
+
+      if (metricItem) {
+        formatter = numberFormatterToFormatterType(metricItem.formatter);
+      }
+    }
+
+    const valueUnit = formatterTypeToLabel(formatter);
+    let conditionValue = rule.get('conditionValue');
+    conditionValue = mapConditionValue(conditionValue, formatter);
+
     return (
       <div className={block}>
         <DescriptionList>
@@ -49,7 +68,7 @@ export default connectTo(
           <DescriptionItem title="Time window">{formatDurationAccurately(rule.get('window'), 1000)}</DescriptionItem>
           <DescriptionItem title="Aggregation">{rule.get('aggregation')}</DescriptionItem>
           <DescriptionItem title="Condition">
-            {`${rule.get('conditionOperator')} ${rule.get('conditionValue')}`}
+            {`${rule.get('conditionOperator')} ${conditionValue} ${valueUnit}`}
           </DescriptionItem>
 
           <DescriptionItem title="Last update">{formatDateTime(rule.get('lastUpdated'))}</DescriptionItem>
@@ -80,4 +99,43 @@ function getMetricLabel(rule) {
       }
     }
   }
+}
+
+export function formatterTypeToLabel(formatterType) {
+  switch (formatterType) {
+    case 'MILLIS':
+      return 'ms';
+    case 'PERCENTAGE':
+      return '%';
+    case 'RATE':
+      return '/s';
+    case 'BYTE_RATE':
+      return 'Bytes/s';
+    case 'BYTES':
+      return 'Bytes';
+    case 'UNDEFINED':
+    case 'NUMBER':
+    default:
+      return '';
+  }
+}
+
+export function mapConditionValue(value, formatterType) {
+  if (formatterType === 'PERCENTAGE') {
+    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    value *= 100;
+  } else if (formatterType === 'MUSECONDS') {
+    value *= 1000;
+  }
+  return value;
+}
+
+export function unmapConditionValue(value, formatterType) {
+  if (formatterType === 'PERCENTAGE') {
+    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    value /= 100;
+  } else if (formatterType === 'MUSECONDS') {
+    value /= 1000;
+  }
+  return value;
 }
