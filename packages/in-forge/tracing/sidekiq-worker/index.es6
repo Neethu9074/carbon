@@ -6,7 +6,7 @@ registerSpanDefinition({
 
   typeName: {
     singular: 'Sidekiq Worker',
-    plural: 'Sidekiq Job Processing'
+    plural: 'Sidekiq Workers'
   },
 
   detailView: 'SidekiqWorkerSpanDetailView',

@@ -6,7 +6,7 @@ registerSpanDefinition({
 
   typeName: {
     singular: 'Resque Worker',
-    plural: 'Resque Job Processing'
+    plural: 'Resque Workers'
   },
 
   detailView: 'ResqueWorkerSpanDetailView',

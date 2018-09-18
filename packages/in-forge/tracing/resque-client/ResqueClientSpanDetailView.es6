@@ -7,7 +7,7 @@ export default function ResqueClientSpanDetailView({ span }) {
     <DescriptionList>
       <DescriptionItem title="Job">{span.getIn(['data', 'resque-client', 'job'])}</DescriptionItem>
       <DescriptionItem title="Queue">{span.getIn(['data', 'resque-client', 'queue'])}</DescriptionItem>
-      <ErrorDescriptionItem error={span.getIn(['data', 'resque-worker', 'error'])} />
+      <ErrorDescriptionItem error={span.getIn(['data', 'resque-client', 'error'])} />
     </DescriptionList>
   );
 }
