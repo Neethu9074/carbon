@@ -111,6 +111,7 @@ function AnalyzeView(props) {
   });
   const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
+  const dataSource = props[dataSourceMatrixParameter];
 
   return (
     <Fragment>
@@ -136,7 +137,7 @@ function AnalyzeView(props) {
           render={() => {
             return (
               <Fragment>
-                <AnalyzeHeader onChangeFilters={onChangeFilters} dataSource={props[dataSourceMatrixParameter]} />
+                <AnalyzeHeader onChangeFilters={onChangeFilters} dataSource={dataSource} />
                 <QueryBuilderWorkspace
                   filters={filters}
                   onChangeFilters={onChangeFilters}

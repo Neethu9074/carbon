@@ -16,8 +16,8 @@ import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { createFilter } from 'in-analyze/filterBuilder';
-import ButtonGroup from 'in-new-components/ButtonGroup';
 import { getTagFromList } from 'in-applications/tags';
+import Pill from 'in-new-components/Pill';
 
 import locals from './QueryBuilderWorkspace.mless';
 
@@ -65,16 +65,12 @@ export default function QueryBuilderWorkspace(props) {
       <MaxWidthFullscreenContainer>
         <div className={locals.groupRow}>
           <span className={locals.groupByLabel}>Grouped by</span>
-          <ButtonGroup
-            buttonPropsList={[
-              {
-                text: group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name'),
-                key: 'name',
-                onClick: () => onUpdateGroup(filters, onChangeFilters, group)
-              }
-            ]}
-            activeKey="name"
-          />
+          <Pill kind="light" color="#3C444D">
+            {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
+          </Pill>
+          <span className={locals.changeGroupLabel} onClick={() => onUpdateGroup(filters, onChangeFilters, group)}>
+            change
+          </span>
         </div>
       </MaxWidthFullscreenContainer>
     </Fragment>

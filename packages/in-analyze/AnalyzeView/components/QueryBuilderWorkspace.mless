@@ -27,7 +27,7 @@
   }
 
   .filterRow {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .moreFilterLabel {
@@ -37,6 +37,8 @@
   .groupRow {
     display: flex;
     align-items: center;
+
+    margin-bottom: 1rem;
   }
 
   .groupByLabel {
@@ -44,5 +46,12 @@
 
     color: @lib__colors__N600Light;
     font-size: 0.75rem;
+  }
+
+  .changeGroupLabel {
+    margin-left: 1rem;
+
+    color: @lib__colors__light-blue800;
+    cursor: pointer;
   }
 }

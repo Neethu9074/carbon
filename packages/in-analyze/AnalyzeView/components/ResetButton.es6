@@ -10,8 +10,8 @@ export default function ResetButton({ filters, onResetClicked }) {
   }
 
   return (
-    <Button icon="lib_actions_revert" kind="subtle" size="compact" onClick={onResetClicked}>
-      Reset
+    <Button icon="lib_actions_cached" kind="subtle" size="compact" onClick={onResetClicked}>
+      Clear filters
     </Button>
   );
 }

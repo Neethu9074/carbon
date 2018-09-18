@@ -2,7 +2,8 @@
 
 :local {
   .headerWrapper {
-    background: @lib__colors__N300;
+    padding: 1rem 0;
+    background: @lib__colors__N050;
   }
 
   .header {
