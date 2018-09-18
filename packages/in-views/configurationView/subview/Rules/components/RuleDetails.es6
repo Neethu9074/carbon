@@ -122,20 +122,20 @@ export function formatterTypeToLabel(formatterType) {
 
 export function mapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
-    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value *= 100;
   } else if (formatterType === 'MUSECONDS') {
-    value *= 1000;
+    // convert to millis
+    value /= 1000;
   }
   return value;
 }
 
 export function unmapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
-    // for simplified use, we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value /= 100;
   } else if (formatterType === 'MUSECONDS') {
-    value /= 1000;
+    value *= 1000;
   }
   return value;
 }
