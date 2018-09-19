@@ -79,6 +79,8 @@ export default function QueryBuilderWorkspace(props) {
 
 function QuickFilterSection(props) {
   const { filters, onChangeFilters } = props;
+
+  const isTracesDataSource = filters.get('dataSource') === 'traces';
   const tagFilter = filters.get('tagFilter').toJS();
 
   return (
@@ -157,7 +159,11 @@ function QuickFilterSection(props) {
       <Overlay
         content={SuggestionContent}
         props={assign(
-          { Component: LatencySuggestions, tagName: 'call.latency', operator: operators.GREATER_THAN },
+          {
+            Component: LatencySuggestions,
+            tagName: isTracesDataSource ? 'trace.latency' : 'call.latency',
+            operator: operators.GREATER_THAN
+          },
           props
         )}
       >
@@ -166,8 +172,14 @@ function QuickFilterSection(props) {
 
       <QuickFilter
         label="Erroneous"
-        onClick={() => onAddTagFilter({ name: 'call.erroneous', value: 'true' }, filters, onChangeFilters)}
-        deactivated={getTagFromList(tagFilter, { name: 'call.erroneous' })}
+        onClick={() =>
+          onAddTagFilter(
+            { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous', value: 'true' },
+            filters,
+            onChangeFilters
+          )
+        }
+        deactivated={getTagFromList(tagFilter, { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous' })}
         helpText="The filters already contains this filter"
       />
 
