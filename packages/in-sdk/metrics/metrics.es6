@@ -45,15 +45,6 @@ export function containsMetricInList(metricList, metricName) {
   return false;
 }
 
-export function getMetricListItemFromList(metricList, metricName) {
-  for (var i = 0; i < metricList.length; i++) {
-    if (metricList[i].value === metricName) {
-      return metricList[i];
-    }
-  }
-  return null;
-}
-
 export function createMetricListItem(metricName, formatter, label, appendMetricName, entityType) {
   if (appendMetricName && !label.includes(metricName)) {
     label += ` (${metricName})`;

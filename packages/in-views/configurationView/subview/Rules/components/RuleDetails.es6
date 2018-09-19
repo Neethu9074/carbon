@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { getCategories, getMetricListItemFromList, getPlainMetricList } from 'in-sdk/metrics';
+import { getCategories, getPlainMetricList } from 'in-sdk/metrics';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
-import { getRule } from 'in-api/rules';
 import { getSingular } from 'in-sdk/pluginName';
+import { find } from 'in-services/arrayUtils';
 import connectTo from 'in-hoc/connectTo';
+import { getRule } from 'in-api/rules';
 
 import './RuleDetails.less';
 
@@ -39,7 +40,7 @@ export default connectTo(
     // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
     if (rule && formatter === 'UNDEFINED') {
       const metricList = getPlainMetricList(entityType);
-      const metricItem = getMetricListItemFromList(metricList, metricName);
+      const metricItem = find(metricList, _metric => _metric.value === metricName);
 
       if (metricItem) {
         formatter = numberFormatterToFormatterType(metricItem.formatter);

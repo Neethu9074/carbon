@@ -8,13 +8,7 @@ import {
   pluginsDeprecatedIn20,
   oneZeroServicePlugins
 } from 'in-forge/constants';
-import {
-  containsMetricInList,
-  createMetricListItem,
-  getMetricListItemFromList,
-  getPlainMetricList,
-  isBuiltInMetric
-} from 'in-sdk/metrics';
+import { containsMetricInList, createMetricListItem, getPlainMetricList, isBuiltInMetric } from 'in-sdk/metrics';
 import {
   formatterTypeToLabel,
   mapConditionValue
@@ -25,14 +19,17 @@ import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
 import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
+import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
 import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { createRule } from 'in-api/rules';
 import connectTo from 'in-hoc/connectTo';
 
 import './RuleForm.less';
@@ -70,18 +67,12 @@ function putAggregationField(form, rule) {
 }
 
 function isPercentile(form) {
-  if (
-    !form ||
-    !form.get('entityType') ||
-    !form.get('entityType').value ||
-    !form.get('metricName') ||
-    !form.get('metricName').value
-  ) {
+  if (!form || !form.get('entityType') || !form.get('metricName')) {
     return false;
   }
 
-  let metricName = form.get('metricName').value;
-  let entityType = form.get('entityType').value;
+  const metricName = form.get('metricName').value;
+  const entityType = form.get('entityType').value;
   return isMetricPercentile(entityType, metricName);
 }
 
@@ -89,9 +80,9 @@ function getPluginsWithMetricDefinitions() {
   const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
   return Object.keys(plugins)
     .map(k => plugins[k])
-    .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
     .filter(plugin => getCategories(plugin).length > 0)
-    .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
+    .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
+    .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
     .map(plugin => {
       return {
         value: plugin,
@@ -135,25 +126,25 @@ function notBlankOrDeprecatedValidator(entityType) {
 }
 
 export function ruleFormDefinition(rule) {
-  const entityType = rule ? rule.get('entityType') : '';
-  const metricName = rule ? rule.get('metricName') : '';
-  let formatter = rule ? rule.get('formatter') : 'UNDEFINED';
+  let { name, entityType, metricName, conditionOperator, conditionValue, formatter } = rule
+    ? rule.toJS()
+    : createRule();
 
   // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
   if (rule && formatter === 'UNDEFINED') {
     const metricList = getPlainMetricList(entityType);
-    const metricItem = getMetricListItemFromList(metricList, metricName);
+    const metricItem = find(metricList, _metric => _metric.value === metricName);
 
     if (metricItem) {
       formatter = numberFormatterToFormatterType(metricItem.formatter);
     }
   }
 
-  let conditionValue = rule ? rule.get('conditionValue') : 0;
+  //let conditionValue = rule ? rule.get('conditionValue') : 0;
   conditionValue = mapConditionValue(conditionValue, formatter);
 
-  let origin = rule ? rule.get('origin') : '';
-  if (!origin && entityType && metricName) {
+  let origin = '';
+  if (entityType && metricName) {
     origin = isBuiltInMetric(entityType, metricName) ? 'built-in' : 'custom';
   }
 
@@ -161,7 +152,7 @@ export function ruleFormDefinition(rule) {
     .put(
       'name',
       createField({
-        value: rule ? rule.get('name') : '',
+        value: name,
         validator: notBlankValidator
       })
     )
@@ -198,7 +189,7 @@ export function ruleFormDefinition(rule) {
     .put(
       'conditionOperator',
       createField({
-        value: rule.get('conditionOperator'),
+        value: conditionOperator,
         validator: notBlankValidator
       })
     )
@@ -234,23 +225,23 @@ export function ruleFormDefinition(rule) {
 }
 
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
-  form.get('entityType').map(field => {
-    if (twoZeroModeEnabled && isDeprecatedEntityType(field.value)) {
-      pluginsWithMetricDefinitions.push({
-        value: field.value,
-        label: getSingular(field.value) + ' (deprecated)'
-      });
-    }
-    if ((twoZeroModeEnabled && is10ServiceType(field.value)) || (!twoZeroModeEnabled && is20EntityType(field.value))) {
-      pluginsWithMetricDefinitions.push({
-        value: field.value,
-        label: getSingular(field.value)
-      });
-    }
-  });
+  const entityType = form.get('entityType').value;
+
+  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+    pluginsWithMetricDefinitions.push({
+      value: entityType,
+      label: getSingular(entityType) + ' (deprecated)'
+    });
+  }
+  if ((twoZeroModeEnabled && is10ServiceType(entityType)) || (!twoZeroModeEnabled && is20EntityType(entityType))) {
+    pluginsWithMetricDefinitions.push({
+      value: entityType,
+      label: getSingular(entityType)
+    });
+  }
 
   // re-ensure correct order of the list
-  pluginsWithMetricDefinitions.sort((a, b) => a.label.localeCompare(b.label));
+  pluginsWithMetricDefinitions.sort((a, b) => compareIgnoreCase(a.label, b.label));
 }
 
 function addCurrentCustomMetricToListIfMissing(customMetricsList, form, entity) {
@@ -258,14 +249,7 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form, entity) 
     return;
   }
 
-  if (
-    form.get('origin') &&
-    form.get('origin').value === 'custom' &&
-    form.get('entityType') &&
-    form.get('entityType').value &&
-    form.get('metricName') &&
-    form.get('metricName').value
-  ) {
+  if (form.get('origin') && form.get('origin').value === 'custom' && form.get('entityType') && form.get('metricName')) {
     const entityType = form.get('entityType').value;
     const metricName = form.get('metricName').value;
 
@@ -301,19 +285,20 @@ export default connectTo(
   class RuleForm extends React.Component {
     constructor(props) {
       super(props);
-      this.entity = props.entity;
     }
 
     render() {
-      const { form, onChange, customMetrics } = this.props;
+      const { form, entity, onChange, customMetrics } = this.props;
 
       // extend custom-metrics list with current selected custom-metric,
       // in case it is not contained in the list. This might happen due to
       // deprecation or there is no such metric anymore
-      addCurrentCustomMetricToListIfMissing(customMetrics, form, this.entity);
+      addCurrentCustomMetricToListIfMissing(customMetrics, form, entity);
 
       const pluginsWithMetricDefinitions = getPluginsWithMetricDefinitions();
       updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form);
+
+      const isPercentileMetric = isPercentile(form);
 
       return (
         <fieldset>
@@ -359,10 +344,10 @@ export default connectTo(
                         [e ? e.value : '', '', '', 'UNDEFINED'],
                         updatedForm => {
                           // manually set to not-touched to prevent showing the validation-error
-                          updatedForm = updatedForm.updateIn(['entityType'], function(f) {
+                          updatedForm = updatedForm.updateIn(['entityType'], f => {
                             return f.setTouched(false);
                           });
-                          updatedForm = updatedForm.updateIn(['metricName'], function(f) {
+                          updatedForm = updatedForm.updateIn(['metricName'], f => {
                             return f.setTouched(false);
                           });
                           return updatedForm;
@@ -375,7 +360,7 @@ export default connectTo(
               </FormGroup>
             ))}
 
-            {form.get('origin').value && form.get('origin').value === 'built-in'
+            {form.get('origin').value === 'built-in'
               ? form.get('entityType').map(field => (
                   <FormGroup>
                     <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
@@ -406,7 +391,7 @@ export default connectTo(
                 ))
               : null}
 
-            {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value)
+            {form.get('origin').value === 'custom' || form.get('entityType').value
               ? form.get('metricName').map(field => (
                   <FormGroup>
                     <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
@@ -433,7 +418,7 @@ export default connectTo(
                             if (form.get('origin').value === 'custom') {
                               // manually update the hidden hidden entityType field in case of custom metrics
                               updatedForm = updatedForm.updateIn(['entityType'], f => {
-                                const metricItem = getMetricListItemFromList(customMetrics, e.value);
+                                const metricItem = find(customMetrics, _metric => _metric.value === e.value);
                                 if (metricItem == null) {
                                   return f.setValue('');
                                 }
@@ -443,14 +428,14 @@ export default connectTo(
 
                             let metricFormatter = 'UNDEFINED';
                             if (form.get('origin').value === 'custom') {
-                              const metricItem = getMetricListItemFromList(customMetrics, e.value);
+                              const metricItem = find(customMetrics, _metric => _metric.value === e.value);
                               if (metricItem != null) {
                                 metricFormatter = metricItem.formatter;
                               }
                             } else if (form.get('origin').value === 'built-in') {
                               const entityType = form.get('entityType').value;
                               const buildInMetricsList = getPlainMetricList(entityType);
-                              const metricItem = getMetricListItemFromList(buildInMetricsList, e.value);
+                              const metricItem = find(buildInMetricsList, _metric => _metric.value === e.value);
                               if (metricItem != null) {
                                 metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
                               }
@@ -470,9 +455,9 @@ export default connectTo(
                 ))
               : null}
 
-            {form.get('origin').value && (form.get('origin').value === 'custom' || form.get('entityType').value) ? (
+            {form.get('origin').value === 'custom' || form.get('entityType').value ? (
               <Row>
-                {!isPercentile() && (
+                {!isPercentileMetric && (
                   <Col cols={3}>
                     {form.get('window').map(field => (
                       <FormGroup>
@@ -497,7 +482,7 @@ export default connectTo(
                     ))}
                   </Col>
                 )}
-                {isPercentile() && (
+                {isPercentileMetric && (
                   <Col cols={3}>
                     {form.get('rollup').map(field => (
                       <FormGroup>
@@ -520,7 +505,7 @@ export default connectTo(
                     ))}
                   </Col>
                 )}
-                {!isPercentile() && (
+                {!isPercentileMetric && (
                   <Col cols={3}>
                     {form.get('aggregation').map(field => (
                       <FormGroup>
