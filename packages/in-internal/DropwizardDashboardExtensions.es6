@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getContextForDropwizard } from 'in-internal/dataRetrieval';
 import Button from 'in-new-components/Button';
-import connect from 'in-hoc/connectTo';
 import Select from 'in-components/form/Select';
+import connect from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
 
 import './DropwizardDashboardExtension.less';
 
@@ -17,9 +18,11 @@ export default connect(({ snapshot, timeConfig }) => ({
     return null;
   }
 
-  const { host: hostSnapshot, container } = context;
+  const { host: hostSnapshot, container, jvm } = context;
   const fqdn = hostSnapshot.getIn(['data', 'fqdn']);
   const jobName = container.getIn(['data', 'Nomad', 'jobName']);
+  const allocId = container.getIn(['data', 'Nomad', 'allocId']);
+  const componentName = jvm.getIn(['data', 'appInfo', 'title']);
 
   const host = fqdn.replace('.instana.io', '');
   const adminPort = container.getIn(['data', 'Nomad', 'ports', 'check']);
@@ -29,40 +32,52 @@ export default connect(({ snapshot, timeConfig }) => ({
     jobName
   )}&hosts=${encodeURIComponent(fqdn)}`;
 
+  const getLogsCommand = `
+# Get logs directly from machine. Remember to insert your user name
+ssh -t <your user name>@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
+`.trim();
+
   return (
-    <DashboardSection>
-      <Button href={adminUrl} target="_blank">
-        Admin
-      </Button>
-      <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
-        Config
-      </Button>
-      <Button href={logUrl} target="_blank">
-        Logs
-      </Button>
-      <Button href={`${adminUrl}/admin/build.json`} target="_blank">
-        Version
-      </Button>
-      <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
-        Injector Bindings
-      </Button>
-      <Button href={`${adminUrl}/hystrix`} target="_blank">
-        Hystrix
-      </Button>
-      {container.get('label').includes('appdata-processor') && (
-        <Select
-          id="tag-selection"
-          value=""
-          className={block + '__select'}
-          onChange={e => window.open(e.target.value, '_blank')}
-          autoFocus
-        >
-          <option value="">Tag data (select one)</option>
-          <option value={`${adminUrl}/admin/physicalAttributeStore`}>All Tags</option>
-          <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>Cluster Tags</option>
-          <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>Host/port references</option>
-        </Select>
-      )}
-    </DashboardSection>
+    <Fragment>
+      <DashboardSection>
+        <Button href={adminUrl} target="_blank">
+          Admin
+        </Button>
+        <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
+          Config
+        </Button>
+        <Button href={logUrl} target="_blank">
+          Logs
+        </Button>
+        <Button href={`${adminUrl}/admin/build.json`} target="_blank">
+          Version
+        </Button>
+        <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
+          Injector Bindings
+        </Button>
+        <Button href={`${adminUrl}/hystrix`} target="_blank">
+          Hystrix
+        </Button>
+
+        {container.get('label').includes('appdata-processor') && (
+          <Select
+            id="tag-selection"
+            value=""
+            className={block + '__select'}
+            onChange={e => window.open(e.target.value, '_blank')}
+            autoFocus
+          >
+            <option value="">Tag data (select one)</option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore`}>All Tags</option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>Cluster Tags</option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>Host/port references</option>
+          </Select>
+        )}
+      </DashboardSection>
+
+      <DashboardSection title="Common Commands">
+        <Code lang="plain" code={getLogsCommand} />
+      </DashboardSection>
+    </Fragment>
   );
 });
