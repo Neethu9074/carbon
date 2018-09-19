@@ -32,16 +32,32 @@
     .ellipsis();
   }
 
-  .serviceLabel {
+  .serviceLabel, .infraLabel {
     font-size: 0.75rem;
     color: @lib__colors__N900Primary;
   }
 
-  .serviceLine {
+  .infraLabel {
+    margin-top: 0.6rem;
+    display: block;
+  }
+
+  .serviceLine, .infraLine {
     display: flex;
     align-items: center;
     margin-top: 0.5rem;
     color: @lib__colors__blue800;
+  }
+
+  .infraLink, .infraLink:hover {
+    color: @lib__colors__blue800;
+    margin: 0.1rem 0;
+
+    svg {
+      margin-right: 0.5rem;
+      margin-left: 0.1rem;
+      fill: @lib__colors__blue800 !important;
+    }
   }
 
   .rect {

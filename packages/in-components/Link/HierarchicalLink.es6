@@ -51,7 +51,8 @@ export default connectTo(
         hierarchy,
         className,
         href,
-        kind
+        kind,
+        linkClassName: customLinkClassName
       } = this.props;
       const isExpanded = this.state.isExpanded;
       const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
@@ -63,7 +64,11 @@ export default connectTo(
 
       getLabel;
       const link = (
-        <Link href={href} onClick={stopPropagation} className={joinClassNames(linkClassName, className)}>
+        <Link
+          href={href}
+          onClick={stopPropagation}
+          className={joinClassNames(linkClassName, className, customLinkClassName)}
+        >
           <HealthyPluginIcon
             className={`${block}__plugin-icon`}
             snapshot={snapshot}
@@ -93,6 +98,7 @@ export default connectTo(
               kind={kind}
               hierarchySnapshots={hierarchySnapshots}
               useSnapshotLink={this.props.useSnapshotLink}
+              linkClassName={customLinkClassName}
             />
           ) : (
             link
