@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 
+import SortableCallColumn from 'in-analyze/components/RawCalls/SortableCallColumn';
 import { Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import SortableCallColumn from 'in-analyze/RawCalls/SortableCallColumn';
 import { LoadMoreRow } from 'in-components/tables/sharedComponents';
-import Groups from 'in-analyze/GroupedCalls/Groups';
+import Groups from 'in-analyze/components/GroupedCalls/Groups';
 
-import locals from './CallGroupsTable.mless';
+import locals from './TraceGroupsTable.mless';
 
-export default function CallGroupsTable(props) {
+export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore } = props;
   return (
     <Fragment>

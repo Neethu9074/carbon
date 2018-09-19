@@ -2,10 +2,10 @@ import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator';
+import CallsAndGroupsIndicator from 'in-analyze/components/RawCalls/CallsAndGroupsIndicator';
+import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
+import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
 import getCallGroups from 'in-subscription/application/getCallGroups';
-import CallGroupsTable from 'in-analyze/GroupedCalls/CallGroupsTable';
-import CallGroupCharts from 'in-analyze/GroupedCalls/CallGroupCharts';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -13,14 +13,14 @@ import cursorPaginated from 'in-hoc/cursorPaginated';
 import Button from 'in-new-components/Button';
 import theme from 'in-themes/theme';
 
-import locals from './GroupedCalls.mless';
+import locals from './GroupedTraces.mless';
 
 const defaultOrder = 'callsAgg';
 
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'groupedCalls.',
+    getMatrixPrefix: () => 'groupedTraces.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,
@@ -87,12 +87,12 @@ export default compose(
       });
     }
   })
-)(GroupedCalls);
+)(GroupedTraces);
 
-function GroupedCalls(props) {
+function GroupedTraces(props) {
   const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
 
-  const callGroupColors = items.map(
+  const groupColors = items.map(
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
@@ -109,8 +109,8 @@ function GroupedCalls(props) {
           {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
         </Button>
       </div>
-      {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={callGroupColors} />}
-      <CallGroupsTable {...props} callGroupColors={callGroupColors} />
+      {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={groupColors} />}
+      <TraceGroupsTable {...props} groupColors={groupColors} />
     </Fragment>
   );
 }

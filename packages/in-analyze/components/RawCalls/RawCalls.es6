@@ -13,10 +13,10 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
-import CallsAndGroupsIndicator from 'in-analyze/RawCalls/CallsAndGroupsIndicator';
+import CallsAndGroupsIndicator from 'in-analyze/components/RawCalls/CallsAndGroupsIndicator';
+import SortableCallColumn from 'in-analyze/components/RawCalls/SortableCallColumn';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import SortableCallColumn from 'in-analyze/RawCalls/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { formatDateTime } from 'in-services/formatters/date';

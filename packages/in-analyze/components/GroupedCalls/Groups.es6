@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
-import Group from 'in-analyze/GroupedCalls/Group';
+import Group from 'in-analyze/components/GroupedCalls/Group';
 
 export default function Groups({
   items,

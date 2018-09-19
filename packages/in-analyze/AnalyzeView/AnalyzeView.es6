@@ -26,9 +26,11 @@ import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
+import GroupedTraces from 'in-analyze/components/GroupedTraces';
+import GroupedCalls from 'in-analyze/components/GroupedCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
-import GroupedCalls from 'in-analyze/GroupedCalls';
+import RawCalls from 'in-analyze/components/RawCalls';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -113,6 +115,7 @@ function AnalyzeView(props) {
   const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
   const dataSource = props[dataSourceMatrixParameter];
+  const isTracesDataSource = dataSource === 'traces';
 
   return (
     <Fragment>
@@ -125,6 +128,7 @@ function AnalyzeView(props) {
             return (
               <RawDataView
                 {...props}
+                rawListComponent={isTracesDataSource ? RawTraces : RawCalls}
                 filters={filters}
                 onChangeFilters={onChangeFilters}
                 tagFiltersForSubscription={tagFiltersForSubscription}
@@ -133,6 +137,7 @@ function AnalyzeView(props) {
             );
           }}
         />
+
         <Route
           path="*/"
           render={() => {
@@ -146,7 +151,11 @@ function AnalyzeView(props) {
                 />
 
                 <MaxWidthFullscreenContainer>
-                  <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                  {isTracesDataSource ? (
+                    <GroupedTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                  ) : (
+                    <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+                  )}
                 </MaxWidthFullscreenContainer>
                 {activeDialog && <DisabledBodyScroll />}
               </Fragment>
