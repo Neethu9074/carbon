@@ -28,6 +28,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
+import RawTraces from 'in-analyze/components/RawTraces';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import RawCalls from 'in-analyze/components/RawCalls';

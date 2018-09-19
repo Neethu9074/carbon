@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import CallsAndGroupsIndicator from 'in-analyze/components/RawCalls/CallsAndGroupsIndicator';
+import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupsTable from 'in-analyze/components/GroupedCalls/CallGroupsTable';
 import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
 import getCallGroups from 'in-subscription/application/getCallGroups';
@@ -92,15 +92,15 @@ export default compose(
 function GroupedCalls(props) {
   const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
 
-  const callGroupColors = items.map(
+  const groupColors = items.map(
     (group, groupIndex) =>
       theme.lib.colors.chart.strokeColors100[groupIndex % theme.lib.colors.chart.strokeColors100.length]
   );
 
   return (
     <Fragment>
-      <div className={locals.callsAndGroupsIndicatorWrapper}>
-        <CallsAndGroupsIndicator numGroups={totalHits} />
+      <div className={locals.wrapper}>
+        <ItemsInGroupsIndicator numGroups={totalHits} />
         <Button
           kind="secondary"
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
@@ -109,8 +109,8 @@ function GroupedCalls(props) {
           {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
         </Button>
       </div>
-      {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={callGroupColors} />}
-      <CallGroupsTable {...props} callGroupColors={callGroupColors} />
+      {isChartSectionExpanded && <CallGroupCharts {...props} groupColors={groupColors} />}
+      <CallGroupsTable {...props} groupColors={groupColors} />
     </Fragment>
   );
 }

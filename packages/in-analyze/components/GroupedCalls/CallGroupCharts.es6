@@ -12,7 +12,7 @@ import locals from './CallGroupCharts.mless';
 
 export default withState('selectedChart', 'setSelectedChart', 'latency')(CallGroupCharts);
 
-function CallGroupCharts({ items, errors, progress, time, filters, callGroupColors, selectedChart, setSelectedChart }) {
+function CallGroupCharts({ items, errors, progress, time, filters, groupColors, selectedChart, setSelectedChart }) {
   if (errors.length > 0) {
     // the errors of this loading stage will be rendered by the call group table, no need to render them twice.
     return null;
@@ -44,7 +44,7 @@ function CallGroupCharts({ items, errors, progress, time, filters, callGroupColo
 
       <CallGroupChartElement
         callGroups={items}
-        callGroupColors={callGroupColors}
+        groupColors={groupColors}
         timeConfig={filters.get('timeConfig')}
         time={time}
         selectedChart={selectedChart}
@@ -71,7 +71,7 @@ const chartDefinitions = {
   }
 };
 
-function CallGroupChartElement({ callGroups, callGroupColors, timeConfig, time, selectedChart }) {
+function CallGroupChartElement({ callGroups, groupColors, timeConfig, time, selectedChart }) {
   const chartDefinition = chartDefinitions[selectedChart];
 
   const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
@@ -81,7 +81,7 @@ function CallGroupChartElement({ callGroups, callGroupColors, timeConfig, time, 
     labels: groupNames,
     renderer: chartDefinition.renderer,
     formatter: chartDefinition.formatter,
-    colors: callGroupColors,
+    colors: groupColors,
     metrics: callGroups.map(group => group.metrics[selectedChart]),
     aggregations: Array(callGroups.length).fill(chartDefinition.aggregation),
     min: chartDefinition.min

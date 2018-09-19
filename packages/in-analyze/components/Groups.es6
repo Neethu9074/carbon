@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
-import Group from 'in-analyze/components/GroupedCalls/Group';
 
 export default function Groups({
   items,
@@ -11,7 +10,8 @@ export default function Groups({
   progress,
   orderBy,
   orderDirection,
-  callGroupColors
+  groupColors,
+  groupComponent: Group
 }) {
   return (
     <Fragment>
@@ -23,7 +23,7 @@ export default function Groups({
           item={item}
           filters={filters}
           onChangeFilters={onChangeFilters}
-          dotColor={callGroupColors[groupIndex]}
+          dotColor={groupColors[groupIndex]}
         />
       ))}
 

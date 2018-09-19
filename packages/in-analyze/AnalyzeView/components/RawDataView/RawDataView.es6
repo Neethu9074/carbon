@@ -15,13 +15,7 @@ export default function RawDataView(props) {
       header={
         <div className={locals.headerWrapper}>
           <MaxWidthFullscreenContainer className={locals.header}>
-            <Button
-              className={locals.button}
-              href$={getLinkToGroupedData()}
-              size="compact"
-              icon="lib_arrow_left"
-              kind="secondary"
-            >
+            <Button className={locals.button} href$={getLinkToGroupedData()} icon="lib_arrow_left" kind="secondary">
               Analyze
             </Button>
 

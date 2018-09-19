@@ -6,7 +6,7 @@ import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './CallsAndGroupsIndicator.mless';
+import locals from './ItemsInGroupsIndicator.mless';
 
 export default connectTo(
   props => ({
@@ -15,12 +15,22 @@ export default connectTo(
     )
   }),
 
-  function CallsAndGroupsIndicator({ numCalls, numGroups, containsPastLiveData }) {
+  function ItemsInGroupsIndicator({ numCalls, numTraces, numGroups, containsPastLiveData }) {
+    let numItems;
+    let itemType;
+    if (numCalls != undefined) {
+      numItems = numCalls;
+      itemType = 'Calls';
+    } else {
+      numItems = numTraces;
+      itemType = 'Traces';
+    }
+
     let counter;
-    if (numCalls != undefined && numGroups != undefined) {
-      counter = `${number.compact(numCalls)} Calls (in ${numGroups} Groups)`;
-    } else if (numCalls != undefined) {
-      counter = `${number.compact(numCalls)} Calls`;
+    if (numItems != undefined && numGroups != undefined) {
+      counter = `${number.compact(numItems)} ${itemType} (in ${numGroups} Groups)`;
+    } else if (numItems != undefined) {
+      counter = `${number.compact(numItems)} ${itemType}`;
     } else if (numGroups != undefined) {
       counter = `${numGroups} Groups`;
     }

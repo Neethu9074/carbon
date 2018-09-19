@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import SortableCallColumn from 'in-analyze/components/RawCalls/SortableCallColumn';
-import { Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import { LoadMoreRow } from 'in-components/tables/sharedComponents';
-import Groups from 'in-analyze/components/GroupedCalls/Groups';
+import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
+import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import Group from 'in-analyze/components/GroupedCalls/Group';
+import Groups from 'in-analyze/components/Groups';
 
 import locals from './CallGroupsTable.mless';
 
@@ -62,7 +62,7 @@ export default function CallGroupsTable(props) {
           </Tr>
         </Thead>
         <Tbody>
-          <Groups {...props} />
+          <Groups {...props} groupComponent={Group} />
           {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} size="compact" />}
         </Tbody>
       </Table>

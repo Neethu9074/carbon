@@ -2,8 +2,8 @@ import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import CallsAndGroupsIndicator from 'in-analyze/components/RawCalls/CallsAndGroupsIndicator';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
+import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -99,8 +99,8 @@ function GroupedTraces(props) {
 
   return (
     <Fragment>
-      <div className={locals.callsAndGroupsIndicatorWrapper}>
-        <CallsAndGroupsIndicator numGroups={totalHits} />
+      <div className={locals.wrapper}>
+        <ItemsInGroupsIndicator numGroups={totalHits} />
         <Button
           kind="secondary"
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}

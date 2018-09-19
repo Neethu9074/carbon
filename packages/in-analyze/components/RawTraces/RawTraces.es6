@@ -27,7 +27,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
-import locals from './RawCalls.mless';
+import locals from './RawTraces.mless';
 
 const defaultOrder = 'timestamp';
 
@@ -64,9 +64,9 @@ export default compose(
           : tagFiltersForSubscription
       })
   })
-)(RawCalls);
+)(RawTraces);
 
-function RawCalls({
+function RawTraces({
   items,
   totalHits,
   errors,
@@ -79,7 +79,7 @@ function RawCalls({
 }) {
   return (
     <Fragment>
-      <ItemsInGroupsIndicator numCalls={totalHits} />
+      <ItemsInGroupsIndicator numTraces={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
