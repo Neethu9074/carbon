@@ -6,23 +6,51 @@ import {
   clearContent
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
+import PluginIcon from 'in-components/PluginIcon';
+import { getSnapshot } from 'in-stores/snapshot';
+import { getSingular } from 'in-sdk/pluginName';
+import Tooltip from 'in-components/Tooltip';
+import { getLabel } from 'in-sdk/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import './ClickableList.less';
+import locals from './ClickableList.mless';
 
-const block = 'in-clickable-list';
+export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) => ({
+  snapshot: children != null ? undefined : getSnapshot(snapshotId)
+}))(function ClickableSnapshotListItem({ snapshotId, snapshot, children, withIcon = false }) {
+  let content = children;
+  if (!content) {
+    if (!snapshot) {
+      return null;
+    }
 
-export function ClickableSnapshotListItem({ snapshotId, children }) {
-  return <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>{children}</ClickableListItem>;
-}
+    if (!withIcon) {
+      content = getLabel(snapshot);
+    }
+
+    content = (
+      <div className={locals.labelWithIcon}>
+        {withIcon && (
+          <Tooltip content={getSingular(snapshot.get('plugin'))}>
+            <PluginIcon className={locals.pluginIcon} snapshot={snapshot} />
+          </Tooltip>
+        )}
+        {getLabel(snapshot)}
+      </div>
+    );
+  }
+
+  return <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)}>{content}</ClickableListItem>;
+});
 
 export function ClickableListItem({ onClick, href$, children }) {
   onClick = onClick || stopPropagation;
 
   if (href$) {
     return (
-      <li className={`${block}__item`}>
-        <Link href$={href$} onClick={onClick} className={`${block}__link`}>
+      <li className={locals.item}>
+        <Link href$={href$} onClick={onClick} className={locals.link}>
           {children}
         </Link>
       </li>
@@ -30,14 +58,14 @@ export function ClickableListItem({ onClick, href$, children }) {
   }
 
   return (
-    <li onClick={onClick} className={`${block}__item`}>
+    <li onClick={onClick} className={locals.item}>
       {children}
     </li>
   );
 }
 
 export function ClickableList({ children }) {
-  return <ul className={block}>{children}</ul>;
+  return <ul className={locals.list}>{children}</ul>;
 }
 
 function stopPropagation(e) {

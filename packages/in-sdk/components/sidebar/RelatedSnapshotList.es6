@@ -49,9 +49,7 @@ export default connectTo(
                   {groups[plugin]
                     .sort((snapshotA, snapshotB) => compareIgnoreCase(getLabel(snapshotA), getLabel(snapshotB)))
                     .map(snapshot => (
-                      <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')}>
-                        {getLabel(snapshot)}
-                      </ClickableSnapshotListItem>
+                      <ClickableSnapshotListItem key={snapshot.get('id')} snapshotId={snapshot.get('id')} />
                     ))}
                 </ClickableList>
               </Collapsible.Content>

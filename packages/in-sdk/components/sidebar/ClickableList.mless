@@ -1,11 +1,13 @@
 @import '~in-themes/mixins.less';
 
-.in-clickable-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+:local {
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-  &__item {
+  .item {
     background: #e2e9ec;
     border-radius: 0.125rem;
     cursor: pointer;
@@ -24,7 +26,7 @@
     }
   }
 
-  &__link {
+  .link {
     display: block;
     text-decoration: none;
     color: inherit;
@@ -33,5 +35,15 @@
     &:focus {
       color: inherit;
     }
+  }
+
+  .labelWithIcon {
+    display: flex;
+    align-items: center;
+  }
+
+  .pluginIcon {
+    margin-right: 0.5rem;
+    fill: #777777;
   }
 }
