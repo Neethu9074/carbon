@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { unmapConditionValue } from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import RuleForm, { ruleFormDefinition } from 'in-views/configurationView/subview/Rule/RuleForm';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
@@ -51,6 +52,11 @@ const Form = entityForm(function IntegrationForm(props) {
 });
 
 function save(rule, form) {
+  const formatterType = form.get('formatter').value;
+
+  let conditionValue = Number(form.get('conditionValue').value);
+  conditionValue = unmapConditionValue(conditionValue, formatterType);
+
   return saveRule(
     fromJS(
       createRule(
@@ -62,7 +68,7 @@ function save(rule, form) {
         form.get('window') ? Number(form.get('window').value) : '',
         form.get('aggregation') ? form.get('aggregation').value : null,
         form.get('conditionOperator').value,
-        Number(form.get('conditionValue').value)
+        conditionValue
       )
     )
   );
