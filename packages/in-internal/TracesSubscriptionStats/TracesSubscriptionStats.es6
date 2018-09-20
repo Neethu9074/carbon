@@ -6,9 +6,9 @@ import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import Input from 'in-components/form/Input/Input';
+import Table from 'in-components/Table';
 import connect from 'in-hoc/connectTo';
 
 const cols = [
@@ -69,7 +69,14 @@ export default compose(
   return (
     <div>
       <DashboardSection title={`ui-backends (${rows.length})`}>
-        <Input type="text" id="value" value={query} autoComplete="off" onChange={e => setQuery(e.target.value)} />
+        <Input
+          style={{ marginBottom: 8 }}
+          type="text"
+          id="value"
+          value={query}
+          autoComplete="off"
+          onChange={e => setQuery(e.target.value)}
+        />
         <TracesSubscriptionStats rows={rows} />
       </DashboardSection>
     </div>
