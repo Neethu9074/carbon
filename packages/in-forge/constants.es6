@@ -194,6 +194,7 @@ export const oneZeroServicePlugins = {
 export const applicationPlugins = {
   application: 'application',
   defaultEntity20: 'defaultEntity20',
+  endpoint: 'endpoint',
   service: 'service'
 };
 
@@ -263,6 +264,7 @@ export const fullyQualifiedPlugins = {
   elasticSearchIndexServiceInstance:
     'com.instana.forge.connection.database.elasticsearch.ElasticSearchIndexServiceInstance',
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
+  endpoint: 'com.instana.forge.application.Endpoint',
   etcd: 'com.instana.forge.infrastructure.cache.etcd.Etcd',
   finagleApplicationContainer: 'com.instana.forge.infrastructure.application.finagle.FinagleApplicationContainer',
   f5: 'com.instana.forge.infrastructure.loadbalancer.F5',
