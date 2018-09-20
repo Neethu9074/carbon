@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
 import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
@@ -31,11 +31,23 @@ export default function StackTraceWrapper({ call }) {
   }
 
   return (
-    <Group title="Stack Trace">
-      <StackTrace relation={call.source} stackTrace={exitStackTrace} />
-      <StackTrace relation={call.source} stackTrace={intermediateStackTrace} />
-      <StackTrace relation={call.destination} stackTrace={entryStackTrace} />
-    </Group>
+    <Fragment>
+      {exitStackTrace && (
+        <Group title="Caller Stack Trace">
+          <StackTrace relation={call.source} stackTrace={exitStackTrace} />
+        </Group>
+      )}
+      {intermediateStackTrace && (
+        <Group title="Stack Trace">
+          <StackTrace relation={call.source} stackTrace={intermediateStackTrace} />
+        </Group>
+      )}
+      {entryStackTrace && (
+        <Group title="Callee Stack Trace">
+          <StackTrace relation={call.destination} stackTrace={entryStackTrace} />
+        </Group>
+      )}
+    </Fragment>
   );
 }
 

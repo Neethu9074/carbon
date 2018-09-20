@@ -18,7 +18,7 @@ export default connectTo(
         : combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id)))
     };
   },
-  function Hierarchy({ snapshots, useSnapshotLink, kind }) {
+  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName }) {
     if (!snapshots) {
       return null;
     }
@@ -28,7 +28,12 @@ export default connectTo(
         {snapshots.map(snapshot => {
           return (
             <li key={snapshot.get('id')} className={`${block}__item`}>
-              <HierarchicalLink snapshot={snapshot} kind={kind} useSnapshotLink={useSnapshotLink} />
+              <HierarchicalLink
+                snapshot={snapshot}
+                kind={kind}
+                useSnapshotLink={useSnapshotLink}
+                linkClassName={linkClassName}
+              />
             </li>
           );
         })}

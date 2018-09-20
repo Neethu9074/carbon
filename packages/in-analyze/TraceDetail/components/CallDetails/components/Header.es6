@@ -3,8 +3,13 @@ import { get } from 'lodash';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Header.mless';
@@ -12,6 +17,7 @@ import locals from './Header.mless';
 export default function Header({ call, callTreeNode, onClose, getColor }) {
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
+
   return (
     <div>
       <div className={locals.entityInformation}>
@@ -42,9 +48,40 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
             </div>
           </Fragment>
         )}
+      <Infrastructure call={call} />
     </div>
   );
 }
+
+const Infrastructure = connectTo(({ call }) => {
+  const process = get(call, ['destination', 'physicalContext', 'process', 'id']);
+  if (!process) {
+    return {};
+  }
+
+  return {
+    snapshot: getSnapshot(process, getTimeConfigAtMoment(call.start))
+  };
+})(function Infrastructure({ snapshot }) {
+  if (!snapshot) {
+    return null;
+  }
+
+  return (
+    <Fragment>
+      <span className={locals.infraLabel}>Infrastructure</span>
+      <div className={locals.infraLine}>
+        <HierarchicalLink
+          snapshot={snapshot}
+          calculateHierarchy
+          pathname={physicalDashboardPath}
+          linkClassName={locals.infraLink}
+          kind="dark"
+        />
+      </div>
+    </Fragment>
+  );
+});
 
 function CloseButton({ onClick }) {
   return (

@@ -5,7 +5,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { create, combineLatest, setUnhandledErrorHandler, interval } from './index';
+import { create, combineLatest, setUnhandledErrorHandler } from './index';
 
 describe('reactive-observables', () => {
   let fullSubjectSpec;
@@ -323,21 +323,6 @@ describe('reactive-observables', () => {
       observable.emit(3);
       expect(subscriber.callCount).to.equal(2);
       expect(subscriber.getCall(0).args[0]).to.equal(2);
-    });
-  });
-
-  describe('interval', () => {
-    it('should call every 50 millis', done => {
-      const start = Date.now();
-      let callCount = 0;
-      const handle = interval(50).subscribe(() => {
-        callCount++;
-        expect(Date.now()).to.be.above(start + callCount * 50);
-        if (callCount === 3) {
-          handle.dispose();
-          done();
-        }
-      });
     });
   });
 
