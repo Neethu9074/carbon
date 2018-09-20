@@ -3,7 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
-import Marker, { hasServiceOrApplicationImpact } from 'in-views/eventView/components/Marker';
+import Marker, { hasServiceImpact } from 'in-views/eventView/components/Marker';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
@@ -59,9 +59,9 @@ export default connectTo(
         rightClassName += ` ${rightClassName}--highlighted`;
       }
 
-      const hasServiceOrAppImpact = hasServiceOrApplicationImpact(event);
+      const serviceImpact = hasServiceImpact(event);
       let className = block;
-      if (hasServiceOrAppImpact) {
+      if (serviceImpact) {
         className += ` ${className}__service-impact`;
       }
 
@@ -69,7 +69,7 @@ export default connectTo(
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
-          {hasServiceOrAppImpact ? (
+          {serviceImpact ? (
             <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
           ) : null}
 
@@ -130,7 +130,6 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   const className = `${block}__heading`;
-
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-subscription/application/getApplication';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import getService from 'in-subscription/application/getService';
@@ -46,6 +46,12 @@ export default connectTo(
     } else if (entityType === 'Service20') {
       const href$ = getServiceDashboard(entityId);
       return <EntityInformation20 {...props} href$={href$} />;
+    } else if (entityType === 'Endpoint20') {
+      const endpoint = parseEndpointEntityId(entityId);
+      const href$ = getEndpointDashboard(endpoint.name, {
+        serviceId: endpoint.serviceId
+      });
+      return <EntityInformation20 {...props} href$={href$} />;
     } else {
       return <EntityInformation10 {...props} />;
     }
@@ -72,6 +78,15 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
           timeConfig: timeConfig
         }
       }).startWith(null)
+    };
+  } else if (entityType === 'Endpoint20') {
+    const endpoint = parseEndpointEntityId(entityId);
+    return {
+      entity: just({
+        data: {
+          label: endpoint.name
+        }
+      })
     };
   } else {
     return {
@@ -110,4 +125,11 @@ function EntityInformation20({ entity, label, href$ }) {
       <Link href$={href$}>{entityLabel}</Link>
     </div>
   );
+}
+
+export function parseEndpointEntityId(entityId) {
+  return {
+    serviceId: entityId.substring(0, 40),
+    name: entityId.substring(43, entityId.lastIndexOf('<|>'))
+  };
 }
