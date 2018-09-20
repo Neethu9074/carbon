@@ -42,6 +42,7 @@ import './ejbServiceInstance';
 import './elasticsearchCluster';
 import './elasticSearchIndexServiceInstance';
 import './elasticsearchNode';
+import './endpoint';
 import './etcd';
 import './finagleApplicationContainer';
 import './f5';
