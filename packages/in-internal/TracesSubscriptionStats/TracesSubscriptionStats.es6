@@ -1,15 +1,14 @@
-import { compose, withState } from 'recompose';
-import React from 'react';
+import { combineLatest } from 'reactive-observables';
+import React, { Fragment } from 'react';
 
+import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric/metric';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { containsIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
-import { timeConfig$ } from 'in-stores/time/config';
-import Input from 'in-components/form/Input/Input';
-import Table from 'in-components/Table';
-import connect from 'in-hoc/connectTo';
+import Table from 'in-sdk/components/dashboard/Table';
+import Button from 'in-new-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
@@ -17,76 +16,150 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.container.get('label');
+        return row.label;
       }
     }
   },
   {
     title: 'Total Traces Subscriptions',
-    type: 'metric',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
+      getValue(row) {
+        return row.tracesMetric;
       },
-      getMetricName() {
-        return 'metrics.meters.established.subscriptions: TracesSubscribeEvent';
-      },
-      getContent: number.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'sum';
-      }
+      getContent: number.detailed
     }
   },
   {
-    title: 'Total Trace Subscriptions',
-    type: 'metric',
+    title: 'Total Single Trace Subscriptions',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
+      getValue(row) {
+        return row.traceMetric;
       },
-      getMetricName() {
-        return 'metrics.meters.established.subscriptions: TraceSubscribeEvent';
-      },
-      getContent: number.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'sum';
-      }
+      getContent: number.detailed
     }
   }
 ];
 
-export default compose(
-  withState('query', 'setQuery', ''),
-  connect(props => ({
-    timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.label:ui-backend*').map(rows =>
-      rows.filter(row => containsIgnoreCase(row.container.get('label'), props.query))
-    )
-  }))
-)(({ rows, query, setQuery }) => {
+export default function TracesSubscriptionReportWrapper(props) {
   return (
-    <div>
-      <DashboardSection title={`ui-backends (${rows.length})`}>
-        <Input
-          style={{ marginBottom: 8 }}
-          type="text"
-          id="value"
-          value={query}
-          autoComplete="off"
-          onChange={e => setQuery(e.target.value)}
-        />
-        <TracesSubscriptionStats rows={rows} />
-      </DashboardSection>
-    </div>
+    <DashboardSection>
+      <TracesSubscriptionReport {...props} />
+    </DashboardSection>
   );
-});
-
-function TracesSubscriptionStats({ rows }) {
-  if (rows.length === 0) {
-    return <LoadingIndicator type="dark" />;
-  }
-
-  return <Table cols={cols} rows={rows} maxItemsPerPage={50} />;
 }
+
+const TracesSubscriptionReport = connectTo(
+  {
+    rows: getDropwizardWithContext('entity.label:ui-backend*')
+  },
+  class TracesSubscriptionReport extends React.Component {
+    static displayName = 'AnalyzeFilterBasicDialog';
+
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        currentData: [],
+        isRunning: false,
+        currentRowIndexToGrapDataFor: -1
+      };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if (
+        this.state.currentRowIndexToGrapDataFor >= 0 &&
+        this.state.currentRowIndexToGrapDataFor !== prevState.currentRowIndexToGrapDataFor
+      ) {
+        this.fetchMetricForIndex(this.state.currentRowIndexToGrapDataFor);
+      } else if (this.state.currentRowIndexToGrapDataFor === -1) {
+        this.stopFetching();
+      }
+    }
+
+    componentWillUnmount() {
+      this.stopFetching();
+    }
+
+    stopFetching = () => {
+      if (this.metricSubscription) {
+        this.metricSubscription.dispose();
+        this.metricSubscription = null;
+      }
+    };
+
+    fetchMetricForIndex = index => {
+      this.stopFetching();
+
+      const snapshotId = this.props.rows[index].dropwizard.get('id');
+      this.metricSubscription = combineLatest([
+        getTimeWindowBasedMetricAggregation({
+          snapshotId,
+          metric: 'metrics.meters.established.subscriptions: TracesSubscribeEvent',
+          timeWindowAggregation: 'sum'
+        }),
+        getTimeWindowBasedMetricAggregation({
+          snapshotId,
+          metric: 'metrics.meters.established.subscriptions: TraceSubscribeEvent',
+          timeWindowAggregation: 'sum'
+        })
+      ]).subscribe(([tracesMetricResult, traceMetricResult]) => {
+        const currentData = this.state.currentData.concat([
+          {
+            key: this.props.rows[index].dropwizard.get('id'),
+            label: this.props.rows[index].container.get('label'),
+            tracesMetric: tracesMetricResult,
+            traceMetric: traceMetricResult
+          }
+        ]);
+        if (this.state.currentRowIndexToGrapDataFor >= this.props.rows.length - 1) {
+          this.setState({ currentData, currentRowIndexToGrapDataFor: -1, isRunning: false });
+        } else {
+          this.setState({ currentData, currentRowIndexToGrapDataFor: this.state.currentRowIndexToGrapDataFor + 1 });
+        }
+      });
+    };
+
+    render() {
+      const { rows } = this.props;
+      if (rows.length === 0) {
+        return <LoadingIndicator type="dark" />;
+      }
+
+      const { isRunning, currentData } = this.state;
+
+      return (
+        <Fragment>
+          {!isRunning && (
+            <Button
+              onClick={() => {
+                this.setState({
+                  currentData: [],
+                  isRunning: true,
+                  currentRowIndexToGrapDataFor: 0
+                });
+              }}
+            >{`Run report for ${rows.length} customers`}</Button>
+          )}
+          {isRunning && (
+            <Button
+              onClick={() => {
+                this.setState({
+                  isRunning: false,
+                  currentRowIndexToGrapDataFor: -1
+                });
+              }}
+            >
+              Stop report
+            </Button>
+          )}
+          <h3>
+            {currentData.length} / {rows.length}
+          </h3>
+          <Table cols={cols} rows={currentData} maxItemsPerPage={50} />
+        </Fragment>
+      );
+    }
+  }
+);

@@ -22,7 +22,7 @@ export default function DevDashboard() {
           <a href="/#/internal/fillerSpanProcessingStats">App 1.0 Data Processing</a>
         </li>
         <li>
-          <a href="/#/internal/tracesSubscriptionStats">App 1.0 Traces Subscriptions</a>
+          <a href="/#/internal/tracesSubscriptionStats">App 1.0 Traces Subscriptions Report</a>
         </li>
         <li>
           <a href="/#/internal/appdataProcessing">App 2.0 Data Processing</a>
