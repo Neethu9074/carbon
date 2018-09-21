@@ -2,10 +2,11 @@ import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import createPodsForK8sNodeSubscription from 'in-subscription/podsForK8sNode';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -36,7 +37,9 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      pods: getClusterMembers(props.snapshot.get('id')).flatMap(podIds => getSnapshots(podIds.toArray()))
+      pods: timeConfig$
+        .flatMap(timeConfig => createPodsForK8sNodeSubscription({ snapshotId: props.snapshot.get('id'), timeConfig }))
+        .flatMap(getSnapshots)
     };
   },
   function PodsTable({ snapshot, pods = [], timeConfig }) {
