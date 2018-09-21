@@ -62,7 +62,7 @@
 
   .label {
     position: absolute;
-    top: ~'calc(100% + 0.5rem)';
+    top: ~'calc(100% + 0.125rem)';
 
     display: flex;
     align-items: center;
