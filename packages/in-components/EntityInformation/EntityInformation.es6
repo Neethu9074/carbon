@@ -26,10 +26,11 @@ export default connectTo(
     }
   },
   function EntityInformation(props) {
-    const { entity, parentEntity, entityId, entityType } = props;
+    const { entity, parentEntity, entityType } = props;
     if (!entity) {
       return null;
-    } else if (
+    }
+    if (
       isLoading(entity) ||
       hasErrors(entity) ||
       (parentEntity && (isLoading(parentEntity) || hasErrors(parentEntity)))
@@ -38,37 +39,15 @@ export default connectTo(
       // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
       // times. So show no loading indicator instead.
       return null;
-    } else if (entityType === 'App20') {
-      const href$ = getApplicationDashboard(entityId);
-      return <EntityInformation20 {...props} href$={href$} />;
-    } else if (entityType === 'Service20') {
-      const href$ = getServiceDashboard(entityId);
-      return <EntityInformation20 {...props} href$={href$} />;
-    } else if (entityType === 'Endpoint20') {
-      const endpoint = parseEndpointEntityId(entityId);
-      const href$ = getEndpointDashboard(endpoint.name, {
-        serviceId: endpoint.serviceId
-      });
-      const parentHref$ = getServiceDashboard(parentEntity.data.id);
-      return (
-        <div>
-          <EntityInformation20 {...props} href$={href$} />
-          <EntityInformation20 entity={props.parentEntity} label="Of:" href$={parentHref$} />
-        </div>
-      );
-    } else {
+    }
+
+    if (entityType === 'Entity10') {
       return <EntityInformation10 {...props} />;
+    } else {
+      return <EntityInformation20 {...props} />;
     }
   }
 );
-
-function isLoading(entity) {
-  return entity === loadingPlaceholder || (entity.progress && entity.progress.loading);
-}
-
-function hasErrors(entity) {
-  return entity.errors && entity.errors.length > 0;
-}
 
 function EntityInformation10({
   entity,
@@ -92,12 +71,43 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entity, label, href$ }) {
+function EntityInformation20({ entityId, entity, parentEntity, entityType, label }) {
+  let href$;
+  let parentHref$;
+  if (entityType === 'App20') {
+    href$ = getApplicationDashboard(entityId);
+  } else if (entityType === 'Service20') {
+    href$ = getServiceDashboard(entityId);
+  } else if (entityType === 'Endpoint20') {
+    const endpoint = parseEndpointEntityId(entityId);
+    href$ = getEndpointDashboard(endpoint.name, {
+      serviceId: endpoint.serviceId
+    });
+    parentHref$ = getServiceDashboard(parentEntity.data.id);
+  }
+
   const entityLabel = entity.data.label;
+  const parentEntityLabel = parentEntity ? parentEntity.data.label : '';
   return (
-    <div className={block}>
-      <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
-      <Link href$={href$}>{entityLabel}</Link>
+    <div>
+      <div className={block}>
+        <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
+        <Link href$={href$}>{entityLabel}</Link>
+      </div>
+      {parentEntity && (
+        <div className={block}>
+          <span className={`${block}__label`}>Of:</span>
+          <Link href$={parentHref$}>{parentEntityLabel}</Link>
+        </div>
+      )}
     </div>
   );
+}
+
+function isLoading(entity) {
+  return entity === loadingPlaceholder || (entity.progress && entity.progress.loading);
+}
+
+function hasErrors(entity) {
+  return entity.errors && entity.errors.length > 0;
 }
