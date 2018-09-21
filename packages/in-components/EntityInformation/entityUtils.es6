@@ -1,3 +1,9 @@
+import { just } from 'reactive-observables';
+
+import getApplication from 'in-subscription/application/getApplication';
+import getService from 'in-subscription/application/getService';
+import { getSnapshot } from 'in-stores/snapshot';
+
 const entityIdSeparator = '<|>';
 
 export function parseEndpointEntityId(entityId) {
@@ -17,4 +23,46 @@ export function parseEndpointEntityId(entityId) {
     serviceId: entityId.substring(0, endOfServiceId),
     name: endpointName ? endpointName : 'Unspecified'
   };
+}
+
+export function getEntityOfType(entityId, entityType, timeConfig) {
+  if (entityType === 'App20') {
+    return {
+      entity: getApplication({ id: entityId }).startWith(null)
+    };
+  } else if (entityType === 'Service20') {
+    if (!timeConfig) {
+      //  Can't render 2.0 service information without a time config.
+      return {
+        entity: just(null)
+      };
+    }
+    return {
+      entity: getService({
+        id: entityId,
+        filter: {
+          timeConfig: timeConfig
+        }
+      }).startWith(null)
+    };
+  } else if (entityType === 'Endpoint20') {
+    const endpoint = parseEndpointEntityId(entityId);
+    return {
+      entity: just({
+        data: {
+          label: endpoint.name
+        }
+      }),
+      parentEntity: getService({
+        id: endpoint.serviceId,
+        filter: {
+          timeConfig: timeConfig
+        }
+      }).startWith(null)
+    };
+  } else {
+    return {
+      entity: getSnapshot(entityId, timeConfig).startWith(null)
+    };
+  }
 }

@@ -1,13 +1,10 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import getApplication from 'in-subscription/application/getApplication';
+import { getEntityOfType, parseEndpointEntityId } from './entityUtils';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import getService from 'in-subscription/application/getService';
-import { parseEndpointEntityId } from './entityUtils';
 import { always } from 'in-services/fixedStreams';
-import { getSnapshot } from 'in-stores/snapshot';
-import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -71,49 +68,6 @@ function isLoading(entity) {
 
 function hasErrors(entity) {
   return entity.errors && entity.errors.length > 0;
-}
-
-// TODO consider moving this method to a more suiteable component?
-export function getEntityOfType(entityId, entityType, timeConfig) {
-  if (entityType === 'App20') {
-    return {
-      entity: getApplication({ id: entityId }).startWith(null)
-    };
-  } else if (entityType === 'Service20') {
-    if (!timeConfig) {
-      //  Can't render 2.0 service information without a time config.
-      return {
-        entity: just(null)
-      };
-    }
-    return {
-      entity: getService({
-        id: entityId,
-        filter: {
-          timeConfig: timeConfig
-        }
-      }).startWith(null)
-    };
-  } else if (entityType === 'Endpoint20') {
-    const endpoint = parseEndpointEntityId(entityId);
-    return {
-      entity: just({
-        data: {
-          label: endpoint.name
-        }
-      }),
-      parentEntity: getService({
-        id: endpoint.serviceId,
-        filter: {
-          timeConfig: timeConfig
-        }
-      }).startWith(null)
-    };
-  } else {
-    return {
-      entity: getSnapshot(entityId, timeConfig).startWith(null)
-    };
-  }
 }
 
 function EntityInformation10({
