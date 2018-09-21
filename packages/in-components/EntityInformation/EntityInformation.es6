@@ -29,13 +29,13 @@ export default connectTo(
     }
   },
   function EntityInformation(props) {
-    const { entity, entityId, entityType } = props;
+    const { entity, parentEntity, entityId, entityType } = props;
     if (!entity) {
       return null;
     } else if (
-      entity === loadingPlaceholder ||
-      (entity.progress && entity.progress.loading) ||
-      (entity.errors && entity.errors.length > 0)
+      isLoading(entity) ||
+      hasErrors(entity) ||
+      (parentEntity && (isLoading(parentEntity) || hasErrors(parentEntity)))
     ) {
       // This component is used too often within the same view, e.g. trace view with lots of
       // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
@@ -52,12 +52,26 @@ export default connectTo(
       const href$ = getEndpointDashboard(endpoint.name, {
         serviceId: endpoint.serviceId
       });
-      return <EntityInformation20 {...props} href$={href$} />;
+      const parentHref$ = getServiceDashboard(parentEntity.data.id);
+      return (
+        <div>
+          <EntityInformation20 {...props} href$={href$} />
+          <EntityInformation20 entity={props.parentEntity} label="Of:" href$={parentHref$} />
+        </div>
+      );
     } else {
       return <EntityInformation10 {...props} />;
     }
   }
 );
+
+function isLoading(entity) {
+  return entity === loadingPlaceholder || (entity.progress && entity.progress.loading);
+}
+
+function hasErrors(entity) {
+  return entity.errors && entity.errors.length > 0;
+}
 
 // TODO consider moving this method to a more suiteable component?
 export function getEntityOfType(entityId, entityType, timeConfig) {
@@ -87,7 +101,13 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
         data: {
           label: endpoint.name
         }
-      })
+      }),
+      parentEntity: getService({
+        id: endpoint.serviceId,
+        filter: {
+          timeConfig: timeConfig
+        }
+      }).startWith(null)
     };
   } else {
     return {
