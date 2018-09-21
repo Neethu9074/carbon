@@ -26,7 +26,7 @@ const OFFSETS = [-0.03, 0.04, 0.03, -0.024, -0.035, 0.028, -0.04, -0.032, 0.038,
 
 export default class ParticleEmitter {
   constructor(connection, serviceLocatorUid) {
-    this.setNumparticlesPerSecond(0, 0);
+    this.setNumparticlesPerSecond({});
 
     // the current index in the ringbuffer array for the next spawning particle
     this.currentIndex = 0;
@@ -91,12 +91,16 @@ export default class ParticleEmitter {
 
       timeConfig$
         .flatMap(timeConfig =>
-          this.connection.events$.on('data').map(({ calls, errorRate }) => ({
-            calls: (calls || 0) / (timeConfig.windowSize / 1000), // total calls => calls/s
-            errorRate: errorRate || 0
-          }))
+          this.connection.events$.on('data').map(({ calls, errorRate }) => {
+            let particlesPerSecond = calculate((calls || 0) / (timeConfig.windowSize / 1000)); // total calls => calls/s);
+            particlesPerSecond = Math.min(particlesPerSecond, MAX_PARTICLES / 3);
+            return {
+              particlesPerSecond,
+              errorRate: errorRate || 0
+            };
+          })
         )
-        .subscribe(({ calls, errorRate }) => this.setNumparticlesPerSecond(calls, errorRate))
+        .subscribe(this.setNumparticlesPerSecond.bind(this))
     ]);
   }
 
@@ -253,10 +257,7 @@ export default class ParticleEmitter {
     this.progressNeedsUpdate();
   }
 
-  setNumparticlesPerSecond(calls = 0, errorRate = 0) {
-    let particlesPerSecond = calculate(calls);
-    particlesPerSecond = Math.min(particlesPerSecond, MAX_PARTICLES / 3);
-
+  setNumparticlesPerSecond({ particlesPerSecond = 0, errorRate = 0 }) {
     this.particlesPerSecond = particlesPerSecond;
     this.secToNextParticle = particlesPerSecond > 0 ? 1 / particlesPerSecond : Number.MAX_VALUE;
     this.secToNextError = errorRate > 0 ? this.secToNextParticle / errorRate : Number.MAX_VALUE;
