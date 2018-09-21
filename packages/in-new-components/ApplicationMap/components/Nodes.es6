@@ -26,7 +26,7 @@ export default connectTo(
     nodesSize: getServiceLocators(serviceLocatorUid)
       .eventBusServiceLocator.on(SIGNALS.WORLD_UNITS)
       .map(({ targetNodeSizeInRelationToInitSize }) => {
-        if (targetNodeSizeInRelationToInitSize < 0.6) {
+        if (targetNodeSizeInRelationToInitSize < 1) {
           return 'sm';
         }
         return 'mid';
