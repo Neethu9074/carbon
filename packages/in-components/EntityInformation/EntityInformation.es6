@@ -130,8 +130,12 @@ function EntityInformation20({ entity, label, href$ }) {
 
 export function parseEndpointEntityId(entityId) {
   const endOfServiceId = entityId.indexOf(entityIdSeparator);
+  const endpointName = entityId.substring(
+    endOfServiceId + entityIdSeparator.length,
+    entityId.lastIndexOf(entityIdSeparator)
+  );
   return {
     serviceId: entityId.substring(0, endOfServiceId),
-    name: entityId.substring(endOfServiceId + entityIdSeparator.length, entityId.lastIndexOf(entityIdSeparator))
+    name: endpointName ? endpointName : 'Unspecified'
   };
 }
