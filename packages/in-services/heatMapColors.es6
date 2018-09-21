@@ -1,7 +1,7 @@
 export const DEFAULT_COLOR = {
-  r: 0.745,
-  g: 0.8,
-  b: 0.823
+  r: 0.65,
+  g: 0.7,
+  b: 0.72
 };
 
 let DEFAULT_HEAT_MAP_COLORS = null;
