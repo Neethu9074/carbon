@@ -4,6 +4,7 @@ import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } fr
 import getApplication from 'in-subscription/application/getApplication';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import getService from 'in-subscription/application/getService';
+import { parseEndpointEntityId } from './entityUtils';
 import { always } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { just } from 'reactive-observables';
@@ -16,7 +17,6 @@ export const loadingPlaceholder = {};
 export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 const block = 'in-event-view-event-information';
-const entityIdSeparator = '<|>';
 
 export default connectTo(
   props => {
@@ -126,16 +126,4 @@ function EntityInformation20({ entity, label, href$ }) {
       <Link href$={href$}>{entityLabel}</Link>
     </div>
   );
-}
-
-export function parseEndpointEntityId(entityId) {
-  const endOfServiceId = entityId.indexOf(entityIdSeparator);
-  const endpointName = entityId.substring(
-    endOfServiceId + entityIdSeparator.length,
-    entityId.lastIndexOf(entityIdSeparator)
-  );
-  return {
-    serviceId: entityId.substring(0, endOfServiceId),
-    name: endpointName ? endpointName : 'Unspecified'
-  };
 }
