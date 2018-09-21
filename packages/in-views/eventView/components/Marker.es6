@@ -5,7 +5,7 @@ import './Marker.less';
 const block = 'in-event-view-marker';
 
 export default function Marker({ event, className, label }) {
-  if (!hasServiceOrApplicationImpact(event)) {
+  if (!hasServiceImpact(event)) {
     return null;
   }
 
@@ -17,10 +17,10 @@ export default function Marker({ event, className, label }) {
   return <span className={name}>{label}</span>;
 }
 
-export function hasServiceOrApplicationImpact(event) {
+export function hasServiceImpact(event) {
   const eventType = event.get('entityType');
 
-  if (eventType === 'Service20' || eventType === 'App20') {
+  if (eventType === 'App20' || eventType === 'Service20' || eventType === 'Endpoint20') {
     return true;
   }
 

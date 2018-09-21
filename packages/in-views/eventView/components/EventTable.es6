@@ -8,6 +8,7 @@ import {
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
+import { parseEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import getApplication from 'in-subscription/application/getApplication';
@@ -158,12 +159,11 @@ const On = connectTo(
         app20IconType: just('app_service')
       };
     } else if (props.rawEvent.entityType === 'Endpoint20') {
-      const entityId = props.rawEvent.entityId;
-      const endpointName = entityId.substring(43, entityId.lastIndexOf('<|>'));
+      const endpoint = parseEndpointEntityId(props.rawEvent.entityId);
       return {
         entity: just({
           data: {
-            label: endpointName
+            label: endpoint.name
           }
         }),
         app20IconType: just('app_endpoint')

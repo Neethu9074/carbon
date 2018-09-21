@@ -139,6 +139,8 @@ function getChartConfig(metric, entity, entityType) {
     return getMetricDefinition('service20', metric);
   } else if (entityType === 'App20') {
     return getMetricDefinition('application20', metric);
+  } else if (entityType === 'Endpoint20') {
+    return getMetricDefinition('endpoint20', metric);
   }
   // else assume 'Entity10'
   return getMetricDefinition(entity.get('plugin'), metric);
