@@ -16,6 +16,7 @@ export const loadingPlaceholder = {};
 export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 const block = 'in-event-view-event-information';
+const entityIdSeparator = '<|>';
 
 export default connectTo(
   props => {
@@ -128,8 +129,9 @@ function EntityInformation20({ entity, label, href$ }) {
 }
 
 export function parseEndpointEntityId(entityId) {
+  const endOfServiceId = entityId.indexOf(entityIdSeparator);
   return {
-    serviceId: entityId.substring(0, 40),
-    name: entityId.substring(43, entityId.lastIndexOf('<|>'))
+    serviceId: entityId.substring(0, endOfServiceId),
+    name: entityId.substring(endOfServiceId + entityIdSeparator.length, entityId.lastIndexOf(entityIdSeparator))
   };
 }
