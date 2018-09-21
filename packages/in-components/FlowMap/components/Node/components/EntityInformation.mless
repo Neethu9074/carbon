@@ -19,7 +19,7 @@
     padding: 0 0.75rem;
     background: white;
     border-radius: 3px;
-    box-shadow: @lib__shadows__subtle;
+    box-shadow: @lib__shadows__pronounced;
   }
 
   .rootEntity {
