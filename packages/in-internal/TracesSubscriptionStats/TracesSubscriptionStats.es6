@@ -5,7 +5,6 @@ import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric/metric';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -22,22 +21,20 @@ const cols = [
   },
   {
     title: 'Total Traces Subscriptions',
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.tracesMetric;
-      },
-      getContent: number.detailed
+        return String(row.tracesMetric);
+      }
     }
   },
   {
     title: 'Total Single Trace Subscriptions',
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.traceMetric;
-      },
-      getContent: number.detailed
+        return String(row.traceMetric);
+      }
     }
   }
 ];
@@ -105,20 +102,34 @@ const TracesSubscriptionReport = connectTo(
           timeWindowAggregation: 'sum'
         })
       ]).subscribe(([tracesMetricResult, traceMetricResult]) => {
-        const currentData = this.state.currentData.concat([
-          {
-            key: this.props.rows[index].dropwizard.get('id'),
-            label: this.props.rows[index].container.get('label'),
-            tracesMetric: tracesMetricResult,
-            traceMetric: traceMetricResult
-          }
-        ]);
-        if (this.state.currentRowIndexToGrapDataFor >= this.props.rows.length - 1) {
-          this.setState({ currentData, currentRowIndexToGrapDataFor: -1, isRunning: false });
-        } else {
-          this.setState({ currentData, currentRowIndexToGrapDataFor: this.state.currentRowIndexToGrapDataFor + 1 });
-        }
+        this.setDate(index, tracesMetricResult, traceMetricResult);
       });
+
+      clearTimeout(this.timeoutHandle);
+      this.timeoutHandle = setTimeout(() => {
+        this.stopFetching();
+        this.setDate(
+          index,
+          'canceled by ui due to long running task (>10s)',
+          'canceled by ui due to long running task (>10s)'
+        );
+      }, 10000);
+    };
+
+    setDate = (index, tracesMetric, traceMetric) => {
+      const currentData = this.state.currentData.concat([
+        {
+          key: this.props.rows[index].dropwizard.get('id'),
+          label: this.props.rows[index].container.get('label'),
+          tracesMetric,
+          traceMetric
+        }
+      ]);
+      if (this.state.currentRowIndexToGrapDataFor >= this.props.rows.length - 1) {
+        this.setState({ currentData, currentRowIndexToGrapDataFor: -1, isRunning: false });
+      } else {
+        this.setState({ currentData, currentRowIndexToGrapDataFor: this.state.currentRowIndexToGrapDataFor + 1 });
+      }
     };
 
     render() {
