@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem, ErrorDescriptionItem } from 'in-components/DescriptionList';
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function ResqueClientSpanDetailView({ span }) {
   return (
