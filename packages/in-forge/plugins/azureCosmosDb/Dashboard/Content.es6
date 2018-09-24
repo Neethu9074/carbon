@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, millis } from 'in-services/formatters/number';
+import { number, millis, bytes } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
@@ -23,7 +23,7 @@ export default function AzureCosmosDbDashboard({ snapshot, timeConfig }) {
             metrics: ['tr'],
             labels: ['Total Requests'],
             formatter: number.detailed,
-            type: 'stackedArea'
+            type: 'line'
           }}
         />
       </DashboardSection>
@@ -33,10 +33,16 @@ export default function AzureCosmosDbDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['h2', 'h3'],
-            labels: ['HTTP 2xx Responses', 'HTTP 3xx Responses'],
+            metrics: ['h2'],
+            labels: ['HTTP 2xx Responses'],
             formatter: number.detailed,
-            type: 'stackedArea'
+            type: 'line'
+          }}
+          y2={{
+            metrics: ['h3'],
+            labels: ['HTTP 3xx Responses'],
+            formatter: number.detailed,
+            type: 'line'
           }}
         />
       </DashboardSection>
@@ -65,10 +71,16 @@ export default function AzureCosmosDbDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['sc', 'as'],
-            labels: ['Storage Capacity', 'Available Storage'],
-            formatter: number.detailed,
-            type: 'stackedArea'
+            metrics: ['sc'],
+            labels: ['Storage Capacity'],
+            formatter: bytes.compact,
+            type: 'line'
+          }}
+          y2={{
+            metrics: ['as'],
+            labels: ['Available Storage'],
+            formatter: bytes.compact,
+            type: 'line'
           }}
         />
       </DashboardSection>

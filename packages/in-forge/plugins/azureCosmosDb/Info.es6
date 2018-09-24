@@ -10,7 +10,7 @@ export default function Info({ snapshot }) {
       <DescriptionList>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
         <DescriptionItem title="State">{data.get('provisioningState')}</DescriptionItem>
-        <DescriptionItem title="Location">{data.get('location')}</DescriptionItem>
+        <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
         <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
         <DescriptionItem title="Kind">{data.get('kind')}</DescriptionItem>
         <DescriptionItem title="Endpoint">{data.get('documentEndpoint')}</DescriptionItem>
