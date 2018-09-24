@@ -12,7 +12,7 @@ export default function EntityWithParentInformation(props) {
         <EntityInformation
           entityId={parseEndpointEntityId(props.entityId).serviceId}
           entityType="Service20"
-          label="Of:"
+          label="Of Service:"
           timeConfig={props.timeConfig}
         />
       )}
