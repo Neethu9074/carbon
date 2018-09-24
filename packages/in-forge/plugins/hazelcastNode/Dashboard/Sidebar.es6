@@ -26,6 +26,11 @@ export default function HazelcastSidebar({ snapshot }) {
         snapshot={snapshot}
         metrics={[
           {
+            metric: 'nodeMetrics.operationCount',
+            label: 'Operation Count',
+            formatter: siPrefix
+          },
+          {
             metric: 'nodeMetrics.migrationQueueSize',
             label: 'MigrationQueue Size',
             formatter: siPrefix

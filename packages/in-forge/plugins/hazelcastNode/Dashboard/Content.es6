@@ -17,12 +17,31 @@ function isAtLeastMinorVersion(version, minorVersion) {
 
 export default function HazelcastDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
+  const eventQueueCapacity = snapshot.getIn(['data', 'eventQueueCapacity']);
   const hasDistributedObject = isAtLeastMinorVersion(version, 5);
   const hasExecutionQueueSize = isAtLeastMinorVersion(version, 2);
+  const hasOperationCount = eventQueueCapacity != null;
 
   return (
     <div>
       <NodeSummary snapshot={snapshot} />
+
+      {hasOperationCount && (
+        <DashboardSection title="Operation Count">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: withSiPrefixZeroDecimalPlaces,
+              tooltipFormatter: withSiPrefixZeroDecimalPlaces,
+              metrics: ['nodeMetrics.operationCount'],
+              labels: ['Operation Count'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      )}
 
       <Columize>
         <DashboardSection title="MigrationQueue Size">
@@ -46,6 +65,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
+              max: { eventQueueCapacity },
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: withSiPrefixZeroDecimalPlaces,
               metrics: ['nodeMetrics.eventQueueSize'],
@@ -125,6 +145,21 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+
+      <DashboardSection title="Clients">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: withSiPrefixZeroDecimalPlaces,
+            tooltipFormatter: withSiPrefixZeroDecimalPlaces,
+            metrics: ['nodeMetrics.clientEndpointCount'],
+            labels: ['Connected Clients'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
     </div>
   );
 }

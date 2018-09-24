@@ -2,14 +2,19 @@ import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/nu
 
 export default [
   {
-    metrics: ['nodeMetrics.clientEndpointCount', 'nodeMetrics.eventQueueSize', 'nodeMetrics.migrationQueueSize'],
-    labels: ['Client Endpoint Count', 'Migration Queue Size', 'EventQueue Size'],
+    metrics: [
+      'nodeMetrics.clientEndpointCount',
+      'nodeMetrics.eventQueueSize',
+      'nodeMetrics.migrationQueueSize',
+      'nodeMetrics.migrationQueueSize'
+    ],
+    labels: ['Client Endpoint Count', 'Migration Queue Size', 'EventQueue Size', 'Operation Count'],
     min: 0,
     formatter: number
   },
   {
-    metrics: ['isLiteMember', 'isLocalMemberSafe', 'isClusterSafe'],
-    labels: ['Client Endpoint Count', 'Migration Queue Size', 'EventQueue Size'],
+    metrics: ['isLiteMember', 'isLocalMemberSafe'],
+    labels: ['Is Lite Member', 'Is Local Member Safe'],
     min: 0,
     formatter: number
   },
