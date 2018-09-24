@@ -1,7 +1,7 @@
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
-  type: ‘zipkin’,
+  type: 'zipkin',
   category: 'generic',
 
   typeName: {
@@ -9,7 +9,7 @@ registerSpanDefinition({
     plural: 'Calls'
   },
 
-  detailView: ‘ZipkinSpanDetailView',
+  detailView: 'ZipkinSpanDetailView',
 
   getLabel(span) {
     return span.getIn(['data', 'service']) + ' ' + span.getIn(['data', 'operation']);
