@@ -2,19 +2,19 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
+import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
-import Marker, { hasServiceImpact } from 'in-views/eventView/components/Marker';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
 import { highlightedEventId$ } from 'in-views/eventView/stores/highlightedEvent';
+import Marker, { hasServiceImpact } from 'in-views/eventView/components/Marker';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
-import EntityInformation from 'in-components/EntityInformation';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
@@ -130,6 +130,8 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   const className = `${block}__heading`;
+  const entityId = event.get('entityId');
+  const entityType = event.get('entityType');
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
@@ -143,11 +145,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <EntityInformation
-            entityId={event.get('entityId')}
-            entityType={event.get('entityType')}
-            timeConfig={timeConfig}
-          />
+          <EntityWithParentInformation entityId={entityId} entityType={entityType} timeConfig={timeConfig} />
         </div>
       </div>
 

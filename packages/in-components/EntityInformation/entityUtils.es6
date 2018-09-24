@@ -52,13 +52,7 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
         data: {
           label: endpoint.name
         }
-      }),
-      parentEntity: getService({
-        id: endpoint.serviceId,
-        filter: {
-          timeConfig: timeConfig
-        }
-      }).startWith(null)
+      })
     };
   } else {
     return {

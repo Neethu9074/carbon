@@ -26,15 +26,11 @@ export default connectTo(
     }
   },
   function EntityInformation(props) {
-    const { entity, parentEntity, entityType } = props;
+    const { entity, entityType } = props;
     if (!entity) {
       return null;
     }
-    if (
-      isLoading(entity) ||
-      hasErrors(entity) ||
-      (parentEntity && (isLoading(parentEntity) || hasErrors(parentEntity)))
-    ) {
+    if (isLoading(entity) || hasErrors(entity)) {
       // This component is used too often within the same view, e.g. trace view with lots of
       // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
       // times. So show no loading indicator instead.
@@ -71,9 +67,8 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entityId, entity, parentEntity, entityType, label }) {
+function EntityInformation20({ entityId, entity, entityType, label }) {
   let href$;
-  let parentHref$;
   if (entityType === 'App20') {
     href$ = getApplicationDashboard(entityId);
   } else if (entityType === 'Service20') {
@@ -83,23 +78,12 @@ function EntityInformation20({ entityId, entity, parentEntity, entityType, label
     href$ = getEndpointDashboard(endpoint.name, {
       serviceId: endpoint.serviceId
     });
-    parentHref$ = getServiceDashboard(parentEntity.data.id);
   }
 
-  const entityLabel = entity.data.label;
-  const parentEntityLabel = parentEntity ? parentEntity.data.label : '';
   return (
-    <div>
-      <div className={block}>
-        <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
-        <Link href$={href$}>{entityLabel}</Link>
-      </div>
-      {parentEntity && (
-        <div className={block}>
-          <span className={`${block}__label`}>Of:</span>
-          <Link href$={parentHref$}>{parentEntityLabel}</Link>
-        </div>
-      )}
+    <div className={block}>
+      <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
+      <Link href$={href$}>{entity.data.label}</Link>
     </div>
   );
 }
