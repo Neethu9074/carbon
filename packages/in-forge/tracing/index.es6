@@ -146,3 +146,4 @@ import './wordpress';
 import './wsgi';
 import './x.hc';
 import './x.http';
+import ‘./zipkin’;
