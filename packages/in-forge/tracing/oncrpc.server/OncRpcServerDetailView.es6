@@ -6,7 +6,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 export default function OncRpcSpanDetailView({ span }) {
   return (
     <DescriptionList>
-      <DescriptionItem title="Procedure">{span.getIn(['data', 'oncrpc', 'program'])}</DescriptionItem>
+      <DescriptionItem title="Program">{span.getIn(['data', 'oncrpc', 'program'])}</DescriptionItem>
       <DescriptionItem title="Procedure">{span.getIn(['data', 'oncrpc', 'procedure'])}</DescriptionItem>
       <DescriptionItem title="Version">{span.getIn(['data', 'oncrpc', 'version'])}</DescriptionItem>
       <ErrorDescriptionItem error={span.getIn(['data', 'oncrpc', 'error'])} />
