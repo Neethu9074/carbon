@@ -14,6 +14,7 @@ import './awsS3';
 import './azure';
 import './azureAppService';
 import './azureCosmosDb';
+import './azureRedisCache';
 import './batchServiceInstance';
 import './browserLogicalConnection';
 import './browserLogicalService';
