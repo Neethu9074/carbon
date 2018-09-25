@@ -79,6 +79,8 @@ import './ning';
 import './node.http.client';
 import './node.http.server';
 import './oci8';
+import './oncrpc.client';
+import './oncrpc.server';
 import './okhttp';
 import './page.err';
 import './page.res';
