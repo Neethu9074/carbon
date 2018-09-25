@@ -27,9 +27,8 @@ export default function HazelcastInfo({ snapshot }) {
       <DescriptionItem title="Group Name">{data.get('groupName')}</DescriptionItem>
       <DescriptionItem title="Cluster Id">{data.get('clusterId')}</DescriptionItem>
       <DescriptionItem title="Version">{getVersionString(data)}</DescriptionItem>
-      <DescriptionItem title="Is LiteMember">{yesOrNo(data.get('isLiteMember'))}</DescriptionItem>
+      <DescriptionItem title="Is Lite Member">{yesOrNo(data.get('isLiteMember'))}</DescriptionItem>
       <DescriptionItem title="Is Local Member Safe">{yesOrNo(data.get('isLocalMemberSafe'))}</DescriptionItem>
-      <DescriptionItem title="Is Cluster Safe">{yesOrNo(data.get('isClusterSafe'))}</DescriptionItem>
     </DescriptionList>
   );
 }

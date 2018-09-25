@@ -2,7 +2,7 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
-  type: 'spring-webflux',
+  type: 'spring-webflux-entry',
   category: 'http',
 
   typeName: {

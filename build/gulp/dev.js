@@ -195,6 +195,7 @@ gulp.task('startDevProxy', function startDevProxy() {
     '/ump/': butlerUrl + '/ump/',
     '/assets/': butlerUrl + '/assets/',
     '/secured/': butlerUrl + '/secured/',
+    '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
     '/uiTracker/': 'http://127.0.0.1:8484/',
     '/notifications/': 'https://instana.github.io/ui-notifications/content/'
   };

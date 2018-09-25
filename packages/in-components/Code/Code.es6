@@ -11,10 +11,11 @@ import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-markup-templating.min.js';
 import 'prismjs/components/prism-json.min.js';
 import 'prismjs/components/prism-java.min.js';
-import 'prismjs/components/prism-sql.min.js';
-import 'prismjs/components/prism-ruby.min.js';
-import 'prismjs/components/prism-yaml.min.js';
 import 'prismjs/components/prism-php.min.js';
+import 'prismjs/components/prism-python.min.js';
+import 'prismjs/components/prism-ruby.min.js';
+import 'prismjs/components/prism-sql.min.js';
+import 'prismjs/components/prism-yaml.min.js';
 
 // prism plugins
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
@@ -78,7 +79,8 @@ export default class extends React.PureComponent {
         // Happened in Safari on 2016-11-08.
       }
     }
-    codeElement.textContent = code;
+    // trailing line breaks break the prism highlight line plugin. So replace any trailing line breaks…
+    codeElement.textContent = code.replace(/\s+$/, '');
     Prism.highlightElement(codeElement);
 
     if (this.props.scrollElementClassName) {

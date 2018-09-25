@@ -5,7 +5,7 @@ import {
   getTimeConfigFromEventForCharts,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
-import { getEntityOfType } from 'in-components/EntityInformation/EntityInformation';
+import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
@@ -139,6 +139,8 @@ function getChartConfig(metric, entity, entityType) {
     return getMetricDefinition('service20', metric);
   } else if (entityType === 'App20') {
     return getMetricDefinition('application20', metric);
+  } else if (entityType === 'Endpoint20') {
+    return getMetricDefinition('endpoint20', metric);
   }
   // else assume 'Entity10'
   return getMetricDefinition(entity.get('plugin'), metric);

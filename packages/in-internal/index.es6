@@ -1,9 +1,10 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
-import QualityOfServiceStats from 'in-internal/QualityOfServiceStats/QualityOfServiceStats';
 import SelfServiceQualityOfServiceStats from 'in-internal/SelfServiceQualityOfServiceStats/SelfServiceQualityOfServiceStats';
+import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
+import TracesSubscriptionStats from 'in-internal/TracesSubscriptionStats/TracesSubscriptionStats';
+import QualityOfServiceStats from 'in-internal/QualityOfServiceStats/QualityOfServiceStats';
 import AppDataProcessorStatistics from 'in-internal/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import TuStatistics from 'in-internal/TuStatistics';
@@ -25,6 +26,7 @@ export default function Internal() {
       <Route path="/internal/qualityOfServiceStats" component={QualityOfServiceStats} />
       <Route path="/internal/selfServiceQualityOfServiceStats" component={SelfServiceQualityOfServiceStats} />
       <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
+      <Route path="/internal/tracesSubscriptionStats" component={TracesSubscriptionStats} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );

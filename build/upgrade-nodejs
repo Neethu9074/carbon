@@ -55,4 +55,16 @@ yarn
 cd packages/in-server
 yarn
 
-echo 'Great success, Node.js is now up to date!'
+ACTUAL_NODE_VERSION=$(node --version)
+
+if [[ "v$NEW_NODE_VERSION" != "$ACTUAL_NODE_VERSION" ]]; then
+  echo
+  echo "I have installed v$NEW_NODE_VERSION but running 'node --version' reports as $ACTUAL_NODE_VERSION. It is"
+  echo "likely that you also have Node.js installed via other means"
+  echo "(installer, brew, apt-get, ...). This might cause problems. Please remove the"
+  echo "other Node.js installation and make sure your system uses the Node.js version"
+  echo 'installed by nvm. You might also want to check "which node" and "echo $PATH".'
+  exit 1
+fi
+
+echo "Great success, you are now running Node.js $ACTUAL_NODE_VERSION and this has also been set as your default Node.js version via nvm."

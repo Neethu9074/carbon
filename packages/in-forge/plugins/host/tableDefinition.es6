@@ -22,7 +22,7 @@ export default {
       }
     },
     {
-      title: 'FQDN',
+      title: 'Name',
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {

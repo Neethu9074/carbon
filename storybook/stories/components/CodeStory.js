@@ -39,6 +39,18 @@ storiesOf('components/Code', module)
       />
     </Root>
   ))
+  .add('Python', () => (
+    <Root>
+      <Code
+        lang="python"
+        line={0}
+        code={
+          "from __future__ import print_function\nimport os\nfrom flask import Flask, abort\nimport urllib3\n\napplication = Flask(__name__)\n\n@application.route(\"/\")\ndef hello():\n  return \"<h1 style='color:blue'>Hello There!</h1>\"\n\n@application.route(\"/error\")\ndef error():\n    abort(500)\n\n\n@application.route(\"/remote\")\ndef remote():\n    http = urllib3.PoolManager()\n    r = http.request('GET', 'http://rubycode.us/')\n\n    return \"<h1 style='color:green'>Remote call returned %d</h1>\" % (r.status)\n\nif __name__ == \"__main__\":\n  application.run(host='0.0.0.0')\n"
+        }
+        showLineNumbers
+      />
+    </Root>
+  ))
   .add('Ruby', () => (
     <Root>
       <Code

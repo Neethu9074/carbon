@@ -17,6 +17,8 @@ export const nonServicePlugins = {
   awsS3: 'awsS3',
   azure: 'azure',
   azureAppService: 'azureAppService',
+  azureCosmosDb: 'azureCosmosDb',
+  azureRedisCache: 'azureRedisCache',
   cassandra: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
   ceph: 'ceph',
@@ -194,6 +196,7 @@ export const oneZeroServicePlugins = {
 export const applicationPlugins = {
   application: 'application',
   defaultEntity20: 'defaultEntity20',
+  endpoint: 'endpoint',
   service: 'service'
 };
 
@@ -232,6 +235,8 @@ export const fullyQualifiedPlugins = {
   awsS3: 'com.instana.forge.hardware.virtual.aws.sqs.AwsS3',
   azure: 'com.instana.forge.hardware.virtual.azure.Azure',
   azureAppService: 'com.instana.forge.hardware.virtual.azure.appservice.AzureAppService',
+  azureCosmosDb: 'com.instana.forge.hardware.virtual.azure.cosmosdb.AzureCosmosDb',
+  azureRedisCache: 'com.instana.forge.hardware.virtual.azure.rediscache.AzureRedisCache',
   batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
   browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
   browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
@@ -263,6 +268,7 @@ export const fullyQualifiedPlugins = {
   elasticSearchIndexServiceInstance:
     'com.instana.forge.connection.database.elasticsearch.ElasticSearchIndexServiceInstance',
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
+  endpoint: 'com.instana.forge.application.Endpoint',
   etcd: 'com.instana.forge.infrastructure.cache.etcd.Etcd',
   finagleApplicationContainer: 'com.instana.forge.infrastructure.application.finagle.FinagleApplicationContainer',
   f5: 'com.instana.forge.infrastructure.loadbalancer.F5',

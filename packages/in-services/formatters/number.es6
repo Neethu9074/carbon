@@ -307,3 +307,70 @@ function formatTime(t, units, formatNumber) {
 
   return formatNumber(t) + units[units.length - 1].unit;
 }
+
+function isMillisFormatter(numberFormatter) {
+  return (
+    numberFormatter === millis ||
+    numberFormatter === millis.detailed ||
+    numberFormatter === millis.compact ||
+    numberFormatter === millis.fixedDetailed ||
+    numberFormatter === millis.fixedCompact ||
+    numberFormatter === ms ||
+    numberFormatter === msZeroDecimalPlaces ||
+    numberFormatter === msTwoDecimalPlaces
+  );
+}
+
+function isMicrosFormatter(numberFormatter) {
+  return (
+    numberFormatter === micros ||
+    numberFormatter === micros.detailed ||
+    numberFormatter === micros.fixedDetailed ||
+    numberFormatter === micros.compact ||
+    numberFormatter === muSecondsToMillis
+  );
+}
+
+function isPercentageFormatter(numberFormatter) {
+  return (
+    numberFormatter === percentage ||
+    numberFormatter === percentageZeroDecimalPlaces ||
+    numberFormatter === percentageTwoDecimalPlaces ||
+    numberFormatter === percentagePlain ||
+    numberFormatter === percentagePlainZeroDecimalPlaces ||
+    numberFormatter === percentagePlainTwoDecimalPlaces ||
+    numberFormatter === hitRate
+  );
+}
+
+function isRateFormatter(numberFormatter) {
+  return numberFormatter === number.perSecond || numberFormatter === zeroDecimalPlacesPerSecond;
+}
+
+function isByteRateFormatter(numberFormatter) {
+  return (
+    numberFormatter === bytes.perSecond ||
+    numberFormatter === bytesPerSecondZeroDecimalPlaces ||
+    numberFormatter === bytesPerSecondTwoDecimalPlaces
+  );
+}
+
+export function numberFormatterToFormatterType(numberFormatter) {
+  if (isMillisFormatter(numberFormatter)) {
+    return 'MILLIS';
+  } else if (isMicrosFormatter(numberFormatter)) {
+    return 'MUSECONDS';
+  } else if (isPercentageFormatter(numberFormatter)) {
+    return 'PERCENTAGE';
+  } else if (isRateFormatter(numberFormatter)) {
+    return 'RATE';
+  } else if (isByteRateFormatter(numberFormatter)) {
+    return 'BYTE_RATE';
+  } else if (numberFormatter === number) {
+    return 'NUMBER';
+  } else if (numberFormatter === bytes) {
+    return 'BYTES';
+  } else {
+    return 'UNDEFINED';
+  }
+}

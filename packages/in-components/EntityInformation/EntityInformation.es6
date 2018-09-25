@@ -1,12 +1,10 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
-import getApplication from 'in-subscription/application/getApplication';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { getEntityOfType, parseEndpointEntityId } from './entityUtils';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import getService from 'in-subscription/application/getService';
 import { always } from 'in-services/fixedStreams';
-import { getSnapshot } from 'in-stores/snapshot';
-import { just } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -28,57 +26,24 @@ export default connectTo(
     }
   },
   function EntityInformation(props) {
-    const { entity, entityId, entityType } = props;
+    const { entity, entityType } = props;
     if (!entity) {
       return null;
-    } else if (
-      entity === loadingPlaceholder ||
-      (entity.progress && entity.progress.loading) ||
-      (entity.errors && entity.errors.length > 0)
-    ) {
+    }
+    if (isLoading(entity) || hasErrors(entity)) {
       // This component is used too often within the same view, e.g. trace view with lots of
       // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
       // times. So show no loading indicator instead.
       return null;
-    } else if (entityType === 'App20') {
-      const href$ = getApplicationDashboard(entityId);
-      return <EntityInformation20 {...props} href$={href$} />;
-    } else if (entityType === 'Service20') {
-      const href$ = getServiceDashboard(entityId);
-      return <EntityInformation20 {...props} href$={href$} />;
-    } else {
+    }
+
+    if (entityType === 'Entity10') {
       return <EntityInformation10 {...props} />;
+    } else {
+      return <EntityInformation20 {...props} />;
     }
   }
 );
-
-// TODO consider moving this method to a more suiteable component?
-export function getEntityOfType(entityId, entityType, timeConfig) {
-  if (entityType === 'App20') {
-    return {
-      entity: getApplication({ id: entityId }).startWith(null)
-    };
-  } else if (entityType === 'Service20') {
-    if (!timeConfig) {
-      //  Can't render 2.0 service information without a time config.
-      return {
-        entity: just(null)
-      };
-    }
-    return {
-      entity: getService({
-        id: entityId,
-        filter: {
-          timeConfig: timeConfig
-        }
-      }).startWith(null)
-    };
-  } else {
-    return {
-      entity: getSnapshot(entityId, timeConfig).startWith(null)
-    };
-  }
-}
 
 function EntityInformation10({
   entity,
@@ -102,12 +67,31 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entity, label, href$ }) {
-  const entityLabel = entity.data.label;
+function EntityInformation20({ entityId, entity, entityType, label }) {
+  let href$;
+  if (entityType === 'App20') {
+    href$ = getApplicationDashboard(entityId);
+  } else if (entityType === 'Service20') {
+    href$ = getServiceDashboard(entityId);
+  } else if (entityType === 'Endpoint20') {
+    const endpoint = parseEndpointEntityId(entityId);
+    href$ = getEndpointDashboard(endpoint.name, {
+      serviceId: endpoint.serviceId
+    });
+  }
+
   return (
     <div className={block}>
       <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
-      <Link href$={href$}>{entityLabel}</Link>
+      <Link href$={href$}>{entity.data.label}</Link>
     </div>
   );
+}
+
+function isLoading(entity) {
+  return entity === loadingPlaceholder || (entity.progress && entity.progress.loading);
+}
+
+function hasErrors(entity) {
+  return entity.errors && entity.errors.length > 0;
 }

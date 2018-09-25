@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import convert from 'in-analyze/TraceDetail/components/CallDetails/fakedSpanConverter';
 import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
@@ -10,18 +10,18 @@ import locals from './Details.mless';
 
 export default function Details({ call }) {
   return (
-    <Group title="Details">
-      <SpanDetails call={call} kind="ENTRY" />
-      <SpanDetails call={call} kind="INTERMEDIATE" />
+    <Fragment>
+      <SpanDetails title="Caller Details" call={call} kind="EXIT" />
+      <SpanDetails title="Details" call={call} kind="INTERMEDIATE" />
       {/* Show data for spans which do not have a kind (or an invalid one) */}
-      <SpanDetails call={call} kind={null} />
-      <SpanDetails call={call} kind={undefined} />
-      <SpanDetails call={call} kind="EXIT" />
-    </Group>
+      <SpanDetails title="Details" call={call} kind={null} />
+      <SpanDetails title="Details" call={call} kind={undefined} />
+      <SpanDetails title="Callee Details" call={call} kind="ENTRY" />
+    </Fragment>
   );
 }
 
-function SpanDetails({ call, kind }) {
+function SpanDetails({ title, call, kind }) {
   let span = find(call.spans, _span => _span.kind === kind);
   span = span && span.data && Object.keys(span.data).length > 0 ? span : null;
 
@@ -30,8 +30,10 @@ function SpanDetails({ call, kind }) {
   }
 
   return (
-    <div className={locals.forgeDetailsWrapper}>
-      <SpanForgeDetails span={fromJS(convert(span))} />
-    </div>
+    <Group title={title}>
+      <div className={locals.forgeDetailsWrapper}>
+        <SpanForgeDetails span={fromJS(convert(span))} />
+      </div>
+    </Group>
   );
 }

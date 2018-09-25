@@ -8,11 +8,12 @@ import {
 } from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
+import { parseEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import getApplication from 'in-subscription/application/getApplication';
 import { isLoading$ } from 'in-views/eventView/stores/isLoadingStore';
 import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -157,6 +158,16 @@ const On = connectTo(
         entity: getServiceLabel({ id: props.rawEvent.entityId }),
         app20IconType: just('app_service')
       };
+    } else if (props.rawEvent.entityType === 'Endpoint20') {
+      const endpoint = parseEndpointEntityId(props.rawEvent.entityId);
+      return {
+        entity: just({
+          data: {
+            label: endpoint.name
+          }
+        }),
+        app20IconType: just('app_endpoint')
+      };
     } else {
       return {
         entity: getSnapshot(
@@ -172,7 +183,11 @@ const On = connectTo(
     }
 
     let label;
-    if (rawEvent.entityType === 'App20' || rawEvent.entityType === 'Service20') {
+    if (
+      rawEvent.entityType === 'App20' ||
+      rawEvent.entityType === 'Service20' ||
+      rawEvent.entityType === 'Endpoint20'
+    ) {
       label = entity.data.label;
     } else {
       label = getLabel(entity);
