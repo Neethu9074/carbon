@@ -4,6 +4,7 @@ import createDeploymentConfigForPodSubscription from 'in-subscription/deployment
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import createNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
 import createHostForPodSubscription from 'in-subscription/hostForPod';
@@ -19,9 +20,10 @@ export default connectTo(
     deploymentConfig: getDeploymentConfigForPod(props.snapshot.get('id')).flatMap(getSnapshot),
     node: getNodeForPod(props.snapshot.get('id')).flatMap(getSnapshot),
     host: getHostForPod(props.snapshot.get('id')).flatMap(getSnapshot),
-    cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot)
+    cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot),
+    namespace: getNamespaceForPod(props.snapshot.get('id')).flatMap(getSnapshot)
   }),
-  function Info({ snapshot, deployment, deploymentConfig, node, host, cluster }) {
+  function Info({ snapshot, deployment, deploymentConfig, node, host, cluster, namespace }) {
     const data = snapshot.get('data');
     return (
       <div>
@@ -56,8 +58,15 @@ export default connectTo(
             </DescriptionItem>
           ) : null}
 
+          {namespace ? (
+            <DescriptionItem title="Namespace">
+              <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
+            </DescriptionItem>
+          ) : (
+            <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+          )}
+
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
           <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
           <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
           <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
@@ -84,4 +93,7 @@ function getHostForPod(snapshotId) {
 }
 function getClusterForPod(snapshotId) {
   return timeConfig$.flatMap(timeConfig => createClusterForPodSubscription({ snapshotId, timeConfig }));
+}
+function getNamespaceForPod(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => createNamespaceForPodSubscription({ snapshotId, timeConfig }));
 }

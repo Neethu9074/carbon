@@ -3,10 +3,13 @@ import React from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import DashboardNotification from 'in-components/DashboardNotification';
 import DeploymentConfigsTable from './DeploymentConfigsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import DeploymentsTable from './DeploymentsTable';
+import NamespacesTable from './NamespacesTable';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 import NodesTable from './NodesTable';
@@ -17,6 +20,8 @@ export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      {getMissingResourceWatchesHint(snapshot)}
+
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Node Count">
@@ -93,8 +98,29 @@ export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
 
       <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
       <DeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />
-
       {isOpenshift && <DeploymentConfigsTable snapshot={snapshot} timeConfig={timeConfig} />}
+
+      <NamespacesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
+  );
+}
+
+function getMissingResourceWatchesHint(snapshot) {
+  const missingResourceWatches = snapshot.getIn(['data', 'missingResourceWatches'], emptyList);
+
+  if (missingResourceWatches.size === 0) {
+    return null;
+  }
+
+  return (
+    <DashboardNotification type="warning">
+      <strong>Missing Kubernetes resource(s) watch permission.</strong>
+      <p>
+        Kubernetes sensor will not work properly without permission to <code>watch</code> the following
+        resource(s):&nbsp;
+        <code>{missingResourceWatches.toArray().toString()}</code>.
+      </p>
+      Please add <code>watch</code> permission to the cluster-role definition.
+    </DashboardNotification>
   );
 }

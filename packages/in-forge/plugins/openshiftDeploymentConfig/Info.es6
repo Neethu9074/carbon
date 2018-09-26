@@ -1,5 +1,6 @@
 import React from 'react';
 
+import createNamespaceForDeploymentConfigSubscription from 'in-subscription/namespaceForDeploymentConfig';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
@@ -12,10 +13,11 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot)
+      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot),
+      namespace: getNamespaceForDeploymentConfig(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, cluster }) {
+  function Info({ snapshot, cluster, namespace }) {
     const data = snapshot.get('data');
 
     return (
@@ -26,7 +28,15 @@ export default connectTo(
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-          <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+
+          {namespace ? (
+            <DescriptionItem title="Namespace">
+              <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
+            </DescriptionItem>
+          ) : (
+            <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+          )}
+
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
           <KeyValuePopupButton title="Labels" data={data.get('labels')}>
             Labels
@@ -39,4 +49,8 @@ export default connectTo(
 
 function getClusterForPod(snapshotId) {
   return timeConfig$.flatMap(timeConfig => createClusterForPodSubscription({ snapshotId, timeConfig }));
+}
+
+function getNamespaceForDeploymentConfig(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => createNamespaceForDeploymentConfigSubscription({ snapshotId, timeConfig }));
 }

@@ -64,6 +64,7 @@ export const nonServicePlugins = {
   kubernetesNode: 'kubernetesNode',
   kubernetesReplicaSet: 'kubernetesReplicaSet',
   kubernetesDeployment: 'kubernetesDeployment',
+  kubernetesNamespace: 'kubernetesNamespace',
   liferay: 'liferayApplicationContainer',
   mariaDbDatabase: 'mariaDbDatabase',
   memcached: 'memcached',
@@ -300,6 +301,7 @@ export const fullyQualifiedPlugins = {
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
   kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesPod',
   kubernetesDeployment: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesDeployment',
+  kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesNode',
   kubernetesReplicaSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicaset.KubernetesReplicaSet',

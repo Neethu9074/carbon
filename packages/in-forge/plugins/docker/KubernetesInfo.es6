@@ -5,6 +5,7 @@ import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
 import getNodeForContainerSubscription from 'in-subscription/nodeForContainer';
 import getPodForContainerSubscription from 'in-subscription/podForContainer';
+import getNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import getClusterForPodSubscription from 'in-subscription/clusterForPod';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -26,12 +27,24 @@ export default connectTo(
         .flatMap(getDeploymentForPod)
         .filter(deploymentId => deploymentId != null)
         .flatMap(getSnapshot),
+      namespaceSnapshot: podForContainer
+        .filter(podId => podId != null)
+        .flatMap(getNamespaceForPod)
+        .filter(namespaceId => namespaceId != null)
+        .flatMap(getSnapshot),
       nodeSnapshot: getNodeForContainer(containerSnapshotId).flatMap(getSnapshot),
       clusterSnapshot: getClusterForContainer(containerSnapshotId).flatMap(getSnapshot)
     };
   },
 
-  function KubernetesInfo({ snapshot, podSnapshot, deploymentSnapshot, nodeSnapshot, clusterSnapshot }) {
+  function KubernetesInfo({
+    snapshot,
+    podSnapshot,
+    deploymentSnapshot,
+    nodeSnapshot,
+    clusterSnapshot,
+    namespaceSnapshot
+  }) {
     const labels = snapshot.getIn(['data', 'Labels']);
     if (!labels || labels.size === 0) {
       return null;
@@ -57,7 +70,14 @@ export default connectTo(
           <Collapsible.Header>Kubernetes</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
+              {namespaceSnapshot ? (
+                <DescriptionItem title="Namespace">
+                  <SnapshotLink snapshotId={namespaceSnapshot.get('id')}>{getLabel(namespaceSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : (
+                <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
+              )}
+
               {podSnapshot ? (
                 <DescriptionItem title="Pod">
                   <SnapshotLink snapshotId={podSnapshot.get('id')}>{getLabel(podSnapshot)}</SnapshotLink>
@@ -109,4 +129,7 @@ function getNodeForContainer(snapshotId) {
 }
 function getClusterForContainer(snapshotId) {
   return timeConfig$.flatMap(timeConfig => getClusterForPodSubscription({ snapshotId, timeConfig }));
+}
+function getNamespaceForPod(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => getNamespaceForPodSubscription({ snapshotId, timeConfig }));
 }

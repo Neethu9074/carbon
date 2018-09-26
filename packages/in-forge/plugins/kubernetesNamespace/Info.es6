@@ -1,9 +1,9 @@
 import React from 'react';
 
-import createNamespaceForDeploymentSubscription from 'in-subscription/namespaceForDeployment';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
-import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
+import { formatDateTime } from 'in-services/formatters/date';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -13,11 +13,10 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => {
     return {
-      cluster: getClusterForPod(props.snapshot.get('id')).flatMap(getSnapshot),
-      namespace: getNamespaceForDeployment(props.snapshot.get('id')).flatMap(getSnapshot)
+      cluster: getClusterForNamespace(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, cluster, namespace }) {
+  function Info({ snapshot, cluster }) {
     const data = snapshot.get('data');
 
     return (
@@ -28,16 +27,9 @@ export default connectTo(
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
-          {namespace ? (
-            <DescriptionItem title="Namespace">
-              <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
-            </DescriptionItem>
-          ) : (
-            <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
-          )}
-
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
+          <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
+          <DescriptionItem title="Creation time">{formatDateTime(data.get('creationTime'))}</DescriptionItem>
           <KeyValuePopupButton title="Labels" data={data.get('labels')}>
             Labels
           </KeyValuePopupButton>
@@ -47,10 +39,6 @@ export default connectTo(
   }
 );
 
-function getClusterForPod(snapshotId) {
-  return timeConfig$.flatMap(timeConfig => createClusterForPodSubscription({ snapshotId, timeConfig }));
-}
-
-function getNamespaceForDeployment(snapshotId) {
-  return timeConfig$.flatMap(timeConfig => createNamespaceForDeploymentSubscription({ snapshotId, timeConfig }));
+function getClusterForNamespace(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => createClusterForNamespaceSubscription({ snapshotId, timeConfig }));
 }
