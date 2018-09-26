@@ -8,7 +8,7 @@ export default function Row({ item, size, columnDefinitions, cellOpts, onMouseEn
   return (
     <Tr onMouseEnter={() => onMouseEnter(item)} onMouseLeave={() => onMouseLeave(item)} size={size}>
       {keys.map(key => (
-        <Td key={key} noWrap={columnDefinitions[key].noWrap}>
+        <Td key={key} noWrap={columnDefinitions[key].noWrap} ellipsis={columnDefinitions[key].ellipsis}>
           {columnDefinitions[key].getContent(item, cellOpts)}
         </Td>
       ))}

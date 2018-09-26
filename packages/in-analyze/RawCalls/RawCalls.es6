@@ -97,7 +97,7 @@ function RawCalls({
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="serviceName"
+              technicalName="serviceLabel"
               label="Service"
             />
 
