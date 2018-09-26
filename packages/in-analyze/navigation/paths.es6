@@ -5,9 +5,9 @@ import {
   callId as callIdMatrixParameter,
   showRawData as showRawDataMatrixParameter
 } from 'in-analyze/navigation/matrix';
+import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -19,12 +19,11 @@ export const traceDetailFullyQualified = `${analyze}/trace`;
 
 export const isAnalyzeView = getRootPathPredicate(analyze);
 
-export function getLinkToAnalyze({ applicationName, serviceName, endpointName, raw } = emptyObject) {
+export function getLinkToAnalyze({ applicationName, serviceName, endpointName, filters, groupByTag } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
-    if (raw) {
-      setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter, null);
-    }
+
+    setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
 
     const tagFilter = [];
     if (applicationName) {
@@ -35,6 +34,9 @@ export function getLinkToAnalyze({ applicationName, serviceName, endpointName, r
     }
     if (endpointName) {
       tagFilter.push({ name: ENDPOINT.name, value: endpointName });
+    }
+    if (filters) {
+      tagFilter.push(...filters);
     }
 
     setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
