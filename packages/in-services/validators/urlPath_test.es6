@@ -47,6 +47,15 @@ describe('in-services/validators/urlPath', () => {
           name: 'foobar'
         });
       });
+
+      it('should parse the query', () => {
+        const result = parse('/product-type');
+        expect(result).to.have.length(1);
+        expect(result[0]).to.deep.equal({
+          type: 'FIXED',
+          name: 'product-type'
+        });
+      });
     });
 
     describe('PARAMETER', () => {

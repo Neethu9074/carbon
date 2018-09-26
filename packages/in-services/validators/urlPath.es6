@@ -34,12 +34,7 @@ export function parse(str) {
       continue;
     }
 
-    if (isFixed(part)) {
-      parsedResult.push({
-        type: 'FIXED',
-        name: part
-      });
-    } else if (isParameter(part)) {
+    if (isParameter(part)) {
       parsedResult.push({
         type: 'PARAMETER',
         name: part.slice(1, part.length - 1) // remove { and }
@@ -47,6 +42,11 @@ export function parse(str) {
     } else if (isMatchAll(part)) {
       parsedResult.push({
         type: 'MATCH_ALL'
+      });
+    } else if (isFixed(part)) {
+      parsedResult.push({
+        type: 'FIXED',
+        name: part
       });
     } else {
       parsedResult.push({
@@ -60,11 +60,11 @@ export function parse(str) {
 }
 
 function isFixed(str) {
-  return str.match(/^\w+$/i);
+  return str.match(/^[^/{*]+$/i);
 }
 
 function isParameter(str) {
-  return str.match(/^\{\w+\}$/i);
+  return str.match(/^\{.*\}$/i);
 }
 
 function isMatchAll(str) {
