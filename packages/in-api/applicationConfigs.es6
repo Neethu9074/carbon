@@ -1,4 +1,4 @@
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
@@ -27,7 +27,7 @@ export function addApplicationConfig(config) {
   return http({
     method: 'POST',
     url: `/api/applicationConfigs`,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
 }
@@ -37,7 +37,7 @@ export function updateApplicationConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/applicationConfigs/${config.id}`,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
 }
@@ -46,7 +46,7 @@ export function deleteApplicationConfig(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/applicationConfigs/${id}`
   });
 }

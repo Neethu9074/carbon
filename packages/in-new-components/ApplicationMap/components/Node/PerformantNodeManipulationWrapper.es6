@@ -27,22 +27,20 @@ export default function performantNodeManipulationWrapper(ComposedComponent) {
         combineLatest([
           node.events$.on('screenPosition').startWith(null),
           eventBusServiceLocator.on(SIGNALS.WORLD_UNITS)
-        ])
-          .nextFrame()
-          .subscribe(([screenPosition, worldUnits]) => {
-            if (!screenPosition) {
-              nodeDomComponent.style.display = 'none';
-              return;
-            }
-            nodeDomComponent.style.display = '';
+        ]).subscribe(([screenPosition, worldUnits]) => {
+          if (!screenPosition) {
+            nodeDomComponent.style.display = 'none';
+            return;
+          }
+          nodeDomComponent.style.display = '';
 
-            applyTransform(
-              nodeDomComponent,
-              `translate3d(${screenPosition.x}px,${screenPosition.y}px,0) scale3d(${
-                worldUnits.targetNodeSizeInRelationToInitSize
-              }, ${worldUnits.targetNodeSizeInRelationToInitSize}, 1)`
-            );
-          }),
+          applyTransform(
+            nodeDomComponent,
+            `translate3d(${screenPosition.x}px,${screenPosition.y}px,0) scale3d(${
+              worldUnits.targetNodeSizeInRelationToInitSize
+            }, ${worldUnits.targetNodeSizeInRelationToInitSize}, 1)`
+          );
+        }),
 
         getServiceLocators(serviceLocatorUid)
           .hiddenEntitiesServiceLocator.getResolvedId$()

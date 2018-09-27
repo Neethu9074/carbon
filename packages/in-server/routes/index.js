@@ -134,17 +134,19 @@ function getCsrfToken(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: serverConfig.uiBackendBaseUrl + '/csrf/token',
+        url: serverConfig.uiBackendBaseUrl + '/api/csrf/token',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
         timeout: 5000
       },
-      (error, response, csrf) => {
+      (error, response) => {
         if (error) {
           reject(new Error('Failed to retrieve csrf token from ui-backend: ' + String(error)));
         } else {
-          resolve(csrf);
+          resolve(JSON.stringify({
+            token: response.headers['x-csrf-token']
+          }));
         }
       }
     );

@@ -62,7 +62,11 @@ export const millis = {
   compact: t => formatTime(t, timeMilliUnits, number.compact),
   fixedCompact: t => number.compact(t) + 'ms',
   detailed: timeByMillisTwoDecimalPlaces,
-  fixedDetailed: t => number.detailed(t) + 'ms'
+  fixedDetailed: t => number.detailed(t) + 'ms',
+  fixed: {
+    compact: t => number.compact(t) + 'ms',
+    detailed: t => number.detailed(t) + 'ms'
+  }
 };
 export const seconds = {
   fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',

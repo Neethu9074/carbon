@@ -36,7 +36,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
     <div className={locals.heatMap}>
       <VerticalAxis
         tickLineColor={theme.lib.colors.N700Medium}
-        formatter={millis}
+        formatter={millis.fixed}
         scale={calculateScale(data)}
         height={height}
       />
