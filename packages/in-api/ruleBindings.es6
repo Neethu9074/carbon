@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -28,7 +28,7 @@ export function saveRuleBinding(ruleBinding) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/ruleBindings/${encodeURIComponent(ruleBinding.get('id'))}`,
     data: ruleBinding.toJS()
   }).map(response => fromJS(response.body));
@@ -38,7 +38,7 @@ export function deleteRuleBinding(ruleBindingId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/ruleBindings/${encodeURIComponent(ruleBindingId)}`
   }).map(response => fromJS(response.body));
 }

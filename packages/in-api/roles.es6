@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -24,7 +24,7 @@ export function saveRole(role) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/roles/${encodeURIComponent(role.get('id'))}`,
     data: role.toJS()
   }).map(response => fromJS(response.body));
@@ -34,7 +34,7 @@ export function deleteRole(roleId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/roles/${encodeURIComponent(roleId)}`
   }).map(response => fromJS(response.body));
 }

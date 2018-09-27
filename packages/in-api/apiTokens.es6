@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function getApiTokens() {
@@ -23,7 +23,7 @@ export function saveApiToken(apiToken) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/apiTokens/${encodeURIComponent(apiToken.get('id'))}`,
     data: apiToken.toJS()
   });
@@ -33,7 +33,7 @@ export function deleteApiToken(apiTokenId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/apiTokens/${encodeURIComponent(apiTokenId)}`
   });
 }

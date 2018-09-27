@@ -1,4 +1,4 @@
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function saveSettings(settings) {
@@ -7,6 +7,6 @@ export function saveSettings(settings) {
     url: `/api/ui/settings`,
     data: settings,
     maxRetries: 3,
-    headers: csrfHeader
+    headers: getCsrfHeader()
   }).map(response => response.body);
 }

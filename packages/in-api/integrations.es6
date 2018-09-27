@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 import { configs, fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -37,7 +37,7 @@ export function saveIntegration(integration) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/integrations/${encodeURIComponent(integration.get('id'))}`,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
@@ -47,7 +47,7 @@ export function deleteIntegration(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     url: `/api/integrations/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }

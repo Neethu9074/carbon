@@ -1,4 +1,4 @@
-import { header as csrfHeader } from 'in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function getAllEumKeys() {
@@ -18,7 +18,7 @@ export function removeKey(keyId) {
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/eumApps/${encodeURIComponent(keyId)}`,
-    headers: csrfHeader
+    headers: getCsrfHeader()
   }).map(response => response.body);
 }
 
@@ -26,7 +26,7 @@ export function addKey(appName) {
   return http({
     method: 'POST',
     url: `/api/eumApps`,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     queryParams: {
       name: appName
     }
@@ -38,7 +38,7 @@ export function renameKey(apiKey, newAppName) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/eumApps/${encodeURIComponent(apiKey)}`,
-    headers: csrfHeader,
+    headers: getCsrfHeader(),
     queryParams: {
       name: newAppName
     }
