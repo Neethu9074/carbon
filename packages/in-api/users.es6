@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { header as csrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function getUsers() {
@@ -14,6 +15,7 @@ export function setRole(userId, roleId) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/tenant/users/${encodeURIComponent(userId)}/role`,
+    headers: csrfHeader,
     queryParams: {
       roleId
     }
@@ -24,6 +26,7 @@ export function removeUserFromTenant(userId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
+    headers: csrfHeader,
     url: `/api/tenant/users/${encodeURIComponent(userId)}`
   });
 }
@@ -32,6 +35,7 @@ export function sendInvitation(email, roleId) {
   return http({
     method: 'POST',
     url: `/api/tenant/users/invitations`,
+    headers: csrfHeader,
     queryParams: {
       email,
       roleId
@@ -44,6 +48,7 @@ export function revokeInvitation(email) {
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/tenant/users/invitations`,
+    headers: csrfHeader,
     queryParams: {
       email
     }
