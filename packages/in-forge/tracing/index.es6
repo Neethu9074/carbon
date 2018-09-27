@@ -150,3 +150,4 @@ import './x.hc';
 import './x.http';
 import './zipkin';
 import './gcb';
+import './vertx.redis';
