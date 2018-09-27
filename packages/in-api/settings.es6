@@ -1,3 +1,4 @@
+import { header as csrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function saveSettings(settings) {
@@ -5,6 +6,7 @@ export function saveSettings(settings) {
     method: 'PUT',
     url: `/api/ui/settings`,
     data: settings,
-    maxRetries: 3
+    maxRetries: 3,
+    headers: csrfHeader
   }).map(response => response.body);
 }
