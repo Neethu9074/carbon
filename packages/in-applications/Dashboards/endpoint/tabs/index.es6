@@ -1,6 +1,7 @@
 import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/LocationAwareTabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
-import MessagesTab from 'in-applications/Dashboards/commonTabs/messages/Messages';
+import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
+import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
@@ -25,9 +26,14 @@ export default [
     component: PerformanceTab
   },
   {
-    label: 'Messages',
-    path: `${endpointDashboard}/messages`,
-    component: MessagesTab
+    label: 'Error Messages',
+    path: `${endpointDashboard}/errorMessages`,
+    component: ErrorMessagesTab
+  },
+  {
+    label: 'Log Messages',
+    path: `${endpointDashboard}/logMessages`,
+    component: LogMessagesTab
   },
   {
     label: 'Infrastructure',

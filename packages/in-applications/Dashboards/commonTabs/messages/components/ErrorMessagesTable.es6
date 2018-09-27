@@ -8,7 +8,7 @@ import ServerTable from 'in-components/tables/ServerTable';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
-export default function CallErrorMessages({
+export default function ErrorMessagesTable({
   applicationId,
   serviceId,
   endpointId,
@@ -19,7 +19,7 @@ export default function CallErrorMessages({
   return (
     <ServerTable
       get={getTableData}
-      defaultPageSize={5}
+      defaultPageSize={10}
       columnDefinitions={getColumnDefinitions(applicationName, serviceName, endpointId)}
       applicationId={applicationId}
       serviceId={serviceId}
