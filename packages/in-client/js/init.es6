@@ -23,6 +23,7 @@ import { init as initTwoZeroBetaPhaseQueryParam } from 'in-services/betaPhase';
 import { init as initErrorBoundary } from 'in-components/ErrorBoundary/store';
 import { init as initTracking } from 'in-services/tracking/mixpanelTrackers';
 import { init as initEventsInTimeframe } from 'in-stores/eventsInTimeframe';
+import { init as initCsrfTokenRefresh } from 'in-services/security/csrf';
 import { init as initMaintenanceNoteStore } from 'in-stores/maintenance';
 import { init as initBrowserIdentification } from 'in-services/browser';
 import { init as initIsMonitoring } from 'in-stores/isMonitoring';
@@ -83,6 +84,7 @@ if (!isSelfService) {
   initNotMonitoringPresenter();
 }
 
+initCsrfTokenRefresh();
 initHighlightedSuggestionStore();
 initUsageInfo();
 initMaintenanceNoteStore();

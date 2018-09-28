@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -24,6 +25,7 @@ export function saveDynamicRule(rule) {
     method: 'PUT',
     maxRetries: 1,
     url: `/api/alerts/anomaly/${encodeURIComponent(rule.id)}`,
+    headers: getCsrfHeader(),
     data: rule
   }).map(response => fromJS(response.body));
 }
@@ -32,6 +34,7 @@ export function deleteDynamicRule(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: `/api/alerts/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
