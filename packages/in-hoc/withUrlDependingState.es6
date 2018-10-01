@@ -51,6 +51,10 @@ import { identity } from 'in-services/util/function';
 //
 //   // function to set the new page/order/query
 //   reducerName: 'onChange'
+//
+//  // whether or not the history should be replaced or not, i.e. whether new history entries
+//  // should be created for any call to the reducer.
+//  replaceHistory: true
 // })
 
 export default ({
@@ -62,7 +66,8 @@ export default ({
   reducerName,
   reducer = defaultingReducer,
   getParsedUrlValues = identity,
-  getSerializedUrlValues = identity
+  getSerializedUrlValues = identity,
+  replaceHistory = true
 }) => BaseComponent => {
   const pickBoundKeys = boundKeys.length > 0 ? curryRight(pick, 2)(boundKeys) : identity;
 
@@ -147,7 +152,7 @@ export default ({
       mutateUrl(params => {
         const matrixValues = (params.matrix[forPathSegment] = params.matrix[forPathSegment] || {});
         Object.keys(serializedValues).forEach(k => (matrixValues[`${matrixPrefix}${k}`] = serializedValues[k]));
-      }, this.props.replaceHistory == false ? false : true);
+      }, Boolean(replaceHistory));
     }
 
     reducer = change => {

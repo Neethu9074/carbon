@@ -10,8 +10,6 @@ export const tagFilter = 'tagFilter';
 
 // groups
 export const groupBy = 'groupBy';
-// TODO remove
-export const showRawData = 'showRawData';
 export const dataSource = 'dataSource';
 
 // trace detail view

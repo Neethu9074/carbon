@@ -1,4 +1,4 @@
-import { compose, defaultProps } from 'recompose';
+import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -18,10 +18,8 @@ import connect from 'in-hoc/connectTo';
 import locals from './ApplicationMap.mless';
 
 export default compose(
-  defaultProps({
-    replaceHistory: false
-  }),
   withUrlDependingState({
+    replaceHistory: false,
     getPathSegment: () => '/map',
     getMatrixPrefix: () => 'applicationMap.',
     boundKeys: [tagFilterMatrixParameter, 'layouter', 'particles', 'traffic', 'sizingMetric'],

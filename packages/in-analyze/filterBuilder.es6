@@ -30,11 +30,6 @@ export function getGroupToUrlString(group) {
   return stringifyIfTrue(group, group);
 }
 
-// TODO remove
-export function getShowRawToUrlString(active) {
-  return stringifyIfTrue(active, active);
-}
-
 function parsedUrlOrDefault(urlString, defaultValue) {
   let parsedValue;
   try {

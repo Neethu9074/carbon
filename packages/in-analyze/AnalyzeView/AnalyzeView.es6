@@ -1,4 +1,4 @@
-import { compose, defaultProps } from 'recompose';
+import { compose, withPropsOnChange } from 'recompose';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
@@ -9,7 +9,6 @@ import {
   getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
 import {
-  showRawData as showRawDataMatrixParameter,
   dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter
@@ -34,10 +33,8 @@ export default compose(
   connectTo({
     activeDialog: activeDialog$
   }),
-  defaultProps({
-    replaceHistory: false
-  }),
   withUrlDependingState({
+    replaceHistory: false,
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
     boundKeys: [dataSourceMatrixParameter],
@@ -53,9 +50,10 @@ export default compose(
     })
   }),
   withUrlDependingState({
+    replaceHistory: false,
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [groupByMatrixParameter, showRawDataMatrixParameter, tagFilterMatrixParameter],
+    boundKeys: [groupByMatrixParameter, tagFilterMatrixParameter],
     resets: [
       {
         getResettingProps: () => [dataSourceMatrixParameter],
@@ -75,7 +73,25 @@ export default compose(
       [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
       [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter])
     })
-  })
+  }),
+  withPropsOnChange(
+    ['location', tagFilterMatrixParameter, groupByMatrixParameter, dataSourceMatrixParameter],
+    ({
+      location,
+      [tagFilterMatrixParameter]: tagFilter,
+      [groupByMatrixParameter]: group,
+      [dataSourceMatrixParameter]: dataSource
+    }) => ({
+      filters: fromJS({
+        tagFilter,
+        group,
+        dataSource
+      }).set('timeConfig', getTimeConfig(location)),
+      tagFiltersForSubscription: getTagFilterListForBackendSubscription(tagFilter),
+      isRawView: !group || !group.name,
+      isTracesDataSource: dataSource === 'traces'
+    })
+  )
 )(AnalyzeView);
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
@@ -86,18 +102,16 @@ function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
 }
 
 function AnalyzeView(props) {
-  const { activeDialog, onChangeAnalyzeConfig, onChangeDataSource, location, totalHits } = props;
-  let filters = fromJS({
-    tagFilter: props[tagFilterMatrixParameter],
-    group: props[groupByMatrixParameter],
-    dataSource: props[dataSourceMatrixParameter]
-  });
-  filters = filters.set('timeConfig', getTimeConfig(location));
-
-  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(props[tagFilterMatrixParameter]);
-  const dataSource = props[dataSourceMatrixParameter];
-  const isTracesDataSource = dataSource === 'traces';
-  const isRawView = !filters.getIn(['group', 'name']);
+  const {
+    activeDialog,
+    onChangeAnalyzeConfig,
+    onChangeDataSource,
+    filters,
+    totalHits,
+    isRawView,
+    isTracesDataSource,
+    dataSource
+  } = props;
 
   return (
     <Fragment>
@@ -113,14 +127,14 @@ function AnalyzeView(props) {
       <MaxWidthFullscreenContainer>
         {isRawView ? (
           isTracesDataSource ? (
-            <RawTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+            <RawTraces {...props} filters={filters} />
           ) : (
-            <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+            <RawCalls {...props} filters={filters} />
           )
         ) : isTracesDataSource ? (
-          <GroupedTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          <GroupedTraces {...props} filters={filters} />
         ) : (
-          <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          <GroupedCalls {...props} filters={filters} />
         )}
       </MaxWidthFullscreenContainer>
 

@@ -2,8 +2,7 @@ import {
   tagFilter as tagFilterMatrixParameter,
   traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
-  callId as callIdMatrixParameter,
-  showRawData as showRawDataMatrixParameter
+  callId as callIdMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -48,14 +47,12 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
     params.pathname = `${traceDetailFullyQualified}${tab}`;
     setOrDeleteMatrixKey(params, traceDetail, traceIdMatrixParameter, traceId);
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
-    setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
   });
 }
 
 export function getLinkToGroupedData() {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
-    setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
     cleanupSortingMatrixParams(params);
   });
 }
