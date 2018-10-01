@@ -69,6 +69,7 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
+// TODO remove
 function getLinkToRawData(filters, item) {
   return getModifiedUrlStream(params => {
     const group = filters.get('group');

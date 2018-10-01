@@ -1,5 +1,4 @@
 import { compose, defaultProps } from 'recompose';
-import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
@@ -7,9 +6,7 @@ import {
   getTagFilterToUrlString,
   getGroupToUrlString,
   getTagFilterFromUrlString,
-  getGroupFromUrlString,
-  getShowRawFromUrlString,
-  getShowRawToUrlString
+  getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
 import {
   showRawData as showRawDataMatrixParameter,
@@ -20,10 +17,8 @@ import {
 import QueryBuilderWorkspace from 'in-analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import RawDataView from 'in-analyze/AnalyzeView/components/RawDataView/RawDataView';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
@@ -45,58 +40,53 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [
-      tagFilterMatrixParameter,
-      dataSourceMatrixParameter
-    ],
+    boundKeys: [dataSourceMatrixParameter],
     getInitialState: () => ({
-      [dataSourceMatrixParameter]: 'traces',
-      [tagFilterMatrixParameter]: []
+      [dataSourceMatrixParameter]: 'traces'
     }),
-    reducerName: 'onChangeFilters',
+    reducerName: 'onChangeDataSource',
     getParsedUrlValues: values => ({
-      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
-      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter])
+      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter]
     }),
     getSerializedUrlValues: props => ({
-      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
       [dataSourceMatrixParameter]: props[dataSourceMatrixParameter]
     })
   }),
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [
-      groupByMatrixParameter,
-      showRawDataMatrixParameter,
-    ],
+    boundKeys: [groupByMatrixParameter, showRawDataMatrixParameter, tagFilterMatrixParameter],
     resets: [
       {
         getResettingProps: () => [dataSourceMatrixParameter],
         onReset: getInitialGrouping
       }
     ],
-    getInitialState: getInitialGrouping,
-    reducerName: 'onChangeGrouping',
+    getInitialState: props => ({
+      ...getInitialGrouping(props),
+      [tagFilterMatrixParameter]: []
+    }),
+    reducerName: 'onChangeAnalyzeConfig',
     getParsedUrlValues: values => ({
-      [showRawDataMatrixParameter]: getShowRawFromUrlString(values[showRawDataMatrixParameter]),
-      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter])
+      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter]),
+      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter])
     }),
     getSerializedUrlValues: props => ({
       [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
-      [showRawDataMatrixParameter]: getShowRawToUrlString(props[showRawDataMatrixParameter])
+      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter])
     })
   })
 )(AnalyzeView);
 
-function getInitialGrouping({[dataSourceMatrixParameter]: dataSource}) {
+function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
   return {
-    [groupByMatrixParameter]: dataSource === 'traces' ? { name: 'trace.name', value: '' } : { name: 'endpoint.name', value: '' }
+    [groupByMatrixParameter]:
+      dataSource === 'traces' ? { name: 'trace.name', value: '' } : { name: 'endpoint.name', value: '' }
   };
 }
 
 function AnalyzeView(props) {
-  const { activeDialog, onChangeFilters, onChangeGrouping, location, totalHits } = props;
+  const { activeDialog, onChangeAnalyzeConfig, onChangeDataSource, location, totalHits } = props;
   let filters = fromJS({
     tagFilter: props[tagFilterMatrixParameter],
     group: props[groupByMatrixParameter],
@@ -104,58 +94,37 @@ function AnalyzeView(props) {
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
-  const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(props[tagFilterMatrixParameter]);
   const dataSource = props[dataSourceMatrixParameter];
   const isTracesDataSource = dataSource === 'traces';
+  const isRawView = !filters.getIn(['group', 'name']);
 
   return (
     <Fragment>
-      <Title title="Analyze" />
+      <Title title={isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls'} />
 
-      <Switch>
-        <Route
-          path="*/raw"
-          render={() => {
-            return (
-              <RawDataView
-                {...props}
-                rawListComponent={isTracesDataSource ? RawTraces : RawCalls}
-                filters={filters}
-                onChangeFilters={onChangeFilters}
-                tagFiltersForSubscription={tagFiltersForSubscription}
-                filterByGroup={rawDataGroup}
-              />
-            );
-          }}
-        />
+      <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
+      <QueryBuilderWorkspace
+        filters={filters}
+        onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+        totalNumberOfCalls={totalHits}
+      />
 
-        <Route
-          path="*/"
-          render={() => {
-            return (
-              <Fragment>
-                <AnalyzeHeader onChangeFilters={onChangeFilters} dataSource={dataSource} />
-                <QueryBuilderWorkspace
-                  filters={filters}
-                  onChangeFilters={onChangeFilters}
-                  onChangeGrouping={onChangeGrouping}
-                  totalNumberOfCalls={totalHits}
-                />
+      <MaxWidthFullscreenContainer>
+        {isRawView ? (
+          isTracesDataSource ? (
+            <RawTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          ) : (
+            <RawCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+          )
+        ) : isTracesDataSource ? (
+          <GroupedTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+        ) : (
+          <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
+        )}
+      </MaxWidthFullscreenContainer>
 
-                <MaxWidthFullscreenContainer>
-                  {isTracesDataSource ? (
-                    <GroupedTraces {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-                  ) : (
-                    <GroupedCalls {...props} filters={filters} tagFiltersForSubscription={tagFiltersForSubscription} />
-                  )}
-                </MaxWidthFullscreenContainer>
-                {activeDialog && <DisabledBodyScroll />}
-              </Fragment>
-            );
-          }}
-        />
-      </Switch>
+      {activeDialog && <DisabledBodyScroll />}
     </Fragment>
   );
 }

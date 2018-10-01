@@ -7,7 +7,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeHeader.mless';
 
-export default function AnalyzeHeader({ dataSource, onChangeFilters }) {
+export default function AnalyzeHeader({ dataSource, onChangeDataSource }) {
   return (
     <div className={locals.headerWrapper}>
       <MaxWidthFullscreenContainer>
@@ -15,11 +15,11 @@ export default function AnalyzeHeader({ dataSource, onChangeFilters }) {
           <DropDown
             numItems={1}
             renderItem={() => (dataSource === 'traces' ? 'calls' : 'traces')}
-            onClick={() => {
-              const newState = {};
-              newState[dataSourceMatrixParameter] = dataSource === 'traces' ? 'calls' : 'traces';
-              onChangeFilters(newState);
-            }}
+            onClick={() =>
+              onChangeDataSource({
+                [dataSourceMatrixParameter]: dataSource === 'traces' ? 'calls' : 'traces'
+              })
+            }
           >
             <SvgIcon className={locals.analyzeIcon} type="lib_analyze" width={24} />
             <span className={locals.label}>{dataSource}</span>

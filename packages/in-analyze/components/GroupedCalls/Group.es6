@@ -2,26 +2,16 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
-import {
-  tagFilter as tagFilterMatrixParameter,
-  showRawData as showRawDataMatrixParameter
-} from 'in-analyze/navigation/matrix';
-import { analyzeRaw, analyze, cleanupSortingMatrixParams } from 'in-analyze/navigation/paths';
+import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { number, millis, percentage } from 'in-services/formatters/number';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getShowRawToUrlString } from 'in-analyze/filterBuilder';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
-import Button from 'in-new-components/Button';
-import Link from 'in-components/Link';
 
 import locals from './Group.mless';
 
-export default function Group({ item, filters, onChangeFilters, dotColor }) {
-  const isAlreadyFiltered = isAlreadyFilteredByThisGroup(item, filters);
+export default function Group({ item, filters, onChangeAnalyzeConfig, dotColor }) {
   const errorMetric = get(item, ['metrics', 'errorsAgg', 0, 1]);
 
   const rowContent = (
@@ -36,20 +26,16 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
             )}
           </span>
           <Fragment>
-            <Link href$={getLinkToRawData(filters, item)} className={locals.name}>
+            <a
+              href=""
+              onClick={e => {
+                e.preventDefault();
+                onSetGrouping(filters, onChangeAnalyzeConfig, item.name);
+              }}
+              className={locals.name}
+            >
               {item.name}
-            </Link>
-            {!isAlreadyFiltered && (
-              <Button
-                className={locals.filterButton}
-                size="compact"
-                kind="action"
-                icon="lib_actions_filter"
-                onClick={() => onSetGrouping(filters, onChangeFilters, item.name, isAlreadyFiltered)}
-              >
-                Filter by
-              </Button>
-            )}
+            </a>
           </Fragment>
         </div>
       </Td>
@@ -69,64 +55,31 @@ export default function Group({ item, filters, onChangeFilters, dotColor }) {
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
-function getLinkToRawData(filters, item) {
-  return getModifiedUrlStream(params => {
-    const group = filters.get('group');
-    const currentGroupValue = group.get('value') ? `${group.get('value')}=${item.name}` : item.name;
-
-    params.pathname = analyzeRaw;
-    setOrDeleteMatrixKey(params, analyze, 'calls.orderBy', null);
-    setOrDeleteMatrixKey(
-      params,
-      analyze,
-      showRawDataMatrixParameter,
-      getShowRawToUrlString({
-        name: group.get('name'),
-        value: currentGroupValue
-      })
-    );
-
-    cleanupSortingMatrixParams(params);
-  });
-}
-
-function onSetGrouping(filters, onChangeFilters, tagName) {
+function onSetGrouping(filters, onChangeAnalyzeConfig, tagName) {
   const group = filters.get('group');
   const currentGroupValue = tagName;
-  const newState = {};
-
   const tagFilter = filters.get('tagFilter');
+  const newTagFilter = fromJS(
+    createFilter({
+      name: group.get('name'),
+      secondLevelName: group.get('value'),
+      value: currentGroupValue,
+      operator: operators.EQUALS
+    })
+  );
 
-  newState[tagFilterMatrixParameter] = tagFilter
-    .push(
-      fromJS(
-        createFilter({
-          name: group.get('name'),
-          secondLevelName: group.get('value'),
-          value: currentGroupValue,
-          operator: operators.EQUALS
-        })
+  onChangeAnalyzeConfig({
+    [groupByMatrixParameter]: {},
+    [tagFilterMatrixParameter]: tagFilter
+      // avoid duplicate addition of same filter
+      .filter(
+        f =>
+          f.get('name') !== newTagFilter.get('name') ||
+          f.get('secondLevelName') !== newTagFilter.get('secondLevelName') ||
+          f.get('value') !== newTagFilter.get('value') ||
+          f.get('operator') !== newTagFilter.get('operator')
       )
-    )
-    .toJS();
-
-  onChangeFilters(newState);
-}
-
-function isAlreadyFilteredByThisGroup(item, filters) {
-  const currentGroup = filters.getIn(['group', 'name']);
-
-  const tagFilter = filters.get('tagFilter');
-  for (let i = 0; i < tagFilter.size; i++) {
-    const filter = tagFilter.get(i);
-    if (
-      filter.get('name') === currentGroup &&
-      filter.get('value') === item.name &&
-      filter.get('operator') === operators.EQUALS
-    ) {
-      return true;
-    }
-  }
-
-  return false;
+      .push(newTagFilter)
+      .toJS()
+  });
 }

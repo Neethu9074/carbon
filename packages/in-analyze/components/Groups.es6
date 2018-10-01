@@ -5,7 +5,7 @@ import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-compo
 export default function Groups({
   items,
   filters,
-  onChangeFilters,
+  onChangeAnalyzeConfig,
   errors,
   progress,
   orderBy,
@@ -22,7 +22,7 @@ export default function Groups({
           orderDirection={orderDirection}
           item={item}
           filters={filters}
-          onChangeFilters={onChangeFilters}
+          onChangeAnalyzeConfig={onChangeAnalyzeConfig}
           dotColor={groupColors[groupIndex]}
         />
       ))}

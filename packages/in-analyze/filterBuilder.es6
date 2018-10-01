@@ -15,10 +15,6 @@ export function getGroupFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 
-export function getShowRawFromUrlString(urlString) {
-  return parsedUrlOrDefault(urlString, 'traces');
-}
-
 export function getTagFilterToUrlString(tagFilter) {
   let urlReadyTagFilter = tagFilter.map(tag => ({
     name: tag.name,
@@ -34,6 +30,7 @@ export function getGroupToUrlString(group) {
   return stringifyIfTrue(group, group);
 }
 
+// TODO remove
 export function getShowRawToUrlString(active) {
   return stringifyIfTrue(active, active);
 }

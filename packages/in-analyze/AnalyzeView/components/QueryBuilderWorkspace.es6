@@ -22,7 +22,7 @@ import Pill from 'in-new-components/Pill';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeFilters, onChangeGrouping } = props;
+  const { filters, onChangeAnalyzeConfig } = props;
   const group = filters.get('group');
 
   return (
@@ -30,7 +30,7 @@ export default function QueryBuilderWorkspace(props) {
       <div className={locals.firstRow}>
         <MaxWidthFullscreenContainer className={locals.firstRowMaxWidthFullscreenContainer}>
           <QuickFilterSection {...props} />
-          <ResetButton filters={filters} onResetClicked={() => clearFilters(onChangeFilters)} />
+          <ResetButton filters={filters} onResetClicked={() => clearFilters(onChangeAnalyzeConfig)} />
         </MaxWidthFullscreenContainer>
       </div>
 
@@ -50,13 +50,13 @@ export default function QueryBuilderWorkspace(props) {
                       value={tag.value}
                       operator={tag.operator}
                       secondLevelName={tag.secondLevelName}
-                      onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeFilters)}
-                      onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeFilters)}
+                      onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeAnalyzeConfig)}
+                      onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeAnalyzeConfig)}
                       removeItemName="Filter"
                     />
                   );
                 },
-                onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeFilters)
+                onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeAnalyzeConfig)
               }))}
           />
         </MaxWidthFullscreenContainer>
@@ -64,13 +64,30 @@ export default function QueryBuilderWorkspace(props) {
 
       <MaxWidthFullscreenContainer>
         <div className={locals.groupRow}>
-          <span className={locals.groupByLabel}>Grouped by</span>
-          <Pill kind="light" color="#3C444D">
-            {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
-          </Pill>
-          <span className={locals.changeGroupLabel} onClick={() => onUpdateGroup(filters, onChangeGrouping, group)}>
-            change
-          </span>
+          {group.get('name') ? (
+            <Fragment>
+              <span className={locals.groupByLabel}>Grouped by</span>
+              <Pill kind="light" color="#3C444D">
+                {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
+              </Pill>
+              <span
+                className={locals.changeGroupLabel}
+                onClick={() => onUpdateGroup(filters, onChangeAnalyzeConfig, group)}
+              >
+                change
+              </span>
+              <span className={locals.changeGroupLabel} onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}>
+                remove
+              </span>
+            </Fragment>
+          ) : (
+            <span
+              className={locals.changeGroupLabel}
+              onClick={() => onUpdateGroup(filters, onChangeAnalyzeConfig, group)}
+            >
+              Add Group
+            </span>
+          )}
         </div>
       </MaxWidthFullscreenContainer>
     </Fragment>
@@ -78,7 +95,7 @@ export default function QueryBuilderWorkspace(props) {
 }
 
 function QuickFilterSection(props) {
-  const { filters, onChangeFilters } = props;
+  const { filters, onChangeAnalyzeConfig } = props;
 
   const isTracesDataSource = filters.get('dataSource') === 'traces';
   const tagFilter = filters.get('tagFilter').toJS();
@@ -176,7 +193,7 @@ function QuickFilterSection(props) {
           onAddTagFilter(
             { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous', value: 'true' },
             filters,
-            onChangeFilters
+            onChangeAnalyzeConfig
           )
         }
         deactivated={getTagFromList(tagFilter, { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous' })}
@@ -187,7 +204,7 @@ function QuickFilterSection(props) {
         renderLabel={() => <span className={locals.moreFilterLabel}>More</span>}
         onClick={() =>
           setActiveDialog(
-            <EditFilterDialog filters={filters} onSave={_tag => onAddTagFilter(_tag, filters, onChangeFilters)} />
+            <EditFilterDialog filters={filters} onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)} />
           )
         }
       />
@@ -196,30 +213,30 @@ function QuickFilterSection(props) {
 }
 
 function SuggestionContent(props) {
-  const { filters, onChangeFilters, close, tagName, operator, Component } = props;
+  const { filters, onChangeAnalyzeConfig, close, tagName, operator, Component } = props;
   return (
     <Component
       {...props}
       tagName={tagName}
       onValueClick={value => {
-        onAddTagFilter({ name: tagName, value, operator }, filters, onChangeFilters);
+        onAddTagFilter({ name: tagName, value, operator }, filters, onChangeAnalyzeConfig);
         close();
       }}
     />
   );
 }
 
-function onAddTagFilter(tag, filters, onChangeFilters) {
+function onAddTagFilter(tag, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
 
   tagFilter.push(createFilter(tag));
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
-  onChangeFilters(newState);
+  onChangeAnalyzeConfig(newState);
 }
 
-function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
+function onUpdateTagFilter(id, tag, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
   tagFilter[findTagIndexById(tagFilter, id)] = createFilter({
     id,
@@ -231,19 +248,19 @@ function onUpdateTagFilter(id, tag, filters, onChangeFilters) {
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
-  onChangeFilters(newState);
+  onChangeAnalyzeConfig(newState);
 }
 
-function onRemoveTagFilter(id, filters, onChangeFilters) {
+function onRemoveTagFilter(id, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
   tagFilter.splice(findTagIndexById(tagFilter, id), 1);
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
-  onChangeFilters(newState);
+  onChangeAnalyzeConfig(newState);
 }
 
-function onUpdateGroup(filters, onChangeGrouping, group) {
+function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
   setActiveDialog(
     <EditGroupDialog
       filters={filters}
@@ -253,17 +270,23 @@ function onUpdateGroup(filters, onChangeGrouping, group) {
         const newState = {};
 
         newState[groupByMatrixParameter] = { name: _group.name, value: _group.secondLevelName };
-        onChangeGrouping(newState);
+        onChangeAnalyzeConfig(newState);
       }}
     />
   );
 }
 
-function clearFilters(onChangeFilters) {
+function onRemoveGroup(onChangeAnalyzeConfig) {
+  onChangeAnalyzeConfig({
+    [groupByMatrixParameter]: {}
+  });
+}
+
+function clearFilters(onChangeAnalyzeConfig) {
   const newState = {};
   newState[groupByMatrixParameter] = null;
   newState[tagFilterMatrixParameter] = [];
-  onChangeFilters(newState);
+  onChangeAnalyzeConfig(newState);
 }
 
 function findTagIndexById(tags, id) {
