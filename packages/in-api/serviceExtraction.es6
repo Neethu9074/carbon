@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -23,6 +24,7 @@ export function saveServiceRule(rule) {
   return http({
     method: 'PUT',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: `/api/serviceExtractionConfigs/${encodeURIComponent(rule.get('id'))}`,
     data: rule.toJS()
   }).map(() => true);
@@ -33,6 +35,7 @@ export function upsertServiceRules(rules) {
     method: 'PUT',
     maxRetries: 3,
     url: '/api/serviceExtractionConfigs/type/upsert',
+    headers: getCsrfHeader(),
     data: {
       lastModificationTimestamp: Date.now(),
       rules
@@ -45,6 +48,7 @@ export function updateServiceRulesByType(rules, type) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/serviceExtractionConfigs/type/${encodeURIComponent(type)}`,
+    headers: getCsrfHeader(),
     data: {
       lastModificationTimestamp: Date.now(),
       rules
@@ -60,6 +64,7 @@ export function deleteServiceRule(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: `/api/serviceExtractionConfigs/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }

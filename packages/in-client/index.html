@@ -27,6 +27,12 @@ window.instana = {};
   </script>
 
   <script>
+    fetch('/api/csrf/token')
+      .then(response => window.instana.csrf = {token: response.headers.get('x-csrf-token')})
+      .catch(err => console.error('Failed to retrieve CSRF token', err));
+  </script>
+
+  <script>
   if (!window.instana.user || window.instana.user.errors) {
   window.instana.user = null;
 }

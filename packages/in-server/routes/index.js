@@ -51,10 +51,15 @@ router.get('/', (req, res) => {
 
   getCurrentUser(req)
     .then(([statusCode, userStr]) =>
-      Promise.all([getUserSettings(req, res, statusCode, userStr), getSearchFields(req, res), getFilterTags(req, res)])
+      Promise.all([
+        getUserSettings(req, res, statusCode, userStr),
+        getSearchFields(req, res),
+        getFilterTags(req, res),
+        getCsrfToken(req)
+      ])
     )
-    .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags]) =>
-      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags)
+    .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags, csrf]) =>
+      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf)
     )
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
@@ -125,7 +130,30 @@ function getFilterTags(req) {
   });
 }
 
-function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags) {
+function getCsrfToken(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: serverConfig.uiBackendBaseUrl + '/api/csrf/token',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 5000
+      },
+      (error, response) => {
+        if (error) {
+          reject(new Error('Failed to retrieve csrf token from ui-backend: ' + String(error)));
+        } else {
+          resolve(JSON.stringify({
+            token: response.headers['x-csrf-token']
+          }));
+        }
+      }
+    );
+  });
+}
+
+function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf) {
   if (getUserStatusCode === 401) {
     res.status(401).send(
       compiledRedirectTemplate({
@@ -180,7 +208,8 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,
       settings: userSettings,
-      tags: filterTags
+      tags: filterTags,
+      csrf
     })
   );
 }

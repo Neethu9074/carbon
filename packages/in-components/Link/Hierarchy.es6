@@ -18,7 +18,7 @@ export default connectTo(
         : combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id)))
     };
   },
-  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName }) {
+  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName, pathname }) {
     if (!snapshots) {
       return null;
     }
@@ -33,6 +33,7 @@ export default connectTo(
                 kind={kind}
                 useSnapshotLink={useSnapshotLink}
                 linkClassName={linkClassName}
+                pathname={pathname}
               />
             </li>
           );

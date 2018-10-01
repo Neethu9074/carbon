@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
-import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
+import ErrorMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/ErrorMessagesTable';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -14,15 +14,15 @@ export default connectTo(
     applicationName: props.applicationId ? getApplication({ id: props.applicationId }).map(getLabel) : null,
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null
   }),
-  function LogMessages(props) {
+  function ErrorMessages(props) {
     return (
       <MaxWidthFullscreenContainer>
         <Card
-          title="Log Messages"
-          header={<AnalyzeMessagesButton groupByTagName="log.message" {...props} />}
+          title="Error Messages"
+          header={<AnalyzeMessagesButton groupByTagName="call.error.message" {...props} />}
           withoutPadding
         >
-          <LogMessagesTable {...props} />
+          <ErrorMessagesTable {...props} />
         </Card>
       </MaxWidthFullscreenContainer>
     );

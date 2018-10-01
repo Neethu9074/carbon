@@ -1,3 +1,4 @@
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -23,6 +24,7 @@ export function addEndpointConfig(config) {
   return http({
     method: 'POST',
     url: `/api/httpEndpointConfigs`,
+    headers: getCsrfHeader(),
     data: config
   }).map(response => deepFreeze(response.body));
 }
@@ -32,6 +34,7 @@ export function updateEndpointConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/httpEndpointConfigs/${config.serviceId}`,
+    headers: getCsrfHeader(),
     data: config
   }).map(response => deepFreeze(response.body));
 }
@@ -40,6 +43,7 @@ export function deleteEndpointConfig(serviceId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: `/api/httpEndpointConfigs/${serviceId}`
   });
 }
@@ -49,6 +53,7 @@ export function testRules(rules) {
     method: 'POST',
     maxRetries: 3,
     url: `/api/httpEndpointConfigs/testRules`,
+    headers: getCsrfHeader(),
     data: rules
   }).map(response => deepFreeze(response.body));
 }

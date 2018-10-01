@@ -37,10 +37,11 @@ export default connectTo(
       return null;
     }
 
-    if (entityType === 'Entity10') {
-      return <EntityInformation10 {...props} />;
-    } else {
+    if (entityType === 'Endpoint20' || entityType === 'Service20' || entityType === 'App20') {
       return <EntityInformation20 {...props} />;
+    } else {
+      // !entityType || entityType === 'Entity10'
+      return <EntityInformation10 {...props} />;
     }
   }
 );

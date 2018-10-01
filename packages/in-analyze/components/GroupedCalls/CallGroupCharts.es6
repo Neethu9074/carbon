@@ -66,7 +66,7 @@ const chartDefinitions = {
   },
   latency: {
     renderer: Renderer.line,
-    formatter: millis,
+    formatter: millis.fixed,
     min: 0
   }
 };

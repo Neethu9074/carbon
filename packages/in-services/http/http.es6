@@ -14,6 +14,7 @@ export default function({
   url,
   queryParams,
   data,
+  headers,
   timeout = 30000,
   responseType = 'json',
   ignoreAbortErrors = true,
@@ -60,6 +61,10 @@ export default function({
 
         if (data) {
           xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+
+        if (headers) {
+          Object.keys(headers).forEach(k => xhr.setRequestHeader(k, headers[k]));
         }
 
         xhr.addEventListener('readystatechange', () => {

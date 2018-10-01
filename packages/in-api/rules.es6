@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
@@ -40,6 +41,7 @@ export function saveRule(rule) {
     method: 'PUT',
     maxRetries: 3,
     url: `/api/rules/${encodeURIComponent(rule.get('id'))}`,
+    headers: getCsrfHeader(),
     data: rule.toJS()
   }).map(response => fromJS(response.body));
 }
@@ -48,6 +50,7 @@ export function deleteRule(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: `/api/rules/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
@@ -61,9 +64,7 @@ export function createRule(
   window = 1000,
   aggregation = '',
   conditionOperator = '',
-  conditionValue = 0.0,
-  formatter = 'UNDEFINED',
-  label = ''
+  conditionValue = 0.0
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -74,9 +75,7 @@ export function createRule(
     window,
     aggregation,
     conditionOperator,
-    conditionValue,
-    formatter,
-    label
+    conditionValue
   };
 }
 

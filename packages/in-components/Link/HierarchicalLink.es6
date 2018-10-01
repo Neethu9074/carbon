@@ -52,7 +52,8 @@ export default connectTo(
         className,
         href,
         kind,
-        linkClassName: customLinkClassName
+        linkClassName: customLinkClassName,
+        pathname
       } = this.props;
       const isExpanded = this.state.isExpanded;
       const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
@@ -99,6 +100,7 @@ export default connectTo(
               hierarchySnapshots={hierarchySnapshots}
               useSnapshotLink={this.props.useSnapshotLink}
               linkClassName={customLinkClassName}
+              pathname={pathname}
             />
           ) : (
             link
