@@ -1,0 +1,6 @@
+{
+  "name": "SecondLevelNavigation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SecondLevelNavigation.es6"
+}

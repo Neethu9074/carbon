@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .viewSwitcher {
+  .nav {
     background: @lib__colors__navy800;
     font-size: 22px;
     font-weight: lighter;

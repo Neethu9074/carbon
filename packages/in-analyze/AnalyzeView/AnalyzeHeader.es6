@@ -1,31 +1,35 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import DropDown from 'in-new-components/DropDown';
-import SvgIcon from 'in-components/SvgIcon';
-
-import locals from './AnalyzeHeader.mless';
 
 export default function AnalyzeHeader({ dataSource, onChangeDataSource }) {
   return (
-    <div className={locals.headerWrapper}>
-      <MaxWidthFullscreenContainer>
-        <div className={locals.header}>
-          <DropDown
-            numItems={1}
-            renderItem={() => (dataSource === 'traces' ? 'calls' : 'traces')}
-            onClick={() =>
-              onChangeDataSource({
-                [dataSourceMatrixParameter]: dataSource === 'traces' ? 'calls' : 'traces'
-              })
-            }
-          >
-            <SvgIcon className={locals.analyzeIcon} type="lib_analyze" width={24} />
-            <span className={locals.label}>{dataSource}</span>
-          </DropDown>
-        </div>
-      </MaxWidthFullscreenContainer>
-    </div>
+    <SecondLevelNavigation>
+      <SecondLevelNavigationItem
+        href=""
+        onClick={e => {
+          e.preventDefault();
+          onChangeDataSource({
+            [dataSourceMatrixParameter]: 'traces'
+          });
+        }}
+        icon="lib_application_trace"
+        label="Traces"
+        isActive={dataSource === 'traces'}
+      />
+      <SecondLevelNavigationItem
+        href=""
+        onClick={e => {
+          e.preventDefault();
+          onChangeDataSource({
+            [dataSourceMatrixParameter]: 'calls'
+          });
+        }}
+        icon="lib_menu_more_horizontal"
+        label="Calls"
+        isActive={dataSource === 'calls'}
+      />
+    </SecondLevelNavigation>
   );
 }
