@@ -47,44 +47,65 @@ export default compose(
     getMatrixPrefix: () => 'callList.',
     boundKeys: [
       tagFilterMatrixParameter,
-      groupByMatrixParameter,
-      showRawDataMatrixParameter,
       dataSourceMatrixParameter
     ],
-    getResettingProps: () => [],
     getInitialState: () => ({
       [dataSourceMatrixParameter]: 'traces',
       [tagFilterMatrixParameter]: []
     }),
     reducerName: 'onChangeFilters',
     getParsedUrlValues: values => ({
-      [showRawDataMatrixParameter]: getShowRawFromUrlString(values[showRawDataMatrixParameter]),
       [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
-      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter]),
-      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter])
+      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter])
     }),
     getSerializedUrlValues: props => ({
       [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
-      [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
-      [showRawDataMatrixParameter]: getShowRawToUrlString(props[showRawDataMatrixParameter]),
       [dataSourceMatrixParameter]: props[dataSourceMatrixParameter]
+    })
+  }),
+  withUrlDependingState({
+    getPathSegment: () => analyze,
+    getMatrixPrefix: () => 'callList.',
+    boundKeys: [
+      groupByMatrixParameter,
+      showRawDataMatrixParameter,
+    ],
+    resets: [
+      {
+        getResettingProps: () => [dataSourceMatrixParameter],
+        onReset: getInitialGrouping
+      }
+    ],
+    getInitialState: getInitialGrouping,
+    reducerName: 'onChangeGrouping',
+    getParsedUrlValues: values => ({
+      [showRawDataMatrixParameter]: getShowRawFromUrlString(values[showRawDataMatrixParameter]),
+      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter])
+    }),
+    getSerializedUrlValues: props => ({
+      [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
+      [showRawDataMatrixParameter]: getShowRawToUrlString(props[showRawDataMatrixParameter])
     })
   })
 )(AnalyzeView);
 
-function AnalyzeView(props) {
-  const { activeDialog, onChangeFilters, location, totalHits } = props;
+function getInitialGrouping({[dataSourceMatrixParameter]: dataSource}) {
+  return {
+    [groupByMatrixParameter]: dataSource === 'traces' ? { name: 'trace.name', value: '' } : { name: 'endpoint.name', value: '' }
+  };
+}
 
-  const tagFilter = props[tagFilterMatrixParameter];
+function AnalyzeView(props) {
+  const { activeDialog, onChangeFilters, onChangeGrouping, location, totalHits } = props;
   let filters = fromJS({
-    tagFilter,
-    group: props[groupByMatrixParameter] || { name: 'endpoint.name', value: '' },
+    tagFilter: props[tagFilterMatrixParameter],
+    group: props[groupByMatrixParameter],
     dataSource: props[dataSourceMatrixParameter]
   });
   filters = filters.set('timeConfig', getTimeConfig(location));
 
   const rawDataGroup = getShowRawFromUrlString(getMatrixParameter(location, analyze, showRawDataMatrixParameter));
-  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(tagFilter);
+  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(props[tagFilterMatrixParameter]);
   const dataSource = props[dataSourceMatrixParameter];
   const isTracesDataSource = dataSource === 'traces';
 
@@ -118,6 +139,7 @@ function AnalyzeView(props) {
                 <QueryBuilderWorkspace
                   filters={filters}
                   onChangeFilters={onChangeFilters}
+                  onChangeGrouping={onChangeGrouping}
                   totalNumberOfCalls={totalHits}
                 />
 

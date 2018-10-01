@@ -22,7 +22,7 @@ import Pill from 'in-new-components/Pill';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeFilters } = props;
+  const { filters, onChangeFilters, onChangeGrouping } = props;
   const group = filters.get('group');
 
   return (
@@ -68,7 +68,7 @@ export default function QueryBuilderWorkspace(props) {
           <Pill kind="light" color="#3C444D">
             {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
           </Pill>
-          <span className={locals.changeGroupLabel} onClick={() => onUpdateGroup(filters, onChangeFilters, group)}>
+          <span className={locals.changeGroupLabel} onClick={() => onUpdateGroup(filters, onChangeGrouping, group)}>
             change
           </span>
         </div>
@@ -243,7 +243,7 @@ function onRemoveTagFilter(id, filters, onChangeFilters) {
   onChangeFilters(newState);
 }
 
-function onUpdateGroup(filters, onChangeFilters, group) {
+function onUpdateGroup(filters, onChangeGrouping, group) {
   setActiveDialog(
     <EditGroupDialog
       filters={filters}
@@ -253,7 +253,7 @@ function onUpdateGroup(filters, onChangeFilters, group) {
         const newState = {};
 
         newState[groupByMatrixParameter] = { name: _group.name, value: _group.secondLevelName };
-        onChangeFilters(newState);
+        onChangeGrouping(newState);
       }}
     />
   );
