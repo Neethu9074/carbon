@@ -52,53 +52,23 @@ export default compose(
       dataSourceMatrixParameter
     ],
     getResettingProps: () => [],
-    getInitialState: () => {
-      const initialState = {
-        dataSource: 'traces'
-      };
-      initialState[tagFilterMatrixParameter] = [];
-      return initialState;
-    },
+    getInitialState: () => ({
+      [dataSourceMatrixParameter]: 'traces',
+      [tagFilterMatrixParameter]: []
+    }),
     reducerName: 'onChangeFilters',
-    getParsedUrlValues: values => {
-      const urlFilters = values[tagFilterMatrixParameter];
-      const tagFilter = getTagFilterFromUrlString(urlFilters);
-
-      const urlGroup = values[groupByMatrixParameter];
-      const group = getGroupFromUrlString(urlGroup);
-
-      const urlShowRawActive = values[showRawDataMatrixParameter];
-      const showRawActive = getShowRawFromUrlString(urlShowRawActive);
-
-      const dataSource = values[dataSourceMatrixParameter];
-
-      const objectToReturn = {};
-      objectToReturn[showRawDataMatrixParameter] = showRawActive;
-      objectToReturn[dataSourceMatrixParameter] = dataSource;
-      objectToReturn[tagFilterMatrixParameter] = tagFilter;
-      objectToReturn[groupByMatrixParameter] = group;
-      return objectToReturn;
-    },
-    getSerializedUrlValues: props => {
-      const tagFilter = props[tagFilterMatrixParameter];
-      const urlReadyTagFilter = getTagFilterToUrlString(tagFilter);
-
-      const group = props[groupByMatrixParameter];
-      const urlReadyGroup = getGroupToUrlString(group);
-
-      const showRawActive = props[showRawDataMatrixParameter];
-      const urlReadyShowRawActive = getShowRawToUrlString(showRawActive);
-
-      const dataSource = props[dataSourceMatrixParameter];
-      const urlReadyDataSource = dataSource;
-
-      const objectToStore = {};
-      objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
-      objectToStore[groupByMatrixParameter] = urlReadyGroup;
-      objectToStore[showRawDataMatrixParameter] = urlReadyShowRawActive;
-      objectToStore[dataSourceMatrixParameter] = urlReadyDataSource;
-      return objectToStore;
-    }
+    getParsedUrlValues: values => ({
+      [showRawDataMatrixParameter]: getShowRawFromUrlString(values[showRawDataMatrixParameter]),
+      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
+      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter]),
+      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter])
+    }),
+    getSerializedUrlValues: props => ({
+      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
+      [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
+      [showRawDataMatrixParameter]: getShowRawToUrlString(props[showRawDataMatrixParameter]),
+      [dataSourceMatrixParameter]: props[dataSourceMatrixParameter]
+    })
   })
 )(AnalyzeView);
 

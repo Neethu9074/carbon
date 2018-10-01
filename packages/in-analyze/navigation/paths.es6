@@ -49,7 +49,6 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
     setOrDeleteMatrixKey(params, traceDetail, traceIdMatrixParameter, traceId);
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
     setOrDeleteMatrixKey(params, analyze, showRawDataMatrixParameter, null);
-    callId;
   });
 }
 
