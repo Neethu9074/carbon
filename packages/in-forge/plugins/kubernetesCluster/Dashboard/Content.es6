@@ -97,10 +97,9 @@ export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <NamespacesTable snapshot={snapshot} timeConfig={timeConfig} />
       <DeploymentsTable snapshot={snapshot} timeConfig={timeConfig} />
       {isOpenshift && <DeploymentConfigsTable snapshot={snapshot} timeConfig={timeConfig} />}
-
-      <NamespacesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

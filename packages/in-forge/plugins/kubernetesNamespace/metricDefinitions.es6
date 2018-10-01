@@ -1,23 +1,28 @@
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import {
+  resourceQuotaPercentage,
+  resourceQuotaBytes,
+  resourceQuotaZeroDecimalPlaces,
+  resourceQuotaTwoDecimalPlaces
+} from '../kubernetesCluster/formatters/resourceQuota';
 
 export default [
   {
     metrics: ['cap_requests_memory', 'used_requests_memory', 'cap_limits_memory', 'used_limits_memory'],
     labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
     min: 0,
-    formatter: bytesTwoDecimalPlaces
+    formatter: resourceQuotaBytes
   },
   {
     metrics: ['cap_requests_cpu', 'used_requests_cpu', 'cap_limits_cpu', 'used_limits_cpu'],
     labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
     min: 0,
-    formatter: twoDecimalPlaces
+    formatter: resourceQuotaTwoDecimalPlaces
   },
   {
     metrics: ['used_pods', 'cap_pods'],
     labels: ['Used Pods', 'Pods Capacity'],
     min: 0,
-    formatter: zeroDecimalPlaces
+    formatter: resourceQuotaZeroDecimalPlaces
   },
   {
     metrics: [
@@ -35,6 +40,6 @@ export default [
       'Memory Limits Allocation'
     ],
     min: 0,
-    formatter: percentage.detailed
+    formatter: resourceQuotaPercentage
   }
 ];
