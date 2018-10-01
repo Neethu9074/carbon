@@ -107,7 +107,6 @@ function AnalyzeView(props) {
     onChangeAnalyzeConfig,
     onChangeDataSource,
     filters,
-    totalHits,
     isRawView,
     isTracesDataSource,
     dataSource
@@ -118,11 +117,7 @@ function AnalyzeView(props) {
       <Title title={isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls'} />
 
       <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
-      <QueryBuilderWorkspace
-        filters={filters}
-        onChangeAnalyzeConfig={onChangeAnalyzeConfig}
-        totalNumberOfCalls={totalHits}
-      />
+      <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
 
       <MaxWidthFullscreenContainer>
         {isRawView ? (
