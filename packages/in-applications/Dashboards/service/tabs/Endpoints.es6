@@ -260,6 +260,7 @@ const columnDefinitions = [
       return (
         <ApplicationEntityHealthIndicatorBehavior
           endpointId={item.endpoint.id}
+          serviceId={item.endpoint.serviceId}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
