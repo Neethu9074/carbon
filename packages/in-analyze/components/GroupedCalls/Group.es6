@@ -11,32 +11,33 @@ import { createFilter } from 'in-analyze/filterBuilder';
 
 import locals from './Group.mless';
 
-export default function Group({ item, filters, onChangeAnalyzeConfig, dotColor }) {
+export default function Group({ item, filters, onChangeAnalyzeConfig, dotColor, showDot }) {
   const errorMetric = get(item, ['metrics', 'errorsAgg', 0, 1]);
 
   const rowContent = (
     <Fragment>
       <Td className={locals.labelCell} ellipsis="50vw">
         <div className={locals.cell}>
-          <span className={locals.dot}>
-            {dotColor ? (
-              <div className={locals.rect} style={{ background: dotColor }} />
-            ) : (
-              <span className={locals.rectPlaceHolder} />
-            )}
-          </span>
-          <Fragment>
-            <a
-              href=""
-              onClick={e => {
-                e.preventDefault();
-                onSetGrouping(filters, onChangeAnalyzeConfig, item.name);
-              }}
-              className={locals.name}
-            >
-              {item.name}
-            </a>
-          </Fragment>
+          {showDot && (
+            <span className={locals.dot}>
+              {dotColor ? (
+                <div className={locals.rect} style={{ background: dotColor }} />
+              ) : (
+                <span className={locals.rectPlaceHolder} />
+              )}
+            </span>
+          )}
+
+          <a
+            href=""
+            onClick={e => {
+              e.preventDefault();
+              onSetGrouping(filters, onChangeAnalyzeConfig, item.name);
+            }}
+            className={locals.name}
+          >
+            {item.name}
+          </a>
         </div>
       </Td>
 

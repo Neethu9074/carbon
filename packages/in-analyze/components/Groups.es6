@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 
 import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
 
+const maximumDataSeriesInChart = 5;
+
 export default function Groups({
   items,
   filters,
@@ -11,7 +13,8 @@ export default function Groups({
   orderBy,
   orderDirection,
   groupColors,
-  groupComponent: Group
+  groupComponent: Group,
+  isChartSectionExpanded
 }) {
   return (
     <Fragment>
@@ -24,6 +27,7 @@ export default function Groups({
           filters={filters}
           onChangeAnalyzeConfig={onChangeAnalyzeConfig}
           dotColor={groupColors[groupIndex]}
+          showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
         />
       ))}
 
