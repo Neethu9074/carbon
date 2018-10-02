@@ -2,12 +2,14 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -42,7 +44,7 @@ export default compose(
   })
 )(TraceDetail);
 
-function TraceDetail({ location, colorCode: getColor }) {
+function TraceDetail({ location, colorCode: getColor, navigator }) {
   const props = {
     traceId: getMatrixParameter(location, traceDetail, traceIdMatrixParameter)
   };
@@ -58,12 +60,20 @@ function TraceDetail({ location, colorCode: getColor }) {
       <Breadcrumbs
         items={[<Breadcrumb label="Analyze" href$={getLinkToAnalyze()} />, <TraceDetailBreadcrumb traceId={traceId} />]}
       />
-      <TabView
-        HeaderComponent={Header}
-        location={location}
-        tabs={tabs}
-        result$={getTraceSummary({ id: traceId })}
-        props={props}
+      <BreadcrumbHeader />
+
+      <NavigatorSplitScreen
+        navigator={navigator}
+        traceDetail={
+          <TabView
+            HeaderComponent={Header}
+            location={location}
+            tabs={tabs}
+            result$={getTraceSummary({ id: traceId })}
+            props={props}
+            withoutBreadcrumb
+          />
+        }
       />
     </Fragment>
   );

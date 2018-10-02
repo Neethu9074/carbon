@@ -2,6 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 import { compose } from 'recompose';
 import React from 'react';
 
+import RawCallsNavigator from 'in-analyze/components/RawCalls/RawCallsNavigator';
 import RawCallsPresenter from 'in-analyze/components/RawCalls/RawCallsPresenter';
 import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -49,7 +50,10 @@ export default compose(
 function RawCalls(props) {
   return (
     <Switch>
-      <Route path={traceDetailFullyQualified} component={() => <TraceDetail {...props} />} />
+      <Route
+        path={traceDetailFullyQualified}
+        component={() => <TraceDetail {...props} navigator={<RawCallsNavigator {...props} />} />}
+      />
       <Route path="*" render={() => <RawCallsPresenter {...props} />} />
     </Switch>
   );

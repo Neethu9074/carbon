@@ -10,13 +10,13 @@ export default connectTo(
   props => ({
     result: props.result$
   }),
-  function TabView({ result, tabs, HeaderComponent, location, props }) {
+  function TabView({ result, tabs, HeaderComponent, location, props, withoutBreadcrumb = false }) {
     return (
       <section>
         <Sticky
           header={
             <div>
-              <BreadcrumbHeader />
+              {!withoutBreadcrumb && <BreadcrumbHeader />}
               <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
             </div>
           }
