@@ -40,7 +40,7 @@ export default function QueryBuilderWorkspace(props) {
             tagFilters={filters
               .get('tagFilter')
               .toJS()
-              .map(tag => ({
+              .map((tag, i) => ({
                 tag,
                 onClick: () => {
                   setActiveDialog(
@@ -50,13 +50,13 @@ export default function QueryBuilderWorkspace(props) {
                       value={tag.value}
                       operator={tag.operator}
                       secondLevelName={tag.secondLevelName}
-                      onSave={_tag => onUpdateTagFilter(tag.id, _tag, filters, onChangeAnalyzeConfig)}
-                      onRemove={() => onRemoveTagFilter(tag.id, filters, onChangeAnalyzeConfig)}
+                      onSave={_tag => onUpdateTagFilter(i, _tag, filters, onChangeAnalyzeConfig)}
+                      onRemove={() => onRemoveTagFilter(i, filters, onChangeAnalyzeConfig)}
                       removeItemName="Filter"
                     />
                   );
                 },
-                onRemove: () => onRemoveTagFilter(tag.id, filters, onChangeAnalyzeConfig)
+                onRemove: () => onRemoveTagFilter(i, filters, onChangeAnalyzeConfig)
               }))}
           />
         </MaxWidthFullscreenContainer>
@@ -236,10 +236,9 @@ function onAddTagFilter(tag, filters, onChangeAnalyzeConfig) {
   onChangeAnalyzeConfig(newState);
 }
 
-function onUpdateTagFilter(id, tag, filters, onChangeAnalyzeConfig) {
+function onUpdateTagFilter(index, tag, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
-  tagFilter[findTagIndexById(tagFilter, id)] = createFilter({
-    id,
+  tagFilter[index] = createFilter({
     name: tag.name,
     secondLevelName: tag.secondLevelName,
     value: tag.value,
@@ -251,13 +250,13 @@ function onUpdateTagFilter(id, tag, filters, onChangeAnalyzeConfig) {
   onChangeAnalyzeConfig(newState);
 }
 
-function onRemoveTagFilter(id, filters, onChangeAnalyzeConfig) {
+function onRemoveTagFilter(index, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
-  tagFilter.splice(findTagIndexById(tagFilter, id), 1);
+  tagFilter.splice(index, 1);
 
-  const newState = {};
-  newState[tagFilterMatrixParameter] = tagFilter;
-  onChangeAnalyzeConfig(newState);
+  onChangeAnalyzeConfig({
+    [tagFilterMatrixParameter]: tagFilter
+  });
 }
 
 function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
@@ -286,13 +285,4 @@ function clearFilters(onChangeAnalyzeConfig) {
   onChangeAnalyzeConfig({
     [tagFilterMatrixParameter]: []
   });
-}
-
-function findTagIndexById(tags, id) {
-  for (let i = 0; i < tags.length; i++) {
-    const filter = tags[i];
-    if (filter.id === id) {
-      return i;
-    }
-  }
 }

@@ -24,7 +24,7 @@ export function createAsyncComponent(loadingPlaceholder, load) {
       Component: ResolvedComponent
     };
 
-    componentWillMount() {
+    componentDidMount() {
       if (this.state.Component != null) {
         return;
       }

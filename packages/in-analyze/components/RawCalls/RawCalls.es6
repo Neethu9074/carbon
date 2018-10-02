@@ -1,5 +1,5 @@
+import { compose, withPropsOnChange } from 'recompose';
 import { Route, Switch } from 'react-router-dom';
-import { compose } from 'recompose';
 import React from 'react';
 
 import RawCallsNavigator from 'in-analyze/components/RawCalls/RawCallsNavigator';
@@ -23,8 +23,13 @@ export default compose(
     }),
     reducerName: 'onChangeOrder'
   }),
+  withPropsOnChange(['filters'], ({ filters }) => ({
+    // filters is an immutable object which is always recreated. Turn it into JavaScript
+    // so that the deep equal comparison of cursorPaginated works.
+    filtersForCursorReset: filters.toJS()
+  })),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
+    getResettingProps: () => ['filtersForCursorReset', 'orderBy', 'orderDirection'],
     get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
       getCalls({
         pagination: {
@@ -52,7 +57,7 @@ function RawCalls(props) {
     <Switch>
       <Route
         path={traceDetailFullyQualified}
-        component={() => <TraceDetail {...props} navigator={<RawCallsNavigator {...props} />} />}
+        render={() => <TraceDetail {...props} navigator={<RawCallsNavigator {...props} />} />}
       />
       <Route path="*" render={() => <RawCallsPresenter {...props} />} />
     </Switch>

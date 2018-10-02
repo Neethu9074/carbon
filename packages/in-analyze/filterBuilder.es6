@@ -1,5 +1,3 @@
-import { generateUniqueShortId } from 'in-services/util/id';
-
 export function getTagFilterFromUrlString(urlString) {
   const parsedTagFilter = parsedUrlOrDefault(urlString, []);
 
@@ -48,9 +46,7 @@ function stringifyIfTrue(value, condition) {
 }
 
 export function createFilter(config = {}) {
-  const id = config.id || generateUniqueShortId();
   return {
-    id,
     name: config.name || '',
     secondLevelName: config.secondLevelName,
     value: config.value || '',

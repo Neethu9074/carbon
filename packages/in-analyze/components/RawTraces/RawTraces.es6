@@ -1,4 +1,4 @@
-import { compose } from 'recompose';
+import { compose, withPropsOnChange } from 'recompose';
 import React from 'react';
 
 import {
@@ -43,8 +43,13 @@ export default compose(
     }),
     reducerName: 'onChangeOrder'
   }),
+  withPropsOnChange(['filters'], ({ filters }) => ({
+    // filters is an immutable object which is always recreated. Turn it into JavaScript
+    // so that the deep equal comparison of cursorPaginated works.
+    filtersForCursorReset: filters.toJS()
+  })),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
+    getResettingProps: () => ['filtersForCursorReset', 'orderBy', 'orderDirection'],
     get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
       getCalls({
         pagination: {
