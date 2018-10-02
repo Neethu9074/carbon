@@ -17,6 +17,8 @@ import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { getTagFromList } from 'in-applications/tags';
+import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 
 import locals from './QueryBuilderWorkspace.mless';
@@ -70,23 +72,37 @@ export default function QueryBuilderWorkspace(props) {
               <Pill kind="light" color="#3C444D">
                 {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
               </Pill>
-              <span
+              <a
+                href=""
                 className={locals.changeGroupLabel}
-                onClick={() => onUpdateGroup(filters, onChangeAnalyzeConfig, group)}
+                onClick={e => {
+                  e.preventDefault();
+                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                }}
               >
                 change
-              </span>
-              <span className={locals.changeGroupLabel} onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}>
-                remove
-              </span>
+              </a>
+              <SvgIcon
+                className={locals.removeGrouping}
+                aria-label="Remove grouping"
+                type="lib_openclose_cancel"
+                onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}
+                width={18}
+                height={18}
+              />
             </Fragment>
           ) : (
-            <span
-              className={locals.changeGroupLabel}
-              onClick={() => onUpdateGroup(filters, onChangeAnalyzeConfig, group)}
-            >
-              Add Group
-            </span>
+            <Fragment>
+              <span className={locals.groupByLabel}>Grouped by</span>
+              <Button
+                onClick={e => {
+                  e.preventDefault();
+                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                }}
+              >
+                Add Group
+              </Button>
+            </Fragment>
           )}
         </div>
       </MaxWidthFullscreenContainer>

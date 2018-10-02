@@ -110,7 +110,7 @@ function Actions({ traceId }) {
       <Link href$={getLinkToAnalyze()}>
         <SvgIcon
           className={locals.closeIcon}
-          aria-label="Close sidebar"
+          aria-label="Close trace detail"
           type="lib_openclose_cancel"
           width={24}
           height={24}
