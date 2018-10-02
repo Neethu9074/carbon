@@ -1,0 +1,15 @@
+:local {
+  .navigatorSplitScreen {
+    display: flex;
+  }
+
+  .navigator {
+    width: 37.5rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  .traceDetail {
+    width: 100%;
+  }
+}

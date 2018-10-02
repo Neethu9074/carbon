@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Row, Col } from 'in-new-components/layout/Grid';
+import locals from './NavigatorSplitScreen.mless';
 
 export default function NavigatorSplitScreen({ navigator, traceDetail }) {
   return (
-    <Row>
-      <Col xs={3}>{navigator}</Col>
-      <Col xs={9}>{traceDetail}</Col>
-    </Row>
+    <div className={locals.navigatorSplitScreen}>
+      <div className={locals.navigator}>{navigator}</div>
+      <div className={locals.traceDetail}>{traceDetail}</div>
+    </div>
   );
 }
