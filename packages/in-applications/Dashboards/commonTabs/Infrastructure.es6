@@ -10,6 +10,7 @@ import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
@@ -135,7 +136,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.process} />;
+          return <EntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
       }
@@ -154,7 +155,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.container} />;
+          return <EntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
       }
@@ -173,7 +174,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.host} />;
+          return <EntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
       }
@@ -229,8 +230,8 @@ const getColumnDefinitions = type => {
   ];
 };
 
-function EntityLink({ entity }) {
-  if (!entity.id || !entity.plugin) {
+function EntityLink({ entity, plugin }) {
+  if (!entity.id) {
     return null;
   }
 
@@ -243,8 +244,8 @@ function EntityLink({ entity }) {
         focusedMoment: null
       })}
     >
-      <PluginIcon className={locals.pluginIcon} dimension={18} plugin={entity.plugin} />
-      {entity.label}
+      <PluginIcon className={locals.pluginIcon} dimension={18} plugin={plugin} />
+      {entity.label || `Unknown at ${formatDateTime(entity.time)}`}
     </Link>
   );
 }
