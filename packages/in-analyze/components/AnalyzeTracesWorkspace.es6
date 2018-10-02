@@ -1,0 +1,25 @@
+import React, { Fragment } from 'react';
+
+import QueryBuilderWorkspace from 'in-analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
+import Title from 'in-components/Title';
+
+export default function AnalyzeTracesWorkspace({
+  onChangeAnalyzeConfig,
+  onChangeDataSource,
+  filters,
+  dataSource,
+  children
+}) {
+  return (
+    <Fragment>
+      <Title title={'Analyze Traces'} />
+
+      <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
+      <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
+
+      <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
+    </Fragment>
+  );
+}

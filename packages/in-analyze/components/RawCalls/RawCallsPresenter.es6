@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import {
@@ -13,66 +12,25 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
-import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { analyze, getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
-import getCalls from 'in-subscription/application/getCalls';
 import { millis } from 'in-services/formatters/number';
-import cursorPaginated from 'in-hoc/cursorPaginated';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
-import locals from './RawTraces.mless';
+import locals from './RawCallsPresenter.mless';
 
-const defaultOrder = 'timestamp';
-
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'calls.',
-    boundKeys: ['orderBy', 'orderDirection'],
-    getInitialState: () => ({
-      orderBy: defaultOrder,
-      orderDirection: 'DESC'
-    }),
-    reducerName: 'onChangeOrder'
-  }),
-  cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection'],
-    get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
-      getCalls({
-        pagination: {
-          cursor,
-          retrievalSize: 50
-        },
-        order: {
-          by: orderBy || defaultOrder,
-          direction: orderDirection
-        },
-        filter: {
-          timeConfig: filters.get('timeConfig')
-        },
-        tagFilters: filterByGroup
-          ? tagFiltersForSubscription.concat([
-              { name: filterByGroup.name, operator: 'EQUALS', stringValue: filterByGroup.value }
-            ])
-          : tagFiltersForSubscription
-      })
-  })
-)(RawTraces);
-
-function RawTraces(props) {
+export default function RawCalls(props) {
   const { items, totalHits, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
-
   return (
-    <AnalyzeTracesWorkspace {...props}>
-      <ItemsInGroupsIndicator numTraces={totalHits} />
+    <AnalyzeCallsWorkspace {...props}>
+      <ItemsInGroupsIndicator numCalls={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
@@ -90,7 +48,7 @@ function RawTraces(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="serviceName"
+              technicalName="serviceLabel"
               label="Service"
             />
 
@@ -176,6 +134,6 @@ function RawTraces(props) {
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={6} />}
         </Tbody>
       </Table>
-    </AnalyzeTracesWorkspace>
+    </AnalyzeCallsWorkspace>
   );
 }

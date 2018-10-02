@@ -1,8 +1,9 @@
 import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
 import { assign } from 'lodash';
+import React from 'react';
 
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
+import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
 import getCallGroups from 'in-subscription/application/getCallGroups';
@@ -98,7 +99,7 @@ function GroupedTraces(props) {
   );
 
   return (
-    <Fragment>
+    <AnalyzeTracesWorkspace {...props}>
       <div className={locals.wrapper}>
         <ItemsInGroupsIndicator numGroups={totalHits} />
         <Button
@@ -111,6 +112,6 @@ function GroupedTraces(props) {
       </div>
       {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
-    </Fragment>
+    </AnalyzeTracesWorkspace>
   );
 }

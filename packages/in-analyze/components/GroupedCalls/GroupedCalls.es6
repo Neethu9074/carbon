@@ -1,10 +1,11 @@
 import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
 import { assign } from 'lodash';
+import React from 'react';
 
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupsTable from 'in-analyze/components/GroupedCalls/CallGroupsTable';
 import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
+import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -98,7 +99,7 @@ function GroupedCalls(props) {
   );
 
   return (
-    <Fragment>
+    <AnalyzeCallsWorkspace {...props}>
       <div className={locals.wrapper}>
         <ItemsInGroupsIndicator numGroups={totalHits} />
         <Button
@@ -111,6 +112,6 @@ function GroupedCalls(props) {
       </div>
       {isChartSectionExpanded && <CallGroupCharts {...props} groupColors={groupColors} />}
       <CallGroupsTable {...props} groupColors={groupColors} />
-    </Fragment>
+    </AnalyzeCallsWorkspace>
   );
 }

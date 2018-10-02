@@ -1,6 +1,6 @@
 import { compose, withPropsOnChange } from 'recompose';
-import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
+import React from 'react';
 
 import {
   dataSource as dataSourceMatrixParameter,
@@ -13,12 +13,8 @@ import {
   getTagFilterFromUrlString,
   getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
-import QueryBuilderWorkspace from 'in-analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
-import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
@@ -27,7 +23,6 @@ import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
-import Title from 'in-components/Title';
 
 export default compose(
   connectTo({
@@ -97,40 +92,21 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const {
-    activeDialog,
-    onChangeAnalyzeConfig,
-    onChangeDataSource,
-    filters,
-    isRawView,
-    isTracesDataSource,
-    dataSource
-  } = props;
+  const { filters, isRawView, isTracesDataSource } = props;
 
-  return (
-    <Fragment>
-      <Title title={isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls'} />
-
-      <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
-      <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
-
-      <MaxWidthFullscreenContainer>
-        {isRawView ? (
-          isTracesDataSource ? (
-            <RawTraces {...props} filters={filters} />
-          ) : (
-            <RawCalls {...props} filters={filters} />
-          )
-        ) : isTracesDataSource ? (
-          <GroupedTraces {...props} filters={filters} />
-        ) : (
-          <GroupedCalls {...props} filters={filters} />
-        )}
-      </MaxWidthFullscreenContainer>
-
-      {activeDialog && <DisabledBodyScroll />}
-    </Fragment>
-  );
+  if (isRawView) {
+    if (isTracesDataSource) {
+      return <RawTraces {...props} filters={filters} />;
+    } else {
+      return <RawCalls {...props} filters={filters} />;
+    }
+  } else {
+    if (isTracesDataSource) {
+      return <GroupedTraces {...props} filters={filters} />;
+    } else {
+      return <GroupedCalls {...props} filters={filters} />;
+    }
+  }
 }
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
