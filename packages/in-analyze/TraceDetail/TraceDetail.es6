@@ -20,6 +20,8 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 import theme from 'in-themes';
 
 import locals from './TraceDetail.mless';
@@ -44,11 +46,13 @@ export default compose(
   })
 )(TraceDetail);
 
-function TraceDetail({ location, colorCode: getColor, navigator }) {
+function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSource }) {
   const props = {
     traceId: getMatrixParameter(location, traceDetail, traceIdMatrixParameter)
   };
   const { traceId } = props;
+
+  const breadcrumbLabel = isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls';
 
   props.getColor = getColor
     ? getColor
@@ -58,7 +62,10 @@ function TraceDetail({ location, colorCode: getColor, navigator }) {
   return (
     <Fragment>
       <Breadcrumbs
-        items={[<Breadcrumb label="Analyze" href$={getLinkToAnalyze()} />, <TraceDetailBreadcrumb traceId={traceId} />]}
+        items={[
+          <Breadcrumb label={breadcrumbLabel} href$={getLinkToAnalyze()} />,
+          <TraceDetailBreadcrumb traceId={traceId} />
+        ]}
       />
       <BreadcrumbHeader />
 
@@ -90,14 +97,26 @@ function Header(props) {
 
 function Actions({ traceId }) {
   return (
-    <Button
-      icon="lib_actions_download"
-      kind="secondary"
-      target="_blank"
-      href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}
-    >
-      Download
-    </Button>
+    <Fragment>
+      <Button
+        icon="lib_actions_download"
+        kind="secondary"
+        target="_blank"
+        href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}
+      >
+        Download
+      </Button>
+
+      <Link href$={getLinkToAnalyze()}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label="Close sidebar"
+          type="lib_openclose_cancel"
+          width={24}
+          height={24}
+        />
+      </Link>
+    </Fragment>
   );
 }
 

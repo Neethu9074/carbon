@@ -22,7 +22,9 @@ export function getLinkToAnalyze({ applicationName, serviceName, endpointName, f
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
 
-    setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
+    if (groupByTag != null) {
+      setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
+    }
 
     const tagFilter = [];
     if (applicationName) {
