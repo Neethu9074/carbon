@@ -72,7 +72,9 @@ export function getConfigHocs() {
           tagFilter,
           group,
           dataSource
-        }).set('timeConfig', getTimeConfig(location)),
+        })
+          // ensure that timeConfig keeps being the mutable version
+          .set('timeConfig', getTimeConfig(location)),
         tagFiltersForSubscription: getTagFilterListForBackendSubscription(tagFilter),
         isRawView: !group || !group.name,
         isTracesDataSource: dataSource === 'traces'

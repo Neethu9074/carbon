@@ -283,10 +283,9 @@ function onRemoveGroup(onChangeAnalyzeConfig) {
 }
 
 function clearFilters(onChangeAnalyzeConfig) {
-  const newState = {};
-  newState[groupByMatrixParameter] = null;
-  newState[tagFilterMatrixParameter] = [];
-  onChangeAnalyzeConfig(newState);
+  onChangeAnalyzeConfig({
+    [tagFilterMatrixParameter]: []
+  });
 }
 
 function findTagIndexById(tags, id) {
