@@ -26,6 +26,7 @@ import locals from './QueryBuilderWorkspace.mless';
 export default function QueryBuilderWorkspace(props) {
   const { filters, onChangeAnalyzeConfig } = props;
   const group = filters.get('group');
+  const isTracesDataSource = filters.get('dataSource') === 'traces';
 
   return (
     <Fragment>
@@ -72,16 +73,19 @@ export default function QueryBuilderWorkspace(props) {
               <Pill kind="light" color="#3C444D">
                 {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
               </Pill>
-              <a
-                href=""
-                className={locals.changeGroupLabel}
-                onClick={e => {
-                  e.preventDefault();
-                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                }}
-              >
-                change
-              </a>
+              {!isTracesDataSource && (
+                <a
+                  href=""
+                  className={locals.changeGroupLabel}
+                  onClick={e => {
+                    e.preventDefault();
+                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                  }}
+                >
+                  change
+                </a>
+              )}
+
               <SvgIcon
                 className={locals.removeGrouping}
                 aria-label="Remove grouping"
