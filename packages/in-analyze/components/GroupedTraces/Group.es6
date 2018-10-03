@@ -40,7 +40,7 @@ export default function Group({ item, filters, onChangeAnalyzeConfig, dotColor, 
         </div>
       </Td>
 
-      <Td noWrap>{number.compact(get(item, ['metrics', 'callsAgg', 0, 1]))}</Td>
+      <Td noWrap>{number.compact(get(item, ['metrics', 'tracesAgg', 0, 1]))}</Td>
 
       <Td noWrap>{formatDateTime(item.timestamp)}</Td>
 

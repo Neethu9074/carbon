@@ -6,7 +6,7 @@ import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTab
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -16,7 +16,7 @@ import theme from 'in-themes/theme';
 
 import locals from './GroupedTraces.mless';
 
-const defaultOrder = 'callsAgg';
+const defaultOrder = 'tracesAgg';
 
 export default compose(
   withUrlDependingState({
@@ -36,8 +36,8 @@ export default compose(
       const timeConfig = filters.get('timeConfig');
       const granularity = getChartGranularity(timeConfig);
       const tableMetrics = {
-        callsAgg: {
-          metric: 'calls',
+        tracesAgg: {
+          metric: 'traces',
           aggregation: 'SUM'
         },
         latencyAgg: {
@@ -50,8 +50,8 @@ export default compose(
         }
       };
       const chartMetrics = {
-        calls: {
-          metric: 'calls',
+        traces: {
+          metric: 'traces',
           aggregation: 'SUM',
           granularity
         },
@@ -67,7 +67,7 @@ export default compose(
         }
       };
 
-      return getCallGroups({
+      return getTraceGroups({
         pagination: {
           cursor,
           retrievalSize: 20

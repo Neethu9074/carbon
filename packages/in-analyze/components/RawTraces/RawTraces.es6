@@ -6,7 +6,7 @@ import RawTracesNavigator from 'in-analyze/components/RawTraces/RawTracesNavigat
 import RawTracesPresenter from 'in-analyze/components/RawTraces/RawTracesPresenter';
 import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import getCalls from 'in-subscription/application/getCalls';
+import getTraces from 'in-subscription/application/getTraces';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import TraceDetail from 'in-analyze/TraceDetail';
 
@@ -31,7 +31,7 @@ export default compose(
   cursorPaginated({
     getResettingProps: () => ['filtersForCursorReset', 'orderBy', 'orderDirection'],
     get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection }) =>
-      getCalls({
+      getTraces({
         pagination: {
           cursor,
           retrievalSize: 50

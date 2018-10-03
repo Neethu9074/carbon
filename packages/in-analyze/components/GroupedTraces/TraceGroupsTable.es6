@@ -27,9 +27,9 @@ export default function TraceGroupsTable(props) {
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="callsAgg"
-              label="Calls"
+              defaultDirection="DESC"
+              technicalName="tracesAgg"
+              label="Traces"
               noWrap
             />
             <SortableCallColumn

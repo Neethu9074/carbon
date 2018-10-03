@@ -18,11 +18,10 @@ import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { Th } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
-import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -35,23 +34,8 @@ export default function RawTracesPresenter(props) {
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="callName"
-              label="Call"
-            />
-
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="serviceName"
-              label="Service"
-            />
+            <Th>Trace</Th>
+            <Th>Service</Th>
 
             <SortableCallColumn
               orderBy={orderBy}
@@ -62,43 +46,19 @@ export default function RawTracesPresenter(props) {
               label="Timestamp"
             />
 
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="latency"
-              label="Latency"
-            />
+            <Th>Latency</Th>
 
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="errors"
-              label="Errors"
-            />
+            <Th>Errors</Th>
           </Tr>
         </Thead>
         <Tbody>
           {items.map(item => (
-            <Tr key={item.call.id} size="compact">
+            <Tr key={item.trace.id} size="compact">
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
-                    {item.call.label}
-                    {item.call.batchCount > 1 && (
-                      <Tooltip
-                        themeStyle="light"
-                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                      >
-                        <Pill className={locals.batchSizeIndicator} kind="lighter">
-                          {item.call.batchCount}
-                        </Pill>
-                      </Tooltip>
-                    )}
+                  <Link href$={getLinkToTraceDetail(item.trace.traceId, { callId: item.trace.id })}>
+                    {item.trace.label}
                   </Link>
                 </div>
               </Td>
@@ -106,8 +66,8 @@ export default function RawTracesPresenter(props) {
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
-                  <Link className={locals.serviceLink} href$={getServiceDashboard(item.call.service.id)}>
-                    {item.call.service.label}
+                  <Link className={locals.serviceLink} href$={getServiceDashboard(item.trace.service.id)}>
+                    {item.trace.service.label}
                   </Link>
                 </div>
               </Td>
@@ -115,16 +75,16 @@ export default function RawTracesPresenter(props) {
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                  {formatDateTime(item.call.started)}
+                  {formatDateTime(item.trace.startTime)}
                 </div>
               </Td>
 
               <Td>
-                <span className={locals.metricValue}>{millis.fixedCompact(item.call.duration)}</span>
+                <span className={locals.metricValue}>{millis.fixedCompact(item.trace.duration)}</span>
               </Td>
 
               <Td>
-                <ErrorIndicator errorCount={item.call.errorCount} allowZero />
+                <ErrorIndicator errorCount={item.trace.erroneous ? 1 : 0} allowZero />
               </Td>
             </Tr>
           ))}
