@@ -40,7 +40,7 @@ export default function CustomMonitorsTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  const rows = monitors.map(name => {
+  const rows = monitors.toArray().map(name => {
     return {
       key: name,
       timeConfig,
