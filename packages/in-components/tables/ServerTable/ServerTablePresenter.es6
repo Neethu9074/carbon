@@ -42,6 +42,7 @@ export default function ServerTablePresenter(props) {
     leftHeader,
     isSearchable = true,
     size = 'regular',
+    noDataMessage,
 
     // events
     onChange,
@@ -67,7 +68,7 @@ export default function ServerTablePresenter(props) {
     body = (
       <tr size={size}>
         <td colSpan={columnDefinitions.length}>
-          <NoDataAvailable height={80} />
+          <NoDataAvailable text={noDataMessage} height={80} />
         </td>
       </tr>
     );

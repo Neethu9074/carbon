@@ -53,12 +53,48 @@ export default [
   {
     label: 'Error Messages',
     path: `${serviceDashboard}/errorMessages`,
-    component: ErrorMessagesTab
+    component: ErrorMessagesTab,
+    header: getTabHeaderWithAppDataMetricCount({
+      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
+        return {
+          filter: {
+            timeConfig,
+            application: applicationId,
+            service: serviceId,
+            endpoint: endpointId
+          },
+          metrics: {
+            count: {
+              metric: 'errorMessages',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        };
+      }
+    })
   },
   {
     label: 'Log Messages',
     path: `${serviceDashboard}/logMessages`,
-    component: LogMessagesTab
+    component: LogMessagesTab,
+    header: getTabHeaderWithAppDataMetricCount({
+      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
+        return {
+          filter: {
+            timeConfig,
+            application: applicationId,
+            service: serviceId,
+            endpoint: endpointId
+          },
+          metrics: {
+            count: {
+              metric: 'logs',
+              aggregation: 'DISTINCT_COUNT'
+            }
+          }
+        };
+      }
+    })
   },
   {
     label: 'Infrastructure',

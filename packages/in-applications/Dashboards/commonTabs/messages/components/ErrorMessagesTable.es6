@@ -30,6 +30,7 @@ export default function ErrorMessagesTable({
       defaultOrderDirection="DESC"
       size="compact"
       isSearchable={false}
+      noDataMessage="You have no errors"
     />
   );
 }
@@ -102,19 +103,23 @@ function getColumnDefinitions(applicationName, serviceName, endpointName) {
 }
 
 function Message({ message, applicationName, serviceName, endpointName }) {
-  const errorMessageFilter = { name: 'call.error.message', value: message };
+  if (!message || message == '') {
+    return 'Empty message';
+  } else {
+    const errorMessageFilter = { name: 'call.error.message', value: message };
 
-  return (
-    <Link
-      href$={getLinkToAnalyze({
-        applicationName,
-        serviceName,
-        endpointName,
-        dataSource: 'calls',
-        filters: [errorMessageFilter]
-      })}
-    >
-      {message}
-    </Link>
-  );
+    return (
+      <Link
+        href$={getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource: 'calls',
+          filters: [errorMessageFilter]
+        })}
+      >
+        {message}
+      </Link>
+    );
+  }
 }
