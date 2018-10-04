@@ -16,7 +16,38 @@ export default function Info({ snapshot }) {
 
         <DescriptionItem title="Host Name">{data.get('hostName')}</DescriptionItem>
 
-        <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+        <DescriptionItem title="Port">
+          {' '}
+          {data.get('port')} {data.get('enableNonSslPort') ? '(Enabled)' : '(Disabled)'}
+        </DescriptionItem>
+
+        <DescriptionItem title="SSL Port">{data.get('sslPort')}</DescriptionItem>
+
+        <DescriptionItem title="SKU">{data.get('sku')}</DescriptionItem>
+
+        <DescriptionItem title="Max Clients">{data.get('maxClients')}</DescriptionItem>
+
+        {data.get('maxmemoryReserved') != 0 && (
+          <DescriptionItem title="Max Memory">{data.get('maxmemoryReserved')}</DescriptionItem>
+        )}
+
+        {data.get('maxFragmentationmemoryReserved') != 0 && (
+          <DescriptionItem title="Max Fragmentation Memory">
+            {data.get('maxFragmentationmemoryReserved')}
+          </DescriptionItem>
+        )}
+
+        {data.get('maxmemoryDelta') != 0 && (
+          <DescriptionItem title="Memory Delta">{data.get('maxmemoryDelta')}</DescriptionItem>
+        )}
+
+        <DescriptionItem title="Static IP">{data.get('staticIP')}</DescriptionItem>
+
+        <DescriptionItem title="Subnet ID">{data.get('subnetId')}</DescriptionItem>
+
+        <DescriptionItem title="Cluster Enabled">{data.get('shardCount') > 0 ? 'Yes' : 'No'}</DescriptionItem>
+
+        {data.get('shardCount') > 0 && <DescriptionItem title="Shard Count">{data.get('shardCount')}</DescriptionItem>}
       </DescriptionList>
     </div>
   );

@@ -1,7 +1,6 @@
-import { number } from 'in-services/formatters/number';
+import { number, percentage, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
-  //
   {
     metric: 'connectedclients',
     label: 'Connected Clients',
@@ -77,60 +76,41 @@ export default [
     label: 'Used Memory',
     category: ['Performance'],
     min: 0,
-    formatter: number
+    formatter: bytesZeroDecimalPlaces
   },
   {
     metric: 'usedmemoryRss',
     label: 'Used Memory RSS',
     category: ['Performance'],
     min: 0,
-    formatter: number
+    formatter: bytesZeroDecimalPlaces
   },
   {
     metric: 'serverLoad',
     label: 'Server Load',
     category: ['Performance'],
     min: 0,
-    formatter: number
+    formatter: percentage
   },
   {
     metric: 'cacheWrite',
     label: 'Cache Write',
-    category: ['Performance'],
+    category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'cacheRead',
     label: 'Cache Read',
-    category: ['Performance'],
+    category: ['Traffic'],
     min: 0,
-    formatter: number
+    formatter: bytesZeroDecimalPlaces
   },
   {
     metric: 'percentProcessorTime',
     label: 'CPU',
     category: ['Performance'],
     min: 0,
-    formatter: number
+    formatter: percentage
   }
-  /*
-connectedclients	count
-totalcommandsprocessed	count
-cachehits	count
-cachemisses	count
-getcommands	count
-setcommands	count
-operationsPerSecond	count
-evictedkeys	count
-totalkeys	count
-expiredkeys	count
-usedmemory	bytes
-usedmemoryRss	bytes
-serverLoad	%
-cacheWrite	bytes/second
-cacheRead	bytes/second
-percentProcessorTime	%
-   
-   */
 ];

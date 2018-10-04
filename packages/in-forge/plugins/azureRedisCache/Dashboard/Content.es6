@@ -1,11 +1,12 @@
 import React from 'react';
 
 import {
-  number,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   zeroDecimalPlaces,
-  twoDecimalPlaces
+  twoDecimalPlaces,
+  percentagePlainTwoDecimalPlaces,
+  muSecondsZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -14,8 +15,9 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
+import RedisCacheShardTable from 'in-forge/plugins/azureRedisCache/Dashboard/RedisCacheShardTable.es6';
 
-export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
+export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -34,6 +36,10 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="connectedclients" />
         </KpiKeyValue>
+
+        <KpiKeyValue label="Latency">
+          <MetricValue snapshotId={snapshotId} metric="cacheLatency" formatter={muSecondsZeroDecimalPlaces} />
+        </KpiKeyValue>
       </KpiSection>
 
       <DashboardSection title="Operations Per Second">
@@ -43,7 +49,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['operationsPerSecond'],
             labels: ['Operations Per Second'],
-            formatter: number.detailed,
+            formatter: zeroDecimalPlaces,
             type: 'line'
           }}
         />
@@ -68,7 +74,6 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            formatter: number.detailed,
             metrics: ['getcommands', 'setcommands'],
             labels: ['Gets', 'Sets'],
             type: 'line'
@@ -97,8 +102,8 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['usedmemory', 'usedmemoryRss'],
-            labels: ['Used', 'Used RSS'],
+            metrics: ['usedmemoryRss', 'usedmemory'],
+            labels: ['Used RSS', 'Used'],
             type: 'line'
           }}
         />
@@ -124,9 +129,10 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
+            min: 0,
             metrics: ['totalcommandsprocessed'],
             labels: ['Total Operations'],
-            formatter: number.detailed,
+            formatter: zeroDecimalPlaces,
             type: 'line'
           }}
         />
@@ -137,9 +143,10 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
+            min: 0,
             metrics: ['totalkeys'],
             labels: ['Total Keys'],
-            formatter: number.detailed,
+            formatter: zeroDecimalPlaces,
             type: 'line'
           }}
         />
@@ -152,7 +159,7 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['serverLoad'],
             labels: ['Server Load'],
-            formatter: number.detailed,
+            formatter: twoDecimalPlaces,
             type: 'line'
           }}
         />
@@ -170,6 +177,60 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['connectedclients'],
+            labels: ['Connections'],
+            formatter: zeroDecimalPlaces,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Used Memory Percentage">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['usedmemorypercentage'],
+            labels: ['Used Memory Percentage'],
+            formatter: percentagePlainTwoDecimalPlaces,
+            type: 'area'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Latency">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['cacheLatency'],
+            labels: ['Latency'],
+            formatter: muSecondsZeroDecimalPlaces,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Errors">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['errors'],
+            labels: ['Errors'],
+            formatter: zeroDecimalPlaces,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <RedisCacheShardTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
