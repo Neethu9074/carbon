@@ -12,9 +12,11 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
+import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -28,8 +30,11 @@ export default function RawCallsNavigator({
   canLoadMore,
   orderBy,
   orderDirection,
-  onChangeOrder
+  onChangeOrder,
+  location
 }) {
+  const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
+  const selectedCallId = getMatrixParameter(location, traceDetail, callIdMatrixParameter);
   return (
     <HeightRestrictedView
       render={() => (
@@ -66,7 +71,11 @@ export default function RawCallsNavigator({
           </Thead>
           <Tbody>
             {items.map(item => (
-              <Tr key={item.call.id} size="compact">
+              <Tr
+                key={item.call.id}
+                size="compact"
+                active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
+              >
                 <Td>
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}

@@ -62,6 +62,14 @@ function Default() {
                 <Td>2</Td>
                 <Td>3</Td>
               </Tr>
+              <Tr active>
+                <Td>
+                  <SeverityIndicatorCellContentWrapper severity={0}>Active row</SeverityIndicatorCellContentWrapper>
+                </Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
               <Tr>
                 <Td>
                   <SeverityIndicatorCellContentWrapper severity={5}>

@@ -14,8 +14,10 @@ import {
   Link
 } from 'in-components/tables/sharedComponents';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 
@@ -27,8 +29,10 @@ export default function RawTracesNavigator({
   canLoadMore,
   orderBy,
   orderDirection,
-  onChangeOrder
+  onChangeOrder,
+  location
 }) {
+  const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   return (
     <HeightRestrictedView
       render={() => (
@@ -51,7 +55,7 @@ export default function RawTracesNavigator({
           </Thead>
           <Tbody>
             {items.map(item => (
-              <Tr key={item.trace.id} size="compact">
+              <Tr key={item.trace.id} size="compact" active={item.trace.id === selectedTraceId}>
                 <Td>
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </Td>
