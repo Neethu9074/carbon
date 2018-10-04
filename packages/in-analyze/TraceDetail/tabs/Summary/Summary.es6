@@ -9,6 +9,7 @@ import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCal
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
@@ -16,17 +17,31 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 import locals from './Summary.mless';
 
-const maximumNumberOfCallsForTraceRendering = 5000;
+const maximumNumberOfCallsForLargeTraceConsideration = 1000;
+
+function getInitialLargeTraceState({ data }) {
+  return {
+    isLargeTrace: data != null && data.callCount > maximumNumberOfCallsForLargeTraceConsideration,
+    showLargeTrace: false
+  };
+}
 
 class Summary extends React.Component {
   selectedCall$ = create();
+  openedCall$ = create();
   hoveredServiceEndpoint$ = create();
   timeoutHandle = null;
+
+  constructor(props) {
+    super(props);
+    this.openedCall$.emit(props.callId);
+  }
 
   componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
@@ -47,10 +62,12 @@ class Summary extends React.Component {
     }
   }
 
-  render() {
-    const { data: trace, getColor, callId, traceId } = this.props;
+  componentDidUpdate() {
+    this.openedCall$.emit(this.props.callId);
+  }
 
-    const shouldRenderTrace = trace.callCount < maximumNumberOfCallsForTraceRendering;
+  render() {
+    const { data: trace, getColor, callId, traceId, isLargeTrace, showLargeTrace, setShowLargeTrace } = this.props;
 
     const traceDetails = (
       <div className={locals.wrapper}>
@@ -67,19 +84,27 @@ class Summary extends React.Component {
             </Col>
           </Row>
 
-          {!shouldRenderTrace && (
-            <Row>
-              <Col lg={12}>
-                <Card title="Trace Too Large" framed>
-                  This trace is very large and can currently not be rendered in the Instana UI. Please refer to the{' '}
-                  <Link href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>trace download</Link> to
-                  inspect trace details.
-                </Card>
-              </Col>
-            </Row>
-          )}
+          {isLargeTrace &&
+            !showLargeTrace && (
+              <Row>
+                <Col lg={12}>
+                  <Card title="Large Trace" framed>
+                    This trace is large and rendering of this trace can result in performance problems within your
+                    browser. You can either{' '}
+                    <Link target="_blank" external href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>
+                      download the trace
+                    </Link>{' '}
+                    for manual inspection or attempt trace rendering within your browser. We will only render a subset
+                    of the components in order to increase performance of this attempt.
+                    <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
+                      Attempt to render trace
+                    </Button>
+                  </Card>
+                </Col>
+              </Row>
+            )}
 
-          {shouldRenderTrace && (
+          {!isLargeTrace && (
             <Row>
               <Col lg={12}>
                 <Card title="Timeline" withoutPadding framed>
@@ -102,17 +127,18 @@ class Summary extends React.Component {
             </Row>
           )}
 
-          {shouldRenderTrace && (
+          {(!isLargeTrace || showLargeTrace) && (
             <Row>
               <Col lg={12}>
                 <Card title="Calls" framed>
                   <ServerCallTree
                     traceId={traceId}
-                    openedCall={callId}
                     getColor={getColor}
                     selectedCall$={this.selectedCall$}
                     onSubCallClicked={this.onSubCallClicked}
                     onCallClicked={this.onCallClicked}
+                    openedCall$={this.openedCall$}
+                    isLargeTrace={isLargeTrace}
                   />
                 </Card>
               </Col>
@@ -190,5 +216,19 @@ export default compose(
         onReset: () => ({ callId: null })
       }
     ]
+  }),
+  withPropDependingState({
+    getInitialState: getInitialLargeTraceState,
+    resets: [
+      {
+        getResettingProps: () => ['data'],
+        onReset: getInitialLargeTraceState
+      }
+    ],
+    reducerName: 'setShowLargeTrace',
+    reducer: (prevState, showLargeTrace) => ({
+      ...prevState,
+      showLargeTrace
+    })
   })
 )(Summary);

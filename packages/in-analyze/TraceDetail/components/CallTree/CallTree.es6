@@ -10,13 +10,20 @@ import createScale from 'in-charts/scale';
 
 import locals from './CallTree.mless';
 
+// We are reusing this scale object for every render operation. We are doing this because we want to avoid
+// excessive creation of scale objects. These scale objects would also interfere with change detection
+// mechanisms.
+// Warning: This code will break when we want to show two call trees concurrently (which is not on the roadmap)
+const scale = createScale();
+
 export default function CallTree({
-  openedCall,
   callTreeResult,
   getColor = () => '#e6e6e6',
   selectedCall$,
+  openedCall$,
   onCallClicked,
-  onSubCallClicked
+  onSubCallClicked,
+  isLargeTrace
 }) {
   const isLoading = get(callTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
@@ -32,7 +39,6 @@ export default function CallTree({
   const start = getStart(rootCall);
   const end = getEnd(rootCall);
 
-  const scale = createScale();
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
   scale.setDomainFrom(start);
@@ -42,13 +48,14 @@ export default function CallTree({
     <div className={locals.callTree}>
       <TreeHeader rootCall={rootCall} scale={scale} />
       <Row
-        openedCall={openedCall}
         call={rootCall}
         getColor={getColor}
         scale={scale}
         selectedCall$={selectedCall$}
+        openedCall$={openedCall$}
         onSubCallClicked={onSubCallClicked}
         onCallClicked={onCallClicked}
+        isLargeTrace={isLargeTrace}
       />
     </div>
   );
