@@ -17,8 +17,11 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+import Link from 'in-components/Link';
 
 import locals from './Summary.mless';
+
+const maximumNumberOfCallsForTraceRendering = 5000;
 
 class Summary extends React.Component {
   selectedCall$ = create();
@@ -46,6 +49,9 @@ class Summary extends React.Component {
 
   render() {
     const { data: trace, getColor, callId, traceId } = this.props;
+
+    const shouldRenderTrace = trace.callCount < maximumNumberOfCallsForTraceRendering;
+
     const traceDetails = (
       <div className={locals.wrapper}>
         <div className={locals.left}>
@@ -61,41 +67,57 @@ class Summary extends React.Component {
             </Col>
           </Row>
 
-          <Row>
-            <Col lg={12}>
-              <Card title="Timeline" withoutPadding framed>
-                <div className={locals.icicleChartWrapper}>
-                  <ServerIcicleChart
+          {!shouldRenderTrace && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Trace Too Large" framed>
+                  This trace is very large and can currently not be rendered in the Instana UI. Please refer to the{' '}
+                  <Link href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>trace download</Link> to
+                  inspect trace details.
+                </Card>
+              </Col>
+            </Row>
+          )}
+
+          {shouldRenderTrace && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Timeline" withoutPadding framed>
+                  <div className={locals.icicleChartWrapper}>
+                    <ServerIcicleChart
+                      traceId={traceId}
+                      getColor={getColor}
+                      onCallClicked={this.onCallClicked}
+                      hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                    />
+                  </div>
+                  <ServiceEndpointList
                     traceId={traceId}
                     getColor={getColor}
-                    onCallClicked={this.onCallClicked}
-                    hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                    onListItemMouseEnter={this.onListItemMouseEnter}
+                    onListItemMouseLeave={this.onListItemMouseLeave}
                   />
-                </div>
-                <ServiceEndpointList
-                  traceId={traceId}
-                  getColor={getColor}
-                  onListItemMouseEnter={this.onListItemMouseEnter}
-                  onListItemMouseLeave={this.onListItemMouseLeave}
-                />
-              </Card>
-            </Col>
-          </Row>
+                </Card>
+              </Col>
+            </Row>
+          )}
 
-          <Row>
-            <Col lg={12}>
-              <Card title="Calls" framed>
-                <ServerCallTree
-                  traceId={traceId}
-                  openedCall={callId}
-                  getColor={getColor}
-                  selectedCall$={this.selectedCall$}
-                  onSubCallClicked={this.onSubCallClicked}
-                  onCallClicked={this.onCallClicked}
-                />
-              </Card>
-            </Col>
-          </Row>
+          {shouldRenderTrace && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Calls" framed>
+                  <ServerCallTree
+                    traceId={traceId}
+                    openedCall={callId}
+                    getColor={getColor}
+                    selectedCall$={this.selectedCall$}
+                    onSubCallClicked={this.onSubCallClicked}
+                    onCallClicked={this.onCallClicked}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          )}
         </div>
       </div>
     );
