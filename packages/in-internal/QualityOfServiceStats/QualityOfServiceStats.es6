@@ -122,13 +122,13 @@ export default connectTo(
         <div>
           <h1>Quality of Service - Fleet Worker</h1>
           <DashboardSection title={`Availability Zone A (${rowsA.length})`}>
-            <Table cols={cols} rows={rowsA} maxItemsPerPage={200} />
+            <Table cols={cols} rows={rowsA} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
           </DashboardSection>
           <DashboardSection title={`Availability Zone B (${rowsB.length})`}>
-            <Table cols={cols} rows={rowsB} maxItemsPerPage={200} />
+            <Table cols={cols} rows={rowsB} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
           </DashboardSection>
           <DashboardSection title={`Availability Zone C (${rowsC.length})`}>
-            <Table cols={cols} rows={rowsC} maxItemsPerPage={200} />
+            <Table cols={cols} rows={rowsC} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
           </DashboardSection>
         </div>
       );
