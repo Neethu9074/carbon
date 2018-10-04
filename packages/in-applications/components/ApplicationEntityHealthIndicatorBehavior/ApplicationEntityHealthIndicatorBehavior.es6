@@ -2,6 +2,7 @@ import React from 'react';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import { combineEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
@@ -13,7 +14,7 @@ export default connectTo(
       return {};
     }
 
-    const endpointHealthId = serviceId + '<|>' + endpointId + '<|>' + endpointType;
+    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
     const healthInfo$ = getApplicationEntityHealthInfo({
       applicationId,
       serviceId,

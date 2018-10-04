@@ -14,15 +14,23 @@ export function parseEndpointEntityId(entityId) {
   // ServiceCatalogV2, which will introduce a proper endpointId, and where there
   // parent-serviceId (or even the parent-service-label) of this endpoint can be
   // easily retrieved.
+  const separatorLength = entityIdSeparator.length;
+  const separatorLastIndex = entityId.lastIndexOf(entityIdSeparator);
   const endOfServiceId = entityId.indexOf(entityIdSeparator);
-  const endpointName = entityId.substring(
-    endOfServiceId + entityIdSeparator.length,
-    entityId.lastIndexOf(entityIdSeparator)
-  );
+  const endpointName = entityId.substring(endOfServiceId + entityIdSeparator.length, separatorLastIndex);
+  const endpointType = entityId.substring(separatorLastIndex + separatorLength, entityId.length);
   return {
     serviceId: entityId.substring(0, endOfServiceId),
-    name: endpointName ? endpointName : 'Unspecified'
+    name: endpointName ? endpointName : 'Unspecified',
+    type: endpointType
   };
+}
+
+export function combineEndpointEntityId(serviceId, endpointName, endpointType) {
+  if (!serviceId || !endpointName || !endpointType) {
+    return undefined;
+  }
+  return serviceId + '<|>' + endpointName + '<|>' + endpointType;
 }
 
 export function getEntityOfType(entityId, entityType, timeConfig) {

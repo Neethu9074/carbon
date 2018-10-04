@@ -2,6 +2,7 @@ import React from 'react';
 
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import { combineEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
@@ -9,7 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, endpointType, timeConfig }) => {
-    const endpointHealthId = serviceId + '<|>' + endpointId + '<|>' + endpointType;
+    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
     return {
       openIssuesResult: getApplicationEntityHealthInfo({
         applicationId,
@@ -30,10 +31,7 @@ export default connectTo(
     eventId,
     close
   }) {
-    let endpointHealthId;
-    if (serviceId && endpointId && endpointType) {
-      endpointHealthId = serviceId + '<|>' + endpointId + '<|>' + endpointType;
-    }
+    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
     return (
       <OpenIssuesListPresenter
         close={close}
