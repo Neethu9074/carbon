@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .navigatorSplitScreen {
     display: flex;
@@ -11,6 +13,12 @@
   }
 
   .traceDetail {
-    width: 100%;
+    width: ~"calc(100% - 37.5rem)";
+  }
+
+  .header {
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    padding: 0.3rem 1.5rem 1.1rem;
   }
 }
