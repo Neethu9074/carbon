@@ -5,6 +5,7 @@ import {
   Thead,
   Tbody,
   Tr,
+  Th,
   Td,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
@@ -17,8 +18,6 @@ import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
-import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
 
 export default function RawTracesNavigator({
   items,
@@ -36,14 +35,7 @@ export default function RawTracesNavigator({
         <Table tableInCard>
           <Thead>
             <Tr size="compact">
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="ASC"
-                technicalName="callName"
-                label="Call"
-              />
+              <Th>Trace</Th>
 
               <SortableCallColumn
                 orderBy={orderBy}
@@ -54,37 +46,20 @@ export default function RawTracesNavigator({
                 label="Timestamp"
               />
 
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="DESC"
-                technicalName="latency"
-                label="Latency"
-              />
+              <Th>Latency</Th>
             </Tr>
           </Thead>
           <Tbody>
             {items.map(item => (
-              <Tr key={item.call.id} size="compact">
+              <Tr key={item.trace.id} size="compact">
                 <Td>
-                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
-                    {item.call.label}
-                    {item.call.batchCount > 1 && (
-                      <Tooltip
-                        themeStyle="light"
-                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                      >
-                        <Pill kind="lighter">{item.call.batchCount}</Pill>
-                      </Tooltip>
-                    )}
-                  </Link>
+                  <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </Td>
 
-                <Td>{formatDateTime(item.call.started)}</Td>
+                <Td>{formatDateTime(item.trace.startTime)}</Td>
 
                 <Td>
-                  <span>{millis.fixedCompact(item.call.duration)}</span>
+                  <span>{millis.fixedCompact(item.trace.duration)}</span>
                 </Td>
               </Tr>
             ))}

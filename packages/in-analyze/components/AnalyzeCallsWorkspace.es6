@@ -10,6 +10,7 @@ export default function AnalyzeCallsWorkspace({
   onChangeDataSource,
   filters,
   dataSource,
+  isTracesDataSource,
   children
 }) {
   return (
@@ -17,7 +18,11 @@ export default function AnalyzeCallsWorkspace({
       <Title title={'Analyze Calls'} />
 
       <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
-      <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
+      <QueryBuilderWorkspace
+        isTracesDataSource={isTracesDataSource}
+        filters={filters}
+        onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+      />
 
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
     </Fragment>

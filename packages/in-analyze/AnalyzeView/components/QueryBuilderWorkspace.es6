@@ -24,9 +24,8 @@ import Pill from 'in-new-components/Pill';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeAnalyzeConfig } = props;
+  const { filters, onChangeAnalyzeConfig, isTracesDataSource } = props;
   const group = filters.get('group');
-  const isTracesDataSource = filters.get('dataSource') === 'traces';
 
   return (
     <Fragment>
@@ -98,14 +97,25 @@ export default function QueryBuilderWorkspace(props) {
           ) : (
             <Fragment>
               <span className={locals.groupByLabel}>Grouped by</span>
-              <Button
-                onClick={e => {
-                  e.preventDefault();
-                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                }}
-              >
-                Add Group
-              </Button>
+              {isTracesDataSource ? (
+                <Button
+                  onClick={e => {
+                    e.preventDefault();
+                    onAddDefaultGroup(onChangeAnalyzeConfig);
+                  }}
+                >
+                  Add Default Group
+                </Button>
+              ) : (
+                <Button
+                  onClick={e => {
+                    e.preventDefault();
+                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                  }}
+                >
+                  Add Group
+                </Button>
+              )}
             </Fragment>
           )}
         </div>
@@ -115,9 +125,8 @@ export default function QueryBuilderWorkspace(props) {
 }
 
 function QuickFilterSection(props) {
-  const { filters, onChangeAnalyzeConfig } = props;
+  const { isTracesDataSource, filters, onChangeAnalyzeConfig } = props;
 
-  const isTracesDataSource = filters.get('dataSource') === 'traces';
   const tagFilter = filters.get('tagFilter').toJS();
 
   return (
@@ -293,6 +302,13 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
       }}
     />
   );
+}
+
+function onAddDefaultGroup(onChangeAnalyzeConfig) {
+  const newState = {};
+
+  newState[groupByMatrixParameter] = { name: 'trace.name' };
+  onChangeAnalyzeConfig(newState);
 }
 
 function onRemoveGroup(onChangeAnalyzeConfig) {

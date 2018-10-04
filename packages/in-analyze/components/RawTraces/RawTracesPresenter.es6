@@ -57,9 +57,7 @@ export default function RawTracesPresenter(props) {
               <Td>
                 <div className={locals.cell}>
                   <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.trace.traceId, { callId: item.trace.id })}>
-                    {item.trace.label}
-                  </Link>
+                  <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </div>
               </Td>
 
