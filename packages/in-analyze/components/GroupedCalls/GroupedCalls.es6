@@ -4,7 +4,7 @@ import React from 'react';
 
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import CallGroupsTable from 'in-analyze/components/GroupedCalls/CallGroupsTable';
-import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
+import CallGroupCharts from 'in-analyze/components/GroupMetricsChart';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';

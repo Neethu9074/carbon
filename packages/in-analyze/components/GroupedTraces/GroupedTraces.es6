@@ -5,7 +5,7 @@ import React from 'react';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
-import CallGroupCharts from 'in-analyze/components/GroupedCalls/CallGroupCharts';
+import TraceGroupChart from 'in-analyze/components/GroupMetricsChart';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -110,7 +110,7 @@ function GroupedTraces(props) {
           {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
         </Button>
       </div>
-      {isChartSectionExpanded && <CallGroupCharts {...props} callGroupColors={groupColors} />}
+      {isChartSectionExpanded && <TraceGroupChart {...props} callGroupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>
   );
