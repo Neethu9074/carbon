@@ -15,7 +15,7 @@ export default connectTo(
       openIssuesResult: getApplicationEntityHealthInfo({
         applicationId,
         serviceId,
-        endpointId: endpointHealthId,
+        endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
         timeConfig
       })
         .startWith(indeterminateProgress)
@@ -47,7 +47,7 @@ export default connectTo(
           getEventsViewFilteredBy({
             applicationId,
             serviceId,
-            endpointId: endpointHealthId,
+            endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
             eventId,
             eventTypeFilter: 'issue'
           })

@@ -18,7 +18,7 @@ export default connectTo(
     const healthInfo$ = getApplicationEntityHealthInfo({
       applicationId,
       serviceId,
-      endpointId: endpointHealthId,
+      endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
       timeConfig
     }).filter(healthInfo => healthInfo.data != null);
 
