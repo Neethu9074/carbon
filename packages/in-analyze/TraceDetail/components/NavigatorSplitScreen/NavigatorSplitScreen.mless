@@ -7,6 +7,7 @@
     width: 37.5rem;
     flex-grow: 0;
     flex-shrink: 0;
+    border-right: 1px solid #d5dfe4;
   }
 
   .traceDetail {

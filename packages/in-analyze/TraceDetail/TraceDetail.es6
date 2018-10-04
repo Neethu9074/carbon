@@ -67,7 +67,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
           <TraceDetailBreadcrumb traceId={traceId} />
         ]}
       />
-      <BreadcrumbHeader />
+      <BreadcrumbHeader useFullAvailableWidth />
 
       <NavigatorSplitScreen
         navigator={navigator}
@@ -79,6 +79,8 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
             result$={getTraceSummary({ id: traceId })}
             props={props}
             withoutBreadcrumb
+            useFullAvailableWidth
+            withoutPadding
           />
         }
       />

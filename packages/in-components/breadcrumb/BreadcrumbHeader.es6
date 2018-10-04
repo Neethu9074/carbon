@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,7 +17,7 @@ export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function BreadcrumbHeader({ breadcrumbs }) {
+  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth }) {
     if (breadcrumbs == null || breadcrumbs.length === 0) {
       return null;
     }
@@ -34,7 +35,12 @@ export default connectTo(
     // by explicitly stating that these items can only be verified using their index. This also cleans
     // up the HTML structure so that crumb elements can check for :last-child to identify the active
     // crumb element.
-    crumbs.unshift({ className: locals.container });
+    crumbs.unshift({
+      className: evaluateClassNames({
+        [locals.container]: true,
+        [locals.useFullAvailableWidth]: useFullAvailableWidth
+      })
+    });
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 

@@ -51,17 +51,46 @@ export default class HeightRestrictedView extends React.Component {
   }
 
   componentWillUnmount() {
+    this.disableScrollIndication();
     if (this.footerHeightSubscription) {
       this.footerHeightSubscription.dispose();
       this.footerHeightSubscription = null;
     }
   }
 
+  enableScrollableIndication(scrollableIndicator) {
+    this.disableScrollIndication();
+
+    if (scrollableIndicator == null) {
+      return;
+    }
+
+    this.scrollableIndicator = scrollableIndicator;
+    this.scrollContainer = scrollableIndicator.parentNode;
+    this.scrollContainer.addEventListener('scroll', this.onScroll, false);
+  }
+
+  disableScrollIndication() {
+    if (this.scrollContainer) {
+      this.scrollContainer.removeEventListener('scroll', this.onScroll, false);
+      this.scrollContainer = null;
+      this.scrollableIndicator = null;
+    }
+  }
+
+  onScroll = () => {
+    this.scrollableIndicator.style.bottom = `${-1 * this.scrollContainer.scrollTop}px`;
+    const indicatorHeight =
+      100 - Math.min(100, (100 / this.scrollContainer.scrollHeight) * (this.scrollContainer.scrollTop * 2));
+    this.scrollableIndicator.style.height = `${indicatorHeight}px`;
+  };
+
   render() {
     const { height } = this.state;
     return (
       <div className={locals.view} ref={this.setElement} style={{ height: `${height}px` }}>
         {height != null && this.props.render(height)}
+        <div className={locals.scrollableIndicator} ref={d => this.enableScrollableIndication(d)} />
       </div>
     );
   }

@@ -9,7 +9,7 @@ import Title from 'in-components/Title';
 
 import locals from './Switch.mless';
 
-export default function TabSwitch({ tabs, result, location, props }) {
+export default function TabSwitch({ tabs, result, location, props, withoutPadding }) {
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
 
@@ -29,14 +29,22 @@ export default function TabSwitch({ tabs, result, location, props }) {
         <Route
           key={tab.path}
           path={tab.path}
-          render={() => <ViewWrapper tab={tab} data={result.data} location={location} props={props} />}
+          render={() => (
+            <ViewWrapper
+              tab={tab}
+              data={result.data}
+              location={location}
+              props={props}
+              withoutPadding={withoutPadding}
+            />
+          )}
         />
       ))}
     </Switch>
   );
 }
 
-function ViewWrapper({ tab, data, location, props }) {
+function ViewWrapper({ tab, data, location, props, withoutPadding }) {
   let content = <tab.component data={data} location={location} {...props} />;
 
   if (!tab.isFullWidth) {
@@ -46,7 +54,7 @@ function ViewWrapper({ tab, data, location, props }) {
   if (!tab.stickToHeader) {
     content = (
       <Fragment>
-        <div style={{ height: 24 }} />
+        {!withoutPadding && <div style={{ height: 24 }} />}
         {content}
       </Fragment>
     );
