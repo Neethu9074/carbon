@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -15,7 +16,7 @@ export default connectTo(
     )
   }),
 
-  function ItemsInGroupsIndicator({ numCalls, numTraces, numGroups, containsPastLiveData }) {
+  function ItemsInGroupsIndicator({ numCalls, numTraces, numGroups, containsPastLiveData, withoutMargin = false }) {
     let numItems;
     let itemType;
     if (numCalls != undefined) {
@@ -36,7 +37,12 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.wrapper}>
+      <div
+        className={evaluateClassNames({
+          [locals.wrapper]: true,
+          [locals.withMargin]: !withoutMargin
+        })}
+      >
         <span className={locals.result}>Result</span>
         <span className={locals.number}>{counter}</span>
         {containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}

@@ -1,8 +1,14 @@
 import { create, on } from 'reactive-observables';
 
-export const resize$ = create();
-export const debouncedResize$ = on(window, 'resize').debounce(300);
+const forcedResize$ = create();
+export const debouncedResize$ = on(window, 'resize')
+  .debounce(300)
+  .merge(forcedResize$);
 export const debouncedScroll$ = on(window, 'scroll').debounce(300);
+
+export function refreshWindowSizeDependingState() {
+  forcedResize$.emit(true);
+}
 
 export function init() {
   const browser = getBrowser();

@@ -14,11 +14,43 @@
 
   .traceDetail {
     width: ~"calc(100% - 37.5rem)";
+
+    &.useFullWidth {
+      width: ~"calc(100% - 3rem)";
+    }
   }
 
   .header {
     background: @lib__colors__N050;
     border-bottom: 1px solid @lib__colors__N300;
-    padding: 0.3rem 1.5rem 1.1rem;
+    padding: 1.62rem 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .toggleBar {
+    width: 3rem;
+    border-right: 1px solid #d5dfe4;
+  }
+
+  .toggleWrapper {
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.63rem 0;
+  }
+
+  .toggle {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    display: block;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
   }
 }
