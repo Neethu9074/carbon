@@ -58,6 +58,7 @@ export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
 export function getEventsViewFilteredBy({
   applicationId = null,
   serviceId = null,
+  endpointId = null,
   eventId = null,
   eventTypeFilter = null
 }) {
@@ -69,6 +70,10 @@ export function getEventsViewFilteredBy({
     if (serviceId) {
       query += ` entity.service.id:"${luceneEscapeString(serviceId)}"`;
     }
+    if (endpointId) {
+      query += ` entity.endpoint.id:"${luceneEscapeString(endpointId)}"`;
+    }
+
     params.pathname = eventsPath;
     params.query.q = query.trim();
     if (eventId) {

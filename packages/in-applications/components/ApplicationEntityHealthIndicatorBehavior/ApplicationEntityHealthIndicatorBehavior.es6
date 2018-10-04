@@ -7,16 +7,17 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, openIssues, maxSeverity, timeConfig }) => {
+  ({ applicationId, serviceId, endpointId, endpointType, openIssues, maxSeverity, timeConfig }) => {
     // openIssues and maxSeverity may be provided externally in cases where this component is used in lists.
     if (openIssues != null && maxSeverity != null) {
       return {};
     }
 
+    const endpointHealthId = getEndpointHealthId(serviceId, endpointId, endpointType);
     const healthInfo$ = getApplicationEntityHealthInfo({
       applicationId,
       serviceId,
-      endpointId,
+      endpointHealthId,
       timeConfig
     }).filter(healthInfo => healthInfo.data != null);
 
@@ -46,13 +47,19 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
   );
 }
 
-function Content({ applicationId, serviceId, endpointId, timeConfig, close }) {
+function getEndpointHealthId(serviceId, endpointId, endpointType) {
+  return serviceId + '<|>' + endpointId + '<|>' + endpointType;
+}
+
+function Content({ applicationId, serviceId, endpointId, endpointType, timeConfig, close }) {
+  const endpointHealthId = getEndpointHealthId(serviceId, endpointId, endpointType);
   return (
     <ApplicationEntityOpenIssuesList
       close={close}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
+      endpointHealthId={endpointHealthId}
       timeConfig={timeConfig}
     />
   );
