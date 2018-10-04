@@ -8,12 +8,13 @@ import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointHealthId, timeConfig }) => {
+  ({ applicationId, serviceId, endpointId, endpointType, timeConfig }) => {
+    const endpointHealthId = serviceId + '<|>' + endpointId + '<|>' + endpointType;
     return {
       openIssuesResult: getApplicationEntityHealthInfo({
         applicationId,
         serviceId,
-        endpointHealthId,
+        endpointId: endpointHealthId,
         timeConfig
       })
         .startWith(indeterminateProgress)
@@ -25,10 +26,14 @@ export default connectTo(
     applicationId,
     serviceId,
     endpointId,
-    endpointHealthId,
+    endpointType,
     eventId,
     close
   }) {
+    let endpointHealthId;
+    if (serviceId && endpointId && endpointType) {
+      endpointHealthId = serviceId + '<|>' + endpointId + '<|>' + endpointType;
+    }
     return (
       <OpenIssuesListPresenter
         close={close}
@@ -44,7 +49,7 @@ export default connectTo(
           getEventsViewFilteredBy({
             applicationId,
             serviceId,
-            endpointId: endpointId ? endpointHealthId : undefined,
+            endpointId: endpointHealthId,
             eventId,
             eventTypeFilter: 'issue'
           })
