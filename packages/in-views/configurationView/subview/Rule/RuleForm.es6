@@ -219,9 +219,14 @@ export function ruleFormDefinition(rule) {
       })
     );
 
-  form = putWindowField(form, rule);
-  form = putRollupField(form, rule);
-  return putAggregationField(form, rule);
+  if (isMetricPercentile(entityType, metricName)) {
+    form = putRollupField(form, rule);
+  } else {
+    form = putWindowField(form, rule);
+    form = putAggregationField(form, rule);
+  }
+
+  return form;
 }
 
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
