@@ -13,7 +13,6 @@ import ResetButton from 'in-analyze/AnalyzeView/components/ResetButton';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
-import { operators } from 'in-analyze/applicationFilter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { getTagFromList } from 'in-applications/tags';
@@ -132,6 +131,7 @@ function QuickFilterSection(props) {
   return (
     <div className={locals.quickFilterRow}>
       <Overlay
+        inContentArea
         content={SuggestionContent}
         props={assign(
           { Component: ApplicationServiceEndpointSuggestions, tagName: 'application.name', icon: 'lib_application' },
@@ -144,6 +144,7 @@ function QuickFilterSection(props) {
       </Overlay>
 
       <Overlay
+        inContentArea
         content={SuggestionContent}
         props={assign(
           {
@@ -160,6 +161,7 @@ function QuickFilterSection(props) {
       </Overlay>
 
       <Overlay
+        inContentArea
         content={SuggestionContent}
         props={assign(
           {
@@ -184,6 +186,7 @@ function QuickFilterSection(props) {
       </Overlay>
 
       <Overlay
+        inContentArea
         content={SuggestionContent}
         props={assign({ Component: TypeSuggestions, tagName: 'call.type' }, props)}
         position="fixed"
@@ -194,6 +197,7 @@ function QuickFilterSection(props) {
       </Overlay>
 
       <Overlay
+        inContentArea
         content={SuggestionContent}
         props={assign({ Component: TechnologySuggestions, tagName: 'call.technology' }, props)}
       >
@@ -204,11 +208,11 @@ function QuickFilterSection(props) {
 
       <Overlay
         content={SuggestionContent}
+        inContentArea
         props={assign(
           {
             Component: LatencySuggestions,
-            tagName: isTracesDataSource ? 'trace.latency' : 'call.latency',
-            operator: operators.GREATER_THAN
+            tagName: isTracesDataSource ? 'trace.latency' : 'call.latency'
           },
           props
         )}
@@ -247,6 +251,8 @@ function SuggestionContent(props) {
     <Component
       {...props}
       tagName={tagName}
+      onAddTagFilter={onAddTagFilter}
+      close={close}
       onValueClick={value => {
         onAddTagFilter({ name: tagName, value, operator }, filters, onChangeAnalyzeConfig);
         close();

@@ -44,7 +44,7 @@
     padding: 1.63rem 0;
   }
 
-  .toggle {
+  .toggle, .next, .prev {
     cursor: pointer;
     fill: @lib__colors__N500;
     display: block;
@@ -52,5 +52,14 @@
     &:hover {
       fill: @lib__colors__N700Medium;
     }
+  }
+
+  .actions .toggle {
+    margin-left: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
   }
 }

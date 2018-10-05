@@ -1,15 +1,28 @@
 import { compose } from 'recompose';
+import { findIndex } from 'lodash';
 import React from 'react';
 
+import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
+import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { mutateUrl } from 'in-stores/navigation/navigation';
+import { prefetch } from 'in-subscription/util/prefetch';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NavigatorSplitScreen.mless';
+
+const getCallMatcher = (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId;
+const getTraceMatcher = traceId => item => item.trace.id === traceId;
 
 export default compose(
   connectTo({
@@ -41,23 +54,62 @@ function getInitialState({ screenWidth }) {
 }
 
 function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded }) {
-  const { isTracesDataSource, totalHits } = navigator.props;
-  const numTraces = isTracesDataSource ? totalHits : undefined;
-  const numCalls = isTracesDataSource ? undefined : totalHits;
+  const { isTracesDataSource, totalHits, location, items, canLoadMore, loadMore, progress } = navigator.props;
+  const selectedTraceId = getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
+  const selectedCallId = getMatrixParameter(location, traceDetailPath, callIdMatrixParameter);
+  const itemMatcher = isTracesDataSource
+    ? getTraceMatcher(selectedTraceId)
+    : getCallMatcher(selectedTraceId, selectedCallId);
+  const itemIndex = findIndex(items, itemMatcher);
+  const hasNext = itemIndex + 1 < items.length;
+  const hasPrev = itemIndex > 0;
+  const typeLabel = isTracesDataSource ? 'Trace' : 'Call';
 
   return (
     <div className={locals.navigatorSplitScreen}>
       {expanded && (
         <div className={locals.navigator}>
           <div className={locals.header}>
-            <ItemsInGroupsIndicator numTraces={numTraces} numCalls={numCalls} withoutMargin />
-
-            <SvgIcon
-              type={expanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
-              width={20}
-              className={locals.toggle}
-              onClick={() => setExpanded(!expanded)}
+            <ItemsInGroupsIndicator
+              numTraces={isTracesDataSource ? totalHits : undefined}
+              numCalls={isTracesDataSource ? undefined : totalHits}
+              withoutMargin
             />
+
+            <div className={locals.actions}>
+              {hasPrev && (
+                <Tooltip content={`View previous ${typeLabel}`}>
+                  <SvgIcon
+                    type="lib_arrow_drop_left"
+                    className={locals.prev}
+                    width={20}
+                    onClick={e =>
+                      openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
+                    }
+                  />
+                </Tooltip>
+              )}
+
+              {hasNext && (
+                <Tooltip content={`View next ${typeLabel}`}>
+                  <SvgIcon
+                    type="lib_arrow_drop_right"
+                    width={20}
+                    className={locals.next}
+                    onClick={e =>
+                      openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
+                    }
+                  />
+                </Tooltip>
+              )}
+
+              <SvgIcon
+                type={expanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
+                width={20}
+                className={locals.toggle}
+                onClick={() => setExpanded(!expanded)}
+              />
+            </div>
           </div>
 
           {navigator}
@@ -89,4 +141,38 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
       </div>
     </div>
   );
+}
+
+function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, isTracesDataSource) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // todo only do when clicking on next/prev
+  if (itemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
+    loadMore();
+  }
+
+  const item = items[itemIndex];
+  if (!item) {
+    return;
+  }
+
+  const traceId = isTracesDataSource ? item.trace.id : item.call.traceId;
+  const callId = isTracesDataSource ? undefined : item.call.id;
+
+  const nextItem = items[itemIndex + 1];
+  if (nextItem) {
+    const traceIdForNextPrefetch = isTracesDataSource ? nextItem.trace.id : nextItem.call.traceId;
+    const callIdForNextPrefetch = isTracesDataSource ? undefined : item.call.id;
+    prefetch(getTraceSummary({ id: traceIdForNextPrefetch }));
+    prefetch(getTraceActivityTree({ id: traceIdForNextPrefetch }));
+    if (callIdForNextPrefetch) {
+      prefetch(getTraceActivityTreeNodeDetails({ traceId: traceIdForNextPrefetch, nodeId: callIdForNextPrefetch }));
+    }
+  }
+
+  mutateUrl(location => {
+    setOrDeleteMatrixKey(location, traceDetailPath, traceIdMatrixParameter, traceId);
+    setOrDeleteMatrixKey(location, traceDetailPath, callIdMatrixParameter, callId);
+  });
 }

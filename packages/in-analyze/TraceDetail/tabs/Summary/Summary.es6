@@ -152,13 +152,6 @@ export default compose(
     getMatrixPrefix: () => '',
     boundKeys: [callIdMatrixParameter],
     getInitialState: () => ({ callId: null }),
-    reducerName: 'setCall',
-    resets: [
-      // Reset the call when the trace changes
-      {
-        getResettingProps: () => ['traceId'],
-        onReset: () => ({ callId: null })
-      }
-    ]
+    reducerName: 'setCall'
   })
 )(Summary);

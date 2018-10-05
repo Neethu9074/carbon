@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   Table,
@@ -89,14 +89,17 @@ export default function RawCalls(props) {
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}
                     {item.call.batchCount > 1 && (
-                      <Tooltip
-                        themeStyle="light"
-                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                      >
-                        <Pill className={locals.batchSizeIndicator} kind="lighter">
-                          {item.call.batchCount}
-                        </Pill>
-                      </Tooltip>
+                      <Fragment>
+                        {' '}
+                        <Tooltip
+                          themeStyle="light"
+                          content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                        >
+                          <Pill className={locals.batchSizeIndicator} kind="lighter">
+                            {item.call.batchCount}
+                          </Pill>
+                        </Tooltip>
+                      </Fragment>
                     )}
                   </Link>
                 </div>

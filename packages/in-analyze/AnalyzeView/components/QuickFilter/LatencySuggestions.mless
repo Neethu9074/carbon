@@ -6,6 +6,10 @@
 
     padding: 1.5rem;
     background: #fff;
+
+    & + .wrapper {
+      padding-top: 0;
+    }
   }
 
   .text {
