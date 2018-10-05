@@ -5,6 +5,7 @@ import {
   Thead,
   Tbody,
   Tr,
+  Th,
   Td,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
@@ -34,23 +35,9 @@ export default function RawCalls(props) {
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="callName"
-              label="Call"
-            />
+            <Th>Call</Th>
 
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="serviceLabel"
-              label="Service"
-            />
+            <Th>Service</Th>
 
             <SortableCallColumn
               orderBy={orderBy}
@@ -61,23 +48,9 @@ export default function RawCalls(props) {
               label="Timestamp"
             />
 
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="latency"
-              label="Latency"
-            />
+            <Th>Latency</Th>
 
-            <SortableCallColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="errors"
-              label="Errors"
-            />
+            <Th>Errors</Th>
           </Tr>
         </Thead>
         <Tbody>

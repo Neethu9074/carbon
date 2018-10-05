@@ -5,6 +5,7 @@ import {
   Thead,
   Tbody,
   Tr,
+  Th,
   Td,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
@@ -41,14 +42,7 @@ export default function RawCallsNavigator({
         <Table tableInCard>
           <Thead>
             <Tr size="compact">
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="ASC"
-                technicalName="callName"
-                label="Call"
-              />
+              <Th>Call</Th>
 
               <SortableCallColumn
                 orderBy={orderBy}
@@ -59,14 +53,7 @@ export default function RawCallsNavigator({
                 label="Timestamp"
               />
 
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="DESC"
-                technicalName="latency"
-                label="Latency"
-              />
+              <Th>Latency</Th>
             </Tr>
           </Thead>
           <Tbody>
