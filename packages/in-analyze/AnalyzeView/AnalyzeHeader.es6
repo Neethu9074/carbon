@@ -26,7 +26,7 @@ export default function AnalyzeHeader({ dataSource, onChangeDataSource }) {
             [dataSourceMatrixParameter]: 'calls'
           });
         }}
-        icon="lib_menu_more_horizontal"
+        icon="lib_application_call"
         label="Calls"
         isActive={dataSource === 'calls'}
       />

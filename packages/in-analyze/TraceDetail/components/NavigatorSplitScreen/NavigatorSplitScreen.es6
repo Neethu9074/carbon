@@ -109,7 +109,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
               )}
 
               <SvgIcon
-                type={expanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
+                type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                 width={20}
                 className={locals.toggle}
                 onClick={() => setExpanded(!expanded)}
@@ -125,7 +125,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
         <div className={locals.toggleBar}>
           <div className={locals.toggleWrapper}>
             <SvgIcon
-              type={expanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
+              type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
               width={20}
               className={`${locals.toggleInBar} ${locals.toggle}`}
               onClick={() => setExpanded(!expanded)}
