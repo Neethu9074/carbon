@@ -24,6 +24,9 @@ import locals from './NavigatorSplitScreen.mless';
 const getCallMatcher = (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId;
 const getTraceMatcher = traceId => item => item.trace.id === traceId;
 
+export const leftArrowId = 'navigator-previous-item';
+export const rightArrowId = 'navigator-next-item';
+
 export default compose(
   connectTo({
     screenWidth: debouncedResize$
@@ -81,8 +84,9 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
                 <Tooltip content={`View previous ${typeLabel}`}>
                   <SvgIcon
                     type="lib_arrow_drop_left"
-                    className={locals.prev}
                     width={20}
+                    className={locals.prev}
+                    id={leftArrowId}
                     onClick={e =>
                       openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
                     }
@@ -96,6 +100,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
                     type="lib_arrow_drop_right"
                     width={20}
                     className={locals.next}
+                    id={rightArrowId}
                     onClick={e =>
                       openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
                     }
