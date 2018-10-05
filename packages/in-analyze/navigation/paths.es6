@@ -23,14 +23,16 @@ export function getLinkToAnalyze({
   applicationName,
   serviceName,
   endpointName,
-  dataSource = 'traces',
+  dataSource,
   filters,
   groupByTag
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
 
-    setOrDeleteMatrixKey(params, analyze, `callList.${dataSourceMatrixParameter}`, dataSource);
+    if (dataSource != null) {
+      setOrDeleteMatrixKey(params, analyze, `callList.${dataSourceMatrixParameter}`, dataSource);
+    }
 
     if (groupByTag != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
