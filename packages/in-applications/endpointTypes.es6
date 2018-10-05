@@ -11,11 +11,11 @@ export const endpointNameTranslations = {
 };
 
 export const colorTranslation = {
-  BATCH: '#1DA7EA',
-  DATABASE: '#3EC56D',
-  HTTP: '#00ACA2',
-  MESSAGING: '#8B56DB',
-  RPC: '#00BFCB',
+  BATCH: '#4fd3f8',
+  DATABASE: '#ef914d',
+  HTTP: '#549ef8',
+  MESSAGING: '#89e421',
+  RPC: '#93bedc',
   UNDEFINED: '#D4D8DB',
   SELF: '#D4D8DB'
 };

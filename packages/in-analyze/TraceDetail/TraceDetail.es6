@@ -37,7 +37,7 @@ export default compose(
     getPathSegment: () => traceDetail,
     getMatrixPrefix: () => '',
     boundKeys: ['colorCode'],
-    getInitialState: () => ({ colorCode: getColorByEndpoint }),
+    getInitialState: () => ({ colorCode: getColorByEndpointType }),
     reducerName: 'setColorCodeMechanism',
     reducer: (state, newColorCoding) => ({
       ...state,
