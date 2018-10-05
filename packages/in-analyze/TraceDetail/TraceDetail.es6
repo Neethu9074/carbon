@@ -27,6 +27,8 @@ import theme from 'in-themes';
 import locals from './TraceDetail.mless';
 
 const getColorByEndpointType = ({ endpoint }) => getColor(endpoint.type);
+const getColorByEndpoint = ({ service, endpoint, traceId }) =>
+  getColorPool(traceId, theme.lib.colors.chart.strokeColors100).getColorHex(`${service.id}__${endpoint.id}`);
 const byServiceEndpointCombinationUrlIdentifier = 'byServiceAndEndpoint';
 const byEndpointTypeUrlIdentifier = 'byEndpointType';
 
@@ -35,29 +37,37 @@ export default compose(
     getPathSegment: () => traceDetail,
     getMatrixPrefix: () => '',
     boundKeys: ['colorCode'],
-    getInitialState: () => ({ colorCode: null }),
+    getInitialState: () => ({ colorCode: getColorByEndpoint }),
     reducerName: 'setColorCodeMechanism',
+    reducer: (state, newColorCoding) => ({
+      ...state,
+      colorCode:
+        newColorCoding === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
+    }),
     getParsedUrlValues: ({ colorCode }) => ({
-      colorCode: colorCode === byServiceEndpointCombinationUrlIdentifier ? null : getColorByEndpointType
+      colorCode: colorCode === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
     }),
     getSerializedUrlValues: ({ colorCode }) => ({
-      colorCode: !colorCode ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
+      colorCode:
+        colorCode === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
     })
   })
 )(TraceDetail);
 
-function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSource }) {
+function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSource, setColorCodeMechanism }) {
+  const traceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const props = {
-    traceId: getMatrixParameter(location, traceDetail, traceIdMatrixParameter)
+    traceId,
+    getColor: args =>
+      getColor({
+        ...args,
+        traceId
+      }),
+    setColorCodeMechanism,
+    colorCodeType:
+      getColor === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
   };
-  const { traceId } = props;
-
   const breadcrumbLabel = isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls';
-
-  props.getColor = getColor
-    ? getColor
-    : ({ service, endpoint }) =>
-        getColorPool(traceId, theme.lib.colors.chart.strokeColors100).getColorHex(`${service.id}__${endpoint.id}`);
 
   return (
     <Fragment>

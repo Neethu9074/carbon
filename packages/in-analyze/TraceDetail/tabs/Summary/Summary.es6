@@ -2,6 +2,7 @@ import { just, create } from 'reactive-observables';
 import { compose } from 'recompose';
 import React from 'react';
 
+import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
@@ -63,7 +64,7 @@ class Summary extends React.Component {
 
           <Row>
             <Col lg={12}>
-              <Card title="Timeline" withoutPadding framed>
+              <Card title="Timeline" withoutPadding framed header={<ColorCodingToggleButtons {...this.props} />}>
                 <div className={locals.icicleChartWrapper}>
                   <ServerIcicleChart
                     traceId={traceId}
@@ -84,7 +85,7 @@ class Summary extends React.Component {
 
           <Row>
             <Col lg={12}>
-              <Card title="Calls" framed>
+              <Card title="Calls" framed header={<ColorCodingToggleButtons {...this.props} />}>
                 <ServerCallTree
                   traceId={traceId}
                   openedCall={callId}
