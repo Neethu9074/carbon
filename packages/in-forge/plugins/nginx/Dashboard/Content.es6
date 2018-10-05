@@ -14,11 +14,16 @@ const stubStatusSampleConfig = `location /nginx_status {
   access_log   off;
 }`;
 
+const apiDirectiveSampleConfig = `location /api {
+  api write=off;
+}`;
+
 export default function NginxDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const stubStatusUrlFound = snapshot.getIn(['data', 'stubStatusUrlFound']);
   const errorCode = snapshot.getIn(['data', 'error_code']);
   const statusUrl = snapshot.getIn(['data', 'status_url']);
+  const isNginxPlus = snapshot.getIn(['data', 'version'], 'nginx').indexOf('nginx-plus') !== -1;
 
   if (errorCode === 'CONFIG_FILE_NOT_ACCESSIBLE') {
     return (
@@ -72,6 +77,32 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <Code code={stubStatusSampleConfig} />
       </DashboardNotification>
     );
+  } else if (errorCode === 'API_LOCATION_NOT_ACCESSIBLE') {
+    return (
+      <DashboardNotification type="warning">
+        <strong>NgnixPlus API URL not accessible.</strong>
+
+        <p>
+          Based on the nginx config, nginx-plus API url was identified. Unfortunately, it was not possible to access API
+          location. This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, but can
+          also happen for various other reasons, e.g. port bindings and iptable configurations.
+        </p>
+      </DashboardNotification>
+    );
+  } else if (errorCode === 'API_LOCATION_NOT_FOUND') {
+    return (
+      <DashboardNotification type="warning">
+        <strong>API URL not found.</strong>
+
+        <p>
+          The nginx config file was parsed and no <code>api</code> direction could be found. This directive needs to be
+          configured in order to gather nginx plus metrics. The following snippet shows how to configure{' '}
+          <code>api</code> within an nginx config file.
+        </p>
+
+        <Code code={apiDirectiveSampleConfig} />
+      </DashboardNotification>
+    );
   }
 
   return (
@@ -90,6 +121,16 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Connections Waiting">
           <MetricValue snapshotId={snapshotId} metric="connections.waiting" />
         </KpiKeyValue>
+        {isNginxPlus && (
+          <KpiKeyValue label="Processes respawned">
+            <MetricValue snapshotId={snapshotId} metric="nginx_plus.processes.respawned" />
+          </KpiKeyValue>
+        )}
+        {isNginxPlus && (
+          <KpiKeyValue label="Upstreams failed">
+            <MetricValue snapshotId={snapshotId} metric="nginx_plus.http.upstreams.peers.failed" />
+          </KpiKeyValue>
+        )}
       </KpiSection>
 
       <DashboardSection title="Requests">
@@ -105,6 +146,22 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      {isNginxPlus && (
+        <DashboardSection title="Responses for server zones">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['nginx_plus.http.server_zones.5xx_responses'],
+              labels: ['5xx responses / s'],
+              type: 'line',
+              formatter: twoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      )}
 
       <DashboardSection title="Connections">
         <Chart
@@ -126,6 +183,48 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      {isNginxPlus && (
+        <DashboardSection title="Caches">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'nginx_plus.http.caches.miss.responses',
+                'nginx_plus.http.caches.hit.responses',
+                'nginx_plus.caches.size',
+                'nginx_plus.caches.max_size',
+                'nginx_plus.caches.cold'
+              ],
+              labels: ['Miss responses / s', 'Hit responses / s', 'Caches size', 'Max caches size', '# of cold caches'],
+              type: 'line',
+              formatter: twoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      )}
+
+      {isNginxPlus && (
+        <DashboardSection title="SSL">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'nginx_plus.ssl.handshakes',
+                'nginx_plus.ssl.handshakes_failed',
+                'nginx_plus.ssl.session_reuses'
+              ],
+              labels: ['Handshakes', 'Failed hanshakes', 'Session reuses'],
+              type: 'line',
+              formatter: twoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      )}
     </div>
   );
 }
