@@ -164,11 +164,6 @@ export function ruleFormDefinition(rule) {
         }
       })
     );
-<<<<<<< HEAD
-  form = putWindowField(form, rule);
-  form = putRollupField(form, rule);
-  return putAggregationField(form, rule);
-=======
 
   if (isMetricPercentile(entityType, metricName)) {
     form = putRollupField(form, rule);
@@ -178,7 +173,6 @@ export function ruleFormDefinition(rule) {
   }
 
   return form;
->>>>>>> 1c53c9a... Fix problem that custom issue could not be saved, because form-item was available which was not visible
 }
 
 export default connectTo(
