@@ -15,7 +15,7 @@ export default function AnalyzeMessagesButton({
     <Button
       kind="secondary"
       size="compact"
-      href$={getLinkToAnalyze({ applicationName, serviceName, endpointName, groupByTag })}
+      href$={getLinkToAnalyze({ applicationName, serviceName, endpointName, dataSource: 'calls', groupByTag })}
     >
       Analyze Messages
     </Button>

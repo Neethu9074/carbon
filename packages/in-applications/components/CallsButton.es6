@@ -27,7 +27,7 @@ export default connect(({ applicationId, serviceId }) => {
         endpointName: endpointId
       })}
     >
-      Analyze Calls
+      Analyze Traces
     </Button>
   );
 });

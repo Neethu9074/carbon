@@ -113,7 +113,15 @@ function Message({ message, applicationName, serviceName, endpointName }) {
   const logMessageFilter = { name: 'log.message', value: message };
 
   return (
-    <Link href$={getLinkToAnalyze({ applicationName, serviceName, endpointName, filters: [logMessageFilter] })}>
+    <Link
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        filters: [logMessageFilter]
+      })}
+    >
       {message}
     </Link>
   );

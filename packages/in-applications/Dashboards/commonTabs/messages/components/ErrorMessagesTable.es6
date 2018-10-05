@@ -105,7 +105,15 @@ function Message({ message, applicationName, serviceName, endpointName }) {
   const errorMessageFilter = { name: 'call.error.message', value: message };
 
   return (
-    <Link href$={getLinkToAnalyze({ applicationName, serviceName, endpointName, filters: [errorMessageFilter] })}>
+    <Link
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        filters: [errorMessageFilter]
+      })}
+    >
       {message}
     </Link>
   );

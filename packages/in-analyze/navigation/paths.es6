@@ -2,6 +2,7 @@ import {
   tagFilter as tagFilterMatrixParameter,
   traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
+  dataSource as dataSourceMatrixParameter,
   callId as callIdMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
@@ -18,9 +19,18 @@ export const traceDetailFullyQualified = `${analyze}/trace`;
 
 export const isAnalyzeView = getRootPathPredicate(analyze);
 
-export function getLinkToAnalyze({ applicationName, serviceName, endpointName, filters, groupByTag } = emptyObject) {
+export function getLinkToAnalyze({
+  applicationName,
+  serviceName,
+  endpointName,
+  dataSource = 'traces',
+  filters,
+  groupByTag
+} = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
+
+    setOrDeleteMatrixKey(params, analyze, `callList.${dataSourceMatrixParameter}`, dataSource);
 
     if (groupByTag != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
