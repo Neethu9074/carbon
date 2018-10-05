@@ -1,0 +1,66 @@
+@import '~in-themes/active.less';
+
+:local {
+  .firstRow {
+    background: @lib__colors__N300;
+  }
+
+  .firstRowMaxWidthFullscreenContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.75rem 0;
+  }
+
+  .quickFilterRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .filterRowWrapper {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    padding: 0.5rem 0;
+  }
+
+  .filterRow {
+    margin-bottom: 1rem;
+  }
+
+  .moreFilterLabel {
+    font-weight: 600;
+  }
+
+  .groupRow {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 1rem;
+  }
+
+  .groupByLabel {
+    margin-right: 1rem;
+
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+
+  .changeGroupLabel {
+    margin-left: 0.5rem;
+  }
+
+  .removeGrouping {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    margin-left: 0.3rem;
+    position: relative;
+    top: 1px;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+}

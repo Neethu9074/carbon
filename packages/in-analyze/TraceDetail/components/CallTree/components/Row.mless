@@ -19,7 +19,8 @@
 
   .openedRow,
   .selectedRow {
-    background: @lib__colors__N300;
+    background: #f8f8f8;
+    border-radius: 4px;
   }
 
   .detailGroup {

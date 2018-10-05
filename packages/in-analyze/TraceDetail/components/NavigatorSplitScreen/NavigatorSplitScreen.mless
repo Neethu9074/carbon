@@ -1,0 +1,65 @@
+@import '~in-themes/active.less';
+
+:local {
+  .navigatorSplitScreen {
+    display: flex;
+  }
+
+  .navigator {
+    width: 37.5rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-right: 1px solid #d5dfe4;
+  }
+
+  .traceDetail {
+    width: ~"calc(100% - 37.5rem)";
+
+    &.useFullWidth {
+      width: ~"calc(100% - 3rem)";
+    }
+  }
+
+  .header {
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    padding: 1.62rem 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .toggleBar {
+    width: 3rem;
+    border-right: 1px solid #d5dfe4;
+  }
+
+  .toggleWrapper {
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.63rem 0;
+  }
+
+  .toggle, .next, .prev {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    display: block;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .actions .toggle {
+    margin-left: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+}

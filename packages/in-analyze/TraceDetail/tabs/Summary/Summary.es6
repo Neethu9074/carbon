@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { just, create } from 'reactive-observables';
 import { compose } from 'recompose';
 import React from 'react';
 
@@ -114,15 +114,7 @@ class Summary extends React.Component {
         leftContent={leftContent}
         rightContent={rightContent}
         leftWidth="65%"
-        expandedSide$={
-          callId
-            ? create()
-                .emit(null)
-                .freeze()
-            : create()
-                .emit('left')
-                .freeze()
-        }
+        expandedSide$={callId ? just(null) : just('left')}
       />
     );
   }
@@ -160,13 +152,6 @@ export default compose(
     getMatrixPrefix: () => '',
     boundKeys: [callIdMatrixParameter],
     getInitialState: () => ({ callId: null }),
-    reducerName: 'setCall',
-    resets: [
-      // Reset the call when the trace changes
-      {
-        getResettingProps: () => ['traceId'],
-        onReset: () => ({ callId: null })
-      }
-    ]
+    reducerName: 'setCall'
   })
 )(Summary);

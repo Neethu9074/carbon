@@ -10,18 +10,34 @@ export default connectTo(
   props => ({
     result: props.result$
   }),
-  function TabView({ result, tabs, HeaderComponent, location, props }) {
+  function TabView({
+    result,
+    tabs,
+    HeaderComponent,
+    location,
+    props,
+    withoutBreadcrumb = false,
+    useFullAvailableWidth = false,
+    withoutPadding = false
+  }) {
     return (
       <section>
         <Sticky
           header={
             <div>
-              <BreadcrumbHeader />
-              <Header location={location} tabs={tabs} result={result} props={props} HeaderComponent={HeaderComponent} />
+              {!withoutBreadcrumb && <BreadcrumbHeader />}
+              <Header
+                location={location}
+                tabs={tabs}
+                result={result}
+                props={props}
+                HeaderComponent={HeaderComponent}
+                useFullAvailableWidth={useFullAvailableWidth}
+              />
             </div>
           }
         >
-          <Switch tabs={tabs} result={result} location={location} props={props} />
+          <Switch tabs={tabs} result={result} location={location} props={props} withoutPadding={withoutPadding} />
         </Sticky>
       </section>
     );

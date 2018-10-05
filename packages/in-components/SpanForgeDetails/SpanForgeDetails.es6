@@ -24,12 +24,17 @@ export default class extends React.PureComponent {
     Component: null
   };
 
-  componentWillMount() {
+  componentDidMount() {
+    this.mounted = true;
     this.updateForge(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     this.updateForge(nextProps);
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   updateForge = props => {
@@ -41,10 +46,12 @@ export default class extends React.PureComponent {
     if (detailViewPath) {
       const self = this;
       require(['./forgeDetailProvider.es6'], loadSpanDetailComponent => {
-        self.setState({
-          componentType: type,
-          Component: loadSpanDetailComponent.default(type, detailViewPath)
-        });
+        if (this.mounted) {
+          self.setState({
+            componentType: type,
+            Component: loadSpanDetailComponent.default(type, detailViewPath)
+          });
+        }
       });
     } else if (props.showGroupingDetails) {
       this.setState({

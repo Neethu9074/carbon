@@ -11,20 +11,27 @@ import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ tabs, result, HeaderComponent, location, props }) {
+export default function Header({ tabs, result, HeaderComponent, location, props, useFullAvailableWidth }) {
+  const Wrapper = useFullAvailableWidth ? UseFullAvailableWidth : MaxWidthFullscreenContainer;
   return (
     <div className={locals.header}>
-      <MaxWidthFullscreenContainer>
+      <Wrapper>
         <HeaderComponent result={result} {...props} />
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
           <TabList>
-            {tabs.map(tab => <TabComponent key={tab.label} tab={tab} location={location} props={props} />)}
+            {tabs.map(tab => (
+              <TabComponent key={tab.label} tab={tab} location={location} props={props} />
+            ))}
           </TabList>
         )}
-      </MaxWidthFullscreenContainer>
+      </Wrapper>
       <HorizontalIndicator progress={result.progress} />
     </div>
   );
+}
+
+function UseFullAvailableWidth({ children }) {
+  return <div className={locals.fullWidthWrapper}>{children}</div>;
 }
 
 function TabComponent({ tab, location, props }) {

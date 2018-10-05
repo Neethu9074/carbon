@@ -6,6 +6,7 @@ export default [
     label: 'Summary',
     path: `${traceDetailFullyQualified}/tree`,
     component: Summary,
-    hideTabLabelWhenAlone: true
+    hideTabLabelWhenAlone: true,
+    isFullWidth: true
   }
 ];

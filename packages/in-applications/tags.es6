@@ -169,8 +169,15 @@ const blacklists = {
     'host.snapshotId': true,
     'docker.snapshotId': true,
     'process.snapshotId': true
+  },
+  callGroupBlacklist: {
+    'trace.name': true,
+    'trace.latency': true,
+    'trace.erroneous': true
   }
 };
+
+export const callGroupBlacklist = blacklists.callGroupBlacklist;
 
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {

@@ -7,10 +7,11 @@ import {
   CustomKeySection,
   KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { findSubTreeByFullyQualifiedName, callGroupBlacklist } from 'in-applications/tags';
 
 export default function EditGroupForm(props) {
-  const { form, onChange } = props;
+  const { form, onChange, filters } = props;
+  const isTracesDataSource = filters.get('dataSource') === 'traces';
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
@@ -25,7 +26,7 @@ export default function EditGroupForm(props) {
               {...props}
               field={field}
               messages={nameField.messages}
-              getNodesChildren={getNodesChildren}
+              getNodesChildren={isTracesDataSource ? getTraceGroupNodesChildren : getCallGroupNodesChildren}
             />
           ))}
 
@@ -36,6 +37,10 @@ export default function EditGroupForm(props) {
   );
 }
 
-function getNodesChildren(node, selectedCategory) {
-  return node.getChildren({ category: selectedCategory });
+function getCallGroupNodesChildren(node) {
+  return node.getChildren({ blacklist: callGroupBlacklist });
+}
+
+function getTraceGroupNodesChildren() {
+  return [{ name: 'trace.name' }];
 }

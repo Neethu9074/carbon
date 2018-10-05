@@ -2,10 +2,9 @@
 
 :local {
   .callDetails {
-    max-width: 35rem;
-    padding: 0 1rem 0 1rem;
-    margin-left: 1rem;
-
+    padding: 1.5rem 1.5rem;
+    border-left: 1px solid #d5dfe4;
+    min-height: 100%;
     overflow: hidden;
   }
 }

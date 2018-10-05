@@ -37,6 +37,10 @@
         padding-left: 54px;
       }
     }
+
+    &.active > .td {
+      background: #EFF5F9;
+    }
   }
 
   .trRegular {

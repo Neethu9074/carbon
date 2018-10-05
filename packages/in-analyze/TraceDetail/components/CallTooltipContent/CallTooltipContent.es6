@@ -12,6 +12,7 @@ import {
   NETWORK_TIME_COLOR_OPACITY
 } from 'in-analyze/TraceDetail/components/TimingConstants.es6';
 import { millis } from 'in-services/formatters/number';
+import { shorten } from 'in-services/util/string';
 import Pill from 'in-new-components/Pill';
 
 import locals from './CallTooltipContent.mless';
@@ -48,7 +49,7 @@ export default function CallTooltipContent({ call, getColor }) {
   return (
     <div className={locals.content}>
       <div className={locals.heading}>
-        <span className={locals.headingLabel}>{call.label}</span>
+        <span className={locals.headingLabel}>{shorten(call.label, 32)}</span>
         {call.endpoint && (
           <Fragment>
             <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>

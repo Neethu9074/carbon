@@ -12,7 +12,7 @@ import {
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { getApplicationCreationFilterBlacklist } from 'in-applications/tags';
-import TagFilterList from 'in-analyze/Analyze/components/TagFilterList';
+import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';

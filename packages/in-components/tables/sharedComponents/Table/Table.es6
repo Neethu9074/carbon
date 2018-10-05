@@ -28,13 +28,14 @@ export function Tbody(props) {
 export function Tr(props) {
   return (
     <tr
-      {...props}
+      {...omit(props, ['active'])}
       className={evaluateClassNames({
         [props.className]: true,
         [locals.tr]: true,
         [locals[`depth-${props.depth || 1}`]]: true,
         [locals.trCompact]: props.size === 'compact',
-        [locals.trRegular]: props.size !== 'compact'
+        [locals.trRegular]: props.size !== 'compact',
+        [locals.active]: props.active
       })}
     />
   );

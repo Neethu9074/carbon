@@ -1,5 +1,3 @@
-import { generateUniqueShortId } from 'in-services/util/id';
-
 export function getTagFilterFromUrlString(urlString) {
   const parsedTagFilter = parsedUrlOrDefault(urlString, []);
 
@@ -12,10 +10,6 @@ export function getTagFilterFromUrlString(urlString) {
 }
 
 export function getGroupFromUrlString(urlString) {
-  return parsedUrlOrDefault(urlString, null);
-}
-
-export function getShowRawFromUrlString(urlString) {
   return parsedUrlOrDefault(urlString, null);
 }
 
@@ -32,10 +26,6 @@ export function getTagFilterToUrlString(tagFilter) {
 
 export function getGroupToUrlString(group) {
   return stringifyIfTrue(group, group);
-}
-
-export function getShowRawToUrlString(active) {
-  return stringifyIfTrue(active, active);
 }
 
 function parsedUrlOrDefault(urlString, defaultValue) {
@@ -56,9 +46,7 @@ function stringifyIfTrue(value, condition) {
 }
 
 export function createFilter(config = {}) {
-  const id = config.id || generateUniqueShortId();
   return {
-    id,
     name: config.name || '',
     secondLevelName: config.secondLevelName,
     value: config.value || '',

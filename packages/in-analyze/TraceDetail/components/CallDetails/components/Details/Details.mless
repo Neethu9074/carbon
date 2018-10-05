@@ -1,6 +1,6 @@
 :local {
   .forgeDetailsWrapper {
     padding: 0.4rem 1rem;
-    background: #e4faff;
+    background: #f8f8f8;
   }
 }

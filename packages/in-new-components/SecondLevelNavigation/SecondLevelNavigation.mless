@@ -1,0 +1,59 @@
+@import '~in-themes/active.less';
+
+:local {
+  .nav {
+    background: @lib__colors__navy800;
+    font-size: 22px;
+    font-weight: lighter;
+    overflow: hidden;
+  }
+
+  .tabList {
+    display: flex;
+    align-items: flex-end;
+
+    height: 4rem;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+
+    font-size: 1rem;
+    padding: 0 1rem 0.75rem;
+    border-bottom: 3px solid transparent;
+
+    &:hover {
+      border-bottom: 3px solid #fff;
+
+      .icon {
+        fill: #fff;
+      }
+    }
+  }
+
+  .tabSelected {
+    color: #fff;
+    border-bottom: 3px solid #fff;
+    cursor: default;
+
+    .icon {
+      fill: #fff;
+    }
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: #ffffff8f;
+  }
+
+  .link {
+    text-decoration: none;
+    color: #ffffff8f;
+
+    &:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+}
