@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mediaQueries.less';
 
 :local {
   .navigatorSplitScreen {
@@ -6,17 +7,27 @@
   }
 
   .navigator {
-    width: 37.5rem;
+    width: 20rem;
     flex-grow: 0;
     flex-shrink: 0;
     border-right: 1px solid #d5dfe4;
   }
 
   .traceDetail {
-    width: ~"calc(100% - 37.5rem)";
+    width: ~"calc(100% - 20rem)";
 
     &.useFullWidth {
       width: ~"calc(100% - 3rem)";
+    }
+  }
+
+  @media @min-medium-screen {
+    .navigator {
+      width: 37.5rem;
+    }
+
+    .traceDetail {
+      width: ~"calc(100% - 37.5rem)";
     }
   }
 

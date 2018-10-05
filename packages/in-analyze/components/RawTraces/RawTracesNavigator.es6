@@ -1,3 +1,4 @@
+import { compose } from 'recompose';
 import React from 'react';
 
 import {
@@ -13,6 +14,10 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
+import {
+  getResponsiveNavigatorMode,
+  showAllColumns as showAllColumnsKey
+} from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
@@ -21,7 +26,9 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 
-export default function RawTracesNavigator({
+export default compose(getResponsiveNavigatorMode)(RawTracesNavigator);
+
+function RawTracesNavigator({
   items,
   errors,
   progress,
@@ -30,9 +37,12 @@ export default function RawTracesNavigator({
   orderBy,
   orderDirection,
   onChangeOrder,
-  location
+  location,
+  navigatorMode
 }) {
   const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
+  const showAllColumns = navigatorMode === showAllColumnsKey;
+
   return (
     <HeightRestrictedView
       render={() => (
@@ -41,16 +51,18 @@ export default function RawTracesNavigator({
             <Tr size="compact">
               <Th>Trace</Th>
 
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="DESC"
-                technicalName="timestamp"
-                label="Timestamp"
-              />
+              {showAllColumns && (
+                <SortableCallColumn
+                  orderBy={orderBy}
+                  orderDirection={orderDirection}
+                  onChangeOrder={onChangeOrder}
+                  defaultDirection="DESC"
+                  technicalName="timestamp"
+                  label="Timestamp"
+                />
+              )}
 
-              <Th>Latency</Th>
+              {showAllColumns && <Th>Latency</Th>}
             </Tr>
           </Thead>
           <Tbody>
@@ -60,18 +72,20 @@ export default function RawTracesNavigator({
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </Td>
 
-                <Td>{formatDateTime(item.trace.startTime)}</Td>
+                {showAllColumns && <Td>{formatDateTime(item.trace.startTime)}</Td>}
 
-                <Td>
-                  <span>{millis.fixedCompact(item.trace.duration)}</span>
-                </Td>
+                {showAllColumns && (
+                  <Td>
+                    <span>{millis.fixedCompact(item.trace.duration)}</span>
+                  </Td>
+                )}
               </Tr>
             ))}
 
-            <HorizontalIndicatorRow cols={3} progress={progress} />
-            <ErrorRows cols={3} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={3} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={3} />}
+            <HorizontalIndicatorRow cols={showAllColumns ? 3 : 1} progress={progress} />
+            <ErrorRows cols={showAllColumns ? 3 : 1} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={showAllColumns ? 3 : 1} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={showAllColumns ? 3 : 1} />}
           </Tbody>
         </Table>
       )}

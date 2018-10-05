@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 import {
   Table,
@@ -13,6 +14,10 @@ import {
   LoadMoreRow,
   Link
 } from 'in-components/tables/sharedComponents';
+import {
+  getResponsiveNavigatorMode,
+  showAllColumns as showAllColumnsKey
+} from 'in-analyze/components/getResponsiveNavigatorMode';
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
@@ -23,7 +28,9 @@ import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
-export default function RawCallsNavigator({
+export default compose(getResponsiveNavigatorMode)(RawCallsNavigator);
+
+function RawCallsNavigator({
   items,
   errors,
   progress,
@@ -32,10 +39,13 @@ export default function RawCallsNavigator({
   orderBy,
   orderDirection,
   onChangeOrder,
-  location
+  location,
+  navigatorMode
 }) {
   const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const selectedCallId = getMatrixParameter(location, traceDetail, callIdMatrixParameter);
+  const showAllColumns = navigatorMode === showAllColumnsKey;
+
   return (
     <HeightRestrictedView
       render={() => (
@@ -44,16 +54,18 @@ export default function RawCallsNavigator({
             <Tr size="compact">
               <Th>Call</Th>
 
-              <SortableCallColumn
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                onChangeOrder={onChangeOrder}
-                defaultDirection="DESC"
-                technicalName="timestamp"
-                label="Timestamp"
-              />
+              {showAllColumns && (
+                <SortableCallColumn
+                  orderBy={orderBy}
+                  orderDirection={orderDirection}
+                  onChangeOrder={onChangeOrder}
+                  defaultDirection="DESC"
+                  technicalName="timestamp"
+                  label="Timestamp"
+                />
+              )}
 
-              <Th>Latency</Th>
+              {showAllColumns && <Th>Latency</Th>}
             </Tr>
           </Thead>
           <Tbody>
@@ -80,18 +92,20 @@ export default function RawCallsNavigator({
                   </Link>
                 </Td>
 
-                <Td>{formatDateTime(item.call.started)}</Td>
+                {showAllColumns && <Td>{formatDateTime(item.call.started)}</Td>}
 
-                <Td>
-                  <span>{millis.fixedCompact(item.call.duration)}</span>
-                </Td>
+                {showAllColumns && (
+                  <Td>
+                    <span>{millis.fixedCompact(item.call.duration)}</span>
+                  </Td>
+                )}
               </Tr>
             ))}
 
-            <HorizontalIndicatorRow cols={3} progress={progress} />
-            <ErrorRows cols={3} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={3} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={3} />}
+            <HorizontalIndicatorRow cols={showAllColumns ? 3 : 1} progress={progress} />
+            <ErrorRows cols={showAllColumns ? 3 : 1} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={showAllColumns ? 3 : 1} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={showAllColumns ? 3 : 1} />}
           </Tbody>
         </Table>
       )}
