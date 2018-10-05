@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -52,17 +54,28 @@ function Header(props) {
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
+  const endpointType = result.data ? result.data.type : undefined;
   return (
-    <CallsButton
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      timeConfig={timeConfig}
-      backButtonLabels={{
-        label1: 'Endpoint',
-        label2: result.data ? result.data.label : 'Dashboard'
-      }}
-    />
+    <Fragment>
+      <CallsButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        backButtonLabels={{
+          label1: 'Endpoint',
+          label2: result.data ? result.data.label : 'Dashboard'
+        }}
+      />
+      <ApplicationEntityHealthIndicatorBehavior
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        endpointType={endpointType}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 

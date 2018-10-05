@@ -1,11 +1,15 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import { get } from 'lodash';
 
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
@@ -155,6 +159,14 @@ function getTableData({
         metric: 'errors',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
       }
     }
   });
@@ -236,6 +248,25 @@ const columnDefinitions = [
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.detailed}
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig, serviceId }) {
+      return (
+        <ApplicationEntityHealthIndicatorBehavior
+          serviceId={serviceId}
+          endpointId={item.endpoint.id}
+          endpointType={item.endpoint.type}
+          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
+          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          inContentArea
         />
       );
     }

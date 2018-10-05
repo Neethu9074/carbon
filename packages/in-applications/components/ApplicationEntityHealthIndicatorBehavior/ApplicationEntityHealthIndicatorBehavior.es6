@@ -2,21 +2,23 @@ import React from 'react';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import { combineEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, openIssues, maxSeverity, timeConfig }) => {
+  ({ applicationId, serviceId, endpointId, endpointType, openIssues, maxSeverity, timeConfig }) => {
     // openIssues and maxSeverity may be provided externally in cases where this component is used in lists.
     if (openIssues != null && maxSeverity != null) {
       return {};
     }
 
+    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
     const healthInfo$ = getApplicationEntityHealthInfo({
       applicationId,
       serviceId,
-      endpointId,
+      endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
       timeConfig
     }).filter(healthInfo => healthInfo.data != null);
 
@@ -46,13 +48,14 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
   );
 }
 
-function Content({ applicationId, serviceId, endpointId, timeConfig, close }) {
+function Content({ applicationId, serviceId, endpointId, endpointType, timeConfig, close }) {
   return (
     <ApplicationEntityOpenIssuesList
       close={close}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
+      endpointType={endpointType}
       timeConfig={timeConfig}
     />
   );
