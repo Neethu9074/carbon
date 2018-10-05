@@ -1,6 +1,6 @@
 import { compose, withPropsOnChange } from 'recompose';
+import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import React from 'react';
 
 import {
   dataSource as dataSourceMatrixParameter,
@@ -15,6 +15,7 @@ import {
 } from 'in-analyze/filterBuilder';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
@@ -92,21 +93,29 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { filters, isRawView, isTracesDataSource } = props;
+  const { activeDialog, filters, isRawView, isTracesDataSource } = props;
 
+  let view;
   if (isRawView) {
     if (isTracesDataSource) {
-      return <RawTraces {...props} filters={filters} />;
+      view = <RawTraces {...props} filters={filters} />;
     } else {
-      return <RawCalls {...props} filters={filters} />;
+      view = <RawCalls {...props} filters={filters} />;
     }
   } else {
     if (isTracesDataSource) {
-      return <GroupedTraces {...props} filters={filters} />;
+      view = <GroupedTraces {...props} filters={filters} />;
     } else {
-      return <GroupedCalls {...props} filters={filters} />;
+      view = <GroupedCalls {...props} filters={filters} />;
     }
   }
+
+  return (
+    <Fragment>
+      {activeDialog && <DisabledBodyScroll />}
+      {view}
+    </Fragment>
+  );
 }
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
