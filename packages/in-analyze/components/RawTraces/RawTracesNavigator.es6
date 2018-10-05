@@ -56,7 +56,7 @@ export default function RawTracesNavigator({
           <Tbody>
             {items.map(item => (
               <Tr key={item.trace.id} size="compact" active={item.trace.id === selectedTraceId}>
-                <Td>
+                <Td active={item.trace.id === selectedTraceId}>
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </Td>
 

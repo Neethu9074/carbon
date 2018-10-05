@@ -63,7 +63,7 @@ function Default() {
                 <Td>3</Td>
               </Tr>
               <Tr active>
-                <Td>
+                <Td active>
                   <SeverityIndicatorCellContentWrapper severity={0}>Active row</SeverityIndicatorCellContentWrapper>
                 </Td>
                 <Td>1</Td>

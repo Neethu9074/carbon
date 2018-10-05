@@ -76,7 +76,7 @@ export default function RawCallsNavigator({
                 size="compact"
                 active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
               >
-                <Td>
+                <Td active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}>
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}
                     {item.call.batchCount > 1 && (

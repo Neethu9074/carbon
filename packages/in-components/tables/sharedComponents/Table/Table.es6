@@ -61,13 +61,14 @@ export function Td(props) {
   }
   return (
     <td
-      {...omit(props, ['noWrap', 'ellipsis'])}
+      {...omit(props, ['noWrap', 'ellipsis', 'active'])}
       style={style}
       className={evaluateClassNames({
         [props.className]: true,
         [locals.td]: true,
         [locals.noWrap]: props.noWrap,
-        [locals.ellipsis]: props.ellipsis
+        [locals.ellipsis]: props.ellipsis,
+        [locals.active]: props.active
       })}
     />
   );
