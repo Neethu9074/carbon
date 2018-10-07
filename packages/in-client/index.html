@@ -13,8 +13,8 @@
   <title>Instana</title>
 
   <script>
-window.instana = {};
-</script>
+    window.instana = {};
+  </script>
   <script>
     window.instana.user = <!--#include virtual="/api/checkUserAccessPermitted" -->;
   </script>
@@ -24,12 +24,14 @@ window.instana = {};
     window.instana.searchFields = <!--#include virtual="/api/search/fields" -->;
     window.instana.settings = <!--#include virtual="/api/ui/settings" -->;
     window.instana.tags = <!--#include virtual="/api/tags" -->;
-  </script>
+    // de locale for testing purposes. Main difference to en-US: Decimal and thousands separator are swapped
+    // window.instana.numberLocale = {
+    //   "decimal": ",",
+    //   "thousands": ".",
+    //   "grouping": [3],
+    //   "currency": ["", "\u00a0€"]
+    // };
 
-  <script>
-    fetch('/api/csrf/token')
-      .then(response => window.instana.csrf = {token: response.headers.get('x-csrf-token')})
-      .catch(err => console.error('Failed to retrieve CSRF token', err));
   </script>
 
   <script>

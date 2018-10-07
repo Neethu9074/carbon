@@ -4,6 +4,7 @@ const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
 
+const getNumberLocaleDefinition = require('../services/numberLocale');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
@@ -209,7 +210,8 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       searchFields: searchFieldsStr,
       settings: userSettings,
       tags: filterTags,
-      csrf
+      csrf,
+      numberLocale: getNumberLocaleDefinition(req)
     })
   );
 }

@@ -22,11 +22,11 @@ describe('metrics', () => {
     });
 
     it('should format bytes to whateverBytes', () => {
-      expect(getFormattedValue('memory.free', snapshot, 1024)).to.equal('0 B');
+      expect(getFormattedValue('memory.free', snapshot, 1024)).to.equal('0.00 B');
     });
 
     it('should format bytes to whateverBytes', () => {
-      expect(getFormattedValue('memory.free', snapshot, 512)).to.equal('512 B');
+      expect(getFormattedValue('memory.free', snapshot, 512)).to.equal('512.00 B');
     });
 
     it('should format normalized to normalized', () => {

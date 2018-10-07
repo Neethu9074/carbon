@@ -27,7 +27,7 @@ export default class extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.settingsSubscription = settings$.subscribe(_settings =>
       this.setState({
         settings: _settings
@@ -52,6 +52,10 @@ export default class extends React.Component {
 
   render() {
     const { settings } = this.state;
+    if (!settings) {
+      return null;
+    }
+
     return (
       <SubViewWrapper>
         <Title title="User Interface Settings" />
@@ -93,7 +97,8 @@ export default class extends React.Component {
             helpText={
               <span>
                 <span className={`${block}__warning`}>
-                  Requires browser refresh to become active.<br />
+                  Requires browser refresh to become active.
+                  <br />
                 </span>
                 Define how often tables with live metrics should be refreshed. Ranges from once per second to once every
                 ten seconds. Current refresh rate is once every {settings['tables_refreshRate'] / 1000} second(s).
@@ -125,6 +130,25 @@ export default class extends React.Component {
               id="format-time"
               checked={settings['formatTimestampsAsUtc']}
               onChange={e => this.saveSetting('formatTimestampsAsUtc', e.target.checked)}
+            />
+          </Group>
+
+          <Group
+            helpText={
+              <span>
+                <span className={`${block}__warning`}>Requires browser refresh to become active.</span>
+                <br />
+                By default we will attempt to format numbers in your preferred locale
+                {`'`}s format. By checking this, you can force an <code>en-US</code> number format.
+              </span>
+            }
+            isWarning
+          >
+            <Heading text="Format numbers in en-US format" htmlFor="format-numbers" />
+            <Toggle
+              id="format-numbers"
+              checked={settings['formatNumbersAccordingToEnUs'] || false}
+              onChange={e => this.saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
             />
           </Group>
         </Section>

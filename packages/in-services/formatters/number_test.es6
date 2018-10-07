@@ -40,7 +40,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(twoDecimalPlaces(1 / 5 * 3)).to.equal('0.60');
+      expect(twoDecimalPlaces((1 / 5) * 3)).to.equal('0.60');
     });
   });
 
@@ -59,7 +59,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(percentageTwoDecimalPlaces(1 / 5 * 3 / 100)).to.equal('0.60%');
+      expect(percentageTwoDecimalPlaces(((1 / 5) * 3) / 100)).to.equal('0.60%');
     });
   });
 
@@ -74,7 +74,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(bytesTwoDecimalPlaces(1 / 5 * 3)).to.equal('0.60 B');
+      expect(bytesTwoDecimalPlaces((1 / 5) * 3)).to.equal('0.60 B');
     });
   });
 
@@ -151,7 +151,7 @@ describe('in-services.formatter.number', () => {
 
     it('should handle fractions correctly', () => {
       // 1/5 * 3 is 0.6000000000000001
-      expect(withSiMultiplyPrefixThreeDecimalPlaces(1 / 5 * 3)).to.equal('0.600');
+      expect(withSiMultiplyPrefixThreeDecimalPlaces((1 / 5) * 3)).to.equal('0.600');
     });
 
     it('should support negative values', () => {
@@ -203,7 +203,7 @@ describe('in-services.formatter.number', () => {
     expect(bytesPerSecondZeroDecimalPlaces(null)).to.equal('0 B/s');
     expect(bytesTwoDecimalPlaces(null)).to.equal('0.00 B');
     expect(bytesZeroDecimalPlaces(null)).to.equal('0 B');
-    expect(kiloBytesTwoDecimalPlaces(null)).to.equal('0 B');
+    expect(kiloBytesTwoDecimalPlaces(null)).to.equal('0.00 B');
     expect(kiloBytesZeroDecimalPlaces(null)).to.equal('0 B');
     expect(msZeroDecimalPlaces(null)).to.equal('0ms');
     expect(muSecondsToMillisZeroDecimalPlaces(null)).to.equal('0ms');

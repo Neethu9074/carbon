@@ -1,5 +1,6 @@
 import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
+import { get } from 'lodash';
 
 import { saveSettings } from 'in-api/settings';
 const logger = createLogger('SearchBar/stores/filers');
@@ -30,6 +31,12 @@ export function set(settings) {
 
 export function toggleIn(key) {
   saveProperty(key, !window.instana.settings[key]);
+}
+
+// Usage discouraged because you will not get informed about settings changes. Consider using
+// getSettings$
+export function getSetting(key, fallback) {
+  return get(window, ['instana', 'settings', key], fallback);
 }
 
 export function getSetting$(key) {

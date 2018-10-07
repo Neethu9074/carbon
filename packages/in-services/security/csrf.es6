@@ -19,13 +19,15 @@ export function getHeader() {
 
 export function init() {
   interval(1000 * 60)
-    .flatMap(() =>
-      http({
-        method: 'GET',
-        url: '/api/csrf/token',
-        maxRetries: 5
-      })
-    )
-    .map(response => response.getHeader('X-CSRF-TOKEN'))
+    .flatMap(getCsrfToken)
+    .merge(getCsrfToken())
     .subscribe(_token => (token = _token));
+}
+
+function getCsrfToken() {
+  return http({
+    method: 'GET',
+    url: '/api/csrf/token',
+    maxRetries: 5
+  }).map(response => response.getHeader('X-CSRF-TOKEN'));
 }

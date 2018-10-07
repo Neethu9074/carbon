@@ -1,7 +1,11 @@
-import { format } from 'd3-format';
-import { repeat } from 'lodash';
+import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 
+import { getSetting } from 'in-services/settings';
+
+const isLocaleAware = !getSetting('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
+const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;
 const byteBase = 1024;
+const decimalSeparator = isLocaleAware ? window.instana.numberLocale.decimal : '.';
 
 export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
@@ -37,8 +41,8 @@ export const percentagePlain = {
   detailed: percentagePlainTwoDecimalPlaces
 };
 
-export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
-export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
+export const bytesZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces);
+export const bytesTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces);
 export const bytes = {
   compact: bytesZeroDecimalPlaces,
   detailed: bytesTwoDecimalPlaces,
@@ -77,18 +81,18 @@ export const minutes = {
   detailed: timeByMinutesTwoDecimalPlaces
 };
 
-export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
-export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
+export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
+export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
 
-export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, 0);
-export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
+export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, zeroDecimalPlaces);
+export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, twoDecimalPlaces);
 export const kiloBytes = {
   compact: kiloBytesZeroDecimalPlaces,
   detailed: kiloBytesTwoDecimalPlaces
 };
 
-export const megaBytesZeroDecimalPlaces = d => formatBytes(d * byteBase * byteBase, 0);
-export const megaBytesTwoDecimalPlaces = d => formatBytes(d * byteBase * byteBase, 2);
+export const megaBytesZeroDecimalPlaces = d => formatBytes(d * byteBase * byteBase, zeroDecimalPlaces);
+export const megaBytesTwoDecimalPlaces = d => formatBytes(d * byteBase * byteBase, twoDecimalPlaces);
 export const megaBytes = {
   compact: megaBytesZeroDecimalPlaces,
   detailed: megaBytesTwoDecimalPlaces
@@ -96,6 +100,7 @@ export const megaBytes = {
 
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
+const withSiPrefixZeroDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)(\\${decimalSeparator}(\\d+))?(.*)$`, 'i');
 export const withSiPrefixZeroDecimalPlaces = d => {
   if (d == null) {
     d = 0;
@@ -104,7 +109,7 @@ export const withSiPrefixZeroDecimalPlaces = d => {
     return siPrefixZeroDecimalPlacesFormatRuleForSmallValues(d);
   }
   const s = siPrefixZeroDecimalPlacesFormatRule(d);
-  const match = s.match(/^(-|\+)?(\d+)(\.(\d+))?(.*)$/i);
+  const match = s.match(withSiPrefixZeroDecimalPlacesRegExp);
 
   const sign = match[1] || '';
   const major = match[2];
@@ -114,9 +119,10 @@ export const withSiPrefixZeroDecimalPlaces = d => {
 };
 
 const siPrefixThreeDecimalPlacesFormatRule = format(',.6s');
+const withSiPrefixThreeDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)\\${decimalSeparator}(\\d+)(.*)$`, 'i');
 export const withSiPrefixThreeDecimalPlaces = d => {
   const s = siPrefixThreeDecimalPlacesFormatRule(d);
-  const match = s.match(/^(-|\+)?(\d+)\.(\d+)(.*)$/i);
+  const match = s.match(withSiPrefixThreeDecimalPlacesRegExp);
 
   const sign = match[1] || '';
   const major = match[2];
@@ -131,7 +137,7 @@ export const withSiPrefixThreeDecimalPlaces = d => {
     minor = minor.substring(0, 3);
   }
 
-  return `${sign}${major}.${minor}${prefix}`;
+  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
 };
 export const siPrefix = {
   compact: withSiPrefixZeroDecimalPlaces,
@@ -221,16 +227,14 @@ export const health = {
  * number to something like 10 Mb or 834.5 Gb.
  *
  * @param {number} num - The amount on bytes that should be formatted.
- * @param {number} numberOfDecimalPlaces - The desired number of decimal places
+ * @param {number} numberFormatter - The formatter to use when formatting the number. Defines
+ *  decimal separators, number of decimal places etc.
  * @returns {string} Human readable amount of bytes, e.g. 10 Mb
  * @throws An error when the bytes are NaN
  */
-function formatBytes(num, numberOfDecimalPlaces = 2) {
+function formatBytes(num, numberFormatter) {
   if (typeof num !== 'number' || isNaN(num)) {
-    if (numberOfDecimalPlaces > 0) {
-      return `0.${repeat('0', numberOfDecimalPlaces)} B`;
-    }
-    return '0 B';
+    return numberFormatter(0) + ' B';
   }
   let exponent;
   let unit;
@@ -242,11 +246,11 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   }
 
   if (num < 1) {
-    return (neg ? '-' : '') + (num === 0 ? '0' : num.toFixed(numberOfDecimalPlaces)) + ' B';
+    return (neg ? '-' : '') + numberFormatter(num) + ' B';
   }
 
   exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
-  num = (num / Math.pow(byteBase, exponent)).toFixed(numberOfDecimalPlaces) * 1;
+  num = numberFormatter(num / Math.pow(byteBase, exponent));
   unit = units[exponent];
 
   return (neg ? '-' : '') + num + ' ' + unit;
