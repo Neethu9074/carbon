@@ -15,5 +15,8 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'JBoss',
     plural: 'JBoss'
+  },
+  technologyDescriptor: {
+    label: 'JBoss'
   }
 });
