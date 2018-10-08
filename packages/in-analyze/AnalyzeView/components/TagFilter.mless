@@ -43,14 +43,6 @@
     .ellipsis();
   }
 
-  .operator {
-    margin-left: 0.5rem;
-    padding: 0.125rem 0.25rem;
-    border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
-    color: @lib__colors__N500;
-  }
-
   .value {
     margin-left: 0.5rem;
     color: @lib__colors__N900Primary;

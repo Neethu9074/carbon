@@ -1,17 +1,17 @@
 import React from 'react';
 
+import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import SvgIcon from 'in-components/SvgIcon';
-import Pill from 'in-new-components/Pill';
-import theme from 'in-themes/theme';
 
 import locals from './TagFilter.mless';
 
 export default function TagFilter({
   tagFilter,
   isFirstOperator,
-  filterConnectionOperator,
+  filterConnectionOperators,
+  selectedOperator,
   isLastOperator,
   isOnlyFilter
 }) {
@@ -33,21 +33,25 @@ export default function TagFilter({
       </div>
 
       {!isLastOperator &&
-        filterConnectionOperator &&
+        filterConnectionOperators &&
         isFirstOperator && (
           <div className={locals.firstOperatorPlaceholder}>
-            <Pill className={locals.operator} color={theme.lib.colors.N400}>
-              {filterConnectionOperator}
-            </Pill>
+            <FilterOperator
+              operators={filterConnectionOperators}
+              selectedOperator={selectedOperator}
+              onOperatorChanged={onOperatorChanged}
+            />
           </div>
         )}
-      {filterConnectionOperator &&
+      {filterConnectionOperators &&
         !isLastOperator &&
         !isFirstOperator && (
           <div className={locals.operatorPlaceholder}>
-            <Pill className={locals.operator} color={theme.lib.colors.N400}>
-              {filterConnectionOperator}
-            </Pill>
+            <FilterOperator
+              operators={filterConnectionOperators}
+              selectedOperator={selectedOperator}
+              onOperatorChanged={onOperatorChanged}
+            />
           </div>
         )}
       {isLastOperator && !isOnlyFilter && <div className={locals.lastOperatorPlaceholder} />}

@@ -1,0 +1,43 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      .expandIcon {
+        fill: @lib__colors__N500;
+      }
+    }
+  }
+
+  .operator {
+    margin-left: 0.5rem;
+    padding: 0.125rem 0.25rem;
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+    color: @lib__colors__N500;
+  }
+
+  .expandIcon {
+    fill: @lib__colors__N400;
+  }
+
+  .operatorList {
+    margin: 0.5rem;
+    padding: 0;
+  }
+
+  .operatorListItem {
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem;
+    list-style: none;
+    background: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__N100;
+    }
+  }
+}

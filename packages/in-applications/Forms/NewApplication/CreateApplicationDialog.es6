@@ -141,7 +141,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       </div>
 
                       <TagFilterList
-                        filterConnectionOperator="OR"
+                        filterConnectionOperator={['OR', 'AND']}
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
                           tag: {
                             name: matchSpecification.get('key').value,
