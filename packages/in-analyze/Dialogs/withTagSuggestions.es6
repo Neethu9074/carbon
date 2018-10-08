@@ -92,6 +92,7 @@ export default () => ComposedComponent => {
         !node ||
         node.type == TAG_TYPES.NUMBER.technicalName || // no value suggestion for number type tag
         node.type == TAG_TYPES.BOOLEAN.technicalName || // no value suggestion for boolean type tag
+        node.name == 'trace.id' || // no value suggestion for trace.id tag
         (node.type == TAG_TYPES.KEY_VALUE_PAIR.technicalName && !custom2ndLevelName)
       ) {
         this.setState({ tagSuggestionResult: null });

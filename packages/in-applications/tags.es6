@@ -144,13 +144,13 @@ const blacklists = {
     'service.id': true,
     'endpoint.id': true,
     'process.id': true,
-    'trace.id': true,
     'docker.container.id': true,
     'host.snapshotId': true,
     'docker.snapshotId': true,
     'process.snapshotId': true
   },
   callGroupBlacklist: {
+    'trace.id': true,
     'trace.name': true,
     'trace.latency': true,
     'trace.erroneous': true
