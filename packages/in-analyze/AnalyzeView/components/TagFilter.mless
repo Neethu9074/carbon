@@ -51,7 +51,7 @@
   }
 
   .removeIcon {
-    margin-left: 1rem;
+    margin-left: 2rem;
     fill: @lib__colors__N400;
     cursor: pointer;
 

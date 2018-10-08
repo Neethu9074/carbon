@@ -11,7 +11,7 @@ export default function TagFilter({
   tagFilter,
   isFirstOperator,
   filterConnectionOperators,
-  selectedOperator,
+  onOperatorChanged,
   isLastOperator,
   isOnlyFilter
 }) {
@@ -38,7 +38,7 @@ export default function TagFilter({
           <div className={locals.firstOperatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
-              selectedOperator={selectedOperator}
+              selectedOperator={tagFilter.tag.test}
               onOperatorChanged={onOperatorChanged}
             />
           </div>
@@ -49,7 +49,7 @@ export default function TagFilter({
           <div className={locals.operatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
-              selectedOperator={selectedOperator}
+              selectedOperator={tagFilter.tag.test}
               onOperatorChanged={onOperatorChanged}
             />
           </div>

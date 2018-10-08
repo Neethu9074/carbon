@@ -21,7 +21,7 @@ export default function FilterOperator({ selectedOperator, operators, onOperator
       {({ toggle, isOpen }) => (
         <div className={locals.wrapper} onClick={toggle}>
           <Pill className={locals.operator} color={theme.lib.colors.N400}>
-            {operators[0]}
+            {selectedOperator}
           </Pill>
           <SvgIcon
             className={locals.expandIcon}

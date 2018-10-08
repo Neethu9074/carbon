@@ -119,11 +119,12 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                 filters={filters}
                                 blacklist={getApplicationCreationFilterBlacklist()}
                                 onSave={_tag => {
-                                  const additionalSubForm = getMatchSpecificationForm({
+                                  const additionalSubForm = getEnrichedMatchSpecificationForm({
                                     key: _tag.name,
                                     secondLevelName: _tag.secondLevelName,
                                     value: _tag.value,
-                                    operator: _tag.operator
+                                    operator: _tag.operator,
+                                    test: _tag.test
                                   });
                                   updateForm(
                                     form.updateIn(['matchSpecification'], list =>
@@ -141,13 +142,21 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       </div>
 
                       <TagFilterList
-                        filterConnectionOperator={['OR', 'AND']}
+                        filterConnectionOperators={['OR', 'AND']}
+                        onOperatorChanged={(i, operator) => {
+                          updateForm(
+                            form.updateIn(['matchSpecification', i, 'test'], field =>
+                              field.setValue(operator).setTouched(true)
+                            )
+                          );
+                        }}
                         tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
                           tag: {
                             name: matchSpecification.get('key').value,
                             value: matchSpecification.get('value').value,
                             operator: matchSpecification.get('operator').value,
-                            secondLevelName: matchSpecification.get('secondLevelName').value
+                            secondLevelName: matchSpecification.get('secondLevelName').value,
+                            test: matchSpecification.get('test').value
                           },
                           onClick: () =>
                             setActiveDialog(
@@ -215,12 +224,21 @@ function getInitialForm(application) {
     .put(
       'matchSpecification',
       get(application, 'matchSpecification', []).reduce(
-        (form, matchSpecification) => form.push(getMatchSpecificationForm(matchSpecification)),
+        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
         createListForm({
           validator: matchSpecificationValidator
         })
       )
     );
+}
+
+function getEnrichedMatchSpecificationForm(matchSpecification) {
+  return getMatchSpecificationForm(matchSpecification).put(
+    'test',
+    createField({
+      value: get(matchSpecification, 'test', 'AND')
+    })
+  );
 }
 
 function applicationLabelValidator(name) {
