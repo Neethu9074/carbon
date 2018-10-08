@@ -73,9 +73,13 @@ unvalidatedQuery$
 unvalidatedQuery$
   .map(contextQuery => {
     try {
-      const parsedQuery = parse(contextQuery.query);
+      let query = contextQuery.query.trim();
+      if (query.length < 4) {
+        query = '';
+      }
+      const parsedQuery = parse(query);
       return {
-        query: contextQuery.query.trim(),
+        query,
         searchContext: contextQuery.searchContext,
         parsedQuery,
         error: null

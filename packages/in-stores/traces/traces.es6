@@ -3,13 +3,16 @@ import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/Ent
 import createTotalTraceCountObservable from 'in-subscription/totalTraceCount';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
+import { query$ } from 'in-stores/search/query';
 import getTrace from 'in-subscription/getTrace';
 
-export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
+export const totalTraceCountActiveFilter$ = query$
+  // increasing debounce to have fewer db queries
+  .debounce(1000)
+  .flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
 
 export function getNumberOfTracesStartingAtService(serviceId) {
   return getTraceCount(`trace.startingAt:"${serviceId}"`);
