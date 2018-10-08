@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
 import { withState } from 'recompose';
+import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { millis, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -23,16 +22,10 @@ function GroupMetricsChart({
   selectedChart,
   setSelectedChart
 }) {
-  if (errors.length > 0) {
-    // the errors of this loading stage will be rendered by the call group table, no need to render them twice.
+  if (errors.length > 0 || progress.loading) {
+    // the errors and progress information of this chart will be rendered by the call group table, no need to
+    // render them twice.
     return null;
-  } else if (progress.loading) {
-    return (
-      <Fragment>
-        <HorizontalIndicator progress={progress} />
-        <div className={locals.whitespace} />
-      </Fragment>
-    );
   } else if (!items || items.length === 0 || !items[0].metrics.latency) {
     // No groups found or no chart metrics found, just omit the charts element.
     return null;
