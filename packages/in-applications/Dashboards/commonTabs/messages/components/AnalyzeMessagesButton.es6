@@ -7,14 +7,15 @@ export default function AnalyzeMessagesButton({
   groupByTagName,
   applicationName,
   serviceName,
-  endpointId: endpointName
+  endpointId: endpointName,
+  className
 }) {
   const groupByTag = { name: groupByTagName };
 
   return (
     <Button
+      className={className}
       kind="secondary"
-      size="compact"
       href$={getLinkToAnalyze({ applicationName, serviceName, endpointName, dataSource: 'calls', groupByTag })}
     >
       Analyze Messages

@@ -1,12 +1,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -15,17 +12,7 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null
   }),
   function LogMessages(props) {
-    return (
-      <MaxWidthFullscreenContainer>
-        <Card
-          title="Log Messages"
-          header={<AnalyzeMessagesButton groupByTagName="log.message" {...props} />}
-          withoutPadding
-        >
-          <LogMessagesTable {...props} />
-        </Card>
-      </MaxWidthFullscreenContainer>
-    );
+    return <LogMessagesTable {...props} />;
   }
 );
 

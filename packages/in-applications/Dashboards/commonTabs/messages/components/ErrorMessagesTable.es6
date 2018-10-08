@@ -1,14 +1,18 @@
 import React from 'react';
 
+import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-subscription/application/getErrorMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import ServerTable from 'in-components/tables/ServerTable';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
-import locals from './ErrorMessagesTable.mless';
+import locals from './MessagesTable.mless';
+
+const pathSegment = '/errorMessages';
+const matrixPrefix = 'error.';
 
 export default function ErrorMessagesTable({
   applicationId,
@@ -19,10 +23,12 @@ export default function ErrorMessagesTable({
   serviceName
 }) {
   return (
-    <ServerTable
+    <ServerTableWithUrlBoundState
+      pathSegment={pathSegment}
+      matrixPrefix={matrixPrefix}
       get={getTableData}
       defaultPageSize={10}
-      columnDefinitions={getColumnDefinitions(applicationName, serviceName, endpointId)}
+      columnDefinitions={columnDefinitions}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
@@ -31,13 +37,31 @@ export default function ErrorMessagesTable({
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
       size="compact"
-      isSearchable={false}
-      noDataMessage="You have no errors"
+      cardTitle="Error Messages"
+      rightHeader={
+        <AnalyzeMessagesButton
+          groupByTagName="call.error.message"
+          applicationName={applicationName}
+          serviceName={serviceName}
+          endpointId={endpointId}
+          className={locals.analyzeButton}
+        />
+      }
     />
   );
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointId, timeConfig }) {
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig
+}) {
   return getErrorMessages({
     pagination: {
       page,
@@ -48,6 +72,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
       direction: orderDirection
     },
     filter: {
+      label: query,
       timeConfig,
       application: applicationId,
       service: serviceId,
@@ -67,42 +92,40 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
   });
 }
 
-function getColumnDefinitions(applicationName, serviceName, endpointName) {
-  return [
-    {
-      id: 'errorMessage',
-      label: 'Error Message',
-      getContent(item) {
-        return (
-          <Message
-            message={item.message}
-            applicationName={applicationName}
-            serviceName={serviceName}
-            endpointName={endpointName}
-          />
-        );
-      },
-      noWrap: true,
-      ellipsis: '50vw'
+const columnDefinitions = [
+  {
+    id: 'errorMessage',
+    label: 'Error Message',
+    getContent(item, { applicationName, serviceName, endpointName }) {
+      return (
+        <Message
+          message={item.message}
+          applicationName={applicationName}
+          serviceName={serviceName}
+          endpointName={endpointName}
+        />
+      );
     },
-    {
-      id: 'callsAgg',
-      label: 'Count',
-      defaultOrderDirection: 'DESC',
-      getContent(item, { result, timeConfig }) {
-        return (
-          <SparkChart
-            rollup={getSparkChartGranularity(timeConfig)}
-            timeConfig={getResolvedTimeConfig(timeConfig, result)}
-            metrics={item.metrics.calls}
-            metric={item.metrics.callsAgg}
-            tooltipFormatter={number.compact}
-          />
-        );
-      }
+    noWrap: true,
+    ellipsis: '50vw'
+  },
+  {
+    id: 'callsAgg',
+    label: 'Count',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          metrics={item.metrics.calls}
+          metric={item.metrics.callsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
     }
-  ];
-}
+  }
+];
 
 function Message({ message, applicationName, serviceName, endpointName }) {
   if (!message || message == '') {

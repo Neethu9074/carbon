@@ -1,13 +1,19 @@
 import React from 'react';
 
+import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-subscription/application/getLogMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import ServerTable from 'in-components/tables/ServerTable';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
+
+const pathSegment = '/logMessages';
+const matrixPrefix = 'log.';
+
+import locals from './MessagesTable.mless';
 
 export default function LogMessagesTable({
   applicationId,
@@ -18,10 +24,12 @@ export default function LogMessagesTable({
   serviceName
 }) {
   return (
-    <ServerTable
+    <ServerTableWithUrlBoundState
+      pathSegment={pathSegment}
+      matrixPrefix={matrixPrefix}
       get={getTableData}
       defaultPageSize={10}
-      columnDefinitions={getColumnDefinitions(applicationName, serviceName, endpointId)}
+      columnDefinitions={columnDefinitions}
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
@@ -30,12 +38,31 @@ export default function LogMessagesTable({
       defaultOrderBy="logsAgg"
       defaultOrderDirection="DESC"
       size="compact"
-      isSearchable={false}
+      cardTitle="Error Messages"
+      rightHeader={
+        <AnalyzeMessagesButton
+          groupByTagName="log.message"
+          applicationName={applicationName}
+          serviceName={serviceName}
+          endpointId={endpointId}
+          className={locals.analyzeButton}
+        />
+      }
     />
   );
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, serviceId, endpointId, timeConfig }) {
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig
+}) {
   return getLogMessages({
     pagination: {
       page,
@@ -46,6 +73,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
       direction: orderDirection
     },
     filter: {
+      label: query,
       timeConfig,
       application: applicationId,
       service: serviceId,
@@ -65,49 +93,47 @@ function getTableData({ page, pageSize, orderBy, orderDirection, applicationId, 
   });
 }
 
-function getColumnDefinitions(applicationName, serviceName, endpointName) {
-  return [
-    {
-      id: 'logMessage',
-      label: 'Log Message',
-      getContent(item) {
-        return (
-          <Message
-            message={item.message}
-            applicationName={applicationName}
-            serviceName={serviceName}
-            endpointName={endpointName}
-          />
-        );
-      },
-      noWrap: true,
-      ellipsis: '50vw'
+const columnDefinitions = [
+  {
+    id: 'logMessage',
+    label: 'Log Message',
+    getContent(item, { applicationName, serviceName, endpointName }) {
+      return (
+        <Message
+          message={item.message}
+          applicationName={applicationName}
+          serviceName={serviceName}
+          endpointName={endpointName}
+        />
+      );
     },
-    {
-      id: 'logLevel',
-      label: 'Log Level',
-      getContent(item) {
-        return <Pill kind="lighter">{item.level}</Pill>;
-      }
-    },
-    {
-      id: 'logsAgg',
-      label: 'Count',
-      defaultOrderDirection: 'DESC',
-      getContent(item, { result, timeConfig }) {
-        return (
-          <SparkChart
-            rollup={getSparkChartGranularity(timeConfig)}
-            timeConfig={getResolvedTimeConfig(timeConfig, result)}
-            metrics={item.metrics.logs}
-            metric={item.metrics.logsAgg}
-            tooltipFormatter={number.compact}
-          />
-        );
-      }
+    noWrap: true,
+    ellipsis: '50vw'
+  },
+  {
+    id: 'logLevel',
+    label: 'Log Level',
+    getContent(item) {
+      return <Pill kind="lighter">{item.level}</Pill>;
     }
-  ];
-}
+  },
+  {
+    id: 'logsAgg',
+    label: 'Count',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          metrics={item.metrics.logs}
+          metric={item.metrics.logsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  }
+];
 
 function Message({ message, applicationName, serviceName, endpointName }) {
   const logMessageFilter = { name: 'log.message', value: message };

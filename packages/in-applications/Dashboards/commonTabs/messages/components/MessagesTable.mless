@@ -5,4 +5,8 @@
     cursor: not-allowed;
     color: @lib__colors__N500;
   }
+
+  .analyzeButton {
+    margin-right: 0.5rem;
+  }
 }
