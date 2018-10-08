@@ -14,7 +14,7 @@ export const colorTranslation = {
   BATCH: '#4fd3f8',
   DATABASE: '#ef914d',
   HTTP: '#549ef8',
-  MESSAGING: '#89e421',
+  MESSAGING: '#69b116',
   RPC: '#93bedc',
   UNDEFINED: '#D4D8DB',
   SELF: '#D4D8DB'
