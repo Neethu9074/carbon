@@ -38,21 +38,29 @@ export function getLinkToAnalyze({
       setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString(groupByTag));
     }
 
-    const tagFilter = [];
+    // Force lazy initialization of tagFilter so that we can differentiate between deliberate decision to reset filters
+    // and just no desire to change filters.
+    let tagFilter = null;
     if (applicationName) {
+      tagFilter = tagFilter || [];
       tagFilter.push({ name: APPLICATION.name, value: applicationName });
     }
     if (serviceName) {
+      tagFilter = tagFilter || [];
       tagFilter.push({ name: SERVICE.name, value: serviceName });
     }
     if (endpointName) {
+      tagFilter = tagFilter || [];
       tagFilter.push({ name: ENDPOINT.name, value: endpointName });
     }
     if (filters) {
+      tagFilter = tagFilter || [];
       tagFilter.push(...filters);
     }
 
-    setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
+    if (tagFilter != null) {
+      setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
+    }
   });
 }
 
