@@ -90,8 +90,7 @@ function buildTagTree() {
 
     const node = createNode(tag.name, {
       fullyQualifiedName: tag.name,
-      rootNode,
-      category: tag.category
+      rootNode
     });
 
     tagMap[node.fullyQualifiedName] = node;
@@ -106,15 +105,11 @@ function createNode(name, props = {}) {
     name,
     parentNode: props.parentNode,
     fullyQualifiedName: props.fullyQualifiedName,
-    category: props.category,
     getChildren(params = {}) {
-      const { category, blacklist } = params;
+      const { blacklist } = params;
       let _children = children;
       if (blacklist) {
         _children = _children.filter(tag => !isOnBlacklist(tag, blacklist));
-      }
-      if (category) {
-        _children = _children.filter(tag => tag.category === category);
       }
       return _children;
     },
@@ -141,21 +136,6 @@ export function findChildByName(node, childName) {
     }
   }
   return null;
-}
-
-const tagCategories = [
-  'INSTANA',
-  'CALL',
-  'CLOUD',
-  'CONTAINER',
-  'SYSTEM',
-  'LANGUAGE',
-  'FRAMEWORK',
-  'DATABASE',
-  'MESSAGING'
-];
-export function getTagCategories(withInstanaCategory) {
-  return withInstanaCategory ? tagCategories : tagCategories.slice(1);
 }
 
 const blacklists = {

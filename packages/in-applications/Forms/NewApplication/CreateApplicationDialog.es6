@@ -117,7 +117,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             setActiveDialog(
                               <EditFilterDialog
                                 filters={filters}
-                                withInstanaCategory={false}
                                 blacklist={getApplicationCreationFilterBlacklist()}
                                 onSave={_tag => {
                                   const additionalSubForm = getMatchSpecificationForm({
@@ -154,7 +153,6 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             setActiveDialog(
                               <EditFilterDialog
                                 filters={filters}
-                                withInstanaCategory={false}
                                 blacklist={getApplicationCreationFilterBlacklist()}
                                 name={matchSpecification.get('key').value}
                                 value={matchSpecification.get('value').value}

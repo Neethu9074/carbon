@@ -46,8 +46,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
     super(props);
 
     this.state = {
-      form: getInitialForm(props),
-      selectedCategory: null
+      form: getInitialForm(props)
     };
   }
 
@@ -59,9 +58,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
       <form onSubmit={e => this.onSubmit(e, form)}>
         {renderForm({
           form,
-          onChange: this.onChange,
-          selectedCategory: this.state.selectedCategory,
-          setSelectedCategory: this.setSelectedCategory
+          onChange: this.onChange
         })}
 
         <div className={locals.footer}>
@@ -136,15 +133,6 @@ class AnalyzeFilterBasicDialog extends React.Component {
     }
 
     this.setState({ form });
-  };
-
-  setSelectedCategory = newCategory => {
-    this.setState({
-      form: getInitialForm({
-        validateValue: this.props.validateValue
-      }),
-      selectedCategory: newCategory
-    });
   };
 }
 

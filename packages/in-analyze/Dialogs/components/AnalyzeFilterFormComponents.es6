@@ -114,9 +114,9 @@ export function OperatorSelection({ field, onChange, node }) {
   );
 }
 
-function KeySelection({ getNodesChildren, selectedCategory, field, blacklist, onChange }) {
+function KeySelection({ getNodesChildren, field, blacklist, onChange }) {
   const rootNode = getTagTree();
-  const options = getNodesChildren(rootNode, selectedCategory, blacklist).map(childNode => ({
+  const options = getNodesChildren(rootNode, blacklist).map(childNode => ({
     label: childNode.name,
     value: childNode.name
   }));

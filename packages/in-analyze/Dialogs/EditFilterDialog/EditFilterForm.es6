@@ -72,8 +72,8 @@ export default function EditFilterForm(props) {
   );
 }
 
-function getNodesChildren(node, selectedCategory, blacklist) {
-  return node.getChildren({ category: selectedCategory, blacklist });
+function getNodesChildren(node, blacklist) {
+  return node.getChildren({ blacklist });
 }
 
 function ValueInputByType({ form, field, onChange, tagSuggestionResult }) {
