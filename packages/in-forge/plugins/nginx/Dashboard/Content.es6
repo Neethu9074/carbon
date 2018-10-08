@@ -121,16 +121,6 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Connections Waiting">
           <MetricValue snapshotId={snapshotId} metric="connections.waiting" />
         </KpiKeyValue>
-        {isNginxPlus && (
-          <KpiKeyValue label="Processes respawned">
-            <MetricValue snapshotId={snapshotId} metric="nginx_plus.processes.respawned" />
-          </KpiKeyValue>
-        )}
-        {isNginxPlus && (
-          <KpiKeyValue label="Upstreams failed">
-            <MetricValue snapshotId={snapshotId} metric="nginx_plus.http.upstreams.peers.failed" />
-          </KpiKeyValue>
-        )}
       </KpiSection>
 
       <DashboardSection title="Requests">
@@ -219,6 +209,22 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
                 'nginx_plus.ssl.session_reuses'
               ],
               labels: ['Handshakes', 'Failed hanshakes', 'Session reuses'],
+              type: 'line',
+              formatter: twoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
+      )}
+
+      {isNginxPlus && (
+        <DashboardSection title="Processes and upstreams">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['nginx_plus.processes.respawned', 'nginx_plus.http.upstreams.peers.failed'],
+              labels: ['Processes respawned', 'Upstreams failed'],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
