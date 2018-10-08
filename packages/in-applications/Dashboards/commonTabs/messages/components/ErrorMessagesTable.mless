@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+  .noLink {
+    cursor: not-allowed;
+    color: @lib__colors__N500;
+  }
+}

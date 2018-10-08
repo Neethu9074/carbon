@@ -8,6 +8,8 @@ import ServerTable from 'in-components/tables/ServerTable';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
+import locals from './ErrorMessagesTable.mless';
+
 export default function ErrorMessagesTable({
   applicationId,
   serviceId,
@@ -104,7 +106,7 @@ function getColumnDefinitions(applicationName, serviceName, endpointName) {
 
 function Message({ message, applicationName, serviceName, endpointName }) {
   if (!message || message == '') {
-    return 'Empty message';
+    return <div className={locals.noLink}>Empty message</div>;
   } else {
     const errorMessageFilter = { name: 'call.error.message', value: message };
 
