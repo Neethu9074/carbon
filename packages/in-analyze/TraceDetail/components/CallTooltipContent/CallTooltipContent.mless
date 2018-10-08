@@ -33,13 +33,6 @@
     margin-bottom: 0.5rem;
   }
 
-  .colorIndicator {
-    margin-right: 0.5rem;
-    width: 0.75rem;
-    height: 0.75rem;
-    display: inline-block;
-  }
-
   .label {
     color: @lib__colors__N800Dark;
   }
