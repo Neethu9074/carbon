@@ -13,7 +13,9 @@ import {
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  SeverityIndicatorCellContentWrapper
+  SeverityIndicatorCellContentWrapper,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -89,6 +91,7 @@ function Default() {
           <Table>
             <Thead>
               <Tr>
+                <ErroneousRowTh />
                 <Th>Label</Th>
                 <SortableTh>Calls</SortableTh>
                 <SortableTh>Errors</SortableTh>
@@ -96,6 +99,20 @@ function Default() {
               </Tr>
             </Thead>
             <Tbody>
+              <Tr>
+                <ErroneousRowTd isErroneous />
+                <Td>Foo (erroneous)</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
+              <Tr>
+                <ErroneousRowTd isErroneous={false} />
+                <Td>Bar (not erroneous)</Td>
+                <Td>1</Td>
+                <Td>2</Td>
+                <Td>3</Td>
+              </Tr>
               <ErrorRows
                 errors={[
                   {
@@ -107,7 +124,7 @@ function Default() {
                     code: 'CLIENT'
                   }
                 ]}
-                cols={4}
+                cols={5}
               />
             </Tbody>
           </Table>

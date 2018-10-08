@@ -12,7 +12,9 @@ import {
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  Link
+  Link,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import {
   getResponsiveNavigatorMode,
@@ -45,6 +47,7 @@ function RawCallsNavigator({
   const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const selectedCallId = getMatrixParameter(location, traceDetail, callIdMatrixParameter);
   const showAllColumns = navigatorMode === showAllColumnsKey;
+  const columnCount = showAllColumns ? 4 : 2;
 
   return (
     <HeightRestrictedView
@@ -52,6 +55,7 @@ function RawCallsNavigator({
         <Table tableInCard>
           <Thead>
             <Tr size="compact">
+              <ErroneousRowTh />
               <Th>Call</Th>
 
               {showAllColumns && (
@@ -75,6 +79,7 @@ function RawCallsNavigator({
                 size="compact"
                 active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
               >
+                <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
                 <Td active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}>
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}
@@ -102,10 +107,10 @@ function RawCallsNavigator({
               </Tr>
             ))}
 
-            <HorizontalIndicatorRow cols={showAllColumns ? 3 : 1} progress={progress} />
-            <ErrorRows cols={showAllColumns ? 3 : 1} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={showAllColumns ? 3 : 1} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={showAllColumns ? 3 : 1} />}
+            <HorizontalIndicatorRow cols={columnCount} progress={progress} />
+            <ErrorRows cols={columnCount} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
           </Tbody>
         </Table>
       )}

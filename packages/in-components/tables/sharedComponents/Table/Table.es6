@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 import locals from './Table.mless';
 
 export function Table(props) {
@@ -71,6 +72,21 @@ export function Td(props) {
         [locals.active]: props.active
       })}
     />
+  );
+}
+
+const erroneousIconDimension = 18;
+export function ErroneousRowTh() {
+  return <Th width={erroneousIconDimension} className={locals.erroneousRowTh} />;
+}
+
+export function ErroneousRowTd({ isErroneous = true }) {
+  return (
+    <Td className={locals.erroneousRowTd}>
+      {isErroneous && (
+        <SvgIcon className={locals.erroneousRowIcon} type="lib_lightning" height={erroneousIconDimension} />
+      )}
+    </Td>
   );
 }
 

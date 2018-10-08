@@ -29,6 +29,10 @@ export default function SvgIcon({
   role = role || (onClick ? 'button' : undefined);
   tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;
 
+  if (!type) {
+    type = 'empty';
+  }
+
   const icon = icons[type];
   if (!icon) {
     if (__DEV__) {

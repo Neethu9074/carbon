@@ -5,7 +5,9 @@ export {
   Tr,
   Th,
   Td,
-  SeverityIndicatorCellContentWrapper
+  SeverityIndicatorCellContentWrapper,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents/Table';
 export { default as HorizontalIndicatorRow } from 'in-components/tables/sharedComponents/HorizontalIndicatorRow';
 export { default as LoadingSkeletonRows } from 'in-components/tables/sharedComponents/LoadingSkeletonRows';

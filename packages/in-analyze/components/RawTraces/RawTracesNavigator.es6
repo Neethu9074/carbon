@@ -12,7 +12,9 @@ import {
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  Link
+  Link,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import {
   getResponsiveNavigatorMode,
@@ -42,6 +44,7 @@ function RawTracesNavigator({
 }) {
   const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const showAllColumns = navigatorMode === showAllColumnsKey;
+  const columnCount = showAllColumns ? 4 : 2;
 
   return (
     <HeightRestrictedView
@@ -49,6 +52,7 @@ function RawTracesNavigator({
         <Table tableInCard>
           <Thead>
             <Tr size="compact">
+              <ErroneousRowTh />
               <Th>Trace</Th>
 
               {showAllColumns && (
@@ -68,6 +72,8 @@ function RawTracesNavigator({
           <Tbody>
             {items.map(item => (
               <Tr key={item.trace.id} size="compact" active={item.trace.id === selectedTraceId}>
+                <ErroneousRowTd isErroneous={item.trace.erroneous} />
+
                 <Td active={item.trace.id === selectedTraceId}>
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                 </Td>
@@ -82,10 +88,10 @@ function RawTracesNavigator({
               </Tr>
             ))}
 
-            <HorizontalIndicatorRow cols={showAllColumns ? 3 : 1} progress={progress} />
-            <ErrorRows cols={showAllColumns ? 3 : 1} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={showAllColumns ? 3 : 1} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={showAllColumns ? 3 : 1} />}
+            <HorizontalIndicatorRow cols={columnCount} progress={progress} />
+            <ErrorRows cols={columnCount} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
           </Tbody>
         </Table>
       )}

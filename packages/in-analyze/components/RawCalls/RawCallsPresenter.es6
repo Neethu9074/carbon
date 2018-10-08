@@ -11,7 +11,9 @@ import {
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  Link
+  Link,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
@@ -29,12 +31,15 @@ import locals from './RawCallsPresenter.mless';
 
 export default function RawCalls(props) {
   const { items, totalHits, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
+
   return (
     <AnalyzeCallsWorkspace {...props}>
       <ItemsInGroupsIndicator numCalls={totalHits} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
+            <ErroneousRowTh />
+
             <Th>Call</Th>
 
             <Th>Service</Th>
@@ -56,26 +61,24 @@ export default function RawCalls(props) {
         <Tbody>
           {items.map(item => (
             <Tr key={item.call.id} size="compact">
+              <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
-                    {item.call.label}
-                    {item.call.batchCount > 1 && (
-                      <Fragment>
-                        {' '}
-                        <Tooltip
-                          themeStyle="light"
-                          content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                        >
-                          <Pill className={locals.batchSizeIndicator} kind="lighter">
-                            {item.call.batchCount}
-                          </Pill>
-                        </Tooltip>
-                      </Fragment>
-                    )}
-                  </Link>
-                </div>
+                <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
+                  {item.call.label}
+                  {item.call.batchCount > 1 && (
+                    <Fragment>
+                      {' '}
+                      <Tooltip
+                        themeStyle="light"
+                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                      >
+                        <Pill className={locals.batchSizeIndicator} kind="lighter">
+                          {item.call.batchCount}
+                        </Pill>
+                      </Tooltip>
+                    </Fragment>
+                  )}
+                </Link>
               </Td>
 
               <Td>

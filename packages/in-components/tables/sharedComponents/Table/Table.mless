@@ -114,6 +114,18 @@
     }
   }
 
+  .erroneousRowTh, .erroneousRowTd {
+    padding-right: 0;
+
+    & + .th, & + .td {
+      padding-left: 0.8rem;
+    }
+  }
+
+  .erroneousRowIcon {
+    fill: #777A7C;
+  }
+
   .severityIndicatorCellContentWrapper {
     position: relative;
   }

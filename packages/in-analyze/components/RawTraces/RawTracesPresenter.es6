@@ -10,7 +10,9 @@ import {
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  Link
+  Link,
+  ErroneousRowTh,
+  ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
@@ -34,6 +36,7 @@ export default function RawTracesPresenter(props) {
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
+            <ErroneousRowTh />
             <Th>Trace</Th>
             <Th>Service</Th>
 
@@ -54,11 +57,9 @@ export default function RawTracesPresenter(props) {
         <Tbody>
           {items.map(item => (
             <Tr key={item.trace.id} size="compact">
+              <ErroneousRowTd isErroneous={item.trace.erroneous} />
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.traceIcon} type="lib_application_trace" width={24} height={24} />
-                  <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
-                </div>
+                <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
               </Td>
 
               <Td>
