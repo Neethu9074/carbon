@@ -9,7 +9,11 @@ export default function DevDashboard() {
     <div>
       <TimeZones />
 
+      <h3>SLO</h3>
       <ul className={locals.links}>
+        <li>
+          <a href="/#/cockpit">Cockpit</a>
+        </li>
         <li>
           <a href="/#/events;view=issue?timeline.to&timeline.ws=900000&_k=0p6luz&q=(event.text%3A&quot;%5BSLO%5D&quot;%20OR%20event.text%3A&quot;%5Bexperimental%20SLO%5D&quot;)%20AND%20event.state%3Aopen%20&v2=true">
             SLO Violations
@@ -18,6 +22,10 @@ export default function DevDashboard() {
         <li>
           <a href="https://github.com/instana/internal-tools/tree/master/objectives">SLO Definitions</a>
         </li>
+      </ul>
+
+      <h3>Processing</h3>
+      <ul className={locals.links}>
         <li>
           <a href="/#/internal/fillerSpanProcessingStats">App 1.0 Data Processing</a>
         </li>
@@ -33,11 +41,15 @@ export default function DevDashboard() {
         <li>
           <a href="/#/internal/eumstats">Website Monitoring Processing</a>
         </li>
+      </ul>
+
+      <h3>Quality Of Service</h3>
+      <ul className={locals.links}>
         <li>
-          <a href="/#/internal/qualityOfServiceStats">Quality Of Service - Fleet Worker</a>
+          <a href="/#/internal/qualityOfServiceStats">Fleet Worker</a>
         </li>
         <li>
-          <a href="/#/internal/selfServiceQualityOfServiceStats">Quality Of Service - SelfService Fleet Worker</a>
+          <a href="/#/internal/selfServiceQualityOfServiceStats">SelfService Fleet Worker</a>
         </li>
       </ul>
     </div>

@@ -6,14 +6,6 @@ def gitCommitAuthor = null
 def instanaVersion  = null
 def archiveName     = null
 
-def deliveryBranches = [
-  'develop',
-  'master',
-  'release',
-  'prerelease',
-  'onprem-hotfix'
-]
-
 stage('Checkout') {
   node {
 
@@ -22,6 +14,10 @@ stage('Checkout') {
     checkout scm
 
     instanaVersion  = getVersion('ui-client')
+    if ( env.BRANCH_NAME == 'onprem-hotfix' || env.BRANCH_NAME == 'dist-onprem' ) {
+      instanaVersion  = getOnPremVersion('ui-client')
+    }
+
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
 
