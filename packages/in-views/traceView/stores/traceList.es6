@@ -52,6 +52,8 @@ const furtherDataAvailable = createStore({
 });
 export const furtherDataAvailable$ = furtherDataAvailable.observable;
 
+export const queryUsedForDataRetrieval$ = create();
+
 // this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
 // it is capsuled within a stream to be able to throttle refreshes.
 const refreshStream = create();
@@ -79,9 +81,14 @@ export function enable() {
     query$
       // increasing debounce to have fewer db queries
       .debounce(1000)
-      .subscribe(_query => {
-        query = _query;
-        refreshStream.emit(true);
+      .subscribe((_query = '') => {
+        queryUsedForDataRetrieval$.emit(_query);
+
+        const queryLength = _query.trim().length;
+        if (queryLength === 0 || queryLength > 3) {
+          query = _query;
+          refreshStream.emit(true);
+        }
       })
   );
   subscriptions.push(
