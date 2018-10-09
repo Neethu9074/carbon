@@ -52,6 +52,16 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
+export function testIntegration(integration) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/integrations/test/${encodeURIComponent(integration.get('id'))}`,
+    data: integration.toJS()
+  }).map(response => fromJS(response.body));
+}
+
 export function createIntegration(id, kind, name = '') {
   if (!kind) {
     return {

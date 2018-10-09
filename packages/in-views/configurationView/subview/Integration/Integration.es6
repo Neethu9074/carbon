@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
+import { getIntegration, saveIntegration, createIntegration, testIntegration } from 'in-api/integrations';
 import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { integrationsPath } from 'in-stores/navigation/paths/settingPaths';
@@ -25,12 +25,19 @@ export default function Integration(props) {
       getEntityFromApi={getIntegration}
       openEntities={() => goToPath(integrationsPath)}
       saveEntity={save}
+      testEntity={test}
     />
   );
 }
 
 function save(integration, form) {
   return saveIntegration(fromJS(fullyQualified[integration.get('kind')].createEntity(integration, form)));
+}
+
+function test(integration, form) {
+  return testIntegration(fromJS(fullyQualified[integration.get('kind')].createEntity(integration, form))).subscribe(
+    () => {}
+  );
 }
 
 function createForm(config) {
@@ -49,7 +56,9 @@ const IntegrationForm = entityForm(function IntegrationForm(props) {
         <Button kind="success" type="submit" disabled={!form.hierarchyValid && form.touched}>
           Save
         </Button>
-
+        <Button kind="success" onClick={() => test(entity, form)} disabled={!form.hierarchyValid && form.touched}>
+          Test
+        </Button>
         {message ? (
           <Notification failure={error} loading={loading}>
             {message}
