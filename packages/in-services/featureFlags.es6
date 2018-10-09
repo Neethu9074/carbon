@@ -25,7 +25,6 @@ export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const tenantSwitcherEnabled = isFeatureFlagEnabled('tenantSwitcherEnabled');
-export const pingComparisonEnabled = isFeatureFlagEnabled('pingComparisonEnabled');
 export const releaseNotesEnabled = isFeatureFlagEnabled('releaseNotesEnabled');
 export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEnabled');
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');

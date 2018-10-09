@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-views/tableView/stores/snapshotIds';
-import { pingComparisonEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 
 import './TypeSelector.less';
@@ -15,11 +14,9 @@ const physicalDomains = {
   nodejs: 'Node.js Apps',
   docker: 'Docker Containers',
   process: 'Processes',
-  clickHouseDatabase: 'ClickHouse'
+  clickHouseDatabase: 'ClickHouse',
+  ping: 'Ping'
 };
-if (pingComparisonEnabled) {
-  physicalDomains.ping = 'Ping';
-}
 
 // This list exists because we have the special type
 // "service" which is an aggregation of multiple types.

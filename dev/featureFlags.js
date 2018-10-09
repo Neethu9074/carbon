@@ -12,6 +12,5 @@ module.exports = {
   twoZeroAppDataEnabled: true,
   twoZeroAppDataPresentationEnabled: true,
   twoZeroLearnMoreButtonEnabled: true,
-  particlesInFlowMapEnabled: true,
-  pingComparisonEnabled: true
+  particlesInFlowMapEnabled: true
 };
