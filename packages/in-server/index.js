@@ -21,6 +21,14 @@ app.set('x-powered-by', false);
 
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  // set security headers
+  res.set('x-frame-options', 'deny');
+  res.set('x-content-type-options', 'nosniff');
+  res.set('x-xss-protection', '1; mode=block');
+  next();
+});
+
 app.use(assetRoutes);
 app.use(indexRoutes);
 

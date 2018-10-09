@@ -48,7 +48,7 @@ const prefetchItems = fs
 
 router.get('/', (req, res) => {
   res.vary('*');
-  res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0";');
+  res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
 
   getCurrentUser(req)
     .then(([statusCode, userStr]) =>
@@ -179,7 +179,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
   let cspExtensions = '';
   // Ff this route was called by safari -> add the unsafe inline Content-Security-Policy
   // as it has no nonce support.
-  if (req.headers['user-agent'].toLowerCase().indexOf('safari') >= 0) {
+  if (!supportsCspNonces(req)) {
     cspExtensions = "'unsafe-inline' ";
   }
 
@@ -223,4 +223,14 @@ function findMaxNonces(indexHtmlTemplate) {
     return Math.max(...nonceIndices) + 1;
   }
   return 0;
+}
+
+function supportsCspNonces(req) {
+  let userAgent = req.headers['user-agent'];
+  if (!userAgent) {
+    return false;
+  }
+
+  userAgent = userAgent.toLowerCase();
+  return userAgent.indexOf('safari') === -1 || userAgent.indexOf('chrome') !== -1;
 }
