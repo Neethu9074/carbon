@@ -141,18 +141,18 @@ export default ({
       }, defaults({}, this.state.urlDependingState));
 
       if (resetExecuted && !isEqual(pickBoundKeys(resultingState), this.state.urlDependingState)) {
-        this.setValuesInMatrixParameters(pickBoundKeys(resultingState));
+        this.setValuesInMatrixParameters(pickBoundKeys(resultingState), true);
       }
     }
 
-    setValuesInMatrixParameters(values) {
+    setValuesInMatrixParameters(values, forceHistoryReplacement = false) {
       const serializedValues = defaults({}, getSerializedUrlValues(values), values);
       const forPathSegment = getPathSegment(this.props);
       const matrixPrefix = getMatrixPrefix(this.props);
       mutateUrl(params => {
         const matrixValues = (params.matrix[forPathSegment] = params.matrix[forPathSegment] || {});
         Object.keys(serializedValues).forEach(k => (matrixValues[`${matrixPrefix}${k}`] = serializedValues[k]));
-      }, Boolean(replaceHistory));
+      }, Boolean(replaceHistory) || forceHistoryReplacement);
     }
 
     reducer = change => {
