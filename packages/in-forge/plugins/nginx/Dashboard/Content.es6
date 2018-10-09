@@ -184,9 +184,9 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
               metrics: [
                 'nginx_plus.http.caches.miss.responses',
                 'nginx_plus.http.caches.hit.responses',
-                'nginx_plus.caches.size',
-                'nginx_plus.caches.max_size',
-                'nginx_plus.caches.cold'
+                'nginx_plus.http.caches.size',
+                'nginx_plus.http.caches.max_size',
+                'nginx_plus.http.caches.cold'
               ],
               labels: ['Miss responses / s', 'Hit responses / s', 'Caches size', 'Max caches size', '# of cold caches'],
               type: 'line',

@@ -21,9 +21,9 @@ export default [
       'nginx_plus.http.server_zones.5xx_responses',
       'nginx_plus.http.caches.miss.responses',
       'nginx_plus.http.caches.hit.responses',
-      'nginx_plus.caches.size',
-      'nginx_plus.caches.max_size',
-      'nginx_plus.caches.cold',
+      'nginx_plus.http.caches.size',
+      'nginx_plus.http.caches.max_size',
+      'nginx_plus.http.caches.cold',
       'nginx_plus.ssl.handshakes',
       'nginx_plus.ssl.handshakes_failed',
       'nginx_plus.ssl.session_reuses'
