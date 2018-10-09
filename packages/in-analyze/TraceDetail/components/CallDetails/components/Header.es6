@@ -7,6 +7,7 @@ import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import connectTo from 'in-hoc/connectTo';
@@ -85,13 +86,15 @@ const Infrastructure = connectTo(({ call }) => {
 
 function CloseButton({ onClick }) {
   return (
-    <SvgIcon
-      className={locals.closeIcon}
-      onClick={onClick}
-      aria-label="Close sidebar"
-      type="lib_openclose_cancel"
-      width={24}
-      height={24}
-    />
+    <Tooltip content="Close call details">
+      <SvgIcon
+        className={locals.closeIcon}
+        onClick={onClick}
+        aria-label="Close call details"
+        type="lib_openclose_cancel"
+        width={24}
+        height={24}
+      />
+    </Tooltip>
   );
 }

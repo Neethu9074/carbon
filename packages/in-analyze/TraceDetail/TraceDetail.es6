@@ -20,6 +20,7 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
 import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
@@ -120,13 +121,15 @@ function Actions({ traceId }) {
       </Button>
 
       <Link href$={getLinkToAnalyze()}>
-        <SvgIcon
-          className={locals.closeIcon}
-          aria-label="Close trace detail"
-          type="lib_openclose_cancel"
-          width={24}
-          height={24}
-        />
+        <Tooltip content="Close trace detail">
+          <SvgIcon
+            className={locals.closeIcon}
+            aria-label="Close trace detail"
+            type="lib_openclose_cancel"
+            width={24}
+            height={24}
+          />
+        </Tooltip>
       </Link>
     </Fragment>
   );

@@ -81,9 +81,10 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
 
             <div className={locals.actions}>
               {hasPrev && (
-                <Tooltip content={`View previous ${typeLabel}`}>
+                <Tooltip content={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}>
                   <SvgIcon
                     type="lib_arrow_drop_left"
+                    aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
                     width={20}
                     className={locals.prev}
                     id={leftArrowId}
@@ -95,9 +96,10 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
               )}
 
               {hasNext && (
-                <Tooltip content={`View next ${typeLabel}`}>
+                <Tooltip content={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}>
                   <SvgIcon
                     type="lib_arrow_drop_right"
+                    aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
                     width={20}
                     className={locals.next}
                     id={rightArrowId}
@@ -108,12 +110,15 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
                 </Tooltip>
               )}
 
-              <SvgIcon
-                type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                width={20}
-                className={locals.toggle}
-                onClick={() => setExpanded(!expanded)}
-              />
+              <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
+                <SvgIcon
+                  type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                  aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
+                  width={20}
+                  className={locals.toggle}
+                  onClick={() => setExpanded(!expanded)}
+                />
+              </Tooltip>
             </div>
           </div>
 
@@ -124,12 +129,15 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
       {!expanded && (
         <div className={locals.toggleBar}>
           <div className={locals.toggleWrapper}>
-            <SvgIcon
-              type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-              width={20}
-              className={`${locals.toggleInBar} ${locals.toggle}`}
-              onClick={() => setExpanded(!expanded)}
-            />
+            <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
+              <SvgIcon
+                type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
+                width={20}
+                className={`${locals.toggleInBar} ${locals.toggle}`}
+                onClick={() => setExpanded(!expanded)}
+              />
+            </Tooltip>
           </div>
         </div>
       )}
