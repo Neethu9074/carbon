@@ -15,6 +15,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
     {
       id: 'serviceLabel',
       label: 'Service',
+      ellipsis: '1vw',
       getContent(item) {
         return (
           <div className={locals.cell}>
@@ -30,6 +31,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
     {
       id: 'endpointLabel',
       label: 'Endpoint',
+      ellipsis: '1vw',
       getContent(item) {
         return (
           <div className={locals.cell}>
