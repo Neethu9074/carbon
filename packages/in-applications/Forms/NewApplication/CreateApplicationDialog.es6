@@ -124,7 +124,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                     secondLevelName: _tag.secondLevelName,
                                     value: _tag.value,
                                     operator: _tag.operator,
-                                    test: _tag.test
+                                    conjunction: _tag.conjunction
                                   });
                                   updateForm(
                                     form.updateIn(['matchSpecification'], list =>
@@ -145,7 +145,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                         filterConnectionOperators={['OR', 'AND']}
                         onOperatorChanged={(i, operator) => {
                           updateForm(
-                            form.updateIn(['matchSpecification', i, 'test'], field =>
+                            form.updateIn(['matchSpecification', i, 'conjunction'], field =>
                               field.setValue(operator).setTouched(true)
                             )
                           );
@@ -156,7 +156,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             value: matchSpecification.get('value').value,
                             operator: matchSpecification.get('operator').value,
                             secondLevelName: matchSpecification.get('secondLevelName').value,
-                            test: matchSpecification.get('test').value
+                            conjunction: matchSpecification.get('conjunction').value
                           },
                           onClick: () =>
                             setActiveDialog(
@@ -234,9 +234,9 @@ function getInitialForm(application) {
 
 function getEnrichedMatchSpecificationForm(matchSpecification) {
   return getMatchSpecificationForm(matchSpecification).put(
-    'test',
+    'conjunction',
     createField({
-      value: get(matchSpecification, 'test', 'AND')
+      value: get(matchSpecification, 'conjunction', 'AND')
     })
   );
 }

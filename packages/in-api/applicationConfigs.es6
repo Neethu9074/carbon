@@ -66,6 +66,8 @@ function mapToServerResponse(config) {
       delete matchSpecification.secondLevelName;
     }
   }
+
+  config.matchSpecification = mapMatchSpecificationListToTree(config.matchSpecification);
   return config;
 }
 
@@ -82,7 +84,7 @@ function mapFromServerResponse(config) {
     const keyValueTag = getKeyValuePairTag(matchSpecification.key);
     if (keyValueTag) {
       const name = keyValueTag.fullyQualifiedName;
-      const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the  first .
+      const secondLevelName = matchSpecification.key.slice(name.length + 1); // remove the first.
       if (secondLevelName) {
         matchSpecification.secondLevelName = secondLevelName;
       }
@@ -91,4 +93,8 @@ function mapFromServerResponse(config) {
   }
 
   return config;
+}
+
+export function mapMatchSpecificationListToTree(matchSpecificationList) {
+  return matchSpecificationList;
 }
