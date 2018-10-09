@@ -82,7 +82,7 @@ export default ({
       };
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this.locationSubscription = navigationParameters$.subscribe(this.onLocationChange);
     }
 
@@ -128,11 +128,12 @@ export default ({
       }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
+      const nextProps = this.props;
       let resetExecuted = false;
       const resultingState = resets.reduce((newState, { getResettingProps, onReset }) => {
         const pickResettingProps = curryRight(pick, 2)(getResettingProps(nextProps));
-        if (isEqual(pickResettingProps(this.props), pickResettingProps(nextProps))) {
+        if (isEqual(pickResettingProps(prevProps), pickResettingProps(nextProps))) {
           return newState;
         }
 
