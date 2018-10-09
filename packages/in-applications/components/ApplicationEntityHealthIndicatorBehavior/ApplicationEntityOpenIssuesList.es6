@@ -2,36 +2,25 @@ import React from 'react';
 
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
-import { combineEndpointEntityId } from 'in-components/EntityInformation/entityUtils';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, endpointType, timeConfig }) => {
-    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
+  ({ applicationId, serviceId, endpointId, timeConfig }) => {
     return {
       openIssuesResult: getApplicationEntityHealthInfo({
         applicationId,
         serviceId,
-        endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
+        endpointId,
         timeConfig
       })
         .startWith(indeterminateProgress)
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function ApplicationEntityOpenIssuesList({
-    openIssuesResult,
-    applicationId,
-    serviceId,
-    endpointId,
-    endpointType,
-    eventId,
-    close
-  }) {
-    const endpointHealthId = combineEndpointEntityId(serviceId, endpointId, endpointType);
+  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId, eventId, close }) {
     return (
       <OpenIssuesListPresenter
         close={close}
@@ -47,7 +36,7 @@ export default connectTo(
           getEventsViewFilteredBy({
             applicationId,
             serviceId,
-            endpointId: endpointHealthId, // endpointId for issues also contains serviceId+endpointType, not just endpointLabel
+            endpointId,
             eventId,
             eventTypeFilter: 'issue'
           })

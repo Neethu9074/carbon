@@ -54,7 +54,6 @@ function Header(props) {
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
-  const endpointType = result.data ? result.data.type : undefined;
   return (
     <Fragment>
       <CallsButton
@@ -72,7 +71,6 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        endpointType={endpointType}
         timeConfig={timeConfig}
       />
     </Fragment>

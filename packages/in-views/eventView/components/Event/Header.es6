@@ -16,6 +16,7 @@ export default function EventHeader({ event }) {
   const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
   const entityId = event.get('entityId');
   const entityType = event.get('entityType');
+
   return (
     <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
       <div>
