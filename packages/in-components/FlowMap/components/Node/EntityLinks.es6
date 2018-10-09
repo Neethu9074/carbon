@@ -23,7 +23,10 @@ export const EndpointLink = connectTo(
   }),
   function EndpointLink({ node, serviceData, className, children, data }) {
     return (
-      <EntityLink className={className} getLink={() => getLinkToEndpoint(node.applicationId, serviceData.id, data.id)}>
+      <EntityLink
+        className={className}
+        getLink={() => getLinkToEndpoint(node.applicationId, serviceData.id, data.label)}
+      >
         {children}
       </EntityLink>
     );
@@ -47,11 +50,11 @@ function getLinkToService(applicationId, serviceId) {
   return getServiceDashboard(serviceId, { applicationId });
 }
 
-function getLinkToEndpoint(applicationId, serviceId, endpointId) {
-  if (isUnspecified(serviceId) || isUnspecified(endpointId)) {
+function getLinkToEndpoint(applicationId, serviceId, endpointName) {
+  if (isUnspecified(serviceId) || isUnspecified(endpointName)) {
     return null;
   }
-  return getEndpointDashboard(endpointId, { serviceId, applicationId });
+  return getEndpointDashboard(endpointName, { serviceId, applicationId });
 }
 
 function isUnspecified(id) {

@@ -180,7 +180,7 @@ const columnDefinitions = [
       return (
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.linkEntityIcon} type="lib_application_endpoint" width={24} height={24} />
-          <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>
+          <Link href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}>
             {item.endpoint.label}
           </Link>
         </div>

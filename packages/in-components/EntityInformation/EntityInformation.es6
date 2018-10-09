@@ -72,7 +72,7 @@ function EntityInformation20({ entityId, entity, entityType, label }) {
     href$ = getServiceDashboard(entityId);
   } else if (entityType === 'Endpoint20') {
     const endpoint = entity.data;
-    href$ = getEndpointDashboard(endpoint.id, {
+    href$ = getEndpointDashboard(endpoint.label, {
       serviceId: endpoint.serviceId
     });
   }
