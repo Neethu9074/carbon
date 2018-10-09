@@ -10,6 +10,7 @@ import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCal
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
@@ -17,14 +18,31 @@ import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
+import Link from 'in-components/Link';
 
 import locals from './Summary.mless';
 
+const maximumNumberOfCallsForLargeTraceConsideration = 1000;
+
+function getInitialLargeTraceState({ data }) {
+  return {
+    isLargeTrace: data != null && data.callCount > maximumNumberOfCallsForLargeTraceConsideration,
+    showLargeTrace: false
+  };
+}
+
 class Summary extends React.Component {
   selectedCall$ = create();
+  openedCall$ = create();
   hoveredServiceEndpoint$ = create();
   timeoutHandle = null;
+
+  constructor(props) {
+    super(props);
+    this.openedCall$.emit(props.callId);
+  }
 
   componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
@@ -45,8 +63,13 @@ class Summary extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    this.openedCall$.emit(this.props.callId);
+  }
+
   render() {
-    const { data: trace, getColor, callId, traceId } = this.props;
+    const { data: trace, getColor, callId, traceId, isLargeTrace, showLargeTrace, setShowLargeTrace } = this.props;
+
     const traceDetails = (
       <div className={locals.wrapper}>
         <div className={locals.left}>
@@ -62,41 +85,66 @@ class Summary extends React.Component {
             </Col>
           </Row>
 
-          <Row>
-            <Col lg={12}>
-              <Card title="Timeline" withoutPadding framed header={<ColorCodingToggleButtons {...this.props} />}>
-                <div className={locals.icicleChartWrapper}>
-                  <ServerIcicleChart
+          {isLargeTrace &&
+            !showLargeTrace && (
+              <Row>
+                <Col lg={12}>
+                  <Card title="Large Trace" framed>
+                    This trace is large and rendering of this trace can result in performance problems within your
+                    browser. You can either{' '}
+                    <Link target="_blank" external href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>
+                      download the trace
+                    </Link>{' '}
+                    for manual inspection or attempt trace rendering within your browser. We will only render a subset
+                    of the components in order to increase performance of this attempt.
+                    <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
+                      Attempt to render trace
+                    </Button>
+                  </Card>
+                </Col>
+              </Row>
+            )}
+
+          {!isLargeTrace && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Timeline" withoutPadding framed header={<ColorCodingToggleButtons {...this.props} />}>
+                  <div className={locals.icicleChartWrapper}>
+                    <ServerIcicleChart
+                      traceId={traceId}
+                      getColor={getColor}
+                      onCallClicked={this.onCallClicked}
+                      hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                    />
+                  </div>
+                  <ServiceEndpointList
                     traceId={traceId}
                     getColor={getColor}
-                    onCallClicked={this.onCallClicked}
-                    hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                    onListItemMouseEnter={this.onListItemMouseEnter}
+                    onListItemMouseLeave={this.onListItemMouseLeave}
                   />
-                </div>
-                <ServiceEndpointList
-                  traceId={traceId}
-                  getColor={getColor}
-                  onListItemMouseEnter={this.onListItemMouseEnter}
-                  onListItemMouseLeave={this.onListItemMouseLeave}
-                />
-              </Card>
-            </Col>
-          </Row>
+                </Card>
+              </Col>
+            </Row>
+          )}
 
-          <Row>
-            <Col lg={12}>
-              <Card title="Calls" framed header={<ColorCodingToggleButtons {...this.props} />}>
-                <ServerCallTree
-                  traceId={traceId}
-                  openedCall={callId}
-                  getColor={getColor}
-                  selectedCall$={this.selectedCall$}
-                  onSubCallClicked={this.onSubCallClicked}
-                  onCallClicked={this.onCallClicked}
-                />
-              </Card>
-            </Col>
-          </Row>
+          {(!isLargeTrace || showLargeTrace) && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Calls" framed header={<ColorCodingToggleButtons {...this.props} />}>
+                  <ServerCallTree
+                    traceId={traceId}
+                    getColor={getColor}
+                    selectedCall$={this.selectedCall$}
+                    onSubCallClicked={this.onSubCallClicked}
+                    onCallClicked={this.onCallClicked}
+                    openedCall$={this.openedCall$}
+                    isLargeTrace={isLargeTrace}
+                  />
+                </Card>
+              </Col>
+            </Row>
+          )}
         </div>
       </div>
     );
@@ -154,5 +202,19 @@ export default compose(
     boundKeys: [callIdMatrixParameter],
     getInitialState: () => ({ callId: null }),
     reducerName: 'setCall'
+  }),
+  withPropDependingState({
+    getInitialState: getInitialLargeTraceState,
+    resets: [
+      {
+        getResettingProps: () => ['data'],
+        onReset: getInitialLargeTraceState
+      }
+    ],
+    reducerName: 'setShowLargeTrace',
+    reducer: (prevState, showLargeTrace) => ({
+      ...prevState,
+      showLargeTrace
+    })
   })
 )(Summary);

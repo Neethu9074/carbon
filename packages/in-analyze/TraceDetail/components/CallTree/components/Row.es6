@@ -1,4 +1,4 @@
-import { withState } from 'recompose';
+import { withState, pure, compose } from 'recompose';
 import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
@@ -15,32 +15,35 @@ import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-const EnhancedRow = withState('isExpanded', 'setIsExpanded', true)(
-  connect(
-    props => ({
-      isSelected: props.selectedCall$.map(selectedCall => selectedCall && props.call.id === selectedCall.id).distinct()
-    }),
-    Row
-  )
-);
+const EnhancedRow = compose(
+  pure,
+  withState('isExpanded', 'setIsExpanded', true),
+  connect(({ selectedCall$, call, openedCall$ }) => ({
+    isSelected: selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
+    isOpened: openedCall$.map(openedCall => openedCall && call.id === openedCall).distinct()
+  }))
+)(Row);
+
 function Row(props) {
   const {
     call,
     getColor,
     isExpanded,
-    openedCall,
+    scale,
     depth = 0,
     onCallClicked,
     onSubCallClicked,
     setIsExpanded,
     selectedCall$,
-    isSelected
+    isSelected,
+    openedCall$,
+    isOpened,
+    isLargeTrace
   } = props;
 
   const hasChildren = call.children && call.children.length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
   const lineWidth = getLineWidth(depth, hasChildren);
-  const isOpened = openedCall === call.id;
 
   return (
     <div className={locals.wrapper}>
@@ -67,24 +70,29 @@ function Row(props) {
           }}
         />
 
-        <ServiceEndpointInformation
-          marginLeft={marginLeft + lineWidth + (hasChildren ? marginPerDepth : 0)}
-          call={call}
-          getColor={getColor}
-        />
+        {!isLargeTrace && (
+          <ServiceEndpointInformation
+            marginLeft={marginLeft + lineWidth + (hasChildren ? marginPerDepth : 0)}
+            call={call}
+            getColor={getColor}
+          />
+        )}
       </div>
 
       {isExpanded &&
         call.children.map((subCall, i) => (
           <EnhancedRow
             key={i}
-            {...props}
+            scale={scale}
+            getColor={getColor}
             call={subCall}
+            isLargeTrace={isLargeTrace}
             depth={depth + 1}
             intermediateRow={i !== call.children.length - 1}
             onCallClicked={onCallClicked}
             onSubCallClicked={onSubCallClicked}
             selectedCall$={selectedCall$}
+            openedCall$={openedCall$}
           />
         ))}
     </div>
@@ -102,7 +110,8 @@ function CallInformation(props) {
     lineWidth,
     setIsExpanded,
     onCallClicked,
-    onSubCallClicked
+    onSubCallClicked,
+    isLargeTrace
   } = props;
 
   return (
@@ -144,16 +153,18 @@ function CallInformation(props) {
             {call.endpoint.type}
           </Pill>
         )}
-        <div className={locals.dashedLine} />
+        {!isLargeTrace && <div className={locals.dashedLine} />}
       </div>
 
-      <ChildrenDistributionTimeLine
-        call={call}
-        getColor={getColor}
-        scale={scale}
-        onCallClicked={onCallClicked}
-        onSubCallClicked={onSubCallClicked}
-      />
+      {!isLargeTrace && (
+        <ChildrenDistributionTimeLine
+          call={call}
+          getColor={getColor}
+          scale={scale}
+          onCallClicked={onCallClicked}
+          onSubCallClicked={onSubCallClicked}
+        />
+      )}
     </div>
   );
 }

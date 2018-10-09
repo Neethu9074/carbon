@@ -47,9 +47,8 @@ export default function VersionSwitcherFlyout() {
         <Title>Classic Mode</Title>
 
         <Description>
-          Access the traditional Instana experience during the transition period{oneZeroSupportedUntilMessageEnabled
-            ? ' (available until October 1)'
-            : ''}.
+          Access the traditional Instana experience during the transition period
+          {oneZeroSupportedUntilMessageEnabled ? ' (ending soon)' : ''}.
         </Description>
       </Item>
     </section>

@@ -19,6 +19,7 @@ export function getHeader() {
 
 export function init() {
   interval(1000 * 60)
+    .nextFrame()
     .flatMap(getCsrfToken)
     .merge(getCsrfToken())
     .subscribe(_token => (token = _token));
