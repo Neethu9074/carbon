@@ -313,7 +313,7 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
 function onAddDefaultGroup(onChangeAnalyzeConfig) {
   const newState = {};
 
-  newState[groupByMatrixParameter] = { name: 'trace.name' };
+  newState[groupByMatrixParameter] = { name: 'trace.endpoint.name' };
   onChangeAnalyzeConfig(newState);
 }
 

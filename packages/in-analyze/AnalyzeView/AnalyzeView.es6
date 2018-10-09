@@ -121,6 +121,6 @@ function AnalyzeView(props) {
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
   return {
     [groupByMatrixParameter]:
-      dataSource === 'traces' ? { name: 'trace.name', value: '' } : { name: 'endpoint.name', value: '' }
+      dataSource === 'traces' ? { name: 'trace.endpoint.name', value: '' } : { name: 'endpoint.name', value: '' }
   };
 }

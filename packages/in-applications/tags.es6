@@ -152,6 +152,7 @@ const blacklists = {
   callGroupBlacklist: {
     'trace.id': true,
     'trace.name': true,
+    'trace.endpoint.name': true,
     'trace.latency': true,
     'trace.erroneous': true
   }

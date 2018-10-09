@@ -42,5 +42,5 @@ function getCallGroupNodesChildren(node) {
 }
 
 function getTraceGroupNodesChildren() {
-  return [{ name: 'trace.name' }];
+  return [{ name: 'trace.endpoint.name' }];
 }
