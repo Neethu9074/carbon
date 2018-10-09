@@ -69,7 +69,16 @@ function RawCallsNavigator({
                 />
               )}
 
-              {showAllColumns && <Th>Latency</Th>}
+              {showAllColumns && (
+                <SortableCallColumn
+                  orderBy={orderBy}
+                  orderDirection={orderDirection}
+                  onChangeOrder={onChangeOrder}
+                  defaultDirection="DESC"
+                  technicalName="latency"
+                  label="Latency"
+                />
+              )}
             </Tr>
           </Thead>
           <Tbody>

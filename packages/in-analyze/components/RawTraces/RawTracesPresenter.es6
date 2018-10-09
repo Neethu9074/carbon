@@ -49,7 +49,14 @@ export default function RawTracesPresenter(props) {
               label="Timestamp"
             />
 
-            <Th>Latency</Th>
+            <SortableCallColumn
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              onChangeOrder={onChangeOrder}
+              defaultDirection="DESC"
+              technicalName="latency"
+              label="Latency"
+            />
 
             <Th>Errors</Th>
           </Tr>
