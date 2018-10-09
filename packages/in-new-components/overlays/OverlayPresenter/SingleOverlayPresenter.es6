@@ -43,7 +43,7 @@ export default class SingleOverlayPresenter extends React.PureComponent {
       top: tooltipElementBox.top,
       right: tooltipElementBox.left + tooltipElementBox.width,
       bottom: tooltipElementBox.top + tooltipElementBox.height,
-      align: 'auto'
+      align: this.props.align || 'auto'
     };
     const reference = {
       left: focusedElementBox.left,

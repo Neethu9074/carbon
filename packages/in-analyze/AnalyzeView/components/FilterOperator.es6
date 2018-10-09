@@ -17,7 +17,7 @@ export default function FilterOperator({ selectedOperator, operators, onOperator
   }
 
   return (
-    <Overlay content={Operators} props={{ operators, selectedOperator, onOperatorChanged }}>
+    <Overlay align="bottomMiddle" content={Operators} props={{ operators, selectedOperator, onOperatorChanged }}>
       {({ toggle, isOpen }) => (
         <div className={locals.wrapper} onClick={toggle}>
           <Pill className={locals.operator} color={theme.lib.colors.N400}>

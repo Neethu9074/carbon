@@ -220,15 +220,15 @@ const TooltipCalculator = {
     this.offset.x = 0;
     this.offset.y = 0;
     if (is(mask, la)) {
-      this.offset.x -= bit(mask, t) * width(reference) / 2;
-      this.offset.x += bit(mask, b) * width(reference) / 2;
-      this.offset.y -= bit(mask, r) * height(reference) / 2;
-      this.offset.y += bit(mask, l) * height(reference) / 2;
+      this.offset.x -= (bit(mask, t) * width(reference)) / 2;
+      this.offset.x += (bit(mask, b) * width(reference)) / 2;
+      this.offset.y -= (bit(mask, r) * height(reference)) / 2;
+      this.offset.y += (bit(mask, l) * height(reference)) / 2;
     } else if (is(mask, ra)) {
-      this.offset.x += bit(mask, t) * width(reference) / 2;
-      this.offset.x -= bit(mask, b) * width(reference) / 2;
-      this.offset.y += bit(mask, r) * height(reference) / 2;
-      this.offset.y -= bit(mask, l) * height(reference) / 2;
+      this.offset.x += (bit(mask, t) * width(reference)) / 2;
+      this.offset.x -= (bit(mask, b) * width(reference)) / 2;
+      this.offset.y += (bit(mask, r) * height(reference)) / 2;
+      this.offset.y -= (bit(mask, l) * height(reference)) / 2;
     } else {
       this.offset.x -= (bit(mask, t) | bit(mask, b)) * (width(tooltip) / 2);
       this.offset.y -= (bit(mask, l) | bit(mask, r)) * (height(tooltip) / 2);
