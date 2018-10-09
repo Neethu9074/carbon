@@ -1,5 +1,6 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { getKeyValuePairTag } from 'in-applications/tags';
+import { emptyArray } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
@@ -96,5 +97,54 @@ function mapFromServerResponse(config) {
 }
 
 export function mapMatchSpecificationListToTree(matchSpecificationList) {
-  return matchSpecificationList;
+  if (!matchSpecificationList || matchSpecificationList.length === 0) {
+    return null;
+  }
+  if (matchSpecificationList.length === 1) {
+    return matchSpecificationList[0];
+  }
+  return split(matchSpecificationList);
+}
+
+function split(list) {
+  if (!list || list.length === 0) {
+    return emptyArray;
+  }
+
+  let splitList = splitBy(list, 'OR');
+  if (splitList.length === list.length) {
+    splitList = splitBy(splitList, 'AND');
+  }
+
+  if (splitList.left) {
+    splitList.left = splitList.left.length > 1 ? split(splitList.left) : splitList.left[0];
+  }
+
+  if (splitList.right) {
+    splitList.right = splitList.right.length > 1 ? split(splitList.right) : splitList.right[0];
+  }
+  return splitList;
+}
+
+export function splitBy(subList, operator) {
+  if (!subList || subList.length === 0) {
+    return emptyArray;
+  }
+  if (subList.length === 1) {
+    return subList;
+  }
+
+  for (let i = 0; i < subList.length; i++) {
+    const item = subList[i];
+    if (item.conjunction === operator) {
+      delete item.conjunction;
+      return {
+        conjunction: operator,
+        left: subList.splice(0, i + 1),
+        right: subList
+      };
+    }
+  }
+
+  return subList;
 }
