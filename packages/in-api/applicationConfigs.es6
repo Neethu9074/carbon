@@ -100,10 +100,9 @@ export function mapMatchSpecificationListToTree(matchSpecificationList) {
   if (!matchSpecificationList || matchSpecificationList.length === 0) {
     return null;
   }
-  if (matchSpecificationList.length === 1) {
-    return matchSpecificationList[0];
-  }
-  return split(matchSpecificationList);
+  const tree = matchSpecificationList.length === 1 ? matchSpecificationList[0] : split(matchSpecificationList);
+  annotateWithTypes(tree);
+  return tree;
 }
 
 function split(list) {
@@ -147,4 +146,19 @@ export function splitBy(subList, operator) {
   }
 
   return subList;
+}
+
+export function annotateWithTypes(node) {
+  if (!node) {
+    return;
+  }
+
+  if (node.conjunction) {
+    node.type = 'BINARY_OP';
+  } else {
+    node.type = 'LEAF';
+  }
+
+  annotateWithTypes(node.left);
+  annotateWithTypes(node.right);
 }

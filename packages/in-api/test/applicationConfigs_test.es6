@@ -1,9 +1,63 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { mapMatchSpecificationListToTree, splitBy } from 'in-api/applicationConfigs';
+import { mapMatchSpecificationListToTree, annotateWithTypes, splitBy } from 'in-api/applicationConfigs';
 
 describe('in-api/applicationConfigs', () => {
+  describe('annotateWithTypes', () => {
+    it('should annote conjunction nodes with BINARY_OP and leafs as leafs', () => {
+      const tree = {
+        conjunction: 'OR',
+        left: { key: 'A' },
+        right: {
+          conjunction: 'OR',
+          left: {
+            conjunction: 'AND',
+            left: { key: 'B' },
+            right: { key: 'C' }
+          },
+          right: {
+            conjunction: 'AND',
+            left: { key: 'D' },
+            right: {
+              conjunction: 'AND',
+              left: { key: 'E' },
+              right: { key: 'F' }
+            }
+          }
+        }
+      };
+
+      annotateWithTypes(tree);
+      expect(tree).to.deep.equal({
+        type: 'BINARY_OP',
+        conjunction: 'OR',
+        left: { key: 'A', type: 'LEAF' },
+        right: {
+          type: 'BINARY_OP',
+          conjunction: 'OR',
+          left: {
+            type: 'BINARY_OP',
+            conjunction: 'AND',
+            left: { key: 'B', type: 'LEAF' },
+            right: { key: 'C', type: 'LEAF' }
+          },
+          right: {
+            type: 'BINARY_OP',
+            conjunction: 'AND',
+            left: { key: 'D', type: 'LEAF' },
+            right: {
+              type: 'BINARY_OP',
+              conjunction: 'AND',
+              left: { key: 'E', type: 'LEAF' },
+              right: { key: 'F', type: 'LEAF' }
+            }
+          }
+        }
+      });
+    });
+  });
+
   describe('mapMatchSpecificationListToTree', () => {
     it('should return node as root if only one item is present', () => {
       const tree = mapMatchSpecificationListToTree([{ key: 'A' }]);
@@ -22,22 +76,27 @@ describe('in-api/applicationConfigs', () => {
         { key: 'F' }
       ]);
       expect(tree).to.deep.equal({
+        type: 'BINARY_OP',
         conjunction: 'OR',
-        left: { key: 'A' },
+        left: { key: 'A', type: 'LEAF' },
         right: {
+          type: 'BINARY_OP',
           conjunction: 'OR',
           left: {
+            type: 'BINARY_OP',
             conjunction: 'AND',
-            left: { key: 'B' },
-            right: { key: 'C' }
+            left: { key: 'B', type: 'LEAF' },
+            right: { key: 'C', type: 'LEAF' }
           },
           right: {
+            type: 'BINARY_OP',
             conjunction: 'AND',
-            left: { key: 'D' },
+            left: { key: 'D', type: 'LEAF' },
             right: {
+              type: 'BINARY_OP',
               conjunction: 'AND',
-              left: { key: 'E' },
-              right: { key: 'F' }
+              left: { key: 'E', type: 'LEAF' },
+              right: { key: 'F', type: 'LEAF' }
             }
           }
         }
