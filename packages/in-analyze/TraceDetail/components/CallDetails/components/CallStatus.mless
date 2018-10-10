@@ -28,15 +28,13 @@
   }
 
   .errorIconWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-right: 0.5rem;
-    width: 0.875rem;
-    height: 0.875rem;
+    margin-right: 5px;
+    width: .875rem;
+    height: .875rem;
     border-radius: 50%;
     background: #ff5d3b;
     color: white;
+    font-size: .75rem;
+    text-align: center;
   }
 }

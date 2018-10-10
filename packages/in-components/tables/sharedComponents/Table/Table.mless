@@ -123,7 +123,14 @@
   }
 
   .erroneousRowIcon {
-    fill: #777A7C;
+    // Chrome cannot center align the exclamation mark when it is located in certain contexts
+    display: inline;
+    padding: 0 6px;
+    border-radius: 50%;
+    background: #ff5d3b;
+    color: white;
+    font-size: .75rem;
+    text-align: center;
   }
 
   .severityIndicatorCellContentWrapper {
