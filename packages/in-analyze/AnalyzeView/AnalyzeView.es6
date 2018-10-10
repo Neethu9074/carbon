@@ -94,7 +94,6 @@ export default compose(
 
 function AnalyzeView(props) {
   const { activeDialog, filters, isRawView, isTracesDataSource } = props;
-
   let view;
   if (isRawView) {
     if (isTracesDataSource) {

@@ -5,6 +5,7 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { identity } from 'in-services/util/function';
+import history from 'in-stores/navigation/history';
 
 // Sample usage
 // withUrlDependingState({
@@ -77,13 +78,28 @@ export default ({
 
     constructor(props) {
       super(props);
+      // Tnitialize initial state so that the initial state already depends on the URL.
+      // Otherwise we risk WithUrlDependingState resets kicking in as well as unnecessary
+      // data retrieval.
+      let urlDependingState = getInitialState(props);
+      urlDependingState =
+        this.calculateUrlDependingState(history.location, props, urlDependingState) || urlDependingState;
       this.state = {
-        urlDependingState: getInitialState(props)
+        urlDependingState
       };
     }
 
     componentDidMount() {
-      this.locationSubscription = navigationParameters$.subscribe(this.onLocationChange);
+      this.locationSubscription = navigationParameters$
+        // Simple yet effective way to avoid state updates when navigating away from a route.
+        // When not doing this, it can happen that we update this state and a downstream
+        // component makes a backend request. Following that request, the component is
+        // immediately unmounted and therefore the request is pointless.
+        // Handling updates on the next frame will mean that React gets a chance to unmount
+        // a component which will call this component's componentWillUnmount which will
+        // cancel the location subscription.
+        .nextFrame()
+        .subscribe(this.onLocationChange);
     }
 
     componentWillUnmount() {
@@ -92,18 +108,22 @@ export default ({
       }
     }
 
-    onLocationChange = params => {
-      this.params = params;
-      this.calculateUrlDependingState(this.props);
+    onLocationChange = location => {
+      const newState = this.calculateUrlDependingState(location, this.props, this.state);
+      if (newState) {
+        this.setState({
+          urlDependingState: newState
+        });
+      }
     };
 
-    calculateUrlDependingState(props) {
+    calculateUrlDependingState(location, props, state) {
       let urlValues = emptyObject;
       const forPathSegment = getPathSegment(props);
       const matrixPrefix = getMatrixPrefix(props);
-      if (this.params.matrix[forPathSegment] != null) {
+      if (location.matrix[forPathSegment] != null) {
         urlValues = boundKeys.reduce((agg, k) => {
-          agg[k] = this.params.matrix[forPathSegment][`${matrixPrefix}${k}`];
+          agg[k] = location.matrix[forPathSegment][`${matrixPrefix}${k}`];
           return agg;
         }, {});
 
@@ -121,11 +141,10 @@ export default ({
 
       const defaultValues = pickBoundKeys(getInitialState(props));
       const newState = defaults({}, urlValues, defaultValues);
-      if (!isEqual(newState, this.state.urlDependingState)) {
-        this.setState({
-          urlDependingState: newState
-        });
+      if (isEqual(newState, state.urlDependingState)) {
+        return null;
       }
+      return newState;
     }
 
     componentDidUpdate(prevProps) {
