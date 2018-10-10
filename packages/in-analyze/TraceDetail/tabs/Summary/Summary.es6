@@ -8,7 +8,9 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
+import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -72,6 +74,7 @@ class Summary extends React.Component {
 
     const traceDetails = (
       <div className={locals.wrapper}>
+        <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <div className={locals.left}>
           <Row>
             <Col lg={4}>
