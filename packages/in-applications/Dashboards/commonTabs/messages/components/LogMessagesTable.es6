@@ -38,7 +38,7 @@ export default function LogMessagesTable({
       defaultOrderBy="logsAgg"
       defaultOrderDirection="DESC"
       size="compact"
-      cardTitle="Error Messages"
+      cardTitle="Log Messages"
       rightHeader={
         <AnalyzeMessagesButton
           groupByTagName="log.message"
