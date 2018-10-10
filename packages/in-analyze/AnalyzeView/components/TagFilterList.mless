@@ -87,4 +87,8 @@
     list-style: none;
     margin-bottom: 0.25rem;
   }
+
+  .extraMargin {
+    margin-bottom: 1.5rem;
+  }
 }

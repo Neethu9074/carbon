@@ -11,7 +11,6 @@ import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
-import Title from 'in-components/Title';
 
 import locals from './Remove.mless';
 
@@ -43,7 +42,6 @@ export default class Remove extends React.PureComponent {
 
     return (
       <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-        <Title title="Remove Application" />
         <div className={locals.header}>
           <h1 className={locals.heading}>Remove Application Perspective</h1>
         </div>
