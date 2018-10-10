@@ -21,19 +21,21 @@ export default connectTo(
     let itemType;
     if (numCalls != undefined) {
       numItems = numCalls;
-      itemType = 'Calls';
+      itemType = 'Call';
     } else {
       numItems = numTraces;
-      itemType = 'Traces';
+      itemType = 'Trace';
     }
 
     let counter;
     if (numItems != undefined && numGroups != undefined) {
-      counter = `${number.compact(numItems)} ${itemType} (in ${numGroups} Groups)`;
+      counter = `${number.compact(numItems)} ${itemType}${numItems === 1 ? '' : 's'} (in ${numGroups} Group${
+        numGroups === 1 ? '' : 's'
+      })`;
     } else if (numItems != undefined) {
-      counter = `${number.compact(numItems)} ${itemType}`;
+      counter = `${number.compact(numItems)} ${itemType}${numItems === 1 ? '' : 's'}`;
     } else if (numGroups != undefined) {
-      counter = `${numGroups} Groups`;
+      counter = `${numGroups} Group${numGroups === 1 ? '' : 's'}`;
     }
 
     return (
