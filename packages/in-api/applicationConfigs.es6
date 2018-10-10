@@ -5,16 +5,6 @@ import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 
-export function getApplicationConfigs() {
-  return http({
-    method: 'GET',
-    maxRetries: 1,
-    timeout: 1000,
-    url: `/api/applicationConfigs`,
-    mapToResultObject: true
-  }).map(mapFromServerResponse);
-}
-
 export function getApplicationConfig(id) {
   return http({
     method: 'GET',

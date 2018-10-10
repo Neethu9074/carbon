@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
 import {
+  mapMatchSpecificationTreeToList,
   createNewApplicationConfig,
   getApplicationConfig,
   addApplicationConfig,
@@ -265,8 +266,9 @@ function applicationLabelValidator(name) {
 
 function mapTagsForTracking(applicationConfig) {
   const configForTracking = assign({}, applicationConfig);
+
   configForTracking.tags = applicationConfig.matchSpecification
-    ? applicationConfig.matchSpecification.map(matchSpec => matchSpec.key)
+    ? mapMatchSpecificationTreeToList(applicationConfig.matchSpecification).map(matchSpec => matchSpec.key)
     : [];
   return configForTracking;
 }
