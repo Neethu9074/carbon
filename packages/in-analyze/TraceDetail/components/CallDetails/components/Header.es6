@@ -43,7 +43,7 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
               </Link>
               <SvgIcon className={locals.chevron} type="lib_arrow_expand_right" width={16} height={16} />
               <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
-              <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
+              <Link className={locals.link} href$={getEndpointDashboard(endpoint.label, { serviceId: service.id })}>
                 {endpoint.label}
               </Link>
             </div>

@@ -10,7 +10,6 @@ export default function ServiceEndpointInformation({ call, marginLeft }) {
   if (!call.service.label && !call.endpoint.label) {
     return null;
   }
-
   return (
     <div
       style={{
@@ -26,7 +25,7 @@ export default function ServiceEndpointInformation({ call, marginLeft }) {
       <SvgIcon className={locals.arrowIcon} type="lib_arrow_expand_right" width={16} height={16} />
 
       <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" width={16} height={16} />
-      <Link className={locals.link} href$={getEndpointDashboard(call.endpoint.id, { serviceId: call.service.id })}>
+      <Link className={locals.link} href$={getEndpointDashboard(call.endpoint.label, { serviceId: call.service.id })}>
         {call.endpoint.label}
       </Link>
     </div>

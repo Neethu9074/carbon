@@ -37,7 +37,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
             <SvgIcon type="lib_application_endpoint" width={24} height={24} className={locals.endpointIcon} />
             <Link
               className={locals.link}
-              href$={getEndpointDashboard(item.endpoint.id, { serviceId: item.service.id })}
+              href$={getEndpointDashboard(item.endpoint.label, { serviceId: item.service.id })}
             >
               {item.endpoint.label}
             </Link>

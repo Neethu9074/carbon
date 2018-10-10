@@ -180,7 +180,7 @@ const columnDefinitions = [
       return (
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.linkEntityIcon} type="lib_application_endpoint" width={24} height={24} />
-          <Link href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}>
+          <Link href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}>
             {item.endpoint.label}
           </Link>
         </div>
@@ -256,12 +256,10 @@ const columnDefinitions = [
     id: 'maxSeverity',
     label: 'Health',
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig, serviceId }) {
+    getContent(item, { result, timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
-          serviceId={serviceId}
           endpointId={item.endpoint.id}
-          endpointType={item.endpoint.type}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}

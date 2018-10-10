@@ -2,16 +2,12 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import { getEntityOfType, parseEndpointEntityId } from './entityUtils';
+import { getEntityOfType, isLoading, hasErrors } from './entityUtils';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { always } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import './EntityInformation.less';
-
-export const loadingPlaceholder = {};
-export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 const block = 'in-event-view-event-information';
 
@@ -75,8 +71,8 @@ function EntityInformation20({ entityId, entity, entityType, label }) {
   } else if (entityType === 'Service20') {
     href$ = getServiceDashboard(entityId);
   } else if (entityType === 'Endpoint20') {
-    const endpoint = parseEndpointEntityId(entityId);
-    href$ = getEndpointDashboard(endpoint.name, {
+    const endpoint = entity.data;
+    href$ = getEndpointDashboard(endpoint.label, {
       serviceId: endpoint.serviceId
     });
   }
@@ -87,12 +83,4 @@ function EntityInformation20({ entityId, entity, entityType, label }) {
       <Link href$={href$}>{entity.data.label}</Link>
     </div>
   );
-}
-
-function isLoading(entity) {
-  return entity === loadingPlaceholder || (entity.progress && entity.progress.loading);
-}
-
-function hasErrors(entity) {
-  return entity.errors && entity.errors.length > 0;
 }

@@ -17,9 +17,16 @@ export default connectTo(
     })
   }),
   function EndpointBreadcrumb({ endpoint, endpointId, applicationId, serviceId }) {
+    if (!endpoint.data) {
+      return null;
+    }
+
     return (
-      <Breadcrumb href$={getEndpointDashboard(endpointId, { applicationId, serviceId })} label="Endpoint">
-        {endpoint.data && endpoint.data.label}
+      <Breadcrumb
+        href$={getEndpointDashboard(endpoint.data.label, { applicationId, serviceId, endpointId })}
+        label="Endpoint"
+      >
+        {endpoint.data.label}
       </Breadcrumb>
     );
   }

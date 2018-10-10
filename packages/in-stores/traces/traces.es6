@@ -1,5 +1,5 @@
 import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalEndpointImplementation';
-import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation';
+import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation/entityUtils';
 import createTotalTraceCountObservable from 'in-subscription/totalTraceCount';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
