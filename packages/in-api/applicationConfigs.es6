@@ -64,8 +64,8 @@ function mapToServerResponse(config) {
     const matchSpecification = config.matchSpecification[i];
     if (matchSpecification.secondLevelName) {
       matchSpecification.key = `${matchSpecification.key}.${matchSpecification.secondLevelName}`;
-      delete matchSpecification.secondLevelName;
     }
+    delete matchSpecification.secondLevelName;
   }
 
   config.matchSpecification = mapMatchSpecificationListToTree(config.matchSpecification);
@@ -78,6 +78,7 @@ function mapFromServerResponse(config) {
   }
 
   config = deepCopy(config);
+  config.data.matchSpecification = mapMatchSpecificationTreeToList(config.data.matchSpecification);
 
   for (let i = 0; i < config.data.matchSpecification.length; i++) {
     const matchSpecification = config.data.matchSpecification[i];
@@ -120,7 +121,12 @@ function split(list) {
   }
 
   if (splitList.right) {
-    splitList.right = splitList.right.length > 1 ? split(splitList.right) : splitList.right[0];
+    if (splitList.right.length > 1) {
+      splitList.right = split(splitList.right);
+    } else {
+      splitList.right = splitList.right[0];
+      delete splitList.right.conjunction;
+    }
   }
   return splitList;
 }
@@ -153,12 +159,52 @@ export function annotateWithTypes(node) {
     return;
   }
 
-  if (node.conjunction) {
+  if (node.left || node.right) {
     node.type = 'BINARY_OP';
   } else {
+    delete node.conjunction;
     node.type = 'LEAF';
   }
 
   annotateWithTypes(node.left);
   annotateWithTypes(node.right);
+}
+
+export function mapMatchSpecificationTreeToList(tree) {
+  if (!tree) {
+    return emptyArray;
+  }
+
+  return combineNodes(resolve(tree));
+}
+
+function resolve(node) {
+  if (!node) {
+    return [];
+  }
+
+  if (!node.left && !node.right) {
+    return [node];
+  }
+
+  return resolve(node.left)
+    .concat([{ conjunction: node.conjunction }])
+    .concat(resolve(node.right));
+}
+
+// hardly depends on the fact that the list is created out of a binary tree
+function combineNodes(list) {
+  if (list.length === 1) {
+    return list;
+  }
+
+  const result = [];
+  for (let i = 0; i < list.length; i += 2) {
+    const item = list[i];
+    if (i < list.length - 1) {
+      item.conjunction = list[i + 1].conjunction;
+    }
+    result.push(item);
+  }
+  return result;
 }

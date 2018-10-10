@@ -1,7 +1,12 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { mapMatchSpecificationListToTree, annotateWithTypes, splitBy } from 'in-api/applicationConfigs';
+import {
+  mapMatchSpecificationListToTree,
+  mapMatchSpecificationTreeToList,
+  annotateWithTypes,
+  splitBy
+} from 'in-api/applicationConfigs';
 
 describe('in-api/applicationConfigs', () => {
   describe('annotateWithTypes', () => {
@@ -60,10 +65,11 @@ describe('in-api/applicationConfigs', () => {
 
   describe('mapMatchSpecificationListToTree', () => {
     it('should return node as root if only one item is present', () => {
-      const tree = mapMatchSpecificationListToTree([{ key: 'A' }]);
-      expect(tree.key).to.equal('A');
-      expect(tree.left).to.equal(undefined);
-      expect(tree.right).to.equal(undefined);
+      const tree = mapMatchSpecificationListToTree([{ key: 'A', conjunction: 'AND' }]);
+      expect(tree).to.deep.equal({
+        key: 'A',
+        type: 'LEAF'
+      });
     });
 
     it('should identify removed nodes', () => {
@@ -73,7 +79,7 @@ describe('in-api/applicationConfigs', () => {
         { key: 'C', conjunction: 'OR' },
         { key: 'D', conjunction: 'AND' },
         { key: 'E', conjunction: 'AND' },
-        { key: 'F' }
+        { key: 'F', conjunction: 'AND' }
       ]);
       expect(tree).to.deep.equal({
         type: 'BINARY_OP',
@@ -101,6 +107,36 @@ describe('in-api/applicationConfigs', () => {
           }
         }
       });
+    });
+  });
+
+  describe('mapMatchSpecificationTreeToList', () => {
+    it('should convert a tree into a list structure', () => {
+      expect(mapMatchSpecificationTreeToList(mapMatchSpecificationListToTree([]))).to.deep.equal([]);
+
+      expect(mapMatchSpecificationTreeToList(mapMatchSpecificationListToTree([{ key: 'A' }]))).to.deep.equal([
+        { key: 'A', type: 'LEAF' }
+      ]);
+
+      expect(
+        mapMatchSpecificationTreeToList(
+          mapMatchSpecificationListToTree([
+            { key: 'A', conjunction: 'OR' },
+            { key: 'B', conjunction: 'AND' },
+            { key: 'C', conjunction: 'OR' },
+            { key: 'D', conjunction: 'AND' },
+            { key: 'E', conjunction: 'AND' },
+            { key: 'F' }
+          ])
+        )
+      ).to.deep.equal([
+        { key: 'A', type: 'LEAF', conjunction: 'OR' },
+        { key: 'B', type: 'LEAF', conjunction: 'AND' },
+        { key: 'C', type: 'LEAF', conjunction: 'OR' },
+        { key: 'D', type: 'LEAF', conjunction: 'AND' },
+        { key: 'E', type: 'LEAF', conjunction: 'AND' },
+        { key: 'F', type: 'LEAF' }
+      ]);
     });
   });
 
