@@ -49,7 +49,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <p>
           The nginx config file was parsed and no <code>stub_status</code> direction could be found. This directive{' '}
           needs to be configured in order to gather nginx metrics. The following snippet shows how to configure{' '}
-          <code>stub_status</code> within an nginx config file.
+          <code>stub_status</code> within an nginx config file:
         </p>
 
         <Code code={stubStatusSampleConfig} />
@@ -61,19 +61,20 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <strong>Status URL not accessible.</strong>
 
         <p>
-          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified. Unfortunately, it was not
-          possible to access this URL. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
-          directives, but can also happen for various other reasons, e.g. port bindings and iptable configurations.
+          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified but this address could{' '}
+          not be accessed. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
+          directives, port bindings or iptable configurations.
         </p>
       </DashboardNotification>
     );
   } else if (stubStatusUrlFound === false) {
     return (
       <DashboardNotification type="warning">
-        A <code>stub_status</code> directive could not found within the nginx configuration. Please add or enable it{' '}
-        within the nginx configuration to enable monitoring metrics.
-        <br />
-        <br />
+
+        <p>
+          A <code>stub_status</code> directive could not found within the nginx configuration. Please add or enable it{' '}
+          within the nginx configuration to enable monitoring metrics.
+        </p>
         <Code code={stubStatusSampleConfig} />
       </DashboardNotification>
     );
@@ -83,9 +84,9 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <strong>NgnixPlus API URL not accessible.</strong>
 
         <p>
-          Based on the nginx config, nginx-plus API url was identified. Unfortunately, it was not possible to access API
-          location. This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, but can
-          also happen for various other reasons, e.g. port bindings and iptable configurations.
+          Based on the nginx config, we identified the nginx-plus API which is inaccessible on it's specified location.
+          This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, port bindings or
+          iptable configurations.
         </p>
       </DashboardNotification>
     );
@@ -109,7 +110,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="Requests / s">
+        <KpiKeyValue label="Requests per second">
           <MetricValue snapshotId={snapshotId} metric="requests" />
         </KpiKeyValue>
         <KpiKeyValue label="Connections Reading">
@@ -123,14 +124,14 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Requests">
+      <DashboardSection title="Requests per second">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['requests'],
-            labels: ['Requests / s'],
+            labels: ['Requests'],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -145,7 +146,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['nginx_plus.http.server_zones.5xx_responses'],
-              labels: ['5xx responses / s'],
+              labels: ['5xx responses per second'],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
@@ -160,7 +161,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['connections.accepted', 'connections.handled', 'connections.active', 'connections.dropped'],
-            labels: ['Accepted connections', 'Handled connections', 'Active connections', 'Dropped connections'],
+            labels: ['Accepted', 'Handled', 'Active', 'Dropped'],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -188,7 +189,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
                 'nginx_plus.http.caches.max_size',
                 'nginx_plus.http.caches.cold'
               ],
-              labels: ['Miss responses / s', 'Hit responses / s', 'Caches size', 'Max caches size', '# of cold caches'],
+              labels: ['Misses per second', 'Hits per second', 'Caches size', 'Max cache size', 'Number of cold caches'],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
