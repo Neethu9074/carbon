@@ -16,7 +16,6 @@ import {
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -57,8 +56,6 @@ export default function RawTracesPresenter(props) {
               technicalName="latency"
               label="Latency"
             />
-
-            <Th>Errors</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -88,17 +85,13 @@ export default function RawTracesPresenter(props) {
               <Td>
                 <span className={locals.metricValue}>{millis.fixedCompact(item.trace.duration)}</span>
               </Td>
-
-              <Td>
-                <ErrorIndicator errorCount={item.trace.erroneous ? 1 : 0} allowZero />
-              </Td>
             </Tr>
           ))}
 
-          <HorizontalIndicatorRow cols={6} progress={progress} />
-          <ErrorRows cols={6} errors={errors} size="compact" />
-          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={6} />}
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={6} />}
+          <HorizontalIndicatorRow cols={5} progress={progress} />
+          <ErrorRows cols={5} errors={errors} size="compact" />
+          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={5} />}
         </Tbody>
       </Table>
     </AnalyzeTracesWorkspace>
