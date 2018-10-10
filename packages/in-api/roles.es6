@@ -57,7 +57,8 @@ export function createRole(
   canViewAuditLog = true,
   canConfigureObjectives = true,
   canConfigureAgents = true,
-  canConfigureAuthenticationMethods = true
+  canConfigureAuthenticationMethods = true,
+  canConfigureApplications = true
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -77,6 +78,7 @@ export function createRole(
     canViewAuditLog,
     canConfigureObjectives,
     canConfigureAgents,
-    canConfigureAuthenticationMethods
+    canConfigureAuthenticationMethods,
+    canConfigureApplications
   };
 }
