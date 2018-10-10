@@ -6,7 +6,6 @@ import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } fr
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
 import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
@@ -178,7 +177,6 @@ function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, isTraces
     const traceIdForNextPrefetch = isTracesDataSource ? nextItem.trace.id : nextItem.call.traceId;
     const callIdForNextPrefetch = isTracesDataSource ? undefined : item.call.id;
     prefetch(getTraceSummary({ id: traceIdForNextPrefetch }));
-    prefetch(getTraceActivityTree({ id: traceIdForNextPrefetch }));
     if (callIdForNextPrefetch) {
       prefetch(getTraceActivityTreeNodeDetails({ traceId: traceIdForNextPrefetch, nodeId: callIdForNextPrefetch }));
     }
