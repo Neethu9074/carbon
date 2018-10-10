@@ -153,6 +153,7 @@ const blacklists = {
     'trace.id': true,
     'trace.name': true,
     'trace.endpoint.name': true,
+    'trace.service.name': true,
     'trace.latency': true,
     'trace.erroneous': true
   }
