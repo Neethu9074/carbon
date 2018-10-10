@@ -13,6 +13,7 @@ export default function TagFilter({
   filterConnectionOperators,
   onOperatorChanged,
   isLastOperator,
+  hasExtraMargin,
   isOnlyFilter
 }) {
   let { name, secondLevelName, value, operator } = tagFilter.tag;
@@ -35,7 +36,7 @@ export default function TagFilter({
       {!isLastOperator &&
         filterConnectionOperators &&
         isFirstOperator && (
-          <div className={locals.firstOperatorPlaceholder}>
+          <div className={hasExtraMargin ? locals.firstSpacedOperatorPlaceholder : locals.firstOperatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
               selectedOperator={tagFilter.tag.conjunction}
@@ -46,7 +47,7 @@ export default function TagFilter({
       {filterConnectionOperators &&
         !isLastOperator &&
         !isFirstOperator && (
-          <div className={locals.operatorPlaceholder}>
+          <div className={hasExtraMargin ? locals.spacedOperatorPlaceholder : locals.operatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
               selectedOperator={tagFilter.tag.conjunction}

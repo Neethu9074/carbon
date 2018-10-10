@@ -11,24 +11,28 @@ export default function TagFilterList({ tagFilters, filterConnectionOperators = 
   return (
     <div className={locals.tagFilterListWrapper}>
       <ul className={locals.tagFilterList}>
-        {tagFilters.map((tagFilter, i) => (
-          <li
-            key={i}
-            className={evaluateClassNames({
-              [locals.item]: true,
-              [locals.extraMargin]: shouldAddSpaceBetweenFilterGroups && tagFilter.tag.conjunction === 'OR'
-            })}
-          >
-            <TagFilter
-              tagFilter={tagFilter}
-              isFirstOperator={i === 0}
-              isLastOperator={i === tagFilters.length - 1}
-              filterConnectionOperators={filterConnectionOperators}
-              onOperatorChanged={operator => onOperatorChanged(i, operator)}
-              isOnlyFilter={tagFilters.length === 1}
-            />
-          </li>
-        ))}
+        {tagFilters.map((tagFilter, i) => {
+          const hasExtraMargin = shouldAddSpaceBetweenFilterGroups && tagFilter.tag.conjunction === 'OR';
+          return (
+            <li
+              key={i}
+              className={evaluateClassNames({
+                [locals.item]: true,
+                [locals.extraMargin]: hasExtraMargin
+              })}
+            >
+              <TagFilter
+                hasExtraMargin={hasExtraMargin}
+                tagFilter={tagFilter}
+                isFirstOperator={i === 0}
+                isLastOperator={i === tagFilters.length - 1}
+                filterConnectionOperators={filterConnectionOperators}
+                onOperatorChanged={operator => onOperatorChanged(i, operator)}
+                isOnlyFilter={tagFilters.length === 1}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

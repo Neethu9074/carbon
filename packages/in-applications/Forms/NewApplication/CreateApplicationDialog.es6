@@ -109,6 +109,9 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                     <Fragment>
                       <DescriptionText>
                         {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
+                        <br />
+                        <br />
+                        <strong>AND operators take precedence and are evaluated before OR operators</strong>
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>
