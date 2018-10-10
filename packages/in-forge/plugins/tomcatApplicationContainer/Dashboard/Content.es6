@@ -17,7 +17,7 @@ export default function TomcatDashboard({ snapshot, timeConfig }) {
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
 
-        <KpiKeyValue label="#Sessions">
+        <KpiKeyValue label="Number of Sessions">
           <MetricValue snapshotId={snapshot.get('id')} metric="totalSessionCount" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>

@@ -105,7 +105,7 @@ function getRowDetails(row) {
       }}
       y2={{
         metrics: ['servlets.' + row.servletKey + '.inv', 'servlets.' + row.servletKey + '.errors'],
-        labels: ['Request Count', 'Errors'],
+        labels: ['Requests', 'Errors'],
         type: 'line',
         formatter: number.detailed
       }}
