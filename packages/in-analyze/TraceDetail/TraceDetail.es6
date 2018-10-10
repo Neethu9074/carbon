@@ -3,8 +3,6 @@ import { compose } from 'recompose';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -102,7 +100,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
 function Header(props) {
   return (
     <div>
-      <BasicApplicationDashboardHeader type="Trace" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+      <BasicApplicationDashboardHeader type="Trace" renderActions={Actions} {...props} />
       <div className={locals.tabViewPlaceholder} />
     </div>
   );
@@ -131,15 +129,6 @@ function Actions({ traceId }) {
           />
         </Tooltip>
       </Link>
-    </Fragment>
-  );
-}
-
-function SubTypes({ result }) {
-  return (
-    <Fragment>
-      <EndpointTypeBadgeList types={[result.data.type]} />
-      <TechnologyIndicatorList technologies={result.data.technologies} />
     </Fragment>
   );
 }
