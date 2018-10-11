@@ -28,12 +28,12 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: muSecondsToMillisTwoDecimalPlaces,
             metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
-            labels: ['DB Time', 'DB CPU Time', 'SQL Execute Time', 'Parse Time'],
+            labels: ['DB', 'DB CPU', 'SQL Execute', 'Parse'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="DB CPU Time/DB Time Ratio">
+      <DashboardSection title="DB / CPU Time">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -42,7 +42,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.cpuTimeDbTimeRatio'],
-            labels: ['DB CPU Time/DB Time Ratio'],
+            labels: ['Ratio'],
             type: 'area'
           }}
         />
@@ -91,13 +91,13 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.sqlExecuteCount'],
-            labels: ['Sql Execute Count'],
+            labels: ['Count'],
             type: 'line'
           }}
           y2={{
             formatter: muSecondsToMillisTwoDecimalPlaces,
             metrics: ['stats.averageSqlExecuteTime'],
-            labels: ['Average Sql Execution Time'],
+            labels: ['Average Time'],
             type: 'line'
           }}
         />
@@ -109,7 +109,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
-            labels: ['Hard Parse Count', 'Total Parse Count'],
+            labels: ['Hard Parse', 'Total Parse'],
             type: 'line'
           }}
         />
@@ -123,7 +123,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.softTotalParsesRatio', 'stats.executesWithoutParsesRatio'],
-            labels: ['Soft/Total Parse Ratio', 'Executes Without Parses Ratio'],
+            labels: ['Soft / Total', 'Without Parses'],
             type: 'area'
           }}
         />
@@ -153,12 +153,12 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
-            labels: ['Physical Reads', 'Session Logical Reads'],
+            labels: ['Physical', 'Logical'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Buffer Cache Hit Ratio">
+      <DashboardSection title="Buffer Cache Hit">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -167,7 +167,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.bufferCacheHitRatio'],
-            labels: ['Buffer Cache Hit Ratio'],
+            labels: ['Ratio'],
             type: 'area'
           }}
         />
@@ -179,7 +179,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
-            labels: ['Active User Sessions', 'Inactive User Sessions', 'Background Sessions'],
+            labels: ['Active User', 'Inactive User', 'Background'],
             type: 'stackedArea'
           }}
         />
@@ -193,7 +193,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: percentageTwoDecimalPlaces,
             metrics: ['stats.usedSessionsRatio'],
-            labels: ['Sessions/Session Limit'],
+            labels: ['Sessions / Session Limit'],
             type: 'area'
           }}
         />
