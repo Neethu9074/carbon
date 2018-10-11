@@ -21,6 +21,7 @@ import {
   showAllColumns as showAllColumnsKey
 } from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
@@ -85,6 +86,11 @@ function RawTracesNavigator({
 
                 <Td active={item.trace.id === selectedTraceId}>
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
+                  {!showAllColumns && (
+                    <NavigatorMinifiedExtraData
+                      extras={[formatDateTime(item.trace.startTime), millis.fixedCompact(item.trace.duration)]}
+                    />
+                  )}
                 </Td>
 
                 {showAllColumns && <Td>{formatDateTime(item.trace.startTime)}</Td>}

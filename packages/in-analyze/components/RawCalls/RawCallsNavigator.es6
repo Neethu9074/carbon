@@ -22,6 +22,7 @@ import {
 } from 'in-analyze/components/getResponsiveNavigatorMode';
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -104,6 +105,12 @@ function RawCallsNavigator({
                       </Fragment>
                     )}
                   </Link>
+
+                  {!showAllColumns && (
+                    <NavigatorMinifiedExtraData
+                      extras={[formatDateTime(item.call.started), millis.fixedCompact(item.call.duration)]}
+                    />
+                  )}
                 </Td>
 
                 {showAllColumns && <Td>{formatDateTime(item.call.started)}</Td>}
