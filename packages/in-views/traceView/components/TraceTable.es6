@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { furtherDataAvailable$, traces$, isLoading$, loadMoreTraces } from 'in-views/traceView/stores/traceList';
+import {
+  furtherDataAvailable$,
+  traces$,
+  isLoading$,
+  loadMoreTraces,
+  queryUsedForDataRetrieval$
+} from 'in-views/traceView/stores/traceList';
 import EntityColumnContent from 'in-views/traceView/components/EntityColumnContent';
 import { setSelectedTraceId, clearTraceSelection } from 'in-stores/traces';
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
@@ -84,9 +90,20 @@ export default connectTo(
   {
     isInfiniteLoading: isLoading$,
     selectedTraceId,
-    traces: traces$
+    traces: traces$,
+    queryUsedForDataRetrieval: queryUsedForDataRetrieval$
   },
-  function TraceTable({ traces, selectedTraceId, isInfiniteLoading }) {
+  function TraceTable({ traces, selectedTraceId, isInfiniteLoading, queryUsedForDataRetrieval = '' }) {
+    if (queryUsedForDataRetrieval.length > 0 && queryUsedForDataRetrieval.length < 4) {
+      return (
+        <div className={block}>
+          <p className={`${block}__no-traces`}>
+            Search will be performed once more than three characters have been entered.
+          </p>
+        </div>
+      );
+    }
+
     if (!traces) {
       return <LoadingIndicator type="dark" />;
     }

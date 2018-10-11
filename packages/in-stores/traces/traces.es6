@@ -1,15 +1,27 @@
+import { just } from 'reactive-observables';
+import { fromJS } from 'immutable';
+
 import subscribeToPhysicalEndpointImplementation from 'in-subscription/physicalEndpointImplementation';
 import { loadingPlaceholder, alwaysLoadingPlaceholder$ } from 'in-components/EntityInformation/entityUtils';
 import createTotalTraceCountObservable from 'in-subscription/totalTraceCount';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { debouncedQuery$ } from 'in-stores/search/query';
 import { createTrackingStore } from 'in-stores/store';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
+import { query$ } from 'in-stores/search/query';
 import getTrace from 'in-subscription/getTrace';
 
-export const totalTraceCountActiveFilter$ = debouncedQuery$.flatMap(luceneQuery => getTraceCount(luceneQuery || ''));
+export const totalTraceCountActiveFilter$ = query$
+  // increasing debounce to have fewer db queries
+  .debounce(1000)
+  .flatMap((luceneQuery = '') => {
+    luceneQuery = luceneQuery.trim();
+    if (luceneQuery.length > 0 && luceneQuery.length < 4) {
+      return just(fromJS({ count: -1 }));
+    }
+    return getTraceCount(luceneQuery);
+  });
 
 export function getNumberOfTracesStartingAtService(serviceId) {
   return getTraceCount(`trace.startingAt:"${serviceId}"`);

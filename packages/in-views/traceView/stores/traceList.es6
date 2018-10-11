@@ -2,13 +2,13 @@ import { combineLatest, create } from 'reactive-observables';
 
 import { sortDirection$ } from 'in-views/traceView/stores/sortDirection';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
-import { debouncedQuery$ as query$ } from 'in-stores/search/query';
 import { autoUpdate$ } from 'in-views/traceView/stores/autoUpdate';
 import { totalTraceCountActiveFilter$ } from 'in-stores/traces';
 import { formatDateTime } from 'in-services/formatters/date';
 import createTracesObservable from 'in-subscription/traces';
 import { sortBy$ } from 'in-views/traceView/stores/sortBy';
 import { timeConfig$ } from 'in-stores/time/config';
+import { query$ } from 'in-stores/search/query';
 import { from$, to$ } from 'in-stores/timeline';
 import { createStore } from 'in-stores/store';
 import { getLabel } from 'in-sdk/tracing';
@@ -52,6 +52,8 @@ const furtherDataAvailable = createStore({
 });
 export const furtherDataAvailable$ = furtherDataAvailable.observable;
 
+export const queryUsedForDataRetrieval$ = create();
+
 // this stream is used to resubscribe for new raw events data. because there are many factors causing a refresh,
 // it is capsuled within a stream to be able to throttle refreshes.
 const refreshStream = create();
@@ -76,10 +78,18 @@ export function enable() {
     })
   );
   subscriptions.push(
-    query$.subscribe(_query => {
-      query = _query;
-      refreshStream.emit(true);
-    })
+    query$
+      // increasing debounce to have fewer db queries
+      .debounce(1000)
+      .subscribe((_query = '') => {
+        queryUsedForDataRetrieval$.emit(_query);
+
+        const queryLength = _query.trim().length;
+        if (queryLength === 0 || queryLength > 3) {
+          query = _query;
+          refreshStream.emit(true);
+        }
+      })
   );
   subscriptions.push(
     autoUpdate$.subscribe(autoUpdate => {
