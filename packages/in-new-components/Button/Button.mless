@@ -76,6 +76,30 @@
     }
   }
 
+  .primaryv2 {
+    .buttonStyle(
+        // bg
+          @lib__colors__light-blue800,
+        // hover bg
+          #148cc8,
+        // font
+          #fff,
+        // hover font
+          #fff,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #86cff3;
+    }
+  }
+
   .secondary {
     .buttonStyle(
         // bg

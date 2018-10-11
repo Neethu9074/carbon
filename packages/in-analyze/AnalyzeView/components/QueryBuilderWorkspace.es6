@@ -18,7 +18,7 @@ import { createFilter } from 'in-analyze/filterBuilder';
 import { getTagFromList } from 'in-applications/tags';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-import Pill from 'in-new-components/Pill';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './QueryBuilderWorkspace.mless';
 
@@ -68,36 +68,39 @@ export default function QueryBuilderWorkspace(props) {
           {group.get('name') ? (
             <Fragment>
               <span className={locals.groupByLabel}>Grouped by</span>
-              <Pill kind="light" color="#3C444D">
+              <span className={locals.groupByTag}>
                 {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
-              </Pill>
+              </span>
+              <Tooltip content="Remove grouping">
+                <SvgIcon
+                  className={locals.removeGrouping}
+                  aria-label="Remove grouping"
+                  type="lib_openclose_cancel"
+                  onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}
+                  width={18}
+                  height={18}
+                />
+              </Tooltip>
+
               {!isTracesDataSource && (
-                <a
-                  href=""
+                <Button
+                  kind="primaryv2"
                   className={locals.changeGroupLabel}
                   onClick={e => {
                     e.preventDefault();
                     onUpdateGroup(filters, onChangeAnalyzeConfig, group);
                   }}
                 >
-                  change
-                </a>
+                  Change Group
+                </Button>
               )}
-
-              <SvgIcon
-                className={locals.removeGrouping}
-                aria-label="Remove grouping"
-                type="lib_openclose_cancel"
-                onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}
-                width={18}
-                height={18}
-              />
             </Fragment>
           ) : (
             <Fragment>
               <span className={locals.groupByLabel}>Grouped by</span>
               {isTracesDataSource ? (
                 <Button
+                  kind="primaryv2"
                   onClick={e => {
                     e.preventDefault();
                     onAddDefaultGroup(onChangeAnalyzeConfig);
@@ -107,6 +110,7 @@ export default function QueryBuilderWorkspace(props) {
                 </Button>
               ) : (
                 <Button
+                  kind="primaryv2"
                   onClick={e => {
                     e.preventDefault();
                     onUpdateGroup(filters, onChangeAnalyzeConfig, group);
