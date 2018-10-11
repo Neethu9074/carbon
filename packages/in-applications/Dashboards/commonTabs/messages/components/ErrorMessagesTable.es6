@@ -140,6 +140,7 @@ function Message({ message, applicationName, serviceName, endpointName }) {
           serviceName,
           endpointName,
           dataSource: 'calls',
+          groupByTag: {},
           filters: [errorMessageFilter]
         })}
       >
