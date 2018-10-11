@@ -41,15 +41,15 @@ export function getLinkToAnalyze({
     // Force lazy initialization of tagFilter so that we can differentiate between deliberate decision to reset filters
     // and just no desire to change filters.
     let tagFilter = null;
-    if (applicationName) {
+    if (applicationName != null) {
       tagFilter = tagFilter || [];
       tagFilter.push({ name: APPLICATION.name, value: applicationName });
     }
-    if (serviceName) {
+    if (serviceName != null) {
       tagFilter = tagFilter || [];
       tagFilter.push({ name: SERVICE.name, value: serviceName });
     }
-    if (endpointName) {
+    if (endpointName != null) {
       tagFilter = tagFilter || [];
       tagFilter.push({ name: ENDPOINT.name, value: endpointName });
     }
