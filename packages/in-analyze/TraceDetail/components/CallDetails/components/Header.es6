@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
@@ -20,7 +21,12 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
   const endpoint = get(call, ['destination', 'endpoint']);
 
   return (
-    <div>
+    <Fragment>
+      <h1 className={locals.title}>
+        Call Details
+        <CloseButton onClick={onClose} />
+      </h1>
+      <Seperator />
       <div className={locals.entityInformation}>
         <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
         {callTreeNode.endpoint && (
@@ -28,7 +34,6 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
             {callTreeNode.endpoint.type}
           </Pill>
         )}
-        <CloseButton onClick={onClose} />
       </div>
       {service &&
         service.id !== 'ROOT' &&
@@ -50,7 +55,7 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
           </Fragment>
         )}
       <Infrastructure call={call} />
-    </div>
+    </Fragment>
   );
 }
 

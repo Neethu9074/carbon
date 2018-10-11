@@ -50,13 +50,13 @@ function CallDetails(props) {
   const callTreeNode = findCallTreeNode(callTreeResult.data, call.id);
 
   return (
-    <div className={locals.callDetails}>
+    <aside className={locals.callDetails}>
       <Header call={call} callTreeNode={callTreeNode} getColor={getColor} onClose={onClose} />
       <Seperator />
       <CallStatus call={call} />
       <Details call={call} />
       <StackTrace call={call} />
-    </div>
+    </aside>
   );
 }
 

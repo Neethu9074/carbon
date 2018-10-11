@@ -2,27 +2,30 @@
 @import '~in-themes/active.less';
 
 :local {
-  .entityInformation {
-    position: relative;
-
+  .title {
+    font-size: 1.1rem;
+    color: @lib__colors__N900Primary;
+    font-weight: 400;
     display: flex;
-    align-items: flex-start;
-
-    margin-bottom: 1rem;
-    padding-right: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .closeIcon {
-    position: absolute;
-    top: -4px;
-    right: 0;
-
     cursor: pointer;
     fill: @lib__colors__N400;
 
     &:hover {
       fill: @lib__colors__N500;
     }
+  }
+
+  .entityInformation {
+    display: flex;
+    align-items: flex-start;
+
+    margin-bottom: 1rem;
+    padding-right: 1.5rem;
   }
 
   .callLabel {
