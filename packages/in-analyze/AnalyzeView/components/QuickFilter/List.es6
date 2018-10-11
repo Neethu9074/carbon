@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { operators } from 'in-analyze/applicationFilter';
@@ -7,7 +7,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
 
-export default function List({ items, tagName, onValueClick, filters, renderIcon = renderIconDefault }) {
+export default function List({
+  items,
+  tagName,
+  onValueClick,
+  filters,
+  renderIcon = renderIconDefault,
+  renderItem = renderItemDefault
+}) {
   return (
     <ul className={locals.suggestionList}>
       {items.map(suggestion => {
@@ -27,8 +34,7 @@ export default function List({ items, tagName, onValueClick, filters, renderIcon
             })}
             onClick={() => (containsItem ? {} : onValueClick(suggestion.value))}
           >
-            {renderIcon(suggestion)}
-            <span className={locals.itemText}>{suggestion.label}</span>
+            {renderItem(renderIcon, suggestion)}
             {containsItem && <SvgIcon className={locals.containsItemIcon} type="lib_uncheck" width={24} height={24} />}
           </li>
         );
@@ -42,4 +48,13 @@ function renderIconDefault(item) {
     return null;
   }
   return <SvgIcon className={locals.entityIcon} type={item.icon} width={24} height={24} />;
+}
+
+function renderItemDefault(renderIcon, item) {
+  return (
+    <Fragment>
+      {renderIcon(item)}
+      <span className={locals.itemText}>{item.label}</span>
+    </Fragment>
+  );
 }
