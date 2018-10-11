@@ -16,7 +16,7 @@ export default function AnalyzeTracesWorkspace({
     <Fragment>
       <Title title={'Analyze Traces'} />
 
-      <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
+      <AnalyzeHeader filters={filters} onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
       <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
 
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>

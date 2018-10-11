@@ -16,6 +16,7 @@ import {
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import { getDefaultGrouping } from 'in-analyze/defaultGroupings';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
@@ -50,12 +51,6 @@ export default compose(
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
     boundKeys: [groupByMatrixParameter, tagFilterMatrixParameter],
-    resets: [
-      {
-        getResettingProps: () => [dataSourceMatrixParameter],
-        onReset: getInitialGrouping
-      }
-    ],
     getInitialState: props => ({
       ...getInitialGrouping(props),
       [tagFilterMatrixParameter]: []
@@ -93,19 +88,19 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { activeDialog, filters, isRawView, isTracesDataSource } = props;
+  const { activeDialog, isRawView, isTracesDataSource } = props;
   let view;
   if (isRawView) {
     if (isTracesDataSource) {
-      view = <RawTraces {...props} filters={filters} />;
+      view = <RawTraces {...props} />;
     } else {
-      view = <RawCalls {...props} filters={filters} />;
+      view = <RawCalls {...props} />;
     }
   } else {
     if (isTracesDataSource) {
-      view = <GroupedTraces {...props} filters={filters} />;
+      view = <GroupedTraces {...props} />;
     } else {
-      view = <GroupedCalls {...props} filters={filters} />;
+      view = <GroupedCalls {...props} />;
     }
   }
 
@@ -119,7 +114,6 @@ function AnalyzeView(props) {
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
   return {
-    [groupByMatrixParameter]:
-      dataSource === 'traces' ? { name: 'trace.endpoint.name', value: '' } : { name: 'endpoint.name', value: '' }
+    [groupByMatrixParameter]: getDefaultGrouping(dataSource === 'traces')
   };
 }

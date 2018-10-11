@@ -17,7 +17,7 @@ export default function AnalyzeCallsWorkspace({
     <Fragment>
       <Title title={'Analyze Calls'} />
 
-      <AnalyzeHeader onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
+      <AnalyzeHeader filters={filters} onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
       <QueryBuilderWorkspace
         isTracesDataSource={isTracesDataSource}
         filters={filters}
