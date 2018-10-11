@@ -131,6 +131,7 @@ import './spring-rest';
 import './spring-web';
 import './spring-webflux-entry';
 import './spring-webflux-exit';
+import './sqlalchemy';
 import './sqs';
 import './tabex';
 import './url';
