@@ -2,24 +2,23 @@
 
 :local {
   .wrapper {
-    display: flex;
-    align-items: center;
-
-    border: 1px solid @lib__colors__N400;
-    border-radius: @lib__shapes__radius_small;
-    background-color: @lib__colors__N050;
+    position: relative;
+    width: 100%;
   }
 
   .searchInput {
-    border: 0;
-    width: 104px;
+    width: 100%;
 
-    &:focus {
-      width: 142px;
-    }
+    padding-right: 2rem;
+
+    border: 1px solid @lib__colors__N400;
   }
 
   .icon {
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+
     fill: @lib__colors__primary1;
     margin: 0 0.25rem;
   }

@@ -19,12 +19,7 @@ function SearchableList(props) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.searchRow}>
-        <SearchInput
-          wrapperClassName={locals.searchInputWrapper}
-          inputClassName={locals.searchInput}
-          onChange={setValue}
-          query={value}
-        />
+        <SearchInput onChange={setValue} query={value} />
       </div>
       {loading && (
         <HorizontalIndicator

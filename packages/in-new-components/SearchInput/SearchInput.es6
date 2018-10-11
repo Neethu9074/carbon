@@ -1,16 +1,15 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SearchInput.mless';
 
-export default function SearchInput({ onChange, query, inputClassName, wrapperClassName }) {
+export default function SearchInput({ onChange, query, maxWidth }) {
   return (
-    <div className={joinClassNames(locals.wrapper, wrapperClassName)}>
+    <div className={locals.wrapper} style={{ maxWidth }}>
       <Input
-        className={joinClassNames(locals.searchInput, inputClassName)}
+        className={locals.searchInput}
         type="search"
         placeholder=""
         value={query}

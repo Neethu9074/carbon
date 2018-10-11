@@ -70,6 +70,7 @@ import './designLibrary/components/MapControlsStory';
 import './designLibrary/components/MultiSelectDropdownStory';
 import './designLibrary/components/PaginationStory';
 import './designLibrary/components/PillStory';
+import './designLibrary/components/SearchInputStory';
 import './designLibrary/components/SparkChart';
 import './designLibrary/components/TagStory';
 import './designLibrary/components/TechnologyIndicator';
