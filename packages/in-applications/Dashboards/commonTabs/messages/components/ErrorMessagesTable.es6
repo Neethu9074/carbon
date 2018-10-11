@@ -129,7 +129,7 @@ const columnDefinitions = [
 
 function Message({ message, applicationName, serviceName, endpointName }) {
   if (!message || message == '') {
-    return <div className={locals.noLink}>Empty message</div>;
+    return <div className={locals.noLink}>Erroneous call without error message</div>;
   } else {
     const errorMessageFilter = { name: 'call.error.message', value: message };
 
