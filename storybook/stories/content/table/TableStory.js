@@ -7,7 +7,7 @@ import { always } from 'in-services/fixedStreams';
 import Table from 'in-components/Table';
 import Root from '../../_helpers/Root';
 
-storiesOf('content/table/Table', module)
+storiesOf('Content/Table/table', module)
   .add('Simple', () => <Simple />)
   .add('Column Types', () => <Columns />)
   .add('With Details', () => <Details />)

@@ -1,14 +1,14 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import Badge, { kinds } from 'in-new-components/Badge/Badge';
+import Pill, { kinds } from 'in-new-components/Pill';
 
 import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
 
-storiesOf('Components/Badge', module).add('Kinds', () => <Badges />);
+storiesOf('Components/Pill', module).add('Kinds', () => <Kinds />);
 
-function Badges() {
+function Kinds() {
   return (
     <Root>
       {kinds.map(kind => {
@@ -21,7 +21,7 @@ function Badges() {
                 background: kind == 'inverted' ? '#000000' : '#FFFFFF'
               }}
             >
-              <Badge kind={kind}>3</Badge>
+              <Pill kind={kind}>Awesome</Pill>
             </div>
           </Section>
         );

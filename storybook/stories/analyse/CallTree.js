@@ -13,7 +13,7 @@ const byServiceEndpointCombinationColorPool = getColorPool('serviceAndEndpointCo
 const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
-storiesOf('analyse/CallTree', module)
+storiesOf('Analyse/Call Tree', module)
   .addDecorator(withKnobs)
   .add('Call Tree', () => <CallTreeStory />)
   .add('Loading', () => <LoadingStory />)

@@ -10,78 +10,76 @@ import 'in-forge';
 // structuring and order is inspired by (see navigation)
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
-import './layout/GridStory';
-import './layout/SidebarStory';
-import './layout/StickyStory';
-
-import './content/table/TableStory';
-import './content/TypographyStory';
-
-import './components/BadgeStory';
-import './components/ButtonStory';
-import './components/CodeEditor';
-import './components/CodeStory';
-import './components/form/DateInputStory';
-import './components/form/InputStory';
-import './components/KpiStory';
-import './components/ComboBoxStory';
-import './components/IconStory';
-import './components/KeyValuePopup';
-import './components/MultiSelectStory';
-import './components/sdk/CollapsibleStory';
-import './components/sdk/Descriptions';
-
-import './newComponents/Axis';
-import './newComponents/health/HealthIndicatorStory';
-import './newComponents/health/OpenIssuesListPresenterStory';
-import './newComponents/HeatMap';
-import './newComponents/overlays/OverlayStory';
-
 import './analyse/CallTree';
 import './analyse/IcicleChart';
 import './analyse/TraceConverter';
 
-import './designLibrary/application/AppHeaderStory';
-import './designLibrary/application/EmptyAppListStory';
-import './designLibrary/application/CreatingNewApplicationWaiterStory';
-import './designLibrary/application/ApplicationMap';
+import './application/AppHeaderStory';
+import './application/ApplicationMap';
+import './application/CreatingNewApplicationWaiterStory';
+import './application/EmptyAppListStory';
 
-import './designLibrary/content/table/ServerTableStory';
-import './designLibrary/content/table/SharedComponents';
-import './designLibrary/content/TypographyStory';
+import './components/Axis';
+import './components/BadgeStory';
+import './components/ButtonGroupStory';
+import './components/ButtonStory';
+import './components/CardStory';
+import './components/ChartStory';
+import './components/DashboardHeaderStory';
+import './components/DropDownStory';
+import './components/EntityWithTypeAndIconStory';
+import './components/Errors';
+import './components/health/HealthIndicatorStory';
+import './components/health/OpenIssuesListPresenterStory';
+import './components/HeatMap';
+import './components/KpiCardStory';
+import './components/Loading';
+import './components/MapControlsStory';
+import './components/MultiSelectDropdownStory';
+import './components/overlays/OverlayStory';
+import './components/PaginationStory';
+import './components/PillStory';
+import './components/SearchInputStory';
+import './components/SparkChart';
+import './components/TagStory';
+import './components/TechnologyIndicator';
+import './components/time/TimePresenterStory';
+import './components/time/TimeSelectionDialogPresenterStory';
+import './components/ToggleStory';
+import './components/TopListCardStory';
+import './components/ViewSwitcherStory';
 
-import './designLibrary/utilities/ColorsStory';
-import './designLibrary/utilities/IconStory';
-import './designLibrary/utilities/ShadowsStory';
-import './designLibrary/utilities/ShapesStory';
+import './content/table/ServerTableStory';
+import './content/table/SharedComponents';
+import './content/table/TableStory';
+import './content/TypographyStory';
+import './content/TypographyStory';
 
-import './designLibrary/components/BadgeStory';
-import './designLibrary/components/ButtonStory';
-import './designLibrary/components/DropDownStory';
-import './designLibrary/components/ButtonGroupStory';
-import './designLibrary/components/CardStory';
-import './designLibrary/components/ChartStory';
-import './designLibrary/components/DashboardHeaderStory';
-import './designLibrary/components/Errors';
-import './designLibrary/components/EntityWithTypeAndIconStory';
-import './designLibrary/components/KpiCardStory';
-import './designLibrary/components/Loading';
-import './designLibrary/components/MapControlsStory';
-import './designLibrary/components/MultiSelectDropdownStory';
-import './designLibrary/components/PaginationStory';
-import './designLibrary/components/PillStory';
-import './designLibrary/components/SearchInputStory';
-import './designLibrary/components/SparkChart';
-import './designLibrary/components/TagStory';
-import './designLibrary/components/TechnologyIndicator';
-import './designLibrary/components/ToggleStory';
-import './designLibrary/components/TopListCardStory';
-import './designLibrary/components/time/TimePresenterStory';
-import './designLibrary/components/time/TimeSelectionDialogPresenterStory';
-import './designLibrary/components/ViewSwitcherStory';
+import './forms/ApplicationConfigurationStory';
+import './forms/BasicFormStory';
+import './forms/FormFieldsStory';
+import './forms/ServiceConfigurationStory';
+import './forms/TagFilterEditFormStory';
 
-import './designLibrary/forms/ApplicationConfigurationStory';
-import './designLibrary/forms/BasicFormStory';
-import './designLibrary/forms/FormFieldsStory';
-import './designLibrary/forms/ServiceConfigurationStory';
-import './designLibrary/forms/TagFilterEditFormStory';
+import './layout/GridStory';
+import './layout/SidebarStory';
+import './layout/StickyStory';
+
+import './utilities/ColorsStory';
+import './utilities/IconStory';
+import './utilities/ShadowsStory';
+import './utilities/ShapesStory';
+
+import './x_old_components/BadgeStory';
+import './x_old_components/ButtonStory';
+import './x_old_components/CodeEditor';
+import './x_old_components/CodeStory';
+import './x_old_components/ComboBoxStory';
+import './x_old_components/form/DateInputStory';
+import './x_old_components/form/InputStory';
+import './x_old_components/IconStory';
+import './x_old_components/KeyValuePopup';
+import './x_old_components/KpiStory';
+import './x_old_components/MultiSelectStory';
+import './x_old_components/sdk/CollapsibleStory';
+import './x_old_components/sdk/Descriptions';

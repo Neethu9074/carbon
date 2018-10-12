@@ -6,7 +6,7 @@ import React from 'react';
 import { deepFreeze } from 'in-services/util/object';
 import InputHeader from './InputHeader';
 
-storiesOf('analyse/TraceConverter', module)
+storiesOf('Analyse/Trace Converter', module)
   .addDecorator(withKnobs)
   .add('Trace Converter', () => <TraceConverter />);
 

@@ -11,9 +11,9 @@ import Root from '../_helpers/Root';
 import theme from 'in-themes';
 
 const getColorByEndpointType = ({ endpoint }) =>
-  (!endpoint || !endpoint.type) ? theme.lib.colors.N500 : getColor(endpoint.type);
+  !endpoint || !endpoint.type ? theme.lib.colors.N500 : getColor(endpoint.type);
 
-storiesOf('analyse/IcicleChart', module)
+storiesOf('Analyse/Icicle Chart', module)
   .add('Icicle Chart', () => <IcicleChartStory />)
   .add('Loading', () => <LoadingStory />)
   .add('Error', () => <ErrorStory />);

@@ -6,20 +6,18 @@ import Root from '../_helpers/Root';
 
 const lorem = (
   <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum fuga eveniet omnis, eius laudantium distinctio ut nobis dignissimos nesciunt ab! Iste nobis earum harum iure sit nostrum qui sequi in.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum fuga eveniet omnis, eius laudantium distinctio ut
+    nobis dignissimos nesciunt ab! Iste nobis earum harum iure sit nostrum qui sequi in.
   </p>
 );
 
-storiesOf('content/Typography', module)
-  .add('Overview', () => <Overview />);
+storiesOf('Content/Typography', module).add('Overview', () => <Overview />);
 
 function Overview() {
   return (
     <Root>
       <h1>Typography Tests</h1>
-      <p>
-        This file shows Instana typography. Specifically, what default HTML components look like. This file covers:
-      </p>
+      <p>This file shows Instana typography. Specifically, what default HTML components look like. This file covers:</p>
 
       <ul>
         <li>headings</li>
@@ -102,8 +100,6 @@ function Overview() {
           Please deploy <code>ui-client</code> <code>master</code> version <code>1.132.40</code> to all environments.
         </dd>
       </dl>
-
-
     </Root>
   );
 }
