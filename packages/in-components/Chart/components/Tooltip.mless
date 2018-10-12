@@ -31,11 +31,13 @@
     border-left: 1px solid #0000003d;
   }
 
-  .content {
-    margin-left: 1rem;
+  .rightAlignedContent {
+    position: absolute;
+    left: 1rem;
   }
 
   .leftAlignedContent {
-    margin-left: ~'calc(-100% - 1rem)';
+    position: absolute;
+    right: ~'calc(100% + 1rem)';
   }
 }

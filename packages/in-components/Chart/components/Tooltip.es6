@@ -43,6 +43,7 @@ export default connectTo(
     render() {
       const nearestTimeInMetrics = this.getNearestDomain();
       const cursorXPositionOnCanvas = this.getNearestDomainXPosition(nearestTimeInMetrics);
+      const cursorHasCrossedHalfOfTheCanvas = this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas);
 
       return (
         <div className={locals.tooltip}>
@@ -60,8 +61,8 @@ export default connectTo(
             >
               <div
                 className={evaluateClassNames({
-                  [locals.content]: true,
-                  [locals.leftAlignedContent]: this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas)
+                  [locals.rightAlignedContent]: !cursorHasCrossedHalfOfTheCanvas,
+                  [locals.leftAlignedContent]: cursorHasCrossedHalfOfTheCanvas
                 })}
               >
                 <TooltipContent timestamp={nearestTimeInMetrics} chart={this.props.chart} />
