@@ -92,6 +92,7 @@ export default function ServerTablePresenter(props) {
       {rightHeader}
       {isSearchable && (
         <SearchInput
+          maxWidth={140}
           query={query}
           onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
         />
