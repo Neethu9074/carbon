@@ -45,7 +45,7 @@ rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
 # install yarn
-npm install -g yarn
+npm install -g yarn@1.9.4
 
 # install global tools
 yarn global add ec2c proxrox tldr diff-so-fancy

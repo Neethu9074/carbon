@@ -151,7 +151,7 @@ def runNodeBuild(gitCommitId, buildCommands) {
     source $HOME/.nvm/nvm.sh
     nvm use
     if [ -z "$(which yarn)" ]; then
-      npm install -g yarn
+      npm install -g yarn@1.9.4
     fi
   '''
   sh 'source $HOME/.nvm/nvm.sh && nvm use && ' + buildCommands
