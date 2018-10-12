@@ -26,7 +26,6 @@ import './components/ButtonStory';
 import './components/CardStory';
 import './components/ChartStory';
 import './components/DashboardHeaderStory';
-import './components/DropDownStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
 import './components/health/HealthIndicatorStory';
