@@ -34,33 +34,20 @@ export default compose(
     replaceHistory: false,
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'callList.',
-    boundKeys: [dataSourceMatrixParameter],
-    getInitialState: () => ({
-      [dataSourceMatrixParameter]: 'traces'
-    }),
-    reducerName: 'onChangeDataSource',
-    getParsedUrlValues: values => ({
-      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter]
-    }),
-    getSerializedUrlValues: props => ({
-      [dataSourceMatrixParameter]: props[dataSourceMatrixParameter]
-    })
-  }),
-  withUrlDependingState({
-    replaceHistory: false,
-    getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'callList.',
-    boundKeys: [groupByMatrixParameter, tagFilterMatrixParameter],
+    boundKeys: [dataSourceMatrixParameter, groupByMatrixParameter, tagFilterMatrixParameter],
     getInitialState: props => ({
+      [dataSourceMatrixParameter]: 'traces',
       ...getInitialGrouping(props),
       [tagFilterMatrixParameter]: []
     }),
     reducerName: 'onChangeAnalyzeConfig',
     getParsedUrlValues: values => ({
+      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter]),
       [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter])
     }),
     getSerializedUrlValues: props => ({
+      [dataSourceMatrixParameter]: props[dataSourceMatrixParameter],
       [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
       [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter])
     })
@@ -114,6 +101,6 @@ function AnalyzeView(props) {
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
   return {
-    [groupByMatrixParameter]: getDefaultGrouping(dataSource === 'traces')
+    [groupByMatrixParameter]: getDefaultGrouping(!dataSource || dataSource === 'traces')
   };
 }
