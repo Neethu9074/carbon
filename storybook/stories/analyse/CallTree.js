@@ -3,8 +3,8 @@ import { create } from 'reactive-observables';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { getColorPool } from 'in-services/util/ColorGenerator';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
+import { getColorPool } from 'in-services/util/ColorGenerator';
 
 import TraceExamples from './TraceExamplesComponent';
 import Root from '../_helpers/Root';
@@ -26,6 +26,7 @@ function CallTreeStory() {
         <Root>
           <CallTree
             selectedCall$={create()}
+            openedCall$={create()}
             callTreeResult={{ data: rootCall, errors: [], progress: {} }}
             getColor={getColorByServiceAndEndpoint}
           />
