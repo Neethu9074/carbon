@@ -4,8 +4,8 @@ import React from 'react';
 
 import ServiceInformation from 'in-new-components/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
 import { ConnectionTooltipContent } from 'in-new-components/ApplicationMap/components/Tooltips/ConnectionTooltip';
+import { ContextMenuContent } from 'in-new-components/ApplicationMap/components/ContextMenu';
 import { NodeComponent } from 'in-new-components/ApplicationMap/components/Node/Node';
-import ContextMenu from 'in-new-components/ApplicationMap/components/ContextMenu';
 import { ApplicationMapReactComponent } from 'in-new-components/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
 
@@ -271,7 +271,11 @@ function ConnectionTooltipStory() {
 
       <Section title="Default">
         <ConnectionTooltipContent
-          connection={{ id: 's1-to-s2' }}
+          connection={{
+            id: 's1-to-s2',
+            from: { node: { data: { label: 'Shop' } } },
+            to: { node: { data: { label: 'Products' } } }
+          }}
           data={{
             calls: 42,
             errorRate: 0.42,
@@ -286,7 +290,7 @@ function ConnectionTooltipStory() {
 function ContextMenuStory() {
   return (
     <Root>
-      <ContextMenu
+      <ContextMenuContent
         node={{
           id: 42,
           data: {

@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import ApplicationMapTootlip from 'in-new-components/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
@@ -51,8 +52,8 @@ export function ConnectionTooltipContent({ connection, data }) {
         <div className={locals.flexWrapper}>
           <SvgIcon className={locals.icon} type="lib_application_connection" width={20} height={20} />
           <div className={locals.labelFlexWrapper}>
-            <span className={locals.label}>{connection.from.node.data.label}</span>
-            <span className={locals.label}>{connection.to.node.data.label}</span>
+            <span className={locals.label}>{get(connection, ['from', 'node', 'data', 'label'])}</span>
+            <span className={locals.label}>{get(connection, ['to', 'node', 'data', 'label'])}</span>
           </div>
         </div>
       )}
