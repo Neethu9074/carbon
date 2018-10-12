@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
