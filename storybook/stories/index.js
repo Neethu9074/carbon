@@ -53,7 +53,6 @@ import './content/table/ServerTableStory';
 import './content/table/SharedComponents';
 import './content/table/TableStory';
 import './content/TypographyStory';
-import './content/TypographyStory';
 
 import './forms/ApplicationConfigurationStory';
 import './forms/BasicFormStory';
@@ -69,6 +68,7 @@ import './utilities/ColorsStory';
 import './utilities/IconStory';
 import './utilities/ShadowsStory';
 import './utilities/ShapesStory';
+import './utilities/TypographyStory';
 
 import './x_old_components/BadgeStory';
 import './x_old_components/ButtonStory';

@@ -5,7 +5,7 @@ import theme from 'in-themes';
 
 import Root from '../_helpers/Root';
 
-storiesOf('Content/Typography', module).add('typography', () => <Typography />);
+storiesOf('Utilities/Typography', module).add('typography', () => <Typography />);
 
 function Typography() {
   return (

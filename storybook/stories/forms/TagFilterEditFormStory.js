@@ -2,7 +2,8 @@ import { compose, withState } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import EditForm, { getInitialForm } from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
+import { getInitialForm } from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
+import EditForm from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
 
 import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';

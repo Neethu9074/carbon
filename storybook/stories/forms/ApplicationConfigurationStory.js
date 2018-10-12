@@ -10,7 +10,7 @@ storiesOf('Forms/Application Configuration', module).add('Default', () => <Defau
 function DefaultStory() {
   return (
     <Root>
-      <NewApplication />
+      <NewApplication timeconfig={{}} />
     </Root>
   );
 }

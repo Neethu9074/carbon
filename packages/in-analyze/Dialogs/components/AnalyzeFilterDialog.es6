@@ -183,7 +183,7 @@ function onChangeOperator(form, value) {
   });
 }
 
-function getInitialForm(props) {
+export function getInitialForm(props) {
   let { name = '', value = '', secondLevelName = '', operator, validateValue = true } = props;
 
   return createMapForm()

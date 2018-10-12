@@ -5,10 +5,10 @@ import { applicationsList, newApplicationWaiterView } from 'in-applications/navi
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { getTimeConfig } from 'in-stores/time/config';
 
-export default function NewApplication({ location }) {
+export default function NewApplication({ timeconfig, location }) {
   return (
     <CreateApplicationDialog
-      timeConfig={getTimeConfig(location)}
+      timeConfig={timeconfig || getTimeConfig(location)}
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
       getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
     />
