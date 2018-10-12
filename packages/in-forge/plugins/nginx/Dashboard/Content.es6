@@ -61,16 +61,15 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <strong>Status URL not accessible.</strong>
 
         <p>
-          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified but this address could{' '}
-          not be accessed. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
-          directives, port bindings or iptable configurations.
+          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified but this address could not
+          be accessed. This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, port
+          bindings or iptable configurations.
         </p>
       </DashboardNotification>
     );
   } else if (stubStatusUrlFound === false) {
     return (
       <DashboardNotification type="warning">
-
         <p>
           A <code>stub_status</code> directive could not found within the nginx configuration. Please add or enable it{' '}
           within the nginx configuration to enable monitoring metrics.
@@ -84,9 +83,9 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         <strong>NgnixPlus API URL not accessible.</strong>
 
         <p>
-          Based on the nginx config, we identified the nginx-plus API which is inaccessible on it's specified location.
-          This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, port bindings or
-          iptable configurations.
+          Based on the nginx config, we identified the nginx-plus API which is inaccessible on it
+          {`'`}s specified location. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
+          directives, port bindings or iptable configurations.
         </p>
       </DashboardNotification>
     );
@@ -189,7 +188,13 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
                 'nginx_plus.http.caches.max_size',
                 'nginx_plus.http.caches.cold'
               ],
-              labels: ['Misses per second', 'Hits per second', 'Caches size', 'Max cache size', 'Number of cold caches'],
+              labels: [
+                'Misses per second',
+                'Hits per second',
+                'Caches size',
+                'Max cache size',
+                'Number of cold caches'
+              ],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
