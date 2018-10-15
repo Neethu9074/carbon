@@ -19,7 +19,7 @@ export default connect(({ snapshot, timeConfig }) => ({
   }
 
   const { host: hostSnapshot, container, jvm } = context;
-  const fqdn = hostSnapshot.getIn(['data', 'fqdn']);
+  const fqdn = hostSnapshot.getIn(['data', 'fqdn'], '');
   const jobName = container.getIn(['data', 'Nomad', 'jobName']);
   const allocId = container.getIn(['data', 'Nomad', 'allocId']);
   const componentName = jvm.getIn(['data', 'appInfo', 'title']);
