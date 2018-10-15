@@ -95,7 +95,15 @@ const timeFormats = [
 export function getAxisConfig(timerangeMillis) {
   for (let i = 0, len = timeFormats.length; i < len; i++) {
     const format = timeFormats[i];
-    if (timerangeMillis <= format.maxMillis) {
+    let maxMillis = format.maxMillis;
+    // don't create a hard cut after e.g. 1 hour, because if the time is set to 1 hour and 1 minute, we would use the next
+    // config which has 1 hour of step size (resulting in just one step). Therefore do the cut when half of the new configs
+    // max millis is reached so we will use the previous config.
+    // The last two configs use the default behaviour which works out so far.
+    if (i < timeFormats.length - 2) {
+      maxMillis = timeFormats[i + 1].maxMillis / 2;
+    }
+    if (timerangeMillis <= maxMillis) {
       return format;
     }
   }
@@ -116,14 +124,14 @@ function composeCeil(...fns) {
 function ceilTo10Millis(date) {
   const millis = date.getMilliseconds();
   if (millis > 0) {
-    date.setMilliseconds(millis + (10 - millis % 10));
+    date.setMilliseconds(millis + (10 - (millis % 10)));
   }
 }
 
 function ceilTo100Millis(date) {
   const millis = date.getMilliseconds();
   if (millis > 0) {
-    date.setMilliseconds(millis + (100 - millis % 100));
+    date.setMilliseconds(millis + (100 - (millis % 100)));
   }
 }
 
