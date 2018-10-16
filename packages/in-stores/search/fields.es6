@@ -15,6 +15,7 @@ const helpTexts = {
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
   'entity.docker': 'Docker container',
+  'entity.garden': 'Garden container',
   'entity.ruby': 'Ruby application',
   'entity.jvm': 'Java virtual machine',
   'entity.jvm.app': 'JVM based application',

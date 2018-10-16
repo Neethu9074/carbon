@@ -51,6 +51,7 @@ import './etcd';
 import './finagleApplicationContainer';
 import './f5';
 import './ftpServiceInstance';
+import './garden';
 import './gce';
 import './genericHardware';
 import './genericZone';
