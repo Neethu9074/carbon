@@ -1,6 +1,7 @@
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 
 const chartOffset = 5 * 60 * 1000; // 5 min
+const minEventEntityWindowSize = 3 * 60 * 1000; // 3 min
 
 export function getChartTimeframeByEvent({
   event,
@@ -31,12 +32,9 @@ export function getTimeConfigFromEventForCharts(event) {
     throw new Error('Could not derive time config from event.');
   }
 
-  const to =
-    typeof event.get === 'function'
-      ? event.get('state') === 'closed' ? event.get('end') : null
-      : event.state === 'closed' ? event.end : null;
-
+  const to = getToOfEvent(event);
   const toForWs = to || Date.now();
+
   return {
     to,
     focusedMoment: to,
@@ -51,16 +49,17 @@ export function getTimeConfigFromEventForSnapshotRetrieval(event) {
     throw new Error('Could not derive time config from event.');
   }
 
-  const focusedMoment =
-    typeof event.get === 'function'
-      ? event.get('triggeringTime', event.get('start'))
-      : event.triggeringTime || event.start;
+  const to = getToOfEvent(event);
+  const focusedMoment = getFocusedMomentOfEvent(event);
+  const toForWs = to || focusedMoment || Date.now();
+  // ensure the windowSize is not zero, because this could result in an empty result
+  // when loading endpoints
+  const windowSize = Math.max(minEventEntityWindowSize, toForWs - from);
 
-  const toForWs = focusedMoment || Date.now();
   return {
     to: focusedMoment,
     focusedMoment,
-    windowSize: toForWs - from,
+    windowSize,
     autoRefresh: false
   };
 }
@@ -77,4 +76,20 @@ function getFromOfEvent(event) {
     from = (typeof event.get === 'function' && event.get('start')) || event.start;
   }
   return from;
+}
+
+function getToOfEvent(event) {
+  return typeof event.get === 'function'
+    ? event.get('state') === 'closed'
+      ? event.get('end')
+      : null
+    : event.state === 'closed'
+      ? event.end
+      : null;
+}
+
+function getFocusedMomentOfEvent(event) {
+  return typeof event.get === 'function'
+    ? event.get('triggeringTime', event.get('start'))
+    : event.triggeringTime || event.start;
 }
