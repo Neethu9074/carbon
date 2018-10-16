@@ -1,6 +1,5 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { luceneEscapeString } from 'in-stores/search/manipulation';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
@@ -36,7 +35,7 @@ export function getEventViewWithEvent(eventId) {
 
 export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
   return getModifiedUrlStream(params => {
-    const query = `entity.id:"${luceneEscapeString(entityId)}"`;
+    const query = `entity.id:"${entityId}"`;
     params.pathname = eventsPath;
 
     if (
@@ -59,19 +58,19 @@ export function getEventsViewFilteredBy({
   applicationId = null,
   serviceId = null,
   endpointId = null,
+  resolvedEndpointId = null,
   eventId = null,
   eventTypeFilter = null
 }) {
+  endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
   return getModifiedUrlStream(params => {
     let query = '';
-    if (applicationId) {
-      query += ` entity.application.id:"${luceneEscapeString(applicationId)}"`;
-    }
-    if (serviceId) {
-      query += ` entity.service.id:"${luceneEscapeString(serviceId)}"`;
-    }
     if (endpointId) {
-      query += ` entity.endpoint.id:"${luceneEscapeString(endpointId)}"`;
+      query += ` entity.endpoint.id:"${endpointId}"`;
+    } else if (serviceId) {
+      query += ` entity.service.id:"${serviceId}"`;
+    } else if (applicationId) {
+      query += ` entity.application.id:"${applicationId}"`;
     }
 
     params.pathname = eventsPath;
