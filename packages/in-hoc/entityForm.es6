@@ -118,7 +118,6 @@ export default function entityForm(ComposedComponent) {
         });
         return;
       }
-
       const entity = this.state.entity;
       const form = this.state.form;
       const result$ = this.props.saveEntity(entity, form);

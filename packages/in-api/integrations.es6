@@ -52,7 +52,7 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function testIntegration(integration) {
+export function integrationTest(integration) {
   return http({
     method: 'PUT',
     maxRetries: 3,
