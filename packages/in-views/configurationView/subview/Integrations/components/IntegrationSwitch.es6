@@ -22,7 +22,6 @@ export default function IntegrationSwitch({ onClick, selectedType }) {
         <IntegrationButton type="webhook" selectedType={selectedType} onClick={onClick} />
       </Row>
       <Row>
-        <IntegrationButton type="hipChat" selectedType={selectedType} onClick={onClick} />
         <IntegrationButton type="splunk" selectedType={selectedType} onClick={onClick} />
         <IntegrationButton type="googleChat" selectedType={selectedType} onClick={onClick} />
       </Row>
