@@ -3,9 +3,10 @@ import React from 'react';
 
 import getLatencyHeatMapOverTime from 'in-subscription/application/getLatencyHeatMapOverTime';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import { formatDateTime, formatDate, formatTime } from 'in-services/formatters/date';
+import fillMissingBuckets from 'in-new-components/HeatMap/emptyBucketFiller';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { formatTime } from 'in-services/formatters/date';
 import HeatMap from 'in-new-components/HeatMap/HeatMap';
 import connect from 'in-hoc/connectTo';
 
@@ -27,7 +28,8 @@ export default compose(
 )(ServerHeatMap);
 
 function ServerHeatMap(props) {
-  const { timeConfig, result } = props;
+  const { result } = props;
+  let { timeConfig } = props;
 
   const isLoading = result.progress.loading;
   if (isLoading) {
@@ -39,14 +41,10 @@ function ServerHeatMap(props) {
     return <ErroneousResultPresenter errors={result.errors} />;
   }
 
-  return (
-    <HeatMap
-      {...props}
-      timeConfig={getResolvedTimeConfig(timeConfig, result)}
-      data={mapData(result.data)}
-      keys={getKeys(result.data)}
-    />
-  );
+  timeConfig = getResolvedTimeConfig(timeConfig, result);
+  const buckets = fillMissingBuckets(result.data, timeConfig.to - timeConfig.windowSize, timeConfig.to);
+
+  return <HeatMap {...props} timeConfig={timeConfig} data={mapData(buckets)} keys={getKeys(buckets)} />;
 }
 
 function mapData(data) {
@@ -57,6 +55,7 @@ function mapData(data) {
   const mappedData = [];
   const columnWithMaxBuckets = getColumnWithMaxBuckets(data);
   const numMaxRows = columnWithMaxBuckets.latencyBuckets.length;
+  const containsDataForMoreThanOneDay = calculateContainsDataForMoreThanOneDay(data);
 
   for (let iRow = 0; iRow < numMaxRows; iRow++) {
     const firstColumnRow = columnWithMaxBuckets.latencyBuckets[iRow];
@@ -68,7 +67,7 @@ function mapData(data) {
     for (let iColumn = 0; iColumn < data.length; iColumn++) {
       const column = data[iColumn];
       const dataPoint = column.latencyBuckets[iRow];
-      const key = getKeyForColumn(column);
+      const key = getKeyForColumn(column, containsDataForMoreThanOneDay);
       currentRow[key] = dataPoint ? dataPoint.calls : 0;
     }
     mappedData.push(currentRow);
@@ -82,18 +81,23 @@ function getKeys(data) {
     return data;
   }
 
+  const containsDataForMoreThanOneDay = calculateContainsDataForMoreThanOneDay(data);
+
   const keys = [];
   for (let iColumn = 0; iColumn < data.length; iColumn++) {
     const column = data[iColumn];
-    const key = getKeyForColumn(column);
+    const key = getKeyForColumn(column, containsDataForMoreThanOneDay);
     keys.push(key);
   }
 
   return keys;
 }
 
-function getKeyForColumn(column) {
-  return formatTime(column.from + (column.to - column.from) / 2);
+function getKeyForColumn(column, containsDataForMoreThanOneDay) {
+  const formatterA = containsDataForMoreThanOneDay ? formatDateTime : formatTime;
+  const formatterB = calculateIfTimetampsDifferInDay(column.from, column.to) ? formatDateTime : formatTime;
+
+  return `${formatterA(column.from)} - ${formatterB(column.to)}`;
 }
 
 function getColumnWithMaxBuckets(data) {
@@ -106,4 +110,12 @@ function getColumnWithMaxBuckets(data) {
     }
   }
   return columnWithMaxBuckets;
+}
+
+function calculateContainsDataForMoreThanOneDay(data) {
+  return calculateIfTimetampsDifferInDay(data[0].from, data[data.length - 1].to);
+}
+
+function calculateIfTimetampsDifferInDay(a, b) {
+  return formatDate(a) !== formatDate(b);
 }
