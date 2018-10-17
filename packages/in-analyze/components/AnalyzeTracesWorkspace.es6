@@ -10,6 +10,7 @@ export default function AnalyzeTracesWorkspace({
   onChangeDataSource,
   filters,
   dataSource,
+  isTracesDataSource,
   children
 }) {
   return (
@@ -17,7 +18,11 @@ export default function AnalyzeTracesWorkspace({
       <Title title={'Analyze Traces'} />
 
       <AnalyzeHeader filters={filters} onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
-      <QueryBuilderWorkspace filters={filters} onChangeAnalyzeConfig={onChangeAnalyzeConfig} />
+      <QueryBuilderWorkspace
+        isTracesDataSource={isTracesDataSource}
+        filters={filters}
+        onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+      />
 
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
     </Fragment>
