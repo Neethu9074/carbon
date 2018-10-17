@@ -20,7 +20,15 @@ export default connectTo(
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function ApplicationEntityOpenIssuesList({ openIssuesResult, applicationId, serviceId, endpointId, eventId, close }) {
+  function ApplicationEntityOpenIssuesList({
+    openIssuesResult,
+    resolvedEndpointId,
+    applicationId,
+    serviceId,
+    endpointId,
+    eventId,
+    close
+  }) {
     return (
       <OpenIssuesListPresenter
         close={close}
@@ -29,6 +37,7 @@ export default connectTo(
           applicationId,
           serviceId,
           endpointId,
+          resolvedEndpointId,
           eventId,
           eventTypeFilter: 'issue'
         })}
@@ -37,6 +46,7 @@ export default connectTo(
             applicationId,
             serviceId,
             endpointId,
+            resolvedEndpointId,
             eventId,
             eventTypeFilter: 'issue'
           })

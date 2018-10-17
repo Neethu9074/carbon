@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
@@ -293,7 +294,7 @@ export default connectTo(
     }
 
     render() {
-      const { form, entity, onChange, customMetrics } = this.props;
+      const { form, entity, setForm, onChange, customMetrics } = this.props;
 
       // extend custom-metrics list with current selected custom-metric,
       // in case it is not contained in the list. This might happen due to
@@ -344,20 +345,9 @@ export default connectTo(
                   ]}
                   onChange={e => {
                     if (e && e.value != field.value) {
-                      onChange(
-                        ['origin', 'entityType', 'metricName', 'formatter'],
-                        [e ? e.value : '', '', '', 'UNDEFINED'],
-                        updatedForm => {
-                          // manually set to not-touched to prevent showing the validation-error
-                          updatedForm = updatedForm.updateIn(['entityType'], f => {
-                            return f.setTouched(false);
-                          });
-                          updatedForm = updatedForm.updateIn(['metricName'], f => {
-                            return f.setTouched(false);
-                          });
-                          return updatedForm;
-                        }
-                      );
+                      let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, '')));
+                      newForm = newForm.updateIn(['origin'], f => f.setValue(e.value || '').setTouched(false));
+                      setForm(newForm);
                     }
                   }}
                 />
@@ -377,17 +367,11 @@ export default connectTo(
                       options={pluginsWithMetricDefinitions}
                       onChange={e => {
                         if (e && e.value != field.value) {
-                          onChange(
-                            ['entityType', 'metricName', 'formatter'],
-                            [e ? e.value : '', '', 'UNDEFINED'],
-                            updatedForm => {
-                              // manually set to not-touched to prevent showing the validation-error
-                              updatedForm = updatedForm.updateIn(['metricName'], f => {
-                                return f.setTouched(false);
-                              });
-                              return updatedForm;
-                            }
+                          let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, e.value)));
+                          newForm = newForm.updateIn(['origin'], f =>
+                            f.setValue(form.get('origin').value || '').setTouched(false)
                           );
+                          setForm(newForm);
                         }
                       }}
                     />

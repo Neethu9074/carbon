@@ -46,14 +46,6 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
   );
 }
 
-function Content({ applicationId, serviceId, endpointId, timeConfig, close }) {
-  return (
-    <ApplicationEntityOpenIssuesList
-      close={close}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      timeConfig={timeConfig}
-    />
-  );
+function Content(props) {
+  return <ApplicationEntityOpenIssuesList {...props} />;
 }

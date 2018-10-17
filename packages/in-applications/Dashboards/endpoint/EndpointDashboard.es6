@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -71,6 +72,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        resolvedEndpointId={get(result, ['data', 'id'])}
         timeConfig={timeConfig}
       />
     </Fragment>
