@@ -36,7 +36,7 @@ export default createSubscription({
 
   transform(observable) {
     return observable.map(fromJS);
-  }
+  },
 
-  // memoizeFor: 1
+  memoizeFor: 1
 });
