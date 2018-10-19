@@ -4,7 +4,8 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces
+  percentageTwoDecimalPlaces,
+  number
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
@@ -55,6 +56,20 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
               labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
               type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Context Switches">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['ctxt'],
+              labels: ['Context Switches'],
+              type: 'line'
             }}
           />
         </DashboardSection>
