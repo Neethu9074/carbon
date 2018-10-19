@@ -69,7 +69,7 @@ const Label = connectTo(
           serviceName: get(service, ['data', 'label']),
           dataSource: 'traces',
           groupByTag: {},
-          filters: [{ name: 'trace.name', value: item.endpoint.label }]
+          filters: [{ name: 'trace.endpoint.name', value: item.endpoint.label }]
         })}
         onClick={() => trackTopListNavigation()}
       >
