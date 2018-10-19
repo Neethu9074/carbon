@@ -29,6 +29,8 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 
+import locals from './RawTracesNavigator.mless';
+
 export default compose(getResponsiveNavigatorMode)(RawTracesNavigator);
 
 function RawTracesNavigator({
@@ -84,7 +86,7 @@ function RawTracesNavigator({
               <Tr key={item.trace.id} size="compact" active={item.trace.id === selectedTraceId}>
                 <ErroneousRowTd isErroneous={item.trace.erroneous} />
 
-                <Td active={item.trace.id === selectedTraceId}>
+                <Td className={locals.labelColumn} active={item.trace.id === selectedTraceId}>
                   <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData

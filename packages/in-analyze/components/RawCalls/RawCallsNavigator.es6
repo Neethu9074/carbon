@@ -31,6 +31,8 @@ import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
+import locals from './RawCallsNavigator.mless';
+
 export default compose(getResponsiveNavigatorMode)(RawCallsNavigator);
 
 function RawCallsNavigator({
@@ -90,9 +92,13 @@ function RawCallsNavigator({
                 active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
               >
                 <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
-                <Td active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}>
+                <Td
+                  className={locals.labelColumn}
+                  active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
+                >
                   <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
                     {item.call.label}
+                    sdjhfbuhjkdsffuhijdsluifhsdiufhnsdiulhjfiuslduh
                     {item.call.batchCount > 1 && (
                       <Fragment>
                         {' '}
