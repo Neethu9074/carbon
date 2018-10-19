@@ -14,7 +14,7 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import { isWindows, isZos, isLinux } from 'in-forge/plugins/host/hostUtils';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -60,19 +60,21 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Context Switches">
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['ctxt'],
-              labels: ['Context Switches'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        {isLinux(snapshot) ? (
+          <DashboardSection title="Context Switches">
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: ['ctxt'],
+                labels: ['Context Switches'],
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        ) : null}
 
         {!(isWindows(snapshot) || isZos(snapshot)) ? (
           <DashboardSection title="CPU Load">
