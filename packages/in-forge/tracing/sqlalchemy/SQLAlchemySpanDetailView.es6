@@ -12,7 +12,7 @@ export default function SQLAlchemySpanDetailView({ span }) {
     <DescriptionList>
       <DescriptionItem title="Engine">{span.getIn(['data', 'sqlalchemy', 'eng'])}</DescriptionItem>
       <DescriptionItem title="URL">{span.getIn(['data', 'sqlalchemy', 'url'])}</DescriptionItem>
-      <ErrorDescriptionItem error={span.getIn(['data', 'sqlalchemy', 'error'])} />
+      <ErrorDescriptionItem error={span.getIn(['data', 'sqlalchemy', 'err'])} />
 
       {sql ? (
         <DescriptionItem title="SQL">
