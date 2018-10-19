@@ -12,6 +12,7 @@ import './awsRds';
 import './awsSqs';
 import './awsS3';
 import './azure';
+import './azureApiManagement';
 import './azureAppService';
 import './azureCosmosDb';
 import './azureRedisCache';
