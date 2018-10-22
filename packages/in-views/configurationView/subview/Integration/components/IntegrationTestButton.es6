@@ -12,8 +12,6 @@ export default class extends React.Component {
   constructor(params) {
     super(params);
     this.state = {
-      integration: params.integration,
-      form: params.form,
       error: false,
       loading: false,
       message: null
@@ -21,10 +19,8 @@ export default class extends React.Component {
   }
 
   test(integration, form) {
-    if (!this.state.form.hierarchyValid) {
-      this.setState({
-        form: this.state.form.setTouched(true, { recurse: true })
-      });
+    if (!this.props.form.hierarchyValid) {
+      this.props.setForm(this.props.form.setTouched(true, { recurse: true }));
       return;
     }
 
@@ -44,7 +40,7 @@ export default class extends React.Component {
         } else {
           this.setState({
             loading: false,
-            message: 'Send'
+            message: 'Ok'
           });
         }
       }
@@ -57,8 +53,8 @@ export default class extends React.Component {
         <Section>
           <Button
             kind="success"
-            onClick={() => this.test(this.state.integration, this.state.form)}
-            disabled={!this.state.form.hierarchyValid && this.state.form.touched}
+            onClick={() => this.test(this.props.integration, this.props.form)}
+            disabled={!this.props.form.hierarchyValid && this.props.form.touched}
           >
             Test
           </Button>

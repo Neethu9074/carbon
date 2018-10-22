@@ -40,8 +40,7 @@ function createForm(config) {
 }
 
 const IntegrationForm = entityForm(function IntegrationForm(props) {
-  const { entity, form, message, error, loading } = props;
-
+  const { entity, form, message, error, loading, setForm } = props;
   const Form = fullyQualified[props.form.get('kind').value].Form;
   return (
     <div>
@@ -61,7 +60,7 @@ const IntegrationForm = entityForm(function IntegrationForm(props) {
 
       <Form {...props} />
 
-      <IntegrationTestButton integration={entity} form={form} />
+      <IntegrationTestButton integration={entity} form={form} setForm={setForm} />
     </div>
   );
 });
