@@ -18,7 +18,7 @@ export default function Info({ snapshot }) {
 
         <DescriptionItem title="Gateway Url">{data.get('gatewayUrl')}</DescriptionItem>
 
-        <DescriptionItem title="Pportal Url">{data.get('portalUrl')}</DescriptionItem>
+        <DescriptionItem title="Portal Url">{data.get('portalUrl')}</DescriptionItem>
 
         <DescriptionItem title="Sku">{data.get('sku')}</DescriptionItem>
       </DescriptionList>
