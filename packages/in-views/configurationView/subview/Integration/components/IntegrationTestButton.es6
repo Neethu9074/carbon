@@ -30,19 +30,18 @@ export default class extends React.Component {
       message: 'Loading...'
     });
     return integrationTest(fromJS(fullyQualified[integration.get('kind')].createEntity(integration, form))).subscribe(
-      errorMsg => {
-        if (errorMsg) {
-          this.setState({
-            loading: false,
-            error: true,
-            message: { errorMsg }
-          });
-        } else {
-          this.setState({
-            loading: false,
-            message: 'Integration successfully triggered.'
-          });
-        }
+      () => {
+        this.setState({
+          loading: false,
+          message: 'Integration successfully triggered.'
+        });
+      },
+      error => {
+        this.setState({
+          loading: false,
+          error: true,
+          message: error.message
+        });
       }
     );
   }
