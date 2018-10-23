@@ -109,7 +109,7 @@ export default function ApisTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title="APIs">
+    <DashboardSection title={`APIs (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );

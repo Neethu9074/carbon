@@ -169,7 +169,7 @@ export default function ShardTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Shards ${rows.length}`}>
+    <DashboardSection title={`Shards (${rows.length})`}>
       <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
     </DashboardSection>
   );

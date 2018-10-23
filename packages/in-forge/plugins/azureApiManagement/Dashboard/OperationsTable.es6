@@ -123,7 +123,7 @@ export default function OperationsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title="Operations">
+    <DashboardSection title={`Operations (${rows.size})`}>
       <Table cols={cols} rows={rows.toArray()} getRowDetails={getRowDetails} />
     </DashboardSection>
   );
