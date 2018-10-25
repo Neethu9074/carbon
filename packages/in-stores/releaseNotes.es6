@@ -11,11 +11,7 @@ const logger = createLogger('in-stores.releaseNotes');
 
 const majorMinorRegex = /(\d+\.\d+)\.\d+/;
 const majorMinor = build && build.tag && majorMinorRegex.test(build.tag) ? majorMinorRegex.exec(build.tag)[1] : null;
-// TODO Fix URL. For now, start an HTTP server in ui-notifications serving on port 3333:
-// http-server -S -C ../ui-client/build/cert/server.crt -K ../ui-client/build/cert/server.key --cors -p 3333
-// When the new file structure has landed in ui-notifications, we can change this to
-// const releaseNotesBaseUrl = '/notifications/release-notes/';
-const releaseNotesBaseUrl = 'https://localhost:3333/content/release-notes';
+const releaseNotesBaseUrl = '/notifications/release-notes';
 const localStorageKeyVersion = 'in-read-release-notes-version';
 
 // Stores the major.minor version part as the last read release notes. This is used to implement
