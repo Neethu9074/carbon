@@ -1,10 +1,9 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import { assign, get } from 'lodash';
+import { get } from 'lodash';
 
 import {
-  mapMatchSpecificationTreeToList,
   createNewApplicationConfig,
   getApplicationConfig,
   addApplicationConfig,
@@ -18,7 +17,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
@@ -27,9 +25,6 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { fromJS } from 'immutable';
-
-const trackCreateApplication = createTracker('application.create');
-const trackUpdateApplication = createTracker('application.update');
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -49,13 +44,9 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
       updateEntity={applicationConfig => {
         const isNewConfig = !applicationConfig.id ? true : false;
         if (isNewConfig) {
-          return addApplicationConfig(applicationConfig).tap(() =>
-            trackCreateApplication(mapTagsForTracking(applicationConfig))
-          );
+          return addApplicationConfig(applicationConfig);
         }
-        return updateApplicationConfig(applicationConfig).tap(() =>
-          trackUpdateApplication(mapTagsForTracking(applicationConfig))
-        );
+        return updateApplicationConfig(applicationConfig);
       }}
       getInitialForm={getInitialForm}
       renderFormContent={(appConfig, form, setValue, updateForm) => {
@@ -265,13 +256,4 @@ function applicationLabelValidator(name) {
   }
 
   return null;
-}
-
-function mapTagsForTracking(applicationConfig) {
-  const configForTracking = assign({}, applicationConfig);
-
-  configForTracking.tags = applicationConfig.matchSpecification
-    ? mapMatchSpecificationTreeToList(applicationConfig.matchSpecification).map(matchSpec => matchSpec.key)
-    : [];
-  return configForTracking;
 }

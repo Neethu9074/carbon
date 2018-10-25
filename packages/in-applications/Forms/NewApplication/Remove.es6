@@ -5,7 +5,6 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationsList } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
@@ -13,8 +12,6 @@ import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 
 import locals from './Remove.mless';
-
-const trackDeleteApplication = createTracker('application.delete');
 
 export default class Remove extends React.PureComponent {
   constructor(props) {
@@ -79,11 +76,7 @@ export default class Remove extends React.PureComponent {
       removeError: null
     });
 
-    this.subscription = combineDataAndError(
-      deleteApplicationConfig(this.props.application.id).tap(() =>
-        trackDeleteApplication({ id: this.props.application.id, label: this.props.application.label })
-      )
-    ).once(({ error }) => {
+    this.subscription = combineDataAndError(deleteApplicationConfig(this.props.application.id)).once(({ error }) => {
       if (error) {
         this.setState({
           loading: false,
