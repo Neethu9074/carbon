@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
@@ -28,14 +28,14 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['in_to'],
-            labels: ['Total'],
-            formatter: number.detailed,
+            labels: ['The total ingress in bytes'],
+            formatter: bytes.compact,
             type: 'bar'
           }}
           y2={{
             metrics: ['in_av', 'in_mi', 'in_mx'],
             labels: ['Average', 'Minimum', 'Maximum'],
-            formatter: number.detailed,
+            formatter: bytes.compact,
             type: 'line'
           }}
         />
@@ -47,14 +47,14 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['eg_to'],
-            labels: ['Total'],
-            formatter: number.detailed,
+            labels: ['The total egress in bytes'],
+            formatter: bytes.compact,
             type: 'bar'
           }}
           y2={{
             metrics: ['eg_av', 'eg_mi', 'eg_mx'],
             labels: ['Average', 'Minimum', 'Maximum'],
-            formatter: number.detailed,
+            formatter: bytes.compact,
             type: 'line'
           }}
         />
@@ -65,15 +65,9 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['sl_to'],
-            labels: ['Total'],
-            formatter: number.detailed,
-            type: 'bar'
-          }}
-          y2={{
             metrics: ['sl_av', 'sl_mi', 'sl_mx'],
             labels: ['Average', 'Minimum', 'Maximum'],
-            formatter: number.detailed,
+            formatter: millis.compact,
             type: 'line'
           }}
         />
@@ -84,15 +78,9 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['el_to'],
-            labels: ['Total'],
-            formatter: number.detailed,
-            type: 'bar'
-          }}
-          y2={{
             metrics: ['el_av', 'el_mi', 'el_mx'],
             labels: ['Average', 'Minimum', 'Maximum'],
-            formatter: number.detailed,
+            formatter: millis.compact,
             type: 'line'
           }}
         />
