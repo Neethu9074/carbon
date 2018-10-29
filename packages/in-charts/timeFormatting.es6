@@ -11,7 +11,7 @@ const timeFormats = [
     ceilToNearestStep: a => a
   },
   {
-    maxMillis: 100,
+    maxMillis: 500,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 70,
@@ -27,7 +27,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilTo100Millis)
   },
   {
-    maxMillis: 1000 * 10,
+    maxMillis: 1000 * 30,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 70,
@@ -35,7 +35,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
   {
-    maxMillis: 1000 * 60,
+    maxMillis: 1000 * 60 * 5,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 70,
@@ -43,7 +43,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilTo10Seconds)
   },
   {
-    maxMillis: 1000 * 60 * 11,
+    maxMillis: 1000 * 60 * 30,
     formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 70,
@@ -51,7 +51,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
   {
-    maxMillis: 1000 * 60 * 60,
+    maxMillis: 1000 * 60 * 60 * 6,
     formatter: formatTimeWithoutSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 70,
@@ -67,7 +67,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
   {
-    maxMillis: 1000 * 60 * 60 * 24,
+    maxMillis: 1000 * 60 * 60 * 24 * 7,
     formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
     expectLabelWidth: 90,
@@ -95,15 +95,7 @@ const timeFormats = [
 export function getAxisConfig(timerangeMillis) {
   for (let i = 0, len = timeFormats.length; i < len; i++) {
     const format = timeFormats[i];
-    let maxMillis = format.maxMillis;
-    // don't create a hard cut after e.g. 1 hour, because if the time is set to 1 hour and 1 minute, we would use the next
-    // config which has 1 hour of step size (resulting in just one step). Therefore do the cut when half of the new configs
-    // max millis is reached so we will use the previous config.
-    // The last two configs use the default behaviour which works out so far.
-    if (i < timeFormats.length - 2) {
-      maxMillis = timeFormats[i + 1].maxMillis / 2;
-    }
-    if (timerangeMillis <= maxMillis) {
+    if (timerangeMillis <= format.maxMillis) {
       return format;
     }
   }
