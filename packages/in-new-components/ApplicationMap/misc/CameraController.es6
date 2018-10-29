@@ -12,7 +12,7 @@ export default class CameraController {
     this.overlayDomElement = overlayDomElement;
 
     this.unitsToZoomPerCall = 15;
-    this.scrollSpeed = 10;
+    this.scrollSpeed = 5;
     this.targetCameraSize = 60;
     this.minZoomLevel = 30;
     this.maxZoomLevel = 300;
