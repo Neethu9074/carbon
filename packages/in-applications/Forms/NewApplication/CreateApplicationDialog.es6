@@ -104,11 +104,11 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                 },
 
                 {
-                  stepTitle: 'Define the application perspective using one or more tags:',
+                  stepTitle: 'Define the application perspective using one or more tags.',
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        {`For example: key as "docker.label" and value as "environment=Production Blue", or key as "call.http.params" and value as "tenant=ACMECustomer". When at least one specified condition matches a call, it will be considered part of this application.`}
+                        {`For example where key is "docker.label" and value is "environment=Production Blue", or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a database from services matching this definition will automatically be included.`}
                         <br />
                         <br />
                         <strong>AND operators take precedence and are evaluated before OR operators</strong>
