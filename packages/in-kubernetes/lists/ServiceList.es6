@@ -72,6 +72,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'selector',
+    label: 'Selector',
+    getContent(item) {
+      return item.selector;
+    }
+  },
+  {
     id: 'pods',
     label: 'Pods',
     getContent() {
