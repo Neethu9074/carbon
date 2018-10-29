@@ -1,5 +1,4 @@
 import { combineLatest, just } from 'reactive-observables';
-import { pure } from 'recompose';
 import React from 'react';
 
 import {
@@ -19,7 +18,9 @@ import { applicationsList, isApplicationsView } from 'in-applications/navigation
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
+import { kubernetes as kubernetesPath } from 'in-kubernetes/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import { kubernetesEnabled$ } from 'in-kubernetes/navigation/enabled';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -29,7 +30,7 @@ import './ViewSwitcher.less';
 
 const block = 'in-view-switcher';
 
-export default pure(function ViewSwitcher() {
+export default function ViewSwitcher() {
   return (
     <div className={block}>
       <ul className={block + '__list'}>
@@ -53,6 +54,8 @@ export default pure(function ViewSwitcher() {
             isActive$={isTableView('physical')}
           />
         </View>
+
+        <KubernetesMenuPoint />
 
         {!twoZeroModeEnabled && (
           <View
@@ -104,6 +107,17 @@ export default pure(function ViewSwitcher() {
         )}
       </ul>
     </div>
+  );
+}
+
+const KubernetesMenuPoint = connectTo({ kubernetesEnabled: kubernetesEnabled$ }, function KubernetesMenuPoint({
+  kubernetesEnabled
+}) {
+  if (!kubernetesEnabled) {
+    return null;
+  }
+  return (
+    <View label="Kubernetes" icon="lib_kubernetes" href$={getView(kubernetesPath)} isActive$={isView(kubernetesPath)} />
   );
 });
 

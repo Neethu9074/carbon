@@ -57,7 +57,7 @@
     align-items: center;
   }
 
-  .serviceIcon {
+  .icon {
     margin-right: 0.5rem;
     fill: @lib__colors__N700Medium;
   }

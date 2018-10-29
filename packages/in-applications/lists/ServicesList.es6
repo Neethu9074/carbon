@@ -7,12 +7,12 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import Counter from 'in-components/tables/ServerTable/components/Counter';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { ms, percentage, number } from 'in-services/formatters/number';
@@ -20,15 +20,14 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
+import ListTitle from 'in-new-components/lists/Title';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 
 import locals from './ServicesList.mless';
 
@@ -74,7 +73,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
     </Fragment>
   );
 
-  const leftHeader = <h1 className={locals.title}>Services</h1>;
+  const leftHeader = <ListTitle>Services</ListTitle>;
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -170,12 +169,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <div className={locals.flexWrapper}>
-            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-            <Link href$={getServiceDashboard(item.service.id)}>{item.service.label}</Link>
-          </div>
-        </SeverityIndicatorCellContentWrapper>
+        <SeverityAwareEntityLink
+          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          icon="lib_application_service"
+          label={item.service.label}
+          href$={getServiceDashboard(item.service.id)}
+        />
       );
     }
   },
@@ -201,12 +200,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'applications', 0, 1], 0);
-      return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="lib_application" width={24} height={24} />
-          <Counter>{number.compact(count)}</Counter>
-        </div>
-      );
+      return <EntityCounter icon="lib_application" count={count} />;
     }
   },
   {
@@ -215,12 +209,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
-          <Counter>{number.compact(count)}</Counter>
-        </div>
-      );
+      return <EntityCounter icon="lib_application_service" count={count} />;
     }
   },
   {

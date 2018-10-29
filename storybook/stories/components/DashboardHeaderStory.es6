@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React, { Fragment } from 'react';
 
-import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import Root from '../_helpers/Root';
 
 storiesOf('Components/Application Dashboard Header', module).add('default', () => <Default />);
@@ -13,7 +13,7 @@ function Default() {
     <Root>
       <h1>Loading / Error / Not Found</h1>
       <HeaderPresenter>
-        <BasicApplicationDashboardHeader
+        <BasicDashboardHeader
           result={{
             progress: {
               loading: true
@@ -24,8 +24,9 @@ function Default() {
 
       <h2>Done</h2>
       <HeaderPresenter>
-        <BasicApplicationDashboardHeader
-          type="Service"
+        <BasicDashboardHeader
+          title="Service"
+          icon="lib_application_service"
           result={{
             progress: {
               loading: true

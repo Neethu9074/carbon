@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
-import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
@@ -41,7 +41,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashbo
 });
 
 function Header(props) {
-  return <BasicApplicationDashboardHeader type="Application" renderActions={Actions} {...props} />;
+  return <BasicDashboardHeader title="Application" icon="lib_application" renderActions={Actions} {...props} />;
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {

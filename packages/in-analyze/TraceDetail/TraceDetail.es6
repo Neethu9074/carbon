@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
-import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -100,7 +100,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
 function Header(props) {
   return (
     <div>
-      <BasicApplicationDashboardHeader type="Trace" renderActions={Actions} {...props} />
+      <BasicDashboardHeader title="Trace" icon="lib_application_trace" renderActions={Actions} {...props} />
       <div className={locals.tabViewPlaceholder} />
     </div>
   );

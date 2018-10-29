@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
 import { number, bytes, percentage } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart';
 
 export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

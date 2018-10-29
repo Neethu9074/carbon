@@ -5,11 +5,11 @@ import { get } from 'lodash';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import Counter from 'in-components/tables/ServerTable/components/Counter';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -19,10 +19,6 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
-
-import locals from './Services.mless';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
@@ -153,19 +149,15 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, endpointId }) {
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <div className={locals.flexWrapper}>
-            <SvgIcon className={locals.linkEntityIcon} type="lib_application_service" width={24} height={24} />
-            <Link
-              href$={getServiceDashboard(item.service.id, {
-                applicationId,
-                endpointId
-              })}
-            >
-              {item.service.label}
-            </Link>
-          </div>
-        </SeverityIndicatorCellContentWrapper>
+        <SeverityAwareEntityLink
+          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          icon="lib_application_service"
+          label={item.service.label}
+          href$={getServiceDashboard(item.service.id, {
+            applicationId,
+            endpointId
+          })}
+        />
       );
     }
   },
@@ -200,12 +192,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
-          <Counter>{number.compact(count)}</Counter>
-        </div>
-      );
+      return <EntityCounter icon="lib_application_endpoint" count={count} />;
     }
   },
   {

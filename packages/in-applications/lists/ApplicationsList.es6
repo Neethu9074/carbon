@@ -4,26 +4,25 @@ import React from 'react';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import getApplications from 'in-subscription/application/getApplications';
-import Counter from 'in-components/tables/ServerTable/components/Counter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 
 import locals from './ApplicationsList.mless';
 
@@ -46,7 +45,7 @@ export default connectTo(
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
-    const leftHeader = <h1 className={locals.title}>Application Perspectives</h1>;
+    const leftHeader = <ListTitle>Application Perspectives</ListTitle>;
 
     return (
       <Sticky header={<ViewSwitcher />}>
@@ -85,12 +84,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <div className={locals.flexWrapper}>
-            <SvgIcon className={locals.linkEntityIcon} type="lib_application" width={24} height={24} />
-            <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
-          </div>
-        </SeverityIndicatorCellContentWrapper>
+        <SeverityAwareEntityLink
+          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          icon="lib_application"
+          label={item.application.label}
+          href$={getApplicationDashboard(item.application.id)}
+        />
       );
     }
   },
@@ -100,12 +99,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'services', 0, 1], 0);
-      return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
-          <Counter>{number.compact(count)}</Counter>
-        </div>
-      );
+      return <EntityCounter icon="lib_application_service" count={count} />;
     }
   },
   {

@@ -101,3 +101,5 @@ export const allowedMillisGapsInOneSecondResolution =
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
+
+export const kubernetesEnabled = onlyInternally && isInstanaEngineer;

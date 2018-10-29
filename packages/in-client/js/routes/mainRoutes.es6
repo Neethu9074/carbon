@@ -15,8 +15,8 @@ import {
   websitePath,
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
+import { kubernetesEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
-import { twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -28,6 +28,7 @@ import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import applicationRoutes from 'in-applications/navigation/routes';
+import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import GraphView from 'in-components/graphView/GraphView';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import Cockpit from 'in-views/cockpit/Cockpit';
@@ -58,6 +59,7 @@ export default (
 
     {twoZeroModeEnabled && applicationRoutes}
     {twoZeroModeEnabled && analyzeRoutes}
+    {kubernetesEnabled && kubernetesRoutes}
 
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />

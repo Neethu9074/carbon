@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .linkEntityIcon,
+  .entityIcon {
+    margin-right: 0.25rem;
+  }
+
+  .linkEntityIcon {
+    fill: @lib__colors__blue800;
+  }
+
+  .entityIcon {
+    fill: @lib__colors__N700Medium;
+  }
+}

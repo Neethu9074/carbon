@@ -1,36 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .title {
-    font-size: 1.375rem;
-    margin-top: 1.5rem;
-    font-weight: 500;
-  }
-
-  .flexWrapper {
-    display: flex;
-    align-items: center;
-  }
-
   .button {
     margin-right: 0.5rem;
-  }
-
-  .linkEntityIcon,
-  .entityIcon {
-    margin-right: 0.25rem;
-  }
-
-  .linkEntityIcon {
-    fill: @lib__colors__blue800;
-  }
-
-  .entityIcon {
-    fill: @lib__colors__N700Medium;
-  }
-
-  .noApplicationsDefined {
-    margin-top: 2rem;
-    font-size: larger;
   }
 }

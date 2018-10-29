@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -8,6 +7,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import CallsButton from 'in-applications/components/CallsButton';
@@ -50,7 +50,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 
 function Header(props) {
   return (
-    <BasicApplicationDashboardHeader type="Service" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+    <BasicDashboardHeader
+      title="Service"
+      icon="lib_application_service"
+      renderActions={Actions}
+      renderSubTypes={SubTypes}
+      {...props}
+    />
   );
 }
 

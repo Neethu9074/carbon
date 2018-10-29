@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
@@ -20,9 +21,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 
 import locals from './Endpoints.mless';
 
@@ -178,12 +177,12 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { applicationId, serviceId }) {
       return (
-        <div className={locals.flexWrapper}>
-          <SvgIcon className={locals.linkEntityIcon} type="lib_application_endpoint" width={24} height={24} />
-          <Link href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}>
-            {item.endpoint.label}
-          </Link>
-        </div>
+        <SeverityAwareEntityLink
+          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          icon="lib_application_endpoint"
+          label={item.endpoint.label}
+          href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}
+        />
       );
     }
   },

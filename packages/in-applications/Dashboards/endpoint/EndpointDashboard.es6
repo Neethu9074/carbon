@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import BasicApplicationDashboardHeader from 'in-applications/Dashboards/BasicApplicationDashboard/BasicApplicationDashboardHeader';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -9,6 +8,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
@@ -50,7 +50,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 
 function Header(props) {
   return (
-    <BasicApplicationDashboardHeader type="Endpoint" renderActions={Actions} renderSubTypes={SubTypes} {...props} />
+    <BasicDashboardHeader
+      title="Endpoint"
+      icon="lib_application_endpoint"
+      renderActions={Actions}
+      renderSubTypes={SubTypes}
+      {...props}
+    />
   );
 }
 
