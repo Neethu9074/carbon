@@ -137,6 +137,7 @@ import './nginx';
 import './nodeJsRuntimePlatform';
 import './nomadScheduler';
 import './nova';
+import './opc';
 import './oracleDB';
 import './openLDAP';
 import './pageResourceLogicalConnection';
