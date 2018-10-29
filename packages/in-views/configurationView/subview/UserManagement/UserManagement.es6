@@ -11,6 +11,7 @@ import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Section from 'in-views/configurationView/components/Section';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Notification from 'in-components/form/Notification';
 import { getRoles } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
@@ -24,6 +25,7 @@ import './UserManagement.less';
 
 const logger = createLogger('UserManagement');
 const block = 'in-config-users';
+const trackUserInviteDialogOpen = createTracker('user.invite');
 
 export default connectTo(
   {
@@ -287,8 +289,7 @@ export default connectTo(
           description={
             <span>
               Are you sure you want to remove the user <strong>{user.get('fullName')}</strong> from the tenant{' '}
-              <strong>{config.tenant}</strong>
-              ?
+              <strong>{config.tenant}</strong>?
             </span>
           }
           bButtonLabel="Remove user from tenant"
@@ -388,6 +389,7 @@ export default connectTo(
     };
 
     inviteUser = () => {
+      trackUserInviteDialogOpen();
       setActiveDialog(<UserInvitationDialog onSubmit={this.onDoInviteUser} />);
     };
 
