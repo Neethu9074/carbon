@@ -23,7 +23,7 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeAnalyzeConfig, isTracesDataSource } = props;
+  const { filters, onChangeAnalyzeConfig } = props;
   const group = filters.get('group');
 
   return (
@@ -71,7 +71,7 @@ export default function QueryBuilderWorkspace(props) {
               <span className={locals.groupByTag}>
                 {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
               </span>
-              <Tooltip content="Remove grouping">
+              <Tooltip content="Remove grouping" align="bottomMiddle">
                 <SvgIcon
                   className={locals.removeGrouping}
                   aria-label="Remove grouping"
@@ -82,43 +82,29 @@ export default function QueryBuilderWorkspace(props) {
                 />
               </Tooltip>
 
-              {!isTracesDataSource && (
-                <Button
-                  kind="primaryv2"
-                  className={locals.changeGroupLabel}
-                  onClick={e => {
-                    e.preventDefault();
-                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                  }}
-                >
-                  Change Group
-                </Button>
-              )}
+              <Button
+                kind="primaryv2"
+                className={locals.changeGroupLabel}
+                onClick={e => {
+                  e.preventDefault();
+                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                }}
+              >
+                Change Group
+              </Button>
             </Fragment>
           ) : (
             <Fragment>
               <span className={locals.groupByLabel}>Grouped by</span>
-              {isTracesDataSource ? (
-                <Button
-                  kind="primaryv2"
-                  onClick={e => {
-                    e.preventDefault();
-                    onAddDefaultGroup(onChangeAnalyzeConfig);
-                  }}
-                >
-                  Add Default Group
-                </Button>
-              ) : (
-                <Button
-                  kind="primaryv2"
-                  onClick={e => {
-                    e.preventDefault();
-                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                  }}
-                >
-                  Add Group
-                </Button>
-              )}
+              <Button
+                kind="primaryv2"
+                onClick={e => {
+                  e.preventDefault();
+                  onUpdateGroup(filters, onChangeAnalyzeConfig, group);
+                }}
+              >
+                Add Group
+              </Button>
             </Fragment>
           )}
         </div>
@@ -312,13 +298,6 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
       }}
     />
   );
-}
-
-function onAddDefaultGroup(onChangeAnalyzeConfig) {
-  const newState = {};
-
-  newState[groupByMatrixParameter] = { name: 'trace.endpoint.name' };
-  onChangeAnalyzeConfig(newState);
 }
 
 function onRemoveGroup(onChangeAnalyzeConfig) {
