@@ -13,14 +13,18 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
-import { cockpitEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import {
+  kubernetesEnabled,
+  cockpitEnabled,
+  twoZeroModeEnabled,
+  instanaInternalFeaturesEnabled
+} from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { kubernetes as kubernetesPath } from 'in-kubernetes/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { kubernetesEnabled$ } from 'in-kubernetes/navigation/enabled';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -55,7 +59,14 @@ export default function ViewSwitcher() {
           />
         </View>
 
-        <KubernetesMenuPoint />
+        {kubernetesEnabled && (
+          <View
+            label="Kubernetes"
+            icon="lib_kubernetes"
+            href$={getView(kubernetesPath)}
+            isActive$={isView(kubernetesPath)}
+          />
+        )}
 
         {!twoZeroModeEnabled && (
           <View
@@ -109,17 +120,6 @@ export default function ViewSwitcher() {
     </div>
   );
 }
-
-const KubernetesMenuPoint = connectTo({ kubernetesEnabled: kubernetesEnabled$ }, function KubernetesMenuPoint({
-  kubernetesEnabled
-}) {
-  if (!kubernetesEnabled) {
-    return null;
-  }
-  return (
-    <View label="Kubernetes" icon="lib_kubernetes" href$={getView(kubernetesPath)} isActive$={isView(kubernetesPath)} />
-  );
-});
 
 const IncidentsMenuPoint = connectTo(
   {
