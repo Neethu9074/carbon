@@ -1,10 +1,12 @@
 import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { urlQueryKeys } from 'in-stores/time/config';
 
+export const classicDashboard = '/dashboard';
+
 export function goToDashboard(snapshotId) {
   mutateUrl(params => {
     const view = getActiveView(params);
-    params.pathname = `/${view}/dashboard`;
+    params.pathname = `/${view}${classicDashboard}`;
     params.query.snapshotId = snapshotId;
     return params;
   });
@@ -16,7 +18,7 @@ export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pa
       params.pathname = pathname;
     } else {
       const view = getActiveView(params);
-      params.pathname = `/${view}/dashboard`;
+      params.pathname = `/${view}${classicDashboard}`;
     }
     if (windowSize != null) {
       params.query[urlQueryKeys.windowSize] = windowSize;

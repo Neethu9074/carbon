@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
+import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -42,6 +43,9 @@ const Crumb = connectTo(
             href$={getLinkToSnapshotInCurrentView(snapshotId)}
             title="Select this entity."
             className={`${crumbElement}-link`}
+            onClick={() => {
+              mapSelectEntityTracker({ origin: 'elevator', type: snapshot.get('plugin') });
+            }}
           >
             <HealthyPluginIcon className={imgClasses} snapshot={snapshot} />
           </Link>
@@ -66,7 +70,9 @@ export default connectTo(
 
     return (
       <ul className={block}>
-        {physicalHierarchy.map(id => <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />)}
+        {physicalHierarchy.map(id => (
+          <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
+        ))}
       </ul>
     );
   }

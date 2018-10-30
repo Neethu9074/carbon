@@ -3,9 +3,14 @@ import { combineLatest } from 'reactive-observables';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { getSnapshot } from 'in-stores/snapshot';
+
+const tableEntityAddedTracker = createTracker('table.entity.added');
+const tableEntityRemovedTracker = createTracker('table.entity.removed');
+const tableEntityClearedTracker = createTracker('table.entity.cleared');
 
 export const selectedSnapshotIds$ = createTrackingStore({
   name: 'tableView/stores/selectedSnapshots/selectedSnapshotIds',
@@ -21,14 +26,16 @@ export const selectedSnapshotIds$ = createTrackingStore({
     .distinct()
 }).observable;
 
-export function toggleSnapshotId(snapshotId) {
+export function toggleSnapshotId(snapshotId, entityType) {
   selectedSnapshotIds$.once(selectedSnapshotIds => {
     selectedSnapshotIds = selectedSnapshotIds.slice();
     const i = selectedSnapshotIds.indexOf(snapshotId);
 
     if (i === -1) {
+      tableEntityAddedTracker({ type: entityType });
       selectedSnapshotIds.push(snapshotId);
     } else {
+      tableEntityRemovedTracker({ type: entityType });
       selectedSnapshotIds.splice(i, 1);
     }
 
@@ -37,6 +44,7 @@ export function toggleSnapshotId(snapshotId) {
 }
 
 export function clearSelectedSnapshots() {
+  tableEntityClearedTracker();
   mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'snapshotIds'));
 }
 

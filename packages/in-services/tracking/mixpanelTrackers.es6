@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { createDurationTracker, createTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { applicationDashboard, endpointDashboard, serviceDashboard } from 'in-applications/navigation/paths';
 import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
+import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
 import { navigationParameters$ } from 'in-stores/navigation';
@@ -32,6 +33,7 @@ export function init() {
       createTracker('pageLoadOrPageReload')();
       initActivityHeartbeat();
       initUsageDurationTrackers();
+      initViewTrackers();
     }
   });
 }
@@ -251,4 +253,60 @@ function getAppIdFromLocation(location) {
     get(location, ['matrix', analyze, applicationId]) ||
     null
   );
+}
+
+function initViewTrackers() {
+  trackView();
+  trackOpenDashboardClassic();
+}
+
+function trackView() {
+  const viewOpenMapTracker = createTracker('view.open.map');
+  const viewOpenComparisonTableTracker = createTracker('view.open.comparisontable');
+  const mapPerspectiveChangeTracker = createTracker('map.perspective.change');
+  let lastView = null;
+  navigationParameters$
+    .map(location => {
+      const path = location.pathname || '';
+      const matchResult = path.match(/^\/([a-z]+)(?:\/)?([a-z]+)?(?:\/.*)?$/i);
+      return { view: matchResult[1], subview: matchResult[2] };
+    })
+    // for now, opening a dashboard does not count as a opening a view
+    .filter(({ subview }) => subview !== 'dashboard')
+    .map(({ view }) => view)
+    .distinct()
+    .subscribe(view => {
+      // For now, we only track opening the infra map and infra comparison table. My guess is that we'll switch to
+      // tracking all view changes sooner or later.
+
+      // Do not create an "open infra map" even if the user simply switched between hosts and containers while being on
+      // the map already.
+      if (view === 'physical' || view === 'container') {
+        const typeForTracking = view === 'physical' ? 'host' : view;
+        if (lastView !== 'physical' && lastView !== 'container') {
+          viewOpenMapTracker({ type: typeForTracking });
+        } else {
+          mapPerspectiveChangeTracker({ type: typeForTracking });
+        }
+      } else if (view === 'table') {
+        viewOpenComparisonTableTracker();
+      }
+      lastView = view;
+    });
+}
+
+function trackOpenDashboardClassic() {
+  const openDashboardClassicTracker = createTracker('dashboard.classic.open');
+  navigationParameters$
+    .map(location => {
+      const matrix = location.matrix;
+      if (!matrix || !matrix[classicDashboard]) {
+        return null;
+      }
+      return location.pathname;
+    })
+    .filter(value => value != null)
+    .subscribe(contextPath => {
+      openDashboardClassicTracker({ context: contextPath });
+    });
 }

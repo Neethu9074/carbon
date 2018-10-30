@@ -7,14 +7,14 @@ import createRunningComponentsObservable from 'in-subscription/runningComponents
 import createSnapshotVersionsObservable from 'in-subscription/snapshotVersions';
 import createServiceInstancesObservable from 'in-subscription/serviceInstances';
 import createDeployedUnitsObservable from 'in-subscription/deployedUnits';
-import createrIsEntityOnlineObservable from 'in-subscription/isOnline';
-import createFoundationsObservable from 'in-subscription/foundations';
-import createRawPayloadObservable from 'in-subscription/rawPayload';
-import createSnapshotObservable from 'in-subscription/snapshot';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
+import createrIsEntityOnlineObservable from 'in-subscription/isOnline';
+import createFoundationsObservable from 'in-subscription/foundations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import createRawPayloadObservable from 'in-subscription/rawPayload';
 import { debouncedQuery$, query$ } from 'in-stores/search/query';
+import createSnapshotObservable from 'in-subscription/snapshot';
 import createSearchObservable from 'in-subscription/search';
 import { createTrackingStore } from 'in-stores/store';
 import { timeConfig$ } from 'in-stores/time/config';

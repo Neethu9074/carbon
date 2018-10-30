@@ -16,6 +16,7 @@ import CustomContainerGroupingDialog from 'in-components/MapOverlayControls/comp
 import CustomHostGroupingDialog from 'in-components/MapOverlayControls/components/CustomHostGroupingDialog';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { getView } from 'in-stores/navigation/navigation';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { view$, types } from 'in-stores/view';
@@ -25,6 +26,8 @@ import connectTo from 'in-hoc/connectTo';
 import './ViewGrouping.less';
 
 const block = 'in-controls-view-grouping';
+
+const mapGroupingChangeTracker = createTracker('map.grouping.change');
 
 export default function ViewGrouping() {
   return (
@@ -127,6 +130,11 @@ const GroupingButton = connectTo(
         size="sm"
         href={href}
         className={`${block}__button`}
+        onClick={() => {
+          if (activeGrouping !== grouping) {
+            mapGroupingChangeTracker({ grouping: grouping });
+          }
+        }}
       >
         {humanReadableDescriptions[grouping]}
       </Button>

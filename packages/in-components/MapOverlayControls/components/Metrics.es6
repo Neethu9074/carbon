@@ -1,10 +1,12 @@
 /* eslint-disable react/no-multi-comp */
 import { fromJS } from 'immutable';
+import { isEqual } from 'lodash';
 import React from 'react';
 
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-components/MapOverlayControls/components/Control';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { types, view$ } from 'in-stores/view';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -12,6 +14,8 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-components/MapOverlayControls/components/Metrics.less';
 
 const block = 'in-controls-metrics';
+
+const mapShowMetricsTracker = createTracker('map.metrics.show');
 
 export default connectTo(
   {
@@ -60,7 +64,9 @@ const MetricPanel = connectTo(
         <div className={block}>
           {this.state.isOpen ? (
             <div className={`${block}__wrapper`}>
-              {Object.keys(metricList).map(topic => <Topic key={topic} label={topic} list={metricList} />)}
+              {Object.keys(metricList).map(topic => (
+                <Topic key={topic} label={topic} list={metricList} />
+              ))}
             </div>
           ) : null}
 
@@ -126,6 +132,7 @@ function Topic({ label, list }) {
   );
 }
 
+let lastMetricSelection = { topic: null, metricKey: null };
 const Metric = connectTo(
   {
     activeMetric: activeMetric$
@@ -137,15 +144,20 @@ const Metric = connectTo(
           [`${block}__metric`]: true,
           [`${block}__metric--active`]: activeMetric && activeMetric.get('name') === metricKey
         })}
-        onClick={() =>
-          setActiveMetric(
+        onClick={() => {
+          const newMetricSelection = { topic, metricKey };
+          if (!isEqual(lastMetricSelection, newMetricSelection)) {
+            mapShowMetricsTracker(newMetricSelection);
+          }
+          lastMetricSelection = newMetricSelection;
+          return setActiveMetric(
             fromJS({
               name: metricKey,
               longLabel: `${topic} ${metricKey}`,
               metrics: metric[metricKey]
             })
-          )
-        }
+          );
+        }}
       >
         {metricKey}
       </div>

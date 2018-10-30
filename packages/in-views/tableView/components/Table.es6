@@ -61,7 +61,7 @@ export default connectTo(
           leftHeader={<LeftHeader />}
           rightHeader={<RightHeader />}
           selectedRowKeys={selectedSnapshotIds}
-          onRowClick={row => toggleSnapshotId(row.key)}
+          onRowClick={row => toggleSnapshotId(row.key, row.snapshot ? row.snapshot.get('plugin') : null)}
           maxItemsPerPage={50}
         />
       </div>

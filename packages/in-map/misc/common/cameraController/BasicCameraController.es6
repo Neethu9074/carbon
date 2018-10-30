@@ -5,6 +5,7 @@ import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { goToDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { requestRendering } from 'in-map/stores/renderingStore';
+import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -39,10 +40,10 @@ export default class BasicCameraController extends Subscriber {
     // transformation helper. need this to move on the ground
     this.camTransformObject = new Object3D();
     this.camTransformObject.position.set(0, 0, 0);
-    this.camTransformObject.rotation.y = this.startingYaw * Math.PI / 180;
+    this.camTransformObject.rotation.y = (this.startingYaw * Math.PI) / 180;
 
     this.camPitchObject = new Object3D();
-    this.camPitchObject.rotation.x = this.startingPitch * Math.PI / 180;
+    this.camPitchObject.rotation.x = (this.startingPitch * Math.PI) / 180;
     this.camTransformObject.add(this.camPitchObject);
 
     const camera = this.camera.getRenderableCamera();
@@ -57,6 +58,7 @@ export default class BasicCameraController extends Subscriber {
         const { object, connections } = this.lastHitten;
 
         if (object) {
+          mapSelectEntityTracker({ origin: 'map' });
           setSelectedSnapshotId(object.dashboardId);
           // dont reset the click if you clicken on connections
         } else if (connections.length === 0) {

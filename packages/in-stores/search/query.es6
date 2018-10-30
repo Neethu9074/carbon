@@ -1,9 +1,12 @@
 import { parse } from 'lucene';
 
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 import { validate } from 'in-api/search';
+
+const dynamicFocusQueryTracker = createTracker('dynamic.focus.query');
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
@@ -20,6 +23,8 @@ const queryStore = createStore({
 });
 export const query$ = queryStore.observable.distinct().filter(v => v != null);
 export const debouncedQuery$ = query$.debounce(200);
+
+let lastQuery = null;
 
 const parsedQueryStore = createStore({
   name: 'search/parsedQuery',
@@ -106,6 +111,10 @@ unvalidatedQuery$
     });
   })
   .subscribe(result => {
+    if (result.query && lastQuery !== result.query) {
+      dynamicFocusQueryTracker({ query: result.query, error: !!result.error });
+      lastQuery = result.query;
+    }
     if (result.error) {
       errorStore.mutateTo(result.error);
     } else {
