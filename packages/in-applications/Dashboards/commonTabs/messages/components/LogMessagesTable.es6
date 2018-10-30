@@ -33,6 +33,9 @@ export default function LogMessagesTable({
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
+      applicationName={applicationName}
+      serviceName={serviceName}
+      endpointName={endpointId}
       timeConfig={timeConfig}
       paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
       defaultOrderBy="logsAgg"
