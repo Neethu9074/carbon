@@ -10,7 +10,7 @@ export default connectTo(
     isClusterViewActive: isView(clusterList),
     isNamespaceViewActive: isView(namespaceList)
   },
-  function AppViewSwitcher({ isClusterViewActive, isNamespaceViewActive }) {
+  function KubernetesViewSwitcher({ isClusterViewActive, isNamespaceViewActive }) {
     return (
       <SecondLevelNavigation>
         <SecondLevelNavigationItem
