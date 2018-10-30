@@ -504,7 +504,12 @@ export default connectTo(
                         <ComboBox
                           name="rule-aggregation"
                           value={field.value}
-                          options={[{ value: 'avg', label: 'avg' }, { value: 'sum', label: 'sum' }]}
+                          options={[
+                            { value: 'avg', label: 'avg' },
+                            { value: 'sum', label: 'sum' },
+                            { value: 'min', label: 'min' },
+                            { value: 'max', label: 'max' }
+                          ]}
                           onChange={e => onChange('aggregation', e ? e.value : e)}
                         />
                         <TouchedMessages field={field} />
