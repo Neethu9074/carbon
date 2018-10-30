@@ -33,6 +33,7 @@ function GroupMetricsChart({
 
   const countMetricText = isTracesDataSource ? 'Traces' : 'Calls';
   const countMetricKey = isTracesDataSource ? 'traces' : 'calls';
+  const groups = items.slice(0, 5);
 
   // Render chart selector and chart.
   return (
@@ -49,7 +50,7 @@ function GroupMetricsChart({
       </div>
 
       <ChartElement
-        groups={items}
+        groups={groups}
         groupColors={groupColors}
         timeConfig={filters.get('timeConfig')}
         time={time}
