@@ -13,71 +13,72 @@ import {
 export const kubernetes = '/kubernetes';
 
 export const serviceList = `${kubernetes}/services`;
-export const serviceDashboard = `${kubernetes}/service`;
+export const serviceDashboard = `/service`;
+export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 
 export const clusterList = `${kubernetes}/clusters`;
 export const clusterDashboard = `${kubernetes}/cluster`;
+export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
 
 export const namespaceList = `${kubernetes}/namespaces`;
 export const namespaceDashboard = `${kubernetes}/namespace`;
+export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboard}`;
 
 export const podDashboard = `${kubernetes}/pod`;
+export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard(
-    {
-      base: serviceDashboard,
-      tab,
-      tabMatrix,
-      timeConfig
-    },
-    serviceId,
-    matrixServiceId
-  );
+  return getDashboard({
+    base: serviceDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: serviceDashboard,
+    matrixParam: matrixServiceId,
+    id: serviceId
+  });
 }
 export function getClusterDashboard(clusterId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard(
-    {
-      base: clusterDashboard,
-      tab,
-      tabMatrix,
-      timeConfig
-    },
-    clusterId,
-    matrixClusterId
-  );
+  return getDashboard({
+    base: clusterDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: clusterDashboard,
+    matrixParam: matrixClusterId,
+    id: clusterId
+  });
 }
 
 export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard(
-    {
-      base: namespaceDashboard,
-      tab,
-      tabMatrix,
-      timeConfig
-    },
-    namespaceId,
-    matrixNamespaceId
-  );
+  return getDashboard({
+    base: namespaceDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: namespaceDashboard,
+    matrixParam: matrixNamespaceId,
+    id: namespaceId
+  });
 }
 
 export function getPodDashboard(podId, { tab, tabMatrix, timeConfig } = emptyObject) {
-  return getDashboard(
-    {
-      base: podDashboard,
-      tab,
-      tabMatrix,
-      timeConfig
-    },
-    podId,
-    matrixPodId
-  );
+  return getDashboard({
+    base: podDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: podDashboard,
+    matrixParam: matrixPodId,
+    id: podId
+  });
 }
 
-function getDashboard({ base, tab = '/summary', tabMatrix = emptyObject, timeConfig }, id, matrixParameter) {
+function getDashboard({ base, tab = '/summary', tabMatrix = emptyObject, timeConfig, matrixSegment, matrixParam, id }) {
   return getModifiedUrlStream(params => {
     params.pathname = `${base}${tab}`;
-    setOrDeleteMatrixKey(params, base, matrixParameter, id);
+
+    setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);

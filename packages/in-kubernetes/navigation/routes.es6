@@ -7,14 +7,19 @@ import ClusterDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Das
 import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Service/ServiceDashboard';
 import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
 
-import { kubernetes, serviceDashboard, clusterDashboard, namespaceDashboard } from 'in-kubernetes/navigation/paths';
+import {
+  kubernetes,
+  serviceDashboardFullyQualified,
+  clusterDashboardFullyQualified,
+  namespaceDashboardFullyQualified
+} from 'in-kubernetes/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
 export default (
   <Fragment>
-    <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
-    <Route path={clusterDashboard} component={createAsyncViewComponent(ClusterDashboard)} />
-    <Route path={namespaceDashboard} component={createAsyncViewComponent(NamespaceDashboard)} />
+    <Route path={serviceDashboardFullyQualified} component={createAsyncViewComponent(ServiceDashboard)} />
+    <Route path={clusterDashboardFullyQualified} component={createAsyncViewComponent(ClusterDashboard)} />
+    <Route path={namespaceDashboardFullyQualified} component={createAsyncViewComponent(NamespaceDashboard)} />
 
     <Route path={kubernetes} component={createAsyncViewComponent(KubernetesMainView)} />
   </Fragment>
