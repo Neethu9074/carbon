@@ -45,10 +45,10 @@ function Header(props) {
   );
 }
 
-function SubTypes({ result }) {
+function SubTypes() {
   return (
     <Fragment>
-      <TypesBadgeList types={result.data.types} />
+      <TypesBadgeList type="K8s Namespace" />
       <KubernetesIndicator />
     </Fragment>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
-import { plugins } from 'in-forge/constants';
+
+import icons from 'in-components/SvgIcon/registry.json';
 
 export default function KubernetesIndicator() {
-  return <TechnologyLabelWithIcon plugin={plugins.kubernetesCluster} label="Kubernetes" />;
+  return <TechnologyLabelWithIcon path={icons.lib_kubernetes.path} label="Kubernetes" dimension={24} />;
 }
