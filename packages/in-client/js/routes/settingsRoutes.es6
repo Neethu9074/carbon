@@ -29,6 +29,7 @@ import {
   integrationsPath,
   integrationPath,
   newIntegrationPath,
+  maintenanceConfigurationsPath,
   auditlogPath
 } from 'in-stores/navigation/paths/settingPaths';
 
@@ -57,6 +58,7 @@ import AlertingConfigurations from 'promise-loader?global,configView!in-views/co
 import AlertingConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/AlertingConfiguration/AlertingConfiguration';
 import Integrations from 'promise-loader?global,configView!in-views/configurationView/subview/Integrations/Integrations';
 import Integration from 'promise-loader?global,configView!in-views/configurationView/subview/Integration/Integration';
+import MaintenanceConfigurations from 'promise-loader?global,configView!in-views/configurationView/subview/MaintenanceConfigurations/MaintenanceConfigurations';
 
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
@@ -122,6 +124,8 @@ export default (
     <Route component={createAsyncViewComponent(Integration)} path={newIntegrationPath} />
     <Route component={createAsyncViewComponent(Integrations)} path={integrationsPath} />
     <Route component={createAsyncViewComponent(Integration)} path={integrationPath} />
+
+    <Route component={createAsyncViewComponent(MaintenanceConfigurations)} path={maintenanceConfigurationsPath} />
 
     <Route component={createAsyncViewComponent(AuditLogView)} path={auditlogPath} />
   </Switch>

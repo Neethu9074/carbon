@@ -23,6 +23,8 @@ import {
   integrationsPath,
   bindingsPath,
   integrationPath,
+  maintenanceConfigurationsPath,
+  maintenanceConfigurationPath,
   auditlogPath
 } from 'in-stores/navigation/paths/settingPaths';
 import { forecastsEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
@@ -139,6 +141,13 @@ export default function Navigation() {
             )}
             {role.canConfigureIntegrations && (
               <NavItem title="Integrations" href$={getView(integrationsPath)} isActive$={isView(integrationPath)} />
+            )}
+            {role.canConfigureCustomAlerts && (
+              <NavItem
+                title="Maintenance Windows"
+                href$={getView(maintenanceConfigurationsPath)}
+                isActive$={isView(maintenanceConfigurationPath)}
+              />
             )}
           </NavItem>
         ) : null}
