@@ -27,7 +27,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
           errors: [],
           data: {
             id: props.serviceId,
-            label: `Dummy Service label for ID (${props.serviceId})`
+            label: props.serviceId
           }
         })}
         HeaderComponent={Header}
@@ -40,7 +40,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 });
 
 function Header(props) {
-  return <BasicDashboardHeader title="Service" icon="lib_application_service" {...props} renderSubTypes={SubTypes} />;
+  return <BasicDashboardHeader title="Service" icon="lib_kubernetes_service" {...props} renderSubTypes={SubTypes} />;
 }
 
 function SubTypes() {

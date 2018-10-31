@@ -10,7 +10,7 @@ export default function TechnologyIndicator({ pluginOrGroupType, showTechnologyL
     return null;
   }
 
-  let content = <TechnologyLabelWithIcon plugin={pluginOrGroupType} label={label} />;
+  let content = <TechnologyLabelWithIcon plugin={pluginOrGroupType} label={label} is10Icon />;
   if (showTechnologyLabel) {
     return content;
   }

@@ -27,7 +27,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ClusterDashboard(
           errors: [],
           data: {
             id: props.clusterId,
-            label: `Cluster ${props.clusterId}`
+            label: props.clusterId
           }
         })}
         HeaderComponent={Header}

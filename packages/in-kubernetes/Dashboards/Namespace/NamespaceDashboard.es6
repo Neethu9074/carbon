@@ -27,7 +27,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function NamespaceDashboar
           errors: [],
           data: {
             id: props.namespaceId,
-            label: `Namespace ${props.namespaceId}`
+            label: props.namespaceId
           }
         })}
         HeaderComponent={Header}

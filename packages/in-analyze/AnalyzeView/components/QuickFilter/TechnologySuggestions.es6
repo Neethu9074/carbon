@@ -2,7 +2,7 @@ import React from 'react';
 
 import SearchableList from 'in-analyze/AnalyzeView/components/QuickFilter/SearchableList';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
-import TechnologyWithIcon from 'in-applications/components/TechnologyWithIcon';
+import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 export default function TechnologySuggestions(props) {
@@ -16,5 +16,5 @@ export default function TechnologySuggestions(props) {
 }
 
 function renderItem(renderIcon, item) {
-  return <TechnologyWithIcon technology={item.value} />;
+  return <TechnologyLabelWithIcon plugin={item.value} label={item.value} is10Icon />;
 }

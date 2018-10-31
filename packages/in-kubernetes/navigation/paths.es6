@@ -17,14 +17,14 @@ export const serviceDashboard = `/service`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 
 export const clusterList = `${kubernetes}/clusters`;
-export const clusterDashboard = `${kubernetes}/cluster`;
+export const clusterDashboard = `/cluster`;
 export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
 
 export const namespaceList = `${kubernetes}/namespaces`;
-export const namespaceDashboard = `${kubernetes}/namespace`;
+export const namespaceDashboard = `/namespace`;
 export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboard}`;
 
-export const podDashboard = `${kubernetes}/pod`;
+export const podDashboard = `/pod`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig } = emptyObject) {
