@@ -1,16 +1,16 @@
+import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
 import Namespaces from 'in-kubernetes/Dashboards/Cluster/tabs/Namespaces';
-import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 
 export default [
   {
     label: 'Summary',
-    path: `${clusterDashboard}/summary`,
+    path: `${clusterDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
     label: 'Namespaces',
-    path: `${clusterDashboard}/namespaces`,
+    path: `${clusterDashboardFullyQualified}/namespaces`,
     component: Namespaces,
     icon: 'lib_kubernetes'
   }

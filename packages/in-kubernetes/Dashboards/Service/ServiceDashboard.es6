@@ -8,15 +8,14 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
-import { timeConfig$ } from 'in-stores/time/config';
+import { getTimeConfig } from 'in-stores/time/config';
 import { always } from 'in-services/fixedStreams';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
+export default function ServiceDashboard({ location }) {
   const props = {
     serviceId: getMatrixParameter(location, serviceDashboard, matrixServiceId),
     viewPath: serviceDashboard,
-    timeConfig
+    timeConfig: getTimeConfig(location)
   };
 
   return (
@@ -37,7 +36,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
       />
     </Fragment>
   );
-});
+}
 
 function Header(props) {
   return <BasicDashboardHeader title="Service" icon="lib_kubernetes_service" {...props} renderSubTypes={SubTypes} />;
