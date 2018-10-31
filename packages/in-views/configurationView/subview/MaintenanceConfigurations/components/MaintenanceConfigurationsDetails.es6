@@ -3,9 +3,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 
-import './MaintenanceConfigurationsDetails.less';
-
-const block = 'in-maintenance-config-details';
+import locals from './MaintenanceConfigurationsDetails.mless';
 
 export default function MaintenanceConfigurationsDetails({ config }) {
   if (!config) {
@@ -23,7 +21,7 @@ export default function MaintenanceConfigurationsDetails({ config }) {
         {windows.size > 0 && (
           <DescriptionItem title="Time Windows">
             {windows.map(window => (
-              <ul key={window.get('id')} className={`${block}__ul`}>
+              <ul key={window.get('id')} className={locals.windowList}>
                 <TimeframeListItem from={window.get('start')} to={window.get('end')} />
               </ul>
             ))}
@@ -42,5 +40,5 @@ function TimeframeListItem({ from, to }) {
     timeframeString = `${formatDateTime(from)} to ${formatDateTime(to)}`;
   }
 
-  return <li className={`${block}__li`}>{timeframeString}</li>;
+  return <li>{timeframeString}</li>;
 }

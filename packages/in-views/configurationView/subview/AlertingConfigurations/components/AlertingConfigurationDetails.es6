@@ -6,9 +6,7 @@ import { getIntegrationsByIds } from 'in-api/integrations';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
-import './AlertingConfigurationDetails.less';
-
-const block = 'in-alerting-config-details';
+import locals from './AlertingConfigurationDetails.mless';
 
 export default connectTo(
   props => {
@@ -35,7 +33,7 @@ export default connectTo(
           {integrations.length > 0 && (
             <DescriptionItem title="Integrations">
               {integrations.map(integration => (
-                <ul key={integration.get('id')} className={`${block}__ul`}>
+                <ul key={integration.get('id')} className={locals.integrationList}>
                   <IntegrationListItem integrationKind={integration.get('kind')} />
                 </ul>
               ))}
@@ -49,5 +47,5 @@ export default connectTo(
 
 function IntegrationListItem({ integrationKind }) {
   const fullyQualifiedIntegration = fullyQualified[integrationKind];
-  return <li className={`${block}__li`}>{fullyQualifiedIntegration.label}</li>;
+  return <li>{fullyQualifiedIntegration.label}</li>;
 }
