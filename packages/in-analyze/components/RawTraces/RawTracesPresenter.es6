@@ -15,7 +15,7 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -27,11 +27,22 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './RawTracesPresenter.mless';
 
 export default function RawTracesPresenter(props) {
-  const { items, totalHits, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
+  const {
+    items,
+    totalHits,
+    totalRepresentedItemCount,
+    errors,
+    progress,
+    loadMore,
+    canLoadMore,
+    orderBy,
+    orderDirection,
+    onChangeOrder
+  } = props;
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <ItemsInGroupsIndicator numTraces={totalHits} />
+      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

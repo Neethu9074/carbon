@@ -34,6 +34,7 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
         progress: finishedProgress,
         errors: emptyArray,
         totalHits: null,
+        totalRepresentedItemCount: null,
         canLoadMore: true,
         items: emptyArray
       };
@@ -96,6 +97,7 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
           time: result.time,
           canLoadMore: result.data.canLoadMore,
           totalHits: result.data.totalHits,
+          totalRepresentedItemCount: result.data.totalRepresentedItemCount,
           items: items.concat(result.data.items)
         }));
       }

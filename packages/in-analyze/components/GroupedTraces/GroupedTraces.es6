@@ -4,7 +4,7 @@ import React from 'react';
 
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import TraceGroupChart from 'in-analyze/components/GroupMetricsChart';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -101,7 +101,7 @@ function GroupedTraces(props) {
   return (
     <AnalyzeTracesWorkspace {...props}>
       <div className={locals.wrapper}>
-        <ItemsInGroupsIndicator numGroups={totalHits} />
+        <ResultHeader itemType="Group" nbRows={totalHits} />
         <Button
           kind="secondary"
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}

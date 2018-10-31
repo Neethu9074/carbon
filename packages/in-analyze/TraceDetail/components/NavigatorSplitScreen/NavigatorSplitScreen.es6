@@ -7,7 +7,7 @@ import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTrac
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import withPropDependingState from 'in-hoc/withPropDependingState';
@@ -56,7 +56,16 @@ function getInitialState({ screenWidth }) {
 }
 
 function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded }) {
-  const { isTracesDataSource, totalHits, location, items, canLoadMore, loadMore, progress } = navigator.props;
+  const {
+    isTracesDataSource,
+    totalHits,
+    totalRepresentedItemCount,
+    location,
+    items,
+    canLoadMore,
+    loadMore,
+    progress
+  } = navigator.props;
   const selectedTraceId = getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
   const selectedCallId = getMatrixParameter(location, traceDetailPath, callIdMatrixParameter);
   const itemMatcher = isTracesDataSource
@@ -72,11 +81,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
       {expanded && (
         <div className={locals.navigator}>
           <div className={locals.header}>
-            <ItemsInGroupsIndicator
-              numTraces={isTracesDataSource ? totalHits : undefined}
-              numCalls={isTracesDataSource ? undefined : totalHits}
-              withoutMargin
-            />
+            <ResultHeader itemType={typeLabel} nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
 
             <div className={locals.actions}>
               {hasPrev && (

@@ -15,7 +15,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -28,12 +28,23 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './RawCallsPresenter.mless';
 
-export default function RawCalls(props) {
-  const { items, totalHits, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
+export default function RawCallsPresenter(props) {
+  const {
+    items,
+    totalHits,
+    totalRepresentedItemCount,
+    errors,
+    progress,
+    loadMore,
+    canLoadMore,
+    orderBy,
+    orderDirection,
+    onChangeOrder
+  } = props;
 
   return (
     <AnalyzeCallsWorkspace {...props}>
-      <ItemsInGroupsIndicator numCalls={totalHits} />
+      <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

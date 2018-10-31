@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import { assign } from 'lodash';
 import React from 'react';
 
-import ItemsInGroupsIndicator from 'in-analyze/components/ItemsInGroupsIndicator';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import CallGroupsTable from 'in-analyze/components/GroupedCalls/CallGroupsTable';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import CallGroupCharts from 'in-analyze/components/GroupMetricsChart';
@@ -101,7 +101,7 @@ function GroupedCalls(props) {
   return (
     <AnalyzeCallsWorkspace {...props}>
       <div className={locals.wrapper}>
-        <ItemsInGroupsIndicator numGroups={totalHits} />
+        <ResultHeader itemType="Group" nbRows={totalHits} />
         <Button
           kind="secondary"
           onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}

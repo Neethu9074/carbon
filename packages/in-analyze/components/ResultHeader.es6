@@ -7,7 +7,7 @@ import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './ItemsInGroupsIndicator.mless';
+import locals from './ResultHeader.mless';
 
 export default connectTo(
   props => ({
@@ -16,26 +16,17 @@ export default connectTo(
     )
   }),
 
-  function ItemsInGroupsIndicator({ numCalls, numTraces, numGroups, containsPastLiveData, withoutMargin = false }) {
-    let numItems;
-    let itemType;
-    if (numCalls != undefined) {
-      numItems = numCalls;
-      itemType = 'Call';
-    } else {
-      numItems = numTraces;
-      itemType = 'Trace';
-    }
+  function ResultHeader({ itemType, nbRows, nbItems, containsPastLiveData, withoutMargin = false }) {
+    let counter = '';
 
-    let counter;
-    if (numItems != undefined && numGroups != undefined) {
-      counter = `${number.compact(numItems)} ${itemType}${numItems === 1 ? '' : 's'} (in ${numGroups} Group${
-        numGroups === 1 ? '' : 's'
-      })`;
-    } else if (numItems != undefined) {
-      counter = `${number.compact(numItems)} ${itemType}${numItems === 1 ? '' : 's'}`;
-    } else if (numGroups != undefined) {
-      counter = `${numGroups} Group${numGroups === 1 ? '' : 's'}`;
+    if (itemType == 'Group') {
+      counter = formatCounter(nbRows, 'Group');
+    } else {
+      if (containsPastLiveData) {
+        counter = formatCounter(nbRows, 'Row');
+      } else {
+        counter = formatCounter(nbItems, itemType);
+      }
     }
 
     return (
@@ -52,3 +43,10 @@ export default connectTo(
     );
   }
 );
+
+function formatCounter(nb, unit) {
+  if (nb != null) {
+    return `${number.compact(nb)} ${unit}${nb === 1 ? '' : 's'}`;
+  }
+  return '';
+}

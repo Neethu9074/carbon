@@ -37,7 +37,8 @@ describe('in-hoc/cursorPaginated', () => {
       progress: {
         loading: true
       },
-      totalHits: null
+      totalHits: null,
+      totalRepresentedItemCount: null
     });
   });
 
@@ -55,7 +56,8 @@ describe('in-hoc/cursorPaginated', () => {
       progress: {
         loading: false
       },
-      totalHits: result.data.totalHits
+      totalHits: result.data.totalHits,
+      totalRepresentedItemCount: result.data.totalRepresentedItemCount
     });
   });
 
@@ -176,7 +178,8 @@ describe('in-hoc/cursorPaginated', () => {
         loading: false
       },
       time: undefined,
-      totalHits: null
+      totalHits: null,
+      totalRepresentedItemCount: null
     });
   });
 });
@@ -194,6 +197,7 @@ function getSuccessfulResult() {
     errors: [],
     data: {
       totalHits: 2,
+      totalRepresentedItemCount: 20,
       canLoadMore: false,
       items: [
         {
