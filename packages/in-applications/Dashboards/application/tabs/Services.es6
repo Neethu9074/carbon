@@ -61,7 +61,14 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
       technologies={technologies}
-      paginationResettingProps={['applicationId', 'endpointTypes', 'serviceId', 'endpointId', 'timeConfig']}
+      paginationResettingProps={[
+        'applicationId',
+        'endpointTypes',
+        'serviceId',
+        'endpointId',
+        'timeConfig',
+        'technologies'
+      ]}
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
     />

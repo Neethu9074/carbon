@@ -88,7 +88,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
           timeConfig={timeConfig}
           endpointTypes={endpointTypes}
           technologies={technologies}
-          paginationResettingProps={['timeConfig', 'endpointTypes']}
+          paginationResettingProps={['timeConfig', 'endpointTypes', 'technologies']}
           rightHeader={rightHeader}
           leftHeader={leftHeader}
           defaultOrderBy="callsAgg"

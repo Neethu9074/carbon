@@ -91,7 +91,14 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
           technologies={technologies}
-          paginationResettingProps={['applicationId', 'serviceId', 'endpointId', 'timeConfig', 'endpointTypes']}
+          paginationResettingProps={[
+            'applicationId',
+            'serviceId',
+            'endpointId',
+            'timeConfig',
+            'endpointTypes',
+            'technologies'
+          ]}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
         />
