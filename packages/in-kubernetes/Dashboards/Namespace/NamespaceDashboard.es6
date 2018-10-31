@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matricNamespaceId } from 'in-kubernetes/navigation/matrix';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -38,5 +40,16 @@ export default connectTo({ timeConfig: timeConfig$ }, function NamespaceDashboar
 });
 
 function Header(props) {
-  return <BasicDashboardHeader title="Namespace" icon="lib_kubernetes_namespace" {...props} />;
+  return (
+    <BasicDashboardHeader title="Namespace" icon="lib_kubernetes_namespace" {...props} renderSubTypes={SubTypes} />
+  );
+}
+
+function SubTypes({ result }) {
+  return (
+    <Fragment>
+      <TypesBadgeList types={result.data.types} />
+      <KubernetesIndicator />
+    </Fragment>
+  );
 }

@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -25,7 +27,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
           errors: [],
           data: {
             id: props.serviceId,
-            label: `Service ${props.serviceId}`
+            label: `Dummy Service label for ID (${props.serviceId})`
           }
         })}
         HeaderComponent={Header}
@@ -38,5 +40,14 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 });
 
 function Header(props) {
-  return <BasicDashboardHeader title="Service" icon="lib_application_service" {...props} />;
+  return <BasicDashboardHeader title="Service" icon="lib_application_service" {...props} renderSubTypes={SubTypes} />;
+}
+
+function SubTypes({ result }) {
+  return (
+    <Fragment>
+      <TypesBadgeList types={result.data.types} />
+      <KubernetesIndicator />
+    </Fragment>
+  );
 }
