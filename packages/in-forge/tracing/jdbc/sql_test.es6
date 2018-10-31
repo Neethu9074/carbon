@@ -16,6 +16,10 @@ describe('in-forge/tracing/jdbc/sql', () => {
         expect(formatSql('select name from person')).to.equal('SELECT name\nFROM person');
       });
 
+      it('must not fail on incomplete sql', () => {
+        expect(formatSql('select name from person WHERE foo')).to.equal('SELECT name\nFROM person\nWHERE foo');
+      });
+
       it('must format statements with outer joins', () => {
         expect(formatSql('SELECT name from person outer join blub')).to.equal(
           'SELECT name\nFROM person\nOUTER JOIN blub'
@@ -38,6 +42,12 @@ describe('in-forge/tracing/jdbc/sql', () => {
         expect(shortenSqlStatement('select product0_.id as id1_0_, product0_.name as name2_0_ from product')).to.equal(
           'SELECT … FROM product'
         );
+      });
+
+      it('must not fail on incomplete sql', () => {
+        expect(
+          shortenSqlStatement('select product0_.id as id1_0_, product0_.name as name2_0_ from product WHERE foo')
+        ).to.equal('SELECT … FROM product');
       });
 
       it('must only discard uninteresting pieces', () => {
