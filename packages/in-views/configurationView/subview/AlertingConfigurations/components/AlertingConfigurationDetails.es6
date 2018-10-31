@@ -6,6 +6,10 @@ import { getIntegrationsByIds } from 'in-api/integrations';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
+import './AlertingConfigurationDetails.less';
+
+const block = 'in-alerting-config-details';
+
 export default connectTo(
   props => {
     const connectedIntegrations = props.config.get('integrationIds', emptyList).toArray();
@@ -24,17 +28,26 @@ export default connectTo(
         <DescriptionList>
           <DescriptionItem title="Query">{config.getIn(['eventFilteringConfiguration', 'query'])}</DescriptionItem>
           <DescriptionItem title="Event Type">
-            {config.getIn(['eventFilteringConfiguration', 'eventTypes']).map(type => <div key={type}>{type}</div>)}
-          </DescriptionItem>
-        </DescriptionList>
-        <DescriptionList>
-          <DescriptionItem title="Integrations">
-            {integrations.map(integration => (
-              <div key={integration.get('id')}>{fullyQualified[integration.get('kind')].label}</div>
+            {config.getIn(['eventFilteringConfiguration', 'eventTypes']).map(type => (
+              <div key={type}>{type}</div>
             ))}
           </DescriptionItem>
+          {integrations.length > 0 && (
+            <DescriptionItem title="Integrations">
+              {integrations.map(integration => (
+                <ul key={integration.get('id')} className={`${block}__ul`}>
+                  <IntegrationListItem integrationKind={integration.get('kind')} />
+                </ul>
+              ))}
+            </DescriptionItem>
+          )}
         </DescriptionList>
       </div>
     );
   }
 );
+
+function IntegrationListItem({ integrationKind }) {
+  const fullyQualifiedIntegration = fullyQualified[integrationKind];
+  return <li className={`${block}__li`}>{fullyQualifiedIntegration.label}</li>;
+}
