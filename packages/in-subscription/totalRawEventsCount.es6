@@ -19,5 +19,7 @@ export default createSubscription({
 
   transform(observable) {
     return observable.map(fromJS);
-  }
+  },
+
+  memoizeFor: 100
 });

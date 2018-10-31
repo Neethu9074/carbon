@@ -7,5 +7,7 @@ export default createSubscription({
 
   transform(observable) {
     return observable.map(List);
-  }
+  },
+
+  memoizeFor: 100
 });
