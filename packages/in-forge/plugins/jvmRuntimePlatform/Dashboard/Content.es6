@@ -4,7 +4,7 @@ import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Thre
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, micros, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import CustomMetrics from 'in-sdk/components/dashboard/customMetrics/CustomMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -88,6 +88,20 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
+
+      <DashboardSection title="Suspension">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['suspension.time'],
+            labels: ['Suspension'],
+            type: 'line',
+            formatter: micros
+          }}
+        />
+      </DashboardSection>
 
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
 

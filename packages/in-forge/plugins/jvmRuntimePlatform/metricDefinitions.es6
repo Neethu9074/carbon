@@ -1,4 +1,4 @@
-import { siPrefix, millis, number, bytes } from 'in-services/formatters/number';
+import { siPrefix, micros, millis, number, bytes } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -8,6 +8,13 @@ export default [
     min: 0,
     category: ['Threads'],
     formatter: number
+  },
+  {
+    metrics: ['suspension.time'],
+    labels: ['Time'],
+    min: 0,
+    category: ['Suspension'],
+    formatter: micros
   },
   {
     metric: 'memory.used',
