@@ -113,12 +113,10 @@ function getMissingResourceWatchesHint(snapshot) {
 
   return (
     <DashboardNotification type="warning">
-      <strong>Missing Kubernetes resource(s) watch permission.</strong>
-      <p>
-        Kubernetes sensor will not work properly without permission to <code>watch</code> the following
-        resource(s):&nbsp;
-        <code>{missingResourceWatches.toArray().toString()}</code>.
-      </p>
+      <strong>Missing Kubernetes resource(s) watch permission</strong>
+      <br />
+      Kubernetes sensor will not work properly without permission to <code>watch</code> the following resource(s):&nbsp;
+      <code>{missingResourceWatches.toArray().toString()}</code>.<br /> <br />
       Please add <code>watch</code> permission to the cluster-role definition.
     </DashboardNotification>
   );
