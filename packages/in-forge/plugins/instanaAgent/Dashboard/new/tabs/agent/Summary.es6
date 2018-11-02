@@ -2,6 +2,7 @@ import React from 'react';
 
 import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
@@ -15,6 +16,7 @@ import Chart from 'in-components/Chart';
 
 export default function Summary({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  const startedAt = snapshot.getIn(['data', 'startedAt']);
 
   return (
     <MaxWidthFullscreenContainer>
@@ -31,6 +33,8 @@ export default function Summary({ snapshot, timeConfig }) {
           v={`${snapshot.getIn(['data', 'java', 'vmvendor'])} ${snapshot.getIn(['data', 'java', 'version'])}`}
           size="sm"
         />
+        <KV k="User" v={snapshot.getIn(['data', 'user'])} size="sm" />
+        <KV k="Started" v={`${formatDateTime(startedAt)} (${fromNowAccurately(startedAt)})`} size="sm" />
       </Kpis>
 
       <Columize>
