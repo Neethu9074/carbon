@@ -10,8 +10,8 @@ export default [
     formatter: number
   },
   {
-    metrics: ['suspension.time'],
-    labels: ['Time'],
+    metric: 'suspension.time',
+    label: 'Time',
     min: 0,
     category: ['Suspension'],
     formatter: micros
