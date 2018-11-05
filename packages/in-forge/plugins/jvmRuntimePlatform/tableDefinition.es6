@@ -1,4 +1,4 @@
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default {
   initialSortColumn: 0,
@@ -55,6 +55,22 @@ export default {
           return 'memory.used';
         },
         getContent: bytesTwoDecimalPlaces,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
+      title: 'Suspension',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.snapshotId;
+        },
+        getMetricName() {
+          return 'suspension.time';
+        },
+        getContent: timeByMicroTwoDecimalPlaces,
         getTimeWindowAggregation() {
           return 'mean';
         }
