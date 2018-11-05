@@ -35,6 +35,11 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       </KpiSection>
 
       <DashboardSection title="Threads">
+        <p>
+          The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>,
+          which means potentially executing code, or in <code>waiting</code> or <code>timed-waiting</code>, which
+          usually is some kind of network read.
+        </p>
         <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
 
         <Chart
@@ -50,7 +55,11 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title="Heap Memory">
+        <p>
+          The total used heap memory usage will usually go up until a garbage collection makes memory available to the
+          JVM again.
+        </p>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -70,6 +79,10 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
 
       {collectors ? (
         <DashboardSection title="Garbage Collection">
+          <p>
+            Garbage collectors will report their activation and runtime after they have finished. Depending on the
+            collector, some, if not most, of its activity will be concurrent to the application execution.
+          </p>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -90,6 +103,10 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <DashboardSection title="Suspension">
+        <p>
+          Suspension is an indication of how much application execution might have been delayed by the JVM, OS or CPU
+          during the last second. This is predominantly caused by GC activations.
+        </p>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
