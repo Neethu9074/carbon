@@ -10,6 +10,17 @@ import { goToPath } from 'in-stores/navigation';
 export default function MaintenanceConfigurations() {
   const cols = [
     getLinkColumn(getEntityIdPath.bind(null, maintenanceConfigurationPath), 'name'),
+    {
+      title: 'Status',
+      type: 'string',
+      width: 100,
+      typeArgs: {
+        getValue(row) {
+          const status = row.entity.get('status');
+          return status.toLowerCase();
+        }
+      }
+    },
     getDeleteButtonColumn()
   ];
 
