@@ -17,6 +17,7 @@ const tabNames = [
   '/summary',
   '/services',
   '/performance',
+  '/map',
   '/errorMessages',
   '/logMessages',
   '/infrastructure',
