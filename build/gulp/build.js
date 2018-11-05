@@ -147,9 +147,7 @@ gulp.task('startTryBuildProxy', () => {
     'proxy': {
       '/': 'http://127.0.0.1:3131',
       '/api/': 'https://test-instana.instana.io/api/',
-      '/auth/signIn': 'https://test-instana.instana.io/auth/signIn',
-      '/auth/signOut': 'https://test-instana.instana.io/auth/signOut',
-      '/auth/users/tenants': 'https://test-instana.instana.io/auth/users/tenants',
+      '/auth/': 'https://test-instana.instana.io/auth/',
       '/ump': 'https://test-instana.instana.io/ump',
       '/assets/': 'https://test-instana.instana.io/assets/',
       '/uiTracker/': 'http://127.0.0.1:8484/',
