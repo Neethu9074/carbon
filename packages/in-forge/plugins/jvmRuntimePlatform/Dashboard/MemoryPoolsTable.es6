@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TableExplanation from 'in-sdk/components/dashboard/TableExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -79,9 +80,12 @@ export default function MemoryPoolsTable({ snapshot, timeConfig }) {
 
   return (
     <DashboardSection title={`Memory Pools`}>
-      Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>,{' '}
-      <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it may
-      resize any of these pools.
+      <TableExplanation>
+        Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>,{' '}
+        <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it
+        may resize any of these pools.
+      </TableExplanation>
+
       <Table cols={cols} rows={rows} getRowDetails={getDetails} />
     </DashboardSection>
   );

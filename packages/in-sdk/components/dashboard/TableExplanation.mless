@@ -1,0 +1,5 @@
+:local {
+  .explanation {
+    margin: 0;
+  }
+}
