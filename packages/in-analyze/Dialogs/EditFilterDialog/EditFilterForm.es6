@@ -55,7 +55,7 @@ export default function EditFilterForm(props) {
 
           {form.get('valueForm').map(valueFormField => {
             const operator = valueFormField.value.get('operator').value;
-            if (operator === operators.NOT_EMPTY) {
+            if (operator === operators.NOT_EMPTY || operator === operators.IS_EMPTY) {
               return null;
             }
 

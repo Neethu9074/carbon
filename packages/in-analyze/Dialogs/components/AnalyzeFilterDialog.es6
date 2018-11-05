@@ -175,7 +175,7 @@ function onChangeOperator(form, value) {
   return form.updateIn(['valueForm'], subForm => {
     let updatedSubForm = subForm.value.updateIn(['operator'], field => field.setValue(value).setTouched(true));
 
-    if (value === operators.NOT_EMPTY) {
+    if (value === operators.NOT_EMPTY || value === operators.IS_EMPTY) {
       updatedSubForm = updatedSubForm.updateIn(['value'], field => field.setValue('').setTouched(true));
     }
 
@@ -286,7 +286,7 @@ function nameFormValidator(nameForm) {
 
 function valueFormValidator(valueForm) {
   const operator = valueForm.get('operator').value;
-  if (operator === operators.NOT_EMPTY) {
+  if (operator === operators.NOT_EMPTY || operator === operators.IS_EMPTY) {
     return null;
   }
 
