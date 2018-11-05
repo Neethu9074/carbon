@@ -28,8 +28,12 @@ export default connectTo(
   },
   function ApplicationEntityHealthIndicatorBehavior(props) {
     const { openIssues } = props;
-    if (openIssues == null || openIssues < 1) {
+    if (openIssues == null || openIssues < 0) {
       return null;
+    }
+
+    if (openIssues == 0) {
+      return <props.IndicatorPresenter openIssues={openIssues} />;
     }
 
     return (
