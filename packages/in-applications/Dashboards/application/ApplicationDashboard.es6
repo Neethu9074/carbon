@@ -58,6 +58,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         }}
       />
       <ApplicationEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         applicationId={applicationId}
         serviceId={serviceId}

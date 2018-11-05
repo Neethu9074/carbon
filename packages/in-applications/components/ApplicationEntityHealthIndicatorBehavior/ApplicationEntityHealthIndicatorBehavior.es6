@@ -27,13 +27,13 @@ export default connectTo(
     };
   },
   function ApplicationEntityHealthIndicatorBehavior(props) {
-    const { openIssues } = props;
+    const { openIssues, showOkayOnNoIssues = true } = props;
     if (openIssues == null || openIssues < 0) {
       return null;
     }
 
     if (openIssues == 0) {
-      return <props.IndicatorPresenter openIssues={openIssues} />;
+      return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
     }
 
     return (
