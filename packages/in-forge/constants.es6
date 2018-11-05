@@ -225,6 +225,8 @@ export const defaultAndUnknownPluginNames = [
   'defaultServiceInstance'
 ];
 
+export const customIssuesDisabledForPlugins = ['browserLogicalService', ...defaultAndUnknownPluginNames];
+
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   application: 'com.instana.forge.application.Application',

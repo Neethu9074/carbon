@@ -3,11 +3,11 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import {
-  defaultAndUnknownPluginNames,
   plugins10,
   plugins20,
   pluginsDeprecatedIn20,
-  oneZeroServicePlugins
+  oneZeroServicePlugins,
+  customIssuesDisabledForPlugins
 } from 'in-forge/constants';
 import { containsMetricInList, createMetricListItem, getPlainMetricList, isBuiltInMetric } from 'in-sdk/metrics';
 import {
@@ -82,7 +82,7 @@ function getPluginsWithMetricDefinitions() {
   return Object.keys(plugins)
     .map(k => plugins[k])
     .filter(plugin => getCategories(plugin).length > 0)
-    .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)
+    .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
     .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
     .map(plugin => {
       return {
