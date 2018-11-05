@@ -32,7 +32,7 @@ export default connectTo(
       return null;
     }
 
-    if (openIssues == 0) {
+    if (openIssues === 0) {
       return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
     }
 
