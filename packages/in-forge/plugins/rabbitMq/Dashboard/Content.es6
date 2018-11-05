@@ -35,13 +35,13 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Messages">
+      <DashboardSection title="Messages (per 5 sec)">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['overview.publish_rate', 'overview.deliver_rate', 'overview.ack_rate'],
-            labels: ['Published per 5 seconds', 'Delivered per 5 seconds', 'Acknowledged per 5 seconds'],
+            labels: ['Published', 'Delivered', 'Acknowledged'],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -54,7 +54,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['overview.messages_ready', 'overview.messages_unacknowledged', 'overview.messages'],
-              labels: ['Messages ready', 'Messages unacknowledged', 'Messages total'],
+              labels: ['Ready', 'Unacknowledged', 'Total'],
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
@@ -68,7 +68,7 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
                 'overview.messages_unacknowledged_rate',
                 'overview.messages_rate'
               ],
-              labels: ['Messages ready rate', 'Unacknowledged rate', 'Messages total rate'],
+              labels: ['Ready rate', 'Unacknowledged rate', 'Total rate'],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
