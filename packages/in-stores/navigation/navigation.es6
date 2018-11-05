@@ -1,4 +1,4 @@
-import { physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -106,7 +106,11 @@ export function getView(path) {
   });
 }
 function isInfrastructurePath(path) {
-  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0;
+  return (
+    path.indexOf(physicalPath) === 0 ||
+    path.indexOf(containerPath, tablePath) === 0 ||
+    path.indexOf(containerPath) === 0
+  );
 }
 
 export function isView(...args) {
