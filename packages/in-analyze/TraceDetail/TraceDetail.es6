@@ -100,7 +100,13 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
 function Header(props) {
   return (
     <div>
-      <BasicDashboardHeader title="Trace" icon="lib_application_trace" renderActions={Actions} {...props} />
+      <BasicDashboardHeader
+        title="Trace"
+        icon="lib_application_trace"
+        renderActions={Actions}
+        renderSubTypes={renderTraceId}
+        {...props}
+      />
       <div className={locals.tabViewPlaceholder} />
     </div>
   );
@@ -130,5 +136,14 @@ function Actions({ traceId }) {
         </Tooltip>
       </Link>
     </Fragment>
+  );
+}
+
+function renderTraceId({ result }) {
+  return (
+    <div>
+      <span className={locals.traceIdLabel}>Trace ID: </span>
+      <code className={locals.traceId}>{result.data.id}</code>
+    </div>
   );
 }

@@ -18,4 +18,10 @@
     display: block;
     margin: 1rem 0 0 0;
   }
+
+  .startDate {
+    font-weight: lighter;
+    font-size: 1.3rem;
+    margin: 0 0.4rem 0;
+  }
 }

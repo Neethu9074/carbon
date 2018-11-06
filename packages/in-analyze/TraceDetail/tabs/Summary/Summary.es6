@@ -1,6 +1,6 @@
 import { just, create } from 'reactive-observables';
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
@@ -12,6 +12,7 @@ import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import { formatDate, formatTime } from 'in-services/formatters/date';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
@@ -71,19 +72,31 @@ class Summary extends React.Component {
 
   render() {
     const { data: trace, getColor, callId, traceId, isLargeTrace, showLargeTrace, setShowLargeTrace } = this.props;
-
     const traceDetails = (
       <div className={locals.wrapper}>
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <div className={locals.left}>
           <Row>
-            <Col lg={4}>
+            {trace.startTime != null && (
+              <Col lg={3}>
+                <KpiCard
+                  title="Trace Start Time"
+                  value={
+                    <Fragment>
+                      <span className={locals.startDate}>{formatDate(trace.startTime)}</span>
+                      <span>{formatTime(trace.startTime)}</span>
+                    </Fragment>
+                  }
+                />
+              </Col>
+            )}
+            <Col lg={3}>
               <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
             </Col>
-            <Col lg={4}>
+            <Col lg={3}>
               <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
             </Col>
-            <Col lg={4}>
+            <Col lg={3}>
               <KpiCard title="Latency" value={millis.compact(trace.duration)} />
             </Col>
           </Row>

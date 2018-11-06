@@ -15,4 +15,8 @@
       fill: @lib__colors__N700Medium;
     }
   }
+
+  .traceId {
+    font-family: @font-family-monospace;
+  }
 }
