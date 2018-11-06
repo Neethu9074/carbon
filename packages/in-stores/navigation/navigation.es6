@@ -108,7 +108,7 @@ export function getView(path) {
 function isInfrastructurePath(path) {
   return (
     path.indexOf(physicalPath) === 0 ||
-    path.indexOf(containerPath, tablePath) === 0 ||
+    path.indexOf(tablePath) === 0 ||
     path.indexOf(containerPath) === 0
   );
 }
