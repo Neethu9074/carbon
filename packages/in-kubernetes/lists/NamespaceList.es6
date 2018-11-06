@@ -6,6 +6,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
@@ -83,22 +84,22 @@ const columnDefinitions = [
   {
     id: 'cluster',
     label: 'Cluster Name',
-    getContent() {
-      return 'foo';
+    getContent(item) {
+      return item.clusterName;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
-    getContent() {
-      return 42;
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['metrics', 'pods'])} />;
     }
   },
   {
     id: 'service',
     label: 'Services',
-    getContent() {
-      return 42;
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_service" count={get(item, ['metrics', 'services'])} />;
     }
   },
   {

@@ -12,7 +12,6 @@ import {
 
 export const kubernetes = '/kubernetes';
 
-export const serviceList = `${kubernetes}/services`;
 export const serviceDashboard = `/service`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 

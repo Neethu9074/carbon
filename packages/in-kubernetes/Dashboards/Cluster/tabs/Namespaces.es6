@@ -10,15 +10,16 @@ import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
 
-export default function Namespaces({ timeConfig }) {
+export default function Namespaces({ timeConfig, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
+      cardTitle="Namespaces"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
-      cardTitle="Namespaces"
+      clusterId={clusterId}
       paginationResettingProps={['clusterId', 'timeConfig']}
       defaultOrderBy="label"
       defaultOrderDirection="DESC"
@@ -26,7 +27,7 @@ export default function Namespaces({ timeConfig }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, clusterId }) {
   return getKubernetesNamespaces({
     pagination: {
       page,
@@ -48,7 +49,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     },
     filter: {
       label: query,
-      // clusterId
+      clusterId,
       timeConfig
     }
   });

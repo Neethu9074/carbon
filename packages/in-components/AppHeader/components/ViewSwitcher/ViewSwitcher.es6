@@ -21,9 +21,9 @@ import {
 } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
+import { clusterList as kubernetesClustList } from 'in-kubernetes/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
-import { kubernetes as kubernetesPath } from 'in-kubernetes/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
@@ -63,8 +63,8 @@ export default function ViewSwitcher() {
           <View
             label="Kubernetes"
             icon="lib_kubernetes"
-            href$={getView(kubernetesPath)}
-            isActive$={isView(kubernetesPath)}
+            href$={getView(kubernetesClustList)}
+            isActive$={isView(kubernetesClustList)}
           />
         )}
 

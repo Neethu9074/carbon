@@ -10,15 +10,16 @@ import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
 
-export default function Services({ timeConfig }) {
+export default function Services({ timeConfig, namespaceId }) {
   return (
     <ServerTableWithUrlBoundState
+      cardTitle="Services"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
-      cardTitle="Services"
+      namespaceId={namespaceId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="label"
       defaultOrderDirection="DESC"
@@ -26,7 +27,7 @@ export default function Services({ timeConfig }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId }) {
   return getKubernetesServices({
     pagination: {
       page,
@@ -52,7 +53,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     },
     filter: {
       label: query,
-      // namespaceId
+      namespaceId,
       timeConfig
     }
   });
@@ -91,14 +92,14 @@ const columnDefinitions = [
     id: 'endpointsInt',
     label: 'Int. endpoints',
     getContent(item) {
-      return item.metrics['endpoints.internal'];
+      return get(item, ['metrics', 'endpoints.internal']);
     }
   },
   {
     id: 'endpointsExt',
     label: 'Ext. endpoints',
     getContent(item) {
-      return item.metrics['endpoints.external'];
+      return get(item, ['metrics', 'endpoints.external']);
     }
   },
   {
@@ -112,7 +113,7 @@ const columnDefinitions = [
     id: 'age',
     label: 'Age',
     getContent() {
-      return 42;
+      return '42 hours';
     }
   },
   {

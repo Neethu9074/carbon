@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import { clusterList, serviceList, namespaceList } from 'in-kubernetes/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
+import { clusterList, namespaceList } from 'in-kubernetes/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -13,12 +13,6 @@ export default connectTo(
   function KubernetesViewSwitcher({ isClusterViewActive, isNamespaceViewActive }) {
     return (
       <SecondLevelNavigation>
-        <SecondLevelNavigationItem
-          href$={getModifiedUrlStream(p => (p.pathname = serviceList))}
-          icon="lib_kubernetes_service"
-          label="Services"
-          isActive={!isClusterViewActive && !isNamespaceViewActive}
-        />
         <SecondLevelNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = clusterList))}
           icon="lib_kubernetes_cluster"

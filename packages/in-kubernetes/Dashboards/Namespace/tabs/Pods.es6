@@ -10,15 +10,16 @@ import { bytes } from 'in-services/formatters/number';
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig }) {
+export default function Pods({ timeConfig, namespaceId }) {
   return (
     <ServerTableWithUrlBoundState
+      cardTitle="Pods"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
-      cardTitle="Pods"
+      namespaceId={namespaceId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="label"
       defaultOrderDirection="DESC"
@@ -26,7 +27,7 @@ export default function Pods({ timeConfig }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId }) {
   return getKubernetesPods({
     pagination: {
       page,
@@ -60,7 +61,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     },
     filter: {
       label: query,
-      // namespaceId
+      namespaceId,
       timeConfig
     }
   });

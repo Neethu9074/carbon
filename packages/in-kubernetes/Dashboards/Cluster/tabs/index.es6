@@ -12,6 +12,6 @@ export default [
     label: 'Namespaces',
     path: `${clusterDashboardFullyQualified}/namespaces`,
     component: Namespaces,
-    icon: 'lib_kubernetes'
+    icon: 'lib_kubernetes_namespace'
   }
 ].filter(Boolean);

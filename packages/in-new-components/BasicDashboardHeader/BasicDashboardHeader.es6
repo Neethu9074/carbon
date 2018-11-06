@@ -49,7 +49,7 @@ function SuccessState(props) {
     <Fragment>
       <div className={locals.labelAligned}>
         <SvgIcon className={locals.icon} type={icon} width={32} height={32} />
-        <h1 className={locals.label}>{result.data.label}</h1>
+        <h1 className={locals.label}>{result.data.label || result.data.name}</h1>
         {renderSubTypes && renderSubTypes(props)}
       </div>
     </Fragment>

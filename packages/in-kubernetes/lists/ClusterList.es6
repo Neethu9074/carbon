@@ -84,7 +84,7 @@ const columnDefinitions = [
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           icon="lib_kubernetes_cluster"
-          label={item.label}
+          label={item.name}
           href$={getClusterDashboard(item.id)}
         />
       );
@@ -94,28 +94,28 @@ const columnDefinitions = [
     id: 'namespaces',
     label: 'Namespaces',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_namespace" count={item.metrics.namespaces} />;
+      return <EntityCounter icon="lib_kubernetes_namespace" count={get(item, ['metrics', 'namespaces'])} />;
     }
   },
   {
     id: 'nodes',
     label: 'Nodes',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={item.metrics.nodes} />;
+      return <EntityCounter icon="lib_kubernetes_node" count={get(item, ['metrics', 'nodes'])} />;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.metrics.pods} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['metrics', 'pods'])} />;
     }
   },
   {
     id: 'service',
     label: 'Services',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_service" count={item.metrics.services} />;
+      return <EntityCounter icon="lib_kubernetes_service" count={get(item, ['metrics', 'services'])} />;
     }
   },
   {
