@@ -1,17 +1,17 @@
 @import '~in-themes/active.less';
 
 :local {
-  .helpfifiedInput {
+  input {
     width: 100%;
   }
 
-  .wrapper {
-    width: 20rem;
-    border-right: 1px solid @lib__colors__N300;
+  .unscheduleAction {
+    float: right;
+    padding-right: 1rem;
+    color: @lib__colors__blue800 !important;
   }
 
-  .from {
-    margin: 1rem 1.5rem;
-    border-bottom: 1px solid @lib__colors__N300;
+  .unscheduleAction:hover {
+    color: @lib__colors__light-blue800 !important;
   }
 }
