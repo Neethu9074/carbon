@@ -1,17 +1,21 @@
 import React from 'react';
 
+import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import Section from 'in-views/configurationView/components/Section';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
+import DateInput from 'in-components/form/DateInput';
 import Helpify from 'in-components/form/Helpify';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
 import locals from './MaintenanceConfigurationForm.mless';
 
-export default function MaintenanceConfigurationForm({ form, onChange }) {
+export default function MaintenanceConfigurationForm(props) {
+  const { form, onChange } = props;
+
   return (
     <fieldset>
       <FormDataEnrichment form={form} onChange={onChange} />
@@ -56,6 +60,45 @@ export default function MaintenanceConfigurationForm({ form, onChange }) {
           </FormGroup>
         ))}
       </Section>
+
+      <Section>
+        <DateWithTime label="Start date" path="start" {...props} />
+        <DateWithTime label="End date" path="end" {...props} />
+      </Section>
     </fieldset>
   );
+}
+
+function DateWithTime({ form, label, path, setForm }) {
+  const windowForm = form.get('window');
+  const dateField = windowForm.get(path).get('date');
+  const timeField = windowForm.get(path).get('time');
+
+  return (
+    <FormGroup>
+      <Label htmlFor="query" hasError={!windowForm.valid && windowForm.touched}>
+        {label}
+      </Label>
+      <DateInput
+        id={`${path}-date`}
+        value={dateField.value}
+        onChange={v => setValue(form, ['window', path, 'date'], v)}
+        hasError={!dateField.valid && dateField.touched}
+        className={locals.field}
+      />
+      <Input
+        type="text"
+        id={`${path}-time`}
+        value={timeField.value}
+        onChange={e => setValue(form, ['window', path, 'time'], e.target.value)}
+        onBlur={e => setValue(form, ['window', path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+        hasError={!timeField.valid && timeField.touched}
+        className={locals.field}
+      />
+    </FormGroup>
+  );
+
+  function setValue(form, path, value) {
+    setForm(form.updateIn(path, item => item.setValue(value).setTouched(true)));
+  }
 }

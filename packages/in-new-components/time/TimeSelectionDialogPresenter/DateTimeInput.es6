@@ -1,11 +1,14 @@
 import React from 'react';
+
+import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DateInput from 'in-components/form/DateInput';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
 import locals from './DateTimeInput.mless';
-import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+
 export default function DateTimeInput({ title, form, path, setValue, className }) {
   const dateField = form.get(path).get('date');
   const timeField = form.get(path).get('time');

@@ -19,7 +19,7 @@ export default function MaintenanceConfigurationsDetails({ config }) {
         <DescriptionItem title="Query">{config.get('query')}</DescriptionItem>
 
         {windows.size > 0 && (
-          <DescriptionItem title="Time Windows">
+          <DescriptionItem title="Time Window">
             {windows.map(window => (
               <ul key={window.get('id')} className={locals.windowList}>
                 <TimeframeListItem from={window.get('start')} to={window.get('end')} />
