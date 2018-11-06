@@ -88,6 +88,7 @@ export default function MaintenanceConfigurationForm(props) {
             <DateWithTime label="End date" path="end" {...props} />
           </Col>
         </Row>
+        <TouchedMessages field={form.get('window')} />
       </Section>
     </fieldset>
   );

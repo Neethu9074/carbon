@@ -125,7 +125,8 @@ function getWindowSubForm(window) {
       }),
       start: getDateTimeSubForm(window.start),
       end: getDateTimeSubForm(window.end)
-    }
+    },
+    validator: windowValidator
   });
 }
 
@@ -145,4 +146,33 @@ function getDateTimeSubForm(ts) {
         validator: timeValidator
       })
     );
+}
+
+function windowValidator(w) {
+  if (!w) {
+    return null;
+  }
+
+  const windowStart = getTime(w.start);
+  const windowEnd = getTime(w.end);
+
+  if (windowStart && windowEnd && windowStart >= windowEnd) {
+    return [
+      {
+        severity: 'error',
+        message: `Start time must be smaller than end time.`
+      }
+    ];
+  }
+
+  if ((!windowStart && windowEnd) || (windowStart && !windowEnd)) {
+    return [
+      {
+        severity: 'error',
+        message: `Either both or none of start time and end time have to be specified.`
+      }
+    ];
+  }
+
+  return null;
 }
