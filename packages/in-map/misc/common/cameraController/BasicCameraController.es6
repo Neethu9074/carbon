@@ -1,6 +1,6 @@
 import RoEmitter from 'roemitter';
 
-import { setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
+import { getSnapshot, setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
 import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { goToDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
@@ -58,7 +58,11 @@ export default class BasicCameraController extends Subscriber {
         const { object, connections } = this.lastHitten;
 
         if (object) {
-          mapSelectEntityTracker({ origin: 'map' });
+          if (object.dashboardId) {
+            getSnapshot(object.dashboardId).once(snapshot => {
+              mapSelectEntityTracker({ origin: 'map', entityType: snapshot.get('plugin') });
+            });
+          }
           setSelectedSnapshotId(object.dashboardId);
           // dont reset the click if you clicken on connections
         } else if (connections.length === 0) {

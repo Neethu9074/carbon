@@ -7,9 +7,10 @@ import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
 import { navigationParameters$ } from 'in-stores/navigation';
+import { combineLatest, just } from 'reactive-observables';
 import { analyze } from 'in-analyze/navigation/paths';
 import { urlQueryKeys } from 'in-stores/time/config';
-import { just } from 'reactive-observables';
+import { getSnapshot } from 'in-stores/snapshot';
 
 const dashboardNames = [applicationDashboard, serviceDashboard, endpointDashboard];
 
@@ -301,13 +302,20 @@ function trackOpenDashboardClassic() {
   navigationParameters$
     .map(location => {
       const matrix = location.matrix;
-      if (!matrix || !matrix[classicDashboard]) {
+      if (!matrix || !matrix[classicDashboard] || !location.pathname) {
         return null;
       }
-      return location.pathname;
+      const snapshotId = location && location.query ? location.query.snapshotId : null;
+      if (snapshotId == null) {
+        return null;
+      }
+      return { contextPath: location.pathname, snapshotId };
     })
     .filter(value => value != null)
-    .subscribe(contextPath => {
-      openDashboardClassicTracker({ context: contextPath });
+    .flatMap(({ contextPath, snapshotId }) => {
+      return combineLatest([just(contextPath), getSnapshot(snapshotId)]);
+    })
+    .subscribe(([contextPath, snapshot]) => {
+      openDashboardClassicTracker({ context: contextPath, entityType: snapshot.get('plugin') });
     });
 }
