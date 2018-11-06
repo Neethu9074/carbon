@@ -7,6 +7,7 @@ import MaintenanceConfigurationForm from 'in-views/configurationView/subview/Mai
 import { maintenanceConfigurationsPath } from 'in-stores/navigation/paths/settingPaths';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
+import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -77,7 +78,17 @@ function createForm(config) {
     .put(
       'query',
       createField({
-        value: config.get('query')
+        value: config.get('query'),
+        validator: queryValidator
+      })
+    )
+    .put(
+      'validationResult',
+      createField({
+        value: {
+          valid: true,
+          error: null
+        }
       })
     );
 }
