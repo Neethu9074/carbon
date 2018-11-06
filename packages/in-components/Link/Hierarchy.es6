@@ -15,10 +15,10 @@ export default connectTo(
     return {
       snapshots: props.hierarchySnapshots
         ? always(props.hierarchySnapshots)
-        : combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id)))
+        : combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id, props.timeConfig)))
     };
   },
-  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName, pathname }) {
+  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName, pathname, timeConfig }) {
     if (!snapshots) {
       return null;
     }
@@ -34,6 +34,7 @@ export default connectTo(
                 useSnapshotLink={useSnapshotLink}
                 linkClassName={linkClassName}
                 pathname={pathname}
+                timeConfig={timeConfig}
               />
             </li>
           );

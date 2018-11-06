@@ -31,7 +31,21 @@ export function init() {
 }
 
 export function getHealthInfoAtFocusedMoment(snapshotId) {
-  return timeConfig$.flatMap(timeConfig =>
+  return getHealthInfo(snapshotId);
+}
+
+export function getHealthInfo(snapshotId, timeConfig) {
+  if (timeConfig == null) {
+    return timeConfig$.flatMap(timeConfig =>
+      createHealthInfoSubscription({ timeConfig, snapshotId })
+        // We are not transferring empty health info objects from backend => UI.
+        // Instead, we assume that the typical case is that an entity has no issue
+        // and therefore we immediately start this observable with an ok-state.
+        .startWith(noProblemsHealthInfo)
+    );
+  }
+
+  return (
     createHealthInfoSubscription({ timeConfig, snapshotId })
       // We are not transferring empty health info objects from backend => UI.
       // Instead, we assume that the typical case is that an entity has no issue

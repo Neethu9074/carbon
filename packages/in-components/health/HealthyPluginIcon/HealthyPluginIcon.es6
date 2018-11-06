@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+import { getHealthInfo } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
 import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
@@ -11,13 +11,13 @@ export default connectTo(
   props => {
     const snapshotId = props.snapshot ? props.snapshot.get('id') : props.snapshotId;
     const observables = {
-      health: getHealthInfoAtFocusedMoment(snapshotId)
+      health: getHealthInfo(snapshotId, props.timeConfig)
     };
     if (!props.plugin) {
       if (props.snapshot) {
         observables.plugin = always(props.snapshot.get('plugin'));
       } else {
-        observables.plugin = getSnapshot(snapshotId).map(snapshot => snapshot.get('plugin'));
+        observables.plugin = getSnapshot(snapshotId, props.timeConfig).map(snapshot => snapshot.get('plugin'));
       }
     }
     return observables;

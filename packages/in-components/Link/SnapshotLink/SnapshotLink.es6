@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
+import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import Link from 'in-components/Link';
 
 import './SnapshotLink.less';

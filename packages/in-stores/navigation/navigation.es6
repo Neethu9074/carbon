@@ -54,12 +54,6 @@ export function buildPathStartsWithStream(path) {
   return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
 }
 
-export function getLinkToSnapshotInCurrentView(snapshotId) {
-  return getModifiedUrlStream(params => {
-    params.query.snapshotId = snapshotId;
-  });
-}
-
 export function goToRootOfView() {
   mutateUrl(navParams => {
     navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);

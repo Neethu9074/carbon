@@ -1,125 +1,128 @@
 import { combineLatest } from 'reactive-observables';
+import { compose, withState } from 'recompose';
 import React from 'react';
 
+import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { joinClassNames } from 'in-services/util/classnames';
+import { stopPropagation } from 'in-services/util/function';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
-import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import './HierarchicalLink.less';
 
 const block = 'in-hierarchical-link';
 
-export default connectTo(
-  props => {
-    const snapshotId = props.snapshot.get('id');
-    const observables = {
-      href: props.useSnapshotLink
-        ? getLinkToSnapshotInCurrentView(snapshotId)
-        : getDashboardLink(snapshotId, {
-            pathname: props.pathname
-          }),
-      hierarchy: props.calculateHierarchy ? getPhysicalHierarchy(snapshotId, false) : alwaysNull
-    };
-    if (props.useSnapshotFromHierarchyCallback) {
-      observables.hierarchySnapshots = observables.hierarchy.flatMap(hierarchy =>
-        combineLatest(hierarchy.toArray().map(id => getSnapshot(id)))
-      );
-    }
-    return observables;
-  },
-  class extends React.Component {
-    static displayName = 'HierarchicalLink';
+export default compose(
+  connect(({ snapshot, timeConfig }) => ({
+    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId: snapshot.get('id') }).map(
+      stay => (stay ? undefined : timeConfig)
+    )
+  })),
+  connect(
+    ({ snapshot, timeConfig, useSnapshotLink, pathname, calculateHierarchy, useSnapshotFromHierarchyCallback }) => {
+      const snapshotId = snapshot.get('id');
 
-    state = {
-      isExpanded: false
-    };
-
-    render() {
-      const {
-        useSnapshotFromHierarchyCallback,
-        getLabel,
-        hierarchySnapshots,
-        hierarchy,
-        className,
-        href,
-        kind,
-        linkClassName: customLinkClassName,
-        pathname
-      } = this.props;
-      const isExpanded = this.state.isExpanded;
-      const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
-      let { snapshot } = this.props;
+      const observables = {
+        href: useSnapshotLink
+          ? getLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig })
+          : getDashboardLink(snapshotId, {
+              pathname: pathname,
+              timeConfig: timeConfig
+            }),
+        hierarchy: calculateHierarchy ? getPhysicalHierarchy(snapshotId, false, timeConfig) : alwaysNull
+      };
       if (useSnapshotFromHierarchyCallback) {
-        snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
+        observables.hierarchySnapshots = observables.hierarchy.flatMap(hierarchy =>
+          combineLatest(hierarchy.toArray().map(id => getSnapshot(id, timeConfig)))
+        );
       }
-      const label = getSnapshotLabel(snapshot);
-
-      getLabel;
-      const link = (
-        <Link
-          href={href}
-          onClick={stopPropagation}
-          className={joinClassNames(linkClassName, className, customLinkClassName)}
-        >
-          <HealthyPluginIcon
-            className={`${block}__plugin-icon`}
-            snapshot={snapshot}
-            fallbackColor={kind === 'dark' ? '#000' : '#fff'}
-            dimension={12}
-          />
-          {getLabel ? getLabel(label) : label}
-        </Link>
-      );
-
-      if (!hierarchy || hierarchy.size === 0) {
-        return link;
-      }
-
-      return (
-        <div className={`${block}__link-wrapper`}>
-          <SvgIcon
-            className={`${block}__info-icon ${block}__info-icon--${kind}`}
-            onClick={this.onClick}
-            type={isExpanded ? 'timeline_close' : 'timeline_open'}
-            width={12}
-            height={12}
-          />
-          {isExpanded ? (
-            <Hierarchy
-              hierarchy={hierarchy}
-              kind={kind}
-              hierarchySnapshots={hierarchySnapshots}
-              useSnapshotLink={this.props.useSnapshotLink}
-              linkClassName={customLinkClassName}
-              pathname={pathname}
-            />
-          ) : (
-            link
-          )}
-        </div>
-      );
+      return observables;
     }
+  ),
+  withState('isExpanded', 'setExpanded', false)
+)(HierarchicalLink);
 
-    onClick = e => {
-      stopPropagation(e);
-      this.setState({ isExpanded: !this.state.isExpanded });
-
-      if (this.props.onClick) {
-        this.props.onClick();
-      }
-    };
+function HierarchicalLink({
+  useSnapshotFromHierarchyCallback,
+  getLabel,
+  hierarchySnapshots,
+  hierarchy,
+  className,
+  href,
+  kind,
+  linkClassName: customLinkClassName,
+  pathname,
+  timeConfig,
+  setExpanded,
+  isExpanded,
+  snapshot,
+  onClick: onClickProp,
+  useSnapshotLink
+}) {
+  const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
+  if (useSnapshotFromHierarchyCallback) {
+    snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
   }
-);
+  const label = getSnapshotLabel(snapshot);
 
-function stopPropagation(e) {
-  e.stopPropagation();
+  const link = (
+    <Link
+      href={href}
+      onClick={stopPropagation}
+      className={joinClassNames(linkClassName, className, customLinkClassName)}
+    >
+      <HealthyPluginIcon
+        className={`${block}__plugin-icon`}
+        snapshot={snapshot}
+        fallbackColor={kind === 'dark' ? '#000' : '#fff'}
+        dimension={12}
+        timeConfig={timeConfig}
+      />
+      {getLabel ? getLabel(label) : label}
+    </Link>
+  );
+
+  if (!hierarchy || hierarchy.size === 0) {
+    return link;
+  }
+
+  return (
+    <div className={`${block}__link-wrapper`}>
+      <SvgIcon
+        className={`${block}__info-icon ${block}__info-icon--${kind}`}
+        onClick={e => {
+          stopPropagation(e);
+          setExpanded(!isExpanded);
+
+          if (onClickProp) {
+            onClickProp();
+          }
+        }}
+        type={isExpanded ? 'timeline_close' : 'timeline_open'}
+        width={12}
+        height={12}
+      />
+      {isExpanded ? (
+        <Hierarchy
+          hierarchy={hierarchy}
+          kind={kind}
+          hierarchySnapshots={hierarchySnapshots}
+          useSnapshotLink={useSnapshotLink}
+          linkClassName={customLinkClassName}
+          pathname={pathname}
+          timeConfig={timeConfig}
+        />
+      ) : (
+        link
+      )}
+    </div>
+  );
 }

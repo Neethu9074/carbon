@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
+import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';

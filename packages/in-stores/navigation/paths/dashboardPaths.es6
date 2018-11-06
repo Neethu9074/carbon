@@ -1,5 +1,6 @@
 import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { urlQueryKeys } from 'in-stores/time/config';
+import { urlQueryKeys, setTimeConfig } from 'in-stores/time/config';
+import { emptyObject } from 'in-services/fixedObjects';
 
 export const classicDashboard = '/dashboard';
 
@@ -12,7 +13,10 @@ export function goToDashboard(snapshotId) {
   });
 }
 
-export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pathname, autoRefresh } = {}) {
+export function getDashboardLink(
+  snapshotId,
+  { windowSize, to, focusedMoment, pathname, autoRefresh, timeConfig } = {}
+) {
   return getModifiedUrlStream(params => {
     if (pathname) {
       params.pathname = pathname;
@@ -32,6 +36,9 @@ export function getDashboardLink(snapshotId, { windowSize, to, focusedMoment, pa
     if (autoRefresh !== undefined) {
       params.query[urlQueryKeys.autoRefresh] = String(Boolean(autoRefresh));
     }
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
+    }
     params.query.snapshotId = snapshotId;
   });
 }
@@ -50,4 +57,14 @@ export function getCloseDashboardLink() {
 
 function getActiveView(params) {
   return params.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
+}
+
+export function getLinkToSnapshotInCurrentView(snapshotId, { timeConfig } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.query.snapshotId = snapshotId;
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
+    }
+  });
 }

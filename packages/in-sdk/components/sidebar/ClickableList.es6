@@ -5,7 +5,7 @@ import {
   toggleContent,
   clearContent
 } from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation';
+import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
