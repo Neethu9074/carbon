@@ -1,0 +1,5 @@
+:local {
+  .helpfifiedInput {
+    width: 100%;
+  }
+}

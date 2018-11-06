@@ -33,6 +33,7 @@ export const integrationsPath = `${settingsPath}/integrations`;
 export const integrationPath = `${settingsPath}/integration`;
 export const newIntegrationPath = `${settingsPath}/integration/:id`;
 export const maintenanceConfigurationsPath = `${settingsPath}/maintenanceConfigurations`;
+export const newMaintenanceConfigurationPath = `${settingsPath}/maintenanceConfiguration/:id`;
 export const maintenanceConfigurationPath = `${settingsPath}/maintenanceConfiguration`;
 export const auditlogPath = `${settingsPath}/auditlog`;
 
