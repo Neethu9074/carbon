@@ -17,7 +17,9 @@ import {
   kubernetesEnabled,
   cockpitEnabled,
   twoZeroModeEnabled,
-  instanaInternalFeaturesEnabled
+  instanaInternalFeaturesEnabled,
+  oneZeroWebsiteMonitoringEnabled,
+  twoZeroWebsiteMonitoringEnabled
 } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
@@ -25,6 +27,7 @@ import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/Sub
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -93,12 +96,7 @@ export default function ViewSwitcher() {
           />
         )}
 
-        <View
-          label="Websites"
-          icon="lib_website_inverted"
-          href$={getView(websitePath)}
-          isActive$={isView(websitePath)}
-        />
+        <WebsiteMonitoringMenuItems />
 
         <IncidentsMenuPoint />
 
@@ -118,6 +116,34 @@ export default function ViewSwitcher() {
         )}
       </ul>
     </div>
+  );
+}
+
+function WebsiteMonitoringMenuItems() {
+  if (!twoZeroWebsiteMonitoringEnabled) {
+    return (
+      <View label="Websites" icon="lib_website_inverted" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+    );
+  } else if (!oneZeroWebsiteMonitoringEnabled) {
+    return (
+      <View
+        label="Websites"
+        icon="lib_website_inverted"
+        href$={getView(websiteMonitoringPath)}
+        isActive$={isView(websiteMonitoringPath)}
+      />
+    );
+  }
+
+  return (
+    <View
+      label="Websites"
+      icon="lib_website_inverted"
+      isActive$={combine(isView(websiteMonitoringPath), isView(websitePath))}
+    >
+      <SubMenuItem label="Classic" href$={getView(websitePath)} isActive$={isView(websitePath)} />
+      <SubMenuItem label="New 🚀" href$={getView(websiteMonitoringPath)} isActive$={isView(websiteMonitoringPath)} />
+    </View>
   );
 }
 

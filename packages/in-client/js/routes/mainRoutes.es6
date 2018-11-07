@@ -15,7 +15,13 @@ import {
   websitePath,
   newWebsitePath
 } from 'in-stores/navigation/paths/mainPaths';
-import { kubernetesEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import {
+  kubernetesEnabled,
+  twoZeroModeEnabled,
+  instanaInternalFeaturesEnabled,
+  oneZeroWebsiteMonitoringEnabled,
+  twoZeroWebsiteMonitoringEnabled
+} from 'in-services/featureFlags';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
@@ -27,6 +33,7 @@ import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import TraceView from 'promise-loader?global!in-views/traceView/TraceView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
+import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import GraphView from 'in-components/graphView/GraphView';
@@ -44,8 +51,10 @@ export default (
 
     <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
-    <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
-    <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
+    {oneZeroWebsiteMonitoringEnabled && (
+      <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
+    )}
+    {oneZeroWebsiteMonitoringEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
     <Route component={GraphView} path={graphPath} />
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
@@ -60,6 +69,7 @@ export default (
     {twoZeroModeEnabled && applicationRoutes}
     {twoZeroModeEnabled && analyzeRoutes}
     {kubernetesEnabled && kubernetesRoutes}
+    {twoZeroWebsiteMonitoringEnabled && websiteMonitoringRoutes}
 
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />

@@ -30,6 +30,9 @@ export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEna
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
+export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
+export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
+export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
@@ -101,5 +104,3 @@ export const allowedMillisGapsInOneSecondResolution =
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
-
-export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');

@@ -13,5 +13,7 @@ module.exports = {
   twoZeroAppDataPresentationEnabled: true,
   twoZeroLearnMoreButtonEnabled: true,
   particlesInFlowMapEnabled: true,
-  isKubernetesV2Enabled: false
+  isKubernetesV2Enabled: false,
+  oneZeroWebsiteMonitoringEnabled: true,
+  twoZeroWebsiteMonitoringEnabled: true
 };
