@@ -40,7 +40,13 @@ export default function WebsiteDashboard({ location }) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Website" icon="lib_website" {...props} />;
+  return (
+    <BasicDashboardHeader title={props.pageId ? 'Page' : 'Website'} icon="lib_website" getLabel={getLabel} {...props} />
+  );
+}
+
+function getLabel(result, { pageId }) {
+  return pageId || result.data.label;
 }
 
 function getBreadcrumbs(props) {

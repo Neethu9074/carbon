@@ -7,7 +7,7 @@ import Title from 'in-components/Title';
 import locals from './BasicDashboardHeader.mless';
 
 export default function BasicDashboardHeader(props) {
-  const { result, renderActions, title } = props;
+  const { result, renderActions, title, getLabel = defaultGetLabel } = props;
 
   let content;
   if (result.data == null) {
@@ -20,7 +20,7 @@ export default function BasicDashboardHeader(props) {
   } else {
     content = (
       <Fragment>
-        <Title title={title} dynamic={result.data.label} />
+        <Title title={title} dynamic={getLabel(result, props)} />
         <SuccessState {...props} />
       </Fragment>
     );
@@ -44,14 +44,18 @@ function LoadingState() {
 }
 
 function SuccessState(props) {
-  const { icon, result, renderSubTypes } = props;
+  const { icon, result, renderSubTypes, getLabel = defaultGetLabel } = props;
   return (
     <Fragment>
       <div className={locals.labelAligned}>
         <SvgIcon className={locals.icon} type={icon} width={32} height={32} />
-        <h1 className={locals.label}>{result.data.label || result.data.name}</h1>
+        <h1 className={locals.label}>{getLabel(result, props)}</h1>
         {renderSubTypes && renderSubTypes(props)}
       </div>
     </Fragment>
   );
+}
+
+function defaultGetLabel(result) {
+  return result.data.label || result.data.name;
 }
