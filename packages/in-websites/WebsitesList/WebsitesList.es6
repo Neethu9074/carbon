@@ -3,12 +3,15 @@ import React from 'react';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesPath } from 'in-websites/navigation/paths';
+import { number } from 'in-services/formatters/number';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
 const rightHeader = role.canConfigureWebsites && (
@@ -42,8 +45,10 @@ export default connectTo(
         return result.data.totalHits;
       })
   },
-  function WebsitesList({ timeConfig }) {
-    const leftHeader = <ListTitle>Websites</ListTitle>;
+  function WebsitesList({ timeConfig, totalNumberOfWebsites }) {
+    const leftHeader = (
+      <ListTitle>Websites {totalNumberOfWebsites != null && `(${number.compact(totalNumberOfWebsites)})`}</ListTitle>
+    );
 
     return (
       <MaxWidthFullscreenContainer>
@@ -87,7 +92,7 @@ const columnDefinitions = [
     id: 'websiteLabel',
     label: 'Name',
     getContent(item) {
-      return item.website.label;
+      return <Link href$={getLinkToWebsite(item.website.id)}>{item.website.label}</Link>;
     }
   }
 ];
