@@ -1,7 +1,7 @@
+import { websiteId as websiteIdMatrixParameter, pageId as pageIdMatrixParameter } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { websiteId as websiteIdMatrixParameter } from 'in-websites/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
@@ -18,12 +18,13 @@ export const linkToWebsites = getModifiedUrlStream(params => {
   params.pathname = `${websitesPathFullyQualified}`;
 });
 
-export function getLinkToWebsite(websiteId, { tabPath = '' } = emptyObject) {
+export function getLinkToWebsite(websiteId, { tabPath = '', pageId } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${websitePathFullyQualified}${tabPath}`;
+    setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
 
-    if (websiteId !== undefined) {
-      setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
+    if (pageId !== undefined) {
+      setOrDeleteMatrixKey(params, websitePath, pageIdMatrixParameter, pageId);
     }
   });
 }

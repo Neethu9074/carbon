@@ -1,1 +1,2 @@
-export const websiteId = 'id';
+export const websiteId = 'websiteId';
+export const pageId = 'pageId';
