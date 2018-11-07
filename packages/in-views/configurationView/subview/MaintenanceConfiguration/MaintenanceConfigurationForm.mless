@@ -5,13 +5,8 @@
     width: 100%;
   }
 
-  .unscheduleAction {
+  .unscheduleButton {
     float: right;
-    padding-right: 1rem;
-    color: @lib__colors__blue800 !important;
-  }
-
-  .unscheduleAction:hover {
-    color: @lib__colors__light-blue800 !important;
+    margin-right: 1rem;
   }
 }

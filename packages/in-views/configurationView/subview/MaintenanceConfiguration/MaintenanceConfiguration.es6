@@ -14,7 +14,6 @@ import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/da
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import Section from 'in-views/configurationView/components/Section';
-import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -61,7 +60,7 @@ const Form = entityForm(function MaintenanceForm(props) {
 });
 
 function save(config, form) {
-  const window = form.get('window');
+  const window = form.get('window').value;
   const windowStart = getTime(window.get('start'));
   const windowEnd = getTime(window.get('end'));
 
@@ -85,11 +84,7 @@ function createForm(config) {
   const windows = config.get('windows');
   const firstWindow = windows.size > 0 ? windows.get(0).toJS() : createMaintenanceWindow();
 
-  let form = createMapForm({
-    items: {
-      window: getWindowSubForm(firstWindow)
-    }
-  })
+  let form = createMapForm()
     .put(
       'name',
       createField({
@@ -100,8 +95,7 @@ function createForm(config) {
     .put(
       'query',
       createField({
-        value: config.get('query'),
-        validator: queryValidator
+        value: config.get('query')
       })
     )
     .put(
@@ -112,22 +106,28 @@ function createForm(config) {
           error: null
         }
       })
+    )
+    .put(
+      'window',
+      createField({
+        value: getWindowSubForm(firstWindow),
+        validator: windowValidator
+      })
     );
 
   return form;
 }
 
 function getWindowSubForm(window) {
-  return createMapForm({
-    items: {
-      id: createField({
+  return createMapForm()
+    .put(
+      'id',
+      createField({
         value: window.id
-      }),
-      start: getDateTimeSubForm(window.start),
-      end: getDateTimeSubForm(window.end)
-    },
-    validator: windowValidator
-  });
+      })
+    )
+    .put('start', getDateTimeSubForm(window.start))
+    .put('end', getDateTimeSubForm(window.end));
 }
 
 function getDateTimeSubForm(ts) {
@@ -153,8 +153,8 @@ function windowValidator(w) {
     return null;
   }
 
-  const windowStart = getTime(w.start);
-  const windowEnd = getTime(w.end);
+  const windowStart = getTime(w.get('start'));
+  const windowEnd = getTime(w.get('end'));
 
   if (windowStart && windowEnd && windowStart >= windowEnd) {
     return [

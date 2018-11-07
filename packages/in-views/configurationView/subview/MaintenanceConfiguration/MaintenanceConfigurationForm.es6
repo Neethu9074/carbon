@@ -9,9 +9,9 @@ import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import Helpify from 'in-components/form/Helpify';
 import { Row, Col } from 'in-components/Grid';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Link from 'in-components/Link';
 
 import locals from './MaintenanceConfigurationForm.mless';
 
@@ -25,11 +25,11 @@ export default function MaintenanceConfigurationForm(props) {
       <Section>
         {form.get('name').map(field => (
           <FormGroup>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            <Label htmlFor="maintenance-name" hasError={!field.valid && field.touched}>
               Name
             </Label>
             <Input
-              id="name"
+              id="maintenance-name"
               className={locals.input}
               type="text"
               value={field.value}
@@ -44,28 +44,29 @@ export default function MaintenanceConfigurationForm(props) {
       <Section>
         {form.get('query').map(field => (
           <FormGroup>
-            <Label htmlFor="query" hasError={!field.valid && field.touched}>
+            <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
               Query
             </Label>
             <Helpify helpText="All alerts for matching incidents, issues or changes will be muted. Please note: if you leave the query field empty, ALL alerts will be turned off for the duration of this maintenance window.">
               <Input
-                id="query"
+                id="maintenance-query"
                 type="text"
                 value={field.value}
                 onChange={e => onChange('query', e.target.value)}
                 hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
               />
+              <BackendValidationMessages validationResult={form.get('validationResult').value} />
+              <TouchedMessages field={field} />
             </Helpify>
-            <BackendValidationMessages validationResult={form.get('validationResult').value} />
-            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       </Section>
 
       <Section>
         <Row>
-          <Link
-            className={locals.unscheduleAction}
+          <Button
+            kind="action"
+            className={locals.unscheduleButton}
             onClick={() => {
               let updatedForm = form.updateIn(['window', 'start', 'date'], item => item.setValue('').setTouched(true));
               updatedForm = updatedForm.updateIn(['window', 'start', 'time'], item =>
@@ -77,7 +78,7 @@ export default function MaintenanceConfigurationForm(props) {
             }}
           >
             Unschedule
-          </Link>
+          </Button>
         </Row>
 
         <Row>
@@ -95,21 +96,21 @@ export default function MaintenanceConfigurationForm(props) {
 }
 
 function DateWithTime({ form, label, path, setForm }) {
-  const windowForm = form.get('window');
+  const windowForm = form.get('window').value;
   const dateField = windowForm.get(path).get('date');
   const timeField = windowForm.get(path).get('time');
 
   return (
     <FormGroup>
-      <Label htmlFor="query" hasError={!windowForm.valid && windowForm.touched}>
+      <Label htmlFor={`maintenance-${path}-date`} hasError={!windowForm.valid && windowForm.touched}>
         {label}
       </Label>
       <Row>
         <Col cols={5}>
           <DateInput
-            id={`${path}-date`}
+            id={`maintenance-${path}-date`}
             value={dateField.value}
-            onChange={v => setValue(form, ['window', path, 'date'], v)}
+            onChange={v => setWindowValue(form, [path, 'date'], v)}
             hasError={!dateField.valid && dateField.touched}
             className={locals.field}
           />
@@ -117,10 +118,10 @@ function DateWithTime({ form, label, path, setForm }) {
         <Col cols={5}>
           <Input
             type="text"
-            id={`${path}-time`}
+            id={`maintenance-${path}-time`}
             value={timeField.value}
-            onChange={e => setValue(form, ['window', path, 'time'], e.target.value)}
-            onBlur={e => setValue(form, ['window', path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+            onChange={e => setWindowValue(form, [path, 'time'], e.target.value)}
+            onBlur={e => setWindowValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
             hasError={!timeField.valid && timeField.touched}
             className={locals.field}
           />
@@ -129,7 +130,10 @@ function DateWithTime({ form, label, path, setForm }) {
     </FormGroup>
   );
 
-  function setValue(form, path, value) {
-    setForm(form.updateIn(path, item => item.setValue(value).setTouched(true)));
+  function setWindowValue(form, path, value) {
+    let updatedForm = form.updateIn(['window'], subForm => {
+      return subForm.setValue(subForm.value.updateIn(path, item => item.setValue(value).setTouched(true)));
+    });
+    setForm(updatedForm);
   }
 }
