@@ -156,7 +156,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <ProcessTopList snapshot={snapshot} />
+      {timeConfig.to == null ? <ProcessTopList snapshot={snapshot} /> : null}
 
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 

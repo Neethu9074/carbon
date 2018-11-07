@@ -217,7 +217,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <SlowLogsTable snapshotId={snapshotId} />
+      {timeConfig.to == null ? <SlowLogsTable snapshotId={snapshotId} /> : null}
 
       {role === 'slave' ? (
         <DashboardSection title="Bytes left before syncing is complete">

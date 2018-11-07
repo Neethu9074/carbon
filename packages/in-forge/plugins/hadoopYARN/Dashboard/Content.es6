@@ -78,7 +78,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <NodesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <AppsTable snapshot={snapshot} />
+      {timeConfig.to == null ? <AppsTable snapshot={snapshot} /> : null}
     </div>
   );
 }
