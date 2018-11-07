@@ -15,11 +15,13 @@ export const kubernetes = '/kubernetes';
 export const serviceDashboard = `/service`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
 
-export const clusterList = `${kubernetes}/clusters`;
+export const clusterList = '/clusters';
+export const clusterListFullyQualified = `${kubernetes}${clusterList}`;
 export const clusterDashboard = `/cluster`;
 export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
 
-export const namespaceList = `${kubernetes}/namespaces`;
+export const namespaceList = '/namespaces';
+export const namespaceListFullyQualified = `${kubernetes}${namespaceList}`;
 export const namespaceDashboard = `/namespace`;
 export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboard}`;
 

@@ -33,7 +33,6 @@ function NamespaceList({ timeConfig }) {
         leftHeader={leftHeader}
         defaultOrderBy="label"
         defaultOrderDirection="DESC"
-        defaultPageSize={20}
       />
     </Fragment>
   );

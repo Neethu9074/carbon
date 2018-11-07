@@ -1,8 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
+import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { clusterList, namespaceList } from 'in-kubernetes/navigation/paths';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
@@ -14,8 +14,8 @@ export default function KubernetesMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
           <Switch>
-            <Route path={clusterList} render={() => <ClusterList {...props} />} />
-            <Route path={namespaceList} render={() => <NamespaceList {...props} />} />
+            <Route path={clusterListFullyQualified} render={() => <ClusterList {...props} />} />
+            <Route path={namespaceListFullyQualified} render={() => <NamespaceList {...props} />} />
           </Switch>
         </MaxWidthFullscreenContainer>
       </Sticky>
