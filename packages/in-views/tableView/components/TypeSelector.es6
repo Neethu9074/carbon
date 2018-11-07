@@ -13,6 +13,7 @@ const physicalDomains = {
   jvm: 'JVMs',
   nodejs: 'Node.js Apps',
   docker: 'Docker Containers',
+  garden: 'Garden Containers',
   process: 'Processes',
   clickHouseDatabase: 'ClickHouse',
   ping: 'Ping'
