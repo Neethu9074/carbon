@@ -76,7 +76,9 @@ function getDetails(row) {
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
-            metrics: ['perfcounters.databases.' + row.key.toLowerCase() + '.write_transactions_sec'],
+            metrics: [
+              'perfcounters.databases.' + row.key.toLowerCase().replace(/\./g, '_') + '.write_transactions_sec'
+            ],
             labels: ['Write Transactions'],
             type: 'line',
             formatter: zeroDecimalPlaces,

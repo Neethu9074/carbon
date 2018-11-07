@@ -69,6 +69,9 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
     params.pathname = `${traceDetailFullyQualified}${tab}`;
     setOrDeleteMatrixKey(params, traceDetail, traceIdMatrixParameter, traceId);
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
+
+    // make sure that there is no grouping as otherwise the trace cannot be loaded.
+    setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString({}));
   });
 }
 
