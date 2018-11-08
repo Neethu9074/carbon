@@ -79,12 +79,14 @@ export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSugge
   );
 }
 
-export function OperatorSelection({ field, onChange, node }) {
+export function OperatorSelection({ field, onChange, node, withExtendedOperators }) {
   if (!node) {
     return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
   }
 
-  const operators = TAG_TYPES[node.type].operators;
+  const operators = withExtendedOperators
+    ? TAG_TYPES[node.type].operators.concat(TAG_TYPES[node.type].extendedOperators)
+    : TAG_TYPES[node.type].operators;
   if (operators.length === 1) {
     return (
       <input

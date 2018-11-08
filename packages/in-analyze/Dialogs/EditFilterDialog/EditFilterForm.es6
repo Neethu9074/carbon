@@ -19,7 +19,7 @@ import Input from 'in-components/form/Input';
 import locals from './EditFilterForm.mless';
 
 export default function EditFilterForm(props) {
-  const { form, helpText, onChange } = props;
+  const { form, helpText, onChange, withExtendedOperators } = props;
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
@@ -50,7 +50,12 @@ export default function EditFilterForm(props) {
             .get('valueForm')
             .value.get('operator')
             .map(field => (
-              <OperatorSelection field={field} onChange={onChange} node={node} />
+              <OperatorSelection
+                withExtendedOperators={withExtendedOperators}
+                field={field}
+                onChange={onChange}
+                node={node}
+              />
             ))}
 
           {form.get('valueForm').map(valueFormField => {
