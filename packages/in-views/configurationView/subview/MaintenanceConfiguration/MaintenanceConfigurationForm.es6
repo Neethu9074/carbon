@@ -96,7 +96,7 @@ export default function MaintenanceConfigurationForm(props) {
 }
 
 function DateWithTime({ form, label, path, setForm }) {
-  const windowForm = form.get('window').value;
+  const windowForm = form.get('window');
   const dateField = windowForm.get(path).get('date');
   const timeField = windowForm.get(path).get('time');
 
@@ -110,7 +110,7 @@ function DateWithTime({ form, label, path, setForm }) {
           <DateInput
             id={`maintenance-${path}-date`}
             value={dateField.value}
-            onChange={v => setWindowValue(form, [path, 'date'], v)}
+            onChange={v => setValue(form, ['window', path, 'date'], v)}
             hasError={!dateField.valid && dateField.touched}
             className={locals.field}
           />
@@ -120,8 +120,9 @@ function DateWithTime({ form, label, path, setForm }) {
             type="text"
             id={`maintenance-${path}-time`}
             value={timeField.value}
-            onChange={e => setWindowValue(form, [path, 'time'], e.target.value)}
-            onBlur={e => setWindowValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+            placeholder="00:00:00"
+            onChange={e => setValue(form, ['window', path, 'time'], e.target.value)}
+            onBlur={e => setValue(form, ['window', path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
             hasError={!timeField.valid && timeField.touched}
             className={locals.field}
           />
@@ -130,10 +131,7 @@ function DateWithTime({ form, label, path, setForm }) {
     </FormGroup>
   );
 
-  function setWindowValue(form, path, value) {
-    let updatedForm = form.updateIn(['window'], subForm => {
-      return subForm.setValue(subForm.value.updateIn(path, item => item.setValue(value).setTouched(true)));
-    });
-    setForm(updatedForm);
+  function setValue(form, path, value) {
+    setForm(form.updateIn(path, item => item.setValue(value).setTouched(true)));
   }
 }

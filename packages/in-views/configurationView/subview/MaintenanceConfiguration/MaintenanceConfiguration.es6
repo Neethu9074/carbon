@@ -60,7 +60,7 @@ const Form = entityForm(function MaintenanceForm(props) {
 });
 
 function save(config, form) {
-  const window = form.get('window').value;
+  const window = form.get('window');
   const windowStart = getTime(window.get('start'));
   const windowEnd = getTime(window.get('end'));
 
@@ -107,27 +107,24 @@ function createForm(config) {
         }
       })
     )
-    .put(
-      'window',
-      createField({
-        value: getWindowSubForm(firstWindow),
-        validator: windowValidator
-      })
-    );
+    .put('window', getWindowSubForm(firstWindow));
 
   return form;
 }
 
 function getWindowSubForm(window) {
-  return createMapForm()
-    .put(
-      'id',
-      createField({
+  return createMapForm({
+    // using items instead of put, so that windowValidator is only called once
+    // after all fields/subForms are added
+    items: {
+      id: createField({
         value: window.id
-      })
-    )
-    .put('start', getDateTimeSubForm(window.start))
-    .put('end', getDateTimeSubForm(window.end));
+      }),
+      start: getDateTimeSubForm(window.start),
+      end: getDateTimeSubForm(window.end)
+    },
+    validator: windowValidator
+  });
 }
 
 function getDateTimeSubForm(ts) {
@@ -153,8 +150,8 @@ function windowValidator(w) {
     return null;
   }
 
-  const windowStart = getTime(w.get('start'));
-  const windowEnd = getTime(w.get('end'));
+  const windowStart = getTime(w.start);
+  const windowEnd = getTime(w.end);
 
   if (windowStart && windowEnd && windowStart >= windowEnd) {
     return [
