@@ -84,7 +84,7 @@ class Summary extends React.Component {
                   value={
                     <Fragment>
                       <span className={locals.startDate}>{formatDate(trace.startTime)}</span>
-                      <span>{formatTime(trace.startTime)}</span>
+                      <span className={locals.startDate}>{formatTime(trace.startTime)}</span>
                     </Fragment>
                   }
                 />

@@ -20,9 +20,8 @@
   }
 
   .startDate {
-    font-weight: lighter;
-    font-size: 1.3rem;
-    margin: 0 0.4rem 0;
-    white-space: nowrap;
+    font-size: 1.2rem;
+    display: block;
+    margin-top: 0.1rem;
   }
 }
