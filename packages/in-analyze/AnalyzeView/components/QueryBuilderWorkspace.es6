@@ -47,6 +47,7 @@ export default function QueryBuilderWorkspace(props) {
                   setActiveDialog(
                     <EditFilterDialog
                       filters={filters}
+                      withExtendedOperators
                       name={tag.name}
                       value={tag.value}
                       operator={tag.operator}
@@ -227,7 +228,11 @@ function QuickFilterSection(props) {
         renderLabel={() => <span className={locals.moreFilterLabel}>More</span>}
         onClick={() =>
           setActiveDialog(
-            <EditFilterDialog filters={filters} onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)} />
+            <EditFilterDialog
+              withExtendedOperators
+              filters={filters}
+              onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)}
+            />
           )
         }
       />

@@ -29,25 +29,32 @@ export const operators = {
   CONTAINS: 'CONTAINS',
   LESS_THAN: 'LESS_THAN',
   GREATER_THAN: 'GREATER_THAN',
-  NOT_EMPTY: 'NOT_EMPTY'
+  NOT_EMPTY: 'NOT_EMPTY',
+  IS_EMPTY: 'IS_EMPTY',
+  NOT_EQUAL: 'NOT_EQUAL',
+  NOT_CONTAIN: 'NOT_CONTAIN'
 };
 
 export const TAG_TYPES = {
   STRING: {
     technicalName: 'STRING',
-    operators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY]
+    operators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY],
+    extendedOperators: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.IS_EMPTY]
   },
   NUMBER: {
     technicalName: 'NUMBER',
-    operators: [operators.EQUALS, operators.LESS_THAN, operators.GREATER_THAN, operators.NOT_EMPTY]
+    operators: [operators.EQUALS, operators.LESS_THAN, operators.GREATER_THAN],
+    extendedOperators: [operators.NOT_EQUAL, operators.IS_EMPTY]
   },
   BOOLEAN: {
     technicalName: 'BOOLEAN',
-    operators: [operators.EQUALS]
+    operators: [operators.EQUALS],
+    extendedOperators: []
   },
   KEY_VALUE_PAIR: {
     technicalName: 'KEY_VALUE_PAIR',
     operators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY],
+    extendedOperators: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.IS_EMPTY],
     splitValue: value => {
       if (value.indexOf('=') === -1) {
         return {
@@ -69,22 +76,30 @@ export const TAG_TYPES = {
 const operatorLabelLUT = {
   STRING: {
     EQUALS: 'equals',
+    NOT_EQUAL: 'does not equal',
     CONTAINS: 'contains',
-    NOT_EMPTY: 'not empty'
+    NOT_CONTAIN: 'does not contain',
+    NOT_EMPTY: 'is present',
+    IS_EMPTY: 'is not present'
   },
   NUMBER: {
     EQUALS: '=',
+    NOT_EQUAL: '!=',
     LESS_THAN: '<',
     GREATER_THAN: '>',
-    NOT_EMPTY: 'not empty'
+    NOT_EMPTY: 'is present',
+    IS_EMPTY: 'is not present'
   },
   BOOLEAN: {
     EQUALS: 'is'
   },
   KEY_VALUE_PAIR: {
     EQUALS: 'equals',
+    NOT_EQUAL: 'does not equal',
     CONTAINS: 'contains',
-    NOT_EMPTY: 'not empty'
+    NOT_CONTAIN: 'does not contain',
+    NOT_EMPTY: 'is present',
+    IS_EMPTY: 'is not present'
   }
 };
 
