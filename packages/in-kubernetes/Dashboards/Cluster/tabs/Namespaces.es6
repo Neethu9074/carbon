@@ -22,7 +22,7 @@ export default function Namespaces({ timeConfig, clusterId }) {
       clusterId={clusterId}
       paginationResettingProps={['clusterId', 'timeConfig']}
       defaultOrderBy="label"
-      defaultOrderDirection="DESC"
+      defaultOrderDirection="ASC"
     />
   );
 }

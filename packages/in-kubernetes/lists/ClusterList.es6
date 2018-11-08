@@ -32,8 +32,8 @@ function ClusterList(props) {
         timeConfig={timeConfig}
         paginationResettingProps={['timeConfig']}
         leftHeader={leftHeader}
-        defaultOrderBy="label"
-        defaultOrderDirection="DESC"
+        defaultOrderBy="name"
+        defaultOrderDirection="ASC"
         defaultPageSize={20}
       />
     </Fragment>
@@ -77,7 +77,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 
 const columnDefinitions = [
   {
-    id: 'label',
+    id: 'name',
     label: 'Name',
     getContent(item) {
       return (

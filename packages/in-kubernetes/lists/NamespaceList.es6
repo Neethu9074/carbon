@@ -32,7 +32,7 @@ function NamespaceList({ timeConfig }) {
         paginationResettingProps={['timeConfig']}
         leftHeader={leftHeader}
         defaultOrderBy="label"
-        defaultOrderDirection="DESC"
+        defaultOrderDirection="ASC"
       />
     </Fragment>
   );

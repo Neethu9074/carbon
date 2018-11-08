@@ -21,8 +21,8 @@ export default function Services({ timeConfig, namespaceId }) {
       timeConfig={timeConfig}
       namespaceId={namespaceId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
-      defaultOrderBy="label"
-      defaultOrderDirection="DESC"
+      defaultOrderBy="name"
+      defaultOrderDirection="ASC"
     />
   );
 }
@@ -61,7 +61,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 
 const columnDefinitions = [
   {
-    id: 'label',
+    id: 'name',
     label: 'Name',
     getContent(item) {
       return (
