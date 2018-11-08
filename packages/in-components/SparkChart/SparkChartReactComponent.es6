@@ -15,13 +15,12 @@ export default defaultProps({
   width: 72
 })(SparkChartReactComponent);
 function SparkChartReactComponent(props) {
-  const timeConfig = props.timeConfig || props.timeConfig;
-  const { metrics } = props;
+  const { loading, timeConfig, metrics } = props;
 
   let sparkChart;
-  if (!timeConfig || !metrics) {
+  if (loading) {
     sparkChart = <InfiniteCircle width={props.width} height={props.height} />;
-  } else if (metrics.length === 0) {
+  } else if (metrics == null || metrics.length === 0) {
     sparkChart = <NoDataAvailable width={props.width} height={props.height} />;
   } else {
     sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} />;

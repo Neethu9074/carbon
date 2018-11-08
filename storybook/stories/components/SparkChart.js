@@ -17,7 +17,7 @@ function SparkChartStory() {
   return (
     <Root>
       <Section title="Loading Data">
-        <SparkChart timeConfig={{ windowSize: 60000, to: 60000 }} />
+        <SparkChart loading />
       </Section>
 
       <Section title="Missing Data">
