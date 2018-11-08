@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  input {
+    width: 100%;
+  }
+
+  .unscheduleButton {
+    float: right;
+    margin-right: 1rem;
+  }
+}

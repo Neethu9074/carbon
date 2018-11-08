@@ -47,3 +47,11 @@ export function createMaintenanceConfig(id, name = 'New Maintenance Configuratio
     windows
   };
 }
+
+export function createMaintenanceWindow(id, start, end) {
+  return {
+    id: id || generateUniqueShortId(),
+    start,
+    end
+  };
+}
