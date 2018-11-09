@@ -134,7 +134,7 @@ const columnDefinitions = [
 function Message({ message, applicationName, serviceName, endpointName }) {
   let displayedMessage;
   let errorMessageFilter;
-  const erroneousFilter = { name: 'call.erroneous', value: true };
+  const erroneousFilter = { name: 'call.erroneous', value: 'true' };
 
   if (!message || message == '') {
     displayedMessage = 'Erroneous call without error message';
