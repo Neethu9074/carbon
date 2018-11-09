@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
 import countryMap from 'in-new-components/GlobeView/components/countryConfig';
+import CountryList from 'in-new-components/GlobeView/components/CountryList';
 import Button from 'in-new-components/MapControls/Button';
 import { applyTransform } from 'in-services/util/dom';
 import { Vector3 } from 'in-map/3DLibProvider';
@@ -17,11 +18,12 @@ const maxDot = -0.7;
 const countries = Object.keys(countryMap).map(key => countryMap[key]);
 
 export default class OverlaysReactComponentMounter {
-  constructor(globeView, nodesReactComponentWrapper) {
+  constructor(globeView, nodesReactComponentWrapper, getData$) {
     this.update$ = create();
+    this.getData$ = getData$;
 
     ReactDOM.render(
-      <OverlaysReactComponent globeView={globeView} update$={this.update$} />,
+      <OverlaysReactComponent globeView={globeView} update$={this.update$} getData$={getData$} />,
       nodesReactComponentWrapper
     );
   }
@@ -44,9 +46,19 @@ const OverlaysReactComponent = compose(
   }))
 )(OverlaysReactComponentFn);
 
-function OverlaysReactComponentFn({ update$, showLabels, setShowLabels, showHeatMap, setShowHeatMap, globeView }) {
+function OverlaysReactComponentFn({
+  update$,
+  showLabels,
+  setShowLabels,
+  showHeatMap,
+  setShowHeatMap,
+  globeView,
+  getData$
+}) {
   return (
     <Fragment>
+      {showHeatMap && <CountryList getData$={getData$} />}
+
       <div className={locals.buttons}>
         <div className={locals.buttonRow}>
           <Button dark icon="lib_arrow_drop_left" onClick={() => globeView.rotateLeft()} />

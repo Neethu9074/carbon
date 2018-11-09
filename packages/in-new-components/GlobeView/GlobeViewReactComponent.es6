@@ -15,7 +15,7 @@ export default class GlobeViewReactComponent extends React.Component {
         overlay: this.overlay,
         container: this.container,
         canvas: this.canvas,
-        getTagFilters: this.props.getTagFilters
+        getData$: this.props.getData$
       });
     }
   }

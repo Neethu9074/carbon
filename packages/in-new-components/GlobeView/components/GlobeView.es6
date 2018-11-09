@@ -8,7 +8,7 @@ import { debouncedResize$ } from 'in-services/browser';
 import { WebGLRenderer } from 'in-map/3DLibProvider';
 
 export default class GlobeView {
-  constructor({ container, overlay, canvas, getTagFilters }) {
+  constructor({ container, overlay, canvas, getData$ }) {
     updateTime(0);
 
     this.container = container;
@@ -26,10 +26,10 @@ export default class GlobeView {
     this.renderer.sortObjects = false;
     this.renderer.autoClear = false;
 
-    this.overlays = new Overlays(this, overlay);
+    this.overlays = new Overlays(this, overlay, getData$);
 
     this.backgroundScene = new BackgroundScene();
-    this.globeScene = new GlobeScene(this, getTagFilters, overlay);
+    this.globeScene = new GlobeScene(this, getData$, overlay);
 
     this.resizeSubscription = debouncedResize$.subscribe(this.resize.bind(this));
 
