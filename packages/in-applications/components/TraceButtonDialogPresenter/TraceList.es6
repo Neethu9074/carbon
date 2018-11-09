@@ -11,14 +11,7 @@ export default connectTo(
   props => ({
     allTracesCount: getTracesCount({ timeConfig: props.timeConfig })
   }),
-  function TraceButtonDialogPresenter({
-    allTracesCount,
-    timeConfig,
-    applicationId,
-    serviceId,
-    endpointId,
-    backButtonLabels
-  }) {
+  function TraceButtonDialogPresenter({ allTracesCount, timeConfig, applicationId, serviceId, endpointId }) {
     return (
       <div className={locals.wrapper}>
         <div className={locals.header}>
@@ -38,7 +31,6 @@ export default connectTo(
               applicationId={applicationId}
               total={allTracesCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
           {serviceId && (
@@ -49,7 +41,6 @@ export default connectTo(
               serviceId={serviceId}
               total={allTracesCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
           {endpointId && (
@@ -61,7 +52,6 @@ export default connectTo(
               endpointId={endpointId}
               total={allTracesCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
         </section>

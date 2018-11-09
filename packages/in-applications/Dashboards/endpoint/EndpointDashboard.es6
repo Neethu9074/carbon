@@ -68,10 +68,6 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        backButtonLabels={{
-          label1: 'Endpoint',
-          label2: result.data ? result.data.label : 'Dashboard'
-        }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}

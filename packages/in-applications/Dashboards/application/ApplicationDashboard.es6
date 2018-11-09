@@ -44,7 +44,7 @@ function Header(props) {
   return <BasicDashboardHeader title="Application" icon="lib_application" renderActions={Actions} {...props} />;
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
+function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <Fragment>
       <CallsButton
@@ -52,10 +52,6 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        backButtonLabels={{
-          label1: 'Application',
-          label2: result.data ? result.data.label : 'Dashboard'
-        }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}

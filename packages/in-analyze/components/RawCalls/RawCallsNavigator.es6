@@ -26,6 +26,7 @@ import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedE
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { clickCallTracker } from 'in-analyze/components/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -96,7 +97,10 @@ function RawCallsNavigator({
                   className={locals.labelColumn}
                   active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
                 >
-                  <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
+                  <Link
+                    href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
+                    onClick={() => clickCallTracker()}
+                  >
                     {item.call.label}
                     sdjhfbuhjkdsffuhijdsluifhsdiufhnsdiulhjfiuslduh
                     {item.call.batchCount > 1 && (
