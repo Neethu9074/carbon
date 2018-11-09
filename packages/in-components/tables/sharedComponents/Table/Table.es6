@@ -3,6 +3,8 @@ import React from 'react';
 
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import theme from 'in-themes';
+
 import locals from './Table.mless';
 
 export function Table(props) {
@@ -83,11 +85,11 @@ export function ErroneousRowTd({ isErroneous = true }) {
 }
 
 export function SeverityIndicatorCellContentWrapper({ severity, children }) {
-  if (severity == null || severity <= 0) {
+  if (severity == null || severity < 0) {
     return children;
   }
 
-  const background = getDesignLibraryColorBySeverity(severity);
+  const background = severity === 0 ? theme.lib.colors.success : getDesignLibraryColorBySeverity(severity);
   return (
     <div className={locals.severityIndicatorCellContentWrapper}>
       <div className={locals.severityIndicatorCellContentWrapperIndicator} style={{ background }}>
