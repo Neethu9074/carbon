@@ -25,6 +25,7 @@ import {
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import GraphView from 'promise-loader?global!in-components/graphView/GraphView';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -36,7 +37,6 @@ import InternalViews from 'promise-loader?global,internal!in-internal';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
-import GraphView from 'in-components/graphView/GraphView';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import Cockpit from 'in-views/cockpit/Cockpit';
 import { role } from 'in-stores/user';
@@ -55,7 +55,8 @@ export default (
       <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
     )}
     {oneZeroWebsiteMonitoringEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
-    <Route component={GraphView} path={graphPath} />
+
+    <Route component={createAsyncViewComponent(GraphView)} path={graphPath} />
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents && (

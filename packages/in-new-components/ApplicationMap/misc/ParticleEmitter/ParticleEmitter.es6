@@ -67,8 +67,6 @@ export default class ParticleEmitter {
     }));
 
     const mesh = (this.mesh = new Points(geometry, material));
-    mesh.rotationAutoUpdate = false;
-    mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = 3;
 

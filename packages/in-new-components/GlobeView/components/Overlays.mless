@@ -1,0 +1,28 @@
+:local {
+  .buttons {
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+  }
+
+  .buttonRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .buttonColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .countryLabel {
+    position: absolute;
+
+    padding: 0.125rem 0.25rem;
+
+    background: #ffffff4f;
+    border-radius: 0 3px 3px 3px;
+    font-weight: 700;
+  }
+}

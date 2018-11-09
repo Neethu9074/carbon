@@ -10,7 +10,7 @@ import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
+import tabs from 'in-websites/WebsiteDashboard/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function WebsiteDashboard({ location }) {
