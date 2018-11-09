@@ -134,6 +134,7 @@ const columnDefinitions = [
 function Message({ message, applicationName, serviceName, endpointName }) {
   let displayedMessage;
   let errorMessageFilter;
+  const erroneousFilter = { name: 'call.erroneous', value: true };
 
   if (!message || message == '') {
     displayedMessage = 'Erroneous call without error message';
@@ -151,7 +152,7 @@ function Message({ message, applicationName, serviceName, endpointName }) {
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [errorMessageFilter]
+        filters: [erroneousFilter, errorMessageFilter]
       })}
     >
       {displayedMessage}
