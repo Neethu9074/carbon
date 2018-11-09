@@ -6,6 +6,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-subscription/application/getErrorMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { operators } from 'in-analyze/applicationFilter';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -131,24 +132,29 @@ const columnDefinitions = [
 ];
 
 function Message({ message, applicationName, serviceName, endpointName }) {
-  if (!message || message == '') {
-    return <div className={locals.noLink}>Erroneous call without error message</div>;
-  } else {
-    const errorMessageFilter = { name: 'call.error.message', value: message };
+  let displayedMessage;
+  let errorMessageFilter;
 
-    return (
-      <Link
-        href$={getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource: 'calls',
-          groupByTag: {},
-          filters: [errorMessageFilter]
-        })}
-      >
-        {message}
-      </Link>
-    );
+  if (!message || message == '') {
+    displayedMessage = 'Erroneous call without error message';
+    errorMessageFilter = { name: 'call.error.message', operator: operators.IS_EMPTY };
+  } else {
+    displayedMessage = message;
+    errorMessageFilter = { name: 'call.error.message', value: message };
   }
+
+  return (
+    <Link
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        groupByTag: {},
+        filters: [errorMessageFilter]
+      })}
+    >
+      {displayedMessage}
+    </Link>
+  );
 }
