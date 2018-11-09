@@ -60,7 +60,7 @@ function Header(props) {
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
+function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <Fragment>
       <CallsButton
@@ -68,10 +68,6 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        backButtonLabels={{
-          label1: 'Service',
-          label2: result.data ? result.data.label : 'Dashboard'
-        }}
       />
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}

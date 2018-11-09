@@ -21,6 +21,20 @@
     }
   }
 
+  .dark {
+    background: @lib__colors__N900Primary;
+
+    .icon {
+      fill: @lib__colors__N400;
+    }
+
+    &:hover {
+      .icon {
+        fill: @lib__colors__N500;
+      }
+    }
+  }
+
   .icon {
     fill: @lib__colors__N600Light;
   }

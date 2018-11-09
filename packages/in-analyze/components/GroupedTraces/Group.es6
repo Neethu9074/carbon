@@ -4,6 +4,7 @@ import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { number, millis, percentage } from 'in-services/formatters/number';
+import { clickGroupTracker } from 'in-analyze/components/tracker';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
@@ -81,5 +82,11 @@ function onSetGrouping(filters, onChangeAnalyzeConfig, tagName) {
       )
       .push(newTagFilter)
       .toJS()
+  });
+  clickGroupTracker({
+    context: 'traces',
+    type: group.get('name'),
+    value: group.get('value'),
+    group: currentGroupValue
   });
 }

@@ -28,6 +28,7 @@ import './components/ChartStory';
 import './components/DashboardHeaderStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/Globe';
 import './components/health/HealthIndicatorStory';
 import './components/health/OpenIssuesListPresenterStory';
 import './components/HeatMap';

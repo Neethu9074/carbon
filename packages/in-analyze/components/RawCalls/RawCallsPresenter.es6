@@ -15,11 +15,12 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { clickCallTracker } from 'in-analyze/components/tracker';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
@@ -78,7 +79,10 @@ export default function RawCallsPresenter(props) {
             <Tr key={item.call.id} size="compact">
               <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
               <Td>
-                <Link href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}>
+                <Link
+                  href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
+                  onClick={() => clickCallTracker()}
+                >
                   {item.call.label}
                   {item.call.batchCount > 1 && (
                     <Fragment>

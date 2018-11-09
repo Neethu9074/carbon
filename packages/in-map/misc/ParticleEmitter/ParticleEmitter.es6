@@ -70,8 +70,6 @@ export default class ParticleEmitter {
 
     // a global mesh that stores global geometry
     const mesh = (this.mesh = new Points(geometry, material));
-    mesh.rotationAutoUpdate = false;
-    mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = 3;
 

@@ -86,7 +86,7 @@ function calculateScale(data) {
 // const HEAT_MAP_BASE_COLORS = [hexToRGBNormalized('#FBFCFD'), hexToRGBNormalized('#2473AE')];
 // let HEAT_MAP_COLORS = [];
 // for (let i = 0; i <= 100; i++) {
-//   HEAT_MAP_COLORS[i] = getHeatMapColor(null, i / 100, HEAT_MAP_BASE_COLORS);
+//   HEAT_MAP_COLORS[i] = getHeatMapColor(i / 100, HEAT_MAP_BASE_COLORS);
 // }
 // HEAT_MAP_COLORS = HEAT_MAP_COLORS.map(rgb => rgbToHex(rgb.r * 255, rgb.g * 255, rgb.b * 255));
 // console.log(`"${HEAT_MAP_COLORS.join('","')}"`);

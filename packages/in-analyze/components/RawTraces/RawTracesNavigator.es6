@@ -25,6 +25,7 @@ import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedE
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import { clickTraceTracker } from 'in-analyze/components/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
@@ -87,7 +88,9 @@ function RawTracesNavigator({
                 <ErroneousRowTd isErroneous={item.trace.erroneous} />
 
                 <Td className={locals.labelColumn} active={item.trace.id === selectedTraceId}>
-                  <Link href$={getLinkToTraceDetail(item.trace.id)}>{item.trace.label}</Link>
+                  <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => clickTraceTracker()}>
+                    {item.trace.label}
+                  </Link>
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData
                       extras={[formatDateTime(item.trace.startTime), millis.fixedCompact(item.trace.duration)]}

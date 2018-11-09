@@ -26,10 +26,7 @@ export default class NodeBase extends SceneObject {
               .eventBusServiceLocator.on('maxHeatMapMetricValue')
               .map(maxHeatMapMetricValue => {
                 return maxHeatMapMetricValue
-                  ? getHeatMapColor(
-                      heatMapMetric,
-                      this.getMetricValueOrDefault(heatMapMetric, 0) / maxHeatMapMetricValue
-                    )
+                  ? getHeatMapColor(this.getMetricValueOrDefault(heatMapMetric, 0) / maxHeatMapMetricValue)
                   : null;
               });
           } else {
