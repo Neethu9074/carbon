@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  input {
+  .input {
     width: 100%;
   }
 
