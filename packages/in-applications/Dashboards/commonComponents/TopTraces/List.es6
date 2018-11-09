@@ -57,9 +57,7 @@ const Label = connectTo(
     service: getServiceLabel({
       id: props.serviceId
     }),
-    application: getApplication({
-      id: props.applicationId
-    })
+    application: props.applicationId ? getApplication({ id: props.applicationId }) : null
   }),
   function Label({ item, application, service }) {
     return (
