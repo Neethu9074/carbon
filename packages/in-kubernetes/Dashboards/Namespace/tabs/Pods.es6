@@ -1,10 +1,9 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import EntityLink from 'in-new-components/EntityLink';
 import { bytes } from 'in-services/formatters/number';
 
 const pathSegment = '/pods';
@@ -72,14 +71,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_kubernetes_pod"
-          label={item.label}
-          href$={getPodDashboard(item.id)}
-        />
-      );
+      return <EntityLink icon="lib_kubernetes_pod" label={item.label} href$={getPodDashboard(item.id)} />;
     }
   },
   {

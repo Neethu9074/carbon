@@ -2,10 +2,10 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
+import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
@@ -64,14 +64,7 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_kubernetes_service"
-          label={item.name}
-          href$={getServiceDashboard(item.id)}
-        />
-      );
+      return <EntityLink icon="lib_kubernetes_service" label={item.name} href$={getServiceDashboard(item.id)} />;
     }
   },
   {
