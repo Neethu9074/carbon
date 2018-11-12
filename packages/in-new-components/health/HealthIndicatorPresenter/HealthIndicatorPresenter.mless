@@ -20,6 +20,6 @@
   }
 
   .okayIcon {
-    fill: @lib__colors__N400;
+    fill: @lib__colors__success;
   }
 }
