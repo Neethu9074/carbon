@@ -38,23 +38,37 @@ export const operators = {
 export const TAG_TYPES = {
   STRING: {
     technicalName: 'STRING',
-    operators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY],
-    extendedOperators: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.IS_EMPTY]
+    operators: [
+      operators.EQUALS,
+      operators.NOT_EQUAL,
+      operators.CONTAINS,
+      operators.NOT_CONTAIN,
+      operators.NOT_EMPTY,
+      operators.IS_EMPTY
+    ],
+    appConfigOperators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY]
   },
   NUMBER: {
     technicalName: 'NUMBER',
-    operators: [operators.EQUALS, operators.LESS_THAN, operators.GREATER_THAN],
-    extendedOperators: [operators.NOT_EQUAL, operators.IS_EMPTY]
+    operators: [operators.EQUALS, operators.NOT_EQUAL, operators.LESS_THAN, operators.GREATER_THAN, operators.IS_EMPTY],
+    appConfigOperators: [operators.EQUALS, operators.LESS_THAN, operators.GREATER_THAN]
   },
   BOOLEAN: {
     technicalName: 'BOOLEAN',
     operators: [operators.EQUALS],
-    extendedOperators: []
+    appConfigOperators: [operators.EQUALS]
   },
   KEY_VALUE_PAIR: {
     technicalName: 'KEY_VALUE_PAIR',
-    operators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY],
-    extendedOperators: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.IS_EMPTY],
+    operators: [
+      operators.EQUALS,
+      operators.NOT_EQUAL,
+      operators.CONTAINS,
+      operators.NOT_CONTAIN,
+      operators.NOT_EMPTY,
+      operators.IS_EMPTY
+    ],
+    appConfigOperators: [operators.EQUALS, operators.CONTAINS, operators.NOT_EMPTY],
     splitValue: value => {
       if (value.indexOf('=') === -1) {
         return {
