@@ -5,7 +5,7 @@ import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
 
 export default function ShowCodeButton({ snapshot, file, line, children }) {
   if (!supportsCodeView(snapshot, file)) {
-    return null;
+    return children;
   }
 
   return (
