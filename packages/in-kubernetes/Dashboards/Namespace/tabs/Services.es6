@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -70,51 +69,43 @@ const columnDefinitions = [
   {
     id: 'type',
     label: 'Type',
-    getContent() {
-      return 'type';
+    getContent(item) {
+      return item.type;
     }
   },
   {
     id: 'location',
     label: 'Service location',
-    getContent() {
-      return '127.0.0.1';
+    getContent(item) {
+      return item.serviceLocation;
     }
   },
   {
     id: 'endpointsInt',
     label: 'Int. endpoints',
     getContent(item) {
-      return get(item, ['metrics', 'endpoints.internal']);
+      return item.internalEndpoints;
     }
   },
   {
     id: 'endpointsExt',
     label: 'Ext. endpoints',
     getContent(item) {
-      return get(item, ['metrics', 'endpoints.external']);
+      return item.externalEndpoints;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
-    getContent() {
-      return <EntityCounter icon="lib_kubernetes_pod" count={42} />;
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'age',
     label: 'Age',
-    getContent() {
-      return '42 hours';
-    }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent() {
-      return 42;
+    getContent(item) {
+      return item.age;
     }
   }
 ];
