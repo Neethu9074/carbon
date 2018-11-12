@@ -21,6 +21,20 @@ export default function WebsiteDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
+  const tagFilters = (props.tagFilters = []);
+  tagFilters.push({
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: props.websiteId
+  });
+  if (props.pageId) {
+    tagFilters.push({
+      name: 'beacon.page.name',
+      operator: 'EQUALS',
+      stringValue: props.pageId
+    });
+  }
+
   return (
     <Fragment>
       <Breadcrumbs items={getBreadcrumbs(props)} />
