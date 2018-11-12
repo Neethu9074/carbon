@@ -56,7 +56,7 @@ function initPortalActivityHeartbeat() {
  * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
  */
 function initFineGrainedActivityHeartbeat() {
-  const trackActivity = createTracker('user.ping');
+  const trackActivity = createTracker('user.heartbeat');
   trackActivity();
   setInterval(trackActivity, 5 * 1000 /* 5 second resolution */);
 }
