@@ -33,7 +33,8 @@ export function init() {
   initMixpanelCore(mixpanelIsActive => {
     if (mixpanelIsActive) {
       createTracker('pageLoadOrPageReload')();
-      initActivityHeartbeat();
+      initPortalActivityHeartbeat();
+      initFineGrainedActivityHeartbeat();
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -45,10 +46,19 @@ export function init() {
  * day. Just tracking the sign in would not be good enough, since a user can use Instana up to 7 days without signing
  * in again.
  */
-function initActivityHeartbeat() {
+function initPortalActivityHeartbeat() {
   const trackActivity = createTracker('user.isActive');
   trackActivity();
-  setInterval(trackActivity, 60 * 60 * 1000);
+  setInterval(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
+}
+
+/**
+ * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
+ */
+function initFineGrainedActivityHeartbeat() {
+  const trackActivity = createTracker('user.ping');
+  trackActivity();
+  setInterval(trackActivity, 5 * 1000 /* 5 second resolution */);
 }
 
 function initUsageDurationTrackers() {
