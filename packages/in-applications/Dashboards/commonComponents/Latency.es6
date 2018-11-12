@@ -1,15 +1,15 @@
 import React from 'react';
 
+import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { millis } from 'in-services/formatters/number';
 
 export default function Latency({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
-    <ChartWrapper
+    <AppdataChartWrapper
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{
@@ -31,11 +31,6 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
             metric: 'latency',
             granularity,
             aggregation: 'MEAN'
-          },
-          duration25th: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'P25'
           },
           duration50th: {
             metric: 'latency',

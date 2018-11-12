@@ -2,9 +2,7 @@ import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
-import getMetrics from 'in-subscription/application/getMetrics';
 import { deepCopy } from 'in-services/util/object';
-import connectTo from 'in-hoc/connectTo';
 import invariant from 'invariant';
 
 // Sample Usage
@@ -51,14 +49,9 @@ import invariant from 'invariant';
             }}
           />
  */
-export default connectTo(
-  props => ({
-    result: getMetrics(props.metricsConfiguration)
-  }),
-  function ChartWrapper({ result, ...props }) {
-    return <ChartWrapperPresenter result={result} config={wrapProps(result, props)} />;
-  }
-);
+export default function ChartWrapper({ result, ...props }) {
+  return <ChartWrapperPresenter result={result} config={wrapProps(result, props)} />;
+}
 
 function wrapProps(result, props) {
   if (__DEV__) {

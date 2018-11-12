@@ -1,9 +1,9 @@
 import React from 'react';
 
+import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import getEndpointTypes from 'in-subscription/application/getEndpointTypes';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
@@ -29,7 +29,7 @@ export default connectTo(
     return (
       <Row>
         <Col lg={12}>
-          <ChartWrapper
+          <AppdataChartWrapper
             cardTitle="Http Status Code Breakdown"
             timeConfig={timeConfig}
             y1={{

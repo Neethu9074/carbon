@@ -3,10 +3,10 @@ import React, { Fragment } from 'react';
 import EventTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/EventTopList';
 import LogTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/LogTopList';
 import PodTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/PodTopList';
+import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
@@ -83,7 +83,7 @@ export default function Summary({ timeConfig, data }) {
           <PodTopList timeConfig={timeConfig} serviceId={service.id} />
         </Col>
         <Col lg={4}>
-          <ChartWrapper
+          <AppdataChartWrapper
             cardTitle="CPU Resources (cpu units)"
             timeConfig={timeConfig}
             y1={{
@@ -117,7 +117,7 @@ export default function Summary({ timeConfig, data }) {
           />
         </Col>
         <Col lg={4}>
-          <ChartWrapper
+          <AppdataChartWrapper
             cardTitle="Memory Resources (GiB)"
             timeConfig={timeConfig}
             y1={{
