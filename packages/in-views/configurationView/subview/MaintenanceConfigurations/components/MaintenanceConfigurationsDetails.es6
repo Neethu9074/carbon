@@ -27,6 +27,8 @@ export default function MaintenanceConfigurationsDetails({ config }) {
             ))}
           </DescriptionItem>
         )}
+
+        <DescriptionItem title="Status">{config.get('status').toLowerCase()}</DescriptionItem>
       </DescriptionList>
     </div>
   );

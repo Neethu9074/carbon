@@ -50,6 +50,7 @@ export default function MaintenanceConfigurationForm(props) {
             <Helpify helpText="All alerts for matching incidents, issues or changes will be muted. Please note: if you leave the query field empty, ALL alerts will be turned off for the duration of this maintenance window.">
               <Input
                 id="maintenance-query"
+                className={locals.input}
                 type="text"
                 value={field.value}
                 onChange={e => onChange('query', e.target.value)}
@@ -77,7 +78,7 @@ export default function MaintenanceConfigurationForm(props) {
               setForm(updatedForm);
             }}
           >
-            Unschedule
+            Clear dates
           </Button>
         </Row>
 
@@ -112,7 +113,7 @@ function DateWithTime({ form, label, path, setForm }) {
             value={dateField.value}
             onChange={v => setValue(form, ['window', path, 'date'], v)}
             hasError={!dateField.valid && dateField.touched}
-            className={locals.field}
+            className={locals.input}
           />
         </Col>
         <Col cols={5}>
@@ -124,7 +125,7 @@ function DateWithTime({ form, label, path, setForm }) {
             onChange={e => setValue(form, ['window', path, 'time'], e.target.value)}
             onBlur={e => setValue(form, ['window', path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
             hasError={!timeField.valid && timeField.touched}
-            className={locals.field}
+            className={locals.input}
           />
         </Col>
       </Row>
