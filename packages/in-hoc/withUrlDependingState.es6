@@ -1,7 +1,7 @@
 import { pick, curryRight, defaults, isEqual } from 'lodash';
 import { createFactory, Component } from 'react';
 
-import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
+import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { identity } from 'in-services/util/function';
@@ -65,12 +65,17 @@ export default ({
   boundKeys = emptyArray,
   resets = emptyArray,
   reducerName,
+  reduceAndGetAsUrlName,
   reducer = defaultingReducer,
   getParsedUrlValues = identity,
   getSerializedUrlValues = identity,
   replaceHistory = true
 }) => BaseComponent => {
   const pickBoundKeys = boundKeys.length > 0 ? curryRight(pick, 2)(boundKeys) : identity;
+
+  if (!reduceAndGetAsUrlName) {
+    reduceAndGetAsUrlName = `${reducerName}AndGetAsUrlObservable`;
+  }
 
   const factory = createFactory(BaseComponent);
   return class WithUrlDependingState extends Component {
@@ -165,25 +170,35 @@ export default ({
       }
     }
 
+    reducer = change => this.setValuesInMatrixParameters(this.applyReducer(change));
+
+    applyReducer(change) {
+      return pickBoundKeys(reducer(this.state.urlDependingState, change, this.props));
+    }
+
     setValuesInMatrixParameters(values, forceHistoryReplacement = false) {
+      mutateUrl(params => this.modifyParams(values, params), Boolean(replaceHistory) || forceHistoryReplacement);
+    }
+
+    modifyParams(values, params) {
       const serializedValues = defaults({}, getSerializedUrlValues(values), values);
       const forPathSegment = getPathSegment(this.props);
       const matrixPrefix = getMatrixPrefix(this.props);
-      mutateUrl(params => {
-        const matrixValues = (params.matrix[forPathSegment] = params.matrix[forPathSegment] || {});
-        Object.keys(serializedValues).forEach(k => (matrixValues[`${matrixPrefix}${k}`] = serializedValues[k]));
-      }, Boolean(replaceHistory) || forceHistoryReplacement);
+      const matrixValues = (params.matrix[forPathSegment] = params.matrix[forPathSegment] || {});
+      Object.keys(serializedValues).forEach(k => (matrixValues[`${matrixPrefix}${k}`] = serializedValues[k]));
     }
 
-    reducer = change => {
-      this.setValuesInMatrixParameters(pickBoundKeys(reducer(this.state.urlDependingState, change, this.props)));
+    getModifiedUrl = change => {
+      const values = this.applyReducer(change);
+      return getModifiedUrlStream(params => this.modifyParams(values, params));
     };
 
     render() {
       return factory({
         ...this.props,
         ...this.state.urlDependingState,
-        [reducerName]: this.reducer
+        [reducerName]: this.reducer,
+        [reduceAndGetAsUrlName]: this.getModifiedUrl
       });
     }
   };

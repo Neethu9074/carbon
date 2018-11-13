@@ -8,6 +8,7 @@ export default function Groups({
   items,
   filters,
   onChangeAnalyzeConfig,
+  onChangeAnalyzeConfigAndGetAsUrlObservable,
   errors,
   progress,
   orderBy,
@@ -26,6 +27,7 @@ export default function Groups({
           item={item}
           filters={filters}
           onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+          onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
           dotColor={groupColors[groupIndex]}
           showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
         />
