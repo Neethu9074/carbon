@@ -30,7 +30,7 @@ export default function Group({ item, filters, onChangeAnalyzeConfigAndGetAsUrlO
           )}
           <Link
             href$={onChangeAnalyzeConfigAndGetAsUrlObservable(getGroupingChange(filters, item.name))}
-            onClick={() => onSetGrouping(filters, item.name)}
+            onClick={() => trackSetGrouping(filters, item.name)}
             className={locals.name}
           >
             {item.name}
@@ -81,7 +81,7 @@ function getGroupingChange(filters, tagName) {
   };
 }
 
-function onSetGrouping(filters, tagName) {
+function trackSetGrouping(filters, tagName) {
   const group = filters.get('group');
   const currentGroupValue = tagName;
   clickGroupTracker({
