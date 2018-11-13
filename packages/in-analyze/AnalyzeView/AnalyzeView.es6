@@ -82,5 +82,8 @@ function AnalyzeView(props) {
 }
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
-  return getConfigByDataSource(dataSource).defaultGrouping;
+  return {
+    [groupByMatrixParameter]:
+      getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping
+  };
 }

@@ -128,7 +128,7 @@ export default function QueryBuilderWorkspace(props) {
 
 function QuickFilterSection(props) {
   const { filters, onChangeAnalyzeConfig } = props;
-  const dataSourceConfig = getConfigByDataSource(filters.get('dataSourc0e'));
+  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
 
   const tagFilter = filters.get('tagFilter').toJS();
 
