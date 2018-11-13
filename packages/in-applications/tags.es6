@@ -165,8 +165,6 @@ export const blacklists = {
   }
 };
 
-export const callGroupBlacklist = blacklists.callGroupBlacklist;
-
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
     const blacklist = {};

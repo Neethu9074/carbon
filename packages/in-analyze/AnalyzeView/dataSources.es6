@@ -1,5 +1,5 @@
-import { blacklists, getTagTree } from 'in-applications/tags';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
+import { blacklists, getTagTree } from 'in-applications/tags';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import RawCalls from 'in-analyze/components/RawCalls';
