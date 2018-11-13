@@ -70,22 +70,25 @@ const StackTrace = connectTo(
     return (
       <div className={locals.stackTrace}>
         <ol className={locals.list}>
-          {stackTrace.map((st, i) => (
-            <li key={i}>
-              <span className={locals.method}> {stripQuotes(st.method)} </span>
-              <span className={locals.in}>in</span>
-              <span>
-                {' '}
-                {isOnline && snapshot ? (
-                  <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
-                    {combine(st.file, st.line)}
-                  </ShowCodeButton>
-                ) : (
-                  combine(st.file, st.line)
-                )}
-              </span>
-            </li>
-          ))}
+          {stackTrace.map((st, i) => {
+            const fileLine = combine(st.file, st.line);
+            return (
+              <li key={i}>
+                <span className={locals.method}> {stripQuotes(st.method)} </span>
+                <span className={locals.in}>in</span>
+                <span>
+                  {' '}
+                  {isOnline && snapshot ? (
+                    <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
+                      {fileLine}
+                    </ShowCodeButton>
+                  ) : (
+                    fileLine
+                  )}
+                </span>
+              </li>
+            );
+          })}
         </ol>
       </div>
     );
