@@ -158,12 +158,14 @@ export const blacklists = {
       'trace.latency': true,
       'trace.erroneous': true
     };
-    return tag => blacklist[tag];
+    return tag => blacklist[tag] || isBeaconTag(tag);
   })(),
-  analyzeFilterBlacklist: tag => {
-    return tag.indexOf('beacon.') === 0;
-  }
+  analyzeFilterBlacklist: isBeaconTag
 };
+
+function isBeaconTag(tag) {
+  return tag.indexOf('beacon.') === 0;
+}
 
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
@@ -190,7 +192,7 @@ export function getApplicationCreationFilterBlacklist() {
       }
     }
 
-    blacklists.applicationCreationFilterBlacklist = tag => blacklist[tag];
+    blacklists.applicationCreationFilterBlacklist = tag => blacklist[tag] || isBeaconTag(tag);
   }
 
   return blacklists.applicationCreationFilterBlacklist;
