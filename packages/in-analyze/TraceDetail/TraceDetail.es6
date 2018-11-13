@@ -8,6 +8,7 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -53,7 +54,7 @@ export default compose(
   })
 )(TraceDetail);
 
-function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSource, setColorCodeMechanism }) {
+function TraceDetail({ location, colorCode: getColor, navigator, filters, setColorCodeMechanism }) {
   const traceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const props = {
     traceId,
@@ -66,13 +67,14 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
     colorCodeType:
       getColor === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
   };
-  const breadcrumbLabel = isTracesDataSource ? 'Analyze Traces' : 'Analyze Calls';
-
   return (
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb label={breadcrumbLabel} href$={getLinkToAnalyze()} />,
+          <Breadcrumb
+            label={getConfigByDataSource(filters.get('dataSource')).breadcrumbLabel}
+            href$={getLinkToAnalyze()}
+          />,
           <TraceDetailBreadcrumb traceId={traceId} />
         ]}
       />
@@ -80,6 +82,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, isTracesDataSou
 
       <NavigatorSplitScreen
         navigator={navigator}
+        dataSource={filters.get('dataSource')}
         traceDetail={
           <TabView
             HeaderComponent={Header}

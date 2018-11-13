@@ -135,7 +135,7 @@ export function findChildByName(node, childName) {
   return null;
 }
 
-const blacklists = {
+export const blacklists = {
   generalBlacklist: (() => {
     const blacklist = {
       'application.id': true,
@@ -196,13 +196,6 @@ export function getApplicationCreationFilterBlacklist() {
   }
 
   return blacklists.applicationCreationFilterBlacklist;
-}
-
-export function getFilterBlacklistBasedOnDataSource({ isTracesDataSource, isCallsDataSource }) {
-  if (!isTracesDataSource && !isCallsDataSource) {
-    return {};
-  }
-  return blacklists.analyzeFilterBlacklist;
 }
 
 export function getTagFromList(tagFilter, _tag) {

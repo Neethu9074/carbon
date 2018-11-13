@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
-import { getFilterBlacklistBasedOnDataSource } from 'in-applications/tags';
-
 import ApplicationServiceEndpointSuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/ApplicationServiceEndpointSuggestions';
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import TechnologySuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/TechnologySuggestions';
@@ -12,6 +10,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import QuickFilter from 'in-analyze/AnalyzeView/components/QuickFilter';
 import ResetButton from 'in-analyze/AnalyzeView/components/ResetButton';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
@@ -59,7 +58,7 @@ export default function QueryBuilderWorkspace(props) {
                   setActiveDialog(
                     <EditFilterDialog
                       filters={filters}
-                      blacklist={getFilterBlacklistBasedOnDataSource(props)}
+                      blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
                       withExtendedOperators
                       name={tag.name}
                       value={tag.value}
@@ -128,7 +127,8 @@ export default function QueryBuilderWorkspace(props) {
 }
 
 function QuickFilterSection(props) {
-  const { isTracesDataSource, filters, onChangeAnalyzeConfig } = props;
+  const { filters, onChangeAnalyzeConfig } = props;
+  const dataSourceConfig = getConfigByDataSource(filters.get('dataSourc0e'));
 
   const tagFilter = filters.get('tagFilter').toJS();
 
@@ -216,7 +216,7 @@ function QuickFilterSection(props) {
         props={assign(
           {
             Component: LatencySuggestions,
-            tagName: isTracesDataSource ? 'trace.latency' : 'call.latency'
+            tagName: dataSourceConfig.latencyTagPreset
           },
           props
         )}
@@ -227,13 +227,9 @@ function QuickFilterSection(props) {
       <QuickFilter
         label="Erroneous"
         onClick={() =>
-          onAddTagFilter(
-            { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous', value: 'true' },
-            filters,
-            onChangeAnalyzeConfig
-          )
+          onAddTagFilter({ name: dataSourceConfig.errorneousTagPreset, value: 'true' }, filters, onChangeAnalyzeConfig)
         }
-        deactivated={getTagFromList(tagFilter, { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous' })}
+        deactivated={getTagFromList(tagFilter, { name: dataSourceConfig.errorneousTagPreset })}
         helpText="The filters already contains this filter"
       />
 
@@ -244,7 +240,7 @@ function QuickFilterSection(props) {
             <EditFilterDialog
               withExtendedOperators
               filters={filters}
-              blacklist={getFilterBlacklistBasedOnDataSource(props)}
+              blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
               onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)}
             />
           )
