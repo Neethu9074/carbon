@@ -19,6 +19,8 @@ import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
 
+import './website/WorldMapCardStory';
+
 import './components/AmMapStory';
 import './components/Axis';
 import './components/BadgeStory';

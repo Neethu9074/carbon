@@ -1,5 +1,7 @@
 import React from 'react';
 
+import locals from './ReactWrapper.mless';
+
 export default class AmMapReactWrapper extends React.Component {
   componentDidMount() {
     this.mounted = true;
@@ -18,6 +20,6 @@ export default class AmMapReactWrapper extends React.Component {
   }
 
   render() {
-    return <div ref={ele => (this.ele = ele)} />;
+    return <div ref={ele => (this.ele = ele)} style={{ height: this.props.height }} className={locals.wrapper} />;
   }
 }

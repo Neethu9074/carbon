@@ -24,3 +24,10 @@ export function loadMapAsynchronously(name, { minimumSuccessDelay = 0 } = emptyO
 function getTimeoutPromise(delay) {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
+
+export function setDataProvider({ map, dataProvider, projection = 'mercator' }) {
+  map.dataProvider = dataProvider;
+  map.validateData();
+  map.setProjection(projection);
+  map.validateNow();
+}

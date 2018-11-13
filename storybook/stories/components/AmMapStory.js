@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { amCharts, worldLowMap, loadMapAsynchronously } from 'in-new-components/AmMap/libraryWrapper';
+import { amCharts, worldLowMap, loadMapAsynchronously, setDataProvider } from 'in-new-components/AmMap/libraryWrapper';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import Root from '../_helpers/Root';
 
@@ -10,14 +10,12 @@ storiesOf('Components/AmMapContainer', module).add('world map with drill down', 
 function WorldMapWithDrillDown() {
   return (
     <Root>
-      <AmMap onDidMount={onDidMount} />
+      <AmMap onDidMount={onDidMount} height="300px" />
     </Root>
   );
 }
 
 function onDidMount({containerElement}) {
-  containerElement.style.width = '100%';
-  containerElement.style.height = '300px';
   const worldDataProvider = {
     map: 'worldLow',
     areas: worldLowMap.svg.g.path.map(p => ({
@@ -62,9 +60,9 @@ function onDidMount({containerElement}) {
   });
 
   function handleGoHome() {
-    map.dataProvider = worldDataProvider;
-    map.setProjection('winkel3');
-    map.validateNow();
+    setDataProvider({
+      map, dataProvider: worldDataProvider, projection: 'winkel3'
+    });
   }
 
   function handleMapObjectClick(event) {
@@ -80,7 +78,7 @@ function onDidMount({containerElement}) {
   function goToMap(name) {
     loadMapAsynchronously(name, {minimumSuccessDelay: 1000})
       .then(mapData => {
-        map.dataProvider = {
+        const dataProvider = {
           map: name,
           areas: mapData.svg.g.path.map(p => ({
             id: p.id,
@@ -89,9 +87,9 @@ function onDidMount({containerElement}) {
             balloonText: `${p.title}: 42 calls`
           }))
         };
-        map.validateData();
-        map.setProjection('mercator');
-        map.validateNow();
+        setDataProvider({
+          map, dataProvider, projection: 'mercator'
+        });
       });
   }
 
