@@ -101,7 +101,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="webhookUrl"
               type="url"
-              placeholder="Webhook URL"
+              placeholder="https://chat.googleapis.com/v1/spaces/<id>/messages?key=<key>&token=<token>"
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}
             />

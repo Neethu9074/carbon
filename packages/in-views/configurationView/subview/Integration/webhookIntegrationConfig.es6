@@ -36,7 +36,9 @@ export default {
     return (
       <DescriptionList>
         <DescriptionItem title="Webhooks">
-          {webhookUrls.toArray().map(url => <div key={url}>{url}</div>)}
+          {webhookUrls.toArray().map(url => (
+            <div key={url}>{url}</div>
+          ))}
         </DescriptionItem>
       </DescriptionList>
     );
@@ -152,7 +154,7 @@ function Form({ form, onChange }) {
                   className={`${block}__input`}
                   id={`webhookUrl_${webhookUrl}`}
                   type="url"
-                  placeholder="Webhook URL"
+                  placeholder="https://hooks.example.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
                   value={webhookUrl}
                   onChange={e => onChangewebHookUrl(e, form, onChange, i)}
                 />
