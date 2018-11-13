@@ -47,12 +47,7 @@ export function getTagValuesAsOptions() {
 }
 
 function isOnBlacklist(serverTag, blacklist) {
-  if (typeof blacklist === 'object') {
-    return blacklist[serverTag.fullyQualifiedName] || blacklist[serverTag.name];
-  } else if (typeof blacklist === 'function') {
-    return blacklist(serverTag);
-  }
-  return false;
+  return blacklist(serverTag.fullyQualifiedName) || blacklist(serverTag.name);
 }
 
 let tagTree = null;
@@ -141,26 +136,32 @@ export function findChildByName(node, childName) {
 }
 
 const blacklists = {
-  generalBlacklist: {
-    'application.id': true,
-    'service.id': true,
-    'endpoint.id': true,
-    'process.id': true,
-    'docker.container.id': true,
-    'host.snapshotId': true,
-    'docker.snapshotId': true,
-    'process.snapshotId': true
-  },
-  callGroupBlacklist: {
-    'trace.id': true,
-    'trace.name': true,
-    'trace.endpoint.name': true,
-    'trace.service.name': true,
-    'trace.latency': true,
-    'trace.erroneous': true
-  },
-  applicationCreationFilterBlacklist: tag => {
-    return tag.name.indexOf('beacon.') === 0;
+  generalBlacklist: (() => {
+    const blacklist = {
+      'application.id': true,
+      'service.id': true,
+      'endpoint.id': true,
+      'process.id': true,
+      'docker.container.id': true,
+      'host.snapshotId': true,
+      'docker.snapshotId': true,
+      'process.snapshotId': true
+    };
+    return tag => blacklist[tag];
+  })(),
+  callGroupBlacklist: (() => {
+    const blacklist = {
+      'trace.id': true,
+      'trace.name': true,
+      'trace.endpoint.name': true,
+      'trace.service.name': true,
+      'trace.latency': true,
+      'trace.erroneous': true
+    };
+    return tag => blacklist[tag];
+  })(),
+  analyzeFilterBlacklist: tag => {
+    return tag.indexOf('beacon.') === 0;
   }
 };
 
@@ -168,8 +169,7 @@ export const callGroupBlacklist = blacklists.callGroupBlacklist;
 
 export function getApplicationCreationFilterBlacklist() {
   if (!blacklists.applicationCreationFilterBlacklist) {
-    blacklists.applicationCreationFilterBlacklist = {};
-
+    const blacklist = {};
     const manualAddedTags = {
       'host.mac': true,
       'docker.container.name': true,
@@ -188,9 +188,11 @@ export function getApplicationCreationFilterBlacklist() {
           tag.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) ||
         manualAddedTags[tag.fullyQualifiedName]
       ) {
-        blacklists.applicationCreationFilterBlacklist[tag.fullyQualifiedName] = true;
+        blacklist[tag.fullyQualifiedName] = true;
       }
     }
+
+    blacklists.applicationCreationFilterBlacklist = tag => blacklist[tag];
   }
 
   return blacklists.applicationCreationFilterBlacklist;
@@ -200,7 +202,7 @@ export function getFilterBlacklistBasedOnDataSource({ isTracesDataSource, isCall
   if (!isTracesDataSource && !isCallsDataSource) {
     return {};
   }
-  return blacklists.applicationCreationFilterBlacklist;
+  return blacklists.analyzeFilterBlacklist;
 }
 
 export function getTagFromList(tagFilter, _tag) {
