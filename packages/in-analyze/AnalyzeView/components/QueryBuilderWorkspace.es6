@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { assign } from 'lodash';
 
+import { getFilterBlacklistBasedOnDataSource } from 'in-applications/tags';
+
 import ApplicationServiceEndpointSuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/ApplicationServiceEndpointSuggestions';
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import TechnologySuggestions from 'in-analyze/AnalyzeView/components/QuickFilter/TechnologySuggestions';
@@ -57,6 +59,7 @@ export default function QueryBuilderWorkspace(props) {
                   setActiveDialog(
                     <EditFilterDialog
                       filters={filters}
+                      blacklist={getFilterBlacklistBasedOnDataSource(props)}
                       withExtendedOperators
                       name={tag.name}
                       value={tag.value}
@@ -241,6 +244,7 @@ function QuickFilterSection(props) {
             <EditFilterDialog
               withExtendedOperators
               filters={filters}
+              blacklist={getFilterBlacklistBasedOnDataSource(props)}
               onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)}
             />
           )

@@ -5,24 +5,14 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import AnalyzeHeader from 'in-analyze/AnalyzeView/AnalyzeHeader';
 import Title from 'in-components/Title';
 
-export default function AnalyzeTracesWorkspace({
-  onChangeAnalyzeConfig,
-  onChangeDataSource,
-  filters,
-  dataSource,
-  isTracesDataSource,
-  children
-}) {
+export default function AnalyzeTracesWorkspace(props) {
+  const { onChangeDataSource, filters, dataSource, children } = props;
   return (
     <Fragment>
       <Title title={'Analyze Traces'} />
 
       <AnalyzeHeader filters={filters} onChangeDataSource={onChangeDataSource} dataSource={dataSource} />
-      <QueryBuilderWorkspace
-        isTracesDataSource={isTracesDataSource}
-        filters={filters}
-        onChangeAnalyzeConfig={onChangeAnalyzeConfig}
-      />
+      <QueryBuilderWorkspace {...props} />
 
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
     </Fragment>

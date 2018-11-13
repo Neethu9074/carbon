@@ -69,7 +69,8 @@ export default compose(
         .set('timeConfig', getTimeConfig(location)),
       tagFiltersForSubscription: getTagFilterListForBackendSubscription(tagFilter),
       isRawView: !group || !group.name,
-      isTracesDataSource: dataSource === 'traces'
+      isTracesDataSource: dataSource === 'traces',
+      isCallsDataSource: dataSource === 'calls'
     })
   )
 )(AnalyzeView);

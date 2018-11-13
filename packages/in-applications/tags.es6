@@ -47,8 +47,10 @@ export function getTagValuesAsOptions() {
 }
 
 function isOnBlacklist(serverTag, blacklist) {
-  if (blacklist[serverTag.fullyQualifiedName] || blacklist[serverTag.name]) {
-    return true;
+  if (typeof blacklist === 'object') {
+    return blacklist[serverTag.fullyQualifiedName] || blacklist[serverTag.name];
+  } else if (typeof blacklist === 'function') {
+    return blacklist(serverTag);
   }
   return false;
 }
@@ -156,6 +158,9 @@ const blacklists = {
     'trace.service.name': true,
     'trace.latency': true,
     'trace.erroneous': true
+  },
+  applicationCreationFilterBlacklist: tag => {
+    return tag.name.indexOf('beacon.') === 0;
   }
 };
 
@@ -191,9 +196,17 @@ export function getApplicationCreationFilterBlacklist() {
   return blacklists.applicationCreationFilterBlacklist;
 }
 
+export function getFilterBlacklistBasedOnDataSource({ isTracesDataSource, isCallsDataSource }) {
+  if (!isTracesDataSource && !isCallsDataSource) {
+    return {};
+  }
+  return blacklists.applicationCreationFilterBlacklist;
+}
+
 export function getTagFromList(tagFilter, _tag) {
   for (let i = 0; i < tagFilter.length; i++) {
     const tag = tagFilter[i];
+
     if (_tag.name && _tag.name !== tag.name) {
       continue;
     }
