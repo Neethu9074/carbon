@@ -19,6 +19,7 @@ import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
 
+import './components/AmMapStory';
 import './components/Axis';
 import './components/BadgeStory';
 import './components/ButtonGroupStory';

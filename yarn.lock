@@ -536,6 +536,11 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+ammap3@^3.21.14:
+  version "3.21.14"
+  resolved "https://registry.yarnpkg.com/ammap3/-/ammap3-3.21.14.tgz#8654071bb7dbbad9fba92793da48242f5d106dce"
+  integrity sha512-FQEe8Przcjy1rQlulmKwb9IV+pVA1JyV2uvoX37z3MTEFjMCeBdxRad9JqnCRFJWQr5ExgZ6+EKGkBKh7ZN1/A==
+
 ansi-colors@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-1.1.0.tgz#6374b4dd5d4718ff3ce27a671a3b1cad077132a9"
