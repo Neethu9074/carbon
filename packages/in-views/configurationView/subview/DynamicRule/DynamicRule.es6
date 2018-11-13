@@ -2,11 +2,11 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-api/dynamicRules';
 import DynamicRuleForm from 'in-views/configurationView/subview/DynamicRule/DynamicRuleForm';
+import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-api/dynamicRules';
 import Step4 from 'in-views/configurationView/subview/DynamicRule/components/Step4';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
-import { dynamicRulePath } from 'in-stores/navigation/paths/settingPaths';
+import { dynamicRulesPath } from 'in-stores/navigation/paths/settingPaths';
 import Section from 'in-views/configurationView/components/Section';
 import { queryValidator } from 'in-stores/search/validations';
 import Notification from 'in-components/form/Notification';
@@ -23,7 +23,7 @@ export default function DynamicRule(props) {
       createDefaultEntity={createDynamicRule}
       createForm={createForm}
       getEntityFromApi={getDynamicRule}
-      openEntities={() => goToPath(dynamicRulePath)}
+      openEntities={() => goToPath(dynamicRulesPath)}
       saveEntity={save}
     />
   );
