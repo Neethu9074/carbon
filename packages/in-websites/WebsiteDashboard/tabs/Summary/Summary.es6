@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -169,6 +170,12 @@ export default function Summary({ tagFilters, timeConfig }) {
               }
             }}
           />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <WorldMapCard title="Geo Distribution" height={300} tagFilters={tagFilters} timeConfig={timeConfig} />
         </Col>
       </Row>
     </Fragment>

@@ -48,14 +48,14 @@ function Default() {
           <WorldMapCardPresenter title="With Data" height={300} countryBreakdownResult={{
             data: {
               items: [
-                { continent: 'North America', country: 'Canada', pageLoads: 311, onLoadTime: 234 },
-                { continent: 'Asia', country: 'China', pageLoads: 364, onLoadTime: 239 },
-                { continent: 'Africa', country: 'Egypt', pageLoads: 342, onLoadTime: 333 },
-                { continent: 'Europe', country: 'France', pageLoads: 334, onLoadTime: 269 },
-                { continent: 'Asia', country: 'Japan', pageLoads: 325, onLoadTime: 190 },
-                { continent: 'Europe', country: 'Russia', pageLoads: 376, onLoadTime: 1592 },
-                { continent: 'Europe', country: 'United Kingdom', pageLoads: 373, onLoadTime: 335 },
-                { continent: 'North America', country: 'United States', pageLoads: 676, onLoadTime: 549 }
+                { continent: 'North America', country: 'Canada', countryCode: 'CA', pageLoads: 311, onLoadTime: 234 },
+                { continent: 'Asia', country: 'China', countryCode: 'CN', pageLoads: 364, onLoadTime: 239 },
+                { continent: 'Africa', country: 'Egypt', countryCode: 'EG', pageLoads: 342, onLoadTime: 333 },
+                { continent: 'Europe', country: 'France', countryCode: 'FR', pageLoads: 334, onLoadTime: 269 },
+                { continent: 'Asia', country: 'Japan', countryCode: 'JP', pageLoads: 325, onLoadTime: 190 },
+                { continent: 'Europe', country: 'Russia', countryCode: 'RU', pageLoads: 376, onLoadTime: 1592 },
+                { continent: 'Europe', country: 'United Kingdom', countryCode: 'GB', pageLoads: 373, onLoadTime: 335 },
+                { continent: 'North America', country: 'United States', countryCode: 'US', pageLoads: 676, onLoadTime: 549 }
               ],
               page: 1,
               pageSize: 200,

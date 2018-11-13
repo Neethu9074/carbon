@@ -6,13 +6,18 @@ export default class AmMapReactWrapper extends React.Component {
   componentDidMount() {
     this.mounted = true;
 
-    this.props.onDidMount({
+    this.map = this.props.onDidMount({
       containerElement: this.ele
     });
   }
 
   componentWillUnmount() {
     this.unmounted = true;
+
+    if (this.map) {
+      this.map.destroy();
+      this.map = null;
+    }
 
     if (this.props.onWillUnmount) {
       this.props.onWillUnmount();
