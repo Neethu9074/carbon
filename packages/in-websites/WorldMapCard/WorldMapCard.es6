@@ -1,9 +1,9 @@
-import getCountryBreakdown from 'in-subscription/websiteMonitoring/getCountryBreakdown';
+import getWebsiteCountryBreakdown from 'in-subscription/websiteMonitoring/getWebsiteCountryBreakdown';
 import WorldMapCardPresenter from 'in-websites/WorldMapCard/WorldMapCardPresenter';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ timeConfig, tagFilters }) => ({
-  countryBreakdownResult: getCountryBreakdown({
+  countryBreakdownResult: getWebsiteCountryBreakdown({
     timeConfig,
     tagFilters,
     pagination: {

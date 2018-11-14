@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import getCountryBreakdown from 'in-subscription/websiteMonitoring/getCountryBreakdown';
+import getWebsiteCountryBreakdown from 'in-subscription/websiteMonitoring/getWebsiteCountryBreakdown';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import GlobeView from 'in-new-components/GlobeView';
 
@@ -15,7 +15,7 @@ export default function Summary({ tagFilters, timeConfig }) {
           <GlobeView
             customHeight={height}
             getData$={() =>
-              getCountryBreakdown({
+              getWebsiteCountryBreakdown({
                 timeConfig,
                 tagFilters,
                 pagination: {

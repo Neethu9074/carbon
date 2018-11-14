@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -9,7 +10,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import theme from 'in-themes';
 
-export default function Summary({ tagFilters, timeConfig }) {
+export default function Summary({ tagFilters, timeConfig, pageId }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -177,6 +178,11 @@ export default function Summary({ tagFilters, timeConfig }) {
         <Col lg={6}>
           <WorldMapCard title="Geo Distribution" height={300} tagFilters={tagFilters} timeConfig={timeConfig} />
         </Col>
+        {pageId == null && (
+          <Col lg={6}>
+            <PagesTopList tagFilters={tagFilters} timeConfig={timeConfig} />
+          </Col>
+        )}
       </Row>
     </Fragment>
   );
