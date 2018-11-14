@@ -1,5 +1,7 @@
+import { get } from 'lodash';
 import React from 'react';
 
+import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Button from 'in-components/Button';
@@ -101,6 +103,23 @@ export function getCloneButtonColumn() {
               Clone
             </Button>
           )
+        };
+      }
+    }
+  };
+}
+
+export function getKindColumn() {
+  return {
+    title: 'Type',
+    type: 'custom',
+    typeArgs: {
+      comparator: compareIgnoreCase,
+      get(row) {
+        const kind = row.entity.get('kind');
+        return {
+          value: kind,
+          content: get(fullyQualified[kind], ['label'], kind)
         };
       }
     }

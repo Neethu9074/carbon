@@ -100,7 +100,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="webhookUrl"
               type="url"
-              placeholder="Webhook URL"
+              placeholder="https://outlook.office.com/connectors/Connect?state=<myAppsState>&app_id=<appId>&callback_url=<callbackUrl>"
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}
             />

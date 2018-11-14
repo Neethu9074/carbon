@@ -10,6 +10,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { clickCreateApplicationTracker } from 'in-applications/lists/tracker';
 import getApplications from 'in-subscription/application/getApplications';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
@@ -31,6 +32,7 @@ const rightHeader = role.canConfigureApplications && (
     className={locals.button}
     kind="action"
     href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+    onClick={() => clickCreateApplicationTracker()}
     icon="lib_openclose_add_circle_outline"
   >
     Create Application Perspective

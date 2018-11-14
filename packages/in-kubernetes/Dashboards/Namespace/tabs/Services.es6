@@ -1,11 +1,10 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
+import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
@@ -64,64 +63,49 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_kubernetes_service"
-          label={item.name}
-          href$={getServiceDashboard(item.id)}
-        />
-      );
+      return <EntityLink icon="lib_kubernetes_service" label={item.name} href$={getServiceDashboard(item.id)} />;
     }
   },
   {
     id: 'type',
     label: 'Type',
-    getContent() {
-      return 'type';
+    getContent(item) {
+      return item.type;
     }
   },
   {
     id: 'location',
     label: 'Service location',
-    getContent() {
-      return '127.0.0.1';
+    getContent(item) {
+      return item.serviceLocation;
     }
   },
   {
     id: 'endpointsInt',
     label: 'Int. endpoints',
     getContent(item) {
-      return get(item, ['metrics', 'endpoints.internal']);
+      return item.internalEndpoints;
     }
   },
   {
     id: 'endpointsExt',
     label: 'Ext. endpoints',
     getContent(item) {
-      return get(item, ['metrics', 'endpoints.external']);
+      return item.externalEndpoints;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
-    getContent() {
-      return <EntityCounter icon="lib_kubernetes_pod" count={42} />;
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'age',
     label: 'Age',
-    getContent() {
-      return '42 hours';
-    }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent() {
-      return 42;
+    getContent(item) {
+      return item.age;
     }
   }
 ];

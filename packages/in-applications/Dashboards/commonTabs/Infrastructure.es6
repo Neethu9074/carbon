@@ -9,6 +9,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -16,7 +17,6 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
 
@@ -136,7 +136,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
+          return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
       }
@@ -155,7 +155,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
+          return <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
       }
@@ -174,7 +174,7 @@ const getColumnDefinitions = type => {
           );
         }
         if (twoZeroModeEnabled) {
-          return <EntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
+          return <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
         }
         return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
       }
@@ -230,22 +230,20 @@ const getColumnDefinitions = type => {
   ];
 };
 
-function EntityLink({ entity, plugin }) {
+function InfrastructureEntityLink({ entity, plugin }) {
   if (!entity.id) {
     return null;
   }
 
   return (
-    <Link
-      className={locals.link}
+    <EntityLink
+      plugin={plugin}
+      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
       href$={getDashboardLink(entity.id, {
         pathname: '/physical/dashboard',
         to: entity.time,
         focusedMoment: null
       })}
-    >
-      <PluginIcon className={locals.pluginIcon} dimension={18} plugin={plugin} />
-      {entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-    </Link>
+    />
   );
 }

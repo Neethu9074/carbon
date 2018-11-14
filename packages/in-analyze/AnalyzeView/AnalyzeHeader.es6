@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import { getDefaultGrouping } from 'in-analyze/defaultGroupings';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 
 export default function AnalyzeHeader({ dataSource, filters }) {
@@ -11,7 +11,7 @@ export default function AnalyzeHeader({ dataSource, filters }) {
       <SecondLevelNavigationItem
         href$={getLinkToAnalyze({
           dataSource: 'traces',
-          groupByTag: isGrouped ? getDefaultGrouping(true) : {}
+          groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : {}
         })}
         icon="lib_application_trace"
         label="Traces"
@@ -20,7 +20,7 @@ export default function AnalyzeHeader({ dataSource, filters }) {
       <SecondLevelNavigationItem
         href$={getLinkToAnalyze({
           dataSource: 'calls',
-          groupByTag: isGrouped ? getDefaultGrouping(false) : {}
+          groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : {}
         })}
         icon="lib_application_call"
         label="Calls"

@@ -14,14 +14,10 @@ import {
   getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
-import { getDefaultGrouping } from 'in-analyze/defaultGroupings';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import GroupedTraces from 'in-analyze/components/GroupedTraces';
-import GroupedCalls from 'in-analyze/components/GroupedCalls';
-import RawTraces from 'in-analyze/components/RawTraces';
-import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
@@ -68,39 +64,26 @@ export default compose(
         // ensure that timeConfig keeps being the mutable version
         .set('timeConfig', getTimeConfig(location)),
       tagFiltersForSubscription: getTagFilterListForBackendSubscription(tagFilter),
-      isRawView: !group || !group.name,
-      isTracesDataSource: dataSource === 'traces'
+      isRawView: !group || !group.name
     })
   )
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { activeDialog, isRawView, isTracesDataSource } = props;
-  let view;
-  if (isRawView) {
-    if (isTracesDataSource) {
-      view = <RawTraces {...props} />;
-    } else {
-      view = <RawCalls {...props} />;
-    }
-  } else {
-    if (isTracesDataSource) {
-      view = <GroupedTraces {...props} />;
-    } else {
-      view = <GroupedCalls {...props} />;
-    }
-  }
+  const { activeDialog, isRawView, filters } = props;
+  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
 
   return (
     <Fragment>
       {activeDialog && <DisabledBodyScroll />}
-      {view}
+      {isRawView ? <dataSourceConfig.RawView {...props} /> : <dataSourceConfig.GroupedView {...props} />}
     </Fragment>
   );
 }
 
 function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
   return {
-    [groupByMatrixParameter]: getDefaultGrouping(!dataSource || dataSource === 'traces')
+    [groupByMatrixParameter]:
+      getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping
   };
 }

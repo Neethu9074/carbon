@@ -119,7 +119,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="webhookUrl"
               type="url"
-              placeholder="Webhook URL"
+              placeholder="https://hooks.slack.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
               value={field.value}
               onChange={e => onChange('webhookUrl', e.target.value)}
             />
@@ -136,7 +136,7 @@ function Form({ form, onChange }) {
               className={`${block}__input`}
               id="iconUrl"
               type="url"
-              placeholder="Icon URL"
+              placeholder="https://www.example.com/media/instana.png"
               value={field.value}
               onChange={e => onChange('iconUrl', e.target.value)}
             />

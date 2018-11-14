@@ -1,8 +1,8 @@
 import React from 'react';
 
+import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { percentage } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
@@ -11,7 +11,7 @@ export default function Errors({ timeConfig, endpointId, applicationId, serviceI
 
   return (
     <div>
-      <ChartWrapper
+      <AppdataChartWrapper
         cardTitle={cardTitle}
         timeConfig={timeConfig}
         y1={{

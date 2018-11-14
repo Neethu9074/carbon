@@ -24,7 +24,7 @@ function getColorPalette() {
   return DEFAULT_HEAT_MAP_COLORS;
 }
 
-export default function getHeatMapColor(heatMapMetric, intensity = 0, colorPalette) {
+export default function getHeatMapColor(intensity = 0, colorPalette) {
   intensity = Math.min(1, Math.max(0, intensity)); // [0, 1]
 
   colorPalette = colorPalette || getColorPalette();

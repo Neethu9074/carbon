@@ -28,7 +28,7 @@
     "handlebars": "^4.0.2",
     "instana-nodejs-sensor": "^1.49.0",
     "node-uuid": "^1.4.3",
-    "request": "2.65.0"
+    "request": "^2.65.0"
   },
   "publishConfig": {
     "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"

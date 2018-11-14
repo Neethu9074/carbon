@@ -33,7 +33,8 @@ export function init() {
   initMixpanelCore(mixpanelIsActive => {
     if (mixpanelIsActive) {
       createTracker('pageLoadOrPageReload')();
-      initActivityHeartbeat();
+      initPortalActivityHeartbeat();
+      initFineGrainedActivityHeartbeat();
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -45,10 +46,19 @@ export function init() {
  * day. Just tracking the sign in would not be good enough, since a user can use Instana up to 7 days without signing
  * in again.
  */
-function initActivityHeartbeat() {
+function initPortalActivityHeartbeat() {
   const trackActivity = createTracker('user.isActive');
   trackActivity();
-  setInterval(trackActivity, 60 * 60 * 1000);
+  setInterval(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
+}
+
+/**
+ * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
+ */
+function initFineGrainedActivityHeartbeat() {
+  const trackActivity = createTracker('user.heartbeat');
+  trackActivity();
+  setInterval(trackActivity, 5 * 1000 /* 5 second resolution */);
 }
 
 function initUsageDurationTrackers() {
@@ -263,9 +273,15 @@ function initViewTrackers() {
 }
 
 function trackView() {
-  const viewOpenMapTracker = createTracker('view.open.map');
+  const viewOpenApplicationTracker = createTracker('view.open.applications');
+  const viewOpenAnalyzeTracker = createTracker('view.open.analyze');
   const viewOpenComparisonTableTracker = createTracker('view.open.comparisontable');
+  const viewOpenEventsTracker = createTracker('view.open.events');
+  const viewOpenKubernetesTracker = createTracker('view.open.kubernetes');
+  const viewOpenMapTracker = createTracker('view.open.map');
+  const viewOpenWebsitesTracker = createTracker('view.open.websites');
   const mapPerspectiveChangeTracker = createTracker('map.perspective.change');
+
   let lastView = null;
   navigationParameters$
     .map(location => {
@@ -273,25 +289,59 @@ function trackView() {
       const matchResult = path.match(/^\/([a-z]+)(?:\/)?([a-z]+)?(?:\/.*)?$/i);
       return { view: matchResult[1], subview: matchResult[2] };
     })
-    // for now, opening a dashboard does not count as a opening a view
+    // opening a (classic) dashboard does not count as a opening a view - those can be accessed in the context of
+    // different views (physical, events, ...) but the dashboard content hides the underlying view completely so
+    // it does not "feel" like opening the physical, events, ... view.
     .filter(({ subview }) => subview !== 'dashboard')
     .map(({ view }) => view)
     .distinct()
     .subscribe(view => {
-      // For now, we only track opening the infra map and infra comparison table. My guess is that we'll switch to
-      // tracking all view changes sooner or later.
-
-      // Do not create an "open infra map" even if the user simply switched between hosts and containers while being on
-      // the map already.
-      if (view === 'physical' || view === 'container') {
-        const typeForTracking = view === 'physical' ? 'host' : view;
-        if (lastView !== 'physical' && lastView !== 'container') {
-          viewOpenMapTracker({ type: typeForTracking });
-        } else {
-          mapPerspectiveChangeTracker({ type: typeForTracking });
-        }
-      } else if (view === 'table') {
-        viewOpenComparisonTableTracker();
+      switch (view) {
+        case 'analyze':
+          viewOpenAnalyzeTracker();
+          break;
+        case 'application':
+        // fall through
+        case 'applications':
+        // fall through
+        case 'endpoint':
+        // fall through
+        case 'service':
+        // fall through
+        case 'services':
+          if (['application', 'applications', 'endpoint', 'service', 'services'].indexOf(lastView) < 0) {
+            viewOpenApplicationTracker();
+          }
+          break;
+        case 'events':
+          viewOpenEventsTracker();
+          break;
+        case 'kubernetes':
+          viewOpenKubernetesTracker();
+          break;
+        case 'website':
+        // fall through ("website" is the legacy EUM view)
+        case 'websiteMonitoring':
+          if (lastView !== 'website' && lastView !== 'websiteMonitoring') {
+            viewOpenWebsitesTracker();
+          }
+          break;
+        case 'container':
+        // fall through - container and physical are both just variants of the infrastructure map
+        case 'physical':
+          // eslint-disable-next-line no-case-declarations
+          const typeForTracking = view === 'physical' ? 'host' : view;
+          if (lastView !== 'physical' && lastView !== 'container') {
+            viewOpenMapTracker({ type: typeForTracking });
+          } else {
+            // Do not create an "open infra map" even if the user simply switched between hosts and containers while
+            // being on the map already.
+            mapPerspectiveChangeTracker({ type: typeForTracking });
+          }
+          break;
+        case 'table':
+          viewOpenComparisonTableTracker();
+          break;
       }
       lastView = view;
     });

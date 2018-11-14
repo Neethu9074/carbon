@@ -10,17 +10,28 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import QuickFilter from 'in-analyze/AnalyzeView/components/QuickFilter';
 import ResetButton from 'in-analyze/AnalyzeView/components/ResetButton';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { getTagFromList } from 'in-applications/tags';
+import { deepCopy } from 'in-services/util/object';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './QueryBuilderWorkspace.mless';
+
+const filterAddedTracker = createTracker('analyze.filter.added');
+const filterChangedTracker = createTracker('analyze.filter.changed');
+const filterRemovedTracker = createTracker('analyze.filter.removed');
+const filterClearedTracker = createTracker('analyze.filter.cleared');
+const groupAddedTracker = createTracker('analyze.group.added');
+const groupChangedTracker = createTracker('analyze.group.changed');
+const groupRemovedTracker = createTracker('analyze.group.removed');
 
 export default function QueryBuilderWorkspace(props) {
   const { filters, onChangeAnalyzeConfig } = props;
@@ -47,6 +58,7 @@ export default function QueryBuilderWorkspace(props) {
                   setActiveDialog(
                     <EditFilterDialog
                       filters={filters}
+                      blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
                       withExtendedOperators
                       name={tag.name}
                       value={tag.value}
@@ -77,7 +89,7 @@ export default function QueryBuilderWorkspace(props) {
                   className={locals.removeGrouping}
                   aria-label="Remove grouping"
                   type="lib_openclose_cancel"
-                  onClick={() => onRemoveGroup(onChangeAnalyzeConfig)}
+                  onClick={() => onRemoveGroup(onChangeAnalyzeConfig, group)}
                   width={18}
                   height={18}
                 />
@@ -115,7 +127,8 @@ export default function QueryBuilderWorkspace(props) {
 }
 
 function QuickFilterSection(props) {
-  const { isTracesDataSource, filters, onChangeAnalyzeConfig } = props;
+  const { filters, onChangeAnalyzeConfig } = props;
+  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
 
   const tagFilter = filters.get('tagFilter').toJS();
 
@@ -203,7 +216,7 @@ function QuickFilterSection(props) {
         props={assign(
           {
             Component: LatencySuggestions,
-            tagName: isTracesDataSource ? 'trace.latency' : 'call.latency'
+            tagName: dataSourceConfig.latencyTagPreset
           },
           props
         )}
@@ -214,13 +227,9 @@ function QuickFilterSection(props) {
       <QuickFilter
         label="Erroneous"
         onClick={() =>
-          onAddTagFilter(
-            { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous', value: 'true' },
-            filters,
-            onChangeAnalyzeConfig
-          )
+          onAddTagFilter({ name: dataSourceConfig.errorneousTagPreset, value: 'true' }, filters, onChangeAnalyzeConfig)
         }
-        deactivated={getTagFromList(tagFilter, { name: isTracesDataSource ? 'trace.erroneous' : 'call.erroneous' })}
+        deactivated={getTagFromList(tagFilter, { name: dataSourceConfig.errorneousTagPreset })}
         helpText="The filters already contains this filter"
       />
 
@@ -231,6 +240,7 @@ function QuickFilterSection(props) {
             <EditFilterDialog
               withExtendedOperators
               filters={filters}
+              blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
               onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)}
             />
           )
@@ -259,7 +269,9 @@ function SuggestionContent(props) {
 function onAddTagFilter(tag, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
 
-  tagFilter.push(createFilter(tag));
+  const newFilter = createFilter(tag);
+  tagFilter.push(newFilter);
+  filterAddedTracker({ filter: newFilter });
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
@@ -268,12 +280,14 @@ function onAddTagFilter(tag, filters, onChangeAnalyzeConfig) {
 
 function onUpdateTagFilter(index, tag, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
+  const before = deepCopy(tagFilter[index]);
   tagFilter[index] = createFilter({
     name: tag.name,
     secondLevelName: tag.secondLevelName,
     value: tag.value,
     operator: tag.operator
   });
+  filterChangedTracker({ before, after: tagFilter[index] });
 
   const newState = {};
   newState[tagFilterMatrixParameter] = tagFilter;
@@ -282,7 +296,8 @@ function onUpdateTagFilter(index, tag, filters, onChangeAnalyzeConfig) {
 
 function onRemoveTagFilter(index, filters, onChangeAnalyzeConfig) {
   const tagFilter = filters.get('tagFilter').toJS();
-  tagFilter.splice(index, 1);
+  const [removed] = tagFilter.splice(index, 1);
+  filterRemovedTracker({ filter: removed });
 
   onChangeAnalyzeConfig({
     [tagFilterMatrixParameter]: tagFilter
@@ -296,6 +311,12 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
       name={group ? group.get('name') : ''}
       secondLevelName={group ? group.get('value') : ''}
       onSave={_group => {
+        if (!group || !group.get('name')) {
+          groupAddedTracker({ group: _group.name });
+        } else {
+          groupChangedTracker({ before: group.get('name'), after: _group.name });
+        }
+
         const newState = {};
 
         newState[groupByMatrixParameter] = { name: _group.name, value: _group.secondLevelName };
@@ -305,14 +326,16 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
   );
 }
 
-function onRemoveGroup(onChangeAnalyzeConfig) {
+function onRemoveGroup(onChangeAnalyzeConfig, _group) {
   onChangeAnalyzeConfig({
     [groupByMatrixParameter]: {}
   });
+  groupRemovedTracker({ group: _group && _group.get ? _group.get('name') : '' });
 }
 
 function clearFilters(onChangeAnalyzeConfig) {
   onChangeAnalyzeConfig({
     [tagFilterMatrixParameter]: []
   });
+  filterClearedTracker();
 }

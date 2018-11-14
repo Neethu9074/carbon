@@ -1,15 +1,15 @@
 import React from 'react';
 
+import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
 
 export default function CallsErrors({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
     <div>
-      <ChartWrapper
+      <AppdataChartWrapper
         cardTitle={cardTitle}
         timeConfig={timeConfig}
         y1={{

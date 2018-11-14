@@ -9,6 +9,7 @@ export default function Button({
   isActive,
   renderContent,
   icon,
+  dark = false,
   onClick,
   appendTop,
   appendBottom,
@@ -19,6 +20,7 @@ export default function Button({
     <div
       className={evaluateClassNames({
         [locals.wrapper]: true,
+        [locals.dark]: dark,
         [locals.appendTop]: appendTop,
         [locals.appendBottom]: appendBottom,
         [locals.appendLeft]: appendLeft,

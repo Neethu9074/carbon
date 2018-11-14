@@ -1,21 +1,18 @@
 @import '~in-themes/active.less';
 
 :local {
-  .flexWrapper {
+  .wrapper {
     display: flex;
     align-items: center;
   }
 
-  .linkEntityIcon,
-  .entityIcon {
-    margin-right: 0.25rem;
-  }
-
+  .pluginIcon,
   .linkEntityIcon {
+    margin-right: 0.25rem;
     fill: @lib__colors__blue800;
   }
 
-  .entityIcon {
-    fill: @lib__colors__N700Medium;
+  .pluginIcon {
+    margin-right: 0.5rem;
   }
 }

@@ -2,6 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { millis, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -11,17 +12,7 @@ import locals from './GroupMetricsChart.mless';
 
 export default withState('selectedChart', 'setSelectedChart', 'latency')(GroupMetricsChart);
 
-function GroupMetricsChart({
-  isTracesDataSource,
-  items,
-  errors,
-  progress,
-  time,
-  filters,
-  groupColors,
-  selectedChart,
-  setSelectedChart
-}) {
+function GroupMetricsChart({ items, errors, progress, time, filters, groupColors, selectedChart, setSelectedChart }) {
   if (errors.length > 0 || progress.loading) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
     // render them twice.
@@ -31,8 +22,7 @@ function GroupMetricsChart({
     return null;
   }
 
-  const countMetricText = isTracesDataSource ? 'Traces' : 'Calls';
-  const countMetricKey = isTracesDataSource ? 'traces' : 'calls';
+  const { countMetricText, countMetricKey } = getConfigByDataSource(filters.get('dataSource'));
   const groups = items.slice(0, 5);
 
   // Render chart selector and chart.

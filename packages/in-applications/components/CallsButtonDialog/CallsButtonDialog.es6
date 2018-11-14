@@ -27,7 +27,7 @@ export default connectTo(
       return get(result, ['data', 'callCount', '0', '1'], null);
     })
   }),
-  function CallsButtonDialog({ allCallsCount, timeConfig, applicationId, serviceId, endpointId, backButtonLabels }) {
+  function CallsButtonDialog({ allCallsCount, timeConfig, applicationId, serviceId, endpointId }) {
     return (
       <div className={locals.wrapper}>
         <div className={locals.header}>
@@ -46,7 +46,6 @@ export default connectTo(
               applicationId={applicationId}
               total={allCallsCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
           {serviceId && (
@@ -57,7 +56,6 @@ export default connectTo(
               serviceId={serviceId}
               total={allCallsCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
           {endpointId && (
@@ -69,7 +67,6 @@ export default connectTo(
               endpointId={endpointId}
               total={allCallsCount}
               timeConfig={timeConfig}
-              backButtonLabels={backButtonLabels}
             />
           )}
         </section>

@@ -7,11 +7,12 @@ import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTrac
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { prefetch } from 'in-subscription/util/prefetch';
 import Tooltip from 'in-components/Tooltip';
@@ -19,9 +20,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NavigatorSplitScreen.mless';
-
-const getCallMatcher = (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId;
-const getTraceMatcher = traceId => item => item.trace.id === traceId;
 
 export const leftArrowId = 'navigator-previous-item';
 export const rightArrowId = 'navigator-next-item';
@@ -55,26 +53,17 @@ function getInitialState({ screenWidth }) {
   };
 }
 
-function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded }) {
-  const {
-    isTracesDataSource,
-    totalHits,
-    totalRepresentedItemCount,
-    location,
-    items,
-    canLoadMore,
-    loadMore,
-    progress
-  } = navigator.props;
+function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded, dataSource }) {
+  const { totalHits, totalRepresentedItemCount, location, items, canLoadMore, loadMore, progress } = navigator.props;
+
+  const dataSourceConfig = getConfigByDataSource(dataSource);
   const selectedTraceId = getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
   const selectedCallId = getMatrixParameter(location, traceDetailPath, callIdMatrixParameter);
-  const itemMatcher = isTracesDataSource
-    ? getTraceMatcher(selectedTraceId)
-    : getCallMatcher(selectedTraceId, selectedCallId);
+  const itemMatcher = dataSourceConfig.getMatcher(selectedTraceId, selectedCallId);
   const itemIndex = findIndex(items, itemMatcher);
   const hasNext = itemIndex + 1 < items.length;
   const hasPrev = itemIndex > 0;
-  const typeLabel = isTracesDataSource ? 'Trace' : 'Call';
+  const typeLabel = dataSourceConfig.typeLabel;
 
   return (
     <div className={locals.navigatorSplitScreen}>
@@ -92,9 +81,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
                     width={20}
                     className={locals.prev}
                     id={leftArrowId}
-                    onClick={e =>
-                      openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
-                    }
+                    onClick={e => openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
                   />
                 </Tooltip>
               )}
@@ -107,9 +94,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
                     width={20}
                     className={locals.next}
                     id={rightArrowId}
-                    onClick={e =>
-                      openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, isTracesDataSource)
-                    }
+                    onClick={e => openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
                   />
                 </Tooltip>
               )}
@@ -160,7 +145,7 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded })
   );
 }
 
-function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, isTracesDataSource) {
+function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, dataSourceConfig) {
   e.preventDefault();
   e.stopPropagation();
 
@@ -174,13 +159,13 @@ function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, isTraces
     return;
   }
 
-  const traceId = isTracesDataSource ? item.trace.id : item.call.traceId;
-  const callId = isTracesDataSource ? undefined : item.call.id;
+  const traceId = dataSourceConfig.getTraceIdByItem(item);
+  const callId = dataSourceConfig.getCallIdByItem(item);
 
   const nextItem = items[itemIndex + 1];
   if (nextItem) {
-    const traceIdForNextPrefetch = isTracesDataSource ? nextItem.trace.id : nextItem.call.traceId;
-    const callIdForNextPrefetch = isTracesDataSource ? undefined : item.call.id;
+    const traceIdForNextPrefetch = dataSourceConfig.getTraceIdByItem(nextItem);
+    const callIdForNextPrefetch = dataSourceConfig.getCallIdByItem(nextItem);
     prefetch(getTraceSummary({ id: traceIdForNextPrefetch }));
     if (callIdForNextPrefetch) {
       prefetch(getTraceActivityTreeNodeDetails({ traceId: traceIdForNextPrefetch, nodeId: callIdForNextPrefetch }));

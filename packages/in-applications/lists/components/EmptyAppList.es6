@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { clickCreateApplicationTracker } from 'in-applications/lists/tracker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { newApplicationView } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
@@ -18,7 +19,11 @@ export default function EmptyAppList() {
         anything.
       </p>
       {role.canConfigureApplications ? (
-        <Button kind="create" href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}>
+        <Button
+          kind="create"
+          href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+          onClick={() => clickCreateApplicationTracker()}
+        >
           Create Application Perspective
         </Button>
       ) : (

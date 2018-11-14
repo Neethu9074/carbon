@@ -1,8 +1,12 @@
 import React from 'react';
 
+import {
+  getLinkColumn,
+  getKindColumn,
+  getDeleteButtonColumn
+} from 'in-views/configurationView/components/tableColumnPresets';
 import IntegrationsDetails from 'in-views/configurationView/subview/Integrations/components/IntegrationsDetails';
 import { goToIntegrationView, integrationPath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
-import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import IntegrationSwitch from 'in-views/configurationView/subview/Integrations/components/IntegrationSwitch';
 import BasicEntitiesOverview from 'in-views/configurationView/subview/BasicEntitiesOverview';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -10,7 +14,11 @@ import { getIntegrations, deleteIntegration } from 'in-api/integrations';
 import Dialog from 'in-components/Dialog';
 
 export default function AlertingConfigurations() {
-  const cols = [getLinkColumn(getEntityIdPath.bind(null, integrationPath), 'name'), getDeleteButtonColumn()];
+  const cols = [
+    getLinkColumn(getEntityIdPath.bind(null, integrationPath), 'name'),
+    getKindColumn(),
+    getDeleteButtonColumn()
+  ];
 
   return (
     <BasicEntitiesOverview

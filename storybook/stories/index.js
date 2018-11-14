@@ -19,6 +19,9 @@ import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
 
+import './website/WorldMapCardStory';
+
+import './components/AmMapStory';
 import './components/Axis';
 import './components/BadgeStory';
 import './components/ButtonGroupStory';
@@ -28,6 +31,7 @@ import './components/ChartStory';
 import './components/DashboardHeaderStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/Globe';
 import './components/health/HealthIndicatorStory';
 import './components/health/OpenIssuesListPresenterStory';
 import './components/HeatMap';

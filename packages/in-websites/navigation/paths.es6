@@ -18,7 +18,7 @@ export const linkToWebsites = getModifiedUrlStream(params => {
   params.pathname = `${websitesPathFullyQualified}`;
 });
 
-export function getLinkToWebsite(websiteId, { tabPath = '', pageId } = emptyObject) {
+export function getLinkToWebsite(websiteId, { tabPath = '/summary', pageId } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${websitePathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);

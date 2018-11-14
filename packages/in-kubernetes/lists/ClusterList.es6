@@ -3,10 +3,10 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import EntityLink from 'in-new-components/EntityLink';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
@@ -80,14 +80,7 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      return (
-        <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
-          icon="lib_kubernetes_cluster"
-          label={item.name}
-          href$={getClusterDashboard(item.id)}
-        />
-      );
+      return <EntityLink icon="lib_kubernetes_cluster" label={item.name} href$={getClusterDashboard(item.id)} />;
     }
   },
   {

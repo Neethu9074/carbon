@@ -10,7 +10,7 @@ import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
+import tabs from 'in-websites/WebsiteDashboard/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function WebsiteDashboard({ location }) {
@@ -20,6 +20,20 @@ export default function WebsiteDashboard({ location }) {
     viewPath: websitePathFullyQualified,
     timeConfig: getTimeConfig(location)
   };
+
+  const tagFilters = (props.tagFilters = []);
+  tagFilters.push({
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    stringValue: props.websiteId
+  });
+  if (props.pageId) {
+    tagFilters.push({
+      name: 'beacon.page.name',
+      operator: 'EQUALS',
+      stringValue: props.pageId
+    });
+  }
 
   return (
     <Fragment>
