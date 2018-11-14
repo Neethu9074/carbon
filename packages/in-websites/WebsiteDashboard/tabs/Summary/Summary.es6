@@ -24,7 +24,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
               tagFilters,
               timeConfig,
               metrics: {
-                calls: {
+                pageLoads: {
                   metric: 'pageLoads',
                   aggregation: 'SUM'
                 }
@@ -40,7 +40,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
               tagFilters,
               timeConfig,
               metrics: {
-                errors: {
+                meanOnLoadTime: {
                   metric: 'onLoadTime',
                   aggregation: 'MEAN'
                 }
@@ -56,7 +56,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
               tagFilters,
               timeConfig,
               metrics: {
-                errors: {
+                p90OnLoadTime: {
                   metric: 'onLoadTime',
                   aggregation: 'P90'
                 }
@@ -72,7 +72,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
               tagFilters,
               timeConfig,
               metrics: {
-                errors: {
+                p05OnLoadTime: {
                   metric: 'onLoadTime',
                   aggregation: 'P95'
                 }

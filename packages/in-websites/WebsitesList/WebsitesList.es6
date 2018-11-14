@@ -2,10 +2,12 @@ import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { number, millis } from 'in-services/formatters/number';
 import { websitesPath } from 'in-websites/navigation/paths';
-import { number } from 'in-services/formatters/number';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -63,8 +65,8 @@ export default connectTo(
           rightHeader={rightHeader}
           leftHeader={leftHeader}
           paginationResettingProps={{ timeConfig }}
-          defaultOrderBy="websiteLabel"
-          defaultOrderDirection="ASC"
+          defaultOrderBy="pageLoadsAgg"
+          defaultOrderDirection="DESC"
         />
       </MaxWidthFullscreenContainer>
     );
@@ -81,7 +83,26 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       by: orderBy,
       direction: orderDirection
     },
-    metrics: {},
+    metrics: {
+      pageLoadsAgg: {
+        metric: 'pageLoads',
+        aggregation: 'SUM'
+      },
+      pageLoads: {
+        metric: 'pageLoads',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      onLoadTimeAgg: {
+        metric: 'onLoadTime',
+        aggregation: 'MEAN'
+      },
+      onLoadTime: {
+        metric: 'onLoadTime',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      }
+    },
     labelFilter: query,
     timeConfig
   });
@@ -93,6 +114,40 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return <Link href$={getLinkToWebsite(item.website.id)}>{item.website.label}</Link>;
+    }
+  },
+  {
+    id: 'pageLoadsAgg',
+    label: 'Page Loads',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="SUM"
+          metrics={item.metrics.pageLoads}
+          metric={item.metrics.pageLoadsAgg}
+          tooltipFormatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'onLoadTimeAgg',
+    label: 'onLoad Time',
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <SparkChart
+          rollup={getSparkChartGranularity(timeConfig)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics.onLoadTime}
+          metric={item.metrics.onLoadTimeAgg}
+          tooltipFormatter={millis.fixedCompact}
+        />
+      );
     }
   }
 ];
