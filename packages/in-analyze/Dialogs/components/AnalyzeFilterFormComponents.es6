@@ -45,7 +45,7 @@ export function KeySelectionSection(props) {
       <SelectBox
         id="key"
         value={field.value}
-        onChange={e => onChange('name', get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
+        onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
         options={options}
       />
       {messages.filter(message => message.field === 'name').map((message, i) => (
@@ -71,7 +71,7 @@ export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSugge
             <AutoCompletedSelect
               id="secondLevelName"
               field={field}
-              onChange={value => onChange('secondLevelName', value)}
+              onChange={onChange}
               tagSuggestionResult={tagSecondLevelNameSuggestionResult}
             />
             <TouchedMessages field={subForm} className={locals.validationMessage} />
@@ -104,12 +104,7 @@ export function OperatorSelection({ field, onChange, node, withExtendedOperators
   }
 
   return (
-    <select
-      className={locals.operator}
-      id="operator"
-      value={field.value}
-      onChange={e => onChange('operator', e.target.value)}
-    >
+    <select className={locals.operator} id="operator" value={field.value} onChange={e => onChange(e.target.value)}>
       {operators.map(operator => (
         <option key={operator} value={operator}>
           {getOperatorLabel(node.type, operator)}

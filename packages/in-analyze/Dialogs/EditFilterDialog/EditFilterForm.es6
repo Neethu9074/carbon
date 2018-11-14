@@ -34,10 +34,18 @@ export default function EditFilterForm(props) {
             .map(subForm =>
               subForm.value
                 .get('name')
-                .map(field => <KeySelectionSection {...props} field={field} messages={subForm.messages} keys={keys} />)
+                .map(field => (
+                  <KeySelectionSection
+                    {...props}
+                    field={field}
+                    messages={subForm.messages}
+                    keys={keys}
+                    onChange={value => onChange('name', value)}
+                  />
+                ))
             )}
 
-          <CustomKeySection {...props} node={node} onChange={onChange} />
+          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
 
           {form
             .get('valueForm')
@@ -46,7 +54,7 @@ export default function EditFilterForm(props) {
               <OperatorSelection
                 withExtendedOperators={withExtendedOperators}
                 field={field}
-                onChange={onChange}
+                onChange={value => onChange('operator', value)}
                 node={node}
               />
             ))}
@@ -59,7 +67,7 @@ export default function EditFilterForm(props) {
 
             return valueFormField.value.get('value').map(field => (
               <FormGroup className={locals.valueFormGroup}>
-                <ValueInputByType {...props} field={field} />
+                <ValueInputByType {...props} field={field} onChange={value => onChange('value', value)} />
                 <TouchedMessages field={valueFormField} className={locals.validationMessage} />
               </FormGroup>
             ));
@@ -94,7 +102,7 @@ function ValueInputByType({ form, field, onChange, tagSuggestionResult }) {
         step="1"
         id="value"
         value={field.value}
-        onChange={e => onChange('value', e.target.value)}
+        onChange={e => onChange(e.target.value)}
         autoComplete="off"
         autoFocus
       />
