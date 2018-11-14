@@ -6,7 +6,7 @@ import locals from './DevDashboard.mless';
 
 export default function DevDashboard() {
   return (
-    <div>
+    <div className={locals.wrapper}>
       <TimeZones />
 
       <h3>SLO</h3>
@@ -27,22 +27,48 @@ export default function DevDashboard() {
       <h3>Processing</h3>
       <ul className={locals.links}>
         <li>
-          <a href="/#/internal/fillerSpanProcessingStats">App 1.0 Data Processing</a>
+          <span className={locals.subTitle}>App 1.0</span>
+          <ul className={locals.links}>
+            <li>
+              <a href="/#/internal/fillerSpanProcessingStats">App 1.0 Data Processing</a>
+            </li>
+            <li>
+              <a href="/#/internal/tracesSubscriptionStats">App 1.0 Traces Subscriptions Report</a>
+            </li>
+          </ul>
         </li>
+
         <li>
-          <a href="/#/internal/tracesSubscriptionStats">App 1.0 Traces Subscriptions Report</a>
+          <span className={locals.subTitle}>App 2.0</span>
+          <ul className={locals.links}>
+            <li>
+              <a href="/#/internal/appdataProcessing">App 2.0 Data Processing</a>
+            </li>
+            <li>
+              <a href="/#/internal/appdata">App 2.0 Data Reading & Writing</a>
+            </li>
+            <li>
+              <a href="/#/internal/appDataQueryPerformance">App 2.0 Query Performance</a>
+            </li>
+          </ul>
         </li>
+
         <li>
-          <a href="/#/internal/appdataProcessing">App 2.0 Data Processing</a>
-        </li>
-        <li>
-          <a href="/#/internal/appdata">App 2.0 Data Reading & Writing</a>
-        </li>
-        <li>
-          <a href="/#/internal/appDataQueryPerformance">App 2.0 Query Performance</a>
-        </li>
-        <li>
-          <a href="/#/internal/eumstats">Website Monitoring Processing</a>
+          <span className={locals.subTitle}>EUM</span>
+          <ul className={locals.links}>
+            <li>
+              <a href="/#/internal/eum">Overview</a>
+            </li>
+            <li>
+              <a href="/#/internal/eum/eum-acceptor">eum-acceptor (data collection)</a>
+            </li>
+            <li>
+              <a href="/#/internal/eum/eum-processor">eum-processor (data processing)</a>
+            </li>
+            <li>
+              <a href="/#/internal/eum/appdata-writer">appdata-writer (data ingestion)</a>
+            </li>
+          </ul>
         </li>
       </ul>
 
