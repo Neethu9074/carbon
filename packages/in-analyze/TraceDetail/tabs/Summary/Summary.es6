@@ -100,7 +100,7 @@ class Summary extends React.Component {
               <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
             </Col>
             <Col lg={3}>
-              <KpiCard title="Latency" value={millis.compact(trace.duration)} />
+              <KpiCard title="Latency" value={millis.fixed.compact(trace.duration)} />
             </Col>
           </Row>
 

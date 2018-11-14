@@ -1,5 +1,14 @@
 :local {
+  .wrapper {
+    margin: 0 1rem 1rem;
+  }
+
   .links {
     font-size: 1rem;
+  }
+
+  .subTitle {
+    font-weight: bold;
+    margin: .313rem 0;
   }
 }
