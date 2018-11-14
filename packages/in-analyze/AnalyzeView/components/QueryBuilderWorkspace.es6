@@ -58,7 +58,7 @@ export default function QueryBuilderWorkspace(props) {
                   setActiveDialog(
                     <EditFilterDialog
                       filters={filters}
-                      blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
+                      keys={getConfigByDataSource(filters.get('dataSource')).filterTagKeys}
                       withExtendedOperators
                       name={tag.name}
                       value={tag.value}
@@ -240,7 +240,7 @@ function QuickFilterSection(props) {
             <EditFilterDialog
               withExtendedOperators
               filters={filters}
-              blacklist={getConfigByDataSource(filters.get('dataSource')).analyzeFilterBlacklist}
+              keys={getConfigByDataSource(filters.get('dataSource')).filterTagKeys}
               onSave={_tag => onAddTagFilter(_tag, filters, onChangeAnalyzeConfig)}
             />
           )
@@ -308,6 +308,7 @@ function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
   setActiveDialog(
     <EditGroupDialog
       filters={filters}
+      keys={getConfigByDataSource(filters.get('dataSource')).groupTagKeys}
       name={group ? group.get('name') : ''}
       secondLevelName={group ? group.get('value') : ''}
       onSave={_group => {

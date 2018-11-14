@@ -7,11 +7,11 @@ import {
   CustomKeySection,
   KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
+
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 
 export default function EditGroupForm(props) {
-  const { form, onChange, filters } = props;
+  const { form, onChange } = props;
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
@@ -22,12 +22,7 @@ export default function EditGroupForm(props) {
       <NamedSection name="Tag">
         <FlexWrapper>
           {nameField.map(field => (
-            <KeySelectionSection
-              {...props}
-              field={field}
-              messages={nameField.messages}
-              getNodesChildren={() => getConfigByDataSource(filters.get('dataSource')).groupTags}
-            />
+            <KeySelectionSection {...props} field={field} messages={nameField.messages} />
           ))}
           <CustomKeySection {...props} node={node} onChange={onChange} />
         </FlexWrapper>

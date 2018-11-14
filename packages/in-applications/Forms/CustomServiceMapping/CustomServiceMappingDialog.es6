@@ -13,7 +13,7 @@ import RemoveSection from 'in-applications/Forms/CustomServiceMapping/Remove';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
-import { getTagValuesAsOptions } from 'in-applications/tags';
+import { customServiceMappingTagKeys } from 'in-applications/tags';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -114,7 +114,7 @@ export default function CustomServiceMappingDialog() {
                                 autoComplete="off"
                                 hasError={!field.valid && field.touched}
                               >
-                                {getTagValuesAsOptions()}
+                                {getCustomServiceMappingTagValuesAsOptions()}
                               </Select>
                               <TouchedMessages field={field} />
                             </FormGroup>
@@ -168,6 +168,16 @@ export default function CustomServiceMappingDialog() {
       }}
     />
   );
+}
+
+function getCustomServiceMappingTagValuesAsOptions() {
+  return [{ value: '', label: 'Please select' }]
+    .concat(customServiceMappingTagKeys.map(key => ({ label: key, value: key })))
+    .map(tag => (
+      <option key={tag.label} value={tag.value}>
+        {tag.label}
+      </option>
+    ));
 }
 
 function addMatchSpecification(form, updateForm) {

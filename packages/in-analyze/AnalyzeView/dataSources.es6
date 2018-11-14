@@ -1,5 +1,5 @@
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
-import { blacklists, getTagTree } from 'in-applications/tags';
+import { analyzeFilterTagKeys, callGroupTagKeys, traceGroupTagKeys } from 'in-applications/tags';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import RawCalls from 'in-analyze/components/RawCalls';
@@ -9,13 +9,13 @@ export default function getByDataSource(dataSource) {
   if (!configs) {
     configs = {
       traces: {
-        groupTags: [{ name: 'trace.endpoint.name' }, { name: 'trace.service.name' }],
+        groupTagKeys: traceGroupTagKeys,
+        filterTagKeys: analyzeFilterTagKeys,
         errorneousTagPreset: 'trace.erroneous',
         latencyTagPreset: 'trace.latency',
         countMetricText: 'Traces',
         countMetricKey: 'traces',
         defaultGrouping: { name: 'trace.endpoint.name', value: '' },
-        analyzeFilterBlacklist: blacklists.analyzeFilterBlacklist,
         breadcrumbLabel: 'Analyze Traces',
         getMatcher: traceId => item => item.trace.id === traceId,
         typeLabel: 'Trace',
@@ -25,13 +25,13 @@ export default function getByDataSource(dataSource) {
         GroupedView: GroupedTraces
       },
       calls: {
-        groupTags: getTagTree().getChildren({ blacklist: blacklists.callGroupBlacklist }),
+        groupTagKeys: callGroupTagKeys,
+        filterTagKeys: analyzeFilterTagKeys,
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         countMetricText: 'Calls',
         countMetricKey: 'calls',
         defaultGrouping: { name: 'endpoint.name', value: '' },
-        analyzeFilterBlacklist: blacklists.analyzeFilterBlacklist,
         breadcrumbLabel: 'Analyze Calls',
         getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,
         typeLabel: 'Call',

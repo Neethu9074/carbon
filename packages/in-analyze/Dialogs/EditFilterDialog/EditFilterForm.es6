@@ -19,13 +19,13 @@ import Input from 'in-components/form/Input';
 import locals from './EditFilterForm.mless';
 
 export default function EditFilterForm(props) {
-  const { form, helpText, onChange, withExtendedOperators } = props;
+  const { keys, form, helpText, onChange, withExtendedOperators } = props;
   const nameField = form.get('nameForm').value.get('name');
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
     <Fragment>
-      <HelpText>{helpText}</HelpText>
+      {helpText && <HelpText>{helpText}</HelpText>}
 
       <NamedSection name="Tag">
         <FlexWrapper>
@@ -34,14 +34,7 @@ export default function EditFilterForm(props) {
             .map(subForm =>
               subForm.value
                 .get('name')
-                .map(field => (
-                  <KeySelectionSection
-                    {...props}
-                    field={field}
-                    messages={subForm.messages}
-                    getNodesChildren={getNodesChildren}
-                  />
-                ))
+                .map(field => <KeySelectionSection {...props} field={field} messages={subForm.messages} keys={keys} />)
             )}
 
           <CustomKeySection {...props} node={node} onChange={onChange} />
@@ -75,10 +68,6 @@ export default function EditFilterForm(props) {
       </NamedSection>
     </Fragment>
   );
-}
-
-function getNodesChildren(node, blacklist) {
-  return node.getChildren({ blacklist });
 }
 
 function ValueInputByType({ form, field, onChange, tagSuggestionResult }) {

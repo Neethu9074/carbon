@@ -2,7 +2,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { findSubTreeByFullyQualifiedName, getTagTree } from 'in-applications/tags';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -34,16 +34,19 @@ export function NamedSection({ name, children }) {
 }
 
 export function KeySelectionSection(props) {
-  const { field, onChange, messages } = props;
+  const { field, onChange, messages, keys } = props;
+  const options = keys.map(key => ({
+    label: key,
+    value: key
+  }));
 
   return (
     <FormGroup className={locals.keyGroup}>
-      <KeySelection
-        {...props}
-        field={field}
-        onChange={newName =>
-          onChange('name', get(findSubTreeByFullyQualifiedName(newName), ['fullyQualifiedName'], ''))
-        }
+      <SelectBox
+        id="key"
+        value={field.value}
+        onChange={e => onChange('name', get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
+        options={options}
       />
       {messages.filter(message => message.field === 'name').map((message, i) => (
         <ValidationBlock key={i} className={locals.validationMessage}>
@@ -114,16 +117,6 @@ export function OperatorSelection({ field, onChange, node, withExtendedOperators
       ))}
     </select>
   );
-}
-
-function KeySelection({ getNodesChildren, field, blacklist, onChange }) {
-  const rootNode = getTagTree();
-  const options = getNodesChildren(rootNode, blacklist).map(childNode => ({
-    label: childNode.name,
-    value: childNode.name
-  }));
-
-  return <SelectBox id="key" value={field.value} onChange={e => onChange(e.value)} options={options} />;
 }
 
 export function SelectBox({ options, id, value, onChange }) {
