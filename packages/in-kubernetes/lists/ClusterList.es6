@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
@@ -80,43 +79,41 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      return <EntityLink icon="lib_kubernetes_cluster" label={item.name} href$={getClusterDashboard(item.id)} />;
+      return (
+        <EntityLink
+          icon="lib_kubernetes_cluster"
+          label={item.cluster.name}
+          href$={getClusterDashboard(item.cluster.id)}
+        />
+      );
     }
   },
   {
     id: 'namespaces',
     label: 'Namespaces',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_namespace" count={get(item, ['metrics', 'namespaces'])} />;
+      return <EntityCounter icon="lib_kubernetes_namespace" count={item.namespaces} />;
     }
   },
   {
     id: 'nodes',
     label: 'Nodes',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={get(item, ['metrics', 'nodes'])} />;
+      return <EntityCounter icon="lib_kubernetes_node" count={item.nodes} />;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['metrics', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'service',
     label: 'Services',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_service" count={get(item, ['metrics', 'services'])} />;
-    }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent() {
-      return 42;
+      return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   }
 ];
