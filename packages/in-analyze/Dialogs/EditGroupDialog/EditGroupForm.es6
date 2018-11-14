@@ -11,8 +11,13 @@ import {
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 
 export default function EditGroupForm(props) {
-  const { form, onChange } = props;
-  const nameField = form.get('nameForm').value.get('name');
+  const { form, keys, onChange, tagSecondLevelNameSuggestionResult } = props;
+
+  const nameForm = form.get('nameForm');
+  const nameField = nameForm.value.get('name');
+  const secondLevelNameField = nameForm.value.get('secondLevelName');
+  const nameFormValidationMessages = nameForm.messages;
+
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
@@ -21,10 +26,20 @@ export default function EditGroupForm(props) {
 
       <NamedSection name="Tag">
         <FlexWrapper>
-          {nameField.map(field => (
-            <KeySelectionSection {...props} field={field} messages={nameField.messages} />
-          ))}
-          <CustomKeySection {...props} node={node} onChange={onChange} />
+          <KeySelectionSection
+            keys={keys}
+            value={nameField.value}
+            messages={nameFormValidationMessages.filter(message => message.field === 'name')}
+            onChange={value => onChange('name', value)}
+          />
+
+          <CustomKeySection
+            value={secondLevelNameField.value}
+            node={node}
+            messages={nameFormValidationMessages.filter(message => message.field === 'secondLevelName')}
+            onChange={value => onChange('secondLevelName', value)}
+            tagSecondLevelNameSuggestionResult={tagSecondLevelNameSuggestionResult}
+          />
         </FlexWrapper>
       </NamedSection>
     </Fragment>

@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
@@ -33,8 +32,7 @@ export function NamedSection({ name, children }) {
   );
 }
 
-export function KeySelectionSection(props) {
-  const { field, onChange, messages, keys } = props;
+export function KeySelectionSection({ keys, value, onChange, messages }) {
   const options = keys.map(key => ({
     label: key,
     value: key
@@ -44,11 +42,11 @@ export function KeySelectionSection(props) {
     <FormGroup className={locals.keyGroup}>
       <SelectBox
         id="key"
-        value={field.value}
+        value={value}
         onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
         options={options}
       />
-      {messages.filter(message => message.field === 'name').map((message, i) => (
+      {messages.map((message, i) => (
         <ValidationBlock key={i} className={locals.validationMessage}>
           {message.message}
         </ValidationBlock>
@@ -57,7 +55,7 @@ export function KeySelectionSection(props) {
   );
 }
 
-export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSuggestionResult }) {
+export function CustomKeySection({ value, messages, onChange, node, tagSecondLevelNameSuggestionResult }) {
   if (!node || node.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) {
     return null;
   }
@@ -65,24 +63,26 @@ export function CustomKeySection({ form, onChange, node, tagSecondLevelNameSugge
   return (
     <Fragment>
       <FieldSeperator>:</FieldSeperator>
-      {form.get('nameForm').map(subForm =>
-        subForm.value.get('secondLevelName').map(field => (
-          <FormGroup className={locals.customKeyGroup}>
-            <AutoCompletedSelect
-              id="secondLevelName"
-              field={field}
-              onChange={onChange}
-              tagSuggestionResult={tagSecondLevelNameSuggestionResult}
-            />
-            <TouchedMessages field={subForm} className={locals.validationMessage} />
-          </FormGroup>
-        ))
-      )}
+      {
+        <FormGroup className={locals.customKeyGroup}>
+          <AutoCompletedSelect
+            id="secondLevelName"
+            value={value}
+            onChange={onChange}
+            tagSuggestionResult={tagSecondLevelNameSuggestionResult}
+          />
+          {messages.map((message, i) => (
+            <ValidationBlock key={i} className={locals.validationMessage}>
+              {message.message}
+            </ValidationBlock>
+          ))}
+        </FormGroup>
+      }
     </Fragment>
   );
 }
 
-export function OperatorSelection({ field, onChange, node, withExtendedOperators }) {
+export function OperatorSelection({ value, onChange, node, withExtendedOperators }) {
   if (!node) {
     return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
   }
@@ -104,13 +104,67 @@ export function OperatorSelection({ field, onChange, node, withExtendedOperators
   }
 
   return (
-    <select className={locals.operator} id="operator" value={field.value} onChange={e => onChange(e.target.value)}>
+    <select className={locals.operator} id="operator" value={value} onChange={e => onChange(e.target.value)}>
       {operators.map(operator => (
         <option key={operator} value={operator}>
           {getOperatorLabel(node.type, operator)}
         </option>
       ))}
     </select>
+  );
+}
+
+export function ValueInput(props) {
+  const messages = props.messages;
+  return (
+    <FormGroup className={locals.valueFormGroup}>
+      <ValueInputByType {...props} />
+      {messages.map((message, i) => (
+        <ValidationBlock key={i} className={locals.validationMessage}>
+          {message.message}
+        </ValidationBlock>
+      ))}
+    </FormGroup>
+  );
+}
+
+function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
+  const nodeInTree = findSubTreeByFullyQualifiedName(tagKey);
+  const type = nodeInTree ? nodeInTree.type : null;
+
+  if (type === TAG_TYPES.BOOLEAN.technicalName) {
+    return (
+      <SelectBox
+        id="value"
+        value={value}
+        onChange={e => onChange('value', e.value)}
+        options={[{ label: 'false', value: 'false' }, { label: 'true', value: 'true' }]}
+      />
+    );
+  }
+
+  const isNumberInput = type === TAG_TYPES.NUMBER.technicalName ? true : false;
+  if (isNumberInput) {
+    return (
+      <Input
+        type="number"
+        min={0}
+        step="1"
+        id="value"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        autoComplete="off"
+        autoFocus
+      />
+    );
+  }
+
+  return (
+    <AutoCompletedSelect
+      value={value}
+      onChange={value => onChange('value', value)}
+      tagSuggestionResult={tagSuggestionResult}
+    />
   );
 }
 
@@ -137,13 +191,13 @@ export function FieldSeperator({ children }) {
   );
 }
 
-export function AutoCompletedSelect({ field, onChange, tagSuggestionResult }) {
+export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
   if (!tagSuggestionResult) {
     return (
       <Input
         type="text"
         id="value"
-        value={field.value}
+        value={value}
         autoComplete="off"
         onChange={e => onChange(e ? e.target.value : '')}
       />
@@ -155,10 +209,10 @@ export function AutoCompletedSelect({ field, onChange, tagSuggestionResult }) {
     }));
 
     let isValueInsideOptions = false;
-    if (field.value) {
+    if (value) {
       for (let i = 0; i < autoCompletedOptions.length; i++) {
         const option = autoCompletedOptions[i];
-        if (option.value === field.value) {
+        if (option.value === value) {
           isValueInsideOptions = true;
           break;
         }
@@ -168,7 +222,7 @@ export function AutoCompletedSelect({ field, onChange, tagSuggestionResult }) {
     }
 
     if (!isValueInsideOptions) {
-      autoCompletedOptions = [{ label: field.value, value: field.value }].concat(autoCompletedOptions);
+      autoCompletedOptions = [{ label: value, value }].concat(autoCompletedOptions);
     }
 
     return (
@@ -176,7 +230,7 @@ export function AutoCompletedSelect({ field, onChange, tagSuggestionResult }) {
         <CreatableSelect
           id="value"
           className={locals.loadingSelectPlaceholderInput}
-          value={field.value}
+          value={value}
           onChange={e => onChange(e ? e.value : '')}
           options={autoCompletedOptions}
           placeholder=""

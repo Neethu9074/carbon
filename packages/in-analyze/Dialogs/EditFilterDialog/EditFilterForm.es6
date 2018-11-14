@@ -3,24 +3,34 @@ import React, { Fragment } from 'react';
 import {
   FlexWrapper,
   CustomKeySection,
-  SelectBox,
   NamedSection,
   OperatorSelection,
-  AutoCompletedSelect,
+  ValueInput,
   HelpText,
   KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import { operators, TAG_TYPES } from 'in-analyze/applicationFilter';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
-import Input from 'in-components/form/Input';
+import { operators } from 'in-analyze/applicationFilter';
 
-import locals from './EditFilterForm.mless';
+export default function EditFilterForm({
+  keys,
+  form,
+  helpText,
+  onChange,
+  withExtendedOperators,
+  tagSuggestionResult,
+  tagSecondLevelNameSuggestionResult
+}) {
+  const nameForm = form.get('nameForm');
+  const nameField = nameForm.value.get('name');
+  const secondLevelNameField = nameForm.value.get('secondLevelName');
+  const nameFormValidationMessages = nameForm.messages;
 
-export default function EditFilterForm(props) {
-  const { keys, form, helpText, onChange, withExtendedOperators } = props;
-  const nameField = form.get('nameForm').value.get('name');
+  const valueForm = form.get('valueForm');
+  const operatorField = valueForm.value.get('operator');
+  const valueField = valueForm.value.get('value');
+  const valueFormValidationMessages = valueForm.messages;
+
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
@@ -29,91 +39,40 @@ export default function EditFilterForm(props) {
 
       <NamedSection name="Tag">
         <FlexWrapper>
-          {form
-            .get('nameForm')
-            .map(subForm =>
-              subForm.value
-                .get('name')
-                .map(field => (
-                  <KeySelectionSection
-                    {...props}
-                    field={field}
-                    messages={subForm.messages}
-                    keys={keys}
-                    onChange={value => onChange('name', value)}
-                  />
-                ))
-            )}
+          <KeySelectionSection
+            value={nameField.value}
+            messages={nameFormValidationMessages.filter(message => message.field === 'name')}
+            keys={keys}
+            onChange={value => onChange('name', value)}
+          />
 
-          <CustomKeySection {...props} node={node} onChange={value => onChange('secondLevelName', value)} />
+          <CustomKeySection
+            value={secondLevelNameField.value}
+            node={node}
+            messages={nameFormValidationMessages.filter(message => message.field === 'secondLevelName')}
+            onChange={value => onChange('secondLevelName', value)}
+            tagSecondLevelNameSuggestionResult={tagSecondLevelNameSuggestionResult}
+          />
 
-          {form
-            .get('valueForm')
-            .value.get('operator')
-            .map(field => (
-              <OperatorSelection
-                withExtendedOperators={withExtendedOperators}
-                field={field}
-                onChange={value => onChange('operator', value)}
-                node={node}
+          <OperatorSelection
+            withExtendedOperators={withExtendedOperators}
+            value={operatorField.value}
+            onChange={value => onChange('operator', value)}
+            node={node}
+          />
+
+          {operatorField.value !== operators.NOT_EMPTY &&
+            operatorField.value !== operators.IS_EMPTY && (
+              <ValueInput
+                tagKey={nameField.value}
+                value={valueField.value}
+                messages={valueFormValidationMessages}
+                tagSuggestionResult={tagSuggestionResult}
+                onChange={value => onChange('value', value)}
               />
-            ))}
-
-          {form.get('valueForm').map(valueFormField => {
-            const operator = valueFormField.value.get('operator').value;
-            if (operator === operators.NOT_EMPTY || operator === operators.IS_EMPTY) {
-              return null;
-            }
-
-            return valueFormField.value.get('value').map(field => (
-              <FormGroup className={locals.valueFormGroup}>
-                <ValueInputByType {...props} field={field} onChange={value => onChange('value', value)} />
-                <TouchedMessages field={valueFormField} className={locals.validationMessage} />
-              </FormGroup>
-            ));
-          })}
+            )}
         </FlexWrapper>
       </NamedSection>
     </Fragment>
-  );
-}
-
-function ValueInputByType({ form, field, onChange, tagSuggestionResult }) {
-  const nodeInTree = findSubTreeByFullyQualifiedName(form.get('nameForm').value.get('name').value);
-  const type = nodeInTree ? nodeInTree.type : null;
-
-  if (type === TAG_TYPES.BOOLEAN.technicalName) {
-    return (
-      <SelectBox
-        id="value"
-        value={field.value}
-        onChange={e => onChange('value', e.value)}
-        options={[{ label: 'false', value: 'false' }, { label: 'true', value: 'true' }]}
-      />
-    );
-  }
-
-  const isNumberInput = type === TAG_TYPES.NUMBER.technicalName ? true : false;
-  if (isNumberInput) {
-    return (
-      <Input
-        type="number"
-        min={0}
-        step="1"
-        id="value"
-        value={field.value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="off"
-        autoFocus
-      />
-    );
-  }
-
-  return (
-    <AutoCompletedSelect
-      field={field}
-      onChange={value => onChange('value', value)}
-      tagSuggestionResult={tagSuggestionResult}
-    />
   );
 }

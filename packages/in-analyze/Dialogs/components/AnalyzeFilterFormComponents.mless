@@ -69,6 +69,11 @@
     }
   }
 
+  .valueFormGroup {
+    min-width: 13rem;
+    max-width: 13rem;
+  }
+  
   .loadingSelectPlaceholder {
     display: flex;
     align-items: center;
