@@ -16,7 +16,8 @@ export default function EditGroupForm(props) {
   const nameForm = form.get('nameForm');
   const nameField = nameForm.value.get('name');
   const secondLevelNameField = nameForm.value.get('secondLevelName');
-  const nameFormValidationMessages = nameForm.messages;
+  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'name');
+  const secondLevelNameFieldMessages = nameForm.messages.filter(message => message.field === 'secondLevelName');
 
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
@@ -29,14 +30,14 @@ export default function EditGroupForm(props) {
           <KeySelectionSection
             keys={keys}
             value={nameField.value}
-            messages={nameFormValidationMessages.filter(message => message.field === 'name')}
+            messages={nameFieldMessages}
             onChange={value => onChange('name', value)}
           />
 
           <CustomKeySection
             value={secondLevelNameField.value}
             node={node}
-            messages={nameFormValidationMessages.filter(message => message.field === 'secondLevelName')}
+            messages={secondLevelNameFieldMessages}
             onChange={value => onChange('secondLevelName', value)}
             tagSecondLevelNameSuggestionResult={tagSecondLevelNameSuggestionResult}
           />
