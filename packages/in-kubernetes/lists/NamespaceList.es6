@@ -70,7 +70,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cluster',
+    id: 'clusterName',
     label: 'Cluster Name',
     getContent(item) {
       return get(item, ['namespace', 'clusterName']);
@@ -84,7 +84,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'service',
+    id: 'services',
     label: 'Services',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
