@@ -72,13 +72,5 @@ const columnDefinitions = [
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
-  },
-  {
-    id: 'maxSeverity',
-    label: 'Health',
-    defaultOrderDirection: 'DESC',
-    getContent() {
-      return 42;
-    }
   }
 ];
