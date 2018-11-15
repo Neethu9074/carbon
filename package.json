@@ -13,6 +13,7 @@
     "test:lint": "eslint --ext .es6 gulpfile.js packages",
     "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
     "test:flow": "flow check",
+    "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ uglifyjs ./target/assets/bundle/_ -o /dev/null",
     "check:licenses": "license-checker --production > licenses.txt",
     "check:bundle-size": "yarn run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
