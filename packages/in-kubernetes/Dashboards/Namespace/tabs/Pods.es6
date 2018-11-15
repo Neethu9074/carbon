@@ -63,35 +63,35 @@ const columnDefinitions = [
     id: 'cpuReq',
     label: 'CPU requests',
     getContent(item) {
-      return `${item.metrics['cpu.requested']} cores`;
+      return `${item['cpu.requested']} cores`;
     }
   },
   {
     id: 'cpuLimits',
     label: 'CPU limits',
     getContent(item) {
-      return `${item.metrics['cpu.limits']} cores`;
+      return `${item['cpu.limits']} cores`;
     }
   },
   {
     id: 'memoryReq',
     label: 'Memory requests',
     getContent(item) {
-      return bytes.compact(item.metrics['memory.requested']);
+      return bytes.compact(item['memory.requested']);
     }
   },
   {
     id: 'memoryReq',
     label: 'Memory limits',
     getContent(item) {
-      return bytes.compact(item.metrics['memory.limits']);
+      return bytes.compact(item['memory.limits']);
     }
   },
   {
     id: 'restarts',
     label: 'Restarts',
     getContent(item) {
-      return item.metrics.restarts;
+      return item.restarts;
     }
   },
   {
