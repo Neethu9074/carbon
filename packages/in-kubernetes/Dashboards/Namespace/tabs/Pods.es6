@@ -36,28 +36,6 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       by: orderBy,
       direction: orderDirection
     },
-    metrics: {
-      'cpu.requested': {
-        metric: 'cpu.requested',
-        aggregation: 'SUM'
-      },
-      'cpu.limits': {
-        metric: 'cpu.limits',
-        aggregation: 'SUM'
-      },
-      'memory.requested': {
-        metric: 'memory.requested',
-        aggregation: 'SUM'
-      },
-      'memory.limits': {
-        metric: 'memory.limits',
-        aggregation: 'SUM'
-      },
-      restarts: {
-        metric: 'restarts',
-        aggregation: 'SUM'
-      }
-    },
     filter: {
       label: query,
       namespaceId,

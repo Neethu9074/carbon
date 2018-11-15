@@ -23,8 +23,7 @@ export default function ClusterDashboard({ location }) {
       <TabView
         result$={getKubernetesCluster({
           id: props.clusterId,
-          timeConfig: props.timeConfig,
-          metrics: {}
+          timeConfig: props.timeConfig
         })}
         HeaderComponent={Header}
         location={location}

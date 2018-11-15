@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
@@ -49,24 +50,6 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       by: orderBy,
       direction: orderDirection
     },
-    metrics: {
-      namespaces: {
-        metric: 'namespaces',
-        aggregation: 'SUM'
-      },
-      nodes: {
-        metric: 'nodes',
-        aggregation: 'SUM'
-      },
-      pods: {
-        metric: 'pods',
-        aggregation: 'SUM'
-      },
-      services: {
-        metric: 'services',
-        aggregation: 'SUM'
-      }
-    },
     filter: {
       label: query,
       timeConfig
@@ -82,8 +65,8 @@ const columnDefinitions = [
       return (
         <EntityLink
           icon="lib_kubernetes_cluster"
-          label={item.cluster.name}
-          href$={getClusterDashboard(item.cluster.id)}
+          label={get(item, ['cluster', 'name'])}
+          href$={getClusterDashboard(get(item, ['cluster', 'id']))}
         />
       );
     }

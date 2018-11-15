@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -36,16 +37,6 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       by: orderBy,
       direction: orderDirection
     },
-    metrics: {
-      pods: {
-        metric: 'pods',
-        aggregation: 'SUM'
-      },
-      services: {
-        metric: 'services',
-        aggregation: 'SUM'
-      }
-    },
     filter: {
       label: query,
       clusterId,
@@ -59,7 +50,13 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink icon="lib_kubernetes_namespace" label={item.label} href$={getNamespaceDashboard(item.id)} />;
+      return (
+        <EntityLink
+          icon="lib_kubernetes_namespace"
+          label={get(item, ['namespace', 'label'])}
+          href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
+        />
+      );
     }
   },
   {

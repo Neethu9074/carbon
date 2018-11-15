@@ -23,8 +23,7 @@ export default function NamespaceDashboard({ location }) {
       <TabView
         result$={getKubernetesNamespace({
           id: props.namespaceId,
-          timeConfig: props.timeConfig,
-          metrics: {}
+          timeConfig: props.timeConfig
         })}
         HeaderComponent={Header}
         location={location}

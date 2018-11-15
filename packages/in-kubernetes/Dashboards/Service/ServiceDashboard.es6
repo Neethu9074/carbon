@@ -23,8 +23,7 @@ export default function ServiceDashboard({ location }) {
       <TabView
         result$={getKubernetesService({
           id: props.serviceId,
-          timeConfig: props.timeConfig,
-          metrics: {}
+          timeConfig: props.timeConfig
         })}
         HeaderComponent={Header}
         location={location}
