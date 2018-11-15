@@ -1,11 +1,10 @@
 import { get } from 'lodash';
-import React from 'react';
 
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepCopy } from 'in-services/util/object';
 
-const customServiceMappingTagKeys = [
+export const customServiceMappingTagKeys = [
   'agent.tag',
   'cassandra.cluster.name',
   'docker.container.name',
@@ -36,14 +35,73 @@ const customServiceMappingTagKeys = [
   'springboot.name'
 ];
 
-export function getTagValuesAsOptions() {
-  return [{ value: '', label: 'Please select' }]
-    .concat(customServiceMappingTagKeys.map(key => ({ label: key, value: key })))
-    .map(tag => (
-      <option key={tag.label} value={tag.value}>
-        {tag.label}
-      </option>
-    ));
+const blacklists = {
+  generalBlacklist: (() => {
+    const blacklist = {
+      'application.id': true,
+      'service.id': true,
+      'endpoint.id': true,
+      'process.id': true,
+      'docker.container.id': true,
+      'host.snapshotId': true,
+      'docker.snapshotId': true,
+      'process.snapshotId': true
+    };
+    return tag => blacklist[tag];
+  })(),
+  callGroupBlacklist: (() => {
+    const blacklist = {
+      'trace.id': true,
+      'trace.name': true,
+      'trace.endpoint.name': true,
+      'trace.service.name': true,
+      'trace.latency': true,
+      'trace.erroneous': true
+    };
+    return tag => blacklist[tag] || isBeaconTag(tag);
+  })(),
+  analyzeFilterBlacklist: isBeaconTag
+};
+
+function isBeaconTag(tag) {
+  return tag.indexOf('beacon.') === 0;
+}
+
+export const getTraceGroupTagKeys = () => ['trace.endpoint.name', 'trace.service.name'];
+
+export const getCallGroupTagKeys = () =>
+  getTagTree()
+    .getChildren({ blacklist: blacklists.callGroupBlacklist })
+    .map(node => node.name);
+
+export const getAnalyzeFilterTagKeys = () =>
+  getTagTree()
+    .getChildren({ blacklist: blacklists.analyzeFilterBlacklist })
+    .map(node => node.name);
+
+export function getApplicationCreationTagKeys() {
+  const applicationCreationBlacklist = {
+    'host.mac': true,
+    'docker.container.name': true,
+    'aws.service.type': true,
+    'application.id': true,
+    'application.name': true
+  };
+  getTagTree();
+  let tagKeys = [];
+  const keys = Object.keys(tagMap);
+  for (let i = 0; i < keys.length; i++) {
+    const tag = tagMap[keys[i]];
+    if (
+      tag.type &&
+      (tag.type === 'STRING' || tag.type === 'KEY_VALUE_PAIR') &&
+      !applicationCreationBlacklist[tag.fullyQualifiedName] &&
+      !isBeaconTag(tag.fullyQualifiedName)
+    ) {
+      tagKeys.push(tag.fullyQualifiedName);
+    }
+  }
+  return tagKeys;
 }
 
 function isOnBlacklist(serverTag, blacklist) {
@@ -52,6 +110,7 @@ function isOnBlacklist(serverTag, blacklist) {
 
 let tagTree = null;
 let tagMap = null;
+
 export function getTagTree() {
   if (tagTree == null) {
     buildTagTree();
@@ -133,69 +192,6 @@ export function findChildByName(node, childName) {
     }
   }
   return null;
-}
-
-export const blacklists = {
-  generalBlacklist: (() => {
-    const blacklist = {
-      'application.id': true,
-      'service.id': true,
-      'endpoint.id': true,
-      'process.id': true,
-      'docker.container.id': true,
-      'host.snapshotId': true,
-      'docker.snapshotId': true,
-      'process.snapshotId': true
-    };
-    return tag => blacklist[tag];
-  })(),
-  callGroupBlacklist: (() => {
-    const blacklist = {
-      'trace.id': true,
-      'trace.name': true,
-      'trace.endpoint.name': true,
-      'trace.service.name': true,
-      'trace.latency': true,
-      'trace.erroneous': true
-    };
-    return tag => blacklist[tag] || isBeaconTag(tag);
-  })(),
-  analyzeFilterBlacklist: isBeaconTag
-};
-
-function isBeaconTag(tag) {
-  return tag.indexOf('beacon.') === 0;
-}
-
-export function getApplicationCreationFilterBlacklist() {
-  if (!blacklists.applicationCreationFilterBlacklist) {
-    const blacklist = {};
-    const manualAddedTags = {
-      'host.mac': true,
-      'docker.container.name': true,
-      'aws.service.type': true,
-      'application.id': true,
-      'application.name': true
-    };
-
-    getTagTree();
-    const keys = Object.keys(tagMap);
-    for (let i = 0; i < keys.length; i++) {
-      const tag = tagMap[keys[i]];
-      if (
-        (tag.type &&
-          tag.type !== TAG_TYPES.STRING.technicalName &&
-          tag.type !== TAG_TYPES.KEY_VALUE_PAIR.technicalName) ||
-        manualAddedTags[tag.fullyQualifiedName]
-      ) {
-        blacklist[tag.fullyQualifiedName] = true;
-      }
-    }
-
-    blacklists.applicationCreationFilterBlacklist = tag => blacklist[tag] || isBeaconTag(tag);
-  }
-
-  return blacklists.applicationCreationFilterBlacklist;
 }
 
 export function getTagFromList(tagFilter, _tag) {

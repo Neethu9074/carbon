@@ -7,12 +7,18 @@ import {
   CustomKeySection,
   KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
+
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 
 export default function EditGroupForm(props) {
-  const { form, onChange, filters } = props;
-  const nameField = form.get('nameForm').value.get('name');
+  const { form, keys, onChange, tagSecondLevelNameSuggestionResult } = props;
+
+  const nameForm = form.get('nameForm');
+  const nameField = nameForm.value.get('name');
+  const secondLevelNameField = nameForm.value.get('secondLevelName');
+  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'name');
+  const secondLevelNameFieldMessages = nameForm.messages.filter(message => message.field === 'secondLevelName');
+
   const node = findSubTreeByFullyQualifiedName(nameField.value);
 
   return (
@@ -21,15 +27,20 @@ export default function EditGroupForm(props) {
 
       <NamedSection name="Tag">
         <FlexWrapper>
-          {nameField.map(field => (
-            <KeySelectionSection
-              {...props}
-              field={field}
-              messages={nameField.messages}
-              getNodesChildren={() => getConfigByDataSource(filters.get('dataSource')).groupTags}
-            />
-          ))}
-          <CustomKeySection {...props} node={node} onChange={onChange} />
+          <KeySelectionSection
+            keys={keys}
+            value={nameField.value}
+            messages={nameFieldMessages}
+            onChange={value => onChange('name', value)}
+          />
+
+          <CustomKeySection
+            value={secondLevelNameField.value}
+            node={node}
+            messages={secondLevelNameFieldMessages}
+            onChange={value => onChange('secondLevelName', value)}
+            tagSecondLevelNameSuggestionResult={tagSecondLevelNameSuggestionResult}
+          />
         </FlexWrapper>
       </NamedSection>
     </Fragment>

@@ -11,7 +11,7 @@ import {
 } from 'in-api/applicationConfigs';
 import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import { getApplicationCreationFilterBlacklist } from 'in-applications/tags';
+import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
@@ -112,7 +112,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             setActiveDialog(
                               <EditFilterDialog
                                 filters={filters}
-                                blacklist={getApplicationCreationFilterBlacklist()}
+                                keys={getApplicationCreationTagKeys()}
                                 onSave={_tag => {
                                   const additionalSubForm = getEnrichedMatchSpecificationForm({
                                     key: _tag.name,
@@ -157,7 +157,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             setActiveDialog(
                               <EditFilterDialog
                                 filters={filters}
-                                blacklist={getApplicationCreationFilterBlacklist()}
+                                keys={getApplicationCreationTagKeys()}
                                 name={matchSpecification.get('key').value}
                                 value={matchSpecification.get('value').value}
                                 operator={matchSpecification.get('operator').value}
