@@ -47,7 +47,7 @@ stage('Node Build') {
       runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
         if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-          runNodeBuild(gitCommitId, 'yarn run test:compression')
+          runNodeScriptInCurrentWorkDir('yarn run test:compression')
         }
         if ( isDeliveryBranch(env.BRANCH_NAME) ) {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
@@ -150,6 +150,10 @@ stage('Deploy Storybook to S3') {
 def runNodeBuild(gitCommitId, buildCommands) {
   deleteDir()
   unstash name: "ui-client-checkout-${gitCommitId}"
+  runNodeScriptInCurrentWorkDir(buildCommands)
+}
+
+def runNodeScriptInCurrentWorkDir(buildCommands) {
   sh '''
     source $HOME/.nvm/nvm.sh
     nvm use
