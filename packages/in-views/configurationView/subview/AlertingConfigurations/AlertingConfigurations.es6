@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import { get } from 'lodash';
 import React from 'react';
 
 import {
@@ -14,6 +15,7 @@ import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { combineLatest, just } from 'reactive-observables';
 import { goToPath } from 'in-stores/navigation';
 import { validate } from 'in-api/search';
+import config from 'in-services/config';
 
 export default function AlertingConfigurations() {
   const cols = [
@@ -27,7 +29,7 @@ export default function AlertingConfigurations() {
     getDeleteButtonColumn()
   ];
 
-  const maxNumOfAlertingConfigurations = 50;
+  const maxNumOfAlertingConfigurations = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
 
   return (
     <BasicEntitiesOverview
