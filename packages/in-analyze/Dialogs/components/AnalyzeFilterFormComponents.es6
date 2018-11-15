@@ -137,7 +137,7 @@ function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
       <SelectBox
         id="value"
         value={value}
-        onChange={e => onChange('value', e.value)}
+        onChange={e => onChange(e.value)}
         options={[{ label: 'false', value: 'false' }, { label: 'true', value: 'true' }]}
       />
     );
@@ -160,11 +160,7 @@ function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
   }
 
   return (
-    <AutoCompletedSelect
-      value={value}
-      onChange={value => onChange('value', value)}
-      tagSuggestionResult={tagSuggestionResult}
-    />
+    <AutoCompletedSelect value={value} onChange={value => onChange(value)} tagSuggestionResult={tagSuggestionResult} />
   );
 }
 
