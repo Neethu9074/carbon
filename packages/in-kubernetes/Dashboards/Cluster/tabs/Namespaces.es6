@@ -49,12 +49,12 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item) {
+    getContent(item, { clusterId }) {
       return (
         <EntityLink
           icon="lib_kubernetes_namespace"
           label={get(item, ['namespace', 'label'])}
-          href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
+          href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
         />
       );
     }

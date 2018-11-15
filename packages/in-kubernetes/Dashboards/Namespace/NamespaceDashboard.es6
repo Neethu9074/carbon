@@ -4,9 +4,11 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matricNamespaceId } from 'in-kubernetes/navigation/matrix';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -20,6 +22,7 @@ export default function NamespaceDashboard({ location }) {
 
   return (
     <Fragment>
+      <Breadcrumbs items={NamespaceBreadcrumbs(props)} />
       <TabView
         result$={getKubernetesNamespace({
           id: props.namespaceId,

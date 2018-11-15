@@ -51,7 +51,7 @@ export function getClusterDashboard(clusterId, { tab, tabMatrix, timeConfig } = 
   });
 }
 
-export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
   return getDashboard({
     base: namespaceDashboardFullyQualified,
     tab,
@@ -59,7 +59,8 @@ export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig 
     timeConfig,
     matrixSegment: namespaceDashboard,
     matrixParam: matrixNamespaceId,
-    id: namespaceId
+    id: namespaceId,
+    paramsCallback: params => setOrDeleteMatrixKey(params, namespaceDashboard, matrixClusterId, clusterId)
   });
 }
 
@@ -75,7 +76,16 @@ export function getPodDashboard(podId, { tab, tabMatrix, timeConfig } = emptyObj
   });
 }
 
-function getDashboard({ base, tab = '/summary', tabMatrix = emptyObject, timeConfig, matrixSegment, matrixParam, id }) {
+function getDashboard({
+  base,
+  tab = '/summary',
+  tabMatrix = emptyObject,
+  timeConfig,
+  matrixSegment,
+  matrixParam,
+  id,
+  paramsCallback
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${base}${tab}`;
 
@@ -86,5 +96,9 @@ function getDashboard({ base, tab = '/summary', tabMatrix = emptyObject, timeCon
     }
 
     params.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(params);
+    }
   });
 }

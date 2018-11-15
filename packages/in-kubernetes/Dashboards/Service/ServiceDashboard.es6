@@ -4,11 +4,13 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
+import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function ServiceDashboard({ location }) {
@@ -20,6 +22,7 @@ export default function ServiceDashboard({ location }) {
 
   return (
     <Fragment>
+      <Breadcrumbs items={ServiceBreadcrumbs(props)} />
       <TabView
         result$={getKubernetesService({
           id: props.serviceId,
