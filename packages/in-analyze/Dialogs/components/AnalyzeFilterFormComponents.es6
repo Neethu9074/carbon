@@ -12,7 +12,7 @@ import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
-import theme from 'in-themes/theme';
+import theme from 'in-themes';
 
 import locals from './AnalyzeFilterFormComponents.mless';
 

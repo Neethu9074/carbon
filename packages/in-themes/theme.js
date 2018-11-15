@@ -212,7 +212,7 @@ function buildLib() {
 
   // self
   lib.colors.chart.self100 = lib.colors.N500;
-  lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05)
+  lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05);
 
   return lib;
 }
