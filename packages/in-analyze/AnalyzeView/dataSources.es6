@@ -1,5 +1,5 @@
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
-import { analyzeFilterTagKeys, callGroupTagKeys, traceGroupTagKeys } from 'in-applications/tags';
+import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
 import GroupedCalls from 'in-analyze/components/GroupedCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import RawCalls from 'in-analyze/components/RawCalls';
@@ -9,8 +9,8 @@ export default function getByDataSource(dataSource) {
   if (!configs) {
     configs = {
       traces: {
-        groupTagKeys: traceGroupTagKeys,
-        filterTagKeys: analyzeFilterTagKeys,
+        groupTagKeys: getTraceGroupTagKeys(),
+        filterTagKeys: getAnalyzeFilterTagKeys(),
         errorneousTagPreset: 'trace.erroneous',
         latencyTagPreset: 'trace.latency',
         countMetricText: 'Traces',
@@ -25,8 +25,8 @@ export default function getByDataSource(dataSource) {
         GroupedView: GroupedTraces
       },
       calls: {
-        groupTagKeys: callGroupTagKeys,
-        filterTagKeys: analyzeFilterTagKeys,
+        groupTagKeys: getCallGroupTagKeys(),
+        filterTagKeys: getAnalyzeFilterTagKeys(),
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         countMetricText: 'Calls',

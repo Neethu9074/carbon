@@ -67,17 +67,42 @@ function isBeaconTag(tag) {
   return tag.indexOf('beacon.') === 0;
 }
 
-export const traceGroupTagKeys = ['trace.endpoint.name', 'trace.service.name'];
+export const getTraceGroupTagKeys = () => ['trace.endpoint.name', 'trace.service.name'];
 
-export const callGroupTagKeys = getTagTree()
-  .getChildren({ blacklist: blacklists.callGroupBlacklist })
-  .map(node => node.name);
+export const getCallGroupTagKeys = () =>
+  getTagTree()
+    .getChildren({ blacklist: blacklists.callGroupBlacklist })
+    .map(node => node.name);
 
-export const analyzeFilterTagKeys = getTagTree()
-  .getChildren({ blacklist: blacklists.analyzeFilterBlacklist })
-  .map(node => node.name);
+export const getAnalyzeFilterTagKeys = () =>
+  getTagTree()
+    .getChildren({ blacklist: blacklists.analyzeFilterBlacklist })
+    .map(node => node.name);
 
-export const applicationCreationTagKeys = getApplicationCreationTagKeys();
+export function getApplicationCreationTagKeys() {
+  const applicationCreationBlacklist = {
+    'host.mac': true,
+    'docker.container.name': true,
+    'aws.service.type': true,
+    'application.id': true,
+    'application.name': true
+  };
+  getTagTree();
+  let tagKeys = [];
+  const keys = Object.keys(tagMap);
+  for (let i = 0; i < keys.length; i++) {
+    const tag = tagMap[keys[i]];
+    if (
+      tag.type &&
+      (tag.type === 'STRING' || tag.type === 'KEY_VALUE_PAIR') &&
+      !applicationCreationBlacklist[tag.fullyQualifiedName] &&
+      !isBeaconTag(tag.fullyQualifiedName)
+    ) {
+      tagKeys.push(tag.fullyQualifiedName);
+    }
+  }
+  return tagKeys;
+}
 
 function isOnBlacklist(serverTag, blacklist) {
   return blacklist(serverTag.fullyQualifiedName) || blacklist(serverTag.name);
@@ -167,31 +192,6 @@ export function findChildByName(node, childName) {
     }
   }
   return null;
-}
-
-function getApplicationCreationTagKeys() {
-  const applicationCreationBlacklist = {
-    'host.mac': true,
-    'docker.container.name': true,
-    'aws.service.type': true,
-    'application.id': true,
-    'application.name': true
-  };
-  getTagTree();
-  let tagKeys = [];
-  const keys = Object.keys(tagMap);
-  for (let i = 0; i < keys.length; i++) {
-    const tag = tagMap[keys[i]];
-    if (
-      tag.type &&
-      (tag.type === 'STRING' || tag.type === 'KEY_VALUE_PAIR') &&
-      !applicationCreationBlacklist[tag.fullyQualifiedName] &&
-      !isBeaconTag(tag.fullyQualifiedName)
-    ) {
-      tagKeys.push(tag.fullyQualifiedName);
-    }
-  }
-  return tagKeys;
 }
 
 export function getTagFromList(tagFilter, _tag) {

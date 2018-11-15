@@ -4,13 +4,13 @@ import React from 'react';
 import AnalyzeFilterDialog from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
 import EditFilterForm from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
 import withTagSuggestions from 'in-analyze/Dialogs/withTagSuggestions';
-import { analyzeFilterTagKeys } from 'in-applications/tags';
+import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 
 export default compose(withTagSuggestions())(EditFilterDialog);
 
 function EditFilterDialog(props) {
   const isNewFilter = !props.name && !props.value;
-  const keys = props.keys || analyzeFilterTagKeys;
+  const keys = props.keys || getAnalyzeFilterTagKeys();
 
   return (
     <AnalyzeFilterDialog
