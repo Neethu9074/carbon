@@ -63,14 +63,14 @@ const columnDefinitions = [
     id: 'type',
     label: 'Type',
     getContent(item) {
-      return item.type;
+      return get(item, ['service', 'type']);
     }
   },
   {
     id: 'location',
     label: 'Service location',
     getContent(item) {
-      return item.serviceLocation;
+      return get(item, ['service', 'serviceLocation']);
     }
   },
   {
@@ -91,7 +91,7 @@ const columnDefinitions = [
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['service', 'pods'])} />;
     }
   },
   {

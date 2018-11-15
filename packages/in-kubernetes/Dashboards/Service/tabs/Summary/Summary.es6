@@ -33,7 +33,7 @@ export default function Summary({ timeConfig, data }) {
           <ResultAwareKpiCard
             title="Location"
             result={result}
-            renderKpiCard={() => <KpiCard title="Location" value={service.location} />}
+            renderKpiCard={() => <KpiCard title="Location" value={service.serviceLocation} />}
           />
         </Col>
         <Col lg={4}>
@@ -59,7 +59,7 @@ export default function Summary({ timeConfig, data }) {
           <ResultAwareKpiCard
             title="Matching Pods"
             result={result}
-            renderKpiCard={() => <KpiCard title="Matching Pods" value={data.matchingPods} />}
+            renderKpiCard={() => <KpiCard title="Matching Pods" value={data.pods} />}
           />
         </Col>
         <Col lg={4}>
