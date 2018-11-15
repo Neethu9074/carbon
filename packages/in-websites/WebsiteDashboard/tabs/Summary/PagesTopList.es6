@@ -1,7 +1,7 @@
 import React from 'react';
 
+import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import getWebsitePages from 'in-subscription/websiteMonitoring/getWebsitePages';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
@@ -33,7 +33,7 @@ export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
 }
 
 function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }) {
-  return getWebsitePages({
+  return getWebsitePaginatedBeaconGroups({
     tagFilters,
     timeConfig,
     pagination: {
@@ -43,6 +43,9 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
     order: {
       by: selectedMetric,
       direction: 'DESC'
+    },
+    group: {
+      groupbyTag: 'beacon.page.name'
     },
     metrics: {
       [selectedMetric]: {
@@ -70,11 +73,11 @@ function Label({ item, websiteId }) {
     <Link
       onClick={() => trackTopListNavigation()}
       href$={getLinkToWebsite(websiteId, {
-        pageId: item.pageName,
+        pageId: item.name,
         tabPath: '/page'
       })}
     >
-      {item.pageName}
+      {item.name}
     </Link>
   );
 }
