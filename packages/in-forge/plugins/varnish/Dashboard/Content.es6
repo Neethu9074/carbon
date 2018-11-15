@@ -34,7 +34,6 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'Received client requests',
               'Connections dropped due to a full queue'
             ],
-            formatter: zeroDecimalPlaces,
             type: 'line'
           }}
         />
@@ -47,8 +46,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['cache_hit', 'cache_miss', 'cache_hitpass'],
             labels: ['Cache Hits', 'Cache Misses', 'Hits pass file'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
+            type: 'line'
           }}
           y2={{
             min: 0,
@@ -68,8 +66,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['n_expired', 'n_lru_nuked'],
             labels: ['Expired objects', 'Nuked Objects'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
+            type: 'line'
           }}
         />
       </DashboardSection>
@@ -116,8 +113,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'backend_req'
             ],
             labels: ['Connections', 'Recycled', 'Reused', 'Idle closed', 'Unhealthy', 'Busy', 'Requests'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
+            type: 'line'
           }}
         />
       </DashboardSection>

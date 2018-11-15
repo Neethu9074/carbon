@@ -1,7 +1,7 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { msZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import { msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -177,7 +177,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: msZeroDecimalPlaces,
+          formatter: msTwoDecimalPlaces,
           metrics: ['backendStats.' + row.key + '.avgResponseTime', 'backendStats.' + row.key + '.avgQueueTime'],
           labels: ['Average Response Time', 'Average Queue Time'],
           type: 'line'
