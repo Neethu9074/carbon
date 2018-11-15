@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import {
+  twoDecimalPlaces,
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  hitRateZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import MseTable from 'in-forge/plugins/varnish/Dashboard/MseTable';
@@ -34,6 +39,8 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'Received client requests',
               'Connections dropped due to a full queue'
             ],
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces,
             type: 'line'
           }}
         />
@@ -66,7 +73,9 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['n_expired', 'n_lru_nuked'],
             labels: ['Expired objects', 'Nuked Objects'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces
           }}
         />
       </DashboardSection>
@@ -113,7 +122,9 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'backend_req'
             ],
             labels: ['Connections', 'Recycled', 'Reused', 'Idle closed', 'Unhealthy', 'Busy', 'Requests'],
-            type: 'line'
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: twoDecimalPlaces
           }}
         />
       </DashboardSection>
