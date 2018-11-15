@@ -1,6 +1,6 @@
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
 import Namespaces from 'in-kubernetes/Dashboards/Cluster/tabs/Namespaces';
+import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 
 export default [
   {
