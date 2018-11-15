@@ -12,7 +12,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import Button from 'in-new-components/Button';
-import theme from 'in-themes/theme';
+import theme from 'in-themes';
 
 import locals from './GroupedTraces.mless';
 

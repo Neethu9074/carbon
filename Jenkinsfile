@@ -47,6 +47,9 @@ stage('Node Build') {
       runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
         if ( isDeliveryBranch(env.BRANCH_NAME) ) {
+          runNodeBuild(gitCommitId, 'yarn run test:compression')
+        }
+        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
