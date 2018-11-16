@@ -71,6 +71,40 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
+
+        <Columize>
+          <DashboardSection title={`Successfully Written Shortterm Website Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-written-shortterm-items`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Unsuccessfully Written Shortterm Website Beacons`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-failed-shortterm-items`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
       </div>
     );
   }
