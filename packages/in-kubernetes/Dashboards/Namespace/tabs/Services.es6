@@ -5,6 +5,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
+import { millis } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/services';
@@ -64,14 +65,14 @@ const columnDefinitions = [
     id: 'type',
     label: 'Type',
     getContent(item) {
-      return get(item, ['service', 'type']);
+      return get(item, ['type']);
     }
   },
   {
     id: 'location',
     label: 'Service location',
     getContent(item) {
-      return get(item, ['service', 'serviceLocation']);
+      return get(item, ['serviceLocation']);
     }
   },
   {
@@ -92,14 +93,14 @@ const columnDefinitions = [
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['service', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['pods'])} />;
     }
   },
   {
     id: 'age',
     label: 'Age',
     getContent(item) {
-      return item.age;
+      return millis.compact(item.ageInMillis);
     }
   }
 ];
