@@ -43,7 +43,8 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               metrics: ['metrics.Capacity'],
               labels: ['Capacity'],
               formatter: percentagePlainTwoDecimalPlaces,
-              type: 'area'
+              type: 'area',
+              min: 0
             }}
           />
         </DashboardSection>
@@ -56,7 +57,8 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               metrics: ['metrics.Duration'],
               labels: ['Overall Duration of Gateway Requests'],
               formatter: millis.detailed,
-              type: 'area'
+              type: 'area',
+              min: 0
             }}
           />
         </DashboardSection>
