@@ -4,7 +4,7 @@ import React from 'react';
 
 import NivoChartTooltip from 'in-components/Chart/components/NivoChartTooltip';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import theme from 'in-themes/theme';
+import theme from 'in-themes';
 
 import locals from './TreeMap.mless';
 
