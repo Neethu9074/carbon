@@ -48,6 +48,7 @@ import './components/time/TimePresenterStory';
 import './components/time/TimeSelectionDialogPresenterStory';
 import './components/ToggleStory';
 import './components/TopListCardStory';
+import './components/TreeMap';
 import './components/ViewSwitcherStory';
 
 import './content/table/ServerTableStory';
