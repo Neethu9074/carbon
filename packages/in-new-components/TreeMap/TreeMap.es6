@@ -35,8 +35,9 @@ function TreeMap({ width, height, customWidth, customHeight, data }) {
         root={data}
         identity="id"
         value="value"
-        innerPadding={8}
-        outerPadding={8}
+        innerPadding={16}
+        outerPadding={16}
+        labelTextColor="#000"
         margin={{
           top: 0,
           right: 0,
