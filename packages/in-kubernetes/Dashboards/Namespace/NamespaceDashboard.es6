@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
+import { namespaceId as matrixNamespaceId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import { namespaceId as matricNamespaceId } from 'in-kubernetes/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -15,7 +15,8 @@ import { getTimeConfig } from 'in-stores/time/config';
 
 export default function NamespaceDashboard({ location }) {
   const props = {
-    namespaceId: getMatrixParameter(location, namespaceDashboard, matricNamespaceId),
+    namespaceId: getMatrixParameter(location, namespaceDashboard, matrixNamespaceId),
+    clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId),
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };

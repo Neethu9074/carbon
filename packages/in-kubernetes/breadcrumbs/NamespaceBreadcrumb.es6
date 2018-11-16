@@ -12,9 +12,9 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => result.data)
   }),
-  function NamespaceBreadcrumb({ namespace }) {
+  function NamespaceBreadcrumb({ namespace, href$ }) {
     return (
-      <Breadcrumb label="Namespace" icon="lib_kubernetes_namespace">
+      <Breadcrumb label="Namespace" icon="lib_kubernetes_namespace" href$={href$}>
         {namespace && namespace.label}
       </Breadcrumb>
     );

@@ -12,9 +12,9 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => result.data)
   }),
-  function ClusterBreadcrumb({ cluster }) {
+  function ClusterBreadcrumb({ cluster, href$ }) {
     return (
-      <Breadcrumb label="Cluster" icon="lib_kubernetes_cluster">
+      <Breadcrumb label="Cluster" icon="lib_kubernetes_cluster" href$={href$}>
         {cluster && cluster.name}
       </Breadcrumb>
     );

@@ -10,7 +10,7 @@ import EntityLink from 'in-new-components/EntityLink';
 const pathSegment = '/services';
 const matrixPrefix = 'service.';
 
-export default function Services({ timeConfig, namespaceId }) {
+export default function Services({ timeConfig, namespaceId, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Services"
@@ -20,6 +20,7 @@ export default function Services({ timeConfig, namespaceId }) {
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
       namespaceId={namespaceId}
+      clusterId={clusterId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
@@ -49,12 +50,12 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item) {
+    getContent(item, { namespaceId, clusterId }) {
       return (
         <EntityLink
           icon="lib_kubernetes_service"
           label={get(item, ['service', 'name'])}
-          href$={getServiceDashboard(get(item, ['service', 'id']))}
+          href$={getServiceDashboard(get(item, ['service', 'id']), { namespaceId, clusterId })}
         />
       );
     }

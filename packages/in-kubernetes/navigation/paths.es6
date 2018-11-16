@@ -28,7 +28,7 @@ export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboa
 export const podDashboard = `/pod`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 
-export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
     base: serviceDashboardFullyQualified,
     tab,
@@ -36,7 +36,11 @@ export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig } = 
     timeConfig,
     matrixSegment: serviceDashboard,
     matrixParam: matrixServiceId,
-    id: serviceId
+    id: serviceId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, serviceDashboard, matrixNamespaceId, namespaceId);
+      setOrDeleteMatrixKey(params, serviceDashboard, matrixClusterId, clusterId);
+    }
   });
 }
 export function getClusterDashboard(clusterId, { tab, tabMatrix, timeConfig } = emptyObject) {

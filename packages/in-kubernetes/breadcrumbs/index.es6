@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getNamespaceDashboard, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -11,11 +12,20 @@ export function ClusterBreadcrumbs(props) {
 }
 
 export function NamespaceBreadcrumbs(props) {
-  const { namespaceId } = props;
-  return [<HomeViewBreadcrumb />, namespaceId && <NamespaceBreadcrumb {...props} />];
+  const { namespaceId, clusterId } = props;
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    namespaceId && <NamespaceBreadcrumb {...props} />
+  ];
 }
 
 export function ServiceBreadcrumbs(props) {
-  const { serviceId } = props;
-  return [<HomeViewBreadcrumb />, serviceId && <ServiceBreadcrumb {...props} />];
+  const { serviceId, namespaceId, clusterId } = props;
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
+    serviceId && <ServiceBreadcrumb {...props} />
+  ];
 }
