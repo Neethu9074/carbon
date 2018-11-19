@@ -14,7 +14,7 @@ export default connectTo(
   }),
   function DeploymentBreadcrumb({ deployment, href$ }) {
     return (
-      <Breadcrumb label="Node" icon="lib_kubernetes_workload" href$={href$}>
+      <Breadcrumb label="Deployment" icon="lib_kubernetes_workload" href$={href$}>
         {deployment && deployment.name}
       </Breadcrumb>
     );

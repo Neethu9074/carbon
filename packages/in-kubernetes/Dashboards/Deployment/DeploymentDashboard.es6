@@ -40,7 +40,7 @@ export default function DeploymentDashboard({ location }) {
 
 function Header(props) {
   return (
-    <BasicDashboardHeader title="DeploymentId" icon="lib_kubernetes_workload" {...props} renderSubTypes={SubTypes} />
+    <BasicDashboardHeader title="Deployment" icon="lib_kubernetes_workload" {...props} renderSubTypes={SubTypes} />
   );
 }
 
