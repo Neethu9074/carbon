@@ -89,5 +89,12 @@ const columnDefinitions = [
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={get(item, ['namespace', 'services'])} />;
     }
+  },
+  {
+    id: 'deployments',
+    label: 'Deployments',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={get(item, ['namespace', 'deployments'])} />;
+    }
   }
 ];
