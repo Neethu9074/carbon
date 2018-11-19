@@ -1,8 +1,8 @@
 import React from 'react';
 
+import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
-import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
 import { formatDateTime } from 'in-services/formatters/date';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';

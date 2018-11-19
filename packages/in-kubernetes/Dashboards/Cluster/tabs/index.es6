@@ -22,9 +22,7 @@ export default [
     component: Namespaces,
     icon: 'lib_kubernetes_namespace',
     header: getTabHeaderWithCount({
-      getCount$({ timeConfig, clusterId }) {
-        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'namespaces']));
-      }
+      getCount$: getCount$.bind(null, 'namespaces')
     })
   },
   {
@@ -33,9 +31,7 @@ export default [
     component: Services,
     icon: 'lib_kubernetes_service',
     header: getTabHeaderWithCount({
-      getCount$({ timeConfig, clusterId }) {
-        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'services']));
-      }
+      getCount$: getCount$.bind(null, 'services')
     })
   },
   {
@@ -44,9 +40,7 @@ export default [
     component: Deployments,
     icon: 'lib_kubernetes_workload',
     header: getTabHeaderWithCount({
-      getCount$({ timeConfig, clusterId }) {
-        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'deployments']));
-      }
+      getCount$: getCount$.bind(null, 'deployments')
     })
   },
   {
@@ -55,9 +49,7 @@ export default [
     component: Nodes,
     icon: 'lib_kubernetes_node',
     header: getTabHeaderWithCount({
-      getCount$({ timeConfig, clusterId }) {
-        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'nodes']));
-      }
+      getCount$: getCount$.bind(null, 'nodes')
     })
   },
   {
@@ -66,9 +58,11 @@ export default [
     component: Pods,
     icon: 'lib_kubernetes_pod',
     header: getTabHeaderWithCount({
-      getCount$({ timeConfig, clusterId }) {
-        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'pods']));
-      }
+      getCount$: getCount$.bind(null, 'pods')
     })
   }
 ].filter(Boolean);
+
+function getCount$(property, { timeConfig, clusterId }) {
+  return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', property]));
+}
