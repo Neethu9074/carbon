@@ -51,17 +51,22 @@ router.get('/', (req, res) => {
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
 
   getCurrentUser(req)
-    .then(([statusCode, userStr]) =>
-      Promise.all([
+    .then(([statusCode, userStr]) => {
+      if (statusCode === 401) {
+        sendUnauthorizedResponse(req, res);
+        return;
+      }
+
+      return Promise.all([
         getUserSettings(req, res, statusCode, userStr),
         getSearchFields(req, res),
         getFilterTags(req, res),
         getCsrfToken(req)
       ])
-    )
-    .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags, csrf]) =>
-      sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf)
-    )
+      .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags, csrf]) =>
+        sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf)
+      );
+    })
     .catch(err => {
       console.error('Failed to deliver index.html to user:', err);
       errorPages.send500(req, res);
@@ -156,12 +161,7 @@ function getCsrfToken(req) {
 
 function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf) {
   if (getUserStatusCode === 401) {
-    res.status(401).send(
-      compiledRedirectTemplate({
-        signInUrl: serverConfig.baseUrl + '/auth/signIn',
-        returnUrlWithoutHash: encodeURIComponent(serverConfig.baseUrl + req.originalUrl)
-      })
-    );
+    sendUnauthorizedResponse(req, res);
     return;
   } else if (getUserStatusCode === 403) {
     errorPages.send403(req, res);
@@ -212,6 +212,15 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       tags: filterTags,
       csrf,
       numberLocale: getNumberLocaleDefinition(req)
+    })
+  );
+}
+
+function sendUnauthorizedResponse(req, res) {
+  res.status(401).send(
+    compiledRedirectTemplate({
+      signInUrl: serverConfig.baseUrl + '/auth/signIn',
+      returnUrlWithoutHash: encodeURIComponent(serverConfig.baseUrl + req.originalUrl)
     })
   );
 }
