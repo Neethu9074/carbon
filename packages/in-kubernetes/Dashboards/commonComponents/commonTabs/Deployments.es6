@@ -9,7 +9,7 @@ import EntityLink from 'in-new-components/EntityLink';
 const pathSegment = '/deployments';
 const matrixPrefix = 'deployment.';
 
-export default function Deployments({ timeConfig, clusterId }) {
+export default function Deployments({ timeConfig, namespaceId, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Deployments"
@@ -19,14 +19,15 @@ export default function Deployments({ timeConfig, clusterId }) {
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
       clusterId={clusterId}
-      paginationResettingProps={['clusterId', 'timeConfig']}
+      namespaceId={namespaceId}
+      paginationResettingProps={['namespaceId', 'clusterId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
     />
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, clusterId }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, clusterId, namespaceId }) {
   return getKubernetesDeployments({
     pagination: {
       page,
@@ -38,6 +39,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     },
     filter: {
       label: query,
+      namespaceId,
       clusterId,
       timeConfig
     }
