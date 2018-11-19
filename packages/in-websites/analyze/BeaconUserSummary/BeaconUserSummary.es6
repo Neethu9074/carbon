@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Dl, Di } from 'in-websites/analyze/BeaconUserSummary/HorizontalDescriptionList';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import getGravatarUrl from 'in-subscription/gravatar';
@@ -19,7 +20,15 @@ export default connect(({ userEmail }) => ({
   return (
     <Row>
       <Col lg={4}>
-        <Card title="User Information">lorem</Card>
+        <Card title="User Information">
+          <Dl>
+            <Di title="Browser">{[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}</Di>
+            <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
+            <Di title="Screen Resolution">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
+            <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
+            <Di title="IP Address">{beacon.userIp}</Di>
+          </Dl>
+        </Card>
       </Col>
       <Col lg={4}>
         <Card title="User Location" withoutPadding>

@@ -1,0 +1,22 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .list {
+
+  }
+
+  .item {
+    display: flex;
+  }
+
+  .title {
+    width: 10rem;
+    flex-grow: 0;
+    padding: 0 0.3rem 0 0;
+    .ellipsis();
+  }
+
+  .description {
+    margin: 0;
+  }
+}
