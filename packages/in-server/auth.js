@@ -4,7 +4,7 @@ const serverConfig = require('./serverConfig.js');
 
 exports.getCurrentUser = req => {
   const cookieValue = req.cookies[serverConfig.cookie.name];
-  if (cookieValue == null) {
+  if (cookieValue == null || typeof cookieValue !== 'string' || cookieValue.trim().length < 5) {
     return Promise.resolve([401, null]);
   }
 
