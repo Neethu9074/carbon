@@ -14,7 +14,7 @@ import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
-import theme from 'in-themes/theme';
+import theme from 'in-themes';
 
 export default function ClusterDashboard({ location }) {
   const props = {
