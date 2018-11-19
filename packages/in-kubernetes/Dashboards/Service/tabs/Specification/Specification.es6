@@ -4,42 +4,22 @@ import Annotations from 'in-kubernetes/Dashboards/Service/tabs/Specification/Ann
 import Selector from 'in-kubernetes/Dashboards/Service/tabs/Specification/Selector';
 import Labels from 'in-kubernetes/Dashboards/Service/tabs/Specification/Labels';
 import Status from 'in-kubernetes/Dashboards/Service/tabs/Specification/Status';
-import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import Spec from 'in-kubernetes/Dashboards/Service/tabs/Specification/Spec';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Specification({ data }) {
-  const service = data;
-  const result = {
-    progress: { loading: false },
-    errors: [],
-    data
-  };
-
+export default function Specification({ data: service }) {
   return (
     <Fragment>
       <Row>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Type"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Type" value={service.type} />}
-          />
+          <KpiCard title="Type" value={service.type} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Location"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Location" value={service.serviceLocation} />}
-          />
+          <KpiCard title="Location" value={service.serviceLocation} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Created"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Created" value={service.created} />}
-          />
+          <KpiCard title="Created" value={service.created} />
         </Col>
       </Row>
       <Row>

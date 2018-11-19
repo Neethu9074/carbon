@@ -3,44 +3,24 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
-import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';
 
-export default function Endpoints({ timeConfig, data }) {
-  const service = data;
-  const result = {
-    progress: { loading: false },
-    errors: [],
-    data
-  };
-
+export default function Endpoints({ timeConfig, data: service }) {
   return (
     <Fragment>
       <Row>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Type"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Type" value={service.type} />}
-          />
+          <KpiCard title="Type" value={service.type} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Location"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Location" value={service.serviceLocation} />}
-          />
+          <KpiCard title="Location" value={service.serviceLocation} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Created"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Created" value={service.created} />}
-          />
+          <KpiCard title="Created" value={service.created} />
         </Col>
       </Row>
       <Row>
@@ -52,7 +32,7 @@ export default function Endpoints({ timeConfig, data }) {
             get={getTableData}
             columnDefinitions={columnDefinitions}
             timeConfig={timeConfig}
-            serviceId={data.id}
+            serviceId={service.id}
             paginationResettingProps={['serviceId', 'timeConfig']}
             defaultOrderBy="name"
             defaultOrderDirection="ASC"

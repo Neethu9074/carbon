@@ -4,44 +4,25 @@ import EventTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/EventTop
 import LogTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/LogTopList';
 import PodTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/PodTopList';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
-import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ timeConfig, data }) {
+export default function Summary({ timeConfig, data: service }) {
   const granularity = getChartGranularity(timeConfig);
-  const service = data;
-  const result = {
-    progress: { loading: false },
-    errors: [],
-    data
-  };
 
   return (
     <Fragment>
       <Row>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Type"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Type" value={service.type} />}
-          />
+          <KpiCard title="Type" value={service.type} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Location"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Location" value={service.serviceLocation} />}
-          />
+          <KpiCard title="Location" value={service.serviceLocation} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Age"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Age" value={service.age} />}
-          />
+          <KpiCard title="Age" value={service.age} />
         </Col>
       </Row>
 
@@ -56,25 +37,13 @@ export default function Summary({ timeConfig, data }) {
 
       <Row>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Matching Pods"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Matching Pods" value={data.pods} />}
-          />
+          <KpiCard title="Matching Pods" value={service.pods} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="CPU Usage"
-            result={result}
-            renderKpiCard={() => <KpiCard title="CPU Usage" value={data.cpuUsage} />}
-          />
+          <KpiCard title="CPU Usage" value={service.cpuUsage} />
         </Col>
         <Col lg={4}>
-          <ResultAwareKpiCard
-            title="Memory Usage"
-            result={result}
-            renderKpiCard={() => <KpiCard title="Memory Usage" value={data.memoryUsed} />}
-          />
+          <KpiCard title="Memory Usage" value={service.memoryUsed} />
         </Col>
       </Row>
 

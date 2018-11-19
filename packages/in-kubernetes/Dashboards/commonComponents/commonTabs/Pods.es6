@@ -1,15 +1,16 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import { bytes } from 'in-services/formatters/number';
+import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig, namespaceId }) {
+export default function Pods({ timeConfig, namespaceId, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -19,14 +20,15 @@ export default function Pods({ timeConfig, namespaceId }) {
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
       namespaceId={namespaceId}
+      clusterId={clusterId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
-      defaultOrderBy="label"
-      defaultOrderDirection="DESC"
+      defaultOrderBy="name"
+      defaultOrderDirection="ASC"
     />
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId, clusterId }) {
   return getKubernetesPods({
     pagination: {
       page,
@@ -39,6 +41,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     filter: {
       label: query,
       namespaceId,
+      clusterId,
       timeConfig
     }
   });
@@ -48,57 +51,63 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item) {
-      return <EntityLink icon="lib_kubernetes_pod" label={item.label} href$={getPodDashboard(item.id)} />;
+    getContent(item, { clusterId }) {
+      return (
+        <EntityLink
+          icon="lib_kubernetes_pod"
+          label={get(item, ['pod', 'label'])}
+          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId })}
+        />
+      );
     }
   },
   {
     id: 'status',
     label: 'Status',
-    getContent() {
-      return 'undefined';
+    getContent(item) {
+      return get(item, ['pod', 'status']);
     }
   },
   {
     id: 'cpuReq',
     label: 'CPU requests',
     getContent(item) {
-      return `${item['cpu.requested']} cores`;
+      return `${get(item, ['pod', 'cpu.requested'])} cores`;
     }
   },
   {
     id: 'cpuLimits',
     label: 'CPU limits',
     getContent(item) {
-      return `${item['cpu.limits']} cores`;
+      return `${get(item, ['pod', 'cpu.limis'])} cores`;
     }
   },
   {
     id: 'memoryReq',
     label: 'Memory requests',
     getContent(item) {
-      return bytes.compact(item['memory.requested']);
+      return bytes.compact(get(item, ['pod', 'memory.requested']));
     }
   },
   {
-    id: 'memoryReq',
+    id: 'memoryLimits',
     label: 'Memory limits',
     getContent(item) {
-      return bytes.compact(item['memory.limits']);
+      return bytes.compact(get(item, ['pod', 'memory.limits']));
     }
   },
   {
     id: 'restarts',
     label: 'Restarts',
     getContent(item) {
-      return item.restarts;
+      return get(item, ['pod', 'restarts']);
     }
   },
   {
     id: 'age',
     label: 'Age',
-    getContent() {
-      return 42;
+    getContent(item) {
+      return item.age;
     }
   }
 ];

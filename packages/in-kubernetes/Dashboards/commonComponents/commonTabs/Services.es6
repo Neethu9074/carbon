@@ -29,7 +29,7 @@ export default function Services({ timeConfig, namespaceId, clusterId }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId }) {
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId, clusterId }) {
   return getKubernetesServices({
     pagination: {
       page,
@@ -42,6 +42,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     filter: {
       label: query,
       namespaceId,
+      clusterId,
       timeConfig
     }
   });

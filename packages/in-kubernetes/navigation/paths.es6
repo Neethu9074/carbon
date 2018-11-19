@@ -7,7 +7,8 @@ import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
   namespaceId as matrixNamespaceId,
-  podId as matrixPodId
+  podId as matrixPodId,
+  nodeId as matrixNodeId
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -27,6 +28,9 @@ export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboa
 
 export const podDashboard = `/pod`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
+
+export const nodeDashboard = `/node`;
+export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
@@ -68,7 +72,7 @@ export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig,
   });
 }
 
-export function getPodDashboard(podId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getPodDashboard(podId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
   return getDashboard({
     base: podDashboardFullyQualified,
     tab,
@@ -76,7 +80,21 @@ export function getPodDashboard(podId, { tab, tabMatrix, timeConfig } = emptyObj
     timeConfig,
     matrixSegment: podDashboard,
     matrixParam: matrixPodId,
-    id: podId
+    id: podId,
+    paramsCallback: params => setOrDeleteMatrixKey(params, podDashboard, matrixClusterId, clusterId)
+  });
+}
+
+export function getNodeDashboard(nodeId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
+  return getDashboard({
+    base: nodeDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: nodeDashboard,
+    matrixParam: matrixNodeId,
+    id: nodeId,
+    paramsCallback: params => setOrDeleteMatrixKey(params, nodeDashboard, matrixClusterId, clusterId)
   });
 }
 

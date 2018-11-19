@@ -1,7 +1,7 @@
+import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Services from 'in-kubernetes/Dashboards/Namespace/tabs/Services';
+// import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
-// import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
 
 export default [
   {

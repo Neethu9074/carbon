@@ -1,0 +1,52 @@
+import React, { Fragment } from 'react';
+
+import { podId as matrixPodId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
+import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { podDashboard } from 'in-kubernetes/navigation/paths';
+import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
+import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { getTimeConfig } from 'in-stores/time/config';
+
+export default function PodDashboard({ location }) {
+  const props = {
+    podId: getMatrixParameter(location, podDashboard, matrixPodId),
+    clusterId: getMatrixParameter(location, podDashboard, matrixClusterId),
+    viewPath: podDashboard,
+    timeConfig: getTimeConfig(location)
+  };
+
+  return (
+    <Fragment>
+      <Breadcrumbs items={PodBreadcrumbs(props)} />
+      <TabView
+        result$={getKubernetesPod({
+          id: props.podId,
+          timeConfig: props.timeConfig
+        })}
+        HeaderComponent={Header}
+        location={location}
+        tabs={tabs}
+        props={props}
+      />
+    </Fragment>
+  );
+}
+
+function Header(props) {
+  return <BasicDashboardHeader title="Pod" icon="lib_kubernetes_pod" {...props} renderSubTypes={SubTypes} />;
+}
+
+function SubTypes() {
+  return (
+    <Fragment>
+      <TypesBadgeList type="K8s Pod" />
+      <KubernetesIndicator />
+    </Fragment>
+  );
+}

@@ -2,3 +2,4 @@ export const clusterId = 'clusterId';
 export const serviceId = 'serviceId';
 export const namespaceId = 'namespaceId';
 export const podId = 'podId';
+export const nodeId = 'nodeId';

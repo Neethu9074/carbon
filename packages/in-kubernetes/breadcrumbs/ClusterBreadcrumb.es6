@@ -15,7 +15,7 @@ export default connectTo(
   function ClusterBreadcrumb({ cluster, href$ }) {
     return (
       <Breadcrumb label="Cluster" icon="lib_kubernetes_cluster" href$={href$}>
-        {cluster && cluster.name}
+        {cluster && cluster.label}
       </Breadcrumb>
     );
   }
