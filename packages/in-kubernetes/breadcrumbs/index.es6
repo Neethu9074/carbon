@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getNamespaceDashboard, getClusterDashboard } from 'in-kubernetes/navigation/paths';
+import DeploymentBreadcrumb from 'in-kubernetes/breadcrumbs/DeploymentBreadcrumb';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';
 import ClusterBreadcrumb from 'in-kubernetes/breadcrumbs/ClusterBreadcrumb';
@@ -47,5 +48,14 @@ export function PodBreadcrumbs(props) {
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     podId && <PodBreadcrumb {...props} />
+  ];
+}
+
+export function DeploymentBreadcrumbs(props) {
+  const { deploymentId, clusterId } = props;
+  return [
+    <HomeViewBreadcrumb />,
+    clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    deploymentId && <DeploymentBreadcrumb {...props} />
   ];
 }

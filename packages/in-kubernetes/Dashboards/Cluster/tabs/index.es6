@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 
+import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
@@ -34,6 +35,17 @@ export default [
     header: getTabHeaderWithCount({
       getCount$({ timeConfig, clusterId }) {
         return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'services']));
+      }
+    })
+  },
+  {
+    label: 'Deployments',
+    path: `${clusterDashboardFullyQualified}/deployments`,
+    component: Deployments,
+    icon: 'lib_kubernetes_workload',
+    header: getTabHeaderWithCount({
+      getCount$({ timeConfig, clusterId }) {
+        return getKubernetesCluster({ id: clusterId, timeConfig }).map(result => get(result, ['data', 'deployments']));
       }
     })
   },

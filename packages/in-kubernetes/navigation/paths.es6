@@ -8,7 +8,8 @@ import {
   clusterId as matrixClusterId,
   namespaceId as matrixNamespaceId,
   podId as matrixPodId,
-  nodeId as matrixNodeId
+  nodeId as matrixNodeId,
+  deploymentId as matrixDeploymentId
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -31,6 +32,9 @@ export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 
 export const nodeDashboard = `/node`;
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
+
+export const deploymentDashboard = `/deployment`;
+export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
@@ -95,6 +99,19 @@ export function getNodeDashboard(nodeId, { tab, tabMatrix, timeConfig, clusterId
     matrixParam: matrixNodeId,
     id: nodeId,
     paramsCallback: params => setOrDeleteMatrixKey(params, nodeDashboard, matrixClusterId, clusterId)
+  });
+}
+
+export function getDeploymentDashboard(deploymentId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
+  return getDashboard({
+    base: deploymentDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: deploymentDashboard,
+    matrixParam: matrixDeploymentId,
+    id: deploymentId,
+    paramsCallback: params => setOrDeleteMatrixKey(params, deploymentDashboard, matrixClusterId, clusterId)
   });
 }
 
