@@ -59,7 +59,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'ip',
+    id: 'internalIp',
     label: 'Internal IP',
     getContent(item) {
       return get(item, ['node', 'internalIp']);
