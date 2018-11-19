@@ -19,6 +19,7 @@ import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
 
+import './website/BeaconUserSummaryStory';
 import './website/WorldMapCardStory';
 
 import './components/AmMapStory';

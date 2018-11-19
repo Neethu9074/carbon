@@ -110,3 +110,7 @@ export default function SvgIcon({
     </svg>
   );
 }
+
+export function getPath(type) {
+  return icons[type].path;
+}

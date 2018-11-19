@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
+import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
@@ -103,6 +104,8 @@ class Summary extends React.Component {
               <KpiCard title="Latency" value={millis.fixed.compact(trace.duration)} />
             </Col>
           </Row>
+
+          <WebsiteMonitoringData traceId={traceId} startTime={trace.startTime} />
 
           {isLargeTrace &&
             !showLargeTrace && (
