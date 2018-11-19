@@ -11,9 +11,11 @@ const block = 'in-gravatar';
 export default connectTo(
   props => {
     return {
-      avatarUrl: getGravatarUrl(props.email)
-        .flatMap(url => onImageLoad(url))
-        .startWith(null)
+      avatarUrl: props.email
+        ? getGravatarUrl(props.email)
+            .flatMap(url => onImageLoad(url))
+            .startWith(null)
+        : null
     };
   },
   function Gravatar({ avatarUrl, email, className }) {

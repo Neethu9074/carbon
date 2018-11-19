@@ -7,6 +7,10 @@
 
   .item {
     display: flex;
+
+    & + .item {
+      margin-top: .5rem;
+    }
   }
 
   .title {

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { isBlank } from 'in-services/util/string';
+
 import locals from './HorizontalDescriptionList.mless';
 
 export function Dl({ children }) {
@@ -7,6 +9,10 @@ export function Dl({ children }) {
 }
 
 export function Di({ title, children }) {
+  if (children == null || (typeof children === 'string' && isBlank(children))) {
+    return null;
+  }
+
   return (
     <div className={locals.item}>
       <dt className={locals.title}>{title}</dt>
