@@ -5,6 +5,11 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 
+
+export function getNginxWithContext(query) {
+  // TODO 
+}
+
 export function getDropwizardWithContext(query) {
   return timeConfig$
     .flatMap(timeConfig =>

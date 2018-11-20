@@ -14,7 +14,8 @@ export default connectTo(
     timeConfig: timeConfig$,
     appdataWriters: getDropwizardWithContext('entity.label:"appdata-writer"'),
     eumAcceptors: getDropwizardWithContext('entity.label:"eum-acceptor"'),
-    eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"')
+    eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"'),
+    eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
   function EumProcessor({ appdataWriters, eumAcceptors, eumProcessors, timeConfig }) {
     if (appdataWriters.length === 0 || eumAcceptors.length === 0 || eumProcessors.length === 0) {
@@ -27,9 +28,29 @@ export default connectTo(
     const eumAcceptorLabels = getLabels(eumAcceptors, /^(eum-acceptor-\d+).*$/i);
     eumProcessors = sort(eumProcessors);
     const eumProcessorLabels = getLabels(eumProcessors, /^(eum-processor-\d+).*$/i);
+    eumLoadbalancers = sort(eumLoadbalancers);
+    const eumLoadbalancerLabels = getLabels(eumLoadbalancers, /^(loadbalancer-eum-\d+).*$/i);
 
     return (
       <div>
+        <h1>loadbalancer-eum (edge)</h1>
+
+        <Columize>
+          <DashboardSection title={`Requests`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(/* TODO what should go here? */)}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: eumLoadbalancers.map(() => `metrics.requests`),
+                labels: eumLoadbalancerLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
         <h1>eum-acceptor (data collection)</h1>
 
         <Columize>
