@@ -37,6 +37,7 @@ export default [
   {
     metrics: ['blkio.blk_read', 'blkio.blk_write'],
     labels: ['Read', 'Write'],
+    category: ['Block IO'],
     min: 0,
     formatter: number
   },
