@@ -7,7 +7,21 @@ import search from 'in-subscription/search';
 
 
 export function getNginxWithContext(query) {
-  // TODO 
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'nginx'
+      })
+        // TODO dont know what needs to happen here
+        //.flatMap(getSnapshots)
+        //.flatMap(dropwizardSnapshots =>
+        //  combineLatest(dropwizardSnapshots.map(dropwizard => getContextForDropwizard(dropwizard, timeConfig)))
+        )
+    )
+    .startWith(emptyArray);
 }
 
 export function getDropwizardWithContext(query) {
