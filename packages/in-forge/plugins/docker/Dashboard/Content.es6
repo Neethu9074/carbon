@@ -88,7 +88,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
-              labels: ['active_anon', 'active_file', 'inactive_anon', 'inactive_file'],
+              labels: ['Active anonymous', 'Active cache', 'Inactive anonymous', 'Inactive cache'],
               formatter: bytesTwoDecimalPlaces,
               type: 'line'
             }}

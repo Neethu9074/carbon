@@ -11,6 +11,7 @@ export default [
   {
     metrics: ['cpu.throttling_count', 'cpu.throttling_time'],
     labels: ['Throttling count', 'Throttling time'],
+    category: ['CPU'],
     min: 0,
     formatter: micros
   },
@@ -25,7 +26,16 @@ export default [
       'memory.inactive_anon',
       'memory.inactive_file'
     ],
-    labels: ['Usage', 'Max usage', 'RSS', 'Cache', 'active_anon', 'active_file', 'inactive_anon', 'inactive_file'],
+    labels: [
+      'Usage',
+      'Max usage',
+      'RSS',
+      'Cache',
+      'Active anonymous',
+      'Active cache',
+      'Inactive anonymous',
+      'Inactive cache'
+    ],
     min: 0,
     category: ['Memory'],
     formatter: bytes,
@@ -55,6 +65,7 @@ export default [
     metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
     labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
     min: 0,
+    category: ['Network'],
     formatter: percentage,
     isAvailable(snapshot) {
       return snapshot.getIn(['data', 'NetworkMode']) === 'bridge';
