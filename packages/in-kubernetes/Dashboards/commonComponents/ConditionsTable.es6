@@ -4,7 +4,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComp
 import { formatDateTime } from 'in-services/formatters/date';
 import Card from 'in-new-components/Card';
 
-export default function ConditionsTable({ deployment }) {
+export default function ConditionsTable({ conditions }) {
   return (
     <Card title="Conditions">
       <Table tableInCard>
@@ -17,7 +17,7 @@ export default function ConditionsTable({ deployment }) {
           </Tr>
         </Thead>
         <Tbody>
-          {(deployment.conditions || []).map((condition, i) => (
+          {(conditions || []).map((condition, i) => (
             <Tr key={i} size="compact">
               <Td>{condition.type}</Td>
               <Td>{condition.status}</Td>

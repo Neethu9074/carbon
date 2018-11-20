@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import ConditionsTable from 'in-kubernetes/Dashboards/Deployment/tabs/Summary/ConditionsTable';
-import LabelsTable from 'in-kubernetes/Dashboards/Deployment/tabs/Summary/LabelsTable';
+import ConditionsTable from 'in-kubernetes/Dashboards/commonComponents/ConditionsTable';
+import LabelsTable from 'in-kubernetes/Dashboards/commonComponents/LabelsTable';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
@@ -18,10 +18,10 @@ export default function Summary({ data: deployment }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <ConditionsTable deployment={deployment} />
+          <ConditionsTable conditions={deployment.conditions} />
         </Col>
         <Col lg={12}>
-          <LabelsTable deployment={deployment} />
+          <LabelsTable labels={deployment.labels} />
         </Col>
       </Row>
     </Fragment>
