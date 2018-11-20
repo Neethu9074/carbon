@@ -47,18 +47,24 @@ export function init() {
  * in again.
  */
 function initPortalActivityHeartbeat() {
-  const trackActivity = createTracker('user.isActive');
+  const tracker = createTracker('user.isActive');
+  const trackActivity = () => {
+    tracker();
+    setTimeout(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
+  };
   trackActivity();
-  setInterval(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
 }
 
 /**
  * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
  */
 function initFineGrainedActivityHeartbeat() {
-  const trackActivity = createTracker('user.heartbeat');
-  trackActivity();
-  setInterval(trackActivity, 5 * 1000 /* 5 second resolution */);
+  const tracker = createTracker('user.heartbeat');
+  const sendHeartbeat = () => {
+    tracker();
+    setTimeout(sendHeartbeat, 5 * 1000 /* 5 second resolution */);
+  };
+  sendHeartbeat();
 }
 
 function initUsageDurationTrackers() {

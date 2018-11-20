@@ -102,7 +102,6 @@ function RawCallsNavigator({
                     onClick={() => clickCallTracker()}
                   >
                     {item.call.label}
-                    sdjhfbuhjkdsffuhijdsluifhsdiufhnsdiulhjfiuslduh
                     {item.call.batchCount > 1 && (
                       <Fragment>
                         {' '}

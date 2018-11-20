@@ -22,13 +22,19 @@ export const sortedRecentEvents$ = createTrackingStore({
       incident
         .get('recentEvents', emptyList)
         .toArray()
-        .map(getEvent)
-    ).map(ids =>
-      ids.sort(
-        (a, b) =>
-          incident.getIn(['issueOrderMap', a.get('id')], a.get('start')) -
-          incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
+        .map(getEvent),
+      false
+    )
+      .nextFrame()
+      .map(events =>
+        events
+          .filter(e => e && !e.isEmpty())
+          .sort(
+            (a, b) =>
+              incident.getIn(['issueOrderMap', a.get('id')], a.get('start')) -
+              incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
+          )
       )
-    );
+      .throttle(250);
   })
 }).observable;
