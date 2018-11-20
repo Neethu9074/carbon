@@ -6,7 +6,7 @@ import Card from 'in-new-components/Card';
 
 import locals from './ConditionsList.mless';
 
-export default function ConditionsList({ conditions }) {
+export default function ConditionsList({ conditions = [] }) {
   return (
     <Card title="Conditions">
       <Row>
@@ -24,8 +24,8 @@ function Condition({ condition }) {
   return (
     <div className={locals.conditionWrapper}>
       <div>
-        <span className={locals.type}>{condition.type}</span>(<span className={locals.status}>{condition.status}</span>
-        )-
+        <span className={locals.type}>{condition.type}</span>(<span className={locals.status}>{condition.status}</span>)
+        {` - `}
         <span>{formatDateTime(condition.lastTransitionTime)}</span>
       </div>
       <div className={locals.reason}>{condition.reason}</div>
