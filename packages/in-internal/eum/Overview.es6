@@ -17,8 +17,9 @@ export default connectTo(
     eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"'),
     eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
-  function EumProcessor({ appdataWriters, eumAcceptors, eumProcessors, timeConfig }) {
-    if (appdataWriters.length === 0 || eumAcceptors.length === 0 || eumProcessors.length === 0) {
+  function Overview({ appdataWriters, eumAcceptors, eumProcessors, eumLoadbalancers, timeConfig }) {
+    if (appdataWriters.length === 0 || eumAcceptors.length === 0 || 
+        eumProcessors.length === 0 || eumLoadbalancers.length === 0) {
       return <LoadingIndicator type="dark" />;
     }
 
@@ -38,7 +39,7 @@ export default connectTo(
         <Columize>
           <DashboardSection title={`Requests`}>
             <Chart
-              snapshotIds={eumLoadbalancers.map(r => r.get('id'))} // assuming that the returned entities are already nginx entities (??)
+              snapshotIds={eumLoadbalancers.map(r => r.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
