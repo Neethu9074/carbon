@@ -3,6 +3,7 @@ import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink';
 
@@ -65,6 +66,13 @@ const columnDefinitions = [
     label: 'Namespace',
     getContent(item) {
       return get(item, ['deployment', 'namespace']);
+    }
+  },
+  {
+    id: 'pods',
+    label: 'Pods',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['deployment', 'pods'])} />;
     }
   }
 ];

@@ -10,7 +10,7 @@ import EntityLink from 'in-new-components/EntityLink';
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig, namespaceId, clusterId }) {
+export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -20,6 +20,7 @@ export default function Pods({ timeConfig, namespaceId, clusterId }) {
       columnDefinitions={columnDefinitions}
       timeConfig={timeConfig}
       namespaceId={namespaceId}
+      deploymentId={deploymentId}
       clusterId={clusterId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="name"
@@ -28,7 +29,17 @@ export default function Pods({ timeConfig, namespaceId, clusterId }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, namespaceId, clusterId }) {
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  timeConfig,
+  namespaceId,
+  clusterId,
+  deploymentId
+}) {
   return getKubernetesPods({
     pagination: {
       page,
@@ -41,6 +52,7 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
     filter: {
       label: query,
       namespaceId,
+      deploymentId,
       clusterId,
       timeConfig
     }
@@ -51,12 +63,12 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, namespaceId, deploymentId }) {
       return (
         <EntityLink
           icon="lib_kubernetes_pod"
           label={get(item, ['pod', 'label'])}
-          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId })}
+          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
         />
       );
     }

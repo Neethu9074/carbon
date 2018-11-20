@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react';
 
-import { podId as matrixPodId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import {
+  clusterId as matrixClusterId,
+  namespaceId as matrixNamespaceId,
+  podId as matrixPodId,
+  deploymentId as matrixDeploymentId
+} from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -17,6 +22,8 @@ export default function PodDashboard({ location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
     clusterId: getMatrixParameter(location, podDashboard, matrixClusterId),
+    namespaceId: getMatrixParameter(location, podDashboard, matrixNamespaceId),
+    deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId),
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };
