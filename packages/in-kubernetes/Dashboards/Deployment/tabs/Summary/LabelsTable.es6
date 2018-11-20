@@ -9,13 +9,15 @@ export default function LabelsTable({ deployment }) {
       <Table tableInCard>
         <Thead>
           <Tr>
-            <Th>Label</Th>
+            <Th>Key</Th>
+            <Th>Value</Th>
           </Tr>
         </Thead>
         <Tbody>
           {(deployment.labels || []).map((label, i) => (
             <Tr key={i} size="compact">
-              <Td>{label}</Td>
+              <Td>{label.key}</Td>
+              <Td>{label.value}</Td>
             </Tr>
           ))}
         </Tbody>
