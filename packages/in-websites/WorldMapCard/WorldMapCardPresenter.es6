@@ -41,8 +41,9 @@ function onDidMount({ containerElement, result }) {
       const pageLoads = getCountryPageLoads(p.title, p.id);
       return {
         id: p.id,
-        value: pageLoads,
-        balloonText: `${p.title}: ${number.compact(pageLoads)} page loads`
+        value: pageLoads < 1 ? undefined : pageLoads,
+        balloonText: `${p.title}: ${number.compact(pageLoads)} page loads`,
+        color: pageLoads < 1 ? '#ddd' : undefined
       };
     })
   };
@@ -77,7 +78,7 @@ function onDidMount({ containerElement, result }) {
         minPageLoads !== maxPageLoads
           ? {
               right: 10,
-              minValue: `0 page loads`,
+              minValue: `${number.compact(minPageLoads)} page loads`,
               maxValue: `${number.compact(maxPageLoads)} page loads`
             }
           : undefined,
