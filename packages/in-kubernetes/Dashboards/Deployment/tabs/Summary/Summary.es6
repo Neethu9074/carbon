@@ -10,10 +10,10 @@ export default function Summary({ data: deployment }) {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <KpiCard title="Namespace" value={deployment.namespace} />
+          <KpiCard title="Namespace" value={deployment.namespace} splitByMajorAndMinor={false} />
         </Col>
         <Col lg={6}>
-          <KpiCard title="Cluster" value={deployment.clusterId} />
+          <KpiCard title="Cluster" value={deployment.clusterId} splitByMajorAndMinor={false} />
         </Col>
       </Row>
       <Row>

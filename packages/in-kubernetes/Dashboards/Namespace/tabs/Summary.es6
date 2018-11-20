@@ -11,10 +11,10 @@ export default function Summary({ data: namespace }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Status" value={namespace.status} />
+          <KpiCard title="Status" value={namespace.status} splitByMajorAndMinor={false} />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Creation Time" value={formatDateTime(namespace.creationTime)} />
+          <KpiCard title="Creation Time" value={formatDateTime(namespace.creationTime)} splitByMajorAndMinor={false} />
         </Col>
       </Row>
     </Fragment>

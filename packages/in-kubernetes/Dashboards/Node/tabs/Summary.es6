@@ -9,14 +9,14 @@ export default function Summary({ data: node }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={6}>
-          <KpiCard title="Machine ID" value={node.machineId} />
+        <Col lg={4}>
+          <KpiCard title="Machine ID" value={node.machineId} splitByMajorAndMinor={false} />
         </Col>
-        <Col lg={6}>
-          <KpiCard title="Cluster" value={node.clusterId} />
+        <Col lg={4}>
+          <KpiCard title="Cluster" value={node.clusterId} splitByMajorAndMinor={false} />
         </Col>
-        <Col lg={6}>
-          <KpiCard title="Hostname" value={node.hostname} />
+        <Col lg={4}>
+          <KpiCard title="Hostname" value={node.hostname} splitByMajorAndMinor={false} />
         </Col>
       </Row>
       <Row>

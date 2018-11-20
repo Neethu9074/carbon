@@ -2,7 +2,16 @@ import React from 'react';
 
 import locals from './KpiCard.mless';
 
-export default function KpiCard({ title, value }) {
+export default function KpiCard({ title, value, splitByMajorAndMinor = true }) {
+  if (!splitByMajorAndMinor) {
+    return (
+      <div className={locals.wrapper}>
+        <div className={locals.title}>{title}</div>
+        <span className={locals.minor}>{value}</span>
+      </div>
+    );
+  }
+
   let major = '––';
   let minor = null;
 
