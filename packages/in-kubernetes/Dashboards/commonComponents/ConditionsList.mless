@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .conditionWrapper {
+    padding: 2rem 1rem;
+    margin-bottom: 0.5rem;
+
+    background: @lib__colors__N050;
+  }
+
+  .type {
+    font-weight: bold;
+    margin-right: 0.125rem;
+  }
+
+  .status {
+    text-transform: lowercase;
+  }
+
+  .reason {
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+}

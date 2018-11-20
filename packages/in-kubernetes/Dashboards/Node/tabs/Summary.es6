@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import ConditionsTable from 'in-kubernetes/Dashboards/commonComponents/ConditionsTable';
-import LabelsTable from 'in-kubernetes/Dashboards/commonComponents/LabelsTable';
+import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
@@ -21,10 +21,10 @@ export default function Summary({ data: node }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <ConditionsTable conditions={node.conditions} />
+          <ConditionsList conditions={node.conditions} />
         </Col>
         <Col lg={12}>
-          <LabelsTable labels={node.labels} />
+          <LabelsList labels={node.labels} />
         </Col>
       </Row>
     </Fragment>
