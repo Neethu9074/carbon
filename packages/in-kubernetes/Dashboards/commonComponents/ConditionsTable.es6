@@ -22,7 +22,7 @@ export default function ConditionsTable({ conditions }) {
               <Td>{condition.type}</Td>
               <Td>{condition.status}</Td>
               <Td>{condition.message}</Td>
-              <Td>{formatDateTime(condition.lastUpdateTime)}</Td>
+              <Td>{formatDateTime(condition.lastTransitionTime)}</Td>
             </Tr>
           ))}
         </Tbody>
