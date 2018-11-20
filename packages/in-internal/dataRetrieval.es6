@@ -15,13 +15,26 @@ export function getNginxWithContext(query) {
         timeConfig,
         restrictResultEntityType: 'nginx'
       })
-        // TODO dont know what needs to happen here
-        //.flatMap(getSnapshots)
-        //.flatMap(dropwizardSnapshots =>
-        //  combineLatest(dropwizardSnapshots.map(dropwizard => getContextForDropwizard(dropwizard, timeConfig)))
+        .flatMap(getSnapshots)
+        .flatMap(nginxSnapshots =>
+          combineLatest(nginxSnapshots.map(nginx => getContextForNginx(nginx, timeConfig)))
         )
     )
     .startWith(emptyArray);
+}
+
+export function getContextForNginx(nginx, timeConfig) {
+  return getPhysicalHierarchy(nginx.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: nginx.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        nginx,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
 }
 
 export function getDropwizardWithContext(query) {
