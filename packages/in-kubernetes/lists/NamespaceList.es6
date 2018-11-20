@@ -77,10 +77,10 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'pods',
-    label: 'Pods',
+    id: 'deployments',
+    label: 'Deployments',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['namespace', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_workload" count={get(item, ['namespace', 'deployments'])} />;
     }
   },
   {
@@ -91,10 +91,10 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'deployments',
-    label: 'Deployments',
+    id: 'pods',
+    label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={get(item, ['namespace', 'deployments'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['namespace', 'pods'])} />;
     }
   }
 ];

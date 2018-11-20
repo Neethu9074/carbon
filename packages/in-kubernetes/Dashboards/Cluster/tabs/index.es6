@@ -17,21 +17,21 @@ export default [
     component: Summary
   },
   {
+    label: 'Nodes',
+    path: `${clusterDashboardFullyQualified}/nodes`,
+    component: Nodes,
+    icon: 'lib_kubernetes_node',
+    header: getTabHeaderWithCount({
+      getCount$: getCount$.bind(null, 'nodes')
+    })
+  },
+  {
     label: 'Namespaces',
     path: `${clusterDashboardFullyQualified}/namespaces`,
     component: Namespaces,
     icon: 'lib_kubernetes_namespace',
     header: getTabHeaderWithCount({
       getCount$: getCount$.bind(null, 'namespaces')
-    })
-  },
-  {
-    label: 'Services',
-    path: `${clusterDashboardFullyQualified}/services`,
-    component: Services,
-    icon: 'lib_kubernetes_service',
-    header: getTabHeaderWithCount({
-      getCount$: getCount$.bind(null, 'services')
     })
   },
   {
@@ -44,12 +44,12 @@ export default [
     })
   },
   {
-    label: 'Nodes',
-    path: `${clusterDashboardFullyQualified}/nodes`,
-    component: Nodes,
-    icon: 'lib_kubernetes_node',
+    label: 'Services',
+    path: `${clusterDashboardFullyQualified}/services`,
+    component: Services,
+    icon: 'lib_kubernetes_service',
     header: getTabHeaderWithCount({
-      getCount$: getCount$.bind(null, 'nodes')
+      getCount$: getCount$.bind(null, 'services')
     })
   },
   {

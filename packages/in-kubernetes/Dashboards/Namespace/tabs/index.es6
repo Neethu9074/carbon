@@ -15,21 +15,21 @@ export default [
     component: Summary
   },
   {
-    label: 'Services',
-    path: `${namespaceDashboardFullyQualified}/services`,
-    component: Services,
-    icon: 'lib_kubernetes_service',
-    header: getTabHeaderWithCount({
-      getCount$: getCount$.bind(null, 'services')
-    })
-  },
-  {
     label: 'Deployments',
     path: `${namespaceDashboardFullyQualified}/deployments`,
     component: Deployments,
     icon: 'lib_kubernetes_workload',
     header: getTabHeaderWithCount({
       getCount$: getCount$.bind(null, 'deployments')
+    })
+  },
+  {
+    label: 'Services',
+    path: `${namespaceDashboardFullyQualified}/services`,
+    component: Services,
+    icon: 'lib_kubernetes_service',
+    header: getTabHeaderWithCount({
+      getCount$: getCount$.bind(null, 'services')
     })
   },
   {
