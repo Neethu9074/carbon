@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
@@ -15,6 +16,8 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
 
   return (
     <Fragment>
+      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} />
+
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
