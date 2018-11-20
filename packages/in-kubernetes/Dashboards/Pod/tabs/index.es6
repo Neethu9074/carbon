@@ -16,7 +16,7 @@ export default [
     label: 'Containers',
     path: `${podDashboardFullyQualified}/containers`,
     component: Containers,
-    icon: 'lib_actions_delete',
+    icon: 'lib_container',
     header: getTabHeaderWithCount({
       getCount$: getCount$.bind(null, 'containers')
     })

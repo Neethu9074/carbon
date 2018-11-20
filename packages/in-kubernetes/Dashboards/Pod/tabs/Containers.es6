@@ -51,7 +51,7 @@ const columnDefinitions = [
     getContent(item, { timeConfig }) {
       return (
         <EntityLink
-          icon="lib_actions_delete"
+          icon="lib_container"
           label={get(item, ['container', 'label'])}
           href$={getDashboardLink(get(item, ['container', 'id']), {
             pathname: '/physical/dashboard',
