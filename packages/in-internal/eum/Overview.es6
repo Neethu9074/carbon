@@ -38,7 +38,7 @@ export default connectTo(
         <Columize>
           <DashboardSection title={`Requests`}>
             <Chart
-              snapshotIds={eumLoadbalancers.map(/* TODO what should go here? */)}
+              snapshotIds={eumLoadbalancers.map(r => r.get('id'))} // assuming that the returned entities are already nginx entities (??)
               timeConfig={timeConfig}
               y1={{
                 min: 0,
