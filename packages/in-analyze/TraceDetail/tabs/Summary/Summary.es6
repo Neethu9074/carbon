@@ -111,7 +111,7 @@ class Summary extends React.Component {
             !showLargeTrace && (
               <Row>
                 <Col lg={12}>
-                  <Card title="Large Trace" framed>
+                  <Card title="Large Trace">
                     This trace is large and rendering of this trace can result in performance problems within your
                     browser. You can either{' '}
                     <Link target="_blank" external href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>
@@ -130,7 +130,7 @@ class Summary extends React.Component {
           {!isLargeTrace && (
             <Row>
               <Col lg={12}>
-                <Card title="Timeline" withoutPadding framed header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card title="Timeline" withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
                   <div className={locals.icicleChartWrapper}>
                     <ServerIcicleChart
                       traceId={traceId}
@@ -153,7 +153,7 @@ class Summary extends React.Component {
           {(!isLargeTrace || showLargeTrace) && (
             <Row>
               <Col lg={12}>
-                <Card title="Calls" framed header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card title="Calls" header={<ColorCodingToggleButtons {...this.props} />}>
                   <ServerCallTree
                     traceId={traceId}
                     getColor={getColor}
