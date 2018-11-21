@@ -92,7 +92,12 @@ function Histogram({ width, height, customWidth, customHeight, buckets, metricNa
           enableLabel={false}
           labelTextColor="#e1e8ea"
           tooltip={props => (
-            <NivoChartTooltip {...props} id={metricName} formatter={number} aggregation={props.indexValue} />
+            <NivoChartTooltip
+              {...props}
+              id={metricName}
+              formatter={number.forcedCompact}
+              aggregation={props.indexValue}
+            />
           )}
         />
         <HorizontalAxis
