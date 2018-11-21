@@ -12,10 +12,17 @@ export const websitesPathFullyQualified = `${websiteMonitoringPath}${websitesPat
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
 
+export const newWebsitePath = '/new';
+export const newWebsitePathFullyQualified = `${websiteMonitoringPath}${newWebsitePath}`;
+
 export const isWebsiteMonitoringView = getRootPathPredicate(websiteMonitoringPath);
 
-export const linkToWebsites = getModifiedUrlStream(params => {
-  params.pathname = `${websitesPathFullyQualified}`;
+export const linkToWebsites$ = getModifiedUrlStream(params => {
+  params.pathname = websitesPathFullyQualified;
+});
+
+export const linkToNewWebsite$ = getModifiedUrlStream(params => {
+  params.pathname = newWebsitePathFullyQualified;
 });
 
 export function getLinkToWebsite(websiteId, { tabPath = '/summary', pageId } = emptyObject) {
