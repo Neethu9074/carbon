@@ -103,14 +103,14 @@ const cols = [
 
 export default connectTo(
   {
-    rowsEuA: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1a'),
-    rowsUsA: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2a'),
-    rowsEuB: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1b'),
-    rowsUsB: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2b'),
-    rowsEuC: getHostsWithNomadContext('entity.zone:fleet*worker* eu-west-1c'),
-    rowsUsC: getHostsWithNomadContext('entity.zone:fleet*worker* us-west-2c')
+    rowsEuA: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1a'),
+    rowsUsA: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2a'),
+    rowsEuB: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1b'),
+    rowsUsB: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2b'),
+    rowsEuC: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1c'),
+    rowsUsC: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2c')
   },
-  class QualityOfServiceStats extends React.Component {
+  class SelfserviceWorkerStats extends React.Component {
     render() {
       const { rowsEuA, rowsUsA, rowsEuB, rowsUsB, rowsEuC, rowsUsC } = this.props;
 
@@ -120,7 +120,7 @@ export default connectTo(
 
       return (
         <div>
-          <h1>Quality of Service - Fleet Worker</h1>
+          <h1>Quality of Service - SelfService Fleet Worker</h1>
           <DashboardSection title={`Availability Zone A (${rowsA.length})`}>
             <Table cols={cols} rows={rowsA} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
           </DashboardSection>
