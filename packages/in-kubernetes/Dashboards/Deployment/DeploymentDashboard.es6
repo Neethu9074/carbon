@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import { deploymentId as matrixDeploymentId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -40,7 +41,13 @@ export default function DeploymentDashboard({ location }) {
 
 function Header(props) {
   return (
-    <BasicDashboardHeader title="Deployment" icon="lib_kubernetes_workload" {...props} renderSubTypes={SubTypes} />
+    <BasicDashboardHeader
+      title="Deployment"
+      icon="lib_kubernetes_workload"
+      {...props}
+      renderSubTypes={SubTypes}
+      getLabel={result => get(result, ['data', 'deployment', 'name'])}
+    />
   );
 }
 

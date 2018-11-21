@@ -16,7 +16,7 @@ export default function Summary({ data: namespaceItem }) {
           <KpiCard title="Status" value={namespace.status} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Creation Time" value={formatDateTime(namespace.creationTime)} raw />
+          <KpiCard title="Creation Time" value={formatDateTime(namespace.created)} raw />
         </Col>
       </Row>
       <Row>

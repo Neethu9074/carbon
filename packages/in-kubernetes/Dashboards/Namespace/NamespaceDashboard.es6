@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import { namespaceId as matrixNamespaceId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -40,7 +41,13 @@ export default function NamespaceDashboard({ location }) {
 
 function Header(props) {
   return (
-    <BasicDashboardHeader title="Namespace" icon="lib_kubernetes_namespace" {...props} renderSubTypes={SubTypes} />
+    <BasicDashboardHeader
+      title="Namespace"
+      icon="lib_kubernetes_namespace"
+      {...props}
+      renderSubTypes={SubTypes}
+      getLabel={result => get(result, ['data', 'namespace', 'label'])}
+    />
   );
 }
 

@@ -10,7 +10,7 @@ export default connectTo(
     namespace: getKubernetesNamespace({
       id: props.namespaceId,
       timeConfig: props.timeConfig
-    }).map(result => result.data)
+    }).map(result => (result.data ? result.data.namespace : null))
   }),
   function NamespaceBreadcrumb({ namespace, href$ }) {
     return (

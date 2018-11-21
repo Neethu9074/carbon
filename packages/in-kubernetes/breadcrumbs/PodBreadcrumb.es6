@@ -10,7 +10,7 @@ export default connectTo(
     pod: getKubernetesPod({
       id: props.podId,
       timeConfig: props.timeConfig
-    }).map(result => result.data)
+    }).map(result => (result.data ? result.data.pod : null))
   }),
   function NodeBreadPodBreadcrumbcrumb({ pod, href$ }) {
     return (

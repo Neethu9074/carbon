@@ -10,7 +10,9 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
-export default function Summary({ data: deployment }) {
+export default function Summary({ data: deploymentItem }) {
+  const deployment = deploymentItem.deployment;
+
   return (
     <Fragment>
       <Row>

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import {
   clusterId as matrixClusterId,
@@ -46,7 +47,15 @@ export default function PodDashboard({ location }) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Pod" icon="lib_kubernetes_pod" {...props} renderSubTypes={SubTypes} />;
+  return (
+    <BasicDashboardHeader
+      title="Pod"
+      icon="lib_kubernetes_pod"
+      {...props}
+      renderSubTypes={SubTypes}
+      getLabel={result => get(result, ['data', 'pod', 'label'])}
+    />
+  );
 }
 
 function SubTypes() {
