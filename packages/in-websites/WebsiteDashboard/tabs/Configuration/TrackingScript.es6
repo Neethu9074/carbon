@@ -1,5 +1,6 @@
 import React from 'react';
 
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/HelpParagraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getEumSnippet } from 'in-services/eum';
 import Button from 'in-new-components/Button';
@@ -22,7 +23,7 @@ export default function TrackingScript({ websiteId }) {
         </CopyToClipboard>
       }
     >
-      <p>
+      <HelpParagraph>
         The following tracking script is all you need to get started with website monitoring. Copy this script to the
         HTML {`document's`} <code>{'<head>'}</code>. Information about page monitoring and the full capabilities of the
         tracking script are located{' '}
@@ -30,7 +31,7 @@ export default function TrackingScript({ websiteId }) {
           within our docs
         </a>
         .
-      </p>
+      </HelpParagraph>
 
       <Code code={eumSnippet} lang="html" showLineNumbers={false} />
     </Card>

@@ -1,9 +1,20 @@
 import { createField, notBlankValidator } from 'formalistic';
+import { get, find } from 'lodash';
 import React from 'react';
 
-// import Label from 'in-components/form/Label';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/HelpParagraph';
+import TemporaryPresenter from 'in-components/TemporaryPresenter';
+import ValidationBlock from 'in-components/form/ValidationBlock';
+import { combineDataAndError } from 'in-services/util/ro';
+import { renameKey, getAllEumKeys } from 'in-api/eumKeys';
+import SaveError from 'in-components/form/SaveError';
+import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
+import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
+
+import locals from './Rename.mless';
 
 export default class Rename extends React.PureComponent {
   constructor(props) {
@@ -11,27 +22,135 @@ export default class Rename extends React.PureComponent {
     this.state = {
       field: createField({ value: props.data.label, validator: notBlankValidator }),
       saveError: null,
-      loading: true
+      loading: true,
+      savedLabel: props.data.label
     };
   }
 
+  componentDidMount() {
+    this.loadSubscription = combineDataAndError(getAllEumKeys()).once(({ data, error }) => {
+      if (error) {
+        this.setState({
+          loading: false
+        });
+        return;
+      }
+
+      const savedWebsite = find(data, w => w.id === this.props.websiteId);
+      if (!savedWebsite) {
+        this.setState({
+          loading: false
+        });
+        return;
+      }
+
+      this.setState({
+        loading: false,
+        savedLabel: savedWebsite.appName,
+        field: this.state.field.setValue(savedWebsite.appName)
+      });
+    });
+  }
+
+  onChange = e => {
+    this.setState({
+      field: this.state.field.setValue(e.target.value).setTouched(true)
+    });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+
+    const { field } = this.state;
+    if (!field.valid) {
+      this.setState({
+        field: this.state.field.setTouched(true)
+      });
+      return;
+    } else if (this.state.savedLabel === field.value) {
+      return;
+    }
+
+    this.setState({
+      loading: true,
+      saveError: null,
+      saveResult: null
+    });
+
+    this.saveSubscription = combineDataAndError(renameKey(this.props.websiteId, field.value)).once(({ error }) => {
+      if (error) {
+        this.setState({
+          loading: false,
+          saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
+        });
+      } else {
+        this.setState({
+          loading: false,
+          saveError: null,
+          saveResult: Date.now()
+        });
+      }
+    });
+  };
+
+  componentWillUnmount() {
+    if (this.saveSubscription) {
+      this.saveSubscription.dispose();
+    }
+    if (this.loadSubscription) {
+      this.loadSubscription.dispose();
+    }
+  }
+
   render() {
-    const { field, loading } = this.state;
+    const { field, loading, saveError, savedLabel } = this.state;
 
     return (
       <Card title="Rename Website">
-        <p>
-          Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to
-          a website name may take up to a few minutes until it has populated throughout the whole system.
-        </p>
-        <Input
-          id="website-name"
-          type="text"
-          value={field.value}
-          onChange={this.onChange}
-          hasError={field.touched && !field.valid}
-          disabled={loading}
-        />
+        <form onSubmit={this.onSubmit}>
+          <FormGroup className={locals.group}>
+            {saveError && <SaveError>{saveError}</SaveError>}
+
+            <HelpParagraph>
+              Renaming a website is an eventually consistent action within the Instana system. For this reason, a change
+              to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the
+              whole system.
+            </HelpParagraph>
+
+            <div className={locals.actionWrapper}>
+              <Input
+                id="website-name"
+                type="text"
+                value={field.value}
+                onChange={this.onChange}
+                hasError={field.touched && !field.valid}
+                className={locals.input}
+                disabled={loading}
+              />
+              <Button
+                type="submit"
+                kind="create"
+                disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
+                className={locals.button}
+              >
+                Rename
+              </Button>
+              {this.state.saveResult != null ? (
+                <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
+                  <SvgIcon type="ok" width={16} className={locals.successIcon} />{' '}
+                  <span className={locals.sucessLabel}>Saved</span>
+                </TemporaryPresenter>
+              ) : null}
+            </div>
+
+            {field.touched &&
+              field.messages.map((message, i) => (
+                <ValidationBlock hasError key={i}>
+                  {message.message}
+                </ValidationBlock>
+              ))}
+          </FormGroup>
+        </form>
       </Card>
     );
   }

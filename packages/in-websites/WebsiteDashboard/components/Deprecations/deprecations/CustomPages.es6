@@ -4,13 +4,10 @@ import Deprecation from 'in-websites/WebsiteDashboard/components/Deprecations/De
 import Code from 'in-components/Code';
 
 const fallbackCode = `
-String page = null;
-
-if (isBlank(page) && isNotBlank(meta.get("edw_page_name"))) {
-  page = output.meta.get("edw_page_name");
-
-  if (isNotBlank(meta.get("environment"))) {
-    page += "_" + meta.get("environment");
+if (isBlank(page) && isNotBlank(meta.edw_page_name)) {
+  page = meta.edw_page_name;
+  if (isNotBlank(meta.environment)) {
+    page += "_" + meta.environment;
   }
 }
 `.trim();
@@ -32,7 +29,7 @@ export default function CustomPages() {
         pages via the intended API instead of relying on the fallback logic. The necessary changes look like this:
       </p>
       <Code code={newCodeToUse} lang="javascript" showLineNumbers={false} />
-      <p style={{ margin: '1rem 0 0.4rem' }}>For your reference, the deprecated fallback logic looks like this:</p>
+      <p style={{ margin: '1.3rem 0 1rem' }}>For your reference, the deprecated fallback logic looks like this:</p>
       <Code code={fallbackCode} lang="java" showLineNumbers={false} />
     </Deprecation>
   );

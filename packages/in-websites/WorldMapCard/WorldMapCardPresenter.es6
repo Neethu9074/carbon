@@ -1,7 +1,7 @@
 import { find, max, min } from 'lodash';
 import React from 'react';
 
-import { amCharts, worldLowMap, setDataProvider } from 'in-new-components/AmMap/libraryWrapper';
+import { amCharts, worldLowMap } from 'in-new-components/AmMap/libraryWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
@@ -81,27 +81,12 @@ function onDidMount({ containerElement, result }) {
               minValue: `${number.compact(minPageLoads)} page loads`,
               maxValue: `${number.compact(maxPageLoads)} page loads`
             }
-          : undefined,
-
-      listeners: [
-        {
-          event: 'homeButtonClicked',
-          method: handleGoHome
-        }
-      ]
+          : undefined
     },
     0
   );
 
   return map;
-
-  function handleGoHome() {
-    setDataProvider({
-      map,
-      dataProvider: worldDataProvider,
-      projection: 'winkel3'
-    });
-  }
 
   function getCountryPageLoads(country, countryCode) {
     const foundItem = find(result.data.items, item => item.country === country || item.countryCode === countryCode);
