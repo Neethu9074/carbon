@@ -1,11 +1,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
