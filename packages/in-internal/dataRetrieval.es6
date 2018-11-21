@@ -5,6 +5,36 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 
+export function getCassandraWithContext(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'cassandraNode'
+      })
+        .flatMap(getSnapshots)
+        .flatMap(cassandraSnapshots =>
+          combineLatest(cassandraSnapshots.map(cassandra => getContextForCassandra(cassandra, timeConfig)))
+        )
+    )
+    .startWith(emptyArray);
+}
+
+export function getContextForCassandra(cassandra, timeConfig) {
+  return getPhysicalHierarchy(cassandra.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: cassandra.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        cassandra,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
+}
 
 export function getNginxWithContext(query) {
   return timeConfig$
@@ -16,9 +46,7 @@ export function getNginxWithContext(query) {
         restrictResultEntityType: 'nginx'
       })
         .flatMap(getSnapshots)
-        .flatMap(nginxSnapshots =>
-          combineLatest(nginxSnapshots.map(nginx => getContextForNginx(nginx, timeConfig)))
-        )
+        .flatMap(nginxSnapshots => combineLatest(nginxSnapshots.map(nginx => getContextForNginx(nginx, timeConfig))))
     )
     .startWith(emptyArray);
 }
