@@ -18,3 +18,11 @@ export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
 }).observable;
+
+if (window.ineum) {
+  Object.keys(role).forEach(key => {
+    if (key !== 'id' && key !== 'name' && key !== 'implicitViewFilter') {
+      window.ineum('meta', `permission.${key}`, String(role[key]));
+    }
+  });
+}

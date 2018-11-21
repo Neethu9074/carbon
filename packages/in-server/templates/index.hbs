@@ -56,9 +56,20 @@
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
-    ineum('meta', 'tag', window.instana.build.tag);
-    ineum('meta', 'revision', window.instana.build.revision);
-    ineum('meta', 'date', window.instana.build.date);
+    ineum('meta', 'build.tag', window.instana.build.tag);
+    ineum('meta', 'build.revision', window.instana.build.revision);
+    ineum('meta', 'build.date', window.instana.build.date);
+    ineum('meta', 'tenant', window.instana.config.tenant);
+    ineum('meta', 'unit', window.instana.config.tenantUnit);
+    ineum('meta', 'region', window.instana.config.region);
+
+    Object.keys(window.instana.config.featureFlags).forEach(function(featureFlagName) {
+      ineum('meta', 'featureFlag.' + featureFlagName, String(window.instana.config.featureFlags[featureFlagName]));
+    });
+
+    Object.keys(window.instana.config.configuration).forEach(function(configName) {
+      ineum('meta', 'config.' + configName, String(window.instana.config.configuration[configName]));
+    });
   </script>
   {{/if}}
 
