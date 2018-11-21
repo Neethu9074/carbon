@@ -23,7 +23,7 @@ export default function DeprecationsPresenter(props) {
           {row.map(code => {
             const Component = presenterMapping[code];
             return (
-              <Col lg={6} key={code}>
+              <Col lg={6} lgOffset={row.length === 1 ? 3 : 0} key={code}>
                 <Component {...props} />
               </Col>
             );
