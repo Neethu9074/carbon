@@ -76,7 +76,7 @@ const columnDefinitions = [
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['deployment', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {

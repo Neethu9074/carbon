@@ -6,7 +6,9 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ data: namespace }) {
+export default function Summary({ data: namespaceItem }) {
+  const namespace = namespaceItem.namespace;
+
   return (
     <Fragment>
       <Row>

@@ -7,7 +7,8 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ timeConfig, data: cluster }) {
+export default function Summary({ timeConfig, data: clusterItem }) {
+  const cluster = clusterItem.cluster;
   const snapshotId = cluster.id;
 
   return (
