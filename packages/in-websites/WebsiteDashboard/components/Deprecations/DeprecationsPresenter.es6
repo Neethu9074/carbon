@@ -1,9 +1,9 @@
-import React from 'react';
+import { chunk } from 'lodash';
+import React, { Fragment } from 'react';
 
 import CrossRegionForwarding from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CrossRegionForwarding';
 import CustomPages from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CustomPages';
-
-import locals from './DeprecationsPresenter.mless';
+import { Row, Col } from 'in-new-components/layout/Grid';
 
 const presenterMapping = {
   xrf: CrossRegionForwarding,
@@ -17,20 +17,19 @@ export default function DeprecationsPresenter(props) {
   }
 
   return (
-    <ul className={locals.deprecations}>
-      {result.data
-        .map(code => {
-          const Component = presenterMapping[code];
-          if (Component) {
+    <Fragment>
+      {chunk(result.data.filter(code => presenterMapping[code]).sort(), 2).map((row, i) => (
+        <Row key={i}>
+          {row.map(code => {
+            const Component = presenterMapping[code];
             return (
-              <li key={code} className={locals.deprecation}>
+              <Col lg={6} key={code}>
                 <Component {...props} />
-              </li>
+              </Col>
             );
-          }
-          return null;
-        })
-        .filter(Boolean)}
-    </ul>
+          })}
+        </Row>
+      ))}
+    </Fragment>
   );
 }

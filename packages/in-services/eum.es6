@@ -37,7 +37,7 @@ export function getEumSnippet({ key, additionalScript = null }) {
     }
   }
 
-  lines.push(`  ineum('apiKey', '${key}');`);
+  lines.push(`  ineum('key', '${key}');`);
 
   if (additionalScript) {
     additionalScript.split('\n').forEach(line => {

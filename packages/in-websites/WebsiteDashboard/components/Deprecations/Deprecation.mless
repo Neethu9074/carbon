@@ -1,9 +1,0 @@
-:local {
-  .wrapper {
-
-
-    & + .wrapper {
-      margin-top: 10px;
-    }
-  }
-}

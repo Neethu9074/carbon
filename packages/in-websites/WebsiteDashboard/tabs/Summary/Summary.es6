@@ -11,13 +11,11 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import theme from 'in-themes';
 
-export default function Summary({ tagFilters, timeConfig, pageId }) {
+export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
     <Fragment>
-      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
@@ -84,6 +82,8 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
           />
         </Col>
       </Row>
+
+      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
 
       <Row>
         <Col lg={4}>
