@@ -6,6 +6,10 @@
     font-weight: 300;
     font-size: 0.75rem;
     margin-top: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
   }
 
   .addRuleButtonWrapper {
@@ -14,5 +18,10 @@
 
   .ruleWrapper {
     margin-top: 1rem;
+  }
+
+  .message {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
   }
 }
