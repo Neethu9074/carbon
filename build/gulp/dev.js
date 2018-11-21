@@ -61,9 +61,9 @@ gulp.task('askForDevOptions', cb => {
     butlerUrl: 'http://localhost:8480',
     local: true,
     tenant: 'instana',
-    tenantUnit: 'test',
+    tenantUnit: 'local',
     environment: 'local',
-    butlerDomain: 'local-instana.instana.io'
+    butlerDomain: 'local-instana.instana.io:4000'
   };
 
   var target = null;

@@ -11,6 +11,7 @@
 /packages/in-server/serverConfig.json
 /metricOverviewForDocs.md
 /metricOverviewForGrafana.ts
+/metricOverviewForUiBackend.json
 ui-client.iml
 .npmrc
 git-env.properties
