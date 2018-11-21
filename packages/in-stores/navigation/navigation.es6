@@ -17,12 +17,7 @@ export const navigationParameters$ = navigationParameters;
 
 history.listen(location => {
   ineum('page', location.pathname);
-  ineum('startSpaPageTransition');
   store.mutateTo(cloneLocation(location));
-  ineum('endSpaPageTransition', {
-    url: location.pathname,
-    status: 'completed'
-  });
   onRouteChange();
 });
 
@@ -106,11 +101,7 @@ export function getView(path) {
   });
 }
 function isInfrastructurePath(path) {
-  return (
-    path.indexOf(physicalPath) === 0 ||
-    path.indexOf(tablePath) === 0 ||
-    path.indexOf(containerPath) === 0
-  );
+  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
 }
 
 export function isView(...args) {
