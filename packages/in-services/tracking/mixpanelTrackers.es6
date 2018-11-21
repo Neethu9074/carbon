@@ -34,7 +34,6 @@ export function init() {
     if (mixpanelIsActive) {
       createTracker('pageLoadOrPageReload')();
       initPortalActivityHeartbeat();
-      initFineGrainedActivityHeartbeat();
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -53,18 +52,6 @@ function initPortalActivityHeartbeat() {
     setTimeout(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
   };
   trackActivity();
-}
-
-/**
- * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
- */
-function initFineGrainedActivityHeartbeat() {
-  const tracker = createTracker('user.heartbeat');
-  const sendHeartbeat = () => {
-    tracker();
-    setTimeout(sendHeartbeat, 5 * 1000 /* 5 second resolution */);
-  };
-  sendHeartbeat();
 }
 
 function initUsageDurationTrackers() {
