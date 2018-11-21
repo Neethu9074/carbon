@@ -46,7 +46,7 @@ export default connect(({ userEmail }) => ({
           {hasMeta && (
             <Code
               showLineNumbers={false}
-              code={JSON.stringify(beacon.meta, 0, 2)}
+              code={JSON.stringify(ensureSortedMeta(beacon.meta), 0, 2)}
               lang="json"
               className={locals.meta}
             />
@@ -65,3 +65,12 @@ export default connect(({ userEmail }) => ({
     </Row>
   );
 });
+
+function ensureSortedMeta(meta) {
+  return Object.keys(meta)
+    .sort()
+    .reduce((agg, key) => {
+      agg[key] = meta[key];
+      return agg;
+    }, {});
+}
