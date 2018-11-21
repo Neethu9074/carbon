@@ -1,3 +1,4 @@
+import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import Globe from 'in-websites/WebsiteDashboard/tabs/Globe/Globe';
@@ -14,5 +15,10 @@ export default [
     component: Globe,
     stickToHeader: true,
     isFullWidth: true
+  },
+  {
+    label: 'Configuration',
+    path: `${websitePathFullyQualified}/configuration`,
+    component: Configuration
   }
 ];
