@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
+import { getNginxWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -18,8 +19,12 @@ export default connectTo(
     eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
   function Overview({ appdataWriters, eumAcceptors, eumProcessors, eumLoadbalancers, timeConfig }) {
-    if (appdataWriters.length === 0 || eumAcceptors.length === 0 || 
-        eumProcessors.length === 0 || eumLoadbalancers.length === 0) {
+    if (
+      appdataWriters.length === 0 ||
+      eumAcceptors.length === 0 ||
+      eumProcessors.length === 0 ||
+      eumLoadbalancers.length === 0
+    ) {
       return <LoadingIndicator type="dark" />;
     }
 
@@ -39,14 +44,44 @@ export default connectTo(
         <Columize>
           <DashboardSection title={`Requests`}>
             <Chart
-              snapshotIds={eumLoadbalancers.map(r => r.get('id'))}
+              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: eumLoadbalancers.map(() => `metrics.requests`),
+                metrics: eumLoadbalancers.map(() => `requests`),
                 labels: eumLoadbalancerLabels,
                 type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Dropped connections`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: eumLoadbalancers.map(() => `connections.dropped`),
+                labels: eumLoadbalancerLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Host CPU load`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                tooltipFormatter: number.detailed,
+                metrics: eumLoadbalancers.map(() => 'load.1min'),
+                labels: eumLoadbalancers.map(r => r.host.get('label')),
+                type: 'line'
               }}
             />
           </DashboardSection>
