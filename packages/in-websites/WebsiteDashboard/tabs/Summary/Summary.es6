@@ -92,6 +92,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
+              formatter: number.forcedCompact,
               labels: ['Page Loads'],
               metricIds: ['pageLoads']
             }}
@@ -114,6 +115,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
+              formatter: number.forcedCompact,
               labels: ['Errors'],
               metricIds: ['errors'],
               colors: [theme.lib.colors.failure]
