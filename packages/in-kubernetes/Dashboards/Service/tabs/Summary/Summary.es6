@@ -16,13 +16,13 @@ export default function Summary({ timeConfig, data: service }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Type" value={service.type} splitByMajorAndMinor={false} />
+          <KpiCard title="Type" value={service.type} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Location" value={service.serviceLocation} splitByMajorAndMinor={false} />
+          <KpiCard title="Location" value={service.serviceLocation} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Age" value={service.age} splitByMajorAndMinor={false} />
+          <KpiCard title="Age" value={service.age} raw />
         </Col>
       </Row>
 
@@ -37,13 +37,13 @@ export default function Summary({ timeConfig, data: service }) {
 
       <Row>
         <Col lg={4}>
-          <KpiCard title="Matching Pods" value={service.pods} splitByMajorAndMinor={false} />
+          <KpiCard title="Matching Pods" value={service.pods} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="CPU Usage" value={service.cpuUsage} splitByMajorAndMinor={false} />
+          <KpiCard title="CPU Usage" value={service.cpuUsage} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Memory Usage" value={service.memoryUsed} splitByMajorAndMinor={false} />
+          <KpiCard title="Memory Usage" value={service.memoryUsed} raw />
         </Col>
       </Row>
 

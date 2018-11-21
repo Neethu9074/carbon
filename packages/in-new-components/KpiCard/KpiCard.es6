@@ -2,12 +2,12 @@ import React from 'react';
 
 import locals from './KpiCard.mless';
 
-export default function KpiCard({ title, value, splitByMajorAndMinor = true }) {
-  if (!splitByMajorAndMinor) {
+export default function KpiCard({ title, value, raw = false, renderValue }) {
+  if (raw || renderValue) {
     return (
       <div className={locals.wrapper}>
         <div className={locals.title}>{title}</div>
-        <span className={locals.minor}>{value}</span>
+        <span className={locals.minor}>{renderValue ? renderValue(value) : value}</span>
       </div>
     );
   }

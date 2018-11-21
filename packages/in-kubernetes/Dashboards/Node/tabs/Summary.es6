@@ -10,13 +10,13 @@ export default function Summary({ data: node }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Machine ID" value={node.machineId} splitByMajorAndMinor={false} />
+          <KpiCard title="Machine ID" value={node.machineId} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Cluster" value={node.clusterId} splitByMajorAndMinor={false} />
+          <KpiCard title="Cluster" value={node.clusterId} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Hostname" value={node.hostname} splitByMajorAndMinor={false} />
+          <KpiCard title="Hostname" value={node.hostname} raw />
         </Col>
       </Row>
       <Row>

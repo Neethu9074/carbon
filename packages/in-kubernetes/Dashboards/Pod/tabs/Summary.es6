@@ -10,21 +10,21 @@ export default function Summary({ data: pod }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Phase" value={pod.phase} splitByMajorAndMinor={false} />
+          <KpiCard title="Phase" value={pod.phase} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Cluster ID" value={pod.clusterId} splitByMajorAndMinor={false} />
+          <KpiCard title="Cluster ID" value={pod.clusterId} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Namespace" value={pod.namespace} splitByMajorAndMinor={false} />
+          <KpiCard title="Namespace" value={pod.namespace} raw />
         </Col>
       </Row>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Host IP" value={pod.hostIp} splitByMajorAndMinor={false} />
+          <KpiCard title="Host IP" value={pod.hostIp} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Pod IP" value={pod.podIp} splitByMajorAndMinor={false} />
+          <KpiCard title="Pod IP" value={pod.podIp} raw />
         </Col>
       </Row>
       <Row>
