@@ -202,6 +202,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
+      eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,
