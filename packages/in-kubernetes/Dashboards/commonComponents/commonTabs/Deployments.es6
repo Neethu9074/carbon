@@ -3,9 +3,13 @@ import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink';
+import MetricValue from 'in-components/MetricValue';
+
+const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
 const pathSegment = '/deployments';
 const matrixPrefix = 'deployment.';
@@ -73,6 +77,51 @@ const columnDefinitions = [
     label: 'Pods',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['deployment', 'pods'])} />;
+    }
+  },
+  {
+    id: 'availableReplicas',
+    label: 'Available Replicas',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['deployment', 'id'])}
+          metric="availableReplicas"
+          formatter={number.compact}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'desiredReplicas',
+    label: 'Desired Replicas',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['deployment', 'id'])}
+          metric="desiredReplicas"
+          formatter={number.compact}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'lastPendingPhaseDuration',
+    label: 'Last Pending Phase Duration',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['deployment', 'id'])}
+          metric="lastDuration"
+          formatter={msFormatter}
+          timeWindowAggregation="mean"
+        />
+      );
     }
   }
 ];

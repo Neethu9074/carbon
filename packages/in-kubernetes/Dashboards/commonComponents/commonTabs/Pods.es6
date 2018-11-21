@@ -1,11 +1,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import { bytes } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink';
+import MetricValue from 'in-components/MetricValue';
+import { timeConfig$ } from 'in-stores/timeline';
+
+import locals from './Pods.mless';
 
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
@@ -74,52 +79,69 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'namespace',
+    label: 'Namespace',
+    getContent(item) {
+      return get(item, ['pod', 'namespace']);
+    }
+  },
+  {
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return get(item, ['pod', 'status']);
-    }
-  },
-  {
-    id: 'cpuReq',
-    label: 'CPU requests',
-    getContent(item) {
-      return `${get(item, ['pod', 'cpu.requested'])} cores`;
-    }
-  },
-  {
-    id: 'cpuLimits',
-    label: 'CPU limits',
-    getContent(item) {
-      return `${get(item, ['pod', 'cpu.limis'])} cores`;
-    }
-  },
-  {
-    id: 'memoryReq',
-    label: 'Memory requests',
-    getContent(item) {
-      return bytes.compact(get(item, ['pod', 'memory.requested']));
-    }
-  },
-  {
-    id: 'memoryLimits',
-    label: 'Memory limits',
-    getContent(item) {
-      return bytes.compact(get(item, ['pod', 'memory.limits']));
+      return get(item, ['pod', 'phase']);
     }
   },
   {
     id: 'restarts',
     label: 'Restarts',
+    sortable: false,
     getContent(item) {
-      return get(item, ['pod', 'restarts']);
+      return (
+        <div className={locals.flexWrapper}>
+          <div className={locals.sparkChart}>
+            <SparkChart
+              snapshotId={get(item, ['pod', 'id'])}
+              metric="restartCount"
+              formatter={zeroDecimalPlaces}
+              aggregation="mean"
+            />
+          </div>
+          <MetricValue
+            snapshotId={get(item, ['pod', 'id'])}
+            metric="restartCount"
+            formatter={zeroDecimalPlaces}
+            timeWindowAggregation="mean"
+          />
+        </div>
+      );
     }
   },
   {
-    id: 'age',
-    label: 'Age',
+    id: 'hopstIp',
+    label: 'Host IP',
     getContent(item) {
-      return item.age;
+      return get(item, ['pod', 'hostIp']);
     }
   }
 ];
+
+import connectTo from 'in-hoc/connectTo';
+
+const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
+  timeConfig,
+  snapshotId,
+  metric,
+  formatter,
+  aggregation
+}) {
+  return (
+    <HistoricMetricSparkChart
+      timeConfig={timeConfig}
+      snapshotId={snapshotId}
+      metric={metric}
+      tooltipFormatter={formatter}
+      aggregation={aggregation}
+    />
+  );
+});

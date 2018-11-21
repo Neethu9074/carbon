@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
+import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
@@ -8,7 +9,6 @@ import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import getTabHeaderWithCount from 'in-kubernetes/tabs/getTabHeaderWithCount';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
-import Namespaces from 'in-kubernetes/Dashboards/Cluster/tabs/Namespaces';
 
 export default [
   {

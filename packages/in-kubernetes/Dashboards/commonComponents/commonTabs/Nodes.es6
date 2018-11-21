@@ -3,8 +3,10 @@ import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
+import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink';
+import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -54,6 +56,81 @@ const columnDefinitions = [
           icon="lib_kubernetes_node"
           label={get(item, ['node', 'name'])}
           href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuRequestsAllocation',
+    label: 'CPU Requests Alloc.',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['node', 'id'])}
+          metric="required_cpu_percentage"
+          formatter={percentageTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuLimitsAllocation',
+    label: 'CPU Limits Alloc.',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['node', 'id'])}
+          metric="limit_cpu_percentage"
+          formatter={percentageTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryRequestsAllocation',
+    label: 'Memory Requests Alloc.',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['node', 'id'])}
+          metric="required_mem_percentage"
+          formatter={percentageTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryLimitsAllocation',
+    label: 'Memory Limits Alloc.',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['node', 'id'])}
+          metric="limit_mem_percentage"
+          formatter={percentageTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'podAllocation',
+    label: 'Pods Alloc.',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['node', 'id'])}
+          metric="alloc_pods_percentage"
+          formatter={percentageTwoDecimalPlaces}
+          timeWindowAggregation="mean"
         />
       );
     }
