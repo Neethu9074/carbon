@@ -1,3 +1,4 @@
+import { uniq } from 'lodash';
 import React from 'react';
 
 import { isNotBlank } from 'in-services/util/string';
@@ -6,7 +7,9 @@ import Gravatar from 'in-components/Gravatar';
 import locals from './User.mless';
 
 export default function User({ beacon }) {
-  const [first, second, third] = [beacon.userName, beacon.userEmail, beacon.userId].filter(Boolean).filter(isNotBlank);
+  const [first, second, third] = uniq(
+    [beacon.userName, beacon.userEmail, beacon.userId].filter(Boolean).filter(isNotBlank)
+  );
   return (
     <div className={locals.user}>
       <Gravatar email={beacon.email} className={locals.avatar} />

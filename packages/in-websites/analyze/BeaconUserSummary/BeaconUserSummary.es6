@@ -17,6 +17,7 @@ export default connect(({ userEmail }) => ({
   const hasMeta = Object.keys(beacon.meta).length > 0;
 
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
+  const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
 
   return (
     <Row>
@@ -38,7 +39,9 @@ export default connect(({ userEmail }) => ({
             <span className={locals.city}>{beacon.city}</span>
             <span className={locals.countryAndContinent}>{geoSubsection.join(', ')}</span>
           </address>
-          <Map beacon={beacon} />
+
+          {isGeoCoordinatesAvailable && <Map beacon={beacon} />}
+          {!isGeoCoordinatesAvailable && <p>Location could not be determined from IP.</p>}
         </Card>
       </Col>
       <Col lg={4}>
