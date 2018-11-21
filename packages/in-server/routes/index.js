@@ -38,6 +38,8 @@ const stringifiedBuildInformation = JSON.stringify(buildInformation);
 const prefetchItems = fs
   .readdirSync(paths.bundleDir)
   .filter(fileName => /^\d+\.[a-z0-9]+\.js$/i.test(fileName))
+  // There are just way too many Ammap files. No need to prefetch all of them.
+  .filter(fileName => fileName.indexOf('ammap') === -1)
   .map(fileName => {
     return {
       rel: 'prefetch',

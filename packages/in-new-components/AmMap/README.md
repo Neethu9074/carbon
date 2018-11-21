@@ -10,6 +10,6 @@
  6. Modify the file using multiple cursors to that the file content looks like this (do this in Visual Studio Code for multiple cursor performance):
 
 ```
-import angolaLowLoader from 'promise-loader?global!ammap3/ammap/maps/js/angolaLow.js';
+import angolaLowLoader from 'promise-loader?global,ammapAngolaLow!ammap3/ammap/maps/js/angolaLow.js';
 export const angolaLow = angolaLowLoader;
 ```
