@@ -16,7 +16,7 @@ export default connect(({ applicationId, serviceId }) => {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
   }
   return observables;
-})(function CallsButton({ applicationLabel, serviceLabel, endpointId }) {
+})(function CallsButton({ applicationLabel, serviceLabel, endpointId, isSynthetic }) {
   return (
     <Button
       kind="primary"
@@ -27,7 +27,7 @@ export default connect(({ applicationId, serviceId }) => {
         endpointName: endpointId
       })}
     >
-      Analyze Traces
+      Analyze {isSynthetic ? 'Synthetic' : ''} Traces
     </Button>
   );
 });

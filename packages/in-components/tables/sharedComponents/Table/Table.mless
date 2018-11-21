@@ -41,6 +41,10 @@
     &.active > .td {
       background: #EFF5F9;
     }
+
+    &.dull {
+      opacity: 0.5;
+    }
   }
 
   .trRegular {

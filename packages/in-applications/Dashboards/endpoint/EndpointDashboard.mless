@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .message {
+    margin-top: 1rem;
+  }
+
+  .link {
+    float: right;
+    color: @lib__colors__teal800;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

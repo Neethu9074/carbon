@@ -12,7 +12,7 @@ import { operators } from 'in-analyze/applicationFilter';
 
 export default function TagFilterEditor({
   keys,
-  name,
+  tagKey,
   secondLevelName,
   operator,
   value,
@@ -21,18 +21,20 @@ export default function TagFilterEditor({
   valueFieldMessages,
   tagSuggestionResult,
   tagSecondLevelNameSuggestionResult,
-  withExtendedOperators,
-  onChange
+  operatorBlacklist,
+  onChange,
+  autoFocus
 }) {
-  const node = findSubTreeByFullyQualifiedName(name);
+  const node = findSubTreeByFullyQualifiedName(tagKey);
 
   return (
     <FlexWrapper>
       <KeySelectionSection
         keys={keys}
-        value={name}
+        value={tagKey}
         messages={nameFieldMessages}
-        onChange={value => onChange('name', value)}
+        onChange={value => onChange('key', value)}
+        autoFocus={autoFocus}
       />
 
       <CustomKeySection
@@ -44,16 +46,16 @@ export default function TagFilterEditor({
       />
 
       <OperatorSelection
-        withExtendedOperators={withExtendedOperators}
         value={operator}
         onChange={value => onChange('operator', value)}
         node={node}
+        operatorBlacklist={operatorBlacklist}
       />
 
       {operator !== operators.NOT_EMPTY &&
         operator !== operators.IS_EMPTY && (
           <ValueInput
-            tagKey={name}
+            tagKey={tagKey}
             value={value}
             messages={valueFieldMessages}
             tagSuggestionResult={tagSuggestionResult}

@@ -8,14 +8,14 @@ export default function EditFilterForm({
   form,
   helpText,
   onChange,
-  withExtendedOperators,
   tagSuggestionResult,
-  tagSecondLevelNameSuggestionResult
+  tagSecondLevelNameSuggestionResult,
+  operatorBlacklist
 }) {
   const nameForm = form.get('nameForm');
-  const nameField = nameForm.value.get('name');
+  const keyField = nameForm.value.get('key');
   const secondLevelNameField = nameForm.value.get('secondLevelName');
-  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'name');
+  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'key');
   const secondLevelNameFieldMessages = nameForm.messages.filter(message => message.field === 'secondLevelName');
 
   const valueForm = form.get('valueForm');
@@ -30,7 +30,7 @@ export default function EditFilterForm({
       <NamedSection name="Tag">
         <TagFilterEditor
           keys={keys}
-          name={nameField.value}
+          tagKey={keyField.value}
           secondLevelName={secondLevelNameField.value}
           operator={operatorField.value}
           value={valueField.value}
@@ -39,8 +39,9 @@ export default function EditFilterForm({
           valueFieldMessages={valueFieldMessages}
           tagSuggestionResult={tagSuggestionResult}
           tagSecondLevelNameSuggestionResult={tagSecondLevelNameSuggestionResult}
-          withExtendedOperators={withExtendedOperators}
+          operatorBlacklist={operatorBlacklist}
           onChange={onChange}
+          autoFocus
         />
       </NamedSection>
     </Fragment>

@@ -14,12 +14,12 @@ export default function EditGroupForm(props) {
   const { form, keys, onChange, tagSecondLevelNameSuggestionResult } = props;
 
   const nameForm = form.get('nameForm');
-  const nameField = nameForm.value.get('name');
+  const keyField = nameForm.value.get('key');
   const secondLevelNameField = nameForm.value.get('secondLevelName');
-  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'name');
+  const nameFieldMessages = nameForm.messages.filter(message => message.field === 'key');
   const secondLevelNameFieldMessages = nameForm.messages.filter(message => message.field === 'secondLevelName');
 
-  const node = findSubTreeByFullyQualifiedName(nameField.value);
+  const node = findSubTreeByFullyQualifiedName(keyField.value);
 
   return (
     <Fragment>
@@ -29,9 +29,10 @@ export default function EditGroupForm(props) {
         <FlexWrapper>
           <KeySelectionSection
             keys={keys}
-            value={nameField.value}
+            value={keyField.value}
             messages={nameFieldMessages}
-            onChange={value => onChange('name', value)}
+            onChange={value => onChange('key', value)}
+            autoFocus
           />
 
           <CustomKeySection

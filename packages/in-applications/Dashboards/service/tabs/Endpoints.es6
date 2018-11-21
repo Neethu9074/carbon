@@ -88,6 +88,7 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
           endpointId={endpointId}
           timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
+          getRowProps={getRowProps}
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
           technologies={technologies}
@@ -177,6 +178,10 @@ function getTableData({
     }
   });
 }
+
+const getRowProps = item => {
+  return { dull: item.isSythetic ? 1 : 0 };
+};
 
 const columnDefinitions = [
   {

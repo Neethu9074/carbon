@@ -1,0 +1,6 @@
+{
+  "name": "SideNavigation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SideNavigation.es6"
+}

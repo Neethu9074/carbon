@@ -1,11 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .maxWidthFullscreenContainer {
-    max-width: 38rem;
-    padding-bottom: 5rem;
-  }
-
   .header {
     display: flex;
     margin-top: 2.5rem;

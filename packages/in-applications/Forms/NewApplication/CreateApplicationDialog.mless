@@ -1,6 +1,11 @@
 @import '~in-themes/active.less';
 
 :local {
+  .maxWidthFullscreenContainer {
+    max-width: 38rem;
+    padding-bottom: 5rem;
+  }
+
   .applicationNameText {
     margin-top: 1rem;
   }

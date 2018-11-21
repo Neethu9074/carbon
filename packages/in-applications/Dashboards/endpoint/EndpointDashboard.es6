@@ -7,8 +7,10 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import { configureSyntheticEndpointsView } from 'in-applications/navigation/paths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
@@ -16,7 +18,11 @@ import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import CallsButton from 'in-applications/components/CallsButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
+import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
+
+import locals from './EndpointDashboard.mless';
 
 export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard({ location, timeConfig }) {
   const props = {
@@ -49,24 +55,43 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 });
 
 function Header(props) {
+  const isSynthetic = get(props.result, ['data', 'isSynthetic'], false);
   return (
-    <BasicDashboardHeader
-      title="Endpoint"
-      icon="lib_application_endpoint"
-      renderActions={Actions}
-      renderSubTypes={SubTypes}
-      {...props}
-    />
+    <Fragment>
+      {isSynthetic && (
+        <Message className={locals.message}>
+          <span>
+            <strong>Synthetic Endpoint </strong>
+            Calls to this endpoint do not contribute to your application, or service, KPIs within Instana.
+          </span>
+          <Link
+            className={locals.link}
+            href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
+          >
+            View Ignored Rules
+          </Link>
+        </Message>
+      )}
+      <BasicDashboardHeader
+        title="Endpoint"
+        icon="lib_application_endpoint"
+        renderActions={Actions}
+        renderSubTypes={SubTypes}
+        {...props}
+      />
+    </Fragment>
   );
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
+  const isSynthetic = get(result, ['data', 'isSynthetic'], false);
   return (
     <Fragment>
       <CallsButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
+        isSynthetic={isSynthetic}
         timeConfig={timeConfig}
       />
       <ApplicationEntityHealthIndicatorBehavior

@@ -35,7 +35,9 @@ export default function ServerTablePresenter(props) {
 
     // values that define the content
     columnDefinitions,
+    getRowProps,
     result = pendingResult,
+    itemFilter = () => true,
     cardTitle,
     tableInCard,
     rightHeader,
@@ -64,7 +66,7 @@ export default function ServerTablePresenter(props) {
     );
   } else if (hasErrors) {
     body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} size={size} />;
-  } else if (result.data.totalHits === 0) {
+  } else if (result.data.items.filter(itemFilter).length === 0) {
     body = (
       <tr size={size}>
         <td colSpan={columnDefinitions.length}>
@@ -73,17 +75,20 @@ export default function ServerTablePresenter(props) {
       </tr>
     );
   } else {
-    body = result.data.items.map((item, i) => (
-      <Row
-        key={item.id || i}
-        item={item}
-        size={size}
-        columnDefinitions={columnDefinitions}
-        cellOpts={props}
-        onMouseEnter={onRowMouseEnter}
-        onMouseLeave={onRowMouseLeave}
-      />
-    ));
+    body = result.data.items
+      .filter(itemFilter)
+      .map((item, i) => (
+        <Row
+          key={item.id || i}
+          item={item}
+          size={size}
+          columnDefinitions={columnDefinitions}
+          cellOpts={props}
+          onMouseEnter={onRowMouseEnter}
+          onMouseLeave={onRowMouseLeave}
+          getRowProps={getRowProps}
+        />
+      ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
   }
 

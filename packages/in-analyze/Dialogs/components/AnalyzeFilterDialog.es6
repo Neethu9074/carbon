@@ -113,7 +113,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
     let form = this.state.form;
     const { setNameForTagSuggestion, set2ndLevelNameForTagSuggestion } = this.props;
 
-    if (fieldName === 'name') {
+    if (fieldName === 'key') {
       if (setNameForTagSuggestion) {
         setNameForTagSuggestion(value);
       }
@@ -138,7 +138,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
 
 function onChangeName(form, value) {
   form = form.updateIn(['nameForm'], subForm => {
-    let updatedSubForm = subForm.value.updateIn(['name'], field => field.setValue(value).setTouched(true));
+    let updatedSubForm = subForm.value.updateIn(['key'], field => field.setValue(value).setTouched(true));
     updatedSubForm = updatedSubForm.updateIn(['secondLevelName'], field => field.setValue('').setTouched(true));
 
     return subForm.setValue(updatedSubForm).setTouched(true);
@@ -192,7 +192,7 @@ export function getInitialForm(props) {
       createField({
         value: createMapForm()
           .put(
-            'name',
+            'key',
             createField({
               value: name
             })
@@ -231,7 +231,7 @@ function nameValidator(name) {
   if (isBlank(name)) {
     return [
       {
-        field: 'name',
+        field: 'key',
         severity: 'error',
         message: 'Please select a key.'
       }
@@ -242,7 +242,7 @@ function nameValidator(name) {
   if (!nodeInTree) {
     return [
       {
-        field: 'name',
+        field: 'key',
         severity: 'error',
         message: 'Please select a valid key.'
       }
@@ -251,7 +251,7 @@ function nameValidator(name) {
 }
 
 function nameFormValidator(nameForm) {
-  const keyName = nameForm.get('name').value;
+  const keyName = nameForm.get('key').value;
   const nameValidationResult = nameValidator(keyName);
   if (nameValidationResult) {
     return nameValidationResult;

@@ -2,8 +2,8 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
@@ -32,7 +32,7 @@ export function NamedSection({ name, children }) {
   );
 }
 
-export function KeySelectionSection({ keys, value, onChange, messages }) {
+export function KeySelectionSection({ keys, value, onChange, messages, autoFocus }) {
   const options = keys.map(key => ({
     label: key,
     value: key
@@ -45,6 +45,7 @@ export function KeySelectionSection({ keys, value, onChange, messages }) {
         value={value}
         onChange={e => onChange(get(findSubTreeByFullyQualifiedName(e.value), ['fullyQualifiedName'], ''))}
         options={options}
+        autoFocus={autoFocus}
       />
       {messages.map((message, i) => (
         <ValidationBlock key={i} className={locals.validationMessage}>
@@ -82,14 +83,14 @@ export function CustomKeySection({ value, messages, onChange, node, tagSecondLev
   );
 }
 
-export function OperatorSelection({ value, onChange, node, withExtendedOperators }) {
+export function OperatorSelection({ value, onChange, node, operatorBlacklist }) {
   if (!node) {
     return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
   }
 
-  const operators = withExtendedOperators
-    ? TAG_TYPES[node.type].operators.concat(TAG_TYPES[node.type].extendedOperators)
-    : TAG_TYPES[node.type].operators;
+  const operators = TAG_TYPES[node.type].operators.filter(
+    operator => !operatorBlacklist || !operatorBlacklist.includes(operator)
+  );
   if (operators.length === 1) {
     return (
       <input
@@ -164,7 +165,7 @@ function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
   );
 }
 
-export function SelectBox({ options, id, value, onChange }) {
+export function SelectBox({ options, id, value, onChange, autoFocus }) {
   return (
     <ComboBox
       id={id}
@@ -173,7 +174,7 @@ export function SelectBox({ options, id, value, onChange }) {
       autoComplete="off"
       options={options}
       clearable={false}
-      autoFocus
+      autoFocus={autoFocus}
       openOnFocus
     />
   );
@@ -232,6 +233,7 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
           placeholder=""
           isClearable
           autoFocus
+          openOnFocus
           searchable
           menuIsOpen
         />

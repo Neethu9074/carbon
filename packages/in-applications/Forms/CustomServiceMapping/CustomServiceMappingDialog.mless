@@ -12,6 +12,7 @@
   .matchSpecification {
     display: flex;
     align-items: flex-end;
+    max-width: 38rem;
   }
 
   .matchSpecificationGroupKey {
@@ -30,7 +31,6 @@
 
   .addRuleButtonWrapper {
     display: flex;
-    justify-content: flex-end;
 
     width: 100%;
 

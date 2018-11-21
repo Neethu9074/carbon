@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .viewSwitcher {
+    position: fixed;
+    width: 18rem;
+    height: 100%;
+  }
+
+  .configView {
+    margin-left: 20rem;
+    margin-right: 5rem;
+  }
+
+  .splitter {
+    position: fixed;
+    margin-left: 18.5rem;
+    height: 82%;
+    width: 1px;
+    background: @lib__colors__N400;
+  }
+}

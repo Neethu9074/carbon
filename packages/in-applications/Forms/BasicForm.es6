@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
@@ -148,7 +147,7 @@ class BasicForm extends React.Component {
     }
 
     return (
-      <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
+      <div>
         <Title title={title} />
         <div className={locals.header}>
           <h1 className={locals.heading}>{title}</h1>
@@ -165,7 +164,7 @@ class BasicForm extends React.Component {
         <Spacer type="dark" />
 
         {content}
-      </MaxWidthFullscreenContainer>
+      </div>
     );
   }
 

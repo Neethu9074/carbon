@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import Rule from 'in-applications/Forms/components/Rule';
 import { build } from 'in-services/validators/urlPath';
-import Toggle from 'in-components/form/Toggle';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ExtractionRule.mless';
@@ -16,32 +15,15 @@ export default function ExtractionRule({
   onClick
 }) {
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.extractionRule]: true,
-        [locals.reorderable]: reorderable,
-        [locals.disabled]: !rule.enabled
-      })}
-    >
-      <div className={locals.left}>
-        <span className={locals.query}>{rule.query || build(rule.pathSegments)}</span>
-        {!isInstanaDefaultRule && <TestResult testResult={testResult} rule={rule} />}
-      </div>
-
-      <div className={locals.right}>
-        <Toggle className={locals.toggle} checked={rule.enabled} onChange={e => onToggleEnable(e.target.checked)} />
-        {!isInstanaDefaultRule && (
-          <SvgIcon
-            className={locals.icon}
-            type="lib_actions_edit"
-            width={24}
-            height={24}
-            onClick={isInstanaDefaultRule ? null : () => onClick(rule)}
-          />
-        )}
-        {isInstanaDefaultRule && <div className={locals.iconPlaceholder} />}
-      </div>
-    </div>
+    <Rule
+      name={rule.query || build(rule.pathSegments)}
+      content={!isInstanaDefaultRule && <TestResult testResult={testResult} rule={rule} />}
+      enabled={rule.enabled}
+      reorderable={reorderable}
+      isInstanaDefaultRule={isInstanaDefaultRule}
+      onToggleEnable={onToggleEnable}
+      onEdit={() => onClick(rule)}
+    />
   );
 }
 

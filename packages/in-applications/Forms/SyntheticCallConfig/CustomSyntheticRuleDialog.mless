@@ -1,14 +1,22 @@
 @import '~in-themes/active.less';
 
 :local {
-  .queryFormSection {
+  .nameSection {
     background: @lib__colors__N200;
     padding: 0 1rem 0.25rem;
   }
 
-  .queryHelpText {
-    margin-top: 1rem;
+  .addDescriptionButton {
+    margin-right: 0.5rem;
+    background: @lib__colors__N200;
+  }
 
+  .conditionSection {
+    padding: 0.5rem 1rem;
+  }
+
+  .helpText {
+    margin: 1rem 0 0.5rem 0;
     color: @lib__colors__N600Light;
     font-size: 0.75rem;
   }

@@ -39,6 +39,7 @@ import './components/HeatMap';
 import './components/KpiCardStory';
 import './components/Loading';
 import './components/MapControlsStory';
+import './components/MessageStory';
 import './components/overlays/OverlayStory';
 import './components/PaginationStory';
 import './components/PillStory';

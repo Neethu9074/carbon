@@ -15,10 +15,12 @@ export const newApplicationView = '/application/new';
 export const newApplicationWaiterView = '/application/waiter';
 
 export const servicesList = '/services';
+export const newServiceView = '/services/configure/new';
+export const configureSyntheticEndpointsView = '/services/configure/syntheticEndpoints';
 export const serviceDashboard = '/service';
-export const newServiceView = '/service/new';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
+export const syntheticEndpointsList = '/service/endpoints/synthetic';
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,
