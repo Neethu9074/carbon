@@ -33,6 +33,13 @@ function MixedGrid() {
         <ExampleCol xs={6} />
         <ExampleCol xs />
       </Row>
+      <Row>
+        <ExampleCol xs={6} xsOffset={3} />
+      </Row>
+      <Row>
+        <ExampleCol xs={1} />
+        <ExampleCol xs={3} xsOffset={2} />
+      </Row>
     </div>
   );
 }
@@ -62,6 +69,13 @@ function ResponsiveGrid() {
         <ExampleCol lg />
         <ExampleCol lg={6} />
         <ExampleCol lg />
+      </Row>
+      <Row>
+        <ExampleCol lg={6} lgOffset={3} />
+      </Row>
+      <Row>
+        <ExampleCol lg={1} />
+        <ExampleCol lg={3} lgOffset={2} />
       </Row>
     </div>
   );
