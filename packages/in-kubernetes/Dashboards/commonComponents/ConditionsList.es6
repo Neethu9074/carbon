@@ -6,7 +6,11 @@ import Card from 'in-new-components/Card';
 
 import locals from './ConditionsList.mless';
 
-export default function ConditionsList({ conditions = [] }) {
+export default function ConditionsList({ conditions }) {
+  if (!conditions || conditions.length === 0) {
+    return null;
+  }
+
   return (
     <Card title="Conditions">
       <Row>
