@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DualValueBar from 'in-sdk/components/dashboard/summary/DualValueBar';
 import { agentNotificationsEnabled } from 'in-services/featureFlags';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
+import TwoValueBar from 'in-new-components/TwoValueBar';
 import { timeConfig$ } from 'in-stores/time/config';
 import KV from 'in-sdk/components/dashboard/KV';
 import Tooltip from 'in-components/Tooltip';
@@ -41,13 +41,15 @@ export default connectTo(
                   }}
                 >
                   {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
-                  <DualValueBar
-                    aValue={agentSnapshots.get('online', emptyList).size}
-                    bValue={agentSnapshots.get('offline', emptyList).size}
-                    formatter={b => b}
-                    aLabel="Reporting"
-                    bLabel="Not reporting"
-                  />
+                  <div style={{ marginLeft: '1rem' }}>
+                    <TwoValueBar
+                      v1={agentSnapshots.get('online', emptyList).size}
+                      v2={agentSnapshots.get('offline', emptyList).size}
+                      formatter={v => v}
+                      v1Label="Reporting"
+                      v2Label="Not reporting"
+                    />
+                  </div>
                 </div>
               }
             />
