@@ -5,7 +5,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { millis } from 'in-services/formatters/number';
+import { formatDateTime } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/services';
@@ -101,7 +101,7 @@ const columnDefinitions = [
     id: 'age',
     label: 'Age',
     getContent(item) {
-      return millis.compact(item.ageInMillis);
+      return formatDateTime(item.age);
     }
   }
 ];
