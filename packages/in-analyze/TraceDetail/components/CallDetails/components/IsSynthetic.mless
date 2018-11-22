@@ -1,0 +1,7 @@
+:local {
+  .contentWrapper {
+    padding: 0.4rem 1rem;
+    background: #f8f8f8;
+    font-size: 0.688rem;
+  }
+}
