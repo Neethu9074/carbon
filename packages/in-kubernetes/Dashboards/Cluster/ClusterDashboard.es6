@@ -41,11 +41,19 @@ export default function ClusterDashboard({ location }) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Cluster" icon="lib_kubernetes_cluster" {...props} renderSubTypes={SubTypes} />;
+  return (
+    <BasicDashboardHeader
+      title="Cluster"
+      icon="lib_kubernetes_cluster"
+      {...props}
+      renderSubTypes={SubTypes}
+      getLabel={result => get(result, ['data', 'cluster', 'label'])}
+    />
+  );
 }
 
 function SubTypes({ result }) {
-  const version = get(result, ['data', 'version']);
+  const version = get(result, ['data', 'cluster', 'version']);
   return (
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}

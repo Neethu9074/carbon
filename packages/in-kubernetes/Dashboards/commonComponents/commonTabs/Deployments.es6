@@ -2,9 +2,10 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
-import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
@@ -76,35 +77,19 @@ const columnDefinitions = [
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['deployment', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
-    id: 'availableReplicas',
-    label: 'Available Replicas',
+    id: 'replicas',
+    label: 'Replicas',
     sortable: false,
     getContent(item) {
       return (
-        <MetricValue
+        <MetricBasedTwoValueBar
           snapshotId={get(item, ['deployment', 'id'])}
-          metric="availableReplicas"
-          formatter={number.compact}
-          timeWindowAggregation="mean"
-        />
-      );
-    }
-  },
-  {
-    id: 'desiredReplicas',
-    label: 'Desired Replicas',
-    sortable: false,
-    getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['deployment', 'id'])}
-          metric="desiredReplicas"
-          formatter={number.compact}
-          timeWindowAggregation="mean"
+          metrics={['availableReplicas', 'desiredReplicas']}
+          labels={['Available', 'Desired']}
         />
       );
     }

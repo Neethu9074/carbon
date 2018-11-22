@@ -34,7 +34,6 @@ export function init() {
     if (mixpanelIsActive) {
       createTracker('pageLoadOrPageReload')();
       initPortalActivityHeartbeat();
-      initFineGrainedActivityHeartbeat();
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -53,18 +52,6 @@ function initPortalActivityHeartbeat() {
     setTimeout(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
   };
   trackActivity();
-}
-
-/**
- * Send an activity beacon once every five seconds. PM "needs" this to track usage duration.
- */
-function initFineGrainedActivityHeartbeat() {
-  const tracker = createTracker('user.heartbeat');
-  const sendHeartbeat = () => {
-    tracker();
-    setTimeout(sendHeartbeat, 5 * 1000 /* 5 second resolution */);
-  };
-  sendHeartbeat();
 }
 
 function initUsageDurationTrackers() {
@@ -292,9 +279,10 @@ function trackView() {
   navigationParameters$
     .map(location => {
       const path = location.pathname || '';
-      const matchResult = path.match(/^\/([a-z]+)(?:\/)?([a-z]+)?(?:\/.*)?$/i);
-      return { view: matchResult[1], subview: matchResult[2] };
+      return path.match(/^\/([a-z]+)(?:\/)?([a-z]+)?(?:\/.*)?$/i);
     })
+    .filter(Boolean)
+    .map(matchResult => ({ view: matchResult[1], subview: matchResult[2] }))
     // opening a (classic) dashboard does not count as a opening a view - those can be accessed in the context of
     // different views (physical, events, ...) but the dashboard content hides the underlying view completely so
     // it does not "feel" like opening the physical, events, ... view.

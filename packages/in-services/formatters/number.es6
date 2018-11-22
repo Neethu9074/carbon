@@ -15,6 +15,10 @@ export const number = {
   perSecond: {
     compact: v => zeroDecimalPlaces(v) + '/s',
     detailed: v => twoDecimalPlaces(v) + '/s'
+  },
+  forcedCompact: {
+    compact: zeroDecimalPlaces,
+    detailed: zeroDecimalPlaces
   }
 };
 

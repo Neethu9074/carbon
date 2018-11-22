@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
@@ -10,7 +11,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import theme from 'in-themes';
 
-export default function Summary({ tagFilters, timeConfig, pageId }) {
+export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -82,6 +83,8 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
         </Col>
       </Row>
 
+      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
+
       <Row>
         <Col lg={4}>
           <WebsiteChartWrapper
@@ -89,6 +92,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
+              formatter: number.forcedCompact,
               labels: ['Page Loads'],
               metricIds: ['pageLoads']
             }}
@@ -111,6 +115,7 @@ export default function Summary({ tagFilters, timeConfig, pageId }) {
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
+              formatter: number.forcedCompact,
               labels: ['Errors'],
               metricIds: ['errors'],
               colors: [theme.lib.colors.failure]

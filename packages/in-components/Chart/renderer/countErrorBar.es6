@@ -29,7 +29,7 @@ export default {
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
     config.addBlockSizeMillisForAxis(axis);
-    axis.formatter = [number, percentage];
+    axis.formatter = [number.forcedCompact, percentage];
     axis.colors = [lighten(theme.lib.colors.chart.strokeColors100[0], 0.4), theme.lib.colors.failure];
   }
 };

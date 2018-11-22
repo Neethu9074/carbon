@@ -99,7 +99,7 @@ class AnalyzeFilterBasicDialog extends React.Component {
     const tag = form.toJS();
 
     const nameForm = tag.nameForm.toJS();
-    tag.name = nameForm.name;
+    tag.name = nameForm.key;
     tag.secondLevelName = nameForm.secondLevelName;
 
     const valueForm = tag.valueForm.toJS();

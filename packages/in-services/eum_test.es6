@@ -28,7 +28,7 @@ describe('in-services/eum', () => {
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
-  ineum('apiKey', '123');
+  ineum('key', '123');
 </script>
 `.trim()
       );
@@ -43,7 +43,7 @@ describe('in-services/eum', () => {
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
-  ineum('apiKey', '123');
+  ineum('key', '123');
   ineum(true);
   ineum(false);
 </script>
@@ -56,15 +56,16 @@ describe('in-services/eum', () => {
       expect(mod.getEumSnippet({ key: '123' })).to.equal(
         `
 <script>
-  // Note: Replace the <trackingBaseUrl> with the base URL under which you proxy
-  // the Instana eumtracer (note that this needs to be replaced two times in this snippet).
+  // Note: Replace the <trackingBaseUrl> with the base URL under
+  // which you proxy the Instana eum-acceptor (note that this
+  // needs to be replaced two times in this snippet).
 
   (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','<trackingBaseUrl>/eum.min.js','ineum');
   ineum('reportingUrl', '<trackingBaseUrl>');
-  ineum('apiKey', '123');
+  ineum('key', '123');
 </script>
 `.trim()
       );

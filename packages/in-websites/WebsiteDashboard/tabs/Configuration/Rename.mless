@@ -1,0 +1,30 @@
+:local {
+  .group {
+    margin-bottom: 0;
+  }
+
+  .actionWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
+    width: 300px;
+    height: 31px;
+  }
+
+  .button {
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+
+  .successIcon {
+    margin: 0 0 0 1rem;
+    fill: #5dbe64;
+  }
+
+  .sucessLabel {
+    color: #5dbe64;
+    font-weight: bold;
+  }
+}

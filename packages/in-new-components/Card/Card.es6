@@ -4,7 +4,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Card.mless';
 
-export default function Card({ title, children, withoutPadding, header, className, framed }) {
+export default function Card({ title, children, withoutPadding, header, className, framed = true }) {
   return (
     <div
       className={evaluateClassNames({

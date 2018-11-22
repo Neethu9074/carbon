@@ -37,7 +37,9 @@ const stringifiedBuildInformation = JSON.stringify(buildInformation);
 // ]
 const prefetchItems = fs
   .readdirSync(paths.bundleDir)
-  .filter(fileName => /^\d+\.[a-z0-9]+\.js$/i.test(fileName))
+  .filter(fileName => /^.*\.[a-z0-9]+\.js$/i.test(fileName))
+  // There are just way too many Ammap files. No need to prefetch all of them.
+  .filter(fileName => fileName.indexOf('ammap') === -1)
   .map(fileName => {
     return {
       rel: 'prefetch',
@@ -202,6 +204,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
+      eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,

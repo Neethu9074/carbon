@@ -3,6 +3,7 @@ import { find } from 'lodash';
 import { createTrackingStore } from 'in-stores/store';
 import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
+import { ineum } from 'in-services/eum';
 
 export const ownerRoleId = '-1';
 export const fallbackRoleId = '-2';
@@ -18,3 +19,9 @@ export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
 }).observable;
+
+Object.keys(role).forEach(key => {
+  if (key !== 'id' && key !== 'name' && key !== 'implicitViewFilter') {
+    ineum('meta', `permission.${key}`, String(role[key]));
+  }
+});

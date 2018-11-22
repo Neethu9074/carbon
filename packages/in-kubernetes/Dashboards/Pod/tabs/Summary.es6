@@ -7,7 +7,9 @@ import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ data: pod }) {
+export default function Summary({ data: podItem }) {
+  const pod = podItem.pod;
+
   return (
     <Fragment>
       <Row>

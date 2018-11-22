@@ -7,7 +7,9 @@ export default function InfraMetricKpiCard({ title, snapshotId, metric, formatte
   return (
     <KpiCard
       title={title}
-      renderValue={() => <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} />}
+      renderValue={() => (
+        <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} timeWindowAggregation="mean" />
+      )}
     />
   );
 }

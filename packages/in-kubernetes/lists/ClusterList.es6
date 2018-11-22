@@ -75,35 +75,35 @@ const columnDefinitions = [
     id: 'namespaces',
     label: 'Namespaces',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_namespace" count={get(item, ['cluster', 'namespaces'])} />;
+      return <EntityCounter icon="lib_kubernetes_namespace" count={item.namespaces} />;
     }
   },
   {
     id: 'services',
     label: 'Services',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_service" count={get(item, ['cluster', 'services'])} />;
+      return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   },
   {
     id: 'nodes',
     label: 'Nodes',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={get(item, ['cluster', 'nodes'])} />;
+      return <EntityCounter icon="lib_kubernetes_node" count={item.nodes} />;
     }
   },
   {
     id: 'pods',
     label: 'Pods',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['cluster', 'pods'])} />;
+      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'deployments',
     label: 'Deployments',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={get(item, ['cluster', 'deployments'])} />;
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
     }
   }
 ];

@@ -1,10 +1,8 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-import SelfServiceQualityOfServiceStats from 'in-internal/SelfServiceQualityOfServiceStats/SelfServiceQualityOfServiceStats';
 import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
 import TracesSubscriptionStats from 'in-internal/TracesSubscriptionStats/TracesSubscriptionStats';
-import QualityOfServiceStats from 'in-internal/QualityOfServiceStats/QualityOfServiceStats';
 import AppDataProcessorStatistics from 'in-internal/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
@@ -15,6 +13,9 @@ import DevDashboard from 'in-internal/DevDashboard';
 import EumOverview from 'in-internal/eum/Overview';
 import FillerStats from 'in-internal/FillerStats';
 import Appdata from 'in-internal/Appdata/Appdata';
+import WorkerStats from 'in-internal/sre/WorkerStats';
+import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
+import CassandraClusters from 'in-internal/sre/CassandraClusters';
 
 export default function Internal() {
   return (
@@ -29,10 +30,11 @@ export default function Internal() {
       <Route path="/internal/appdata" component={Appdata} />
       <Route path="/internal/appdataProcessing" component={AppDataProcessorStatistics} />
       <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
-      <Route path="/internal/qualityOfServiceStats" component={QualityOfServiceStats} />
-      <Route path="/internal/selfServiceQualityOfServiceStats" component={SelfServiceQualityOfServiceStats} />
       <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
       <Route path="/internal/tracesSubscriptionStats" component={TracesSubscriptionStats} />
+      <Route path="/internal/sre/workerStats" component={WorkerStats} />
+      <Route path="/internal/sre/selfserviceWorkerStats" component={SelfserviceWorkerStats} />
+      <Route path="/internal/sre/cassandraClusters" component={CassandraClusters} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );

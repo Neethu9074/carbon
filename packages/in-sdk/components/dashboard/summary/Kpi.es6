@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DualValueBar from 'in-sdk/components/dashboard/summary/DualValueBar';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import ErrorBar from 'in-sdk/components/dashboard/summary/ErrorBar';
+import TwoValueBar from 'in-new-components/TwoValueBar';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
 
@@ -72,13 +72,15 @@ const DualPercentage = connectTo(
   },
   function DualPercentage({ aValue, percentages }) {
     return (
-      <DualValueBar
-        aValue={aValue}
-        bValue={1 - aValue}
-        formatter={percentages[0].formatter}
-        aLabel={percentages[0].label}
-        bLabel={percentages[1].label}
-      />
+      <div style={{ marginLeft: '1rem' }}>
+        <TwoValueBar
+          v1={aValue}
+          v2={1 - aValue}
+          formatter={percentages[0].formatter}
+          v1Label={percentages[0].label}
+          v2Label={percentages[1].label}
+        />
+      </div>
     );
   }
 );

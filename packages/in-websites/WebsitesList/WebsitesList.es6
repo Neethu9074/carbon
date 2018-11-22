@@ -1,13 +1,15 @@
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { getLinkToWebsite, newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
-import { websitesPath } from 'in-websites/navigation/paths';
+import { clickNewWebsiteTracker } from 'in-websites/tracker';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -16,8 +18,16 @@ import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
-const rightHeader = role.canConfigureWebsites && (
-  <Button kind="action" icon="lib_openclose_add_circle_outline">
+import locals from './WebsitesList.mless';
+
+const rightHeader = role.canConfigureEumApplications && (
+  <Button
+    kind="action"
+    className={locals.button}
+    icon="lib_openclose_add_circle_outline"
+    href$={linkToNewWebsite$}
+    onClick={() => clickNewWebsiteTracker()}
+  >
     Add Website
   </Button>
 );
@@ -48,6 +58,10 @@ export default connectTo(
       })
   },
   function WebsitesList({ timeConfig, totalNumberOfWebsites }) {
+    if (totalNumberOfWebsites === 0) {
+      return <RedirectWithHash to={newWebsitePathFullyQualified} />;
+    }
+
     const leftHeader = (
       <ListTitle>Websites {totalNumberOfWebsites != null && `(${number.compact(totalNumberOfWebsites)})`}</ListTitle>
     );

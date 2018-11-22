@@ -1,0 +1,6 @@
+{
+  "name": "TwoValueBar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TwoValueBar.es6"
+}

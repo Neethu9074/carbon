@@ -1,0 +1,6 @@
+:local {
+  .frame {
+    max-width: 37.5rem;
+    margin: 2.75rem auto 1rem;
+  }
+}

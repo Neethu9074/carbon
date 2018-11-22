@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
+import { getNginxWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -14,10 +15,16 @@ export default connectTo(
     timeConfig: timeConfig$,
     appdataWriters: getDropwizardWithContext('entity.label:"appdata-writer"'),
     eumAcceptors: getDropwizardWithContext('entity.label:"eum-acceptor"'),
-    eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"')
+    eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"'),
+    eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
-  function EumProcessor({ appdataWriters, eumAcceptors, eumProcessors, timeConfig }) {
-    if (appdataWriters.length === 0 || eumAcceptors.length === 0 || eumProcessors.length === 0) {
+  function Overview({ appdataWriters, eumAcceptors, eumProcessors, eumLoadbalancers, timeConfig }) {
+    if (
+      appdataWriters.length === 0 ||
+      eumAcceptors.length === 0 ||
+      eumProcessors.length === 0 ||
+      eumLoadbalancers.length === 0
+    ) {
       return <LoadingIndicator type="dark" />;
     }
 
@@ -27,9 +34,59 @@ export default connectTo(
     const eumAcceptorLabels = getLabels(eumAcceptors, /^(eum-acceptor-\d+).*$/i);
     eumProcessors = sort(eumProcessors);
     const eumProcessorLabels = getLabels(eumProcessors, /^(eum-processor-\d+).*$/i);
+    eumLoadbalancers = sort(eumLoadbalancers);
+    const eumLoadbalancerLabels = getLabels(eumLoadbalancers, /^(loadbalancer-eum-\d+).*$/i);
 
     return (
       <div>
+        <h1>loadbalancer-eum (edge)</h1>
+
+        <Columize>
+          <DashboardSection title={`Requests`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: eumLoadbalancers.map(() => `requests`),
+                labels: eumLoadbalancerLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Dropped connections`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: eumLoadbalancers.map(() => `connections.dropped`),
+                labels: eumLoadbalancerLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Host CPU load`}>
+            <Chart
+              snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                tooltipFormatter: number.detailed,
+                metrics: eumLoadbalancers.map(() => 'load.1min'),
+                labels: eumLoadbalancers.map(r => r.host.get('label')),
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
         <h1>eum-acceptor (data collection)</h1>
 
         <Columize>

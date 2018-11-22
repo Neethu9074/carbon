@@ -17,6 +17,7 @@ export default connect(({ userEmail }) => ({
   const hasMeta = Object.keys(beacon.meta).length > 0;
 
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
+  const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
 
   return (
     <Row>
@@ -38,7 +39,9 @@ export default connect(({ userEmail }) => ({
             <span className={locals.city}>{beacon.city}</span>
             <span className={locals.countryAndContinent}>{geoSubsection.join(', ')}</span>
           </address>
-          <Map beacon={beacon} />
+
+          {isGeoCoordinatesAvailable && <Map beacon={beacon} />}
+          {!isGeoCoordinatesAvailable && <p>Location could not be determined from IP.</p>}
         </Card>
       </Col>
       <Col lg={4}>
@@ -46,7 +49,7 @@ export default connect(({ userEmail }) => ({
           {hasMeta && (
             <Code
               showLineNumbers={false}
-              code={JSON.stringify(beacon.meta, 0, 2)}
+              code={JSON.stringify(ensureSortedMeta(beacon.meta), 0, 2)}
               lang="json"
               className={locals.meta}
             />
@@ -65,3 +68,12 @@ export default connect(({ userEmail }) => ({
     </Row>
   );
 });
+
+function ensureSortedMeta(meta) {
+  return Object.keys(meta)
+    .sort()
+    .reduce((agg, key) => {
+      agg[key] = meta[key];
+      return agg;
+    }, {});
+}

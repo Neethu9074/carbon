@@ -50,14 +50,26 @@
     (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//{{eumTrackingDomain}}/eum.min.js','ineum');
-    ineum('apiKey', '{{eumTrackingApiKey}}');
+    })(window,document,'script','//{{eumRetrievalDomain}}/eum.min.js','ineum');
+    ineum('key', '{{eumTrackingApiKey}}');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/]);
-    ineum('meta', 'build-tag', window.instana.build.tag);
-    ineum('meta', 'build-revision', window.instana.build.revision);
-    ineum('meta', 'build-date', window.instana.build.date);
+    ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
+    ineum('meta', 'build.tag', window.instana.build.tag);
+    ineum('meta', 'build.revision', window.instana.build.revision);
+    ineum('meta', 'build.date', window.instana.build.date);
+    ineum('meta', 'tenant', window.instana.config.tenant);
+    ineum('meta', 'unit', window.instana.config.tenantUnit);
+    ineum('meta', 'region', window.instana.config.region);
+
+    Object.keys(window.instana.config.featureFlags).forEach(function(featureFlagName) {
+      ineum('meta', 'featureFlag.' + featureFlagName, String(window.instana.config.featureFlags[featureFlagName]));
+    });
+
+    Object.keys(window.instana.config.configuration).forEach(function(configName) {
+      ineum('meta', 'config.' + configName, String(window.instana.config.configuration[configName]));
+    });
   </script>
   {{/if}}
 

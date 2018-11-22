@@ -78,4 +78,28 @@ function doGenerate() {
     fs.writeFileSync(targetFileName, content);
     console.log('Metric overview for Grafana written to %s', targetFileName);
   });
+
+  it('must generate a metric overview for UI backend', () => {
+    const result = Object.keys(allMetricDefinitions).reduce((plugins, pluginName) => {
+      const metrics = allMetricDefinitions[pluginName]
+        .filter(metric => typeof metric.label === 'string' && typeof metric.metric === 'string')
+        .map(metric => {
+          return {
+            formatter: 'UNDEFINED',
+            label: getPlural(pluginName) + ' ' + metric.label,
+            description: metric.label,
+            metricId: metric.metric,
+            pluginId: pluginName,
+            custom: false
+          };
+        });
+      plugins[pluginName] = metrics;
+      return plugins;
+    }, {});
+
+    const targetFileName = path.join(process.cwd(), 'metricOverviewForUiBackend.json');
+    const content = `${JSON.stringify(result, 0, 2)}`;
+    fs.writeFileSync(targetFileName, content);
+    console.log('Metric overview for ui backend written to %s', targetFileName);
+  });
 }

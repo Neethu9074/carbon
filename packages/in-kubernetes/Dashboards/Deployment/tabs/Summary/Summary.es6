@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
@@ -10,48 +11,28 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
-export default function Summary({ data: deployment }) {
+export default function Summary({ data: deploymentItem }) {
+  const deployment = deploymentItem.deployment;
+
   return (
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Namespace" value={deployment.deployment} raw />
+          <KpiCard title="Namespace" value={deployment.namespace} raw />
         </Col>
         <Col lg={4}>
           <KpiCard title="Cluster" value={deployment.clusterId} raw />
         </Col>
         <Col lg={4}>
-          <InfraMetricKpiCard
-            title="Restarts"
-            snapshotId={deployment.id}
-            metric="restartCount"
-            formatter={zeroDecimalPlaces}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={4}>
-          <InfraMetricKpiCard
-            title="Available Replicas"
-            snapshotId={deployment.id}
-            metric="availableReplicas"
-            formatter={zeroDecimalPlaces}
-          />
-        </Col>
-        <Col lg={4}>
-          <InfraMetricKpiCard
-            title="Desired Replicas"
-            snapshotId={deployment.id}
-            metric="desiredReplicas"
-            formatter={zeroDecimalPlaces}
-          />
-        </Col>
-        <Col lg={4}>
-          <InfraMetricKpiCard
-            title="Pending Pods"
-            snapshotId={deployment.id}
-            metric="phase.Pending.count"
-            formatter={zeroDecimalPlaces}
+          <KpiCard
+            title="Replicas"
+            renderValue={() => (
+              <MetricBasedTwoValueBar
+                snapshotId={deployment.id}
+                metrics={['availableReplicas', 'desiredReplicas']}
+                labels={['Available', 'Desired']}
+              />
+            )}
           />
         </Col>
       </Row>
@@ -69,6 +50,24 @@ export default function Summary({ data: deployment }) {
             title="Unready Pods"
             snapshotId={deployment.id}
             metric="conditions.Ready.False"
+            formatter={zeroDecimalPlaces}
+          />
+        </Col>
+        <Col lg={4}>
+          <InfraMetricKpiCard
+            title="Pending Pods"
+            snapshotId={deployment.id}
+            metric="phase.Pending.count"
+            formatter={zeroDecimalPlaces}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={4}>
+          <InfraMetricKpiCard
+            title="Restarts"
+            snapshotId={deployment.id}
+            metric="restartCount"
             formatter={zeroDecimalPlaces}
           />
         </Col>

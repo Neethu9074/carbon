@@ -72,13 +72,16 @@ export default function DevDashboard() {
         </li>
       </ul>
 
-      <h3>Quality Of Service</h3>
+      <h3>SRE</h3>
       <ul className={locals.links}>
         <li>
-          <a href="/#/internal/qualityOfServiceStats">Fleet Worker</a>
+          <a href="/#/internal/sre/workerStats">Worker Allocation / Load</a>
         </li>
         <li>
-          <a href="/#/internal/selfServiceQualityOfServiceStats">SelfService Fleet Worker</a>
+          <a href="/#/internal/sre/selfserviceWorkerStats">Selfservice Worker Allocation / Load</a>
+        </li>
+        <li>
+          <a href="/#/internal/sre/cassandraClusters">Cassandra Clusters</a>
         </li>
       </ul>
     </div>

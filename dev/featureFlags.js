@@ -7,7 +7,7 @@ module.exports = {
   tenantSwitcherEnabled: true,
   isUsageInfoPopupEnabled: false,
   onPremLicenseInformationEnabled: false,
-  oneZeroAppDataPresentationEnabled: true,
+  oneZeroAppDataPresentationEnabled: false,
   oneZeroSupportedUntilMessageEnabled: true,
   twoZeroAppDataEnabled: true,
   twoZeroAppDataPresentationEnabled: true,

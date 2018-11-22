@@ -6,7 +6,9 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ data: namespace }) {
+export default function Summary({ data: namespaceItem }) {
+  const namespace = namespaceItem.namespace;
+
   return (
     <Fragment>
       <Row>
@@ -14,7 +16,7 @@ export default function Summary({ data: namespace }) {
           <KpiCard title="Status" value={namespace.status} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Creation Time" value={formatDateTime(namespace.creationTime)} raw />
+          <KpiCard title="Creation Time" value={formatDateTime(namespace.created)} raw />
         </Col>
       </Row>
       <Row>
