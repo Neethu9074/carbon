@@ -56,11 +56,14 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ websiteId }) {
+function ViewAll({ websiteId, selectedMetric }) {
   return (
     <Link
       href$={getLinkToWebsite(websiteId, {
-        tabPath: '/pages'
+        tabPath: '/pages',
+        tabParameters: {
+          orderBy: `${selectedMetric}Agg`
+        }
       })}
     >
       View All

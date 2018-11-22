@@ -25,13 +25,17 @@ export const linkToNewWebsite$ = getModifiedUrlStream(params => {
   params.pathname = newWebsitePathFullyQualified;
 });
 
-export function getLinkToWebsite(websiteId, { tabPath = '/summary', pageId } = emptyObject) {
+export function getLinkToWebsite(websiteId, { tabPath = '/summary', tabParameters, pageId } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${websitePathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
 
     if (pageId !== undefined) {
       setOrDeleteMatrixKey(params, websitePath, pageIdMatrixParameter, pageId);
+    }
+
+    if (tabPath && tabParameters) {
+      Object.keys(tabParameters).forEach(name => setOrDeleteMatrixKey(params, tabPath, name, tabParameters[name]));
     }
   });
 }

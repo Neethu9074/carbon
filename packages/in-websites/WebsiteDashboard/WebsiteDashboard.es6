@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import { websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';
+import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
@@ -10,7 +11,6 @@ import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import tabs from 'in-websites/WebsiteDashboard/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function WebsiteDashboard({ location }) {
@@ -46,7 +46,7 @@ export default function WebsiteDashboard({ location }) {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={tabs}
+        tabs={props.pageId ? pageTabs : websiteTabs}
         props={props}
       />
     </Fragment>
