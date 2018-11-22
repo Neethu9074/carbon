@@ -72,12 +72,12 @@ export default function createAnimatableContentRenderer(config) {
       rollupSize = 1000 * 60 * 60;
       newDataColumns = axis.forecastConfig.queue.get();
       axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
-      axis.forecastConfig.dataHolder.insertSorted(newDataColumns);
+      const forcedReprocess = axis.forecastConfig.dataHolder.insertSorted(newDataColumns);
       // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
       // when the content is animating.
       axis.forecastConfig.dataHolder.expireDataPointsOlderThan(config.scales.x.getDomainFrom() - rollupSize);
       const dataColumnsForecasts = axis.forecastConfig.dataHolder.getDataColumns();
-      if (config.processDataColumnsAgain) {
+      if (config.processDataColumnsAgain || forcedReprocess) {
         axisContentRenderer.processNewDataColumns(dataColumnsForecasts, axisName);
       }
     }
@@ -85,12 +85,12 @@ export default function createAnimatableContentRenderer(config) {
     rollupSize = config.rollup.rollup || 1000;
     newDataColumns = config.queues[axisName].get();
     axisContentRenderer.processNewDataColumns(newDataColumns, axisName);
-    config.dataHolders[axisName].insertSorted(newDataColumns);
+    const forcedReprocess = config.dataHolders[axisName].insertSorted(newDataColumns);
     // Subtract config.rollup to ensure that we have smooth animation at the beginning of the chart even
     // when the content is animating.
     config.dataHolders[axisName].expireDataPointsOlderThan(config.scales.x.getDomainFrom() - rollupSize);
     const dataColumnsMetrics = config.dataHolders[axisName].getDataColumns();
-    if (config.processDataColumnsAgain) {
+    if (config.processDataColumnsAgain || forcedReprocess) {
       axisContentRenderer.processNewDataColumns(dataColumnsMetrics, axisName);
     }
 
