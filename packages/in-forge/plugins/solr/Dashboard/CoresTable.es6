@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, millis, percentage, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
@@ -60,7 +60,7 @@ const cols = [
       getMetricName(row) {
         return `core_stats.${row.key}.hitratio`;
       },
-      getContent: percentage.compact,
+      getContent: hitRateZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
