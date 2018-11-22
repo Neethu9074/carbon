@@ -107,12 +107,13 @@ function MatchedSyntheticEndpoints(props) {
 
 function EndpointName({ item }) {
   const endpointNameFilter = { name: 'endpoint.name', value: item.name };
+  const isSyntheticFilter = { name: 'call.is_synthetic', value: 'true' };
   return (
     <Link
       href$={getLinkToAnalyze({
         dataSource: 'calls',
         groupByTag: { name: 'endpoint.name' },
-        filters: [endpointNameFilter]
+        filters: [endpointNameFilter, isSyntheticFilter]
       })}
     >
       {item.name}
@@ -122,13 +123,13 @@ function EndpointName({ item }) {
 
 function ServicesAffected({ item }) {
   const endpointNameFilter = { name: 'endpoint.name', value: item.name };
-
+  const isSyntheticFilter = { name: 'call.is_synthetic', value: 'true' };
   return (
     <Link
       href$={getLinkToAnalyze({
         dataSource: 'calls',
         groupByTag: { name: 'service.name' },
-        filters: [endpointNameFilter]
+        filters: [endpointNameFilter, isSyntheticFilter]
       })}
     >
       {number.compact(get(item, ['metrics', 'services', 0, 1]))}
