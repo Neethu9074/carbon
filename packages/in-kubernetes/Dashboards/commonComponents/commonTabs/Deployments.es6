@@ -64,7 +64,6 @@ const columnDefinitions = [
           icon="lib_kubernetes_workload"
           label={get(item, ['deployment', 'name'])}
           href$={getDeploymentDashboard(get(item, ['deployment', 'id']), { clusterId })}
-          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -120,8 +119,6 @@ const columnDefinitions = [
       return (
         <KubernetesEntityHealthIndicatorBehavior
           deploymentId={item.deployment.id}
-          openIssues={get(item, ['health', 'openIssues'], 0)}
-          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea

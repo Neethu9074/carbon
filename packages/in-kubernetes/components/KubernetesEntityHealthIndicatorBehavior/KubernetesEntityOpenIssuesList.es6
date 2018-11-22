@@ -8,12 +8,14 @@ import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeConfig }) => {
+  ({ clusterId, namespaceId, deploymentId, podId, nodeId, timeConfig }) => {
     return {
       openIssuesResult: getApplicationEntityHealthInfo({
-        applicationId,
-        serviceId,
-        endpointId,
+        clusterId,
+        namespaceId,
+        deploymentId,
+        podId,
+        nodeId,
         timeConfig
       })
         .startWith(indeterminateProgress)
@@ -23,29 +25,24 @@ export default connectTo(
   function ApplicationEntityOpenIssuesList({
     openIssuesResult,
     resolvedEndpointId,
-    applicationId,
-    serviceId,
-    endpointId,
-    eventId,
+    clusterId,
+    namespaceId,
+    deploymentId,
+    podId,
+    nodeId,
     close
   }) {
     return (
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
-        analyzeLink$={getEventsViewFilteredBy({
-          applicationId,
-          serviceId,
-          endpointId,
-          resolvedEndpointId,
-          eventId,
-          eventTypeFilter: 'issue'
-        })}
         getIssueLink={eventId =>
           getEventsViewFilteredBy({
-            applicationId,
-            serviceId,
-            endpointId,
+            clusterId,
+            namespaceId,
+            deploymentId,
+            podId,
+            nodeId,
             resolvedEndpointId,
             eventId,
             eventTypeFilter: 'issue'

@@ -69,7 +69,6 @@ const columnDefinitions = [
           icon="lib_kubernetes_cluster"
           label={get(item, ['cluster', 'label'])}
           href$={getClusterDashboard(get(item, ['cluster', 'id']))}
-          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -117,8 +116,6 @@ const columnDefinitions = [
       return (
         <KubernetesEntityHealthIndicatorBehavior
           clusterId={item.cluster.id}
-          openIssues={get(item, ['health', 'openIssues'], 0)}
-          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea

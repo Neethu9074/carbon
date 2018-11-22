@@ -1,24 +1,45 @@
 import React from 'react';
 
 import KubernetesEntityOpenIssuesList from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityOpenIssuesList';
+import getKubernetesEntityHealthInfo from 'in-subscription/kubernetes/getKubernetesEntityHealthInfo';
+import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
+import connectTo from 'in-hoc/connectTo';
 
-export default function ApplicationEntityHealthIndicatorBehavior(props) {
-  const { openIssues } = props;
-  if (openIssues == null || openIssues < 0) {
-    return null;
+export default connectTo(
+  ({ clusterId, namespaceId, deploymentId, podId, nodeId, timeConfig }) => {
+    const healthInfo$ = getKubernetesEntityHealthInfo({
+      clusterId,
+      namespaceId,
+      deploymentId,
+      podId,
+      nodeId,
+      timeConfig
+    }).filter(healthInfo => healthInfo.data != null);
+
+    return {
+      openIssues: healthInfo$.map(result => result.data.openIssues.length),
+      maxSeverity: healthInfo$.map(result => result.data.maxSeverity),
+      timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
+    };
+  },
+  function ApplicationEntityHealthIndicatorBehavior(props) {
+    const { openIssues } = props;
+    if (openIssues == null || openIssues < 0) {
+      return null;
+    }
+
+    if (openIssues === 0) {
+      return <props.IndicatorPresenter openIssues={openIssues} />;
+    }
+
+    return (
+      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
+        {Indicator}
+      </Overlay>
+    );
   }
-
-  if (openIssues === 0) {
-    return <props.IndicatorPresenter openIssues={openIssues} />;
-  }
-
-  return (
-    <Overlay props={props} content={Content} withoutWrapper inContentArea>
-      {Indicator}
-    </Overlay>
-  );
-}
+);
 
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (

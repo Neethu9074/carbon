@@ -67,7 +67,6 @@ const columnDefinitions = [
           icon="lib_kubernetes_namespace"
           label={get(item, ['namespace', 'label'])}
           href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
-          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -108,8 +107,6 @@ const columnDefinitions = [
       return (
         <KubernetesEntityHealthIndicatorBehavior
           namespaceId={item.namespace.id}
-          openIssues={get(item, ['health', 'openIssues'], 0)}
-          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea

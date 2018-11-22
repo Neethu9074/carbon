@@ -76,7 +76,6 @@ const columnDefinitions = [
           icon="lib_kubernetes_pod"
           label={get(item, ['pod', 'label'])}
           href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
-          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -135,8 +134,6 @@ const columnDefinitions = [
       return (
         <KubernetesEntityHealthIndicatorBehavior
           podId={item.pod.id}
-          openIssues={get(item, ['health', 'openIssues'], 0)}
-          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea

@@ -1,12 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { resourceQuotaPercentage } from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/namespaces';
@@ -53,7 +55,7 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { clusterId }) {
       return (
-        <EntityLink
+        <SeverityAwareEntityLink
           icon="lib_kubernetes_namespace"
           label={get(item, ['namespace', 'label'])}
           href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
@@ -153,6 +155,21 @@ const columnDefinitions = [
           metric="used_pods_percentage"
           formatter={resourceQuotaPercentage}
           timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          deploymentId={item.namespace.id}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
         />
       );
     }
