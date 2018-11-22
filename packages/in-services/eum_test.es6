@@ -56,8 +56,9 @@ describe('in-services/eum', () => {
       expect(mod.getEumSnippet({ key: '123' })).to.equal(
         `
 <script>
-  // Note: Replace the <trackingBaseUrl> with the base URL under which you proxy
-  // the Instana eumtracer (note that this needs to be replaced two times in this snippet).
+  // Note: Replace the <trackingBaseUrl> with the base URL under
+  // which you proxy the Instana eum-acceptor (note that this
+  // needs to be replaced two times in this snippet).
 
   (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

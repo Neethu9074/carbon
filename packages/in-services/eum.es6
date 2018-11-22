@@ -12,8 +12,9 @@ export function getEumSnippet({ key, additionalScript = null }) {
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
     lines.push(
-      `  // Note: Replace the <trackingBaseUrl> with the base URL under which you proxy`,
-      `  // the Instana eumtracer (note that this needs to be replaced two times in this snippet).`,
+      `  // Note: Replace the <trackingBaseUrl> with the base URL under`,
+      `  // which you proxy the Instana eum-acceptor (note that this`,
+      `  // needs to be replaced two times in this snippet).`,
       ``
     );
   }

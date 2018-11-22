@@ -21,6 +21,7 @@ import './application/EmptyAppListStory';
 
 import './website/BeaconUserSummaryStory';
 import './website/DeprecationsStory';
+import './website/NewWebsiteStory';
 import './website/WorldMapCardStory';
 
 import './components/AmMapStory';
