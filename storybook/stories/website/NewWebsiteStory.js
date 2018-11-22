@@ -1,4 +1,5 @@
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { createField, notBlankValidator } from 'formalistic';
+import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
@@ -8,6 +9,8 @@ import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 
 import Root from '../_helpers/Root';
 
+
+
 storiesOf('Websites/New Website', module)
   .addDecorator(withKnobs)
   .add('Input Step', () => <InputStepStory />)
@@ -15,9 +18,23 @@ storiesOf('Websites/New Website', module)
   .add('Ready Step', () => <ReadyStepStory />);
 
 function InputStepStory() {
+  let field = createField({
+    value: 'shop.example.com',
+    validator: notBlankValidator
+  });
+
+  if (boolean('With Validation Error?', false)) {
+    field = field.setValue('').setTouched(true);
+  }
+
+  let saveError;
+  if (boolean('With Save Error?', false)) {
+    saveError = 'Website name is already used.';
+  }
+
   return (
     <Root>
-      <InputStep />
+      <InputStep field={field} loading={boolean('Loading?', false)} saveError={saveError} />
     </Root>
   );
 }
