@@ -54,7 +54,8 @@ export default compose(
         tagFilters: getTagFilterListForBackendSubscription(tagFilters),
         group: {
           groupbyTag: 'endpoint.name'
-        }
+        },
+        useOrLogic: true
       });
     }
   })
