@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react';
 
-import EventTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/EventTopList';
-import LogTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/LogTopList';
-import PodTopList from 'in-kubernetes/Dashboards/Service/tabs/Summary/PodTopList';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -27,15 +24,6 @@ export default function Summary({ timeConfig, data: service }) {
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <EventTopList timeConfig={timeConfig} serviceId={service.id} />
-        </Col>
-        <Col lg={6}>
-          <LogTopList timeConfig={timeConfig} serviceId={service.id} />
-        </Col>
-      </Row>
-
-      <Row>
         <Col lg={4}>
           <KpiCard title="Matching Pods" value={service.pods} raw />
         </Col>
@@ -48,9 +36,6 @@ export default function Summary({ timeConfig, data: service }) {
       </Row>
 
       <Row>
-        <Col lg={4}>
-          <PodTopList timeConfig={timeConfig} serviceId={service.id} />
-        </Col>
         <Col lg={4}>
           <AppdataChartWrapper
             cardTitle="CPU Resources (cpu units)"

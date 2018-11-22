@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ComponentStatusTable from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/ComponentStatusTable';
+import TopDeploymentsList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopDeploymentsList';
+import TopNamespacesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopNamespacesList';
+import TopServicesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopServicesList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
@@ -110,13 +113,13 @@ export default function Summary({ timeConfig, data: clusterItem }) {
       </Row>
       <Row>
         <Col lg={4}>
-          <Card title="Top Namespaces">{}</Card>
+          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
-          <Card title="Top Services">{}</Card>
+          <TopServicesList clusterId={cluster.id} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
-          <Card title="Top Deployments">{}</Card>
+          <TopDeploymentsList clusterId={cluster.id} timeConfig={timeConfig} />
         </Col>
       </Row>
     </Fragment>
