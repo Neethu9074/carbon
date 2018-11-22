@@ -1,12 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
 
@@ -70,10 +72,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { clusterId, namespaceId, deploymentId }) {
       return (
-        <EntityLink
+        <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
           label={get(item, ['pod', 'label'])}
           href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
+          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -122,6 +125,23 @@ const columnDefinitions = [
     label: 'Host IP',
     getContent(item) {
       return get(item, ['pod', 'hostIp']);
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          podId={item.pod.id}
+          openIssues={get(item, ['health', 'openIssues'], 0)}
+          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
+        />
+      );
     }
   }
 ];

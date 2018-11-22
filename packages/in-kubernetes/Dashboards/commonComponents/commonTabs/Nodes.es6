@@ -1,11 +1,13 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/nodes';
@@ -52,10 +54,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item, { clusterId }) {
       return (
-        <EntityLink
+        <SeverityAwareEntityLink
           icon="lib_kubernetes_node"
           label={get(item, ['node', 'name'])}
           href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -140,6 +143,23 @@ const columnDefinitions = [
     label: 'Internal IP',
     getContent(item) {
       return get(item, ['node', 'internalIp']);
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          nodeId={item.node.id}
+          openIssues={get(item, ['health', 'openIssues'], 0)}
+          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
+        />
+      );
     }
   }
 ];

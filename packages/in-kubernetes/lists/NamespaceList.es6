@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import EntityLink from 'in-new-components/EntityLink';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
@@ -61,10 +63,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <EntityLink
+        <SeverityAwareEntityLink
           icon="lib_kubernetes_namespace"
           label={get(item, ['namespace', 'label'])}
           href$={getNamespaceDashboard(get(item, ['namespace', 'id']))}
+          severity={get(item, ['health', 'maxSeverity'], 0)}
         />
       );
     }
@@ -95,6 +98,23 @@ const columnDefinitions = [
     label: 'Pods',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          namespaceId={item.namespace.id}
+          openIssues={get(item, ['health', 'openIssues'], 0)}
+          maxSeverity={get(item, ['health', 'maxSeverity'], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
+        />
+      );
     }
   }
 ];
