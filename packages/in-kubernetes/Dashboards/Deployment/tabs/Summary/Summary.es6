@@ -17,7 +17,7 @@ export default function Summary({ data: deploymentItem }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Namespace" value={deployment.deployment} raw />
+          <KpiCard title="Namespace" value={deployment.namespace} raw />
         </Col>
         <Col lg={4}>
           <KpiCard title="Cluster" value={deployment.clusterId} raw />
