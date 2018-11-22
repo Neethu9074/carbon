@@ -6,6 +6,7 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import CustomMetrics from 'in-sdk/components/dashboard/customMetrics/CustomMetrics';
+import MicrometerMetrics from 'in-sdk/components/dashboard/customMetrics/micrometer/MicrometerMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -124,6 +125,7 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <CustomMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Dropwizard" />
+      <MicrometerMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Micrometer" />
     </div>
   );
 }

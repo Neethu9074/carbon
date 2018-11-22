@@ -9,8 +9,12 @@ import { formatDateTime } from 'in-services/formatters/date';
 export default connectTo(
   props => {
     return {
-      healthy: getRawPayload(props.snapshot.get('id'), 'healthy'),
-      timeOfLastHealthReport: getRawPayload(props.snapshot.get('id'), 'timeOfLastHealthReport'),
+      healthy: getRawPayload(props.snapshot.get('id'), 'healthy')
+        .filter(o => o)
+        .map(o => o.get('raw_payload')),
+      timeOfLastHealthReport: getRawPayload(props.snapshot.get('id'), 'timeOfLastHealthReport')
+        .filter(o => o)
+        .map(o => o.get('raw_payload')),
       timeConfig: timeConfig$
     };
   },
