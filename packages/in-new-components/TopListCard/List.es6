@@ -1,4 +1,4 @@
-import { chain } from 'lodash';
+import { chain, get } from 'lodash';
 import React from 'react';
 
 import Row from 'in-new-components/TopListCard/Row';
@@ -63,9 +63,5 @@ function getItemsFromPaginatedResult(result) {
 }
 
 function getMetricValueFromItemWithMetricsHash(metricId, item) {
-  if (item.metrics[metricId]) {
-    return item.metrics[metricId][0][1];
-  } else {
-    return null;
-  }
+  return get(item, ['metrics', metricId, 0, 1]);
 }
