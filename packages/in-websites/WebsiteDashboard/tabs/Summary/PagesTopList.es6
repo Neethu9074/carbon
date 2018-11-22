@@ -69,15 +69,22 @@ function ViewAll({ websiteId }) {
 }
 
 function Label({ item, websiteId }) {
+  let label = item.name;
+  try {
+    label = String(JSON.parse(label));
+  } catch (e) {
+    // ignore
+  }
+
   return (
     <Link
       onClick={() => trackTopListNavigation()}
       href$={getLinkToWebsite(websiteId, {
-        pageId: item.name,
-        tabPath: '/page'
+        pageId: label,
+        tabPath: '/summary'
       })}
     >
-      {item.name}
+      {label}
     </Link>
   );
 }

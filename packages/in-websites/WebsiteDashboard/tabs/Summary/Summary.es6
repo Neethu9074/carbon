@@ -185,7 +185,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
         </Col>
         {pageId == null && (
           <Col lg={6}>
-            <PagesTopList tagFilters={tagFilters} timeConfig={timeConfig} />
+            <PagesTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
           </Col>
         )}
       </Row>
