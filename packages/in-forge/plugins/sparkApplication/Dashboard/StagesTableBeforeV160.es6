@@ -107,8 +107,6 @@ export default connectTo(
   props => {
     return {
       stages: getRawPayload(props.snapshot.get('id'), 'stages')
-        .filter(o => o)
-        .map(o => o.get('raw_payload'))
     };
   },
   function StagesTable({ snapshot, stages }) {

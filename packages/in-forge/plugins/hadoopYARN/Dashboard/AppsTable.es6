@@ -105,8 +105,6 @@ export default connectTo(
   props => {
     return {
       apps: getRawPayload(props.snapshot.get('id'), 'apps')
-        .filter(o => o)
-        .map(o => o.get('raw_payload'))
     };
   },
   function AppsTable({ snapshot, apps }) {

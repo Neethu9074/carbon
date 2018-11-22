@@ -5,8 +5,9 @@ import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getRawPayload } from 'in-stores/snapshot';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { DescriptionItem } from '../../../../in-components/DescriptionList';
 
 const cols = [
   {
@@ -68,7 +69,7 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayload(props.snapshot.get('id'), 'processes')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes')
     };
   },
   function ProcessTopList({ snapshot, data }) {
@@ -94,7 +95,9 @@ export default connectTo(
     return (
       <DashboardSection title="Process Top List">
         <Table cols={cols} rows={rows} initialSortColumn={2} initialSortDirection={'desc'} />
-        {timestamp != null ? <small>Last updated: {formatDateTime(timestamp)}</small> : null}
+        {timestamp != null ? (
+          <DescriptionItem title="Time of last update">{formatDateTime(timestamp)}</DescriptionItem>
+        ) : null}
       </DashboardSection>
     );
   }

@@ -53,8 +53,6 @@ export default connectTo(
   props => {
     return {
       slowLogs: getRawPayload(props.snapshotId, 'slow_logs')
-        .filter(o => o)
-        .map(o => o.get('raw_payload'))
     };
   },
   function SlowLogsTable({ slowLogs }) {
