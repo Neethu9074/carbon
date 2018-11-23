@@ -29,7 +29,7 @@ export default function ChartWrapperPresenter({ result, config, renderLegend = t
   }
 
   return (
-    <Card title={config.cardTitle} withoutPadding={withoutPadding}>
+    <Card title={config.cardTitle} withoutPadding={withoutPadding} header={config.cardHeader}>
       {content}
     </Card>
   );

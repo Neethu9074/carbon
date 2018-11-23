@@ -3,6 +3,7 @@ import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import Globe from 'in-websites/WebsiteDashboard/tabs/Globe/Globe';
 import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
+import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
 
 export const websiteTabs = [
   {
@@ -11,7 +12,12 @@ export const websiteTabs = [
     component: Summary
   },
   {
-    label: 'Globe',
+    label: 'Speed',
+    path: `${websitePathFullyQualified}/speed`,
+    component: Speed
+  },
+  {
+    label: 'Geography',
     path: `${websitePathFullyQualified}/globe`,
     component: Globe,
     stickToHeader: true,

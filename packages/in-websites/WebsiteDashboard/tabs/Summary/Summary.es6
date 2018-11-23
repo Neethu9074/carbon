@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
+import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
@@ -180,11 +181,14 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <WorldMapCard title="Geo Distribution" height={300} tagFilters={tagFilters} timeConfig={timeConfig} />
+        <Col lg={pageId == null ? 4 : 6}>
+          <WorldMapCard title="Geography" height={300} tagFilters={tagFilters} timeConfig={timeConfig} />
+        </Col>
+        <Col lg={pageId == null ? 4 : 6}>
+          <ErrorTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} pageId={pageId} />
         </Col>
         {pageId == null && (
-          <Col lg={6}>
+          <Col lg={4}>
             <PagesTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
           </Col>
         )}

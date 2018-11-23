@@ -11,6 +11,7 @@ let zIndex = 100;
 module.exports = {
   zIndex: {
     timeline: zIndex++,
+    selectBoxFlyouts: zIndex++,
     overlaysInContentArea: zIndex++,
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
