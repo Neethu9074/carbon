@@ -9,11 +9,13 @@
     padding-left: 1rem;
     padding-right: 1rem;
     background: @lib__colors__N200;
-    border-radius: @lib__shapes__radius_small;
+    border-top-left-radius: @lib__shapes__radius_small;
+    border-top-right-radius: @lib__shapes__radius_small;
   }
 
   .framed {
     border: 1px solid @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
   }
 
   .title {
