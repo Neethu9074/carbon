@@ -199,7 +199,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <EntityCounter icon="lib_application_endpoint" count={count} />;
+      return <EntityCounter count={count} />;
     }
   },
   {
