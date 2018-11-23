@@ -82,7 +82,7 @@ class EditRuleForm extends React.Component {
         </div>
 
         <div className={locals.conditionSection}>
-          <div className={locals.helpText}>{'Specify the rules to match, eg. endpoint.name contains health*'}</div>
+          <div className={locals.helpText}>{'Specify the rules to match, eg. endpoint.name contains health'}</div>
 
           <TagFilterEditor
             keys={['endpoint.name']}

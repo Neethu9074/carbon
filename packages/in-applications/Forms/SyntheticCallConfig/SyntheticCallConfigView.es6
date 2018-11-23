@@ -6,6 +6,7 @@ import { getSyntheticCallConfig, updateSyntheticCallConfig } from 'in-api/synthe
 import CustomSyntheticRuleDialog, {
   getInitialForm as getConfigRuleForm
 } from 'in-applications/Forms/SyntheticCallConfig/CustomSyntheticRuleDialog';
+import MatchedSyntheticEndpoints from 'in-applications/Forms/SyntheticCallConfig/MatchedSyntheticEndpoints';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
@@ -32,6 +33,7 @@ export default function SyntheticCallConfigDialog() {
       getInitialForm={getInitialForm}
       renderFormContent={(config, form, setValue, updateForm) => {
         const defaultRulesEnabled = form.get('defaultRulesEnabled').value;
+        const defaultRules = form.get('defaultRules').toJS();
         const customRules = form.get('customRules').toJS();
 
         return (
@@ -79,6 +81,13 @@ export default function SyntheticCallConfigDialog() {
                           content={
                             <RuleDescription description="Calls to the endpoints matching this auto-generated rule do not contribute to your application, or service KPIs within Instana and are disregarded." />
                           }
+                          expandableContent={
+                            defaultRulesEnabled ? (
+                              <ExpandableContent
+                                matchSpecifications={defaultRules.map(rule => rule.matchSpecification)}
+                              />
+                            ) : null
+                          }
                           enabled={defaultRulesEnabled}
                           isInstanaDefaultRule
                           onToggleEnable={enabled => {
@@ -93,6 +102,11 @@ export default function SyntheticCallConfigDialog() {
                             key={index}
                             name={rule.name}
                             content={<RuleDescription description={rule.description} />}
+                            expandableContent={
+                              rule.enabled ? (
+                                <ExpandableContent matchSpecifications={[rule.matchSpecification]} />
+                              ) : null
+                            }
                             enabled={rule.enabled}
                             onToggleEnable={enabled => {
                               updateForm(
@@ -138,6 +152,20 @@ function RuleDescription({ description }) {
   return <div className={locals.ruleDescription}>{description}</div>;
 }
 
+function ExpandableContent({ matchSpecifications }) {
+  const tagFilters = matchSpecifications.map(matchSpecification => ({
+    key: matchSpecification.key,
+    operator: matchSpecification.operator,
+    value: matchSpecification.value
+  }));
+
+  if (tagFilters.length === 0) {
+    return <div className={locals.message}>No rules are specified.</div>;
+  } else {
+    return <MatchedSyntheticEndpoints tagFilters={tagFilters} />;
+  }
+}
+
 function getInitialForm(config) {
   return createMapForm()
     .put(
@@ -145,6 +173,10 @@ function getInitialForm(config) {
       createField({
         value: get(config, 'defaultRulesEnabled', true)
       })
+    )
+    .put(
+      'defaultRules',
+      get(config, 'defaultRules', []).reduce((form, rule) => form.push(getConfigRuleForm(rule)), createListForm({}))
     )
     .put(
       'customRules',

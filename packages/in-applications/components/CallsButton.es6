@@ -24,7 +24,8 @@ export default connect(({ applicationId, serviceId }) => {
       href$={getLinkToAnalyze({
         applicationName: applicationLabel,
         serviceName: serviceLabel,
-        endpointName: endpointId
+        endpointName: endpointId,
+        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null
       })}
     >
       Analyze {isSynthetic ? 'Synthetic' : ''} Traces

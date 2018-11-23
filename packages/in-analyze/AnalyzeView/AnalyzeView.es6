@@ -63,7 +63,10 @@ export default compose(
       })
         // ensure that timeConfig keeps being the mutable version
         .set('timeConfig', getTimeConfig(location)),
-      tagFiltersForSubscription: getTagFilterListForBackendSubscription(tagFilter),
+      tagFiltersForSubscription: getTagFilterListForBackendSubscription(
+        tagFilter,
+        getConfigByDataSource(dataSource).defaultFilters
+      ),
       isRawView: !group || !group.name
     })
   )

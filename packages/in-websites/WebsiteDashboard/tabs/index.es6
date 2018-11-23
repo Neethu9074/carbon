@@ -2,8 +2,9 @@ import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Confi
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import Globe from 'in-websites/WebsiteDashboard/tabs/Globe/Globe';
+import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 
-export default [
+export const websiteTabs = [
   {
     label: 'Summary',
     path: `${websitePathFullyQualified}/summary`,
@@ -17,8 +18,17 @@ export default [
     isFullWidth: true
   },
   {
+    label: 'Pages',
+    path: `${websitePathFullyQualified}/pages`,
+    component: Pages,
+    websiteOnly: true
+  },
+  {
     label: 'Configuration',
     path: `${websitePathFullyQualified}/configuration`,
-    component: Configuration
+    component: Configuration,
+    websiteOnly: true
   }
 ];
+
+export const pageTabs = websiteTabs.filter(tab => !tab.websiteOnly);

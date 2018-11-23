@@ -14,36 +14,41 @@ export default function createDataHolder({ numberOfSeries }) {
   }
 
   function insertSorted(newDataColumns) {
+    let requiredMerging = false;
+
     for (let newIndex = 0, newLength = newDataColumns.length; newIndex < newLength; newIndex++) {
       const newDataColumn = newDataColumns[newIndex];
       const newTime = newDataColumn.time;
-      let columnMerged = false;
+      let dataAdded = false;
 
-      for (let i = dataColumns.length; i > 0 && !columnMerged; i--) {
+      for (let i = dataColumns.length; i > 0 && !dataAdded; i--) {
         const existingDataColumn = dataColumns[i - 1];
         const existingTime = existingDataColumn.time;
 
         if (newTime > existingTime) {
           dataColumns.splice(i, 0, newDataColumn);
-          columnMerged = true;
+          dataAdded = true;
         } else if (newTime === existingTime) {
           mergeColumns(existingDataColumn, newDataColumn);
-          columnMerged = true;
+          requiredMerging = true;
+          dataAdded = true;
         }
       }
 
       // Very interesting - the data point belongs to the start. Probably
       // the first data column ever.
-      if (!columnMerged) {
+      if (!dataAdded) {
         dataColumns.splice(0, 0, newDataColumn);
       }
     }
+
+    return requiredMerging;
   }
 
   function mergeColumns(existingDataColumn, newDataColumn) {
     for (let i = 0; i < numberOfSeries; i++) {
       const newDataPoint = newDataColumn[i];
-      if (newDataPoint != null) {
+      if (newDataPoint != null && newDataPoint[1] !== null) {
         existingDataColumn[i] = newDataPoint;
       }
     }

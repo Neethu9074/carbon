@@ -22,6 +22,7 @@ import { deepCopy } from 'in-services/util/object';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { get } from 'lodash';
 
 import locals from './QueryBuilderWorkspace.mless';
 
@@ -72,6 +73,7 @@ export default function QueryBuilderWorkspace(props) {
                 },
                 onRemove: () => onRemoveTagFilter(i, filters, onChangeAnalyzeConfig)
               }))}
+            defaultFilters={getConfigByDataSource(filters.get('dataSource')).defaultFilters}
           />
         </MaxWidthFullscreenContainer>
       </div>
@@ -230,6 +232,17 @@ function QuickFilterSection(props) {
           onAddTagFilter({ name: dataSourceConfig.errorneousTagPreset, value: 'true' }, filters, onChangeAnalyzeConfig)
         }
         deactivated={getTagFromList(tagFilter, { name: dataSourceConfig.errorneousTagPreset })}
+        helpText="The filters already contains this filter"
+      />
+
+      <QuickFilter
+        label="Synthetic"
+        onClick={() =>
+          onAddTagFilter({ name: dataSourceConfig.isSyntheticTagPreset, value: 'true' }, filters, onChangeAnalyzeConfig)
+        }
+        deactivated={
+          get(getTagFromList(tagFilter, { name: dataSourceConfig.isSyntheticTagPreset }), 'value') === 'true'
+        }
         helpText="The filters already contains this filter"
       />
 

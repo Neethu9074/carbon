@@ -7,6 +7,12 @@
  * work with requireExistenceInAllSeries=false (the default).
  */
 export default function createQueue({ numberOfSeries, requireExistenceInAllSeries = false }) {
+  // [
+  //   // data series 1
+  //   {
+  //     <time>: [time, value]
+  //   }
+  // ]
   const series = [];
   clear();
 
@@ -86,21 +92,20 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
 
     for (let seriesIndex = 0; seriesIndex < numberOfSeries; seriesIndex++) {
       const eachSeries = series[seriesIndex];
-      for (const key in eachSeries) {
-        if (!eachSeries.hasOwnProperty(key)) {
+      for (const timeStr in eachSeries) {
+        const dataPoint = eachSeries[timeStr];
+        if (!dataPoint) {
           continue;
         }
 
-        const dataPoint = eachSeries[key];
         const time = dataPoint[0];
-        let column = timeToColumn[time];
+        let column = timeToColumn[timeStr];
 
         // This means that it is the first data point of this point in
         // time.
         if (!column) {
-          column = [];
+          column = timeToColumn[timeStr] = [];
           column.time = time;
-          timeToColumn[time] = column;
           dataColumns.push(column);
         }
 
@@ -109,11 +114,10 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     }
 
     // The logic above does not guarantee data column ordering. The array
-    // will mostly be order or almost ordered.
+    // will mostly be ordered or almost ordered.
     dataColumns.sort(dataColumnSorter);
 
-    // All data points have been processed and can be removed from the
-    // queue.
+    // All data points have been processed and can be removed from the queue.
     clear();
 
     return dataColumns;

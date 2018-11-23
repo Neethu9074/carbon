@@ -6,41 +6,78 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Rule.mless';
 
-export default function Rule({
-  name,
-  content,
-  enabled,
-  reorderable,
-  isInstanaDefaultRule = false,
-  onToggleEnable,
-  onEdit
-}) {
-  return (
-    <div
-      className={evaluateClassNames({
-        [locals.rule]: true,
-        [locals.reorderable]: reorderable,
-        [locals.disabled]: !enabled
-      })}
-    >
-      <div className={locals.left}>
-        <span className={locals.query}>{name}</span>
-        {content}
-      </div>
+export default class Rule extends React.Component {
+  static displayName = 'Rule';
 
-      <div className={locals.right}>
-        {!isInstanaDefaultRule && (
-          <SvgIcon
-            className={locals.icon}
-            type="lib_actions_edit"
-            width={24}
-            height={24}
-            onClick={isInstanaDefaultRule ? null : () => onEdit()}
-          />
-        )}
-        {isInstanaDefaultRule && <div className={locals.iconPlaceholder} />}
-        <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      expand: false
+    };
+  }
+
+  render() {
+    const {
+      name,
+      content,
+      expandableContent,
+      enabled,
+      reorderable,
+      isInstanaDefaultRule,
+      onToggleEnable,
+      onEdit
+    } = this.props;
+    const { expand } = this.state;
+
+    return (
+      <div
+        className={evaluateClassNames({
+          [locals.rule]: true,
+          [locals.reorderable]: reorderable,
+          [locals.disabled]: !enabled,
+          [locals.fixed]: !expand
+        })}
+      >
+        <div className={locals.fixedContent}>
+          <div className={locals.left}>
+            <span className={locals.query}>{name}</span>
+            {content}
+          </div>
+
+          <div className={locals.right}>
+            {isInstanaDefaultRule ? (
+              <div className={locals.iconPlaceholder} />
+            ) : (
+              <SvgIcon
+                className={locals.icon}
+                type="lib_actions_edit"
+                width={24}
+                height={24}
+                onClick={isInstanaDefaultRule ? null : () => onEdit()}
+              />
+            )}
+            <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+            {expandableContent ? (
+              <SvgIcon
+                className={locals.icon}
+                type={expand ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+                width={24}
+                height={24}
+                onClick={() => this.onExpandToggle()}
+              />
+            ) : (
+              <div className={locals.iconPlaceholder} />
+            )}
+          </div>
+        </div>
+
+        {expand && <div className={locals.expandableContent}>{expandableContent}</div>}
       </div>
-    </div>
-  );
+    );
+  }
+
+  onExpandToggle() {
+    this.setState({ expand: !this.state.expand });
+  }
 }
