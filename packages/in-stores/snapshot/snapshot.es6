@@ -215,6 +215,12 @@ export function getDeployedUnits(snapshotId) {
 }
 
 export function getRawPayload(snapshotId, payloadName) {
+  return timeConfig$
+    .flatMap(timeConfig => createRawPayloadObservable({ snapshotId, payloadName, timeConfig }))
+    .map(o => o.get('raw_payload'));
+}
+
+export function getRawPayloadWithTimestamp(snapshotId, payloadName) {
   return timeConfig$.flatMap(timeConfig => createRawPayloadObservable({ snapshotId, payloadName, timeConfig }));
 }
 

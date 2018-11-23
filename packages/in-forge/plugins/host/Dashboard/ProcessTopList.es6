@@ -4,8 +4,10 @@ import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/
 import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
+import { formatDateTime } from 'in-services/formatters/date';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { DescriptionItem } from '../../../../in-components/DescriptionList';
 
 const cols = [
   {
@@ -67,11 +69,16 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      processes: getRawPayload(props.snapshot.get('id'), 'processes')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'processes')
     };
   },
-  function ProcessTopList({ snapshot, processes }) {
-    if (!processes || processes.size === 0) {
+  function ProcessTopList({ snapshot, data }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+
+    const processes = data.get('raw_payload');
+    if (processes.size === 0) {
       return null;
     }
 
@@ -83,9 +90,14 @@ export default connectTo(
       };
     });
 
+    const timestamp = data.get('timestamp');
+
     return (
       <DashboardSection title="Process Top List">
         <Table cols={cols} rows={rows} initialSortColumn={2} initialSortDirection={'desc'} />
+        {timestamp != null ? (
+          <DescriptionItem title="Time of last update">{formatDateTime(timestamp)}</DescriptionItem>
+        ) : null}
       </DashboardSection>
     );
   }

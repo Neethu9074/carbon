@@ -41,7 +41,7 @@ export default function BatchAppContent({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      {timeConfig.to == null ? stagesTable : null}
+      {stagesTable}
       {semver.satisfies(version, '>=2.0.0') ? (
         <ExecutorsBatchAppTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : (
