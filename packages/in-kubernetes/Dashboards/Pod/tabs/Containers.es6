@@ -2,9 +2,11 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
+import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/containers';
 const matrixPrefix = 'container.';
@@ -58,6 +60,36 @@ const columnDefinitions = [
             to: timeConfig.to,
             focusedMoment: timeConfig.to
           })}
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuTotal',
+    label: 'CPU Total %',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['container', 'id'])}
+          metric="cpu.total_usage"
+          formatter={percentageZeroDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryUsage',
+    label: 'Memory Usage',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['container', 'id'])}
+          metric="memory.usage"
+          formatter={bytesTwoDecimalPlaces}
+          timeWindowAggregation="mean"
         />
       );
     }
