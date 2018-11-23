@@ -31,7 +31,7 @@
     }
 
     &:last-child {
-      color: #fff;
+      color: #fff !important;
 
       .label {
         color: #ffffff8f;

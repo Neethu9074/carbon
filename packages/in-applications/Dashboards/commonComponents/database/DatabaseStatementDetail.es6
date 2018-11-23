@@ -6,7 +6,6 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import getDatabaseStatement from 'in-subscription/application/getDatabaseStatement';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { millis, number, percentage } from 'in-services/formatters/number';
-import BackButton from 'in-sdk/components/dashboard/TabView/BackButton';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -14,12 +13,13 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
+import BackButton from 'in-new-components/BackButton';
 import { shorten } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import Code from 'in-components/Code';
 
 export default connectTo(
   props => ({

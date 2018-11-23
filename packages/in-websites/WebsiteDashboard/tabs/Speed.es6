@@ -26,8 +26,8 @@ export default function Speed({ timeConfig, tagFilters }) {
             }}
             y2={{
               renderer: Renderer.line,
-              formatter: millis.fixed,
-              labels: ['mean onLoad Time'],
+              formatter: millis.forcedFixedCompact,
+              labels: ['onLoad Time'],
               metricIds: ['onLoadTime'],
               colors: [theme.lib.colors.pink800]
             }}
@@ -56,7 +56,7 @@ export default function Speed({ timeConfig, tagFilters }) {
             y1={{
               calculateStackDifferences: true,
               renderer: Renderer.line,
-              formatter: millis.fixed,
+              formatter: millis.forcedFixedCompact,
               labels: ['mean', '50th', '90th', '95th', '99th'],
               metricIds: ['onLoadTimeAvg', 'onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
             }}
@@ -106,7 +106,7 @@ export default function Speed({ timeConfig, tagFilters }) {
                 y1={{
                   calculateStackDifferences: true,
                   renderer: Renderer.stackedArea,
-                  formatter: millis.fixed,
+                  formatter: millis.forcedFixedCompact,
                   labels: [
                     'Unload',
                     'Redirect',
@@ -205,7 +205,7 @@ export default function Speed({ timeConfig, tagFilters }) {
                 y1={{
                   calculateStackDifferences: true,
                   renderer: Renderer.line,
-                  formatter: millis.fixed,
+                  formatter: millis.forcedFixedCompact,
                   labels: ['First Paint', 'First Contentful Paint'],
                   metricIds: ['firstPaintTime', 'firstContentfulPaintTime']
                 }}

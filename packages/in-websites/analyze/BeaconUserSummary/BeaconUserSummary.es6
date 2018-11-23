@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dl, Di } from 'in-websites/analyze/BeaconUserSummary/HorizontalDescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';

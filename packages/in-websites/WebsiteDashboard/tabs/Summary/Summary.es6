@@ -141,7 +141,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
             y1={{
               calculateStackDifferences: true,
               renderer: Renderer.line,
-              formatter: millis.fixed,
+              formatter: millis.forcedFixedCompact,
               labels: ['avg', '50th', '90th', '95th', '99th'],
               metricIds: ['onLoadTimeAvg', 'onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
             }}

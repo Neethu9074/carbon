@@ -74,6 +74,10 @@ export const millis = {
   fixed: {
     compact: t => number.compact(t) + 'ms',
     detailed: t => number.detailed(t) + 'ms'
+  },
+  forcedFixedCompact: {
+    compact: t => number.compact(t) + 'ms',
+    detailed: t => number.compact(t) + 'ms'
   }
 };
 export const seconds = {

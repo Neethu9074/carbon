@@ -1,0 +1,15 @@
+@import '~in-themes/active.less';
+
+:local {
+  .link {
+    display: flex;
+    align-items: center;
+    margin: 0 0 1.3rem;
+    font-size: 0.9rem;
+  }
+
+  .icon {
+    fill: @lib__colors__blue800;
+    margin-right: 0.8rem;
+  }
+}

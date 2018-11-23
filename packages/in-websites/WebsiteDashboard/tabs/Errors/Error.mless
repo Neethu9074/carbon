@@ -1,0 +1,5 @@
+:local {
+  pre.code {
+    padding: 1rem;
+  }
+}
