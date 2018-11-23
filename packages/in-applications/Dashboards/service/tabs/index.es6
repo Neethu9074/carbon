@@ -1,4 +1,3 @@
-import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/LocationAwareTabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
@@ -24,26 +23,7 @@ export default [
   {
     label: 'Endpoints',
     path: `${serviceDashboard}/endpoints`,
-    component: Endpoints,
-    icon: 'lib_application_endpoint',
-    header: getTabHeaderWithAppDataMetricCount({
-      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
-        return {
-          filter: {
-            timeConfig,
-            application: applicationId,
-            service: serviceId,
-            endpoint: endpointId
-          },
-          metrics: {
-            count: {
-              metric: 'endpoints',
-              aggregation: 'DISTINCT_COUNT'
-            }
-          }
-        };
-      }
-    })
+    component: Endpoints
   },
   {
     label: 'Performance',
@@ -63,25 +43,6 @@ export default [
   {
     label: 'Infrastructure',
     path: `${serviceDashboard}/infrastructure`,
-    component: InfrastructureTab,
-    icon: 'lib_infrastructure',
-    header: getTabHeaderWithAppDataMetricCount({
-      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
-        return {
-          filter: {
-            timeConfig,
-            application: applicationId,
-            service: serviceId,
-            endpoint: endpointId
-          },
-          metrics: {
-            count: {
-              metric: 'processes',
-              aggregation: 'DISTINCT_COUNT'
-            }
-          }
-        };
-      }
-    })
+    component: InfrastructureTab
   }
 ];

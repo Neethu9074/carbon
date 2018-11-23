@@ -1,4 +1,3 @@
-import { getTabHeaderWithAppDataMetricCount } from 'in-new-components/LocationAwareTabView/tabs/getTabHeaderWithAppDataMetricCount';
 import PerformanceTab from 'in-applications/Dashboards/commonTabs/performance/Performance';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
@@ -38,25 +37,6 @@ export default [
   {
     label: 'Infrastructure',
     path: `${endpointDashboard}/infrastructure`,
-    component: Infrastructure,
-    icon: 'lib_infrastructure',
-    header: getTabHeaderWithAppDataMetricCount({
-      getMetricsParams({ timeConfig, applicationId, serviceId, endpointId }) {
-        return {
-          filter: {
-            timeConfig,
-            application: applicationId,
-            service: serviceId,
-            endpoint: endpointId
-          },
-          metrics: {
-            count: {
-              metric: 'processes',
-              aggregation: 'DISTINCT_COUNT'
-            }
-          }
-        };
-      }
-    })
+    component: Infrastructure
   }
 ].filter(v => !!v);
