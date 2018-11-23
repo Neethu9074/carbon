@@ -60,7 +60,9 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
           hoverTarget="cell"
           cellOpacity={1}
           cellHoverOthersOpacity={0.75}
-          tooltip={props => <NivoChartTooltip {...props} id="Calls" aggregation={props.xKey} formatter={number} />}
+          tooltip={props => (
+            <NivoChartTooltip {...props} id="Calls" aggregation={props.xKey} formatter={number.forcedCompact} />
+          )}
         />
         <HorizontalTimeAxis
           tickLineColor={theme.lib.colors.N600Light}
