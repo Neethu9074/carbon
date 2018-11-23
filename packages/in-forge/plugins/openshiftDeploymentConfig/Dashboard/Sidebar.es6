@@ -25,12 +25,12 @@ export default function OpenshiftDeploymentConfigSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>kubectl</Collapsible.Header>
+        <Collapsible.Header>oc</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             <DescriptionItem title="describe">
               <code>
-                kubectl describe deploymentconfig -n {data.get('namespace')} {data.get('name')}
+                oc describe deploymentconfig -n {data.get('namespace')} {data.get('name')}
               </code>
             </DescriptionItem>
           </DescriptionList>
