@@ -9,12 +9,14 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   ({ clusterId, namespaceId, deploymentId, podId, nodeId, timeConfig }) => {
     const healthInfo$ = getKubernetesEntityHealthInfo({
-      clusterId,
-      namespaceId,
-      deploymentId,
-      podId,
-      nodeId,
-      timeConfig
+      filter: {
+        clusterId,
+        namespaceId,
+        deploymentId,
+        podId,
+        nodeId,
+        timeConfig
+      }
     }).filter(healthInfo => healthInfo.data != null);
 
     return {
