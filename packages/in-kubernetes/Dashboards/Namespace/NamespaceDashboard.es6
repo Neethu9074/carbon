@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import { namespaceId as matrixNamespaceId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
@@ -45,9 +47,23 @@ function Header(props) {
       title="Namespace"
       icon="lib_kubernetes_namespace"
       {...props}
+      renderActions={Actions}
       renderSubTypes={SubTypes}
       getLabel={result => get(result, ['data', 'namespace', 'label'])}
     />
+  );
+}
+
+function Actions({ namespaceId, timeConfig }) {
+  return (
+    <Fragment>
+      <KubernetesEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        namespaceId={namespaceId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 

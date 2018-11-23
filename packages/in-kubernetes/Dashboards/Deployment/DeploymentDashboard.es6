@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import { deploymentId as matrixDeploymentId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
@@ -45,9 +47,23 @@ function Header(props) {
       title="Deployment"
       icon="lib_kubernetes_workload"
       {...props}
+      renderActions={Actions}
       renderSubTypes={SubTypes}
       getLabel={result => get(result, ['data', 'deployment', 'name'])}
     />
+  );
+}
+
+function Actions({ deploymentId, timeConfig }) {
+  return (
+    <Fragment>
+      <KubernetesEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        deploymentId={deploymentId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 

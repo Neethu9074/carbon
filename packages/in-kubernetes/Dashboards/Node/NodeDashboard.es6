@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import { nodeId as matrixNodeId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -39,7 +41,28 @@ export default function NodeDashboard({ location }) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Node" icon="lib_kubernetes_node" {...props} renderSubTypes={SubTypes} />;
+  return (
+    <BasicDashboardHeader
+      title="Node"
+      icon="lib_kubernetes_node"
+      {...props}
+      renderActions={Actions}
+      renderSubTypes={SubTypes}
+    />
+  );
+}
+
+function Actions({ nodeId, timeConfig }) {
+  return (
+    <Fragment>
+      <KubernetesEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        nodeId={nodeId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
+  );
 }
 
 function SubTypes() {

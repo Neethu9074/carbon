@@ -25,14 +25,14 @@ export default connectTo(
       timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
     };
   },
-  function ApplicationEntityHealthIndicatorBehavior(props) {
-    const { openIssues } = props;
+  function KubernetesEntityHealthIndicatorBehavior(props) {
+    const { openIssues, showOkayOnNoIssues = true } = props;
     if (openIssues == null || openIssues < 0) {
       return null;
     }
 
     if (openIssues === 0) {
-      return <props.IndicatorPresenter openIssues={openIssues} />;
+      return showOkayOnNoIssues ? <props.IndicatorPresenter openIssues={openIssues} /> : null;
     }
 
     return (

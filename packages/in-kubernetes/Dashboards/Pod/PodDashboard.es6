@@ -7,6 +7,8 @@ import {
   podId as matrixPodId,
   deploymentId as matrixDeploymentId
 } from 'in-kubernetes/navigation/matrix';
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -52,9 +54,23 @@ function Header(props) {
       title="Pod"
       icon="lib_kubernetes_pod"
       {...props}
+      renderActions={Actions}
       renderSubTypes={SubTypes}
       getLabel={result => get(result, ['data', 'pod', 'label'])}
     />
+  );
+}
+
+function Actions({ podId, timeConfig }) {
+  return (
+    <Fragment>
+      <KubernetesEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        podId={podId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 
