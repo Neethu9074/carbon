@@ -1,0 +1,29 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+  }
+
+  .link {
+    position: absolute;
+    left: 3.625rem;
+    top: 0.625rem;
+  }
+
+  .mapSwitchIconLight,
+  .mapSwitchIconDark {
+    padding: 3px;
+    border-radius: 50%;
+  }
+
+  .mapSwitchIconDark {
+    fill: #a7a7a7;
+    border: 1px solid @lib__colors__N400;
+  }
+
+  .mapSwitchIconLight {
+    fill: #a7a7a7;
+    border: 1px solid @lib__colors__N400;
+  }
+}

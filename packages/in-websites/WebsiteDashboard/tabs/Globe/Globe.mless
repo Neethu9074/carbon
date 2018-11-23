@@ -1,5 +1,0 @@
-:local {
-  .wrapper {
-    position: relative;
-  }
-}
