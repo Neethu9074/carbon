@@ -15,7 +15,7 @@ const formatters = [number.compact];
 export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
   return (
     <TopList
-      title="Top Pages by occurrences"
+      title="Top Pages by Occurrences"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}

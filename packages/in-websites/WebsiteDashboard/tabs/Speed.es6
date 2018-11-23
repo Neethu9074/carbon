@@ -104,7 +104,6 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{
-                  calculateStackDifferences: true,
                   renderer: Renderer.stackedArea,
                   formatter: millis.forcedFixedCompact,
                   labels: [
