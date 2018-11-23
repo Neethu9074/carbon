@@ -111,6 +111,7 @@ export default function Summary({ timeConfig, data: clusterItem }) {
           </Card>
         </Col>
       </Row>
+
       <Row>
         <Col lg={4}>
           <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} />
