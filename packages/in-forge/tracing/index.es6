@@ -9,6 +9,7 @@ import './android.error';
 import './asp.net';
 import './aspnetmvccontroller';
 import './axis.client';
+import './axis.server';
 import './camel';
 import './cassandra';
 import './corba';
