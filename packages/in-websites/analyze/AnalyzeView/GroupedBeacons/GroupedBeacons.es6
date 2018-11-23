@@ -27,7 +27,7 @@ const tableMetrics = {
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'grouped.',
+    getMatrixPrefix: () => 'groups.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: 'beaconCountAgg',

@@ -10,6 +10,7 @@ import {
   deserializeTagFilters
 } from 'in-websites/navigation/matrix';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -52,5 +53,9 @@ function AnalyzeView({
     getChangeAsUrl
   };
 
-  return <GroupedBeacons {...props} />;
+  if (group.groupbyTag) {
+    return <GroupedBeacons {...props} />;
+  }
+
+  return <Beacons {...props} />;
 }
