@@ -2,11 +2,14 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import EntityLink from 'in-new-components/EntityLink';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
@@ -61,12 +64,19 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item) {
+    getContent(item, { timeConfig }) {
       return (
-        <EntityLink
-          icon="lib_kubernetes_cluster"
-          label={get(item, ['cluster', 'label'])}
-          href$={getClusterDashboard(get(item, ['cluster', 'id']))}
+        <KubernetesSeverity
+          clusterId={get(item, ['cluster', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_cluster"
+              label={get(item, ['cluster', 'label'])}
+              href$={getClusterDashboard(get(item, ['cluster', 'id']))}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }
@@ -104,6 +114,21 @@ const columnDefinitions = [
     label: 'Deployments',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          clusterId={item.cluster.id}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
+        />
+      );
     }
   }
 ];

@@ -1,11 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/nodes';
@@ -50,12 +53,19 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, timeConfig }) {
       return (
-        <EntityLink
-          icon="lib_kubernetes_node"
-          label={get(item, ['node', 'name'])}
-          href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['node', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_node"
+              label={get(item, ['node', 'name'])}
+              href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }
@@ -140,6 +150,21 @@ const columnDefinitions = [
     label: 'Internal IP',
     getContent(item) {
       return get(item, ['node', 'internalIp']);
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          nodeId={item.node.id}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
+        />
+      );
     }
   }
 ];

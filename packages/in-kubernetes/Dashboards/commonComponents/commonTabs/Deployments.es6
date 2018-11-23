@@ -1,13 +1,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
@@ -56,12 +59,19 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, timeConfig }) {
       return (
-        <EntityLink
-          icon="lib_kubernetes_workload"
-          label={get(item, ['deployment', 'name'])}
-          href$={getDeploymentDashboard(get(item, ['deployment', 'id']), { clusterId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['deployment', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_workload"
+              label={get(item, ['deployment', 'name'])}
+              href$={getDeploymentDashboard(get(item, ['deployment', 'id']), { clusterId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }
@@ -105,6 +115,21 @@ const columnDefinitions = [
           metric="lastDuration"
           formatter={msFormatter}
           timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          deploymentId={item.deployment.id}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
         />
       );
     }

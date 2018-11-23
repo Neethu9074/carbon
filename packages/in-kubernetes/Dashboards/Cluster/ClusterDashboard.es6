@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
@@ -46,9 +48,23 @@ function Header(props) {
       title="Cluster"
       icon="lib_kubernetes_cluster"
       {...props}
+      renderActions={Actions}
       renderSubTypes={SubTypes}
       getLabel={result => get(result, ['data', 'cluster', 'label'])}
     />
+  );
+}
+
+function Actions({ clusterId, timeConfig }) {
+  return (
+    <Fragment>
+      <KubernetesEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        clusterId={clusterId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 

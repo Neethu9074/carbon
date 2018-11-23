@@ -1,12 +1,15 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { resourceQuotaPercentage } from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/namespaces';
@@ -51,12 +54,19 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, timeConfig }) {
       return (
-        <EntityLink
-          icon="lib_kubernetes_namespace"
-          label={get(item, ['namespace', 'label'])}
-          href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['namespace', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_namespace"
+              label={get(item, ['namespace', 'label'])}
+              href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }
@@ -153,6 +163,21 @@ const columnDefinitions = [
           metric="used_pods_percentage"
           formatter={resourceQuotaPercentage}
           timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'maxSeverity',
+    label: 'Health',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <KubernetesEntityHealthIndicatorBehavior
+          deploymentId={item.namespace.id}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          inContentArea
         />
       );
     }
