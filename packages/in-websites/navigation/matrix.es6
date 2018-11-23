@@ -3,6 +3,7 @@ import { isBlank } from 'in-services/util/string';
 // dashboards
 export const websiteId = 'websiteId';
 export const pageId = 'pageId';
+export const errorId = 'errorId';
 
 // analyze
 export const tagFilters = 'tagFilters';

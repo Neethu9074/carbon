@@ -2,8 +2,8 @@ import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
+import { getLinkToWebsite, getLinkToError } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -73,12 +73,9 @@ function Label({ item, websiteId, pageId }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToWebsite(websiteId, {
+      href$={getLinkToError(websiteId, {
         pageId,
-        tabPath: '/error',
-        tabParameters: {
-          errorId: item.error.id
-        }
+        errorId: item.error.id
       })}
     >
       {item.error.message}

@@ -2,6 +2,7 @@ import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Confi
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
 import Globe from 'in-websites/WebsiteDashboard/tabs/Globe/Globe';
+import Errors from 'in-websites/WebsiteDashboard/tabs/Errors';
 import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
 
@@ -15,6 +16,11 @@ export const websiteTabs = [
     label: 'Speed',
     path: `${websitePathFullyQualified}/speed`,
     component: Speed
+  },
+  {
+    label: 'Errors',
+    path: `${websitePathFullyQualified}/errors`,
+    component: Errors
   },
   {
     label: 'Geography',

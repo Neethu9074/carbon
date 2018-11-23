@@ -6,6 +6,7 @@ import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import theme from 'in-themes';
 
 export default function Speed({ timeConfig, tagFilters }) {
   const granularity = getChartGranularity(timeConfig);
@@ -27,7 +28,8 @@ export default function Speed({ timeConfig, tagFilters }) {
               renderer: Renderer.line,
               formatter: millis.fixed,
               labels: ['mean onLoad Time'],
-              metricIds: ['onLoadTime']
+              metricIds: ['onLoadTime'],
+              colors: [theme.lib.colors.pink800]
             }}
             metricsConfiguration={{
               timeConfig,
