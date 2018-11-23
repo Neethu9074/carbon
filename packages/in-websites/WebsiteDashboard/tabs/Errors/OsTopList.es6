@@ -12,10 +12,10 @@ const labels = ['Occurrences', 'Affected Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, number.compact];
 
-export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
+export default function OsTopList({ websiteId, timeConfig, tagFilters }) {
   return (
     <TopList
-      title="Pages"
+      title="Operating Systems"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -45,7 +45,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
       direction: 'DESC'
     },
     group: {
-      groupbyTag: 'beacon.page.name'
+      groupbyTag: 'beacon.os.name'
     },
     metrics: {
       [selectedMetric]: {
@@ -60,7 +60,7 @@ function ViewAll() {
   return <Link href="javascript:alert('TODO go analyze')">View All</Link>;
 }
 
-function Label({ item, websiteId }) {
+function Label({ item, websiteId, pageId }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -72,8 +72,11 @@ function Label({ item, websiteId }) {
     <Link
       onClick={() => trackTopListNavigation()}
       href$={getLinkToWebsite(websiteId, {
-        pageId: label,
-        tabPath: '/summary'
+        pageId,
+        tabPath: '/os',
+        tabParameters: {
+          osName: label
+        }
       })}
     >
       {label}

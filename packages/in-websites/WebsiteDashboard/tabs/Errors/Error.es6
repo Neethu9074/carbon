@@ -6,8 +6,10 @@ import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/Website
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getLinkToWebsite, errorsTabFullyQualified } from 'in-websites/navigation/paths';
+import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
 import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
+import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -199,8 +201,22 @@ function ErrorTab({ errorId, result, websiteId, pageId, tagFilters, timeConfig }
               <PagesTopList websiteId={websiteId} tagFilters={tagFiltersWithErrorId} timeConfig={timeConfig} />
             </Col>
           )}
-          <Col lg={pageId == null ? 4 : 6}>TODO browsers</Col>
-          <Col lg={pageId == null ? 4 : 6}>TODO os</Col>
+          <Col lg={pageId == null ? 4 : 6}>
+            <BrowserTopList
+              websiteId={websiteId}
+              tagFilters={tagFiltersWithErrorId}
+              timeConfig={timeConfig}
+              pageId={pageId}
+            />
+          </Col>
+          <Col lg={pageId == null ? 4 : 6}>
+            <OsTopList
+              websiteId={websiteId}
+              tagFilters={tagFiltersWithErrorId}
+              timeConfig={timeConfig}
+              pageId={pageId}
+            />
+          </Col>
         </Row>
       </Fragment>
     );
