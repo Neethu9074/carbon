@@ -6,6 +6,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
@@ -70,12 +71,19 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId, namespaceId, deploymentId }) {
+    getContent(item, { clusterId, namespaceId, deploymentId, timeConfig }) {
       return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_pod"
-          label={get(item, ['pod', 'label'])}
-          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['pod', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_pod"
+              label={get(item, ['pod', 'label'])}
+              href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }

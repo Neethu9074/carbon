@@ -8,6 +8,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
 
@@ -53,12 +54,19 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, timeConfig }) {
       return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_namespace"
-          label={get(item, ['namespace', 'label'])}
-          href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['namespace', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_namespace"
+              label={get(item, ['namespace', 'label'])}
+              href$={getNamespaceDashboard(get(item, ['namespace', 'id']), { clusterId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }

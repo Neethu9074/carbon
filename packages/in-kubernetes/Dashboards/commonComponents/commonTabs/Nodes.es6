@@ -6,6 +6,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
+import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
@@ -52,12 +53,19 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item, { clusterId, timeConfig }) {
       return (
-        <SeverityAwareEntityLink
-          icon="lib_kubernetes_node"
-          label={get(item, ['node', 'name'])}
-          href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+        <KubernetesSeverity
+          clusterId={get(item, ['node', 'id'])}
+          timeConfig={timeConfig}
+          renderLink={maxSeverity => (
+            <SeverityAwareEntityLink
+              icon="lib_kubernetes_node"
+              label={get(item, ['node', 'name'])}
+              href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+              severity={maxSeverity}
+            />
+          )}
         />
       );
     }
