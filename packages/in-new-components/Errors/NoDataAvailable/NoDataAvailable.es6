@@ -5,9 +5,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './NoDataAvailable.mless';
 
-export default function NoDataAvailable({ width, height, text }) {
+export default function NoDataAvailable({ width, height, text, className }) {
   return (
     <BasicWrapper
+      className={className}
       width={width}
       height={height}
       text={text || 'No data available'}

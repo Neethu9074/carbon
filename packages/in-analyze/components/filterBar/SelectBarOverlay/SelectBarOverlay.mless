@@ -1,0 +1,45 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    text-decoration: none;
+
+    &:hover {
+      background: @lib__colors__N100;
+      text-decoration: none;
+    }
+  }
+
+  .selectedItem {
+    border-bottom: 1px solid @lib__colors__N300;
+    margin: 0.4rem 0 1rem;
+    font-weight: bold;
+  }
+
+  .itemText {
+    color: @lib__colors__N700Medium;
+    .ellipsis();
+  }
+
+  .selectedIcon {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 1.5rem;
+    fill: @lib__colors__primary1;
+  }
+
+  .loading {
+    margin: 0 auto;
+  }
+}

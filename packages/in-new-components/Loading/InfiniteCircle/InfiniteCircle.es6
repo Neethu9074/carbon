@@ -5,9 +5,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './InfiniteCircle.mless';
 
-export default function InfiniteCircle({ width, height, customText }) {
+export default function InfiniteCircle({ width, height, customText, className }) {
   return (
     <BasicWrapper
+      className={className}
       width={width}
       height={height}
       text={customText || 'Loading data'}

@@ -11,6 +11,7 @@ import 'in-forge';
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 import './analyse/CallTree';
+import './analyse/FilterBarStory';
 import './analyse/IcicleChart';
 import './analyse/TraceConverter';
 

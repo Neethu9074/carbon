@@ -1,0 +1,14 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 0.75rem 0.7rem;
+    background: @lib__colors__N300;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

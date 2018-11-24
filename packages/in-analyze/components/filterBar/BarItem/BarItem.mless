@@ -1,0 +1,37 @@
+@import '~in-themes/active.less';
+
+:local {
+  .item {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-right: 1rem;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+    border-radius: .625rem;
+  }
+
+  .withIcon {
+    padding-right: 0.3rem;
+  }
+
+  .active, .item:hover {
+    background: @lib__colors__N600Light;
+    color: #fff;
+    text-decoration: none;
+
+    .icon {
+      fill: #fff;
+    }
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+    position: relative;
+    top: 1px;
+  }
+}

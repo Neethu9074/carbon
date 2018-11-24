@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
 import locals from './BasicWrapper.mless';
 
-export default function BasicWrapper({ width, height, text, renderIcon }) {
+export default function BasicWrapper({ width, height, text, renderIcon, className }) {
   let size = 'default';
   let iconSize = 48;
   if (height < 80) {
@@ -16,7 +17,7 @@ export default function BasicWrapper({ width, height, text, renderIcon }) {
         width,
         height
       }}
-      className={locals.wrapper}
+      className={joinClassNames(locals.wrapper, className)}
     >
       {size === 'small' && renderIcon(iconSize)}
       {size === 'default' && (
