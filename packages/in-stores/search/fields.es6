@@ -10,7 +10,9 @@ export const aliasMap = {};
 const helpTexts = {
   entity: 'Infrastructure and application entity',
   'entity.aws': 'Amazon web services',
+  'entity.aws.elb': 'Elastic loabalancer',
   'entity.aws.rds': 'Relational database service',
+  'entity.aws.s3': 'Simple storage service',
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
