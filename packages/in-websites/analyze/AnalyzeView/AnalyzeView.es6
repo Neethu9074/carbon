@@ -1,4 +1,4 @@
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import {
@@ -35,7 +35,24 @@ export default compose(
       [tagFiltersMatrixParameter]: serializeTagFilters(props[tagFiltersMatrixParameter]),
       [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter])
     })
-  })
+  }),
+  withProps(({ [tagFiltersMatrixParameter]: tagFilters, onChange }) => ({
+    removeTagFilter(name) {
+      onChange({
+        [tagFiltersMatrixParameter]: tagFilters.filter(f => f.name !== name)
+      });
+    },
+    upsertTagFilter(newTagFilter) {
+      onChange({
+        [tagFiltersMatrixParameter]: tagFilters.filter(f => f.name !== newTagFilter.name).concat(newTagFilter)
+      });
+    },
+    clearTagFilters() {
+      onChange({
+        [tagFiltersMatrixParameter]: []
+      });
+    }
+  }))
 )(AnalyzeView);
 
 function AnalyzeView({
@@ -43,14 +60,20 @@ function AnalyzeView({
   [groupMatrixParameter]: group,
   location,
   onChange,
-  getChangeAsUrl
+  getChangeAsUrl,
+  removeTagFilter,
+  upsertTagFilter,
+  clearTagFilters
 }) {
   const props = {
     tagFilters,
     group,
     timeConfig: getTimeConfig(location),
     onChange,
-    getChangeAsUrl
+    getChangeAsUrl,
+    removeTagFilter,
+    upsertTagFilter,
+    clearTagFilters
   };
 
   if (group.groupbyTag) {

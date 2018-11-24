@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar/QuickFilterBar';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -91,6 +92,7 @@ function GroupedBeacons(props) {
 
   return (
     <Fragment>
+      <QuickFilterBar {...props} />
       <div className={locals.wrapper}>
         <ResultHeader itemType="Beacon" nbRows={totalHits} />
         <Button

@@ -21,7 +21,7 @@ function Default() {
       <BarItem showArrow onClick={action('onBarItemClick')}>
         By Duration
       </BarItem>
-      <BarItem showArrow active onClick={action('onBarItemClick')}>
+      <BarItem showArrow active isOpen onClick={action('onBarItemClick')}>
         By Meta
       </BarItem>
       <BarItem onClick={action('onBarItemClick')}>

@@ -8,6 +8,10 @@
     list-style: none;
   }
 
+  .listWithoutSelected {
+    margin-top: 1rem;
+  }
+
   .item {
     display: flex;
     align-items: center;

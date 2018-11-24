@@ -1,11 +1,11 @@
 // @flow
 
-import { pendingResult } from 'in-services/fixedObjects';
 import { timeout } from 'reactive-observables';
 import { compose } from 'recompose';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { pendingResult } from 'in-services/fixedObjects';
 import { emptyArray } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 

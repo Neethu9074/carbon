@@ -36,7 +36,12 @@ export default function SelectBarOverlay({ query, loading, onQueryChange, select
 
       {!loading &&
         items.length > 0 && (
-          <ul className={locals.list}>
+          <ul
+            className={evaluateClassNames({
+              [locals.list]: true,
+              [locals.listWithoutSelected]: !selectedItem
+            })}
+          >
             {items.filter(item => !selectedItem || item.key !== selectedItem.key).map(item => (
               <li key={item.key}>
                 <Tooltip content={`Click to filter by ${item.label}`}>
