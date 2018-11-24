@@ -46,4 +46,10 @@
   .loading {
     margin: 0 auto;
   }
+
+  .more {
+    margin: 1rem 1rem 0;
+    text-align: center;
+    color: @lib__colors__N600Light;
+  }
 }

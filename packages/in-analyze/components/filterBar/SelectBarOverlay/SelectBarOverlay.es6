@@ -16,10 +16,19 @@ import locals from './SelectBarOverlay.mless';
 //   {label: '', key}
 // ]
 
-export default function SelectBarOverlay({ query, loading, onQueryChange, selectedItem, items, onSelectItem }) {
+export default function SelectBarOverlay({
+  query,
+  loading,
+  onQueryChange,
+  selectedItem,
+  items,
+  onSelectItem,
+  moreDataAvailable,
+  moreDataMessage
+}) {
   return (
     <BarOverlay>
-      <SearchInput onChange={onQueryChange} query={query} />
+      <SearchInput onChange={onQueryChange} query={query} autoFocus />
 
       {selectedItem && (
         <Tooltip content={`Currently filtered by ${selectedItem.label}. Click to remove filter.`}>
@@ -51,6 +60,8 @@ export default function SelectBarOverlay({ query, loading, onQueryChange, select
             ))}
           </ul>
         )}
+
+      {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
     </BarOverlay>
   );
 }

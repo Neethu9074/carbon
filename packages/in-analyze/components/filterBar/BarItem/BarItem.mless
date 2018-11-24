@@ -13,6 +13,7 @@
     padding: 0.25rem 0.5rem;
     text-decoration: none;
     border-radius: .625rem;
+    text-transform: capitalize;
   }
 
   .withIcon {

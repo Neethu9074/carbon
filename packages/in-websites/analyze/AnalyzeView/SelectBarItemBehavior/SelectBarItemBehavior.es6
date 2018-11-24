@@ -13,11 +13,11 @@ export default function SelectBarItemBehavior(props) {
   );
 }
 
-function Content({ barItemLabel, toggle, isOpen, tagFilters, tag, refSetter }) {
+function Content({ singularLabel, toggle, isOpen, tagFilters, tag, refSetter }) {
   const existingTagFilter = find(tagFilters, f => f.name === tag);
   return (
     <BarItem showArrow isOpen={isOpen} active={isOpen || existingTagFilter} onClick={toggle} refSetter={refSetter}>
-      {existingTagFilter ? existingTagFilter.stringValue : barItemLabel}
+      {existingTagFilter ? existingTagFilter.stringValue : singularLabel}
     </BarItem>
   );
 }

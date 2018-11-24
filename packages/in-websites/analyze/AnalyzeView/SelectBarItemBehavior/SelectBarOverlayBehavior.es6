@@ -74,6 +74,7 @@ function SelectBarOverlayBehavior({
   tagFilters,
   upsertTagFilter,
   removeTagFilter,
+  pluralLabel,
   tag,
   close,
   query,
@@ -119,6 +120,8 @@ function SelectBarOverlayBehavior({
         }
         close();
       }}
+      moreDataAvailable={result.data && result.data.canLoadMore}
+      moreDataMessage={`More ${pluralLabel} available. Only the top 200 ${pluralLabel} shown. Use the filter to drill down further.`}
     />
   );
 }

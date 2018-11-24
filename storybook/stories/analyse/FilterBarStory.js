@@ -68,7 +68,9 @@ function SelectBarOverlayStory() {
           {key: 'c', label: 'United States'},
           {key: 'd', label: 'A super long label that cannot reasonably fit into the line without breaking the design'}
         ] : []}
-        onSelectItem={action('onSelectItem')} />
+        onSelectItem={action('onSelectItem')}
+        moreDataAvailable={boolean('More data available?', false)}
+        moreDataMessage={text('More data message', 'More data available. Only the top 200 <things> shown. Filter to see additional <things>.')} />
     </OverlayWrapper>
   );
 }
