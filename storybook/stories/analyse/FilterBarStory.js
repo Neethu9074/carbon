@@ -213,6 +213,7 @@ function KeyValueOverlayStory() {
         onSubmit={action('onSubmit')}
         onRemoveTagFilter={action('onRemoveTagFilter')}
         keySuggestionsLoading={boolean('Keys loading?', false)}
+        keySuggestions={boolean('Key Suggestions?', true) && ['environment', 'role']}
         valueSuggestionsLoading={boolean('Values loading?', false)}
       />
     </OverlayWrapper>

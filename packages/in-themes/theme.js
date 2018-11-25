@@ -11,8 +11,9 @@ let zIndex = 100;
 module.exports = {
   zIndex: {
     timeline: zIndex++,
-    selectBoxFlyouts: zIndex++,
     overlaysInContentArea: zIndex++,
+    // a select box can be within an overlay
+    selectBoxFlyouts: zIndex++,
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: zIndex++,
     graphView: zIndex++,

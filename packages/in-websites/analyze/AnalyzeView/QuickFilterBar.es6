@@ -2,7 +2,7 @@ import React from 'react';
 
 import NumberBarItemBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import SelectBarItemBehavior from 'in-websites/analyze/AnalyzeView/SelectBarItemBehavior/SelectBarItemBehavior';
-import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
+import KeyValueBarItemBehavior from 'in-websites/analyze/AnalyzeView/KeyValueBarItemBehavior';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default function QuickFilterBar(props) {

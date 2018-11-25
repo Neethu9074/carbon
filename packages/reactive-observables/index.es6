@@ -26,6 +26,8 @@ export function create<T>(subjectSpec: ?SubjectSpec<T>): Subject<T> {
   return new Subject(subjectSpec);
 }
 
+export const empty: Observable = create().freeze();
+
 export function just<T>(v: T): Observable<T> {
   return create()
     .emit(v)

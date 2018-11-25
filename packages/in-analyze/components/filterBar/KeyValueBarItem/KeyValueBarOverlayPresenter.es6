@@ -1,14 +1,16 @@
+import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
+import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -22,15 +24,17 @@ export default function KeyValueBarOverlayPresenter({
   onSubmit,
   onKeyChange,
   keySuggestionsLoading,
+  keySuggestions,
   onValueChange,
   valueSuggestionsLoading,
+  valueSuggestions,
   onOperatorChange
 }) {
   const keyValueFilters = tagFilters.filter(f => f.name === tag);
 
   return (
-    <BarOverlay extraWide>
-      <form onSubmit={onSubmit}>
+    <BarOverlay extraWide allowOverflow>
+      <form onSubmit={onSubmit} autoComplete="off">
         <ul className={locals.filterList}>
           {keyValueFilters.map((f, i) => {
             const [key, value] = f.stringValue.split('=', 2);
@@ -65,12 +69,20 @@ export default function KeyValueBarOverlayPresenter({
                   Key
                   {keySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
                 </Label>
-                <Input
+                <CreatableSelect
                   id="filter-key"
+                  className={locals.loadingSelectPlaceholderInput}
                   value={field.value || ''}
-                  onChange={onKeyChange}
-                  hasError={!field.valid && field.touched}
-                  autoFocus
+                  options={ensureCreatedOptionExists(keySuggestions || emptyArray, field.value).map(s => ({
+                    value: s,
+                    label: s
+                  }))}
+                  onChange={e => onKeyChange(e ? e.value : '')}
+                  placeholder=""
+                  isClearable
+                  openOnFocus
+                  searchable
+                  menuIsOpen
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -87,11 +99,20 @@ export default function KeyValueBarOverlayPresenter({
                   Value
                   {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
                 </Label>
-                <Input
+                <CreatableSelect
                   id="filter-value"
+                  className={locals.loadingSelectPlaceholderInput}
                   value={field.value || ''}
-                  onChange={onValueChange}
-                  hasError={!field.valid && field.touched}
+                  options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
+                    value: s,
+                    label: s
+                  }))}
+                  onChange={e => onValueChange(e ? e.value : '')}
+                  placeholder=""
+                  isClearable
+                  openOnFocus
+                  searchable
+                  menuIsOpen
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -130,6 +151,13 @@ export default function KeyValueBarOverlayPresenter({
       </form>
     </BarOverlay>
   );
+}
+
+function ensureCreatedOptionExists(items, value) {
+  if (isBlank(value) || items.indexOf(value) !== -1) {
+    return items;
+  }
+  return items.concat(value).sort(compareIgnoreCase);
 }
 
 function Segment({ children }) {
