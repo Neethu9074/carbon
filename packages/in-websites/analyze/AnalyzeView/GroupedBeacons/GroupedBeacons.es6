@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
-import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar/QuickFilterBar';
+import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';

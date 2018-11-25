@@ -11,6 +11,7 @@ import {
 } from 'in-websites/navigation/matrix';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
+import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -36,28 +37,14 @@ export default compose(
       [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter])
     })
   }),
-  withProps(({ [tagFiltersMatrixParameter]: tagFilters, onChange }) => ({
+  withProps(({ onChange }) => ({
     setTagFilters(tagFilters) {
       onChange({
         [tagFiltersMatrixParameter]: tagFilters
       });
-    },
-    removeTagFilter(name) {
-      onChange({
-        [tagFiltersMatrixParameter]: tagFilters.filter(f => f.name !== name)
-      });
-    },
-    upsertTagFilter(newTagFilter) {
-      onChange({
-        [tagFiltersMatrixParameter]: tagFilters.filter(f => f.name !== newTagFilter.name).concat(newTagFilter)
-      });
-    },
-    clearTagFilters() {
-      onChange({
-        [tagFiltersMatrixParameter]: []
-      });
     }
-  }))
+  })),
+  tagFilterManipulators
 )(AnalyzeView);
 
 function AnalyzeView({

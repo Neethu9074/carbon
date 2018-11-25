@@ -15,5 +15,6 @@ module.exports = {
   particlesInFlowMapEnabled: true,
   isKubernetesV2Enabled: false,
   oneZeroWebsiteMonitoringEnabled: true,
-  twoZeroWebsiteMonitoringEnabled: true
+  twoZeroWebsiteMonitoringEnabled: true,
+  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true
 };

@@ -33,6 +33,9 @@ export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEna
 export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
 export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
 export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
+export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
+  'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
+);
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
