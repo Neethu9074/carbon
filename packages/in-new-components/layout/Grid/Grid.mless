@@ -9,6 +9,10 @@
 
     & + .row {
       margin-top: @grid__gutter * 1px;
+
+      &.withoutTopMargin {
+        margin-top: 0;
+      }
     }
   }
 

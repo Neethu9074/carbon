@@ -2,7 +2,7 @@ import React from 'react';
 
 import NumberBarItemBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import SelectBarItemBehavior from 'in-websites/analyze/AnalyzeView/SelectBarItemBehavior/SelectBarItemBehavior';
-import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
+import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default function QuickFilterBar(props) {
@@ -19,7 +19,7 @@ export default function QuickFilterBar(props) {
         pluralLabel="subdivisions"
       />
       <SelectBarItemBehavior {...props} tag="beacon.geo.city" singularLabel="city" pluralLabel="cities" />
-      <BarItem showArrow>Meta</BarItem>
+      <KeyValueBarItemBehavior {...props} label="Meta" tag="beacon.meta" />
       <NumberBarItemBehavior {...props} tag="beacon.window.width" singularLabel="screen width" showRange />
       <NumberBarItemBehavior {...props} tag="beacon.window.height" singularLabel="screen height" showRange />
     </Bar>

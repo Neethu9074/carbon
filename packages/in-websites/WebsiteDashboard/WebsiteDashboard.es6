@@ -58,7 +58,8 @@ function WebsiteDashboard({
   removeTagFilter,
   upsertTagFilter,
   clearTagFilters,
-  setTagFilters
+  setTagFilters,
+  addTagFilter
 }) {
   const props = {
     websiteId: getMatrixParameter(location, websitePath, matrixWebsiteId),
@@ -68,7 +69,8 @@ function WebsiteDashboard({
     removeTagFilter,
     upsertTagFilter,
     clearTagFilters,
-    setTagFilters
+    setTagFilters,
+    addTagFilter
   };
 
   const tagFilters = (props.tagFilters = customTagFilters.slice());

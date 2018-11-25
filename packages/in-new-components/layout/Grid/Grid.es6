@@ -1,11 +1,18 @@
 import React from 'react';
 
-import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Grid.mless';
 
-export const Row = ({ children, className, style }) => {
+export const Row = ({ children, className, style, withoutTopMargin }) => {
   return (
-    <div className={joinClassNames(locals.row, className)} style={style}>
+    <div
+      className={evaluateClassNames({
+        [locals.row]: true,
+        [className]: className,
+        [locals.withoutTopMargin]: withoutTopMargin
+      })}
+      style={style}
+    >
       {children}
     </div>
   );

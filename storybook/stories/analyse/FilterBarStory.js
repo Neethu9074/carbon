@@ -1,10 +1,11 @@
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
-import { createField, createMapForm } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import NumberBarOverlayPresenter from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
+import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
@@ -16,7 +17,8 @@ storiesOf('Analyse/FilterBar', module)
   .add('Default', () => <Default />)
   .add('Overlay', () => <Overlay />)
   .add('SelectOverlay', () => <SelectBarOverlayStory />)
-  .add('NumberOverlay', () => <NumberBarOverlayStory />);
+  .add('NumberOverlay', () => <NumberBarOverlayStory />)
+  .add('KeyValueOverlay', () => <KeyValueOverlayStory />);
 
 function Default() {
   return (
@@ -43,8 +45,8 @@ function Overlay() {
           .fill(
             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, enim, pariatur nihil delectus animi architecto modi harum eligendi nam neque. Commodi, velit, sed. Nulla vel, culpa quisquam vitae dolorem rerum.'
           )
-          .map(v => (
-            <p>{v}</p>
+          .map((v, i) => (
+            <p key={i}>{v}</p>
           ))}
       </BarOverlay>
     </OverlayWrapper>
@@ -147,6 +149,71 @@ function NumberBarOverlayStory() {
         getOnChangeHandler={n => action(`onChange ${n}`)}
         onSubmit={action('submit')}
         onClear={action('clear')}
+      />
+    </OverlayWrapper>
+  );
+}
+
+function KeyValueOverlayStory() {
+  const form = createMapForm()
+    .put(
+      'key',
+      createField({
+        value: text('key', 'tenantUnit'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'value',
+      createField({
+        value: text('value', 'example'),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: text('operator', 'EQUALS'),
+        validator: notBlankValidator
+      })
+    )
+    .setTouched(boolean('Form Touched?', false), { recurse: true });
+
+  let tagFilters = [
+    {
+      name: 'beacon.foo',
+      stringValue: 'Unknown',
+      operator: 'EQUALS'
+    },
+    {
+      name: 'beacon.meta',
+      stringValue: 'region=europe',
+      operator: 'EQUALS'
+    },
+    {
+      name: 'beacon.meta',
+      stringValue: 'version=1.438=42',
+      operator: 'NOT_EQUAL'
+    }
+  ];
+
+  if (!boolean('With existing filters?', true)) {
+    tagFilters = tagFilters.filter(f => f.name !== 'beacon.meta');
+  }
+
+  return (
+    <OverlayWrapper>
+      <KeyValueBarOverlayPresenter
+        tagFilters={tagFilters}
+        tag="beacon.meta"
+        form={form}
+        onKeyChange={action('onKeyChange')}
+        onValueChange={action('onValueChange')}
+        onOperatorChange={action('onOperatorChange')}
+        onSubmit={action('onSubmit')}
+        onRemoveTagFilter={action('onRemoveTagFilter')}
+        keySuggestionsLoading={boolean('Keys loading?', false)}
+        valueSuggestionsLoading={boolean('Values loading?', false)}
       />
     </OverlayWrapper>
   );

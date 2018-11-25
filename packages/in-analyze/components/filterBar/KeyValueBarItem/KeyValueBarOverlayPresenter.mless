@@ -1,0 +1,63 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .create {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .filterList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .filter {
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.5;
+  }
+
+  .filterLabel {
+    .ellipsis();
+  }
+
+  .removeIcon {
+    fill: @lib__colors__N700Medium;
+    flex-shrink: 0;
+    margin: 0 0.5rem 0 0;
+  }
+
+  .separator {
+    margin: 1rem 0;
+    border-bottom: 1px solid @lib__colors__N400;
+    border-top: 0;
+  }
+
+  .segment {
+    background: @lib__colors__N200;
+    padding: .063rem .188rem;
+    border-radius: .125rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .labelWithLoader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+  }
+
+  .loadingIcon {
+    margin: 0 0.3rem 0 0;
+  }
+}
