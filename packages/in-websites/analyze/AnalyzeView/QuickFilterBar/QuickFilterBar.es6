@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NumberBarItemBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import SelectBarItemBehavior from 'in-websites/analyze/AnalyzeView/SelectBarItemBehavior/SelectBarItemBehavior';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
@@ -19,7 +20,8 @@ export default function QuickFilterBar(props) {
       />
       <SelectBarItemBehavior {...props} tag="beacon.geo.city" singularLabel="city" pluralLabel="cities" />
       <BarItem showArrow>Meta</BarItem>
-      <BarItem showArrow>Screen Size</BarItem>
+      <NumberBarItemBehavior {...props} tag="beacon.window.width" singularLabel="screen width" showRange />
+      <NumberBarItemBehavior {...props} tag="beacon.window.height" singularLabel="screen height" showRange />
     </Bar>
   );
 }

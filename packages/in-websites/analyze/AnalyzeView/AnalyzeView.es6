@@ -37,6 +37,11 @@ export default compose(
     })
   }),
   withProps(({ [tagFiltersMatrixParameter]: tagFilters, onChange }) => ({
+    setTagFilters(tagFilters) {
+      onChange({
+        [tagFiltersMatrixParameter]: tagFilters
+      });
+    },
     removeTagFilter(name) {
       onChange({
         [tagFiltersMatrixParameter]: tagFilters.filter(f => f.name !== name)
@@ -63,7 +68,8 @@ function AnalyzeView({
   getChangeAsUrl,
   removeTagFilter,
   upsertTagFilter,
-  clearTagFilters
+  clearTagFilters,
+  setTagFilters
 }) {
   const props = {
     tagFilters,
@@ -73,7 +79,8 @@ function AnalyzeView({
     getChangeAsUrl,
     removeTagFilter,
     upsertTagFilter,
-    clearTagFilters
+    clearTagFilters,
+    setTagFilters
   };
 
   if (group.groupbyTag) {
