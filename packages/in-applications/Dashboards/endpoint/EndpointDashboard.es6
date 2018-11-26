@@ -84,7 +84,7 @@ function Header(props) {
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
-  const isSynthetic = get(result, ['data', 'isSynthetic'], false);
+  const isSynthetic = get(result, ['data', 'synthetic'], false);
   return (
     <Fragment>
       <CallsButton
