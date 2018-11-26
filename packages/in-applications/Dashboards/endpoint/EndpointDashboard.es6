@@ -55,7 +55,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
 });
 
 function Header(props) {
-  const isSynthetic = get(props.result, ['data', 'isSynthetic'], false);
+  const isSynthetic = get(props.result, ['data', 'synthetic'], false);
   return (
     <Fragment>
       {isSynthetic && (

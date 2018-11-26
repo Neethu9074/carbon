@@ -180,7 +180,7 @@ function getTableData({
 }
 
 const getRowProps = item => {
-  return { dull: item.isSythetic ? 1 : 0 };
+  return { dull: item.endpoint.synthetic ? 1 : 0 };
 };
 
 const columnDefinitions = [

@@ -47,7 +47,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function SyntheticEndpoint
 
       <ServerTable
         get={getTableData}
-        itemFilter={item => item.isSythetic}
+        itemFilter={item => item.endpoint.synthetic}
         timeConfig={timeConfig}
         columnDefinitions={columnDefinitions}
         applicationId={applicationId}
