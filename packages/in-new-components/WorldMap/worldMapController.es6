@@ -30,9 +30,11 @@ export default function createWorldMapController(containerElement, { getDataByCo
     areasSettings: {
       autoZoom: true,
       rollOverOutlineColor: '#00B3B3',
-      selectedColor: '#DFE4E8',
-      color: '#a791b4',
-      rollOverColor: '#DFE4E8'
+      rollOverColor: '#DFE4E8',
+
+      selectedColor: '#990000',
+      color: '#ffcc00',
+      colorSolid: '#990000'
     },
 
     valueLegend: {

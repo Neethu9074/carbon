@@ -68,7 +68,9 @@ function onDidMount({ containerElement, result }) {
 
       areasSettings: {
         autoZoom: true,
-        rollOverOutlineColor: '#990000',
+        rollOverOutlineColor: '#00B3B3',
+        rollOverColor: '#DFE4E8',
+
         selectedColor: darkColor,
         color: lightColor,
         colorSolid: darkColor
