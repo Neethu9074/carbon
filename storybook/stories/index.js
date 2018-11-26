@@ -3,6 +3,7 @@ import 'in-themes/foundation.less';
 
 // ensure that some expected global variables exist
 import './globals';
+import './globalTagDefinition';
 
 // load all the plugins
 import 'in-forge';
@@ -13,6 +14,7 @@ import 'in-forge';
 import './analyse/CallTree';
 import './analyse/FilterBarStory';
 import './analyse/IcicleChart';
+import './analyse/TagFilterListStory';
 import './analyse/TraceConverter';
 
 import './application/AppHeaderStory';
