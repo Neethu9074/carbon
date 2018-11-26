@@ -78,7 +78,9 @@ export default function createWorldMapController(containerElement, { getDataByCo
   dataSubscription = combineLatest([
     data$,
     combineLatest([properties$, selectedCountry$]).flatMap(([properties, selectedCountry]) =>
-      getDataByCountry$(properties, selectedCountry).map(mapCountryBreakdownResult)
+      getDataByCountry$(properties, selectedCountry)
+        .map(mapCountryBreakdownResult)
+        .filter(data => data)
     )
   ]).subscribe(([{ name, mapData, projection }, countryBreakdownData]) => {
     const dataProvider = {
