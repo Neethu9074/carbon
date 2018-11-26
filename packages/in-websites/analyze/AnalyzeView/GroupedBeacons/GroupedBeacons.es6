@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -94,18 +95,20 @@ function GroupedBeacons(props) {
   return (
     <Fragment>
       <QuickFilterBar {...props} />
-      <TagFilterList {...props} />
-      <div className={locals.wrapper}>
-        <ResultHeader itemType="Beacon" nbRows={totalHits} />
-        <Button
-          kind="secondary"
-          onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
-          icon="lib_views_stats"
-        >
-          {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
-        </Button>
-      </div>
-      <GroupedBeaconsTable {...props} groupColors={groupColors} />
+      <MaxWidthFullscreenContainer>
+        <TagFilterList {...props} />
+        <div className={locals.wrapper}>
+          <ResultHeader itemType="Beacon" nbRows={totalHits} />
+          <Button
+            kind="secondary"
+            onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
+            icon="lib_views_stats"
+          >
+            {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
+          </Button>
+        </div>
+        <GroupedBeaconsTable {...props} groupColors={groupColors} />
+      </MaxWidthFullscreenContainer>
     </Fragment>
   );
 }
