@@ -45,7 +45,7 @@ export default function TagFilterList({
   );
 }
 
-function isInDefaultFilters(defaultFilters, tagFilter) {
+function isInDefaultFilters(defaultFilters = [], tagFilter) {
   return (
     defaultFilters.filter(
       defaultFilter => defaultFilter.name === tagFilter.tag.name && defaultFilter.value === tagFilter.tag.value
