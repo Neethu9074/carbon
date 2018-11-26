@@ -54,7 +54,25 @@ export default function Geography({ tagFilters, timeConfig }) {
               path={`${websitePathFullyQualified}/geography`}
               render={() => (
                 <div>
-                  <WorldMapDashboardContent height={height} />
+                  <WorldMapDashboardContent
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    height={height}
+                    getDataByCountry$={({ timeConfig, tagFilters } /*, selectedCountry*/) => {
+                      return getWebsiteCountryBreakdown({
+                        timeConfig,
+                        tagFilters,
+                        pagination: {
+                          page: 1,
+                          pageSize: 200
+                        },
+                        order: {
+                          by: 'countryName',
+                          direction: 'ASC'
+                        }
+                      });
+                    }}
+                  />
                   <Link
                     className={locals.link}
                     href$={getModifiedUrlStream(
