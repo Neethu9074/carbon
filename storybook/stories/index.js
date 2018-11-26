@@ -5,6 +5,8 @@ import 'in-themes/foundation.less';
 import './globals';
 import './globalTagDefinition';
 
+import './storybookTheme.mless';
+
 // load all the plugins
 import 'in-forge';
 
@@ -12,6 +14,7 @@ import 'in-forge';
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
 import './analyse/CallTree';
+import './analyse/EditTagFilterDialogStory';
 import './analyse/FilterBarStory';
 import './analyse/IcicleChart';
 import './analyse/TagFilterListStory';
@@ -35,6 +38,7 @@ import './components/ButtonStory';
 import './components/CardStory';
 import './components/ChartStory';
 import './components/DashboardHeaderStory';
+import './components/DialogStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
 import './components/Globe';

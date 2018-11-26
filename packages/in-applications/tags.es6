@@ -180,6 +180,11 @@ export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
   return tagMap[fullyQualifiedName];
 }
 
+export function getTagType(fullyQualifiedName) {
+  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+  return definition ? definition.type : null;
+}
+
 export function findChildByName(node, childName) {
   if (!node) {
     return null;

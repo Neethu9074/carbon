@@ -57,7 +57,9 @@ function AnalyzeView({
   upsertTagFilter,
   clearTagFilters,
   setTagFilters,
-  addTagFilter
+  addTagFilter,
+  onMoreClick,
+  onTagFilterClick
 }) {
   const props = {
     tagFilters,
@@ -69,7 +71,9 @@ function AnalyzeView({
     upsertTagFilter,
     clearTagFilters,
     setTagFilters,
-    addTagFilter
+    addTagFilter,
+    onMoreClick,
+    onTagFilterClick
   };
 
   if (group.groupbyTag) {

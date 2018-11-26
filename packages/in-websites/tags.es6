@@ -1,12 +1,9 @@
-import { getTagTree } from 'in-applications/tags';
+import { get } from 'lodash';
 
-export const getGroupingTags = () =>
-  getTagTree()
-    .getChildren({ blacklist: isBlacklistedTag })
-    .map(node => node.name);
+import { compareIgnoreCase } from 'in-services/util/string';
 
-export const getFilterTags = getGroupingTags;
+export const tagDefinitions = get(window, ['instana', 'tags'], [])
+  .filter(t => t.category === 'WEBSITE_MONITORING')
+  .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
-function isBlacklistedTag(tag) {
-  return tag.indexOf('beacon.') !== 0;
-}
+export const tagKeys = tagDefinitions.map(t => t.name);

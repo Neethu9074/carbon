@@ -3,10 +3,11 @@ import React from 'react';
 import NumberBarItemBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import SelectBarItemBehavior from 'in-websites/analyze/AnalyzeView/SelectBarItemBehavior/SelectBarItemBehavior';
 import KeyValueBarItemBehavior from 'in-websites/analyze/AnalyzeView/KeyValueBarItemBehavior';
+import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, clearTagFilters, showClearFilters } = props;
+  const { tagFilters, clearTagFilters, showClearFilters, onMoreClick } = props;
 
   return (
     <Bar
@@ -26,6 +27,7 @@ export default function QuickFilterBar(props) {
       <KeyValueBarItemBehavior {...props} label="Meta" tag="beacon.meta" />
       <NumberBarItemBehavior {...props} tag="beacon.window.width" singularLabel="screen width" showRange />
       <NumberBarItemBehavior {...props} tag="beacon.window.height" singularLabel="screen height" showRange />
+      {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );
 }

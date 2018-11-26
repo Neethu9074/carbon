@@ -1,0 +1,67 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background: rgba(0, 0, 0, 0.8);
+      z-index: @z-index__dialog;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+  }
+
+  .dialog {
+    min-width: 25rem;
+    max-width: 90vw;
+    cursor: auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 2.875rem;
+    padding: 0.375rem 0.625rem 0.25rem 1rem;
+    background: @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small @lib__shapes__radius_small 0 0;
+  }
+
+  .title {
+    color: @lib__colors__N800Dark;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    .ellipsis();
+  }
+
+  .body {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
+    // 90px to account for header height and to leave some space above/below
+    max-height: ~'calc(100vh - 90px)';
+    overflow-y: auto;
+  }
+
+  .withoutPadding {
+    padding: 0;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+}

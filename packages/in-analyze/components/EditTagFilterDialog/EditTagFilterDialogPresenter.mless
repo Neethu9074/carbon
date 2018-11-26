@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .help {
+    color: @lib__colors__N700Medium;
+    background: @lib__colors__N050;
+    padding: 1rem;
+  }
+
+  .labelWithLoader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+  }
+
+  .loadingIcon {
+    margin: 0 0.3rem 0 0;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0 0;
+  }
+
+  .onlyOneAction {
+    justify-content: flex-end;
+  }
+}
