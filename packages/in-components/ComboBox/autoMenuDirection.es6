@@ -38,9 +38,6 @@ export default function autoMenuDirection(ComposedComponent, assumedTimeLineFoot
       if (spaceBelow < assumedMaxMenuHeight && spaceAbove > spaceBelow) {
         direction = 'up';
       }
-      if (this.props.forcedDirection) {
-        direction = this.props.forcedDirection;
-      }
       this.setState({ direction: direction });
     };
 

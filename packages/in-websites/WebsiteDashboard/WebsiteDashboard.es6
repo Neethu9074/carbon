@@ -55,12 +55,13 @@ export default compose(
       });
     }
   })),
-  withProps(({ onChange }) => ({
+  withProps(({ onChange, location }) => ({
     setTagFilters(tagFilters) {
       onChange({
         [tagFiltersMatrixParameter]: tagFilters
       });
-    }
+    },
+    timeConfig: getTimeConfig(location)
   })),
   tagFilterManipulators
 )(WebsiteDashboard);

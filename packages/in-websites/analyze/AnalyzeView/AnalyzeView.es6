@@ -37,12 +37,13 @@ export default compose(
       [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter])
     })
   }),
-  withProps(({ onChange }) => ({
+  withProps(({ onChange, location }) => ({
     setTagFilters(tagFilters) {
       onChange({
         [tagFiltersMatrixParameter]: tagFilters
       });
-    }
+    },
+    timeConfig: getTimeConfig(location)
   })),
   tagFilterManipulators
 )(AnalyzeView);
@@ -50,7 +51,7 @@ export default compose(
 function AnalyzeView({
   [tagFiltersMatrixParameter]: tagFilters,
   [groupMatrixParameter]: group,
-  location,
+  timeConfig,
   onChange,
   getChangeAsUrl,
   removeTagFilter,
@@ -64,7 +65,7 @@ function AnalyzeView({
   const props = {
     tagFilters,
     group,
-    timeConfig: getTimeConfig(location),
+    timeConfig,
     onChange,
     getChangeAsUrl,
     removeTagFilter,

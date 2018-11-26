@@ -57,6 +57,10 @@
     padding: 0;
   }
 
+  .showOverflow {
+    overflow: visible;
+  }
+
   .closeIcon {
     cursor: pointer;
     fill: @lib__colors__N500;

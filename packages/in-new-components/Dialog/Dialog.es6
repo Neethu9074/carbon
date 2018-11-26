@@ -6,7 +6,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Dialog.mless';
 
-export default function Dialog({ title, onClose, children, className, withoutBodyPadding }) {
+export default function Dialog({ title, onClose, children, className, withoutBodyPadding, showOverflow }) {
   return (
     <div className={locals.wrapper} onClick={onClose}>
       <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
@@ -17,7 +17,8 @@ export default function Dialog({ title, onClose, children, className, withoutBod
         <div
           className={evaluateClassNames({
             [locals.body]: true,
-            [locals.withoutPadding]: withoutBodyPadding
+            [locals.withoutPadding]: withoutBodyPadding,
+            [locals.showOverflow]: showOverflow
           })}
         >
           {children}
