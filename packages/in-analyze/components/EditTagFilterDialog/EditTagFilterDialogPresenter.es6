@@ -9,6 +9,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Dialog from 'in-new-components/Dialog';
 import Button from 'in-new-components/Button';
+import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -19,7 +20,7 @@ export default function EditTagFilterDialogPresenter({
   editMode,
   form,
   onSubmit,
-  // selectedTagType,
+  selectedTagType,
   tagSuggestions,
   onTagChange,
   operatorSuggestions,
@@ -106,30 +107,53 @@ export default function EditTagFilterDialogPresenter({
           </FormGroup>
         ))}
 
-        {form.get('value').map(field => (
-          <FormGroup>
-            <Label htmlFor="filter-value" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
-              Value
-              {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
-            </Label>
-            <CreatableSelect
-              id="filter-value"
-              className={locals.loadingSelectPlaceholderInput}
-              value={field.value || ''}
-              options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
-                value: s,
-                label: s
-              }))}
-              onChange={e => onValueChange(e ? e.value : '')}
-              placeholder=""
-              isClearable
-              openOnFocus
-              searchable
-              menuIsOpen
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+        {form.get('value') &&
+          form.get('value').map(field => (
+            <FormGroup>
+              <Label htmlFor="filter-value" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
+                Value
+                {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+              </Label>
+              {(selectedTagType === 'STRING' || selectedTagType === 'KEY_VALUE_PAIR') && (
+                <CreatableSelect
+                  id="filter-value"
+                  className={locals.loadingSelectPlaceholderInput}
+                  value={field.value || ''}
+                  options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
+                    value: s,
+                    label: s
+                  }))}
+                  onChange={e => onValueChange(e ? e.value : '')}
+                  placeholder=""
+                  isClearable
+                  openOnFocus
+                  searchable
+                  menuIsOpen
+                />
+              )}
+              {selectedTagType === 'BOOLEAN' && (
+                <Select
+                  id="filter-value"
+                  value={field.value}
+                  onChange={e => onValueChange(e.target.value)}
+                  hasError={!field.valid && field.touched}
+                >
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+                </Select>
+              )}
+              {selectedTagType === 'NUMBER' && (
+                <Input
+                  type="number"
+                  id="filter-value"
+                  value={field.value || 0}
+                  onChange={e => onValueChange(e ? e.value : '')}
+                  hasError={!field.valid && field.touched}
+                />
+              )}
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
 
         <div
           className={evaluateClassNames({
