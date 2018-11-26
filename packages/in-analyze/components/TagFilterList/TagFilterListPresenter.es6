@@ -36,20 +36,18 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
 
   return (
     <li className={locals.item}>
-      <Tooltip content="Edit filter">
-        <a
-          href=""
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onTagFilterClick(tagFilter);
-          }}
-          className={locals.itemBlock}
-        >
-          <SvgIcon className={locals.icon} type={getIcon(tagFilter)} width={24} height={24} />
-          <Tag tagFilter={tagFilter} tagType={tagType} /> <Operator tagFilter={tagFilter} tagType={tagType} />{' '}
-          <Value tagFilter={tagFilter} tagType={tagType} />
-        </a>
-      </Tooltip>
+      <a
+        href=""
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          onTagFilterClick(tagFilter);
+        }}
+        className={locals.itemBlock}
+      >
+        <SvgIcon className={locals.icon} type={getIcon(tagFilter)} width={24} height={24} />
+        <Tag tagFilter={tagFilter} tagType={tagType} /> <Operator tagFilter={tagFilter} tagType={tagType} />{' '}
+        <Value tagFilter={tagFilter} tagType={tagType} />
+      </a>
 
       <Pill className={locals.conjunction} color={theme.lib.colors.N400}>
         and
