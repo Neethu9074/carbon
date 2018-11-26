@@ -4,6 +4,7 @@ import React from 'react';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -102,7 +103,7 @@ export default function EditTagFilterDialogPresenter({
             >
               {operatorSuggestions.map(tag => (
                 <option value={tag} key={tag}>
-                  {tag}
+                  {getOperatorLabel(selectedTagType, tag)}
                 </option>
               ))}
             </Select>
@@ -151,8 +152,8 @@ export default function EditTagFilterDialogPresenter({
                 <Input
                   type="number"
                   id="filter-value"
-                  value={field.value || 0}
-                  onChange={e => onValueChange(e ? e.value : '')}
+                  value={field.value}
+                  onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
                   autoFocus={editMode}
                 />

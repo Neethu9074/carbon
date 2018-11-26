@@ -1,9 +1,9 @@
-import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
+import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { numericValidator } from 'in-services/validators/number';
 import { close } from 'in-components/DialogPresenter/store';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTagType } from 'in-applications/tags';
@@ -22,7 +22,7 @@ export default compose(
   }),
   withProps(({ tagFilter, tagFilters, setTagFilters, selectedTagType, setForm, form }) => ({
     onClose: close,
-    editMode: tagFilter,
+    editMode: Boolean(tagFilter),
     operatorSuggestions: TAG_TYPES[selectedTagType].operators,
     keySuggestions: [], // TODO
     valueSuggestions: [], // TODO
@@ -32,25 +32,53 @@ export default compose(
     },
     onTagChange: tag => setForm(createForm(tag)),
     onOperatorChange: operator => {
-      let updatedForm = form.updateIn(['operator'], f => f.setValue(operator));
-      if (selectedTagType !== 'KEY_VALUE_PAIR') {
-        if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
-          updatedForm = updatedForm.remove('value');
-        } else if (!updatedForm.get('value')) {
-          updatedForm = updatedForm.put(
-            'value',
-            createField({
-              value: '',
-              validator: notBlankValidator
-            })
-          );
-        }
+      let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
+      if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
+        updatedForm = updatedForm.remove('value');
+      } else if (!updatedForm.get('value')) {
+        updatedForm = updatedForm.put(
+          'value',
+          createField({
+            value: '',
+            validator: notBlankValidator
+          })
+        );
       }
       setForm(updatedForm);
+    },
+    onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
+    onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
+    onSubmit: e => {
+      stopPropagationAndPreventDefault(e);
+      if (!form.hierarchyValid) {
+        setForm(form.setTouched(true, { recurse: true }));
+        return;
+      }
+
+      const newTagFilter = {
+        name: form.get('tag').value,
+        operator: form.get('operator').value
+      };
+
+      const isPresenceOperator =
+        form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY';
+
+      if (!isPresenceOperator && selectedTagType === 'BOOLEAN') {
+        newTagFilter.booleanValue = 'true' === form.get('value').value;
+      } else if (!isPresenceOperator && selectedTagType === 'NUMBER') {
+        newTagFilter.numberValue = parseInt(form.get('value').value, 10);
+      } else if (!isPresenceOperator && selectedTagType === 'STRING') {
+        newTagFilter.stringValue = form.get('value').value;
+      } else if (selectedTagType === 'KEY_VALUE_PAIR') {
+        const value = [form.get('key') && form.get('key').value, form.get('value') && form.get('value').value]
+          .filter(Boolean)
+          .join('=');
+        newTagFilter.stringValue = value;
+      }
+
+      setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));
+      close();
     }
-    // onKeyChange={action('onKeyChange')}
-    // onValueChange={action('onValueChange')}
-    // onSubmit={action('onSubmit')}
   }))
 )(EditTagFilterDialogPresenter);
 
@@ -88,12 +116,10 @@ function createForm(tag, tagFilter) {
   let key;
   let keyValidator;
   let value;
-  let valueValidator = notBlankValidator;
   if (tagType === 'STRING') {
     value = tagFilter ? tagFilter.stringValue || '' : '';
   } else if (tagType === 'NUMBER') {
     value = tagFilter ? String(tagFilter.numberValue || 0) : '0';
-    valueValidator = composeValidators(notBlankValidator, numericValidator);
   } else if (tagType === 'BOOLEAN') {
     value = tagFilter ? String(tagFilter.booleanValue || false) : 'true';
   } else if (tagType === 'KEY_VALUE_PAIR') {
@@ -106,6 +132,10 @@ function createForm(tag, tagFilter) {
       keyValidator = notBlankValidator;
       value = matchedValue;
     }
+  }
+
+  if (form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY') {
+    value = null;
   }
 
   if (key != null) {
@@ -123,7 +153,7 @@ function createForm(tag, tagFilter) {
       'value',
       createField({
         value: value,
-        validator: valueValidator
+        validator: notBlankValidator
       })
     );
   }
