@@ -6,9 +6,13 @@ import KeyValueBarItemBehavior from 'in-websites/analyze/AnalyzeView/KeyValueBar
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, clearTagFilters } = props;
+  const { tagFilters, clearTagFilters, showClearFilters } = props;
+
   return (
-    <Bar showClearFilters={tagFilters.length > 0} onClearFilters={clearTagFilters}>
+    <Bar
+      showClearFilters={showClearFilters !== undefined ? showClearFilters : tagFilters.length > 0}
+      onClearFilters={clearTagFilters}
+    >
       <SelectBarItemBehavior {...props} tag="beacon.browser.name" singularLabel="browser" pluralLabel="browsers" />
       <SelectBarItemBehavior {...props} tag="beacon.os.name" singularLabel="OS" pluralLabel="OSs" />
       <SelectBarItemBehavior {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />

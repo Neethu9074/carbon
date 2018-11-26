@@ -43,6 +43,19 @@ export default compose(
     })
   }),
   withProps(({ onChange }) => ({
+    onChange: ({ [tagFiltersMatrixParameter]: tagFilters }) => {
+      // We have to pass down the website ID and page name tag filters to the analyze bar. This is necessary
+      // so that the analyze bar loads meaningful suggestions. Unfortunately this also means that the analyze
+      // bar will eventually to try set these kinds of tag filters. We must forbid setting of these, as
+      // otherwise the UI behavior will be super confusing.
+      onChange({
+        [tagFiltersMatrixParameter]: tagFilters.filter(
+          f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name'
+        )
+      });
+    }
+  })),
+  withProps(({ onChange }) => ({
     setTagFilters(tagFilters) {
       onChange({
         [tagFiltersMatrixParameter]: tagFilters
@@ -104,7 +117,7 @@ function WebsiteDashboard({
   let content = tabView;
   if (quickTagFiltersInWebsiteMonitoringDashboardEnabled) {
     content = (
-      <StickyQuickFilterBar {...props} tagFilters={customTagFilters}>
+      <StickyQuickFilterBar {...props} tagFilters={tagFilters} showClearFilters={customTagFilters.length > 0}>
         {tabView}
       </StickyQuickFilterBar>
     );
