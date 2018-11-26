@@ -20,7 +20,7 @@ export default compose(
     reducerName: 'setForm',
     reducer: (prev, form) => getState(form)
   }),
-  withProps(({ tagFilter, tagFilters, setTagFilters, selectedTagType, setForm }) => ({
+  withProps(({ tagFilter, tagFilters, setTagFilters, selectedTagType, setForm, form }) => ({
     onClose: close,
     editMode: tagFilter,
     operatorSuggestions: TAG_TYPES[selectedTagType].operators,
@@ -30,8 +30,24 @@ export default compose(
       setTagFilters(tagFilters.filter(f => f !== tagFilter));
       close();
     },
-    onTagChange: tag => setForm(createForm(tag))
-    // onOperatorChange={action('onOperatorChange')}
+    onTagChange: tag => setForm(createForm(tag)),
+    onOperatorChange: operator => {
+      let updatedForm = form.updateIn(['operator'], f => f.setValue(operator));
+      if (selectedTagType !== 'KEY_VALUE_PAIR') {
+        if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
+          updatedForm = updatedForm.remove('value');
+        } else if (!updatedForm.get('value')) {
+          updatedForm = updatedForm.put(
+            'value',
+            createField({
+              value: '',
+              validator: notBlankValidator
+            })
+          );
+        }
+      }
+      setForm(updatedForm);
+    }
     // onKeyChange={action('onKeyChange')}
     // onValueChange={action('onValueChange')}
     // onSubmit={action('onSubmit')}

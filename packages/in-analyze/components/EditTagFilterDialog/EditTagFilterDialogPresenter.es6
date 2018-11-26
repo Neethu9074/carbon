@@ -9,6 +9,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Dialog from 'in-new-components/Dialog';
 import Button from 'in-new-components/Button';
+import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
@@ -35,7 +36,7 @@ export default function EditTagFilterDialogPresenter({
 }) {
   return (
     <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} autoComplete="off">
         <p className={locals.help}>Select a tag by which your calls should be filtered. Tags are case-sensitive.</p>
 
         {form.get('tag').map(field => (
@@ -43,19 +44,21 @@ export default function EditTagFilterDialogPresenter({
             <Label htmlFor="filter-tag" hasError={!field.valid && field.touched}>
               Tag
             </Label>
-            <Select
+            <ComboBox
               id="filter-tag"
-              value={field.value}
-              onChange={e => onTagChange(e.target.value)}
-              autoFocus
-              hasError={!field.valid && field.touched}
-            >
-              {tagSuggestions.map(tag => (
-                <option value={tag} key={tag}>
-                  {tag}
-                </option>
-              ))}
-            </Select>
+              value={field.value || ''}
+              options={tagSuggestions.map(s => ({
+                value: s,
+                label: s
+              }))}
+              onChange={e => onTagChange(e ? e.value : tagSuggestions[0])}
+              autoFocus={!editMode}
+              isClearable={false}
+              openOnFocus
+              searchable
+              menuIsOpen
+              forcedDirection="down"
+            />
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
@@ -129,6 +132,7 @@ export default function EditTagFilterDialogPresenter({
                   openOnFocus
                   searchable
                   menuIsOpen
+                  autoFocus={editMode}
                 />
               )}
               {selectedTagType === 'BOOLEAN' && (
@@ -137,6 +141,7 @@ export default function EditTagFilterDialogPresenter({
                   value={field.value}
                   onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
+                  autoFocus={editMode}
                 >
                   <option value="true">true</option>
                   <option value="false">false</option>
@@ -149,6 +154,7 @@ export default function EditTagFilterDialogPresenter({
                   value={field.value || 0}
                   onChange={e => onValueChange(e ? e.value : '')}
                   hasError={!field.valid && field.touched}
+                  autoFocus={editMode}
                 />
               )}
               <TouchedMessages field={field} />
