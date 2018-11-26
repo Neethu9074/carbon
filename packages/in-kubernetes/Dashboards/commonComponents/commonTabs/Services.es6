@@ -5,7 +5,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { formatDateTime } from 'in-services/formatters/date';
+import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/services';
@@ -66,14 +66,14 @@ const columnDefinitions = [
     id: 'type',
     label: 'Type',
     getContent(item) {
-      return get(item, ['type']);
+      return get(item, ['service', 'type']);
     }
   },
   {
     id: 'location',
     label: 'Service location',
     getContent(item) {
-      return get(item, ['serviceLocation']);
+      return get(item, ['service', 'serviceLocation']);
     }
   },
   {
@@ -101,7 +101,7 @@ const columnDefinitions = [
     id: 'age',
     label: 'Age',
     getContent(item) {
-      return formatDateTime(item.age);
+      return formatDuration(item.age);
     }
   }
 ];
