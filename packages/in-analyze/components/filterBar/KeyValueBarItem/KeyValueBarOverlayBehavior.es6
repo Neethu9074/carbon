@@ -13,7 +13,19 @@ export default compose(
   withProps(({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters }) => ({
     onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
     onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
-    onOperatorChange: e => setForm(form.updateIn(['operator'], f => f.setValue(e.target.value).setTouched(true))),
+    onOperatorChange: e => {
+      const newOperator = e.target.value;
+      let updatedForm = form.updateIn(['operator'], f => f.setValue(newOperator).setTouched(true));
+      const requiresValueField = newOperator !== 'NOT_EMPTY' && newOperator !== 'IS_EMPTY';
+      if (requiresValueField) {
+        if (!updatedForm.get('value')) {
+          updatedForm = updatedForm.put('value', getValueFieldDefinition());
+        }
+      } else {
+        updatedForm = updatedForm.remove('value');
+      }
+      setForm(updatedForm);
+    },
     onSubmit(e) {
       stopPropagationAndPreventDefault(e);
       if (!form.hierarchyValid) {
@@ -25,10 +37,16 @@ export default compose(
         return;
       }
 
+      let stringValue = form.get('key').value;
+      if (form.get('value')) {
+        // value is optional for some keywords
+        stringValue = `${form.get('key').value}=${form.get('value').value}`;
+      }
+
       addTagFilter({
         name: tag,
         operator: form.get('operator').value,
-        stringValue: `${form.get('key').value}=${form.get('value').value}`
+        stringValue
       });
       close();
     },
@@ -88,12 +106,7 @@ function getEmptyForm() {
         validator: notBlankValidator
       })
     )
-    .put(
-      'value',
-      createField({
-        validator: notBlankValidator
-      })
-    )
+    .put('value', getValueFieldDefinition())
     .put(
       'operator',
       createField({
@@ -101,4 +114,10 @@ function getEmptyForm() {
         validator: notBlankValidator
       })
     );
+}
+
+function getValueFieldDefinition() {
+  return createField({
+    validator: notBlankValidator
+  });
 }

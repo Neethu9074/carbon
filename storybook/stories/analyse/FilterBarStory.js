@@ -155,7 +155,7 @@ function NumberBarOverlayStory() {
 }
 
 function KeyValueOverlayStory() {
-  const form = createMapForm()
+  let form = createMapForm()
     .put(
       'key',
       createField({
@@ -178,6 +178,10 @@ function KeyValueOverlayStory() {
       })
     )
     .setTouched(boolean('Form Touched?', false), { recurse: true });
+
+  if (!boolean('With Value?', true)) {
+    form = form.remove('value');
+  }
 
   let tagFilters = [
     {

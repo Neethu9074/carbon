@@ -89,38 +89,6 @@ export default function KeyValueBarOverlayPresenter({
             ))}
           </Col>
           <Col xs={6}>
-            {form.get('value').map(field => (
-              <FormGroup withoutBottomMargin>
-                <Label
-                  htmlFor="filter-value"
-                  hasError={!field.valid && field.touched}
-                  className={locals.labelWithLoader}
-                >
-                  Value
-                  {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
-                </Label>
-                <CreatableSelect
-                  id="filter-value"
-                  className={locals.loadingSelectPlaceholderInput}
-                  value={field.value || ''}
-                  options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
-                    value: s,
-                    label: s
-                  }))}
-                  onChange={e => onValueChange(e ? e.value : '')}
-                  placeholder=""
-                  isClearable
-                  openOnFocus
-                  searchable
-                  menuIsOpen
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={6}>
             {form.get('operator').map(field => (
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-operator" hasError={!field.valid && field.touched}>
@@ -142,7 +110,41 @@ export default function KeyValueBarOverlayPresenter({
               </FormGroup>
             ))}
           </Col>
-          <Col xs={6} className={locals.create}>
+        </Row>
+        <Row>
+          {form.get('value') && (
+            <Col xs={6}>
+              {form.get('value').map(field => (
+                <FormGroup withoutBottomMargin>
+                  <Label
+                    htmlFor="filter-value"
+                    hasError={!field.valid && field.touched}
+                    className={locals.labelWithLoader}
+                  >
+                    Value
+                    {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                  </Label>
+                  <CreatableSelect
+                    id="filter-value"
+                    className={locals.loadingSelectPlaceholderInput}
+                    value={field.value || ''}
+                    options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
+                      value: s,
+                      label: s
+                    }))}
+                    onChange={e => onValueChange(e ? e.value : '')}
+                    placeholder=""
+                    isClearable
+                    openOnFocus
+                    searchable
+                    menuIsOpen
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          )}
+          <Col xs={6} xsOffset={form.get('value') ? 0 : 6} className={locals.create}>
             <Button type="submit" kind="create" disabled={form.touched && !form.hierarchyValid}>
               Add Filter
             </Button>
