@@ -18,7 +18,7 @@ import locals from './Pods.mless';
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId }) {
+export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId, serviceId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -30,6 +30,7 @@ export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId 
       namespaceId={namespaceId}
       deploymentId={deploymentId}
       clusterId={clusterId}
+      serviceId={serviceId}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
@@ -46,6 +47,7 @@ function getTableData({
   timeConfig,
   namespaceId,
   clusterId,
+  serviceId,
   deploymentId
 }) {
   return getKubernetesPods({
@@ -62,6 +64,7 @@ function getTableData({
       namespaceId,
       deploymentId,
       clusterId,
+      serviceId,
       timeConfig
     }
   });
@@ -71,7 +74,7 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId, namespaceId, deploymentId, timeConfig }) {
+    getContent(item, { clusterId, namespaceId, deploymentId, serviceId, timeConfig }) {
       return (
         <KubernetesSeverity
           clusterId={get(item, ['pod', 'id'])}
@@ -80,7 +83,7 @@ const columnDefinitions = [
             <SeverityAwareEntityLink
               icon="lib_kubernetes_pod"
               label={get(item, ['pod', 'label'])}
-              href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId })}
+              href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId })}
               severity={maxSeverity}
             />
           )}

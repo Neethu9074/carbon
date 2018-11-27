@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import TopPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopPodsList';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -37,6 +38,9 @@ export default function Summary({ timeConfig, data: service }) {
       </Row>
 
       <Row>
+        <Col lg={4}>
+          <TopPodsList serviceId={service.id} timeConfig={timeConfig} />
+        </Col>
         <Col lg={4}>
           <AppdataChartWrapper
             cardTitle="CPU Resources (cpu units)"

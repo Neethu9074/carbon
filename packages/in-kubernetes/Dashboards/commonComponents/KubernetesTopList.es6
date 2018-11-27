@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
@@ -15,10 +16,10 @@ export default function KubernetesTopList(props) {
   return (
     <TopList
       title={title}
-      metrics={metrics}
-      labels={labels}
-      aggregations={aggregations}
-      formatters={formatters}
+      metrics={props.metrics || metrics}
+      labels={props.labels || labels}
+      aggregations={props.aggregations || aggregations}
+      formatters={props.formatters || formatters}
       getList={getList}
       render={Renderer}
       renderViewAll={ViewAll}
@@ -85,5 +86,5 @@ function Renderer(props) {
   return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} />;
 }
 function getMetricValueFromItem(metricId, item) {
-  return item[metricId];
+  return get(item, metricId);
 }
