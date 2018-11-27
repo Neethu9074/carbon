@@ -1,79 +1,71 @@
+import { intersection, find } from 'lodash';
 import { withState } from 'recompose';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { millis, percentage } from 'in-services/formatters/number';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 
 import locals from './GroupMetricsChart.mless';
 
-export default withState('selectedChart', 'setSelectedChart', 'latency')(GroupMetricsChart);
+export default withState('selectedChart', 'setSelectedChart', null)(GroupMetricsChart);
 
-function GroupMetricsChart({ items, errors, progress, time, filters, groupColors, selectedChart, setSelectedChart }) {
-  if (errors.length > 0 || progress.loading) {
+function GroupMetricsChart({
+  items,
+  groupColors,
+  time,
+  selectedChart,
+  setSelectedChart,
+  chartDefinitions,
+  timeConfig
+}) {
+  if (!items || items.length === 0) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
     // render them twice.
     return null;
-  } else if (!items || items.length === 0 || !items[0].metrics.latency) {
-    // No groups found or no chart metrics found, just omit the charts element.
+  }
+
+  const metricsAvailableForPresentation = intersection(Object.keys(items[0].metrics), chartDefinitions.map(d => d.key));
+
+  if (metricsAvailableForPresentation.length === 0) {
+    // no chart metrics found, just omit the charts element.
     return null;
   }
 
-  const { countMetricText, countMetricKey } = getConfigByDataSource(filters.get('dataSource'));
-  const groups = items.slice(0, 5);
+  const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
+    d => metricsAvailableForPresentation.indexOf(d.key) !== -1
+  );
+  selectedChart = selectedChart || chartDefinitionsAvailableForPresentation[0].key;
 
   // Render chart selector and chart.
   return (
     <div className={locals.charts}>
       <div className={locals.buttonGroup}>
         <ButtonGroup
-          buttonPropsList={[
-            { text: 'Latency', key: 'latency', onClick: () => setSelectedChart('latency') },
-            { text: countMetricText, key: countMetricKey, onClick: () => setSelectedChart(countMetricKey) },
-            { text: 'Error Rate', key: 'errors', onClick: () => setSelectedChart('errors') }
-          ]}
+          buttonPropsList={chartDefinitionsAvailableForPresentation.map(({ label, key }) => ({
+            text: label,
+            key,
+            onClick: () => setSelectedChart(key)
+          }))}
           activeKey={selectedChart}
         />
       </div>
 
       <ChartElement
-        groups={groups}
+        groups={items.slice(0, 5)}
         groupColors={groupColors}
-        timeConfig={filters.get('timeConfig')}
         time={time}
+        timeConfig={timeConfig}
         selectedChart={selectedChart}
+        chartDefinitions={chartDefinitionsAvailableForPresentation}
       />
       <div className={locals.whitespace} />
     </div>
   );
 }
 
-const chartDefinitions = {
-  calls: {
-    renderer: Renderer.line,
-    aggregation: 'SUM'
-  },
-  traces: {
-    renderer: Renderer.line,
-    aggregation: 'SUM'
-  },
-  errors: {
-    renderer: Renderer.line,
-    aggregation: 'MEAN',
-    formatter: percentage
-  },
-  latency: {
-    renderer: Renderer.line,
-    formatter: millis.fixed,
-    min: 0
-  }
-};
-
-function ChartElement({ groups, groupColors, timeConfig, time, selectedChart }) {
-  const chartDefinition = chartDefinitions[selectedChart];
+function ChartElement({ groups, groupColors, timeConfig, time, selectedChart, chartDefinitions }) {
+  const chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
 
   const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
   const granularity = getChartGranularity(timeConfig);

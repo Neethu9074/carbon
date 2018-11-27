@@ -2,12 +2,12 @@ import { compose, withState } from 'recompose';
 import { assign } from 'lodash';
 import React from 'react';
 
+import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
-import TraceGroupChart from 'in-analyze/components/GroupMetricsChart';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -110,7 +110,7 @@ function GroupedTraces(props) {
           {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
         </Button>
       </div>
-      {isChartSectionExpanded && <TraceGroupChart {...props} callGroupColors={groupColors} />}
+      {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>
   );

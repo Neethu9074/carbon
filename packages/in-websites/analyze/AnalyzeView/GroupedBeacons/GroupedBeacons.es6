@@ -2,6 +2,7 @@ import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
+import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
@@ -84,7 +85,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items } = props;
+  const { items, isChartSectionExpanded } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -99,6 +100,7 @@ function GroupedBeacons(props) {
         <TagFilterList {...props} />
         <GroupingInfo {...props} />
         <GroupingTableHeader {...props} />
+        {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
         <GroupedBeaconsTable {...props} groupColors={groupColors} />
       </MaxWidthFullscreenContainer>
     </Fragment>

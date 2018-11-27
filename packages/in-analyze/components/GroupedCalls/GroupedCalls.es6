@@ -2,12 +2,12 @@ import { compose, withState } from 'recompose';
 import { assign } from 'lodash';
 import React from 'react';
 
-import ResultHeader from 'in-analyze/components/ResultHeader';
+import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import CallGroupsTable from 'in-analyze/components/GroupedCalls/CallGroupsTable';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
-import CallGroupCharts from 'in-analyze/components/GroupMetricsChart';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -110,7 +110,7 @@ function GroupedCalls(props) {
           {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
         </Button>
       </div>
-      {isChartSectionExpanded && <CallGroupCharts {...props} groupColors={groupColors} />}
+      {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <CallGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeCallsWorkspace>
   );
