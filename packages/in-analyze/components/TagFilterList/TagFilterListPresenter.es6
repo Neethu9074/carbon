@@ -108,6 +108,8 @@ function getIcon({ name }) {
     return 'lib_application_service';
   } else if (name === 'endpoint.name') {
     return 'lib_application_endpoint';
+  } else if (name === 'beacon.website.name') {
+    return 'lib_website';
   }
   return 'lib_views_tag';
 }

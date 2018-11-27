@@ -17,6 +17,10 @@
     &:last-child .conjunction::after {
       display: none;
     }
+
+    &:last-child:first-child .conjunction {
+      display: none;
+    }
   }
 
   .itemBlock {
