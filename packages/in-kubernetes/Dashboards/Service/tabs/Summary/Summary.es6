@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
@@ -16,10 +17,10 @@ export default function Summary({ timeConfig, data: service }) {
           <KpiCard title="Type" value={service.type} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Location" value={service.serviceLocation} raw />
+          <KpiCard title="Location" value={service.location} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Age" value={service.age} raw />
+          <KpiCard title="Age" value={formatDuration(service.age)} raw />
         </Col>
       </Row>
 

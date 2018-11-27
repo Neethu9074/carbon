@@ -17,7 +17,7 @@ export default function Endpoints({ timeConfig, data: service }) {
           <KpiCard title="Type" value={service.type} />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Location" value={service.serviceLocation} />
+          <KpiCard title="Location" value={service.location} />
         </Col>
         <Col lg={4}>
           <KpiCard title="Created" value={service.created} />

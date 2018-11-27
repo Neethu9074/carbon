@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -56,8 +55,8 @@ const columnDefinitions = [
       return (
         <EntityLink
           icon="lib_kubernetes_service"
-          label={get(item, ['service', 'name'])}
-          href$={getServiceDashboard(get(item, ['service', 'id']), { namespaceId, clusterId })}
+          label={item.name}
+          href$={getServiceDashboard(item.id, { namespaceId, clusterId })}
         />
       );
     }
@@ -66,14 +65,14 @@ const columnDefinitions = [
     id: 'type',
     label: 'Type',
     getContent(item) {
-      return get(item, ['service', 'type']);
+      return item.type;
     }
   },
   {
     id: 'location',
     label: 'Service location',
     getContent(item) {
-      return get(item, ['service', 'serviceLocation']);
+      return item.location;
     }
   },
   {
