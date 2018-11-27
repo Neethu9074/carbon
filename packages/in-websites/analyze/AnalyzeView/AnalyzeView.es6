@@ -43,10 +43,11 @@ export default compose(
   withProps(({ onChange, location }) => ({
     setTagFilters: tagFilters => onChange({ [tagFiltersMatrixParameter]: tagFilters }),
     setGroup: group => onChange({ [groupMatrixParameter]: group }),
+    disableGrouping: () => onChange({ [groupMatrixParameter]: {} }),
     timeConfig: getTimeConfig(location)
   })),
   withProps(({ group, setGroup, timeConfig, tagFilters }) => ({
-    onEditGroupDialog() {
+    openEditGroupDialog() {
       setActiveDialog(
         <WebsiteEditGroupDialog
           setGroup={setGroup}
@@ -61,40 +62,8 @@ export default compose(
   tagFilterManipulators
 )(AnalyzeView);
 
-function AnalyzeView({
-  [tagFiltersMatrixParameter]: tagFilters,
-  [groupMatrixParameter]: group,
-  timeConfig,
-  onChange,
-  getChangeAsUrl,
-  removeTagFilter,
-  upsertTagFilter,
-  clearTagFilters,
-  setTagFilters,
-  addTagFilter,
-  onMoreClick,
-  onTagFilterClick,
-  setGroup,
-  onEditGroupDialog
-}) {
-  const props = {
-    tagFilters,
-    group,
-    timeConfig,
-    onChange,
-    getChangeAsUrl,
-    removeTagFilter,
-    upsertTagFilter,
-    clearTagFilters,
-    setTagFilters,
-    addTagFilter,
-    onMoreClick,
-    onTagFilterClick,
-    setGroup,
-    onEditGroupDialog
-  };
-
-  if (group.groupbyTag) {
+function AnalyzeView(props) {
+  if (props.group.groupbyTag) {
     return <GroupedBeacons {...props} />;
   }
 

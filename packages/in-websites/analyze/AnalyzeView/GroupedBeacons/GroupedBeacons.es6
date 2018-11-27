@@ -6,6 +6,7 @@ import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsite
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -85,7 +86,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded, onEditGroupDialog } = props;
+  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -96,8 +97,8 @@ function GroupedBeacons(props) {
     <Fragment>
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
-        <div onClick={() => onEditGroupDialog()}>Edit Groups</div>
         <TagFilterList {...props} />
+        <GroupingInfo {...props} />
         <div className={locals.wrapper}>
           <ResultHeader itemType="Beacon" nbRows={totalHits} />
           <Button

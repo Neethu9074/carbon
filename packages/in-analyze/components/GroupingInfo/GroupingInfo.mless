@@ -1,0 +1,33 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+  }
+
+  .label {
+    margin-right: 1rem;
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+  }
+
+  .grouping {
+    color: @lib__colors__light-blue800;
+    font-weight: bold;
+    font-size: 0.75rem;
+  }
+
+  .removeGrouping {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    margin: 0 1rem 0 0.3rem;
+    position: relative;
+    top: 1px;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+}
