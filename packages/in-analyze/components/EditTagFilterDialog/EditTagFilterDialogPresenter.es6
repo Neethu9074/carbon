@@ -175,7 +175,7 @@ export default function EditTagFilterDialogPresenter({
 
           <Button
             type="submit"
-            kind={editMode ? 'create' : 'primaryv2'}
+            kind={editMode ? 'primaryv2' : 'create'}
             disabled={form.touched && !form.hierarchyValid}
           >
             {editMode ? 'Save Filter' : 'Add Filter'}
