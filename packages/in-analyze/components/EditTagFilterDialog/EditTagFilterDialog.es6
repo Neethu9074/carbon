@@ -28,8 +28,6 @@ export default compose(
     onClose: close,
     editMode: Boolean(tagFilter),
     operatorSuggestions: TAG_TYPES[selectedTagType].operators,
-    keySuggestions: [], // TODO
-    valueSuggestions: [], // TODO
     onRemoveTagFilter: () => {
       setTagFilters(tagFilters.filter(f => f !== tagFilter));
       close();

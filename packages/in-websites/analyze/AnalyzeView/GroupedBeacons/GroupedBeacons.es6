@@ -85,7 +85,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
+  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded, onEditGroupDialog } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -96,6 +96,7 @@ function GroupedBeacons(props) {
     <Fragment>
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
+        <div onClick={() => onEditGroupDialog()}>Edit Groups</div>
         <TagFilterList {...props} />
         <div className={locals.wrapper}>
           <ResultHeader itemType="Beacon" nbRows={totalHits} />
