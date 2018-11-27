@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { deepCopy } from 'in-services/util/object';
+import { isInstanaEngineer } from 'in-stores/user';
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -45,7 +46,8 @@ const blacklists = {
       'docker.container.id': true,
       'host.snapshotId': true,
       'docker.snapshotId': true,
-      'process.snapshotId': true
+      'process.snapshotId': true,
+      'call.span_type': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
