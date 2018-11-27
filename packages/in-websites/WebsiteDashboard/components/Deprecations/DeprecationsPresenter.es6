@@ -1,4 +1,3 @@
-import { chunk } from 'lodash';
 import React, { Fragment } from 'react';
 
 import CrossRegionForwarding from 'in-websites/WebsiteDashboard/components/Deprecations/deprecations/CrossRegionForwarding';
@@ -18,18 +17,19 @@ export default function DeprecationsPresenter(props) {
 
   return (
     <Fragment>
-      {chunk(result.data.filter(code => presenterMapping[code]).sort(), 2).map((row, i) => (
-        <Row key={i}>
-          {row.map(code => {
-            const Component = presenterMapping[code];
-            return (
-              <Col lg={6} lgOffset={row.length === 1 ? 3 : 0} key={code}>
+      {result.data
+        .filter(code => presenterMapping[code])
+        .sort()
+        .map(code => {
+          const Component = presenterMapping[code];
+          return (
+            <Row key={code}>
+              <Col lg={12} key={code}>
                 <Component {...props} />
               </Col>
-            );
-          })}
-        </Row>
-      ))}
+            </Row>
+          );
+        })}
     </Fragment>
   );
 }

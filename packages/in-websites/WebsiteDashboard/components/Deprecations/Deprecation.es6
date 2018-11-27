@@ -1,12 +1,14 @@
 import React from 'react';
 
+import ExpandableCard from 'in-new-components/ExpandableCard';
 import Pill from 'in-new-components/Pill';
-import Card from 'in-new-components/Card';
 
-export default function Deprecation({ title, children, supportedUntil }) {
+import locals from './Deprecation.mless';
+
+export default function Deprecation({ title, preview, children, supportedUntil }) {
   return (
-    <Card title={title} header={<Pill color="#fa0">Support ends {supportedUntil}</Pill>}>
-      {children}
-    </Card>
+    <ExpandableCard title={title} preview={preview} header={<Pill color="#fa0">Support ends {supportedUntil}</Pill>}>
+      <div className={locals.content}>{children}</div>
+    </ExpandableCard>
   );
 }
