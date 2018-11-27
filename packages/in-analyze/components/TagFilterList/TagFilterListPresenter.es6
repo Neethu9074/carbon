@@ -82,9 +82,15 @@ function Operator({ tagFilter, tagType }) {
 }
 
 function Value({ tagFilter, tagType }) {
-  let value = tagFilter.stringValue || tagFilter.numberValue || tagFilter.booleanValue;
+  let value = null;
   if (tagType === 'KEY_VALUE_PAIR') {
     value = getSecondKeyValuePart(tagFilter.stringValue);
+  } else if (tagFilter.stringValue != null) {
+    value = tagFilter.stringValue;
+  } else if (tagFilter.numberValue != null) {
+    value = tagFilter.numberValue;
+  } else if (tagFilter.booleanValue != null) {
+    value = tagFilter.booleanValue;
   }
 
   if (value != null) {

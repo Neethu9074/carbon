@@ -5,17 +5,15 @@ import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
+import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import ResultHeader from 'in-analyze/components/ResultHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import Button from 'in-new-components/Button';
+import Title from 'in-components/Title';
 import theme from 'in-themes';
-
-import locals from './GroupedBeacons.mless';
 
 const tableMetrics = {
   beaconCountAgg: {
@@ -86,7 +84,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
+  const { items } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -95,20 +93,12 @@ function GroupedBeacons(props) {
 
   return (
     <Fragment>
+      <Title title="Analyze Beacon Groups" />
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />
         <GroupingInfo {...props} />
-        <div className={locals.wrapper}>
-          <ResultHeader itemType="Beacon" nbRows={totalHits} />
-          <Button
-            kind="secondary"
-            onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
-            icon="lib_views_stats"
-          >
-            {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
-          </Button>
-        </div>
+        <GroupingTableHeader {...props} />
         <GroupedBeaconsTable {...props} groupColors={groupColors} />
       </MaxWidthFullscreenContainer>
     </Fragment>

@@ -5,13 +5,11 @@ import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
 import Group from 'in-websites/analyze/AnalyzeView/GroupedBeacons/Group';
 import Groups from 'in-websites/analyze/AnalyzeView/Groups';
 
-import locals from './GroupedBeaconsTable.mless';
-
 export default function GroupedBeaconsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore } = props;
   return (
     <Fragment>
-      <Table className={locals.table}>
+      <Table>
         <Thead>
           <Tr size="compact">
             <SortableCallColumn

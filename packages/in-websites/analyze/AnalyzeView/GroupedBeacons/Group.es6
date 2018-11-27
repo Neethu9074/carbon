@@ -9,6 +9,7 @@ import Link from 'in-components/Link';
 import locals from './Group.mless';
 
 export default function Group({ item, dotColor, showDot }) {
+  const name = JSON.parse(item.name);
   return (
     <Tr size="compact">
       <Td className={locals.labelCell} ellipsis="50vw">
@@ -23,7 +24,7 @@ export default function Group({ item, dotColor, showDot }) {
             </span>
           )}
 
-          <Link className={locals.name}>{item.name}</Link>
+          <Link className={locals.name}>{name}</Link>
         </div>
       </Td>
 
