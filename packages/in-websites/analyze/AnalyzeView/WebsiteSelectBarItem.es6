@@ -1,0 +1,44 @@
+import { compose, withProps } from 'recompose';
+
+import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import SelectBarItem from 'in-analyze/components/filterBar/SelectBarItem';
+
+export default compose(
+  withProps({
+    getSuggestions: ({ timeConfig, tagFilters, tag }) => {
+      return getWebsiteBeaconGroups({
+        timeConfig: timeConfig,
+        tagFilters: tagFilters,
+        metrics: {
+          beaconCount: {
+            metric: 'beaconCount',
+            aggregation: 'SUM'
+          }
+        },
+        order: {
+          by: 'beaconCount',
+          direction: 'DESC'
+        },
+        pagination: {
+          retrievalSize: 200
+        },
+        group: {
+          groupbyTag: tag
+        }
+      }).map(mapData);
+    }
+  })
+)(SelectBarItem);
+
+function mapData(result) {
+  if (!result.data) {
+    return result;
+  }
+
+  return {
+    progress: result.progress,
+    errors: result.errors,
+    time: result.time,
+    data: result.data.items.map(item => JSON.parse(item.name))
+  };
+}

@@ -1,7 +1,7 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import SelectBarOverlayBehavior from 'in-websites/analyze/AnalyzeView/SelectBarItemBehavior/SelectBarOverlayBehavior';
+import SelectBarOverlayBehavior from 'in-analyze/components/filterBar/SelectBarItem/SelectBarOverlayBehavior';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 

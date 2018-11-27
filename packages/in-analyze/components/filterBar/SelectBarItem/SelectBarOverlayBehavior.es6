@@ -4,7 +4,6 @@ import { find } from 'lodash';
 import React from 'react';
 
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
@@ -23,25 +22,10 @@ export default compose(
       });
     }
 
-    const subscriptionConfig = {
+    const getSuggestionsConfig = {
       timeConfig: props.timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
-      },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: props.tag
-      }
+      tag: props.tag,
+      tagFilters
     };
 
     if (props.query !== prevProps.query && queryNotBlank) {
@@ -59,12 +43,12 @@ export default compose(
       // before retrieving data and thereby reduce backend pressure!
       return {
         result: timeout(800)
-          .flatMap(() => getWebsiteBeaconGroups(subscriptionConfig))
+          .flatMap(() => props.getSuggestions(getSuggestionsConfig))
           .startWith(pendingResult)
       };
     }
     return {
-      result: getWebsiteBeaconGroups(subscriptionConfig)
+      result: props.getSuggestions(getSuggestionsConfig)
     };
   })
 )(SelectBarOverlayBehavior);
@@ -83,13 +67,10 @@ function SelectBarOverlayBehavior({
   // query, loading, onQueryChange, selectedItem, items, onSelectItem
   let items = emptyArray;
   if (result.data) {
-    items = result.data.items.map(item => {
-      const key = JSON.parse(item.name);
-      return {
-        key,
-        label: key
-      };
-    });
+    items = result.data.map(item => ({
+      key: item,
+      label: item
+    }));
   }
 
   // resorting in client because we sort by beacon count in backend to provide a meaningful set of values
