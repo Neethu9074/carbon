@@ -11,6 +11,7 @@ import {
 } from 'in-websites/navigation/matrix';
 import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
@@ -46,7 +47,7 @@ export default compose(
     disableGrouping: () => onChange({ [groupMatrixParameter]: {} }),
     timeConfig: getTimeConfig(location)
   })),
-  withProps(({ group, setGroup, timeConfig, tagFilters }) => ({
+  withProps(({ group, setGroup, timeConfig, tagFilters, getChangeAsUrl }) => ({
     openEditGroupDialog() {
       setActiveDialog(
         <WebsiteEditGroupDialog
@@ -57,7 +58,12 @@ export default compose(
           tagFilters={tagFilters}
         />
       );
-    }
+    },
+    getGroupAsFilterUrl: subGroupName =>
+      getChangeAsUrl({
+        [tagFiltersMatrixParameter]: addGroupToTagFilter(tagFilters, group, subGroupName),
+        [groupMatrixParameter]: {}
+      })
   })),
   tagFilterManipulators
 )(AnalyzeView);
@@ -68,4 +74,29 @@ function AnalyzeView(props) {
   }
 
   return <Beacons {...props} />;
+}
+
+function addGroupToTagFilter(tagFilters, groupingDefinition, subGroupName) {
+  const newTagFilter = {
+    name: groupingDefinition.groupbyTag,
+    operator: 'EQUALS'
+  };
+  const node = findSubTreeByFullyQualifiedName(groupingDefinition.groupbyTag);
+  const type = (node && node.type) || 'STRING';
+
+  if (type === 'STRING') {
+    newTagFilter.stringValue = subGroupName;
+  } else if (type === 'NUMBER') {
+    newTagFilter.numberValue = parseInt(subGroupName, 10);
+  } else if (type === 'BOOLEAN') {
+    newTagFilter.numberValue = 'true'.equals(subGroupName);
+  } else if (type === 'KEY_VALUE_PAIR') {
+    let value = subGroupName;
+    if (groupingDefinition.groupbyTagSecondLevelKey) {
+      value = `${groupingDefinition.groupbyTagSecondLevelKey}=${value}`;
+    }
+    newTagFilter.stringValue = value;
+  }
+
+  return tagFilters.concat(newTagFilter);
 }

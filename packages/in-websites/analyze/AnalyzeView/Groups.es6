@@ -12,7 +12,8 @@ export default function Groups({
   orderDirection,
   groupColors,
   groupComponent: Group,
-  isChartSectionExpanded
+  isChartSectionExpanded,
+  getGroupAsFilterUrl
 }) {
   return (
     <Fragment>
@@ -24,6 +25,7 @@ export default function Groups({
           item={item}
           dotColor={groupColors[groupIndex]}
           showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
+          getGroupAsFilterUrl={getGroupAsFilterUrl}
         />
       ))}
 
