@@ -67,7 +67,7 @@ function Header(props) {
         <Message className={locals.message}>
           <span>
             <strong>Synthetic Endpoint </strong>
-            Calls to this endpoint do not contribute to your application, or service, KPIs within Instana.
+            Calls to synthetic endpoints do not contribute to service or application KPIs.
           </span>
           <Link
             className={locals.link}

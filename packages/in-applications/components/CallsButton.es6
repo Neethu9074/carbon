@@ -25,10 +25,11 @@ export default connect(({ applicationId, serviceId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointId,
-        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null
+        filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null,
+        groupByTag: endpointId ? {} : null // no default grouping when analyzing traces for an endpoint
       })}
     >
-      Analyze {isSynthetic ? 'Synthetic' : ''} Traces
+      Analyze Traces
     </Button>
   );
 });

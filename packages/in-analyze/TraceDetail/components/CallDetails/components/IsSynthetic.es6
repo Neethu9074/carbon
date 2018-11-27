@@ -12,8 +12,7 @@ export default function IsSynthetic({ call }) {
     return (
       <Group title="is_synthetic">
         <div className={locals.contentWrapper}>
-          This call does not contribute to your overall KPIs in Instana. This has been flagged by the rules that has
-          been defined in&nbsp;
+          This call does not contribute to service or application KPIs.&nbsp;
           <Link href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}>
             Configure Synthetic Endpoints
           </Link>
