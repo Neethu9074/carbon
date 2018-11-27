@@ -74,6 +74,7 @@ function getTableData({ applicationId, serviceId, page, pageSize, orderBy, order
       application: applicationId,
       service: serviceId,
       label: query,
+      includeSyntheticCalls: true,
       timeConfig
     },
     metrics: {

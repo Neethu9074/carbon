@@ -134,6 +134,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      includeSyntheticCalls: true,
       endpointTypes,
       technologies,
       label: query,
