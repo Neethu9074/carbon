@@ -35,7 +35,13 @@ export default function NumberBarOverlayPresenter({
         {showRange && (
           <Row>
             <Col xs={6}>
-              <InputGroup label="greater than" form={form} fieldId="gt" getOnChangeHandler={getOnChangeHandler} />
+              <InputGroup
+                label="greater than"
+                form={form}
+                fieldId="gt"
+                getOnChangeHandler={getOnChangeHandler}
+                autoFocus={!showEquality}
+              />
             </Col>
             <Col xs={6}>
               <InputGroup label="less than" form={form} fieldId="lt" getOnChangeHandler={getOnChangeHandler} />

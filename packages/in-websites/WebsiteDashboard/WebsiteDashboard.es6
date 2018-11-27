@@ -7,6 +7,7 @@ import {
   deserializeTagFilters
 } from 'in-websites/navigation/matrix';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
+import AnalyzeBeaconsButton from 'in-websites/WebsiteDashboard/components/AnalyzeBeaconsButton';
 import { quickTagFiltersInWebsiteMonitoringDashboardEnabled } from 'in-services/featureFlags';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';
@@ -134,7 +135,13 @@ function WebsiteDashboard({
 
 function Header(props) {
   return (
-    <BasicDashboardHeader title={props.pageId ? 'Page' : 'Website'} icon="lib_website" getLabel={getLabel} {...props} />
+    <BasicDashboardHeader
+      title={props.pageId ? 'Page' : 'Website'}
+      icon="lib_website"
+      renderActions={Actions}
+      getLabel={getLabel}
+      {...props}
+    />
   );
 }
 
@@ -148,4 +155,8 @@ function getBreadcrumbs(props) {
     <WebsiteBreadcrumb {...props} />,
     props.pageId && <PageBreadcrumb {...props} />
   ].filter(Boolean);
+}
+
+function Actions(props) {
+  return <AnalyzeBeaconsButton {...props} />;
 }

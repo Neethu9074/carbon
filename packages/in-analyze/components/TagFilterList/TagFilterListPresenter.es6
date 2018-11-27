@@ -49,9 +49,11 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
         <Value tagFilter={tagFilter} tagType={tagType} />
       </a>
 
-      <Pill className={locals.conjunction} color={theme.lib.colors.N400}>
-        and
-      </Pill>
+      <div className={locals.conjunction}>
+        <Pill className={locals.conjunctionPill} color={theme.lib.colors.N400}>
+          and
+        </Pill>
+      </div>
 
       <Tooltip content="Remove filter">
         <SvgIcon
