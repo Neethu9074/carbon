@@ -1,0 +1,7 @@
+:local {
+  .internalOnly {
+    font-weight: bold;
+    color: darkred;
+    text-transform: uppercase;
+  }
+}

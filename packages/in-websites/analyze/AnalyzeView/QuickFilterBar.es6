@@ -1,13 +1,14 @@
 import React from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
+import InternalOnlyBarItem from 'in-analyze/components/filterBar/InternalOnlyBarItem';
 import KeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarItem';
 import SelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, clearTagFilters, showClearFilters, onMoreClick } = props;
+  const { tagFilters, clearTagFilters, showClearFilters, onMoreClick, showInternalOnlyMarker } = props;
 
   return (
     <Bar
@@ -23,6 +24,7 @@ export default function QuickFilterBar(props) {
       <NumberBarItem {...props} tag="beacon.window.width" singularLabel="screen width" showRange />
       <NumberBarItem {...props} tag="beacon.window.height" singularLabel="screen height" showRange />
       {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
+      {showInternalOnlyMarker && <InternalOnlyBarItem />}
     </Bar>
   );
 }

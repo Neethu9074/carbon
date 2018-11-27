@@ -39,7 +39,12 @@
   window.instana.user = null;
 }
 if (!window.instana.user) {
-  window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
+  setTimeout(() => {
+    document.body.textContent = 'Not signed in / system unavailable. Will retry in 3s';
+  }, 500);
+  setTimeout(() => {
+    window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
+  }, 3000);
 }
 </script>
 <script>

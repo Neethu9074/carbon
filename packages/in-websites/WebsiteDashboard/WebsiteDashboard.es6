@@ -23,6 +23,7 @@ import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { isFeatureFlagEnabled } from 'in-services/config';
 import { getTimeConfig } from 'in-stores/time/config';
 import Sticky from 'in-components/Sticky';
 
@@ -119,7 +120,12 @@ function WebsiteDashboard({
   let content = tabView;
   if (quickTagFiltersInWebsiteMonitoringDashboardEnabled) {
     content = (
-      <StickyQuickFilterBar {...props} tagFilters={tagFilters} showClearFilters={customTagFilters.length > 0}>
+      <StickyQuickFilterBar
+        {...props}
+        tagFilters={tagFilters}
+        showClearFilters={customTagFilters.length > 0}
+        showInternalOnlyMarker={!isFeatureFlagEnabled('quickTagFiltersInWebsiteMonitoringDashboardEnabled')}
+      >
         {tabView}
       </StickyQuickFilterBar>
     );
