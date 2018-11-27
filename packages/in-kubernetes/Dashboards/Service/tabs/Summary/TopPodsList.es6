@@ -7,7 +7,7 @@ import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 export default function TopPodsList({ timeConfig, serviceId }) {
   return (
     <KubernetesTopList
-      title="Top Pods"
+      title="Matching Pods"
       serviceId={serviceId}
       timeConfig={timeConfig}
       metrics={['pod.phase']}
