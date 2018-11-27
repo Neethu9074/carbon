@@ -1,8 +1,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .message {
-    margin-top: 1rem;
+  .messageWrapper {
+    padding-top: 1rem;
   }
 
   .link {

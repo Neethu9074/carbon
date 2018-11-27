@@ -64,18 +64,20 @@ function Header(props) {
   return (
     <Fragment>
       {isSynthetic && (
-        <Message className={locals.message}>
-          <span>
-            <strong>Synthetic Endpoint </strong>
-            Calls to synthetic endpoints do not contribute to service or application KPIs.
-          </span>
-          <Link
-            className={locals.link}
-            href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
-          >
-            View Ignored Rules
-          </Link>
-        </Message>
+        <div className={locals.messageWrapper}>
+          <Message>
+            <span>
+              <strong>Synthetic Endpoint </strong>
+              Calls to synthetic endpoints do not contribute to service or application KPIs.
+            </span>
+            <Link
+              className={locals.link}
+              href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
+            >
+              View Ignored Rules
+            </Link>
+          </Message>
+        </div>
       )}
       <BasicDashboardHeader
         title="Endpoint"
