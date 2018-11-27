@@ -47,7 +47,7 @@ export default function TraceGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="latencyAgg"
-              label="Avg. Latency"
+              label="Mean Latency"
               noWrap
             />
             <SortableCallColumn

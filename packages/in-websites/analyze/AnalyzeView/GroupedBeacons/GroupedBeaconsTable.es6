@@ -45,7 +45,7 @@ export default function GroupedBeaconsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="beaconDurationAgg"
-              label="Avg. Duration"
+              label="Mean Duration"
               noWrap
             />
           </Tr>
