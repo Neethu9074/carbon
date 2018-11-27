@@ -14,8 +14,8 @@ export default function AwsEbsSidebar({ snapshot }) {
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
-        <TagList snapshot={snapshot} />
       </Collapsible>
+      <TagList snapshot={snapshot} />
     </div>
   );
 }
