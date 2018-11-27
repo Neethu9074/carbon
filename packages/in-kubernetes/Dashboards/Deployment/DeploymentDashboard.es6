@@ -1,8 +1,12 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import {
+  deploymentId as matrixDeploymentId,
+  clusterId as matrixClusterId,
+  namespaceId as matrixNamespaceId
+} from 'in-kubernetes/navigation/matrix';
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
-import { deploymentId as matrixDeploymentId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
@@ -20,6 +24,7 @@ export default function DeploymentDashboard({ location }) {
   const props = {
     deploymentId: getMatrixParameter(location, deploymentDashboard, matrixDeploymentId),
     clusterId: getMatrixParameter(location, deploymentDashboard, matrixClusterId),
+    namespaceId: getMatrixParameter(location, deploymentDashboard, matrixNamespaceId),
     viewPath: deploymentDashboard,
     timeConfig: getTimeConfig(location)
   };

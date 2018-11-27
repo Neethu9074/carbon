@@ -109,7 +109,10 @@ export function getNodeDashboard(nodeId, { tab, tabMatrix, timeConfig, clusterId
   });
 }
 
-export function getDeploymentDashboard(deploymentId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
+export function getDeploymentDashboard(
+  deploymentId,
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject
+) {
   return getDashboard({
     base: deploymentDashboardFullyQualified,
     tab,
@@ -118,7 +121,10 @@ export function getDeploymentDashboard(deploymentId, { tab, tabMatrix, timeConfi
     matrixSegment: deploymentDashboard,
     matrixParam: matrixDeploymentId,
     id: deploymentId,
-    paramsCallback: params => setOrDeleteMatrixKey(params, deploymentDashboard, matrixClusterId, clusterId)
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, deploymentDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, deploymentDashboard, matrixNamespaceId, namespaceId);
+    }
   });
 }
 

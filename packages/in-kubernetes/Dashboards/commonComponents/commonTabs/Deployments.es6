@@ -59,7 +59,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId, timeConfig }) {
+    getContent(item, { clusterId, namespaceId, timeConfig }) {
       return (
         <KubernetesSeverity
           clusterId={get(item, ['deployment', 'id'])}
@@ -68,7 +68,7 @@ const columnDefinitions = [
             <SeverityAwareEntityLink
               icon="lib_kubernetes_workload"
               label={get(item, ['deployment', 'name'])}
-              href$={getDeploymentDashboard(get(item, ['deployment', 'id']), { clusterId })}
+              href$={getDeploymentDashboard(get(item, ['deployment', 'id']), { clusterId, namespaceId })}
               severity={maxSeverity}
             />
           )}
