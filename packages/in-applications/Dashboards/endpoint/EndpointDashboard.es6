@@ -32,6 +32,10 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
     viewPath: endpointDashboard,
     timeConfig
   };
+
+  const filterTabByResult = result =>
+    get(result, ['data', 'synthetic'], false) ? tab => tab.label === 'Summary' : () => true;
+
   return (
     <Fragment>
       <Breadcrumbs items={EndpointBreadcrumbs(props)} />
@@ -48,6 +52,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        filterTabByResult={filterTabByResult}
         props={props}
       />
     </Fragment>
@@ -77,14 +82,14 @@ function Header(props) {
         icon="lib_application_endpoint"
         renderActions={Actions}
         renderSubTypes={SubTypes}
+        isSynthetic={isSynthetic}
         {...props}
       />
     </Fragment>
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
-  const isSynthetic = get(result, ['data', 'synthetic'], false);
+function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isSynthetic }) {
   return (
     <Fragment>
       <CallsButton

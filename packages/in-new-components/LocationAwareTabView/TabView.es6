@@ -13,6 +13,7 @@ export default connectTo(
   function TabView({
     result,
     tabs,
+    filterTabByResult = () => () => true,
     HeaderComponent,
     location,
     props,
@@ -20,6 +21,7 @@ export default connectTo(
     useFullAvailableWidth = false,
     withoutPadding = false
   }) {
+    const filteredTabs = tabs.filter(filterTabByResult(result));
     return (
       <section>
         <Sticky
@@ -28,7 +30,7 @@ export default connectTo(
               {!withoutBreadcrumb && <BreadcrumbHeader />}
               <Header
                 location={location}
-                tabs={tabs}
+                tabs={filteredTabs}
                 result={result}
                 props={props}
                 HeaderComponent={HeaderComponent}
@@ -37,7 +39,13 @@ export default connectTo(
             </div>
           }
         >
-          <Switch tabs={tabs} result={result} location={location} props={props} withoutPadding={withoutPadding} />
+          <Switch
+            tabs={filteredTabs}
+            result={result}
+            location={location}
+            props={props}
+            withoutPadding={withoutPadding}
+          />
         </Sticky>
       </section>
     );
