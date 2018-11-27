@@ -99,7 +99,7 @@ function GroupedBeacons(props) {
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />
         <GroupingInfo {...props} />
-        <GroupingTableHeader {...props} />
+        <GroupingTableHeader itemType="Group" {...props} />
         {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
         <GroupedBeaconsTable {...props} groupColors={groupColors} />
       </MaxWidthFullscreenContainer>

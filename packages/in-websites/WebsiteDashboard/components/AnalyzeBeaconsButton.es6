@@ -28,7 +28,7 @@ export default function AnalyzeBeaconsButton({ tagFilters, result }) {
         }
       })}
     >
-      Analyze Beacons
+      Analyze Page Loads
     </Button>
   );
 }

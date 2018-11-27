@@ -8,7 +8,7 @@ import locals from './GroupingTableHeader.mless';
 export default function GroupingTableHeader(props) {
   return (
     <div className={locals.wrapper}>
-      <ResultHeader {...props} nbRows={props.totalHits} itemType="Group" withoutMargin />
+      <ResultHeader {...props} nbRows={props.totalHits} withoutMargin />
       <Button
         kind="secondary"
         onClick={() => props.setIsChartSectionExpanded(!props.isChartSectionExpanded)}
