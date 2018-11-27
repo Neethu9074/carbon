@@ -30,7 +30,8 @@ export default compose(
       filter: {
         service: props.serviceId,
         endpoint: props.endpointId,
-        timeConfig: props.timeConfig
+        timeConfig: props.timeConfig,
+        includeSyntheticCalls: true
       }
     })
   }))
