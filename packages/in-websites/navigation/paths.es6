@@ -81,6 +81,10 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
     setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
 
+    // reset raw beacon sorting
+    setOrDeleteMatrixKey(params, analyzePath, 'beacons.orderBy');
+    setOrDeleteMatrixKey(params, analyzePath, 'beacons.orderDirection');
+
     const filterableTags = availableFilterTags[beaconType];
     if (tagFilters != null) {
       const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
