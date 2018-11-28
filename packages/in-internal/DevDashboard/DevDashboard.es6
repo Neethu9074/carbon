@@ -83,6 +83,9 @@ export default function DevDashboard() {
         <li>
           <a href="/#/internal/sre/cassandraClusters">Cassandra Clusters</a>
         </li>
+        <li>
+          <a href="/#/internal/sre/acceptors">Acceptors</a>
+        </li>
       </ul>
     </div>
   );
