@@ -3,9 +3,8 @@ import React from 'react';
 
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { tagKeys } from 'in-websites/tags';
 
-export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, timeConfig }) => ({
+export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags }) => ({
   removeTagFilter(name) {
     setTagFilters(tagFilters.filter(f => f.name !== name));
   },
@@ -23,7 +22,7 @@ export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, tim
       <WebsiteEditTagFilterDialog
         tagFilters={tagFilters}
         setTagFilters={setTagFilters}
-        tagSuggestions={tagKeys}
+        tagSuggestions={filterableTags}
         timeConfig={timeConfig}
       />
     );
@@ -34,7 +33,7 @@ export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, tim
         tagFilter={tagFilter}
         tagFilters={tagFilters}
         setTagFilters={setTagFilters}
-        tagSuggestions={tagKeys}
+        tagSuggestions={filterableTags}
         timeConfig={timeConfig}
       />
     );
