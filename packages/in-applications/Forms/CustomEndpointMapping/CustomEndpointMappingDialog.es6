@@ -14,6 +14,7 @@ import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigatio
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -32,143 +33,145 @@ export default withState('isNewConfig', 'setIsNewConfig', false)(CustomEndpointM
 function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) {
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
   return (
-    <BasicForm
-      title="Configure Endpoint Extraction"
-      saveButtonLabel={isNewConfig ? 'Add' : 'Save'}
-      onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
-      getOnSavePath={() => `${serviceDashboard}/endpoints`}
-      getEntity={() => {
-        if (isNewConfig) {
-          return just(isNewConfig);
-        }
-        return getEndpointConfig(serviceId).map(result => {
-          const errors = result.errors || [];
-          for (let i = 0; i < errors.length; i++) {
-            const error = errors[i];
-            if (error.code === 'NOT_FOUND') {
-              const newConfig = {
-                progress: { loading: false },
-                errors: [],
-                data: createNewEndpointConfig(serviceId)
-              };
-              setIsNewConfig(newConfig);
-              return newConfig;
-            }
+    <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
+      <BasicForm
+        title="Configure Endpoint Extraction"
+        saveButtonLabel={isNewConfig ? 'Add' : 'Save'}
+        onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
+        getOnSavePath={() => `${serviceDashboard}/endpoints`}
+        getEntity={() => {
+          if (isNewConfig) {
+            return just(isNewConfig);
           }
-          return result;
-        });
-      }}
-      updateEntity={config => (isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config))}
-      getInitialForm={getInitialForm}
-      renderFormContent={(config, form, setValue, updateForm) => {
-        return (
-          <Fragment>
-            <Steps
-              steps={[
-                {
-                  stepTitle: 'Configure how endpoints are extracted from the underlying calls to this service.',
-                  content: (
-                    <Fragment>
-                      <DescriptionText>
-                        Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the
-                        first rule it matches. Once configured, new calls will be assigned according to updated rules.
-                      </DescriptionText>
+          return getEndpointConfig(serviceId).map(result => {
+            const errors = result.errors || [];
+            for (let i = 0; i < errors.length; i++) {
+              const error = errors[i];
+              if (error.code === 'NOT_FOUND') {
+                const newConfig = {
+                  progress: { loading: false },
+                  errors: [],
+                  data: createNewEndpointConfig(serviceId)
+                };
+                setIsNewConfig(newConfig);
+                return newConfig;
+              }
+            }
+            return result;
+          });
+        }}
+        updateEntity={config => (isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config))}
+        getInitialForm={getInitialForm}
+        renderFormContent={(config, form, setValue, updateForm) => {
+          return (
+            <Fragment>
+              <Steps
+                steps={[
+                  {
+                    stepTitle: 'Configure how endpoints are extracted from the underlying calls to this service.',
+                    content: (
+                      <Fragment>
+                        <DescriptionText>
+                          Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the
+                          first rule it matches. Once configured, new calls will be assigned according to updated rules.
+                        </DescriptionText>
 
-                      <div className={locals.addRuleButtonWrapper}>
-                        <Button
-                          kind="action"
-                          onClick={() =>
-                            setActiveDialog(
-                              <EndpointExtractionRuleDialog
-                                ruleIndex={0}
-                                rules={form.get('rules')}
-                                onSave={_rule =>
-                                  updateForm(
-                                    form.updateIn(['rules'], list =>
-                                      list.unshift(getConfigRuleForm(_rule)).setTouched(true)
+                        <div className={locals.addRuleButtonWrapper}>
+                          <Button
+                            kind="action"
+                            onClick={() =>
+                              setActiveDialog(
+                                <EndpointExtractionRuleDialog
+                                  ruleIndex={0}
+                                  rules={form.get('rules')}
+                                  onSave={_rule =>
+                                    updateForm(
+                                      form.updateIn(['rules'], list =>
+                                        list.unshift(getConfigRuleForm(_rule)).setTouched(true)
+                                      )
                                     )
-                                  )
-                                }
-                              />
-                            )
+                                  }
+                                />
+                              )
+                            }
+                            icon="lib_openclose_add_circle_outline"
+                          >
+                            Add Custom HTTP Rule
+                          </Button>
+                        </div>
+
+                        <DragAndDropRuleList
+                          rules={form.get('rules')}
+                          form={form}
+                          setValue={setValue}
+                          onSave={(_rule, i) => {
+                            form = form.updateIn(['rules', i, 'pathSegments'], field =>
+                              field.setValue(_rule.pathSegments).setTouched(true)
+                            );
+                            form = form.updateIn(['rules', i, 'testCases'], field =>
+                              field.setValue(_rule.testCases).setTouched(true)
+                            );
+                            updateForm(form);
+                          }}
+                          onRemove={i => removeRule(i, form, updateForm)}
+                          switchIndices={(sourceIndex, destinationIndex) =>
+                            switchIndices(sourceIndex, destinationIndex, form, updateForm)
                           }
-                          icon="lib_openclose_add_circle_outline"
+                        />
+
+                        <Tooltip
+                          align="topMiddle"
+                          themeStyle="light"
+                          content="Extracts endpoints as specified in detected framework (if accessible)"
                         >
-                          Add Custom HTTP Rule
-                        </Button>
-                      </div>
+                          <ExtractionRule
+                            rule={{
+                              query: 'Detected Framework',
+                              enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
+                            }}
+                            onToggleEnable={enabled =>
+                              setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)
+                            }
+                            reorderable={false}
+                            isInstanaDefaultRule
+                          />
+                        </Tooltip>
 
-                      <DragAndDropRuleList
-                        rules={form.get('rules')}
-                        form={form}
-                        setValue={setValue}
-                        onSave={(_rule, i) => {
-                          form = form.updateIn(['rules', i, 'pathSegments'], field =>
-                            field.setValue(_rule.pathSegments).setTouched(true)
-                          );
-                          form = form.updateIn(['rules', i, 'testCases'], field =>
-                            field.setValue(_rule.testCases).setTouched(true)
-                          );
-                          updateForm(form);
-                        }}
-                        onRemove={i => removeRule(i, form, updateForm)}
-                        switchIndices={(sourceIndex, destinationIndex) =>
-                          switchIndices(sourceIndex, destinationIndex, form, updateForm)
-                        }
-                      />
-
-                      <Tooltip
-                        align="topMiddle"
-                        themeStyle="light"
-                        content="Extracts endpoints as specified in detected framework (if accessible)"
-                      >
-                        <ExtractionRule
-                          rule={{
-                            query: 'Detected Framework',
-                            enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
-                          }}
-                          onToggleEnable={enabled =>
-                            setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)
-                          }
-                          reorderable={false}
-                          isInstanaDefaultRule
-                        />
-                      </Tooltip>
-
-                      <Tooltip
-                        align="topMiddle"
-                        themeStyle="light"
-                        content="Extracts endpoints based on first path parameter"
-                      >
-                        <ExtractionRule
-                          rule={{
-                            query: '/*',
-                            enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
-                          }}
-                          onToggleEnable={enabled =>
-                            setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)
-                          }
-                          reorderable={false}
-                          isInstanaDefaultRule
-                        />
-                      </Tooltip>
-                      <Tooltip
-                        align="topMiddle"
-                        themeStyle="light"
-                        content="Calls that do not match a preceding rule are assigned to this endpoint"
-                      >
-                        <UnspecifiedExtractionRule />
-                      </Tooltip>
-                    </Fragment>
-                  )
-                }
-              ]}
-            />
-            {!isNewConfig && <RemoveSection config={config} />}
-          </Fragment>
-        );
-      }}
-    />
+                        <Tooltip
+                          align="topMiddle"
+                          themeStyle="light"
+                          content="Extracts endpoints based on first path parameter"
+                        >
+                          <ExtractionRule
+                            rule={{
+                              query: '/*',
+                              enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
+                            }}
+                            onToggleEnable={enabled =>
+                              setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)
+                            }
+                            reorderable={false}
+                            isInstanaDefaultRule
+                          />
+                        </Tooltip>
+                        <Tooltip
+                          align="topMiddle"
+                          themeStyle="light"
+                          content="Calls that do not match a preceding rule are assigned to this endpoint"
+                        >
+                          <UnspecifiedExtractionRule />
+                        </Tooltip>
+                      </Fragment>
+                    )
+                  }
+                ]}
+              />
+              {!isNewConfig && <RemoveSection config={config} />}
+            </Fragment>
+          );
+        }}
+      />
+    </MaxWidthFullscreenContainer>
   );
 }
 

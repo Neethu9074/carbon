@@ -20,7 +20,6 @@ export const configureSyntheticEndpointsView = '/services/configure/syntheticEnd
 export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
-export const syntheticEndpointsList = '/service/endpoints/synthetic';
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,

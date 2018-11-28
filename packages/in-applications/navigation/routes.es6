@@ -5,12 +5,11 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import { role } from 'in-stores/user';
 
 // the following components are all part of the same bundle (application)
-import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMapping';
+import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
 import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
-import SyntheticEndpoints from 'promise-loader?global,applications!in-applications/Forms/SyntheticEndpoints/SyntheticEndpoints';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
@@ -27,8 +26,7 @@ import {
   newApplicationWaiterView,
   newServiceView,
   configureSyntheticEndpointsView,
-  configureEndpointsView,
-  syntheticEndpointsList
+  configureEndpointsView
 } from 'in-applications/navigation/paths';
 
 export default (
@@ -43,7 +41,6 @@ export default (
         <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
         <Route path={configureSyntheticEndpointsView} component={createAsyncViewComponent(SyntheticCallConfig)} />
         <Route path={configureEndpointsView} component={createAsyncViewComponent(CustomEndpointMapping)} />
-        <Route path={syntheticEndpointsList} component={createAsyncViewComponent(SyntheticEndpoints)} />
       </Fragment>
     )}
 
