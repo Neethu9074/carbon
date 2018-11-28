@@ -67,7 +67,7 @@ export default compose(
     groupableTags: availableGroupingTags[beaconType],
     filterableTags: availableFilterTags[beaconType]
   })),
-  withProps(({ group, setGroup, timeConfig, tagFilters, getChangeAsUrl, groupableTags }) => ({
+  withProps(({ group, setGroup, timeConfig, tagFilters, implicitTagFilters, getChangeAsUrl, groupableTags }) => ({
     openEditGroupDialog() {
       setActiveDialog(
         <WebsiteEditGroupDialog
@@ -81,7 +81,11 @@ export default compose(
     },
     getGroupAsFilterUrl: subGroupName =>
       getChangeAsUrl({
-        [tagFiltersMatrixParameter]: addGroupToTagFilter(tagFilters, group, subGroupName),
+        [tagFiltersMatrixParameter]: addGroupToTagFilter(
+          tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
+          group,
+          subGroupName
+        ),
         [groupMatrixParameter]: {}
       })
   })),
