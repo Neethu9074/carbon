@@ -49,9 +49,9 @@ export function TableRowColumns({ item }) {
           {item.beacon.httpCallMethod} {item.beacon.httpCallUrl}
         </EllipsisCell>
         <BatchingIndicator
-          batchCount={item.beacon.batchCount}
+          batchCount={item.beacon.batchSize}
           tooltipContent={`This HTTP request is batched and represents ${
-            item.beacon.batchCount
+            item.beacon.batchSize
           } individual HTTP requests.`}
         />
       </Td>

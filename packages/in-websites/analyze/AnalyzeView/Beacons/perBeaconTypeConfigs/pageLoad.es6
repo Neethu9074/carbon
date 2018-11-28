@@ -43,8 +43,8 @@ export function TableRowColumns({ item }) {
       <Td>
         <EllipsisCell>{item.beacon.locationPath}</EllipsisCell>
         <BatchingIndicator
-          batchCount={item.beacon.batchCount}
-          tooltipContent={`This page load is batched and represents ${item.beacon.batchCount} individual page loads.`}
+          batchCount={item.beacon.batchSize}
+          tooltipContent={`This page load is batched and represents ${item.beacon.batchSize} individual page loads.`}
         />
       </Td>
 

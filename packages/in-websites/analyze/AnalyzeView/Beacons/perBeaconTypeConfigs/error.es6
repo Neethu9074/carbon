@@ -33,8 +33,8 @@ export function TableRowColumns({ item }) {
       <Td>
         <EllipsisCell>{item.beacon.errorMessage}</EllipsisCell>
         <BatchingIndicator
-          batchCount={item.beacon.batchCount}
-          tooltipContent={`This error was batched and represents ${item.beacon.batchCount} individual errors.`}
+          batchCount={item.beacon.batchSize}
+          tooltipContent={`This error was batched and represents ${item.beacon.batchSize} individual errors.`}
         />
       </Td>
 

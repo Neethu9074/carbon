@@ -12,7 +12,7 @@ export default function BatchingIndicator({ batchCount, tooltipContent }) {
   }
 
   return (
-    <Tooltip themeStyle="light" content={tooltipContent}>
+    <Tooltip content={tooltipContent}>
       <Pill kind="lighter" className={locals.pill}>
         {number.compact(batchCount)}
       </Pill>

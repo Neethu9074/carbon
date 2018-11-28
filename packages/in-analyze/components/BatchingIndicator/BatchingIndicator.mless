@@ -1,5 +1,7 @@
 :local {
   .pill {
     margin-left: 0.75rem;
+    position: relative;
+    top: -4px;
   }
 }

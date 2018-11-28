@@ -3,6 +3,7 @@
 :local {
   .shorten {
     max-width: 16rem;
+    display: inline-block;
     .ellipsis();
   }
 
