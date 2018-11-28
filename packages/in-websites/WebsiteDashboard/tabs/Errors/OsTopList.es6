@@ -1,9 +1,10 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -12,7 +13,7 @@ const labels = ['Occurrences', 'Affected Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, number.compact];
 
-export default function OsTopList({ websiteId, timeConfig, tagFilters }) {
+export default function OsTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (
     <TopList
       title="Operating Systems"
@@ -26,6 +27,7 @@ export default function OsTopList({ websiteId, timeConfig, tagFilters }) {
       renderLabel={Label}
       renderMetric={Metric}
       websiteId={websiteId}
+      websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
     />
@@ -56,8 +58,20 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll() {
-  return <Link href="javascript:alert('TODO go analyze')">View All</Link>;
+function ViewAll({ tagFilters, websiteLabel }) {
+  return (
+    <Link
+      href$={getLinkToAnalyze({
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+        beaconType: 'error',
+        group: {
+          groupbyTag: 'beacon.os.name'
+        }
+      })}
+    >
+      View All
+    </Link>
+  );
 }
 
 function Label({ item, websiteId, pageId }) {

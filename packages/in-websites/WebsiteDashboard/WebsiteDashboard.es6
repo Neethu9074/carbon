@@ -1,16 +1,18 @@
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import {
   tagFilters as tagFiltersMatrixParameter,
   serializeTagFilters,
-  deserializeTagFilters
+  deserializeTagFilters,
+  websiteId as matrixWebsiteId,
+  pageId as matrixPageId
 } from 'in-websites/navigation/matrix';
-import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
-import AnalyzeBeaconsButton from 'in-websites/WebsiteDashboard/components/AnalyzeBeaconsButton';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { quickTagFiltersInWebsiteMonitoringDashboardEnabled } from 'in-services/featureFlags';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
-import { websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
@@ -25,6 +27,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isFeatureFlagEnabled } from 'in-services/config';
 import { getTimeConfig } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 
 export default compose(
@@ -120,6 +123,9 @@ function WebsiteDashboard({
       tabs={props.pageId ? pageTabs : websiteTabs}
       props={props}
       withoutBreadcrumb
+      withProps={({ result }) => ({
+        websiteLabel: get(result, ['data', 'label'])
+      })}
     />
   );
 
@@ -169,6 +175,18 @@ function getBreadcrumbs(props) {
   ].filter(Boolean);
 }
 
-function Actions(props) {
-  return <AnalyzeBeaconsButton {...props} />;
+function Actions({ tagFilters, websiteLabel }) {
+  return (
+    <Button
+      kind="primary"
+      icon="lib_application_trace"
+      href$={getLinkToAnalyze({
+        beaconType: 'pageLoad',
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+        group: defaultGroupings.pageLoad
+      })}
+    >
+      Analyze Page Loads
+    </Button>
+  );
 }

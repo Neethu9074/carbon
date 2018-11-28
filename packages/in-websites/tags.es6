@@ -8,6 +8,19 @@ export const tagDefinitions = get(window, ['instana', 'tags'], [])
 
 export const tagKeys = tagDefinitions.map(t => t.name);
 
+export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }) {
+  let tagFiltersForAnalyze = tagFilters;
+  if (websiteLabel) {
+    // replace website ID filter with something more understandable by users.
+    tagFiltersForAnalyze = tagFiltersForAnalyze.filter(f => f.name !== 'beacon.website.id').concat({
+      name: 'beacon.website.name',
+      operator: 'EQUALS',
+      stringValue: websiteLabel
+    });
+  }
+  return tagFiltersForAnalyze;
+}
+
 export const dataSourceTitles = {
   pageLoad: 'Page Load',
   resourceLoad: 'Resource',
