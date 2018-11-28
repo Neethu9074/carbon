@@ -11,5 +11,14 @@ export const tagKeys = tagDefinitions.map(t => t.name);
 export const defaultGroupings = {
   pageLoad: {
     groupbyTag: 'beacon.page.name'
+  },
+  resourceLoad: {
+    groupbyTag: 'beacon.http.origin'
+  },
+  httpRequest: {
+    groupbyTag: 'beacon.http.origin'
+  },
+  error: {
+    groupbyTag: 'beacon.error.message'
   }
 };

@@ -56,6 +56,33 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
         label="Page Loads"
         isActive={dataSource === 'pageLoad'}
       />
+      <SecondLevelNavigationItem
+        href$={getLinkToWebsiteAnalyze({
+          group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+          beaconType: 'resourceLoad'
+        })}
+        icon="lib_website"
+        label="Resources"
+        isActive={dataSource === 'resourceLoad'}
+      />
+      <SecondLevelNavigationItem
+        href$={getLinkToWebsiteAnalyze({
+          group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+          beaconType: 'httpRequest'
+        })}
+        icon="lib_website"
+        label="HTTP Requests"
+        isActive={dataSource === 'httpRequest'}
+      />
+      <SecondLevelNavigationItem
+        href$={getLinkToWebsiteAnalyze({
+          group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+          beaconType: 'error'
+        })}
+        icon="lib_website"
+        label="Errors"
+        isActive={dataSource === 'error'}
+      />
     </SecondLevelNavigation>
   );
 }
