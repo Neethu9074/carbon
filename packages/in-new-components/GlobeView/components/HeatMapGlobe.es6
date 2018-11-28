@@ -23,7 +23,6 @@ export default class HeatMapGlobe {
         texture.generateMipmaps = false;
         texture.needsUpdate = true;
         this.globe.material.map = texture;
-        let drawn = false;
 
         this.data$ = this.properties$.flatMap(getData$).subscribe(countryBreakdownResult => {
           const data = countryBreakdownResult.data;
@@ -31,12 +30,7 @@ export default class HeatMapGlobe {
             return;
           }
 
-          if (drawn) {
-            this.ctx.drawImage(image, 0, 0, 2048, 1024);
-          } else {
-            this.ctx.drawImage(image, 0, 0, 4096, 2048);
-          }
-          drawn = true;
+          this.ctx.drawImage(image, 0, 0, 4096, 2048);
 
           const maxCount = data.items.map(t => t.pageLoads).reduce((a, b) => (a > b ? a : b), 0);
           for (let i = 0; i < data.items.length; i++) {
@@ -55,6 +49,7 @@ export default class HeatMapGlobe {
               this.ctx.fill(p);
             }
           }
+          this.ctx.setTransform(1, 0, 0, 1, 0, 0);
           texture.needsUpdate = true;
         });
       };
