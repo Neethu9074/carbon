@@ -92,8 +92,6 @@ export const availableGroupingTags = {
   ].sort()
 };
 
-[];
-
 const commonFilterTags = [
   'beacon.deprecations',
   'beacon.duration',

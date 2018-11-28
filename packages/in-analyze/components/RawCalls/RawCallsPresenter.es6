@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   Table,
@@ -16,16 +16,15 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
-import SortableColumn from 'in-analyze/components/SortableColumn';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
+import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickCallTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { millis } from 'in-services/formatters/number';
-import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
 
 import locals from './RawCallsPresenter.mless';
 
@@ -84,19 +83,10 @@ export default function RawCallsPresenter(props) {
                   onClick={() => clickCallTracker()}
                 >
                   {item.call.label}
-                  {item.call.batchCount > 1 && (
-                    <Fragment>
-                      {' '}
-                      <Tooltip
-                        themeStyle="light"
-                        content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                      >
-                        <Pill className={locals.batchSizeIndicator} kind="lighter">
-                          {item.call.batchCount}
-                        </Pill>
-                      </Tooltip>
-                    </Fragment>
-                  )}
+                  <BatchingIndicator
+                    batchCount={item.call.batchCount}
+                    tooltipContent={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                  />
                 </Link>
               </Td>
 

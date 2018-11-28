@@ -3,8 +3,6 @@
 :local {
   .labelColumn {
     max-width: 16rem;
-
-    overflow: hidden;
     .ellipsis();
   }
 }

@@ -1,7 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import React from 'react';
 
+import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -34,7 +35,8 @@ export default compose(
         timeConfig,
         tagFilters
       })
-  })
+  }),
+  withProps(({ beaconType }) => perBeaconTypeConfigs[beaconType])
 )(RawCalls);
 
 function RawCalls(props) {

@@ -5,8 +5,4 @@
     border-top: 1px solid @lib__colors__N400;
     margin-bottom: 4rem;
   }
-
-  .batchSizeIndicator {
-    margin-left: 0.5rem;
-  }
 }
