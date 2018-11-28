@@ -117,7 +117,7 @@ class Summary extends React.Component {
                     <Link
                       target="_blank"
                       external
-                      href={`/api/application-monitoring/analyze/traces/${encodeURIComponent(traceId)}?pretty`}
+                      href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
                     >
                       download the trace
                     </Link>{' '}
