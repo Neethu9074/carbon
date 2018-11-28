@@ -8,6 +8,13 @@ export const tagDefinitions = get(window, ['instana', 'tags'], [])
 
 export const tagKeys = tagDefinitions.map(t => t.name);
 
+export const dataSourceTitles = {
+  pageLoad: 'Page Load',
+  resourceLoad: 'Resource',
+  httpRequest: 'HTTP Request',
+  error: 'Error'
+};
+
 export const defaultGroupings = {
   pageLoad: {
     groupbyTag: 'beacon.page.name'

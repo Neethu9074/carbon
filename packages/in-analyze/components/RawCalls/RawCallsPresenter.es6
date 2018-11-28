@@ -17,13 +17,13 @@ import {
 } from 'in-components/tables/sharedComponents';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { clickCallTracker } from 'in-analyze/components/tracker';
+import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
@@ -101,24 +101,16 @@ export default function RawCallsPresenter(props) {
               </Td>
 
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
-                  <Link className={locals.serviceLink} href$={getServiceDashboard(item.call.service.id)}>
-                    {item.call.service.label}
-                  </Link>
-                </div>
+                <TableLinkWithIcon href$={getServiceDashboard(item.call.service.id)} icon="lib_application_service">
+                  {item.call.service.label}
+                </TableLinkWithIcon>
               </Td>
 
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                  {formatDateTime(item.call.started)}
-                </div>
+                <TimestampCell time={item.call.started} />
               </Td>
 
-              <Td>
-                <span className={locals.metricValue}>{millis.fixedCompact(item.call.duration)}</span>
-              </Td>
+              <Td>{millis.fixedCompact(item.call.duration)}</Td>
             </Tr>
           ))}
 

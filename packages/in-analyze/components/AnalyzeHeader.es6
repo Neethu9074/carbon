@@ -6,9 +6,12 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   analyzePath as websiteAnalyzePath
 } from 'in-websites/navigation/paths';
+import {
+  defaultGroupings as defaultWebsiteGroupings,
+  dataSourceTitles as websiteDataSourceTitles
+} from 'in-websites/tags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
-import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -53,7 +56,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           beaconType: 'pageLoad'
         })}
         icon="lib_website"
-        label="Page Loads"
+        label={`${websiteDataSourceTitles.pageLoad}s`}
         isActive={dataSource === 'pageLoad'}
       />
       <SecondLevelNavigationItem
@@ -62,7 +65,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           beaconType: 'resourceLoad'
         })}
         icon="lib_website"
-        label="Resources"
+        label={`${websiteDataSourceTitles.resourceLoad}s`}
         isActive={dataSource === 'resourceLoad'}
       />
       <SecondLevelNavigationItem
@@ -71,7 +74,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           beaconType: 'httpRequest'
         })}
         icon="lib_website"
-        label="HTTP Requests"
+        label={`${websiteDataSourceTitles.httpRequest}s`}
         isActive={dataSource === 'httpRequest'}
       />
       <SecondLevelNavigationItem
@@ -80,7 +83,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           beaconType: 'error'
         })}
         icon="lib_website"
-        label="Errors"
+        label={`${websiteDataSourceTitles.error}s`}
         isActive={dataSource === 'error'}
       />
     </SecondLevelNavigation>

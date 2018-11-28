@@ -12,8 +12,9 @@ import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
-import { analyze } from 'in-analyze/navigation/paths';
+import { analyzePath } from 'in-websites/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
+import { dataSourceTitles } from 'in-websites/tags';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
 
@@ -30,7 +31,7 @@ const tableMetrics = {
 
 export default compose(
   withUrlDependingState({
-    getPathSegment: () => analyze,
+    getPathSegment: () => analyzePath,
     getMatrixPrefix: () => 'groups.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
@@ -86,7 +87,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, isChartSectionExpanded } = props;
+  const { items, isChartSectionExpanded, beaconType } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -95,7 +96,7 @@ function GroupedBeacons(props) {
 
   return (
     <Fragment>
-      <Title title="Analyze Beacon Groups" />
+      <Title title={`Analyze ${dataSourceTitles[beaconType]} Groups`} />
       <AnalyzeHeader isGrouped />
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>

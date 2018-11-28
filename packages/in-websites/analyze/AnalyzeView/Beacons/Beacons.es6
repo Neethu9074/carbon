@@ -5,12 +5,12 @@ import React from 'react';
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { analyze } from 'in-analyze/navigation/paths';
+import { analyzePath } from 'in-websites/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 export default compose(
   withUrlDependingState({
-    getPathSegment: () => analyze,
+    getPathSegment: () => analyzePath,
     getMatrixPrefix: () => 'beacons.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({

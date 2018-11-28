@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+}

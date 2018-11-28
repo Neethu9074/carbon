@@ -18,30 +18,30 @@ import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import TimestampCell from 'in-analyze/components/TimestampCell';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
+import { dataSourceTitles } from 'in-websites/tags';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import Title from 'in-components/Title';
 
-import locals from './BeaconsPresenter.mless';
-
 export default function BeaconsPresenter(props) {
-  const { items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder } = props;
+  const { items, errors, progress, loadMore, canLoadMore, orderBy, orderDirection, onChangeOrder, beaconType } = props;
 
   return (
     <Fragment>
-      <Title title="Analyze Beacons" />
+      <Title title={`Analyze ${dataSourceTitles[beaconType]}s`} />
       <AnalyzeHeader />
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />
         <GroupingInfo {...props} />
-        <GroupingTableHeader itemType="Beacon" nbItems={props.totalHits} {...props} />
+        <GroupingTableHeader itemType={dataSourceTitles[beaconType]} nbItems={props.totalHits} {...props} />
 
-        <Table className={locals.table} tableInCard>
+        <Table tableInCard>
           <Thead>
             <Tr size="compact">
               <Th>Path</Th>
@@ -79,30 +79,24 @@ export default function BeaconsPresenter(props) {
                         themeStyle="light"
                         content={`This beacon is batched and represents ${item.beacon.batchCount} individual errors.`}
                       >
-                        <Pill className={locals.batchSizeIndicator} kind="lighter">
-                          {item.beacon.batchCount}
-                        </Pill>
+                        <Pill kind="lighter">{item.beacon.batchCount}</Pill>
                       </Tooltip>
                     </Fragment>
                   )}
                 </Td>
 
                 <Td>
-                  <div className={locals.cell}>
-                    <SvgIcon className={locals.websiteIcon} type="lib_website" width={24} height={24} />
+                  <TableLinkWithIcon icon="lib_website" href$={getLinkToWebsite(item.beacon.websiteId)}>
                     {item.beacon.websiteLabel}
-                  </div>
+                  </TableLinkWithIcon>
                 </Td>
 
                 <Td>
-                  <div className={locals.cell}>
-                    <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                    {formatDateTime(item.beacon.timestamp)}
-                  </div>
+                  <TimestampCell time={item.beacon.timestamp} />
                 </Td>
 
                 <Td>
-                  <span className={locals.metricValue}>{millis.fixedCompact(item.beacon.duration)}</span>
+                  <span>{millis.fixedCompact(item.beacon.duration)}</span>
                 </Td>
               </Tr>
             ))}
