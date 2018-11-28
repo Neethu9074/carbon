@@ -16,6 +16,7 @@ import Appdata from 'in-internal/Appdata/Appdata';
 import WorkerStats from 'in-internal/sre/WorkerStats';
 import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
 import CassandraClusters from 'in-internal/sre/CassandraClusters';
+import Acceptors from 'in-internal/sre/Acceptors';
 
 export default function Internal() {
   return (
@@ -35,6 +36,7 @@ export default function Internal() {
       <Route path="/internal/sre/workerStats" component={WorkerStats} />
       <Route path="/internal/sre/selfserviceWorkerStats" component={SelfserviceWorkerStats} />
       <Route path="/internal/sre/cassandraClusters" component={CassandraClusters} />
+      <Route path="/internal/sre/acceptors" component={Acceptors} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );
