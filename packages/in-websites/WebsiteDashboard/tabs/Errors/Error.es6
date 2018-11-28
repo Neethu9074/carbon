@@ -21,6 +21,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -58,6 +59,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
     content = <ErroneousResultPresenter errors={result.errors} />;
   } else {
     const granularity = getChartGranularity(timeConfig);
+    const isScriptError = /^Script Error\.?/i.test(result.data.message);
 
     content = (
       <Fragment>
@@ -96,21 +98,52 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
         </Row>
 
-        <Row>
-          <Col lg={6}>
-            <Card title="Details">
-              <Dl>
-                <Di title="Type">{result.data.type}</Di>
-                <Di title="Message">{result.data.message}</Di>
-              </Dl>
-            </Card>
-          </Col>
-          <Col lg={6}>
-            <Card title="Stack Trace" withoutPadding>
-              <Code code={result.data.stackTrace} showLineNumbers={false} wrapperClassName={locals.code} lang="plain" />
-            </Card>
-          </Col>
-        </Row>
+        {!isScriptError && (
+          <Row>
+            <Col lg={6}>
+              <Card title="Details">
+                <Dl>
+                  <Di title="Type">{result.data.type}</Di>
+                  <Di title="Message">{result.data.message}</Di>
+                </Dl>
+              </Card>
+            </Col>
+            <Col lg={6}>
+              <Card title="Stack Trace" withoutPadding>
+                <Code
+                  code={result.data.stackTrace}
+                  showLineNumbers={false}
+                  wrapperClassName={locals.code}
+                  lang="plain"
+                />
+              </Card>
+            </Col>
+          </Row>
+        )}
+
+        {isScriptError && (
+          <Row>
+            <Col lg={12}>
+              <Card title="Script Error">
+                <p className={locals.scriptErrorExplanation}>
+                  Error type, message and stack trace are inaccessible due to browser security mechanisms, i.e. the
+                  same-origin policy. This typically means that the error was caused by a script that is hosted on an
+                  origin different from the origin of the HTML document. JavaScript files retrieved from
+                  content-delivery networks and advertisement services are most commonly responsible for these.
+                </p>
+                <div className={locals.scriptErrorActionWrapper}>
+                  <Button
+                    href="https://docs.instana.io/products/website_monitoring/api/#insights-into-script-errors"
+                    kind="primaryv2"
+                    target="_blank"
+                  >
+                    Learn how to get visibility into these errors
+                  </Button>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        )}
 
         {isNotBlank(result.data.componentStack) && (
           <Row>
