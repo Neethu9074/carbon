@@ -6,13 +6,15 @@ import {
   errorId as errorIdMatrixParameter,
   tagFilters as tagFiltersMatrixParameter,
   serializeTagFilters,
+  deserializeTagFilters,
   group as groupMatrixParameter,
   serializeGroup,
   beaconType as beaconTypeMatrixParameter
 } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
+import { availableFilterTags } from 'in-websites/tags';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
 
@@ -79,8 +81,22 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
     setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
 
+    const filterableTags = availableFilterTags[beaconType];
     if (tagFilters != null) {
-      setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(tagFilters));
+      const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+      setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(onlyAllowedTagFilters));
+    } else {
+      const existingTagFiltersStr = getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter);
+      if (existingTagFiltersStr) {
+        const existingTagFilters = deserializeTagFilters(existingTagFiltersStr);
+        const onlyAllowedTagFilters = existingTagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+        setOrDeleteMatrixKey(
+          params,
+          analyzePath,
+          tagFiltersMatrixParameter,
+          serializeTagFilters(onlyAllowedTagFilters)
+        );
+      }
     }
   });
 }
