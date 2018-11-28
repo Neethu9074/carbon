@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import Group from 'in-analyze/components/GroupedCalls/Group';
 import Groups from 'in-analyze/components/Groups';
 
@@ -14,7 +14,7 @@ export default function CallGroupsTable(props) {
       <Table className={locals.table}>
         <Thead>
           <Tr size="compact">
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -23,7 +23,7 @@ export default function CallGroupsTable(props) {
               label="Group"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -32,7 +32,7 @@ export default function CallGroupsTable(props) {
               label="Calls"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -41,7 +41,7 @@ export default function CallGroupsTable(props) {
               label="Earliest Timestamp"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -50,7 +50,7 @@ export default function CallGroupsTable(props) {
               label="Mean Latency"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}

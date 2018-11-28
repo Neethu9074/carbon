@@ -97,5 +97,6 @@ function AnalyzeView(props) {
     return <GroupedBeacons {...props} />;
   }
 
-  return <Beacons {...props} />;
+  // key defined to force a complete state reset
+  return <Beacons key={props.beaconType} {...props} />;
 }

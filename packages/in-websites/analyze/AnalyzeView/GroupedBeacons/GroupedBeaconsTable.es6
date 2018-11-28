@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import Group from 'in-websites/analyze/AnalyzeView/GroupedBeacons/Group';
 import Groups from 'in-websites/analyze/AnalyzeView/Groups';
 
@@ -12,7 +12,7 @@ export default function GroupedBeaconsTable(props) {
       <Table>
         <Thead>
           <Tr size="compact">
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -21,7 +21,7 @@ export default function GroupedBeaconsTable(props) {
               label="Group"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -30,7 +30,7 @@ export default function GroupedBeaconsTable(props) {
               label="Count"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -39,7 +39,7 @@ export default function GroupedBeaconsTable(props) {
               label="Earliest Timestamp"
               noWrap
             />
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}

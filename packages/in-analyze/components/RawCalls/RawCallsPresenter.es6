@@ -16,7 +16,7 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
@@ -55,7 +55,7 @@ export default function RawCallsPresenter(props) {
 
             <Th>Service</Th>
 
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -64,7 +64,7 @@ export default function RawCallsPresenter(props) {
               label="Timestamp"
             />
 
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}

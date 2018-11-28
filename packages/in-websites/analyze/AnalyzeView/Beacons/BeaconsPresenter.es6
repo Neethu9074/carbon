@@ -17,7 +17,7 @@ import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import TimestampCell from 'in-analyze/components/TimestampCell';
@@ -48,7 +48,7 @@ export default function BeaconsPresenter(props) {
 
               <Th>Website</Th>
 
-              <SortableCallColumn
+              <SortableColumn
                 orderBy={orderBy}
                 orderDirection={orderDirection}
                 onChangeOrder={onChangeOrder}
@@ -57,7 +57,7 @@ export default function BeaconsPresenter(props) {
                 label="Timestamp"
               />
 
-              <SortableCallColumn
+              <SortableColumn
                 orderBy={orderBy}
                 orderDirection={orderDirection}
                 onChangeOrder={onChangeOrder}
