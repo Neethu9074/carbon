@@ -1,4 +1,5 @@
 /* global require:false */
+import { create } from 'reactive-observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { findCountryConfigByLabel } from 'in-new-components/GlobeView/components/countryConfig';
@@ -9,6 +10,8 @@ import getHeatMapColor from 'in-services/heatMapColors';
 export default class HeatMapGlobe {
   constructor(scene, getData$) {
     this.scene = scene;
+    this.properties$ = create();
+
     this.initScene();
 
     require(['in-new-components/GlobeView/textures/diffuseGrayScale.jpg'], worldDiffuseGrayScaleMapPath => {
@@ -20,16 +23,24 @@ export default class HeatMapGlobe {
         texture.generateMipmaps = false;
         texture.needsUpdate = true;
         this.globe.material.map = texture;
+        let drawn = false;
 
-        this.data$ = getData$().subscribe(countryBreakdownResult => {
-          this.ctx.globalCompositeOperation = 'source-over';
-          this.ctx.drawImage(image, 0, 0, 4096, 2048);
-          this.ctx.globalAlpha = 0.5;
+        this.data$ = this.properties$.flatMap(getData$).subscribe(countryBreakdownResult => {
+          const data = countryBreakdownResult.data;
+          if (!data) {
+            return;
+          }
 
-          const data = countryBreakdownResult.data ? countryBreakdownResult.data.items : [];
-          const maxCount = data.map(t => t.pageLoads).reduce((a, b) => (a > b ? a : b), 0);
-          for (let i = 0; i < data.length; i++) {
-            const { country, pageLoads } = data[i];
+          if (drawn) {
+            this.ctx.drawImage(image, 0, 0, 2048, 1024);
+          } else {
+            this.ctx.drawImage(image, 0, 0, 4096, 2048);
+          }
+          drawn = true;
+
+          const maxCount = data.items.map(t => t.pageLoads).reduce((a, b) => (a > b ? a : b), 0);
+          for (let i = 0; i < data.items.length; i++) {
+            const { country, pageLoads } = data.items[i];
             const countryDefinition = findCountryConfigByLabel(country);
             if (!countryDefinition) {
               continue;
@@ -44,6 +55,7 @@ export default class HeatMapGlobe {
               this.ctx.fill(p);
             }
           }
+          texture.needsUpdate = true;
         });
       };
       image.src = worldDiffuseGrayScaleMapPath;
@@ -71,9 +83,15 @@ export default class HeatMapGlobe {
     }
   }
 
+  updateData(props) {
+    this.properties$.emit(props);
+  }
+
   dispose() {
-    this.data$.dispose();
-    this.data$ = null;
+    if (this.data$) {
+      this.data$.dispose();
+      this.data$ = null;
+    }
 
     this.globe.material.dispose();
     this.globe.geometry.dispose();

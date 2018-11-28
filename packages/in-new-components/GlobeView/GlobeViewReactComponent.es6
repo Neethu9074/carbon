@@ -17,12 +17,19 @@ export default class GlobeViewReactComponent extends React.Component {
         canvas: this.canvas,
         getData$: this.props.getData$
       });
+      this.globeView.updateData(this.props);
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.customHeight !== this.props.customHeight && this.globeView) {
       this.globeView.resize();
+    }
+
+    if (prevProps.timeConfig !== this.props.timeConfig || prevProps.tagFilters !== this.props.tagFilters) {
+      if (this.globeView) {
+        this.globeView.updateData(this.props);
+      }
     }
   }
 

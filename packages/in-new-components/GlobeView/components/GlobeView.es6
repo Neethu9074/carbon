@@ -87,6 +87,11 @@ export default class GlobeView {
     this.globeScene.toggleHeatMap(enabled);
   }
 
+  updateData(props) {
+    this.globeScene.updateData(props);
+    this.overlays.updateData(props);
+  }
+
   realtimeUpdate(highResTimestamp) {
     if (!this.isRunning) {
       return;

@@ -24,7 +24,12 @@ export default function Geography({ tagFilters, timeConfig }) {
               path={`${websitePathFullyQualified}/geography/globe`}
               render={() => (
                 <div>
-                  <GlobeView customHeight={height} getData$={() => getData$({ timeConfig, tagFilters })} />
+                  <GlobeView
+                    customHeight={height}
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    getData$={props => getData$(props)}
+                  />
                   <Link
                     className={locals.link}
                     href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}

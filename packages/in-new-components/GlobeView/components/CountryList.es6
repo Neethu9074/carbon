@@ -9,7 +9,7 @@ import locals from './CountryList.mless';
 
 export default connectTo(
   props => ({
-    items: props.getData$().map(result => {
+    items: props.data$.map(result => {
       if (!result || !result.data) {
         return null;
       }
