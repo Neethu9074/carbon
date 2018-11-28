@@ -18,6 +18,7 @@ import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
@@ -33,6 +34,7 @@ export default function BeaconsPresenter(props) {
   return (
     <Fragment>
       <Title title="Analyze Beacons" />
+      <AnalyzeHeader />
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />

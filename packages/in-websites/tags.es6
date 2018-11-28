@@ -7,3 +7,9 @@ export const tagDefinitions = get(window, ['instana', 'tags'], [])
   .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
 export const tagKeys = tagDefinitions.map(t => t.name);
+
+export const defaultGroupings = {
+  pageLoad: {
+    groupbyTag: 'beacon.page.name'
+  }
+};

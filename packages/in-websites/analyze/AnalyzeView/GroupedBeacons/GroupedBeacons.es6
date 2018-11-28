@@ -10,6 +10,7 @@ import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -95,6 +96,7 @@ function GroupedBeacons(props) {
   return (
     <Fragment>
       <Title title="Analyze Beacon Groups" />
+      <AnalyzeHeader isGrouped />
       <QuickFilterBar {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />

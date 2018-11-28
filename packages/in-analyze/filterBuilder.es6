@@ -69,7 +69,7 @@ export function addGroupToTagFilter(tagFilters, groupingDefinition, subGroupName
   } else if (type === 'NUMBER') {
     newTagFilter.numberValue = parseInt(subGroupName, 10);
   } else if (type === 'BOOLEAN') {
-    newTagFilter.numberValue = 'true'.equals(subGroupName);
+    newTagFilter.booleanValue = 'true' === subGroupName;
   } else if (type === 'KEY_VALUE_PAIR') {
     let value = subGroupName;
     if (groupingDefinition.groupbyTagSecondLevelKey) {

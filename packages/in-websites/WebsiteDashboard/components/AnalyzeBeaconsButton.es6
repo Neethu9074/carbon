@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { defaultGroupings } from 'in-websites/tags';
 import Button from 'in-new-components/Button';
 
 export default function AnalyzeBeaconsButton({ tagFilters, result }) {
@@ -23,9 +24,7 @@ export default function AnalyzeBeaconsButton({ tagFilters, result }) {
       href$={getLinkToAnalyze({
         beaconType: 'pageLoad',
         tagFilters: tagFiltersForAnalyze,
-        group: {
-          groupbyTag: 'beacon.page.name'
-        }
+        group: defaultGroupings.pageLoad
       })}
     >
       Analyze Page Loads

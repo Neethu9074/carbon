@@ -10,7 +10,7 @@ import {
   serializeGroup,
   beaconType as beaconTypeMatrixParameter
 } from 'in-websites/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 
@@ -22,8 +22,11 @@ export const websitesPathFullyQualified = `${websiteMonitoringPath}${websitesPat
 export const newWebsitePath = '/new';
 export const newWebsitePathFullyQualified = `${websiteMonitoringPath}${newWebsitePath}`;
 
-export const analyzePath = '/analyze';
+export const analyzePath = '/analyzeBeacons';
 export const analyzePathFullyQualified = `${websiteMonitoringPath}${analyzePath}`;
+export const isAnalyzeView = navigationParameters$.map(
+  location => location.pathname.indexOf(analyzePathFullyQualified) === 0
+);
 
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
@@ -70,12 +73,14 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
-      invariant(tagFilters, 'tagFilters must be defined when generating analyze links!');
       invariant(group, 'group must be defined when generating analyze links!');
       invariant(beaconType, 'beaconType must be defined when generating analyze links!');
     }
-    setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(tagFilters));
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
     setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
+
+    if (tagFilters != null) {
+      setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(tagFilters));
+    }
   });
 }
