@@ -3,6 +3,7 @@ import React from 'react';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
+import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,14 +12,19 @@ import theme from 'in-themes';
 
 import locals from './TagFilterListPresenter.mless';
 
-export default function TagFilterListPresenter({ tagFilters, onTagFilterClick, onRemoveTagFilter }) {
+export default function TagFilterListPresenter({
+  implicitTagFilters = emptyArray,
+  tagFilters,
+  onTagFilterClick,
+  onRemoveTagFilter
+}) {
   if (tagFilters.length === 0) {
     return null;
   }
 
   return (
     <ul className={locals.list}>
-      {tagFilters.map((tagFilter, i) => (
+      {tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1).map((tagFilter, i) => (
         <TagFilterPresenter
           key={i}
           tagFilter={tagFilter}

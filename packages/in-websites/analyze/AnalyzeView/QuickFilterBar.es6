@@ -6,15 +6,13 @@ import KeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarI
 import SelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
+import { emptyArray } from 'in-services/fixedObjects';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, clearTagFilters, showClearFilters, onMoreClick, showInternalOnlyMarker } = props;
+  const { implicitTagFilters = emptyArray, tagFilters, clearTagFilters, onMoreClick, showInternalOnlyMarker } = props;
 
   return (
-    <Bar
-      showClearFilters={showClearFilters !== undefined ? showClearFilters : tagFilters.length > 0}
-      onClearFilters={clearTagFilters}
-    >
+    <Bar showClearFilters={tagFilters.length - implicitTagFilters.length > 0} onClearFilters={clearTagFilters}>
       <SelectBarItem {...props} tag="beacon.browser.name" singularLabel="browser" pluralLabel="browsers" />
       <SelectBarItem {...props} tag="beacon.os.name" singularLabel="OS" pluralLabel="OSs" />
       <SelectBarItem {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />

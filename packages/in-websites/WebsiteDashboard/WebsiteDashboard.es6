@@ -60,7 +60,10 @@ export default compose(
   withProps(({ onChange, location }) => ({
     setTagFilters(tagFilters) {
       onChange({
-        [tagFiltersMatrixParameter]: tagFilters
+        // drop the implicit tag filters
+        [tagFiltersMatrixParameter]: tagFilters.filter(
+          f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name'
+        )
       });
     },
     timeConfig: getTimeConfig(location)
@@ -89,19 +92,22 @@ function WebsiteDashboard({
     addTagFilter
   };
 
-  const tagFilters = (props.tagFilters = customTagFilters.slice());
-  tagFilters.push({
-    name: 'beacon.website.id',
-    operator: 'EQUALS',
-    stringValue: props.websiteId
-  });
+  const implicitTagFilters = (props.implicitTagFilters = [
+    {
+      name: 'beacon.website.id',
+      operator: 'EQUALS',
+      stringValue: props.websiteId
+    }
+  ]);
   if (props.pageId) {
-    tagFilters.push({
+    implicitTagFilters.push({
       name: 'beacon.page.name',
       operator: 'EQUALS',
       stringValue: props.pageId
     });
   }
+
+  const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   const tabView = (
     <TabView

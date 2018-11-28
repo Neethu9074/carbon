@@ -45,8 +45,22 @@ export default compose(
       [beaconTypeMatrixParameter]: props[beaconTypeMatrixParameter]
     })
   }),
-  withProps(({ onChange, location, [beaconTypeMatrixParameter]: beaconType }) => ({
-    setTagFilters: tagFilters => onChange({ [tagFiltersMatrixParameter]: tagFilters }),
+  withProps(({ tagFilters, beaconType }) => {
+    const implicitTagFilters = [
+      {
+        name: 'beacon.type',
+        operator: 'EQUALS',
+        stringValue: beaconType
+      }
+    ];
+    return {
+      tagFilters: tagFilters.concat(implicitTagFilters),
+      implicitTagFilters
+    };
+  }),
+  withProps(({ onChange, location, beaconType, implicitTagFilters }) => ({
+    setTagFilters: tagFilters =>
+      onChange({ [tagFiltersMatrixParameter]: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
     setGroup: group => onChange({ [groupMatrixParameter]: group }),
     disableGrouping: () => onChange({ [groupMatrixParameter]: {} }),
     timeConfig: getTimeConfig(location),
