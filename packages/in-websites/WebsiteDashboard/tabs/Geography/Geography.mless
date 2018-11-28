@@ -7,8 +7,8 @@
 
   .link {
     position: absolute;
-    left: 3.625rem;
     top: 0.625rem;
+    left: 3.625rem;
   }
 
   .mapSwitchIconLight,
@@ -25,5 +25,11 @@
   .mapSwitchIconLight {
     fill: #a7a7a7;
     border: 1px solid @lib__colors__N400;
+  }
+
+  .heatMapLegend {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 2.4375rem;
   }
 }

@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .values,
+  .colors {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .values {
+    color: @lib__colors__N900Primary;
+  }
+
+  .light {
+    color: @lib__colors__N050;
+  }
+
+  .colors {
+    width: 12.5rem;
+    height: 1rem;
+  }
+}

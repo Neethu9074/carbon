@@ -37,12 +37,6 @@ export default function createWorldMapController(containerElement, { getDataByCo
       colorSolid: '#990000'
     },
 
-    valueLegend: {
-      right: 10,
-      minValue: '0 calls',
-      maxValue: '32,123 calls'
-    },
-
     listeners
   });
 

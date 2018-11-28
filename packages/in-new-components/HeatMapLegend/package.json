@@ -1,0 +1,6 @@
+{
+  "name": "HeatMapLegend",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HeatMapLegend.es6"
+}
