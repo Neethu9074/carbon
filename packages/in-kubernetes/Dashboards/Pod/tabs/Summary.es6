@@ -42,41 +42,6 @@ export default function Summary({ timeConfig, data: podItem }) {
       </Row>
 
       <Row>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="CPU Requests"
-            snapshotId={snapshotId}
-            metric="cpuRequests"
-            formatter={twoDecimalPlaces}
-          />
-        </Col>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="CPU Limits"
-            snapshotId={snapshotId}
-            metric="cpuLimits"
-            formatter={twoDecimalPlaces}
-          />
-        </Col>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="Memory Requests"
-            snapshotId={snapshotId}
-            metric="memoryRequests"
-            formatter={bytesTwoDecimalPlaces}
-          />
-        </Col>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="Memory Limits"
-            snapshotId={snapshotId}
-            metric="memoryLimits"
-            formatter={bytesTwoDecimalPlaces}
-          />
-        </Col>
-      </Row>
-
-      <Row>
         <Col lg={6}>
           <Card title="CPU">
             <Chart
