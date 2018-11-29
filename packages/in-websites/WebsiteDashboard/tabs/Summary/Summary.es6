@@ -182,7 +182,16 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
 
       <Row>
         <Col lg={pageId == null ? 4 : 6}>
-          <WorldMapCard title="Geography" height={300} tagFilters={tagFilters} timeConfig={timeConfig} />
+          <WorldMapCard
+            title="Geography"
+            height={300}
+            tagFilters={tagFilters.concat({
+              name: 'beacon.type',
+              operator: 'EQUALS',
+              stringValue: 'pageLoad'
+            })}
+            timeConfig={timeConfig}
+          />
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
           <ErrorTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} pageId={pageId} />

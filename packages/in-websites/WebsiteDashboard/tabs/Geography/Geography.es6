@@ -107,9 +107,15 @@ const Legend = connectTo(
 );
 
 function getData$({ timeConfig, tagFilters }) {
+  const tagFiltersInclPageLoadFilter = tagFilters.concat({
+    name: 'beacon.type',
+    operator: 'EQUALS',
+    stringValue: 'pageLoad'
+  });
+
   return getWebsiteCountryBreakdown({
     timeConfig,
-    tagFilters,
+    tagFilters: tagFiltersInclPageLoadFilter,
     pagination: {
       page: 1,
       pageSize: 200
