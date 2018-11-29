@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import ComponentStatusTable from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/ComponentStatusTable';
-import TopNamespacesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopNamespacesList';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
-import TopServicesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopServicesList';
+import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
+import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -61,13 +60,7 @@ export default function Summary({ timeConfig, data: clusterItem }) {
       </Row>
 
       <Row>
-        <Col lg={12}>
-          <ComponentStatusTable cluster={cluster} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <Card title="CPU Resources">
             <Chart
               snapshotId={snapshotId}
@@ -81,7 +74,7 @@ export default function Summary({ timeConfig, data: clusterItem }) {
             />
           </Card>
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           <Card title="Memory Resources">
             <Chart
               snapshotId={snapshotId}
@@ -95,9 +88,7 @@ export default function Summary({ timeConfig, data: clusterItem }) {
             />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={4}>
           <Card title="Pods">
             <Chart
               snapshotId={snapshotId}
@@ -115,10 +106,16 @@ export default function Summary({ timeConfig, data: clusterItem }) {
 
       <Row>
         <Col lg={4}>
-          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} />
+          <TopNodesList
+            clusterId={cluster.id}
+            timeConfig={timeConfig}
+            allItemsHref$={getClusterDashboard(cluster.id, {
+              tab: '/nodes'
+            })}
+          />
         </Col>
         <Col lg={4}>
-          <TopServicesList clusterId={cluster.id} timeConfig={timeConfig} />
+          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
           <TopDeploymentsList
