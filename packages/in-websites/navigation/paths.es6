@@ -1,11 +1,20 @@
+import invariant from 'invariant';
+
 import {
   websiteId as websiteIdMatrixParameter,
   pageId as pageIdMatrixParameter,
-  errorId as errorIdMatrixParameter
+  errorId as errorIdMatrixParameter,
+  tagFilters as tagFiltersMatrixParameter,
+  serializeTagFilters,
+  deserializeTagFilters,
+  group as groupMatrixParameter,
+  serializeGroup,
+  beaconType as beaconTypeMatrixParameter
 } from 'in-websites/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
+import { availableFilterTags } from 'in-websites/tags';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
 
@@ -15,8 +24,11 @@ export const websitesPathFullyQualified = `${websiteMonitoringPath}${websitesPat
 export const newWebsitePath = '/new';
 export const newWebsitePathFullyQualified = `${websiteMonitoringPath}${newWebsitePath}`;
 
-export const analyzePath = '/analyze';
+export const analyzePath = '/analyzeBeacons';
 export const analyzePathFullyQualified = `${websiteMonitoringPath}${analyzePath}`;
+export const isAnalyzeView = navigationParameters$.map(
+  location => location.pathname.indexOf(analyzePathFullyQualified) === 0
+);
 
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
@@ -56,5 +68,39 @@ export function getLinkToError(websiteId, { errorId, pageId } = emptyObject) {
     }
 
     setOrDeleteMatrixKey(params, '/details', errorIdMatrixParameter, errorId);
+  });
+}
+
+export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
+  return getModifiedUrlStream(params => {
+    params.pathname = analyzePathFullyQualified;
+    if (__DEV__) {
+      invariant(group, 'group must be defined when generating analyze links!');
+      invariant(beaconType, 'beaconType must be defined when generating analyze links!');
+    }
+    setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
+    setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
+
+    // reset raw beacon sorting
+    setOrDeleteMatrixKey(params, analyzePath, 'beacons.orderBy');
+    setOrDeleteMatrixKey(params, analyzePath, 'beacons.orderDirection');
+
+    const filterableTags = availableFilterTags[beaconType];
+    if (tagFilters != null) {
+      const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+      setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(onlyAllowedTagFilters));
+    } else {
+      const existingTagFiltersStr = getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter);
+      if (existingTagFiltersStr) {
+        const existingTagFilters = deserializeTagFilters(existingTagFiltersStr);
+        const onlyAllowedTagFilters = existingTagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+        setOrDeleteMatrixKey(
+          params,
+          analyzePath,
+          tagFiltersMatrixParameter,
+          serializeTagFilters(onlyAllowedTagFilters)
+        );
+      }
+    }
   });
 }

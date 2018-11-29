@@ -51,6 +51,7 @@ function getList({ applicationId, serviceId, timeConfig, selectedMetric, selecte
     filter: {
       application: applicationId,
       service: serviceId,
+      includeSyntheticCalls: false,
       timeConfig
     }
   });

@@ -1,0 +1,6 @@
+:local {
+  .content {
+    max-width: 37.5rem;
+    margin: 0 auto;
+  }
+}

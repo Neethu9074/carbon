@@ -32,6 +32,10 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
     viewPath: endpointDashboard,
     timeConfig
   };
+
+  const filterTabByResult = result =>
+    get(result, ['data', 'synthetic'], false) ? tab => tab.label === 'Summary' : () => true;
+
   return (
     <Fragment>
       <Breadcrumbs items={EndpointBreadcrumbs(props)} />
@@ -48,6 +52,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        filterTabByResult={filterTabByResult}
         props={props}
       />
     </Fragment>
@@ -59,32 +64,34 @@ function Header(props) {
   return (
     <Fragment>
       {isSynthetic && (
-        <Message className={locals.message}>
-          <span>
-            <strong>Synthetic Endpoint </strong>
-            Calls to this endpoint do not contribute to your application, or service, KPIs within Instana.
-          </span>
-          <Link
-            className={locals.link}
-            href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
-          >
-            View Ignored Rules
-          </Link>
-        </Message>
+        <div className={locals.messageWrapper}>
+          <Message>
+            <span>
+              <strong>Synthetic Endpoint </strong>
+              Calls to synthetic endpoints do not contribute to service or application KPIs.
+            </span>
+            <Link
+              className={locals.link}
+              href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
+            >
+              View Ignored Rules
+            </Link>
+          </Message>
+        </div>
       )}
       <BasicDashboardHeader
         title="Endpoint"
         icon="lib_application_endpoint"
         renderActions={Actions}
         renderSubTypes={SubTypes}
+        isSynthetic={isSynthetic}
         {...props}
       />
     </Fragment>
   );
 }
 
-function Actions({ applicationId, serviceId, endpointId, timeConfig, result }) {
-  const isSynthetic = get(result, ['data', 'isSynthetic'], false);
+function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isSynthetic }) {
   return (
     <Fragment>
       <CallsButton

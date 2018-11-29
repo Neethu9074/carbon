@@ -4,7 +4,14 @@ import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper'
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 
-export default function CallsErrors({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
+export default function CallsErrors({
+  timeConfig,
+  endpointId,
+  applicationId,
+  serviceId,
+  includeSyntheticCalls,
+  cardTitle
+}) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -22,7 +29,8 @@ export default function CallsErrors({ timeConfig, endpointId, applicationId, ser
             timeConfig,
             endpoint: endpointId,
             application: applicationId,
-            service: serviceId
+            service: serviceId,
+            includeSyntheticCalls
           },
           metrics: {
             calls: {

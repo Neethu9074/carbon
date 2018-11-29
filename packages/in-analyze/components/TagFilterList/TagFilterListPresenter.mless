@@ -14,8 +14,18 @@
     display: flex;
     align-items: center;
 
-    &:last-child .conjunction::after {
-      display: none;
+    &:last-child {
+      .conjunctionPill {
+        visibility: hidden;
+      }
+
+      .conjunction::after {
+        display: none;
+      }
+
+      &:first-child .conjunction {
+        display: none;
+      }
     }
   }
 
@@ -33,6 +43,7 @@
     cursor: pointer;
     overflow: hidden;
     text-decoration: none;
+    z-index: 2;
 
     &:hover {
       background: @lib__colors__N050;
@@ -78,23 +89,20 @@
   }
 
   .conjunction {
-    text-transform: uppercase;
-    border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_large;
-    color: @lib__colors__N500;
     margin-left: 0.5rem;
-    padding: 0.125rem 0.25rem;
     position: relative;
+    z-index: 1;
 
     // horizontal connection line
     &::before {
       position: absolute;
       top: 50%;
-      left: -10px;
+      left: -50%;
       content: '';
       height: 1px;
-      width: 10px;
+      width: 100%;
       background: @lib__colors__N400;
+      z-index: 1;
     }
 
     // vertical connection line
@@ -103,9 +111,20 @@
       top: 100%;
       left: 50%;
       content: '';
-      height: 1.6rem;
+      height: 2rem;
       width: 1px;
       background: @lib__colors__N400;
+      z-index: 1;
     }
+  }
+
+  .conjunctionPill {
+    text-transform: uppercase;
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+    color: @lib__colors__N500;
+    padding: 0.125rem 0.25rem;
+    z-index: 2; // raise above connecting lines
+    position: relative;  // raise above connecting lines
   }
 }

@@ -1,6 +1,7 @@
 :local {
-  .meta {
-    max-height: 18.75rem;
+  pre.meta {
+    max-height: 11rem;
+    padding: 1rem;
   }
 
   .address {

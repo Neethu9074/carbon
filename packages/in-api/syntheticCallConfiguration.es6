@@ -6,7 +6,7 @@ export function getSyntheticCallConfig() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/syntheticCallsConfig`,
+    url: `/api/settings/synthetic-calls`,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
@@ -16,7 +16,7 @@ export function updateSyntheticCallConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/syntheticCallsConfig`,
+    url: `/api/settings/synthetic-calls`,
     data: config
   }).map(response => deepFreeze(response.body));
 }
@@ -26,6 +26,6 @@ export function deleteSyntheticCallConfig() {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/syntheticCallsConfig`
+    url: `/api/settings/synthetic-calls`
   });
 }

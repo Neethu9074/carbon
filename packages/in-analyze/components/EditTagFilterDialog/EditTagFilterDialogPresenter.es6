@@ -36,7 +36,7 @@ export default function EditTagFilterDialogPresenter({
   onRemoveTagFilter
 }) {
   return (
-    <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose}>
+    <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
         <p className={locals.help}>Select a tag by which your calls should be filtered. Tags are case-sensitive.</p>
 
@@ -58,7 +58,6 @@ export default function EditTagFilterDialogPresenter({
               openOnFocus
               searchable
               menuIsOpen
-              forcedDirection="down"
             />
             <TouchedMessages field={field} />
           </FormGroup>
@@ -176,7 +175,7 @@ export default function EditTagFilterDialogPresenter({
 
           <Button
             type="submit"
-            kind={editMode ? 'create' : 'primaryv2'}
+            kind={editMode ? 'primaryv2' : 'create'}
             disabled={form.touched && !form.hierarchyValid}
           >
             {editMode ? 'Save Filter' : 'Add Filter'}

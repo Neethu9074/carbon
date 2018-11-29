@@ -1,12 +1,16 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { timeout, empty } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import { getTagType } from 'in-applications/tags';
+import connect from 'in-hoc/connectTo';
 
 export default compose(
   withPropDependingState({
@@ -24,8 +28,6 @@ export default compose(
     onClose: close,
     editMode: Boolean(tagFilter),
     operatorSuggestions: TAG_TYPES[selectedTagType].operators,
-    keySuggestions: [], // TODO
-    valueSuggestions: [], // TODO
     onRemoveTagFilter: () => {
       setTagFilters(tagFilters.filter(f => f !== tagFilter));
       close();
@@ -79,7 +81,48 @@ export default compose(
       setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));
       close();
     }
-  }))
+  })),
+  connect((props, prevProps) => {
+    const currentKey = props.form.get('key') != null ? props.form.get('key').value : null;
+    const loadingProps = {
+      ...props,
+      key: currentKey,
+      tag: props.form.get('tag').value,
+      // Do not load suggestions with the tag filter that is being edited
+      tagFilters: props.tagFilter ? props.tagFilters.filter(f => f !== props.tagFilter) : props.tagFilters
+    };
+
+    let keySuggestions$;
+    if (props.getKeySuggestions && props.selectedTagType === 'KEY_VALUE_PAIR') {
+      keySuggestions$ = props.getKeySuggestions(loadingProps);
+    } else {
+      keySuggestions$ = empty;
+    }
+
+    const prevKey =
+      prevProps != null && prevProps.form && prevProps.form.get('key') != null ? prevProps.form.get('key').value : null;
+    let valueSuggestions$;
+    if (!props.getValueSuggestions) {
+      valueSuggestions$ = empty;
+    } else if (currentKey !== prevKey) {
+      valueSuggestions$ = timeout(1500)
+        .flatMap(() => props.getValueSuggestions(loadingProps))
+        .startWith(pendingResult);
+    } else {
+      valueSuggestions$ = props.getValueSuggestions(loadingProps);
+    }
+
+    return {
+      keySuggestions: keySuggestions$
+        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
+        .startWith(emptyArray),
+      keySuggestionsLoading: keySuggestions$.map(r => r.progress.loading),
+      valueSuggestions: valueSuggestions$
+        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
+        .startWith(emptyArray),
+      valueSuggestionsLoading: valueSuggestions$.map(r => r.progress.loading)
+    };
+  })
 )(EditTagFilterDialogPresenter);
 
 function getInitialState({ tagSuggestions, tagFilter }) {

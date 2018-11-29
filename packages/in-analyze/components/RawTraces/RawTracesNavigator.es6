@@ -24,7 +24,7 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickTraceTracker } from 'in-analyze/components/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -60,7 +60,7 @@ function RawTracesNavigator({
               <Th>Trace</Th>
 
               {showAllColumns && (
-                <SortableCallColumn
+                <SortableColumn
                   orderBy={orderBy}
                   orderDirection={orderDirection}
                   onChangeOrder={onChangeOrder}
@@ -71,7 +71,7 @@ function RawTracesNavigator({
               )}
 
               {showAllColumns && (
-                <SortableCallColumn
+                <SortableColumn
                   orderBy={orderBy}
                   orderDirection={orderDirection}
                   onChangeOrder={onChangeOrder}

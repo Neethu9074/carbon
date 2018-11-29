@@ -10,12 +10,15 @@ import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
-export default function Summary({ timeConfig, applicationId, serviceId, endpointId }) {
+export default function Summary({ timeConfig, applicationId, serviceId, endpointId, data }) {
+  const includeSyntheticCalls = data.synthetic;
+
   const filter = {
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
-    service: serviceId
+    service: serviceId,
+    includeSyntheticCalls
   };
 
   return (
@@ -53,7 +56,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Avg. Latency"
+            title="Mean Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,
@@ -75,6 +78,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />
         </Col>
@@ -84,6 +88,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />
         </Col>
@@ -93,36 +98,46 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
           />
         </Col>
       </Row>
 
-      <Row>
-        <Col lg={6}>
-          <TopTraces
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeConfig={timeConfig}
-          />
-        </Col>
-        <Col lg={6}>
-          <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-        </Col>
-      </Row>
+      {!data.synthetic && (
+        <Fragment>
+          <Row>
+            <Col lg={6}>
+              <TopTraces
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                timeConfig={timeConfig}
+              />
+            </Col>
+            <Col lg={6}>
+              <TechnologyBreakdown
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                timeConfig={timeConfig}
+              />
+            </Col>
+          </Row>
 
-      <Row>
-        <Col lg={12}>
-          <LatencyDistributionHistogram
-            cardTitle="Latency Distribution"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeConfig={timeConfig}
-          />
-        </Col>
-      </Row>
+          <Row>
+            <Col lg={12}>
+              <LatencyDistributionHistogram
+                cardTitle="Latency Distribution"
+                applicationId={applicationId}
+                serviceId={serviceId}
+                endpointId={endpointId}
+                timeConfig={timeConfig}
+              />
+            </Col>
+          </Row>
+        </Fragment>
+      )}
     </Fragment>
   );
 }

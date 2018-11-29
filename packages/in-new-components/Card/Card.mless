@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .header {
@@ -22,6 +23,15 @@
     font-size: 1rem;
     font-weight: 200;
     color: @lib__colors__N700Medium;
+    .ellipsis();
+    margin: 0 1rem 0 0;
+  }
+
+  .titleSubText {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: @lib__colors__N700Medium;
+    padding: 0 0 0 0.5rem;
   }
 
   .body {

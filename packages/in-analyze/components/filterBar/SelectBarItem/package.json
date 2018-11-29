@@ -1,0 +1,6 @@
+{
+  "name": "SelectBarItem",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SelectBarItem.es6"
+}

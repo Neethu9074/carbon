@@ -41,14 +41,13 @@ export default function SyntheticCallConfigDialog() {
             <Steps
               steps={[
                 {
-                  stepTitle:
-                    'Configure what endpoints are ignored from the underlying calls to services. The order below does not matter',
+                  stepTitle: 'Configure synthetic endpoints to ignore calls to them from service and application KPIs',
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        Synthetic calls like Health Checks, and Load Tests, do not contribute to the KPI’s of your
-                        application, and services, dashboards. Instana auto-detects these calls, and ignores them, to
-                        give you a more accurate data reporting on authentic traffic to your site.
+                        Calls to synthetic endpoints will continue to be captured, but will not contribute to service
+                        and application KPIs. Our built-in rule will auto-detect and ignore your health checks, but
+                        additional endpoints can be manually added with new rules
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>

@@ -1,0 +1,15 @@
+import React from 'react';
+
+import { formatDateTime } from 'in-services/formatters/date';
+import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './TimestampCell.mless';
+
+export default function TimestampCell({ time }) {
+  return (
+    <div className={locals.wrapper}>
+      <SvgIcon type="lib_datetime_time" className={locals.icon} width={16} height={16} />
+      {formatDateTime(time)}
+    </div>
+  );
+}

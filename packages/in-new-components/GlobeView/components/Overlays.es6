@@ -20,16 +20,24 @@ const countries = Object.keys(countryMap).map(key => countryMap[key]);
 export default class OverlaysReactComponentMounter {
   constructor(globeView, nodesReactComponentWrapper, getData$) {
     this.update$ = create();
-    this.getData$ = getData$;
+    this.properties$ = create();
 
     ReactDOM.render(
-      <OverlaysReactComponent globeView={globeView} update$={this.update$} getData$={getData$} />,
+      <OverlaysReactComponent
+        globeView={globeView}
+        update$={this.update$}
+        data$={this.properties$.flatMap(getData$)}
+      />,
       nodesReactComponentWrapper
     );
   }
 
   update(globeScene) {
     this.update$.emit(globeScene);
+  }
+
+  updateData(props) {
+    this.properties$.emit(props);
   }
 
   dispose() {
@@ -53,11 +61,11 @@ function OverlaysReactComponentFn({
   showHeatMap,
   setShowHeatMap,
   globeView,
-  getData$
+  data$
 }) {
   return (
     <Fragment>
-      {showHeatMap && <CountryList getData$={getData$} />}
+      {showHeatMap && <CountryList data$={data$} />}
 
       <div className={locals.buttons}>
         <div className={locals.buttonRow}>

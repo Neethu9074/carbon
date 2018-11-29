@@ -45,13 +45,13 @@ export default connect(({ userEmail }) => ({
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="Meta">
+        <Card title="Meta" withoutPadding={hasMeta}>
           {hasMeta && (
             <Code
               showLineNumbers={false}
               code={JSON.stringify(ensureSortedMeta(beacon.meta), 0, 2)}
               lang="json"
-              className={locals.meta}
+              wrapperClassName={locals.meta}
             />
           )}
           {!hasMeta && (

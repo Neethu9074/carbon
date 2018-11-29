@@ -1,0 +1,6 @@
+{
+  "name": "EllipsisCell",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EllipsisCell.es6"
+}

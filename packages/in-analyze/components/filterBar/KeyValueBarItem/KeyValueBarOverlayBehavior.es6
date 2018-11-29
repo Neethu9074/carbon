@@ -57,9 +57,7 @@ export default compose(
   connect((props, prevProps) => {
     let keySuggestions$;
     if (props.getKeySuggestions) {
-      keySuggestions$ = props.getKeySuggestions({
-        ...props
-      });
+      keySuggestions$ = props.getKeySuggestions(props);
     } else {
       keySuggestions$ = empty;
     }

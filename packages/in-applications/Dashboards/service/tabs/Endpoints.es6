@@ -88,7 +88,6 @@ function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, end
           endpointId={endpointId}
           timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
-          getRowProps={getRowProps}
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
           technologies={technologies}
@@ -134,6 +133,7 @@ function getTableData({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
+      includeSyntheticCalls: true,
       endpointTypes,
       technologies,
       label: query,
@@ -179,10 +179,6 @@ function getTableData({
   });
 }
 
-const getRowProps = item => {
-  return { dull: item.endpoint.synthetic ? 1 : 0 };
-};
-
 const columnDefinitions = [
   {
     id: 'endpointLabel',
@@ -193,6 +189,8 @@ const columnDefinitions = [
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           icon="lib_application_endpoint"
           label={item.endpoint.label}
+          tooltip={item.endpoint.synthetic ? 'Synthetic Endpoint' : null}
+          specialIndicator={item.endpoint.synthetic ? true : false}
           href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}
         />
       );

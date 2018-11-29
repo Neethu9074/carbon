@@ -5,7 +5,14 @@ import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
 
-export default function Latency({ timeConfig, endpointId, applicationId, serviceId, cardTitle }) {
+export default function Latency({
+  timeConfig,
+  endpointId,
+  applicationId,
+  serviceId,
+  includeSyntheticCalls,
+  cardTitle
+}) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -24,7 +31,8 @@ export default function Latency({ timeConfig, endpointId, applicationId, service
           timeConfig,
           application: applicationId,
           service: serviceId,
-          endpoint: endpointId
+          endpoint: endpointId,
+          includeSyntheticCalls
         },
         metrics: {
           durationAvg: {

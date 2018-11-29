@@ -7,12 +7,17 @@ import {
   deserializeGroup,
   serializeGroup,
   serializeTagFilters,
-  deserializeTagFilters
+  deserializeTagFilters,
+  beaconType as beaconTypeMatrixParameter
 } from 'in-websites/navigation/matrix';
+import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
 
@@ -21,64 +26,77 @@ export default compose(
     replaceHistory: false,
     getPathSegment: () => analyzePath,
     getMatrixPrefix: () => '',
-    boundKeys: [tagFiltersMatrixParameter, groupMatrixParameter],
+    boundKeys: [tagFiltersMatrixParameter, groupMatrixParameter, beaconTypeMatrixParameter],
     getInitialState: () => ({
       [tagFiltersMatrixParameter]: [],
-      [groupMatrixParameter]: { groupbyTag: 'beacon.location.path' }
+      [groupMatrixParameter]: { groupbyTag: 'beacon.location.path' },
+      [beaconTypeMatrixParameter]: 'pageLoad'
     }),
     reducerName: 'onChange',
     reduceAndGetAsUrlName: 'getChangeAsUrl',
     getParsedUrlValues: props => ({
       [tagFiltersMatrixParameter]: deserializeTagFilters(props[tagFiltersMatrixParameter]),
-      [groupMatrixParameter]: deserializeGroup(props[groupMatrixParameter])
+      [groupMatrixParameter]: deserializeGroup(props[groupMatrixParameter]),
+      [beaconTypeMatrixParameter]: props[beaconTypeMatrixParameter]
     }),
     getSerializedUrlValues: props => ({
       [tagFiltersMatrixParameter]: serializeTagFilters(props[tagFiltersMatrixParameter]),
-      [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter])
+      [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter]),
+      [beaconTypeMatrixParameter]: props[beaconTypeMatrixParameter]
     })
   }),
-  withProps(({ onChange }) => ({
-    setTagFilters(tagFilters) {
-      onChange({
-        [tagFiltersMatrixParameter]: tagFilters
-      });
-    }
+  withProps(({ tagFilters, beaconType }) => {
+    const implicitTagFilters = [
+      {
+        name: 'beacon.type',
+        operator: 'EQUALS',
+        stringValue: beaconType
+      }
+    ];
+    return {
+      tagFilters: tagFilters.concat(implicitTagFilters),
+      implicitTagFilters
+    };
+  }),
+  withProps(({ onChange, location, beaconType, implicitTagFilters }) => ({
+    setTagFilters: tagFilters =>
+      onChange({ [tagFiltersMatrixParameter]: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
+    setGroup: group => onChange({ [groupMatrixParameter]: group }),
+    disableGrouping: () => onChange({ [groupMatrixParameter]: {} }),
+    timeConfig: getTimeConfig(location),
+    groupableTags: availableGroupingTags[beaconType],
+    filterableTags: availableFilterTags[beaconType]
+  })),
+  withProps(({ group, setGroup, timeConfig, tagFilters, implicitTagFilters, getChangeAsUrl, groupableTags }) => ({
+    openEditGroupDialog() {
+      setActiveDialog(
+        <WebsiteEditGroupDialog
+          setGroup={setGroup}
+          group={group}
+          tagSuggestions={groupableTags}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+        />
+      );
+    },
+    getGroupAsFilterUrl: subGroupName =>
+      getChangeAsUrl({
+        [tagFiltersMatrixParameter]: addGroupToTagFilter(
+          tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
+          group,
+          subGroupName
+        ),
+        [groupMatrixParameter]: {}
+      })
   })),
   tagFilterManipulators
 )(AnalyzeView);
 
-function AnalyzeView({
-  [tagFiltersMatrixParameter]: tagFilters,
-  [groupMatrixParameter]: group,
-  location,
-  onChange,
-  getChangeAsUrl,
-  removeTagFilter,
-  upsertTagFilter,
-  clearTagFilters,
-  setTagFilters,
-  addTagFilter,
-  onMoreClick,
-  onTagFilterClick
-}) {
-  const props = {
-    tagFilters,
-    group,
-    timeConfig: getTimeConfig(location),
-    onChange,
-    getChangeAsUrl,
-    removeTagFilter,
-    upsertTagFilter,
-    clearTagFilters,
-    setTagFilters,
-    addTagFilter,
-    onMoreClick,
-    onTagFilterClick
-  };
-
-  if (group.groupbyTag) {
+function AnalyzeView(props) {
+  if (props.group.groupbyTag) {
     return <GroupedBeacons {...props} />;
   }
 
-  return <Beacons {...props} />;
+  // key defined to force a complete state reset
+  return <Beacons key={props.beaconType} {...props} />;
 }

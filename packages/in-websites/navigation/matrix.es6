@@ -8,6 +8,7 @@ export const errorId = 'errorId';
 // analyze
 export const tagFilters = 'tagFilters';
 export const group = 'group';
+export const beaconType = 'beaconType';
 
 export const serializeGroup = buildSerializer();
 export const deserializeGroup = buildParser({ groupbyTag: 'beacon.location.path' });

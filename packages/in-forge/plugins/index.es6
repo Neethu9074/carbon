@@ -11,6 +11,7 @@ import './awsLambda';
 import './awsRds';
 import './awsSqs';
 import './awsS3';
+import './awsEbs';
 import './azure';
 import './azureApiManagement';
 import './azureAppService';

@@ -54,10 +54,11 @@ export function PodBreadcrumbs(props) {
 }
 
 export function DeploymentBreadcrumbs(props) {
-  const { deploymentId, clusterId } = props;
+  const { deploymentId, clusterId, namespaceId } = props;
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     deploymentId && <DeploymentBreadcrumb {...props} />
   ];
 }

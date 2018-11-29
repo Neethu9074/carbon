@@ -34,6 +34,7 @@ module.exports = {
     var globals = require('globals').browser;
     delete globals['name'];
     delete globals['Notification'];
+    delete globals['find'];
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.preval = false;

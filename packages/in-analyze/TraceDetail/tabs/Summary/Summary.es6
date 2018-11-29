@@ -114,7 +114,11 @@ class Summary extends React.Component {
                   <Card title="Large Trace">
                     This trace is large and rendering of this trace can result in performance problems within your
                     browser. You can either{' '}
-                    <Link target="_blank" external href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}>
+                    <Link
+                      target="_blank"
+                      external
+                      href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                    >
                       download the trace
                     </Link>{' '}
                     for manual inspection or attempt trace rendering within your browser. We will only render a subset

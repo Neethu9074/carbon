@@ -15,7 +15,7 @@ export default connectTo(
       <SideNavigation title="CONFIGURE">
         <SideNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
-          icon="lib_application_endpoint"
+          icon="lib_application_service"
           label="Custom Services"
           isActive={isNewServiceViewActive}
         />

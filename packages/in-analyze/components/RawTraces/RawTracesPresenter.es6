@@ -15,15 +15,15 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import SortableCallColumn from 'in-analyze/components/SortableCallColumn';
+import SortableColumn from 'in-analyze/components/SortableColumn';
+import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { clickTraceTracker } from 'in-analyze/components/tracker';
+import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { formatDateTime } from 'in-services/formatters/date';
 import { Th } from 'in-components/tables/sharedComponents';
 import { millis } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -51,7 +51,7 @@ export default function RawTracesPresenter(props) {
             <Th>Trace</Th>
             <Th>Service</Th>
 
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -60,7 +60,7 @@ export default function RawTracesPresenter(props) {
               label="Timestamp"
             />
 
-            <SortableCallColumn
+            <SortableColumn
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
@@ -81,24 +81,16 @@ export default function RawTracesPresenter(props) {
               </Td>
 
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
-                  <Link className={locals.serviceLink} href$={getServiceDashboard(item.trace.service.id)}>
-                    {item.trace.service.label}
-                  </Link>
-                </div>
+                <TableLinkWithIcon href$={getServiceDashboard(item.trace.service.id)} icon="lib_application_service">
+                  {item.trace.service.label}
+                </TableLinkWithIcon>
               </Td>
 
               <Td>
-                <div className={locals.cell}>
-                  <SvgIcon className={locals.timeIcon} type="lib_datetime_time" width={16} height={16} />
-                  {formatDateTime(item.trace.startTime)}
-                </div>
+                <TimestampCell time={item.trace.startTime} />
               </Td>
 
-              <Td>
-                <span className={locals.metricValue}>{millis.fixedCompact(item.trace.duration)}</span>
-              </Td>
+              <Td>{millis.fixedCompact(item.trace.duration)}</Td>
             </Tr>
           ))}
 

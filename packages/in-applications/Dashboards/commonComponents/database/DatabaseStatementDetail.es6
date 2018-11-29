@@ -95,7 +95,7 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Avg. Latency"
+            title="Mean Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,
@@ -127,7 +127,7 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
       <Row>
         <Col lg={12}>
           <AppdataChartWrapper
-            cardTitle="Total Calls vs Avg. Latency"
+            cardTitle="Total Calls vs Mean Latency"
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.countErrorBar,

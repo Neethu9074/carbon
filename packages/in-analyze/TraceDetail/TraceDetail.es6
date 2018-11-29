@@ -122,7 +122,7 @@ function Actions({ traceId }) {
         icon="lib_actions_download"
         kind="secondary"
         target="_blank"
-        href={`/api/analyze/traces/${encodeURIComponent(traceId)}?pretty`}
+        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
       >
         Download
       </Button>

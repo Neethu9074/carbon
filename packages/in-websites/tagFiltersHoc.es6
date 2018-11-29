@@ -1,11 +1,10 @@
 import { withProps } from 'recompose';
 import React from 'react';
 
-import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
+import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { tagKeys } from 'in-websites/tags';
 
-export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters }) => ({
+export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags }) => ({
   removeTagFilter(name) {
     setTagFilters(tagFilters.filter(f => f.name !== name));
   },
@@ -20,16 +19,22 @@ export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters }) =
   },
   onMoreClick() {
     setActiveDialog(
-      <EditTagFilterDialog tagFilters={tagFilters} setTagFilters={setTagFilters} tagSuggestions={tagKeys} />
+      <WebsiteEditTagFilterDialog
+        tagFilters={tagFilters}
+        setTagFilters={setTagFilters}
+        tagSuggestions={filterableTags}
+        timeConfig={timeConfig}
+      />
     );
   },
   onTagFilterClick(tagFilter) {
     setActiveDialog(
-      <EditTagFilterDialog
+      <WebsiteEditTagFilterDialog
         tagFilter={tagFilter}
         tagFilters={tagFilters}
         setTagFilters={setTagFilters}
-        tagSuggestions={tagKeys}
+        tagSuggestions={filterableTags}
+        timeConfig={timeConfig}
       />
     );
   }

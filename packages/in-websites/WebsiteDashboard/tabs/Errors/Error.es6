@@ -43,7 +43,7 @@ export default connectTo(({ location, timeConfig }) => {
   return observables;
 })(ErrorTab);
 
-function ErrorTab({ errorId, result, websiteId, pageId, tagFilters, timeConfig }) {
+function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
   if (!errorId) {
     return <RedirectWithHash to={errorsTabFullyQualified} />;
   }
@@ -198,12 +198,18 @@ function ErrorTab({ errorId, result, websiteId, pageId, tagFilters, timeConfig }
         <Row>
           {pageId == null && (
             <Col lg={4}>
-              <PagesTopList websiteId={websiteId} tagFilters={tagFiltersWithErrorId} timeConfig={timeConfig} />
+              <PagesTopList
+                websiteId={websiteId}
+                websiteLabel={websiteLabel}
+                tagFilters={tagFiltersWithErrorId}
+                timeConfig={timeConfig}
+              />
             </Col>
           )}
           <Col lg={pageId == null ? 4 : 6}>
             <BrowserTopList
               websiteId={websiteId}
+              websiteLabel={websiteLabel}
               tagFilters={tagFiltersWithErrorId}
               timeConfig={timeConfig}
               pageId={pageId}
@@ -212,6 +218,7 @@ function ErrorTab({ errorId, result, websiteId, pageId, tagFilters, timeConfig }
           <Col lg={pageId == null ? 4 : 6}>
             <OsTopList
               websiteId={websiteId}
+              websiteLabel={websiteLabel}
               tagFilters={tagFiltersWithErrorId}
               timeConfig={timeConfig}
               pageId={pageId}

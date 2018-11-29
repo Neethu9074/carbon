@@ -1,0 +1,6 @@
+{
+  "name": "BatchingIndicator",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./BatchingIndicator.es6"
+}

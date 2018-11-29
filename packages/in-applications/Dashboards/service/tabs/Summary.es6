@@ -54,7 +54,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
         </Col>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Avg. Latency"
+            title="Mean Latency"
             formatter={millis.detailed}
             metricsConfig={{
               filter,

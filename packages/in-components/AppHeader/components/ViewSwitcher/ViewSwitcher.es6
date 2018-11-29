@@ -22,12 +22,12 @@ import {
   twoZeroWebsiteMonitoringEnabled
 } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
+import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/SubMenu';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
-import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -48,12 +48,12 @@ export default function ViewSwitcher() {
         <View
           label="infrastructure"
           icon="lib_infrastructure_inverted"
-          isActive$={combine(isView(physicalPath), isView(containerPath), isTableView('physical'))}
+          isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
         >
           <SubMenuItem
             label="Map"
             href$={getView(physicalPath)}
-            isActive$={combine(isView(physicalPath), isView(containerPath))}
+            isActive$={any(isView(physicalPath), isView(containerPath))}
           />
           <SubMenuItem
             label="Comparison Table"
@@ -75,7 +75,7 @@ export default function ViewSwitcher() {
           <View
             label="application"
             icon="lib_application_invert"
-            isActive$={combine(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
+            isActive$={any(isView(logicalPath), isView(tracesPath), isTableView('logical'))}
           >
             <SubMenuItem label="Map" href$={getView(logicalPath)} isActive$={isView(logicalPath)} />
             <SubMenuItem label="Trace" href$={getView(tracesPath)} isActive$={isView(tracesPath)} />
@@ -104,7 +104,7 @@ export default function ViewSwitcher() {
           <View
             label="Analyze"
             icon="lib_analyze_inverted"
-            isActive$={isView(isAnalyzeView)}
+            isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
             href$={getLinkToAnalyze({
               dataSource: 'traces'
             })}
@@ -130,7 +130,7 @@ function WebsiteMonitoringMenuItems() {
         label="Websites"
         icon="lib_website_inverted"
         href$={getView(websiteMonitoringPath)}
-        isActive$={isView(websiteMonitoringPath)}
+        isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
       />
     );
   }
@@ -139,7 +139,7 @@ function WebsiteMonitoringMenuItems() {
     <View
       label="Websites"
       icon="lib_website_inverted"
-      isActive$={combine(isView(websiteMonitoringPath), isView(websitePath))}
+      isActive$={all(any(isView(websiteMonitoringPath), isView(websitePath)), isWebsiteAnalyzeView.map(v => !v))}
     >
       <SubMenuItem label="Classic" href$={getView(websitePath)} isActive$={isView(websitePath)} />
       <SubMenuItem label="New 🚀" href$={getView(websiteMonitoringPath)} isActive$={isView(websiteMonitoringPath)} />
@@ -174,8 +174,13 @@ const IncidentsMenuPoint = connectTo(
   }
 );
 
-function combine() {
-  var args = Array.from(arguments);
+function any() {
+  const args = Array.from(arguments);
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a || b, false)));
+}
+
+function all() {
+  const args = Array.from(arguments);
   // the observable should return true, if any of the given streams returns true
-  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a | b, false)));
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a && b, true)));
 }
