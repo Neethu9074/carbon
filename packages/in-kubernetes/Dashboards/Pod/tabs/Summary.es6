@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
+import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ data: podItem }) {
+export default function Summary({ timeConfig, data: podItem }) {
   const pod = podItem.pod;
 
   return (
@@ -17,20 +17,6 @@ export default function Summary({ data: podItem }) {
           <KpiCard title="Phase" value={pod.phase} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Cluster ID" value={pod.clusterId} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Namespace" value={pod.namespace} raw />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={4}>
-          <KpiCard title="Host IP" value={pod.hostIp} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Pod IP" value={pod.podIp} raw />
-        </Col>
-        <Col lg={4}>
           <InfraMetricKpiCard
             title="Restarts"
             snapshotId={pod.id}
@@ -38,7 +24,20 @@ export default function Summary({ data: podItem }) {
             formatter={zeroDecimalPlaces}
           />
         </Col>
+        <Col lg={4}>
+          <KpiCard title="Cluster ID" value={pod.clusterId} raw />
+        </Col>
       </Row>
+
+      <Row>
+        <Col lg={6}>
+          <KpiCard title="Host IP" value={pod.hostIp} raw />
+        </Col>
+        <Col lg={6}>
+          <KpiCard title="Pod IP" value={pod.podIp} raw />
+        </Col>
+      </Row>
+
       <Row>
         <Col lg={3}>
           <InfraMetricKpiCard
@@ -68,11 +67,12 @@ export default function Summary({ data: podItem }) {
           />
         </Col>
       </Row>
+
       <Row>
-        <Col lg={12}>
-          <ConditionsList conditions={pod.conditions} />
+        <Col lg={6}>
+          <Containers timeConfig={timeConfig} podId={pod.id} />
         </Col>
-        <Col lg={12}>
+        <Col lg={6}>
           <LabelsList labels={pod.labels} />
         </Col>
       </Row>
