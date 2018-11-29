@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
 
 import {
-  resourceQuotaPercentage,
   resourceQuotaBytes,
   resourceQuotaZeroDecimalPlaces,
   resourceQuotaTwoDecimalPlaces
 } from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
+import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
+import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -20,58 +21,37 @@ export default function Summary({ timeConfig, data: namespaceItem }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
+        <Col lg={6}>
           <KpiCard title="Status" value={namespace.status} raw />
         </Col>
-        <Col lg={4}>
+        <Col lg={6}>
           <KpiCard title="Creation Time" value={formatDateTime(namespace.created)} raw />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="CPU Requests Alloc."
-            snapshotId={snapshotId}
-            metric="required_cpu_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="CPU Limits Alloc."
-            snapshotId={snapshotId}
-            metric="limit_cpu_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Memory Requests Alloc."
-            snapshotId={snapshotId}
-            metric="required_mem_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Memory Limits Alloc."
-            snapshotId={snapshotId}
-            metric="limit_mem_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Pods Alloc."
-            snapshotId={snapshotId}
-            metric="used_pods_percentage"
-            formatter={resourceQuotaPercentage}
-          />
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
+          <TopDeploymentsList
+            namespaceId={namespace.id}
+            timeConfig={timeConfig}
+            allItemsHref$={getNamespaceDashboard(namespace.id, {
+              tab: '/deployments'
+            })}
+          />
+        </Col>
+        <Col lg={6}>
+          <TopPodsList
+            namespaceId={namespace.id}
+            timeConfig={timeConfig}
+            allItemsHref$={getNamespaceDashboard(namespace.id, {
+              tab: '/pods'
+            })}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={4}>
           <Card title="CPU Requests / Limits">
             <Chart
               snapshotId={snapshotId}
@@ -86,7 +66,7 @@ export default function Summary({ timeConfig, data: namespaceItem }) {
             />
           </Card>
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           <Card title="Memory Requests / Limits">
             <Chart
               snapshotId={snapshotId}
@@ -101,9 +81,7 @@ export default function Summary({ timeConfig, data: namespaceItem }) {
             />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={4}>
           <Card title="Pods Allocation">
             <Chart
               snapshotId={snapshotId}

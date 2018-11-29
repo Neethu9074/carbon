@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ComponentStatusTable from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/ComponentStatusTable';
-import TopDeploymentsList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopDeploymentsList';
 import TopNamespacesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopNamespacesList';
+import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import TopServicesList from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/TopServicesList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import Chart from 'in-components/Chart';
@@ -120,7 +121,13 @@ export default function Summary({ timeConfig, data: clusterItem }) {
           <TopServicesList clusterId={cluster.id} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
-          <TopDeploymentsList clusterId={cluster.id} timeConfig={timeConfig} />
+          <TopDeploymentsList
+            clusterId={cluster.id}
+            timeConfig={timeConfig}
+            allItemsHref$={getClusterDashboard(cluster.id, {
+              tab: '/deployments'
+            })}
+          />
         </Col>
       </Row>
     </Fragment>
