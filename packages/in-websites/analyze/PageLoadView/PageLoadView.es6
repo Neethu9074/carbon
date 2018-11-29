@@ -21,6 +21,7 @@ import { dataSourceTitles } from 'in-websites/tags';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
 
 import locals from './PageLoadView.mless';
@@ -41,24 +42,24 @@ function PageLoadView(props) {
 
   return (
     <Fragment>
-      <BreadcrumbHeader useFullAvailableWidth />
-
-      <TabView
-        // Discard all state when the page load ID changes
-        key={pageLoadId}
-        HeaderComponent={Header}
-        location={location}
-        tabs={tabs}
-        result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
-        withProps={({ result }) => ({
-          beacons: result.data,
-          pageLoadLabel: shorten(calculateLabel(result))
-        })}
-        props={props}
-        withoutBreadcrumb
-        useFullAvailableWidth
-        withoutPadding
-      />
+      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
+        <TabView
+          // Discard all state when the page load ID changes
+          key={pageLoadId}
+          HeaderComponent={Header}
+          location={location}
+          tabs={tabs}
+          result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
+          withProps={({ result }) => ({
+            beacons: result.data,
+            pageLoadLabel: shorten(calculateLabel(result))
+          })}
+          props={props}
+          withoutBreadcrumb
+          useFullAvailableWidth
+          withoutPadding
+        />
+      </Sticky>
     </Fragment>
   );
 }

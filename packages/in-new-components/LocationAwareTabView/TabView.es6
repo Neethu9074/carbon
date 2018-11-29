@@ -42,7 +42,7 @@ function TabView({
       <Sticky
         header={
           <div>
-            {!withoutBreadcrumb && <BreadcrumbHeader />}
+            {!withoutBreadcrumb && <BreadcrumbHeader useFullAvailableWidth />}
             <Header
               location={location}
               tabs={filteredTabs}
