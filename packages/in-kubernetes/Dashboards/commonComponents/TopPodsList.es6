@@ -9,6 +9,7 @@ export default function TopPodsList(props) {
     <KubernetesTopList
       title="Top Pods"
       {...props}
+      metrics={['phase']}
       getItems={getKubernetesPods}
       getItemHref$={item =>
         getPodDashboard(item.pod.id, {
@@ -18,6 +19,7 @@ export default function TopPodsList(props) {
       }
       allItemsHref$={props.allItemsHref$}
       getItemLabel={item => item.pod.label}
+      renderMetric={props => props.item.pod.phase}
     />
   );
 }

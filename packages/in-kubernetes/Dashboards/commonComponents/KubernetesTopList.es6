@@ -24,7 +24,7 @@ export default function KubernetesTopList(props) {
       render={Renderer}
       renderViewAll={ViewAll}
       renderLabel={Label}
-      renderMetric={Metric}
+      renderMetric={props.renderMetric || Metric}
       {...props}
     />
   );
