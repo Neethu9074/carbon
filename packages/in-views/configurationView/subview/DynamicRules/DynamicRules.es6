@@ -1,5 +1,5 @@
 import { createLogger } from 'instalog';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { getLinkColumn, getDeleteButtonColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import { getEntityIdPath, dynamicRulePath } from 'in-stores/navigation/paths/settingPaths';
@@ -12,6 +12,8 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import PluginIcon from 'in-components/PluginIcon';
+import { compare } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
@@ -24,10 +26,21 @@ const cols = [
   getLinkColumn(getEntityIdPath.bind(null, dynamicRulePath)),
   {
     title: 'Entity Type',
-    type: 'string',
+    type: 'custom',
     typeArgs: {
-      getValue(row) {
-        return getSingular(row.entity.getIn(['match', 'entityType']));
+      comparator: compare,
+      get(row) {
+        const entityType = row.entity.getIn(['match', 'entityType']);
+        return {
+          value: entityType,
+          content: (
+            <Fragment>
+              <PluginIcon dimension={16} color="#000" plugin={entityType} />
+              &nbsp;&nbsp;
+              {getSingular(entityType)}
+            </Fragment>
+          )
+        };
       }
     }
   },
@@ -187,7 +200,7 @@ export default class extends React.Component {
 
         {rulesAvailable ? (
           <Section>
-            <SectionHeading>Custom dynamic rules</SectionHeading>
+            <SectionHeading>Custom Dynamic Rules</SectionHeading>
 
             <Table cols={cols} rows={rows} />
           </Section>

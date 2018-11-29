@@ -1,3 +1,6 @@
+import { Route, Switch } from 'react-router-dom';
+import React from 'react';
+
 import {
   newServiceExtractionPath,
   serviceExtractionPath,
@@ -17,6 +20,8 @@ import {
   newDynamicRulePath,
   dynamicRulesPath,
   dynamicRulePath,
+  builtInRulesPath,
+  builtInRulePathTemplate,
   rulesPath,
   newRulePath,
   rulePath,
@@ -34,6 +39,7 @@ import {
   maintenanceConfigurationPath,
   auditlogPath
 } from 'in-stores/navigation/paths/settingPaths';
+import { builtInRulesEnabled } from 'in-services/featureFlags';
 
 import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
 import ElasticServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
@@ -47,10 +53,11 @@ import RolesConfig from 'promise-loader?global,configView!in-views/configuration
 import RoleConfig from 'promise-loader?global,configView!in-views/configurationView/subview/RoleConfig/RoleConfig';
 import ApiTokens from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiTokens';
 import ApiToken from 'promise-loader?global,configView!in-views/configurationView/subview/ApiTokens/ApiToken';
-import { Route } from 'react-router-dom';
 
 import RuleBindings from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBindings/RuleBindings';
 import DynamicRules from 'promise-loader?global,configView!in-views/configurationView/subview/DynamicRules/DynamicRules';
+import RulesBuiltIn from 'promise-loader?global,configView!in-views/configurationView/subview/RulesBuiltIn/RulesBuiltIn';
+import RuleBuiltIn from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBuiltIn/RuleBuiltIn';
 import RuleBinding from 'promise-loader?global,configView!in-views/configurationView/subview/RuleBinding/RuleBinding';
 import DynamicRule from 'promise-loader?global,configView!in-views/configurationView/subview/DynamicRule/DynamicRule';
 import Rules from 'promise-loader?global,configView!in-views/configurationView/subview/Rules/Rules';
@@ -65,9 +72,6 @@ import MaintenanceConfiguration from 'promise-loader?global,configView!in-views/
 
 import AuditLogView from 'promise-loader?global,configView!in-views/configurationView/subview/AuditLog';
 import UiConfig from 'promise-loader?global,configView!in-views/configurationView/subview/UiConfig';
-
-import { Switch } from 'react-router-dom';
-import React from 'react';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -111,6 +115,11 @@ export default (
     <Route component={createAsyncViewComponent(DynamicRule)} path={newDynamicRulePath} />
     <Route component={createAsyncViewComponent(DynamicRules)} path={dynamicRulesPath} />
     <Route component={createAsyncViewComponent(DynamicRule)} path={dynamicRulePath} />
+
+    {builtInRulesEnabled ? (
+      <Route component={createAsyncViewComponent(RuleBuiltIn)} path={builtInRulePathTemplate} />
+    ) : null}
+    {builtInRulesEnabled ? <Route component={createAsyncViewComponent(RulesBuiltIn)} path={builtInRulesPath} /> : null}
 
     <Route component={createAsyncViewComponent(Rule)} path={newRulePath} />
     <Route component={createAsyncViewComponent(Rules)} path={rulesPath} />

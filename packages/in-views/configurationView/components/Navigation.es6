@@ -1,4 +1,3 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -15,6 +14,8 @@ import {
   usersPath,
   apiTokensPath,
   dynamicRulePath,
+  builtInRulesPath,
+  builtInRulePath,
   rulePath,
   rolesConfigsPath,
   bindingPath,
@@ -31,6 +32,7 @@ import { forecastsEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 import { getView, isView } from 'in-stores/navigation/navigation';
+import { builtInRulesEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -50,12 +52,13 @@ export default function Navigation() {
         {role.canConfigureServiceMapping && !twoZeroModeEnabled ? (
           <NavItem
             title="Service Mapper"
-            isActive$={combine(
-              isView(generalServiceExtractionPath),
-              isView(httpServiceExtractionPath),
-              isView(ejbServiceExtractionPath),
-              isView(elasticsearchServiceExtractionPath),
-              isView(messageBrokerServiceExtractionPath)
+            isActive$={isView(
+              generalServiceExtractionPath,
+              httpServiceExtractionPath,
+              batchServiceExtractionPath,
+              ejbServiceExtractionPath,
+              elasticsearchServiceExtractionPath,
+              messageBrokerServiceExtractionPath
             )}
           >
             <NavItem
@@ -100,14 +103,19 @@ export default function Navigation() {
         {role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens ? (
           <NavItem
             title="Access Control"
-            isActive$={combine(isView(usersPath), isView(rolesConfigPath), isView(apiTokensPath))}
+            isActive$={isView(usersPath, rolesConfigsPath, rolesConfigPath, apiTokensPath)}
           >
             {role.canConfigureUsers ? (
               <NavItem title="Users" href$={getView(usersPath)} isActive$={isView(usersPath)} borderless />
             ) : null}
 
             {role.canConfigureRoles ? (
-              <NavItem title="Roles" href$={getView(rolesConfigsPath)} isActive$={isView(rolesConfigPath)} borderless />
+              <NavItem
+                title="Roles"
+                href$={getView(rolesConfigsPath)}
+                isActive$={isView(rolesConfigsPath, rolesConfigPath)}
+                borderless
+              />
             ) : null}
 
             {role.canConfigureApiTokens ? (
@@ -117,36 +125,73 @@ export default function Navigation() {
         ) : null}
 
         {role.canConfigureCustomAlerts ? (
-          <NavItem title="Knowledge Management" isActive$={combine(isView(rulePath), isView(bindingPath))}>
-            <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulePath)} />
-            <NavItem title="Custom Issues" href$={getView(bindingsPath)} isActive$={isView(bindingPath)} />
+          <NavItem
+            title="Knowledge Management"
+            isActive$={isView(
+              rulesPath,
+              rulePath,
+              bindingsPath,
+              bindingPath,
+              builtInRulesPath,
+              builtInRulePath,
+              dynamicRulesPath,
+              dynamicRulePath
+            )}
+          >
+            {builtInRulesEnabled ? (
+              <NavItem
+                title="Built-in Rules"
+                href$={getView(builtInRulesPath)}
+                isActive$={isView(builtInRulesPath, builtInRulePath)}
+              />
+            ) : null}
+            <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulesPath, rulePath)} />
+            <NavItem
+              title="Custom Issues"
+              href$={getView(bindingsPath)}
+              isActive$={isView(bindingsPath, bindingPath)}
+            />
             {forecastsEnabled && (
               <NavItem
                 title="Custom Dynamic Rules"
                 href$={getView(dynamicRulesPath)}
-                isActive$={isView(dynamicRulePath)}
+                isActive$={isView(dynamicRulesPath, dynamicRulePath)}
               />
             )}
           </NavItem>
         ) : null}
 
         {role.canConfigureIntegrations || role.canConfigureCustomAlerts ? (
-          <NavItem title="Alerting" isActive$={combine(isView(alertingConfigurationPath), isView(integrationPath))}>
+          <NavItem
+            title="Alerting"
+            isActive$={isView(
+              alertingConfigurationsPath,
+              alertingConfigurationPath,
+              integrationsPath,
+              integrationPath,
+              maintenanceConfigurationsPath,
+              maintenanceConfigurationPath
+            )}
+          >
             {role.canConfigureCustomAlerts && (
               <NavItem
                 title="Configurations"
                 href$={getView(alertingConfigurationsPath)}
-                isActive$={isView(alertingConfigurationPath)}
+                isActive$={isView(alertingConfigurationsPath, alertingConfigurationPath)}
               />
             )}
             {role.canConfigureIntegrations && (
-              <NavItem title="Integrations" href$={getView(integrationsPath)} isActive$={isView(integrationPath)} />
+              <NavItem
+                title="Integrations"
+                href$={getView(integrationsPath)}
+                isActive$={isView(integrationsPath, integrationPath)}
+              />
             )}
             {role.canConfigureCustomAlerts && (
               <NavItem
                 title="Maintenance Windows"
                 href$={getView(maintenanceConfigurationsPath)}
-                isActive$={isView(maintenanceConfigurationPath)}
+                isActive$={isView(maintenanceConfigurationsPath, maintenanceConfigurationPath)}
               />
             )}
           </NavItem>
@@ -158,10 +203,4 @@ export default function Navigation() {
       </NavItems>
     </nav>
   );
-}
-
-function combine() {
-  var args = Array.from(arguments);
-  // the observable should return true, if any of the given streams returns true
-  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a | b, false)));
 }

@@ -1,32 +1,26 @@
 import { createLogger } from 'instalog';
 import React, { Fragment } from 'react';
 
-import {
-  getLinkColumnWithBadge,
-  getDeleteButtonColumn
-} from 'in-views/configurationView/components/tableColumnPresets';
-import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
-import { rulePath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
+import { getLinkColumn, getEnableToggleColumn } from 'in-views/configurationView/components/tableColumnPresets';
+import RuleBuiltInDetails from 'in-views/configurationView/subview/RulesBuiltIn/components/RuleBuiltInDetails';
+import { builtInRulePath, getEntityIdPath } from 'in-stores/navigation/paths/settingPaths';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import { getBuiltInRules, setBuiltInRuleEnabled } from 'in-api/rules';
 import Section from 'in-views/configurationView/components/Section';
-import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRules, deleteRule, isRuleDeprecated } from 'in-api/rules';
 import PluginIcon from 'in-components/PluginIcon';
 import { compare } from 'in-services/util/string';
 import { getSingular } from 'in-sdk/pluginName';
-import { goToPath } from 'in-stores/navigation';
-import Button from 'in-components/Button';
 import Title from 'in-components/Title';
 
-const logger = createLogger('Rules');
+const logger = createLogger('RulesBuiltIn');
 
 const cols = [
-  getLinkColumnWithBadge(getEntityIdPath.bind(null, rulePath), isRuleDeprecated, () => 'Rule is deprecated'),
+  getLinkColumn(getEntityIdPath.bind(null, builtInRulePath)),
   {
     title: 'Entity Type',
     type: 'custom',
@@ -48,11 +42,11 @@ const cols = [
       }
     }
   },
-  getDeleteButtonColumn()
+  getEnableToggleColumn()
 ];
 
 export default class extends React.Component {
-  static displayName = 'Rules';
+  static displayName = 'RulesBuiltIn';
 
   state = {
     loading: true,
@@ -75,7 +69,7 @@ export default class extends React.Component {
       message: 'Loading rules…'
     });
 
-    const result$ = getRules();
+    const result$ = getBuiltInRules();
     this.responseSubscription = result$.once(rules => {
       this.setState({
         error: false,
@@ -110,41 +104,60 @@ export default class extends React.Component {
     }
   };
 
-  addNewRule = () => {
-    this.disposeAsyncAction();
-
-    // just open the rule dialog without an id will create a new one in the dialog
-    goToPath(rulePath);
-  };
-
-  onDelete = rule => {
+  setEnabled = (rule, enabled) => {
+    const previousEnabled = rule.get('enabled');
     const ruleId = rule.get('id');
-    this.setState({
-      error: false,
-      loading: true,
-      message: `Removing rule ${ruleId}`
+
+    this.setState(state => {
+      state.status[ruleId] = {
+        state: 'loading',
+        time: Date.now(),
+        message: 'Saving built-in rule…'
+      };
+
+      const index = state.rules.findIndex(eachRule => ruleId === eachRule.get('id'));
+      const newRules = state.rules.update(index, r => r.set('enabled', enabled));
+      return {
+        status: state.status,
+        rules: newRules
+      };
     });
 
-    const result$ = deleteRule(ruleId);
-    this.responseSubscription = result$.once(() => {
-      this.setState({
-        error: false,
-        loading: false,
-        message: null,
-        rules: this.state.rules.filter(eachRule => eachRule.get('id') !== ruleId)
+    const result$ = setBuiltInRuleEnabled(rule, enabled);
+    result$.once(() => {
+      this.setState(state => {
+        state.status[ruleId] = {
+          state: 'success',
+          time: Date.now(),
+          message: 'Rule change successfully saved.'
+        };
+
+        return {
+          status: state.status
+        };
       });
     });
 
-    this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to remove rule ${ruleId}: ${error.message}`;
-      logger.error(message, error);
-      this.setState({
-        error: true,
-        loading: false,
-        message
+    result$.errors().once(error => {
+      const message = `Failed to set enabled flag: ${error.message}`;
+      logger.warn(message, error);
+
+      this.setState(state => {
+        state.status[ruleId] = {
+          state: 'failure',
+          time: Date.now(),
+          message
+        };
+
+        // roll back the change
+        const index = state.rules.findIndex(eachRule => ruleId === eachRule.get('id'));
+        const newRules = state.rules.update(index, r => r.set('enabled', previousEnabled));
+        return {
+          status: state.status,
+          rules: newRules
+        };
       });
     });
-    close();
   };
 
   render() {
@@ -155,31 +168,27 @@ export default class extends React.Component {
       return {
         key: rule.get('id'),
         entity: rule,
-        entityType: rule.get('entityType'),
-        onDelete: this.onDelete
+        entityType: rule.get('shortPluginId'),
+        setEnabled: this.setEnabled
       };
     });
 
     return (
       <SubViewWrapper>
-        <Title title="Custom Rules" />
+        <Title title="Built-in Rules" />
         <SubViewHeader>Rules</SubViewHeader>
 
-        <Section>
-          <Button kind="info" onClick={this.addNewRule}>
-            Add New Rule
-          </Button>
-
-          {this.state.message ? (
+        {this.state.message ? (
+          <Section>
             <Notification failure={this.state.error} loading={this.state.loading}>
               {this.state.message}
             </Notification>
-          ) : null}
-        </Section>
+          </Section>
+        ) : null}
 
         {rulesAvailable ? (
           <Section>
-            <SectionHeading>Custom Rules</SectionHeading>
+            <SectionHeading>Built-in Rules</SectionHeading>
 
             <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={15} />
           </Section>
@@ -190,5 +199,5 @@ export default class extends React.Component {
 }
 
 function getRowDetails(row) {
-  return <RuleDetails rule={row.entity} />;
+  return <RuleBuiltInDetails rule={row.entity} />;
 }

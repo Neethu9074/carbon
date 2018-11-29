@@ -94,3 +94,33 @@ export function getRuleLabelWithDeprecationFlag(rule) {
   const name = rule.get('name');
   return twoZeroModeEnabled && flag ? name + ' (deprecated)' : name;
 }
+
+export function getBuiltInRules() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/built-in-rules`
+  }).map(response => fromJS(response.body));
+}
+
+export function getBuiltInRule(id) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/built-in-rules/${encodeURIComponent(id)}`
+  }).map(response => fromJS(response.body));
+}
+
+export function setBuiltInRuleEnabled(rule, enabled) {
+  return saveBuiltInRule(rule.set('enabled', enabled));
+}
+
+export function saveBuiltInRule(rule) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/built-in-rules/${encodeURIComponent(rule.get('id'))}`,
+    headers: getCsrfHeader(),
+    data: rule.toJS()
+  }).map(response => fromJS(response.body));
+}
