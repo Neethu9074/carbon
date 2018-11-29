@@ -4,7 +4,7 @@ import { getPodDashboard, getServiceDashboard } from 'in-kubernetes/navigation/p
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 
-export default function TopPodsList({ timeConfig, serviceId }) {
+export default function MatchingPodsList({ timeConfig, serviceId }) {
   return (
     <KubernetesTopList
       title="Matching Pods"

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
-import TopPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopPodsList';
+import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
+import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -39,7 +40,7 @@ export default function Summary({ timeConfig, data: service }) {
 
       <Row>
         <Col lg={4}>
-          <TopPodsList serviceId={service.id} timeConfig={timeConfig} />
+          <MatchingPodsList serviceId={service.id} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
           <AppdataChartWrapper
@@ -108,6 +109,11 @@ export default function Summary({ timeConfig, data: service }) {
               }
             }}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <MatchingDeploymentsList serviceId={service.id} timeConfig={timeConfig} />
         </Col>
       </Row>
     </Fragment>
