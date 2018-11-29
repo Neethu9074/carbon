@@ -72,10 +72,12 @@ export default compose(
       } else if (!isPresenceOperator && selectedTagType === 'STRING') {
         newTagFilter.stringValue = form.get('value').value;
       } else if (selectedTagType === 'KEY_VALUE_PAIR') {
-        const value = form.get('value') && form.get('value').value;
         // Always include the '=' because when not present, backend treats 'key' as empty
-        const combinedKeyValue = [form.get('key') && form.get('key').value, value || ''].filter(Boolean).join('=');
-        newTagFilter.stringValue = combinedKeyValue;
+        const value = [
+          form.get('key') && form.get('key').value,
+          (form.get('value') && form.get('value').value) || ''
+        ].join('=');
+        newTagFilter.stringValue = value;
       }
 
       setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));

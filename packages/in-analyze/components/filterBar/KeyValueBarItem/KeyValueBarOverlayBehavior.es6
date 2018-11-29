@@ -37,7 +37,8 @@ export default compose(
         return;
       }
 
-      let stringValue = form.get('key').value;
+      // Always include the '=' because when not present, backend treats 'key' as empty
+      let stringValue = `${form.get('key').value}=`;
       if (form.get('value')) {
         // value is optional for some keywords
         stringValue = `${form.get('key').value}=${form.get('value').value}`;
