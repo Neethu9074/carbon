@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
 import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
-import { getSnapshot } from 'in-stores/snapshot';
+import { isEntityOnline, getSnapshot } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { find } from 'in-services/arrayUtils';
 import connectTo from 'in-hoc/connectTo';
@@ -34,17 +34,17 @@ export default function StackTraceWrapper({ call }) {
     <Fragment>
       {exitStackTrace && (
         <Group title="Caller Stack Trace">
-          <StackTrace relation={call.source} stackTrace={exitStackTrace} time={call.start} />
+          <StackTrace relation={call.source} stackTrace={exitStackTrace} />
         </Group>
       )}
       {intermediateStackTrace && (
         <Group title="Stack Trace">
-          <StackTrace relation={call.source} stackTrace={intermediateStackTrace} time={call.start} />
+          <StackTrace relation={call.source} stackTrace={intermediateStackTrace} />
         </Group>
       )}
       {entryStackTrace && (
         <Group title="Callee Stack Trace">
-          <StackTrace relation={call.destination} stackTrace={entryStackTrace} time={call.start} />
+          <StackTrace relation={call.destination} stackTrace={entryStackTrace} />
         </Group>
       )}
     </Fragment>
@@ -52,16 +52,17 @@ export default function StackTraceWrapper({ call }) {
 }
 
 const StackTrace = connectTo(
-  ({ relation, stackTrace, time }) => {
+  ({ relation, stackTrace }) => {
     const snapshotId = get(relation, ['physicalContext', 'process', 'id']);
     if (stackTrace == null || snapshotId == null) {
       return {};
     }
     return {
-      snapshot: getSnapshot(snapshotId, getTimeConfigAtMoment(time))
+      isOnline: isEntityOnline(snapshotId),
+      snapshot: getSnapshot(snapshotId, getTimeConfigAtMoment(null))
     };
   },
-  function StackTrace({ stackTrace, snapshot }) {
+  function StackTrace({ stackTrace, isOnline, snapshot }) {
     if (!stackTrace) {
       return null;
     }
@@ -77,7 +78,7 @@ const StackTrace = connectTo(
                 <span className={locals.in}>in</span>
                 <span>
                   {' '}
-                  {snapshot ? (
+                  {isOnline && snapshot ? (
                     <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
                       {fileLine}
                     </ShowCodeButton>
