@@ -74,7 +74,7 @@ function Header(props) {
               className={locals.link}
               href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
             >
-              View Ignored Rules
+              Configure Synthetic Endpoints
             </Link>
           </Message>
         </div>
