@@ -117,7 +117,7 @@ export function setBuiltInRuleEnabled(rule, enabled) {
 
 export function saveBuiltInRule(rule) {
   return http({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
     url: `/api/settings/built-in-rules/${encodeURIComponent(rule.get('id'))}`,
     headers: getCsrfHeader(),
