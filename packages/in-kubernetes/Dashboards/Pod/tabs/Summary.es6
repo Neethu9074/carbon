@@ -6,9 +6,12 @@ import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
 import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Card from 'in-new-components/Card';
+import Chart from 'in-components/Chart';
 
 export default function Summary({ timeConfig, data: podItem }) {
   const pod = podItem.pod;
+  const snapshotId = pod.id;
 
   return (
     <Fragment>
@@ -19,7 +22,7 @@ export default function Summary({ timeConfig, data: podItem }) {
         <Col lg={4}>
           <InfraMetricKpiCard
             title="Restarts"
-            snapshotId={pod.id}
+            snapshotId={snapshotId}
             metric="restartCount"
             formatter={zeroDecimalPlaces}
           />
@@ -42,18 +45,23 @@ export default function Summary({ timeConfig, data: podItem }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title="CPU Requests"
-            snapshotId={pod.id}
+            snapshotId={snapshotId}
             metric="cpuRequests"
             formatter={twoDecimalPlaces}
           />
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard title="CPU Limits" snapshotId={pod.id} metric="cpuLimits" formatter={twoDecimalPlaces} />
+          <InfraMetricKpiCard
+            title="CPU Limits"
+            snapshotId={snapshotId}
+            metric="cpuLimits"
+            formatter={twoDecimalPlaces}
+          />
         </Col>
         <Col lg={3}>
           <InfraMetricKpiCard
             title="Memory Requests"
-            snapshotId={pod.id}
+            snapshotId={snapshotId}
             metric="memoryRequests"
             formatter={bytesTwoDecimalPlaces}
           />
@@ -61,10 +69,41 @@ export default function Summary({ timeConfig, data: podItem }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title="Memory Limits"
-            snapshotId={pod.id}
+            snapshotId={snapshotId}
             metric="memoryLimits"
             formatter={bytesTwoDecimalPlaces}
           />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <Card title="CPU">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: twoDecimalPlaces,
+                metrics: ['cpuRequests', 'cpuLimits'],
+                labels: ['CPU Requests', 'CPU Limits'],
+                type: 'line'
+              }}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title="Memory">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesTwoDecimalPlaces,
+                metrics: ['memoryRequests', 'memoryLimits'],
+                labels: ['Memory Requests', 'Memory Limits'],
+                type: 'line'
+              }}
+            />
+          </Card>
         </Col>
       </Row>
 
