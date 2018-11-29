@@ -11,11 +11,11 @@ export default function TopServicesList({ clusterId, timeConfig }) {
       clusterId={clusterId}
       timeConfig={timeConfig}
       getItems={getKubernetesServices}
-      getItemHref$={item => getServiceDashboard(item.service.id, { clusterId })}
+      getItemHref$={item => getServiceDashboard(item.id, { clusterId })}
       allItemsHref$={getClusterDashboard(clusterId, {
         tab: '/services'
       })}
-      getItemLabel={item => item.service.name}
+      getItemLabel={item => item.name}
     />
   );
 }
