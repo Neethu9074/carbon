@@ -11,13 +11,11 @@ import Section from 'in-views/configurationView/components/Section';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
-import FormGroup from 'in-components/form/FormGroup';
 import { compare } from 'in-services/util/number';
 import { goToPath } from 'in-stores/navigation';
 import { getBuiltInRule } from 'in-api/rules';
 import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
@@ -62,16 +60,12 @@ export default connectTo(
           </Button>
         </Section>
         <Section>
-          <FormGroup>
-            <Label htmlFor="rule-name">Name</Label>
-            <Input id="rule-name" type="text" value={rule.get('name')} readOnly />
-          </FormGroup>
+          <Label>Name</Label>
+          <p>{rule.get('name')}</p>
         </Section>
         <Section>
-          <FormGroup>
-            <Label htmlFor="rule-description">Description</Label>
-            <Input id="rule-description" type="text" value={rule.get('description')} readOnly />
-          </FormGroup>
+          <Label>Description</Label>
+          <p>{rule.get('description')}</p>
         </Section>
         <Section>
           <Label>Rule Inputs</Label>
