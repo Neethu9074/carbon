@@ -8,7 +8,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import MetricValue from 'in-components/MetricValue';
 
-const pathSegment = '/containers';
+const pathSegment = '/summary';
 const matrixPrefix = 'container.';
 
 export default function Containers({ timeConfig, podId }) {
