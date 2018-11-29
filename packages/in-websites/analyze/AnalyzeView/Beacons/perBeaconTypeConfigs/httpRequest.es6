@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
+import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
 import { millis } from 'in-services/formatters/number';
 
@@ -45,9 +45,14 @@ export function TableRowColumns({ item }) {
       <ErroneousRowTd isErroneous={item.beacon.errorCount > 0} />
 
       <Td>
-        <EllipsisCell>
-          {item.beacon.httpCallMethod} {item.beacon.httpCallUrl}
-        </EllipsisCell>
+        <TableLinkWithIcon
+          isPrimary
+          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconId: item.beacon.beaconId })}
+        >
+          <EllipsisCell>
+            {item.beacon.httpCallMethod} {item.beacon.httpCallUrl}
+          </EllipsisCell>
+        </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
           tooltipContent={`This HTTP request is batched and represents ${

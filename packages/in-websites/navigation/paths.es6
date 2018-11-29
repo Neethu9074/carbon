@@ -9,7 +9,9 @@ import {
   deserializeTagFilters,
   group as groupMatrixParameter,
   serializeGroup,
-  beaconType as beaconTypeMatrixParameter
+  beaconType as beaconTypeMatrixParameter,
+  pageLoadId as pageLoadIdMatrixParameter,
+  beaconId as beaconIdMatrixParameter
 } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -29,6 +31,10 @@ export const analyzePathFullyQualified = `${websiteMonitoringPath}${analyzePath}
 export const isAnalyzeView = navigationParameters$.map(
   location => location.pathname.indexOf(analyzePathFullyQualified) === 0
 );
+
+export const pageLoadViewPath = '/pageLoad';
+export const pageLoadViewPathFullyQualified = `${analyzePathFullyQualified}${pageLoadViewPath}`;
+export const closePageLoadViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
 
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
@@ -102,5 +108,13 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
         );
       }
     }
+  });
+}
+
+export function getLinkToPageLoad({ pageLoadId, beaconId }) {
+  return getModifiedUrlStream(params => {
+    params.pathname = pageLoadViewPathFullyQualified;
+    setOrDeleteMatrixKey(params, pageLoadViewPath, pageLoadIdMatrixParameter, pageLoadId);
+    setOrDeleteMatrixKey(params, pageLoadViewPath, beaconIdMatrixParameter, beaconId);
   });
 }

@@ -53,6 +53,9 @@ import history from 'in-stores/navigation/history';
 //   // function to set the new page/order/query
 //   reducerName: 'onChange'
 //
+//   // function to be used to apply changes and to get the result as an URL observable
+//   reduceAndGetAsUrlName: 'getChangeAsUrl',
+//
 //  // whether or not the history should be replaced or not, i.e. whether new history entries
 //  // should be created for any call to the reducer.
 //  replaceHistory: true

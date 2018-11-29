@@ -13,7 +13,7 @@ export default function TableLinkWithIcon({ icon, href$, href, children, isPrima
       <Link
         className={evaluateClassNames({
           [locals.link]: true,
-          [locals.primary]: isPrimary
+          [locals.nonPrimary]: !isPrimary
         })}
         href$={href$}
         href={href}

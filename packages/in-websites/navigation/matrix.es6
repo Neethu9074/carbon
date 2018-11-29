@@ -15,6 +15,10 @@ export const deserializeGroup = buildParser({ groupbyTag: 'beacon.location.path'
 export const serializeTagFilters = buildSerializer();
 export const deserializeTagFilters = buildParser([]);
 
+// page load view
+export const pageLoadId = 'pageLoadId';
+export const beaconId = 'beaconId';
+
 function buildSerializer() {
   return v => {
     if (!v) {

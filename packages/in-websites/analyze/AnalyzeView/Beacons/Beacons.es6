@@ -3,10 +3,11 @@ import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
+import { analyzePath, pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
+import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { analyzePath } from 'in-websites/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 export default compose(
@@ -42,6 +43,7 @@ export default compose(
 function RawCalls(props) {
   return (
     <Switch>
+      <Route path={pageLoadViewPathFullyQualified} render={() => <PageLoadView {...props} />} />
       <Route path="*" render={() => <BeaconsPresenter {...props} />} />
     </Switch>
   );

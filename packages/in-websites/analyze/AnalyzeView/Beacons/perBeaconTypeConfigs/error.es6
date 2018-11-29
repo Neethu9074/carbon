@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
+import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { Th, Td } from 'in-components/tables/sharedComponents';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
 
@@ -31,7 +31,12 @@ export function TableRowColumns({ item }) {
   return (
     <Fragment>
       <Td>
-        <EllipsisCell>{item.beacon.errorMessage}</EllipsisCell>
+        <TableLinkWithIcon
+          isPrimary
+          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconId: item.beacon.beaconId })}
+        >
+          <EllipsisCell>{item.beacon.errorMessage}</EllipsisCell>
+        </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
           tooltipContent={`This error was batched and represents ${item.beacon.batchSize} individual errors.`}

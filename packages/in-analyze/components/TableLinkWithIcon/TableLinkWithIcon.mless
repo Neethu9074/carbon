@@ -11,11 +11,7 @@
     fill: @lib__colors__N600Light;
   }
 
-  .primary {
-    color: @lib__colors__N900Primary;
-  }
-
-  .link {
+  .nonPrimary {
     color: @lib__colors__N600Light;
   }
 }
