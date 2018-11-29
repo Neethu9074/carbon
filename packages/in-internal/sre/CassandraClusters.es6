@@ -12,7 +12,7 @@ import Chart from 'in-components/Chart';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    metricsNodes: getCassandraWithContext('entity.host.name:"cassandra-*"'),
+    metricsNodes: getCassandraWithContext('entity.host.name:"cassandra-*" OR entity.host.name:"metrics-cassandra-*"'),
     spansNodes: getCassandraWithContext('entity.host.name:"spans-cassandra-*"')
   },
   function Overview({ metricsNodes, spansNodes, timeConfig }) {
