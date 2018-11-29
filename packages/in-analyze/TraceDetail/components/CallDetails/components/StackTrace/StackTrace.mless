@@ -25,4 +25,9 @@
     color: #aaa;
     margin: 0 0.3rem;
   }
+
+  .noCodeLinkMessage {
+    font-style: italic;
+    padding: 0.25rem 0.688rem;
+  }
 }
