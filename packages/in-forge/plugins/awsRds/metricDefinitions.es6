@@ -124,5 +124,12 @@ export default [
     category: ['Network'],
     min: 0,
     formatter: bytes.perSecond
+  },
+  {
+    metric: 'volume_bytes_used_avg',
+    label: 'Volume Bytes Used',
+    category: ['Network'],
+    min: 0,
+    formatter: bytes
   }
 ];

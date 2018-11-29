@@ -140,6 +140,22 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      {snapshot.getIn(['data', 'db_engine']) === 'aurora' && (
+        <DashboardSection title="Volume Bytes Used">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['volume_bytes_used_avg'],
+              labels: ['Volume Bytes Used'],
+              type: 'line',
+              formatter: bytes.compact
+            }}
+          />
+        </DashboardSection>
+      )}
     </div>
   );
 }
