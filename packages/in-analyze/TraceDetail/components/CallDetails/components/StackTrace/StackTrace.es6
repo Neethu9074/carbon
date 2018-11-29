@@ -70,42 +70,37 @@ const StackTrace = connectTo(
     let noCodeLinkMessage;
     if (isOnline === false) {
       noCodeLinkMessage =
-        'Please note: Code can only be retrieved for entities which are still under monitoring by Instana.';
+        'Please note: Source code can only be retrieved for processes which are still under monitoring by Instana.';
     } else if (!snapshot) {
       noCodeLinkMessage =
-        'Please note: Code can only be retrieved for entities where Instana could successfully link the corresponding infrastucture.';
+        'Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastucture.';
     }
 
     return (
-      <div>
-        {noCodeLinkMessage && (
-          <div className={locals.noCodeLinkMessage}>
-            <span>{noCodeLinkMessage}</span>
-          </div>
-        )}
-        <div className={locals.stackTrace}>
-          <ol className={locals.list}>
-            {stackTrace.map((st, i) => {
-              const fileLine = combine(st.file, st.line);
-              return (
-                <li key={i}>
-                  <span className={locals.method}> {stripQuotes(st.method)} </span>
-                  <span className={locals.in}>in</span>
-                  <span>
-                    {' '}
-                    {isOnline && snapshot ? (
-                      <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
-                        {fileLine}
-                      </ShowCodeButton>
-                    ) : (
-                      fileLine
-                    )}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+      <div className={locals.stackTrace}>
+        <ol className={locals.list}>
+          {stackTrace.map((st, i) => {
+            const fileLine = combine(st.file, st.line);
+            return (
+              <li key={i}>
+                <span className={locals.method}> {stripQuotes(st.method)} </span>
+                <span className={locals.in}>in</span>
+                <span>
+                  {' '}
+                  {isOnline && snapshot ? (
+                    <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
+                      {fileLine}
+                    </ShowCodeButton>
+                  ) : (
+                    fileLine
+                  )}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+
+        {noCodeLinkMessage && <p className={locals.noCodeLinkMessage}>{noCodeLinkMessage}</p>}
       </div>
     );
   }
