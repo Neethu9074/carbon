@@ -113,7 +113,7 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
 
 export function getLinkToPageLoad({ pageLoadId, beaconId }) {
   return getModifiedUrlStream(params => {
-    params.pathname = pageLoadViewPathFullyQualified;
+    params.pathname = `${pageLoadViewPathFullyQualified}/summary`;
     setOrDeleteMatrixKey(params, pageLoadViewPath, pageLoadIdMatrixParameter, pageLoadId);
     setOrDeleteMatrixKey(params, pageLoadViewPath, beaconIdMatrixParameter, beaconId);
   });

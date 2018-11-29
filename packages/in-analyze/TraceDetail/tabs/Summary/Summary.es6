@@ -1,9 +1,10 @@
 import { just, create } from 'reactive-observables';
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
+import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
@@ -11,9 +12,9 @@ import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCal
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
-import { formatDate, formatTime } from 'in-services/formatters/date';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, millis } from 'in-services/formatters/number';
@@ -77,21 +78,13 @@ class Summary extends React.Component {
   render() {
     const { data: trace, getColor, callId, traceId, isLargeTrace, showLargeTrace, setShowLargeTrace } = this.props;
     const traceDetails = (
-      <div className={locals.wrapper}>
+      <ContentWrapper>
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <div className={locals.left}>
           <Row>
             {trace.startTime != null && (
               <Col lg={3}>
-                <KpiCard
-                  title="Trace Start Time"
-                  value={
-                    <Fragment>
-                      <span className={locals.startDate}>{formatDate(trace.startTime)}</span>
-                      <span className={locals.startDate}>{formatTime(trace.startTime)}</span>
-                    </Fragment>
-                  }
-                />
+                <DateTimeKpiCard title="Trace Start Time" time={trace.startTime} />
               </Col>
             )}
             <Col lg={3}>
@@ -172,7 +165,7 @@ class Summary extends React.Component {
             </Row>
           )}
         </div>
-      </div>
+      </ContentWrapper>
     );
 
     const callDetails = (

@@ -44,6 +44,8 @@ function PageLoadView(props) {
       <BreadcrumbHeader useFullAvailableWidth />
 
       <TabView
+        // Discard all state when the page load ID changes
+        key={pageLoadId}
         HeaderComponent={Header}
         location={location}
         tabs={tabs}

@@ -4,18 +4,13 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import getGravatarUrl from 'in-subscription/gravatar';
 import Card from 'in-new-components/Card';
-import connect from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
 import locals from './BeaconUserSummary.mless';
 
-export default connect(({ userEmail }) => ({
-  gravatar: userEmail && getGravatarUrl(userEmail)
-}))(function BeaconUserSummary({ beacon }) {
+export default function BeaconUserSummary({ beacon }) {
   const hasMeta = Object.keys(beacon.meta).length > 0;
-
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
 
@@ -67,7 +62,7 @@ export default connect(({ userEmail }) => ({
       </Col>
     </Row>
   );
-});
+}
 
 function ensureSortedMeta(meta) {
   return Object.keys(meta)
