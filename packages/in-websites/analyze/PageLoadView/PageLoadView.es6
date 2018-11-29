@@ -14,11 +14,10 @@ import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { pageLoadViewPath } from 'in-websites/navigation/paths';
+import { shorten, isNotBlank } from 'in-services/util/string';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-websites/analyze/PageLoadView/tabs';
-import { emptyObject } from 'in-services/fixedObjects';
 import { dataSourceTitles } from 'in-websites/tags';
-import { shorten } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -38,13 +37,10 @@ export default compose(
 )(PageLoadView);
 
 function PageLoadView(props) {
-  const { pageLoadId, beaconType } = props;
+  const { pageLoadId } = props;
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={[<Breadcrumb label={`Analyze ${dataSourceTitles[beaconType]}s`} href$={closePageLoadViewLink} />]}
-      />
       <BreadcrumbHeader useFullAvailableWidth />
 
       <TabView
@@ -52,17 +48,10 @@ function PageLoadView(props) {
         location={location}
         tabs={tabs}
         result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
-        withProps={({ result }) => {
-          if (result && result.data) {
-            return {
-              beacons: result.data,
-              pageLoadLabel: shorten(
-                get(result, ['data', 0, 'page']) || get(result, ['data', 0, 'locationUrl']) || 'Page load not found'
-              )
-            };
-          }
-          return emptyObject;
-        }}
+        withProps={({ result }) => ({
+          beacons: result.data,
+          pageLoadLabel: shorten(calculateLabel(result))
+        })}
         props={props}
         withoutBreadcrumb
         useFullAvailableWidth
@@ -74,34 +63,59 @@ function PageLoadView(props) {
 
 function Header(props) {
   return (
-    <div>
+    <Fragment>
+      <Breadcrumbs
+        items={[
+          <Breadcrumb label={`Analyze ${dataSourceTitles[props.beaconType]}s`} href$={closePageLoadViewLink} />,
+          props.pageLoadLabel && <Breadcrumb label="Page Load">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
+        ].filter(Boolean)}
+      />
       <BasicDashboardHeader
         title="Page Load"
         icon="lib_website"
         renderActions={Actions}
-        getLabel={getLabel}
+        getLabel={getLabelForHeader}
         {...props}
       />
       <div className={locals.tabViewPlaceholder} />
-    </div>
+    </Fragment>
   );
 }
 
-function getLabel(result, { pageLoadLabel }) {
+function calculateLabel(result) {
+  if (!result || !result.data || result.data.length === 0) {
+    return null;
+  }
+
+  const page = get(result, ['data', 0, 'page']);
+  if (isNotBlank(page)) {
+    const origin = get(result, ['data', 0, 'locationOrigin']);
+    if (isNotBlank(origin)) {
+      return `${page} on ${origin}`;
+    }
+    return page;
+  } else {
+    return get(result, ['data', 0, 'locationUrl']);
+  }
+}
+
+function getLabelForHeader(result, { pageLoadLabel }) {
   return pageLoadLabel;
 }
 
-function Actions({ pageLoadId }) {
+function Actions({ pageLoadId, pageLoadLabel }) {
   return (
     <Fragment>
-      <Button
-        icon="lib_actions_download"
-        kind="secondary"
-        target="_blank"
-        href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)}?pretty`}
-      >
-        Download
-      </Button>
+      {pageLoadLabel && (
+        <Button
+          icon="lib_actions_download"
+          kind="secondary"
+          target="_blank"
+          href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)}?pretty`}
+        >
+          Download
+        </Button>
+      )}
 
       <Link href$={closePageLoadViewLink}>
         <Tooltip content="Close page load details">
