@@ -35,4 +35,8 @@
     position: relative;
     top: 1px;
   }
+
+  .withoutTextTransform {
+    text-transform: initial;
+  }
 }

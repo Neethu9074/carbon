@@ -98,7 +98,7 @@ function GroupedBeacons(props) {
     <Fragment>
       <Title title={`Analyze ${dataSourceTitles[beaconType]} Groups`} />
       <AnalyzeHeader isGrouped />
-      <QuickFilterBar {...props} />
+      <QuickFilterBar showWebsiteSelector {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />
         <GroupingInfo {...props} />

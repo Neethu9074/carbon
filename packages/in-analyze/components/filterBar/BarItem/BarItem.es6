@@ -6,13 +6,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BarItem.mless';
 
-export default function BarItem({ children, active, isOpen, showArrow, onClick, refSetter }) {
+export default function BarItem({ children, withoutTextTransform, active, isOpen, showArrow, onClick, refSetter }) {
   return (
     <a
       className={evaluateClassNames({
         [locals.item]: true,
         [locals.active]: active,
-        [locals.withIcon]: showArrow
+        [locals.withIcon]: showArrow,
+        [locals.withoutTextTransform]: withoutTextTransform
       })}
       href=""
       onClick={e => {

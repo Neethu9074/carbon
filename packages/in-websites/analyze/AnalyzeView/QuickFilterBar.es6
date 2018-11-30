@@ -9,10 +9,26 @@ import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 
 export default function QuickFilterBar(props) {
-  const { implicitTagFilters = emptyArray, tagFilters, clearTagFilters, onMoreClick, showInternalOnlyMarker } = props;
+  const {
+    implicitTagFilters = emptyArray,
+    tagFilters,
+    clearTagFilters,
+    onMoreClick,
+    showInternalOnlyMarker,
+    showWebsiteSelector
+  } = props;
 
   return (
     <Bar showClearFilters={tagFilters.length - implicitTagFilters.length > 0} onClearFilters={clearTagFilters}>
+      {showWebsiteSelector && (
+        <SelectBarItem
+          {...props}
+          tag="beacon.website.name"
+          singularLabel="Website"
+          pluralLabel="Websites"
+          withoutTextTransform
+        />
+      )}
       <SelectBarItem {...props} tag="beacon.browser.name" singularLabel="browser" pluralLabel="browsers" />
       <SelectBarItem {...props} tag="beacon.os.name" singularLabel="OS" pluralLabel="OSs" />
       <SelectBarItem {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />

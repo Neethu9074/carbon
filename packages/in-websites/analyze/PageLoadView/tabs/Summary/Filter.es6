@@ -49,7 +49,7 @@ export default function Filter({ filter, setFilter, beacons }) {
           ))}
         </ul>
 
-        {pages.length > 0 && (
+        {pages.length > 1 && (
           <Fragment>
             <h2 className={locals.header}>Pages</h2>
             <Select

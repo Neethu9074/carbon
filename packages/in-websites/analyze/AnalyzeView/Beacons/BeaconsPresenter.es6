@@ -38,7 +38,7 @@ export default function BeaconsPresenter(props) {
     <Fragment>
       <Title title={`Analyze ${dataSourceTitles[beaconType]}s`} />
       <AnalyzeHeader />
-      <QuickFilterBar {...props} />
+      <QuickFilterBar showWebsiteSelector {...props} />
       <MaxWidthFullscreenContainer>
         <TagFilterList {...props} />
         <GroupingInfo {...props} />
