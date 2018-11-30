@@ -15,7 +15,7 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
 
       {beacons
         .filter(beacon => {
-          if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) !== -1) {
+          if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) === -1) {
             return false;
           }
           if (filter.page && filter.page.toLowerCase() !== beacon.page.toLowerCase()) {
