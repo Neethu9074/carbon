@@ -11,7 +11,7 @@ export default function TypeHeader({ beacon }) {
   const typeDefinition = types[type];
 
   return (
-    <Tooltip content={typeDefinition.long}>
+    <Tooltip content={typeDefinition.long} align="rightMiddle">
       <Pill color={typeDefinition.color} className={locals.type}>
         {typeDefinition.short}
       </Pill>

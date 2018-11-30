@@ -1,8 +1,8 @@
 export const types = {
-  'document': {
-    short: 'Doc',
-    long: 'Documents',
-    color: '#F16528' // based on the HTML logo color
+  'xhr': {
+    short: 'XHR',
+    long: 'XHR and Fetch',
+    color: 'purple'
   },
   'javascript': {
     short: 'JS',
@@ -15,14 +15,14 @@ export const types = {
     color: '#2277FF' // based on the CSS logo color
   },
   'img': {
-    short: 'img',
+    short: 'Img',
     long: 'Images',
     color: 'green'
   },
-  'xhr': {
-    short: 'XHR',
-    long: 'XHR and Fetch',
-    color: 'purple'
+  'document': {
+    short: 'Doc',
+    long: 'Documents',
+    color: '#F16528' // based on the HTML logo color
   },
   'error': {
     short: 'Errors',
