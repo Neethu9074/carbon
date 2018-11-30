@@ -14,12 +14,19 @@
 
   .leftHeader {
     display: flex;
+    align-items: center;
 
     & > * {
       max-width: 8rem;
+      width: 8rem;
 
       &:first-child {
+        width: 2.8rem;
+      }
+
+      &:nth-child(2) {
         max-width: 20rem;
+        width: 20rem;
       }
     }
   }

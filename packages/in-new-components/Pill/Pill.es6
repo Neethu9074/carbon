@@ -8,8 +8,7 @@ import locals from './Pill.mless';
 
 export const kinds = ['bold', 'light', 'lighter', 'inverted'];
 
-export default Pill;
-function Pill({ className, children, color = '#000000', kind = 'bold' }) {
+export default function Pill({ className, children, color = '#000000', kind = 'bold' }) {
   let style;
   if (kind == 'inverted') {
     style = { color };

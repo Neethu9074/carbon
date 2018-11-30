@@ -40,7 +40,12 @@ function Summary({ beacons, activeBeaconTypeFilters }) {
 
       <BeaconUserSummary beacon={firstBeacon} />
 
-      <Activity beacons={beacons} firstBeacon={firstBeacon} activeBeaconTypeFilters={activeBeaconTypeFilters} />
+      <Activity
+        beacons={beacons}
+        pageLoad={pageLoad}
+        firstBeacon={firstBeacon}
+        activeBeaconTypeFilters={activeBeaconTypeFilters}
+      />
     </ContentWrapper>
   );
 }

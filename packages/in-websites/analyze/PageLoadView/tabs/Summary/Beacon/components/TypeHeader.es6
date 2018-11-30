@@ -1,0 +1,20 @@
+import React from 'react';
+
+import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
+import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-new-components/Pill';
+
+import locals from './TypeHeader.mless';
+
+export default function TypeHeader({ beacon }) {
+  const type = getType(beacon);
+  const typeDefinition = types[type];
+
+  return (
+    <Tooltip content={typeDefinition.long}>
+      <Pill color={typeDefinition.color} className={locals.type}>
+        {typeDefinition.short}
+      </Pill>
+    </Tooltip>
+  );
+}

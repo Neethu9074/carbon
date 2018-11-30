@@ -2,6 +2,7 @@ import { compose, withState } from 'recompose';
 import React from 'react';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
+import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
 
 import locals from './Beacon.mless';
@@ -18,6 +19,7 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
     <div className={locals.beacon}>
       <div className={locals.header}>
         <div className={locals.leftHeader}>
+          <TypeHeader beacon={beacon} />
           <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
         </div>
         <div className={locals.rightHeader}>

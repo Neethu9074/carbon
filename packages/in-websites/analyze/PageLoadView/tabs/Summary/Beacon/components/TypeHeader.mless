@@ -1,0 +1,5 @@
+:local {
+  .type {
+    margin: 0 1rem 0 0;
+  }
+}
