@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { sortedUniqBy } from 'lodash';
+import memoizeOne from 'memoize-one';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SearchInput from 'in-new-components/SearchInput';
+import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 
 import locals from './Filter.mless';
 
-export default function Filter({ filter, setFilter }) {
+const memoizedGetPages = memoizeOne(getPages);
+
+export default function Filter({ filter, setFilter, beacons }) {
+  const pages = memoizedGetPages(beacons);
+
   return (
     <div className={locals.wrapper}>
-      {/* left side */}
       <div className={locals.left}>
-        <h2 className={locals.header}>Filter</h2>
+        <h2 className={locals.header}>Types</h2>
 
         <ul className={locals.typeFilters}>
           <li className={locals.typeFilter}>
@@ -40,6 +48,59 @@ export default function Filter({ filter, setFilter }) {
             <FilterItem key={type} filter={filter} setFilter={setFilter} type={type} />
           ))}
         </ul>
+
+        {pages.length > 0 && (
+          <Fragment>
+            <h2 className={locals.header}>Pages</h2>
+            <Select
+              id="page-filter"
+              value={filter.page || ''}
+              onChange={e => {
+                stopPropagationAndPreventDefault(e);
+                if (e.target.value === '') {
+                  setFilter({
+                    ...filter,
+                    page: ''
+                  });
+                } else {
+                  setFilter({
+                    ...filter,
+                    page: e.target.value
+                  });
+                }
+              }}
+            >
+              <option value="">All</option>
+              {pages.map(p => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </Select>
+          </Fragment>
+        )}
+      </div>
+
+      <div className={locals.right}>
+        <h2 className={locals.header}>Search</h2>
+
+        <SearchInput
+          maxWidth="10rem"
+          query={filter.query}
+          onChange={query => {
+            if (isNotBlank(query)) {
+              setFilter({
+                ...filter,
+                query
+              });
+            } else {
+              setFilter({
+                ...filter,
+                query: ''
+              });
+            }
+          }}
+        />
       </div>
     </div>
   );
@@ -75,5 +136,15 @@ function FilterItem({ filter, setFilter, type }) {
         </a>
       </Tooltip>
     </li>
+  );
+}
+
+function getPages(beacons) {
+  return sortedUniqBy(
+    beacons
+      .map(b => b.page)
+      .filter(isNotBlank)
+      .sort(compareIgnoreCase),
+    p => p.toLowerCase()
   );
 }

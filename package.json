@@ -61,6 +61,7 @@
     "lucene": "^1.1.2",
     "markdown-it": "^8.3.1",
     "markdown-it-link-target": "^1.0.1",
+    "memoize-one": "^4.0.3",
     "moment": "^2.14.1",
     "nivo": "0.31.0",
     "prismjs": "^1.5.1",

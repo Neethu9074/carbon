@@ -10,7 +10,7 @@ import { millis, number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard';
 
-export default compose(withState('filter', 'setFilter', { query: '', types: [] }))(Summary);
+export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
 function Summary({ beacons, filter, setFilter }) {
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
