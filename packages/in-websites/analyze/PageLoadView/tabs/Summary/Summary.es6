@@ -12,7 +12,7 @@ import KpiCard from 'in-new-components/KpiCard';
 
 export default compose(withState('activeBeaconTypeFilters', 'setActiveBeaconTypeFilters', []))(Summary);
 
-function Summary({ beacons, activeBeaconTypeFilters, setActiveBeaconTypeFilters }) {
+function Summary({ beacons, activeBeaconTypeFilters }) {
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
@@ -40,11 +40,7 @@ function Summary({ beacons, activeBeaconTypeFilters, setActiveBeaconTypeFilters 
 
       <BeaconUserSummary beacon={firstBeacon} />
 
-      <Activity
-        beacons={beacons}
-        activeBeaconTypeFilters={activeBeaconTypeFilters}
-        setActiveBeaconTypeFilters={setActiveBeaconTypeFilters}
-      />
+      <Activity beacons={beacons} firstBeacon={firstBeacon} activeBeaconTypeFilters={activeBeaconTypeFilters} />
     </ContentWrapper>
   );
 }

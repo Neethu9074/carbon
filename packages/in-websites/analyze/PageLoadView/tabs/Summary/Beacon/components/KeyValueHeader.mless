@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3.5rem 0 0;
+  }
+
+  .key {
+    color: @lib__colors__N600Light;
+    font-weight: 500;
+    padding: 0 0 .188rem;
+  }
+
+  .value {
+    .ellipsis();
+  }
+
+  .valueLink {
+    text-decoration: none;
+    font-weight: 500;
+    .ellipsis();
+  }
+}

@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+  .toggle {
+    fill: @lib__colors__N600Light;
+    margin: 0 0 0 0.5rem;
+  }
+}

@@ -30,6 +30,7 @@ import './application/EmptyAppListStory';
 import './website/BeaconUserSummaryStory';
 import './website/DeprecationsStory';
 import './website/NewWebsiteStory';
+import './website/PageLoadView/PageLoadViewStory';
 import './website/WorldMapCardStory';
 
 import './components/AmMapStory';

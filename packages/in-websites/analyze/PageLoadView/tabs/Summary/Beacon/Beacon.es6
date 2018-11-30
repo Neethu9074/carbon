@@ -1,0 +1,35 @@
+import { compose, withState } from 'recompose';
+import React from 'react';
+
+import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
+import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
+
+import locals from './Beacon.mless';
+
+export default compose(withState('expanded', 'setExpanded', false))(function Beacon(props) {
+  const { beacon, expanded, setExpanded } = props;
+
+  const beaconRenderers = renderers[beacon.type];
+  if (!beaconRenderers) {
+    return <div>Unsupported beacon type: {beacon.type}</div>;
+  }
+
+  return (
+    <div className={locals.beacon}>
+      <div className={locals.header}>
+        <div className={locals.leftHeader}>
+          <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
+        </div>
+        <div className={locals.rightHeader}>
+          <HeaderToggleIcon {...props} />
+        </div>
+      </div>
+
+      {expanded && (
+        <div className={locals.body}>
+          <beaconRenderers.Body {...props} />
+        </div>
+      )}
+    </div>
+  );
+});

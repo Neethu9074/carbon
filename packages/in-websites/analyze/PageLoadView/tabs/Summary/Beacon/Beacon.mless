@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .beacon {
+    padding: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+    background: @lib__colors__N050;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .leftHeader {
+    display: flex;
+
+    & > * {
+      max-width: 8rem;
+
+      &:first-child {
+        max-width: 20rem;
+      }
+    }
+  }
+}
