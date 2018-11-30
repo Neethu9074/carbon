@@ -1,35 +1,35 @@
 export const types = {
-  'xhr': {
+  xhr: {
     short: 'XHR',
     long: 'XHR and Fetch',
     color: 'purple'
   },
-  'javascript': {
+  javascript: {
     short: 'JS',
     long: 'Scripts',
     color: '#ebd31e' // inspired by the JS logo color
   },
-  'css': {
+  css: {
     short: 'CSS',
     long: 'Stylesheets',
     color: '#2277FF' // based on the CSS logo color
   },
-  'img': {
+  img: {
     short: 'Img',
     long: 'Images',
     color: 'green'
   },
-  'document': {
+  document: {
     short: 'Doc',
     long: 'Documents',
     color: '#F16528' // based on the HTML logo color
   },
-  'error': {
+  error: {
     short: 'Errors',
     long: '(Un-)caught JavaScript Errors',
     color: 'darkred'
   },
-  'other': {
+  other: {
     short: 'Other',
     long: 'Other',
     color: 'darkgray'
