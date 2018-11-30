@@ -40,7 +40,8 @@
 }
 if (!window.instana.user) {
   setTimeout(() => {
-    document.body.textContent = 'Not signed in / system unavailable. Will retry in 3s';
+    document.querySelector('.in-index-centered-content').textContent = 'Not signed in / backend unavailable. Will retry in 3s';
+    document.querySelector('.in-index-centered-content').style = 'color: #fff; font-size: 2rem; text-align: center';
   }, 500);
   setTimeout(() => {
     window.location.href = '/auth/signIn?returnUrl=' + encodeURIComponent(window.location.href);
