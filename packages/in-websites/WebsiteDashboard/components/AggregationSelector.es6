@@ -24,7 +24,7 @@ function AggregationSelector({ defaultAggregation, aggregation, setAggregation, 
     aggregationSelector: (
       <ComboBox
         value={aggregation || defaultAggregation}
-        onChange={e => setAggregation(e.value)}
+        onChange={e => setAggregation((e && e.value) || defaultAggregation)}
         placeholder="Type…"
         options={options}
         isClearable={false}
