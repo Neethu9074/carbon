@@ -1,6 +1,6 @@
 import { compose, withProps } from 'recompose';
 
-import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
+import KeyValueBarItemBehavior from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 
 export default compose(

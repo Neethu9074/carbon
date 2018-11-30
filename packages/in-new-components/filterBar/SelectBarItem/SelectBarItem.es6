@@ -1,8 +1,8 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import SelectBarOverlayBehavior from 'in-analyze/components/filterBar/SelectBarItem/SelectBarOverlayBehavior';
-import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
+import SelectBarOverlayBehavior from 'in-new-components/filterBar/SelectBarItem/SelectBarOverlayBehavior';
+import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function SelectBarItemBehavior(props) {

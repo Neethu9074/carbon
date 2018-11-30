@@ -1,8 +1,8 @@
 import { createField, createMapForm } from 'formalistic';
 import { compose, withProps } from 'recompose';
 
-import NumberBarOverlayPresenter from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
-import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
+import NumberBarOverlayPresenter from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
+import { getNumberTagFilters } from 'in-new-components/filterBar/NumberBarItemBehavior/util';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { numericValidator } from 'in-services/validators/number';

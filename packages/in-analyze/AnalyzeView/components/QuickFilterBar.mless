@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .quickFilterRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .moreFilterLabel {
+    font-weight: 600;
+  }
+}

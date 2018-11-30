@@ -1,7 +1,7 @@
 import React from 'react';
 
-import KeyValueBarOverlayBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayBehavior';
-import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
+import KeyValueBarOverlayBehavior from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarOverlayBehavior';
+import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function KeyValueBarItemBehavior(props) {

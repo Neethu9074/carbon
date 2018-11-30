@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
+import BarOverlay from 'in-new-components/filterBar/BarOverlay/BarOverlay';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';

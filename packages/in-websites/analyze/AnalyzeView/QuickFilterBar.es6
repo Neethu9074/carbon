@@ -1,11 +1,11 @@
 import React from 'react';
 
-import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
-import InternalOnlyBarItem from 'in-analyze/components/filterBar/InternalOnlyBarItem';
+import NumberBarItem from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
+import InternalOnlyBarItem from 'in-new-components/filterBar/InternalOnlyBarItem';
 import KeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarItem';
 import SelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem';
-import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
-import Bar from 'in-analyze/components/filterBar/Bar/Bar';
+import MoreBarItem from 'in-new-components/filterBar/MoreBarItem';
+import Bar from 'in-new-components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 
 export default function QuickFilterBar(props) {

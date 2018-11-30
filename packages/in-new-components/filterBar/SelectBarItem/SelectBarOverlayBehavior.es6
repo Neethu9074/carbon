@@ -3,7 +3,7 @@ import { compose, withState } from 'recompose';
 import { find } from 'lodash';
 import React from 'react';
 
-import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
+import SelectBarOverlay from 'in-new-components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
