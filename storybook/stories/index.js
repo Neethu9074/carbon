@@ -33,7 +33,6 @@ import './website/NewWebsiteStory';
 import './website/PageLoadView/PageLoadViewStory';
 import './website/WorldMapCardStory';
 
-import './components/AmMapStory';
 import './components/Axis';
 import './components/BadgeStory';
 import './components/ButtonGroupStory';
@@ -44,6 +43,7 @@ import './components/DashboardHeaderStory';
 import './components/DialogStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/GeoHeatMapStory';
 import './components/Globe';
 import './components/health/HealthIndicatorStory';
 import './components/health/OpenIssuesListPresenterStory';

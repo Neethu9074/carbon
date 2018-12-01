@@ -123,3 +123,9 @@ export function on(target: EventTarget, event: string, capture: EventListenerOpt
 function noop() {
   // noop
 }
+
+export function fromPromise(p) {
+  const observable = create();
+  p.then(v => observable.emit(v), err => observable.emitError(err));
+  return observable;
+}

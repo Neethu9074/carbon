@@ -44,12 +44,7 @@ export default function Geography({ tagFilters, timeConfig }) {
               path={`${websitePathFullyQualified}/geography`}
               render={() => (
                 <div>
-                  <WorldMapDashboardContent
-                    tagFilters={tagFilters}
-                    timeConfig={timeConfig}
-                    height={height}
-                    getDataByCountry$={props => getData$(props)}
-                  />
+                  <WorldMapDashboardContent tagFilters={tagFilters} timeConfig={timeConfig} height={height} />
                   <Link
                     className={locals.link}
                     href$={getModifiedUrlStream(

@@ -46,18 +46,15 @@ export default function createWorldMapController(containerElement, { getDataByCo
   }
 
   function handleMapObjectClick(event) {
-    if (event.mapObject.id === 'US') {
-      goToMap('usa2Low');
-    } else if (event.mapObject.id === 'DE') {
-      goToMap('germanyLow');
-    } else if (event.mapObject.id === 'RU') {
-      goToMap('russiaLow');
+    if (event.mapObject.id && event.mapObject.id.length === 2) {
+      // a country click. Navigate to the country map
+      goToMap(event.mapObject.id.toLowerCase());
     }
 
-    function goToMap(name) {
-      selectedCountry$.emit(name);
-      loadMapAsynchronously(name, { minimumSuccessDelay: 1000 }).then(mapData =>
-        data$.emit({ name, projection: 'mercator', mapData: mapData })
+    function goToMap(countryCode) {
+      selectedCountry$.emit(countryCode);
+      loadMapAsynchronously(countryCode, { minimumSuccessDelay: 1000 }).then(mapData =>
+        data$.emit({ countryCode, projection: 'mercator', mapData: mapData })
       );
     }
   }

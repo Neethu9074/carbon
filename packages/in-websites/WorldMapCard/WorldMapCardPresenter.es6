@@ -10,21 +10,17 @@ import Card from 'in-new-components/Card';
 
 export default function WorldMapCardPresenter({ title, countryBreakdownResult, height }) {
   let content;
-  let withoutPadding = false;
 
   if (!countryBreakdownResult || countryBreakdownResult.progress.loading) {
     content = <InfiniteCircle height={height} />;
-    withoutPadding = true;
   } else if (countryBreakdownResult.errors.length > 0) {
     content = <NoDataAvailable height={height} />;
-    withoutPadding = true;
   } else {
     content = <Content result={countryBreakdownResult} height={height} />;
-    withoutPadding = true;
   }
 
   return (
-    <Card title={title} withoutPadding={withoutPadding}>
+    <Card title={title} withoutPadding>
       {content}
     </Card>
   );

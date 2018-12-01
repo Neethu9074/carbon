@@ -1,739 +1,606 @@
-// See README.md for intructions on how to generate this file.
-
-import afghanistanLowLoader from 'promise-loader?global,ammapAfghanistanLow!ammap3/ammap/maps/js/afghanistanLow.js';
-export const afghanistanLow = afghanistanLowLoader;
-
-import albaniaLowLoader from 'promise-loader?global,ammapAlbaniaLow!ammap3/ammap/maps/js/albaniaLow.js';
-export const albaniaLow = albaniaLowLoader;
-
-import algeriaLowLoader from 'promise-loader?global,ammapAlgeriaLow!ammap3/ammap/maps/js/algeriaLow.js';
-export const algeriaLow = algeriaLowLoader;
-
-import americanSamoaLowLoader from 'promise-loader?global,ammapAmericanSamoaLow!ammap3/ammap/maps/js/americanSamoaLow.js';
-export const americanSamoaLow = americanSamoaLowLoader;
-
-import andorraLowLoader from 'promise-loader?global,ammapAndorraLow!ammap3/ammap/maps/js/andorraLow.js';
-export const andorraLow = andorraLowLoader;
-
-import angolaLowLoader from 'promise-loader?global,ammapAngolaLow!ammap3/ammap/maps/js/angolaLow.js';
-export const angolaLow = angolaLowLoader;
-
-import anguillaLowLoader from 'promise-loader?global,ammapAnguillaLow!ammap3/ammap/maps/js/anguillaLow.js';
-export const anguillaLow = anguillaLowLoader;
-
-import antiguaBarbudaLowLoader from 'promise-loader?global,ammapAntiguaBarbudaLow!ammap3/ammap/maps/js/antiguaBarbudaLow.js';
-export const antiguaBarbudaLow = antiguaBarbudaLowLoader;
-
-import argentinaLowLoader from 'promise-loader?global,ammapArgentinaLow!ammap3/ammap/maps/js/argentinaLow.js';
-export const argentinaLow = argentinaLowLoader;
-
-import armeniaLowLoader from 'promise-loader?global,ammapArmeniaLow!ammap3/ammap/maps/js/armeniaLow.js';
-export const armeniaLow = armeniaLowLoader;
-
-import arubaLowLoader from 'promise-loader?global,ammapArubaLow!ammap3/ammap/maps/js/arubaLow.js';
-export const arubaLow = arubaLowLoader;
-
-import australiaLowLoader from 'promise-loader?global,ammapAustraliaLow!ammap3/ammap/maps/js/australiaLow.js';
-export const australiaLow = australiaLowLoader;
-
-import austriaLowLoader from 'promise-loader?global,ammapAustriaLow!ammap3/ammap/maps/js/austriaLow.js';
-export const austriaLow = austriaLowLoader;
-
-import azerbaijanLowLoader from 'promise-loader?global,ammapAzerbaijanLow!ammap3/ammap/maps/js/azerbaijanLow.js';
-export const azerbaijanLow = azerbaijanLowLoader;
-
-import bahamasLowLoader from 'promise-loader?global,ammapBahamasLow!ammap3/ammap/maps/js/bahamasLow.js';
-export const bahamasLow = bahamasLowLoader;
-
-import bahrainLowLoader from 'promise-loader?global,ammapBahrainLow!ammap3/ammap/maps/js/bahrainLow.js';
-export const bahrainLow = bahrainLowLoader;
-
-import bangladeshLowLoader from 'promise-loader?global,ammapBangladeshLow!ammap3/ammap/maps/js/bangladeshLow.js';
-export const bangladeshLow = bangladeshLowLoader;
-
-import barbadosLowLoader from 'promise-loader?global,ammapBarbadosLow!ammap3/ammap/maps/js/barbadosLow.js';
-export const barbadosLow = barbadosLowLoader;
-
-import belarusLowLoader from 'promise-loader?global,ammapBelarusLow!ammap3/ammap/maps/js/belarusLow.js';
-export const belarusLow = belarusLowLoader;
-
-import belgiumLowLoader from 'promise-loader?global,ammapBelgiumLow!ammap3/ammap/maps/js/belgiumLow.js';
-export const belgiumLow = belgiumLowLoader;
-
-import belizeLowLoader from 'promise-loader?global,ammapBelizeLow!ammap3/ammap/maps/js/belizeLow.js';
-export const belizeLow = belizeLowLoader;
-
-import beninLowLoader from 'promise-loader?global,ammapBeninLow!ammap3/ammap/maps/js/beninLow.js';
-export const beninLow = beninLowLoader;
-
-import bhutanLowLoader from 'promise-loader?global,ammapBhutanLow!ammap3/ammap/maps/js/bhutanLow.js';
-export const bhutanLow = bhutanLowLoader;
-
-import boliviaLowLoader from 'promise-loader?global,ammapBoliviaLow!ammap3/ammap/maps/js/boliviaLow.js';
-export const boliviaLow = boliviaLowLoader;
-
-import bosniaHerzegovinaCantonsLowLoader from 'promise-loader?global,ammapBosniaHerzegovinaCantonsLow!ammap3/ammap/maps/js/bosniaHerzegovinaCantonsLow.js';
-export const bosniaHerzegovinaCantonsLow = bosniaHerzegovinaCantonsLowLoader;
-
-import bosniaHerzegovinaRegionsLowLoader from 'promise-loader?global,ammapBosniaHerzegovinaRegionsLow!ammap3/ammap/maps/js/bosniaHerzegovinaRegionsLow.js';
-export const bosniaHerzegovinaRegionsLow = bosniaHerzegovinaRegionsLowLoader;
-
-import botswanaLowLoader from 'promise-loader?global,ammapBotswanaLow!ammap3/ammap/maps/js/botswanaLow.js';
-export const botswanaLow = botswanaLowLoader;
-
-import brazilLowLoader from 'promise-loader?global,ammapBrazilLow!ammap3/ammap/maps/js/brazilLow.js';
-export const brazilLow = brazilLowLoader;
-
-import britishVirginIslandsLowLoader from 'promise-loader?global,ammapBritishVirginIslandsLow!ammap3/ammap/maps/js/britishVirginIslandsLow.js';
-export const britishVirginIslandsLow = britishVirginIslandsLowLoader;
-
-import bruneiDarussalamLowLoader from 'promise-loader?global,ammapBruneiDarussalamLow!ammap3/ammap/maps/js/bruneiDarussalamLow.js';
-export const bruneiDarussalamLow = bruneiDarussalamLowLoader;
-
-import bulgariaLowLoader from 'promise-loader?global,ammapBulgariaLow!ammap3/ammap/maps/js/bulgariaLow.js';
-export const bulgariaLow = bulgariaLowLoader;
-
-import burkinaFasoLowLoader from 'promise-loader?global,ammapBurkinaFasoLow!ammap3/ammap/maps/js/burkinaFasoLow.js';
-export const burkinaFasoLow = burkinaFasoLowLoader;
-
-import burundiLowLoader from 'promise-loader?global,ammapBurundiLow!ammap3/ammap/maps/js/burundiLow.js';
-export const burundiLow = burundiLowLoader;
-
-import cambodiaLowLoader from 'promise-loader?global,ammapCambodiaLow!ammap3/ammap/maps/js/cambodiaLow.js';
-export const cambodiaLow = cambodiaLowLoader;
-
-import cameroonLowLoader from 'promise-loader?global,ammapCameroonLow!ammap3/ammap/maps/js/cameroonLow.js';
-export const cameroonLow = cameroonLowLoader;
-
-import canadaLowLoader from 'promise-loader?global,ammapCanadaLow!ammap3/ammap/maps/js/canadaLow.js';
-export const canadaLow = canadaLowLoader;
-
-import capeVerdeLowLoader from 'promise-loader?global,ammapCapeVerdeLow!ammap3/ammap/maps/js/capeVerdeLow.js';
-export const capeVerdeLow = capeVerdeLowLoader;
-
-import caribbeanNetherlandsLowLoader from 'promise-loader?global,ammapCaribbeanNetherlandsLow!ammap3/ammap/maps/js/caribbeanNetherlandsLow.js';
-export const caribbeanNetherlandsLow = caribbeanNetherlandsLowLoader;
-
-import caymanIslandsLowLoader from 'promise-loader?global,ammapCaymanIslandsLow!ammap3/ammap/maps/js/caymanIslandsLow.js';
-export const caymanIslandsLow = caymanIslandsLowLoader;
-
-import centralAfricanRepublicLowLoader from 'promise-loader?global,ammapCentralAfricanRepublicLow!ammap3/ammap/maps/js/centralAfricanRepublicLow.js';
-export const centralAfricanRepublicLow = centralAfricanRepublicLowLoader;
-
-import chadLowLoader from 'promise-loader?global,ammapChadLow!ammap3/ammap/maps/js/chadLow.js';
-export const chadLow = chadLowLoader;
-
-import chileLowLoader from 'promise-loader?global,ammapChileLow!ammap3/ammap/maps/js/chileLow.js';
-export const chileLow = chileLowLoader;
-
-import chinaLowLoader from 'promise-loader?global,ammapChinaLow!ammap3/ammap/maps/js/chinaLow.js';
-export const chinaLow = chinaLowLoader;
-
-import christmasIslandLowLoader from 'promise-loader?global,ammapChristmasIslandLow!ammap3/ammap/maps/js/christmasIslandLow.js';
-export const christmasIslandLow = christmasIslandLowLoader;
-
-import cocosIslandsLowLoader from 'promise-loader?global,ammapCocosIslandsLow!ammap3/ammap/maps/js/cocosIslandsLow.js';
-export const cocosIslandsLow = cocosIslandsLowLoader;
-
-import colombiaLowLoader from 'promise-loader?global,ammapColombiaLow!ammap3/ammap/maps/js/colombiaLow.js';
-export const colombiaLow = colombiaLowLoader;
-
-import comorosLowLoader from 'promise-loader?global,ammapComorosLow!ammap3/ammap/maps/js/comorosLow.js';
-export const comorosLow = comorosLowLoader;
-
-import congoDRLowLoader from 'promise-loader?global,ammapCongoDRLow!ammap3/ammap/maps/js/congoDRLow.js';
-export const congoDRLow = congoDRLowLoader;
-
-import congoLowLoader from 'promise-loader?global,ammapCongoLow!ammap3/ammap/maps/js/congoLow.js';
-export const congoLow = congoLowLoader;
-
-import cookIslandsLowLoader from 'promise-loader?global,ammapCookIslandsLow!ammap3/ammap/maps/js/cookIslandsLow.js';
-export const cookIslandsLow = cookIslandsLowLoader;
-
-import costaRicaLowLoader from 'promise-loader?global,ammapCostaRicaLow!ammap3/ammap/maps/js/costaRicaLow.js';
-export const costaRicaLow = costaRicaLowLoader;
-
-import croatiaLowLoader from 'promise-loader?global,ammapCroatiaLow!ammap3/ammap/maps/js/croatiaLow.js';
-export const croatiaLow = croatiaLowLoader;
-
-import cubaLowLoader from 'promise-loader?global,ammapCubaLow!ammap3/ammap/maps/js/cubaLow.js';
-export const cubaLow = cubaLowLoader;
-
-import curacaoLowLoader from 'promise-loader?global,ammapCuracaoLow!ammap3/ammap/maps/js/curacaoLow.js';
-export const curacaoLow = curacaoLowLoader;
-
-import cyprusLowLoader from 'promise-loader?global,ammapCyprusLow!ammap3/ammap/maps/js/cyprusLow.js';
-export const cyprusLow = cyprusLowLoader;
-
-import cyprusNorthernCyprusLowLoader from 'promise-loader?global,ammapCyprusNorthernCyprusLow!ammap3/ammap/maps/js/cyprusNorthernCyprusLow.js';
-export const cyprusNorthernCyprusLow = cyprusNorthernCyprusLowLoader;
-
-import czechRepublicLowLoader from 'promise-loader?global,ammapCzechRepublicLow!ammap3/ammap/maps/js/czechRepublicLow.js';
-export const czechRepublicLow = czechRepublicLowLoader;
-
-import denmarkLowLoader from 'promise-loader?global,ammapDenmarkLow!ammap3/ammap/maps/js/denmarkLow.js';
-export const denmarkLow = denmarkLowLoader;
-
-import djiboutiLowLoader from 'promise-loader?global,ammapDjiboutiLow!ammap3/ammap/maps/js/djiboutiLow.js';
-export const djiboutiLow = djiboutiLowLoader;
-
-import dominicaLowLoader from 'promise-loader?global,ammapDominicaLow!ammap3/ammap/maps/js/dominicaLow.js';
-export const dominicaLow = dominicaLowLoader;
-
-import dominicanRepublicLowLoader from 'promise-loader?global,ammapDominicanRepublicLow!ammap3/ammap/maps/js/dominicanRepublicLow.js';
-export const dominicanRepublicLow = dominicanRepublicLowLoader;
-
-import eSwatiniLowLoader from 'promise-loader?global,ammapESwatiniLow!ammap3/ammap/maps/js/eSwatiniLow.js';
-export const eSwatiniLow = eSwatiniLowLoader;
-
-import eastTimorLowLoader from 'promise-loader?global,ammapEastTimorLow!ammap3/ammap/maps/js/eastTimorLow.js';
-export const eastTimorLow = eastTimorLowLoader;
-
-import ecuadorLowLoader from 'promise-loader?global,ammapEcuadorLow!ammap3/ammap/maps/js/ecuadorLow.js';
-export const ecuadorLow = ecuadorLowLoader;
-
-import egyptLowLoader from 'promise-loader?global,ammapEgyptLow!ammap3/ammap/maps/js/egyptLow.js';
-export const egyptLow = egyptLowLoader;
-
-import elSalvadorLowLoader from 'promise-loader?global,ammapElSalvadorLow!ammap3/ammap/maps/js/elSalvadorLow.js';
-export const elSalvadorLow = elSalvadorLowLoader;
-
-import equatorialGuineaLowLoader from 'promise-loader?global,ammapEquatorialGuineaLow!ammap3/ammap/maps/js/equatorialGuineaLow.js';
-export const equatorialGuineaLow = equatorialGuineaLowLoader;
-
-import eritreaLowLoader from 'promise-loader?global,ammapEritreaLow!ammap3/ammap/maps/js/eritreaLow.js';
-export const eritreaLow = eritreaLowLoader;
-
-import estoniaLowLoader from 'promise-loader?global,ammapEstoniaLow!ammap3/ammap/maps/js/estoniaLow.js';
-export const estoniaLow = estoniaLowLoader;
-
-import ethiopiaLowLoader from 'promise-loader?global,ammapEthiopiaLow!ammap3/ammap/maps/js/ethiopiaLow.js';
-export const ethiopiaLow = ethiopiaLowLoader;
-
-import falklandIslandsLowLoader from 'promise-loader?global,ammapFalklandIslandsLow!ammap3/ammap/maps/js/falklandIslandsLow.js';
-export const falklandIslandsLow = falklandIslandsLowLoader;
-
-import fijiEastLowLoader from 'promise-loader?global,ammapFijiEastLow!ammap3/ammap/maps/js/fijiEastLow.js';
-export const fijiEastLow = fijiEastLowLoader;
-
-import fijiWestLowLoader from 'promise-loader?global,ammapFijiWestLow!ammap3/ammap/maps/js/fijiWestLow.js';
-export const fijiWestLow = fijiWestLowLoader;
-
-import finlandLowLoader from 'promise-loader?global,ammapFinlandLow!ammap3/ammap/maps/js/finlandLow.js';
-export const finlandLow = finlandLowLoader;
-
-import france2016LowLoader from 'promise-loader?global,ammapFrance2016Low!ammap3/ammap/maps/js/france2016Low.js';
-export const france2016Low = france2016LowLoader;
-
-import franceDepartmentsLowLoader from 'promise-loader?global,ammapFranceDepartmentsLow!ammap3/ammap/maps/js/franceDepartmentsLow.js';
-export const franceDepartmentsLow = franceDepartmentsLowLoader;
-
-import franceLowLoader from 'promise-loader?global,ammapFranceLow!ammap3/ammap/maps/js/franceLow.js';
-export const franceLow = franceLowLoader;
-
-import frenchGuianaLowLoader from 'promise-loader?global,ammapFrenchGuianaLow!ammap3/ammap/maps/js/frenchGuianaLow.js';
-export const frenchGuianaLow = frenchGuianaLowLoader;
-
-import frenchPolynesiaLowLoader from 'promise-loader?global,ammapFrenchPolynesiaLow!ammap3/ammap/maps/js/frenchPolynesiaLow.js';
-export const frenchPolynesiaLow = frenchPolynesiaLowLoader;
-
-import gabonLowLoader from 'promise-loader?global,ammapGabonLow!ammap3/ammap/maps/js/gabonLow.js';
-export const gabonLow = gabonLowLoader;
-
-import gambiaLowLoader from 'promise-loader?global,ammapGambiaLow!ammap3/ammap/maps/js/gambiaLow.js';
-export const gambiaLow = gambiaLowLoader;
-
-import georgiaLowLoader from 'promise-loader?global,ammapGeorgiaLow!ammap3/ammap/maps/js/georgiaLow.js';
-export const georgiaLow = georgiaLowLoader;
-
-import georgiaSouthOssetiaLowLoader from 'promise-loader?global,ammapGeorgiaSouthOssetiaLow!ammap3/ammap/maps/js/georgiaSouthOssetiaLow.js';
-export const georgiaSouthOssetiaLow = georgiaSouthOssetiaLowLoader;
-
-import germanyLowLoader from 'promise-loader?global,ammapGermanyLow!ammap3/ammap/maps/js/germanyLow.js';
-export const germanyLow = germanyLowLoader;
-
-import ghanaLowLoader from 'promise-loader?global,ammapGhanaLow!ammap3/ammap/maps/js/ghanaLow.js';
-export const ghanaLow = ghanaLowLoader;
-
-import gibraltarLowLoader from 'promise-loader?global,ammapGibraltarLow!ammap3/ammap/maps/js/gibraltarLow.js';
-export const gibraltarLow = gibraltarLowLoader;
-
-import greeceLowLoader from 'promise-loader?global,ammapGreeceLow!ammap3/ammap/maps/js/greeceLow.js';
-export const greeceLow = greeceLowLoader;
-
-import greenlandLowLoader from 'promise-loader?global,ammapGreenlandLow!ammap3/ammap/maps/js/greenlandLow.js';
-export const greenlandLow = greenlandLowLoader;
-
-import grenadaLowLoader from 'promise-loader?global,ammapGrenadaLow!ammap3/ammap/maps/js/grenadaLow.js';
-export const grenadaLow = grenadaLowLoader;
-
-import guadeloupeLowLoader from 'promise-loader?global,ammapGuadeloupeLow!ammap3/ammap/maps/js/guadeloupeLow.js';
-export const guadeloupeLow = guadeloupeLowLoader;
-
-import guamLowLoader from 'promise-loader?global,ammapGuamLow!ammap3/ammap/maps/js/guamLow.js';
-export const guamLow = guamLowLoader;
-
-import guatemalaLowLoader from 'promise-loader?global,ammapGuatemalaLow!ammap3/ammap/maps/js/guatemalaLow.js';
-export const guatemalaLow = guatemalaLowLoader;
-
-import guineaBissauLowLoader from 'promise-loader?global,ammapGuineaBissauLow!ammap3/ammap/maps/js/guineaBissauLow.js';
-export const guineaBissauLow = guineaBissauLowLoader;
-
-import guineaLowLoader from 'promise-loader?global,ammapGuineaLow!ammap3/ammap/maps/js/guineaLow.js';
-export const guineaLow = guineaLowLoader;
-
-import guyanaLowLoader from 'promise-loader?global,ammapGuyanaLow!ammap3/ammap/maps/js/guyanaLow.js';
-export const guyanaLow = guyanaLowLoader;
-
-import haitiLowLoader from 'promise-loader?global,ammapHaitiLow!ammap3/ammap/maps/js/haitiLow.js';
-export const haitiLow = haitiLowLoader;
-
-import hondurasLowLoader from 'promise-loader?global,ammapHondurasLow!ammap3/ammap/maps/js/hondurasLow.js';
-export const hondurasLow = hondurasLowLoader;
-
-import hongKongLowLoader from 'promise-loader?global,ammapHongKongLow!ammap3/ammap/maps/js/hongKongLow.js';
-export const hongKongLow = hongKongLowLoader;
-
-import hungaryLowLoader from 'promise-loader?global,ammapHungaryLow!ammap3/ammap/maps/js/hungaryLow.js';
-export const hungaryLow = hungaryLowLoader;
-
-import icelandLowLoader from 'promise-loader?global,ammapIcelandLow!ammap3/ammap/maps/js/icelandLow.js';
-export const icelandLow = icelandLowLoader;
-
-import indiaLowLoader from 'promise-loader?global,ammapIndiaLow!ammap3/ammap/maps/js/indiaLow.js';
-export const indiaLow = indiaLowLoader;
-
-import indonesiaLowLoader from 'promise-loader?global,ammapIndonesiaLow!ammap3/ammap/maps/js/indonesiaLow.js';
-export const indonesiaLow = indonesiaLowLoader;
-
-import iranLowLoader from 'promise-loader?global,ammapIranLow!ammap3/ammap/maps/js/iranLow.js';
-export const iranLow = iranLowLoader;
-
-import iraqLowLoader from 'promise-loader?global,ammapIraqLow!ammap3/ammap/maps/js/iraqLow.js';
-export const iraqLow = iraqLowLoader;
-
-import irelandLowLoader from 'promise-loader?global,ammapIrelandLow!ammap3/ammap/maps/js/irelandLow.js';
-export const irelandLow = irelandLowLoader;
-
-import isleOfManLowLoader from 'promise-loader?global,ammapIsleOfManLow!ammap3/ammap/maps/js/isleOfManLow.js';
-export const isleOfManLow = isleOfManLowLoader;
-
-import israelLowLoader from 'promise-loader?global,ammapIsraelLow!ammap3/ammap/maps/js/israelLow.js';
-export const israelLow = israelLowLoader;
-
-import israelPalestineLowLoader from 'promise-loader?global,ammapIsraelPalestineLow!ammap3/ammap/maps/js/israelPalestineLow.js';
-export const israelPalestineLow = israelPalestineLowLoader;
-
-import italyLowLoader from 'promise-loader?global,ammapItalyLow!ammap3/ammap/maps/js/italyLow.js';
-export const italyLow = italyLowLoader;
-
-import ivoryCoastLowLoader from 'promise-loader?global,ammapIvoryCoastLow!ammap3/ammap/maps/js/ivoryCoastLow.js';
-export const ivoryCoastLow = ivoryCoastLowLoader;
-
-import jamaicaLowLoader from 'promise-loader?global,ammapJamaicaLow!ammap3/ammap/maps/js/jamaicaLow.js';
-export const jamaicaLow = jamaicaLowLoader;
-
-import japanLowLoader from 'promise-loader?global,ammapJapanLow!ammap3/ammap/maps/js/japanLow.js';
-export const japanLow = japanLowLoader;
-
-import jerseyLowLoader from 'promise-loader?global,ammapJerseyLow!ammap3/ammap/maps/js/jerseyLow.js';
-export const jerseyLow = jerseyLowLoader;
-
-import jordanLowLoader from 'promise-loader?global,ammapJordanLow!ammap3/ammap/maps/js/jordanLow.js';
-export const jordanLow = jordanLowLoader;
-
-import kazakhstanLowLoader from 'promise-loader?global,ammapKazakhstanLow!ammap3/ammap/maps/js/kazakhstanLow.js';
-export const kazakhstanLow = kazakhstanLowLoader;
-
-import kenyaLowLoader from 'promise-loader?global,ammapKenyaLow!ammap3/ammap/maps/js/kenyaLow.js';
-export const kenyaLow = kenyaLowLoader;
-
-import kiribatiLowLoader from 'promise-loader?global,ammapKiribatiLow!ammap3/ammap/maps/js/kiribatiLow.js';
-export const kiribatiLow = kiribatiLowLoader;
-
-import kosovoLowLoader from 'promise-loader?global,ammapKosovoLow!ammap3/ammap/maps/js/kosovoLow.js';
-export const kosovoLow = kosovoLowLoader;
-
-import kuwaitLowLoader from 'promise-loader?global,ammapKuwaitLow!ammap3/ammap/maps/js/kuwaitLow.js';
-export const kuwaitLow = kuwaitLowLoader;
-
-import kyrgyzstanLowLoader from 'promise-loader?global,ammapKyrgyzstanLow!ammap3/ammap/maps/js/kyrgyzstanLow.js';
-export const kyrgyzstanLow = kyrgyzstanLowLoader;
-
-import laosLowLoader from 'promise-loader?global,ammapLaosLow!ammap3/ammap/maps/js/laosLow.js';
-export const laosLow = laosLowLoader;
-
-import latviaLowLoader from 'promise-loader?global,ammapLatviaLow!ammap3/ammap/maps/js/latviaLow.js';
-export const latviaLow = latviaLowLoader;
-
-import lebanonLowLoader from 'promise-loader?global,ammapLebanonLow!ammap3/ammap/maps/js/lebanonLow.js';
-export const lebanonLow = lebanonLowLoader;
-
-import lesothoLowLoader from 'promise-loader?global,ammapLesothoLow!ammap3/ammap/maps/js/lesothoLow.js';
-export const lesothoLow = lesothoLowLoader;
-
-import liberiaLowLoader from 'promise-loader?global,ammapLiberiaLow!ammap3/ammap/maps/js/liberiaLow.js';
-export const liberiaLow = liberiaLowLoader;
-
-import libyaLowLoader from 'promise-loader?global,ammapLibyaLow!ammap3/ammap/maps/js/libyaLow.js';
-export const libyaLow = libyaLowLoader;
-
-import lithuaniaLowLoader from 'promise-loader?global,ammapLithuaniaLow!ammap3/ammap/maps/js/lithuaniaLow.js';
-export const lithuaniaLow = lithuaniaLowLoader;
-
-import luxembourgLowLoader from 'promise-loader?global,ammapLuxembourgLow!ammap3/ammap/maps/js/luxembourgLow.js';
-export const luxembourgLow = luxembourgLowLoader;
-
-import macaoLowLoader from 'promise-loader?global,ammapMacaoLow!ammap3/ammap/maps/js/macaoLow.js';
-export const macaoLow = macaoLowLoader;
-
-import macedoniaLowLoader from 'promise-loader?global,ammapMacedoniaLow!ammap3/ammap/maps/js/macedoniaLow.js';
-export const macedoniaLow = macedoniaLowLoader;
-
-import madagascarLowLoader from 'promise-loader?global,ammapMadagascarLow!ammap3/ammap/maps/js/madagascarLow.js';
-export const madagascarLow = madagascarLowLoader;
-
-import malawiLowLoader from 'promise-loader?global,ammapMalawiLow!ammap3/ammap/maps/js/malawiLow.js';
-export const malawiLow = malawiLowLoader;
-
-import malaysiaLowLoader from 'promise-loader?global,ammapMalaysiaLow!ammap3/ammap/maps/js/malaysiaLow.js';
-export const malaysiaLow = malaysiaLowLoader;
-
-import maldivesLowLoader from 'promise-loader?global,ammapMaldivesLow!ammap3/ammap/maps/js/maldivesLow.js';
-export const maldivesLow = maldivesLowLoader;
-
-import maliLowLoader from 'promise-loader?global,ammapMaliLow!ammap3/ammap/maps/js/maliLow.js';
-export const maliLow = maliLowLoader;
-
-import marshallIslandsLowLoader from 'promise-loader?global,ammapMarshallIslandsLow!ammap3/ammap/maps/js/marshallIslandsLow.js';
-export const marshallIslandsLow = marshallIslandsLowLoader;
-
-import martiniqueLowLoader from 'promise-loader?global,ammapMartiniqueLow!ammap3/ammap/maps/js/martiniqueLow.js';
-export const martiniqueLow = martiniqueLowLoader;
-
-import mauritaniaLowLoader from 'promise-loader?global,ammapMauritaniaLow!ammap3/ammap/maps/js/mauritaniaLow.js';
-export const mauritaniaLow = mauritaniaLowLoader;
-
-import mauritiusLowLoader from 'promise-loader?global,ammapMauritiusLow!ammap3/ammap/maps/js/mauritiusLow.js';
-export const mauritiusLow = mauritiusLowLoader;
-
-import mayotteLowLoader from 'promise-loader?global,ammapMayotteLow!ammap3/ammap/maps/js/mayotteLow.js';
-export const mayotteLow = mayotteLowLoader;
-
-import mexicoLowLoader from 'promise-loader?global,ammapMexicoLow!ammap3/ammap/maps/js/mexicoLow.js';
-export const mexicoLow = mexicoLowLoader;
-
-import micronesiaLowLoader from 'promise-loader?global,ammapMicronesiaLow!ammap3/ammap/maps/js/micronesiaLow.js';
-export const micronesiaLow = micronesiaLowLoader;
-
-import moldovaLowLoader from 'promise-loader?global,ammapMoldovaLow!ammap3/ammap/maps/js/moldovaLow.js';
-export const moldovaLow = moldovaLowLoader;
-
-import monacoLowLoader from 'promise-loader?global,ammapMonacoLow!ammap3/ammap/maps/js/monacoLow.js';
-export const monacoLow = monacoLowLoader;
-
-import mongoliaLowLoader from 'promise-loader?global,ammapMongoliaLow!ammap3/ammap/maps/js/mongoliaLow.js';
-export const mongoliaLow = mongoliaLowLoader;
-
-import montenegroLowLoader from 'promise-loader?global,ammapMontenegroLow!ammap3/ammap/maps/js/montenegroLow.js';
-export const montenegroLow = montenegroLowLoader;
-
-import montserratLowLoader from 'promise-loader?global,ammapMontserratLow!ammap3/ammap/maps/js/montserratLow.js';
-export const montserratLow = montserratLowLoader;
-
-import moroccoLowLoader from 'promise-loader?global,ammapMoroccoLow!ammap3/ammap/maps/js/moroccoLow.js';
-export const moroccoLow = moroccoLowLoader;
-
-import moroccoWesternSaharaLowLoader from 'promise-loader?global,ammapMoroccoWesternSaharaLow!ammap3/ammap/maps/js/moroccoWesternSaharaLow.js';
-export const moroccoWesternSaharaLow = moroccoWesternSaharaLowLoader;
-
-import mozambiqueLowLoader from 'promise-loader?global,ammapMozambiqueLow!ammap3/ammap/maps/js/mozambiqueLow.js';
-export const mozambiqueLow = mozambiqueLowLoader;
-
-import myanmarLowLoader from 'promise-loader?global,ammapMyanmarLow!ammap3/ammap/maps/js/myanmarLow.js';
-export const myanmarLow = myanmarLowLoader;
-
-import namibiaLowLoader from 'promise-loader?global,ammapNamibiaLow!ammap3/ammap/maps/js/namibiaLow.js';
-export const namibiaLow = namibiaLowLoader;
-
-import nauruLowLoader from 'promise-loader?global,ammapNauruLow!ammap3/ammap/maps/js/nauruLow.js';
-export const nauruLow = nauruLowLoader;
-
-import nepalLowLoader from 'promise-loader?global,ammapNepalLow!ammap3/ammap/maps/js/nepalLow.js';
-export const nepalLow = nepalLowLoader;
-
-import netherlandsLowLoader from 'promise-loader?global,ammapNetherlandsLow!ammap3/ammap/maps/js/netherlandsLow.js';
-export const netherlandsLow = netherlandsLowLoader;
-
-import newCaledoniaLowLoader from 'promise-loader?global,ammapNewCaledoniaLow!ammap3/ammap/maps/js/newCaledoniaLow.js';
-export const newCaledoniaLow = newCaledoniaLowLoader;
-
-import newZealandLowLoader from 'promise-loader?global,ammapNewZealandLow!ammap3/ammap/maps/js/newZealandLow.js';
-export const newZealandLow = newZealandLowLoader;
-
-import nicaraguaLowLoader from 'promise-loader?global,ammapNicaraguaLow!ammap3/ammap/maps/js/nicaraguaLow.js';
-export const nicaraguaLow = nicaraguaLowLoader;
-
-import nigerLowLoader from 'promise-loader?global,ammapNigerLow!ammap3/ammap/maps/js/nigerLow.js';
-export const nigerLow = nigerLowLoader;
-
-import nigeriaLowLoader from 'promise-loader?global,ammapNigeriaLow!ammap3/ammap/maps/js/nigeriaLow.js';
-export const nigeriaLow = nigeriaLowLoader;
-
-import niueLowLoader from 'promise-loader?global,ammapNiueLow!ammap3/ammap/maps/js/niueLow.js';
-export const niueLow = niueLowLoader;
-
-import northKoreaLowLoader from 'promise-loader?global,ammapNorthKoreaLow!ammap3/ammap/maps/js/northKoreaLow.js';
-export const northKoreaLow = northKoreaLowLoader;
-
-import northernMarianaIslandsLowLoader from 'promise-loader?global,ammapNorthernMarianaIslandsLow!ammap3/ammap/maps/js/northernMarianaIslandsLow.js';
-export const northernMarianaIslandsLow = northernMarianaIslandsLowLoader;
-
-import norwayLowLoader from 'promise-loader?global,ammapNorwayLow!ammap3/ammap/maps/js/norwayLow.js';
-export const norwayLow = norwayLowLoader;
-
-import omanLowLoader from 'promise-loader?global,ammapOmanLow!ammap3/ammap/maps/js/omanLow.js';
-export const omanLow = omanLowLoader;
-
-import pakistanLowLoader from 'promise-loader?global,ammapPakistanLow!ammap3/ammap/maps/js/pakistanLow.js';
-export const pakistanLow = pakistanLowLoader;
-
-import palauLowLoader from 'promise-loader?global,ammapPalauLow!ammap3/ammap/maps/js/palauLow.js';
-export const palauLow = palauLowLoader;
-
-import palestineLowLoader from 'promise-loader?global,ammapPalestineLow!ammap3/ammap/maps/js/palestineLow.js';
-export const palestineLow = palestineLowLoader;
-
-import panamaLowLoader from 'promise-loader?global,ammapPanamaLow!ammap3/ammap/maps/js/panamaLow.js';
-export const panamaLow = panamaLowLoader;
-
-import papuaNewGuineaLowLoader from 'promise-loader?global,ammapPapuaNewGuineaLow!ammap3/ammap/maps/js/papuaNewGuineaLow.js';
-export const papuaNewGuineaLow = papuaNewGuineaLowLoader;
-
-import paraguayLowLoader from 'promise-loader?global,ammapParaguayLow!ammap3/ammap/maps/js/paraguayLow.js';
-export const paraguayLow = paraguayLowLoader;
-
-import peruLowLoader from 'promise-loader?global,ammapPeruLow!ammap3/ammap/maps/js/peruLow.js';
-export const peruLow = peruLowLoader;
-
-import philippinesLowLoader from 'promise-loader?global,ammapPhilippinesLow!ammap3/ammap/maps/js/philippinesLow.js';
-export const philippinesLow = philippinesLowLoader;
-
-import pitcairnIslandsLowLoader from 'promise-loader?global,ammapPitcairnIslandsLow!ammap3/ammap/maps/js/pitcairnIslandsLow.js';
-export const pitcairnIslandsLow = pitcairnIslandsLowLoader;
-
-import polandLowLoader from 'promise-loader?global,ammapPolandLow!ammap3/ammap/maps/js/polandLow.js';
-export const polandLow = polandLowLoader;
-
-import portugalLowLoader from 'promise-loader?global,ammapPortugalLow!ammap3/ammap/maps/js/portugalLow.js';
-export const portugalLow = portugalLowLoader;
-
-import portugalRegionsLowLoader from 'promise-loader?global,ammapPortugalRegionsLow!ammap3/ammap/maps/js/portugalRegionsLow.js';
-export const portugalRegionsLow = portugalRegionsLowLoader;
-
-import puertoRicoLowLoader from 'promise-loader?global,ammapPuertoRicoLow!ammap3/ammap/maps/js/puertoRicoLow.js';
-export const puertoRicoLow = puertoRicoLowLoader;
-
-import qatarLowLoader from 'promise-loader?global,ammapQatarLow!ammap3/ammap/maps/js/qatarLow.js';
-export const qatarLow = qatarLowLoader;
-
-import reunionLowLoader from 'promise-loader?global,ammapReunionLow!ammap3/ammap/maps/js/reunionLow.js';
-export const reunionLow = reunionLowLoader;
-
-import romaniaLowLoader from 'promise-loader?global,ammapRomaniaLow!ammap3/ammap/maps/js/romaniaLow.js';
-export const romaniaLow = romaniaLowLoader;
-
-import russiaLowLoader from 'promise-loader?global,ammapRussiaLow!ammap3/ammap/maps/js/russiaLow.js';
-export const russiaLow = russiaLowLoader;
-
-import rwandaLowLoader from 'promise-loader?global,ammapRwandaLow!ammap3/ammap/maps/js/rwandaLow.js';
-export const rwandaLow = rwandaLowLoader;
-
-import saintMartinLowLoader from 'promise-loader?global,ammapSaintMartinLow!ammap3/ammap/maps/js/saintMartinLow.js';
-export const saintMartinLow = saintMartinLowLoader;
-
-import sanMarinoLowLoader from 'promise-loader?global,ammapSanMarinoLow!ammap3/ammap/maps/js/sanMarinoLow.js';
-export const sanMarinoLow = sanMarinoLowLoader;
-
-import saudiArabiaLowLoader from 'promise-loader?global,ammapSaudiArabiaLow!ammap3/ammap/maps/js/saudiArabiaLow.js';
-export const saudiArabiaLow = saudiArabiaLowLoader;
-
-import senegalLowLoader from 'promise-loader?global,ammapSenegalLow!ammap3/ammap/maps/js/senegalLow.js';
-export const senegalLow = senegalLowLoader;
-
-import serbiaLowLoader from 'promise-loader?global,ammapSerbiaLow!ammap3/ammap/maps/js/serbiaLow.js';
-export const serbiaLow = serbiaLowLoader;
-
-import serbiaNoKosovoLowLoader from 'promise-loader?global,ammapSerbiaNoKosovoLow!ammap3/ammap/maps/js/serbiaNoKosovoLow.js';
-export const serbiaNoKosovoLow = serbiaNoKosovoLowLoader;
-
-import seychellesLowLoader from 'promise-loader?global,ammapSeychellesLow!ammap3/ammap/maps/js/seychellesLow.js';
-export const seychellesLow = seychellesLowLoader;
-
-import sierraLeoneLowLoader from 'promise-loader?global,ammapSierraLeoneLow!ammap3/ammap/maps/js/sierraLeoneLow.js';
-export const sierraLeoneLow = sierraLeoneLowLoader;
-
-import singaporeLowLoader from 'promise-loader?global,ammapSingaporeLow!ammap3/ammap/maps/js/singaporeLow.js';
-export const singaporeLow = singaporeLowLoader;
-
-import sintMaartenLowLoader from 'promise-loader?global,ammapSintMaartenLow!ammap3/ammap/maps/js/sintMaartenLow.js';
-export const sintMaartenLow = sintMaartenLowLoader;
-
-import slovakiaLowLoader from 'promise-loader?global,ammapSlovakiaLow!ammap3/ammap/maps/js/slovakiaLow.js';
-export const slovakiaLow = slovakiaLowLoader;
-
-import sloveniaLowLoader from 'promise-loader?global,ammapSloveniaLow!ammap3/ammap/maps/js/sloveniaLow.js';
-export const sloveniaLow = sloveniaLowLoader;
-
-import solomonIslandsLowLoader from 'promise-loader?global,ammapSolomonIslandsLow!ammap3/ammap/maps/js/solomonIslandsLow.js';
-export const solomonIslandsLow = solomonIslandsLowLoader;
-
-import somaliaLowLoader from 'promise-loader?global,ammapSomaliaLow!ammap3/ammap/maps/js/somaliaLow.js';
-export const somaliaLow = somaliaLowLoader;
-
-import southAfricaLowLoader from 'promise-loader?global,ammapSouthAfricaLow!ammap3/ammap/maps/js/southAfricaLow.js';
-export const southAfricaLow = southAfricaLowLoader;
-
-import southKoreaLowLoader from 'promise-loader?global,ammapSouthKoreaLow!ammap3/ammap/maps/js/southKoreaLow.js';
-export const southKoreaLow = southKoreaLowLoader;
-
-import southSudanLowLoader from 'promise-loader?global,ammapSouthSudanLow!ammap3/ammap/maps/js/southSudanLow.js';
-export const southSudanLow = southSudanLowLoader;
-
-import spain2LowLoader from 'promise-loader?global,ammapSpain2Low!ammap3/ammap/maps/js/spain2Low.js';
-export const spain2Low = spain2LowLoader;
-
-import spainLowLoader from 'promise-loader?global,ammapSpainLow!ammap3/ammap/maps/js/spainLow.js';
-export const spainLow = spainLowLoader;
-
-import spainProvincesLowLoader from 'promise-loader?global,ammapSpainProvincesLow!ammap3/ammap/maps/js/spainProvincesLow.js';
-export const spainProvincesLow = spainProvincesLowLoader;
-
-import sriLankaLowLoader from 'promise-loader?global,ammapSriLankaLow!ammap3/ammap/maps/js/sriLankaLow.js';
-export const sriLankaLow = sriLankaLowLoader;
-
-import stHelenaLowLoader from 'promise-loader?global,ammapStHelenaLow!ammap3/ammap/maps/js/stHelenaLow.js';
-export const stHelenaLow = stHelenaLowLoader;
-
-import stKittsNevisLowLoader from 'promise-loader?global,ammapStKittsNevisLow!ammap3/ammap/maps/js/stKittsNevisLow.js';
-export const stKittsNevisLow = stKittsNevisLowLoader;
-
-import stLuciaLowLoader from 'promise-loader?global,ammapStLuciaLow!ammap3/ammap/maps/js/stLuciaLow.js';
-export const stLuciaLow = stLuciaLowLoader;
-
-import sudanLowLoader from 'promise-loader?global,ammapSudanLow!ammap3/ammap/maps/js/sudanLow.js';
-export const sudanLow = sudanLowLoader;
-
-import surinameLowLoader from 'promise-loader?global,ammapSurinameLow!ammap3/ammap/maps/js/surinameLow.js';
-export const surinameLow = surinameLowLoader;
-
-import swazilandLowLoader from 'promise-loader?global,ammapSwazilandLow!ammap3/ammap/maps/js/swazilandLow.js';
-export const swazilandLow = swazilandLowLoader;
-
-import swedenLowLoader from 'promise-loader?global,ammapSwedenLow!ammap3/ammap/maps/js/swedenLow.js';
-export const swedenLow = swedenLowLoader;
-
-import switzerlandLowLoader from 'promise-loader?global,ammapSwitzerlandLow!ammap3/ammap/maps/js/switzerlandLow.js';
-export const switzerlandLow = switzerlandLowLoader;
-
-import syriaLowLoader from 'promise-loader?global,ammapSyriaLow!ammap3/ammap/maps/js/syriaLow.js';
-export const syriaLow = syriaLowLoader;
-
-import taiwanLowLoader from 'promise-loader?global,ammapTaiwanLow!ammap3/ammap/maps/js/taiwanLow.js';
-export const taiwanLow = taiwanLowLoader;
-
-import tajikistanLowLoader from 'promise-loader?global,ammapTajikistanLow!ammap3/ammap/maps/js/tajikistanLow.js';
-export const tajikistanLow = tajikistanLowLoader;
-
-import tanzaniaLowLoader from 'promise-loader?global,ammapTanzaniaLow!ammap3/ammap/maps/js/tanzaniaLow.js';
-export const tanzaniaLow = tanzaniaLowLoader;
-
-import thailandLowLoader from 'promise-loader?global,ammapThailandLow!ammap3/ammap/maps/js/thailandLow.js';
-export const thailandLow = thailandLowLoader;
-
-import tibetLowLoader from 'promise-loader?global,ammapTibetLow!ammap3/ammap/maps/js/tibetLow.js';
-export const tibetLow = tibetLowLoader;
-
-import togoLowLoader from 'promise-loader?global,ammapTogoLow!ammap3/ammap/maps/js/togoLow.js';
-export const togoLow = togoLowLoader;
-
-import tokelauLowLoader from 'promise-loader?global,ammapTokelauLow!ammap3/ammap/maps/js/tokelauLow.js';
-export const tokelauLow = tokelauLowLoader;
-
-import tongaLowLoader from 'promise-loader?global,ammapTongaLow!ammap3/ammap/maps/js/tongaLow.js';
-export const tongaLow = tongaLowLoader;
-
-import trinidadAndTobagoLowLoader from 'promise-loader?global,ammapTrinidadAndTobagoLow!ammap3/ammap/maps/js/trinidadAndTobagoLow.js';
-export const trinidadAndTobagoLow = trinidadAndTobagoLowLoader;
-
-import tunisiaLowLoader from 'promise-loader?global,ammapTunisiaLow!ammap3/ammap/maps/js/tunisiaLow.js';
-export const tunisiaLow = tunisiaLowLoader;
-
-import turkeyLowLoader from 'promise-loader?global,ammapTurkeyLow!ammap3/ammap/maps/js/turkeyLow.js';
-export const turkeyLow = turkeyLowLoader;
-
-import turkmenistanLowLoader from 'promise-loader?global,ammapTurkmenistanLow!ammap3/ammap/maps/js/turkmenistanLow.js';
-export const turkmenistanLow = turkmenistanLowLoader;
-
-import turksCaicosIslandsLowLoader from 'promise-loader?global,ammapTurksCaicosIslandsLow!ammap3/ammap/maps/js/turksCaicosIslandsLow.js';
-export const turksCaicosIslandsLow = turksCaicosIslandsLowLoader;
-
-import tuvaluLowLoader from 'promise-loader?global,ammapTuvaluLow!ammap3/ammap/maps/js/tuvaluLow.js';
-export const tuvaluLow = tuvaluLowLoader;
-
-import ugandaLowLoader from 'promise-loader?global,ammapUgandaLow!ammap3/ammap/maps/js/ugandaLow.js';
-export const ugandaLow = ugandaLowLoader;
-
-import ukraineLowLoader from 'promise-loader?global,ammapUkraineLow!ammap3/ammap/maps/js/ukraineLow.js';
-export const ukraineLow = ukraineLowLoader;
-
-import unRegionsLowLoader from 'promise-loader?global,ammapUnRegionsLow!ammap3/ammap/maps/js/unRegionsLow.js';
-export const unRegionsLow = unRegionsLowLoader;
-
-import unitedArabEmiratesLowLoader from 'promise-loader?global,ammapUnitedArabEmiratesLow!ammap3/ammap/maps/js/unitedArabEmiratesLow.js';
-export const unitedArabEmiratesLow = unitedArabEmiratesLowLoader;
-
-import unitedKingdomLowLoader from 'promise-loader?global,ammapUnitedKingdomLow!ammap3/ammap/maps/js/unitedKingdomLow.js';
-export const unitedKingdomLow = unitedKingdomLowLoader;
-
-import uruguayLowLoader from 'promise-loader?global,ammapUruguayLow!ammap3/ammap/maps/js/uruguayLow.js';
-export const uruguayLow = uruguayLowLoader;
-
-import usVirginIslandsLowLoader from 'promise-loader?global,ammapUsVirginIslandsLow!ammap3/ammap/maps/js/usVirginIslandsLow.js';
-export const usVirginIslandsLow = usVirginIslandsLowLoader;
-
-import usa2LowLoader from 'promise-loader?global,ammapUsa2Low!ammap3/ammap/maps/js/usa2Low.js';
-export const usa2Low = usa2LowLoader;
-
-import usaMercatorLowLoader from 'promise-loader?global,ammapUsaMercatorLow!ammap3/ammap/maps/js/usaMercatorLow.js';
-export const usaMercatorLow = usaMercatorLowLoader;
-
-import usaTerritories2LowLoader from 'promise-loader?global,ammapUsaTerritories2Low!ammap3/ammap/maps/js/usaTerritories2Low.js';
-export const usaTerritories2Low = usaTerritories2LowLoader;
-
-import usaTerritoriesLowLoader from 'promise-loader?global,ammapUsaTerritoriesLow!ammap3/ammap/maps/js/usaTerritoriesLow.js';
-export const usaTerritoriesLow = usaTerritoriesLowLoader;
-
-import uzbekistanLowLoader from 'promise-loader?global,ammapUzbekistanLow!ammap3/ammap/maps/js/uzbekistanLow.js';
-export const uzbekistanLow = uzbekistanLowLoader;
-
-import vanuatuLowLoader from 'promise-loader?global,ammapVanuatuLow!ammap3/ammap/maps/js/vanuatuLow.js';
-export const vanuatuLow = vanuatuLowLoader;
-
-import venezuelaLowLoader from 'promise-loader?global,ammapVenezuelaLow!ammap3/ammap/maps/js/venezuelaLow.js';
-export const venezuelaLow = venezuelaLowLoader;
-
-import vietnamLowLoader from 'promise-loader?global,ammapVietnamLow!ammap3/ammap/maps/js/vietnamLow.js';
-export const vietnamLow = vietnamLowLoader;
-
-import wallisFutunaLowLoader from 'promise-loader?global,ammapWallisFutunaLow!ammap3/ammap/maps/js/wallisFutunaLow.js';
-export const wallisFutunaLow = wallisFutunaLowLoader;
-
-import yemenLowLoader from 'promise-loader?global,ammapYemenLow!ammap3/ammap/maps/js/yemenLow.js';
-export const yemenLow = yemenLowLoader;
-
-import zambiaLowLoader from 'promise-loader?global,ammapZambiaLow!ammap3/ammap/maps/js/zambiaLow.js';
-export const zambiaLow = zambiaLowLoader;
-
-import zimbabweLowLoader from 'promise-loader?global,ammapZimbabweLow!ammap3/ammap/maps/js/zimbabweLow.js';
-export const zimbabweLow = zimbabweLowLoader;
+// This file content is generated.
+// Execute build/buildAmMapMapLoaders.js and copy the result into this file
+
+import getAd from 'promise-loader?global,getAdAmMap!ammap3/ammap/maps/js/andorraLow.js';
+import getAe from 'promise-loader?global,getAeAmMap!ammap3/ammap/maps/js/unitedArabEmiratesLow.js';
+import getAf from 'promise-loader?global,getAfAmMap!ammap3/ammap/maps/js/afghanistanLow.js';
+import getAg from 'promise-loader?global,getAgAmMap!ammap3/ammap/maps/js/antiguaBarbudaLow.js';
+import getAi from 'promise-loader?global,getAiAmMap!ammap3/ammap/maps/js/anguillaLow.js';
+import getAl from 'promise-loader?global,getAlAmMap!ammap3/ammap/maps/js/albaniaLow.js';
+import getAm from 'promise-loader?global,getAmAmMap!ammap3/ammap/maps/js/azerbaijanLow.js';
+import getAo from 'promise-loader?global,getAoAmMap!ammap3/ammap/maps/js/angolaLow.js';
+import getAr from 'promise-loader?global,getArAmMap!ammap3/ammap/maps/js/argentinaLow.js';
+import getAs from 'promise-loader?global,getAsAmMap!ammap3/ammap/maps/js/americanSamoaLow.js';
+import getAt from 'promise-loader?global,getAtAmMap!ammap3/ammap/maps/js/austriaLow.js';
+import getAu from 'promise-loader?global,getAuAmMap!ammap3/ammap/maps/js/australiaLow.js';
+import getBa from 'promise-loader?global,getBaAmMap!ammap3/ammap/maps/js/bosniaHerzegovinaRegionsLow.js';
+import getBb from 'promise-loader?global,getBbAmMap!ammap3/ammap/maps/js/barbadosLow.js';
+import getBd from 'promise-loader?global,getBdAmMap!ammap3/ammap/maps/js/bangladeshLow.js';
+import getBe from 'promise-loader?global,getBeAmMap!ammap3/ammap/maps/js/belgiumLow.js';
+import getBf from 'promise-loader?global,getBfAmMap!ammap3/ammap/maps/js/burkinaFasoLow.js';
+import getBg from 'promise-loader?global,getBgAmMap!ammap3/ammap/maps/js/bulgariaLow.js';
+import getBh from 'promise-loader?global,getBhAmMap!ammap3/ammap/maps/js/bahrainLow.js';
+import getBi from 'promise-loader?global,getBiAmMap!ammap3/ammap/maps/js/burundiLow.js';
+import getBj from 'promise-loader?global,getBjAmMap!ammap3/ammap/maps/js/beninLow.js';
+import getBn from 'promise-loader?global,getBnAmMap!ammap3/ammap/maps/js/bruneiDarussalamLow.js';
+import getBo from 'promise-loader?global,getBoAmMap!ammap3/ammap/maps/js/boliviaLow.js';
+import getBq from 'promise-loader?global,getBqAmMap!ammap3/ammap/maps/js/caribbeanNetherlandsLow.js';
+import getBr from 'promise-loader?global,getBrAmMap!ammap3/ammap/maps/js/brazilLow.js';
+import getBs from 'promise-loader?global,getBsAmMap!ammap3/ammap/maps/js/bahamasLow.js';
+import getBt from 'promise-loader?global,getBtAmMap!ammap3/ammap/maps/js/bhutanLow.js';
+import getBw from 'promise-loader?global,getBwAmMap!ammap3/ammap/maps/js/botswanaLow.js';
+import getBy from 'promise-loader?global,getByAmMap!ammap3/ammap/maps/js/belarusLow.js';
+import getBz from 'promise-loader?global,getBzAmMap!ammap3/ammap/maps/js/belizeLow.js';
+import getCa from 'promise-loader?global,getCaAmMap!ammap3/ammap/maps/js/canadaLow.js';
+import getCd from 'promise-loader?global,getCdAmMap!ammap3/ammap/maps/js/congoDRLow.js';
+import getCf from 'promise-loader?global,getCfAmMap!ammap3/ammap/maps/js/centralAfricanRepublicLow.js';
+import getCg from 'promise-loader?global,getCgAmMap!ammap3/ammap/maps/js/congoLow.js';
+import getCh from 'promise-loader?global,getChAmMap!ammap3/ammap/maps/js/switzerlandLow.js';
+import getCi from 'promise-loader?global,getCiAmMap!ammap3/ammap/maps/js/ivoryCoastLow.js';
+import getCk from 'promise-loader?global,getCkAmMap!ammap3/ammap/maps/js/cookIslandsLow.js';
+import getCl from 'promise-loader?global,getClAmMap!ammap3/ammap/maps/js/chileLow.js';
+import getCm from 'promise-loader?global,getCmAmMap!ammap3/ammap/maps/js/cameroonLow.js';
+import getCn from 'promise-loader?global,getCnAmMap!ammap3/ammap/maps/js/chinaLow.js';
+import getCo from 'promise-loader?global,getCoAmMap!ammap3/ammap/maps/js/colombiaLow.js';
+import getCr from 'promise-loader?global,getCrAmMap!ammap3/ammap/maps/js/costaRicaLow.js';
+import getCu from 'promise-loader?global,getCuAmMap!ammap3/ammap/maps/js/cubaLow.js';
+import getCv from 'promise-loader?global,getCvAmMap!ammap3/ammap/maps/js/capeVerdeLow.js';
+import getCy from 'promise-loader?global,getCyAmMap!ammap3/ammap/maps/js/cyprusNorthernCyprusLow.js';
+import getCz from 'promise-loader?global,getCzAmMap!ammap3/ammap/maps/js/czechRepublicLow.js';
+import getDe from 'promise-loader?global,getDeAmMap!ammap3/ammap/maps/js/germanyLow.js';
+import getDj from 'promise-loader?global,getDjAmMap!ammap3/ammap/maps/js/djiboutiLow.js';
+import getDk from 'promise-loader?global,getDkAmMap!ammap3/ammap/maps/js/denmarkLow.js';
+import getDm from 'promise-loader?global,getDmAmMap!ammap3/ammap/maps/js/dominicaLow.js';
+import getDo from 'promise-loader?global,getDoAmMap!ammap3/ammap/maps/js/dominicanRepublicLow.js';
+import getDz from 'promise-loader?global,getDzAmMap!ammap3/ammap/maps/js/algeriaLow.js';
+import getEc from 'promise-loader?global,getEcAmMap!ammap3/ammap/maps/js/ecuadorLow.js';
+import getEe from 'promise-loader?global,getEeAmMap!ammap3/ammap/maps/js/estoniaLow.js';
+import getEg from 'promise-loader?global,getEgAmMap!ammap3/ammap/maps/js/egyptLow.js';
+import getEr from 'promise-loader?global,getErAmMap!ammap3/ammap/maps/js/eritreaLow.js';
+import getEs from 'promise-loader?global,getEsAmMap!ammap3/ammap/maps/js/spainLow.js';
+import getEt from 'promise-loader?global,getEtAmMap!ammap3/ammap/maps/js/ethiopiaLow.js';
+import getFi from 'promise-loader?global,getFiAmMap!ammap3/ammap/maps/js/finlandLow.js';
+import getFj from 'promise-loader?global,getFjAmMap!ammap3/ammap/maps/js/fijiWestLow.js';
+import getFk from 'promise-loader?global,getFkAmMap!ammap3/ammap/maps/js/falklandIslandsLow.js';
+import getFr from 'promise-loader?global,getFrAmMap!ammap3/ammap/maps/js/franceLow.js';
+import getGa from 'promise-loader?global,getGaAmMap!ammap3/ammap/maps/js/gabonLow.js';
+import getGb from 'promise-loader?global,getGbAmMap!ammap3/ammap/maps/js/unitedKingdomLow.js';
+import getGd from 'promise-loader?global,getGdAmMap!ammap3/ammap/maps/js/grenadaLow.js';
+import getGe from 'promise-loader?global,getGeAmMap!ammap3/ammap/maps/js/georgiaSouthOssetiaLow.js';
+import getGf from 'promise-loader?global,getGfAmMap!ammap3/ammap/maps/js/frenchGuianaLow.js';
+import getGh from 'promise-loader?global,getGhAmMap!ammap3/ammap/maps/js/ghanaLow.js';
+import getGi from 'promise-loader?global,getGiAmMap!ammap3/ammap/maps/js/gibraltarLow.js';
+import getGl from 'promise-loader?global,getGlAmMap!ammap3/ammap/maps/js/greenlandLow.js';
+import getGm from 'promise-loader?global,getGmAmMap!ammap3/ammap/maps/js/gambiaLow.js';
+import getGn from 'promise-loader?global,getGnAmMap!ammap3/ammap/maps/js/guineaLow.js';
+import getGp from 'promise-loader?global,getGpAmMap!ammap3/ammap/maps/js/guadeloupeLow.js';
+import getGq from 'promise-loader?global,getGqAmMap!ammap3/ammap/maps/js/equatorialGuineaLow.js';
+import getGr from 'promise-loader?global,getGrAmMap!ammap3/ammap/maps/js/greeceLow.js';
+import getGt from 'promise-loader?global,getGtAmMap!ammap3/ammap/maps/js/guatemalaLow.js';
+import getGu from 'promise-loader?global,getGuAmMap!ammap3/ammap/maps/js/guamLow.js';
+import getGw from 'promise-loader?global,getGwAmMap!ammap3/ammap/maps/js/guineaBissauLow.js';
+import getGy from 'promise-loader?global,getGyAmMap!ammap3/ammap/maps/js/guyanaLow.js';
+import getHk from 'promise-loader?global,getHkAmMap!ammap3/ammap/maps/js/hongKongLow.js';
+import getHn from 'promise-loader?global,getHnAmMap!ammap3/ammap/maps/js/hondurasLow.js';
+import getHr from 'promise-loader?global,getHrAmMap!ammap3/ammap/maps/js/croatiaLow.js';
+import getHt from 'promise-loader?global,getHtAmMap!ammap3/ammap/maps/js/haitiLow.js';
+import getHu from 'promise-loader?global,getHuAmMap!ammap3/ammap/maps/js/hungaryLow.js';
+import getId from 'promise-loader?global,getIdAmMap!ammap3/ammap/maps/js/indonesiaLow.js';
+import getIl from 'promise-loader?global,getIlAmMap!ammap3/ammap/maps/js/israelLow.js';
+import getIn from 'promise-loader?global,getInAmMap!ammap3/ammap/maps/js/indiaLow.js';
+import getIq from 'promise-loader?global,getIqAmMap!ammap3/ammap/maps/js/iraqLow.js';
+import getIr from 'promise-loader?global,getIrAmMap!ammap3/ammap/maps/js/iranLow.js';
+import getJe from 'promise-loader?global,getJeAmMap!ammap3/ammap/maps/js/jerseyLow.js';
+import getJm from 'promise-loader?global,getJmAmMap!ammap3/ammap/maps/js/jamaicaLow.js';
+import getJo from 'promise-loader?global,getJoAmMap!ammap3/ammap/maps/js/jordanLow.js';
+import getJp from 'promise-loader?global,getJpAmMap!ammap3/ammap/maps/js/japanLow.js';
+import getKe from 'promise-loader?global,getKeAmMap!ammap3/ammap/maps/js/kenyaLow.js';
+import getKg from 'promise-loader?global,getKgAmMap!ammap3/ammap/maps/js/kyrgyzstanLow.js';
+import getKh from 'promise-loader?global,getKhAmMap!ammap3/ammap/maps/js/cambodiaLow.js';
+import getKi from 'promise-loader?global,getKiAmMap!ammap3/ammap/maps/js/kiribatiLow.js';
+import getKm from 'promise-loader?global,getKmAmMap!ammap3/ammap/maps/js/comorosLow.js';
+import getKn from 'promise-loader?global,getKnAmMap!ammap3/ammap/maps/js/stKittsNevisLow.js';
+import getKp from 'promise-loader?global,getKpAmMap!ammap3/ammap/maps/js/northKoreaLow.js';
+import getKr from 'promise-loader?global,getKrAmMap!ammap3/ammap/maps/js/southKoreaLow.js';
+import getKw from 'promise-loader?global,getKwAmMap!ammap3/ammap/maps/js/kuwaitLow.js';
+import getKz from 'promise-loader?global,getKzAmMap!ammap3/ammap/maps/js/kazakhstanLow.js';
+import getLa from 'promise-loader?global,getLaAmMap!ammap3/ammap/maps/js/laosLow.js';
+import getLb from 'promise-loader?global,getLbAmMap!ammap3/ammap/maps/js/lebanonLow.js';
+import getLc from 'promise-loader?global,getLcAmMap!ammap3/ammap/maps/js/stLuciaLow.js';
+import getLk from 'promise-loader?global,getLkAmMap!ammap3/ammap/maps/js/sriLankaLow.js';
+import getLr from 'promise-loader?global,getLrAmMap!ammap3/ammap/maps/js/liberiaLow.js';
+import getLs from 'promise-loader?global,getLsAmMap!ammap3/ammap/maps/js/lesothoLow.js';
+import getLt from 'promise-loader?global,getLtAmMap!ammap3/ammap/maps/js/lithuaniaLow.js';
+import getLu from 'promise-loader?global,getLuAmMap!ammap3/ammap/maps/js/luxembourgLow.js';
+import getLv from 'promise-loader?global,getLvAmMap!ammap3/ammap/maps/js/latviaLow.js';
+import getLy from 'promise-loader?global,getLyAmMap!ammap3/ammap/maps/js/libyaLow.js';
+import getMa from 'promise-loader?global,getMaAmMap!ammap3/ammap/maps/js/moroccoWesternSaharaLow.js';
+import getMd from 'promise-loader?global,getMdAmMap!ammap3/ammap/maps/js/moldovaLow.js';
+import getMe from 'promise-loader?global,getMeAmMap!ammap3/ammap/maps/js/montenegroLow.js';
+import getMg from 'promise-loader?global,getMgAmMap!ammap3/ammap/maps/js/madagascarLow.js';
+import getMk from 'promise-loader?global,getMkAmMap!ammap3/ammap/maps/js/macedoniaLow.js';
+import getMl from 'promise-loader?global,getMlAmMap!ammap3/ammap/maps/js/maliLow.js';
+import getMm from 'promise-loader?global,getMmAmMap!ammap3/ammap/maps/js/myanmarLow.js';
+import getMn from 'promise-loader?global,getMnAmMap!ammap3/ammap/maps/js/mongoliaLow.js';
+import getMo from 'promise-loader?global,getMoAmMap!ammap3/ammap/maps/js/macaoLow.js';
+import getMp from 'promise-loader?global,getMpAmMap!ammap3/ammap/maps/js/northernMarianaIslandsLow.js';
+import getMr from 'promise-loader?global,getMrAmMap!ammap3/ammap/maps/js/mauritaniaLow.js';
+import getMu from 'promise-loader?global,getMuAmMap!ammap3/ammap/maps/js/mauritiusLow.js';
+import getMv from 'promise-loader?global,getMvAmMap!ammap3/ammap/maps/js/maldivesLow.js';
+import getMw from 'promise-loader?global,getMwAmMap!ammap3/ammap/maps/js/malawiLow.js';
+import getMx from 'promise-loader?global,getMxAmMap!ammap3/ammap/maps/js/mexicoLow.js';
+import getMz from 'promise-loader?global,getMzAmMap!ammap3/ammap/maps/js/mozambiqueLow.js';
+import getNa from 'promise-loader?global,getNaAmMap!ammap3/ammap/maps/js/namibiaLow.js';
+import getNc from 'promise-loader?global,getNcAmMap!ammap3/ammap/maps/js/newCaledoniaLow.js';
+import getNe from 'promise-loader?global,getNeAmMap!ammap3/ammap/maps/js/nigerLow.js';
+import getNg from 'promise-loader?global,getNgAmMap!ammap3/ammap/maps/js/nigeriaLow.js';
+import getNi from 'promise-loader?global,getNiAmMap!ammap3/ammap/maps/js/nicaraguaLow.js';
+import getNl from 'promise-loader?global,getNlAmMap!ammap3/ammap/maps/js/netherlandsLow.js';
+import getNo from 'promise-loader?global,getNoAmMap!ammap3/ammap/maps/js/norwayLow.js';
+import getNp from 'promise-loader?global,getNpAmMap!ammap3/ammap/maps/js/nepalLow.js';
+import getNz from 'promise-loader?global,getNzAmMap!ammap3/ammap/maps/js/newZealandLow.js';
+import getPa from 'promise-loader?global,getPaAmMap!ammap3/ammap/maps/js/panamaLow.js';
+import getPe from 'promise-loader?global,getPeAmMap!ammap3/ammap/maps/js/peruLow.js';
+import getPf from 'promise-loader?global,getPfAmMap!ammap3/ammap/maps/js/frenchPolynesiaLow.js';
+import getPg from 'promise-loader?global,getPgAmMap!ammap3/ammap/maps/js/papuaNewGuineaLow.js';
+import getPh from 'promise-loader?global,getPhAmMap!ammap3/ammap/maps/js/philippinesLow.js';
+import getPk from 'promise-loader?global,getPkAmMap!ammap3/ammap/maps/js/pakistanLow.js';
+import getPl from 'promise-loader?global,getPlAmMap!ammap3/ammap/maps/js/polandLow.js';
+import getPr from 'promise-loader?global,getPrAmMap!ammap3/ammap/maps/js/puertoRicoLow.js';
+import getPs from 'promise-loader?global,getPsAmMap!ammap3/ammap/maps/js/palestineLow.js';
+import getPt from 'promise-loader?global,getPtAmMap!ammap3/ammap/maps/js/portugalRegionsLow.js';
+import getPw from 'promise-loader?global,getPwAmMap!ammap3/ammap/maps/js/palauLow.js';
+import getPy from 'promise-loader?global,getPyAmMap!ammap3/ammap/maps/js/paraguayLow.js';
+import getQa from 'promise-loader?global,getQaAmMap!ammap3/ammap/maps/js/qatarLow.js';
+import getRo from 'promise-loader?global,getRoAmMap!ammap3/ammap/maps/js/romaniaLow.js';
+import getRs from 'promise-loader?global,getRsAmMap!ammap3/ammap/maps/js/serbiaNoKosovoLow.js';
+import getRu from 'promise-loader?global,getRuAmMap!ammap3/ammap/maps/js/russiaLow.js';
+import getRw from 'promise-loader?global,getRwAmMap!ammap3/ammap/maps/js/rwandaLow.js';
+import getSa from 'promise-loader?global,getSaAmMap!ammap3/ammap/maps/js/saudiArabiaLow.js';
+import getSb from 'promise-loader?global,getSbAmMap!ammap3/ammap/maps/js/solomonIslandsLow.js';
+import getSc from 'promise-loader?global,getScAmMap!ammap3/ammap/maps/js/seychellesLow.js';
+import getSd from 'promise-loader?global,getSdAmMap!ammap3/ammap/maps/js/sudanLow.js';
+import getSe from 'promise-loader?global,getSeAmMap!ammap3/ammap/maps/js/swedenLow.js';
+import getSg from 'promise-loader?global,getSgAmMap!ammap3/ammap/maps/js/singaporeLow.js';
+import getSh from 'promise-loader?global,getShAmMap!ammap3/ammap/maps/js/stHelenaLow.js';
+import getSi from 'promise-loader?global,getSiAmMap!ammap3/ammap/maps/js/sloveniaLow.js';
+import getSk from 'promise-loader?global,getSkAmMap!ammap3/ammap/maps/js/slovakiaLow.js';
+import getSl from 'promise-loader?global,getSlAmMap!ammap3/ammap/maps/js/sierraLeoneLow.js';
+import getSm from 'promise-loader?global,getSmAmMap!ammap3/ammap/maps/js/sanMarinoLow.js';
+import getSn from 'promise-loader?global,getSnAmMap!ammap3/ammap/maps/js/senegalLow.js';
+import getSo from 'promise-loader?global,getSoAmMap!ammap3/ammap/maps/js/somaliaLow.js';
+import getSr from 'promise-loader?global,getSrAmMap!ammap3/ammap/maps/js/surinameLow.js';
+import getSs from 'promise-loader?global,getSsAmMap!ammap3/ammap/maps/js/southSudanLow.js';
+import getSv from 'promise-loader?global,getSvAmMap!ammap3/ammap/maps/js/elSalvadorLow.js';
+import getSy from 'promise-loader?global,getSyAmMap!ammap3/ammap/maps/js/syriaLow.js';
+import getSz from 'promise-loader?global,getSzAmMap!ammap3/ammap/maps/js/swazilandLow.js';
+import getTc from 'promise-loader?global,getTcAmMap!ammap3/ammap/maps/js/turksCaicosIslandsLow.js';
+import getTd from 'promise-loader?global,getTdAmMap!ammap3/ammap/maps/js/chadLow.js';
+import getTg from 'promise-loader?global,getTgAmMap!ammap3/ammap/maps/js/togoLow.js';
+import getTh from 'promise-loader?global,getThAmMap!ammap3/ammap/maps/js/thailandLow.js';
+import getTj from 'promise-loader?global,getTjAmMap!ammap3/ammap/maps/js/tajikistanLow.js';
+import getTl from 'promise-loader?global,getTlAmMap!ammap3/ammap/maps/js/eastTimorLow.js';
+import getTm from 'promise-loader?global,getTmAmMap!ammap3/ammap/maps/js/turkmenistanLow.js';
+import getTn from 'promise-loader?global,getTnAmMap!ammap3/ammap/maps/js/tunisiaLow.js';
+import getTo from 'promise-loader?global,getToAmMap!ammap3/ammap/maps/js/tongaLow.js';
+import getTr from 'promise-loader?global,getTrAmMap!ammap3/ammap/maps/js/turkeyLow.js';
+import getTt from 'promise-loader?global,getTtAmMap!ammap3/ammap/maps/js/trinidadAndTobagoLow.js';
+import getTw from 'promise-loader?global,getTwAmMap!ammap3/ammap/maps/js/taiwanLow.js';
+import getTz from 'promise-loader?global,getTzAmMap!ammap3/ammap/maps/js/tanzaniaLow.js';
+import getUa from 'promise-loader?global,getUaAmMap!ammap3/ammap/maps/js/ukraineLow.js';
+import getUg from 'promise-loader?global,getUgAmMap!ammap3/ammap/maps/js/ugandaLow.js';
+import getUs from 'promise-loader?global,getUsAmMap!ammap3/ammap/maps/js/usa2Low.js';
+import getUy from 'promise-loader?global,getUyAmMap!ammap3/ammap/maps/js/uruguayLow.js';
+import getUz from 'promise-loader?global,getUzAmMap!ammap3/ammap/maps/js/uzbekistanLow.js';
+import getVi from 'promise-loader?global,getViAmMap!ammap3/ammap/maps/js/usVirginIslandsLow.js';
+import getVn from 'promise-loader?global,getVnAmMap!ammap3/ammap/maps/js/vietnamLow.js';
+import getVu from 'promise-loader?global,getVuAmMap!ammap3/ammap/maps/js/vanuatuLow.js';
+import getWf from 'promise-loader?global,getWfAmMap!ammap3/ammap/maps/js/wallisFutunaLow.js';
+import getXk from 'promise-loader?global,getXkAmMap!ammap3/ammap/maps/js/kosovoLow.js';
+import getYe from 'promise-loader?global,getYeAmMap!ammap3/ammap/maps/js/yemenLow.js';
+import getZm from 'promise-loader?global,getZmAmMap!ammap3/ammap/maps/js/zambiaLow.js';
+import getZw from 'promise-loader?global,getZwAmMap!ammap3/ammap/maps/js/zimbabweLow.js';
+
+export const loaders = {
+  ad: getAd,
+  ae: getAe,
+  af: getAf,
+  ag: getAg,
+  ai: getAi,
+  al: getAl,
+  am: getAm,
+  ao: getAo,
+  ar: getAr,
+  as: getAs,
+  at: getAt,
+  au: getAu,
+  ba: getBa,
+  bb: getBb,
+  bd: getBd,
+  be: getBe,
+  bf: getBf,
+  bg: getBg,
+  bh: getBh,
+  bi: getBi,
+  bj: getBj,
+  bn: getBn,
+  bo: getBo,
+  bq: getBq,
+  br: getBr,
+  bs: getBs,
+  bt: getBt,
+  bw: getBw,
+  by: getBy,
+  bz: getBz,
+  ca: getCa,
+  cd: getCd,
+  cf: getCf,
+  cg: getCg,
+  ch: getCh,
+  ci: getCi,
+  ck: getCk,
+  cl: getCl,
+  cm: getCm,
+  cn: getCn,
+  co: getCo,
+  cr: getCr,
+  cu: getCu,
+  cv: getCv,
+  cy: getCy,
+  cz: getCz,
+  de: getDe,
+  dj: getDj,
+  dk: getDk,
+  dm: getDm,
+  do: getDo,
+  dz: getDz,
+  ec: getEc,
+  ee: getEe,
+  eg: getEg,
+  er: getEr,
+  es: getEs,
+  et: getEt,
+  fi: getFi,
+  fj: getFj,
+  fk: getFk,
+  fr: getFr,
+  ga: getGa,
+  gb: getGb,
+  gd: getGd,
+  ge: getGe,
+  gf: getGf,
+  gh: getGh,
+  gi: getGi,
+  gl: getGl,
+  gm: getGm,
+  gn: getGn,
+  gp: getGp,
+  gq: getGq,
+  gr: getGr,
+  gt: getGt,
+  gu: getGu,
+  gw: getGw,
+  gy: getGy,
+  hk: getHk,
+  hn: getHn,
+  hr: getHr,
+  ht: getHt,
+  hu: getHu,
+  id: getId,
+  il: getIl,
+  in: getIn,
+  iq: getIq,
+  ir: getIr,
+  je: getJe,
+  jm: getJm,
+  jo: getJo,
+  jp: getJp,
+  ke: getKe,
+  kg: getKg,
+  kh: getKh,
+  ki: getKi,
+  km: getKm,
+  kn: getKn,
+  kp: getKp,
+  kr: getKr,
+  kw: getKw,
+  kz: getKz,
+  la: getLa,
+  lb: getLb,
+  lc: getLc,
+  lk: getLk,
+  lr: getLr,
+  ls: getLs,
+  lt: getLt,
+  lu: getLu,
+  lv: getLv,
+  ly: getLy,
+  ma: getMa,
+  md: getMd,
+  me: getMe,
+  mg: getMg,
+  mk: getMk,
+  ml: getMl,
+  mm: getMm,
+  mn: getMn,
+  mo: getMo,
+  mp: getMp,
+  mr: getMr,
+  mu: getMu,
+  mv: getMv,
+  mw: getMw,
+  mx: getMx,
+  mz: getMz,
+  na: getNa,
+  nc: getNc,
+  ne: getNe,
+  ng: getNg,
+  ni: getNi,
+  nl: getNl,
+  no: getNo,
+  np: getNp,
+  nz: getNz,
+  pa: getPa,
+  pe: getPe,
+  pf: getPf,
+  pg: getPg,
+  ph: getPh,
+  pk: getPk,
+  pl: getPl,
+  pr: getPr,
+  ps: getPs,
+  pt: getPt,
+  pw: getPw,
+  py: getPy,
+  qa: getQa,
+  ro: getRo,
+  rs: getRs,
+  ru: getRu,
+  rw: getRw,
+  sa: getSa,
+  sb: getSb,
+  sc: getSc,
+  sd: getSd,
+  se: getSe,
+  sg: getSg,
+  sh: getSh,
+  si: getSi,
+  sk: getSk,
+  sl: getSl,
+  sm: getSm,
+  sn: getSn,
+  so: getSo,
+  sr: getSr,
+  ss: getSs,
+  sv: getSv,
+  sy: getSy,
+  sz: getSz,
+  tc: getTc,
+  td: getTd,
+  tg: getTg,
+  th: getTh,
+  tj: getTj,
+  tl: getTl,
+  tm: getTm,
+  tn: getTn,
+  to: getTo,
+  tr: getTr,
+  tt: getTt,
+  tw: getTw,
+  tz: getTz,
+  ua: getUa,
+  ug: getUg,
+  us: getUs,
+  uy: getUy,
+  uz: getUz,
+  vi: getVi,
+  vn: getVn,
+  vu: getVu,
+  wf: getWf,
+  xk: getXk,
+  ye: getYe,
+  zm: getZm,
+  zw: getZw
+};
+
+export const globalMapping = {
+  ad: 'andorraLow',
+  ae: 'unitedArabEmiratesLow',
+  af: 'afghanistanLow',
+  ag: 'antiguaBarbudaLow',
+  ai: 'anguillaLow',
+  al: 'albaniaLow',
+  am: 'azerbaijanLow',
+  ao: 'angolaLow',
+  ar: 'argentinaLow',
+  as: 'americanSamoaLow',
+  at: 'austriaLow',
+  au: 'australiaLow',
+  ba: 'bosniaHerzegovinaRegionsLow',
+  bb: 'barbadosLow',
+  bd: 'bangladeshLow',
+  be: 'belgiumLow',
+  bf: 'burkinaFasoLow',
+  bg: 'bulgariaLow',
+  bh: 'bahrainLow',
+  bi: 'burundiLow',
+  bj: 'beninLow',
+  bn: 'bruneiDarussalamLow',
+  bo: 'boliviaLow',
+  bq: 'caribbeanNetherlandsLow',
+  br: 'brazilLow',
+  bs: 'bahamasLow',
+  bt: 'bhutanLow',
+  bw: 'botswanaLow',
+  by: 'belarusLow',
+  bz: 'belizeLow',
+  ca: 'canadaLow',
+  cd: 'congoDRLow',
+  cf: 'centralAfricanRepublicLow',
+  cg: 'congoLow',
+  ch: 'switzerlandLow',
+  ci: 'ivoryCoastLow',
+  ck: 'cookIslandsLow',
+  cl: 'chileLow',
+  cm: 'cameroonLow',
+  cn: 'chinaLow',
+  co: 'colombiaLow',
+  cr: 'costaRicaLow',
+  cu: 'cubaLow',
+  cv: 'capeVerdeLow',
+  cy: 'cyprusNorthernCyprusLow',
+  cz: 'czechRepublicLow',
+  de: 'germanyLow',
+  dj: 'djiboutiLow',
+  dk: 'denmarkLow',
+  dm: 'dominicaLow',
+  do: 'dominicanRepublicLow',
+  dz: 'algeriaLow',
+  ec: 'ecuadorLow',
+  ee: 'estoniaLow',
+  eg: 'egyptLow',
+  er: 'eritreaLow',
+  es: 'spainLow',
+  et: 'ethiopiaLow',
+  fi: 'finlandLow',
+  fj: 'fijiWestLow',
+  fk: 'falklandIslandsLow',
+  fr: 'franceLow',
+  ga: 'gabonLow',
+  gb: 'unitedKingdomLow',
+  gd: 'grenadaLow',
+  ge: 'georgiaSouthOssetiaLow',
+  gf: 'frenchGuianaLow',
+  gh: 'ghanaLow',
+  gi: 'gibraltarLow',
+  gl: 'greenlandLow',
+  gm: 'gambiaLow',
+  gn: 'guineaLow',
+  gp: 'guadeloupeLow',
+  gq: 'equatorialGuineaLow',
+  gr: 'greeceLow',
+  gt: 'guatemalaLow',
+  gu: 'guamLow',
+  gw: 'guineaBissauLow',
+  gy: 'guyanaLow',
+  hk: 'hongKongLow',
+  hn: 'hondurasLow',
+  hr: 'croatiaLow',
+  ht: 'haitiLow',
+  hu: 'hungaryLow',
+  id: 'indonesiaLow',
+  il: 'israelLow',
+  in: 'indiaLow',
+  iq: 'iraqLow',
+  ir: 'iranLow',
+  je: 'jerseyLow',
+  jm: 'jamaicaLow',
+  jo: 'jordanLow',
+  jp: 'japanLow',
+  ke: 'kenyaLow',
+  kg: 'kyrgyzstanLow',
+  kh: 'cambodiaLow',
+  ki: 'kiribatiLow',
+  km: 'comorosLow',
+  kn: 'stKittsNevisLow',
+  kp: 'northKoreaLow',
+  kr: 'southKoreaLow',
+  kw: 'kuwaitLow',
+  kz: 'kazakhstanLow',
+  la: 'laosLow',
+  lb: 'lebanonLow',
+  lc: 'stLuciaLow',
+  lk: 'sriLankaLow',
+  lr: 'liberiaLow',
+  ls: 'lesothoLow',
+  lt: 'lithuaniaLow',
+  lu: 'luxembourgLow',
+  lv: 'latviaLow',
+  ly: 'libyaLow',
+  ma: 'moroccoWesternSaharaLow',
+  md: 'moldovaLow',
+  me: 'montenegroLow',
+  mg: 'madagascarLow',
+  mk: 'macedoniaLow',
+  ml: 'maliLow',
+  mm: 'myanmarLow',
+  mn: 'mongoliaLow',
+  mo: 'macaoLow',
+  mp: 'northernMarianaIslandsLow',
+  mr: 'mauritaniaLow',
+  mu: 'mauritiusLow',
+  mv: 'maldivesLow',
+  mw: 'malawiLow',
+  mx: 'mexicoLow',
+  mz: 'mozambiqueLow',
+  na: 'namibiaLow',
+  nc: 'newCaledoniaLow',
+  ne: 'nigerLow',
+  ng: 'nigeriaLow',
+  ni: 'nicaraguaLow',
+  nl: 'netherlandsLow',
+  no: 'norwayLow',
+  np: 'nepalLow',
+  nz: 'newZealandLow',
+  pa: 'panamaLow',
+  pe: 'peruLow',
+  pf: 'frenchPolynesiaLow',
+  pg: 'papuaNewGuineaLow',
+  ph: 'philippinesLow',
+  pk: 'pakistanLow',
+  pl: 'polandLow',
+  pr: 'puertoRicoLow',
+  ps: 'palestineLow',
+  pt: 'portugalRegionsLow',
+  pw: 'palauLow',
+  py: 'paraguayLow',
+  qa: 'qatarLow',
+  ro: 'romaniaLow',
+  rs: 'serbiaNoKosovoLow',
+  ru: 'russiaLow',
+  rw: 'rwandaLow',
+  sa: 'saudiArabiaLow',
+  sb: 'solomonIslandsLow',
+  sc: 'seychellesLow',
+  sd: 'sudanLow',
+  se: 'swedenLow',
+  sg: 'singaporeLow',
+  sh: 'stHelenaLow',
+  si: 'sloveniaLow',
+  sk: 'slovakiaLow',
+  sl: 'sierraLeoneLow',
+  sm: 'sanMarinoLow',
+  sn: 'senegalLow',
+  so: 'somaliaLow',
+  sr: 'surinameLow',
+  ss: 'southSudanLow',
+  sv: 'elSalvadorLow',
+  sy: 'syriaLow',
+  sz: 'swazilandLow',
+  tc: 'turksCaicosIslandsLow',
+  td: 'chadLow',
+  tg: 'togoLow',
+  th: 'thailandLow',
+  tj: 'tajikistanLow',
+  tl: 'eastTimorLow',
+  tm: 'turkmenistanLow',
+  tn: 'tunisiaLow',
+  to: 'tongaLow',
+  tr: 'turkeyLow',
+  tt: 'trinidadAndTobagoLow',
+  tw: 'taiwanLow',
+  tz: 'tanzaniaLow',
+  ua: 'ukraineLow',
+  ug: 'ugandaLow',
+  us: 'usa2Low',
+  uy: 'uruguayLow',
+  uz: 'uzbekistanLow',
+  vi: 'usVirginIslandsLow',
+  vn: 'vietnamLow',
+  vu: 'vanuatuLow',
+  wf: 'wallisFutunaLow',
+  xk: 'kosovoLow',
+  ye: 'yemenLow',
+  zm: 'zambiaLow',
+  zw: 'zimbabweLow'
+};
