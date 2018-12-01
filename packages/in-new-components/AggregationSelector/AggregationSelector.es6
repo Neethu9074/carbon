@@ -1,11 +1,12 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
-import ComboBox from 'in-components/ComboBox';
+import Select from 'in-components/form/Select';
+
+import locals from './AggregationSelector.mless';
 
 const options = [
   { label: 'mean', value: 'MEAN' },
-  { label: 'max', value: 'MAX' },
   { label: 'min', value: 'MIN' },
   { label: '25th', value: 'P25' },
   { label: '50th', value: 'P50' },
@@ -13,7 +14,8 @@ const options = [
   { label: '90th', value: 'P90' },
   { label: '95th', value: 'P95' },
   { label: '98th', value: 'P98' },
-  { label: '99th', value: 'P99' }
+  { label: '99th', value: 'P99' },
+  { label: 'max', value: 'MAX' }
 ];
 
 export default compose(withState('aggregation', 'setAggregation'))(AggregationSelector);
@@ -22,13 +24,17 @@ function AggregationSelector({ defaultAggregation, aggregation, setAggregation, 
   return children({
     aggregation: aggregation || defaultAggregation,
     aggregationSelector: (
-      <ComboBox
+      <Select
+        className={locals.selector}
         value={aggregation || defaultAggregation}
-        onChange={e => setAggregation((e && e.value) || defaultAggregation)}
-        placeholder="Type…"
-        options={options}
-        isClearable={false}
-      />
+        onChange={e => setAggregation(e.target.value || defaultAggregation)}
+      >
+        {options.map(({ label, value }) => (
+          <option value={value} key={value}>
+            {label}
+          </option>
+        ))}
+      </Select>
     )
   });
 }

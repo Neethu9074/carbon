@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
-import AggregationSelector from 'in-websites/WebsiteDashboard/components/AggregationSelector';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import AggregationSelector from 'in-new-components/AggregationSelector';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
