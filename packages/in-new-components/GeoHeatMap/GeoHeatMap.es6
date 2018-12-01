@@ -8,6 +8,13 @@ export default compose(
   withState('mapCode', 'setMapCode', 'world'),
   connect(({ mapCode, getData }) => ({
     result: getData(mapCode === 'world' ? undefined : mapCode)
+      // For some unknown reason AmMap really hates synchronous data retrieval.
+      // When not executing nextFrame(), then the following breaks the heat map:
+      //
+      // 1. Click on USA (states should be colored)
+      // 2. Click on the home button
+      // 3. Click on USA (no state is colored)
+      .nextFrame()
   })),
   withProps(({ canDrillDown, mapCode, setMapCode }) => ({
     onHomeClick: mapCode === 'world' ? undefined : () => setMapCode('world'),

@@ -172,7 +172,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
       <Row>
         <Col lg={pageId == null ? 4 : 6}>
           <Card title="Geography" withoutPadding>
-            <WebsiteGeoHeatMap tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
+            <WebsiteGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
