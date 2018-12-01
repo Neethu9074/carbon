@@ -20,7 +20,7 @@ export default function ChartWrapperPresenter({ result, config, renderLegend = t
     if (!timeConfig || !y1 || !y1.metrics) {
       content = <NoDataAvailable width={width} height={height} />;
     } else {
-      content = <Chart {...config} renderLegend={renderLegend} />;
+      content = <Chart renderLegend={renderLegend} {...config} />;
     }
   }
 

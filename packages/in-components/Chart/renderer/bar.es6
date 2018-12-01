@@ -1,5 +1,5 @@
-const MARGIN_BETWEEN_BARS = 1;
-const MIN_HEIGHT_IN_PX = 2;
+export const MARGIN_BETWEEN_BARS = 1;
+export const MIN_HEIGHT_IN_PX = 2;
 
 export default {
   render: ({ axis, dataSeries, color, scale, config }) => {

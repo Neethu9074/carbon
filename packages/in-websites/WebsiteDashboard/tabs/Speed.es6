@@ -55,20 +55,15 @@ export default function Speed({ timeConfig, tagFilters }) {
             timeConfig={timeConfig}
             y1={{
               calculateStackDifferences: true,
-              renderer: Renderer.line,
+              renderer: Renderer.stackedBar,
               formatter: millis.forcedFixedCompact,
-              labels: ['mean', '50th', '90th', '95th', '99th'],
-              metricIds: ['onLoadTimeAvg', 'onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
+              labels: ['50th', '90th', '95th', '99th'],
+              metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
             }}
             metricsConfiguration={{
               timeConfig,
               tagFilters,
               metrics: {
-                onLoadTimeAvg: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'MEAN'
-                },
                 onLoadTime50th: {
                   metric: 'onLoadTime',
                   granularity,
@@ -104,7 +99,7 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{
-                  renderer: Renderer.stackedArea,
+                  renderer: Renderer.stackedBar,
                   formatter: millis.forcedFixedCompact,
                   labels: [
                     'Unload',

@@ -1,5 +1,6 @@
 import countErrorBar from 'in-components/Chart/renderer/countErrorBar';
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
+import stackedBar from 'in-components/Chart/renderer/stackedBar';
 import integral from 'in-components/Chart/renderer/integral';
 import point from 'in-components/Chart/renderer/point';
 import line from 'in-components/Chart/renderer/line';
@@ -13,5 +14,6 @@ export default {
   integral,
   line,
   point,
-  stackedArea
+  stackedArea,
+  stackedBar
 };

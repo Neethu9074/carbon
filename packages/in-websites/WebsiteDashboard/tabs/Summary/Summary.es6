@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
+import AggregationSelector from 'in-websites/WebsiteDashboard/components/AggregationSelector';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
@@ -90,6 +91,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
         <Col lg={4}>
           <WebsiteChartWrapper
             cardTitle="Page Loads"
+            renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
@@ -113,6 +115,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
         <Col lg={4}>
           <WebsiteChartWrapper
             cardTitle="Errors"
+            renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
@@ -135,48 +138,33 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
           />
         </Col>
         <Col lg={4}>
-          <WebsiteChartWrapper
-            cardTitle="onLoad Time"
-            timeConfig={timeConfig}
-            y1={{
-              calculateStackDifferences: true,
-              renderer: Renderer.line,
-              formatter: millis.forcedFixedCompact,
-              labels: ['mean', '50th', '90th', '95th', '99th'],
-              metricIds: ['onLoadTimeAvg', 'onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
-            }}
-            metricsConfiguration={{
-              timeConfig,
-              tagFilters,
-              metrics: {
-                onLoadTimeAvg: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'MEAN'
-                },
-                onLoadTime50th: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'P50'
-                },
-                onLoadTime90th: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'P90'
-                },
-                onLoadTime95th: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'P95'
-                },
-                onLoadTime99th: {
-                  metric: 'onLoadTime',
-                  granularity,
-                  aggregation: 'P99'
-                }
-              }
-            }}
-          />
+          <AggregationSelector defaultAggregation="MEAN">
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                cardTitle="onLoad Time"
+                renderLegend={false}
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: millis.forcedFixedCompact,
+                  labels: ['onLoad Time'],
+                  metricIds: ['onLoadTime']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    onLoadTime: {
+                      metric: 'onLoadTime',
+                      granularity,
+                      aggregation
+                    }
+                  }
+                }}
+              />
+            )}
+          </AggregationSelector>
         </Col>
       </Row>
 

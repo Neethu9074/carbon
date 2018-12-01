@@ -28,6 +28,7 @@ storiesOf('Components/Chart', module)
   .add('Bar', () => <Bar />)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
+  .add('StackedBar', () => <StackedBar />)
   .add('Integral', () => <Integral />)
   .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
@@ -118,6 +119,7 @@ function LongSeriesLabels() {
         config={{
           granularity,
           timeConfig: timeframe,
+          renderLegend: false,
           y1: {
             renderer: Renderer.line,
             labels: [
@@ -132,7 +134,6 @@ function LongSeriesLabels() {
             ]
           }
         }}
-        renderLegend={false}
       />
     </Root>
   );
@@ -271,6 +272,24 @@ function StackedArea() {
             renderer: Renderer.stackedArea,
             labels: ['1', '2', '3', '4', '5'],
             metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute)
+          }
+        }}
+      />
+    </Root>
+  );
+}
+
+function StackedBar() {
+  return (
+    <Root>
+      <ChartWrapperPresenter
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedBar,
+            labels: ['foo', 'bar', 'baz'],
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
         }}
       />
