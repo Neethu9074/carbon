@@ -6,23 +6,18 @@
     flex-direction: column;
   }
 
-  .values,
-  .colors {
+  .values {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .values {
-    color: @lib__colors__N900Primary;
-  }
-
-  .light {
-    color: @lib__colors__N050;
+    color: @lib__colors__N600Light;
+    font-weight: 500;
+    padding: 0 0 2px;
+    font-size: 0.7rem;
   }
 
   .colors {
     width: 12.5rem;
-    height: 1rem;
+    height: 0.4rem;
   }
 }

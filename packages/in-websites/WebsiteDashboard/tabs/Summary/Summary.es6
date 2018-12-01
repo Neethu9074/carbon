@@ -3,14 +3,15 @@ import React, { Fragment } from 'react';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
+import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import WorldMapCard from 'in-websites/WorldMapCard/WorldMapCard';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
 export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
@@ -170,16 +171,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
 
       <Row>
         <Col lg={pageId == null ? 4 : 6}>
-          <WorldMapCard
-            title="Geography"
-            height={300}
-            tagFilters={tagFilters.concat({
-              name: 'beacon.type',
-              operator: 'EQUALS',
-              stringValue: 'pageLoad'
-            })}
-            timeConfig={timeConfig}
-          />
+          <Card title="Geography" withoutPadding>
+            <WebsiteGeoHeatMap tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
+          </Card>
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
           <ErrorTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} pageId={pageId} />

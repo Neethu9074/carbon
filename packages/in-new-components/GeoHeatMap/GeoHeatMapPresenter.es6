@@ -101,21 +101,22 @@ function onDidMount({
 
   const lightColor = '#ffcc00';
   const darkColor = Object.keys(data).length > 0 ? '#990000' : lightColor;
-  const listeners = [];
+  const listeners = [
+    {
+      event: 'clickMapObject',
+      method: e => {
+        // disable the ugly selected color that cannot really be configured.
+        map.returnInitialColor(map.selectedObject);
+        if (onAreaClick && e.mapObject.id) {
+          onAreaClick(e.mapObject.id);
+        }
+      }
+    }
+  ];
   if (onHomeClick) {
     listeners.push({
       event: 'homeButtonClicked',
       method: () => onHomeClick()
-    });
-  }
-  if (onAreaClick) {
-    listeners.push({
-      event: 'clickMapObject',
-      method: e => {
-        if (e.mapObject.id) {
-          onAreaClick(e.mapObject.id);
-        }
-      }
     });
   }
 
@@ -133,10 +134,9 @@ function onDidMount({
 
       areasSettings: {
         autoZoom: true,
-        rollOverOutlineColor: '#00B3B3',
-        rollOverColor: '#DFE4E8',
+        rollOverOutlineColor: '#17A1E6',
+        rollOverColor: '#74c7f1',
 
-        selectedColor: darkColor,
         color: lightColor,
         colorSolid: darkColor
       }

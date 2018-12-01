@@ -6,21 +6,17 @@ import getWebsiteSubdivisions from 'in-subscription/websiteMonitoring/getWebsite
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
-import locals from './WorldMapDashboardContent.mless';
-
 const valueFormatter = v => `${number.compact(v)} page loads`;
 
-export default function WorldMapDashboardContent({ height, tagFilters, timeConfig }) {
+export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown }) {
   return (
-    <div className={locals.wrapper}>
-      <GeoHeatMap
-        canDrillDown
-        getData={countryCode => getData({ countryCode, tagFilters, timeConfig })}
-        height={height}
-        valueFormatter={valueFormatter}
-        notDefinedValue={valueFormatter(0)}
-      />
-    </div>
+    <GeoHeatMap
+      canDrillDown={canDrillDown}
+      getData={countryCode => getData({ countryCode, tagFilters, timeConfig })}
+      height={height}
+      valueFormatter={valueFormatter}
+      notDefinedValue={valueFormatter(0)}
+    />
   );
 }
 

@@ -20,11 +20,19 @@
   .mapSwitchIconDark {
     fill: #a7a7a7;
     border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      background: #333;
+    }
   }
 
   .mapSwitchIconLight {
-    fill: #a7a7a7;
+    fill: #000;
     border: 1px solid @lib__colors__N400;
+
+    &:hover {
+      background: #dadada;
+    }
   }
 
   .heatMapLegend {

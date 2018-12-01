@@ -1,6 +1,0 @@
-{
-  "name": "WorldMap",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./WorldMap.es6"
-}
