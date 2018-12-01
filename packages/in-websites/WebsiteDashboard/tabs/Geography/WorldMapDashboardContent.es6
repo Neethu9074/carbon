@@ -8,6 +8,8 @@ import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
 import locals from './WorldMapDashboardContent.mless';
 
+const valueFormatter = v => `${number.compact(v)} page loads`;
+
 export default function WorldMapDashboardContent({ height, tagFilters, timeConfig }) {
   return (
     <div className={locals.wrapper}>
@@ -15,7 +17,8 @@ export default function WorldMapDashboardContent({ height, tagFilters, timeConfi
         canDrillDown
         getData={countryCode => getData({ countryCode, tagFilters, timeConfig })}
         height={height}
-        valueFormatter={number.compact}
+        valueFormatter={valueFormatter}
+        notDefinedValue={valueFormatter(0)}
       />
     </div>
   );

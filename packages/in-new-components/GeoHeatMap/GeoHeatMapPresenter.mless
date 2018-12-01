@@ -1,0 +1,12 @@
+:local {
+  .wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .legend {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}

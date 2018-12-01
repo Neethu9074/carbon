@@ -4,9 +4,12 @@ import React from 'react';
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import HeatMapLegend from 'in-new-components/HeatMapLegend';
 import { generateStableHash } from 'in-services/util/id';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import connect from 'in-hoc/connectTo';
+
+import locals from './GeoHeatMapPresenter.mless';
 
 // result must eventually resolve with data in the form of:
 // {
@@ -30,7 +33,8 @@ function GeoHeatMapPresenter({
   mapCode,
   map,
   height,
-  projection = 'winkel3'
+  projection = 'winkel3',
+  notDefinedValue
 }) {
   if (!result || result.progress.loading || !map) {
     return <InfiniteCircle height={height} />;
@@ -39,14 +43,28 @@ function GeoHeatMapPresenter({
   }
 
   return (
-    <AmMap
-      // AmMap maps cannot be properly updated. Instead, we need to completely throw them away on prop changes.
-      key={mapCode + generateStableHash(result.data) + projection}
-      onDidMount={args =>
-        onDidMount({ ...args, onHomeClick, onAreaClick, valueFormatter, projection, mapCode, map, data: result.data })
-      }
-      height={`${height}px`}
-    />
+    <div className={locals.wrapper} style={{ height: `${height}px` }}>
+      <AmMap
+        // AmMap maps cannot be properly updated. Instead, we need to completely throw them away on prop changes.
+        key={mapCode + generateStableHash(result.data) + projection}
+        onDidMount={args =>
+          onDidMount({
+            ...args,
+            onHomeClick,
+            onAreaClick,
+            valueFormatter,
+            notDefinedValue,
+            projection,
+            mapCode,
+            map,
+            data: result.data
+          })
+        }
+        height={`${height}px`}
+      />
+
+      <Legend data={result.data} valueFormatter={valueFormatter} />
+    </div>
   );
 }
 
@@ -58,7 +76,8 @@ function onDidMount({
   data,
   projection,
   onHomeClick,
-  onAreaClick
+  onAreaClick,
+  notDefinedValue
 }) {
   const worldDataProvider = {
     map: getMapName(mapCode),
@@ -67,7 +86,7 @@ function onDidMount({
       const value = areaData ? areaData.value : undefined;
       let balloonText = areaData ? areaData.title : p.title;
       if (value == null) {
-        balloonText += ': 0';
+        balloonText += `: ${notDefinedValue}`;
       } else {
         balloonText += `: ${valueFormatter(value)}`;
       }
@@ -80,27 +99,8 @@ function onDidMount({
     })
   };
 
-  let min = null;
-  let max = null;
-  Object.keys(data).forEach(code => {
-    const { value } = data[code];
-
-    if (min == null) {
-      min = value;
-    } else {
-      min = Math.min(min, value);
-    }
-
-    if (max == null) {
-      max = value;
-    } else {
-      max = Math.max(max, value);
-    }
-  });
-
   const lightColor = '#ffcc00';
-  const darkColor = min != null ? '#990000' : lightColor;
-
+  const darkColor = Object.keys(data).length > 0 ? '#990000' : lightColor;
   const listeners = [];
   if (onHomeClick) {
     listeners.push({
@@ -139,19 +139,44 @@ function onDidMount({
         selectedColor: darkColor,
         color: lightColor,
         colorSolid: darkColor
-      },
-
-      valueLegend:
-        min !== max
-          ? {
-              right: 10,
-              minValue: valueFormatter(min),
-              maxValue: valueFormatter(max)
-            }
-          : undefined
+      }
     },
     0
   );
 
   return map;
+}
+
+function Legend({ data, valueFormatter }) {
+  let min = null;
+  let max = null;
+  Object.keys(data).forEach(code => {
+    const { value } = data[code];
+
+    if (min == null) {
+      min = value;
+    } else {
+      min = Math.min(min, value);
+    }
+
+    if (max == null) {
+      max = value;
+    } else {
+      max = Math.max(max, value);
+    }
+  });
+
+  if (min === max) {
+    return null;
+  }
+
+  return (
+    <HeatMapLegend
+      className={locals.legend}
+      valueFrom={valueFormatter(min)}
+      valueTo={valueFormatter(max)}
+      colorFrom="#ffcc00"
+      colorTo="#990000"
+    />
+  );
 }

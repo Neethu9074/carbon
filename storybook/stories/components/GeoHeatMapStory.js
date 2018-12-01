@@ -65,35 +65,35 @@ function Default() {
             height={300}
             result={{
               data: {
-                CA: {
+                ca: {
                   title: 'Canada',
                   value: 311
                 },
-                CN: {
+                cn: {
                   title: 'China',
                   value: 800
                 },
-                EG: {
+                eg: {
                   title: 'Egypt',
                   value: 342
                 },
-                FR: {
+                fr: {
                   title: 'France',
                   value: 240
                 },
-                JP: {
+                jp: {
                   title: 'Japan',
                   value: 200
                 },
-                RU: {
+                ru: {
                   title: 'Russia',
                   value: 100
                 },
-                GB: {
+                gb: {
                   title: 'United Kingdom',
                   value: 320
                 },
-                US: {
+                us: {
                   title: 'United States',
                   value: 180
                 }
