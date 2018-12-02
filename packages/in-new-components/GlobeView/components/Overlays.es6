@@ -74,7 +74,7 @@ function OverlaysReactComponentFn({
             <Tooltip content="Toogle heat map" align="leftMiddle">
               <Button
                 dark={!showHeatMap}
-                icon="lib_website"
+                icon="lib_flame"
                 onClick={() => {
                   setShowHeatMap(!showHeatMap);
                   globeView.toggleHeatMap(!showHeatMap);

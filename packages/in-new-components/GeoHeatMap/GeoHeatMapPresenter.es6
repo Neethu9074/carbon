@@ -92,7 +92,7 @@ function Content({
 
       <div className={controlWrapperClassName}>
         <Tooltip content="Reset view" align="leftMiddle">
-          <Button icon="lib_website_inverted" className={locals.home} onClick={() => onHome()} />
+          <Button icon="lib_home" className={locals.home} onClick={() => onHome()} />
         </Tooltip>
 
         <ButtonGroup vertical className={locals.zoom}>
