@@ -47,7 +47,7 @@ export default connectTo(
       <div className={locals.wrapper}>
         <ul className={locals.list}>
           {items.map(item => {
-            const intensity = (item.pageLoads - min) / (max - min);
+            const intensity = Math.max(1, item.pageLoads - min) / Math.max(1, max - min);
             const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
             return (
               <li key={item.country} className={locals.listItem}>

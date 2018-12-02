@@ -57,7 +57,7 @@ export default class HeatMapGlobe {
               continue;
             }
 
-            const intensity = (pageLoads - min) / (max - min);
+            const intensity = Math.max(1, pageLoads - min) / Math.max(1, max - min);
             const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
             this.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
 
