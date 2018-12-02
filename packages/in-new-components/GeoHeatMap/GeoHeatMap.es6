@@ -1,4 +1,4 @@
-import { compose, withState, withProps } from 'recompose';
+import { compose, withState, withPropsOnChange } from 'recompose';
 
 import GeoHeatMapPresenter from 'in-new-components/GeoHeatMap/GeoHeatMapPresenter';
 import { isMapLoadable } from 'in-new-components/AmMap/libraryWrapper';
@@ -16,7 +16,7 @@ export default compose(
       // 3. Click on USA (no state is colored)
       .nextFrame()
   })),
-  withProps(({ canDrillDown, mapCode, setMapCode }) => ({
+  withPropsOnChange(['canDrillDown', 'mapCode', 'setMapCode'], ({ canDrillDown, mapCode, setMapCode }) => ({
     onHomeClick: mapCode === 'world' ? undefined : () => setMapCode('world'),
     onAreaClick:
       mapCode === 'world' && canDrillDown

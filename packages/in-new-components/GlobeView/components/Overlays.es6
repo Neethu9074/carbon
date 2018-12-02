@@ -5,10 +5,12 @@ import ReactDOM from 'react-dom';
 
 import countryMap from 'in-new-components/GlobeView/components/countryConfig';
 import CountryList from 'in-new-components/GlobeView/components/CountryList';
+import { websitePathFullyQualified } from 'in-websites/navigation/paths';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Button from 'in-new-components/MapControls/Button';
 import { applyTransform } from 'in-services/util/dom';
 import { Vector3 } from 'in-map/3DLibProvider';
-import connect from 'in-hoc/connectTo';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Overlays.mless';
 
@@ -47,11 +49,8 @@ export default class OverlaysReactComponentMounter {
 
 const OverlaysReactComponent = compose(
   withState('showLabels', 'setShowLabels', false),
-  withState('showHeatMap', 'setShowHeatMap', false),
-  connect(props => ({
-    showLabels: props.showLabels$,
-    showHeatMap: props.showHeatMap$
-  }))
+  withState('showHeatMap', 'setShowHeatMap', true),
+  withState('autoRotate', 'setAutoRotate', true)
 )(OverlaysReactComponentFn);
 
 function OverlaysReactComponentFn({
@@ -61,7 +60,9 @@ function OverlaysReactComponentFn({
   showHeatMap,
   setShowHeatMap,
   globeView,
-  data$
+  data$,
+  autoRotate,
+  setAutoRotate
 }) {
   return (
     <Fragment>
@@ -69,23 +70,55 @@ function OverlaysReactComponentFn({
 
       <div className={locals.buttons}>
         <div className={locals.buttonRow}>
-          <Button dark icon="lib_arrow_drop_left" onClick={() => globeView.rotateLeft()} />
           <div className={locals.buttonColumn}>
-            <Button dark icon="lib_arrow_drop_up" onClick={() => globeView.pinchUp()} />
-            <Button dark icon="lib_actions_revert" onClick={() => globeView.toggleAutoRotate()} />
-            <Button dark icon="lib_arrow_drop_down" onClick={() => globeView.pinchDown()} />
+            <Tooltip content="Toogle heat map" align="leftMiddle">
+              <Button
+                dark={!showHeatMap}
+                icon="lib_website"
+                onClick={() => {
+                  setShowHeatMap(!showHeatMap);
+                  globeView.toggleHeatMap(!showHeatMap);
+                }}
+              />
+            </Tooltip>
+            <Tooltip content="Pan left" align="leftMiddle">
+              <Button dark icon="lib_arrow_drop_left" onClick={() => globeView.rotateLeft()} />
+            </Tooltip>
+            <div className={locals.placeholder} />
           </div>
           <div className={locals.buttonColumn}>
-            <Button dark={!showLabels} icon="lib_views_tag" onClick={() => setShowLabels(!showLabels)} />
-            <Button dark icon="lib_arrow_drop_right" onClick={() => globeView.rotateRight()} />
-            <Button
-              dark={!showHeatMap}
-              icon="lib_website"
-              onClick={() => {
-                setShowHeatMap(!showHeatMap);
-                globeView.toggleHeatMap(!showHeatMap);
-              }}
-            />
+            <Tooltip content="Pan up" align="leftMiddle">
+              <Button dark icon="lib_arrow_drop_up" onClick={() => globeView.pinchUp()} />
+            </Tooltip>
+            <Tooltip content="Toogle automatic spinning" align="leftMiddle">
+              <Button
+                dark={!autoRotate}
+                icon="lib_actions_revert"
+                onClick={() => {
+                  setAutoRotate(!autoRotate);
+                  globeView.toggleAutoRotate();
+                }}
+              />
+            </Tooltip>
+            <Tooltip content="Pan down" align="leftMiddle">
+              <Button dark icon="lib_arrow_drop_down" onClick={() => globeView.pinchDown()} />
+            </Tooltip>
+          </div>
+          <div className={locals.buttonColumn}>
+            <Tooltip content="Toggle country names" align="leftMiddle">
+              <Button dark={!showLabels} icon="lib_views_tag" onClick={() => setShowLabels(!showLabels)} />
+            </Tooltip>
+            <Tooltip content="Pan right" align="leftMiddle">
+              <Button dark icon="lib_arrow_drop_right" onClick={() => globeView.rotateRight()} />
+            </Tooltip>
+            <Tooltip content="Switch to 2D map" align="leftMiddle">
+              <Button
+                dark
+                href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}
+                className={locals.to2D}
+                renderContent={() => <span>2D</span>}
+              />
+            </Tooltip>
           </div>
         </div>
       </div>

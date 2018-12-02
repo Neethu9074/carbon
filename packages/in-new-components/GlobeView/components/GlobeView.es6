@@ -37,6 +37,7 @@ export default class GlobeView {
     this.resize();
 
     this.realtimeUpdate(0);
+    setTimeout(() => this.toggleHeatMap(true), 500);
   }
 
   resize() {

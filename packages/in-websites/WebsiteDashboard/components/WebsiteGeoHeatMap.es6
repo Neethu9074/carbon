@@ -8,7 +8,7 @@ import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
 const valueFormatter = v => `${number.compact(v)} page loads`;
 
-export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown }) {
+export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
   return (
     <GeoHeatMap
       canDrillDown={canDrillDown}
@@ -16,6 +16,7 @@ export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canD
       height={height}
       valueFormatter={valueFormatter}
       notDefinedValue={valueFormatter(0)}
+      controlWrapperClassName={controlWrapperClassName}
     />
   );
 }

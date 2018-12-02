@@ -3,9 +3,21 @@
     position: relative;
   }
 
+  .zoom {
+    position: absolute;
+    right: 0;
+    bottom: 2.5rem;
+  }
+
+  .home {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
   .legend {
     position: absolute;
-    right: 0.8rem;
-    bottom: 0.8rem;
+    left: 0.5rem;
+    bottom: 0.5rem;
   }
 }

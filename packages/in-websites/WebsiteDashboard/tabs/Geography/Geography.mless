@@ -5,39 +5,25 @@
     position: relative;
   }
 
-  .link {
+  .controlWrapperClassName {
     position: absolute;
-    top: 0.625rem;
-    left: 3.625rem;
+    right: 2rem;
+    bottom: 4.5rem;
   }
 
-  .mapSwitchIconLight,
-  .mapSwitchIconDark {
-    padding: 3px;
-    border-radius: 50%;
-  }
-
-  .mapSwitchIconDark {
-    fill: #a7a7a7;
-    border: 1px solid @lib__colors__N400;
+  .to3D {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: @lib__colors__N600Light;
 
     &:hover {
-      background: #333;
+      color: @lib__colors__N800Dark;
     }
-  }
-
-  .mapSwitchIconLight {
-    fill: #000;
-    border: 1px solid @lib__colors__N400;
-
-    &:hover {
-      background: #dadada;
-    }
-  }
-
-  .heatMapLegend {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 2.4375rem;
   }
 }

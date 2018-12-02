@@ -7,8 +7,10 @@ import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWeb
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import Button from 'in-new-components/MapControls/Button';
 import GlobeView from 'in-new-components/GlobeView';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
 import locals from './Geography.mless';
@@ -43,15 +45,21 @@ export default function Geography({ tagFilters, timeConfig }) {
               path={`${websitePathFullyQualified}/geography`}
               render={() => (
                 <div>
-                  <TwoDWebsiteGeoMap tagFilters={tagFilters} timeConfig={timeConfig} height={height} />
-                  <Link
-                    className={locals.link}
-                    href$={getModifiedUrlStream(
-                      params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
-                    )}
-                  >
-                    <SvgIcon className={locals.mapSwitchIconLight} type="lib_website_inverted" width={24} height={24} />
-                  </Link>
+                  <TwoDWebsiteGeoMap
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    height={height}
+                    controlWrapperClassName={locals.controlWrapperClassName}
+                  />
+                  <Tooltip content="Switch to 3D globe" align="leftMiddle">
+                    <Button
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
+                      )}
+                      className={locals.to3D}
+                      renderContent={() => <span>3D</span>}
+                    />
+                  </Tooltip>
                 </div>
               )}
             />

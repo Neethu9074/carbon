@@ -4,6 +4,7 @@
   .wrapper {
     display: flex;
     align-items: center;
+    text-decoration: none;
 
     height: 2rem;
 
@@ -15,6 +16,8 @@
     cursor: pointer;
 
     &:hover {
+      text-decoration: none;
+
       .icon {
         fill: @lib__colors__N800Dark;
       }

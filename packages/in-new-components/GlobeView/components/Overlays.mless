@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .buttons {
     position: absolute;
@@ -24,5 +26,24 @@
     background: #ffffff4f;
     border-radius: 0 3px 3px 3px;
     font-weight: 700;
+  }
+
+  .to2D {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: @lib__colors__N400;
+    width: 2rem;
+
+    &:hover {
+      color: @lib__colors__N500;
+    }
+  }
+
+  .placeholder {
+    width: 2rem;
+    height: 2rem;
+    margin: .5rem;
   }
 }

@@ -1,12 +1,14 @@
-import { compose } from 'recompose';
+import { compose, pure } from 'recompose';
 import React from 'react';
 
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import HeatMapLegend from 'in-new-components/HeatMapLegend';
-import { generateStableHash } from 'in-services/util/id';
+import Button from 'in-new-components/MapControls/Button';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
+import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 
 import locals from './GeoHeatMapPresenter.mless';
@@ -22,20 +24,13 @@ import locals from './GeoHeatMapPresenter.mless';
 export default compose(
   connect(({ mapCode }) => ({
     map: loadMap(mapCode)
-  }))
+  })),
+  pure
 )(GeoHeatMapPresenter);
 
-function GeoHeatMapPresenter({
-  onHomeClick,
-  onAreaClick,
-  result,
-  valueFormatter,
-  mapCode,
-  map,
-  height,
-  projection = 'winkel3',
-  notDefinedValue
-}) {
+function GeoHeatMapPresenter(props) {
+  const { result, map, height } = props;
+
   if (!result || result.progress.loading || !map) {
     return <InfiniteCircle height={height} />;
   } else if (result.errors.length > 0) {
@@ -43,12 +38,36 @@ function GeoHeatMapPresenter({
   }
 
   return (
+    <Content
+      // AmMap maps cannot be properly updated. Instead, we need to completely throw them away on prop changes.
+      // The pure HOC will make sure that this doesn't happen exceedingly often.
+      key={Math.random()}
+      {...props}
+    />
+  );
+}
+
+function Content({
+  onHomeClick,
+  onAreaClick,
+  result,
+  valueFormatter,
+  mapCode,
+  map,
+  height,
+  projection,
+  notDefinedValue,
+  controlWrapperClassName
+}) {
+  let onZoomIn;
+  let onZoomOut;
+  let onHome;
+
+  return (
     <div className={locals.wrapper} style={{ height: `${height}px` }}>
       <AmMap
-        // AmMap maps cannot be properly updated. Instead, we need to completely throw them away on prop changes.
-        key={mapCode + generateStableHash(result.data) + projection}
-        onDidMount={args =>
-          onDidMount({
+        onDidMount={args => {
+          const creationResult = onDidMount({
             ...args,
             onHomeClick,
             onAreaClick,
@@ -58,12 +77,33 @@ function GeoHeatMapPresenter({
             mapCode,
             map,
             data: result.data
-          })
-        }
+          });
+
+          onZoomIn = creationResult.onZoomIn;
+          onZoomOut = creationResult.onZoomOut;
+          onHome = creationResult.onHome;
+
+          return creationResult.map;
+        }}
         height={`${height}px`}
       />
 
       <Legend data={result.data} valueFormatter={valueFormatter} />
+
+      <div className={controlWrapperClassName}>
+        <Tooltip content="Reset view" align="leftMiddle">
+          <Button icon="lib_website_inverted" className={locals.home} onClick={() => onHome()} />
+        </Tooltip>
+
+        <ButtonGroup vertical className={locals.zoom}>
+          <Tooltip content="Zoom in" align="leftMiddle">
+            <Button appendBottom icon="lib_actions_zoom_in" onClick={() => onZoomIn()} />
+          </Tooltip>
+          <Tooltip content="Zoom out" align="leftMiddle">
+            <Button appendTop icon="lib_actions_zoom_out" onClick={() => onZoomOut()} />
+          </Tooltip>
+        </ButtonGroup>
+      </div>
     </div>
   );
 }
@@ -79,7 +119,7 @@ function onDidMount({
   onAreaClick,
   notDefinedValue
 }) {
-  const worldDataProvider = {
+  const dataProvider = {
     map: getMapName(mapCode),
     areas: mapDefinition.svg.g.path.map(p => {
       const areaData = data[p.id.toLowerCase()];
@@ -113,12 +153,6 @@ function onDidMount({
       }
     }
   ];
-  if (onHomeClick) {
-    listeners.push({
-      event: 'homeButtonClicked',
-      method: () => onHomeClick()
-    });
-  }
 
   const map = amCharts.makeChart(
     containerElement,
@@ -127,10 +161,15 @@ function onDidMount({
       theme: 'none',
       projection,
       colorSteps: 10,
-      dataProvider: worldDataProvider,
-      mouseWheelZoomEnabled: true,
+      dataProvider,
       hideCredits: true,
       listeners,
+
+      mouseWheelZoomEnabled: true,
+      zoomControl: {
+        homeButtonEnabled: false,
+        zoomControlEnabled: false
+      },
 
       areasSettings: {
         autoZoom: true,
@@ -144,7 +183,21 @@ function onDidMount({
     0
   );
 
-  return map;
+  const onZoomIn = () => map.zoomIn();
+  const onZoomOut = () => map.zoomOut();
+  const onHome = () => {
+    map.selectObject(dataProvider);
+    if (onHomeClick) {
+      onHomeClick();
+    }
+  };
+
+  return {
+    map,
+    onZoomIn,
+    onZoomOut,
+    onHome
+  };
 }
 
 function Legend({ data, valueFormatter }) {

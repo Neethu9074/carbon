@@ -13,9 +13,13 @@
   .listItem {
     list-style: none;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.8rem;
     padding: 0.5rem;
-    margin-bottom: 0.25rem;
+    margin: 0;
+  }
+
+  .countryName {
+    font-weight: 500;
   }
 
   .barWrapper {
@@ -23,7 +27,8 @@
   }
 
   .bar {
-    height: 0.5rem;
+    height: .188rem;
+    border-radius: 2px;
     animation-duration: 2s;
     animation-name: slidein;
   }

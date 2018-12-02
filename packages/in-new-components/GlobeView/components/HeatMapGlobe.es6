@@ -32,7 +32,24 @@ export default class HeatMapGlobe {
 
           this.ctx.drawImage(image, 0, 0, 4096, 2048);
 
-          const maxCount = data.items.map(t => t.pageLoads).reduce((a, b) => (a > b ? a : b), 0);
+          let min = null;
+          let max = null;
+          data.items.forEach(item => {
+            const value = item.pageLoads;
+
+            if (min == null) {
+              min = value;
+            } else {
+              min = Math.min(min, value);
+            }
+
+            if (max == null) {
+              max = value;
+            } else {
+              max = Math.max(max, value);
+            }
+          });
+
           for (let i = 0; i < data.items.length; i++) {
             const { country, pageLoads } = data.items[i];
             const countryDefinition = findCountryConfigByLabel(country);
@@ -40,7 +57,8 @@ export default class HeatMapGlobe {
               continue;
             }
 
-            const color = getHeatMapColor(pageLoads / maxCount, heatMapColorScaleRgb);
+            const intensity = (pageLoads - min) / (max - min);
+            const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
             this.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
 
             for (let i = 0; i < countryDefinition.paths.length; i++) {

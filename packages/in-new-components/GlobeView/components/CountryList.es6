@@ -3,6 +3,7 @@ import React from 'react';
 import { heatMapColorScaleRgb } from 'in-new-components/GlobeView/components/heatMapConfig';
 import getHeatMapColor from 'in-services/heatMapColors';
 import { rgbToHex } from 'in-services/formatters/color';
+import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './CountryList.mless';
@@ -24,18 +25,34 @@ export default connectTo(
       return null;
     }
 
-    const maxCount = items.map(t => t.pageLoads).reduce((a, b) => (a > b ? a : b), 0);
+    let min = null;
+    let max = null;
+    items.forEach(item => {
+      const value = item.pageLoads;
+
+      if (min == null) {
+        min = value;
+      } else {
+        min = Math.min(min, value);
+      }
+
+      if (max == null) {
+        max = value;
+      } else {
+        max = Math.max(max, value);
+      }
+    });
 
     return (
       <div className={locals.wrapper}>
         <ul className={locals.list}>
           {items.map(item => {
-            const color = getHeatMapColor(item.pageLoads / maxCount, heatMapColorScaleRgb);
+            const intensity = (item.pageLoads - min) / (max - min);
+            const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
             return (
               <li key={item.country} className={locals.listItem}>
-                {item.country}
-                {` (${item.pageLoads})`}
-                <div style={{ width: (item.pageLoads / maxCount) * 300 }} className={locals.barWrapper}>
+                <span className={locals.countryName}>{item.country}:</span> {number.compact(item.pageLoads)}
+                <div style={{ width: (item.pageLoads / max) * 300 }} className={locals.barWrapper}>
                   <div
                     style={{ background: rgbToHex(color.r * 255, color.g * 255, color.b * 255) }}
                     className={locals.bar}
