@@ -1,7 +1,7 @@
 import { compose, withState, withPropsOnChange } from 'recompose';
 
 import GeoHeatMapPresenter from 'in-new-components/GeoHeatMap/GeoHeatMapPresenter';
-import { isMapLoadable } from 'in-new-components/AmMap/libraryWrapper';
+import { canDrillDownToMap } from 'in-new-components/AmMap/libraryWrapper';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -21,7 +21,7 @@ export default compose(
     onAreaClick:
       mapCode === 'world' && canDrillDown
         ? newMapCode => {
-            if (isMapLoadable(newMapCode)) {
+            if (canDrillDownToMap(newMapCode)) {
               // let the Map finish zooming in on a country before switching data
               setTimeout(() => setMapCode(newMapCode), 1000);
             }

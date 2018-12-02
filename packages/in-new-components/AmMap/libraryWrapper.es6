@@ -15,6 +15,14 @@ export const centerAlignedLocationPointer =
 export const amCharts = window.AmCharts;
 export const worldLowMap = amCharts.maps.worldLow;
 
+export function canDrillDownToMap(code) {
+  return (
+    isMapLoadable(code) &&
+    // our subdivision data and the UK map do not match :(
+    'gb' !== code.toLowerCase()
+  );
+}
+
 export function isMapLoadable(code) {
   return code === 'world' || !!loaders[code.toLowerCase()];
 }
