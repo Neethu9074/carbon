@@ -10,14 +10,17 @@ import Button from 'in-components/Button';
 export default class extends React.Component {
   static displayName = 'RequestQuoteDialog';
 
-  state = {
-    loading: true,
-    error: false,
-    message: null,
-    //todo: getCompanyName
-    form: createForm(null),
-    companyName: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      error: false,
+      message: null,
+      form: createForm(null),
+      //todo: getCompanyName
+      companyName: null
+    };
+  }
 
   render() {
     const { form } = this.state;
@@ -74,7 +77,7 @@ function createForm(companyName) {
     .put('numberOfYears', createField({ validator: notBlankValidator }))
     .put('billingStreet', createField({ validator: notBlankValidator }))
     .put('billingCity', createField({ validator: notBlankValidator }))
-    .put('billingState', createField({ validator: notBlankValidator }))
-    .put('billingCountry', createField({ validator: notBlankValidator }))
+    .put('billingState', createField({ value: null, validator: notBlankValidator }))
+    .put('billingCountry', createField({ value: null, validator: notBlankValidator }))
     .put('billingZip', createField({ validator: notBlankValidator }));
 }
