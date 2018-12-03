@@ -7,11 +7,11 @@ import getKubernetesEntitiesHealthInfo from 'in-subscription/kubernetes/getKuber
 import { podDashboard, podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import PodTooltip from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
+import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import { lighten } from 'in-services/formatters/color';
-import { getHistoricMetric } from 'in-stores/metric';
 import WithIcon from 'in-new-components/WithIcon';
 import { mutateUrl } from 'in-stores/navigation';
 import TreeMap from 'in-new-components/TreeMap';
@@ -37,11 +37,12 @@ export default compose(
     if (sizeMetricConfig) {
       observables.podMetricValues = combineLatest(
         podIds.map(id =>
-          getHistoricMetric({
+          getTimeWindowBasedMetricAggregation({
             snapshotId: id,
             metric: `${sizeMetricConfig.metricName}${sizeMetricConfig.metricType}`,
+            timeWindowAggregation: 'mean',
             timeConfig
-          }).map(data => ({ id, value: data[1] }))
+          }).map(data => ({ id, value: data }))
         )
       )
         .debounce(250)
