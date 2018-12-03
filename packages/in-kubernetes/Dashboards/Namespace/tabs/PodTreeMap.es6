@@ -48,9 +48,16 @@ export default compose(
         .debounce(250)
         .map(metrics => {
           const metricsAsMap = {};
+          let minValue = Number.MAX_VALUE;
+          let maxValue = 0;
           for (let i = 0; i < metrics.length; i++) {
-            metricsAsMap[metrics[i].id] = { value: metrics[i].value, format: sizeMetricConfig.format };
+            const { id, value } = metrics[i];
+            metricsAsMap[id] = { value, format: sizeMetricConfig.format };
+            minValue = Math.min(minValue, value);
+            maxValue = Math.max(maxValue, value);
           }
+          metricsAsMap.minValue = minValue;
+          metricsAsMap.maxValue = maxValue;
           return metricsAsMap;
         });
     }
@@ -60,21 +67,12 @@ export default compose(
 )(PodTreeMap);
 
 function PodTreeMap(props) {
-  const {
-    data,
-    podMetricValues,
-    timeConfig,
-    sizeMetricConfig,
-    showHealth,
-    grouping,
-    colorPool,
-    entitiesHealthInfo = {}
-  } = props;
+  const { data, podMetricValues, timeConfig, showHealth, grouping, colorPool, entitiesHealthInfo = {} } = props;
 
   return (
     <TreeMap
       data={data}
-      mapData={_data => mapTreeMapData(_data, sizeMetricConfig, podMetricValues, entitiesHealthInfo)}
+      mapData={_data => mapTreeMapData(_data, podMetricValues, entitiesHealthInfo)}
       customHeight={600}
       nivoProperties={{
         leavesOnly: true,
@@ -100,7 +98,11 @@ function DefaultWaitingPodTooltip() {
   return <WithIcon icon="lib_kubernetes_pod">Pod</WithIcon>;
 }
 
-function mapTreeMapData(_data, sizeMetricConfig, metricValues, entitiesHealthInfo) {
+function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
+  // add 5% of the values full domain to all values after calculating the label. This is just for visual feedback
+  // since all boxes which have a value = 0 would completely disappear.
+  const valueAdding = (metricValues.maxValue - metricValues.minValue) * 0.05;
+
   return {
     id: _data.treeMapData.root.id,
     isRoot: true,
@@ -111,8 +113,10 @@ function mapTreeMapData(_data, sizeMetricConfig, metricValues, entitiesHealthInf
         let value;
         let label;
         if (metricValues && metricValues[pod.id]) {
-          value = Math.max(0, metricValues[pod.id].value);
-          label = metricValues[pod.id].format(value);
+          const metricValue = metricValues[pod.id];
+          value = Math.max(0, metricValue.value);
+          label = metricValue.format(value);
+          value += valueAdding;
         } else {
           value = get(pod, ['children', 'length'], 1);
           label = `${value} Container${value > 1 ? 's' : ''}`;
