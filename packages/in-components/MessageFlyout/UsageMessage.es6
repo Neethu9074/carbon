@@ -1,15 +1,16 @@
 import { Motion, spring } from 'react-motion';
 import React from 'react';
 
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
-import './Message.less';
+import './UsageMessage.less';
 
-const block = 'in-message-flyout-message';
+let block = 'in-message-flyout-usage-message';
 
 export default function Message({ message }) {
   if (message.isLicenseUsageMsg) {
-    return null;
+    block = 'in-message-flyout-usage-message';
   }
 
   let classes = `${block} ${block}--${message.type}`;
@@ -34,24 +35,22 @@ export default function Message({ message }) {
           >
             <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
             <div className={`${block}__msg`}>
-              <Title title={message.title} />
-              {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}
+              <Content content={message.content} />
+              <Button
+                kind="warning"
+                className={`${block}__button`}
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                Request a quote
+              </Button>
             </div>
           </div>
         );
       }}
     </Motion>
-  );
-}
-
-function Title({ title }) {
-  if (!title) {
-    return null;
-  }
-  return (
-    <div className={`${block}__title`}>
-      <strong>{title}</strong>
-    </div>
   );
 }
 

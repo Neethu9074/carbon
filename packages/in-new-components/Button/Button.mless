@@ -237,9 +237,9 @@
         // hover bg
           #f0bc00,
         // font
-          #fff,
+          #000,
         // hover font
-          #fff,
+          #000,
         //font size
           @lib__typography__button__font-size,
         //font weight

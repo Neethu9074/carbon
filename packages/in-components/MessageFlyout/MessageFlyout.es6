@@ -2,6 +2,7 @@ import React from 'react';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import Message from 'in-components/MessageFlyout/Message';
+import UsageMessage from 'in-components/MessageFlyout/UsageMessage';
 import connectTo from 'in-hoc/connectTo';
 
 import './MessageFlyout.less';
@@ -22,7 +23,7 @@ export default connectTo(
       return (
         <div className={usageBlock}>
           {messages.map(message => (
-            <Message key={message.id} message={message} />
+            <UsageMessage key={message.id} message={message} />
           ))}
         </div>
       );

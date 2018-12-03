@@ -12,6 +12,7 @@ let idCounter = 0;
 //   title: <string title>
 //   content: <string longer message for description>
 //   onClick?: <fn>
+//   isLicenseUsageMsg: Optional, indicating that this message is from the license usage flyout
 // }
 const messagesStore = createStore({
   name: 'in-components/MessageFlyout/stores/messages',
@@ -28,7 +29,7 @@ export function addMessage(messageParam, id = null) {
     title: messageParam.title,
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
-    isLicenseUsageMsg: messageParam.isLicenseUsageMsg == null ? false : messageParam.isLicenseUsageMsg
+    isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg
   };
 
   messagesStore.applyStateMutation(messages => {
