@@ -4,7 +4,7 @@ import getKubernetesService from 'in-subscription/kubernetes/getKubernetesServic
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Specification from 'in-kubernetes/Dashboards/Service/tabs/Specification';
 import getTabHeaderWithCount from 'in-kubernetes/tabs/getTabHeaderWithCount';
-import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import Pods from 'in-kubernetes/Dashboards/Service/tabs/Pods/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import Ports from 'in-kubernetes/Dashboards/Service/tabs/Ports';
