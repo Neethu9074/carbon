@@ -1,0 +1,10 @@
+:local {
+  .header {
+    margin: 1rem 0 2rem 0;
+  }
+
+  .headerLabel {
+    font-size: 1.375rem;
+    font-weight: 400;
+  }
+}

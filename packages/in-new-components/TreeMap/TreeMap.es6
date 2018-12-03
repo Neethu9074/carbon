@@ -19,7 +19,9 @@ export default compose(
   })
 )(TreeMap);
 
-function TreeMap({ width, height, customWidth, customHeight, data }) {
+const colors = ['#ffffff', theme.lib.colors.N300, '#b3def3'];
+
+function TreeMap({ width, height, customWidth, customHeight, data, mapData, nivoProperties }) {
   if (!width || !data) {
     return <div style={{ height: customHeight || height }} className={locals.treeMap} />;
   }
@@ -32,23 +34,25 @@ function TreeMap({ width, height, customWidth, customHeight, data }) {
       <NivoTreeMap
         height={height}
         width={width}
-        root={data}
+        root={mapData ? mapData(data) : data}
         identity="id"
         value="value"
-        innerPadding={16}
-        outerPadding={16}
-        labelTextColor="#000"
+        innerPadding={4}
+        outerPadding={8}
+        labelTextColor="inherit:darker(1.7)"
+        binary="binary"
         margin={{
           top: 0,
           right: 0,
           bottom: 0,
           left: 0
         }}
-        colorBy={n => theme.chart.strokeColors[n.depth]}
+        colorBy={n => colors[n.depth]}
         animate
-        motionStiffness={90}
-        motionDamping={11}
+        motionStiffness={280}
+        motionDamping={25}
         tooltip={props => <NivoChartTooltip {...props} id="Value" formatter={{ detailed: v => v }} />}
+        {...nivoProperties}
       />
     </div>
   );
