@@ -1,0 +1,10 @@
+:local {
+  .skeletonTreeMap {
+    display: block;
+
+    width: ~'calc(100% - 28px)';
+    height: 31.25rem;
+
+    margin: 0 0.875rem;
+  }
+}

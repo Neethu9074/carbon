@@ -6,6 +6,7 @@ import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Servi
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import getTabHeaderWithCount from 'in-kubernetes/tabs/getTabHeaderWithCount';
+import PodMapTab from 'in-kubernetes/Dashboards/Namespace/tabs/PodMapTab';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 
 export default [
@@ -13,6 +14,11 @@ export default [
     label: 'Summary',
     path: `${namespaceDashboardFullyQualified}/summary`,
     component: Summary
+  },
+  {
+    label: 'Pod Map',
+    path: `${namespaceDashboardFullyQualified}/podMap`,
+    component: PodMapTab
   },
   {
     label: 'Deployments',

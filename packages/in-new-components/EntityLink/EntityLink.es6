@@ -1,21 +1,16 @@
 import React from 'react';
 
-import PluginIcon from 'in-components/PluginIcon';
-import SvgIcon from 'in-components/SvgIcon';
+import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+
+import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
 export default function EntityLink({ label, plugin, icon, tooltip, href$, specialIndicator }) {
-  return (
-    <div className={locals.wrapper}>
-      {specialIndicator && <span className={locals.specialIndicator} />}
-      {plugin ? (
-        <PluginIcon className={locals.pluginIcon} dimension={18} plugin={plugin} />
-      ) : (
-        <SvgIcon className={locals.linkEntityIcon} type={icon} width={24} height={24} />
-      )}
+  let content = (
+    <WithIcon plugin={plugin} icon={icon} iconColor={theme.lib.colors.blue800}>
       {tooltip ? (
         <Tooltip content={tooltip}>
           <Link href$={href$}>{label}</Link>
@@ -23,6 +18,17 @@ export default function EntityLink({ label, plugin, icon, tooltip, href$, specia
       ) : (
         <Link href$={href$}>{label}</Link>
       )}
-    </div>
+    </WithIcon>
   );
+
+  if (specialIndicator) {
+    content = (
+      <div>
+        <span className={locals.specialIndicator} />
+        {content}
+      </div>
+    );
+  }
+
+  return content;
 }
