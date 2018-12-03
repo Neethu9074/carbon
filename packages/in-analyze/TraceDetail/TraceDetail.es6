@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
-import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import AppNavigatorSplitScreen from 'in-analyze/TraceDetail/components/AppNavigatorSplitScreen/AppNavigatorSplitScreen';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -80,7 +80,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
       />
       <BreadcrumbHeader useFullAvailableWidth />
 
-      <NavigatorSplitScreen
+      <AppNavigatorSplitScreen
         navigator={navigator}
         dataSource={filters.get('dataSource')}
         traceDetail={

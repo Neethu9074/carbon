@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -69,5 +70,19 @@ export function TableRowColumns({ item }) {
         <span>{millis.fixedCompact(item.beacon.duration)}</span>
       </Td>
     </Fragment>
+  );
+}
+
+export const ListItemHeader = 'URI';
+
+export function ListItem({ item, active }) {
+  return (
+    <ListItemPresenter
+      active={active}
+      label={item.beacon.httpCallUrl}
+      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconId: item.beacon.beaconId })}
+      time={item.beacon.timestamp}
+      duration={item.beacon.duration}
+    />
   );
 }

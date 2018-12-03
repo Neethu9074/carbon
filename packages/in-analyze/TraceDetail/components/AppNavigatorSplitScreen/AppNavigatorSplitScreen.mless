@@ -13,11 +13,21 @@
     border-right: 1px solid #d5dfe4;
   }
 
-  .detailView {
+  .traceDetail {
     width: ~'calc(100% - 20rem)';
 
     &.useFullWidth {
       width: ~'calc(100% - 3rem)';
+    }
+  }
+
+  @media @min-medium-screen {
+    .navigator {
+      width: 37.5rem;
+    }
+
+    .traceDetail {
+      width: ~'calc(100% - 37.5rem)';
     }
   }
 
