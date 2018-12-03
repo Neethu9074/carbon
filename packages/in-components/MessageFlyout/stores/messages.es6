@@ -27,7 +27,8 @@ export function addMessage(messageParam, id = null) {
     icon: messageParam.icon ? messageParam.icon : getIconByTyme(messageParam.type),
     title: messageParam.title,
     content: messageParam.content,
-    onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id)
+    onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
+    isLicenseUsageMsg: messageParam.isLicenseUsageMsg == null ? false : messageParam.isLicenseUsageMsg
   };
 
   messagesStore.applyStateMutation(messages => {

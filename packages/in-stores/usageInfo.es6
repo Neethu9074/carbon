@@ -43,7 +43,8 @@ export function init() {
         type: usageInfo.type.toLowerCase(),
         icon: 'info',
         content: <DangerousHtmlPresenter html={toHtml(usageInfo.note)} />,
-        onClick: hideUsageInfo
+        onClick: hideUsageInfo,
+        isLicenseUsageMsg: true
       },
       messageId
     );

@@ -7,6 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 import './MessageFlyout.less';
 
 const block = 'in-message-flyout';
+const usageBlock = 'in-message-flyout-usage';
 
 export default connectTo(
   {
@@ -17,6 +18,22 @@ export default connectTo(
       return null;
     }
 
-    return <div className={block}>{messages.map(message => <Message key={message.id} message={message} />)}</div>;
+    if (messages.find(message => message.isLicenseUsageMsg) != null) {
+      return (
+        <div className={usageBlock}>
+          {messages.map(message => (
+            <Message key={message.id} message={message} />
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className={block}>
+        {messages.map(message => (
+          <Message key={message.id} message={message} />
+        ))}
+      </div>
+    );
   }
 );
