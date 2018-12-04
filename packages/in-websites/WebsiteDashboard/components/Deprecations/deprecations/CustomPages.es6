@@ -23,13 +23,13 @@ ineum('page', 'some page name');
 export default function CustomPages() {
   const firstParagraph = (
     <Fragment>
-      Within the last twelve hours we applied fallback logic for the definition of pages to some of the data which we
-      received. This fallback logic is superseded by a first-class API for the definition of pages. Please define pages
-      via the intended API instead of relying on the fallback logic. The necessary changes look like this:
+      Within the last twelve hours we received data that had to be processed with fallback logic, which is now
+      deprecated in favor of a first-class API for the definition of pages. To define pages via the intended API, the
+      necessary changes look like this:
     </Fragment>
   );
   return (
-    <Deprecation title="Pages Defined Via Fallback" preview={firstParagraph} supportedUntil="2019-06-01">
+    <Deprecation title="Deprecated Page Definition" preview={firstParagraph} supportedUntil="2019-06-01">
       <p>{firstParagraph}</p>
       <Code code={newCodeToUse} lang="javascript" showLineNumbers={false} />
       <p style={{ margin: '1.3rem 0 1rem' }}>For your reference, the deprecated fallback logic looks like this:</p>
