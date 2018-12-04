@@ -75,8 +75,6 @@ export default function Summary({ timeConfig, data: pod }) {
         <Col lg={6}>
           <Containers timeConfig={timeConfig} podId={pod.id} />
         </Col>
-      </Row>
-      <Row>
         <Col lg={6}>
           <KeyValueList title="Labels" icon="lib_kubernetes_label" items={pod.labels} />
         </Col>
