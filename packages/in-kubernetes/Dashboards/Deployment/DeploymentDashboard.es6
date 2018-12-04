@@ -54,7 +54,7 @@ function Header(props) {
       {...props}
       renderActions={Actions}
       renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'deployment', 'name'])}
+      getLabel={result => get(result, ['data', 'name'])}
     />
   );
 }

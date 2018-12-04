@@ -50,7 +50,7 @@ function Header(props) {
       {...props}
       renderActions={Actions}
       renderSubTypes={SubTypes}
-      getLabel={result => get(result, ['data', 'cluster', 'label'])}
+      getLabel={result => get(result, ['data', 'label'])}
     />
   );
 }
@@ -69,7 +69,7 @@ function Actions({ clusterId, timeConfig }) {
 }
 
 function SubTypes({ result }) {
-  const version = get(result, ['data', 'cluster', 'version']);
+  const version = get(result, ['data', 'version']);
   return (
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
