@@ -27,7 +27,7 @@ export default function PodMapTab(props) {
               getTreeMap$={() =>
                 getNamespaceTreeMap({
                   namespaceId: namespaceItem.namespace.id,
-                  grouping: _props.grouping,
+                  grouping: _props.grouping.technicalName,
                   timeConfig
                 })
               }
