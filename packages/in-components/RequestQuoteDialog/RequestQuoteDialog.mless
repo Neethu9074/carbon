@@ -1,0 +1,13 @@
+:local {
+  .buttonWrapper {
+    display: flex;
+    justify-content: space-between;
+    justify-content: flex-end;
+  }
+
+  .notificationWrapper {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+  }
+}
