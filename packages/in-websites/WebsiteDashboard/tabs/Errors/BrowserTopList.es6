@@ -3,8 +3,8 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -74,7 +74,7 @@ function ViewAll({ tagFilters, websiteLabel }) {
   );
 }
 
-function Label({ item, websiteId, pageId }) {
+function Label({ item, tagFilters, websiteLabel }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -85,11 +85,14 @@ function Label({ item, websiteId, pageId }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToWebsite(websiteId, {
-        pageId,
-        tabPath: '/browsers',
-        tabParameters: {
-          browserName: label
+      href$={getLinkToAnalyze({
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+          websiteLabel,
+          tagFilters: tagFilters.concat({ name: 'beacon.browser.name', operator: 'EQUALS', stringValue: label })
+        }),
+        beaconType: 'error',
+        group: {
+          groupbyTag: 'beacon.os.name'
         }
       })}
     >
