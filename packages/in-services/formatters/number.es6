@@ -106,6 +106,13 @@ export const megaBytes = {
   detailed: megaBytesTwoDecimalPlaces
 };
 
+export const gigaBytesZeroDecimalPlaces = d => formatBytes(d * byteBase * byteBase * byteBase, zeroDecimalPlaces);
+export const gigaBytesTwoDecimalPlaces = d => formatBytes(d * byteBase * byteBase * byteBase, twoDecimalPlaces);
+export const gigaBytes = {
+  compact: gigaBytesZeroDecimalPlaces,
+  detailed: gigaBytesTwoDecimalPlaces
+};
+
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
 const withSiPrefixZeroDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)(\\${decimalSeparator}(\\d+))?(.*)$`, 'i');
