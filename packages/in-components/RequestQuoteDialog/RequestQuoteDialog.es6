@@ -1,9 +1,13 @@
+import { timeout } from 'reactive-observables';
+import { compose } from 'recompose';
 import React from 'react';
 
+import { finishedProgress, emptyObject } from 'in-services/fixedObjects';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Section from 'in-views/configurationView/components/Section';
-import getCompanyInfo from 'in-subscription/getCompanyInfo';
+import withPropDependingState from 'in-hoc/withPropDependingState';
 import Notification from 'in-components/form/Notification';
 import { close } from 'in-components/DialogPresenter/store';
 import requestQuote from 'in-subscription/requestQuote';
@@ -13,29 +17,34 @@ import connect from 'in-hoc/connectTo';
 
 import locals from './RequestQuoteDialog.mless';
 
-export default connect(() => ({
-  companyInfo: getCompanyInfo()
-}))(
-  class extends React.Component {
-    static displayName = 'RequestQuoteDialog';
+class RequestQuoteDialog extends React.Component {
+  static displayName = 'RequestQuoteDialog';
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        loading: true,
-        error: false,
-        message: null,
-        form: createForm(null),
-        companyName: null
-      };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      error: false,
+      message: null
+    };
+  }
 
-    render() {
-      //console.log(this.props)
-      const { form } = this.state;
+  render() {
+    const { form } = this.props;
 
-      return (
-        <Dialog>
+    return (
+      <Dialog>
+        {!form && (
+          <div className={locals.loadingState}>
+            <InfiniteCircle
+              className={locals.loadingStateIcon}
+              width={300}
+              customText="Loading necessary information…"
+            />
+          </div>
+        )}
+
+        {form && (
           <form onSubmit={this.onSubmit}>
             <Section>
               {this.state.message ? (
@@ -51,7 +60,7 @@ export default connect(() => ({
 
             {form ? (
               <div className={locals.buttonWrapper}>
-                <Button kind="action" onClick={() => close()}>
+                <Button kind="action" onClick={close}>
                   Cancel
                 </Button>
                 <Button kind="primary" type="submit" disabled={!form.hierarchyValid && form.touched}>
@@ -60,59 +69,97 @@ export default connect(() => ({
               </div>
             ) : null}
           </form>
-        </Dialog>
-      );
+        )}
+      </Dialog>
+    );
+  }
+
+  onChange = (fieldName, value) => {
+    const updatedForm = this.props.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+
+    this.props.setForm(updatedForm);
+  };
+
+  componentWillUnmount() {
+    if (this.requestQuoteSubscription) {
+      this.requestQuoteSubscription.dispose();
+      this.requestQuoteSubscription = null;
     }
+  }
 
-    onChange = (fieldName, value) => {
-      const updatedForm = this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+  onSubmit = e => {
+    e.preventDefault();
 
+    if (!this.state.form.hierarchyValid) {
       this.setState({
-        form: updatedForm
+        form: this.state.form.setTouched(true, { recurse: true })
       });
-    };
-
-    componentWillUnmount() {
-      if (this.requestQuoteSubscription) {
-        this.requestQuoteSubscription.dispose();
-        this.requestQuoteSubscription = null;
-      }
+      return;
     }
 
-    onSubmit = e => {
-      e.preventDefault();
+    this.setState({ loading: true, error: false, message: null });
 
-      if (!this.state.form.hierarchyValid) {
+    this.requestQuoteSubscription = requestQuote(this.state.form.toJS()).subscribe(result => {
+      if (result.progress.loading) {
+        return;
+      } else if (result.errors.length > 0) {
         this.setState({
-          form: this.state.form.setTouched(true, { recurse: true })
+          loading: false,
+          error: true,
+          message: result.errors.map(e => e.message).join(' ')
         });
         return;
+      } else {
+        this.setState({
+          loading: false,
+          error: false,
+          message: 'Your quote request has been successfully submitted.'
+        });
+        setTimeout(close, 3000);
       }
+    });
+  };
+}
 
-      this.setState({ loading: true, error: false, message: null });
+export default compose(
+  connect({
+    // TODO
+    // result: getCompanyInfo()
+    result: timeout(10000).map(() => ({
+      progress: finishedProgress,
+      errors: [],
+      data: {
+        id: '42',
+        name: 'Meine Tolle Firma'
+      }
+    }))
+  }),
+  withPropDependingState({
+    getInitialState,
+    resets: [
+      {
+        getResettingProps: () => ['result'],
+        onReset: getInitialState
+      }
+    ],
+    reducerName: 'setForm',
+    reducer: (prevState, form) => ({ form })
+  })
+)(RequestQuoteDialog);
 
-      this.requestQuoteSubscription = requestQuote(this.state.form.toJS()).subscribe(result => {
-        if (result.progress.loading) {
-          return;
-        } else if (result.errors.length > 0) {
-          this.setState({
-            loading: false,
-            error: true,
-            message: result.errors.map(e => e.message).join(' ')
-          });
-          return;
-        } else {
-          this.setState({
-            loading: false,
-            error: false,
-            message: 'Your quote request has been successfully submitted.'
-          });
-          setTimeout(close, 3000);
-        }
-      });
+function getInitialState({ result }) {
+  if (!result || result.progress.loading) {
+    return emptyObject;
+  } else if (result.errors.length > 0) {
+    return {
+      form: createForm(null)
     };
   }
-);
+
+  return {
+    form: createForm(result.data.name)
+  };
+}
 
 function createForm(companyName) {
   return createMapForm()
