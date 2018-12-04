@@ -3,14 +3,35 @@ import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import { twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import HighlightSwitch from 'in-kubernetes/Dashboards/Namespace/tabs/HighlightSwitch';
+import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
+import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Button from 'in-new-components/Button';
 
 import locals from './ControlFrame.mless';
 
+const groupings = {
+  deployment: {
+    technicalName: 'DEPLOYMENT',
+    label: 'Deployment',
+    getEntity: getKubernetesDeployment
+  },
+  service: {
+    technicalName: 'SERVICE',
+    label: 'Service',
+    getEntity: getKubernetesService
+  },
+  node: {
+    technicalName: 'NODE',
+    label: 'Node',
+    getEntity: getKubernetesNode
+  }
+};
+
 export default compose(
-  withState('grouping', 'setGrouping', 'SERVICE'),
+  withState('grouping', 'setGrouping', groupings.service),
   withState('showHealth', 'setShowHealth', false),
   withState('sizeMetricConfig', 'setSizeMetricConfig', null)
 )(ControlFrame);
@@ -72,24 +93,20 @@ function ControlFrame(props) {
 
             <h4 className={locals.groupHeading}>GROUP BY</h4>
             <ul className={locals.list}>
-              <li className={locals.item}>
-                <Button
-                  className={locals.button}
-                  onClick={() => setGrouping('SERVICE')}
-                  kind={grouping === 'SERVICE' ? 'primaryv2' : 'subtle'}
-                >
-                  Service
-                </Button>
-              </li>
-              <li className={locals.item}>
-                <Button
-                  className={locals.button}
-                  onClick={() => setGrouping('DEPLOYMENT')}
-                  kind={grouping === 'DEPLOYMENT' ? 'primaryv2' : 'subtle'}
-                >
-                  Deployment
-                </Button>
-              </li>
+              {Object.keys(groupings).map(key => {
+                const config = groupings[key];
+                return (
+                  <li key={key} className={locals.item}>
+                    <Button
+                      className={locals.button}
+                      onClick={() => setGrouping(config)}
+                      kind={grouping === config ? 'primaryv2' : 'subtle'}
+                    >
+                      {config.label}
+                    </Button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         )}

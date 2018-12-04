@@ -1,8 +1,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
-import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
@@ -17,10 +15,12 @@ export default connectTo(
       id: props.node.id,
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data.pod : null)),
-    groupEntity: getGroupEntity(props.grouping)({
-      id: props.node.data.groupId,
-      timeConfig: props.timeConfig
-    }).map(result => result.data)
+    groupEntity: props.grouping
+      .getEntity({
+        id: props.node.data.groupId,
+        timeConfig: props.timeConfig
+      })
+      .map(result => result.data)
   }),
   function PodTooltip({ grouping, pod, node, groupEntity }) {
     return (
@@ -32,7 +32,7 @@ export default connectTo(
         </div>
         <ul className={locals.list}>
           <KV
-            k={grouping === 'SERVICE' ? 'Service' : 'Deployment'}
+            k={grouping.label}
             v={get(groupEntity, ['name'], get(groupEntity, ['deployment', 'name'], node.data.groupId))}
           />
           <KV
@@ -62,14 +62,6 @@ export default connectTo(
     );
   }
 );
-
-function getGroupEntity(grouping) {
-  if (grouping === 'DEPLOYMENT') {
-    return getKubernetesDeployment;
-  } else if (grouping === 'SERVICE') {
-    return getKubernetesService;
-  }
-}
 
 function KV({ k, v }) {
   return (
