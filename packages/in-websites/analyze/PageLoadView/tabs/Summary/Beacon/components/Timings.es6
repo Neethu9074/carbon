@@ -1,0 +1,27 @@
+import React from 'react';
+
+import { millis, percentage as percentageFormatter } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip';
+
+import locals from './Timings.mless';
+
+export default function Timings({ timings, totalDuration }) {
+  timings = timings.filter(({ value }) => value >= 0);
+
+  return (
+    <dl className={locals.timings}>
+      {timings.map(({ label, value }, i) => {
+        const percentage = Math.min(value / Math.max(0.01, totalDuration), 1);
+        return (
+          <div key={i} className={locals.timing}>
+            <dt className={locals.label}>{label}</dt>
+            <dd className={locals.value}>{millis.fixedCompact(value)}</dd>
+            <Tooltip content={percentageFormatter.detailed(percentage)}>
+              <div className={locals.indicator} style={{ width: `${100 * percentage}%` }} />
+            </Tooltip>
+          </div>
+        );
+      })}
+    </dl>
+  );
+}

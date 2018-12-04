@@ -15,7 +15,7 @@ export default function BeaconUserSummary({ beacon }) {
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
 
   return (
-    <Row verticallyStretchColumns>
+    <Row className={locals.summary} verticallyStretchColumns>
       <Col lg={4}>
         <Card title="User Information" useMaxAvailableHeight>
           <User beacon={beacon} />

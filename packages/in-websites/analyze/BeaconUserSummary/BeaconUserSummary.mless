@@ -1,4 +1,10 @@
+@import '~in-themes/active.less';
+
 :local {
+  .summary {
+    color: @lib__colors__N600Light;
+  }
+
   pre.meta {
     max-height: 100%;
     padding: 1rem;
