@@ -16,6 +16,8 @@ import {
 import { getResponsiveNavigatorMode } from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 
+import locals from './BeaconsNavigator.mless';
+
 export default compose(getResponsiveNavigatorMode)(BeaconsNavigator);
 
 function BeaconsNavigator(props) {
@@ -23,6 +25,7 @@ function BeaconsNavigator(props) {
 
   return (
     <HeightRestrictedView
+      className={locals.navigator}
       render={() => (
         <Table tableInCard>
           <Thead>
