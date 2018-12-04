@@ -18,8 +18,7 @@ import Chart from 'in-components/Chart';
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
-export default function Summary({ timeConfig, data: deploymentItem }) {
-  const deployment = deploymentItem.deployment;
+export default function Summary({ timeConfig, data: deployment }) {
   const snapshotId = deployment.id;
 
   return (

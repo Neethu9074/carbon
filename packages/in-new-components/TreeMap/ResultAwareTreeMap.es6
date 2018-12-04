@@ -17,7 +17,12 @@ export default function ResultAwareTreeMap({ result, customHeigt, TreeMapRendere
     return <ErroneousResultPresenter errors={result.errors} />;
   }
 
-  return <TreeMapRenderer {...treeMapRendererProps} data={mapData(result.data)} />;
+  const enrichedData = mapData(result.data);
+  if (enrichedData.ids.length === 0) {
+    return null;
+  }
+
+  return <TreeMapRenderer {...treeMapRendererProps} data={enrichedData} />;
 }
 
 function mapData(data) {

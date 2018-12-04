@@ -19,9 +19,14 @@ import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
 export default compose(
-  withPropsOnChange(['data'], ({ data }) => ({
-    colorPool: createColorPool(data.ids[0].length)
-  })),
+  withPropsOnChange(['data'], ({ data }) => {
+    if (!data.ids[0]) {
+      return {};
+    }
+    return {
+      colorPool: createColorPool(data.ids[0].length)
+    };
+  }),
   connect(props => {
     const { showHealth, timeConfig, data, sizeMetricConfig } = props;
     const observables = {};
@@ -142,6 +147,9 @@ function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
 }
 
 function getColorForTreeNode(n, showHealth, colorPool) {
+  if (!n.isPod) {
+    return '#ff0000';
+  }
   if (n.health) {
     if (n.health.maxSeverity > 5) {
       return theme.lib.colors.failure;
