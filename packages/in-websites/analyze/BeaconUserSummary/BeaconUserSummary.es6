@@ -4,6 +4,7 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { sortKeys } from 'in-services/util/object';
 import Card from 'in-new-components/Card';
 import Code from 'in-components/Code';
 
@@ -44,7 +45,7 @@ export default function BeaconUserSummary({ beacon }) {
           {hasMeta && (
             <Code
               showLineNumbers={false}
-              code={JSON.stringify(ensureSortedMeta(beacon.meta), 0, 2)}
+              code={JSON.stringify(sortKeys(beacon.meta), 0, 2)}
               lang="json"
               wrapperClassName={locals.meta}
             />
@@ -62,13 +63,4 @@ export default function BeaconUserSummary({ beacon }) {
       </Col>
     </Row>
   );
-}
-
-function ensureSortedMeta(meta) {
-  return Object.keys(meta)
-    .sort()
-    .reduce((agg, key) => {
-      agg[key] = meta[key];
-      return agg;
-    }, {});
 }

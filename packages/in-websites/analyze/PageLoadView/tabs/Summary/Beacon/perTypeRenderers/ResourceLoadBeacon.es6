@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
+import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { millis, bytes } from 'in-services/formatters/number';
@@ -88,15 +89,11 @@ export const Body = ({ beacon }) => {
             <Di title="Initiator">{beacon.initiator}</Di>
           </Dl>
         </Col>
-        {hasNetworkInsights && (
+
+        {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Network Insights</BodyHeader>
-            <Dl>
-              <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
-              {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-              {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-              {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
-            </Dl>
+            <BodyHeader>Meta</BodyHeader>
+            <Meta beacon={beacon} />
           </Col>
         )}
       </Row>
@@ -106,6 +103,18 @@ export const Body = ({ beacon }) => {
           <Col lg={6}>
             <BodyHeader>Resource Timing</BodyHeader>
             <Timings timings={resourceTimings} totalDuration={beacon.duration} />
+          </Col>
+        )}
+
+        {hasNetworkInsights && (
+          <Col lg={6}>
+            <BodyHeader>Network Insights</BodyHeader>
+            <Dl>
+              <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
+              {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
+              {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
+              {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+            </Dl>
           </Col>
         )}
       </Row>
