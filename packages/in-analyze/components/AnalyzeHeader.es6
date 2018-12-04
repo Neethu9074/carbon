@@ -12,6 +12,7 @@ import {
 } from 'in-websites/tags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
+import { twoZeroWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -50,42 +51,50 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
         label="Calls"
         isActive={dataSource === 'calls'}
       />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
-          beaconType: 'pageLoad'
-        })}
-        icon="lib_website"
-        label={`${websiteDataSourceTitles.pageLoad}s`}
-        isActive={dataSource === 'pageLoad'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
-          beaconType: 'resourceLoad'
-        })}
-        icon="lib_website"
-        label={`${websiteDataSourceTitles.resourceLoad}s`}
-        isActive={dataSource === 'resourceLoad'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
-          beaconType: 'httpRequest'
-        })}
-        icon="lib_website"
-        label={`${websiteDataSourceTitles.httpRequest}s`}
-        isActive={dataSource === 'httpRequest'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
-          beaconType: 'error'
-        })}
-        icon="lib_website"
-        label={`${websiteDataSourceTitles.error}s`}
-        isActive={dataSource === 'error'}
-      />
+      {twoZeroWebsiteMonitoringEnabled && (
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+            beaconType: 'pageLoad'
+          })}
+          icon="lib_website"
+          label={`${websiteDataSourceTitles.pageLoad}s`}
+          isActive={dataSource === 'pageLoad'}
+        />
+      )}
+      {twoZeroWebsiteMonitoringEnabled && (
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+            beaconType: 'resourceLoad'
+          })}
+          icon="lib_website"
+          label={`${websiteDataSourceTitles.resourceLoad}s`}
+          isActive={dataSource === 'resourceLoad'}
+        />
+      )}
+      {twoZeroWebsiteMonitoringEnabled && (
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+            beaconType: 'httpRequest'
+          })}
+          icon="lib_website"
+          label={`${websiteDataSourceTitles.httpRequest}s`}
+          isActive={dataSource === 'httpRequest'}
+        />
+      )}
+      {twoZeroWebsiteMonitoringEnabled && (
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+            beaconType: 'error'
+          })}
+          icon="lib_website"
+          label={`${websiteDataSourceTitles.error}s`}
+          isActive={dataSource === 'error'}
+        />
+      )}
     </SecondLevelNavigation>
   );
 }
