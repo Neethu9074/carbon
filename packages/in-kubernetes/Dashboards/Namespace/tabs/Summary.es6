@@ -14,8 +14,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ timeConfig, data: namespaceItem }) {
-  const namespace = namespaceItem.namespace;
+export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
 
   return (

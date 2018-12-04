@@ -6,7 +6,7 @@ import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Servi
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import getTabHeaderWithCount from 'in-kubernetes/tabs/getTabHeaderWithCount';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
 
@@ -55,7 +55,7 @@ export default [
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
-    component: Pods,
+    component: PodsWithNamespaces,
     icon: 'lib_kubernetes_pod',
     header: getTabHeaderWithCount({
       getCount$: getCount$.bind(null, 'pods')

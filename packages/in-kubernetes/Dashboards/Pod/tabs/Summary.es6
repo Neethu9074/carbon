@@ -9,8 +9,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 import Chart from 'in-components/Chart';
 
-export default function Summary({ timeConfig, data: podItem }) {
-  const pod = podItem.pod;
+export default function Summary({ timeConfig, data: pod }) {
   const snapshotId = pod.id;
 
   return (
