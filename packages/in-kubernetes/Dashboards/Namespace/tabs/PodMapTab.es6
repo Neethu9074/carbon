@@ -9,7 +9,7 @@ import WithIcon from 'in-new-components/WithIcon';
 import locals from './PodMapTab.mless';
 
 export default function PodMapTab(props) {
-  const { timeConfig, data: namespaceItem } = props;
+  const { timeConfig, data: namespace } = props;
 
   return (
     <Fragment>
@@ -26,7 +26,7 @@ export default function PodMapTab(props) {
             <ServerTreeMap
               getTreeMap$={() =>
                 getNamespaceTreeMap({
-                  namespaceId: namespaceItem.namespace.id,
+                  namespaceId: namespace.id,
                   grouping: _props.grouping.technicalName,
                   timeConfig
                 })
