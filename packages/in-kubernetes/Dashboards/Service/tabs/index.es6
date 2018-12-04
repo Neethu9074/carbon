@@ -1,13 +1,8 @@
-import { get } from 'lodash';
-
-import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Specification from 'in-kubernetes/Dashboards/Service/tabs/Specification';
-import getTabHeaderWithCount from 'in-kubernetes/tabs/getTabHeaderWithCount';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
-import Ports from 'in-kubernetes/Dashboards/Service/tabs/Ports';
+import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
 
 export default [
   {
@@ -16,9 +11,9 @@ export default [
     component: Summary
   },
   {
-    label: 'Specification',
-    path: `${serviceDashboardFullyQualified}/specification`,
-    component: Specification
+    label: 'Details',
+    path: `${serviceDashboardFullyQualified}/details`,
+    component: Details
   },
   {
     label: 'Endpoints',
@@ -26,21 +21,9 @@ export default [
     component: Endpoints
   },
   {
-    label: 'Ports',
-    path: `${serviceDashboardFullyQualified}/ports`,
-    component: Ports
-  },
-  {
     label: 'Pods',
     path: `${serviceDashboardFullyQualified}/pods`,
     component: Pods,
-    icon: 'lib_kubernetes_pod',
-    header: getTabHeaderWithCount({
-      getCount$: getCount$.bind(null, 'pods')
-    })
+    icon: 'lib_kubernetes_pod'
   }
 ].filter(Boolean);
-
-function getCount$(property, { timeConfig, serviceId }) {
-  return getKubernetesService({ id: serviceId, timeConfig }).map(result => get(result, ['data', property]));
-}
