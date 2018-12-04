@@ -7,7 +7,7 @@ export const getLabel = beacon => beacon.errorMessage;
 
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
-    <KeyValueHeader label="Request" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader label="Error Message" onClick={toggleExpanded} value={getLabel(beacon)} />
     <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader label="Start Time" value={`+${millis.fixedCompact(beacon.timestamp - earliestTimestamp)}`} />
   </Fragment>

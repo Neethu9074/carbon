@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
 
 export const getLabel = beacon => {
@@ -26,4 +28,15 @@ export const RightHeader = () => (
   </Fragment>
 );
 
-export const Body = () => <div>TODO</div>;
+export const Body = ({ beacon }) => (
+  <Fragment>
+    <Row>
+      <Col lg={6}>
+        <Dl>
+          <Di title="URI">{beacon.httpCallUrl}</Di>
+          <Di title="Type">{beacon.httpCallUrl}</Di>
+        </Dl>
+      </Col>
+    </Row>
+  </Fragment>
+);

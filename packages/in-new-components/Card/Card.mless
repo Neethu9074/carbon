@@ -41,4 +41,8 @@
   .bodyWithoutPadding {
     padding: 0;
   }
+
+  .useMaxAvailableHeight {
+    height: 100%;
+  }
 }

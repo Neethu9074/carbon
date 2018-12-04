@@ -1,6 +1,6 @@
 :local {
   pre.meta {
-    max-height: 11rem;
+    max-height: 100%;
     padding: 1rem;
   }
 
@@ -19,5 +19,10 @@
     font-size: 0.85rem;
     padding: 0.1rem 0 0;
     display: block;
+  }
+
+  .metaCard {
+    max-height: 16.8rem;
+    height: 100%;
   }
 }
