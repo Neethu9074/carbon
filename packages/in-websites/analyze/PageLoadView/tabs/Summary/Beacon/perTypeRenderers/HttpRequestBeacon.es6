@@ -6,6 +6,7 @@ import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/compon
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { millis, bytes } from 'in-services/formatters/number';
+import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -23,7 +24,11 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader label="Request" onClick={toggleExpanded} value={getLabel(beacon)} />
     <KeyValueHeader label="Page" value={beacon.page} />
-    <KeyValueHeader label="Start Time" value={`+${millis.fixedCompact(beacon.timestamp - earliestTimestamp)}`} />
+    <KeyValueHeader
+      label="Start Time"
+      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
+      tooltipContent={formatDateTime(beacon.timestamp)}
+    />
     <KeyValueHeader label="Retrieval Time" value={millis.fixedCompact(beacon.duration)} />
   </Fragment>
 );

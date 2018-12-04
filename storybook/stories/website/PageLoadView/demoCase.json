@@ -1009,8 +1009,8 @@
     "accurateTimingsAvailable": true,
     "deprecations": [],
     "pageLoadId": "19e40b243dea0124",
-    "beaconId": "98348b324e049e1b",
-    "backendTraceId": "98348b324e049e1b",
+    "beaconId": "98348b324e049e1a",
+    "backendTraceId": "98348b324e049e1a",
     "type": "httpRequest",
     "customEventName": "",
     "meta": {
