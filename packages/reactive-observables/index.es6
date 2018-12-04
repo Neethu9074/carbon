@@ -26,7 +26,7 @@ export function create<T>(subjectSpec: ?SubjectSpec<T>): Subject<T> {
   return new Subject(subjectSpec);
 }
 
-export const empty: Observable = create().freeze();
+export const empty: Observable<void> = create().freeze();
 
 export function just<T>(v: T): Observable<T> {
   return create()
@@ -124,8 +124,8 @@ function noop() {
   // noop
 }
 
-export function fromPromise(p) {
-  const observable = create();
+export function fromPromise<T>(p: Promise<T>): Observable<T> {
+  const observable: Subject<T> = create();
   p.then(v => observable.emit(v), err => observable.emitError(err));
   return observable;
 }

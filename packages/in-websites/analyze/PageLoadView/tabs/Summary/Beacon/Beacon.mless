@@ -5,6 +5,7 @@
     padding: 1rem;
     border-top: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
+    color: @lib__colors__N600Light;
   }
 
   .header {
@@ -29,5 +30,9 @@
         width: 20rem;
       }
     }
+  }
+
+  .body {
+    margin: 2.2rem 0 0 4rem;
   }
 }

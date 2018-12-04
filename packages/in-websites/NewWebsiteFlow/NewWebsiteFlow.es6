@@ -3,6 +3,7 @@ import { interval } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
+import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
@@ -94,6 +95,13 @@ export default class NewWebsiteFlow extends React.PureComponent {
       return <WaitStep {...this.state} />;
     }
 
-    return <ReadyStep {...this.state} websiteLink$={getLinkToWebsite(websiteId)} />;
+    return (
+      <ReadyStep
+        {...this.state}
+        websiteLink$={getLinkToWebsite(websiteId, {
+          timeConfig: getWaitForEntityCreationTimeConfig()
+        })}
+      />
+    );
   }
 }

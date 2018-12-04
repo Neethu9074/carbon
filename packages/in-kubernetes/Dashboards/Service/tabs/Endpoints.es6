@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
+import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 const pathSegment = '/endpoints';
@@ -12,17 +12,6 @@ const matrixPrefix = 'endpoints.';
 export default function Endpoints({ timeConfig, data: service }) {
   return (
     <Fragment>
-      <Row>
-        <Col lg={4}>
-          <KpiCard title="Type" value={service.type} />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Location" value={service.location} />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Created" value={service.created} />
-        </Col>
-      </Row>
       <Row>
         <Col lg={12}>
           <ServerTableWithUrlBoundState
@@ -45,7 +34,7 @@ export default function Endpoints({ timeConfig, data: service }) {
 }
 
 function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, serviceId }) {
-  return getKubernetesServices({
+  return getKubernetesEndpoints({
     pagination: {
       page,
       pageSize
@@ -64,38 +53,31 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 
 const columnDefinitions = [
   {
-    id: 'name',
-    label: 'Name',
+    id: 'serviceUid',
+    label: 'Service UID',
     getContent(item) {
-      return get(item, ['endpoint', 'name']);
+      return get(item, ['endpoint', 'serviceUid']);
     }
   },
   {
-    id: 'address',
-    label: 'Address',
+    id: 'pods',
+    label: 'Pods',
     getContent(item) {
-      return get(item, ['endpoint', 'address']);
+      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['endpoint', 'pods'])} />;
     }
   },
   {
-    id: 'port',
-    label: 'Port',
+    id: 'internal',
+    label: 'Interal',
     getContent(item) {
-      return get(item, ['endpoint', 'port']);
+      return <EntityCounter count={get(item, ['endpoint', 'internal'])} />;
     }
   },
   {
-    id: 'status',
-    label: 'Status',
+    id: 'external',
+    label: 'External',
     getContent(item) {
-      return get(item, ['endpoint', 'status']);
-    }
-  },
-  {
-    id: 'uid',
-    label: 'UID',
-    getContent(item) {
-      return get(item, ['endpoint', 'uid']);
+      return <EntityCounter count={get(item, ['endpoint', 'external'])} />;
     }
   }
 ];
