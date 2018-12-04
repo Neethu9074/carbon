@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import Message from 'in-components/MessageFlyout/Message';
@@ -19,22 +19,28 @@ export default connectTo(
       return null;
     }
 
-    if (messages.find(message => message.isLicenseUsageMsg) != null) {
-      return (
-        <div className={usageBlock}>
-          {messages.map(message => (
-            <UsageMessage key={message.id} message={message} />
-          ))}
-        </div>
-      );
-    }
+    //license usage message is treated differently then the rest of the messages
+    const usageMessage = messages.filter(message => message.isLicenseUsageMsg);
+    const normalMessages = messages.filter(message => !message.isLicenseUsageMsg);
 
     return (
-      <div className={block}>
-        {messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-      </div>
+      <Fragment>
+        {usageMessage.length > 0 && (
+          <div className={usageBlock}>
+            {usageMessage.map(message => (
+              <UsageMessage key={message.id} message={message} />
+            ))}
+          </div>
+        )}
+
+        {normalMessages.length > 0 && (
+          <div className={block}>
+            {normalMessages.map(message => (
+              <Message key={message.id} message={message} />
+            ))}
+          </div>
+        )}
+      </Fragment>
     );
   }
 );
