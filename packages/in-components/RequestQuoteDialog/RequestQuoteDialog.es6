@@ -4,6 +4,8 @@ import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm'
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
+import { close } from 'in-components/DialogPresenter/store';
+import requestQuote from 'in-subscription/requestQuote';
 import Dialog from 'in-components/Dialog';
 import Button from 'in-components/Button';
 
@@ -53,6 +55,13 @@ export default class extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    if (this.requestQuoteSubscription) {
+      this.requestQuoteSubscription.dispose();
+      this.requestQuoteSubscription = null;
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
 
@@ -62,7 +71,24 @@ export default class extends React.Component {
       });
       return;
     }
-    //do something
+
+    this.setState({ loading: true, error: false, message: null });
+
+    this.requestQuoteSubscription = requestQuote(this.state.form.toJS()).subscribe(result => {
+      if (result.progress.loading) {
+        return;
+      } else if (result.errors.length > 0) {
+        this.setState({
+          loading: false,
+          error: true,
+          message: result.errors.map(e => e.message).join(' ')
+        });
+        return;
+      } else {
+        // TODO show success
+        setTimeout(close, 3000);
+      }
+    });
   };
 }
 
@@ -70,7 +96,7 @@ function createForm(companyName) {
   return createMapForm()
     .put('companyName', createField({ value: companyName || '', validator: notBlankValidator }))
     .put('numberOfApmHosts', createField({ validator: notBlankValidator }))
-    .put('numberOfInfraHosts', createField({ validator: notBlankValidator }))
+    .put('numberOfInfrastructureHosts', createField({ validator: notBlankValidator }))
     .put('numberOfYears', createField({ validator: notBlankValidator }))
     .put('billingStreet', createField({ validator: notBlankValidator }))
     .put('billingCity', createField({ validator: notBlankValidator }))

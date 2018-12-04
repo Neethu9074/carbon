@@ -1,10 +1,10 @@
-.request-quote-form {
-  &__row {
+:local {
+  .row {
     display: flex;
     justify-content: space-between;
   }
 
-  &__small_fields {
+  .smallFields {
     width: 32%;
   }
 }
