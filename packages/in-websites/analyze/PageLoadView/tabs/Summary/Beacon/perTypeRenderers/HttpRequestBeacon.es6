@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
@@ -23,7 +24,16 @@ export const getLabel = beacon => {
 
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
-    <KeyValueHeader label="Request" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader
+      label={
+        <Fragment>
+          Request
+          <BatchIndicator batchCount={beacon.batchSize} />
+        </Fragment>
+      }
+      onClick={toggleExpanded}
+      value={getLabel(beacon)}
+    />
     <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader
       label="Start Time"
