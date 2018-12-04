@@ -25,11 +25,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   </Fragment>
 );
 
-export const RightHeader = () => (
-  <Fragment>
-    <div>TODO</div>
-  </Fragment>
-);
+export const RightHeader = () => <Fragment />;
 
 export const Body = ({ beacon }) => {
   const hasTransferSize = beacon.transferSize >= 0;
