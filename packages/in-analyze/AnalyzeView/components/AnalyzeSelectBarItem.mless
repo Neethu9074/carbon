@@ -1,0 +1,20 @@
+@import '~in-themes/active.less';
+
+:local {
+  .notAvailable {
+    color: @lib__colors__N500;
+    cursor: not-allowed;
+
+    .icon {
+      fill: @lib__colors__N500;
+    }
+
+    &:hover {
+      color: @lib__colors__N500;
+
+      .icon {
+        fill: @lib__colors__N500;
+      }
+    }
+  }
+}

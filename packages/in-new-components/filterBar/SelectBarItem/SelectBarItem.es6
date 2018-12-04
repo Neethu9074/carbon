@@ -5,7 +5,7 @@ import SelectBarOverlayBehavior from 'in-new-components/filterBar/SelectBarItem/
 import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 
-export default function SelectBarItemBehavior(props) {
+export default function SelectBarItem(props) {
   return (
     <Overlay withoutWrapper content={SelectBarOverlayBehavior} props={props}>
       {Content}
@@ -13,7 +13,16 @@ export default function SelectBarItemBehavior(props) {
   );
 }
 
-function Content({ singularLabel, toggle, isOpen, tagFilters, tag, refSetter, withoutTextTransform }) {
+function Content({
+  singularLabel,
+  toggle,
+  isOpen,
+  tagFilters,
+  tag,
+  selectedItemRenderer,
+  refSetter,
+  withoutTextTransform
+}) {
   const existingTagFilter = find(tagFilters, f => f.name === tag);
   return (
     <BarItem
@@ -24,7 +33,12 @@ function Content({ singularLabel, toggle, isOpen, tagFilters, tag, refSetter, wi
       onClick={toggle}
       refSetter={refSetter}
     >
-      {existingTagFilter ? existingTagFilter.stringValue : singularLabel}
+      {existingTagFilter ? renderItem(existingTagFilter, selectedItemRenderer) : singularLabel}
     </BarItem>
   );
+}
+
+function renderItem(existingTagFilter, selectedItemRenderer) {
+  const label = existingTagFilter.stringValue || existingTagFilter.value;
+  return selectedItemRenderer ? selectedItemRenderer(label) : label;
 }

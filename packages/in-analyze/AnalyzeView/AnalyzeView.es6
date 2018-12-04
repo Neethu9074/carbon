@@ -1,4 +1,4 @@
-import { compose, withPropsOnChange } from 'recompose';
+import { compose, withProps, withPropsOnChange } from 'recompose';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
@@ -16,6 +16,7 @@ import {
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -69,7 +70,15 @@ export default compose(
       ),
       isRawView: !group || !group.name
     })
-  )
+  ),
+  withProps(({ onChangeAnalyzeConfig }) => ({
+    setTagFilters(tagFilters) {
+      onChangeAnalyzeConfig({
+        [tagFilterMatrixParameter]: tagFilters
+      });
+    }
+  })),
+  tagFilterManipulators
 )(AnalyzeView);
 
 function AnalyzeView(props) {

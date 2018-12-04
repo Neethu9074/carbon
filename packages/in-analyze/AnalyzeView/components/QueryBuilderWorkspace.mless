@@ -5,14 +5,6 @@
     background: @lib__colors__N300;
   }
 
-  .firstRowMaxWidthFullscreenContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0.75rem 0;
-  }
-
   .filterRowWrapper {
     display: flex;
     align-items: center;

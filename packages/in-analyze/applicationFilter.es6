@@ -132,11 +132,12 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   // user provided tag filters will override default ones
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
-  return tagFilters.concat(defaultFiltersToAdd).map(tag => {
+  const result = tagFilters.concat(defaultFiltersToAdd).map(tag => {
     const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator };
     getValueByTag(backendTagFilter, tag);
     return backendTagFilter;
   });
+  return result;
 }
 
 function getValueByTag(backendTagFilter, tag) {
@@ -148,6 +149,8 @@ function getValueByTag(backendTagFilter, tag) {
   } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
     backendTagFilter.booleanValue = tag.value;
   } else {
-    backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
+    backendTagFilter.stringValue = tag.secondLevelName
+      ? `${tag.secondLevelName}=${tag.value}`
+      : tag.value || tag.stringValue;
   }
 }

@@ -1,12 +1,16 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
-  .quickFilterRow {
-    display: flex;
-    align-items: center;
+  .entityIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N700Medium;
   }
 
-  .moreFilterLabel {
-    font-weight: 600;
+  .itemText {
+    display: inline-block;
+    line-height: 1.5rem;
+    color: @lib__colors__N700Medium;
+    .ellipsis();
   }
 }

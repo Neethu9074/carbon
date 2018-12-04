@@ -6,6 +6,7 @@ import React from 'react';
 import SelectBarOverlay from 'in-new-components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
+import { identity } from 'in-services/util/function';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -13,8 +14,9 @@ export default compose(
   connect((props, prevProps) => {
     const tagFilters = props.tagFilters.filter(f => f.name !== props.tag);
     const queryNotBlank = isNotBlank(props.query);
+    const filterSuggestionsClientSide = props.filterSuggestionsClientSide === true;
 
-    if (queryNotBlank) {
+    if (!filterSuggestionsClientSide && queryNotBlank) {
       tagFilters.push({
         name: props.tag,
         stringValue: props.query,
@@ -28,7 +30,7 @@ export default compose(
       tagFilters
     };
 
-    if (props.query !== prevProps.query && queryNotBlank) {
+    if (props.query !== prevProps.query && queryNotBlank && !filterSuggestionsClientSide) {
       // Query changes are frequent and we need to debounce these changes.
       // Also, while debouncing, we immediately want to turn the table state
       // into a loading state. This is better than having the state of an input
@@ -62,7 +64,9 @@ function SelectBarOverlayBehavior({
   tag,
   close,
   query,
-  setQuery
+  setQuery,
+  filterSuggestionsClientSide,
+  itemLabelRenderer = identity
 }) {
   // query, loading, onQueryChange, selectedItem, items, onSelectItem
   let items = emptyArray;
@@ -79,12 +83,13 @@ function SelectBarOverlayBehavior({
   const existingTagFilter = find(tagFilters, f => f.name === tag);
   let selectedItem;
   if (existingTagFilter) {
-    selectedItem = find(items, i => i.key === existingTagFilter.stringValue);
+    selectedItem = find(items, i => i.key === existingTagFilter.stringValue || i.key === existingTagFilter.value);
   }
 
   return (
     <SelectBarOverlay
       items={items}
+      filterSuggestionsClientSide={filterSuggestionsClientSide}
       selectedItem={selectedItem}
       loading={result == null || result.progress.loading}
       query={query}
@@ -103,6 +108,7 @@ function SelectBarOverlayBehavior({
       }}
       moreDataAvailable={result.data && result.data.canLoadMore}
       moreDataMessage={`More ${pluralLabel} available. Only the top 200 ${pluralLabel} shown. Use the filter to drill down further.`}
+      itemLabelRenderer={itemLabelRenderer}
     />
   );
 }

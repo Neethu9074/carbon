@@ -1,44 +1,43 @@
-import { compose, withProps } from 'recompose';
+import { withProps } from 'recompose';
+import React from 'react';
 
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import SelectBarItem from 'in-new-components/filterBar/SelectBarItem';
+import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
+import Tooltip from 'in-components/Tooltip';
 
-export default compose(
-  withProps({
-    getSuggestions: ({ timeConfig, tagFilters, tag }) => {
-      return getWebsiteBeaconGroups({
-        timeConfig: timeConfig,
-        tagFilters: tagFilters,
-        metrics: {
-          beaconCount: {
-            metric: 'beaconCount',
-            aggregation: 'SUM'
-          }
-        },
-        order: {
-          by: 'beaconCount',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 200
-        },
-        group: {
-          groupbyTag: tag
-        }
-      }).map(mapData);
-    }
-  })
-)(SelectBarItem);
+export default function AnalyzeSelectBarItem(props) {
+  const { precondition, singularLabel, preconditionFailedTooltip = 'Not available' } = props;
+  if (precondition && !precondition()) {
+    return (
+      <Tooltip themeStyle="light" content={preconditionFailedTooltip} align="bottomMiddle">
+        <BarItem showArrow notAvailable isOpen={false} active={false} onClick={() => {}}>
+          {singularLabel}
+        </BarItem>
+      </Tooltip>
+    );
+  }
+
+  return <AnalyzeSelectBarItemWithData {...props} />;
+}
+
+const AnalyzeSelectBarItemWithData = withProps({
+  filterSuggestionsClientSide: true,
+  getSuggestions: ({ timeConfig, tagFilters, tag }) => {
+    return getTagSuggestions({
+      filter: {
+        timeConfig
+      },
+      tagFilters: getTagFilterListForBackendSubscription(tagFilters, [], 'value'),
+      tagName: tag
+    }).map(mapData);
+  }
+})(SelectBarItem);
 
 function mapData(result) {
   if (!result.data) {
     return result;
   }
-
-  return {
-    progress: result.progress,
-    errors: result.errors,
-    time: result.time,
-    data: result.data.items.map(item => JSON.parse(item.name))
-  };
+  return { ...result, data: result.data.suggestions };
 }
