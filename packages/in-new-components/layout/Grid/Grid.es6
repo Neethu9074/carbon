@@ -3,13 +3,14 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './Grid.mless';
 
-export const Row = ({ children, className, style, withoutTopMargin }) => {
+export const Row = ({ children, className, style, withoutTopMargin, verticallyStretchColumns }) => {
   return (
     <div
       className={evaluateClassNames({
         [locals.row]: true,
         [className]: className,
-        [locals.withoutTopMargin]: withoutTopMargin
+        [locals.withoutTopMargin]: withoutTopMargin,
+        [locals.verticallyStretchColumns]: verticallyStretchColumns
       })}
       style={style}
     >

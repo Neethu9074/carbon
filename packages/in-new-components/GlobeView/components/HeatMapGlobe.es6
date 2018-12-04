@@ -69,6 +69,7 @@ export default class HeatMapGlobe {
           }
           this.ctx.setTransform(1, 0, 0, 1, 0, 0);
           texture.needsUpdate = true;
+          this.scene.add(this.globe);
         });
       };
       image.src = worldDiffuseGrayScaleMapPath;

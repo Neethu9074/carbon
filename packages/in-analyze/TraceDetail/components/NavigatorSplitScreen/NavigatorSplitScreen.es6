@@ -1,22 +1,14 @@
 import { compose } from 'recompose';
-import { findIndex } from 'lodash';
 import React from 'react';
 
-import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
-import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
-import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { mutateUrl } from 'in-stores/navigation/navigation';
-import { prefetch } from 'in-subscription/util/prefetch';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NavigatorSplitScreen.mless';
@@ -53,81 +45,105 @@ function getInitialState({ screenWidth }) {
   };
 }
 
-function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded, dataSource }) {
-  const { totalHits, totalRepresentedItemCount, location, items, canLoadMore, loadMore, progress } = navigator.props;
-
-  const dataSourceConfig = getConfigByDataSource(dataSource);
-  const selectedTraceId = getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
-  const selectedCallId = getMatrixParameter(location, traceDetailPath, callIdMatrixParameter);
-  const itemMatcher = dataSourceConfig.getMatcher(selectedTraceId, selectedCallId);
-  const itemIndex = findIndex(items, itemMatcher);
-  const hasNext = itemIndex + 1 < items.length;
-  const hasPrev = itemIndex > 0;
-  const typeLabel = dataSourceConfig.typeLabel;
+function NavigatorSplitScreen({
+  navigator,
+  typeLabel,
+  totalHits,
+  totalRepresentedItemCount,
+  items,
+  openItemIndex,
+  openItem: customOpenItem,
+  canLoadMore,
+  loadMore,
+  progress,
+  children,
+  expanded,
+  setExpanded
+}) {
+  const hasNext = openItemIndex + 1 < items.length;
+  const hasPrev = openItemIndex > 0;
 
   return (
     <div className={locals.navigatorSplitScreen}>
       {expanded && (
         <div className={locals.navigator}>
-          <div className={locals.header}>
-            <ResultHeader itemType={typeLabel} nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
-
-            <div className={locals.actions}>
-              {hasPrev && (
-                <Tooltip content={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}>
-                  <SvgIcon
-                    type="lib_arrow_drop_left"
-                    aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
-                    width={20}
-                    className={locals.prev}
-                    id={leftArrowId}
-                    onClick={e => openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
-                  />
-                </Tooltip>
-              )}
-
-              {hasNext && (
-                <Tooltip content={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}>
-                  <SvgIcon
-                    type="lib_arrow_drop_right"
-                    aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
-                    width={20}
-                    className={locals.next}
-                    id={rightArrowId}
-                    onClick={e => openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
-                  />
-                </Tooltip>
-              )}
-
-              <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
-                <SvgIcon
-                  type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                  aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
-                  width={20}
-                  className={locals.toggle}
-                  onClick={() => setExpanded(!expanded)}
+          <Sticky
+            header={
+              <div className={locals.header}>
+                <ResultHeader
+                  itemType={typeLabel}
+                  nbRows={totalHits}
+                  nbItems={totalRepresentedItemCount}
+                  withoutMargin
+                  withMaxWidth
                 />
-              </Tooltip>
-            </div>
-          </div>
 
-          {navigator}
+                <div className={locals.actions}>
+                  {hasPrev && (
+                    <Tooltip content={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}>
+                      <SvgIcon
+                        type="lib_arrow_drop_left"
+                        aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
+                        width={20}
+                        className={locals.prev}
+                        id={leftArrowId}
+                        onClick={e =>
+                          openItem(e, openItemIndex - 1, items, canLoadMore, loadMore, progress, customOpenItem)
+                        }
+                      />
+                    </Tooltip>
+                  )}
+
+                  {hasNext && (
+                    <Tooltip content={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}>
+                      <SvgIcon
+                        type="lib_arrow_drop_right"
+                        aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
+                        width={20}
+                        className={locals.next}
+                        id={rightArrowId}
+                        onClick={e =>
+                          openItem(e, openItemIndex + 1, items, canLoadMore, loadMore, progress, customOpenItem)
+                        }
+                      />
+                    </Tooltip>
+                  )}
+
+                  <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
+                    <SvgIcon
+                      type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                      aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
+                      width={20}
+                      className={locals.toggle}
+                      onClick={() => setExpanded(!expanded)}
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+            }
+          >
+            {navigator}
+          </Sticky>
         </div>
       )}
 
       {!expanded && (
         <div className={locals.toggleBar}>
-          <div className={locals.toggleWrapper}>
-            <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
-              <SvgIcon
-                type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
-                width={20}
-                className={`${locals.toggleInBar} ${locals.toggle}`}
-                onClick={() => setExpanded(!expanded)}
-              />
-            </Tooltip>
-          </div>
+          <Sticky
+            header={
+              <div className={locals.toggleWrapper}>
+                <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
+                  <SvgIcon
+                    type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                    aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
+                    width={20}
+                    className={`${locals.toggleInBar} ${locals.toggle}`}
+                    onClick={() => setExpanded(!expanded)}
+                  />
+                </Tooltip>
+              </div>
+            }
+          />
         </div>
       )}
 
@@ -135,45 +151,29 @@ function NavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded, d
 
       <div
         className={evaluateClassNames({
-          [locals.traceDetail]: true,
+          [locals.detailView]: true,
           [locals.useFullWidth]: !expanded
         })}
       >
-        {traceDetail}
+        {children}
       </div>
     </div>
   );
 }
 
-function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, dataSourceConfig) {
+function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, customOpenItem) {
   e.preventDefault();
   e.stopPropagation();
 
   // todo only do when clicking on next/prev
-  if (itemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
+  if (openItemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
     loadMore();
   }
 
-  const item = items[itemIndex];
+  const item = items[openItemIndex];
   if (!item) {
     return;
   }
 
-  const traceId = dataSourceConfig.getTraceIdByItem(item);
-  const callId = dataSourceConfig.getCallIdByItem(item);
-
-  const nextItem = items[itemIndex + 1];
-  if (nextItem) {
-    const traceIdForNextPrefetch = dataSourceConfig.getTraceIdByItem(nextItem);
-    const callIdForNextPrefetch = dataSourceConfig.getCallIdByItem(nextItem);
-    prefetch(getTraceSummary({ id: traceIdForNextPrefetch }));
-    if (callIdForNextPrefetch) {
-      prefetch(getTraceActivityTreeNodeDetails({ traceId: traceIdForNextPrefetch, nodeId: callIdForNextPrefetch }));
-    }
-  }
-
-  mutateUrl(location => {
-    setOrDeleteMatrixKey(location, traceDetailPath, traceIdMatrixParameter, traceId);
-    setOrDeleteMatrixKey(location, traceDetailPath, callIdMatrixParameter, callId);
-  });
+  customOpenItem(item);
 }
