@@ -1,34 +1,32 @@
-import { compose, withProps } from 'recompose';
+import { withProps } from 'recompose';
 
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import SelectBarItem from 'in-new-components/filterBar/SelectBarItem';
 
-export default compose(
-  withProps({
-    getSuggestions: ({ timeConfig, tagFilters, tag }) => {
-      return getWebsiteBeaconGroups({
-        timeConfig: timeConfig,
-        tagFilters: tagFilters,
-        metrics: {
-          beaconCount: {
-            metric: 'beaconCount',
-            aggregation: 'SUM'
-          }
-        },
-        order: {
-          by: 'beaconCount',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 200
-        },
-        group: {
-          groupbyTag: tag
+export default withProps({
+  getSuggestions: ({ timeConfig, tagFilters, tag }) => {
+    return getWebsiteBeaconGroups({
+      timeConfig: timeConfig,
+      tagFilters: tagFilters,
+      metrics: {
+        beaconCount: {
+          metric: 'beaconCount',
+          aggregation: 'SUM'
         }
-      }).map(mapData);
-    }
-  })
-)(SelectBarItem);
+      },
+      order: {
+        by: 'beaconCount',
+        direction: 'DESC'
+      },
+      pagination: {
+        retrievalSize: 200
+      },
+      group: {
+        groupbyTag: tag
+      }
+    }).map(mapData);
+  }
+})(SelectBarItem);
 
 function mapData(result) {
   if (!result.data) {

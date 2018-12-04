@@ -1,4 +1,4 @@
-import { compose, withProps } from 'recompose';
+import { withProps } from 'recompose';
 
 import GroupMetricsChart from 'in-analyze/components/GroupMetricsChart';
 import { millis, number } from 'in-services/formatters/number';
@@ -23,8 +23,6 @@ const chartDefinitions = [
   }
 ];
 
-export default compose(
-  withProps({
-    chartDefinitions
-  })
-)(GroupMetricsChart);
+export default withProps({
+  chartDefinitions
+})(GroupMetricsChart);

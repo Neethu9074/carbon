@@ -1,4 +1,4 @@
-import { compose, withState } from 'recompose';
+import { withState } from 'recompose';
 import React from 'react';
 
 import Select from 'in-components/form/Select';
@@ -18,7 +18,7 @@ const options = [
   { label: 'max', value: 'MAX' }
 ];
 
-export default compose(withState('aggregation', 'setAggregation'))(AggregationSelector);
+export default withState('aggregation', 'setAggregation')(AggregationSelector);
 
 function AggregationSelector({ defaultAggregation, aggregation, setAggregation, children }) {
   return children({

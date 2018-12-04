@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { get, findIndex } from 'lodash';
-import { compose } from 'recompose';
 
 import {
   pageLoadId as pageLoadIdMatrixParameter,
@@ -29,16 +28,14 @@ import Link from 'in-components/Link';
 
 import locals from './PageLoadView.mless';
 
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => pageLoadViewPath,
-    getMatrixPrefix: () => '',
-    boundKeys: [pageLoadIdMatrixParameter, beaconIdMatrixParameter, beaconTimestampMatrixParameter],
-    getInitialState: () => ({}),
-    reducerName: 'onChange',
-    reduceAndGetAsUrlName: 'getChangeAsUrl'
-  })
-)(PageLoadView);
+export default withUrlDependingState({
+  getPathSegment: () => pageLoadViewPath,
+  getMatrixPrefix: () => '',
+  boundKeys: [pageLoadIdMatrixParameter, beaconIdMatrixParameter, beaconTimestampMatrixParameter],
+  getInitialState: () => ({}),
+  reducerName: 'onChange',
+  reduceAndGetAsUrlName: 'getChangeAsUrl'
+})(PageLoadView);
 
 function PageLoadView(props) {
   const { pageLoadId, items, beaconType, onChange, beaconTimestamp } = props;
