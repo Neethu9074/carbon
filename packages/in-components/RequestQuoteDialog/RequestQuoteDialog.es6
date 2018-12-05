@@ -10,6 +10,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Section from 'in-views/configurationView/components/Section';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
@@ -20,6 +21,7 @@ import Dialog from 'in-components/Dialog';
 import connect from 'in-hoc/connectTo';
 
 import locals from './RequestQuoteDialog.mless';
+const submittedTracker = createTracker('requestQuote.submitted');
 
 class RequestQuoteDialog extends React.Component {
   static displayName = 'RequestQuoteDialog';
@@ -92,6 +94,8 @@ class RequestQuoteDialog extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
+
+    submittedTracker();
 
     const { countries, states } = this.props;
     const countryList = countries == null ? [] : countries.list;

@@ -4,6 +4,7 @@ import React from 'react';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
+import { createTracker } from 'in-services/tracking/mixpanel';
 
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,6 +12,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import './UsageMessage.less';
 
 let block = 'in-message-flyout-usage-message';
+const buttonClickedMixpanelTracker = createTracker('requestQuote.buttonClicked');
 
 export default function Message({ message }) {
   if (message.isLicenseUsageMsg) {
@@ -47,6 +49,7 @@ export default function Message({ message }) {
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
+                    buttonClickedMixpanelTracker();
                     setActiveDialog(<RequestQuoteDialog />);
                   }}
                 >
