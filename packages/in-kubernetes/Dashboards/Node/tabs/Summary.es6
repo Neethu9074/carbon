@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -119,8 +119,10 @@ export default function Summary({ timeConfig, data: node }) {
         <Col lg={12}>
           <ConditionsList conditions={node.conditions} />
         </Col>
+      </Row>
+      <Row>
         <Col lg={12}>
-          <LabelsList labels={node.labels} />
+          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={node.labels} />
         </Col>
       </Row>
     </Fragment>

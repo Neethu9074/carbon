@@ -4,15 +4,19 @@ import { Table, Tbody, Tr, Td } from 'in-components/tables/sharedComponents';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import Card from 'in-new-components/Card';
 
-export default function LabelsList({ labels }) {
+export default function KeyValueList({ title, items, icon }) {
+  if (!items || items.length === 0) {
+    return null;
+  }
+
   return (
-    <Card title="Labels">
+    <Card title={title}>
       <Table tableInCard>
         <Tbody>
-          {(labels || []).map((label, i) => (
+          {items.map(({ key, value }, i) => (
             <Tr key={i} size="compact">
               <Td>
-                <EntityWithTypeAndIcon label={label.value} type={label.key} iconType="lib_kubernetes_label" />
+                <EntityWithTypeAndIcon label={value} type={key} iconType={icon} />
               </Td>
             </Tr>
           ))}

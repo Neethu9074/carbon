@@ -1,9 +1,9 @@
 import { isEmpty } from 'lodash';
 import React, { Fragment } from 'react';
 
-import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
-import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
 import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
+import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
+import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
