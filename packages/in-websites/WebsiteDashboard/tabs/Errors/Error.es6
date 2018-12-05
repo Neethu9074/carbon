@@ -1,6 +1,7 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
+import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
@@ -59,7 +60,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
     content = <ErroneousResultPresenter errors={result.errors} />;
   } else {
     const granularity = getChartGranularity(timeConfig);
-    const isScriptError = /^Script Error\.?/i.test(result.data.message);
 
     content = (
       <Fragment>
@@ -98,7 +98,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
         </Row>
 
-        {!isScriptError && (
+        {!isScriptError(result.data.message) && (
           <Row>
             <Col lg={6}>
               <Card title="Details">
@@ -121,23 +121,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Row>
         )}
 
-        {isScriptError && (
+        {isScriptError(result.data.message) && (
           <Row>
             <Col lg={12}>
               <Card title="Script Error">
-                <p className={locals.scriptErrorExplanation}>
-                  Error type, message and stack trace are inaccessible due to browser security mechanisms, i.e. the
-                  same-origin policy. This typically means that the error was caused by a script that is hosted on an
-                  origin different from the origin of the HTML document. JavaScript files retrieved from
-                  content-delivery networks and advertisement services are most commonly responsible for these.
-                </p>
+                <p className={locals.scriptErrorExplanation}>{explanation}</p>
                 <div className={locals.scriptErrorActionWrapper}>
-                  <Button
-                    href="https://docs.instana.io/products/website_monitoring/api/#insights-into-script-errors"
-                    kind="primaryv2"
-                    target="_blank"
-                  >
-                    Learn how to get visibility into these errors
+                  <Button href={learnMoreHref} kind="primaryv2" target="_blank">
+                    {learnMoreLabel}
                   </Button>
                 </div>
               </Card>

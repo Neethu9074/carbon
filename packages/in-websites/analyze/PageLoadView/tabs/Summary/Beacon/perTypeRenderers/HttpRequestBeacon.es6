@@ -11,6 +11,7 @@ import { millis, bytes } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => {
   let label = beacon.httpCallMethod;
@@ -105,6 +106,7 @@ export const Body = ({ beacon }) => {
             </Di>
             <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
             <Di title="HTTP Status">{beacon.httpCallStatus}</Di>
+            {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
             <Di title="Asynchronous">{yesOrNo(beacon.httpCallAsynchronous)}</Di>
             <Di title="Correlation Attempted">{yesOrNo(beacon.httpCallCorrelationAttempted)}</Di>
           </Dl>
