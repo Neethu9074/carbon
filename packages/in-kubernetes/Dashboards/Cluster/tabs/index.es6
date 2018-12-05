@@ -3,7 +3,7 @@ import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nam
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
 
 export default [
@@ -39,7 +39,7 @@ export default [
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
-    component: Pods,
+    component: PodsWithNamespaces,
     icon: 'lib_kubernetes_pod'
   }
 ].filter(Boolean);
