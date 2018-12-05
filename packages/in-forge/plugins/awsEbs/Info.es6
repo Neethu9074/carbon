@@ -2,13 +2,14 @@ import React from 'react';
 import { DescriptionItem, DescriptionList } from '../../../in-components/DescriptionList';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
+import { formatDateTime } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
       <DescriptionItem title="volume ID">{data.get('volume_id')}</DescriptionItem>
-      <DescriptionItem title="Created at">{data.get('created_time')}</DescriptionItem>
+      <DescriptionItem title="Created at">{formatDateTime(data.get('creation_time'))}</DescriptionItem>
       <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
       <DescriptionItem title="Size">{bytesZeroDecimalPlaces(data.get('size'))}</DescriptionItem>
       <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
