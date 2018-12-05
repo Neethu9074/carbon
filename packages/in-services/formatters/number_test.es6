@@ -65,11 +65,13 @@ describe('in-services.formatter.number', () => {
 
   describe('bytes', () => {
     it('should format bytes', () => {
-      expect(bytesZeroDecimalPlaces(1024)).to.equal('1 kB');
+      expect(bytesZeroDecimalPlaces(1024)).to.equal('1 kiB');
+      expect(bytesZeroDecimalPlaces(1024 * 1024)).to.equal('1 MiB');
+      expect(bytesZeroDecimalPlaces(1024 * 1024 * 1024)).to.equal('1 GiB');
     });
 
     it('should format bytes with multiple decimal places', () => {
-      expect(bytesTwoDecimalPlaces(1089576)).to.equal('1.04 MB');
+      expect(bytesTwoDecimalPlaces(1089576)).to.equal('1.04 MiB');
     });
 
     it('should handle fractions correctly', () => {
@@ -80,21 +82,21 @@ describe('in-services.formatter.number', () => {
 
   describe('bytes per second', () => {
     it('should format bytes', () => {
-      expect(bytesPerSecondZeroDecimalPlaces(1024)).to.equal('1 kB/s');
+      expect(bytesPerSecondZeroDecimalPlaces(1024)).to.equal('1 kiB/s');
     });
 
     it('should format bytes with multiple decimal places', () => {
-      expect(bytesPerSecondTwoDecimalPlaces(1089576)).to.equal('1.04 MB/s');
+      expect(bytesPerSecondTwoDecimalPlaces(1089576)).to.equal('1.04 MiB/s');
     });
   });
 
   describe('kilobyte', () => {
     it('should format kilobytes', () => {
-      expect(kiloBytesZeroDecimalPlaces(1024)).to.equal('1 MB');
+      expect(kiloBytesZeroDecimalPlaces(1024)).to.equal('1 MiB');
     });
 
     it('should format bytes with multiple decimal places', () => {
-      expect(kiloBytesTwoDecimalPlaces(1064.039)).to.equal('1.04 MB');
+      expect(kiloBytesTwoDecimalPlaces(1064.039)).to.equal('1.04 MiB');
     });
   });
 

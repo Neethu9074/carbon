@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import { formatDateTime } from 'in-services/formatters/date';
 import { millis } from 'in-services/formatters/number';
@@ -8,7 +9,16 @@ export const getLabel = beacon => beacon.errorMessage;
 
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
-    <KeyValueHeader label="Error Message" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader
+      label={
+        <Fragment>
+          Error
+          <BatchIndicator batchCount={beacon.batchSize} />
+        </Fragment>
+      }
+      onClick={toggleExpanded}
+      value={getLabel(beacon)}
+    />
     <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader
       label="Start Time"

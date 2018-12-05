@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -11,7 +12,10 @@ export default function HeaderToggleIcon({ expanded, setExpanded }) {
       <SvgIcon
         className={locals.icon}
         type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-        onClick={() => setExpanded(!expanded)}
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          setExpanded(!expanded);
+        }}
         width={20}
         height={20}
       />

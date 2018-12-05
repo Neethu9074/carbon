@@ -6,6 +6,17 @@
     border-top: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
     color: @lib__colors__N600Light;
+    position: relative;
+  }
+
+  .erroneous::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: @lib__colors__failure;
+    content: "";
   }
 
   .header {
