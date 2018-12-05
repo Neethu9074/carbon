@@ -13,6 +13,7 @@ const helpTexts = {
   'entity.aws.elb': 'Elastic loabalancer',
   'entity.aws.rds': 'Relational database service',
   'entity.aws.s3': 'Simple storage service',
+  'entity.aws.ebs': 'Elastic block storage',
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
