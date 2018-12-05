@@ -24,7 +24,7 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
       ...props,
       id,
       traceStart,
-      totalDuration,
+      duration: totalDuration,
       parent: null,
       depth: 0,
       x: 0,

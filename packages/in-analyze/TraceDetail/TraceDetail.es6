@@ -26,7 +26,7 @@ import theme from 'in-themes';
 
 import locals from './TraceDetail.mless';
 
-const getColorByEndpointType = ({ endpoint }) => getColor(endpoint.type);
+const getColorByEndpointType = ({ endpoint }) => getColor(endpoint ? endpoint.type : 'UNDEFINED');
 const getColorByEndpoint = ({ service, endpoint, traceId }) =>
   getColorPool(traceId, theme.lib.colors.chart.strokeColors100).getColorHex(`${service.id}__${endpoint.id}`);
 const byServiceEndpointCombinationUrlIdentifier = 'byServiceAndEndpoint';

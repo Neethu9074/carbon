@@ -39,20 +39,23 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
 
+  const isFakeRoot = id === FAKE_ROOT_ID;
+
   return (
     <div
       className={evaluateClassNames({
         [locals.frame]: true,
-        [locals.unhighlightedFrame]: isUnhighlighted
+        [locals.unhighlightedFrame]: isUnhighlighted,
+        [locals.fakeRoot]: isFakeRoot
       })}
       style={{
         top: `${top}px`,
         left: `${left}%`,
         width: `${width}%`,
         height: `${FRAME_HEIGHT}px`,
-        background: id == FAKE_ROOT_ID ? theme.lib.colors.N400 : getColor(callFrame)
+        background: isFakeRoot ? theme.lib.colors.N400 : getColor(callFrame)
       }}
-      onClick={() => onCallClicked(callFrame)}
+      onClick={isFakeRoot ? () => {} : () => onCallClicked(callFrame)}
     >
       <ErrorIndicator className={locals.errorIndicator} errorCount={errorCount} />
       <span className={locals.label}>{label}</span>

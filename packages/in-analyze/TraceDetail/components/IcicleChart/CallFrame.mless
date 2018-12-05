@@ -18,6 +18,10 @@
     opacity: 0.2;
   }
 
+  .fakeRoot {
+    cursor: default;
+  }
+
   .label {
     display: inline-block;
     color: white;
