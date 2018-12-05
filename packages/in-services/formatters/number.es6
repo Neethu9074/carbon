@@ -247,7 +247,7 @@ function formatBytes(num, numberFormatter) {
   let exponent;
   let unit;
   const neg = num < 0;
-  const units = ['B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZB', 'YiB'];
+  const units = ['B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
   if (neg) {
     num = -num;
