@@ -14,6 +14,10 @@
         margin-top: 0;
       }
     }
+
+    &.verticallyStretchColumns {
+      align-items: stretch;
+    }
   }
 
   .xs--auto, .xs--1, .xs--2, .xs--3, .xs--4, .xs--5, .xs--6, .xs--7, .xs--8, .xs--9, .xs--10, .xs--11, .xs--12,

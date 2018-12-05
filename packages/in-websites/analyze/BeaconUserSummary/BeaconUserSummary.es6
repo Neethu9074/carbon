@@ -15,9 +15,9 @@ export default function BeaconUserSummary({ beacon }) {
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
 
   return (
-    <Row>
+    <Row className={locals.summary} verticallyStretchColumns>
       <Col lg={4}>
-        <Card title="User Information">
+        <Card title="User Information" useMaxAvailableHeight>
           <User beacon={beacon} />
           <Dl>
             <Di title="Browser">{[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}</Di>
@@ -29,7 +29,7 @@ export default function BeaconUserSummary({ beacon }) {
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="User Location" withoutPadding>
+        <Card title="User Location" withoutPadding useMaxAvailableHeight>
           <address className={locals.address}>
             <span className={locals.city}>{beacon.city}</span>
             <span className={locals.countryAndContinent}>{geoSubsection.join(', ')}</span>
@@ -40,7 +40,7 @@ export default function BeaconUserSummary({ beacon }) {
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="Meta" withoutPadding={hasMeta}>
+        <Card title="Meta" withoutPadding={hasMeta} useMaxAvailableHeight bodyClassName={locals.metaCard}>
           {hasMeta && (
             <Code
               showLineNumbers={false}

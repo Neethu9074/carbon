@@ -8,8 +8,8 @@ import {
 } from 'in-services/formatters/number';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import LabelsList from 'in-kubernetes/Dashboards/commonComponents/LabelsList';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -18,8 +18,7 @@ import Chart from 'in-components/Chart';
 const noActivity = 'No activity';
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
-export default function Summary({ timeConfig, data: deploymentItem }) {
-  const deployment = deploymentItem.deployment;
+export default function Summary({ timeConfig, data: deployment }) {
   const snapshotId = deployment.id;
 
   return (
@@ -185,8 +184,10 @@ export default function Summary({ timeConfig, data: deploymentItem }) {
         <Col lg={12}>
           <ConditionsList conditions={deployment.conditions} />
         </Col>
+      </Row>
+      <Row>
         <Col lg={12}>
-          <LabelsList labels={deployment.labels} />
+          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={deployment.labels} />
         </Col>
       </Row>
     </Fragment>

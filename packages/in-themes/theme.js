@@ -207,7 +207,7 @@ function buildLib() {
     lib.colors.pink800,
     lib.colors.teal800,
     lib.colors.purple800,
-    lib.colors.indigo800,
+    lib.colors.indigo800
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));

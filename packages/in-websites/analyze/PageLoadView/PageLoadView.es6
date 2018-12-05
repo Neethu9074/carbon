@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
+import { get, findIndex } from 'lodash';
 import { compose } from 'recompose';
-import { get } from 'lodash';
 
 import {
   pageLoadId as pageLoadIdMatrixParameter,
   beaconId as beaconIdMatrixParameter
 } from 'in-websites/navigation/matrix';
+import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import getWebsiteBeaconsForPageLoad from 'in-subscription/websiteMonitoring/getWebsiteBeaconsForPageLoad';
+import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
@@ -38,27 +40,41 @@ export default compose(
 )(PageLoadView);
 
 function PageLoadView(props) {
-  const { pageLoadId } = props;
+  const { pageLoadId, items, beaconType, onChange } = props;
+  const beaconId = props.beaconId || pageLoadId;
 
   return (
     <Fragment>
       <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
-        <TabView
-          // Discard all state when the page load ID changes
-          key={pageLoadId}
-          HeaderComponent={Header}
-          location={location}
-          tabs={tabs}
-          result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
-          withProps={({ result }) => ({
-            beacons: result.data,
-            pageLoadLabel: shorten(calculateLabel(result))
-          })}
-          props={props}
-          withoutBreadcrumb
-          useFullAvailableWidth
-          withoutPadding
-        />
+        <NavigatorSplitScreen
+          {...props}
+          navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
+          typeLabel={dataSourceTitles[beaconType]}
+          openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
+          openItem={e => {
+            onChange({
+              [pageLoadIdMatrixParameter]: e.beacon.pageLoadId,
+              [beaconIdMatrixParameter]: e.beacon.beaconId
+            });
+          }}
+        >
+          <TabView
+            // Discard all state when the page load ID changes
+            key={pageLoadId}
+            HeaderComponent={Header}
+            location={location}
+            tabs={tabs}
+            result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
+            withProps={({ result }) => ({
+              beacons: result.data,
+              pageLoadLabel: shorten(calculateLabel(result))
+            })}
+            props={props}
+            withoutBreadcrumb
+            useFullAvailableWidth
+            withoutPadding
+          />
+        </NavigatorSplitScreen>
       </Sticky>
     </Fragment>
   );

@@ -59,7 +59,6 @@ export default class GlobeScene {
           tex.needsUpdate = true;
         })
       });
-      scene.add(globe);
     });
 
     this.effects = new Effects(poi);

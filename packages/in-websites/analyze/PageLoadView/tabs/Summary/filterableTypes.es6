@@ -25,7 +25,7 @@ export const types = {
     color: '#F16528' // based on the HTML logo color
   },
   error: {
-    short: 'Errors',
+    short: 'Err',
     long: '(Un-)caught JavaScript Errors',
     color: 'darkred'
   },

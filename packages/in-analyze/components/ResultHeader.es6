@@ -16,7 +16,7 @@ export default connectTo(
     )
   }),
 
-  function ResultHeader({ itemType, nbRows, nbItems, containsPastLiveData, withoutMargin = false }) {
+  function ResultHeader({ itemType, nbRows, nbItems, containsPastLiveData, withoutMargin = false, withMaxWidth }) {
     let counter = '';
 
     if (itemType == 'Group') {
@@ -37,7 +37,14 @@ export default connectTo(
         })}
       >
         <span className={locals.result}>Result</span>
-        <span className={locals.number}>{counter}</span>
+        <span
+          className={evaluateClassNames({
+            [locals.number]: true,
+            [locals.withMaxWidth]: withMaxWidth
+          })}
+        >
+          {counter}
+        </span>
         {containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
       </div>
     );

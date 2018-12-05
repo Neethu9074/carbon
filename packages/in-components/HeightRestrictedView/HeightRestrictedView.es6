@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
+import { joinClassNames } from 'in-services/util/classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
 
@@ -88,7 +89,11 @@ export default class HeightRestrictedView extends React.Component {
   render() {
     const { height } = this.state;
     return (
-      <div className={locals.view} ref={this.setElement} style={{ height: `${height}px` }}>
+      <div
+        className={joinClassNames(locals.view, this.props.className)}
+        ref={this.setElement}
+        style={{ height: `${height}px` }}
+      >
         {height != null && this.props.render(height)}
         <div className={locals.scrollableIndicator} ref={d => this.enableScrollableIndication(d)} />
       </div>

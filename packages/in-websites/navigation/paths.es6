@@ -17,6 +17,7 @@ import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigatio
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { availableFilterTags } from 'in-websites/tags';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
 
@@ -49,7 +50,7 @@ export const linkToNewWebsite$ = getModifiedUrlStream(params => {
   params.pathname = newWebsitePathFullyQualified;
 });
 
-export function getLinkToWebsite(websiteId, { tabPath = '/summary', tabParameters, pageId } = emptyObject) {
+export function getLinkToWebsite(websiteId, { tabPath = '/summary', tabParameters, pageId, timeConfig } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${websitePathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
@@ -60,6 +61,10 @@ export function getLinkToWebsite(websiteId, { tabPath = '/summary', tabParameter
 
     if (tabPath && tabParameters) {
       Object.keys(tabParameters).forEach(name => setOrDeleteMatrixKey(params, tabPath, name, tabParameters[name]));
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
     }
   });
 }

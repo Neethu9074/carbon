@@ -6,16 +6,6 @@
     align-items: center;
   }
 
-  .pluginIcon,
-  .linkEntityIcon {
-    margin-right: 0.25rem;
-    fill: @lib__colors__blue800;
-  }
-
-  .pluginIcon {
-    margin-right: 0.5rem;
-  }
-
   .specialIndicator {
     position: absolute;
     left: -6px;
