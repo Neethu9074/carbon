@@ -10,21 +10,33 @@ import Card from 'in-new-components/Card';
 const trackTopListMetricChanged = createTracker('toplist.metricChanged');
 
 export default function TopListCard(props) {
-  const { result, title, metrics, labels, onChangeMetric, selectedMetric, List: ListRenderer = List } = props;
+  const {
+    result,
+    title,
+    metrics,
+    labels,
+    onChangeMetric,
+    selectedMetric,
+    List: ListRenderer = List,
+    showMetricSelectorsForSingleMetrics
+  } = props;
 
-  const header = metrics.length > 1 && (
-    <ButtonGroup
-      buttonPropsList={metrics.map((metric, i) => ({
-        text: labels[i],
-        key: metrics[i],
-        onClick: () => {
-          trackTopListMetricChanged({ title, metric: labels[i] });
-          onChangeMetric(metric);
-        }
-      }))}
-      activeKey={selectedMetric}
-    />
-  );
+  const header =
+    metrics.length > 1 ||
+    (showMetricSelectorsForSingleMetrics &&
+      metrics.length === 1 && (
+        <ButtonGroup
+          buttonPropsList={metrics.map((metric, i) => ({
+            text: labels[i],
+            key: metrics[i],
+            onClick: () => {
+              trackTopListMetricChanged({ title, metric: labels[i] });
+              onChangeMetric(metric);
+            }
+          }))}
+          activeKey={selectedMetric}
+        />
+      ));
 
   let content;
   let withoutPadding = false;
