@@ -7,9 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   ({ snapshotId }) => {
     return {
-      annotations: getRawPayload(snapshotId, 'annotations').map(payload => {
-        return payload;
-      })
+      annotations: getRawPayload(snapshotId, 'annotations')
     };
   },
   function AnnotationsList({ annotations }) {
@@ -17,21 +15,8 @@ export default connectTo(
       return null;
     }
 
-    const items = annotations.entrySeq().map(([key, value]) => ({ key, value: parseAndPrettyPrint(value) }));
+    const items = annotations.entrySeq().map(([key, value]) => ({ key, value }));
 
     return <KeyValueList title="Annotations" items={items} />;
   }
 );
-
-function parseAndPrettyPrint(value) {
-  try {
-    const json = JSON.parse(value);
-    return (
-      <pre>
-        <code>{JSON.stringify(json, null, 2)}</code>
-      </pre>
-    );
-  } catch (e) {
-    return value;
-  }
-}
