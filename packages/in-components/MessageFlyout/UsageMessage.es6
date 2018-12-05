@@ -1,6 +1,7 @@
 import { Motion, spring } from 'react-motion';
 import React from 'react';
 
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 
@@ -39,17 +40,19 @@ export default function Message({ message }) {
             <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
             <div className={`${block}__msg`}>
               <Content content={message.content} />
-              <Button
-                kind="warning"
-                className={`${block}__button`}
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setActiveDialog(<RequestQuoteDialog />);
-                }}
-              >
-                Request a quote
-              </Button>
+              {!onPremLicenseInformationEnabled && (
+                <Button
+                  kind="warning"
+                  className={`${block}__button`}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setActiveDialog(<RequestQuoteDialog />);
+                  }}
+                >
+                  Request a quote
+                </Button>
+              )}
             </div>
           </div>
         );
