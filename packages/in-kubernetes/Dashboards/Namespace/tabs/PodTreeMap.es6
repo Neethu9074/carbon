@@ -17,13 +17,15 @@ import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
+const predefinedColorPalette = theme.lib.colors.chart.strokeColors100.map(hex => lighten(hex, 0.5));
+
 export default compose(
   withPropsOnChange(['data'], ({ data }) => {
     if (!data.ids[0]) {
       return {};
     }
     return {
-      colorPool: createColorPool(data.ids[0].length)
+      colorPool: createColorPool('podTreeMapColors', predefinedColorPalette.length, predefinedColorPalette)
     };
   }),
   connect(props => {
@@ -79,6 +81,7 @@ function PodTreeMap(props) {
       mapData={_data => mapTreeMapData(_data, podMetricValues, entitiesHealthInfo)}
       customHeight={600}
       nivoProperties={{
+        orientLabel: false,
         leavesOnly: true,
         label: pod => pod.label,
         colorBy: n => getColorForTreeNode(n, showHealth, colorPool),
