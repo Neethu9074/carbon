@@ -11,7 +11,7 @@ export function deepCopy(obj: any) {
   return cloneDeep(obj);
 }
 
-export function sortKeys(obj) {
+export function sortKeys(obj: any) {
   return Object.keys(obj)
     .sort(compareIgnoreCase)
     .reduce((agg, key) => {
