@@ -1,5 +1,5 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'subscript-company-info'
+  eventId: 'requestCompany'
 });
