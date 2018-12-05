@@ -1,16 +1,16 @@
-import { timeout } from 'reactive-observables';
 import { compose } from 'recompose';
 import React from 'react';
 
-import { finishedProgress, emptyObject } from 'in-services/fixedObjects';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Section from 'in-views/configurationView/components/Section';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import Notification from 'in-components/form/Notification';
+import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import { close } from 'in-components/DialogPresenter/store';
+import Notification from 'in-components/form/Notification';
 import requestQuote from 'in-subscription/requestQuote';
+import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-components/Dialog';
 import connect from 'in-hoc/connectTo';
@@ -123,16 +123,7 @@ class RequestQuoteDialog extends React.Component {
 
 export default compose(
   connect({
-    // TODO
-    // result: getCompanyInfo()
-    result: timeout(10000).map(() => ({
-      progress: finishedProgress,
-      errors: [],
-      data: {
-        id: '42',
-        name: 'Meine Tolle Firma'
-      }
-    }))
+    result: getCompanyInfo()
   }),
   withPropDependingState({
     getInitialState,
@@ -157,7 +148,7 @@ function getInitialState({ result }) {
   }
 
   return {
-    form: createForm(result.data.name)
+    form: createForm(result.data.companyName)
   };
 }
 
