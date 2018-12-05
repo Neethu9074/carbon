@@ -90,16 +90,14 @@ class RequestQuoteDialog extends React.Component {
   onSubmit = e => {
     e.preventDefault();
 
-    if (!this.state.form.hierarchyValid) {
-      this.setState({
-        form: this.state.form.setTouched(true, { recurse: true })
-      });
+    if (!this.props.form.hierarchyValid) {
+      this.props.setForm(this.props.form.setTouched(true, { recurse: true }));
       return;
     }
 
     this.setState({ loading: true, error: false, message: null });
 
-    this.requestQuoteSubscription = requestQuote(this.state.form.toJS()).subscribe(result => {
+    this.requestQuoteSubscription = requestQuote(this.props.form.toJS()).subscribe(result => {
       if (result.progress.loading) {
         return;
       } else if (result.errors.length > 0) {

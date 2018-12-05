@@ -33,6 +33,7 @@ export default connect(() => ({
               Company Name
             </Label>
             <Input
+              type="text"
               id="companyName"
               value={field.value}
               onChange={e => onChange('companyName', e.target.value)}
@@ -97,8 +98,11 @@ export default connect(() => ({
 
         {form.get('billingStreet').map(field => (
           <FormGroup>
-            <Label htmlFor="billingStreet">Street</Label>
+            <Label hasError={!field.valid && field.touched} htmlFor="billingStreet">
+              Street
+            </Label>
             <Input
+              type="text"
               id="billingStreet"
               value={field.value}
               onChange={e => onChange('billingStreet', e.target.value)}
@@ -111,8 +115,11 @@ export default connect(() => ({
         <div className={locals.row}>
           {form.get('billingCity').map(field => (
             <FormGroup className={locals.smallFields}>
-              <Label htmlFor="billingCity">City</Label>
+              <Label hasError={!field.valid && field.touched} htmlFor="billingCity">
+                City
+              </Label>
               <Input
+                type="text"
                 id="billingCity"
                 value={field.value}
                 onChange={e => onChange('billingCity', e.target.value)}
@@ -123,7 +130,9 @@ export default connect(() => ({
           ))}
           {form.get('billingCountry').map(field => (
             <FormGroup className={locals.smallFields}>
-              <Label htmlFor="billingCountry">Country</Label>
+              <Label hasError={!field.valid && field.touched} htmlFor="billingCountry">
+                Country
+              </Label>
               <ComboBox
                 id="billingCountry"
                 name="billingCountry"
@@ -145,7 +154,9 @@ export default connect(() => ({
 
             return (
               <FormGroup className={locals.smallFields}>
-                <Label htmlFor="billingState">State</Label>
+                <Label hasError={!field.valid && field.touched} htmlFor="billingState">
+                  State
+                </Label>
                 <ComboBox
                   id="billingState"
                   name="billingState"
@@ -167,8 +178,11 @@ export default connect(() => ({
         </div>
         {form.get('billingZip').map(field => (
           <FormGroup>
-            <Label htmlFor="billingZip">Zip</Label>
+            <Label hasError={!field.valid && field.touched} htmlFor="billingZip">
+              Zip
+            </Label>
             <Input
+              type="text"
               id="billingZip"
               value={field.value}
               onChange={e => onChange('billingZip', e.target.value)}
