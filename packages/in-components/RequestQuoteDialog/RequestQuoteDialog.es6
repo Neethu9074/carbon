@@ -168,12 +168,12 @@ function getInitialState({ result }) {
 function createForm(companyName) {
   return createMapForm()
     .put('companyName', createField({ value: companyName || '', validator: notBlankValidator }))
-    .put('numberOfApmHosts', createField({ validator: notBlankValidator }))
-    .put('numberOfInfrastructureHosts', createField({ validator: notBlankValidator }))
-    .put('numberOfYears', createField({ validator: notBlankValidator }))
-    .put('billingStreet', createField({ validator: notBlankValidator }))
-    .put('billingCity', createField({ validator: notBlankValidator }))
+    .put('numberOfApmHosts', createField({ value: '', validator: notBlankValidator }))
+    .put('numberOfInfrastructureHosts', createField({ value: '', validator: notBlankValidator }))
+    .put('numberOfYears', createField({ value: '', validator: notBlankValidator }))
+    .put('billingStreet', createField({ value: '', validator: notBlankValidator }))
+    .put('billingCity', createField({ value: '', validator: notBlankValidator }))
     .put('billingState', createField({ value: null, validator: notBlankValidator }))
     .put('billingCountry', createField({ value: null, validator: notBlankValidator }))
-    .put('billingZip', createField({ validator: notBlankValidator }));
+    .put('billingZip', createField({ value: '', validator: notBlankValidator }));
 }
