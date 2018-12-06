@@ -45,7 +45,7 @@ export default connectTo(
                   <DescriptionItem title="Version">{companion.getIn(['data', 'version'])}</DescriptionItem>
                   <DescriptionItem title="Server API">{companion.getIn(['data', 'serverApi'])}</DescriptionItem>
                   <DescriptionItem title="Zend Thread Safety">{companion.getIn(['data', 'zts'])}</DescriptionItem>
-                  <DescriptionItem title="Main Ini File">{companion.getIn(['data', 'iniDir'])}</DescriptionItem>
+                  <DescriptionItem title="Main Ini File">{companion.getIn(['data', 'iniFile'])}</DescriptionItem>
                   <DescriptionItem title="Ini Files Directory">{companion.getIn(['data', 'iniDir'])}</DescriptionItem>
                   <DescriptionItem title="Additional Ini Files Parsed">
                     {stripIniDir(companion.getIn(['data', 'iniFilesParsed']), companion.getIn(['data', 'iniDir']))}
