@@ -23,12 +23,10 @@ export default function Details({ data: service }) {
       </Row>
 
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <SelectorsList selectors={service.selectors} />
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={6}>
           <KeyValueList title="Labels" icon="lib_kubernetes_label" items={service.labels} />
         </Col>
       </Row>
