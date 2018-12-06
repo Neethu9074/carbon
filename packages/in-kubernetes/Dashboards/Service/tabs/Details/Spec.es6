@@ -17,18 +17,10 @@ export default connectTo(
       return null;
     }
 
-    return formatSpec(spec);
-  }
-);
-
-function formatSpec(spec) {
-  try {
     return (
       <Card title="Spec">
         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
       </Card>
     );
-  } catch (e) {
-    return null;
   }
-}
+);

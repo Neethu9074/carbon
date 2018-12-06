@@ -15,13 +15,16 @@ export default function KeyValueList({ title, items, icon }) {
     <Card title={title}>
       <Table className={locals.table} tableInCard>
         <Tbody>
-          {items.map(({ key, value }, i) => (
-            <Tr key={i} size="compact">
-              <Td>
-                <EntityWithTypeAndIcon label={value} type={key} iconType={icon} />
-              </Td>
-            </Tr>
-          ))}
+          {items
+            .slice()
+            .sort((a, b) => a.key.localeCompare(b.key))
+            .map(({ key, value }, i) => (
+              <Tr key={i} size="compact">
+                <Td>
+                  <EntityWithTypeAndIcon label={value} type={key} iconType={icon} />
+                </Td>
+              </Tr>
+            ))}
         </Tbody>
       </Table>
     </Card>
