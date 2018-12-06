@@ -24,7 +24,7 @@ export default function Details({ data: service }) {
 
       <Row>
         <Col lg={6}>
-          <SelectorsList selectors={service.selectors} />
+          <SelectorsList selectors={service.selectors} defaultOperator="=" />
         </Col>
         <Col lg={6}>
           <KeyValueList title="Labels" icon="lib_kubernetes_label" items={service.labels} />
