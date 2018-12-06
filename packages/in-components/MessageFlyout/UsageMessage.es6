@@ -9,19 +9,13 @@ import { createTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
-import './UsageMessage.less';
-
-let block = 'in-message-flyout-usage-message';
+import locals from './UsageMessage.mless';
 const buttonClickedMixpanelTracker = createTracker('requestQuote.buttonClicked');
 
-export default function Message({ message }) {
-  if (message.isLicenseUsageMsg) {
-    block = 'in-message-flyout-usage-message';
-  }
-
-  let classes = `${block} ${block}--${message.type}`;
+export default function UsageMessage({ message }) {
+  let classes = `${locals.flyout} ${locals[message.type]}`;
   if (message.onClick) {
-    classes = `${classes} ${block}--clickable`;
+    classes += ` ${locals.clickable}`;
   }
 
   return (
@@ -39,13 +33,13 @@ export default function Message({ message }) {
               }
             }}
           >
-            <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
-            <div className={`${block}__msg`}>
+            <SvgIcon type={message.icon} className={locals.icon} width={18} />
+            <div className={locals.msg}>
               <Content content={message.content} />
               {!onPremLicenseInformationEnabled && (
                 <Button
                   kind="warning"
-                  className={`${block}__button`}
+                  className={locals.button}
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -65,5 +59,5 @@ export default function Message({ message }) {
 }
 
 function Content({ content }) {
-  return <div className={`${block}__content`}>{content}</div>;
+  return <div className={locals.content}>{content}</div>;
 }

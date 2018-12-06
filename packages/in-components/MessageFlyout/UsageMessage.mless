@@ -1,44 +1,46 @@
 @import '~in-themes/mixins.less';
 
-.in-message-flyout-usage-message {
-  background: hsla(208, 9%, 39%, 0.9);
-  font-size: 0.8rem;
-  max-width: 21rem;
-  padding: 0rem 1.2rem;
-  margin: 0 0 1rem;
-  border-radius: 4px;
+:local {
+  .flyout {
+    background: hsla(208, 9%, 39%, 0.9);
+    font-size: 0.8rem;
+    max-width: 21rem;
+    padding: 0rem 1.2rem;
+    margin: 0 0 1rem;
+    border-radius: 4px;
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
-  &--warning {
+  .warning {
     border-left: 3px solid rgb(255, 222, 0);
   }
 
-  &--clickable {
+  .clickable {
     cursor: pointer;
   }
 
-  &__icon {
+  .icon {
     fill: #ffc600;
     margin-right: 0.75rem;
     min-width: 18px;
   }
 
-  &__msg {
+  .msg {
     color: #ffc600;
     font-weight: bold;
     .breakWord();
   }
 
-  &__button {
+  .button {
     margin-bottom: .6rem;
     font-weight: normal;
     outline: none;
   }
 
-  &__content {
+  .content {
     margin: 0.5rem 0;
   }
 
