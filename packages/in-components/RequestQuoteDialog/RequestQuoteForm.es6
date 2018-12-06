@@ -1,10 +1,9 @@
 import { fromPromise } from 'reactive-observables';
 import React from 'react';
 
-import countries from 'promise-loader?global,geonames!in-services/geonames/countries';
+import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import { getCountryById, getStatesByCountryId, getStateById } from 'in-services/geonames/geonames';
-import states from 'promise-loader?global,geonames!in-services/geonames/states';
+import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -16,11 +15,9 @@ import connect from 'in-hoc/connectTo';
 import locals from './RequestQuoteForm.mless';
 
 export default connect(() => ({
-  countries: fromPromise(countries()),
-  states: fromPromise(states())
-}))(function RequestQuoteForm({ countries, states, form, onChange }) {
-  const countryList = countries == null ? [] : countries.list;
-  const stateList = states == null ? [] : states.list;
+  geodata: fromPromise(geodata())
+}))(function RequestQuoteForm({ geodata, form, onChange }) {
+  const geo = geodata == null ? [] : geodata.data;
 
   return (
     <fieldset>
@@ -137,11 +134,11 @@ export default connect(() => ({
                 id="billingCountry"
                 name="billingCountry"
                 placeholder=""
-                value={field.value == null ? '' : getCountryById(countryList, field.value).id}
-                options={countryList.map(option => {
+                value={field.value}
+                options={getCountries(geo).map(country => {
                   return {
-                    value: option.id,
-                    label: option.name
+                    value: country,
+                    label: country
                   };
                 })}
                 onChange={e => onChange('billingCountry', e ? e.value : e)}
@@ -162,11 +159,11 @@ export default connect(() => ({
                   name="billingState"
                   disabled={companyField.value == null}
                   placeholder=""
-                  value={field.value == null ? '' : getStateById(stateList, field.value).id}
-                  options={getStatesByCountryId(stateList, companyField.value || '').map(option => {
+                  value={field.value}
+                  options={getStatesByCountryName(geo, companyField.value || '').map(state => {
                     return {
-                      value: option.id,
-                      label: option.name
+                      value: state.name,
+                      label: state.name
                     };
                   })}
                   onChange={e => onChange('billingState', e ? e.value : e)}

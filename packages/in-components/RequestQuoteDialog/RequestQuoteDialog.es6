@@ -1,11 +1,7 @@
-import { fromPromise } from 'reactive-observables';
 import { compose } from 'recompose';
 import React from 'react';
 
-import countries from 'promise-loader?global,geonames!in-services/geonames/countries';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
-import states from 'promise-loader?global,geonames!in-services/geonames/states';
-import { getCountryById, getStateById } from 'in-services/geonames/geonames';
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import Section from 'in-views/configurationView/components/Section';
@@ -97,10 +93,6 @@ class RequestQuoteDialog extends React.Component {
 
     submittedTracker();
 
-    const { countries, states } = this.props;
-    const countryList = countries == null ? [] : countries.list;
-    const stateList = states == null ? [] : states.list;
-
     if (!this.props.form.hierarchyValid) {
       this.props.setForm(this.props.form.setTouched(true, { recurse: true }));
       return;
@@ -108,13 +100,7 @@ class RequestQuoteDialog extends React.Component {
 
     this.setState({ loading: true, error: false, message: null });
 
-    const json = this.props.form.toJS();
-
-    this.requestQuoteSubscription = requestQuote({
-      ...json,
-      billingState: getStateById(stateList, json.billingState).name,
-      billingCountry: getCountryById(countryList, json.billingCountry).name
-    }).subscribe(result => {
+    this.requestQuoteSubscription = requestQuote(this.props.form.toJS()).subscribe(result => {
       if (result.progress.loading) {
         return;
       } else if (result.errors.length > 0) {
@@ -138,9 +124,7 @@ class RequestQuoteDialog extends React.Component {
 
 export default compose(
   connect({
-    result: getCompanyInfo(),
-    countries: fromPromise(countries()),
-    states: fromPromise(states())
+    result: getCompanyInfo()
   }),
   withPropDependingState({
     getInitialState,
