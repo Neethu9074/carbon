@@ -4,15 +4,14 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesEntitiesHealthInfo from 'in-subscription/kubernetes/getKubernetesEntitiesHealthInfo';
+import PodTooltip, { PodTooltipComponent } from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podDashboard, podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import PodTooltip from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import { lighten } from 'in-services/formatters/color';
-import WithIcon from 'in-new-components/WithIcon';
 import { mutateUrl } from 'in-stores/navigation';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
@@ -84,7 +83,7 @@ function PodTreeMap(props) {
         label: pod => pod.label,
         colorBy: n => getColorForTreeNode(n, showHealth, colorPool),
         tooltip: props => (
-          <Delayed waitingComponent={DefaultWaitingPodTooltip} {...props}>
+          <Delayed waitingComponent={PodTooltipComponent} grouping={grouping}>
             <PodTooltip {...props} timeConfig={timeConfig} grouping={grouping} />
           </Delayed>
         ),
@@ -97,10 +96,6 @@ function PodTreeMap(props) {
       }}
     />
   );
-}
-
-function DefaultWaitingPodTooltip() {
-  return <WithIcon icon="lib_kubernetes_pod">Pod</WithIcon>;
 }
 
 function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
