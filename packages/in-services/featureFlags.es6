@@ -36,7 +36,6 @@ export const twoZeroWebsiteMonitoringEnabled =
   isInstanaEngineer || isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
 export const quickTagFiltersInWebsiteMonitoringDashboardEnabled =
   isInstanaEngineer || isFeatureFlagEnabled('quickTagFiltersInWebsiteMonitoringDashboardEnabled');
-export const builtInRulesEnabled = isInstanaEngineer || isFeatureFlagEnabled('builtInRulesEnabled');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

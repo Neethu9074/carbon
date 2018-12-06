@@ -39,7 +39,6 @@ import {
   maintenanceConfigurationPath,
   auditlogPath
 } from 'in-stores/navigation/paths/settingPaths';
-import { builtInRulesEnabled } from 'in-services/featureFlags';
 
 import MessageBrokerServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
 import ElasticServiceExtractionConfiguration from 'promise-loader?global,configView!in-views/configurationView/subview/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
@@ -116,10 +115,8 @@ export default (
     <Route component={createAsyncViewComponent(DynamicRules)} path={dynamicRulesPath} />
     <Route component={createAsyncViewComponent(DynamicRule)} path={dynamicRulePath} />
 
-    {builtInRulesEnabled ? (
-      <Route component={createAsyncViewComponent(RuleBuiltIn)} path={builtInRulePathTemplate} />
-    ) : null}
-    {builtInRulesEnabled ? <Route component={createAsyncViewComponent(RulesBuiltIn)} path={builtInRulesPath} /> : null}
+    <Route component={createAsyncViewComponent(RuleBuiltIn)} path={builtInRulePathTemplate} />
+    <Route component={createAsyncViewComponent(RulesBuiltIn)} path={builtInRulesPath} />
 
     <Route component={createAsyncViewComponent(Rule)} path={newRulePath} />
     <Route component={createAsyncViewComponent(Rules)} path={rulesPath} />

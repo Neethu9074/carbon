@@ -32,7 +32,6 @@ import { forecastsEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import NavItems from 'in-views/configurationView/components/NavItems';
 import NavItem from 'in-views/configurationView/components/NavItem';
 import { getView, isView } from 'in-stores/navigation/navigation';
-import { builtInRulesEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 import './Navigation.less';
@@ -138,13 +137,11 @@ export default function Navigation() {
               dynamicRulePath
             )}
           >
-            {builtInRulesEnabled ? (
-              <NavItem
-                title="Built-in Rules"
-                href$={getView(builtInRulesPath)}
-                isActive$={isView(builtInRulesPath, builtInRulePath)}
-              />
-            ) : null}
+            <NavItem
+              title="Built-in Rules"
+              href$={getView(builtInRulesPath)}
+              isActive$={isView(builtInRulesPath, builtInRulePath)}
+            />
             <NavItem title="Custom Rules" href$={getView(rulesPath)} isActive$={isView(rulesPath, rulePath)} />
             <NavItem
               title="Custom Issues"
