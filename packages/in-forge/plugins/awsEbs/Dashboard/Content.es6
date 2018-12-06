@@ -19,58 +19,60 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
             formatter: bytes.compact
           }}
         />
-        <DashboardSection title="Operations">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              min: 0,
-              metrics: ['read_ops', 'write_ops'],
-              labels: ['Read Operations', 'Write Operations'],
-              type: 'line',
-              formatter: number.compact
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Time">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              min: 0,
-              metrics: ['total_read_time', 'total_write_time'],
-              labels: ['Total Read Time', 'Total Write Time'],
-              type: 'line',
-              formatter: seconds.compact
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Idle">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              min: 0,
-              metrics: ['idle_time'],
-              labels: ['Idle Time'],
-              type: 'line',
-              formatter: seconds.compact
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Queue">
-          <Chart
-            snapshotId={snapshotId}
-            timeframe={timeframe}
-            y1={{
-              min: 0,
-              metrics: ['queue_length'],
-              labels: ['Queue Length'],
-              type: 'line',
-              formatter: number.compact
-            }}
-          />
-        </DashboardSection>
+      </DashboardSection>
+      <DashboardSection title="Operations">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['read_ops', 'write_ops'],
+            labels: ['Read Operations', 'Write Operations'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Time">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['total_read_time', 'total_write_time'],
+            labels: ['Total Read Time', 'Total Write Time'],
+            type: 'line',
+            formatter: seconds.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Idle">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['idle_time'],
+            labels: ['Idle Time'],
+            type: 'line',
+            formatter: seconds.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Queue">
+        <Chart
+          snapshotId={snapshotId}
+          timeframe={timeframe}
+          y1={{
+            min: 0,
+            metrics: ['queue_length'],
+            labels: ['Queue Length'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      {snapshot.getIn(['data', 'type']) !== 'io1' && (
         <DashboardSection title="Burst">
           <Chart
             snapshotId={snapshotId}
@@ -84,7 +86,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
             }}
           />
         </DashboardSection>
-      </DashboardSection>
+      )}
     </div>
   );
 }
