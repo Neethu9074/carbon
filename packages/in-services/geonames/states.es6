@@ -6775,11 +6775,6 @@ export const list = [
     country_id: '82'
   },
   {
-    id: '1356',
-    name: 'Bavaria',
-    country_id: '82'
-  },
-  {
     id: '1357',
     name: 'Bayern',
     country_id: '82'
@@ -6807,11 +6802,6 @@ export const list = [
   {
     id: '1362',
     name: 'Dreisbach',
-    country_id: '82'
-  },
-  {
-    id: '1363',
-    name: 'Freistaat Bayern',
     country_id: '82'
   },
   {
@@ -6850,21 +6840,6 @@ export const list = [
     country_id: '82'
   },
   {
-    id: '1371',
-    name: 'Bayern',
-    country_id: '82'
-  },
-  {
-    id: '1372',
-    name: 'Brandenburg',
-    country_id: '82'
-  },
-  {
-    id: '1373',
-    name: 'Hessen',
-    country_id: '82'
-  },
-  {
     id: '1374',
     name: 'Mecklenburg-Vorpommern',
     country_id: '82'
@@ -6891,17 +6866,7 @@ export const list = [
   },
   {
     id: '1379',
-    name: 'Thuringen',
-    country_id: '82'
-  },
-  {
-    id: '1380',
-    name: 'Lower Saxony',
-    country_id: '82'
-  },
-  {
-    id: '1381',
-    name: 'Mecklenburg-Vorpommern',
+    name: 'Thüringen',
     country_id: '82'
   },
   {
@@ -6930,28 +6895,8 @@ export const list = [
     country_id: '82'
   },
   {
-    id: '1387',
-    name: 'Nordrhein-Westfalen',
-    country_id: '82'
-  },
-  {
-    id: '1388',
-    name: 'North Rhine-Westphalia',
-    country_id: '82'
-  },
-  {
     id: '1389',
     name: 'Osterode',
-    country_id: '82'
-  },
-  {
-    id: '1390',
-    name: 'Rheinland-Pfalz',
-    country_id: '82'
-  },
-  {
-    id: '1391',
-    name: 'Rhineland-Palatinate',
     country_id: '82'
   },
   {
@@ -6970,11 +6915,6 @@ export const list = [
     country_id: '82'
   },
   {
-    id: '1395',
-    name: 'Saxony',
-    country_id: '82'
-  },
-  {
     id: '1396',
     name: 'Schleswig-Holstein',
     country_id: '82'
@@ -6982,21 +6922,6 @@ export const list = [
   {
     id: '1397',
     name: 'Thuringia',
-    country_id: '82'
-  },
-  {
-    id: '1398',
-    name: 'Webling',
-    country_id: '82'
-  },
-  {
-    id: '1399',
-    name: 'Weinstrabe',
-    country_id: '82'
-  },
-  {
-    id: '1400',
-    name: 'schlobborn',
     country_id: '82'
   },
   {
