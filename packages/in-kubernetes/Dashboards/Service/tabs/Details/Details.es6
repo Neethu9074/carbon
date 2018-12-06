@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';
 import { formatDuration } from 'in-services/formatters/date';
@@ -21,6 +22,11 @@ export default function Details({ data: service }) {
         </Col>
       </Row>
 
+      <Row>
+        <Col lg={12}>
+          <SelectorsList selectors={service.selectors} />
+        </Col>
+      </Row>
       <Row>
         <Col lg={12}>
           <KeyValueList title="Labels" icon="lib_kubernetes_label" items={service.labels} />
