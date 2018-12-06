@@ -2,6 +2,7 @@ import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
+import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
@@ -22,7 +23,6 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
-import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -124,14 +124,12 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         {isScriptError(result.data.message) && (
           <Row>
             <Col lg={12}>
-              <Card title="Script Error">
-                <p className={locals.scriptErrorExplanation}>{explanation}</p>
-                <div className={locals.scriptErrorActionWrapper}>
-                  <Button href={learnMoreHref} kind="primaryv2" target="_blank">
-                    {learnMoreLabel}
-                  </Button>
-                </div>
-              </Card>
+              <LimitedCapabilitiesCard
+                cardTitle="Script Error"
+                explanation={explanation}
+                learnMoreHref={learnMoreHref}
+                learnMoreLabel={learnMoreLabel}
+              />
             </Col>
           </Row>
         )}

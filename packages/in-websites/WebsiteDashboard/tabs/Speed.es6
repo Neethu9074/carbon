@@ -95,7 +95,7 @@ export default function Speed({ timeConfig, tagFilters }) {
           <AggregationSelector defaultAggregation="MEAN">
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="Page Load Breakdown"
+                cardTitle="Navigation Timing"
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{

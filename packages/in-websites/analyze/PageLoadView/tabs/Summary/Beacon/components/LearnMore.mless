@@ -5,10 +5,9 @@
     margin: 0;
   }
 
-  .button {
-    display: block;
-    margin: 1rem auto 0;
-    max-width: 20rem;
-    text-align: center;
+  .buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 0;
   }
 }

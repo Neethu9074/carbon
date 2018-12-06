@@ -2,7 +2,9 @@ import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Confi
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/WebsiteDashboard/tabs/Summary/Summary';
+import Resources from 'in-websites/WebsiteDashboard/tabs/Resources';
 import Errors from 'in-websites/WebsiteDashboard/tabs/Errors';
+import Ajax from 'in-websites/WebsiteDashboard/tabs/Ajax';
 import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
 
@@ -18,9 +20,19 @@ export const websiteTabs = [
     component: Speed
   },
   {
+    label: 'Resources',
+    path: `${websitePathFullyQualified}/resources`,
+    component: Resources
+  },
+  {
     label: 'Errors',
     path: `${websitePathFullyQualified}/errors`,
     component: Errors
+  },
+  {
+    label: 'AJAX',
+    path: `${websitePathFullyQualified}/ajax`,
+    component: Ajax
   },
   {
     label: 'Geography',

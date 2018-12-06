@@ -53,7 +53,7 @@ const ChartReactWrapper = enhance(
       }
 
       render() {
-        const { chart, height, width, timeConfig, renderLegend = true } = this.props;
+        const { chart, height, width, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
 
         return (
           <div className={locals.chart}>
@@ -64,7 +64,7 @@ const ChartReactWrapper = enhance(
                   <MetricAwareAxis chart={chart} axis={chart.config.y1} height={height} align="left" />
                 )}
               <div>
-                {chart && <Tooltip chart={chart} />}
+                {chart && <Tooltip chart={chart} reverseTooltipOrder={reverseTooltipOrder} />}
                 <canvas
                   className={locals.canvas}
                   ref={canvas => {

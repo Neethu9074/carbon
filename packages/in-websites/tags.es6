@@ -86,6 +86,7 @@ export const availableGroupingTags = {
   ].sort(),
   httpRequest: [
     ...commonGroupingTags,
+    'beacon.error.type',
     'beacon.http.method',
     'beacon.http.origin',
     'beacon.http.path',

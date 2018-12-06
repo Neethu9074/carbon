@@ -42,11 +42,11 @@ function calculateMetricMap(metrics) {
 function renderDataSeries(config, color, dataSeries, metricMap, scale, barWidth) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i], barWidth, color);
+    drawBlock(metricMap, config, scale, blocks[i], i, barWidth, color);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, barWidth, color) {
+function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color) {
   if (block.length === 0) {
     return;
   }
@@ -57,7 +57,10 @@ function drawBlock(metricMap, config, scale, block, barWidth, color) {
   config.ctx.globalAlpha = 1.0;
   config.ctx.fillStyle = color;
 
-  for (let i = 1; i < block.length; i++) {
+  // For the very first set of blocks, skip the first (which would be half a bar), but for next sets start from 0
+  // as otherwise full bars are skipped, resulting in a partial graph
+  const startIndex = blockIndex === 0 ? 1 : 0;
+  for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
     const time = dataPoint[0];
 

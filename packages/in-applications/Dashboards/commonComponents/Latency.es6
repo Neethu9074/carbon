@@ -19,6 +19,7 @@ export default function Latency({
     <AppdataChartWrapper
       cardTitle={cardTitle}
       timeConfig={timeConfig}
+      reverseTooltipOrder
       y1={{
         calculateStackDifferences: true,
         renderer: Renderer.line,

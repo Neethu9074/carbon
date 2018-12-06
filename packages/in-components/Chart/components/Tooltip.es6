@@ -65,7 +65,11 @@ export default connectTo(
                   [locals.leftAlignedContent]: cursorHasCrossedHalfOfTheCanvas
                 })}
               >
-                <TooltipContent timestamp={nearestTimeInMetrics} chart={this.props.chart} />
+                <TooltipContent
+                  timestamp={nearestTimeInMetrics}
+                  chart={this.props.chart}
+                  reverseTooltipOrder={this.props.reverseTooltipOrder}
+                />
               </div>
             </div>
           ) : null}
