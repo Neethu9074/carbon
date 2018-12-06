@@ -4,6 +4,9 @@ import { isBlank } from 'in-services/util/string';
 export const websiteId = 'websiteId';
 export const pageId = 'pageId';
 export const errorId = 'errorId';
+export const resourceId = 'resourceId';
+export const resourceType = 'resourceType';
+export const xhrId = 'xhrId';
 
 // analyze
 export const tagFilters = 'tagFilters';

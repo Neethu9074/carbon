@@ -4,6 +4,8 @@ import {
   websiteId as websiteIdMatrixParameter,
   pageId as pageIdMatrixParameter,
   errorId as errorIdMatrixParameter,
+  resourceId as resourceIdMatrixParameter,
+  xhrId as xhrIdMatrixParameter,
   tagFilters as tagFiltersMatrixParameter,
   serializeTagFilters,
   deserializeTagFilters,
@@ -41,6 +43,10 @@ export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
 export const errorsTab = '/errors';
 export const errorsTabFullyQualified = `${websitePathFullyQualified}${errorsTab}`;
+export const resourcesTab = '/resources';
+export const resourcesTabFullyQualified = `${websitePathFullyQualified}${resourcesTab}`;
+export const ajaxTab = '/ajax';
+export const ajaxTabFullyQualified = `${websitePathFullyQualified}${ajaxTab}`;
 
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;
@@ -79,6 +85,32 @@ export function getLinkToError(websiteId, { errorId, pageId } = emptyObject) {
     }
 
     setOrDeleteMatrixKey(params, '/details', errorIdMatrixParameter, errorId);
+  });
+}
+
+export function getLinkToResource(websiteId, { resourceId, pageId } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${websitePathFullyQualified}/resources/details`;
+    setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
+
+    if (pageId !== undefined) {
+      setOrDeleteMatrixKey(params, websitePath, pageIdMatrixParameter, pageId);
+    }
+
+    setOrDeleteMatrixKey(params, '/details', resourceIdMatrixParameter, resourceId);
+  });
+}
+
+export function getLinkToXhrRequest(websiteId, { xhrId, pageId } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${websitePathFullyQualified}/ajax/details`;
+    setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);
+
+    if (pageId !== undefined) {
+      setOrDeleteMatrixKey(params, websitePath, pageIdMatrixParameter, pageId);
+    }
+
+    setOrDeleteMatrixKey(params, '/details', xhrIdMatrixParameter, xhrId);
   });
 }
 

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
+import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -96,6 +98,16 @@ export const Body = ({ beacon }) => {
             <Meta beacon={beacon} />
           </Col>
         )}
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          <BodyHeader>Resource Timing</BodyHeader>
+          {!hasResourceTimings &&
+            !hasNetworkInsights && (
+              <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
+            )}
+        </Col>
       </Row>
 
       <Row>

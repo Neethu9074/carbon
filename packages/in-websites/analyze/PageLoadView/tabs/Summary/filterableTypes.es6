@@ -47,3 +47,22 @@ export function getType(beacon) {
 
   return 'other';
 }
+
+export function getResourceTypes() {
+  return Object.keys(types)
+    .filter(k => k !== 'xhr' && k !== 'error') // Errors and XHR don't make sense as resource types
+    .sort();
+}
+
+export function getResourceTypesComboBoxItems(restrict = null) {
+  return getResourceTypes()
+    .filter(k => restrict == null || restrict.indexOf(k) !== -1)
+    .reduce(
+      (agg, k) =>
+        agg.concat({
+          value: k,
+          label: types[k].short
+        }),
+      []
+    );
+}

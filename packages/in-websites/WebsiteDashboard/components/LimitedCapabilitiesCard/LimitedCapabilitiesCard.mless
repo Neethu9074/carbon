@@ -1,0 +1,17 @@
+:local {
+  .explanation {
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .actionWrapper {
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+  }
+}

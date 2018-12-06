@@ -9,9 +9,11 @@ export default function LearnMore({ explanation, href, buttonLabel }) {
     <p className={locals.explanation}>
       {explanation}
 
-      <Button href={href} kind="primaryv2" target="_blank" className={locals.button}>
-        {buttonLabel}
-      </Button>
+      <span className={locals.buttonWrapper}>
+        <Button href={href} kind="primaryv2" target="_blank">
+          {buttonLabel}
+        </Button>
+      </span>
     </p>
   );
 }
