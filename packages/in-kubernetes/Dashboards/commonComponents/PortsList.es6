@@ -29,7 +29,7 @@ export default function PortsList({ ports }) {
               </Td>
               <Td>{portConfig.port}</Td>
               <Td>{portConfig.protocol}</Td>
-              <Td>{portConfig.nodePort}</Td>
+              <Td>{portConfig.nodePort || 'Auto'}</Td>
               <Td>{portConfig.targetPort}</Td>
             </Tr>
           ))}
