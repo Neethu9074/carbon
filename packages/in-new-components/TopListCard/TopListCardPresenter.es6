@@ -23,23 +23,21 @@ export default function TopListCard(props) {
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
-  const header =
-    metrics.length > 1 ||
-    (shouldRenderOnItem && (
-      <ButtonGroup
-        buttonPropsList={metrics.map((metric, i) => ({
-          text: labels[i],
-          key: metrics[i],
-          kind: shouldRenderOnItem ? 'primaryv2' : null,
-          disabled: shouldRenderOnItem,
-          onClick: () => {
-            trackTopListMetricChanged({ title, metric: labels[i] });
-            onChangeMetric(metric);
-          }
-        }))}
-        activeKey={selectedMetric}
-      />
-    ));
+  const header = (metrics.length > 1 || shouldRenderOnItem) && (
+    <ButtonGroup
+      buttonPropsList={metrics.map((metric, i) => ({
+        text: labels[i],
+        key: metrics[i],
+        kind: shouldRenderOnItem ? 'primaryv2' : null,
+        disabled: shouldRenderOnItem,
+        onClick: () => {
+          trackTopListMetricChanged({ title, metric: labels[i] });
+          onChangeMetric(metric);
+        }
+      }))}
+      activeKey={selectedMetric}
+    />
+  );
 
   let content;
   let withoutPadding = false;
