@@ -5,7 +5,7 @@ module.exports = {
   maintenanceNotesEnabled: false,
   useInstanaSaasEumTrackingUrlEnabled: true,
   tenantSwitcherEnabled: true,
-  isUsageInfoPopupEnabled: false,
+  isUsageInfoPopupEnabled: true,
   onPremLicenseInformationEnabled: false,
   oneZeroAppDataPresentationEnabled: false,
   oneZeroSupportedUntilMessageEnabled: true,

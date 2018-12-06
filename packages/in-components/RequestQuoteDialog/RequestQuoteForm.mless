@@ -1,0 +1,10 @@
+:local {
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .smallFields {
+    width: 32%;
+  }
+}

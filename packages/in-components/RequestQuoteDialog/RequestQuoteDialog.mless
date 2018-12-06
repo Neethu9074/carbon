@@ -1,0 +1,25 @@
+:local {
+  .buttonWrapper {
+    display: flex;
+    justify-content: space-between;
+    justify-content: flex-end;
+    margin: 0 1rem;
+  }
+
+  .notificationWrapper {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .loadingState {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .loadingStateIcon {
+    background: #fff;
+  }
+}

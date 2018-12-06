@@ -3,6 +3,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
 import { reportLicenseType } from 'in-services/tracking/appcues';
@@ -42,10 +43,27 @@ export function init() {
       {
         type: usageInfo.type.toLowerCase(),
         icon: 'info',
-        content: <DangerousHtmlPresenter html={toHtml(usageInfo.note)} />,
-        onClick: hideUsageInfo
+        content: <DangerousHtmlPresenter html={toHtml(filterContentIfNotOnprem(usageInfo.note))} />,
+        onClick: hideUsageInfo,
+        isLicenseUsageMsg: true
       },
       messageId
     );
   });
+}
+
+/**
+ * if we are in onpremise, we will not show the button to request a quote. We then show
+ * the complete message we got from the backend. On saas however, we only use the first part of the message.
+ * The second part is being replaced by the button to request a quote.
+ *
+ * @param msg
+ * @returns {*}
+ */
+function filterContentIfNotOnprem(msg) {
+  if (!onPremLicenseInformationEnabled) {
+    return msg.substring(0, msg.indexOf('(s)') + 3).replace(/\*/g, '') + '!';
+  } else {
+    return msg;
+  }
 }

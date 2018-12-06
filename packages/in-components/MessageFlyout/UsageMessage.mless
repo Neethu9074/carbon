@@ -1,0 +1,51 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .flyout {
+    background: hsla(208, 9%, 39%, 0.9);
+    font-size: 0.8rem;
+    max-width: 21rem;
+    padding: 0rem 1.2rem;
+    margin: 0 0 1rem;
+    border-radius: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .warning {
+    border-left: 3px solid rgb(255, 222, 0);
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  .icon {
+    fill: #ffc600;
+    margin-right: 0.75rem;
+    min-width: 18px;
+  }
+
+  .msg {
+    color: #ffc600;
+    font-weight: bold;
+    .breakWord();
+  }
+
+  .button {
+    margin-bottom: .6rem;
+    font-weight: normal;
+    outline: none;
+  }
+
+  .content {
+    margin: 0.5rem 0;
+  }
+
+  p {
+    margin: .75rem 0;
+  }
+}
+
