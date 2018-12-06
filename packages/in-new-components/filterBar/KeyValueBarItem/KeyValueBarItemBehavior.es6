@@ -6,7 +6,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function KeyValueBarItemBehavior(props) {
   return (
-    <Overlay withoutWrapper content={KeyValueBarOverlayBehavior} props={props}>
+    <Overlay withoutWrapper content={KeyValueBarOverlayBehavior} props={props} align="bottomMiddle">
       {Content}
     </Overlay>
   );

@@ -25,25 +25,37 @@ export default function KeyValueBarOverlayPresenter({
   onKeyChange,
   keySuggestionsLoading,
   keySuggestions,
+  onSecondLevelKeyChange,
+  secondLevelKeySuggestionsLoading,
+  secondLevelKeySuggestions,
   onValueChange,
   valueSuggestionsLoading,
   valueSuggestions,
   onOperatorChange
 }) {
-  const keyValueFilters = tagFilters.filter(f => f.name === tag);
+  const keyValueFilters = tag ? tagFilters.filter(f => f.name === tag) : tagFilters;
+  const hasValue = form.containsKey('value');
+  const hasSecondLevelKey = form.containsKey('secondLevelName');
+  const columnWidth = hasSecondLevelKey ? 4 : 6;
+  const applyButtonOffset = hasSecondLevelKey ? (hasValue ? 4 : 8) : hasValue ? 0 : 6;
 
   return (
-    <BarOverlay extraWide allowOverflow>
+    <BarOverlay extraWide={!hasSecondLevelKey} extraExtraWide={hasSecondLevelKey} allowOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
         <ul className={locals.filterList}>
           {keyValueFilters.map((f, i) => {
-            const [key, value] = f.stringValue.split('=', 2);
+            const [key, value, secondLevelKey] = tag
+              ? f.stringValue.split('=', 2)
+              : [f.name, f.value, f.secondLevelName];
             const operator = getOperatorLabel('KEY_VALUE_PAIR', f.operator || 'EQUALS');
             return (
               <li key={i} className={locals.filter}>
                 <Tooltip content={`${key} ${operator} ${value}`}>
                   <span className={locals.filterLabel}>
-                    <Segment>{key}</Segment> <Operator>{operator}</Operator> <Segment>{value}</Segment>
+                    <Segment>{key}</Segment>
+                    {secondLevelKey && <Segment> : {secondLevelKey}</Segment>}
+                    <Operator>{operator}</Operator>
+                    <Segment>{value}</Segment>
                   </span>
                 </Tooltip>
                 <Tooltip content="Remove filter">
@@ -62,7 +74,7 @@ export default function KeyValueBarOverlayPresenter({
         {keyValueFilters.length > 0 && <hr className={locals.separator} />}
 
         <Row>
-          <Col xs={6}>
+          <Col xs={columnWidth}>
             {form.get('key').map(field => (
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-key" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
@@ -88,7 +100,39 @@ export default function KeyValueBarOverlayPresenter({
               </FormGroup>
             ))}
           </Col>
-          <Col xs={6}>
+          {hasSecondLevelKey && (
+            <Col xs={columnWidth}>
+              {form.get('secondLevelName').map(field => (
+                <FormGroup withoutBottomMargin>
+                  <Label
+                    htmlFor="filter-second-level-key"
+                    hasError={!field.valid && field.touched}
+                    className={locals.labelWithLoader}
+                  >
+                    Key
+                    {secondLevelKeySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                  </Label>
+                  <CreatableSelect
+                    id="filter-second-level-key"
+                    className={locals.loadingSelectPlaceholderInput}
+                    value={field.value || ''}
+                    options={ensureCreatedOptionExists(secondLevelKeySuggestions || emptyArray, field.value).map(s => ({
+                      value: s,
+                      label: s
+                    }))}
+                    onChange={e => onSecondLevelKeyChange(e ? e.value : '')}
+                    placeholder=""
+                    isClearable
+                    openOnFocus
+                    searchable
+                    menuIsOpen
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            </Col>
+          )}
+          <Col xs={columnWidth}>
             {form.get('operator').map(field => (
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-operator" hasError={!field.valid && field.touched}>
@@ -112,8 +156,8 @@ export default function KeyValueBarOverlayPresenter({
           </Col>
         </Row>
         <Row>
-          {form.get('value') && (
-            <Col xs={6}>
+          {hasValue && (
+            <Col xs={columnWidth}>
               {form.get('value').map(field => (
                 <FormGroup withoutBottomMargin>
                   <Label
@@ -144,7 +188,7 @@ export default function KeyValueBarOverlayPresenter({
               ))}
             </Col>
           )}
-          <Col xs={6} xsOffset={form.get('value') ? 0 : 6} className={locals.create}>
+          <Col xs={columnWidth} xsOffset={applyButtonOffset} className={locals.create}>
             <Button type="submit" kind="create" disabled={form.touched && !form.hierarchyValid}>
               Add Filter
             </Button>

@@ -4,14 +4,29 @@ import { timeout, empty } from 'reactive-observables';
 
 import KeyValueBarOverlayPresenter from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
+import { TAG_TYPES } from 'in-analyze/applicationFilter';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
   withState('form', 'setForm', getEmptyForm()),
-  withProps(({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters }) => ({
-    onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
+  withProps(({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters, serializeFilter }) => ({
+    onKeyChange: key => {
+      let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
+      const node = findSubTreeByFullyQualifiedName(key);
+      const requiresSecondLevelName = node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
+      if (requiresSecondLevelName) {
+        updatedForm = updatedForm.put('secondLevelName', getNotBlankValidatedFieldDefinition());
+      } else {
+        updatedForm = updatedForm.remove('secondLevelName');
+      }
+      setForm(updatedForm);
+    },
+    onSecondLevelKeyChange: secondLevelKey => {
+      setForm(form.updateIn(['secondLevelName'], f => f.setValue(secondLevelKey).setTouched(true)));
+    },
     onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
     onOperatorChange: e => {
       const newOperator = e.target.value;
@@ -19,36 +34,50 @@ export default compose(
       const requiresValueField = newOperator !== 'NOT_EMPTY' && newOperator !== 'IS_EMPTY';
       if (requiresValueField) {
         if (!updatedForm.get('value')) {
-          updatedForm = updatedForm.put('value', getValueFieldDefinition());
+          updatedForm = updatedForm.put('value', getNotBlankValidatedFieldDefinition());
         }
       } else {
         updatedForm = updatedForm.remove('value');
       }
+
       setForm(updatedForm);
     },
     onSubmit(e) {
       stopPropagationAndPreventDefault(e);
       if (!form.hierarchyValid) {
-        setForm({
-          form: form.setTouched(true, {
-            recurse: true
-          })
-        });
+        setForm(form.setTouched(true, { recurse: true }));
         return;
       }
 
-      // Always include the '=' because when not present, backend treats 'key' as empty
-      let stringValue = `${form.get('key').value}=`;
-      if (form.get('value')) {
-        // value is optional for some keywords
-        stringValue = `${form.get('key').value}=${form.get('value').value}`;
+      if (serializeFilter) {
+        // For Website Monitoring:
+        // Always include the '=' because when not present, backend treats 'key' as empty
+        let stringValue = `${form.get('key').value}=`;
+        if (form.containsKey('value')) {
+          // value is optional for some keywords
+          stringValue = `${form.get('key').value}=${form.get('value').value}`;
+        }
+
+        addTagFilter({
+          name: tag,
+          operator: form.get('operator').value,
+          stringValue
+        });
+      } else {
+        // For Analyze Traces/Calls:
+        const submittedFilter = {
+          name: form.get('key').value,
+          operator: form.get('operator').value
+        };
+        if (form.containsKey('secondLevelName')) {
+          submittedFilter.secondLevelName = form.get('secondLevelName').value;
+        }
+        if (form.containsKey('value')) {
+          submittedFilter.value = form.get('value').value;
+        }
+        addTagFilter(submittedFilter);
       }
 
-      addTagFilter({
-        name: tag,
-        operator: form.get('operator').value,
-        stringValue
-      });
       close();
     },
     onRemoveTagFilter(tagFilter) {
@@ -65,6 +94,26 @@ export default compose(
 
     const key = props.form.get('key').value;
     const keyChanged = prevProps && prevProps.form && key !== prevProps.form.get('key').value;
+
+    let secondLevelKeySuggestions$;
+    if (isBlank(key) || !props.getSecondLevelKeySuggestions) {
+      secondLevelKeySuggestions$ = empty;
+    } else if (keyChanged) {
+      secondLevelKeySuggestions$ = timeout(1500)
+        .flatMap(() =>
+          props.getSecondLevelKeySuggestions({
+            ...props,
+            key
+          })
+        )
+        .startWith(pendingResult);
+    } else {
+      secondLevelKeySuggestions$ = props.getSecondLevelKeySuggestions({
+        ...props,
+        key
+      });
+    }
+
     let valueSuggestions$;
     if (isBlank(key) || !props.getValueSuggestions) {
       valueSuggestions$ = empty;
@@ -89,6 +138,10 @@ export default compose(
         .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
         .startWith(emptyArray),
       keySuggestionsLoading: keySuggestions$.map(r => r.progress.loading),
+      secondLevelKeySuggestions: secondLevelKeySuggestions$
+        .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
+        .startWith(emptyArray),
+      secondLevelKeySuggestionsLoading: secondLevelKeySuggestions$.map(r => r.progress.loading),
       valueSuggestions: valueSuggestions$
         .map(r => (r.data || emptyArray).slice().sort(compareIgnoreCase))
         .startWith(emptyArray),
@@ -105,7 +158,7 @@ function getEmptyForm() {
         validator: notBlankValidator
       })
     )
-    .put('value', getValueFieldDefinition())
+    .put('value', getNotBlankValidatedFieldDefinition())
     .put(
       'operator',
       createField({
@@ -115,7 +168,7 @@ function getEmptyForm() {
     );
 }
 
-function getValueFieldDefinition() {
+function getNotBlankValidatedFieldDefinition() {
   return createField({
     validator: notBlankValidator
   });

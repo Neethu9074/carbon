@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -17,14 +16,12 @@ import connect from 'in-hoc/connectTo';
 
 import locals from './CallDetails.mless';
 
-export default compose(
-  connect(props => ({
-    callResult: getTraceActivityTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(
-      pendingResult
-    ),
-    callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
-  }))
-)(CallDetails);
+export default connect(props => ({
+  callResult: getTraceActivityTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(
+    pendingResult
+  ),
+  callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
+}))(CallDetails);
 
 function CallDetails(props) {
   const { callResult, callTreeResult, getColor, onClose } = props;

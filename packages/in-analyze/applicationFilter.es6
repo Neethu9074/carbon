@@ -132,12 +132,11 @@ export function getTagFilterListForBackendSubscription(tagFilters, defaultFilter
   // user provided tag filters will override default ones
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
-  const result = tagFilters.concat(defaultFiltersToAdd).map(tag => {
+  return tagFilters.concat(defaultFiltersToAdd).map(tag => {
     const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator };
     getValueByTag(backendTagFilter, tag);
     return backendTagFilter;
   });
-  return result;
 }
 
 function getValueByTag(backendTagFilter, tag) {

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
+import AnalyzeMoreBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMoreBarItem';
 import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-new-components/filterBar/BooleanBarItem';
@@ -27,10 +28,10 @@ export default function QuickFilterBar(props) {
     <Bar showClearFilters={tagFilters.length > 0} onClearFilters={() => clearTagFilters(onChangeAnalyzeConfig)}>
       {/*
       TODOs:
+      - Latency > / <
       - Mixpanel trackers
-      - The "More" filter dialog/tagFiltersHoc#onMoreClick
-      - tagFilterHoc#onTagFilterClick
-      - rm console.logs
+      - rm even more unused components
+      - more space for values in more button dialog
       */}
       <AnalyzeSelectBarItem
         {...props}
@@ -99,6 +100,7 @@ export default function QuickFilterBar(props) {
         singularLabel="Synthetic"
         pluralLabel="Synthetic"
       />
+      <AnalyzeMoreBarItem {...props} label="More" />
     </Bar>
   );
 }
@@ -111,7 +113,7 @@ function clearTagFilters(onChangeAnalyzeConfig) {
 }
 
 function renderApplicationServiceEndpointItem(icon) {
-  return function(itemLabel) {
+  return function ItemLabel(itemLabel) {
     return (
       <Fragment>
         <SvgIcon className={locals.entityIcon} type={icon} width={24} height={24} />

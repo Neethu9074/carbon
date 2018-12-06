@@ -1,11 +1,10 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import AnalyzeFilterDialog from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
 import EditGroupFrom from 'in-analyze/Dialogs/EditGroupDialog/EditGroupForm';
 import withTagSuggestions from 'in-analyze/Dialogs/withTagSuggestions';
 
-export default compose(withTagSuggestions())(EditGroupDialog);
+export default withTagSuggestions()(EditGroupDialog);
 
 function EditGroupDialog(props) {
   return (

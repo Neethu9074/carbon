@@ -41,6 +41,7 @@ global.window = jsdom.window;
 global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.__DEV__ = false;
+global.__HOT_RELOAD__ = false;
 global.window.instana = {
   config: {
     environment: 'saas',

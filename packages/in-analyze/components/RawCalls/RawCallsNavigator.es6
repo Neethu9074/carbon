@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import {
   Table,
@@ -34,7 +33,7 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './RawCallsNavigator.mless';
 
-export default compose(getResponsiveNavigatorMode)(RawCallsNavigator);
+export default getResponsiveNavigatorMode(RawCallsNavigator);
 
 function RawCallsNavigator({
   items,

@@ -1,6 +1,5 @@
 import { withProps } from 'recompose';
 
-// import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { createFilter } from 'in-analyze/filterBuilder';
 
 export const tagFilterManipulators = withProps(({ filters, setTagFilters /*, timeConfig, filterableTags*/ }) => {
@@ -18,27 +17,6 @@ export const tagFilterManipulators = withProps(({ filters, setTagFilters /*, tim
     },
     clearTagFilters() {
       setTagFilters([]);
-    },
-    onMoreClick() {
-      // setActiveDialog(
-      //   <WebsiteEditTagFilterDialog
-      //     tagFilters={tagFilters}
-      //     setTagFilters={setTagFilters}
-      //     tagSuggestions={filterableTags}
-      //     timeConfig={timeConfig}
-      //   />
-      // );
-    },
-    onTagFilterClick(/*tagFilter*/) {
-      // setActiveDialog(
-      //   <WebsiteEditTagFilterDialog
-      //     tagFilter={tagFilter}
-      //     tagFilters={tagFilters}
-      //     setTagFilters={setTagFilters}
-      //     tagSuggestions={filterableTags}
-      //     timeConfig={timeConfig}
-      //   />
-      // );
     }
   };
 });

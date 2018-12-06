@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import {
@@ -32,7 +31,7 @@ import { millis } from 'in-services/formatters/number';
 
 import locals from './RawTracesNavigator.mless';
 
-export default compose(getResponsiveNavigatorMode)(RawTracesNavigator);
+export default getResponsiveNavigatorMode(RawTracesNavigator);
 
 function RawTracesNavigator({
   items,

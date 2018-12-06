@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import AnalyzeFilterDialog from 'in-analyze/Dialogs/components/AnalyzeFilterDialog';
@@ -6,7 +5,7 @@ import EditFilterForm from 'in-analyze/Dialogs/EditFilterDialog/EditFilterForm';
 import withTagSuggestions from 'in-analyze/Dialogs/withTagSuggestions';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 
-export default compose(withTagSuggestions())(EditFilterDialog);
+export default withTagSuggestions()(EditFilterDialog);
 
 function EditFilterDialog(props) {
   const isNewFilter = !props.name && !props.value;

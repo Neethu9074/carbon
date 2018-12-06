@@ -4,6 +4,7 @@ import KeyValueBarItemBehavior from 'in-new-components/filterBar/KeyValueBarItem
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 
 export default withProps({
+  serializeFilter: true,
   getKeySuggestions: ({ timeConfig, tagFilters, tag }) => {
     return getWebsiteBeaconGroups({
       timeConfig: timeConfig,
