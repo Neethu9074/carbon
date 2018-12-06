@@ -8,5 +8,6 @@ export default createResultSubscriptionFactory({
     if (!timeConfig.autoRefresh) {
       return Math.min(1000 * 60 * 5, timeConfig.windowSize);
     } else return 5000;
-  }
+  },
+  disposeSubscriptionOnDocumentHidden: false
 });
