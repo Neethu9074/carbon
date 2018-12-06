@@ -1,21 +1,24 @@
+@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .flyout {
-    background: hsla(208, 9%, 39%, 0.9);
-    font-size: 0.8rem;
-    max-width: 21rem;
-    padding: 0rem 1.2rem;
-    margin: 0 0 1rem;
-    border-radius: 4px;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+    max-width: 21rem;
+
+    margin-bottom: 1rem;
+    padding: 1rem;
+
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: @lib__colors__N700Medium;
   }
 
   .warning {
-    border-left: 3px solid rgb(255, 222, 0);
+    border-left: 3px solid @lib__colors__yellow800;
   }
 
   .clickable {
@@ -23,29 +26,28 @@
   }
 
   .icon {
-    fill: #ffc600;
     margin-right: 0.75rem;
-    min-width: 18px;
+    fill: @lib__colors__yellow800;
   }
 
   .msg {
-    color: #ffc600;
+    color: @lib__colors__yellow800;
     font-weight: bold;
     .breakWord();
   }
 
   .button {
-    margin-bottom: .6rem;
     font-weight: normal;
     outline: none;
+    color: white;
+    font-weight: 600;
   }
 
   .content {
-    margin: 0.5rem 0;
+    margin-bottom: 0.75rem;
   }
 
   p {
-    margin: .75rem 0;
+    margin: 0.75rem 0;
   }
 }
-

@@ -33,13 +33,13 @@ export default function UsageMessage({ message }) {
               }
             }}
           >
-            <SvgIcon type={message.icon} className={locals.icon} width={18} />
+            <SvgIcon type={message.icon} className={locals.icon} width={24} height={24} />
             <div className={locals.msg}>
               <Content content={message.content} />
               {!onPremLicenseInformationEnabled && (
                 <Button
-                  kind="warning"
                   className={locals.button}
+                  kind="warning"
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
