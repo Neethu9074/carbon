@@ -43,7 +43,7 @@ export default connect(() => ({
 
         <div className={locals.row}>
           {form.get('numberOfApmHosts').map(field => (
-            <FormGroup className={locals.smallFields}>
+            <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfApmHosts">
                 Number of APM Hosts
               </Label>
@@ -58,7 +58,7 @@ export default connect(() => ({
             </FormGroup>
           ))}
           {form.get('numberOfInfrastructureHosts').map(field => (
-            <FormGroup className={locals.smallFields}>
+            <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfInfrastructureHosts">
                 Number of IM Hosts
               </Label>
@@ -73,7 +73,7 @@ export default connect(() => ({
             </FormGroup>
           ))}
           {form.get('numberOfYears').map(field => (
-            <FormGroup className={locals.smallFields}>
+            <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfYears">
                 Number of Years
               </Label>
@@ -111,7 +111,7 @@ export default connect(() => ({
 
         <div className={locals.row}>
           {form.get('billingCity').map(field => (
-            <FormGroup className={locals.smallFields}>
+            <FormGroup className={locals.twoFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="billingCity">
                 City
               </Label>
@@ -125,8 +125,27 @@ export default connect(() => ({
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
+
+          {form.get('billingZip').map(field => (
+            <FormGroup className={locals.twoFields}>
+              <Label hasError={!field.valid && field.touched} htmlFor="billingZip">
+                Zip
+              </Label>
+              <Input
+                type="text"
+                id="billingZip"
+                value={field.value}
+                onChange={e => onChange('billingZip', e.target.value)}
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </div>
+
+        <div className={locals.row}>
           {form.get('billingCountry').map(field => (
-            <FormGroup className={locals.smallFields}>
+            <FormGroup className={locals.twoFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="billingCountry">
                 Country
               </Label>
@@ -150,7 +169,7 @@ export default connect(() => ({
             const companyField = form.get('billingCountry');
 
             return (
-              <FormGroup className={locals.smallFields}>
+              <FormGroup className={locals.twoFields}>
                 <Label hasError={!field.valid && field.touched} htmlFor="billingState">
                   State
                 </Label>
@@ -162,8 +181,8 @@ export default connect(() => ({
                   value={field.value}
                   options={getStatesByCountryName(geo, companyField.value || '').map(state => {
                     return {
-                      value: state.name,
-                      label: state.name
+                      value: `${state.code}`,
+                      label: `${state.code} - ${state.name}`
                     };
                   })}
                   onChange={e => onChange('billingState', e ? e.value : e)}
@@ -173,21 +192,6 @@ export default connect(() => ({
             );
           })}
         </div>
-        {form.get('billingZip').map(field => (
-          <FormGroup>
-            <Label hasError={!field.valid && field.touched} htmlFor="billingZip">
-              Zip
-            </Label>
-            <Input
-              type="text"
-              id="billingZip"
-              value={field.value}
-              onChange={e => onChange('billingZip', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
       </Section>
     </fieldset>
   );

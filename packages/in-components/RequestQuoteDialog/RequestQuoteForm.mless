@@ -4,7 +4,11 @@
     justify-content: space-between;
   }
 
-  .smallFields {
-    width: 32%;
+  .threeFields {
+    width: 31%;
+  }
+
+  .twoFields {
+    width: 48%;
   }
 }
