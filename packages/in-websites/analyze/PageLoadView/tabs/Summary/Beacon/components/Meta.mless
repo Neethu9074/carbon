@@ -1,0 +1,5 @@
+:local {
+  pre.meta {
+    padding: 0;
+  }
+}

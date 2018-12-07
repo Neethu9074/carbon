@@ -4,6 +4,7 @@ import React from 'react';
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Beacon.mless';
 
@@ -16,7 +17,12 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
   }
 
   return (
-    <div className={locals.beacon}>
+    <div
+      className={evaluateClassNames({
+        [locals.beacon]: true,
+        [locals.erroneous]: beacon.errorCount > 0
+      })}
+    >
       <div className={locals.header}>
         <div className={locals.leftHeader}>
           <TypeHeader beacon={beacon} />

@@ -24,4 +24,4 @@ export const RightHeader = () => (
   </Fragment>
 );
 
-export const Body = () => <div>TODO</div>;
+export const Body = () => <div />;

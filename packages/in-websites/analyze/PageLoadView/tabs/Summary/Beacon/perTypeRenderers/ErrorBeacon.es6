@@ -1,14 +1,32 @@
 import React, { Fragment } from 'react';
 
+import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
+import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
+import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
+import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
+import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { millis } from 'in-services/formatters/number';
+import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => beacon.errorMessage;
 
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
-    <KeyValueHeader label="Error Message" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader
+      label={
+        <Fragment>
+          Error
+          <BatchIndicator batchCount={beacon.batchSize} />
+        </Fragment>
+      }
+      onClick={toggleExpanded}
+      value={getLabel(beacon)}
+    />
     <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader
       label="Start Time"
@@ -18,10 +36,50 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   </Fragment>
 );
 
-export const RightHeader = () => (
-  <Fragment>
-    <div>TODO</div>
-  </Fragment>
-);
+export const RightHeader = () => null;
 
-export const Body = () => <div>TODO</div>;
+export const Body = ({ beacon }) => {
+  return (
+    <Fragment>
+      <Row>
+        <Col lg={6}>
+          <BodyHeader>Error Details</BodyHeader>
+
+          {!isScriptError(beacon.errorMessage) && (
+            <Dl>
+              <Di title="Error Message">{beacon.errorMessage}</Di>
+              <Di title="Error Type">{beacon.errorType}</Di>
+            </Dl>
+          )}
+
+          {isScriptError(beacon.errorMessage) && (
+            <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
+          )}
+        </Col>
+
+        {Object.keys(beacon.meta).length > 0 && (
+          <Col lg={6}>
+            <BodyHeader>Meta</BodyHeader>
+            <Meta beacon={beacon} />
+          </Col>
+        )}
+      </Row>
+
+      <Row>
+        {isNotBlank(beacon.stackTrace) && (
+          <Col lg={6}>
+            <BodyHeader>Stack Trace</BodyHeader>
+            <Stack stack={beacon.stackTrace} />
+          </Col>
+        )}
+
+        {isNotBlank(beacon.componentStack) && (
+          <Col lg={6}>
+            <BodyHeader>Component Stack</BodyHeader>
+            <Stack stack={beacon.componentStack} />
+          </Col>
+        )}
+      </Row>
+    </Fragment>
+  );
+};

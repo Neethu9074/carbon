@@ -104,6 +104,8 @@ function DefaultWaitingPodTooltip() {
 }
 
 function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
+  entitiesHealthInfo = entitiesHealthInfo || {};
+
   // add 5% of the values full domain to all values after calculating the label. This is just for visual feedback
   // since all boxes which have a value = 0 would completely disappear.
   let valueAdding = 0;
