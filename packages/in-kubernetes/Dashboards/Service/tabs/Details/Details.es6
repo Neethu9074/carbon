@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 
+import Annotations from 'in-kubernetes/Dashboards/Service/tabs/Details/Annotations';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';
+import Spec from 'in-kubernetes/Dashboards/Service/tabs/Details/Spec';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -32,7 +34,12 @@ export default function Details({ data: service }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <KeyValueList title="Annotations" icon="lib_kubernetes_label" items={service.annotations} />
+          <Spec snapshotId={service.id} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Annotations snapshotId={service.id} />
         </Col>
       </Row>
       <Row>
