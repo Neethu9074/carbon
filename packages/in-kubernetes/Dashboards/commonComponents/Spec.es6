@@ -1,8 +1,8 @@
 import React from 'react';
 import yaml from 'js-yaml';
 
+import ExpandableCard from 'in-new-components/ExpandableCard';
 import { getRawPayload } from 'in-stores/snapshot';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
@@ -18,9 +18,9 @@ export default connectTo(
     }
 
     return (
-      <Card title="Spec">
+      <ExpandableCard title="Spec">
         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
-      </Card>
+      </ExpandableCard>
     );
   }
 );
