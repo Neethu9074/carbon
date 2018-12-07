@@ -14,26 +14,37 @@ export default function NumberBarItemBehavior(props) {
 }
 
 function Content(props) {
-  const { singularLabel, toggle, isOpen, refSetter } = props;
+  const { singularLabel, unit, toggle, isOpen, refSetter } = props;
   const { gt, lt, neq, eq } = getNumberTagFilters(props);
 
   let label = singularLabel;
   if (lt || gt) {
     if (lt) {
-      label = `${label} < ${lt.numberValue || lt.value}`;
+      label = `${label} < ${lt.numberValue || lt.value}${renderUnit(unit)}`;
     }
     if (gt) {
-      label = `${gt.numberValue || gt.value} < ${label}`;
+      label = `${gt.numberValue || gt.value}${renderUnit(unit)} < ${label}`;
     }
   } else if (eq) {
-    label = `${label} = ${eq.numberValue || eq.value}`;
+    label = `${label} = ${eq.numberValue || eq.value}${renderUnit(unit)}`;
   } else if (neq) {
-    label = `${label} ≠ ${neq.numberValue || neq.value}`;
+    label = `${label} ≠ ${neq.numberValue || neq.value}${renderUnit(unit)}`;
   }
 
   return (
-    <BarItem showArrow isOpen={isOpen} active={isOpen || eq || neq || lt || gt} onClick={toggle} refSetter={refSetter}>
+    <BarItem
+      showArrow
+      isOpen={isOpen}
+      active={isOpen || eq || neq || lt || gt}
+      onClick={toggle}
+      refSetter={refSetter}
+      withoutTextTransform={!!unit}
+    >
       {label}
     </BarItem>
   );
+}
+
+function renderUnit(unit) {
+  return unit ? ' ' + unit : '';
 }

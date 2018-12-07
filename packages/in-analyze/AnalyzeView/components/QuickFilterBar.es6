@@ -31,7 +31,6 @@ export default function QuickFilterBar(props) {
     >
       {/*
       TODOs:
-      - Units in number bar item
       - Render selected technology item
       - review
       */}
@@ -91,6 +90,7 @@ export default function QuickFilterBar(props) {
         tagFilters={tagFilters}
         tag={dataSourceConfig.latencyTagPreset}
         singularLabel="Latency"
+        unit="ms"
         showRange
       />
       <BooleanBarItem
