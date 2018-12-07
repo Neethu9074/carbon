@@ -87,6 +87,7 @@
     "react-dom": "^16.4.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-motion": "^0.4.4",
+    "react-on-screen": "^2.1.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-select": "^1.2.1",
