@@ -20,7 +20,7 @@ function onDidMount({ containerElement }, beacon) {
         theme: 'light',
         svgPath: centerAlignedLocationPointer,
         scale: 0.15,
-        color: '#147b3f',
+        color: '#031F29',
         longitude: beacon.longitude,
         latitude: beacon.latitude
       }
@@ -36,7 +36,7 @@ function onDidMount({ containerElement }, beacon) {
     mouseWheelZoomEnabled: true,
     hideCredits: true,
     areasSettings: {
-      color: '#96ccee',
+      color: '#39BF7C',
       rollOverColor: '#58aee4'
     },
     zoomControl: {

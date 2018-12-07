@@ -93,7 +93,11 @@ export const availableGroupingTags = {
     'beacon.http.sameOrigin',
     'beacon.http.status',
     'beacon.http.url',
-    'beacon.asynchronous'
+    'beacon.asynchronous',
+    'beacon.erroneous',
+    'beacon.error.count',
+    'beacon.error.message',
+    'beacon.error.type'
   ].sort(),
   error: [
     ...commonGroupingTags,
