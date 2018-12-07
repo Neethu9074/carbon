@@ -6,7 +6,6 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
-  percentage,
   percentagePlainTwoDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -78,7 +77,7 @@ const cols = [
       getMetricName(row) {
         return `metrics.elasticPools.${row.key}.dtu_consumption_percent`;
       },
-      getContent: percentage.compact,
+      getContent: percentagePlainTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -136,7 +135,7 @@ const cols = [
       getMetricName(row) {
         return `metrics.elasticPools.${row.key}.cpu_percent`;
       },
-      getContent: percentage.compact,
+      getContent: percentagePlainTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
