@@ -40,7 +40,7 @@
     font-weight: normal;
     outline: none;
     color: white;
-    font-weight: 600;
+    font-weight: 900;
   }
 
   .content {
