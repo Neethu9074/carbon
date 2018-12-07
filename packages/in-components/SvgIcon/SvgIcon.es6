@@ -10,6 +10,7 @@ const block = 'in-svg-icon';
 
 export default function SvgIcon({
   type,
+  customIcon,
   width,
   height,
   maxWidth,
@@ -29,11 +30,11 @@ export default function SvgIcon({
   role = role || (onClick ? 'button' : undefined);
   tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;
 
-  if (!type) {
+  if (!type && !customIcon) {
     type = 'empty';
   }
 
-  const icon = icons[type];
+  const icon = type ? icons[type] : customIcon;
   if (!icon) {
     if (__DEV__) {
       console.error(`SVG icon ${type} is unknown.`);

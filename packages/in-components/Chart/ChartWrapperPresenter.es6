@@ -14,7 +14,8 @@ export default function ChartWrapperPresenter({ result, config, renderLegend = t
   if (result.errors.length > 0) {
     content = <NoDataAvailable width={width} height={height} />;
   } else if (result.progress.loading) {
-    content = <InfiniteCircle height={height} width={width} />;
+    // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
+    content = <InfiniteCircle height={height} width={width} percentage={result.progress.percentage || 0.2} />;
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics) {

@@ -5,14 +5,68 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './InfiniteCircle.mless';
 
-export default function InfiniteCircle({ width, height, customText, className }) {
+export default function InfiniteCircle({ width, height, percentage, customText, className }) {
+  const angle = !percentage ? 270 : 360 * percentage;
+
+  const customIcon = {
+    width: 24,
+    height: 24,
+    ratio: 1,
+    path: describeArc(12, 12, 8, 2, 0, angle)
+  };
+
   return (
     <BasicWrapper
       className={className}
       width={width}
       height={height}
       text={customText || 'Loading data'}
-      renderIcon={size => <SvgIcon className={locals.icon} type="lib_actions_loading" height={size} spinning />}
+      renderIcon={size => <SvgIcon className={locals.icon} customIcon={customIcon} height={size} spinning />}
     />
   );
+}
+
+function describeArc(x, y, radius, arcWidth, startAngle, endAngle) {
+  const startOuter = polarToCartesian(x, y, radius, endAngle);
+  const endOuter = polarToCartesian(x, y, radius, startAngle);
+  const startInner = polarToCartesian(x, y, radius - arcWidth, startAngle);
+  const endInner = polarToCartesian(x, y, radius - arcWidth, endAngle);
+
+  const largeArcFlagOuter = endAngle - startAngle <= 180 ? '0' : '1';
+  const largeArcFlagInner = endAngle - startAngle <= 180 ? '0' : '1';
+
+  return [
+    'M',
+    startOuter.x,
+    startOuter.y,
+    'A',
+    radius,
+    radius,
+    0,
+    largeArcFlagOuter,
+    0,
+    endOuter.x,
+    endOuter.y,
+    'L',
+    startInner.x,
+    startInner.y,
+    'A',
+    -(radius - arcWidth),
+    -(radius - arcWidth),
+    0,
+    largeArcFlagInner,
+    1,
+    endInner.x,
+    endInner.y,
+    'Z'
+  ].join(' ');
+}
+
+function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians)
+  };
 }
