@@ -28,6 +28,7 @@ import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
 
 import './website/BeaconUserSummaryStory';
+import './website/BrowserIconsStory';
 import './website/DeprecationsStory';
 import './website/NewWebsiteStory';
 import './website/PageLoadView/PageLoadViewStory';

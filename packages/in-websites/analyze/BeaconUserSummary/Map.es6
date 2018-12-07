@@ -6,7 +6,14 @@ import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import locals from './Map.mless';
 
 export default function Map({ beacon }) {
-  return <AmMap onDidMount={args => onDidMount(args, beacon)} height={200} className={locals.map} />;
+  return (
+    <AmMap
+      key={`${beacon.latitude}:${beacon.longitude}`}
+      onDidMount={args => onDidMount(args, beacon)}
+      height={200}
+      className={locals.map}
+    />
+  );
 }
 
 function onDidMount({ containerElement }, beacon) {

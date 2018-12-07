@@ -2,14 +2,32 @@ import { uniq } from 'lodash';
 import React from 'react';
 
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 
 import locals from './User.mless';
 
 export default function User({ beacon }) {
-  const [first, second, third] = uniq(
+  let [first, second, third] = uniq(
     [beacon.userName, beacon.userEmail, beacon.userId].filter(Boolean).filter(isNotBlank)
   );
+
+  if (!first) {
+    first = (
+      <div className={locals.noUserData}>
+        No user data defined
+        <Button
+          href="https://docs.instana.io/products/website_monitoring/api/#meta-data"
+          kind="primaryv2"
+          target="_blank"
+          size="compact"
+        >
+          Learn how to add user data
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className={locals.user}>
       <Gravatar email={beacon.email} className={locals.avatar} />

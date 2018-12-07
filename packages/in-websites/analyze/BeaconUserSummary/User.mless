@@ -5,7 +5,9 @@
     display: flex;
     display: flex;
     align-items: center;
-    margin: 0 0 1rem;
+    margin: 0 0 1.4rem;
+    border-bottom: 1px solid #D8D8D8;
+    padding: 0 0 1rem;
   }
 
   .avatar {
@@ -15,7 +17,8 @@
   }
 
   .info {
-    margin: 0 0 0 10px;
+    margin: 0 0 0 1.3rem;
+    width: 100%;
   }
 
   .first {
@@ -32,7 +35,13 @@
 
   .third {
     font-size: 0.675rem;
-    margin: 0.2rem 0 0;
+    margin: 0.3rem 0 0;
     .ellipsis();
+  }
+
+  .noUserData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
