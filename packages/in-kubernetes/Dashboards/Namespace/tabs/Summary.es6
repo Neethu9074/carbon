@@ -6,6 +6,7 @@ import {
   resourceQuotaTwoDecimalPlaces
 } from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
+import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -52,46 +53,67 @@ export default function Summary({ timeConfig, data: namespace }) {
       <Row>
         <Col lg={4}>
           <Card title="CPU Requests / Limits">
-            <Chart
+            <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-              y1={{
-                formatter: resourceQuotaTwoDecimalPlaces,
-                metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
-                labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
-                type: 'line',
-                min: 0
-              }}
+              metrics={[`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`]}
+              renderChart={() => (
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: resourceQuotaTwoDecimalPlaces,
+                    metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
+                    labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
+                    type: 'line',
+                    min: 0
+                  }}
+                />
+              )}
             />
           </Card>
         </Col>
         <Col lg={4}>
           <Card title="Memory Requests / Limits">
-            <Chart
+            <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-              y1={{
-                formatter: resourceQuotaBytes,
-                metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
-                labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
-                type: 'line',
-                min: 0
-              }}
+              metrics={[`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`]}
+              renderChart={() => (
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: resourceQuotaBytes,
+                    metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
+                    labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
+                    type: 'line',
+                    min: 0
+                  }}
+                />
+              )}
             />
           </Card>
         </Col>
         <Col lg={4}>
           <Card title="Pods Allocation">
-            <Chart
+            <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-              y1={{
-                formatter: resourceQuotaZeroDecimalPlaces,
-                metrics: ['used_pods', 'cap_pods'],
-                labels: ['Used Pods', 'Pods Capacity'],
-                type: 'line',
-                min: 0
-              }}
+              metrics={['used_pods', 'cap_pods']}
+              renderChart={() => (
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: resourceQuotaZeroDecimalPlaces,
+                    metrics: ['used_pods', 'cap_pods'],
+                    labels: ['Used Pods', 'Pods Capacity'],
+                    type: 'line',
+                    min: 0
+                  }}
+                />
+              )}
             />
           </Card>
         </Col>
