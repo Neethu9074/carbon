@@ -24,66 +24,94 @@ export default compose(
     reducerName: 'setForm',
     reducer: (prev, form) => getState(form)
   }),
-  withProps(({ tagFilter, tagFilters, setTagFilters, selectedTagType, setForm, form }) => ({
-    onClose: close,
-    editMode: Boolean(tagFilter),
-    operatorSuggestions: TAG_TYPES[selectedTagType].operators,
-    onRemoveTagFilter: () => {
-      setTagFilters(tagFilters.filter(f => f !== tagFilter));
-      close();
-    },
-    onTagChange: tag => setForm(createForm(tag)),
-    onOperatorChange: operator => {
-      let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
-      if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
-        updatedForm = updatedForm.remove('value');
-      } else if (!updatedForm.get('value')) {
-        updatedForm = updatedForm.put(
-          'value',
-          createField({
-            value: '',
-            validator: notBlankValidator
-          })
-        );
+  withProps(
+    ({
+      tagFilter,
+      tagFilters,
+      setTagFilters,
+      selectedTagType,
+      setForm,
+      form,
+      filterAddedTracker,
+      filterChangedTracker,
+      filterRemovedTracker
+    }) => ({
+      onClose: close,
+      editMode: Boolean(tagFilter),
+      operatorSuggestions: TAG_TYPES[selectedTagType].operators,
+      onRemoveTagFilter: () => {
+        setTagFilters(tagFilters.filter(f => f !== tagFilter));
+        close();
+
+        if (filterRemovedTracker) {
+          const before = tagFilters.filter(f => f === tagFilter);
+          if (before.length > 0) {
+            filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
+          } else {
+            filterRemovedTracker({ name: tagFilter.name });
+          }
+        }
+      },
+      onTagChange: tag => setForm(createForm(tag)),
+      onOperatorChange: operator => {
+        let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
+        if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
+          updatedForm = updatedForm.remove('value');
+        } else if (!updatedForm.get('value')) {
+          updatedForm = updatedForm.put(
+            'value',
+            createField({
+              value: '',
+              validator: notBlankValidator
+            })
+          );
+        }
+        setForm(updatedForm);
+      },
+      onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
+      onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
+      onSubmit: e => {
+        stopPropagationAndPreventDefault(e);
+        if (!form.hierarchyValid) {
+          setForm(form.setTouched(true, { recurse: true }));
+          return;
+        }
+
+        const newTagFilter = {
+          name: form.get('tag').value,
+          operator: form.get('operator').value
+        };
+
+        const isPresenceOperator =
+          form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY';
+
+        if (!isPresenceOperator && selectedTagType === 'BOOLEAN') {
+          newTagFilter.booleanValue = 'true' === form.get('value').value;
+        } else if (!isPresenceOperator && selectedTagType === 'NUMBER') {
+          newTagFilter.numberValue = parseInt(form.get('value').value, 10);
+        } else if (!isPresenceOperator && selectedTagType === 'STRING') {
+          newTagFilter.stringValue = form.get('value').value;
+        } else if (selectedTagType === 'KEY_VALUE_PAIR') {
+          // Always include the '=' because when not present, backend treats 'key' as empty
+          const value = [
+            form.get('key') && form.get('key').value,
+            (form.get('value') && form.get('value').value) || ''
+          ].join('=');
+          newTagFilter.stringValue = value;
+        }
+
+        setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));
+        close();
+
+        const before = tagFilters.filter(f => f === tagFilter);
+        if (before.length > 0) {
+          filterChangedTracker({ before: before[0], after: newTagFilter });
+        } else {
+          filterAddedTracker({ filter: newTagFilter });
+        }
       }
-      setForm(updatedForm);
-    },
-    onKeyChange: key => setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true))),
-    onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
-    onSubmit: e => {
-      stopPropagationAndPreventDefault(e);
-      if (!form.hierarchyValid) {
-        setForm(form.setTouched(true, { recurse: true }));
-        return;
-      }
-
-      const newTagFilter = {
-        name: form.get('tag').value,
-        operator: form.get('operator').value
-      };
-
-      const isPresenceOperator =
-        form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY';
-
-      if (!isPresenceOperator && selectedTagType === 'BOOLEAN') {
-        newTagFilter.booleanValue = 'true' === form.get('value').value;
-      } else if (!isPresenceOperator && selectedTagType === 'NUMBER') {
-        newTagFilter.numberValue = parseInt(form.get('value').value, 10);
-      } else if (!isPresenceOperator && selectedTagType === 'STRING') {
-        newTagFilter.stringValue = form.get('value').value;
-      } else if (selectedTagType === 'KEY_VALUE_PAIR') {
-        // Always include the '=' because when not present, backend treats 'key' as empty
-        const value = [
-          form.get('key') && form.get('key').value,
-          (form.get('value') && form.get('value').value) || ''
-        ].join('=');
-        newTagFilter.stringValue = value;
-      }
-
-      setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));
-      close();
-    }
-  })),
+    })
+  ),
   connect((props, prevProps) => {
     const currentKey = props.form.get('key') != null ? props.form.get('key').value : null;
     const loadingProps = {

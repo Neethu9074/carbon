@@ -12,78 +12,99 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   withState('form', 'setForm', getEmptyForm()),
-  withProps(({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters, serializeFilter }) => ({
-    onKeyChange: key => {
-      let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
-      const node = findSubTreeByFullyQualifiedName(key);
-      const requiresSecondLevelName = node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
-      if (requiresSecondLevelName) {
-        updatedForm = updatedForm.put('secondLevelName', getNotBlankValidatedFieldDefinition());
-      } else {
-        updatedForm = updatedForm.remove('secondLevelName');
-      }
-      setForm(updatedForm);
-    },
-    onSecondLevelKeyChange: secondLevelKey => {
-      setForm(form.updateIn(['secondLevelName'], f => f.setValue(secondLevelKey).setTouched(true)));
-    },
-    onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
-    onOperatorChange: e => {
-      const newOperator = e.target.value;
-      let updatedForm = form.updateIn(['operator'], f => f.setValue(newOperator).setTouched(true));
-      const requiresValueField = newOperator !== 'NOT_EMPTY' && newOperator !== 'IS_EMPTY';
-      if (requiresValueField) {
-        if (!updatedForm.get('value')) {
-          updatedForm = updatedForm.put('value', getNotBlankValidatedFieldDefinition());
+  withProps(
+    ({
+      form,
+      setForm,
+      addTagFilter,
+      tag,
+      close,
+      tagFilters,
+      setTagFilters,
+      serializeFilter,
+      filterRemovedTracker
+    }) => ({
+      onKeyChange: key => {
+        let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
+        const node = findSubTreeByFullyQualifiedName(key);
+        const requiresSecondLevelName = node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
+        if (requiresSecondLevelName) {
+          updatedForm = updatedForm.put('secondLevelName', getNotBlankValidatedFieldDefinition());
+        } else {
+          updatedForm = updatedForm.remove('secondLevelName');
         }
-      } else {
-        updatedForm = updatedForm.remove('value');
-      }
-
-      setForm(updatedForm);
-    },
-    onSubmit(e) {
-      stopPropagationAndPreventDefault(e);
-      if (!form.hierarchyValid) {
-        setForm(form.setTouched(true, { recurse: true }));
-        return;
-      }
-
-      if (serializeFilter) {
-        // For Website Monitoring:
-        // Always include the '=' because when not present, backend treats 'key' as empty
-        let stringValue = `${form.get('key').value}=`;
-        if (form.containsKey('value')) {
-          // value is optional for some keywords
-          stringValue = `${form.get('key').value}=${form.get('value').value}`;
+        setForm(updatedForm);
+      },
+      onSecondLevelKeyChange: secondLevelKey => {
+        setForm(form.updateIn(['secondLevelName'], f => f.setValue(secondLevelKey).setTouched(true)));
+      },
+      onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
+      onOperatorChange: e => {
+        const newOperator = e.target.value;
+        let updatedForm = form.updateIn(['operator'], f => f.setValue(newOperator).setTouched(true));
+        const requiresValueField = newOperator !== 'NOT_EMPTY' && newOperator !== 'IS_EMPTY';
+        if (requiresValueField) {
+          if (!updatedForm.get('value')) {
+            updatedForm = updatedForm.put('value', getNotBlankValidatedFieldDefinition());
+          }
+        } else {
+          updatedForm = updatedForm.remove('value');
         }
 
-        addTagFilter({
-          name: tag,
-          operator: form.get('operator').value,
-          stringValue
-        });
-      } else {
-        // For Analyze Traces/Calls:
-        const submittedFilter = {
-          name: form.get('key').value,
-          operator: form.get('operator').value
-        };
-        if (form.containsKey('secondLevelName')) {
-          submittedFilter.secondLevelName = form.get('secondLevelName').value;
+        setForm(updatedForm);
+      },
+      onSubmit(e) {
+        stopPropagationAndPreventDefault(e);
+        if (!form.hierarchyValid) {
+          setForm(form.setTouched(true, { recurse: true }));
+          return;
         }
-        if (form.containsKey('value')) {
-          submittedFilter.value = form.get('value').value;
-        }
-        addTagFilter(submittedFilter);
-      }
 
-      close();
-    },
-    onRemoveTagFilter(tagFilter) {
-      setTagFilters(tagFilters.filter(f => f !== tagFilter));
-    }
-  })),
+        if (serializeFilter) {
+          // For Website Monitoring:
+          // Always include the '=' because when not present, backend treats 'key' as empty
+          let stringValue = `${form.get('key').value}=`;
+          if (form.containsKey('value')) {
+            // value is optional for some keywords
+            stringValue = `${form.get('key').value}=${form.get('value').value}`;
+          }
+
+          addTagFilter({
+            name: tag,
+            operator: form.get('operator').value,
+            stringValue
+          });
+        } else {
+          // For Analyze Traces/Calls:
+          const submittedFilter = {
+            name: form.get('key').value,
+            operator: form.get('operator').value
+          };
+          if (form.containsKey('secondLevelName')) {
+            submittedFilter.secondLevelName = form.get('secondLevelName').value;
+          }
+          if (form.containsKey('value')) {
+            submittedFilter.value = form.get('value').value;
+          }
+          addTagFilter(submittedFilter);
+        }
+
+        close();
+      },
+      onRemoveTagFilter(tagFilter) {
+        setTagFilters(tagFilters.filter(f => f !== tagFilter));
+
+        if (filterRemovedTracker) {
+          const before = tagFilters.filter(f => f === tagFilter);
+          if (before.length > 0) {
+            filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
+          } else {
+            filterRemovedTracker({ name: tagFilter.name });
+          }
+        }
+      }
+    })
+  ),
   connect((props, prevProps) => {
     let keySuggestions$;
     if (props.getKeySuggestions) {

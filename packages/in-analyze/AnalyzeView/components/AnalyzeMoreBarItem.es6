@@ -8,7 +8,14 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { just } from 'reactive-observables';
 
 export default function AnalyzeMoreBarItem(props) {
-  const { filters, addTagFilter, setTagFilters } = props;
+  const {
+    filters,
+    addTagFilter,
+    setTagFilters,
+    filterAddedTracker,
+    filterChangedTracker,
+    filterRemovedTracker
+  } = props;
   const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
   const tagFilters = filters.get('tagFilter').toJS();
 
@@ -21,6 +28,9 @@ export default function AnalyzeMoreBarItem(props) {
       getValueSuggestions={getValueSuggestions(tagFilters, filters.get('timeConfig'))}
       addTagFilter={addTagFilter}
       setTagFilters={setTagFilters}
+      filterAddedTracker={filterAddedTracker}
+      filterChangedTracker={filterChangedTracker}
+      filterRemovedTracker={filterRemovedTracker}
     />
   );
 }

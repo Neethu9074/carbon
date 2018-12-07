@@ -1,5 +1,6 @@
 import { createField, createMapForm } from 'formalistic';
 import { compose, withProps } from 'recompose';
+import { negate } from 'lodash';
 
 import NumberBarOverlayPresenter from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
 import { getNumberTagFilters } from 'in-new-components/filterBar/NumberBarItemBehavior/util';
@@ -19,94 +20,121 @@ export default compose(
     ],
     reducerName: 'onChange'
   }),
-  withProps(({ onChange, form, close, setTagFilters, tagFilters, showRange, showEquality, tag }) => ({
-    getOnChangeHandler: fieldName => e =>
-      onChange({
-        form: form.updateIn([fieldName], field => field.setValue(e.target.value).setTouched(true))
-      }),
-    onClear(e) {
-      stopPropagationAndPreventDefault(e);
-      let tagFilterChange = tagFilters;
+  withProps(
+    ({
+      onChange,
+      form,
+      close,
+      setTagFilters,
+      tagFilters,
+      showRange,
+      showEquality,
+      tag,
+      filterAddedTracker,
+      filterChangedTracker,
+      filterRemovedTracker
+    }) => {
+      const rangeFilter = f => f.name === tag && (f.operator === 'LESS_THAN' || f.operator === 'GREATER_THAN');
+      const equalityFilter = f => f.name === tag && (f.operator === 'EQUALS' || f.operator === 'NOT_EQUAL');
+      return {
+        getOnChangeHandler: fieldName => e =>
+          onChange({
+            form: form.updateIn([fieldName], field => field.setValue(e.target.value).setTouched(true))
+          }),
+        onClear(e) {
+          stopPropagationAndPreventDefault(e);
+          let tagFilterChange = tagFilters;
+          let filterBeforeChange;
 
-      if (showRange) {
-        tagFilterChange = tagFilterChange.filter(
-          f => !(f.name === tag && (f.operator === 'LESS_THAN' || f.operator === 'GREATER_THAN'))
-        );
-      }
+          if (showRange) {
+            filterBeforeChange = tagFilterChange.filter(rangeFilter);
+            tagFilterChange = tagFilterChange.filter(negate(rangeFilter));
+          } else if (showEquality) {
+            filterBeforeChange = tagFilterChange.filter(equalityFilter);
+            tagFilterChange = tagFilterChange.filter(negate(equalityFilter));
+          }
 
-      if (showEquality) {
-        tagFilterChange = tagFilterChange.filter(
-          f => !(f.name === tag && (f.operator === 'EQUALS' || f.operator === 'NOT_EQUAL'))
-        );
-      }
+          setTagFilters(tagFilterChange);
+          close();
 
-      setTagFilters(tagFilterChange);
-      close();
-    },
-    onSubmit(e) {
-      stopPropagationAndPreventDefault(e);
-      if (!form.hierarchyValid) {
-        onChange({
-          form: form.setTouched(true, {
-            recurse: true
-          })
-        });
-        return;
-      }
+          if (filterRemovedTracker) {
+            if (filterBeforeChange && filterBeforeChange.length > 0) {
+              filterRemovedTracker({ name: tag, filter: filterBeforeChange[0] });
+            } else {
+              filterRemovedTracker({ name: tag });
+            }
+          }
+        },
+        onSubmit(e) {
+          stopPropagationAndPreventDefault(e);
+          if (!form.hierarchyValid) {
+            onChange({
+              form: form.setTouched(true, {
+                recurse: true
+              })
+            });
+            return;
+          }
 
-      let tagFilterChange = tagFilters;
-      if (showRange) {
-        tagFilterChange = tagFilterChange.filter(
-          f => !(f.name === tag && (f.operator === 'LESS_THAN' || f.operator === 'GREATER_THAN'))
-        );
+          let tagFilterChange = tagFilters;
+          let filterBeforeChange = [];
 
-        if (isNotBlank(form.get('lt').value)) {
-          tagFilterChange = tagFilterChange.concat({
-            name: tag,
-            value: form.get('lt').value,
-            numberValue: parseInt(form.get('lt').value, 10),
-            operator: 'LESS_THAN'
-          });
+          if (showRange) {
+            filterBeforeChange = tagFilterChange.filter(rangeFilter);
+            tagFilterChange = tagFilterChange.filter(negate(rangeFilter));
+
+            if (isNotBlank(form.get('lt').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('lt').value,
+                numberValue: parseInt(form.get('lt').value, 10),
+                operator: 'LESS_THAN'
+              });
+            }
+
+            if (isNotBlank(form.get('gt').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('gt').value,
+                numberValue: parseInt(form.get('gt').value, 10),
+                operator: 'GREATER_THAN'
+              });
+            }
+          } else if (showEquality) {
+            filterBeforeChange = tagFilterChange.filter(equalityFilter);
+            tagFilterChange = tagFilterChange.filter(negate(equalityFilter));
+
+            if (isNotBlank(form.get('eq').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('eq').value,
+                numberValue: parseInt(form.get('eq').value, 10),
+                operator: 'EQUALS'
+              });
+            }
+
+            if (isNotBlank(form.get('neq').value)) {
+              tagFilterChange = tagFilterChange.concat({
+                name: tag,
+                value: form.get('neq').value,
+                numberValue: parseInt(form.get('neq').value, 10),
+                operator: 'NOT_EQUAL'
+              });
+            }
+          }
+
+          setTagFilters(tagFilterChange);
+          close();
+
+          if (filterChangedTracker && filterBeforeChange.length > 0) {
+            filterChangedTracker({ before: filterBeforeChange[0], after: tagFilterChange });
+          } else if (filterAddedTracker && filterBeforeChange.length === 0) {
+            filterAddedTracker({ filter: tagFilterChange });
+          }
         }
-
-        if (isNotBlank(form.get('gt').value)) {
-          tagFilterChange = tagFilterChange.concat({
-            name: tag,
-            value: form.get('gt').value,
-            numberValue: parseInt(form.get('gt').value, 10),
-            operator: 'GREATER_THAN'
-          });
-        }
-      }
-
-      if (showEquality) {
-        tagFilterChange = tagFilterChange.filter(
-          f => !(f.name === tag && (f.operator === 'EQUALS' || f.operator === 'NOT_EQUAL'))
-        );
-
-        if (isNotBlank(form.get('eq').value)) {
-          tagFilterChange = tagFilterChange.concat({
-            name: tag,
-            value: form.get('eq').value,
-            numberValue: parseInt(form.get('eq').value, 10),
-            operator: 'EQUALS'
-          });
-        }
-
-        if (isNotBlank(form.get('neq').value)) {
-          tagFilterChange = tagFilterChange.concat({
-            name: tag,
-            value: form.get('neq').value,
-            numberValue: parseInt(form.get('neq').value, 10),
-            operator: 'NOT_EQUAL'
-          });
-        }
-      }
-
-      setTagFilters(tagFilterChange);
-      close();
+      };
     }
-  }))
+  )
 )(NumberBarOverlayPresenter);
 
 function getInitialState(props) {

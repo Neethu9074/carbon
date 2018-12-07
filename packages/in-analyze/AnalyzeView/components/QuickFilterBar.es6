@@ -3,11 +3,9 @@ import React, { Fragment } from 'react';
 import NumberBarItem from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import AnalyzeMoreBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMoreBarItem';
-import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-new-components/filterBar/BooleanBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { getTagFromList } from 'in-applications/tags';
 import Bar from 'in-new-components/filterBar/Bar/Bar';
 import { toTitleCase } from 'in-services/util/string';
@@ -16,21 +14,26 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './QuickFilterBar.mless';
 
-const filterClearedTracker = createTracker('analyze.filter.cleared');
-
 export default function QuickFilterBar(props) {
-  const { filters, onChangeAnalyzeConfig } = props;
+  const { filters, clearTagFilters, filterAddedTracker, filterChangedTracker, filterRemovedTracker } = props;
   const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
 
   const tagFilters = filters.get('tagFilter').toJS();
   const timeConfig = filters.get('timeConfig');
 
   return (
-    <Bar showClearFilters={tagFilters.length > 0} onClearFilters={() => clearTagFilters(onChangeAnalyzeConfig)}>
+    <Bar
+      showClearFilters={tagFilters.length > 0}
+      onClearFilters={clearTagFilters}
+      filterAddedTracker={filterAddedTracker}
+      filterChangedTracker={filterChangedTracker}
+      filterRemovedTracker={filterRemovedTracker}
+    >
       {/*
       TODOs:
-      - Mixpanel trackers
-      - more space for values in more button dialog
+      - Units in number bar item
+      - Render selected technology item
+      - review
       */}
       <AnalyzeSelectBarItem
         {...props}
@@ -107,13 +110,6 @@ export default function QuickFilterBar(props) {
       <AnalyzeMoreBarItem {...props} label="More" />
     </Bar>
   );
-}
-
-function clearTagFilters(onChangeAnalyzeConfig) {
-  onChangeAnalyzeConfig({
-    [tagFilterMatrixParameter]: []
-  });
-  filterClearedTracker();
 }
 
 function renderApplicationServiceEndpointItem(icon) {

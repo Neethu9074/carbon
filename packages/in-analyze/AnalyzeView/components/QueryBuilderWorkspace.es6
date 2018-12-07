@@ -16,8 +16,6 @@ import Sticky from 'in-components/Sticky';
 
 import locals from './QueryBuilderWorkspace.mless';
 
-// const filterChangedTracker = createTracker('analyze.filter.changed');
-// const filterRemovedTracker = createTracker('analyze.filter.removed');
 const groupAddedTracker = createTracker('analyze.group.added');
 const groupChangedTracker = createTracker('analyze.group.changed');
 const groupRemovedTracker = createTracker('analyze.group.removed');
