@@ -4,15 +4,14 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesEntitiesHealthInfo from 'in-subscription/kubernetes/getKubernetesEntitiesHealthInfo';
+import PodTooltip, { PodTooltipComponent } from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podDashboard, podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import PodTooltip from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import { lighten } from 'in-services/formatters/color';
-import WithIcon from 'in-new-components/WithIcon';
 import { mutateUrl } from 'in-stores/navigation';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
@@ -54,7 +53,10 @@ export default compose(
       )
         .debounce(250)
         .map(metrics => {
-          const metricsAsMap = {};
+          const metricsAsMap = {
+            metricName: sizeMetricConfig.metricName,
+            metricType: sizeMetricConfig.metricType
+          };
           let minValue = Number.MAX_VALUE;
           let maxValue = 0;
           for (let i = 0; i < metrics.length; i++) {
@@ -74,19 +76,32 @@ export default compose(
 )(PodTreeMap);
 
 function PodTreeMap(props) {
-  const { data, podMetricValues, timeConfig, showHealth, grouping, colorPool, entitiesHealthInfo = {} } = props;
+  const {
+    data,
+    podMetricValues,
+    timeConfig,
+    sizeMetricConfig,
+    showHealth,
+    grouping,
+    colorPool,
+    entitiesHealthInfo = {}
+  } = props;
 
   return (
     <TreeMap
       data={data}
-      mapData={_data => mapTreeMapData(_data, podMetricValues, entitiesHealthInfo)}
+      mapData={_data => mapTreeMapData(_data, sizeMetricConfig, podMetricValues, entitiesHealthInfo)}
       customHeight={600}
       nivoProperties={{
         orientLabel: false,
         leavesOnly: true,
         label: pod => pod.label,
         colorBy: n => getColorForTreeNode(n, showHealth, colorPool),
-        tooltip: props => getTooltip(props, timeConfig, grouping),
+        tooltip: props => (
+          <Delayed waitingComponent={PodTooltipComponent} grouping={grouping}>
+            <PodTooltip {...props} timeConfig={timeConfig} grouping={grouping} />
+          </Delayed>
+        ),
         onClick: n =>
           mutateUrl(location => {
             location.pathname = `${podDashboardFullyQualified}/summary`;
@@ -98,19 +113,7 @@ function PodTreeMap(props) {
   );
 }
 
-function getTooltip(props, timeConfig, grouping) {
-  return (
-    <Delayed waitingComponent={DefaultWaitingPodTooltip} {...props}>
-      <PodTooltip {...props} timeConfig={timeConfig} grouping={grouping} />
-    </Delayed>
-  );
-}
-
-function DefaultWaitingPodTooltip() {
-  return <WithIcon icon="lib_kubernetes_pod">Pod</WithIcon>;
-}
-
-function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
+function mapTreeMapData(_data, sizeMetricConfig, metricValues, entitiesHealthInfo) {
   entitiesHealthInfo = entitiesHealthInfo || {};
 
   // add 5% of the values full domain to all values after calculating the label. This is just for visual feedback
@@ -133,11 +136,24 @@ function mapTreeMapData(_data, metricValues, entitiesHealthInfo) {
       children: group.children.map(pod => {
         let value;
         let label;
-        if (metricValues && metricValues[pod.id]) {
+        if (
+          sizeMetricConfig &&
+          metricValues &&
+          (metricValues.metricName !== sizeMetricConfig.metricName ||
+            metricValues.metricType !== sizeMetricConfig.metricType)
+        ) {
+          const metricValue = metricValues[pod.id];
+          value = Math.max(0, metricValue.value);
+          value += valueAdding;
+          label = 'Loading';
+        } else if (metricValues && metricValues[pod.id]) {
           const metricValue = metricValues[pod.id];
           value = Math.max(0, metricValue.value);
           label = metricValue.format(value);
           value += valueAdding;
+        } else if (sizeMetricConfig && !metricValues) {
+          value = get(pod, ['children', 'length'], 1);
+          label = 'Loading';
         } else {
           value = get(pod, ['children', 'length'], 1);
           label = `${value} Container${value > 1 ? 's' : ''}`;

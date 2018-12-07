@@ -87,10 +87,6 @@ function ControlFrame(props) {
               </li>
             </ul>
 
-            <br />
-            <br />
-            <br />
-
             <h4 className={locals.groupHeading}>GROUP BY</h4>
             <ul className={locals.list}>
               {Object.keys(groupings).map(key => {

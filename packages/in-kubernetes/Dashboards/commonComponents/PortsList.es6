@@ -25,11 +25,11 @@ export default function PortsList({ ports }) {
           {ports.map((portConfig, i) => (
             <Tr key={i} size="compact">
               <Td>
-                <WithIcon icon="lib_flame">{portConfig.name}</WithIcon>
+                <WithIcon icon="lib_kubernetes_port">{portConfig.name}</WithIcon>
               </Td>
               <Td>{portConfig.port}</Td>
               <Td>{portConfig.protocol}</Td>
-              <Td>{portConfig.nodePort}</Td>
+              <Td>{portConfig.nodePort || 'Auto'}</Td>
               <Td>{portConfig.targetPort}</Td>
             </Tr>
           ))}

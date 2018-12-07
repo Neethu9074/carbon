@@ -173,13 +173,13 @@ const allColumnDefinitions = [
   },
   {
     id: 'memoryRequests',
-    label: 'Memory Limits',
+    label: 'Memory Requests',
     sortable: false,
     getContent(item) {
       return (
         <MetricValue
           snapshotId={get(item, ['pod', 'id'])}
-          metric="memoryLimits"
+          metric="memoryRequests"
           formatter={bytesTwoDecimalPlaces}
           timeWindowAggregation="mean"
         />
