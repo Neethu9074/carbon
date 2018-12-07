@@ -10,7 +10,7 @@ export default connectTo(
     cluster: getKubernetesCluster({
       id: props.clusterId,
       timeConfig: props.timeConfig
-    }).map(result => (result.data ? result.data.cluster : null))
+    }).map(result => (result.data ? result.data : null))
   }),
   function ClusterBreadcrumb({ cluster, href$ }) {
     return (

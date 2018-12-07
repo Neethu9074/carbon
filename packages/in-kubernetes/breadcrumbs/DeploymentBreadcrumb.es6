@@ -10,7 +10,7 @@ export default connectTo(
     deployment: getKubernetesDeployment({
       id: props.deploymentId,
       timeConfig: props.timeConfig
-    }).map(result => (result.data ? result.data.deployment : null))
+    }).map(result => (result.data ? result.data : null))
   }),
   function DeploymentBreadcrumb({ deployment, href$ }) {
     return (
