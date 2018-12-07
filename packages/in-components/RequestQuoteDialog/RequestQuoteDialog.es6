@@ -47,15 +47,15 @@ class RequestQuoteDialog extends React.Component {
 
         {form && (
           <form onSubmit={this.onSubmit}>
-            <Section>
-              {this.state.message ? (
+            {this.state.message ? (
+              <Section>
                 <div className={locals.notificationWrapper}>
                   <Notification failure={this.state.error} success={!this.state.error} loading={this.state.loading}>
                     {this.state.message}
                   </Notification>
                 </div>
-              ) : null}
-            </Section>
+              </Section>
+            ) : null}
 
             {form ? <RequestQuoteForm form={form} onChange={this.onChange} /> : null}
 
