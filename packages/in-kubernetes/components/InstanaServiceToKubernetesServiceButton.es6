@@ -7,7 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ serviceId, timeConfig }) => ({
-    kubernetesServiceId: getKubernetesServiceIdByInstanaServiceId(serviceId, timeConfig).map(result => result.data)
+    kubernetesServiceId: getKubernetesServiceIdByInstanaServiceId({ serviceId, timeConfig }).map(result => result.data)
   }),
   function InstanaServiceToKubernetesServiceButton({ kubernetesServiceId, timeConfig }) {
     if (!kubernetesServiceId) {
