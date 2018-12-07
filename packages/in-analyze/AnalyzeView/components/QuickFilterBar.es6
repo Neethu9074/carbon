@@ -29,11 +29,6 @@ export default function QuickFilterBar(props) {
       filterChangedTracker={filterChangedTracker}
       filterRemovedTracker={filterRemovedTracker}
     >
-      {/*
-      TODOs:
-      - Render selected technology item
-      - review
-      */}
       <AnalyzeSelectBarItem
         {...props}
         timeConfig={timeConfig}
@@ -42,6 +37,7 @@ export default function QuickFilterBar(props) {
         singularLabel="Application"
         pluralLabel="Application"
         itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application')}
+        withoutTextTransform
       />
       <AnalyzeSelectBarItem
         {...props}
@@ -51,6 +47,7 @@ export default function QuickFilterBar(props) {
         singularLabel="Service"
         pluralLabel="Services"
         itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
+        withoutTextTransform
       />
       <AnalyzeSelectBarItem
         {...props}
@@ -62,6 +59,7 @@ export default function QuickFilterBar(props) {
         itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
         precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
         preconditionFailedTooltip="Please select a service before selecting an endpoint."
+        withoutTextTransform
       />
       <AnalyzeSelectBarItem
         {...props}

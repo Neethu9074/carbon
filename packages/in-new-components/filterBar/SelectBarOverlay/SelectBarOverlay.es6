@@ -35,7 +35,7 @@ export default function SelectBarOverlay({
 
       {selectedItem && (
         <Tooltip content={`Currently filtered by ${selectedItem.label}. Click to remove filter.`}>
-          <Item item={selectedItem} selected onClick={() => onSelectItem(null)} />
+          <Item item={selectedItem} selected onClick={() => onSelectItem(null)} itemLabelRenderer={itemLabelRenderer} />
         </Tooltip>
       )}
 

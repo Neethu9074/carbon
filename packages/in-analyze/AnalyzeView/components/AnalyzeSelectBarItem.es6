@@ -29,7 +29,7 @@ const AnalyzeSelectBarItemWithData = withProps({
       filter: {
         timeConfig
       },
-      tagFilters: getTagFilterListForBackendSubscription(tagFilters, [], 'value'),
+      tagFilters: getTagFilterListForBackendSubscription(tagFilters),
       tagName: tag
     }).map(mapData);
   }
