@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -104,6 +105,7 @@ export const Body = ({ beacon }) => {
                 {beacon.httpCallUrl}
               </a>
             </Di>
+            <BackendDi beacon={beacon} />
             <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
             <Di title="HTTP Status">{beacon.httpCallStatus}</Di>
             {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}

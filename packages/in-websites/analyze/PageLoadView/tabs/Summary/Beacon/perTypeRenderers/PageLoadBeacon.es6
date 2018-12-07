@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -83,6 +84,13 @@ export const Body = ({ beacon }) => {
                 {beacon.locationUrl}
               </a>
             </Di>
+            <BackendDi beacon={beacon} />
+            {beacon.firstPaintTime > -1 && (
+              <Di title="First Paint Time">{millis.fixedCompact(beacon.firstPaintTime)}</Di>
+            )}
+            {beacon.firstContentfulPaintTime > -1 && (
+              <Di title="First-Contentful Paint Time">{millis.fixedCompact(beacon.firstContentfulPaintTime)}</Di>
+            )}
           </Dl>
         </Col>
 
