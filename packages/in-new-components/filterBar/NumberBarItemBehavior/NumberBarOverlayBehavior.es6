@@ -63,6 +63,7 @@ export default compose(
         if (isNotBlank(form.get('lt').value)) {
           tagFilterChange = tagFilterChange.concat({
             name: tag,
+            value: form.get('lt').value,
             numberValue: parseInt(form.get('lt').value, 10),
             operator: 'LESS_THAN'
           });
@@ -71,6 +72,7 @@ export default compose(
         if (isNotBlank(form.get('gt').value)) {
           tagFilterChange = tagFilterChange.concat({
             name: tag,
+            value: form.get('gt').value,
             numberValue: parseInt(form.get('gt').value, 10),
             operator: 'GREATER_THAN'
           });
@@ -85,6 +87,7 @@ export default compose(
         if (isNotBlank(form.get('eq').value)) {
           tagFilterChange = tagFilterChange.concat({
             name: tag,
+            value: form.get('eq').value,
             numberValue: parseInt(form.get('eq').value, 10),
             operator: 'EQUALS'
           });
@@ -93,6 +96,7 @@ export default compose(
         if (isNotBlank(form.get('neq').value)) {
           tagFilterChange = tagFilterChange.concat({
             name: tag,
+            value: form.get('neq').value,
             numberValue: parseInt(form.get('neq').value, 10),
             operator: 'NOT_EQUAL'
           });
@@ -115,14 +119,14 @@ function getInitialState(props) {
       .put(
         'lt',
         createField({
-          value: lt ? String(lt.numberValue) : undefined,
+          value: lt ? String(lt.numberValue || lt.value) : undefined,
           validator: numericValidator
         })
       )
       .put(
         'gt',
         createField({
-          value: gt ? String(gt.numberValue) : undefined,
+          value: gt ? String(gt.numberValue || gt.value) : undefined,
           validator: numericValidator
         })
       );
@@ -133,14 +137,14 @@ function getInitialState(props) {
       .put(
         'eq',
         createField({
-          value: eq ? String(eq.numberValue) : undefined,
+          value: eq ? String(eq.numberValue || eq.value) : undefined,
           validator: numericValidator
         })
       )
       .put(
         'neq',
         createField({
-          value: neq ? String(neq.numberValue) : undefined,
+          value: neq ? String(neq.numberValue || neq.value) : undefined,
           validator: numericValidator
         })
       );

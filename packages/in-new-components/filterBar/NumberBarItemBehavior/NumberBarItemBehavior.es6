@@ -20,15 +20,15 @@ function Content(props) {
   let label = singularLabel;
   if (lt || gt) {
     if (lt) {
-      label = `${label} < ${lt.numberValue}`;
+      label = `${label} < ${lt.numberValue || lt.value}`;
     }
     if (gt) {
-      label = `${gt.numberValue} < ${label}`;
+      label = `${gt.numberValue || gt.value} < ${label}`;
     }
   } else if (eq) {
-    label = `${label} = ${eq.numberValue}`;
+    label = `${label} = ${eq.numberValue || eq.value}`;
   } else if (neq) {
-    label = `${label} ≠ ${neq.numberValue}`;
+    label = `${label} ≠ ${neq.numberValue || neq.value}`;
   }
 
   return (

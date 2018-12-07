@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import NumberBarItem from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import AnalyzeMoreBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMoreBarItem';
 import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
@@ -28,9 +29,7 @@ export default function QuickFilterBar(props) {
     <Bar showClearFilters={tagFilters.length > 0} onClearFilters={() => clearTagFilters(onChangeAnalyzeConfig)}>
       {/*
       TODOs:
-      - Latency > / <
       - Mixpanel trackers
-      - rm even more unused components
       - more space for values in more button dialog
       */}
       <AnalyzeSelectBarItem
@@ -84,13 +83,19 @@ export default function QuickFilterBar(props) {
           <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
         )}
       />
+      <NumberBarItem
+        {...props}
+        tagFilters={tagFilters}
+        tag={dataSourceConfig.latencyTagPreset}
+        singularLabel="Latency"
+        showRange
+      />
       <BooleanBarItem
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
         tag={dataSourceConfig.errorneousTagPreset}
         singularLabel="Erroneous"
-        pluralLabel="Erroneous"
       />
       <BooleanBarItem
         {...props}
@@ -98,7 +103,6 @@ export default function QuickFilterBar(props) {
         tagFilters={tagFilters}
         tag={dataSourceConfig.isSyntheticTagPreset}
         singularLabel="Synthetic"
-        pluralLabel="Synthetic"
       />
       <AnalyzeMoreBarItem {...props} label="More" />
     </Bar>
