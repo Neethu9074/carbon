@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .fadedLabel {
+    color: @lib__colors__N400;
+  }
+}

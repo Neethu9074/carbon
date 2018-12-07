@@ -4,6 +4,8 @@ import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComp
 import WithIcon from 'in-new-components/WithIcon';
 import Card from 'in-new-components/Card';
 
+import locals from './PortsList.mless';
+
 export default function PortsList({ ports }) {
   if (!ports || ports.length === 0) {
     return null;
@@ -29,7 +31,7 @@ export default function PortsList({ ports }) {
               </Td>
               <Td>{portConfig.port}</Td>
               <Td>{portConfig.protocol}</Td>
-              <Td>{portConfig.nodePort || 'Auto'}</Td>
+              <Td>{portConfig.nodePort || <span className={locals.fadedLabel}>Auto</span>}</Td>
               <Td>{portConfig.targetPort}</Td>
             </Tr>
           ))}
