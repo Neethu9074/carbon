@@ -1,13 +1,13 @@
-import { get } from 'lodash';
+import { get, filter } from 'lodash';
 import React from 'react';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
@@ -18,7 +18,18 @@ import locals from './Pods.mless';
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId, serviceId }) {
+export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, ...props }) {
+  return <Pods columnDefinitions={columnDefinitions} {...props} />;
+}
+
+export default function Pods({
+  timeConfig,
+  namespaceId,
+  clusterId,
+  deploymentId,
+  serviceId,
+  columnDefinitions = columnDefinitionsWithoutNamespace
+}) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -70,7 +81,7 @@ function getTableData({
   });
 }
 
-const columnDefinitions = [
+const allColumnDefinitions = [
   {
     id: 'label',
     label: 'Name',
@@ -131,10 +142,63 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'hopstIp',
-    label: 'Host IP',
+    id: 'cpuRequests',
+    label: 'CPU Requests',
+    sortable: false,
     getContent(item) {
-      return get(item, ['pod', 'hostIp']);
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="cpuRequests"
+          formatter={twoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuLimits',
+    label: 'CPU Limits',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="cpuLimits"
+          formatter={twoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryRequests',
+    label: 'Memory Requests',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="memoryRequests"
+          formatter={bytesTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryLimits',
+    label: 'Memory Limits',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="memoryLimits"
+          formatter={bytesTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
     }
   },
   {
@@ -153,6 +217,8 @@ const columnDefinitions = [
     }
   }
 ];
+
+const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
 
 import connectTo from 'in-hoc/connectTo';
 

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Annotations from 'in-kubernetes/Dashboards/Service/tabs/Details/Annotations';
+import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';
 import Spec from 'in-kubernetes/Dashboards/Service/tabs/Details/Spec';
@@ -24,7 +25,10 @@ export default function Details({ data: service }) {
       </Row>
 
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
+          <SelectorsList selectors={service.selectors} defaultOperator="=" />
+        </Col>
+        <Col lg={6}>
           <KeyValueList title="Labels" icon="lib_kubernetes_label" items={service.labels} />
         </Col>
       </Row>

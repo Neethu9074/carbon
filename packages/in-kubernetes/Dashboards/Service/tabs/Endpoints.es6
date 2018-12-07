@@ -5,6 +5,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import WithIcon from 'in-new-components/WithIcon';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';
@@ -56,7 +57,7 @@ const columnDefinitions = [
     id: 'serviceUid',
     label: 'Service UID',
     getContent(item) {
-      return get(item, ['endpoint', 'serviceUid']);
+      return <WithIcon icon="lib_kubernetes_endpoint">{get(item, ['endpoint', 'serviceUid'])}</WithIcon>;
     }
   },
   {
