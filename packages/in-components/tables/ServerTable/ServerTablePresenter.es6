@@ -44,6 +44,8 @@ export default function ServerTablePresenter(props) {
     isSearchable = true,
     size = 'regular',
     noDataMessage,
+    showPagination = true,
+    renderFooter = () => null,
 
     // events
     onChange,
@@ -115,17 +117,18 @@ export default function ServerTablePresenter(props) {
       <Tbody>{body}</Tbody>
     </Table>
   );
-  let pagination = lastPage > 1 && (
-    <Pagination
-      current={page}
-      last={lastPage}
-      onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-      className={evaluateClassNames({
-        [locals.pagination]: true,
-        [locals.paginationInCard]: cardTitle != null
-      })}
-    />
-  );
+  let pagination = showPagination &&
+    lastPage > 1 && (
+      <Pagination
+        current={page}
+        last={lastPage}
+        onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+        className={evaluateClassNames({
+          [locals.pagination]: true,
+          [locals.paginationInCard]: cardTitle != null
+        })}
+      />
+    );
 
   if (cardTitle != null) {
     if (__DEV__) {
@@ -138,6 +141,7 @@ export default function ServerTablePresenter(props) {
       <Card title={cardTitle} header={header} withoutPadding>
         {content}
         {pagination}
+        {renderFooter(props)}
       </Card>
     );
   }
