@@ -1,5 +1,5 @@
 import { config, isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEngineer } from 'in-stores/user';
+import { user, isInstanaEngineer } from 'in-stores/user';
 
 // ########################################################################################
 // Reusable helpers for feature (de-) activation
@@ -30,7 +30,10 @@ export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEna
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
-export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
+export const kubernetesEnabled =
+  isInstanaEngineer ||
+  isFeatureFlagEnabled('isKubernetesV2Enabled') ||
+  user.email === 'matthias.luebken+kubecon@instana.com';
 export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
 export const twoZeroWebsiteMonitoringEnabled =
   isInstanaEngineer || isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
