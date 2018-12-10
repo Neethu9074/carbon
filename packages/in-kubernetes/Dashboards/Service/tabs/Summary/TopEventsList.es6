@@ -23,6 +23,7 @@ export default function TopEventsList({ serviceId, ...props }) {
       showPagination={false}
       isSearchable={false}
       renderFooter={Footer}
+      serviceId={serviceId}
       allItemsHref$={getServiceDashboard(serviceId, {
         tab: '/events'
       })}
