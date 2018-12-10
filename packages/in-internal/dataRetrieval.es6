@@ -5,6 +5,37 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 
+export function getElasticWithContext(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'elasticsearchNode'
+      })
+        .flatMap(getSnapshots)
+        .flatMap(elasticSnapshots =>
+          combineLatest(elasticSnapshots.map(elastic => getContextForElastic(elastic, timeConfig)))
+        )
+    )
+    .startWith(emptyArray);
+}
+
+export function getContextForElastic(elastic, timeConfig) {
+  return getPhysicalHierarchy(elastic.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: elastic.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        elastic,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
+}
+
 export function getCassandraWithContext(query) {
   return timeConfig$
     .flatMap(timeConfig =>
