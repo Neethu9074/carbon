@@ -4,6 +4,7 @@ import NumberBarOverlayBehavior from 'in-new-components/filterBar/NumberBarItemB
 import { getNumberTagFilters } from 'in-new-components/filterBar/NumberBarItemBehavior/util';
 import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { identity } from 'in-services/util/function';
 
 export default function NumberBarItemBehavior(props) {
   return (
@@ -14,21 +15,21 @@ export default function NumberBarItemBehavior(props) {
 }
 
 function Content(props) {
-  const { singularLabel, unit, toggle, isOpen, refSetter } = props;
+  const { singularLabel, toggle, isOpen, refSetter, formatter = identity } = props;
   const { gt, lt, neq, eq } = getNumberTagFilters(props);
 
   let label = singularLabel;
   if (lt || gt) {
     if (lt) {
-      label = `${label} < ${lt.numberValue || lt.value}${renderUnit(unit)}`;
+      label = `${label} < ${formatter(lt.numberValue || lt.value)}`;
     }
     if (gt) {
-      label = `${gt.numberValue || gt.value}${renderUnit(unit)} < ${label}`;
+      label = `${formatter(gt.numberValue || gt.value)} < ${label}`;
     }
   } else if (eq) {
-    label = `${label} = ${eq.numberValue || eq.value}${renderUnit(unit)}`;
+    label = `${label} = ${formatter(eq.numberValue || eq.value)}`;
   } else if (neq) {
-    label = `${label} ≠ ${neq.numberValue || neq.value}${renderUnit(unit)}`;
+    label = `${label} ≠ ${formatter(neq.numberValue || neq.value)}`;
   }
 
   return (
@@ -38,13 +39,9 @@ function Content(props) {
       active={isOpen || eq || neq || lt || gt}
       onClick={toggle}
       refSetter={refSetter}
-      withoutTextTransform={!!unit}
+      withoutTextTransform={!!formatter}
     >
       {label}
     </BarItem>
   );
-}
-
-function renderUnit(unit) {
-  return unit ? ' ' + unit : '';
 }

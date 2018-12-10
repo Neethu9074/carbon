@@ -6,6 +6,7 @@ import AnalyzeMoreBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMoreBar
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-new-components/filterBar/BooleanBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import { millis } from 'in-services/formatters/number';
 import { getTagFromList } from 'in-applications/tags';
 import Bar from 'in-new-components/filterBar/Bar/Bar';
 import { toTitleCase } from 'in-services/util/string';
@@ -88,6 +89,7 @@ export default function QuickFilterBar(props) {
         tagFilters={tagFilters}
         tag={dataSourceConfig.latencyTagPreset}
         singularLabel="Latency"
+        formatter={millis.fixedCompact}
         unit="ms"
         showRange
       />
