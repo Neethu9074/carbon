@@ -56,6 +56,7 @@
     "hammerjs": "^2.0.4",
     "immutable": "^3.8.1",
     "invariant": "^2.2.1",
+    "js-yaml": "^3.12.0",
     "koijs": "^0.2.0",
     "lodash": "^4.15.0",
     "lucene": "^1.1.2",

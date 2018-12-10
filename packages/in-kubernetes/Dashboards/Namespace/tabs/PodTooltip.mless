@@ -41,4 +41,15 @@
   .value {
     color: @lib__colors__N800Dark;
   }
+
+  .metricValueSkeleton,
+  .labelSkeleton {
+    display: block;
+    height: 0.75rem;
+    width: 6.25rem;
+  }
+
+  .metricValueSkeleton {
+    width: 3rem;
+  }
 }

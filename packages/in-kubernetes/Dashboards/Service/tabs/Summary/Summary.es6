@@ -27,12 +27,6 @@ export default function Summary({ timeConfig, data: service }) {
 
       <Row>
         <Col lg={4}>
-          <KpiCard title="Matching Pods" value={service.pods} raw />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={4}>
           <MatchingPodsList serviceId={service.id} timeConfig={timeConfig} />
         </Col>
         {!isEmpty(service.deploymentIds) && (

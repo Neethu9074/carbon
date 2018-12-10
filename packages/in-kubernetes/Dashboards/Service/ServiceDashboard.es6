@@ -5,6 +5,7 @@ import {
   serviceId as matrixServiceId,
   namespaceId as matrixNamespaceId
 } from 'in-kubernetes/navigation/matrix';
+import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
@@ -44,7 +45,15 @@ export default function ServiceDashboard({ location }) {
 }
 
 function Header(props) {
-  return <BasicDashboardHeader title="Service" icon="lib_kubernetes_service" {...props} renderSubTypes={SubTypes} />;
+  return (
+    <BasicDashboardHeader
+      title="Service"
+      icon="lib_kubernetes_service"
+      {...props}
+      renderSubTypes={SubTypes}
+      renderActions={Actions}
+    />
+  );
 }
 
 function SubTypes() {
@@ -54,4 +63,8 @@ function SubTypes() {
       <KubernetesIndicator />
     </Fragment>
   );
+}
+
+function Actions(props) {
+  return <KubernetesServiceToInstanaServiceButton {...props} />;
 }

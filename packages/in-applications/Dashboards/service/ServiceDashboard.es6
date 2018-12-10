@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import InstanaServiceToKubernetesServiceButton from 'in-kubernetes/components/InstanaServiceToKubernetesServiceButton';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
@@ -14,6 +15,7 @@ import CallsButton from 'in-applications/components/CallsButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -69,6 +71,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
+      {kubernetesEnabled && <InstanaServiceToKubernetesServiceButton serviceId={serviceId} timeConfig={timeConfig} />}
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}

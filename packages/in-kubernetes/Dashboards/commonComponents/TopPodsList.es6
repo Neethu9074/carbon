@@ -10,6 +10,7 @@ export default function TopPodsList(props) {
       title="Top Pods"
       {...props}
       metrics={['phase']}
+      labels={['Status']}
       getItems={getKubernetesPods}
       getItemHref$={item =>
         getPodDashboard(item.pod.id, {

@@ -1,16 +1,22 @@
+import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
-import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
-import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary/Summary';
+import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
+import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
+import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 
 export default [
   {
     label: 'Summary',
     path: `${clusterDashboardFullyQualified}/summary`,
     component: Summary
+  },
+  {
+    label: 'Details',
+    path: `${clusterDashboardFullyQualified}/details`,
+    component: Details
   },
   {
     label: 'Nodes',
@@ -39,7 +45,7 @@ export default [
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
-    component: Pods,
+    component: PodsWithNamespaces,
     icon: 'lib_kubernetes_pod'
   }
 ].filter(Boolean);

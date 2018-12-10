@@ -1,24 +1,39 @@
-import { get } from 'lodash';
+import { get, filter } from 'lodash';
 import React from 'react';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
+import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
 
-export default function Pods({ timeConfig, namespaceId, clusterId, deploymentId, serviceId }) {
+export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, ...props }) {
+  return <Pods columnDefinitions={columnDefinitions} {...props} />;
+}
+
+export default function Pods({
+  timeConfig,
+  namespaceId,
+  clusterId,
+  deploymentId,
+  serviceId,
+  columnDefinitions = columnDefinitionsWithoutNamespace
+}) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -70,7 +85,7 @@ function getTableData({
   });
 }
 
-const columnDefinitions = [
+const allColumnDefinitions = [
   {
     id: 'label',
     label: 'Name',
@@ -102,7 +117,7 @@ const columnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return get(item, ['pod', 'phase']);
+      return getStatusIcon(get(item, ['pod', 'phase']));
     }
   },
   {
@@ -131,10 +146,63 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'hopstIp',
-    label: 'Host IP',
+    id: 'cpuRequests',
+    label: 'CPU Requests',
+    sortable: false,
     getContent(item) {
-      return get(item, ['pod', 'hostIp']);
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="cpuRequests"
+          formatter={twoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuLimits',
+    label: 'CPU Limits',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="cpuLimits"
+          formatter={twoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryRequests',
+    label: 'Memory Requests',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="memoryRequests"
+          formatter={bytesTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryLimits',
+    label: 'Memory Limits',
+    sortable: false,
+    getContent(item) {
+      return (
+        <MetricValue
+          snapshotId={get(item, ['pod', 'id'])}
+          metric="memoryLimits"
+          formatter={bytesTwoDecimalPlaces}
+          timeWindowAggregation="mean"
+        />
+      );
     }
   },
   {
@@ -154,7 +222,7 @@ const columnDefinitions = [
   }
 ];
 
-import connectTo from 'in-hoc/connectTo';
+const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
 
 const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
   timeConfig,
@@ -173,3 +241,27 @@ const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
     />
   );
 });
+
+function getStatusIcon(status) {
+  let iconType = 'lib_kubernetes_status_unknown';
+  let color = theme.lib.colors.failure;
+
+  if (status === 'Pending') {
+    iconType = 'lib_kubernetes_status_pending';
+    color = theme.lib.colors.warning;
+  } else if (status === 'Running') {
+    iconType = 'lib_kubernetes_status_running';
+    color = theme.lib.colors.success;
+  } else if (status === 'Succeeded') {
+    iconType = 'lib_kubernetes_status_succeed';
+    color = theme.lib.colors.success;
+  } else if (status === 'Failed') {
+    iconType = 'lib_kubernetes_status_failed';
+    color = theme.lib.colors.failure;
+  }
+  return (
+    <Tooltip themeStyle="light" content={status}>
+      <SvgIcon type={iconType} width={24} height={24} color={color} />
+    </Tooltip>
+  );
+}
