@@ -11,27 +11,11 @@
     margin: 0;
   }
 
-  .viewAll {
-    display: flex;
-    justify-content: flex-end;
-    margin: 1rem 0 0;
-  }
-
-  .label,
-  .viewAllLink {
+  .label {
     font-size: 0.875rem;
     font-weight: 400;
     text-decoration: none;
 
     transition: color 0.25s ease-in-out;
-  }
-
-  .viewAllLink {
-    color: @lib__colors__N600Light;
-
-    &:hover {
-      color: @lib__colors__light-blue800;
-      text-decoration: none;
-    }
   }
 }

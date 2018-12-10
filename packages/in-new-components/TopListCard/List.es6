@@ -1,6 +1,7 @@
 import { chain, get } from 'lodash';
 import React from 'react';
 
+import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import Row from 'in-new-components/TopListCard/Row';
 
 import locals from './List.mless';
@@ -53,7 +54,7 @@ export default function TopListPresenter(props) {
         })}
       </ol>
 
-      {renderViewAll && <div className={locals.viewAll}>{renderViewAll(props, locals.viewAllLink)}</div>}
+      {renderViewAll && <ViewAllWrapper {...props} />}
     </div>
   );
 }

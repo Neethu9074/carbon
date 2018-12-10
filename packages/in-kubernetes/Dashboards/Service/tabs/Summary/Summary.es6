@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
 import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
+import TopEventsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopEventsList';
 import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -62,6 +63,13 @@ export default function Summary({ timeConfig, data: service }) {
           </Col>
         )}
       </Row>
+
+      <Row>
+        <Col lg={12}>
+          <TopEventsList serviceId={service.id} timeConfig={timeConfig} />
+        </Col>
+      </Row>
+
       <Row>
         <Col lg={12}>
           <MatchingDeploymentsList serviceId={service.id} timeConfig={timeConfig} />
