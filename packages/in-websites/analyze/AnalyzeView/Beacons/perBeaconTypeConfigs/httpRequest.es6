@@ -48,7 +48,11 @@ export function TableRowColumns({ item }) {
       <Td>
         <TableLinkWithIcon
           isPrimary
-          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconId: item.beacon.beaconId })}
+          href$={getLinkToPageLoad({
+            pageLoadId: item.beacon.pageLoadId,
+            beaconId: item.beacon.beaconId,
+            beaconTimestamp: item.beacon.timestamp
+          })}
         >
           <EllipsisCell>
             {item.beacon.httpCallMethod} {item.beacon.httpCallUrl}
@@ -86,7 +90,11 @@ export function ListItem({ item, active }) {
     <ListItemPresenter
       active={active}
       label={`${item.beacon.httpCallMethod} ${item.beacon.httpCallUrl}`}
-      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconId: item.beacon.beaconId })}
+      href$={getLinkToPageLoad({
+        pageLoadId: item.beacon.pageLoadId,
+        beaconId: item.beacon.beaconId,
+        beaconTimestamp: item.beacon.timestamp
+      })}
       time={item.beacon.timestamp}
       duration={item.beacon.duration}
     />

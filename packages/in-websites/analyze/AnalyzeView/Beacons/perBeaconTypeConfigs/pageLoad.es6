@@ -42,7 +42,10 @@ export function TableRowColumns({ item }) {
   return (
     <Fragment>
       <Td>
-        <TableLinkWithIcon isPrimary href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId })}>
+        <TableLinkWithIcon
+          isPrimary
+          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconTimestamp: item.beacon.timestamp })}
+        >
           <EllipsisCell>
             {item.beacon.locationPath.length > 5
               ? item.beacon.locationPath
@@ -83,7 +86,7 @@ export function ListItem({ item, active }) {
           ? item.beacon.locationPath
           : `${item.beacon.locationOrigin}${item.beacon.locationPath}`
       }
-      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId })}
+      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconTimestamp: item.beacon.timestamp })}
       time={item.beacon.timestamp}
       duration={item.beacon.duration}
     />
