@@ -1,13 +1,15 @@
 import React from 'react';
 
-import getKubernetesServiceIdByInstanaServiceId from 'in-subscription/kubernetes/getKubernetesServiceIdByInstanaServiceId';
+import getKubernetesServiceIdByInstanaServiceName from 'in-subscription/kubernetes/getKubernetesServiceIdByInstanaServiceName';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ serviceId, timeConfig }) => ({
-    kubernetesServiceId: getKubernetesServiceIdByInstanaServiceId({ serviceId, timeConfig }).map(result => result.data)
+    kubernetesServiceId: getKubernetesServiceIdByInstanaServiceName({ serviceId, timeConfig }).map(
+      result => result.data
+    )
   }),
   function InstanaServiceToKubernetesServiceButton({ kubernetesServiceId, timeConfig }) {
     if (!kubernetesServiceId) {
