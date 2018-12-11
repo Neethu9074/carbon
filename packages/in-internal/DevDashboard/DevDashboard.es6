@@ -87,6 +87,9 @@ export default function DevDashboard() {
           <a href="/#/internal/sre/elastic">Elastic Clusters</a>
         </li>
         <li>
+          <a href="/#/internal/sre/clickhouse">Clickhouse Cluster</a>
+        </li>
+        <li>
           <a href="/#/internal/sre/acceptors">Acceptors</a>
         </li>
       </ul>

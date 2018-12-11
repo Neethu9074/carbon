@@ -5,6 +5,37 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 
+export function getClickhouseWithContext(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'clickhouseDatabase'
+      })
+        .flatMap(getSnapshots)
+        .flatMap(chSnapshots =>
+          combineLatest(chSnapshots.map(clickhouse => getContextForClickhouse(clickhouse, timeConfig)))
+        )
+    )
+    .startWith(emptyArray);
+}
+
+export function getContextForClickhouse(clickhouse, timeConfig) {
+  return getPhysicalHierarchy(clickhouse.get('id'), false)
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: clickhouse.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        clickhouse,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
+}
+
 export function getElasticWithContext(query) {
   return timeConfig$
     .flatMap(timeConfig =>
