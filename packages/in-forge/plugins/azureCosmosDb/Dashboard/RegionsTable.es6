@@ -71,12 +71,14 @@ export default function RegionsTable({ snapshot, timeConfig }) {
   var regions = emptyList;
   var collections = emptyList;
   var statusCodes = emptyList;
+  var resourceTypes = emptyList;
 
   var rows = emptyList;
 
   const regionsMeta = 'meta.regions';
   const collectionsMeta = 'meta.collections';
   const statusCodesMeta = 'meta.statusCodes';
+  const resourceTypesMeta = 'meta.resourceTypes';
 
   snapshot.getIn(['data'], emptyMap).mapKeys(dataKey => {
     if (dataKey.startsWith(regionsMeta)) {
@@ -97,6 +99,9 @@ export default function RegionsTable({ snapshot, timeConfig }) {
     } else if (dataKey.startsWith(statusCodesMeta)) {
       var statusKey = dataKey.substring(statusCodesMeta.length + 1);
       if (!statusCodes.has(statusKey)) statusCodes = statusCodes.push(statusKey);
+    } else if (dataKey.startsWith(resourceTypesMeta)) {
+      var resourceKey = dataKey.substring(resourceTypesMeta.length + 1);
+      if (!resourceTypes.has(resourceKey)) resourceTypes = resourceTypes.push(resourceKey);
     }
   });
 
@@ -114,6 +119,7 @@ export default function RegionsTable({ snapshot, timeConfig }) {
         region={row.key}
         collections={collections}
         statusCodes={statusCodes}
+        resourceTypes={resourceTypes}
       />
     );
   }

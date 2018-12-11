@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import zeroDecimalPlaces from 'in-services/formatters/number';
 
-export default function Region({ snapshot, timeConfig, region, collections, statusCodes }) {
+export default function Region({ snapshot, timeConfig, region, collections, statusCodes, resourceTypes }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -44,6 +44,7 @@ export default function Region({ snapshot, timeConfig, region, collections, stat
           region={region}
           collections={collections}
           statusCodes={statusCodes}
+          resourceTypes={resourceTypes}
         />
       </DashboardSection>
     </div>

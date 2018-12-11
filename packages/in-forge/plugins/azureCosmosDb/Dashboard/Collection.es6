@@ -1,9 +1,10 @@
 import React from 'react';
 import StatusCode from './StatusCode.es6';
+import ResourceType from './ResourceType.es6';
 import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
-export default function Collection({ snapshot, timeConfig, collection, statusCodes }) {
+export default function Collection({ snapshot, timeConfig, collection, statusCodes, resourceTypes }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -53,6 +54,7 @@ export default function Collection({ snapshot, timeConfig, collection, statusCod
       />
 
       <StatusCode snapshot={snapshot} timeConfig={timeConfig} collection={collection} statusCodes={statusCodes} />
+      <ResourceType snapshot={snapshot} timeConfig={timeConfig} collection={collection} resourceTypes={resourceTypes} />
     </div>
   );
 }

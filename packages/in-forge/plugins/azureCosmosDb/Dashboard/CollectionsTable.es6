@@ -49,7 +49,7 @@ const cols = [
   }
 ];
 
-export default function CollectionsTable({ snapshot, timeConfig, region, collections, statusCodes }) {
+export default function CollectionsTable({ snapshot, timeConfig, region, collections, statusCodes, resourceTypes }) {
   const snapshotId = snapshot.get('id');
 
   var rows = emptyList;
@@ -79,6 +79,7 @@ export default function CollectionsTable({ snapshot, timeConfig, region, collect
         region={region}
         collection={row.key}
         statusCodes={statusCodes}
+        resourceTypes={resourceTypes}
       />
     );
   }
