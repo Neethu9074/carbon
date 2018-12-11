@@ -114,7 +114,13 @@ export default function Summary({ timeConfig, data: cluster }) {
           />
         </Col>
         <Col lg={4}>
-          <TopNamespacesList clusterId={cluster.id} timeConfig={timeConfig} />
+          <TopNamespacesList
+            clusterId={cluster.id}
+            timeConfig={timeConfig}
+            allItemsHref$={getClusterDashboard(cluster.id, {
+              tab: '/namespaces'
+            })}
+          />
         </Col>
         <Col lg={4}>
           <TopDeploymentsList
