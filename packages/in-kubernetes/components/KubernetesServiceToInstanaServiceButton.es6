@@ -10,7 +10,7 @@ export default connectTo(
   ({ timeConfig, result }) => ({
     instanaServiceId:
       result && result.data
-        ? getInstanaServiceIdByKubernetesServiceName({ serviceName: result.data.name, timeConfig }).map(
+        ? getInstanaServiceIdByKubernetesServiceName({ kubernetesServiceName: result.data.name, timeConfig }).map(
             result => result.data
           )
         : alwaysNull
