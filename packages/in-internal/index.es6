@@ -17,6 +17,7 @@ import WorkerStats from 'in-internal/sre/WorkerStats';
 import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
 import Cassandra from 'in-internal/sre/Cassandra';
 import Elastic from 'in-internal/sre/Elastic';
+import Clickhouse from 'in-internal/sre/Clickhouse';
 import Acceptors from 'in-internal/sre/Acceptors';
 
 export default function Internal() {
@@ -39,6 +40,7 @@ export default function Internal() {
       <Route path="/internal/sre/cassandra" component={Cassandra} />
       <Route path="/internal/sre/acceptors" component={Acceptors} />
       <Route path="/internal/sre/elastic" component={Elastic} />
+      <Route path="/internal/sre/clickhouse" component={Clickhouse} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );
