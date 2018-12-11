@@ -103,6 +103,7 @@ const columnDefinitions = [
           snapshotId={get(item, ['deployment', 'id'])}
           metrics={['availableReplicas', 'desiredReplicas']}
           labels={['Available', 'Desired']}
+          timeWindowAggregation={null}
         />
       );
     }
