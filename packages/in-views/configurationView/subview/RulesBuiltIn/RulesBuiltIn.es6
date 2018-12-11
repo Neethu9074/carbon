@@ -123,7 +123,7 @@ export default class extends React.Component {
       };
     });
 
-    const result$ = setBuiltInRuleEnabled(rule, enabled);
+    const result$ = setBuiltInRuleEnabled(ruleId, enabled);
     result$.once(() => {
       this.setState(state => {
         state.status[ruleId] = {

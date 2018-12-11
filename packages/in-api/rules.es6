@@ -111,8 +111,13 @@ export function getBuiltInRule(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function setBuiltInRuleEnabled(rule, enabled) {
-  return saveBuiltInRule(rule.set('enabled', enabled));
+export function setBuiltInRuleEnabled(ruleId, enabled) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/built-in-rules/${encodeURIComponent(ruleId)}/` + (enabled ? 'enable' : 'disable'),
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
 }
 
 export function saveBuiltInRule(rule) {
