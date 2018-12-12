@@ -30,6 +30,11 @@ function SparkChartStory() {
         <SparkChart
           rollup={10000}
           timeConfig={{ windowSize: 60000, to: 60000 }}
+          metrics={[[0, 0], [10000, 0], [20000, 0], [30000, 0], [40000, 0], [50000, 0], [60000, 0]]}
+        />
+        <SparkChart
+          rollup={10000}
+          timeConfig={{ windowSize: 60000, to: 60000 }}
           metrics={[[0, 1], [10000, 1], [20000, 0], [30000, 2], [40000, 1], [50000, 2], [60000, 0.5]]}
         />
         <SparkChart rollup={5000} timeConfig={{ windowSize: 60000, to: 60000 }} metrics={lotsOfMetrics} />

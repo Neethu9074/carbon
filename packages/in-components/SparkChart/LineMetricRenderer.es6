@@ -97,6 +97,10 @@ export default class LineMetricRenderer {
   }
 
   getY(dataPoint) {
+    if (dataPoint[1] === 0) {
+      // force 0 value data point to be rendered at the bottom
+      return this.yScale.getRangeTo();
+    }
     return this.yScale.getRange(dataPoint[1]);
   }
 
