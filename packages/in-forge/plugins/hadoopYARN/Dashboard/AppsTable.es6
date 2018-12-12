@@ -1,10 +1,11 @@
 import React from 'react';
 
+import TimeOfLastUpdateDescriptionItem from 'in-sdk/components/sidebar/TimeOfLastUpdateDescriptionItem';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -104,11 +105,16 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      apps: getRawPayload(props.snapshot.get('id'), 'apps')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'apps')
     };
   },
-  function AppsTable({ snapshot, apps }) {
-    if (!apps || apps.size === 0) {
+  function AppsTable({ snapshot, data }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+
+    const apps = data.get('raw_payload');
+    if (apps.size === 0) {
       return null;
     }
 
@@ -125,6 +131,7 @@ export default connectTo(
     return (
       <DashboardSection title="Most Recent Apps">
         <Table cols={cols} rows={rows} initialSortColumn={7} initialSortDirection={'asc'} getRowDetails={getDetails} />
+        <TimeOfLastUpdateDescriptionItem data={data} />
       </DashboardSection>
     );
   }

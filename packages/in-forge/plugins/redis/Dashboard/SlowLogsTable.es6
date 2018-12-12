@@ -1,11 +1,12 @@
 import React from 'react';
 
+import TimeOfLastUpdateDescriptionItem from 'in-sdk/components/sidebar/TimeOfLastUpdateDescriptionItem';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { muSecondsZeroDecimalPlaces } from 'in-services/formatters/number';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
 import NoWrap from 'in-sdk/components/common/NoWrap';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import './SlowLogsTable.less';
@@ -52,11 +53,16 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      slowLogs: getRawPayload(props.snapshotId, 'slow_logs')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'slow_logs')
     };
   },
-  function SlowLogsTable({ slowLogs }) {
-    if (!slowLogs || slowLogs.length === 0) {
+  function SlowLogsTable({ data }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+
+    const slowLogs = data.get('raw_payload');
+    if (slowLogs.size === 0) {
       return null;
     }
 
@@ -70,6 +76,7 @@ export default connectTo(
     return (
       <DashboardSection title={`Slow Logs (${rows.length})`}>
         <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
+        <TimeOfLastUpdateDescriptionItem data={data} />
       </DashboardSection>
     );
   }
