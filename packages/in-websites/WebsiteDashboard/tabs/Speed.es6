@@ -128,7 +128,11 @@ export default function Speed({ timeConfig, tagFilters }) {
                 }}
                 metricsConfiguration={{
                   timeConfig,
-                  tagFilters,
+                  tagFilters: tagFilters.concat({
+                    name: 'beacon.type',
+                    operator: 'EQUALS',
+                    stringValue: 'pageLoad'
+                  }),
                   metrics: {
                     unloadTime: {
                       metric: 'unloadTime',

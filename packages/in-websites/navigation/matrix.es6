@@ -21,6 +21,7 @@ export const deserializeTagFilters = buildParser([]);
 // page load view
 export const pageLoadId = 'pageLoadId';
 export const beaconId = 'beaconId';
+export const beaconTimestamp = 'beaconTimestamp';
 
 function buildSerializer() {
   return v => {

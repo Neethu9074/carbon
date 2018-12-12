@@ -42,8 +42,15 @@ export function TableRowColumns({ item }) {
   return (
     <Fragment>
       <Td>
-        <TableLinkWithIcon isPrimary href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId })}>
-          <EllipsisCell>{item.beacon.locationPath}</EllipsisCell>
+        <TableLinkWithIcon
+          isPrimary
+          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconTimestamp: item.beacon.timestamp })}
+        >
+          <EllipsisCell>
+            {item.beacon.locationPath.length > 5
+              ? item.beacon.locationPath
+              : `${item.beacon.locationOrigin}${item.beacon.locationPath}`}
+          </EllipsisCell>
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
@@ -74,8 +81,12 @@ export function ListItem({ item, active }) {
   return (
     <ListItemPresenter
       active={active}
-      label={item.beacon.locationPath}
-      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId })}
+      label={
+        item.beacon.locationPath.length > 5
+          ? item.beacon.locationPath
+          : `${item.beacon.locationOrigin}${item.beacon.locationPath}`
+      }
+      href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconTimestamp: item.beacon.timestamp })}
       time={item.beacon.timestamp}
       duration={item.beacon.duration}
     />

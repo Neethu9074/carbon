@@ -13,7 +13,8 @@ import {
   serializeGroup,
   beaconType as beaconTypeMatrixParameter,
   pageLoadId as pageLoadIdMatrixParameter,
-  beaconId as beaconIdMatrixParameter
+  beaconId as beaconIdMatrixParameter,
+  beaconTimestamp as beaconTimestampMatrixParameter
 } from 'in-websites/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -148,10 +149,11 @@ export function getLinkToAnalyze({ tagFilters, group, beaconType }) {
   });
 }
 
-export function getLinkToPageLoad({ pageLoadId, beaconId }) {
+export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
   return getModifiedUrlStream(params => {
     params.pathname = `${pageLoadViewPathFullyQualified}/summary`;
     setOrDeleteMatrixKey(params, pageLoadViewPath, pageLoadIdMatrixParameter, pageLoadId);
     setOrDeleteMatrixKey(params, pageLoadViewPath, beaconIdMatrixParameter, beaconId);
+    setOrDeleteMatrixKey(params, pageLoadViewPath, beaconTimestampMatrixParameter, beaconTimestamp);
   });
 }

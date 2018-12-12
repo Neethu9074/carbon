@@ -1,6 +1,7 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
+import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
@@ -29,6 +30,7 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
           <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
         </div>
         <div className={locals.rightHeader}>
+          <BackendTraceButton beacon={beacon} />
           <HeaderToggleIcon {...props} />
         </div>
       </div>

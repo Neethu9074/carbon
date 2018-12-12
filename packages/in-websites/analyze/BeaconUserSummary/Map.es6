@@ -6,7 +6,14 @@ import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import locals from './Map.mless';
 
 export default function Map({ beacon }) {
-  return <AmMap onDidMount={args => onDidMount(args, beacon)} height={200} className={locals.map} />;
+  return (
+    <AmMap
+      key={`${beacon.latitude}:${beacon.longitude}`}
+      onDidMount={args => onDidMount(args, beacon)}
+      height={200}
+      className={locals.map}
+    />
+  );
 }
 
 function onDidMount({ containerElement }, beacon) {
@@ -20,7 +27,7 @@ function onDidMount({ containerElement }, beacon) {
         theme: 'light',
         svgPath: centerAlignedLocationPointer,
         scale: 0.15,
-        color: '#147b3f',
+        color: '#031F29',
         longitude: beacon.longitude,
         latitude: beacon.latitude
       }
@@ -36,7 +43,7 @@ function onDidMount({ containerElement }, beacon) {
     mouseWheelZoomEnabled: true,
     hideCredits: true,
     areasSettings: {
-      color: '#96ccee',
+      color: '#39BF7C',
       rollOverColor: '#58aee4'
     },
     zoomControl: {

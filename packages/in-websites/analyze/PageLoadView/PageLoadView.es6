@@ -4,7 +4,8 @@ import { compose } from 'recompose';
 
 import {
   pageLoadId as pageLoadIdMatrixParameter,
-  beaconId as beaconIdMatrixParameter
+  beaconId as beaconIdMatrixParameter,
+  beaconTimestamp as beaconTimestampMatrixParameter
 } from 'in-websites/navigation/matrix';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import getWebsiteBeaconsForPageLoad from 'in-subscription/websiteMonitoring/getWebsiteBeaconsForPageLoad';
@@ -32,7 +33,7 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => pageLoadViewPath,
     getMatrixPrefix: () => '',
-    boundKeys: [pageLoadIdMatrixParameter, beaconIdMatrixParameter],
+    boundKeys: [pageLoadIdMatrixParameter, beaconIdMatrixParameter, beaconTimestampMatrixParameter],
     getInitialState: () => ({}),
     reducerName: 'onChange',
     reduceAndGetAsUrlName: 'getChangeAsUrl'
@@ -40,7 +41,7 @@ export default compose(
 )(PageLoadView);
 
 function PageLoadView(props) {
-  const { pageLoadId, items, beaconType, onChange } = props;
+  const { pageLoadId, items, beaconType, onChange, beaconTimestamp } = props;
   const beaconId = props.beaconId || pageLoadId;
 
   return (
@@ -64,7 +65,7 @@ function PageLoadView(props) {
             HeaderComponent={Header}
             location={location}
             tabs={tabs}
-            result$={getWebsiteBeaconsForPageLoad({ pageLoadId })}
+            result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
             withProps={({ result }) => ({
               beacons: result.data,
               pageLoadLabel: shorten(calculateLabel(result))
