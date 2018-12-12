@@ -11,7 +11,7 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
-import CallsButton from 'in-applications/components/CallsButton';
+import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
@@ -65,7 +65,7 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
   return (
     <Fragment>
-      <CallsButton
+      <AnalyzeTracesButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}

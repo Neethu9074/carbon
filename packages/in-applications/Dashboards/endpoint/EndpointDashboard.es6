@@ -15,7 +15,7 @@ import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
-import CallsButton from 'in-applications/components/CallsButton';
+import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import Message from 'in-new-components/Message';
@@ -94,7 +94,7 @@ function Header(props) {
 function Actions({ applicationId, serviceId, endpointId, timeConfig, result, isSynthetic }) {
   return (
     <Fragment>
-      <CallsButton
+      <AnalyzeTracesButton
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}

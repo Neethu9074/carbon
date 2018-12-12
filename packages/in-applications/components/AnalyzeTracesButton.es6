@@ -16,7 +16,7 @@ export default connect(({ applicationId, serviceId }) => {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
   }
   return observables;
-})(function CallsButton({ applicationLabel, serviceLabel, endpointId, isSynthetic }) {
+})(function AnalyzeTracesButton({ applicationLabel, serviceLabel, endpointId, isSynthetic }) {
   return (
     <Button
       kind="primary"
@@ -25,6 +25,7 @@ export default connect(({ applicationId, serviceId }) => {
         applicationName: applicationLabel,
         serviceName: serviceLabel,
         endpointName: endpointId,
+        dataSource: 'traces',
         filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null,
         groupByTag: endpointId ? {} : null // no default grouping when analyzing traces for an endpoint
       })}
