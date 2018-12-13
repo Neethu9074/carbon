@@ -24,16 +24,21 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function PodDashboard({ location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
-    clusterId: getMatrixParameter(location, podDashboard, matrixClusterId),
-    namespaceId: getMatrixParameter(location, podDashboard, matrixNamespaceId),
-    deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId),
+
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={PodBreadcrumbs(props)} />
+      <Breadcrumbs
+        items={PodBreadcrumbs({
+          ...props,
+          clusterId: getMatrixParameter(location, podDashboard, matrixClusterId),
+          namespaceId: getMatrixParameter(location, podDashboard, matrixNamespaceId),
+          deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId)
+        })}
+      />
       <TabView
         result$={getKubernetesPod({
           id: props.podId,

@@ -21,15 +21,19 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function ServiceDashboard({ location }) {
   const props = {
     serviceId: getMatrixParameter(location, serviceDashboard, matrixServiceId),
-    namespaceId: getMatrixParameter(location, serviceDashboard, matrixNamespaceId),
-    clusterId: getMatrixParameter(location, serviceDashboard, matrixClusterId),
     viewPath: serviceDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={ServiceBreadcrumbs(props)} />
+      <Breadcrumbs
+        items={ServiceBreadcrumbs({
+          props,
+          namespaceId: getMatrixParameter(location, serviceDashboard, matrixNamespaceId),
+          clusterId: getMatrixParameter(location, serviceDashboard, matrixClusterId)
+        })}
+      />
       <TabView
         result$={getKubernetesService({
           id: props.serviceId,
