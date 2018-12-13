@@ -85,5 +85,41 @@ export default [
     label: 'Replication Lag',
     category: ['Replica Set'],
     formatter: millis
+  },
+  {
+    metric: 'health.cpu',
+    label: 'Member CPU Health',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'slaveDelaysCount',
+    label: 'Slave Delays Count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'optimesCount',
+    label: 'Optimes Count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'monitoredMembersCount',
+    label: 'Monitored Members Count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'slaveDelays',
+    label: 'Slave Delays',
+    min: 0,
+    formatter: millis
+  },
+  {
+    metric: 'optimes',
+    label: 'Optimes',
+    min: 0,
+    formatter: millis
   }
 ];

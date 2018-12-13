@@ -79,5 +79,17 @@ export default [
     label: 'Replication Lag',
     category: ['Replica Set'],
     formatter: millis
+  },
+  {
+    metric: 'journalWriteLock',
+    label: 'Journal Write Lock',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'backgroundFlushingLast',
+    label: 'Last Background Flushing Latency',
+    min: 0,
+    formatter: millis
   }
 ];
