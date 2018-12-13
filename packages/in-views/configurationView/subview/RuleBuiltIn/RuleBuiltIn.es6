@@ -12,6 +12,8 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
+import PluginIcon from 'in-components/PluginIcon';
+import { getSingular } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import { getBuiltInRule } from 'in-api/rules';
 import { find } from 'in-services/arrayUtils';
@@ -19,6 +21,8 @@ import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Button from 'in-components/Button';
 import Title from 'in-components/Title';
+
+import locals from './RuleBuiltIn.mless';
 
 const paramCols = [
   stringColumn('Name', 'name'),
@@ -60,6 +64,13 @@ export default connectTo(
           </Button>
         </Section>
         <Section>
+          <Label>Entity type</Label>
+          <div className={locals.flexWrapper}>
+            <PluginIcon className={locals.entityIcon} dimension={16} color="#000" plugin={entityType} />
+            {getSingular(entityType)}
+          </div>
+        </Section>
+        <Section>
           <Label>Name</Label>
           <p>{rule.get('name')}</p>
         </Section>
@@ -68,7 +79,7 @@ export default connectTo(
           <p>{rule.get('description')}</p>
         </Section>
         <Section>
-          <Label>Rule Inputs</Label>
+          <Label>Rule inputs</Label>
           <ul>
             {rule.get('ruleInputs').map((input, i) => {
               let label = input.get('inputName');
@@ -100,7 +111,7 @@ function mapInputKind(kind) {
     case 'METRIC':
       return 'Metric';
     case 'SNAPSHOT_FIELD':
-      return 'Snapshot Field';
+      return 'Snapshot field';
     case 'EVENT':
       return 'Event';
     case 'DERIVED_METRIC':

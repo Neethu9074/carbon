@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .entityIcon {
+    margin-right: 0.25rem;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+}
