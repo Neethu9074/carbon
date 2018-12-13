@@ -29,7 +29,7 @@ export default function ServiceDashboard({ location }) {
     <Fragment>
       <Breadcrumbs
         items={ServiceBreadcrumbs({
-          props,
+          ...props,
           namespaceId: getMatrixParameter(location, serviceDashboard, matrixNamespaceId),
           clusterId: getMatrixParameter(location, serviceDashboard, matrixClusterId)
         })}
