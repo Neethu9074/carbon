@@ -106,6 +106,10 @@ export function formatterTypeToLabel(formatterType) {
   switch (formatterType) {
     case 'MILLIS':
       return 'ms';
+    case 'SECONDS':
+      return 's';
+    case 'MINUTES':
+      return 'min';
     case 'PERCENTAGE':
       return '%';
     case 'RATE':
@@ -125,7 +129,7 @@ export function mapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value *= 100;
-  } else if (formatterType === 'MUSECONDS') {
+  } else if (formatterType === 'MICROS') {
     // convert to millis
     value /= 1000;
   }
@@ -135,7 +139,7 @@ export function mapConditionValue(value, formatterType) {
 export function unmapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
     value /= 100;
-  } else if (formatterType === 'MUSECONDS') {
+  } else if (formatterType === 'MICROS') {
     value *= 1000;
   }
   return value;

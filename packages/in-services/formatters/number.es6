@@ -375,7 +375,7 @@ export function numberFormatterToFormatterType(numberFormatter) {
   if (isMillisFormatter(numberFormatter)) {
     return 'MILLIS';
   } else if (isMicrosFormatter(numberFormatter)) {
-    return 'MUSECONDS';
+    return 'MICROS';
   } else if (isPercentageFormatter(numberFormatter)) {
     return 'PERCENTAGE';
   } else if (isRateFormatter(numberFormatter)) {
