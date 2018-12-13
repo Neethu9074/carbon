@@ -19,14 +19,18 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function NamespaceDashboard({ location }) {
   const props = {
     namespaceId: getMatrixParameter(location, namespaceDashboard, matrixNamespaceId),
-    clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId),
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={NamespaceBreadcrumbs(props)} />
+      <Breadcrumbs
+        items={NamespaceBreadcrumbs({
+          ...props,
+          clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId)
+        })}
+      />
       <TabView
         result$={getKubernetesNamespace({
           id: props.namespaceId,

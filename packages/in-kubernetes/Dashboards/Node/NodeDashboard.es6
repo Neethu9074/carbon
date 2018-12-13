@@ -18,14 +18,15 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function NodeDashboard({ location }) {
   const props = {
     nodeId: getMatrixParameter(location, nodeDashboard, matrixNodeId),
-    clusterId: getMatrixParameter(location, nodeDashboard, matrixClusterId),
     viewPath: nodeDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={NodeBreadcrumbs(props)} />
+      <Breadcrumbs
+        items={NodeBreadcrumbs({ ...props, clusterId: getMatrixParameter(location, nodeDashboard, matrixClusterId) })}
+      />
       <TabView
         result$={getKubernetesNode({
           id: props.nodeId,

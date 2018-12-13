@@ -23,15 +23,19 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function DeploymentDashboard({ location }) {
   const props = {
     deploymentId: getMatrixParameter(location, deploymentDashboard, matrixDeploymentId),
-    clusterId: getMatrixParameter(location, deploymentDashboard, matrixClusterId),
-    namespaceId: getMatrixParameter(location, deploymentDashboard, matrixNamespaceId),
     viewPath: deploymentDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={DeploymentBreadcrumbs(props)} />
+      <Breadcrumbs
+        items={DeploymentBreadcrumbs({
+          ...props,
+          clusterId: getMatrixParameter(location, deploymentDashboard, matrixClusterId),
+          namespaceId: getMatrixParameter(location, deploymentDashboard, matrixNamespaceId)
+        })}
+      />
       <TabView
         result$={getKubernetesDeployment({
           id: props.deploymentId,
