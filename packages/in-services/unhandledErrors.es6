@@ -4,11 +4,14 @@ import { createLogger } from 'instalog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEngineer } from 'in-stores/user';
 import { config } from 'in-services/config';
+import { ineum } from 'in-services/eum';
 
 const unhandledLogger = createLogger('in-services/unhandledErrors');
 
 export function init() {
   setUnhandledErrorHandler(e => {
+    ineum('reportError', e);
+
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
 
     if (isInstanaEngineer && !(config.tenant === 'instana' && config.tenantUnit === 'current')) {
