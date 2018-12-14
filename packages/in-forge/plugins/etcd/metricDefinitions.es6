@@ -102,6 +102,26 @@ export default [
     metric: 'health.server_has_leader',
     label: 'Server has leader',
     formatter: number
+  },
+  {
+    metric: 'health.server_proposals_committed',
+    label: 'Number of proposals commited',
+    formatter: number
+  },
+  {
+    metric: 'health.server_proposals_applied',
+    label: 'Number of proposals applied',
+    formatter: number
+  },
+  {
+    metric: 'health.server_proposals_pending',
+    label: 'Number of proposals pending',
+    formatter: number
+  },
+  {
+    metric: 'health.server_proposals_failed',
+    label: 'Number of proposals failed',
+    formatter: number
   }
 ];
 

@@ -52,6 +52,18 @@ export default [
     },
     min: 0,
     formatter: siPrefix
+  },
+  {
+    metric: 'threads.deadlocked',
+    label: 'Number of threads deadblocked',
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('pools', 'Perm Gen'),
+    label(snapshot, metricMatch) {
+      return metricMatch + ' Perm Gen';
+    },
+    formatter: bytes
   }
   // TODO: Implement MemoryPoolsTable metricss
 ];

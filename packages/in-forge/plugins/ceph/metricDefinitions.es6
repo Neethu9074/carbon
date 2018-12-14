@@ -163,5 +163,10 @@ export default [
     label: 'Write ops',
     min: 0,
     formatter: number.compact
+  },
+  {
+    metric: 'num_mons',
+    label: 'Number of monitor daemons',
+    formatter: number
   }
 ];
