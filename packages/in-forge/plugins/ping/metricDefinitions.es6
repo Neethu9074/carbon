@@ -11,7 +11,6 @@ export default [
   {
     metric: 'status',
     label: 'Status of Ping',
-    category: ['Ping'],
     min: 0,
     formatter: long
   }

@@ -129,17 +129,13 @@ export default [
     metric: 'net_partitions_count',
     label: 'Total number of Network partitions',
     min: 0,
-    category: ['Overview'],
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: 'overview.ack',
     label: 'Messages acknowledged',
     min: 0,
-    category: ['Queues'],
-    formatter: number,
-    isAvailable
+    formatter: number
   }
 ];
 

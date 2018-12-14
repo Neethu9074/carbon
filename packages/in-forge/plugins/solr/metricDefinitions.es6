@@ -76,15 +76,13 @@ export default [
     metric: 'hitratio',
     label: 'Solr Hit Ratio',
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   },
   {
     metric: 'evictions',
     label: 'Solr evictions',
     min: 0,
-    formatter: number,
-    isAvailable
+    formatter: number
   }
 ];
 
