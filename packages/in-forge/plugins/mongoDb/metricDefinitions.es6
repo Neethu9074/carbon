@@ -81,6 +81,12 @@ export default [
     formatter: millis
   },
   {
+    metric: 'lockQueue',
+    label: 'Lock Queue Length',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'journalWriteLock',
     label: 'Journal Write Lock',
     min: 0,
