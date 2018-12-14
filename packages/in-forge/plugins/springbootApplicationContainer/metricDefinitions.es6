@@ -23,6 +23,12 @@ export default [
     formatter: number
   },
   {
+    metric: 'status',
+    label: 'Status of SpringBoot Application',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'metrics.httpsessions.active',
     label: 'Active Sessions',
     min: 0,

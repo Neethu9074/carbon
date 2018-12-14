@@ -1,4 +1,4 @@
-import { millis } from 'in-services/formatters/number';
+import { millis, long } from 'in-services/formatters/number';
 
 export default [
   {
@@ -7,5 +7,12 @@ export default [
     category: ['Ping'],
     min: 0,
     formatter: millis.fixedCompact
+  },
+  {
+    metric: 'status',
+    label: 'Status of Ping',
+    category: ['Ping'],
+    min: 0,
+    formatter: long
   }
 ];

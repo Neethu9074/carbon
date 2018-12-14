@@ -163,5 +163,11 @@ export default [
     label: 'Write ops',
     min: 0,
     formatter: number.compact
+  },
+  {
+    metric: 'overall_status',
+    label: 'Status of the Ceph Cluster',
+    min: 0,
+    formatter: number.compact
   }
 ];

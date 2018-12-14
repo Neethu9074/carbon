@@ -124,6 +124,22 @@ export default [
     category: ['Queues'],
     formatter: number,
     isAvailable
+  },
+  {
+    metric: 'net_partitions_count',
+    label: 'Total number of Network partitions',
+    min: 0,
+    category: ['Overview'],
+    formatter: number,
+    isAvailable
+  },
+  {
+    metric: 'overview.ack',
+    label: 'Messages acknowledged',
+    min: 0,
+    category: ['Queues'],
+    formatter: number,
+    isAvailable
   }
 ];
 

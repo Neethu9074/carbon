@@ -39,7 +39,14 @@ export default [
   },
   {
     metric: 'drivers.failed',
-    label: 'Drivers failed',
+    label: 'Number of failed Drivers',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'apps.failed',
+    label: 'Number of failed Applications',
+    min: 0,
     formatter: number
   }
 ];

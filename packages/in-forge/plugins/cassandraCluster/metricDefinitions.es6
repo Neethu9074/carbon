@@ -56,5 +56,11 @@ export default [
     label: 'Disk Size',
     min: 0,
     formatter: bytes
+  },
+  {
+    metric: 'unreachableNodes',
+    label: 'Number of unreachable Cassandra Nodes',
+    min: 0,
+    formatter: number
   }
 ];
