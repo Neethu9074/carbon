@@ -100,5 +100,10 @@ export default [
     label: 'Size',
     min: 0,
     formatter: bytes
+  },
+  {
+    metric: 'cluster_health.status',
+    label: 'Health status',
+    formatter: number
   }
 ];

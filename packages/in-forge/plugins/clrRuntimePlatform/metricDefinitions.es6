@@ -1,4 +1,4 @@
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -19,5 +19,10 @@ export default [
     labels: ['Generation 1', 'Generation 2', 'Large Objects'],
     min: 0,
     formatter: bytes
+  },
+  {
+    metric: 'mem.time_in_gc',
+    label: 'GC time',
+    formatter: millis
   }
 ];

@@ -61,5 +61,10 @@ export default [
       const status = snapshot.getIn(['data', 'server-status']);
       return status !== 'EXTENDED_INFO_DISABLED';
     }
+  },
+  {
+    metric: 'busy_workers',
+    label: 'Busy workers',
+    formatter: number
   }
 ];

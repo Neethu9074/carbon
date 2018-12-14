@@ -41,5 +41,10 @@ export default [
     ],
     min: 0,
     formatter: resourceQuotaPercentage
+  },
+  {
+    metric: 'alloc_pods_percentage',
+    label: 'Allocated pods percentage',
+    formatter: resourceQuotaPercentage
   }
 ];

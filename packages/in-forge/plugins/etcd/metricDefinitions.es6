@@ -1,4 +1,4 @@
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -77,6 +77,31 @@ export default [
     min: 0,
     formatter: zeroDecimalPlaces,
     isAvailable
+  },
+  {
+    metric: 'health.server_leader_changes',
+    label: 'Server leader changes',
+    formatter: number
+  },
+  {
+    metric: 'disk_wal_fsync_duration',
+    label: 'Disk fsync duration',
+    formatter: millis
+  },
+  {
+    metric: 'disk_backend_commit_duration',
+    label: 'Disk backend commit duration',
+    formatter: millis
+  },
+  {
+    metric: 'debugging_snap_save_total_duration',
+    label: 'Snap save total duration',
+    formatter: millis
+  },
+  {
+    metric: 'health.server_has_leader',
+    label: 'Server has leader',
+    formatter: number
   }
 ];
 

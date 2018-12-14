@@ -36,5 +36,10 @@ export default [
     label: 'Cores Used',
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'drivers.failed',
+    label: 'Drivers failed',
+    formatter: number
   }
 ];
