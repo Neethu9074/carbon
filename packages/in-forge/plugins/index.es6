@@ -63,6 +63,7 @@ import './golangRuntimePlatform';
 import './hadoopYARN';
 import './hadoopYARNNode';
 import './hAProxy';
+import './haskellRuntimePlatform';
 import './hazelcastCluster';
 import './hazelcastNode';
 import './hBase';
