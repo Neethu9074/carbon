@@ -18,10 +18,19 @@ export default connectTo(
     }
 
     //license usage message is treated differently then the rest of the messages
+    const usageMessage = messages.filter(message => message.isLicenseUsageMsg);
     const normalMessages = messages.filter(message => !message.isLicenseUsageMsg);
 
     return (
       <div className={block}>
+        {usageMessage.length > 0 && (
+          <Fragment>
+            {usageMessage.map(message => (
+              <Message key={message.id} message={message} />
+            ))}
+          </Fragment>
+        )}
+
         {normalMessages.length > 0 && (
           <Fragment>
             {normalMessages.map(message => (
