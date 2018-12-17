@@ -8,7 +8,6 @@ import {
 } from 'in-services/formatters/number';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
-import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -183,11 +182,6 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={12}>
           <ConditionsList conditions={deployment.conditions} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={deployment.labels} />
         </Col>
       </Row>
     </Fragment>
