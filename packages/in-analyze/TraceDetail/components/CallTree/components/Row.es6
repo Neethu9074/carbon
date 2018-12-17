@@ -3,8 +3,8 @@ import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
+import { isFakeRootCall, isLogOrIntermediateSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
-import { FAKE_ROOT_ID } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -63,7 +63,7 @@ function Row(props) {
           marginLeft={marginLeft}
           lineWidth={lineWidth}
           hasChildren={hasChildren}
-          onCallClicked={call.id == FAKE_ROOT_ID ? null : onCallClicked}
+          onCallClicked={isFakeRootCall(call) ? null : onCallClicked}
           onSubCallClicked={call => {
             setIsExpanded(true);
             onSubCallClicked(call);
@@ -148,11 +148,12 @@ function CallInformation(props) {
             </Pill>
           </Tooltip>
         )}
-        {call.endpoint && (
-          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
-            {call.endpoint.type}
-          </Pill>
-        )}
+        {!isLogOrIntermediateSpan(call) &&
+          call.endpoint && (
+            <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+              {call.endpoint.type}
+            </Pill>
+          )}
         {!isLargeTrace && <div className={locals.dashedLine} />}
       </div>
 

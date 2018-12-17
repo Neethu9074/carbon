@@ -392,7 +392,9 @@ export default {
         service: {},
         endpoint: { id: 'unknown', label: 'Unknown', type: 'HTTP' }
       }
-    ]
+    ],
+    service: {},
+    endpoint: { id: 'unknown', label: 'Unknown', type: 'Unspecified' }
   }
 
 };

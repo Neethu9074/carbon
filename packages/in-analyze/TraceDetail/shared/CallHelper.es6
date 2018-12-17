@@ -1,5 +1,13 @@
 export const FAKE_ROOT_ID = 'fake_root';
 
+export function isFakeRootCall(call) {
+  return call.id === FAKE_ROOT_ID;
+}
+
 export function hasOnlyExitSpan(call) {
   return call.spans && call.spans.length == 1 && call.spans[0].kind == 'EXIT';
+}
+
+export function isLogOrIntermediateSpan(call) {
+  return call.spanKind !== 'ENTRY' && call.spanKind !== 'EXIT';
 }

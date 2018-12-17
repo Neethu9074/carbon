@@ -1,6 +1,6 @@
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
-import { FAKE_ROOT_ID } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { deepFreeze } from 'in-services/util/object';
 
 export function applyLayout(rootCall) {
@@ -16,19 +16,20 @@ export function applyLayout(rootCall) {
 }
 
 function positionCall(callFrames, call, parentCall, depth, traceStart, totalDuration, occupiedTimeRangesByDepth) {
-  const { id, start, duration, children, ...props } = call;
+  const { start, duration, children, ...props } = call;
   let depthWithoutOverlapping = depth;
+  const isFakeRoot = isFakeRootCall(call);
 
-  if (id == FAKE_ROOT_ID) {
+  if (isFakeRoot) {
     callFrames.push({
       ...props,
-      id,
       traceStart,
       duration: totalDuration,
       parent: null,
       depth: 0,
       x: 0,
-      dx: 1
+      dx: 1,
+      isFakeRoot
     });
   } else {
     const end = start + duration;
@@ -36,7 +37,6 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
 
     const callFrame = {
       ...props,
-      id,
       start,
       duration,
       parent: parentCall ? parentCall.id : null,

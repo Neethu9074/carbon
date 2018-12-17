@@ -1,13 +1,17 @@
 import React from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { isLogOrIntermediateSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './ServiceEndpointInformation.mless';
 
 export default function ServiceEndpointInformation({ call, marginLeft }) {
-  if ((!call.service || call.service.label) && (!call.endpoint || !call.endpoint.label)) {
+  if (
+    ((!call.service || call.service.label) && (!call.endpoint || !call.endpoint.label)) ||
+    isLogOrIntermediateSpan(call)
+  ) {
     return null;
   }
   return (

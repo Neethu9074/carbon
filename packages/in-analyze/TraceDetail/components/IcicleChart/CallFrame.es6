@@ -2,7 +2,6 @@ import connect from 'in-hoc/connectTo';
 import React from 'react';
 
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { FAKE_ROOT_ID } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import theme from 'in-themes';
 
@@ -32,14 +31,12 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
   }
 }
 
-function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked }) {
-  const { id, label, errorCount, depth, x, dx } = callFrame;
+function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot }) {
+  const { label, errorCount, depth, x, dx } = callFrame;
 
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
-
-  const isFakeRoot = id === FAKE_ROOT_ID;
 
   return (
     <div
