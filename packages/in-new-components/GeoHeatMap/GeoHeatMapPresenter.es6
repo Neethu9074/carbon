@@ -1,6 +1,7 @@
 import { compose, pure } from 'recompose';
 import React from 'react';
 
+import { eumHeatMapColorScaleHex } from 'in-new-components/GlobeView/components/heatMapConfig';
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
@@ -139,8 +140,8 @@ function onDidMount({
     })
   };
 
-  const lightColor = '#ffcc00';
-  const darkColor = Object.keys(data).length > 0 ? '#990000' : lightColor;
+  const lightColor = eumHeatMapColorScaleHex[0];
+  const darkColor = Object.keys(data).length > 0 ? eumHeatMapColorScaleHex[1] : lightColor;
   const listeners = [
     {
       event: 'clickMapObject',
@@ -228,8 +229,8 @@ function Legend({ data, valueFormatter }) {
       className={locals.legend}
       valueFrom={valueFormatter(min)}
       valueTo={valueFormatter(max)}
-      colorFrom="#ffcc00"
-      colorTo="#990000"
+      colorFrom={eumHeatMapColorScaleHex[0]}
+      colorTo={eumHeatMapColorScaleHex[1]}
     />
   );
 }

@@ -3,7 +3,7 @@ import { create } from 'reactive-observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { findCountryConfigByLabel } from 'in-new-components/GlobeView/components/countryConfig';
-import { heatMapColorScaleRgb } from 'in-new-components/GlobeView/components/heatMapConfig';
+import { eumHeatMapColorScaleRgb } from 'in-new-components/GlobeView/components/heatMapConfig';
 import { rgbToHex } from 'in-services/formatters/color';
 import getHeatMapColor from 'in-services/heatMapColors';
 
@@ -58,7 +58,7 @@ export default class HeatMapGlobe {
             }
 
             const intensity = Math.max(1, pageLoads - min) / Math.max(1, max - min);
-            const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
+            const color = getHeatMapColor(intensity, eumHeatMapColorScaleRgb);
             this.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
 
             for (let i = 0; i < countryDefinition.paths.length; i++) {

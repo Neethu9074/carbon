@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { heatMapColorScaleRgb } from 'in-new-components/GlobeView/components/heatMapConfig';
+import { eumHeatMapColorScaleRgb } from 'in-new-components/GlobeView/components/heatMapConfig';
 import getHeatMapColor from 'in-services/heatMapColors';
 import { rgbToHex } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
@@ -48,7 +48,7 @@ export default connectTo(
         <ul className={locals.list}>
           {items.map(item => {
             const intensity = Math.max(1, item.pageLoads - min) / Math.max(1, max - min);
-            const color = getHeatMapColor(intensity, heatMapColorScaleRgb);
+            const color = getHeatMapColor(intensity, eumHeatMapColorScaleRgb);
             return (
               <li key={item.country} className={locals.listItem}>
                 <span className={locals.countryName}>{item.country}:</span> {number.compact(item.pageLoads)}
