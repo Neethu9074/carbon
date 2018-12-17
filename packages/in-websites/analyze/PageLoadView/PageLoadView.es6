@@ -123,7 +123,7 @@ function getLabelForHeader(result, { pageLoadLabel }) {
   return pageLoadLabel;
 }
 
-function Actions({ pageLoadId, pageLoadLabel }) {
+function Actions({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
   return (
     <Fragment>
       {pageLoadLabel && (
@@ -131,7 +131,9 @@ function Actions({ pageLoadId, pageLoadLabel }) {
           icon="lib_actions_download"
           kind="secondary"
           target="_blank"
-          href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)}?pretty`}
+          href={`/api/website-monitoring/page-load;id=${encodeURIComponent(pageLoadId)};timestamp=${encodeURIComponent(
+            beaconTimestamp
+          )}?pretty`}
         >
           Download
         </Button>
