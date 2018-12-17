@@ -63,6 +63,18 @@ export default [
     formatter: siMultiplyPrefix
   },
   {
+    metric: 'node_count',
+    label: 'Number of Elasticsearch Nodes',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'cluster_status',
+    label: 'Status of Elasticsearch Cluster',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: getMetricMatch('index', 'size'),
     label: 'Size',
     min: 0,

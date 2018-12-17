@@ -17,6 +17,16 @@ export default [
     formatter: number
   },
   {
+    metric: 'rs_blk_cache_hit_rate',
+    label: 'Block cache hit rate',
+    formatter: number.perSecond
+  },
+  {
+    metric: 'rs_blk_cache_hit_count',
+    label: 'Block cache hit count',
+    formatter: number
+  },
+  {
     metric: 'rs_flush_queue_length',
     label: 'Flush queue length',
     formatter: number

@@ -1,4 +1,4 @@
-import { number, percentage, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, percentage, bytesZeroDecimalPlaces, percentagePlain } from 'in-services/formatters/number';
 
 export default [
   {
@@ -77,6 +77,12 @@ export default [
     category: ['Performance'],
     min: 0,
     formatter: bytesZeroDecimalPlaces
+  },
+  {
+    metric: 'usedmemorypercentage',
+    label: 'Percentage of Memory Used',
+    min: 0,
+    formatter: percentagePlain
   },
   {
     metric: 'usedmemoryRss',

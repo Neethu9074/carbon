@@ -93,6 +93,12 @@ export default [
     formatter: number
   },
   {
+    metric: 'pageFaults',
+    label: 'Number of Page Faults',
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'backgroundFlushingLast',
     label: 'Last Background Flushing Latency',
     min: 0,

@@ -55,7 +55,7 @@ export default [
   },
   {
     metric: 'threads.deadlocked',
-    label: 'Number of threads deadblocked',
+    label: 'Number of threads deadlocked',
     formatter: number
   },
   {

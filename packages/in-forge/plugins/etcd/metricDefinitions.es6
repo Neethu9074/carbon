@@ -109,6 +109,16 @@ export default [
     formatter: number
   },
   {
+    metric: 'health.process_open_fds',
+    label: 'Number of open file descriptors',
+    formatter: number
+  },
+  {
+    metric: 'health.process_max_fds',
+    label: 'Maximum number of file descriptors',
+    formatter: number
+  },
+  {
     metric: 'health.server_proposals_applied',
     label: 'Number of proposals applied',
     formatter: number
