@@ -9,7 +9,7 @@ import { createConnectionId } from 'in-components/FlowMap/sceneObjects/Connectio
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
 import Connection from 'in-components/FlowMap/sceneObjects/Connection';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
-import { DEFAULT_COLOR } from 'in-services/heatMapColors';
+import { neutralColorRgb } from 'in-services/heatMapColors';
 import Subscriber from 'in-map/misc/Subscriber';
 import { diff } from 'in-services/arrayUtils';
 
@@ -149,7 +149,7 @@ export default function createConnectionsService(serviceLocatorUid) {
     let currentArrayIndex = 0;
     items = connections.values();
     for (const connection of items) {
-      let color = DEFAULT_COLOR;
+      let color = neutralColorRgb;
       if (metricUsedForColorCalculation) {
         if (connection.getDirection() === 'outgoing') {
           color = connection.to.getHeatMapColor();
@@ -194,7 +194,7 @@ export default function createConnectionsService(serviceLocatorUid) {
     const initialNodeSizeInPx = getServiceLocators(serviceLocatorUid).sceneServiceLocator.getScene()
       .initialNodeSizeInPx;
 
-    const xOffset = initialNodeSizeInPx * initialPxUnitRation / 2;
+    const xOffset = (initialNodeSizeInPx * initialPxUnitRation) / 2;
 
     if (from.children.size === 0 && to.children.size === 0) {
       connections.push(getConnection(from, to, xOffset, 0, direction));

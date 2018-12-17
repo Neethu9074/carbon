@@ -2,7 +2,7 @@ import { get } from 'lodash';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
-import getHeatMapColor, { DEFAULT_COLOR } from 'in-services/heatMapColors';
+import getHeatMapColor, { neutralColorRgb } from 'in-services/heatMapColors';
 import SceneObject from 'in-components/FlowMap/sceneObjects/SceneObject';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
@@ -41,7 +41,7 @@ export default class NodeBase extends SceneObject {
   }
 
   getHeatMapColor() {
-    return this.heatMapColor || DEFAULT_COLOR;
+    return this.heatMapColor || neutralColorRgb;
   }
 
   setMetrics(metrics) {
