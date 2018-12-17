@@ -1,4 +1,5 @@
 import { withProps } from 'recompose';
+import React from 'react';
 
 import {
   filterAddedTracker,
@@ -6,9 +7,12 @@ import {
   filterRemovedTracker,
   filterClearedTracker
 } from 'in-analyze/tracker';
+import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { createFilter } from 'in-analyze/filterBuilder';
 
-export const tagFilterManipulators = withProps(({ filters, setTagFilters }) => {
+export const tagFilterManipulators = withProps(props => {
+  const { filters, setTagFilters } = props;
   const tagFilters = filters.get('tagFilter').toJS();
   return {
     removeTagFilter(name) {
@@ -38,6 +42,9 @@ export const tagFilterManipulators = withProps(({ filters, setTagFilters }) => {
     clearTagFilters() {
       setTagFilters([]);
       filterClearedTracker();
+    },
+    onMoreClick() {
+      setActiveDialog(<EditTagFilterDialog {...props} tagFilter={null} forAnalyzeCalls />);
     },
     filterAddedTracker,
     filterChangedTracker,

@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 
 import NumberBarItem from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
-import AnalyzeMoreBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMoreBarItem';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import BooleanBarItem from 'in-new-components/filterBar/BooleanBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import MoreBarItem from 'in-new-components/filterBar/MoreBarItem';
 import { millis } from 'in-services/formatters/number';
 import { getTagFromList } from 'in-applications/tags';
 import Bar from 'in-new-components/filterBar/Bar/Bar';
@@ -16,7 +16,14 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { filters, clearTagFilters, filterAddedTracker, filterChangedTracker, filterRemovedTracker } = props;
+  const {
+    filters,
+    clearTagFilters,
+    filterAddedTracker,
+    filterChangedTracker,
+    filterRemovedTracker,
+    onMoreClick
+  } = props;
   const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
 
   const tagFilters = filters.get('tagFilter').toJS();
@@ -107,7 +114,7 @@ export default function QuickFilterBar(props) {
         tag={dataSourceConfig.isSyntheticTagPreset}
         singularLabel="Synthetic"
       />
-      <AnalyzeMoreBarItem {...props} label="More" />
+      {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
     </Bar>
   );
 }

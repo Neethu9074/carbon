@@ -1,9 +1,9 @@
 import { withProps } from 'recompose';
 
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
-import { mapDataHO, noResultObservable, successObservableFactory } from 'in-services/util/result';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import { mapDataHO, noResultObservable } from 'in-services/util/result';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 
 export default withProps(props => {
@@ -18,8 +18,7 @@ export default withProps(props => {
     timeConfig,
     filterSuggestionsClientSide: true,
     tagSuggestions: filterTagKeys,
-    getKeySuggestions: successObservableFactory(filterTagKeys),
-    getSecondLevelKeySuggestions: getSecondLevelKeySuggestions(tagFilters, timeConfig),
+    getKeySuggestions: getSecondLevelKeySuggestions(tagFilters, timeConfig),
     getValueSuggestions: getValueSuggestions(tagFilters, timeConfig),
     addTagFilter: addTagFilter,
     setTagFilters: setTagFilters,
