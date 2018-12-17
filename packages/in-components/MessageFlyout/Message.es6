@@ -8,6 +8,10 @@ import './Message.less';
 const block = 'in-message-flyout-message';
 
 export default function Message({ message }) {
+  if (message.isLicenseUsageMsg) {
+    return null;
+  }
+
   let classes = `${block} ${block}--${message.type}`;
   if (message.onClick) {
     classes = `${classes} ${block}--clickable`;
