@@ -14,7 +14,7 @@ export default function ResourceType({ snapshot, timeConfig, collection, resourc
   var codeLabelsRight = emptyList;
 
   resourceTypes.map(type => {
-    var metric = 'metrics.statusCodes.' + type + '.tr';
+    var metric = 'metrics.resourceTypes.' + type + '.tr';
     var label = type.substring(type.lastIndexOf('.') + 1);
     if (type.startsWith(collection)) {
       if (instanceApi == 'MongoDB' && label.endsWith(')')) {
