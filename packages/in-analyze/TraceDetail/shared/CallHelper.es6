@@ -9,5 +9,5 @@ export function hasOnlyExitSpan(call) {
 }
 
 export function isLogOrIntermediateSpan(call) {
-  return call.spanKind !== 'ENTRY' && call.spanKind !== 'EXIT';
+  return call.spanKind === 'INTERMEDIATE' || call.spanKind === 'LOG';
 }
