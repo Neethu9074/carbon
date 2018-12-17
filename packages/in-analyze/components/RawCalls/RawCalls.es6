@@ -15,7 +15,7 @@ const defaultOrder = 'timestamp';
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'calls.',
+    getMatrixPrefix: () => 'rawItems.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,

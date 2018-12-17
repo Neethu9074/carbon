@@ -4,7 +4,7 @@ import LatencyDistributionHistogram from 'in-applications/Dashboards/commonCompo
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -104,7 +104,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
           <EndpointTopList applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
         </Col>
         <Col lg={4}>
-          <TopTraces
+          <TraceTopList
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}

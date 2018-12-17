@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
-import TopTraces from 'in-applications/Dashboards/commonComponents/TopTraces';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -108,7 +108,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
         <Fragment>
           <Row>
             <Col lg={6}>
-              <TopTraces
+              <TraceTopList
                 applicationId={applicationId}
                 serviceId={serviceId}
                 endpointId={endpointId}

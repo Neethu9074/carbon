@@ -11,6 +11,10 @@ export const tagFilter = 'tagFilter';
 export const groupBy = 'groupBy';
 export const dataSource = 'dataSource';
 
+// order
+export const orderBy = 'orderBy';
+export const orderDirection = 'orderDirection';
+
 // trace detail view
 export const traceId = 'traceId';
 export const callId = 'callId';

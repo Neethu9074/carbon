@@ -21,7 +21,7 @@ const defaultOrder = 'tracesAgg';
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'groupedTraces.',
+    getMatrixPrefix: () => 'groups.',
     boundKeys: ['orderBy', 'orderDirection'],
     getInitialState: () => ({
       orderBy: defaultOrder,

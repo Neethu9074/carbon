@@ -3,7 +3,9 @@ import {
   traceId as traceIdMatrixParameter,
   groupBy as groupByMatrixParameter,
   dataSource as dataSourceMatrixParameter,
-  callId as callIdMatrixParameter
+  callId as callIdMatrixParameter,
+  orderBy as orderByMatrixParameter,
+  orderDirection as orderDirectionMatrixParameter
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -23,9 +25,11 @@ export function getLinkToAnalyze({
   applicationName,
   serviceName,
   endpointName,
-  dataSource,
+  dataSource = 'traces',
   filters,
-  groupByTag
+  groupByTag,
+  orderBy,
+  orderDirection
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -61,6 +65,20 @@ export function getLinkToAnalyze({
     if (tagFilter != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
     }
+
+    const orderMatrixParameterPrefix = groupByTag == {} ? 'rawItems.' : 'groups.';
+    if (orderBy != null) {
+      setOrDeleteMatrixKey(params, analyze, `${orderMatrixParameterPrefix}${orderByMatrixParameter}`, orderBy);
+    }
+
+    if (orderDirection != null) {
+      setOrDeleteMatrixKey(
+        params,
+        analyze,
+        `${orderMatrixParameterPrefix}${orderDirectionMatrixParameter}`,
+        orderDirection
+      );
+    }
   });
 }
 
@@ -71,18 +89,6 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
-    setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString({}));
+    setOrDeleteMatrixKey(params, analyze, groupByMatrixParameter, getGroupToUrlString({}));
   });
-}
-
-export function getLinkToGroupedData() {
-  return getModifiedUrlStream(params => {
-    params.pathname = analyze;
-    cleanupSortingMatrixParams(params);
-  });
-}
-
-export function cleanupSortingMatrixParams(params) {
-  setOrDeleteMatrixKey(params, analyze, 'calls.orderBy', null);
-  setOrDeleteMatrixKey(params, analyze, 'calls.orderDirection', null);
 }
