@@ -84,17 +84,17 @@ export default [
     formatter: number
   },
   {
-    metric: 'disk_wal_fsync_duration',
+    metric: 'health.disk_wal_fsync_duration',
     label: 'Disk fsync duration',
     formatter: millis
   },
   {
-    metric: 'disk_backend_commit_duration',
+    metric: 'health.disk_backend_commit_duration',
     label: 'Disk backend commit duration',
     formatter: millis
   },
   {
-    metric: 'debugging_snap_save_total_duration',
+    metric: 'health.debugging_snap_save_total_duration',
     label: 'Snap save total duration',
     formatter: millis
   },
