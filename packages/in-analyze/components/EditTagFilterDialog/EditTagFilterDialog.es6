@@ -6,6 +6,7 @@ import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDia
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { requiresSecondLevelName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
@@ -32,19 +33,19 @@ export default compose(
       selectedTagType,
       setForm,
       form,
-      filterAddedTracker,
       filterChangedTracker,
-      filterRemovedTracker
+      filterRemovedTracker,
+      forAnalyzeCalls
     }) => ({
       onClose: close,
       editMode: Boolean(tagFilter),
       operatorSuggestions: TAG_TYPES[selectedTagType].operators,
       onRemoveTagFilter: () => {
-        setTagFilters(tagFilters.filter(f => f !== tagFilter));
+        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
         close();
 
         if (filterRemovedTracker) {
-          const before = tagFilters.filter(f => f === tagFilter);
+          const before = tagFilters.filter(f => isSameFilter(f, tagFilter));
           if (before.length > 0) {
             filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
           } else {
@@ -52,7 +53,7 @@ export default compose(
           }
         }
       },
-      onTagChange: tag => setForm(createForm(tag)),
+      onTagChange: tag => setForm(createForm(tag, null, forAnalyzeCalls)),
       onOperatorChange: operator => {
         let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
         if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
@@ -82,32 +83,39 @@ export default compose(
           operator: form.get('operator').value
         };
 
-        const isPresenceOperator =
-          form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY';
+        if (forAnalyzeCalls) {
+          // for analyze traces/calls
+          newTagFilter.value = form.containsKey('value') && form.get('value').value;
+          newTagFilter.secondLevelName = form.containsKey('key') && form.get('key').value;
+        } else {
+          // for website monitoring
+          const isPresenceOperator =
+            form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY';
 
-        if (!isPresenceOperator && selectedTagType === 'BOOLEAN') {
-          newTagFilter.booleanValue = 'true' === form.get('value').value;
-        } else if (!isPresenceOperator && selectedTagType === 'NUMBER') {
-          newTagFilter.numberValue = parseInt(form.get('value').value, 10);
-        } else if (!isPresenceOperator && selectedTagType === 'STRING') {
-          newTagFilter.stringValue = form.get('value').value;
-        } else if (selectedTagType === 'KEY_VALUE_PAIR') {
-          // Always include the '=' because when not present, backend treats 'key' as empty
-          const value = [
-            form.get('key') && form.get('key').value,
-            (form.get('value') && form.get('value').value) || ''
-          ].join('=');
-          newTagFilter.stringValue = value;
+          if (!isPresenceOperator && selectedTagType === 'BOOLEAN') {
+            newTagFilter.booleanValue = 'true' === form.get('value').value;
+          } else if (!isPresenceOperator && selectedTagType === 'NUMBER') {
+            newTagFilter.numberValue = parseInt(form.get('value').value, 10);
+          } else if (!isPresenceOperator && selectedTagType === 'STRING') {
+            newTagFilter.stringValue = form.get('value').value;
+          } else if (selectedTagType === 'KEY_VALUE_PAIR') {
+            // Always include the '=' because when not present, backend treats 'key' as empty
+            const value = [
+              form.get('key') && form.get('key').value,
+              (form.get('value') && form.get('value').value) || ''
+            ].join('=');
+            newTagFilter.stringValue = value;
+          }
         }
 
-        setTagFilters(tagFilters.filter(f => f !== tagFilter).concat(newTagFilter));
+        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)).concat(newTagFilter));
         close();
 
-        const before = tagFilters.filter(f => f === tagFilter);
-        if (before.length > 0) {
+        const before = tagFilters.filter(f => isSameFilter(f, tagFilter));
+        if (filterChangedTracker && before.length > 0) {
           filterChangedTracker({ before: before[0], after: newTagFilter });
-        } else {
-          filterAddedTracker({ filter: newTagFilter });
+        } else if (filterChangedTracker) {
+          filterChangedTracker({ filter: newTagFilter });
         }
       }
     })
@@ -119,7 +127,7 @@ export default compose(
       key: currentKey,
       tag: props.form.get('tag').value,
       // Do not load suggestions with the tag filter that is being edited
-      tagFilters: props.tagFilter ? props.tagFilters.filter(f => f !== props.tagFilter) : props.tagFilters
+      tagFilters: props.tagFilter ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter)) : props.tagFilters
     };
 
     let keySuggestions$;
@@ -155,8 +163,8 @@ export default compose(
   })
 )(EditTagFilterDialogPresenter);
 
-function getInitialState({ tagSuggestions, tagFilter }) {
-  return getState(createForm(tagSuggestions[0], tagFilter));
+function getInitialState({ tagSuggestions, tagFilter, forAnalyzeCalls }) {
+  return getState(createForm(tagSuggestions[0], tagFilter, forAnalyzeCalls));
 }
 
 function getState(form) {
@@ -166,7 +174,7 @@ function getState(form) {
   };
 }
 
-function createForm(tag, tagFilter) {
+function createForm(tag, tagFilter, forAnalyzeCalls) {
   const resolvedTag = tagFilter ? tagFilter.name : tag;
   const tagType = getTagType(resolvedTag);
 
@@ -189,7 +197,13 @@ function createForm(tag, tagFilter) {
   let key;
   let keyValidator;
   let value;
-  if (tagType === 'STRING') {
+  if (forAnalyzeCalls) {
+    value = tagFilter ? tagFilter.value || '' : '';
+    if (requiresSecondLevelName(resolvedTag)) {
+      key = tagFilter ? tagFilter.secondLevelName : '';
+      keyValidator = notBlankValidator;
+    }
+  } else if (tagType === 'STRING') {
     value = tagFilter ? tagFilter.stringValue || '' : '';
   } else if (tagType === 'NUMBER') {
     value = tagFilter ? String(tagFilter.numberValue || 0) : '0';
@@ -232,4 +246,11 @@ function createForm(tag, tagFilter) {
   }
 
   return form;
+}
+
+function isSameFilter(f1, f2) {
+  if ((f1 && !f2) || (!f2 && f2)) {
+    return false;
+  }
+  return f1.name === f2.name && f1.value === f2.value;
 }

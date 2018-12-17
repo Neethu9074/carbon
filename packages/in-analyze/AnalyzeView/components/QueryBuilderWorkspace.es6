@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 
+import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
@@ -21,7 +21,7 @@ const groupChangedTracker = createTracker('analyze.group.changed');
 const groupRemovedTracker = createTracker('analyze.group.removed');
 
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeAnalyzeConfig, removeTagFilter, upsertTagFilter } = props;
+  const { filters, onChangeAnalyzeConfig, removeTagFilter } = props;
   const group = filters.get('group');
 
   return (
@@ -39,25 +39,11 @@ export default function QueryBuilderWorkspace(props) {
               tagFilters={filters
                 .get('tagFilter')
                 .toJS()
-                .map(tag => ({
-                  tag,
-                  onClick: () => {
-                    setActiveDialog(
-                      <EditFilterDialog
-                        filters={filters}
-                        keys={getConfigByDataSource(filters.get('dataSource')).filterTagKeys}
-                        withExtendedOperators
-                        name={tag.name}
-                        value={tag.value}
-                        operator={tag.operator}
-                        secondLevelName={tag.secondLevelName}
-                        onSave={_tag => upsertTagFilter(_tag)}
-                        onRemove={() => removeTagFilter(tag.name)}
-                        removeItemName="Filter"
-                      />
-                    );
-                  },
-                  onRemove: () => removeTagFilter(tag.name)
+                .map(tagFilter => ({
+                  tag: tagFilter,
+                  onClick: () =>
+                    setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+                  onRemove: () => removeTagFilter(tagFilter.name)
                 }))}
               defaultFilters={getConfigByDataSource(filters.get('dataSource')).defaultFilters}
             />

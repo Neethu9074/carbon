@@ -4,10 +4,9 @@ import { timeout, empty } from 'reactive-observables';
 
 import KeyValueBarOverlayPresenter from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
-import { TAG_TYPES } from 'in-analyze/applicationFilter';
+import { requiresSecondLevelName } from 'in-applications/tags';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -26,9 +25,7 @@ export default compose(
     }) => ({
       onKeyChange: key => {
         let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
-        const node = findSubTreeByFullyQualifiedName(key);
-        const requiresSecondLevelName = node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
-        if (requiresSecondLevelName) {
+        if (requiresSecondLevelName(key)) {
           updatedForm = updatedForm.put('secondLevelName', getNotBlankValidatedFieldDefinition());
         } else {
           updatedForm = updatedForm.remove('secondLevelName');

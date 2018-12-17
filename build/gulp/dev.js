@@ -55,6 +55,14 @@ gulp.task('askForDevOptions', cb => {
     environment: 'saas',
     butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
   };
+  var sensorsEnvironment = {
+    uiBackendUrl: 'https://sensors-instana.instana.io',
+    butlerUrl: 'https://sensors-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'sensors',
+    environment: 'saas',
+    butlerDomain: 'sensors-fullstack-0-us-west-2.instana.io'
+  };
   var localBackendEnvironment = {
     uiBackendUrl: 'http://localhost:8080',
     websocketEndpoint: 'http://localhost:8082/',
@@ -69,6 +77,8 @@ gulp.task('askForDevOptions', cb => {
   var target = null;
   if (/^test$/i.test(process.env.TARGET)) {
     target = testEnvironment;
+  } else if (/^sensors/i.test(process.env.TARGET)) {
+    target = sensorsEnvironment;
   } else if (/^local$/i.test(process.env.TARGET)) {
     target = localBackendEnvironment;
   }
@@ -81,11 +91,15 @@ gulp.task('askForDevOptions', cb => {
       message: 'Where would you like to get data from?',
       choices: [
         {
-          name: 'Test environment',
+          name: 'Test Environment',
           value: testEnvironment
         },
         {
-          name: 'Local backend',
+          name: 'Sensors Environment',
+          value: sensorsEnvironment
+        },
+        {
+          name: 'Local Back End',
           value: localBackendEnvironment
         },
         {
