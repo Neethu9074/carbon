@@ -111,16 +111,6 @@ export const Body = ({ beacon }) => {
         )}
 
       <Row>
-        <Col lg={6}>
-          <BodyHeader>Resource Timing</BodyHeader>
-          {!hasResourceTimings &&
-            !hasNetworkInsights && (
-              <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
-            )}
-        </Col>
-      </Row>
-
-      <Row>
         {hasResourceTimings && (
           <Col lg={6}>
             <BodyHeader>Resource Timing</BodyHeader>
