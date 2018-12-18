@@ -91,6 +91,7 @@ export default connectTo(
       this.set(tooltipElement, 'top', result.top);
       this.set(tooltipElement, 'right', result.right !== null ? window.innerWidth - result.right : null);
       this.set(tooltipElement, 'bottom', result.bottom !== null ? window.innerHeight - result.bottom : null);
+
       tooltipElement.classList.add(`${block}__${align}`);
     };
 

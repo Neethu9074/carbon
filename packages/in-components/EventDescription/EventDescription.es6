@@ -67,7 +67,8 @@ export default connectTo(
 
             {!isOpen && start !== end ? (
               <Col cols={6} className={block + '__end'}>
-                Ended:<br />
+                Ended:
+                <br />
                 {formatDateTime(end)}
               </Col>
             ) : null}
