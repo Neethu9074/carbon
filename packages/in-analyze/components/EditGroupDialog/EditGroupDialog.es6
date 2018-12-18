@@ -78,7 +78,7 @@ function getState(form) {
 }
 
 function createForm(tag, group) {
-  const resolvedTag = (group && group.groupbyTag) || tag;
+  const resolvedTag = (group && group.groupbyTag) || (group && group.name) || tag;
   const tagType = getTagType(resolvedTag);
 
   let form = createMapForm().put(

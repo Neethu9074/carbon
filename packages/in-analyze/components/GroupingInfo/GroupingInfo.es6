@@ -11,11 +11,15 @@ import locals from './GroupingInfo.mless';
 export default function GroupingInfo({ group, disableGrouping, openEditGroupDialog }) {
   let groupedBy = null;
   if (group && isNotBlank(group.groupbyTag)) {
+    // website monitoring
     groupedBy = group.groupbyTag;
 
     if (isNotBlank(group.groupbyTagSecondLevelKey)) {
       groupedBy = `${groupedBy}.${group.groupbyTagSecondLevelKey}`;
     }
+  } else if (group && isNotBlank(group.name)) {
+    // analyze calls/traces
+    groupedBy = group.name;
   }
 
   return (

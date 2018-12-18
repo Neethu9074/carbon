@@ -6,6 +6,8 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { mapDataHO, noResultObservable } from 'in-services/util/result';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 
+const mapResultData = mapDataHO(data => data.suggestions);
+
 export default withProps(props => {
   const { filters, addTagFilter, setTagFilters, filterChangedTracker, filterRemovedTracker } = props;
   const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
@@ -65,8 +67,6 @@ function getValueSuggestions(tagFilters, timeConfig) {
     }).map(mapResultData);
   };
 }
-
-const mapResultData = mapDataHO(data => data.suggestions);
 
 function isMissingInForm(form, attribute) {
   return !form.containsKey(attribute) || !form.get(attribute).value;

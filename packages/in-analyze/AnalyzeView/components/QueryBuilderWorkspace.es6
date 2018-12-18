@@ -1,132 +1,42 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
+import AnalyzeGroupingInfo from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupingInfo';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import EditGroupDialog from 'in-analyze/Dialogs/EditGroupDialog';
-import { createTracker } from 'in-services/tracking/mixpanel';
-import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
-import Tooltip from 'in-components/Tooltip';
+
 import Sticky from 'in-components/Sticky';
 
 import locals from './QueryBuilderWorkspace.mless';
 
-const groupAddedTracker = createTracker('analyze.group.added');
-const groupChangedTracker = createTracker('analyze.group.changed');
-const groupRemovedTracker = createTracker('analyze.group.removed');
-
 export default function QueryBuilderWorkspace(props) {
-  const { filters, onChangeAnalyzeConfig, removeTagFilter } = props;
-  const group = filters.get('group');
-
+  const { filters, groupBy, removeTagFilter } = props;
+  const timeConfig = filters.get('timeConfig');
+  const tagFilters = filters.get('tagFilter').toJS();
   return (
-    <Fragment>
-      <Sticky
-        header={
-          <div>
-            <QuickFilterBar {...props} />
-          </div>
-        }
-      >
-        <div className={locals.filterRow}>
-          <MaxWidthFullscreenContainer className={locals.filterRowWrapper}>
-            <TagFilterList
-              tagFilters={filters
-                .get('tagFilter')
-                .toJS()
-                .map(tagFilter => ({
-                  tag: tagFilter,
-                  onClick: () =>
-                    setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
-                  onRemove: () => removeTagFilter(tagFilter.name)
-                }))}
-              defaultFilters={getConfigByDataSource(filters.get('dataSource')).defaultFilters}
-            />
-          </MaxWidthFullscreenContainer>
+    <Sticky
+      header={
+        <div>
+          <QuickFilterBar {...props} />
         </div>
-
-        <MaxWidthFullscreenContainer>
-          <div className={locals.groupRow}>
-            {group.get('name') ? (
-              <Fragment>
-                <span className={locals.groupByLabel}>Grouped by</span>
-                <span className={locals.groupByTag}>
-                  {group.get('value') ? `${group.get('name')}.${group.get('value')}` : group.get('name')}
-                </span>
-                <Tooltip content="Remove grouping" align="bottomMiddle">
-                  <SvgIcon
-                    className={locals.removeGrouping}
-                    aria-label="Remove grouping"
-                    type="lib_openclose_cancel"
-                    onClick={() => onRemoveGroup(onChangeAnalyzeConfig, group)}
-                    width={18}
-                    height={18}
-                  />
-                </Tooltip>
-
-                <Button
-                  kind="primaryv2"
-                  className={locals.changeGroupLabel}
-                  onClick={e => {
-                    e.preventDefault();
-                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                  }}
-                >
-                  Change Group
-                </Button>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <span className={locals.groupByLabel}>Grouped by</span>
-                <Button
-                  kind="primaryv2"
-                  onClick={e => {
-                    e.preventDefault();
-                    onUpdateGroup(filters, onChangeAnalyzeConfig, group);
-                  }}
-                >
-                  Add Group
-                </Button>
-              </Fragment>
-            )}
-          </div>
-        </MaxWidthFullscreenContainer>
-      </Sticky>
-    </Fragment>
+      }
+    >
+      <MaxWidthFullscreenContainer>
+        <div className={locals.filterRow}>
+          <TagFilterList
+            tagFilters={tagFilters.map(tagFilter => ({
+              tag: tagFilter,
+              onClick: () => setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+              onRemove: () => removeTagFilter(tagFilter.name)
+            }))}
+            defaultFilters={getConfigByDataSource(filters.get('dataSource')).defaultFilters}
+          />
+        </div>
+        <AnalyzeGroupingInfo {...props} group={groupBy} timeConfig={timeConfig} tagFilters={tagFilters} />
+      </MaxWidthFullscreenContainer>
+    </Sticky>
   );
-}
-
-function onUpdateGroup(filters, onChangeAnalyzeConfig, group) {
-  setActiveDialog(
-    <EditGroupDialog
-      filters={filters}
-      keys={getConfigByDataSource(filters.get('dataSource')).groupTagKeys}
-      name={group ? group.get('name') : ''}
-      secondLevelName={group ? group.get('value') : ''}
-      onSave={_group => {
-        if (!group || !group.get('name')) {
-          groupAddedTracker({ group: _group.name });
-        } else {
-          groupChangedTracker({ before: group.get('name'), after: _group.name });
-        }
-
-        const newState = {};
-
-        newState[groupByMatrixParameter] = { name: _group.name, value: _group.secondLevelName };
-        onChangeAnalyzeConfig(newState);
-      }}
-    />
-  );
-}
-
-function onRemoveGroup(onChangeAnalyzeConfig, _group) {
-  onChangeAnalyzeConfig({
-    [groupByMatrixParameter]: {}
-  });
-  groupRemovedTracker({ group: _group && _group.get ? _group.get('name') : '' });
 }
