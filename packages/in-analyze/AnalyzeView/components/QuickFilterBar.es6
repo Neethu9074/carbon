@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 
-import NumberBarItem from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
+import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
 import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
-import BooleanBarItem from 'in-new-components/filterBar/BooleanBarItem';
+import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import MoreBarItem from 'in-new-components/filterBar/MoreBarItem';
+import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
+import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { millis } from 'in-services/formatters/number';
 import { getTagFromList } from 'in-applications/tags';
-import Bar from 'in-new-components/filterBar/Bar/Bar';
 import { toTitleCase } from 'in-services/util/string';
 import { getTechnologyLabel } from 'in-sdk/snapshot';
 import SvgIcon from 'in-components/SvgIcon';

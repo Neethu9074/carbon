@@ -1,7 +1,7 @@
 import { withProps } from 'recompose';
 
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
-import SelectBarItem from 'in-new-components/filterBar/SelectBarItem';
+import SelectBarItem from 'in-analyze/components/filterBar/SelectBarItem';
 
 export default withProps({
   getSuggestions: ({ timeConfig, tagFilters, tag }) => {

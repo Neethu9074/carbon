@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BarOverlay from 'in-new-components/filterBar/BarOverlay/BarOverlay';
+import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';

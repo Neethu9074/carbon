@@ -4,13 +4,13 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import NumberBarOverlayPresenter from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
-import KeyValueBarOverlayPresenter from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
-import SelectBarOverlay from 'in-new-components/filterBar/SelectBarItem/SelectBarOverlayPresenter';
-import BarOverlay from 'in-new-components/filterBar/BarOverlay/BarOverlay';
-import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
+import NumberBarOverlayPresenter from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
+import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
+import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarItem/SelectBarOverlayPresenter';
+import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
+import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import { numericValidator } from 'in-services/validators/number';
-import Bar from 'in-new-components/filterBar/Bar/Bar';
+import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 storiesOf('Analyse/FilterBar', module)
   .addDecorator(withKnobs)

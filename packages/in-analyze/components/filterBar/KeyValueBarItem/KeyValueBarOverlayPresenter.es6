@@ -1,7 +1,7 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
-import BarOverlay from 'in-new-components/filterBar/BarOverlay/BarOverlay';
+import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';

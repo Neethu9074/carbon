@@ -3,8 +3,8 @@ import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
-import SelectBarItem from 'in-new-components/filterBar/SelectBarItem';
-import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
+import SelectBarItem from 'in-analyze/components/filterBar/SelectBarItem';
+import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Tooltip from 'in-components/Tooltip';
 
 export default function AnalyzeSelectBarItem(props) {

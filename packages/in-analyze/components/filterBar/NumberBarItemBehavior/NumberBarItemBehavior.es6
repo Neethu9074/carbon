@@ -1,8 +1,8 @@
 import React from 'react';
 
-import NumberBarOverlayBehavior from 'in-new-components/filterBar/NumberBarItemBehavior/NumberBarOverlayBehavior';
-import { getNumberTagFilters } from 'in-new-components/filterBar/NumberBarItemBehavior/util';
-import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
+import NumberBarOverlayBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayBehavior';
+import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
+import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
 

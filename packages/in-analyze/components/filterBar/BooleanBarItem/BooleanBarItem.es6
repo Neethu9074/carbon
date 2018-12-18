@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getBooleanTagFilters } from 'in-new-components/filterBar/BooleanBarItem/util';
-import BarItem from 'in-new-components/filterBar/BarItem/BarItem';
+import { getBooleanTagFilters } from 'in-analyze/components/filterBar/BooleanBarItem/util';
+import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 
 export default function BooleanBarItem(props) {
   const { singularLabel, refSetter, removeTagFilter, tag, upsertTagFilter } = props;

@@ -2,7 +2,7 @@ import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
 import { timeout, empty } from 'reactive-observables';
 
-import KeyValueBarOverlayPresenter from 'in-new-components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
+import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
