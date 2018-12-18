@@ -3,14 +3,16 @@ import React from 'react';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import { resourceQuotaPercentage } from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
+import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
+
+export const resourceQuotaPercentage = d => (d < 0 ? '–' : percentageTwoDecimalPlaces(d));
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
