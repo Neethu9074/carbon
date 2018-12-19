@@ -55,6 +55,7 @@ export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
 }
 
 export function getEventsViewFilteredBy({
+  query = '',
   applicationId = null,
   serviceId = null,
   endpointId = null,
@@ -63,18 +64,18 @@ export function getEventsViewFilteredBy({
   eventTypeFilter = null
 }) {
   endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
-  return getModifiedUrlStream(params => {
-    let query = '';
-    if (endpointId) {
-      query += ` entity.endpoint.id:"${endpointId}"`;
-    } else if (serviceId) {
-      query += ` entity.service.id:"${serviceId}"`;
-    } else if (applicationId) {
-      query += ` entity.application.id:"${applicationId}"`;
-    }
+  if (endpointId) {
+    query += ` entity.endpoint.id:"${endpointId}"`;
+  } else if (serviceId) {
+    query += ` entity.service.id:"${serviceId}"`;
+  } else if (applicationId) {
+    query += ` entity.application.id:"${applicationId}"`;
+  }
+  query = query.trim();
 
+  return getModifiedUrlStream(params => {
     params.pathname = eventsPath;
-    params.query.q = query.trim();
+    params.query.q = query;
     if (eventId) {
       params.query.eventId = eventId;
     }

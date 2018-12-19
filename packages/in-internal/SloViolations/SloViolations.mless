@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    margin: 1rem;
+  }
+
+  .event {
+    padding: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+    background: @lib__colors__N050;
+    color: @lib__colors__N600Light;
+    display: flex;
+    align-items: center;
+  }
+
+  .duration {
+    margin: 0 1rem 0 0;
+    min-width: 5rem;
+    display: block;
+  }
+
+  .icon {
+    margin: 0 1rem 0 0;
+  }
+}
