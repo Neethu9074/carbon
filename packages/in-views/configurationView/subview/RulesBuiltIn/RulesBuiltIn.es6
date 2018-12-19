@@ -1,5 +1,5 @@
 import { createLogger } from 'instalog';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { getLinkColumn, getEnableToggleColumn } from 'in-views/configurationView/components/tableColumnPresets';
 import RuleBuiltInDetails from 'in-views/configurationView/subview/RulesBuiltIn/components/RuleBuiltInDetails';
@@ -12,7 +12,7 @@ import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import PluginIcon from 'in-components/PluginIcon';
+import WithIcon from 'in-new-components/WithIcon';
 import { compare } from 'in-services/util/string';
 import { getSingular } from 'in-sdk/pluginName';
 import Title from 'in-components/Title';
@@ -31,13 +31,7 @@ const cols = [
         const entityType = row.entityType;
         return {
           value: entityType,
-          content: (
-            <Fragment>
-              <PluginIcon dimension={16} color="#000" plugin={entityType} />
-              &nbsp;&nbsp;
-              {getSingular(entityType)}
-            </Fragment>
-          )
+          content: <WithIcon plugin={entityType}>{getSingular(entityType)}</WithIcon>
         };
       }
     }
