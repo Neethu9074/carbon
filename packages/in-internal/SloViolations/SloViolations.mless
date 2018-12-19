@@ -10,6 +10,12 @@
     margin: 0 0 2rem;
   }
 
+  .violationsForEntity {
+    padding: 1rem;
+    background: #fff;
+    min-height: 100%;
+  }
+
   .event {
     padding: 1rem;
     border-top: 1px solid @lib__colors__N400;
@@ -21,8 +27,15 @@
 
   .duration {
     margin: 0 1rem 0 0;
-    min-width: 5rem;
+    min-width: 4rem;
     display: block;
+  }
+
+  .metric {
+    margin: 0 1rem 0 0;
+    min-width: 4rem;
+    display: block;
+    font-weight: 500;
   }
 
   .icon {
@@ -31,5 +44,6 @@
 
   .title {
     font-weight: 500;
+    font-size: 0.85rem;
   }
 }

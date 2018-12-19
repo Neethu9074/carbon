@@ -1,3 +1,4 @@
+import { interval } from 'reactive-observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 
@@ -5,37 +6,44 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
+import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { siPrefix } from 'in-services/formatters/number';
 import { getColorBySeverity } from 'in-stores/events';
 import getRawEvents from 'in-subscription/rawEvents';
-import { timeConfig$ } from 'in-stores/time/config';
+import MetricValue from 'in-components/MetricValue';
 import { getSingular } from 'in-sdk/pluginName';
+import getEvent from 'in-subscription/event';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './SloViolations.mless';
 
+const timeConfig = { to: null, focusedMoment: null, autoRefresh: true, windowSize: 1000 * 60 };
+
 const onlySlosQuery =
   '((event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open) AND (event.type:issue)';
 
 export default connect({
-  events: timeConfig$.flatMap(timeConfig =>
-    getRawEvents({
-      timeConfig,
-      maxTimestamp: timeConfig.to || Date.now(),
-      minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
-      sortByField: 'start',
-      sortMode: 'desc',
-      query: onlySlosQuery,
-      offset: 0,
-      size: 200
-    }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
-  )
+  events: interval(1000 * 60)
+    .startWith(null)
+    .flatMap(() =>
+      getRawEvents({
+        timeConfig,
+        maxTimestamp: timeConfig.to || Date.now(),
+        minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
+        sortByField: 'start',
+        sortMode: 'desc',
+        query: onlySlosQuery,
+        offset: 0,
+        size: 200
+      }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
+    )
 })(SloViolations);
 
 function SloViolations({ events }) {
@@ -54,18 +62,13 @@ function SloViolations({ events }) {
     <div className={locals.wrapper}>
       <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
 
-      {chunks.map(([a, b], i) => (
+      {chunks.map((itemsInChunk, i) => (
         <Row key={i} verticallyStretchColumns>
-          {a && (
-            <Col lg={6}>
-              <ViolationsForEntity snapshotId={a} events={grouped[a]} />
+          {itemsInChunk.map(id => (
+            <Col lg={12 / itemsInChunk.length} key={id}>
+              <ViolationsForEntity snapshotId={id} events={grouped[id]} />
             </Col>
-          )}
-          {b && (
-            <Col lg={6}>
-              <ViolationsForEntity snapshotId={b} events={grouped[b]} />
-            </Col>
-          )}
+          ))}
         </Row>
       ))}
     </div>
@@ -92,13 +95,8 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
     return <LoadingIndicator type="dark" />;
   }
 
-  let cardTitle = context.mostSpecific.get('label');
-  if (context.docker) {
-    cardTitle = context.docker.get('label');
-  }
-
   return (
-    <Card title={`${cardTitle} (${events.length})`} useMaxAvailableHeight>
+    <div className={locals.violationsForEntity}>
       <Dl>
         <Di title={getSingular(context.mostSpecific.get('plugin'))}>
           <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
@@ -126,11 +124,16 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
       {events.map(e => (
         <Event event={e} key={e.id} />
       ))}
-    </Card>
+    </div>
   );
 });
 
-function Event({ event }) {
+const Event = connect(({ event }) => ({
+  fullEvent: getEvent({ eventId: event.id })
+}))(function Event({ event, fullEvent }) {
+  const metric = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'metricName']);
+  const snapshotId = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'snapshotId']);
+
   return (
     <div className={locals.event}>
       <SvgIcon
@@ -139,7 +142,29 @@ function Event({ event }) {
         height={12}
         color={getColorBySeverity(event.severity)}
       />
-      <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
+
+      <Tooltip align="topMiddle" content="How long the issue is open (doesn't auto update, sorry mate!)">
+        <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
+      </Tooltip>
+
+      {metric &&
+        snapshotId && (
+          <Tooltip align="topMiddle" content={`Mean in last minute for metric ${metric}`}>
+            <MetricValue
+              className={locals.metric}
+              formatter={siPrefix.detailed}
+              snapshotId={snapshotId}
+              createMetricValueStream={() =>
+                getTimeWindowBasedMetricAggregation({
+                  snapshotId: snapshotId,
+                  metric: metric,
+                  timeWindowAggregation: 'MEAN'
+                }).filter(v => v != null)
+              }
+            />
+          </Tooltip>
+        )}
+
       <Link
         className={locals.title}
         href$={getEventsViewFilteredBy({
@@ -152,4 +177,4 @@ function Event({ event }) {
       </Link>
     </div>
   );
-}
+});
