@@ -1,5 +1,5 @@
 import { createLogger } from 'instalog';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   getLinkColumnWithBadge,
@@ -10,14 +10,14 @@ import { rulePath, getEntityIdPath } from 'in-stores/navigation/paths/settingPat
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+import { getRules, deleteRule, isRuleDeprecated } from 'in-api/rules';
 import Section from 'in-views/configurationView/components/Section';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRules, deleteRule, isRuleDeprecated } from 'in-api/rules';
-import PluginIcon from 'in-components/PluginIcon';
 import { compare } from 'in-services/util/string';
+import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
@@ -37,13 +37,7 @@ const cols = [
         const entityType = row.entityType;
         return {
           value: entityType,
-          content: (
-            <Fragment>
-              <PluginIcon dimension={16} color="#000" plugin={entityType} />
-              &nbsp;&nbsp;
-              {getSingular(entityType)}
-            </Fragment>
-          )
+          content: <WithIcon plugin={entityType}>{getSingular(entityType)}</WithIcon>
         };
       }
     }
