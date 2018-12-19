@@ -52,10 +52,10 @@ function SloViolations({ events }) {
 
   return (
     <div className={locals.wrapper}>
-      <h1>SLO Violations Grouped By Process</h1>
+      <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
 
       {chunks.map(([a, b], i) => (
-        <Row key={i}>
+        <Row key={i} verticallyStretchColumns>
           {a && (
             <Col lg={6}>
               <ViolationsForEntity snapshotId={a} events={grouped[a]} />
@@ -98,7 +98,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
   }
 
   return (
-    <Card title={`${cardTitle} (${events.length})`}>
+    <Card title={`${cardTitle} (${events.length})`} useMaxAvailableHeight>
       <Dl>
         <Di title={getSingular(context.mostSpecific.get('plugin'))}>
           <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
@@ -141,6 +141,7 @@ function Event({ event }) {
       />
       <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
       <Link
+        className={locals.title}
         href$={getEventsViewFilteredBy({
           query: onlySlosQuery,
           eventId: event.id,

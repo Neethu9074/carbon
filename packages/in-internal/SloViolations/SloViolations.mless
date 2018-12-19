@@ -2,7 +2,12 @@
 
 :local {
   .wrapper {
-    margin: 1rem;
+    padding: 1rem;
+    background: #acbec3;
+  }
+
+  .header {
+    margin: 0 0 2rem;
   }
 
   .event {
@@ -22,5 +27,9 @@
 
   .icon {
     margin: 0 1rem 0 0;
+  }
+
+  .title {
+    font-weight: 500;
   }
 }
