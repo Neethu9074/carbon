@@ -1,9 +1,12 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
   .wrapper {
     display: flex;
     align-items: center;
+
+    .ellipsis();
   }
 
   .pluginIcon,
