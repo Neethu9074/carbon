@@ -1,13 +1,9 @@
 import React from 'react';
 
-import {
-  formatterTypeToLabel,
-  mapConditionValue
-} from 'in-views/configurationView/subview/Rules/components/RuleDetails';
+import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { builtInRulesPath } from 'in-stores/navigation/paths/settingPaths';
-import { formatDurationAccurately } from 'in-services/formatters/date';
 import Section from 'in-views/configurationView/components/Section';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -145,20 +141,12 @@ function formattedColumn(title, attr) {
     typeArgs: {
       comparator: compare,
       get(row) {
-        const valueUnit = formatterTypeToLabel(row.valueFormat);
-        const value = mapConditionValue(row[attr], row.valueFormat);
-
-        let valueWithUnit;
-        if (valueUnit === 'ms') {
-          // provided time values are always in millis. Convert to a more readable format
-          valueWithUnit = formatDurationAccurately(value, 1000, false);
-        } else {
-          valueWithUnit = `${value} ${valueUnit}`;
-        }
+        const valueFormat = row.valueFormat;
+        const value = row[attr];
 
         return {
           value,
-          content: valueWithUnit
+          content: valueWithFormatterToReadableString(value, valueFormat)
         };
       }
     }
