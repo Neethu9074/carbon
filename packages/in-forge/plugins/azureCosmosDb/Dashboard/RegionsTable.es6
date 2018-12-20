@@ -2,7 +2,7 @@ import React from 'react';
 import Region from './Region.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
-import number from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 
 const cols = [
@@ -83,6 +83,7 @@ export default function RegionsTable({ snapshot, timeConfig }) {
   snapshot.getIn(['data'], emptyMap).mapKeys(dataKey => {
     if (dataKey.startsWith(regionsMeta)) {
       var regionKey = dataKey.substring(regionsMeta.length + 1);
+      if (regionKey == '<empty>') return;
       if (!regions.has(regionKey)) {
         regions = regions.push(regionKey);
         rows = rows.push({

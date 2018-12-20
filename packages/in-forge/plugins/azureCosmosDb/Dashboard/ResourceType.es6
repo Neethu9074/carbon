@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'in-components/Chart';
-import emptyList from 'in-services/fixedImmutables';
-import zeroDecimalPlaces from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default function ResourceType({ snapshot, timeConfig, collection, resourceTypes }) {
   const snapshotId = snapshot.get('id');
@@ -14,7 +14,7 @@ export default function ResourceType({ snapshot, timeConfig, collection, resourc
   var codeLabelsRight = emptyList;
 
   resourceTypes.map(type => {
-    var metric = 'metrics.resourceTypes.' + type + '.tr';
+    var metric = 'metrics.resourceTypes.' + type + '.cr';
     var label = type.substring(type.lastIndexOf('.') + 1);
     if (type.startsWith(collection)) {
       if (instanceApi == 'MongoDB' && label.endsWith(')')) {

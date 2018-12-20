@@ -1,8 +1,8 @@
 import React from 'react';
 import Collection from './Collection.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import number from 'in-services/formatters/number';
-import emptyList from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
