@@ -2,9 +2,10 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
+import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { formatTime } from 'in-services/formatters/date';
+import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import Link from 'in-components/Link';
 
@@ -59,24 +60,24 @@ function getTableData({
 
 const columnDefinitions = [
   {
+    id: 'title',
+    label: 'Event',
+    getContent(item) {
+      return <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />;
+    }
+  },
+  {
     id: 'entityLabel',
-    label: 'On',
+    label: 'Source',
     getContent(item) {
       return get(item, 'entityLabel');
     }
   },
   {
-    id: 'detailText',
-    label: 'Details',
-    getContent(item) {
-      return get(item, 'detailText');
-    }
-  },
-  {
     id: 'time',
-    label: 'Last Seen',
+    label: 'Time',
     getContent(item) {
-      return formatTime(get(item, 'time'));
+      return formatDateTime(get(item, 'time'));
     }
   }
 ];

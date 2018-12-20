@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
+import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -62,31 +63,24 @@ function getTableData({
 
 const columnDefinitions = [
   {
-    id: 'time',
-    label: 'Time',
+    id: 'title',
+    label: 'Event',
     getContent(item) {
-      return formatDateTime(get(item, 'time'));
+      return <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />;
     }
   },
   {
     id: 'entityLabel',
-    label: 'On',
+    label: 'Source',
     getContent(item) {
       return get(item, 'entityLabel');
     }
   },
   {
-    id: 'title',
-    label: 'Title',
+    id: 'time',
+    label: 'Time',
     getContent(item) {
-      return get(item, 'title');
-    }
-  },
-  {
-    id: 'details',
-    label: 'Details',
-    getContent(item) {
-      return get(item, 'detailText');
+      return formatDateTime(get(item, 'time'));
     }
   }
 ];
