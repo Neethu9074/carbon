@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
+import {
+  formatterTypeToLabel,
+  mapConditionValue
+} from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
@@ -31,9 +34,9 @@ export default function Details({ rule }) {
           <DescriptionItem title="Parameters">
             <ul>
               {rule.get('hyperParams').map((param, i) => {
-                const value = param.get('defaultValue');
-                const valueFormat = param.get('valueFormat');
-                const formattedValue = valueWithFormatterToReadableString(value, valueFormat);
+                const valueUnit = formatterTypeToLabel(param.get('valueFormat'));
+                const value = mapConditionValue(param.get('defaultValue'), param.get('valueFormat'));
+                const formattedValue = `${value} ${valueUnit}`;
                 return (
                   <li key={i}>
                     {param.get('name')} - {formattedValue}

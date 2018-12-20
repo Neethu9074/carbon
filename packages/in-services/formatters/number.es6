@@ -347,14 +347,6 @@ function isMicrosFormatter(numberFormatter) {
   );
 }
 
-function isSecondsFormatter(numberFormatter) {
-  return (
-    numberFormatter === seconds ||
-    numberFormatter === seconds.fromMillisFixedDetailed ||
-    numberFormatter === seconds.fixedCompact
-  );
-}
-
 function isPercentageFormatter(numberFormatter) {
   return (
     numberFormatter === percentage ||
@@ -384,8 +376,6 @@ export function numberFormatterToFormatterType(numberFormatter) {
     return 'MILLIS';
   } else if (isMicrosFormatter(numberFormatter)) {
     return 'MICROS';
-  } else if (isSecondsFormatter(numberFormatter)) {
-    return 'SECONDS';
   } else if (isPercentageFormatter(numberFormatter)) {
     return 'PERCENTAGE';
   } else if (isRateFormatter(numberFormatter)) {
@@ -399,23 +389,4 @@ export function numberFormatterToFormatterType(numberFormatter) {
   } else {
     return 'UNDEFINED';
   }
-}
-
-export function valueWithFormatterToReadableString(value, valueFormat) {
-  if (valueFormat === 'PERCENTAGE') {
-    return percentage.compact(value);
-  } else if (valueFormat === 'SECONDS') {
-    return seconds.fixedCompact(value);
-  } else if (valueFormat === 'MICROS') {
-    return micros.compact(value);
-  } else if (valueFormat === 'MILLIS') {
-    return millis.compact(value);
-  } else if (valueFormat === 'BYTES') {
-    return bytes.detailed(value);
-  } else if (valueFormat === 'BYTE_RATE') {
-    return bytes.perSecond.detailed(value);
-  } else if (valueFormat === 'RATE') {
-    return number.perSecond.detailed(value);
-  }
-  return value.toString();
 }

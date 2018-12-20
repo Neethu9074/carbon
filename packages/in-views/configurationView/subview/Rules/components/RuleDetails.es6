@@ -106,8 +106,6 @@ export function formatterTypeToLabel(formatterType) {
   switch (formatterType) {
     case 'MILLIS':
       return 'ms';
-    case 'MICROS':
-      return 'µs';
     case 'SECONDS':
       return 's';
     case 'MINUTES':
