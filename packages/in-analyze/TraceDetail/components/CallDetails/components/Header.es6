@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
-import { isLogOrIntermediateSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
@@ -30,7 +30,7 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
       <Seperator />
       <div className={locals.entityInformation}>
         <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
-        {!isLogOrIntermediateSpan(call) &&
+        {!isUnknownTypeSpan(call) &&
           callTreeNode.endpoint && (
             <Pill kind="light" color={getColorForEndpointType(callTreeNode.endpoint.type)}>
               {callTreeNode.endpoint.type}

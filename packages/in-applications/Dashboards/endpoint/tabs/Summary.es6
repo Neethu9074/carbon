@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
@@ -11,7 +12,7 @@ import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, data }) {
-  const includeSyntheticCalls = data.synthetic;
+  const includeSyntheticCalls = get(data, 'synthetic', false);
 
   const filter = {
     timeConfig,
@@ -104,7 +105,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
         </Col>
       </Row>
 
-      {!data.synthetic && (
+      {!includeSyntheticCalls && (
         <Fragment>
           <Row>
             <Col lg={6}>
