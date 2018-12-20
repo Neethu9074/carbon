@@ -1,0 +1,180 @@
+import { interval } from 'reactive-observables';
+import { groupBy, chunk } from 'lodash';
+import React from 'react';
+
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
+import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import { formatDurationAccurately } from 'in-services/formatters/date';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import { siPrefix } from 'in-services/formatters/number';
+import { getColorBySeverity } from 'in-stores/events';
+import getRawEvents from 'in-subscription/rawEvents';
+import MetricValue from 'in-components/MetricValue';
+import { getSingular } from 'in-sdk/pluginName';
+import getEvent from 'in-subscription/event';
+import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
+
+import locals from './SloViolations.mless';
+
+const timeConfig = { to: null, focusedMoment: null, autoRefresh: true, windowSize: 1000 * 60 };
+
+const onlySlosQuery =
+  '((event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open) AND (event.type:issue)';
+
+export default connect({
+  events: interval(1000 * 60)
+    .startWith(null)
+    .flatMap(() =>
+      getRawEvents({
+        timeConfig,
+        maxTimestamp: timeConfig.to || Date.now(),
+        minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
+        sortByField: 'start',
+        sortMode: 'desc',
+        query: onlySlosQuery,
+        offset: 0,
+        size: 200
+      }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
+    )
+})(SloViolations);
+
+function SloViolations({ events }) {
+  if (!events) {
+    return (
+      <div className={locals.wrapper}>
+        <LoadingIndicator type="dark" />
+      </div>
+    );
+  }
+
+  const grouped = groupBy(events, e => e.entityId);
+  const chunks = chunk(Object.keys(grouped).sort(), 2);
+
+  return (
+    <div className={locals.wrapper}>
+      <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
+
+      {chunks.map((itemsInChunk, i) => (
+        <Row key={i} verticallyStretchColumns>
+          {itemsInChunk.map(id => (
+            <Col lg={12 / itemsInChunk.length} key={id}>
+              <ViolationsForEntity snapshotId={id} events={grouped[id]} />
+            </Col>
+          ))}
+        </Row>
+      ))}
+    </div>
+  );
+}
+
+const ViolationsForEntity = connect(({ snapshotId }) => ({
+  context: getPhysicalHierarchy(snapshotId, false)
+    .flatMap(getSnapshots)
+    .map(snapshots =>
+      snapshots.reduce((agg, snapshot, i) => {
+        if (snapshot) {
+          agg[snapshot.get('plugin')] = snapshot;
+          if (i === 0) {
+            agg.mostSpecific = snapshot;
+          }
+        }
+        return agg;
+      }, {})
+    )
+    .filter(c => c.mostSpecific)
+}))(function ViolationsForEntity({ context, events }) {
+  if (!context) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  return (
+    <div className={locals.violationsForEntity}>
+      <Dl>
+        <Di title={getSingular(context.mostSpecific.get('plugin'))}>
+          <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
+            {context.mostSpecific.get('label')}
+          </Link>
+        </Di>
+
+        {context.docker && (
+          <Di title={getSingular(context.docker.get('plugin'))}>
+            <Link href$={getDashboardLink(context.docker.get('id'), { pathname: physicalDashboardPath })}>
+              {context.docker.get('label')}
+            </Link>
+          </Di>
+        )}
+
+        {context.host && (
+          <Di title={getSingular(context.host.get('plugin'))}>
+            <Link href$={getDashboardLink(context.host.get('id'), { pathname: physicalDashboardPath })}>
+              {context.host.get('label')}
+            </Link>
+          </Di>
+        )}
+      </Dl>
+
+      {events.map(e => (
+        <Event event={e} key={e.id} />
+      ))}
+    </div>
+  );
+});
+
+const Event = connect(({ event }) => ({
+  fullEvent: getEvent({ eventId: event.id })
+}))(function Event({ event, fullEvent }) {
+  const metric = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'metricName']);
+  const snapshotId = fullEvent && fullEvent.getIn(['metadata', 'metrics', 0, 'snapshotId']);
+
+  return (
+    <div className={locals.event}>
+      <SvgIcon
+        className={locals.icon}
+        type={event.severity < 10 ? 'warning' : 'critical'}
+        height={12}
+        color={getColorBySeverity(event.severity)}
+      />
+
+      <Tooltip align="topMiddle" content="How long the issue is open (doesn't auto update, sorry mate!)">
+        <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
+      </Tooltip>
+
+      {metric &&
+        snapshotId && (
+          <Tooltip align="topMiddle" content={`Mean in last minute for metric ${metric}`}>
+            <MetricValue
+              className={locals.metric}
+              formatter={siPrefix.detailed}
+              snapshotId={snapshotId}
+              createMetricValueStream={() =>
+                getTimeWindowBasedMetricAggregation({
+                  snapshotId: snapshotId,
+                  metric: metric,
+                  timeWindowAggregation: 'MEAN'
+                }).filter(v => v != null)
+              }
+            />
+          </Tooltip>
+        )}
+
+      <Link
+        className={locals.title}
+        href$={getEventsViewFilteredBy({
+          query: onlySlosQuery,
+          eventId: event.id,
+          eventTypeFilter: 'issue'
+        })}
+      >
+        {event.title}
+      </Link>
+    </div>
+  );
+});

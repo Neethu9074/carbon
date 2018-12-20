@@ -1,0 +1,49 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    padding: 1rem;
+    background: #acbec3;
+  }
+
+  .header {
+    margin: 0 0 2rem;
+  }
+
+  .violationsForEntity {
+    padding: 1rem;
+    background: #fff;
+    min-height: 100%;
+  }
+
+  .event {
+    padding: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+    background: @lib__colors__N050;
+    color: @lib__colors__N600Light;
+    display: flex;
+    align-items: center;
+  }
+
+  .duration {
+    margin: 0 1rem 0 0;
+    min-width: 4rem;
+    display: block;
+  }
+
+  .metric {
+    margin: 0 1rem 0 0;
+    min-width: 4rem;
+    display: block;
+    font-weight: 500;
+  }
+
+  .icon {
+    margin: 0 1rem 0 0;
+  }
+
+  .title {
+    font-weight: 500;
+    font-size: 0.85rem;
+  }
+}

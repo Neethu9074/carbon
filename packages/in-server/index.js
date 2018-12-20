@@ -13,6 +13,7 @@ const errorPages = require('./errorPages.js');
 const serverConfig = require('./serverConfig.js');
 const assetRoutes = require('./routes/assets');
 const indexRoutes = require('./routes/index');
+const pingRoutes = require('./routes/ping');
 require('./admin');
 
 const app = express();
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use(assetRoutes);
+app.use(pingRoutes);
 app.use(indexRoutes);
 
 app.use((req, res) => errorPages.send404(req, res));

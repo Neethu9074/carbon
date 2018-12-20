@@ -59,6 +59,12 @@ ssh -t <your user name>@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/log
           Hystrix
         </Button>
 
+        {container.get('label').includes('filler') && (
+          <Button href={`${adminUrl}/admin/entity-creation-rate-limiter/physical`} target="_blank">
+            Physical Circuit Breaker
+          </Button>
+        )}
+
         {container.get('label').includes('appdata-processor') && (
           <Select
             id="tag-selection"

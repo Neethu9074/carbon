@@ -5,6 +5,7 @@ import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/Fil
 import TracesSubscriptionStats from 'in-internal/TracesSubscriptionStats/TracesSubscriptionStats';
 import AppDataProcessorStatistics from 'in-internal/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
+import SloViolations from 'in-internal/SloViolations/SloViolations';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
 import EumProcessor from 'in-internal/eum/EumProcessor';
 import EumAcceptor from 'in-internal/eum/EumAcceptor';
@@ -25,6 +26,7 @@ export default function Internal() {
     <Switch>
       <Route path="/internal/devDashboard" component={DevDashboard} />
       <Route path="/internal/tuStatistics" component={TuStatistics} />
+      <Route path="/internal/sloViolations" component={SloViolations} />
       <Route path="/internal/eum/eum-acceptor" component={EumAcceptor} />
       <Route path="/internal/eum/eum-processor" component={EumProcessor} />
       <Route path="/internal/eum/appdata-writer" component={AppDataWriterForEum} />
