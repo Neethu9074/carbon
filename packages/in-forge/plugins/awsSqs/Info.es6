@@ -15,7 +15,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Message Retention Period">{data.get('msg_retention_period')}</DescriptionItem>
       <DescriptionItem title="Max Message Size">{data.get('max_msg_size')}</DescriptionItem>
       <DescriptionItem title="Visibility Timeout">{data.get('visibilty_timeout')}</DescriptionItem>
-      <DescriptionItem title="Last Modified Timeout">{data.get('last_modified_timeout')}</DescriptionItem>
+      <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
     </DescriptionList>
   );
 }
