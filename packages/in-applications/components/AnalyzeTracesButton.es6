@@ -1,13 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 
-export default connect(({ applicationId, serviceId }) => {
+export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};
   if (applicationId) {
     observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
@@ -15,8 +16,11 @@ export default connect(({ applicationId, serviceId }) => {
   if (serviceId) {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
   }
+  if (endpointId) {
+    observables.endpointLabel = getEndpointLabel({ id: endpointId }).map(getLabel);
+  }
   return observables;
-})(function AnalyzeTracesButton({ applicationLabel, serviceLabel, endpointId, isSynthetic }) {
+})(function AnalyzeTracesButton({ applicationLabel, serviceLabel, endpointLabel, isSynthetic }) {
   return (
     <Button
       kind="primary"
@@ -24,10 +28,10 @@ export default connect(({ applicationId, serviceId }) => {
       href$={getLinkToAnalyze({
         applicationName: applicationLabel,
         serviceName: serviceLabel,
-        endpointName: endpointId,
+        endpointName: endpointLabel,
         dataSource: 'traces',
         filters: isSynthetic ? [{ name: 'call.is_synthetic', value: 'true' }] : null,
-        groupByTag: endpointId ? {} : null // no default grouping when analyzing traces for an endpoint
+        groupByTag: endpointLabel ? {} : null // no default grouping when analyzing traces for an endpoint
       })}
     >
       Analyze Traces

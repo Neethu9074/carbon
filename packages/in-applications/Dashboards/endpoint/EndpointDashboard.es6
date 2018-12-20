@@ -44,7 +44,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
           id: props.endpointId,
           filter: {
             application: props.applicationId,
-            service: props.serviceId,
+            service: null,
             endpoint: props.endpointId,
             timeConfig
           }

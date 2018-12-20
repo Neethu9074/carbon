@@ -18,7 +18,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
-    service: serviceId,
     includeSyntheticCalls
   };
 
@@ -77,7 +76,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <CallsErrors
             cardTitle="Calls"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -87,7 +85,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <Errors
             cardTitle="Errors"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -97,7 +94,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <Latency
             cardTitle="Latency"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -117,12 +113,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               />
             </Col>
             <Col lg={6}>
-              <TechnologyBreakdown
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                timeConfig={timeConfig}
-              />
+              <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
             </Col>
           </Row>
 
@@ -131,7 +122,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               <LatencyDistributionHistogram
                 cardTitle="Latency Distribution"
                 applicationId={applicationId}
-                serviceId={serviceId}
                 endpointId={endpointId}
                 timeConfig={timeConfig}
               />

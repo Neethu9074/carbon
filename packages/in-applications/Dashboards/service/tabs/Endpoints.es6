@@ -191,7 +191,7 @@ const columnDefinitions = [
           label={item.endpoint.label}
           tooltip={item.endpoint.synthetic ? 'Synthetic Endpoint' : null}
           specialIndicator={item.endpoint.synthetic ? true : false}
-          href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}
+          href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}
         />
       );
     }
