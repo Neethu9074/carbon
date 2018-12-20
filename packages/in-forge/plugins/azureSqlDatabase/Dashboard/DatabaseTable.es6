@@ -6,6 +6,7 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
+  number,
   percentagePlainTwoDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -155,7 +156,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: zeroDecimalPlaces,
+          formatter: number.detailed,
           metrics: ['metrics.databases.' + row.key + '.dtu_limit', 'metrics.databases.' + row.key + '.dtu_used'],
           labels: ['DTU Limit', 'DTU Used'],
           type: 'line'

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 
@@ -26,7 +26,7 @@ export default function AzureSqlDatabaseDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['total_dtu_limit', 'total_dtu_used'],
             labels: ['Total DTU Limit', 'Total DTU Used'],
-            formatter: zeroDecimalPlaces,
+            formatter: number.detailed,
             type: 'area'
           }}
         />

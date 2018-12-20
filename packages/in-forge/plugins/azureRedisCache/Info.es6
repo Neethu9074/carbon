@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -28,17 +29,15 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="Max Clients">{data.get('maxClients')}</DescriptionItem>
 
         {data.get('maxmemoryReserved') != 0 && (
-          <DescriptionItem title="Max Memory">{data.get('maxmemoryReserved')}</DescriptionItem>
+          <DescriptionItem title="Max Memory">{bytesTwoDecimalPlaces(data.get('maxmemoryReserved'))}</DescriptionItem>
         )}
 
         {data.get('maxFragmentationmemoryReserved') != 0 && (
-          <DescriptionItem title="Max Fragmentation Memory">
-            {data.get('maxFragmentationmemoryReserved')}
-          </DescriptionItem>
+          <DescriptionItem title="Max Fragmentation Memory">{bytesTwoDecimalPlaces(data.get('maxFragmentationmemoryReserved'))}</DescriptionItem>
         )}
 
         {data.get('maxmemoryDelta') != 0 && (
-          <DescriptionItem title="Memory Delta">{data.get('maxmemoryDelta')}</DescriptionItem>
+          <DescriptionItem title="Memory Delta">{bytesTwoDecimalPlaces(data.get('maxmemoryDelta'))}</DescriptionItem>
         )}
 
         <DescriptionItem title="Static IP">{data.get('staticIP')}</DescriptionItem>

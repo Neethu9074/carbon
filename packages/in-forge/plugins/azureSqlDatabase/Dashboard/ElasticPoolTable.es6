@@ -6,6 +6,7 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
+  number,
   percentagePlainTwoDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -175,7 +176,7 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: zeroDecimalPlaces,
+          formatter: number.detailed,
           metrics: [
             'metrics.elasticPools.' + row.key + '.eDTU_limit',
             'metrics.elasticPools.' + row.key + '.eDTU_used'
