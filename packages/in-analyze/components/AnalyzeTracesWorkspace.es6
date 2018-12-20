@@ -12,7 +12,7 @@ export default function AnalyzeTracesWorkspace(props) {
     <Fragment>
       <Title title="Analyze Traces" />
 
-      <Sticky header={<AnalyzeHeader isGrouped={!!filters.getIn(['group', 'name'])} />}>
+      <Sticky header={<AnalyzeHeader isGrouped={filters.group && !!filters.group.name} />}>
         <QueryBuilderWorkspace {...props} />
       </Sticky>
 

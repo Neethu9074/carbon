@@ -250,8 +250,5 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
 }
 
 function isSameFilter(f1, f2) {
-  if ((f1 && !f2) || (!f2 && f2)) {
-    return false;
-  }
-  return f1.name === f2.name && f1.value === f2.value;
+  return f1 === f2;
 }

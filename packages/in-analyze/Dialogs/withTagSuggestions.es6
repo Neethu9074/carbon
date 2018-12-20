@@ -101,9 +101,9 @@ export default () => ComposedComponent => {
 
       this.tagValueSuggestions$ = getTagSuggestions({
         filter: {
-          timeConfig: filters.get('timeConfig')
+          timeConfig: filters.timeConfig
         },
-        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
         tagName,
         secondLevelKeyTagName: custom2ndLevelName,
         valueFilter: null
@@ -125,9 +125,9 @@ export default () => ComposedComponent => {
 
       this.tag2ndLevelNameSuggestions$ = getTagSuggestions({
         filter: {
-          timeConfig: filters.get('timeConfig')
+          timeConfig: filters.timeConfig
         },
-        tagFilters: getTagFilterListForBackendSubscription(filters.get('tagFilter').toJS()),
+        tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
         tagName,
         secondLevelKeyTagName: null,
         valueFilter: null

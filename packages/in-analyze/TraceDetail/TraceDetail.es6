@@ -68,10 +68,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb
-            label={getConfigByDataSource(filters.get('dataSource')).breadcrumbLabel}
-            href$={getLinkToAnalyze()}
-          />,
+          <Breadcrumb label={getConfigByDataSource(filters.dataSource).breadcrumbLabel} href$={getLinkToAnalyze()} />,
           <TraceDetailBreadcrumb traceId={traceId} />
         ]}
       />
@@ -79,7 +76,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
 
       <AppNavigatorSplitScreen
         navigator={navigator}
-        dataSource={filters.get('dataSource')}
+        dataSource={filters.dataSource}
         traceDetail={
           <TabView
             HeaderComponent={Header}

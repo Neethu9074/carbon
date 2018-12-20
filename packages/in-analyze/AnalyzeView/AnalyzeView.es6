@@ -1,6 +1,5 @@
 import { compose, withProps, withPropsOnChange } from 'recompose';
 import React, { Fragment } from 'react';
-import { fromJS } from 'immutable';
 
 import {
   dataSource as dataSourceMatrixParameter,
@@ -57,13 +56,12 @@ export default compose(
       [groupByMatrixParameter]: group,
       [dataSourceMatrixParameter]: dataSource
     }) => ({
-      filters: fromJS({
+      filters: {
         tagFilter,
         group,
-        dataSource
-      })
-        // ensure that timeConfig keeps being the mutable version
-        .set('timeConfig', getTimeConfig(location)),
+        dataSource,
+        timeConfig: getTimeConfig(location)
+      },
       tagFiltersForSubscription: getTagFilterListForBackendSubscription(
         tagFilter,
         getConfigByDataSource(dataSource).defaultFilters
@@ -83,7 +81,7 @@ export default compose(
 
 function AnalyzeView(props) {
   const { activeDialog, isRawView, filters } = props;
-  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
+  const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
   return (
     <Fragment>

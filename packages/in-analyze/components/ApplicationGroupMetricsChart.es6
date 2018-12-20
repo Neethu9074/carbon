@@ -40,5 +40,5 @@ const chartDefinitions = [
 
 export default withProps(({ filters }) => ({
   chartDefinitions,
-  timeConfig: filters.get('timeConfig')
+  timeConfig: filters.timeConfig
 }))(GroupMetricsChart);

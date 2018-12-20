@@ -11,7 +11,7 @@ export default function AnalyzeCallsWorkspace(props) {
     <Fragment>
       <Title title="Analyze Calls" />
 
-      <AnalyzeHeader isGrouped={!!filters.getIn(['group', 'name'])} />
+      <AnalyzeHeader isGrouped={filters.group && !!filters.group.name} />
       <QueryBuilderWorkspace {...props} />
 
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>

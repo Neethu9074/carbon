@@ -13,7 +13,7 @@ import { createFilter } from 'in-analyze/filterBuilder';
 
 export const tagFilterManipulators = withProps(props => {
   const { filters, setTagFilters } = props;
-  const tagFilters = filters.get('tagFilter').toJS();
+  const tagFilters = filters.tagFilter;
   return {
     removeTagFilter(name) {
       setTagFilters(tagFilters.filter(f => f.name !== name));

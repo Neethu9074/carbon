@@ -24,10 +24,10 @@ export default function QuickFilterBar(props) {
     filterRemovedTracker,
     onMoreClick
   } = props;
-  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
+  const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
-  const tagFilters = filters.get('tagFilter').toJS();
-  const timeConfig = filters.get('timeConfig');
+  const tagFilters = filters.tagFilter;
+  const timeConfig = filters.timeConfig;
 
   return (
     <Bar

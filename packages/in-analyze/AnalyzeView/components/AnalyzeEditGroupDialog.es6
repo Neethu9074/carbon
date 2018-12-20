@@ -9,7 +9,7 @@ import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 const mapResultData = mapDataHO(data => data.suggestions);
 
 export default withProps(({ filters, tagFilters, timeConfig }) => {
-  const tagSuggestions = getConfigByDataSource(filters.get('dataSource')).groupTagKeys;
+  const tagSuggestions = getConfigByDataSource(filters.dataSource).groupTagKeys;
   return {
     help: 'Select a tag by which calls and traces should be grouped.',
     getKeySuggestions: getSecondLevelKeySuggestions(tagFilters, timeConfig),

@@ -14,8 +14,8 @@ import locals from './QueryBuilderWorkspace.mless';
 
 export default function QueryBuilderWorkspace(props) {
   const { filters, groupBy, removeTagFilter } = props;
-  const timeConfig = filters.get('timeConfig');
-  const tagFilters = filters.get('tagFilter').toJS();
+  const tagFilters = filters.tagFilter;
+  const timeConfig = filters.timeConfig;
   return (
     <Sticky
       header={
@@ -32,7 +32,7 @@ export default function QueryBuilderWorkspace(props) {
               onClick: () => setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
               onRemove: () => removeTagFilter(tagFilter.name)
             }))}
-            defaultFilters={getConfigByDataSource(filters.get('dataSource')).defaultFilters}
+            defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
           />
         </div>
         <AnalyzeGroupingInfo {...props} group={groupBy} timeConfig={timeConfig} tagFilters={tagFilters} />

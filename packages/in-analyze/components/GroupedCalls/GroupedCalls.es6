@@ -33,7 +33,7 @@ export default compose(
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded'],
     get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection, isChartSectionExpanded }) => {
-      const timeConfig = filters.get('timeConfig');
+      const timeConfig = filters.timeConfig;
       const granularity = getChartGranularity(timeConfig);
       const tableMetrics = {
         callsAgg: {
@@ -82,8 +82,8 @@ export default compose(
         metrics: isChartSectionExpanded ? assign(tableMetrics, chartMetrics) : tableMetrics,
         tagFilters: tagFiltersForSubscription,
         group: {
-          groupbyTag: filters.getIn(['group', 'name']),
-          groupbyTagSecondLevelKey: filters.getIn(['group', 'value'], '')
+          groupbyTag: filters.group ? filters.group.name : null,
+          groupbyTagSecondLevelKey: filters.group ? filters.group.value : ''
         }
       });
     }

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { fromJS } from 'immutable';
 import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
@@ -54,40 +53,37 @@ export default function Group({ item, filters, onChangeAnalyzeConfigAndGetAsUrlO
 }
 
 function getGroupingChange(filters, tagName) {
-  const group = filters.get('group');
+  const group = filters.group;
   const currentGroupValue = tagName;
-  const tagFilter = filters.get('tagFilter');
-  const newTagFilter = fromJS(
-    createFilter({
-      name: group.get('name'),
-      secondLevelName: group.get('value'),
-      value: currentGroupValue,
-      operator: operators.EQUALS
-    })
-  );
+  const tagFilter = filters.tagFilter;
+  const newTagFilter = createFilter({
+    name: group.name,
+    secondLevelName: group.value,
+    value: currentGroupValue,
+    operator: operators.EQUALS
+  });
   return {
     [groupByMatrixParameter]: {},
     [tagFilterMatrixParameter]: tagFilter
       // avoid duplicate addition of same filter
       .filter(
         f =>
-          f.get('name') !== newTagFilter.get('name') ||
-          f.get('secondLevelName') !== newTagFilter.get('secondLevelName') ||
-          f.get('value') !== newTagFilter.get('value') ||
-          f.get('operator') !== newTagFilter.get('operator')
+          f.name !== newTagFilter.name ||
+          f.secondLevelName !== newTagFilter.secondLevelName ||
+          f.value !== newTagFilter.value ||
+          f.operator !== newTagFilter.operator
       )
-      .push(newTagFilter)
-      .toJS()
+      .concat(newTagFilter)
   };
 }
 
 function trackSetGrouping(filters, tagName) {
-  const group = filters.get('group');
+  const group = filters.group;
   const currentGroupValue = tagName;
   clickGroupTracker({
     context: 'traces',
-    type: group.get('name'),
-    value: group.get('value'),
+    type: group.name,
+    value: group.value,
     group: currentGroupValue
   });
 }
