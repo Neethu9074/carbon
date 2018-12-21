@@ -1,6 +1,5 @@
-import { compose, withPropsOnChange } from 'recompose';
+import { compose, withProps, withPropsOnChange } from 'recompose';
 import React, { Fragment } from 'react';
-import { fromJS } from 'immutable';
 
 import {
   dataSource as dataSourceMatrixParameter,
@@ -16,6 +15,7 @@ import {
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
+import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -56,25 +56,32 @@ export default compose(
       [groupByMatrixParameter]: group,
       [dataSourceMatrixParameter]: dataSource
     }) => ({
-      filters: fromJS({
+      filters: {
         tagFilter,
         group,
-        dataSource
-      })
-        // ensure that timeConfig keeps being the mutable version
-        .set('timeConfig', getTimeConfig(location)),
+        dataSource,
+        timeConfig: getTimeConfig(location)
+      },
       tagFiltersForSubscription: getTagFilterListForBackendSubscription(
         tagFilter,
         getConfigByDataSource(dataSource).defaultFilters
       ),
       isRawView: !group || !group.name
     })
-  )
+  ),
+  withProps(({ onChangeAnalyzeConfig }) => ({
+    setTagFilters(tagFilters) {
+      onChangeAnalyzeConfig({
+        [tagFilterMatrixParameter]: tagFilters
+      });
+    }
+  })),
+  tagFilterManipulators
 )(AnalyzeView);
 
 function AnalyzeView(props) {
   const { activeDialog, isRawView, filters } = props;
-  const dataSourceConfig = getConfigByDataSource(filters.get('dataSource'));
+  const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
   return (
     <Fragment>

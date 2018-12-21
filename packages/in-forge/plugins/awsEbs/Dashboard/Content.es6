@@ -1,12 +1,15 @@
 import React from 'react';
+
+import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import { bytes, number, percentage, seconds } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
-import { bytes, number, percentage, seconds } from 'in-services/formatters/number';
 
 export default function AwsEbsDashboard({ snapshot, timeframe }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
+      <GetMetricStatisticsInUse snapshot={snapshot} />
       <DashboardSection title="Bytes">
         <Chart
           snapshotId={snapshotId}

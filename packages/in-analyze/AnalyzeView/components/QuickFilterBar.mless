@@ -1,0 +1,16 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .entityIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N700Medium;
+  }
+
+  .itemText {
+    display: inline-block;
+    line-height: 1.5rem;
+    color: @lib__colors__N700Medium;
+    .ellipsis();
+  }
+}

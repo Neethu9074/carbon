@@ -37,6 +37,7 @@ module.exports = {
     delete globals['find'];
     globals.Promise = false;
     globals.__DEV__ = false;
+    globals.__HOT_RELOAD__ = false;
     globals.preval = false;
     return globals;
   })(),

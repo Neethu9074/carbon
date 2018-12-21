@@ -16,7 +16,8 @@ export default function NumberBarOverlayPresenter({
   showEquality,
   getOnChangeHandler,
   onSubmit,
-  onClear
+  onClear,
+  unit
 }) {
   return (
     <BarOverlay>
@@ -24,10 +25,23 @@ export default function NumberBarOverlayPresenter({
         {showEquality && (
           <Row>
             <Col xs={6}>
-              <InputGroup label="equal to" form={form} fieldId="eq" getOnChangeHandler={getOnChangeHandler} autoFocus />
+              <InputGroup
+                label="equal to"
+                form={form}
+                fieldId="eq"
+                getOnChangeHandler={getOnChangeHandler}
+                autoFocus
+                unit={unit}
+              />
             </Col>
             <Col xs={6}>
-              <InputGroup label="not equal to" form={form} fieldId="neq" getOnChangeHandler={getOnChangeHandler} />
+              <InputGroup
+                label="not equal to"
+                form={form}
+                fieldId="neq"
+                getOnChangeHandler={getOnChangeHandler}
+                unit={unit}
+              />
             </Col>
           </Row>
         )}
@@ -41,10 +55,17 @@ export default function NumberBarOverlayPresenter({
                 fieldId="gt"
                 getOnChangeHandler={getOnChangeHandler}
                 autoFocus={!showEquality}
+                unit={unit}
               />
             </Col>
             <Col xs={6}>
-              <InputGroup label="less than" form={form} fieldId="lt" getOnChangeHandler={getOnChangeHandler} />
+              <InputGroup
+                label="less than"
+                form={form}
+                fieldId="lt"
+                getOnChangeHandler={getOnChangeHandler}
+                unit={unit}
+              />
             </Col>
           </Row>
         )}
@@ -63,20 +84,23 @@ export default function NumberBarOverlayPresenter({
   );
 }
 
-function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus }) {
+function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit }) {
   return form.get(fieldId).map(field => (
     <FormGroup withoutBottomMargin>
       <Label htmlFor={`filter-${fieldId}`} hasError={!field.valid && field.touched}>
         {label}
       </Label>
-      <Input
-        type="number"
-        id={`filter-${fieldId}`}
-        value={field.value || ''}
-        onChange={getOnChangeHandler(fieldId)}
-        hasError={!field.valid && field.touched}
-        autoFocus={autoFocus}
-      />
+      <span className={locals.inputWithUnit}>
+        <Input
+          type="number"
+          id={`filter-${fieldId}`}
+          value={field.value || ''}
+          onChange={getOnChangeHandler(fieldId)}
+          hasError={!field.valid && field.touched}
+          autoFocus={autoFocus}
+        />
+        {unit && <span>{unit}</span>}
+      </span>
       <TouchedMessages field={field} />
     </FormGroup>
   ));

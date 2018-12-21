@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import AppNavigatorSplitScreen from 'in-analyze/TraceDetail/components/AppNavigatorSplitScreen/AppNavigatorSplitScreen';
 import TraceDetailBreadcrumb from 'in-analyze/TraceDetail/TraceDetailBreadcrumb';
@@ -32,27 +31,25 @@ const getColorByEndpoint = ({ service, endpoint, traceId }) =>
 const byServiceEndpointCombinationUrlIdentifier = 'byServiceAndEndpoint';
 const byEndpointTypeUrlIdentifier = 'byEndpointType';
 
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => traceDetail,
-    getMatrixPrefix: () => '',
-    boundKeys: ['colorCode'],
-    getInitialState: () => ({ colorCode: getColorByEndpointType }),
-    reducerName: 'setColorCodeMechanism',
-    reducer: (state, newColorCoding) => ({
-      ...state,
-      colorCode:
-        newColorCoding === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
-    }),
-    getParsedUrlValues: ({ colorCode }) => ({
-      colorCode: colorCode === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
-    }),
-    getSerializedUrlValues: ({ colorCode }) => ({
-      colorCode:
-        colorCode === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
-    })
+export default withUrlDependingState({
+  getPathSegment: () => traceDetail,
+  getMatrixPrefix: () => '',
+  boundKeys: ['colorCode'],
+  getInitialState: () => ({ colorCode: getColorByEndpointType }),
+  reducerName: 'setColorCodeMechanism',
+  reducer: (state, newColorCoding) => ({
+    ...state,
+    colorCode:
+      newColorCoding === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
+  }),
+  getParsedUrlValues: ({ colorCode }) => ({
+    colorCode: colorCode === byServiceEndpointCombinationUrlIdentifier ? getColorByEndpoint : getColorByEndpointType
+  }),
+  getSerializedUrlValues: ({ colorCode }) => ({
+    colorCode:
+      colorCode === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
   })
-)(TraceDetail);
+})(TraceDetail);
 
 function TraceDetail({ location, colorCode: getColor, navigator, filters, setColorCodeMechanism }) {
   const traceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
@@ -71,10 +68,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb
-            label={getConfigByDataSource(filters.get('dataSource')).breadcrumbLabel}
-            href$={getLinkToAnalyze()}
-          />,
+          <Breadcrumb label={getConfigByDataSource(filters.dataSource).breadcrumbLabel} href$={getLinkToAnalyze()} />,
           <TraceDetailBreadcrumb traceId={traceId} />
         ]}
       />
@@ -82,7 +76,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
 
       <AppNavigatorSplitScreen
         navigator={navigator}
-        dataSource={filters.get('dataSource')}
+        dataSource={filters.dataSource}
         traceDetail={
           <TabView
             HeaderComponent={Header}

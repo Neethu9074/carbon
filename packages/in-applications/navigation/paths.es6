@@ -66,8 +66,8 @@ export function getEndpointDashboard(
   return getDashboard({
     base: endpointDashboard,
     applicationId,
-    serviceId,
     endpointId,
+    serviceId,
     tab,
     tabMatrix,
     timeConfig

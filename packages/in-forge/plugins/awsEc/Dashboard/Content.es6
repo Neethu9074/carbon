@@ -1,5 +1,7 @@
 import React from 'react';
 
+import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+
 import AwsEcMemcachedDashboard from './AwsEcMemcachedDashboard';
 import AwsEcGeneralDashboard from './AwsEcGeneralDashboard';
 import AwsEcRedisDashboard from './AwsEcRedisDashboard';
@@ -15,6 +17,7 @@ export default function AwsEcDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      <GetMetricStatisticsInUse snapshot={snapshot} />
       <AwsEcGeneralDashboard snapshot={snapshot} timeConfig={timeConfig} />
       {engineDashboard}
     </div>

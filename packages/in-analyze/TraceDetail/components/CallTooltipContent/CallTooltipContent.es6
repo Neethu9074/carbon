@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import { isLogOrIntermediateSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import {
@@ -42,7 +42,7 @@ export default function CallTooltipContent({ call }) {
         <span className={locals.headingLabel}>{shorten(call.label, 32)}</span>
         {call.endpoint && (
           <Fragment>
-            {!isLogOrIntermediateSpan(call) && (
+            {!isUnknownTypeSpan(call) && (
               <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
                 {call.endpoint.type}
               </Pill>

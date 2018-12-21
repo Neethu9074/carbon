@@ -12,7 +12,7 @@ export default function CommonPerformanceSection({ applicationId, serviceId, end
           <Card title="Latency Heatmap">
             <ServerHeatMap
               applicationId={applicationId}
-              serviceId={serviceId}
+              serviceId={endpointId ? null : serviceId}
               endpointId={endpointId}
               timeConfig={timeConfig}
             />

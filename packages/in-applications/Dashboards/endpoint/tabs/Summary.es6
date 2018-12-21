@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
@@ -11,13 +12,12 @@ import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, applicationId, serviceId, endpointId, data }) {
-  const includeSyntheticCalls = data.synthetic;
+  const includeSyntheticCalls = get(data, 'synthetic', false);
 
   const filter = {
     timeConfig,
     endpoint: endpointId,
     application: applicationId,
-    service: serviceId,
     includeSyntheticCalls
   };
 
@@ -76,7 +76,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <CallsErrors
             cardTitle="Calls"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -86,7 +85,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <Errors
             cardTitle="Errors"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -96,7 +94,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
           <Latency
             cardTitle="Latency"
             applicationId={applicationId}
-            serviceId={serviceId}
             endpointId={endpointId}
             includeSyntheticCalls={includeSyntheticCalls}
             timeConfig={timeConfig}
@@ -104,7 +101,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
         </Col>
       </Row>
 
-      {!data.synthetic && (
+      {!includeSyntheticCalls && (
         <Fragment>
           <Row>
             <Col lg={6}>
@@ -116,12 +113,7 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               />
             </Col>
             <Col lg={6}>
-              <TechnologyBreakdown
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                timeConfig={timeConfig}
-              />
+              <TechnologyBreakdown applicationId={applicationId} endpointId={endpointId} timeConfig={timeConfig} />
             </Col>
           </Row>
 
@@ -130,7 +122,6 @@ export default function Summary({ timeConfig, applicationId, serviceId, endpoint
               <LatencyDistributionHistogram
                 cardTitle="Latency Distribution"
                 applicationId={applicationId}
-                serviceId={serviceId}
                 endpointId={endpointId}
                 timeConfig={timeConfig}
               />

@@ -11,8 +11,10 @@ import {
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import TopicsTable from 'in-forge/plugins/kafka/Dashboard/TopicsTable';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
+import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
 
 export default function KafkaDashboard({ snapshot, timeConfig }) {
@@ -33,39 +35,115 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Broker Traffic">
+      <Columize>
+        <DashboardSection title="Broker Traffic">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytesZeroDecimalPlaces,
+              tooltipFormatter: bytesTwoDecimalPlaces,
+              metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
+              labels: ['In', 'Out', 'Rejected'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Broker Messages In">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces,
+              metrics: ['broker.messagesIn'],
+              labels: ['#'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title="Produce Requests">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces,
+              metrics: ['broker.produceRequests'],
+              labels: ['Count'],
+              type: 'line'
+            }}
+            y2={{
+              formatter: msZeroDecimalPlaces,
+              tooltipFormatter: msTwoDecimalPlaces,
+              metrics: ['broker.produceLatency'],
+              labels: ['Mean Latency'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Fetch Consumer Requests">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces,
+              metrics: ['broker.fetchConsumerRequests'],
+              labels: ['Count'],
+              type: 'line'
+            }}
+            y2={{
+              formatter: msZeroDecimalPlaces,
+              tooltipFormatter: msTwoDecimalPlaces,
+              metrics: ['broker.fetchLatency'],
+              labels: ['Mean Latency'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Fetch Follower Requests">
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces,
+              metrics: ['broker.fetchFollowerRequests'],
+              labels: ['Count'],
+              type: 'line'
+            }}
+            y2={{
+              formatter: msZeroDecimalPlaces,
+              tooltipFormatter: msTwoDecimalPlaces,
+              metrics: ['broker.fetchFollowerLatency'],
+              labels: ['Mean Latency'],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <DashboardSection title="Average Idle Time">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
-            labels: ['In', 'Out', 'Rejected'],
+            formatter: percentageZeroDecimalPlaces,
+            tooltipFormatter: percentageZeroDecimalPlaces,
+            metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
+            labels: ['Network Processor', 'Request Handler'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Request Latency vs Throughput">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['broker.produceRequests', 'broker.fetchConsumerRequests', 'broker.fetchFollowerRequests'],
-            labels: ['Produce Throughput', 'Fetch Consumer Throughput', 'Fetch Follower Throughput'],
-            type: 'line'
-          }}
-          y2={{
-            formatter: msZeroDecimalPlaces,
-            tooltipFormatter: msTwoDecimalPlaces,
-            metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
-            labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+
       <DashboardSection title="Broker Failures">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -79,7 +157,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Broker state metrics">
+
+      <DashboardSection title="Broker State Metrics">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -108,19 +187,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Average Idle Time Percentage">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: percentageZeroDecimalPlaces,
-            tooltipFormatter: percentageZeroDecimalPlaces,
-            metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
-            labels: ['Network Processor', 'Request Handler'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+
       <DashboardSection title="Partitions">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -134,19 +201,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Broker Messages In">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces,
-            metrics: ['broker.messagesIn'],
-            labels: ['#'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+
       <DashboardSection title="Log Flushing">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -167,6 +222,8 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+
+      <TopicsTable snapshot={snapshot} />
     </div>
   );
 }

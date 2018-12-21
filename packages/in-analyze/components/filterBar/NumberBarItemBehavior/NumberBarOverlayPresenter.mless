@@ -5,4 +5,14 @@
     justify-content: space-between;
     margin: 1rem 0 0;
   }
+
+  .inputWithUnit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > input + span {
+      margin-left: .5rem;
+    }
+  }
 }

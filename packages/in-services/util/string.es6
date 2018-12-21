@@ -13,6 +13,13 @@ export function containsIgnoreCase(s, search) {
   return s.toLowerCase().indexOf(search.toLowerCase()) !== -1;
 }
 
+export function toTitleCase(s) {
+  if (s == null || typeof s !== 'string' || s.length < 2) {
+    return s;
+  }
+  return s[0] + s.substr(1).toLowerCase();
+}
+
 export function shorten(s, maxLength = 64) {
   if (!s) {
     return s;

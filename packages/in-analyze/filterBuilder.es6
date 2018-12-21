@@ -51,7 +51,7 @@ export function createFilter(config = {}) {
   return {
     name: config.name || '',
     secondLevelName: config.secondLevelName,
-    value: config.value || '',
+    value: config.value || config.stringValue || '',
     operator: config.operator || 'EQUALS'
   };
 }

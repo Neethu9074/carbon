@@ -1,3 +1,4 @@
+/* global __HOT_RELOAD__: false */
 import { assign } from 'lodash';
 
 import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
@@ -52,7 +53,10 @@ function initMixpanel(callback) {
 }
 
 export function createTracker(event, defaultProperties = {}) {
-  if (registeredTrackers.indexOf(event) >= 0) {
+  const alreadyRegistered = registeredTrackers.indexOf(event) >= 0;
+  if (__HOT_RELOAD__ && alreadyRegistered) {
+    return noop;
+  } else if (alreadyRegistered) {
     throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
   }
   registeredTrackers.push(event);
@@ -63,7 +67,10 @@ export function createTracker(event, defaultProperties = {}) {
 }
 
 export function createDurationTracker(event, defaultProperties = {}) {
-  if (registeredTrackers.indexOf(event) >= 0) {
+  const alreadyRegistered = registeredTrackers.indexOf(event) >= 0;
+  if (__HOT_RELOAD__ && alreadyRegistered) {
+    return noop;
+  } else if (alreadyRegistered) {
     throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
   }
   registeredTrackers.push(event);

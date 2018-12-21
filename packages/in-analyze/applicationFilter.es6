@@ -148,6 +148,8 @@ function getValueByTag(backendTagFilter, tag) {
   } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
     backendTagFilter.booleanValue = tag.value;
   } else {
-    backendTagFilter.stringValue = tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value;
+    backendTagFilter.stringValue = tag.secondLevelName
+      ? `${tag.secondLevelName}=${tag.value}`
+      : tag.value || tag.stringValue;
   }
 }

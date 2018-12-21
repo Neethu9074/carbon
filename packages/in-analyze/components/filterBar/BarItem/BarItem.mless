@@ -30,6 +30,24 @@
     }
   }
 
+  .notAvailable {
+    color: @lib__colors__N500;
+    cursor: not-allowed;
+
+    .icon {
+      fill: @lib__colors__N500;
+    }
+
+    &:hover {
+      color: @lib__colors__N500;
+      background: @lib__colors__N300;
+
+      .icon {
+        fill: @lib__colors__N500;
+      }
+    }
+  }
+
   .icon {
     fill: @lib__colors__N600Light;
     position: relative;

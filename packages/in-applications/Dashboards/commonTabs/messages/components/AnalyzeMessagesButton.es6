@@ -7,7 +7,7 @@ export default function AnalyzeMessagesButton({
   groupByTagName,
   applicationName,
   serviceName,
-  endpointId: endpointName,
+  endpointName,
   className
 }) {
   const groupByTag = { name: groupByTagName };

@@ -5,6 +5,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -20,11 +21,13 @@ export default function SelectBarOverlay({
   query,
   loading,
   onQueryChange,
+  filterSuggestionsClientSide,
   selectedItem,
   items,
   onSelectItem,
   moreDataAvailable,
-  moreDataMessage
+  moreDataMessage,
+  itemLabelRenderer
 }) {
   return (
     <BarOverlay>
@@ -32,7 +35,7 @@ export default function SelectBarOverlay({
 
       {selectedItem && (
         <Tooltip content={`Currently filtered by ${selectedItem.label}. Click to remove filter.`}>
-          <Item item={selectedItem} selected onClick={() => onSelectItem(null)} />
+          <Item item={selectedItem} selected onClick={() => onSelectItem(null)} itemLabelRenderer={itemLabelRenderer} />
         </Tooltip>
       )}
 
@@ -51,13 +54,19 @@ export default function SelectBarOverlay({
               [locals.listWithoutSelected]: !selectedItem
             })}
           >
-            {items.filter(item => !selectedItem || item.key !== selectedItem.key).map(item => (
-              <li key={item.key}>
-                <Tooltip content={`Click to filter by ${item.label}`}>
-                  <Item item={item} onClick={onSelectItem} />
-                </Tooltip>
-              </li>
-            ))}
+            {items
+              .filter(
+                item =>
+                  (!filterSuggestionsClientSide || containsIgnoreCase(item.key, query)) &&
+                  (!selectedItem || item.key !== selectedItem.key)
+              )
+              .map(item => (
+                <li key={item.key}>
+                  <Tooltip content={`Click to filter by ${item.label}`}>
+                    <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
+                  </Tooltip>
+                </li>
+              ))}
           </ul>
         )}
 
@@ -66,7 +75,7 @@ export default function SelectBarOverlay({
   );
 }
 
-function Item({ item, selected, onClick }) {
+function Item({ item, selected, onClick, itemLabelRenderer }) {
   return (
     <a
       href=""
@@ -79,7 +88,7 @@ function Item({ item, selected, onClick }) {
         [locals.selectedItem]: selected
       })}
     >
-      <span className={locals.itemText}>{item.label}</span>
+      <span className={locals.itemText}>{itemLabelRenderer ? itemLabelRenderer(item.label) : item.label}</span>
 
       {selected && <SvgIcon className={locals.selectedIcon} type="lib_uncheck" width={18} height={18} />}
     </a>

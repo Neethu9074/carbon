@@ -21,7 +21,8 @@ export default function LogMessagesTable({
   endpointId,
   timeConfig,
   applicationName,
-  serviceName
+  serviceName,
+  endpointName
 }) {
   return (
     <ServerTableWithUrlBoundState
@@ -35,7 +36,7 @@ export default function LogMessagesTable({
       endpointId={endpointId}
       applicationName={applicationName}
       serviceName={serviceName}
-      endpointName={endpointId}
+      endpointName={endpointName}
       timeConfig={timeConfig}
       paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
       defaultOrderBy="logsAgg"
@@ -47,7 +48,7 @@ export default function LogMessagesTable({
           groupByTagName="log.message"
           applicationName={applicationName}
           serviceName={serviceName}
-          endpointId={endpointId}
+          endpointName={endpointName}
           className={locals.analyzeButton}
         />
       }
@@ -63,7 +64,7 @@ function getTableData({
   orderDirection,
   applicationId,
   serviceId,
-  endpointId,
+  endpointName,
   timeConfig
 }) {
   return getLogMessages({
@@ -80,7 +81,7 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpoint: endpointId
+      endpoint: endpointName
     },
     metrics: {
       logsAgg: {

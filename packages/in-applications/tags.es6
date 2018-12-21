@@ -182,6 +182,11 @@ export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
   return tagMap[fullyQualifiedName];
 }
 
+export function requiresSecondLevelName(fullyQualifiedName) {
+  const node = findSubTreeByFullyQualifiedName(fullyQualifiedName);
+  return node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
+}
+
 export function getTagType(fullyQualifiedName) {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   return definition ? definition.type : null;

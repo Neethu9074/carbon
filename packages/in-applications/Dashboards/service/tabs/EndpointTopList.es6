@@ -79,7 +79,7 @@ function Label({ item, applicationId, serviceId }, _item, className) {
   return (
     <Link
       className={className}
-      href$={getEndpointDashboard(item.endpoint.label, { applicationId, serviceId })}
+      href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId })}
       onClick={() => trackTopListNavigation()}
     >
       {item.endpoint.label}

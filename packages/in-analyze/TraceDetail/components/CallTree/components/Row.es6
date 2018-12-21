@@ -3,7 +3,7 @@ import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
-import { isFakeRootCall, isLogOrIntermediateSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isFakeRootCall, isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -148,7 +148,7 @@ function CallInformation(props) {
             </Pill>
           </Tooltip>
         )}
-        {!isLogOrIntermediateSpan(call) &&
+        {!isUnknownTypeSpan(call) &&
           call.endpoint && (
             <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
               {call.endpoint.type}

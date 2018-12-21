@@ -1,36 +1,34 @@
-import { compose, withProps } from 'recompose';
+import { withProps } from 'recompose';
 
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
 
-export default compose(
-  withProps({
-    help: 'Select a tag by which your beacons should be grouped.',
-    getKeySuggestions: ({ timeConfig, tagFilters, tag, key }) => {
-      return getWebsiteBeaconGroups({
-        timeConfig: timeConfig,
-        tagFilters: tagFilters,
-        metrics: {
-          beaconCount: {
-            metric: 'beaconCount',
-            aggregation: 'SUM'
-          }
-        },
-        order: {
-          by: 'beaconCount',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 200
-        },
-        group: {
-          groupbyTag: tag,
-          groupbyTagSecondLevelKey: key
+export default withProps({
+  help: 'Select a tag by which your beacons should be grouped.',
+  getKeySuggestions: ({ timeConfig, tagFilters, tag, key }) => {
+    return getWebsiteBeaconGroups({
+      timeConfig: timeConfig,
+      tagFilters: tagFilters,
+      metrics: {
+        beaconCount: {
+          metric: 'beaconCount',
+          aggregation: 'SUM'
         }
-      }).map(mapData);
-    }
-  })
-)(EditGroupDialog);
+      },
+      order: {
+        by: 'beaconCount',
+        direction: 'DESC'
+      },
+      pagination: {
+        retrievalSize: 200
+      },
+      group: {
+        groupbyTag: tag,
+        groupbyTagSecondLevelKey: key
+      }
+    }).map(mapData);
+  }
+})(EditGroupDialog);
 
 function mapData(result) {
   if (!result.data) {

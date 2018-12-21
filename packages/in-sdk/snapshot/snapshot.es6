@@ -33,6 +33,20 @@ export function getShowZoneInSidebarHeader(plugin) {
   return getSnapshotDefinition(plugin).showZoneInSidebarHeader === true;
 }
 
+export function getTechnologyLabel(plugin) {
+  const definition = getSnapshotDefinition(plugin);
+  if (!definition) {
+    return '';
+  }
+  if (definition.technologyDescriptor && definition.technologyDescriptor.label) {
+    return definition.technologyDescriptor.label;
+  }
+  if (definition.pluginName && definition.pluginName.singular) {
+    return definition.pluginName.singular;
+  }
+  return '';
+}
+
 export function supportsCodeView(snapshot, file) {
   if (!file) {
     return false;

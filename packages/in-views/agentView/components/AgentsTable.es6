@@ -21,7 +21,7 @@ import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Button from 'in-components/Button';
-import Table from 'in-components/Table';
+import Table from 'in-components/SearchableTable';
 import Link from 'in-components/Link';
 
 import './AgentsTable.less';
@@ -168,7 +168,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title="Agents">
+      <DashboardTile title="Agent Details">
         {adminButtonBar}
         <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
       </DashboardTile>

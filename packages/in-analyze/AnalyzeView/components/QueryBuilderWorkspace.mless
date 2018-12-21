@@ -5,33 +5,13 @@
     background: @lib__colors__N300;
   }
 
-  .firstRowMaxWidthFullscreenContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0.75rem 0;
-  }
-
-  .quickFilterRow {
-    display: flex;
-    align-items: center;
-  }
-
-  .filterRowWrapper {
+  .filterRow {
     display: flex;
     align-items: center;
 
     width: 100%;
     padding: 0.5rem 0;
-  }
-
-  .filterRow {
     margin-bottom: 1rem;
-  }
-
-  .moreFilterLabel {
-    font-weight: 600;
   }
 
   .groupRow {

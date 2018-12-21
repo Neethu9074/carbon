@@ -1,16 +1,14 @@
-import { withState } from 'recompose';
+import { withState, compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -20,23 +18,40 @@ import Card from 'in-new-components/Card';
 
 import locals from './Infrastructure.mless';
 
-export default withState('selectedType', 'setType', 'PROCESS')(Infrastructure);
+export default compose(
+  withState(
+    'selectedType',
+    'setType',
+    ({ data: entity }) => (hasClusterTechnologiesOnly(entity) ? 'CLUSTER' : 'PROCESS')
+  )
+)(Infrastructure);
 
-function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
+function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
+  const buttonPropsList = [];
+
+  /*
+  TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
+
+  One service may have the 'kafkaCluster' technology assigned, not because it's a kafka cluster
+  but because it's a service that reads or writes from/to to a Kafka topic.
+  
+  And application don't have technologies anyway.
+  */
+  if (hasSomeClusterTechnologies(entity)) {
+    buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
+  }
+
+  if (hasSomeNonClusterTechnologies(entity)) {
+    buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
+    buttonPropsList.push({ text: 'Container', key: 'DOCKER', onClick: () => setType('DOCKER') });
+    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+  }
+
   return (
     <MaxWidthFullscreenContainer>
       <Card
         title="Infrastructure"
-        header={
-          <ButtonGroup
-            buttonPropsList={[
-              { text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') },
-              { text: 'Container', key: 'DOCKER', onClick: () => setType('DOCKER') },
-              { text: 'Host', key: 'HOST', onClick: () => setType('HOST') }
-            ]}
-            activeKey={selectedType}
-          />
-        }
+        header={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
         withoutPadding
       >
         <ServerTable
@@ -57,6 +72,44 @@ function Infrastructure({ applicationId, serviceId, endpointId, timeConfig, sele
       </Card>
     </MaxWidthFullscreenContainer>
   );
+}
+
+function hasSomeClusterTechnologies(entity) {
+  if (!entity.technologies) {
+    return false;
+  }
+
+  return entity.technologies.some(function(technology) {
+    return isClusterTechnology(technology);
+  });
+}
+
+function hasSomeNonClusterTechnologies(entity) {
+  if (!entity.technologies) {
+    return true;
+  }
+
+  return entity.technologies.some(function(technology) {
+    return !isClusterTechnology(technology);
+  });
+}
+
+function hasClusterTechnologiesOnly(entity) {
+  if (!entity.technologies) {
+    return false;
+  }
+  for (const technology of entity.technologies) {
+    if (!isClusterTechnology(technology)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const clusterTechnologies = ['elasticsearchCluster', 'cassandraCluster', 'couchbaseCluster'];
+
+function isClusterTechnology(technology) {
+  return clusterTechnologies.includes(technology);
 }
 
 function getTableData({
@@ -135,10 +188,7 @@ const getColumnDefinitions = type => {
             </div>
           );
         }
-        if (twoZeroModeEnabled) {
-          return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
-        }
-        return <SnapshotLink snapshotPreview={item.physicalContext.process} />;
+        return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
       }
     };
   } else if (type == 'DOCKER') {
@@ -154,10 +204,7 @@ const getColumnDefinitions = type => {
             </div>
           );
         }
-        if (twoZeroModeEnabled) {
-          return <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
-        }
-        return <SnapshotLink snapshotPreview={item.physicalContext.container} />;
+        return <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
       }
     };
   } else if (type == 'HOST') {
@@ -173,10 +220,28 @@ const getColumnDefinitions = type => {
             </div>
           );
         }
-        if (twoZeroModeEnabled) {
-          return <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
+        return <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
+      }
+    };
+  } else if (type == 'CLUSTER') {
+    infraColumnDefinition = {
+      id: 'cluster',
+      label: 'Cluster',
+      getContent(item) {
+        if (!item.physicalContext.cluster) {
+          return (
+            <div className={locals.cell}>
+              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
+              {get(item, ['physicalContext', 'cluster', 'label']) || 'Unknown'}
+            </div>
+          );
         }
-        return <SnapshotLink snapshotPreview={item.physicalContext.host} />;
+        return (
+          <InfrastructureEntityLink
+            entity={item.physicalContext.cluster}
+            plugin={item.physicalContext.cluster.plugin}
+          />
+        );
       }
     };
   }

@@ -3,9 +3,10 @@ import { get } from 'lodash';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
 import { millis, percentage, number } from 'in-services/formatters/number';
-import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Link from 'in-components/Link';
@@ -16,7 +17,7 @@ const labels = ['Count', 'Latency', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, millis.fixedCompact, percentage.detailed];
 
-export default connect(({ applicationId, serviceId }) => {
+export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};
   if (applicationId) {
     observables.applicationName = getApplication({ id: applicationId }).map(getLabel);
@@ -24,8 +25,19 @@ export default connect(({ applicationId, serviceId }) => {
   if (serviceId) {
     observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
   }
+  if (endpointId) {
+    observables.endpointName = getEndpointLabel({ id: endpointId }).map(getLabel);
+  }
   return observables;
-})(function TraceTopList({ applicationId, serviceId, endpointId, timeConfig, applicationName, serviceName }) {
+})(function TraceTopList({
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig,
+  applicationName,
+  serviceName,
+  endpointName
+}) {
   return (
     <TopList
       title="Top Traces"
@@ -44,6 +56,7 @@ export default connect(({ applicationId, serviceId }) => {
       endpointId={endpointId}
       applicationName={applicationName}
       serviceName={serviceName}
+      endpointName={endpointName}
     />
   );
 });
@@ -52,7 +65,14 @@ function getLabel(result) {
   return get(result, ['data', 'label'], null);
 }
 
-function getList({ applicationName, serviceName, endpointId, timeConfig, selectedMetric, selectedMetricAggregation }) {
+function getList({
+  applicationName,
+  serviceName,
+  endpointName,
+  timeConfig,
+  selectedMetric,
+  selectedMetricAggregation
+}) {
   let tagFilters = [];
   if (applicationName != null) {
     tagFilters.push({ name: 'application.name', operator: 'EQUALS', stringValue: applicationName });
@@ -60,8 +80,8 @@ function getList({ applicationName, serviceName, endpointId, timeConfig, selecte
   if (serviceName != null) {
     tagFilters.push({ name: 'service.name', operator: 'EQUALS', stringValue: serviceName });
   }
-  if (endpointId != null) {
-    tagFilters.push({ name: 'endpoint.name', operator: 'EQUALS', stringValue: endpointId });
+  if (endpointName != null) {
+    tagFilters.push({ name: 'endpoint.name', operator: 'EQUALS', stringValue: endpointName });
   }
   tagFilters.push({ name: 'call.is_synthetic', operator: 'EQUALS', booleanValue: false });
 
@@ -89,7 +109,7 @@ function getList({ applicationName, serviceName, endpointId, timeConfig, selecte
   });
 }
 
-function ViewAll({ applicationName, serviceName, endpointId: endpointName, selectedMetric }, className) {
+function ViewAll({ applicationName, serviceName, endpointName, selectedMetric }, className) {
   return (
     <Link
       className={className}

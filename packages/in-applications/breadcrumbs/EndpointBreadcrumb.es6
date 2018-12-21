@@ -10,7 +10,6 @@ export default connectTo(
     endpoint: getEndpoint({
       id: props.endpointId,
       filter: {
-        service: props.serviceId,
         endpoint: props.endpointId,
         timeConfig: props.timeConfig
       }
@@ -23,7 +22,7 @@ export default connectTo(
 
     return (
       <Breadcrumb
-        href$={getEndpointDashboard(endpoint.data.label, { applicationId, serviceId, endpointId })}
+        href$={getEndpointDashboard(endpoint.data.id, { applicationId, serviceId, endpointId })}
         label="Endpoint"
       >
         {endpoint.data.label}

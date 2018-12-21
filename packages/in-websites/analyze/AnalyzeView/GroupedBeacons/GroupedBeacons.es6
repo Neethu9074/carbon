@@ -15,6 +15,7 @@ import { getChartGranularity } from 'in-applications/metrics';
 import { analyzePath } from 'in-websites/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { dataSourceTitles } from 'in-websites/tags';
+import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
 
@@ -97,15 +98,22 @@ function GroupedBeacons(props) {
   return (
     <Fragment>
       <Title title={`Analyze ${dataSourceTitles[beaconType]} Groups`} />
-      <AnalyzeHeader isGrouped />
-      <QuickFilterBar showWebsiteSelector {...props} />
-      <MaxWidthFullscreenContainer>
-        <TagFilterList {...props} />
-        <GroupingInfo {...props} />
-        <GroupingTableHeader itemType="Group" {...props} />
-        {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
-        <GroupedBeaconsTable {...props} groupColors={groupColors} />
-      </MaxWidthFullscreenContainer>
+      <Sticky
+        header={
+          <Fragment>
+            <AnalyzeHeader isGrouped />
+            <QuickFilterBar showWebsiteSelector {...props} />
+          </Fragment>
+        }
+      >
+        <MaxWidthFullscreenContainer>
+          <TagFilterList {...props} />
+          <GroupingInfo {...props} />
+          <GroupingTableHeader itemType="Group" {...props} />
+          {isChartSectionExpanded && <WebsiteGroupMetricsChart {...props} groupColors={groupColors} />}
+          <GroupedBeaconsTable {...props} groupColors={groupColors} />
+        </MaxWidthFullscreenContainer>
+      </Sticky>
     </Fragment>
   );
 }

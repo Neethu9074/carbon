@@ -8,7 +8,11 @@
   }
 
   .extraWide {
-    width: 35rem;
+    width: 53rem;
+  }
+
+  .extraExtraWide {
+    width: 70rem;
   }
 
   .allowOverflow {
