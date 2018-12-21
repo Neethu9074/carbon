@@ -35,8 +35,8 @@ export default function QuickFilterBar(props) {
       <SelectBarItem {...props} tag="beacon.geo.subdivision" singularLabel="subdivision" pluralLabel="subdivisions" />
       <SelectBarItem {...props} tag="beacon.geo.city" singularLabel="city" pluralLabel="cities" />
       <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
-      <NumberBarItem {...props} tag="beacon.window.width" singularLabel="screen width" showRange />
-      <NumberBarItem {...props} tag="beacon.window.height" singularLabel="screen height" showRange />
+      <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Screen Width" showRange />
+      <NumberBarItem {...props} tag="beacon.window.height" singularLabel="Screen Height" showRange />
       {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
       {showInternalOnlyMarker && <InternalOnlyBarItem />}
     </Bar>
