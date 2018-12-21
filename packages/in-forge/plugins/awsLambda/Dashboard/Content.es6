@@ -1,5 +1,6 @@
 import React from 'react';
 
+import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
@@ -9,6 +10,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
 
   return (
     <div>
+      <GetMetricStatisticsInUse snapshot={snapshot} />
       <DashboardSection title="Invocations">
         <Chart
           snapshotId={snapshotId}

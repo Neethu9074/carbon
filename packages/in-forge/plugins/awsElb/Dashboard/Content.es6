@@ -1,5 +1,7 @@
 import React from 'react';
 
+import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+
 import AwsElbClassicDashboard from './AwsElbClassicDashboard';
 import AwsElbAppDashboard from './AwsElbAppDashboard';
 import AwsElbNetDashboard from './AwsElbNetDashboard';
@@ -14,5 +16,10 @@ export default function AwsElbDashboard({ snapshot, timeConfig }) {
   } else {
     dashboard = <AwsElbClassicDashboard snapshot={snapshot} timeConfig={timeConfig} />;
   }
-  return dashboard;
+  return (
+    <div>
+      <GetMetricStatisticsInUse snapshot={snapshot} />
+      {dashboard}
+    </div>
+  );
 }
