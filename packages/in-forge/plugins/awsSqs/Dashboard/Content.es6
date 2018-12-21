@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { number, bytes, seconds } from 'in-services/formatters/number';
+import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, bytes, seconds } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 
 export default function AwsSqsDashboard({ snapshot, timeConfig }) {
@@ -9,6 +10,7 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      <GetMetricStatisticsInUse snapshot={snapshot} />
       <DashboardSection title="Messages (Average)">
         <Chart
           snapshotId={snapshotId}
