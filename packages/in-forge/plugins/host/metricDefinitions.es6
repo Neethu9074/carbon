@@ -20,8 +20,8 @@ function getFilesystemLabel(prefix, snapshot, match) {
 
 export default [
   {
-    metrics: ['memory.free', 'memory.used'],
-    labels: ['Free', 'Used'],
+    metric: 'memory.free',
+    label: 'Free',
     category: ['Memory'],
     min: 0,
     getMax(snapshot) {
