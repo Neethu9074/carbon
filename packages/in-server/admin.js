@@ -1,6 +1,5 @@
 const admin = require('admin');
 const serverConfig = require('./serverConfig.js');
-const uiBackend = require('./healthcheck/uiBackend');
 
 admin.configure({
   http: {
@@ -17,9 +16,7 @@ admin.configure({
       config: serverConfig
     }),
     require('admin-plugin-healthcheck')({
-      checks: {
-        uiBackend
-      }
+      checks: {}
     })
   ]
 });

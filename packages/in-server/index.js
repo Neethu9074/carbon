@@ -9,6 +9,8 @@ require('instana-nodejs-sensor')({
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
+
+const configEnrichment = require('./middleware/configEnrichment');
 const errorPages = require('./errorPages.js');
 const serverConfig = require('./serverConfig.js');
 const assetRoutes = require('./routes/assets');
@@ -29,6 +31,8 @@ app.use((req, res, next) => {
   res.set('x-xss-protection', '1; mode=block');
   next();
 });
+
+app.use(configEnrichment);
 
 app.use(assetRoutes);
 app.use(pingRoutes);

@@ -10,7 +10,7 @@ Handlebars.registerPartial('errorPage', fs.readFileSync(
 const template403 = getCompiledTemplate('403.hbs');
 const template404 = getCompiledTemplate('404.hbs');
 const template500 = getCompiledTemplate('500.hbs');
-
+const templateMaintenance = getCompiledTemplate('maintenance.hbs');
 
 exports.send403 = function send403(req, res) {
   res.status(403).send(template403({}));
@@ -22,6 +22,10 @@ exports.send404 = function send403(req, res) {
 
 exports.send500 = function send403(req, res) {
   res.status(500).send(template500({}));
+};
+
+exports.sendMaintenance = function sendMaintenance(req, res) {
+  res.status(500).send(templateMaintenance({}));
 };
 
 function getCompiledTemplate(fileName) {
