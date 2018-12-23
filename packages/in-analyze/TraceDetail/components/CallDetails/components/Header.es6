@@ -62,13 +62,16 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
 }
 
 const Infrastructure = connectTo(({ call }) => {
-  const process = get(call, ['destination', 'physicalContext', 'process', 'id']);
-  if (!process) {
-    return {};
+  let snapshotId = get(call, ['destination', 'physicalContext', 'process', 'id']);
+  if (!snapshotId) {
+    snapshotId = get(call, ['destination', 'physicalContext', 'cluster', 'id']);
+    if (!snapshotId) {
+      return {};
+    }
   }
 
   return {
-    snapshot: getSnapshot(process, getTimeConfigAtMoment(call.start))
+    snapshot: getSnapshot(snapshotId, getTimeConfigAtMoment(call.start))
   };
 })(function Infrastructure({ snapshot, call }) {
   if (!snapshot) {

@@ -22,7 +22,6 @@ const compiledRedirectTemplate = Handlebars.compile(fs.readFileSync(paths.redire
 const indexJsSri = checkSumMod.getSriIntegrityForFile(paths.indexJs);
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
-const stringifiedClientConfig = JSON.stringify(serverConfig.clientConfig);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 // Array of all the JS chunks which may be prefetched by the browser
@@ -79,7 +78,7 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: serverConfig.uiBackendBaseUrl + '/api/ui/settings',
+        url: req.uiBackendBaseUrl + '/api/ui/settings',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
@@ -100,7 +99,7 @@ function getSearchFields(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: serverConfig.uiBackendBaseUrl + '/api/search/fields',
+        url: req.uiBackendBaseUrl + '/api/search/fields',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
@@ -121,7 +120,7 @@ function getFilterTags(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: serverConfig.uiBackendBaseUrl + '/api/tags',
+        url: req.uiBackendBaseUrl + '/api/tags',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
@@ -142,7 +141,7 @@ function getCsrfToken(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
-        url: serverConfig.uiBackendBaseUrl + '/api/csrf/token',
+        url: req.uiBackendBaseUrl + '/api/csrf/token',
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
@@ -208,7 +207,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,
-      config: stringifiedClientConfig,
+      config: JSON.stringify(req.clientConfig, 0, 2),
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,
       settings: userSettings,
