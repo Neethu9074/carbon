@@ -35,10 +35,10 @@ export const kubernetesEnabled =
   isFeatureFlagEnabled('isKubernetesV2Enabled') ||
   user.email === 'matthias.luebken+kubecon@instana.com';
 export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
-export const twoZeroWebsiteMonitoringEnabled =
-  isInstanaEngineer || isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
-export const quickTagFiltersInWebsiteMonitoringDashboardEnabled =
-  isInstanaEngineer || isFeatureFlagEnabled('quickTagFiltersInWebsiteMonitoringDashboardEnabled');
+export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
+export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
+  'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
+);
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

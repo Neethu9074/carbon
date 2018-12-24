@@ -1,0 +1,13 @@
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #E1E5E8;
+    background: #F1F4F6;
+    color: #47525D;
+    padding: 0.5rem;
+    font-size: .875rem;
+    margin: 1rem 0 0;
+  }
+}
