@@ -15,12 +15,9 @@ export const centerAlignedLocationPointer =
 export const amCharts = window.AmCharts;
 export const worldLowMap = amCharts.maps.worldLow;
 
+const supportedCoountryDrillDowns = ['us', 'de'];
 export function canDrillDownToMap(code) {
-  return (
-    isMapLoadable(code) &&
-    // our subdivision data and the UK map do not match :(
-    'gb' !== code.toLowerCase()
-  );
+  return isMapLoadable(code) && supportedCoountryDrillDowns.indexOf(code.toLowerCase()) !== -1;
 }
 
 export function isMapLoadable(code) {
