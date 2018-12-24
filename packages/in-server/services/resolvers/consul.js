@@ -36,8 +36,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/QUICK_TAG_FILTERS_IN_WEBSITE_MONITORING_DASHBOARDS_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false)
   ]).then(([
