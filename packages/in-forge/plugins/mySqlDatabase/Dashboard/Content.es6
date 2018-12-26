@@ -2,12 +2,14 @@ import React from 'react';
 
 import { msZeroDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
 import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart';
 
 const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
 
@@ -144,6 +146,9 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      {performanceDataAvailable && data.get('dbs', emptyList).size > 0 ? (
+        <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
+      ) : null}
     </div>
   );
 }
