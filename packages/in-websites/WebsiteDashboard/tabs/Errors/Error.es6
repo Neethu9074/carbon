@@ -13,6 +13,7 @@ import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopL
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
 import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
+import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -85,7 +86,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Col lg={3}>
             <WebsiteMetricsKpiCard
               title="Affected Users"
-              formatter={number.compact}
+              formatter={affectedUsers.compact}
               metricsConfig={{
                 tagFilters: tagFiltersWithErrorId,
                 timeConfig,
@@ -200,7 +201,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               y1={{
                 renderer: Renderer.bar,
-                formatter: number.forcedCompact,
+                formatter: affectedUsersChart,
                 labels: ['Affected Users'],
                 metricIds: ['uniqueUsers']
               }}

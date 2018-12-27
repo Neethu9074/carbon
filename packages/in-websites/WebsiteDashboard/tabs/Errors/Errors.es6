@@ -7,6 +7,7 @@ import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -133,7 +134,7 @@ const columnDefinitions = [
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.uniqueUsers}
           metric={item.metrics.uniqueUsersAgg}
-          tooltipFormatter={number.compact}
+          tooltipFormatter={affectedUsers.compact}
         />
       );
     }
