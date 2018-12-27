@@ -106,7 +106,7 @@ export const Body = ({ beacon }) => {
         {hasNavigationTimings && (
           <Col lg={6}>
             <BodyHeader>Navigation Timing</BodyHeader>
-            <Timings timings={navigationTimings} totalDuration={beacon.duration} />
+            <Timings timings={navigationTimings} totalDuration={beacon.duration} totalDurationName="onLoad time" />
           </Col>
         )}
       </Row>
