@@ -6,12 +6,13 @@ import {
   types as resourceTypes
 } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
+import { getLinkToWebsite, resourcesTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import { getLinkToWebsite, resourcesTabFullyQualified } from 'in-websites/navigation/paths';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
@@ -28,8 +29,11 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+
+import locals from './Resource.mless';
 
 const cacheTypes = {
   fullLoad: {
@@ -347,10 +351,33 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
     <Fragment>
       <Breadcrumbs items={[<Breadcrumb label="Resource Details">{resourceId}</Breadcrumb>]} />
       <Title title="Resource Details" dynamic={resourceId} />
-      <BackButton
-        label="Back to list of resources"
-        href$={getLinkToWebsite(websiteId, { tabPath: '/resources', pageId })}
-      />
+
+      <div className={locals.actions}>
+        <BackButton
+          label="Back to list of resource origins"
+          href$={getLinkToWebsite(websiteId, { tabPath: '/resources', pageId })}
+          withoutMargin
+        />
+
+        <Button
+          kind="secondary"
+          href$={getLinkToAnalyze({
+            beaconType: 'resourceLoad',
+            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+              websiteLabel,
+              tagFilters: tagFilters.concat([
+                { name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }
+              ])
+            }),
+            group: {
+              groupbyTag: 'beacon.http.path'
+            }
+          })}
+        >
+          Analyze Resource Origin
+        </Button>
+      </div>
+
       {content}
     </Fragment>
   );

@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
+import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
-import { getLinkToWebsite, ajaxTabFullyQualified } from 'in-websites/navigation/paths';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
@@ -17,8 +18,11 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
+import Button from 'in-new-components/Button';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
+
+import locals from './XhrRequest.mless';
 
 export default function ResourceTab({ location, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
   const xhrId = getMatrixParameter(location, '/details', xhrIdMatrixParameter);
@@ -239,10 +243,31 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
     <Fragment>
       <Breadcrumbs items={[<Breadcrumb label="AJAX Details">{xhrId}</Breadcrumb>]} />
       <Title title="HTTP Request Details" dynamic={xhrId} />
-      <BackButton
-        label="Back to list of HTTP requests"
-        href$={getLinkToWebsite(websiteId, { tabPath: '/ajax', pageId })}
-      />
+
+      <div className={locals.actions}>
+        <BackButton
+          label="Back to list of HTTP request origins"
+          href$={getLinkToWebsite(websiteId, { tabPath: '/ajax', pageId })}
+          withoutMargin
+        />
+
+        <Button
+          kind="secondary"
+          href$={getLinkToAnalyze({
+            beaconType: 'httpRequest',
+            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+              websiteLabel,
+              tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' }])
+            }),
+            group: {
+              groupbyTag: 'beacon.http.path'
+            }
+          })}
+        >
+          Analyze HTTP Request Origin
+        </Button>
+      </div>
+
       {content}
     </Fragment>
   );

@@ -1,8 +1,4 @@
 :local {
-  pre.code {
-    padding: 1rem;
-  }
-
   .actions {
     display: flex;
     align-items: center;
