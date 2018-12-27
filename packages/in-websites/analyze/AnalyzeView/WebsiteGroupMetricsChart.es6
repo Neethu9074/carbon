@@ -8,7 +8,7 @@ const chartDefinitions = [
   {
     label: 'Duration',
     key: 'beaconDuration',
-    renderer: Renderer.line,
+    renderer: Renderer.stackedArea,
     aggregation: 'MEAN',
     formatter: millis.fixed,
     min: 0
@@ -16,7 +16,7 @@ const chartDefinitions = [
   {
     label: 'Count',
     key: 'beaconCount',
-    renderer: Renderer.line,
+    renderer: Renderer.stackedBar,
     aggregation: 'SUM',
     formatter: number.forcedCompact,
     min: 0
