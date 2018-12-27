@@ -75,8 +75,7 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
             reverseTooltipOrder
             timeConfig={timeConfig}
             y1={{
-              calculateStackDifferences: true,
-              renderer: Renderer.stackedBar,
+              renderer: Renderer.integral,
               formatter: millis.forcedFixedCompact,
               labels: ['50th', '90th', '95th', '99th'],
               metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
