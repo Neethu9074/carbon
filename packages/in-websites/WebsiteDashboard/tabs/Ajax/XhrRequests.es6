@@ -87,7 +87,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, timeConfig, que
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Target',
+    label: 'Origin',
     getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {

@@ -36,7 +36,7 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
     <Fragment>
       <Row>
         <Col xs={12}>
-          <KpiCard title="Target" value={xhrId} />
+          <KpiCard title="Origin" value={xhrId} />
         </Col>
       </Row>
 
@@ -238,9 +238,9 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
   return (
     <Fragment>
       <Breadcrumbs items={[<Breadcrumb label="AJAX Details">{xhrId}</Breadcrumb>]} />
-      <Title title="AJAX Details" dynamic={xhrId} />
+      <Title title="HTTP Request Details" dynamic={xhrId} />
       <BackButton
-        label="Back to list of AJAX requests"
+        label="Back to list of HTTP requests"
         href$={getLinkToWebsite(websiteId, { tabPath: '/ajax', pageId })}
       />
       {content}

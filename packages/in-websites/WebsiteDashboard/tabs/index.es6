@@ -25,14 +25,14 @@ export const websiteTabs = [
     component: Resources
   },
   {
+    label: 'HTTP Requests',
+    path: `${websitePathFullyQualified}/ajax`,
+    component: Ajax
+  },
+  {
     label: 'Errors',
     path: `${websitePathFullyQualified}/errors`,
     component: Errors
-  },
-  {
-    label: 'AJAX',
-    path: `${websitePathFullyQualified}/ajax`,
-    component: Ajax
   },
   {
     label: 'Geography',

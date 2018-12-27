@@ -57,9 +57,10 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
             beaconType: 'pageLoad'
           })}
-          icon="lib_website"
+          icon="lib_website_page_load"
           label={`${websiteDataSourceTitles.pageLoad}s`}
           isActive={dataSource === 'pageLoad'}
+          addSeparator
         />
       )}
       {twoZeroWebsiteMonitoringEnabled && (
@@ -68,7 +69,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
             beaconType: 'resourceLoad'
           })}
-          icon="lib_website"
+          icon="lib_website_resource"
           label={`${websiteDataSourceTitles.resourceLoad}s`}
           isActive={dataSource === 'resourceLoad'}
         />
@@ -79,7 +80,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
             beaconType: 'httpRequest'
           })}
-          icon="lib_website"
+          icon="lib_website_ajax"
           label={`${websiteDataSourceTitles.httpRequest}s`}
           isActive={dataSource === 'httpRequest'}
         />
@@ -90,7 +91,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
             beaconType: 'error'
           })}
-          icon="lib_website"
+          icon="lib_website_error"
           label={`${websiteDataSourceTitles.error}s`}
           isActive={dataSource === 'error'}
         />
