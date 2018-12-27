@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
 import { sortedUniqBy } from 'lodash';
 import memoizeOne from 'memoize-one';
+import React from 'react';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -20,9 +20,58 @@ export default function Filter({ filter, setFilter, beacons }) {
 
   return (
     <div className={locals.wrapper}>
-      <div className={locals.left}>
-        <h2 className={locals.header}>Types</h2>
+      {pages.length > 1 && (
+        <FilterBlock title="Pages">
+          <Select
+            id="page-filter"
+            value={filter.page || ''}
+            className={locals.pageFilter}
+            onChange={e => {
+              stopPropagationAndPreventDefault(e);
+              if (e.target.value === '') {
+                setFilter({
+                  ...filter,
+                  page: ''
+                });
+              } else {
+                setFilter({
+                  ...filter,
+                  page: e.target.value
+                });
+              }
+            }}
+          >
+            <option value="">All</option>
+            {pages.map(p => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </Select>
+        </FilterBlock>
+      )}
 
+      <FilterBlock title="Search">
+        <SearchInput
+          maxWidth="10rem"
+          query={filter.query}
+          onChange={query => {
+            if (isNotBlank(query)) {
+              setFilter({
+                ...filter,
+                query
+              });
+            } else {
+              setFilter({
+                ...filter,
+                query: ''
+              });
+            }
+          }}
+        />
+      </FilterBlock>
+
+      <FilterBlock title="Types">
         <ul className={locals.typeFilters}>
           <li className={locals.typeFilter}>
             <a
@@ -48,60 +97,7 @@ export default function Filter({ filter, setFilter, beacons }) {
             <FilterItem key={type} filter={filter} setFilter={setFilter} type={type} />
           ))}
         </ul>
-
-        {pages.length > 1 && (
-          <Fragment>
-            <h2 className={locals.header}>Pages</h2>
-            <Select
-              id="page-filter"
-              value={filter.page || ''}
-              onChange={e => {
-                stopPropagationAndPreventDefault(e);
-                if (e.target.value === '') {
-                  setFilter({
-                    ...filter,
-                    page: ''
-                  });
-                } else {
-                  setFilter({
-                    ...filter,
-                    page: e.target.value
-                  });
-                }
-              }}
-            >
-              <option value="">All</option>
-              {pages.map(p => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </Select>
-          </Fragment>
-        )}
-      </div>
-
-      <div className={locals.right}>
-        <h2 className={locals.header}>Search</h2>
-
-        <SearchInput
-          maxWidth="10rem"
-          query={filter.query}
-          onChange={query => {
-            if (isNotBlank(query)) {
-              setFilter({
-                ...filter,
-                query
-              });
-            } else {
-              setFilter({
-                ...filter,
-                query: ''
-              });
-            }
-          }}
-        />
-      </div>
+      </FilterBlock>
     </div>
   );
 }
@@ -146,5 +142,14 @@ function getPages(beacons) {
       .filter(isNotBlank)
       .sort(compareIgnoreCase),
     p => p.toLowerCase()
+  );
+}
+
+function FilterBlock({ children, title }) {
+  return (
+    <div className={locals.filterBlock}>
+      <h2 className={locals.header}>{title}</h2>
+      {children}
+    </div>
   );
 }
