@@ -63,7 +63,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(ver, '>=2.3.0') ? (
+      {snapshot.getIn(['data', 'mpm']) === 'event' && semver.satisfies(semver.coerce(ver), '>=2.3.0') ? (
         <DashboardSection title="Connections">
           <Chart
             snapshotId={snapshot.get('id')}
@@ -160,12 +160,13 @@ function extendedStatusInfo(status, ver) {
 
   return (
     <DashboardNotification type="info">
-      In order to display metrics such as: Traffic, Traffic per Request and CPU, &nbsp;<strong>ExtendedStatus</strong>{' '}
-      flag should be&nbsp;
+      In order to display metrics such as: Traffic, Traffic per Request and CPU, &nbsp;
+      <strong>ExtendedStatus</strong> flag should be&nbsp;
       <strong>enabled</strong> in apache httpd configuration.&nbsp;
-      <Link href={getModStatusDoc(ver)} external>
+      <Link href={getModStatusDoc(semver.coerce(ver))} external>
         Apache ExtendedStatus Directive
-      </Link>.
+      </Link>
+      .
     </DashboardNotification>
   );
 }
