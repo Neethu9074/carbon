@@ -67,7 +67,7 @@
       top: -0.3rem;
       left: 0;
       bottom: 0.7rem;
-      width: 1px;
+      width: 2px;
       background: #84969C;
       content: "";
     }

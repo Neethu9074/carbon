@@ -2,15 +2,17 @@ import React, { Fragment } from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { resourcesTab, getLinkToResource } from 'in-websites/navigation/paths';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
-import { ms, number } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { ms, number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
 import { compose } from 'recompose';
 
@@ -24,9 +26,28 @@ export default compose(
   })
 )(Resources);
 
-function Resources({ timeConfig, tagFilters, websiteId, [resourceTypesMatrixParameter]: resourceType, setFilter }) {
+function Resources({
+  timeConfig,
+  tagFilters,
+  websiteId,
+  [resourceTypesMatrixParameter]: resourceType,
+  setFilter,
+  websiteLabel
+}) {
   const resourcesListRightHeader = (
     <Fragment>
+      <Button
+        kind="secondary"
+        href$={getLinkToAnalyze({
+          beaconType: 'resourceLoad',
+          tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+          group: defaultGroupings.resourceLoad
+        })}
+        style={{ marginRight: '0.5rem' }}
+      >
+        Analyze Resources
+      </Button>
+
       <Filters resourceType={resourceType} setFilter={setFilter} />
     </Fragment>
   );
