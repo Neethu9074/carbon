@@ -17,9 +17,17 @@ export function SecondLevelNavigation({ children }) {
   );
 }
 
-export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon, label }) {
+export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon, label, addSeparator }) {
   return (
-    <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
+    <Link
+      className={evaluateClassNames({
+        [locals.link]: true,
+        [locals.addSeparator]: addSeparator
+      })}
+      href$={href$}
+      href={href}
+      onClick={onClick}
+    >
       <div
         className={evaluateClassNames({
           [locals.tab]: true,

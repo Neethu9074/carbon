@@ -1,33 +1,56 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { getLinkToError } from 'in-websites/navigation/paths';
+import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
 
-export default function Errors({ timeConfig, tagFilters, websiteId }) {
+export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel }) {
+  const rightHeader = (
+    <Button
+      kind="secondary"
+      href$={getLinkToAnalyze({
+        beaconType: 'error',
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+        group: defaultGroupings.error
+      })}
+      style={{ marginRight: '0.5rem' }}
+    >
+      Analyze Errors
+    </Button>
+  );
+
   return (
-    <Row>
-      <Col xs={12}>
-        <ServerTableWithUrlBoundState
-          pathSegment="/errors"
-          matrixPrefix=""
-          get={getTableData}
-          websiteId={websiteId}
-          tagFilters={tagFilters}
-          timeConfig={timeConfig}
-          columnDefinitions={columnDefinitions}
-          paginationResettingProps={['timeConfig', 'tagFilters']}
-          defaultOrderBy="errorsAgg"
-          defaultOrderDirection="DESC"
-        />
-      </Col>
-    </Row>
+    <Fragment>
+      <LearnMoreUserPointer websiteId={websiteId} />
+
+      <Row>
+        <Col xs={12}>
+          <ServerTableWithUrlBoundState
+            pathSegment="/errors"
+            matrixPrefix=""
+            get={getTableData}
+            websiteId={websiteId}
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            columnDefinitions={columnDefinitions}
+            rightHeader={rightHeader}
+            paginationResettingProps={['timeConfig', 'tagFilters']}
+            defaultOrderBy="errorsAgg"
+            defaultOrderDirection="DESC"
+          />
+        </Col>
+      </Row>
+    </Fragment>
   );
 }
 
@@ -116,7 +139,7 @@ const columnDefinitions = [
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.uniqueUsers}
           metric={item.metrics.uniqueUsersAgg}
-          tooltipFormatter={number.compact}
+          tooltipFormatter={affectedUsers.compact}
         />
       );
     }

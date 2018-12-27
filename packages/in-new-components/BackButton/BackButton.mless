@@ -12,4 +12,8 @@
     fill: @lib__colors__blue800;
     margin-right: 0.8rem;
   }
+
+  .withoutMargin {
+    margin: 0;
+  }
 }

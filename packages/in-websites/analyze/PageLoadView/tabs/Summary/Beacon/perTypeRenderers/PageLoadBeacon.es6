@@ -14,7 +14,6 @@ export const getLabel = beacon => beacon.locationUrl;
 export const LeftHeader = ({ beacon, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader label="Page Load Start" onClick={toggleExpanded} value={getLabel(beacon)} />
-    <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader label="onLoad Time" value={millis.fixedCompact(beacon.duration)} />
   </Fragment>
 );
@@ -106,7 +105,7 @@ export const Body = ({ beacon }) => {
         {hasNavigationTimings && (
           <Col lg={6}>
             <BodyHeader>Navigation Timing</BodyHeader>
-            <Timings timings={navigationTimings} totalDuration={beacon.duration} />
+            <Timings timings={navigationTimings} totalDuration={beacon.duration} totalDurationName="onLoad time" />
           </Col>
         )}
       </Row>

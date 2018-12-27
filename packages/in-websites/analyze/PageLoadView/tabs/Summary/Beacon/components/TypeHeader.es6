@@ -13,7 +13,7 @@ export default function TypeHeader({ beacon }) {
   return (
     <Tooltip content={typeDefinition.long} align="rightMiddle">
       <Pill color={typeDefinition.color} className={locals.type}>
-        {typeDefinition.short}
+        {typeDefinition.short.substring(0, 3)}
       </Pill>
     </Tooltip>
   );

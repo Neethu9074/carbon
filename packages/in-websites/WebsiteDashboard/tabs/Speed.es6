@@ -6,7 +6,6 @@ import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import theme from 'in-themes';
 
 export default function Speed({ timeConfig, tagFilters }) {
   const granularity = getChartGranularity(timeConfig);
@@ -29,7 +28,8 @@ export default function Speed({ timeConfig, tagFilters }) {
               formatter: millis.forcedFixedCompact,
               labels: ['onLoad Time'],
               metricIds: ['onLoadTime'],
-              colors: [theme.lib.colors.pink800]
+              // opposite color on the color wheel for max contrast
+              colors: ['#e65c17']
             }}
             metricsConfiguration={{
               timeConfig,
@@ -54,8 +54,7 @@ export default function Speed({ timeConfig, tagFilters }) {
             cardTitle="onLoad Time"
             timeConfig={timeConfig}
             y1={{
-              calculateStackDifferences: true,
-              renderer: Renderer.stackedBar,
+              renderer: Renderer.integral,
               formatter: millis.forcedFixedCompact,
               labels: ['50th', '90th', '95th', '99th'],
               metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']

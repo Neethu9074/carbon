@@ -2,9 +2,13 @@ import React from 'react';
 
 import getWebsiteBackendTraceId from 'in-subscription/websiteMonitoring/getWebsiteBackendTraceId';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
+import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-new-components/HorizontalDescriptionList';
 import { millis, number } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 export default connect(({ beacon }) => ({
   result:
@@ -26,8 +30,12 @@ function BackendDi({ result }) {
 
   return (
     <Di title="Backend">
-      {millis.fixedCompact(summary.duration)} for {number.compact(summary.callCount)} calls with{' '}
-      {number.compact(summary.totalErrorCount)} errors.
+      <Tooltip content="Open backend trace" align="topMiddle">
+        <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
+          {millis.fixedCompact(summary.duration)} for {number.compact(summary.callCount)} calls with{' '}
+          {number.compact(summary.totalErrorCount)} errors.
+        </Link>
+      </Tooltip>
     </Di>
   );
 }

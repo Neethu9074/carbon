@@ -56,4 +56,20 @@
       color: #fff;
     }
   }
+
+  .addSeparator {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: -0.3rem;
+      left: 0;
+      bottom: 0.7rem;
+      width: 2px;
+      background: #84969C;
+      content: "";
+    }
+  }
 }

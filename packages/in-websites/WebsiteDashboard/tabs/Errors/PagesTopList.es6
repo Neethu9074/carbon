@@ -5,13 +5,14 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['errors', 'uniqueUsers'];
 const labels = ['Occurrences', 'Affected Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
-const formatters = [number.compact, number.compact];
+const formatters = [number.compact, affectedUsers.compact];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (

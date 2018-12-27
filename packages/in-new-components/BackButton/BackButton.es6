@@ -1,13 +1,21 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './BackButton.mless';
 
-export default function BackButton({ label, href, href$ }) {
+export default function BackButton({ label, href, href$, withoutMargin }) {
   return (
-    <Link className={locals.link} href={href} href$={href$}>
+    <Link
+      className={evaluateClassNames({
+        [locals.link]: true,
+        [locals.withoutMargin]: withoutMargin
+      })}
+      href={href}
+      href$={href$}
+    >
       <SvgIcon width={10} type="chevron_left" className={locals.icon} />
       {label}
     </Link>

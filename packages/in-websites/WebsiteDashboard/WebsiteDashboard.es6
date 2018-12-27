@@ -179,7 +179,6 @@ function Actions({ tagFilters, websiteLabel }) {
   return (
     <Button
       kind="primary"
-      icon="lib_application_trace"
       href$={getLinkToAnalyze({
         beaconType: 'pageLoad',
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),

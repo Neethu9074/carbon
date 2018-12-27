@@ -2,16 +2,18 @@ import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
+import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import { getLinkToWebsite, errorsTabFullyQualified } from 'in-websites/navigation/paths';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
 import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
+import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -23,6 +25,7 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -83,7 +86,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Col lg={3}>
             <WebsiteMetricsKpiCard
               title="Affected Users"
-              formatter={number.compact}
+              formatter={affectedUsers.compact}
               metricsConfig={{
                 tagFilters: tagFiltersWithErrorId,
                 timeConfig,
@@ -198,7 +201,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               y1={{
                 renderer: Renderer.bar,
-                formatter: number.forcedCompact,
+                formatter: affectedUsersChart,
                 labels: ['Affected Users'],
                 metricIds: ['uniqueUsers']
               }}
@@ -259,7 +262,31 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         ]}
       />
       <Title title="Error Details" dynamic={result && result.data && result.data.message} />
-      <BackButton label="Back to list of errors" href$={getLinkToWebsite(websiteId, { tabPath: '/errors', pageId })} />
+
+      <div className={locals.actions}>
+        <BackButton
+          label="Back to list of errors"
+          href$={getLinkToWebsite(websiteId, { tabPath: '/errors', pageId })}
+          withoutMargin
+        />
+
+        <Button
+          kind="secondary"
+          href$={getLinkToAnalyze({
+            beaconType: 'error',
+            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+              websiteLabel,
+              tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }])
+            }),
+            group: {
+              groupbyTag: 'beacon.page.name'
+            }
+          })}
+        >
+          Analyze Error
+        </Button>
+      </div>
+
       {content}
     </Fragment>
   );

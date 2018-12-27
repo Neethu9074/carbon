@@ -3,29 +3,29 @@
 :local {
   .wrapper {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: top;
+    justify-content: left;
+    flex-wrap: wrap;
     margin: 1rem 0 0.7rem;
   }
 
-  .left, .right {
-    display: flex;
-    align-items: center;
+  .filterBlock {
+    margin: 0 1.5rem 0 0;
   }
 
   .header {
     font-size: .75rem;
     color: @lib__colors__N600Light;
     font-weight: 500;
-    margin: 0 1rem 0 3rem;
+    margin: 0 0 0.4rem 0;
+  }
 
-    &:first-child {
-      margin-left: 0;
-    }
+  .pageFilter {
+    max-width: 10rem;
   }
 
   .typeFilters {
-    margin: 0;
+    margin: 0.7rem 0 0;
     padding: 0;
     list-style: none;
   }

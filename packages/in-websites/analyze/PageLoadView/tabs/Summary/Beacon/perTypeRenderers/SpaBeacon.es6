@@ -8,7 +8,6 @@ export const getLabel = () => 'Custom Page Transition';
 
 export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
-    <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader
       label="Start Time"
       value={`+${millis.fixed(beacon.timestamp - earliestTimestamp)}`}
@@ -18,10 +17,6 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   </Fragment>
 );
 
-export const RightHeader = () => (
-  <Fragment>
-    <div>TODO</div>
-  </Fragment>
-);
+export const RightHeader = () => null;
 
 export const Body = () => <div />;

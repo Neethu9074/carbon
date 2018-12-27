@@ -8,14 +8,14 @@ const chartDefinitions = [
   {
     label: 'Latency',
     key: 'latency',
-    renderer: Renderer.line,
+    renderer: Renderer.stackedArea,
     formatter: millis.fixed,
     min: 0
   },
   {
     label: 'Calls',
     key: 'calls',
-    renderer: Renderer.line,
+    renderer: Renderer.stackedBar,
     aggregation: 'SUM',
     formatter: number.forcedCompact,
     min: 0
@@ -23,7 +23,7 @@ const chartDefinitions = [
   {
     label: 'Traces',
     key: 'traces',
-    renderer: Renderer.line,
+    renderer: Renderer.stackedBar,
     aggregation: 'SUM',
     formatter: number.forcedCompact,
     min: 0

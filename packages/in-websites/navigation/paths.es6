@@ -155,5 +155,8 @@ export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
     setOrDeleteMatrixKey(params, pageLoadViewPath, pageLoadIdMatrixParameter, pageLoadId);
     setOrDeleteMatrixKey(params, pageLoadViewPath, beaconIdMatrixParameter, beaconId);
     setOrDeleteMatrixKey(params, pageLoadViewPath, beaconTimestampMatrixParameter, beaconTimestamp);
+
+    // make sure that there is no grouping as otherwise the page load cannot be loaded.
+    setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup({}));
   });
 }

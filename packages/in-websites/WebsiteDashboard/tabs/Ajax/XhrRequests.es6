@@ -1,16 +1,32 @@
 import React, { Fragment } from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
+import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import { getLinkToXhrRequest, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
-import { getLinkToXhrRequest } from 'in-websites/navigation/paths';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
 
-export default function XhrRequests({ timeConfig, tagFilters, websiteId }) {
+export default function XhrRequests({ timeConfig, tagFilters, websiteId, websiteLabel }) {
+  const rightHeader = (
+    <Button
+      kind="secondary"
+      href$={getLinkToAnalyze({
+        beaconType: 'httpRequest',
+        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
+        group: defaultGroupings.httpRequest
+      })}
+      style={{ marginRight: '0.5rem' }}
+    >
+      Analyze HTTP Requests
+    </Button>
+  );
+
   return (
     <Fragment>
       <Row>
@@ -23,6 +39,7 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId }) {
             tagFilters={tagFilters.concat({ name: 'beacon.type', operator: 'EQUALS', stringValue: 'httpRequest' })}
             timeConfig={timeConfig}
             columnDefinitions={columnDefinitions}
+            rightHeader={rightHeader}
             paginationResettingProps={['timeConfig', 'tagFilters']}
             defaultOrderBy="beaconCountAgg"
             defaultOrderDirection="DESC"
@@ -87,7 +104,7 @@ function getTableData({ page, pageSize, orderBy, orderDirection, timeConfig, que
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Target',
+    label: 'Origin',
     getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {
