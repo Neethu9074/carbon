@@ -1,5 +1,8 @@
 :local {
   .map {
     background: #F6FAFD;
+
+    // support consistent scroll experience
+    pointer-events: none;
   }
 }

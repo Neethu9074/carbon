@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
 import { twoZeroWebsiteMonitoringEnabled } from 'in-services/featureFlags';
+import { navigateToPageLoadFromBackendTrace } from 'in-websites/tracker';
+import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
+import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
+
+import locals from './WebsiteMonitoringData.mless';
 
 export default connect(({ traceId, startTime }) => {
   if (!twoZeroWebsiteMonitoringEnabled) {
@@ -33,5 +38,30 @@ export default connect(({ traceId, startTime }) => {
     return null;
   }
 
-  return <BeaconUserSummary beacon={result.data.items[0].beacon} />;
+  const beacon = result.data.items[0].beacon;
+
+  return (
+    <Fragment>
+      <div className={locals.wrapper}>
+        <span>
+          <span className={locals.title}>Corresponding Website Activity</span>
+          We detected a website page load that provided the user information and meta data below.
+        </span>
+
+        <Button
+          onClick={() => navigateToPageLoadFromBackendTrace()}
+          href$={getLinkToPageLoad({
+            pageLoadId: beacon.pageLoadId,
+            beaconTimestamp: beacon.timestamp
+          })}
+          kind="primaryv2"
+          size="compact"
+        >
+          View Page Load
+        </Button>
+      </div>
+
+      <BeaconUserSummary beacon={beacon} />
+    </Fragment>
+  );
 });
