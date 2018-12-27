@@ -17,7 +17,7 @@ export default function User({ beacon }) {
       <div className={locals.noUserData}>
         No user data defined
         <Button
-          href="https://docs.instana.io/products/website_monitoring/api/#meta-data"
+          href="https://docs.instana.io/products/website_monitoring/api/#identifying-users"
           kind="primaryv2"
           target="_blank"
           size="compact"

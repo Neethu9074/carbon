@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -29,23 +30,27 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
   );
 
   return (
-    <Row>
-      <Col xs={12}>
-        <ServerTableWithUrlBoundState
-          pathSegment="/errors"
-          matrixPrefix=""
-          get={getTableData}
-          websiteId={websiteId}
-          tagFilters={tagFilters}
-          timeConfig={timeConfig}
-          columnDefinitions={columnDefinitions}
-          rightHeader={rightHeader}
-          paginationResettingProps={['timeConfig', 'tagFilters']}
-          defaultOrderBy="errorsAgg"
-          defaultOrderDirection="DESC"
-        />
-      </Col>
-    </Row>
+    <Fragment>
+      <LearnMoreUserPointer websiteId={websiteId} />
+
+      <Row>
+        <Col xs={12}>
+          <ServerTableWithUrlBoundState
+            pathSegment="/errors"
+            matrixPrefix=""
+            get={getTableData}
+            websiteId={websiteId}
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            columnDefinitions={columnDefinitions}
+            rightHeader={rightHeader}
+            paginationResettingProps={['timeConfig', 'tagFilters']}
+            defaultOrderBy="errorsAgg"
+            defaultOrderDirection="DESC"
+          />
+        </Col>
+      </Row>
+    </Fragment>
   );
 }
 
