@@ -23,7 +23,6 @@ export const getLabel = beacon => {
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader label="Page Resource" onClick={toggleExpanded} value={getLabel(beacon)} />
-    <KeyValueHeader label="Page" value={beacon.page} />
     <KeyValueHeader
       label="Start Time"
       value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
