@@ -18,7 +18,6 @@ import {
   cockpitEnabled,
   twoZeroModeEnabled,
   instanaInternalFeaturesEnabled,
-  oneZeroWebsiteMonitoringEnabled,
   twoZeroWebsiteMonitoringEnabled
 } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
@@ -120,11 +119,7 @@ export default function ViewSwitcher() {
 }
 
 function WebsiteMonitoringMenuItems() {
-  if (!twoZeroWebsiteMonitoringEnabled) {
-    return (
-      <View label="Websites" icon="lib_website_inverted" href$={getView(websitePath)} isActive$={isView(websitePath)} />
-    );
-  } else if (!oneZeroWebsiteMonitoringEnabled) {
+  if (twoZeroWebsiteMonitoringEnabled) {
     return (
       <View
         label="Websites"
@@ -136,14 +131,7 @@ function WebsiteMonitoringMenuItems() {
   }
 
   return (
-    <View
-      label="Websites"
-      icon="lib_website_inverted"
-      isActive$={all(any(isView(websiteMonitoringPath), isView(websitePath)), isWebsiteAnalyzeView.map(v => !v))}
-    >
-      <SubMenuItem label="Classic" href$={getView(websitePath)} isActive$={isView(websitePath)} />
-      <SubMenuItem label="New 🚀" href$={getView(websiteMonitoringPath)} isActive$={isView(websiteMonitoringPath)} />
-    </View>
+    <View label="Websites" icon="lib_website_inverted" href$={getView(websitePath)} isActive$={isView(websitePath)} />
   );
 }
 
