@@ -27,7 +27,7 @@ export default function CallGroupsTable(props) {
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
+              defaultDirection="DESC"
               technicalName="callsAgg"
               label="Calls"
               noWrap

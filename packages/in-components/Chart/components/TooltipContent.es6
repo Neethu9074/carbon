@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
+import { aggregationLabels } from 'in-stores/metric/metric';
 
 import locals from './TooltipContent.mless';
 
@@ -57,7 +58,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer, reverseTo
               className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
             />
             <span className={locals.label}>{label}</span>
-            <span className={locals.aggregation}>{aggregation && `(${aggregation})`}</span>
+            <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
           </div>
           <span className={locals.value}>
             {dataPoint

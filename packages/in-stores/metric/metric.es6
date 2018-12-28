@@ -10,6 +10,21 @@ import { createStore } from 'in-stores/store';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
+export const aggregationLabels = {
+  MEAN: 'mean',
+  MIN: 'min',
+  P25: '25th',
+  P50: '50th',
+  P75: '75th',
+  P90: '90th',
+  P95: '95th',
+  P98: '98th',
+  P99: '99th',
+  MAX: 'max',
+  DISTINCT_COUNT: 'distinct count',
+  SUM: 'sum'
+};
+
 export const dynamicRollupPredefinitions = [
   1000,
   1000 * 5,

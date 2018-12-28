@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react';
+import { find } from 'lodash';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import SortableColumn from 'in-analyze/components/SortableColumn';
 import Group from 'in-websites/analyze/AnalyzeView/GroupedBeacons/Group';
+import SortableColumn from 'in-analyze/components/SortableColumn';
+import { aggregationLabels } from 'in-stores/metric/metric';
 import Groups from 'in-websites/analyze/AnalyzeView/Groups';
 
 export default function GroupedBeaconsTable(props) {
-  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore } = props;
+  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics, availableMetrics } = props;
+  const columnCount = 3 + metrics.length;
   return (
     <Fragment>
       <Table>
@@ -25,8 +28,8 @@ export default function GroupedBeaconsTable(props) {
               orderBy={orderBy}
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
-              defaultDirection="ASC"
-              technicalName="beaconCountAgg"
+              defaultDirection="DESC"
+              technicalName="beaconCount_SUM_Agg"
               label="Count"
               noWrap
             />
@@ -39,20 +42,36 @@ export default function GroupedBeaconsTable(props) {
               label="Earliest Timestamp"
               noWrap
             />
-            <SortableColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="beaconDurationAgg"
-              label="Mean Duration"
-              noWrap
-            />
+
+            {metrics.map(({ metric, aggregation }) => {
+              let label = `${metric} (${aggregation})`;
+              const metricDefinition = find(availableMetrics, m => m.metric === metric);
+              if (metricDefinition) {
+                label = metricDefinition.label;
+
+                if (metricDefinition.supportedAggregations.length > 1) {
+                  label += ` (${aggregationLabels[aggregation]})`;
+                }
+              }
+
+              return (
+                <SortableColumn
+                  key={`${metric}_${aggregation}`}
+                  orderBy={orderBy}
+                  orderDirection={orderDirection}
+                  onChangeOrder={onChangeOrder}
+                  defaultDirection="DESC"
+                  technicalName={`${metric}_${aggregation}_Agg`}
+                  label={label}
+                  noWrap
+                />
+              );
+            })}
           </Tr>
         </Thead>
         <Tbody>
-          <Groups {...props} groupComponent={Group} />
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} size="compact" />}
+          <Groups {...props} columnCount={columnCount} groupComponent={Group} />
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={columnCount} size="compact" />}
         </Tbody>
       </Table>
     </Fragment>

@@ -5,6 +5,7 @@ import React from 'react';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { identity } from 'in-services/util/function';
 
 import locals from './GroupMetricsChart.mless';
 
@@ -17,7 +18,8 @@ function GroupMetricsChart({
   selectedChart,
   setSelectedChart,
   chartDefinitions,
-  timeConfig
+  timeConfig,
+  groupNameProcessor
 }) {
   if (!items || items.length === 0) {
     // the errors and progress information of this chart will be rendered by the call group table, no need to
@@ -35,7 +37,13 @@ function GroupMetricsChart({
   const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
     d => metricsAvailableForPresentation.indexOf(d.key) !== -1
   );
+
   selectedChart = selectedChart || chartDefinitionsAvailableForPresentation[0].key;
+  let chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
+  if (!chartDefinition) {
+    chartDefinition = chartDefinitionsAvailableForPresentation[0];
+    selectedChart = chartDefinition.key;
+  }
 
   // Render chart selector and chart.
   return (
@@ -58,18 +66,27 @@ function GroupMetricsChart({
         timeConfig={timeConfig}
         selectedChart={selectedChart}
         chartDefinitions={chartDefinitionsAvailableForPresentation}
+        groupNameProcessor={groupNameProcessor}
       />
       <div className={locals.whitespace} />
     </div>
   );
 }
 
-function ChartElement({ groups, groupColors, timeConfig, time, selectedChart, chartDefinitions }) {
+function ChartElement({
+  groups,
+  groupColors,
+  timeConfig,
+  time,
+  selectedChart,
+  chartDefinitions,
+  groupNameProcessor = identity
+}) {
   const chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
 
   const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
   const granularity = getChartGranularity(timeConfig);
-  const groupNames = groups.map(group => group.name);
+  const groupNames = groups.map(group => groupNameProcessor(group.name));
   const y1 = {
     labels: groupNames,
     renderer: chartDefinition.renderer,

@@ -203,7 +203,7 @@ export default function Speed({ timeConfig, tagFilters }) {
                   calculateStackDifferences: true,
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['First Paint', 'First Contentful Paint'],
+                  labels: ['First Paint', 'First-Contentful Paint'],
                   metricIds: ['firstPaintTime', 'firstContentfulPaintTime']
                 }}
                 metricsConfiguration={{
