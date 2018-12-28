@@ -30,6 +30,14 @@ export default compose(
       onChange({
         selectedMetricsForm: selectedMetricsForm.setValue(selectedMetricsForm.value.filter(m => m !== metric))
       }),
+    onSwitchMetricPosition: (oldPosition, newPosition) => {
+      const metrics = selectedMetricsForm.value.slice();
+      metrics.splice(oldPosition, 1);
+      metrics.splice(newPosition, 0, selectedMetricsForm.value[oldPosition]);
+      onChange({
+        selectedMetricsForm: selectedMetricsForm.setValue(metrics)
+      });
+    },
     onAddMetric: e => {
       stopPropagationAndPreventDefault(e);
       if (!newMetricForm.hierarchyValid) {

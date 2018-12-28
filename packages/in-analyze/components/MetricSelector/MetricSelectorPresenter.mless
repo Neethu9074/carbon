@@ -54,6 +54,16 @@
     line-height: 1.5;
   }
 
+  .metricLeftSide {
+    display: flex;
+    align-items: center;
+  }
+
+  .draggableIndicator {
+    fill: @lib__colors__N700Medium;
+    margin: 0 0.5rem 0 0;
+  }
+
   .separator {
     margin: 2rem 0 1rem;
     border-bottom: 1px solid @lib__colors__N400;

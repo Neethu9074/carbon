@@ -59,6 +59,7 @@ function Default() {
         onRemoveMetric={action('onRemoveMetric')}
         onAddMetric={action('onAddMetric')}
         onSave={action('onSave')}
+        onSwitchMetricPosition={action('onSwitchMetricPosition')}
       />
     </DialogRoot>
   );

@@ -1,5 +1,6 @@
-import { find, groupBy } from 'lodash';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { Fragment } from 'react';
+import { find, groupBy } from 'lodash';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -39,6 +40,7 @@ export default function MetricSelectorPresenter({
   onAggregationChange,
   onRemoveMetric,
   onAddMetric,
+  onSwitchMetricPosition,
   onSave,
   onClose
 }) {
@@ -135,24 +137,46 @@ export default function MetricSelectorPresenter({
 
           <TouchedMessages field={selectedMetricsForm} />
 
-          <ul className={locals.metricList}>
-            {selectedMetricsForm.value.map((metric, i) => {
-              const definition = find(availableMetrics, m => m.metric === metric.metric);
-              return (
-                <li className={locals.metric} key={i}>
-                  {definition ? definition.label : metric.metric} ({aggregationLabels[metric.aggregation]})
-                  <Tooltip content="Remove metric">
-                    <SvgIcon
-                      type="lib_openclose_cancel"
-                      width={16}
-                      className={locals.removeIcon}
-                      onClick={() => onRemoveMetric(metric)}
-                    />
-                  </Tooltip>
-                </li>
-              );
-            })}
-          </ul>
+          <DragDropContext
+            onDragEnd={e => e.destination && onSwitchMetricPosition(e.source.index, e.destination.index)}
+          >
+            <Droppable droppableId="droppable">
+              {provided => (
+                <ul className={locals.metricList} ref={provided.innerRef}>
+                  {selectedMetricsForm.value.map((metric, i) => {
+                    const definition = find(availableMetrics, m => m.metric === metric.metric);
+                    return (
+                      <Draggable key={i} draggableId={i} index={i}>
+                        {provided => (
+                          <li
+                            className={locals.metric}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className={locals.metricLeftSide}>
+                              <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
+                              {definition ? definition.label : metric.metric} ({aggregationLabels[metric.aggregation]})
+                            </div>
+                            <Tooltip content="Remove metric">
+                              <SvgIcon
+                                type="lib_openclose_cancel"
+                                width={16}
+                                className={locals.removeIcon}
+                                onClick={() => onRemoveMetric(metric)}
+                              />
+                            </Tooltip>
+                          </li>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Fragment>
       )}
 
