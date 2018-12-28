@@ -67,7 +67,7 @@ export default compose(
     openMetricSelector: () => {
       setActiveDialog(
         <MetricSelector
-          title="Select Metric Columns"
+          title="Select Metrics"
           help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
           availableMetrics={availableMetrics[beaconType]}
           selectedMetrics={metrics}

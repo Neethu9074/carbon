@@ -13,7 +13,7 @@ export default function GroupingTableHeader(props) {
       <div>
         {props.openMetricSelector && (
           <Button kind="secondary" onClick={props.openMetricSelector} icon="lib_actions_settings">
-            Select Metric Columns
+            Select Metrics
           </Button>
         )}
         {props.setIsChartSectionExpanded && (
