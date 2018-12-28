@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { aggregationLabels } from 'in-stores/metric/metric';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
@@ -110,7 +111,7 @@ export default function MetricSelectorPresenter({
               {selectedMetricDefinition &&
                 selectedMetricDefinition.supportedAggregations.map(aggregation => (
                   <option value={aggregation} key={aggregation}>
-                    {aggregation}
+                    {aggregationLabels[aggregation]}
                   </option>
                 ))}
             </Select>
@@ -118,7 +119,12 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        <Button type="submit" kind="create" className={locals.addButton} disabled={newMetricForm.touched && !newMetricForm.hierarchyValid}>
+        <Button
+          type="submit"
+          kind="create"
+          className={locals.addButton}
+          disabled={newMetricForm.touched && !newMetricForm.hierarchyValid}
+        >
           Add Metric
         </Button>
       </form>
@@ -134,7 +140,7 @@ export default function MetricSelectorPresenter({
               const definition = find(availableMetrics, m => m.metric === metric.metric);
               return (
                 <li className={locals.metric} key={i}>
-                  {definition ? definition.label : metric.metric} ({metric.aggregation})
+                  {definition ? definition.label : metric.metric} ({aggregationLabels[metric.aggregation]})
                   <Tooltip content="Remove metric">
                     <SvgIcon
                       type="lib_openclose_cancel"
@@ -153,7 +159,11 @@ export default function MetricSelectorPresenter({
       <hr className={locals.separator} />
 
       <div className={locals.actions}>
-        <Button kind="primaryv2" disabled={selectedMetricsForm.touched && !selectedMetricsForm.hierarchyValid} onClick={onSave}>
+        <Button
+          kind="primaryv2"
+          disabled={selectedMetricsForm.touched && !selectedMetricsForm.hierarchyValid}
+          onClick={onSave}
+        >
           Save
         </Button>
       </div>

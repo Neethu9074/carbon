@@ -13,7 +13,10 @@ export default function Groups({
   groupColors,
   groupComponent: Group,
   isChartSectionExpanded,
-  getGroupAsFilterUrl
+  getGroupAsFilterUrl,
+  metrics,
+  availableMetrics,
+  columnCount = 5
 }) {
   return (
     <Fragment>
@@ -26,12 +29,14 @@ export default function Groups({
           dotColor={groupColors[groupIndex]}
           showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
           getGroupAsFilterUrl={getGroupAsFilterUrl}
+          metrics={metrics}
+          availableMetrics={availableMetrics}
         />
       ))}
 
-      <HorizontalIndicatorRow cols={5} progress={progress} />
-      <ErrorRows cols={5} errors={errors} size="compact" />
-      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
+      <HorizontalIndicatorRow cols={columnCount} progress={progress} />
+      <ErrorRows cols={columnCount} errors={errors} size="compact" />
+      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
     </Fragment>
   );
 }

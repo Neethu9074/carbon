@@ -1,21 +1,15 @@
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { millis } from 'in-services/formatters/number';
 import { affectedUsers } from 'in-websites/formatters';
 
 export const defaultMetrics = {
-  pageLoad: [
-    { metric: 'beaconDuration', aggregation: 'MEAN' }
-  ],
-  resourceLoad: [
-    { metric: 'beaconDuration', aggregation: 'MEAN' }
-  ],
-  httpRequest: [
-    { metric: 'beaconDuration', aggregation: 'MEAN' }
-  ],
+  pageLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
+  resourceLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
+  httpRequest: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   error: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
 };
 
 const resourceTimingMetrics = [
-  newTimeMetric('unloadTime', 'Unload Time', 'Resource Timing'),
   newTimeMetric('redirectTime', 'Redirect Time', 'Resource Timing'),
   newTimeMetric('appCacheTime', 'AppCache Time', 'Resource Timing'),
   newTimeMetric('dnsTime', 'DNS Time', 'Resource Timing'),
@@ -29,7 +23,9 @@ const uniqueUsers = {
   metric: 'uniqueUsers',
   label: 'Unique Users',
   formatter: affectedUsers,
-  supportedAggregations: ['DISTINCT_COUNT']
+  supportedAggregations: ['DISTINCT_COUNT'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
 };
 
 export const availableMetrics = {
@@ -37,6 +33,7 @@ export const availableMetrics = {
     newTimeMetric('beaconDuration', 'onLoad Time'),
     uniqueUsers,
 
+    newTimeMetric('unloadTime', 'Unload Time', 'Navigation Timing'),
     // reassign the category
     ...resourceTimingMetrics.map(metric => ({
       ...metric,
@@ -48,17 +45,10 @@ export const availableMetrics = {
     newTimeMetric('childrenTime', 'Children Time', 'Navigation Timing'),
 
     newTimeMetric('firstPaintTime', 'First Paint Time', 'Paint Timing'),
-    newTimeMetric('firstContentfulPaintTime', 'First-Contentful Paint Time', 'Paint Timing'),
+    newTimeMetric('firstContentfulPaintTime', 'First-Contentful Paint Time', 'Paint Timing')
   ],
-  resourceLoad: [
-    newTimeMetric('beaconDuration', 'Retrieval Time'),
-    uniqueUsers,
-    ...resourceTimingMetrics
-  ],
-  httpRequest: [
-    newTimeMetric('beaconDuration', 'Retrieval Time'),
-    uniqueUsers
-  ],
+  resourceLoad: [newTimeMetric('beaconDuration', 'Retrieval Time'), uniqueUsers, ...resourceTimingMetrics],
+  httpRequest: [newTimeMetric('beaconDuration', 'Retrieval Time'), uniqueUsers],
   error: [
     {
       ...uniqueUsers,
@@ -74,6 +64,8 @@ function newTimeMetric(metric, label, category) {
     label,
     formatter: millis.forcedFixedCompact,
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
-    category
+    category,
+    min: 0,
+    preferredRenderer: Renderer.stackedArea
   };
 }
