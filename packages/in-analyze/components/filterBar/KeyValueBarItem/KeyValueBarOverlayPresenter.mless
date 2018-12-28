@@ -41,6 +41,7 @@
   .segment {
     background: @lib__colors__N200;
     padding: .063rem .188rem;
+    margin: 0 0.2rem;
     border-radius: .125rem;
     font-weight: 500;
     display: inline-block;

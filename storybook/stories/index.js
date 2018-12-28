@@ -19,6 +19,7 @@ import './analyse/EditTagFilterDialogStory';
 import './analyse/FilterBarStory';
 import './analyse/GroupingInfoStory';
 import './analyse/IcicleChart';
+import './analyse/MetricSelectorStory';
 import './analyse/TagFilterListStory';
 import './analyse/TraceConverter';
 
