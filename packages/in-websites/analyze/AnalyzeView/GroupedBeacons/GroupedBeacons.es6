@@ -38,32 +38,27 @@ export default compose(
   withUrlDependingState({
     getPathSegment: () => analyzePath,
     getMatrixPrefix: () => 'groups.',
-    boundKeys: ['orderBy', 'orderDirection'],
-    getInitialState: () => ({
+    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
+    getInitialState: ({ location }) => ({
+      [metricsMatrixParameter]: defaultMetrics[getMatrixParameter(location, analyzePath, beaconTypeMatrixParameter)],
       orderBy: 'beaconCount_SUM_Agg',
       orderDirection: 'DESC'
     }),
-    reducerName: 'onChangeOrder'
-  }),
-  withUrlDependingState({
-    getPathSegment: () => analyzePath,
-    getMatrixPrefix: () => 'groups.',
-    boundKeys: [metricsMatrixParameter],
-    getInitialState: ({ location }) => ({
-      [metricsMatrixParameter]: defaultMetrics[getMatrixParameter(location, analyzePath, beaconTypeMatrixParameter)]
-    }),
     getParsedUrlValues: props => ({
-      [metricsMatrixParameter]: deserializeMetrics(props[metricsMatrixParameter])
+      [metricsMatrixParameter]: deserializeMetrics(props[metricsMatrixParameter]),
+      orderBy: props.orderBy,
+      orderDirection: props.orderDirection
     }),
     getSerializedUrlValues: props => ({
-      [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter])
+      [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
+      orderBy: props.orderBy,
+      orderDirection: props.orderDirection
     }),
-    reducerName: 'onChangeMetrics',
-    reducer: (state, newMetrics) => ({ [metricsMatrixParameter]: newMetrics })
+    reducerName: 'onChange'
   }),
-  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
-  withProps(({ beaconType, onChangeMetrics, metrics }) => ({
+  withProps(({ beaconType, onChange, metrics, orderBy, orderDirection }) => ({
     availableMetrics: availableMetrics[beaconType],
+    onChangeOrder: onChange,
     openMetricSelector: () => {
       setActiveDialog(
         <MetricSelector
@@ -72,11 +67,22 @@ export default compose(
           availableMetrics={availableMetrics[beaconType]}
           selectedMetrics={metrics}
           maximumNumberOfMetrics={5}
-          onSave={metrics => onChangeMetrics(metrics)}
+          onSave={metrics => {
+            const orderByMetricStillExists = metrics.reduce(
+              (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
+              false
+            );
+            onChange({
+              [metricsMatrixParameter]: metrics,
+              orderBy: orderByMetricStillExists ? orderBy : 'beaconCount_SUM_Agg',
+              orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
+            });
+          }}
         />
       );
     }
   })),
+  withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
     getResettingProps: () => [
       'timeConfig',

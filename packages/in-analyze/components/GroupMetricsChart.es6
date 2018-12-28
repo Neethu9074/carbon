@@ -37,7 +37,13 @@ function GroupMetricsChart({
   const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
     d => metricsAvailableForPresentation.indexOf(d.key) !== -1
   );
+
   selectedChart = selectedChart || chartDefinitionsAvailableForPresentation[0].key;
+  let chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
+  if (!chartDefinition) {
+    chartDefinition = chartDefinitionsAvailableForPresentation[0];
+    selectedChart = chartDefinition.key;
+  }
 
   // Render chart selector and chart.
   return (
