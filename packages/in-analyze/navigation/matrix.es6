@@ -1,3 +1,5 @@
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+
 // analyze view
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
@@ -10,6 +12,9 @@ export const tagFilter = 'tagFilter';
 // groups
 export const groupBy = 'groupBy';
 export const dataSource = 'dataSource';
+export const metrics = 'metrics';
+export const serializeMetrics = buildJsonSerializer();
+export const deserializeMetrics = buildJsonParser(null);
 
 // order
 export const orderBy = 'orderBy';
