@@ -9,15 +9,23 @@ export default function GroupingTableHeader(props) {
   return (
     <div className={locals.wrapper}>
       <ResultHeader {...props} nbRows={props.totalHits} withoutMargin />
-      {props.setIsChartSectionExpanded && (
-        <Button
-          kind="secondary"
-          onClick={() => props.setIsChartSectionExpanded(!props.isChartSectionExpanded)}
-          icon="lib_views_stats"
-        >
-          {props.isChartSectionExpanded ? 'Hide' : 'Show'} Graph
-        </Button>
-      )}
+
+      <div>
+        {props.openMetricSelector && (
+          <Button kind="secondary" onClick={props.openMetricSelector} icon="lib_actions_settings">
+            Select Metric Columns
+          </Button>
+        )}
+        {props.setIsChartSectionExpanded && (
+          <Button
+            kind="secondary"
+            onClick={() => props.setIsChartSectionExpanded(!props.isChartSectionExpanded)}
+            icon="lib_views_stats"
+          >
+            {props.isChartSectionExpanded ? 'Hide' : 'Show'} Graph
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

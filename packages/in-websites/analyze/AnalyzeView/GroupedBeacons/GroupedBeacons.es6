@@ -1,6 +1,12 @@
 import { compose, withState, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 
+import {
+  serializeMetrics,
+  deserializeMetrics,
+  metrics as metricsMatrixParameter,
+  beaconType as beaconTypeMatrixParameter
+} from 'in-websites/navigation/matrix';
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
@@ -12,6 +18,7 @@ import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -44,17 +51,33 @@ export default compose(
     }),
     reducerName: 'onChangeOrder'
   }),
+  withUrlDependingState({
+    getPathSegment: () => analyzePath,
+    getMatrixPrefix: () => 'groups.',
+    boundKeys: [metricsMatrixParameter],
+    getInitialState: ({ location }) => ({
+      [metricsMatrixParameter]: defaultMetrics[getMatrixParameter(location, analyzePath, beaconTypeMatrixParameter)]
+    }),
+    getParsedUrlValues: props => ({
+      [metricsMatrixParameter]: deserializeMetrics(props[metricsMatrixParameter])
+    }),
+    getSerializedUrlValues: props => ({
+      [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter])
+    }),
+    reducerName: 'onChangeMetrics',
+    reducer: (state, newMetrics) => ({ [metricsMatrixParameter]: newMetrics })
+  }),
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
-  withProps(({ beaconType }) => ({
-    setIsChartSectionExpanded: () => {
+  withProps(({ beaconType, onChangeMetrics, metrics }) => ({
+    openMetricSelector: () => {
       setActiveDialog(
         <MetricSelector
           title="Select Metric Columns"
           help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
           availableMetrics={availableMetrics[beaconType]}
-          selectedMetrics={defaultMetrics[beaconType]}
+          selectedMetrics={metrics}
           maximumNumberOfMetrics={5}
-          onSave={() => console.log('Save metric config')}
+          onSave={metrics => onChangeMetrics(metrics)}
         />
       );
     }
