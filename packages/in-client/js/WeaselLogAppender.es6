@@ -9,7 +9,7 @@ export default class WeaselLogAppender {
 
   append(opts) {
     // lots of stuff seems to go wrong, stop polluting our logs
-    if (totalNumberOfReportedEvents >= 50) {
+    if (totalNumberOfReportedEvents >= 100) {
       return;
     }
 
