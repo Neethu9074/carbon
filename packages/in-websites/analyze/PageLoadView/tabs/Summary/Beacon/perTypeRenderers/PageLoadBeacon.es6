@@ -18,12 +18,6 @@ export const LeftHeader = ({ beacon, toggleExpanded }) => (
   </Fragment>
 );
 
-export const RightHeader = () => (
-  <Fragment>
-    <div>TODO</div>
-  </Fragment>
-);
-
 export const Body = ({ beacon }) => {
   const navigationTimings = [
     {

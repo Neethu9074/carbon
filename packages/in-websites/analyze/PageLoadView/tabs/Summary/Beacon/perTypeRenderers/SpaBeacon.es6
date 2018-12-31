@@ -17,6 +17,4 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   </Fragment>
 );
 
-export const RightHeader = () => null;
-
 export const Body = () => <div />;

@@ -42,6 +42,7 @@ import { init as initUsageInfo } from 'in-stores/usageInfo';
 import { init as initEvents } from 'in-stores/events';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
+import WeaselLogAppender from './WeaselLogAppender';
 import App from 'in-client/js/App';
 
 import './devtools/storeStates';
@@ -56,8 +57,12 @@ if (ConsoleAppender.isPossible()) {
 
 if (!__DEV__) {
   const uiTrackerAppender = new UiTrackerLogAppender();
-  uiTrackerAppender.setActivePriority(31);
+  uiTrackerAppender.setActivePriority(31); // warn
   addAppender(uiTrackerAppender);
+
+  const weaselLogAppender = new WeaselLogAppender();
+  weaselLogAppender.setActivePriority(30); // info
+  addAppender(weaselLogAppender);
 }
 
 // expose the React global to analyze performance issues
