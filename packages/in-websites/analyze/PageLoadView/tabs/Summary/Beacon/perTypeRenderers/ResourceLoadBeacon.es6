@@ -32,8 +32,6 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   </Fragment>
 );
 
-export const RightHeader = () => null;
-
 export const Body = ({ beacon }) => {
   const hasTransferSize = beacon.transferSize >= 0;
   const hasEncodedBodySize = beacon.encodedBodySize >= 0;

@@ -35,8 +35,6 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   </Fragment>
 );
 
-export const RightHeader = () => null;
-
 export const Body = ({ beacon }) => {
   return (
     <Fragment>
