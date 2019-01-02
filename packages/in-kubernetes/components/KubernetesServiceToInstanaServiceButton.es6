@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getInstanaServiceIdByKubernetesServiceName from 'in-subscription/kubernetes/getInstanaServiceIdByKubernetesServiceName';
+import getApplicationServiceIdForKubernetesServiceUid from 'in-subscription/kubernetes/getApplicationServiceIdForKubernetesServiceUid';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
@@ -10,7 +10,7 @@ export default connectTo(
   ({ timeConfig, result }) => ({
     instanaServiceId:
       result && result.data
-        ? getInstanaServiceIdByKubernetesServiceName({ kubernetesServiceName: result.data.name, timeConfig }).map(
+        ? getApplicationServiceIdForKubernetesServiceUid({ kubernetesServiceUid: result.data.uid, timeConfig }).map(
             result => result.data
           )
         : alwaysNull
@@ -22,7 +22,7 @@ export default connectTo(
 
     return (
       <Button
-        kind="primary"
+        kind="primaryv2"
         icon="lib_application_service"
         href$={getServiceDashboard(instanaServiceId, {
           timeConfig
