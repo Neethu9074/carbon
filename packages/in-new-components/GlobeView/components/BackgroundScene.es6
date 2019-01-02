@@ -1,6 +1,6 @@
 /* global require:false */
 import { Mesh, PlaneBufferGeometry, DoubleSide, MeshBasicMaterial } from 'in-map/3DLibProvider';
-import { OrthographicCamera, Scene } from 'in-map/3DLibProvider';
+import { OrthographicCamera, Scene, LinearFilter } from 'in-map/3DLibProvider';
 import { loadImage } from 'in-map/services/imageLoader';
 
 export default class BackgroundScene {
@@ -30,6 +30,8 @@ export default class BackgroundScene {
     plane.renderOrder = 1;
     require(['in-new-components/GlobeView/textures/background.jpg'], worldDiffuseMapPath => {
       plane.material.map = loadImage(worldDiffuseMapPath, tex => {
+        tex.minFilter = LinearFilter;
+        tex.generateMipmaps = false;
         tex.needsUpdate = true;
       });
       scene.add(plane);
