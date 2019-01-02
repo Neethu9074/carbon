@@ -25,7 +25,6 @@ import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { fromJS } from 'immutable';
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -55,10 +54,10 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
           const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
             form.get('matchSpecification').toJS()
           );
-          const filters = fromJS({
+          const filters = {
             timeConfig,
             tagFilter: tagFiltersForSubscription
-          });
+          };
           return (
             <Fragment>
               <Steps
