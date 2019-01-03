@@ -33,10 +33,25 @@ export function init() {
   initMixpanelCore(mixpanelIsActive => {
     if (mixpanelIsActive) {
       createTracker('pageLoadOrPageReload')();
+      initPortalActivityHeartbeat();
       initUsageDurationTrackers();
       initViewTrackers();
     }
   });
+}
+
+/**
+ * Send an activity beacon once each hour. This is used by the portal to track which users have used Instana on which
+ * day. Just tracking the sign in would not be good enough, since a user can use Instana up to 7 days without signing
+ * in again.
+ */
+function initPortalActivityHeartbeat() {
+  const tracker = createTracker('user.isActive');
+  const trackActivity = () => {
+    tracker();
+    setTimeout(trackActivity, 60 * 60 * 1000 /* one hour resolution */);
+  };
+  trackActivity();
 }
 
 function initUsageDurationTrackers() {
