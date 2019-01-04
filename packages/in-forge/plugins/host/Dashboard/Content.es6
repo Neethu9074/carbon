@@ -66,7 +66,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
               y1={{
-                min: 0,
                 formatter: number.compact,
                 metrics: ['ctxt'],
                 labels: ['Context Switches'],
