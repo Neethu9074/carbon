@@ -10,8 +10,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 
 import Sticky from 'in-components/Sticky';
 
-import locals from './QueryBuilderWorkspace.mless';
-
 export default function QueryBuilderWorkspace(props) {
   const { filters, groupBy, removeTagFilter } = props;
   const tagFilters = filters.tagFilter;
@@ -25,16 +23,14 @@ export default function QueryBuilderWorkspace(props) {
       }
     >
       <MaxWidthFullscreenContainer>
-        <div className={locals.filterRow}>
-          <TagFilterList
-            tagFilters={tagFilters.map(tagFilter => ({
-              tag: tagFilter,
-              onClick: () => setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
-              onRemove: () => removeTagFilter(tagFilter.name)
-            }))}
-            defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
-          />
-        </div>
+        <TagFilterList
+          tagFilters={tagFilters.map(tagFilter => ({
+            tag: tagFilter,
+            onClick: () => setActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+            onRemove: () => removeTagFilter(tagFilter.name)
+          }))}
+          defaultFilters={getConfigByDataSource(filters.dataSource).defaultFilters}
+        />
         <AnalyzeGroupingInfo {...props} group={groupBy} timeConfig={timeConfig} tagFilters={tagFilters} />
       </MaxWidthFullscreenContainer>
     </Sticky>

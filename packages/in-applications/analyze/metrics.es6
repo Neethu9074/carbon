@@ -7,7 +7,7 @@ export const defaultMetrics = {
   call: [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors', aggregation: 'MEAN' }]
 };
 
-const latency = newTimeMetric('latency', 'Latency');
+const latency = newTimeMetric({ metric: 'latency', label: 'Latency' });
 const errorRate = {
   metric: 'errors',
   label: 'Error Rate',

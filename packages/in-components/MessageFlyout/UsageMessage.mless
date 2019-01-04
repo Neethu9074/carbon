@@ -37,10 +37,7 @@
   }
 
   .button {
-    font-weight: normal;
     outline: none;
-    color: white;
-    font-weight: 900;
   }
 
   .content {

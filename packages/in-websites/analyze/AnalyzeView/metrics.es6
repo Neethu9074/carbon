@@ -1,6 +1,7 @@
-import { newTimeMetric, newSizeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpers';
+import { newTimeMetric, newNumberMetric, newSizeMetric, withRawDataField } from 'in-analyze/metricDefinitionHelpers';
+import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { percentage } from 'in-services/formatters/number';
+import { identity } from 'in-services/formatters/string';
 import { affectedUsers } from 'in-websites/formatters';
 
 export const defaultMetrics = {
@@ -11,19 +12,23 @@ export const defaultMetrics = {
 };
 
 const resourceTimingMetrics = [
-  newTimeMetric('redirectTime', 'Redirect Time', 'Resource Timing'),
-  newTimeMetric('appCacheTime', 'AppCache Time', 'Resource Timing'),
-  newTimeMetric('dnsTime', 'DNS Time', 'Resource Timing'),
-  newTimeMetric('tcpTime', 'TCP Time', 'Resource Timing'),
-  newTimeMetric('sslTime', 'SSL Time', 'Resource Timing'),
-  newTimeMetric('requestTime', 'Request Time', 'Resource Timing'),
-  newTimeMetric('responseTime', 'Response Time', 'Resource Timing')
+  withRawDataField(newTimeMetric({ metric: 'redirectTime', label: 'Redirect Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'appCacheTime', label: 'AppCache Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'dnsTime', label: 'DNS Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'tcpTime', label: 'TCP Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'sslTime', label: 'SSL Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'requestTime', label: 'Request Time', category: 'Resource Timing' })),
+  withRawDataField(newTimeMetric({ metric: 'responseTime', label: 'Response Time', category: 'Resource Timing' }))
 ];
 
 const resourceSizeMetrics = [
-  newSizeMetric('encodedBodySize', 'Encoded Body Size', 'Resource Sizing'),
-  newSizeMetric('decodedBodySize', 'Decoded Body Size', 'Resource Sizing'),
-  newSizeMetric('transferSize', 'Transfer Size', 'Resource Sizing')
+  withRawDataField(
+    newSizeMetric({ metric: 'encodedBodySize', label: 'Encoded Body Size', category: 'Resource Sizing' })
+  ),
+  withRawDataField(
+    newSizeMetric({ metric: 'decodedBodySize', label: 'Decoded Body Size', category: 'Resource Sizing' })
+  ),
+  withRawDataField(newSizeMetric({ metric: 'transferSize', label: 'Transfer Size', category: 'Resource Sizing' }))
 ];
 
 const uniqueUsers = {
@@ -41,49 +46,107 @@ const errorRate = {
   formatter: percentage,
   supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
-  min: 0
+  min: 0,
+  rawDataField: 'errorCount',
+  rawDataLabel: 'Error Count',
+  rawDataFormatter: number.forcedCompact
 };
 
 export const availableMetrics = {
   pageLoad: [
-    newTimeMetric('beaconDuration', 'onLoad Time'),
+    withRawDataField(newTimeMetric('beaconDuration', 'onLoad Time'), {
+      rawDataField: 'duration'
+    }),
     uniqueUsers,
 
-    newTimeMetric('unloadTime', 'Unload Time', 'Navigation Timing'),
+    withRawDataField(newTimeMetric('unloadTime', 'Unload Time', 'Navigation Timing')),
     // reassign the category
     ...resourceTimingMetrics.map(metric => ({
       ...metric,
       category: 'Navigation Timing'
     })),
-    newTimeMetric('processingTime', 'Processing Time', 'Navigation Timing'),
-    newTimeMetric('onLoadEventDuration', 'onLoad Event Time', 'Navigation Timing'),
-    newTimeMetric('domTime', 'DOM Time', 'Navigation Timing'),
-    newTimeMetric('childrenTime', 'Children Time', 'Navigation Timing'),
+    withRawDataField(
+      newTimeMetric({ metric: 'processingTime', label: 'Processing Time', category: 'Navigation Timing' })
+    ),
+    withRawDataField(
+      newTimeMetric({ metric: 'onLoadEventDuration', label: 'onLoad Event Time', category: 'Navigation Timing' }),
+      {
+        rawDataField: 'onLoadTime'
+      }
+    ),
+    withRawDataField(newTimeMetric({ metric: 'domTime', label: 'DOM Time', category: 'Navigation Timing' })),
+    withRawDataField(newTimeMetric({ metric: 'childrenTime', label: 'Children Time', category: 'Navigation Timing' })),
 
-    newTimeMetric('firstPaintTime', 'First Paint Time', 'Paint Timing'),
-    newTimeMetric('firstContentfulPaintTime', 'First-Contentful Paint Time', 'Paint Timing')
+    withRawDataField(newTimeMetric({ metric: 'firstPaintTime', label: 'First Paint Time', category: 'Paint Timing' })),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'firstContentfulPaintTime',
+        label: 'First-Contentful Paint Time',
+        category: 'Paint Timing'
+      })
+    )
   ],
   resourceLoad: [
-    newTimeMetric('beaconDuration', 'Retrieval Time'),
+    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
+      rawDataField: 'duration'
+    }),
     uniqueUsers,
     ...resourceTimingMetrics,
     ...resourceSizeMetrics
   ],
   httpRequest: [
-    newTimeMetric('beaconDuration', 'Retrieval Time'),
+    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
+      rawDataField: 'duration'
+    }),
     errorRate,
     uniqueUsers,
 
-    newNumberMetric('http1xx', 'HTTP 1XX Count', 'HTTP Status'),
-    newNumberMetric('http2xx', 'HTTP 2XX Count', 'HTTP Status'),
-    newNumberMetric('http3xx', 'HTTP 3XX Count', 'HTTP Status'),
-    newNumberMetric('http4xx', 'HTTP 4XX Count', 'HTTP Status'),
-    newNumberMetric('http5xx', 'HTTP 5XX Count', 'HTTP Status'),
+    withRawDataField(newNumberMetric({ metric: 'http1xx', label: 'HTTP 1XX Count', category: 'HTTP Status' }), {
+      rawDataField: 'httpCallStatus',
+      rawDataLabel: 'HTTP Status',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'http2xx', label: 'HTTP 2XX Count', category: 'HTTP Status' }), {
+      rawDataField: 'httpCallStatus',
+      rawDataLabel: 'HTTP Status',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'http3xx', label: 'HTTP 3XX Count', category: 'HTTP Status' }), {
+      rawDataField: 'httpCallStatus',
+      rawDataLabel: 'HTTP Status',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'http4xx', label: 'HTTP 4XX Count', category: 'HTTP Status' }), {
+      rawDataField: 'httpCallStatus',
+      rawDataLabel: 'HTTP Status',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'http5xx', label: 'HTTP 5XX Count', category: 'HTTP Status' }), {
+      rawDataField: 'httpCallStatus',
+      rawDataLabel: 'HTTP Status',
+      rawDataFormatter: identity
+    }),
 
-    newNumberMetric('httpGet', 'HTTP GET Count', 'HTTP Method'),
-    newNumberMetric('httpPost', 'HTTP POST Count', 'HTTP Method'),
-    newNumberMetric('httpPut', 'HTTP PUT Count', 'HTTP Method'),
-    newNumberMetric('httpDelete', 'HTTP DELETE Count', 'HTTP Method')
+    withRawDataField(newNumberMetric({ metric: 'httpGet', label: 'HTTP GET Count', category: 'HTTP Method' }), {
+      rawDataField: 'httpCallMethod',
+      rawDataLabel: 'HTTP Method',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'httpPost', label: 'HTTP POST Count', category: 'HTTP Method' }), {
+      rawDataField: 'httpCallMethod',
+      rawDataLabel: 'HTTP Method',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'httpPut', label: 'HTTP PUT Count', category: 'HTTP Method' }), {
+      rawDataField: 'httpCallMethod',
+      rawDataLabel: 'HTTP Method',
+      rawDataFormatter: identity
+    }),
+    withRawDataField(newNumberMetric({ metric: 'httpDelete', label: 'HTTP DELETE Count', category: 'HTTP Method' }), {
+      rawDataField: 'httpCallMethod',
+      rawDataLabel: 'HTTP Method',
+      rawDataFormatter: identity
+    })
   ],
   error: [
     {

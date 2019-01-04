@@ -117,7 +117,7 @@ export default function createControls(canvas, camera, props) {
     const dt = getDeltaTime();
 
     if (autoRotateEnabled) {
-      targetRotationY += dt * autoRotatationSpeedPerSec;
+      targetRotationY -= dt * autoRotatationSpeedPerSec;
     }
 
     const deltaX = (targetRotationX - currentRotationX) * dt * cameraMoveSpeed;

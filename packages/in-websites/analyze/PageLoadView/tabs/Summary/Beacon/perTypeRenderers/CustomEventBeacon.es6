@@ -4,6 +4,7 @@ import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-we
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
@@ -41,16 +42,28 @@ export const Body = ({ beacon }) => {
 
   return (
     <Fragment>
-      {!hasError && (
-        <Row>
-          {Object.keys(beacon.meta).length > 0 && (
-            <Col lg={6}>
-              <BodyHeader>Meta</BodyHeader>
-              <Meta beacon={beacon} />
-            </Col>
-          )}
-        </Row>
-      )}
+      <Row>
+        <Col lg={6}>
+          <BodyHeader>Custom Event</BodyHeader>
+
+          <Dl>
+            <Di title="Event Name">{beacon.customEventName}</Di>
+            <Di title="URI">
+              <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
+                {beacon.locationUrl}
+              </a>
+            </Di>
+            <BackendDi beacon={beacon} />
+          </Dl>
+        </Col>
+
+        {Object.keys(beacon.meta).length > 0 && (
+          <Col lg={6}>
+            <BodyHeader>Meta</BodyHeader>
+            <Meta beacon={beacon} />
+          </Col>
+        )}
+      </Row>
 
       {hasError && (
         <Fragment>
@@ -69,13 +82,6 @@ export const Body = ({ beacon }) => {
                 <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
               )}
             </Col>
-
-            {Object.keys(beacon.meta).length > 0 && (
-              <Col lg={6}>
-                <BodyHeader>Meta</BodyHeader>
-                <Meta beacon={beacon} />
-              </Col>
-            )}
           </Row>
 
           <Row>

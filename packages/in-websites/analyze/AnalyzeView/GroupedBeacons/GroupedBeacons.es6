@@ -23,6 +23,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyzePath } from 'in-websites/navigation/paths';
+import { changeAnalyzeMetrics } from 'in-websites/tracker';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { dataSourceTitles } from 'in-websites/tags';
 import Sticky from 'in-components/Sticky';
@@ -72,6 +73,10 @@ export default compose(
               (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
               false
             );
+            changeAnalyzeMetrics({
+              beaconType,
+              metrics: JSON.stringify(metrics)
+            });
             onChange({
               [metricsMatrixParameter]: metrics,
               orderBy: orderByMetricStillExists ? orderBy : 'beaconCount_SUM_Agg',

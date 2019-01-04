@@ -12,34 +12,37 @@ export default function TagFilterList({
   onOperatorChanged
 }) {
   const shouldAddSpaceBetweenFilterGroups = containsAndConjunction(tagFilters);
+  const tagFiltersToPresent = tagFilters.filter(tagFilter => !isInDefaultFilters(defaultFilters, tagFilter)); // do not display default filters
+
+  if (tagFiltersToPresent.length === 0) {
+    return null;
+  }
 
   return (
     <div className={locals.tagFilterListWrapper}>
       <ul className={locals.tagFilterList}>
-        {tagFilters
-          .filter(tagFilter => !isInDefaultFilters(defaultFilters, tagFilter)) // do not display default filters
-          .map((tagFilter, i) => {
-            const hasExtraMargin = shouldAddSpaceBetweenFilterGroups && tagFilter.tag.conjunction === 'OR';
-            return (
-              <li
-                key={i}
-                className={evaluateClassNames({
-                  [locals.item]: true,
-                  [locals.extraMargin]: hasExtraMargin
-                })}
-              >
-                <TagFilter
-                  hasExtraMargin={hasExtraMargin}
-                  tagFilter={tagFilter}
-                  isFirstOperator={i === 0}
-                  isLastOperator={i === tagFilters.length - 1}
-                  filterConnectionOperators={filterConnectionOperators}
-                  onOperatorChanged={operator => onOperatorChanged(i, operator)}
-                  isOnlyFilter={tagFilters.length === 1}
-                />
-              </li>
-            );
-          })}
+        {tagFiltersToPresent.map((tagFilter, i) => {
+          const hasExtraMargin = shouldAddSpaceBetweenFilterGroups && tagFilter.tag.conjunction === 'OR';
+          return (
+            <li
+              key={i}
+              className={evaluateClassNames({
+                [locals.item]: true,
+                [locals.extraMargin]: hasExtraMargin
+              })}
+            >
+              <TagFilter
+                hasExtraMargin={hasExtraMargin}
+                tagFilter={tagFilter}
+                isFirstOperator={i === 0}
+                isLastOperator={i === tagFilters.length - 1}
+                filterConnectionOperators={filterConnectionOperators}
+                onOperatorChanged={operator => onOperatorChanged(i, operator)}
+                isOnlyFilter={tagFilters.length === 1}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
