@@ -1,13 +1,19 @@
 import React from 'react';
+import _ from 'lodash';
 
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
-import { getRawPayload } from 'in-stores/snapshot';
+import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
 
 export default connectTo(
-  ({ snapshotId }) => {
+  ({ snapshotId, annotations }) => {
+    if (annotations || !snapshotId) {
+      return {};
+    }
+
     return {
-      annotations: getRawPayload(snapshotId, 'annotations')
+      annotations: getAnnotations(snapshotId)
     };
   },
   function AnnotationsList({ annotations }) {
@@ -15,8 +21,44 @@ export default connectTo(
       return null;
     }
 
-    const items = annotations.entrySeq().map(([key, value]) => ({ key, value }));
+    const formattedAnnotations = annotations.map(({ key, value }) => ({
+      key,
+      value: formatAnnotation(value)
+    }));
 
-    return <KeyValueList title="Annotations" items={items} />;
+    return <KeyValueList title="Annotations" items={formattedAnnotations} />;
   }
 );
+
+function formatAnnotation(value) {
+  const code = parseAnnotation(value);
+  return <Code showLineNumbers={false} code={code.formatted} lang={code.lang} />;
+}
+
+function parseAnnotation(value) {
+  return _(formatters)
+    .map(formatter => tryToFormat(formatter, value))
+    .find(Boolean);
+}
+
+const formatters = [
+  {
+    lang: 'json',
+    format: value => JSON.stringify(JSON.parse(value), null, 2)
+  },
+  {
+    // default formatter
+    format: value => value
+  }
+];
+
+function tryToFormat(formatter, value) {
+  try {
+    return {
+      lang: formatter.lang,
+      formatted: formatter.format(value)
+    };
+  } catch (e) {
+    return null;
+  }
+}

@@ -9,7 +9,7 @@ export default function PortsList({ selectors, defaultOperator }) {
   }
 
   return (
-    <Card title="Selectors">
+    <Card title="Selector">
       <Table tableInCard>
         <Thead>
           <Tr>

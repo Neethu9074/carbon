@@ -1,7 +1,6 @@
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
-import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
 import Events from 'in-kubernetes/Dashboards/Service/tabs/Events';
 
@@ -15,11 +14,6 @@ export default [
     label: 'Details',
     path: `${serviceDashboardFullyQualified}/details`,
     component: Details
-  },
-  {
-    label: 'Endpoints',
-    path: `${serviceDashboardFullyQualified}/endpoints`,
-    component: Endpoints
   },
   {
     label: 'Pods',

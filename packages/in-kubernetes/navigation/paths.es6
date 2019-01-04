@@ -16,25 +16,31 @@ export const kubernetes = '/kubernetes';
 
 export const serviceDashboard = `/service`;
 export const serviceDashboardFullyQualified = `${kubernetes}${serviceDashboard}`;
+export const serviceDashboardDetailsFullyQualified = `${serviceDashboardFullyQualified}/details`;
 
 export const clusterList = '/clusters';
 export const clusterListFullyQualified = `${kubernetes}${clusterList}`;
 export const clusterDashboard = `/cluster`;
 export const clusterDashboardFullyQualified = `${kubernetes}${clusterDashboard}`;
+export const clusterDashboardDetailsFullyQualified = `${clusterDashboardFullyQualified}/details`;
 
 export const namespaceList = '/namespaces';
 export const namespaceListFullyQualified = `${kubernetes}${namespaceList}`;
 export const namespaceDashboard = `/namespace`;
 export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboard}`;
+export const namespaceDashboardDetailsFullyQualified = `${namespaceDashboardFullyQualified}/details`;
 
 export const podDashboard = `/pod`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
+export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;
 
 export const nodeDashboard = `/node`;
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
+export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
 
 export const deploymentDashboard = `/deployment`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
+export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardDetailsFullyQualified}/details`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({

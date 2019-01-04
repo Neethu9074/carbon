@@ -9,7 +9,7 @@ import locals from './SideNavigation.mless';
 export function SideNavigation({ title, children }) {
   return (
     <div className={locals.nav}>
-      <div className={locals.title}>{title}</div>
+      {title && <div className={locals.title}>{title}</div>}
       <div className={locals.tabList}>{children}</div>
     </div>
   );
