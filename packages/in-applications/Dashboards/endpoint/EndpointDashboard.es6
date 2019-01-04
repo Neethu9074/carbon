@@ -8,6 +8,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { EndpointBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { configureSyntheticEndpointsView } from 'in-applications/navigation/paths';
+import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -15,7 +16,6 @@ import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import Message from 'in-new-components/Message';

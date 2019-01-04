@@ -13,6 +13,8 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
+import { setTimeConfig } from 'in-stores/time/config';
+import { isBlank } from 'in-services/util/string';
 
 export const analyze = '/analyze';
 export const analyzeRaw = `${analyze}/raw`;
@@ -27,9 +29,10 @@ export function getLinkToAnalyze({
   endpointName,
   dataSource = 'traces',
   filters,
-  groupByTag,
+  groupByTag, // use an empty object to prevent default grouping
   orderBy,
-  orderDirection
+  orderDirection,
+  timeConfig
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -66,7 +69,7 @@ export function getLinkToAnalyze({
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
     }
 
-    const orderMatrixParameterPrefix = groupByTag == {} ? 'rawItems.' : 'groups.';
+    const orderMatrixParameterPrefix = groupByTag == null || !isBlank(groupByTag.name) ? 'groups.' : 'rawItems.';
     if (orderBy != null) {
       setOrDeleteMatrixKey(params, analyze, `${orderMatrixParameterPrefix}${orderByMatrixParameter}`, orderBy);
     }
@@ -78,6 +81,10 @@ export function getLinkToAnalyze({
         `${orderMatrixParameterPrefix}${orderDirectionMatrixParameter}`,
         orderDirection
       );
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
     }
   });
 }
