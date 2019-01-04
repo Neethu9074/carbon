@@ -16,17 +16,15 @@ export default connectTo(
       annotations: getAnnotations(snapshotId)
     };
   },
-  function AnnotationsList({ annotations }) {
-    if (!annotations || annotations.length === 0) {
-      return null;
-    }
+  function AnnotationsList({ annotations, onEmptyText }) {
+    const formattedAnnotations =
+      annotations &&
+      annotations.map(({ key, value }) => ({
+        key,
+        value: formatAnnotation(value)
+      }));
 
-    const formattedAnnotations = annotations.map(({ key, value }) => ({
-      key,
-      value: formatAnnotation(value)
-    }));
-
-    return <KeyValueList title="Annotations" items={formattedAnnotations} />;
+    return <KeyValueList title="Annotations" items={formattedAnnotations} onEmptyText={onEmptyText} />;
   }
 );
 

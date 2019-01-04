@@ -40,7 +40,7 @@ export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified
 
 export const deploymentDashboard = `/deployment`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
-export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardDetailsFullyQualified}/details`;
+export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardFullyQualified}/details`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({

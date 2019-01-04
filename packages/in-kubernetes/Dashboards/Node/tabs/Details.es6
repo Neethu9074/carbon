@@ -1,14 +1,21 @@
 import React, { Fragment } from 'react';
 
-import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
-import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
-import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
+import DetailsNavigation, {
+  labelsNavigationItem,
+  annotationsNavigationItem,
+  specNavigationItem
+} from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
+import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import connectTo from 'in-hoc/connectTo';
 
-export default function Details({ data: node }) {
-  const snapshotId = node.id;
-
+export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node.id) }), function Details({
+  data: node,
+  annotations,
+  timeConfig
+}) {
   return (
     <Fragment>
       <Row>
@@ -22,23 +29,18 @@ export default function Details({ data: node }) {
           <KpiCard title="Hostname" value={node.hostname} raw />
         </Col>
       </Row>
-
-      <Row>
-        <Col lg={12}>
-          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={node.labels} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12}>
-          <Spec snapshotId={snapshotId} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <Annotations snapshotId={snapshotId} />
-        </Col>
-      </Row>
+      <DetailsNavigation
+        navigationItems={navigationItems}
+        resource={node}
+        annotations={annotations}
+        timeConfig={timeConfig}
+      />
     </Fragment>
   );
-}
+});
+
+const navigationItems = [
+  labelsNavigationItem(nodeDashboardDetailsFullyQualified),
+  annotationsNavigationItem(`${nodeDashboardDetailsFullyQualified}/annotations`),
+  specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`)
+].filter(Boolean);

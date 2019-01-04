@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 
-import DetailsNavigation from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import DetailsNavigation, {
+  labelsNavigationItem,
+  annotationsNavigationItem,
+  specNavigationItem
+} from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import { serviceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
-import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
-import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -48,24 +49,9 @@ const navigationItems = [
     label: 'Selector',
     component: ({ resource }) => <SelectorsList selectors={resource.selectors} defaultOperator="=" />
   },
-  {
-    path: `${serviceDashboardDetailsFullyQualified}/labels`,
-    icon: 'lib_kubernetes_label',
-    renderLabel: ({ resource }) => `Labels (${resource.labels.length})`,
-    component: ({ resource }) => (
-      <KeyValueList title="Labels" icon="lib_kubernetes_label" items={resource.labels} onEmptyText="No Labels" />
-    )
-  },
-  {
-    path: `${serviceDashboardDetailsFullyQualified}/annotations`,
-    renderLabel: ({ annotations }) => `Annotations ${annotations ? `(${annotations.length})` : ''}`,
-    component: ({ annotations }) => <Annotations annotations={annotations} />
-  },
-  {
-    path: `${serviceDashboardDetailsFullyQualified}/spec`,
-    label: 'Spec',
-    component: ({ resource }) => <Spec snapshotId={resource.id} />
-  },
+  labelsNavigationItem(`${serviceDashboardDetailsFullyQualified}/labels`),
+  annotationsNavigationItem(`${serviceDashboardDetailsFullyQualified}/annotations`),
+  specNavigationItem(`${serviceDashboardDetailsFullyQualified}/spec`),
   {
     path: `${serviceDashboardDetailsFullyQualified}/ports`,
     icon: 'lib_kubernetes_port',

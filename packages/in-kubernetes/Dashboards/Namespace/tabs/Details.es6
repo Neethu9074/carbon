@@ -1,13 +1,22 @@
 import React, { Fragment } from 'react';
 
-import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
-import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
+import DetailsNavigation, {
+  labelsNavigationItem,
+  annotationsNavigationItem,
+  specNavigationItem
+} from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import { namespaceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
-import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
+import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import connectTo from 'in-hoc/connectTo';
 
-export default function Details({ data: namespace }) {
+export default connectTo(({ data: namespace }) => ({ annotations: getAnnotations(namespace.id) }), function Details({
+  data: namespace,
+  annotations,
+  timeConfig
+}) {
   return (
     <Fragment>
       <Row>
@@ -18,22 +27,18 @@ export default function Details({ data: namespace }) {
           <DateTimeKpiCard title="Creation Time" time={namespace.created} raw />
         </Col>
       </Row>
-
-      <Row>
-        <Col lg={12}>
-          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={namespace.labels} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <Spec snapshotId={namespace.id} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <Annotations snapshotId={namespace.id} />
-        </Col>
-      </Row>
+      <DetailsNavigation
+        navigationItems={navigationItems}
+        resource={namespace}
+        annotations={annotations}
+        timeConfig={timeConfig}
+      />
     </Fragment>
   );
-}
+});
+
+const navigationItems = [
+  labelsNavigationItem(namespaceDashboardDetailsFullyQualified),
+  annotationsNavigationItem(`${namespaceDashboardDetailsFullyQualified}/annotations`),
+  specNavigationItem(`${namespaceDashboardDetailsFullyQualified}/spec`)
+].filter(Boolean);
