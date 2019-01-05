@@ -34,7 +34,7 @@ export default connect(({ snapshot, timeConfig }) => ({
 
   const getLogsCommand = `
 # Get logs directly from machine. Remember to insert your user name
-ssh -t <your user name>@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
+ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
 `.trim();
 
   return (
@@ -82,7 +82,7 @@ ssh -t <your user name>@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/log
       </DashboardSection>
 
       <DashboardSection title="Common Commands">
-        <Code lang="plain" code={getLogsCommand} />
+        <Code lang="plain" code={getLogsCommand} showLineNumbers={false} />
       </DashboardSection>
     </Fragment>
   );

@@ -54,12 +54,12 @@ const errorRate = {
 
 export const availableMetrics = {
   pageLoad: [
-    withRawDataField(newTimeMetric('beaconDuration', 'onLoad Time'), {
+    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'onLoad Time' }), {
       rawDataField: 'duration'
     }),
     uniqueUsers,
 
-    withRawDataField(newTimeMetric('unloadTime', 'Unload Time', 'Navigation Timing')),
+    withRawDataField(newTimeMetric({ metric: 'unloadTime', label: 'Unload Time', category: 'Navigation Timing' })),
     // reassign the category
     ...resourceTimingMetrics.map(metric => ({
       ...metric,

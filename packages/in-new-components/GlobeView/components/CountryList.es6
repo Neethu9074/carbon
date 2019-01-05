@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getHeatMapColor from 'in-services/heatMapColors';
+import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
 import { rgbToHex } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
@@ -47,7 +47,7 @@ export default connectTo(
         <ul className={locals.list}>
           {items.map(item => {
             const intensity = Math.max(1, item.pageLoads - min) / Math.max(1, max - min);
-            const color = getHeatMapColor(intensity);
+            const color = getHeatMapColor(intensity, lightGreenToDarkGreenRgb);
             return (
               <li key={item.country} className={locals.listItem}>
                 <span className={locals.countryName}>{item.country}:</span> {number.compact(item.pageLoads)}

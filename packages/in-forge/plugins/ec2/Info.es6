@@ -25,7 +25,7 @@ export default function Info({ snapshot }) {
 
         <DescriptionItem title="Reservation ID">{data.get('reservation-id')}</DescriptionItem>
 
-        <DescriptionItem title="Security Group">{data.get('security-groups', []).join(', ')}</DescriptionItem>
+        <DescriptionItem title="Security Groups">{data.get('security-groups', []).join(', ')}</DescriptionItem>
 
         <DescriptionItem title="Public Keys">{data.get('public-keys', []).join(', ')}</DescriptionItem>
 

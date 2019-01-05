@@ -4,9 +4,9 @@ import React from 'react';
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import { lightGreenToDarkGreenHex } from 'in-services/heatMapColors';
 import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import HeatMapLegend from 'in-new-components/HeatMapLegend';
-import { yellowToRedHex } from 'in-services/heatMapColors';
 import Button from 'in-new-components/MapControls/Button';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import Tooltip from 'in-components/Tooltip';
@@ -140,8 +140,8 @@ function onDidMount({
     })
   };
 
-  const lightColor = yellowToRedHex[0];
-  const darkColor = Object.keys(data).length > 0 ? yellowToRedHex[1] : lightColor;
+  const lightColor = lightGreenToDarkGreenHex[0];
+  const darkColor = Object.keys(data).length > 0 ? lightGreenToDarkGreenHex[1] : lightColor;
   const listeners = [
     {
       event: 'clickMapObject',
@@ -229,8 +229,8 @@ function Legend({ data, valueFormatter }) {
       className={locals.legend}
       valueFrom={valueFormatter(min)}
       valueTo={valueFormatter(max)}
-      colorFrom={yellowToRedHex[0]}
-      colorTo={yellowToRedHex[1]}
+      colorFrom={lightGreenToDarkGreenHex[0]}
+      colorTo={lightGreenToDarkGreenHex[1]}
     />
   );
 }

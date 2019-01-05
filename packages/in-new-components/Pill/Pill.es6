@@ -8,14 +8,14 @@ import locals from './Pill.mless';
 
 export const kinds = ['bold', 'light', 'lighter', 'inverted'];
 
-export default function Pill({ className, children, color = '#000000', kind = 'bold' }) {
+export default function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold' }) {
   let style;
   if (kind == 'inverted') {
     style = { color };
   } else if (kind == 'light') {
     style = {
       color,
-      background: lighten(color, 0.1)
+      background: lighten(color, lightenOpacity)
     };
   } else if (kind == 'lighter') {
     style = {
@@ -39,5 +39,6 @@ Pill.propTypes = {
   kind: rpt.string,
   color: rpt.string,
   className: rpt.string,
-  children: rpt.node.isRequired
+  children: rpt.node.isRequired,
+  lightenOpacity: rpt.number
 };

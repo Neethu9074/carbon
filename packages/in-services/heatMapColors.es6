@@ -12,6 +12,9 @@ export const yellowToRedRgb = yellowToRedHex.map(hexToRGBNormalized);
 export const lightBlueToDarkBlueHex = ['#d2e1ed', '#2473ae'];
 export const lightBlueToDarkBlueRgb = lightBlueToDarkBlueHex.map(hexToRGBNormalized);
 
+export const lightGreenToDarkGreenHex = ['#E5E696', '#003700'];
+export const lightGreenToDarkGreenRgb = lightGreenToDarkGreenHex.map(hexToRGBNormalized);
+
 export default function getHeatMapColor(intensity = 0, colorPalette = yellowToRedRgb) {
   intensity = Math.min(1, Math.max(0, intensity)); // [0, 1]
 
