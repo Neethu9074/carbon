@@ -39,7 +39,7 @@ const helpTexts = {
   event: 'Changes, issues and incidents',
   span: 'Spans within traces',
   'span.website': 'Web end-user monitoring',
-  'span.website.geo': 'Geo location based on IP',
+  'span.website.geo': 'Geolocation based on IP',
   'span.website.error': 'Uncaught errors',
   'span.website.timing': 'Navigation timing',
   'span.website.resource': 'Resource timing',
