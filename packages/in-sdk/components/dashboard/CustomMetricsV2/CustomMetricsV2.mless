@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .pill {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .pinned {
+    fill: @lib__colors__red800;
+  }
+
+  .unpinned {
+    fill: #2d4048;
+  }
+}
