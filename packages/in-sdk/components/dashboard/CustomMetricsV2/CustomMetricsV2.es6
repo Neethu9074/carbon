@@ -202,17 +202,17 @@ function CustomMetricsV2({
             {
               name: `${histogramsMetricPrefix}${name}.mean`,
               label: 'Mean',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.50th`,
               label: '50th',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.99th`,
               label: '99th',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             }
           ]
         };
