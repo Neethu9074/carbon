@@ -81,6 +81,7 @@ export function createStore({
     onSelectedRowKeyChange,
     dispose,
     toggleExpanded,
+    setExpansionStateForAll,
     onPrevPage,
     onNextPage,
     onRowChange,
@@ -119,6 +120,14 @@ export function createStore({
         direction: sort.direction
       });
     });
+  }
+
+  function setExpansionStateForAll(expanded) {
+    data.forEach(row => {
+      row.expanded = expanded;
+      row.mutationCount++;
+    });
+    expandStateChange$.emit(true);
   }
 
   function toggleExpanded(rowKey) {

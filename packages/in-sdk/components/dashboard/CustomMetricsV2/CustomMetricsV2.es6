@@ -152,6 +152,7 @@ function CustomMetricsV2({
           metrics: [
             {
               name: `${countersMetricPrefix}${name}`,
+              label: 'Count',
               formatter: withSiPrefixThreeDecimalPlaces
             }
           ]
@@ -298,7 +299,14 @@ function CustomMetricsV2({
     <Fragment>
       {pinnedRows.length > 0 && (
         <DashboardSection title={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}>
-          <Table cols={cols} rows={pinnedRows} getRowDetails={getDetails} maxItemsPerPage={100} initialSortColumn={2} />
+          <Table
+            cols={cols}
+            rows={pinnedRows}
+            getRowDetails={getDetails}
+            maxItemsPerPage={100}
+            initialSortColumn={2}
+            showExpandAll
+          />
         </DashboardSection>
       )}
 
