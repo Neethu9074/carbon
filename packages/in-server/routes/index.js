@@ -219,7 +219,7 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
 }
 
 function sendUnauthorizedResponse(req, res) {
-  const baseUrl = `https://${req.unit}-${req.tenant}${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
+  const baseUrl = `https://${req.unit}-${req.tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
   res.status(401).send(
     compiledRedirectTemplate({
       signInUrl: `${baseUrl}/auth/signIn`,

@@ -13,25 +13,46 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
   req.tenant = coords.tenant;
   req.unit = coords.unit;
 
-  configResolver.getUiBackendBaseUrl(coords.tenant, coords.unit)
-    .then(uiBackendBaseUrl => {
+  configResolver.getUiBackendBaseUrl(coords.tenant, coords.unit).then(
+    uiBackendBaseUrl => {
       req.uiBackendBaseUrl = uiBackendBaseUrl;
 
-      return configResolver.getClientConfig(coords.tenant, coords.unit)
-        .then(clientConfig => {
+      return Promise.all([
+        configResolver.getClientConfig(coords.tenant, coords.unit),
+        configResolver.getBaseUrl(coords.tenant, coords.unit)
+      ]).then(
+        ([clientConfig, baseUrl]) => {
           req.clientConfig = clientConfig;
+          req.uiClientBaseUrl = baseUrl;
           next();
-        }, error => {
+        },
+        error => {
           logError(error);
           errorPages.send500(req, res);
-        });
-    }, error => {
+        }
+      );
+    },
+    error => {
       logError(error);
       errorPages.sendMaintenance(req, res);
-    });
+    }
+  );
 };
 
 function getTenantUnitCoordinates(req) {
+  // required for onprem deployments
+  if (
+    !serverConfig.consul &&
+    !serverConfig.consul.baseUrl &&
+    serverConfig.clientConfig &&
+    serverConfig.clientConfig.tenant
+  ) {
+    return {
+      tenant: serverConfig.clientConfig.tenant,
+      unit: serverConfig.clientConfig.tenantUnit
+    };
+  }
+
   if (!req.hostname) {
     return null;
   }
