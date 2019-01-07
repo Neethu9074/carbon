@@ -46,6 +46,7 @@ export default connectTo(({ data: service }) => ({ annotations: getAnnotations(s
 const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}`,
+    icon: 'lib_kubernetes_selector',
     label: 'Selector',
     component: ({ resource }) => <SelectorsList selectors={resource.selectors} defaultOperator="=" />
   },
