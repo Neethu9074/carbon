@@ -20,7 +20,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Error
+          JavaScript Error
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
