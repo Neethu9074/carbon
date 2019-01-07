@@ -15,6 +15,7 @@ import addSection from 'in-views/eventView/hocs/addSection';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
+import { isInstanaEmail } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -107,11 +108,13 @@ const ChartWrapper = connectTo(
 
     return (
       <div className={`${block}__chart`}>
-        <div className={`${block}__button-panel`}>
-          <DownloadButton>
-            <EventMetricChartDownloadView metric={metric} label={metric} snapshotId={[metricAccessId]} />
-          </DownloadButton>
-        </div>
+        {isInstanaEmail && (
+          <div className={`${block}__button-panel`}>
+            <DownloadButton>
+              <EventMetricChartDownloadView metric={metric} label={metric} snapshotId={[metricAccessId]} />
+            </DownloadButton>
+          </div>
+        )}
 
         <Chart
           snapshotId={metricAccessId}
