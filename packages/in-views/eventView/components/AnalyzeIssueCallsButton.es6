@@ -55,24 +55,25 @@ export default connectTo(
     const dataSource = 'calls';
 
     return (
-      <Button
-        kind="primary"
-        icon="lib_application_call"
-        href$={getLinkToAnalyze({
-          applicationName: applicationLabel,
-          serviceName: serviceLabel,
-          endpointName: endpointLabel,
-          dataSource: dataSource,
-          filters: isErroneous ? [{ name: 'call.erroneous', value: 'true' }] : null,
-          groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
-          orderBy: order.by,
-          orderDirection: order.direction,
-          timeConfig: getTimeConfigFromEvent(event)
-        })}
-        className={locals.analyzeButton}
-      >
-        Analyze Calls
-      </Button>
+      <div className={locals.buttonWrapper}>
+        <Button
+          kind="primary"
+          icon="lib_application_call"
+          href$={getLinkToAnalyze({
+            applicationName: applicationLabel,
+            serviceName: serviceLabel,
+            endpointName: endpointLabel,
+            dataSource: dataSource,
+            filters: isErroneous ? [{ name: 'call.erroneous', value: 'true' }] : null,
+            groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
+            orderBy: order.by,
+            orderDirection: order.direction,
+            timeConfig: getTimeConfigFromEvent(event)
+          })}
+        >
+          Analyze Calls
+        </Button>
+      </div>
     );
   }
 );

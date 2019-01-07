@@ -1,12 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
-import AnalyzeIssueCallsButton from 'in-views/eventView/components/AnalyzeIssueCallsButton';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import StartedMarker from 'in-views/eventView/components/marker/StartedMarker';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Header from 'in-views/eventView/components/Header';
 import Marker from 'in-views/eventView/components/Marker';
 
@@ -20,21 +18,17 @@ export default function EventHeader({ event }) {
   const entityType = event.get('entityType');
 
   return (
-    <Fragment>
-      {twoZeroModeEnabled && <AnalyzeIssueCallsButton event={event} />}
+    <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
+      <div>
+        <EntityWithParentInformation entityId={entityId} entityType={entityType} timeConfig={timeConfigFromEvent} />
 
-      <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
-        <div>
-          <EntityWithParentInformation entityId={entityId} entityType={entityType} timeConfig={timeConfigFromEvent} />
-
-          <div className={`${block}__status-line`}>
-            <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
-            <StartedMarker event={event} />
-            <EndedMarker event={event} />
-            <EventDurationMarker event={event} />
-          </div>
+        <div className={`${block}__status-line`}>
+          <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
+          <StartedMarker event={event} />
+          <EndedMarker event={event} />
+          <EventDurationMarker event={event} />
         </div>
-      </Header>
-    </Fragment>
+      </div>
+    </Header>
   );
 }

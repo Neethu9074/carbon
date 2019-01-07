@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .chartWrapper {
+    width: 100%;
+  }
+
+  .analyzeButtonWrapper {
+    margin-top: 0.625rem;
+  }
+}
