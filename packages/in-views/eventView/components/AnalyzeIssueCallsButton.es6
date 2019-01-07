@@ -10,6 +10,7 @@ import { getEntityOfType, isLoading, hasErrors } from 'in-components/EntityInfor
 import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -51,6 +52,7 @@ export default connectTo(
 
     const isErroneous = isErrorEvent(event);
     const order = getAnalyzeOrder(event);
+    const dataSource = 'calls';
 
     return (
       <Button
@@ -60,9 +62,9 @@ export default connectTo(
           applicationName: applicationLabel,
           serviceName: serviceLabel,
           endpointName: endpointLabel,
-          dataSource: 'calls',
+          dataSource: dataSource,
           filters: isErroneous ? [{ name: 'call.erroneous', value: 'true' }] : null,
-          groupByTag: {}, // prevent default grouping
+          groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
           orderBy: order.by,
           orderDirection: order.direction,
           timeConfig: getTimeConfigFromEventForCharts(event)
