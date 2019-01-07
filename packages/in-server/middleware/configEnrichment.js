@@ -42,8 +42,7 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
 function getTenantUnitCoordinates(req) {
   // required for onprem deployments
   if (
-    !serverConfig.consul &&
-    !serverConfig.consul.baseUrl &&
+    (!serverConfig.consul || !serverConfig.consul.baseUrl) &&
     serverConfig.clientConfig &&
     serverConfig.clientConfig.tenant
   ) {
