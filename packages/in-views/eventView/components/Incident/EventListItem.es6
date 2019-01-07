@@ -4,6 +4,7 @@ import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
+import AnalyzeIssueCallsButton from 'in-views/eventView/components/AnalyzeIssueCallsButton';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
@@ -100,8 +101,9 @@ export default connectTo(
                   <EventChart event={event} />
                   <Spacer />
                   <EventDependecyGraph event={event} />
-                  {!twoZeroModeEnabled && <Spacer />}
+                  <Spacer />
                   {!twoZeroModeEnabled && <EventTraces event={event} />}
+                  {twoZeroModeEnabled && <AnalyzeIssueCallsButton event={event} />}
                 </div>
               ) : null}
             </div>
