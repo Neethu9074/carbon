@@ -7,7 +7,7 @@ exports.getClientConfig = (tenant, unit) => {
     activeResolver.getFeatureFlags(tenant, unit),
     activeResolver.getConfiguration(tenant, unit)
   ]).then(([featureFlags, configuration]) => ({
-    butlerDomain: serverConfig.clientConfig.butlerDomain,
+    butlerDomain: `${unit}-${tenant}${serverConfig.clientConfig.tenantUnitDomainSuffix}`,
     tenantUnitDomainSuffix: serverConfig.clientConfig.tenantUnitDomainSuffix,
     region: serverConfig.clientConfig.region,
     tenant: tenant,
