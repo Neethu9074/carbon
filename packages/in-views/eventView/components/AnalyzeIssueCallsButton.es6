@@ -93,9 +93,10 @@ function isErrorEvent(event) {
 function getAnalyzeOrder(event) {
   let orderBy;
   let orderDirection;
+  const entityType = event.get('entityType');
   const problemText = getProblemTextOrEmpty(event);
   if (containsIgnoreCase(problemText, 'latency')) {
-    orderBy = 'latency';
+    orderBy = entityType === 'Endpoint20' ? 'latency' : 'latencyAgg';
     orderDirection = 'DESC';
   }
   return {
