@@ -58,17 +58,24 @@ export default connectTo(
         })
     };
   },
-  function EventMetricChartDownloadView({ metric, metricValues }) {
+  function EventMetricChartDownloadView({ event, metric, metricValues }) {
     return (
       <EventMetricDownloadView
         data={metricValues}
         fileName={`metric-${metric}`}
-        getJsonData={() => getJsonData(metricValues)}
+        getJsonData={() => getJsonData(event, metric, metricValues)}
       />
     );
   }
 );
 
-function getJsonData(metricValues) {
-  return JSON.stringify(metricValues, null, 4);
+function getJsonData(event, metric, metricValues) {
+  let values = metricValues[metric];
+  var finalValues = [];
+  values.forEach(function(v) {
+    let fv = { timestamp: v[0], value: v[1] };
+    finalValues.push(fv);
+  });
+  let data = { event: event, values: finalValues };
+  return JSON.stringify(data);
 }

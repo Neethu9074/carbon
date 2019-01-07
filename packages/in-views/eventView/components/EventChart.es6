@@ -44,6 +44,7 @@ export default addSection(
         .getIn(['metadata', 'metrics'], emptyList)
         .toArray()
         .sort((a, b) => a.get('metricName').localeCompare(b.get('metricName')));
+
       return (
         <div className={block}>
           {triggeringMetrics.map(metric => {
@@ -83,7 +84,7 @@ const ChartWrapper = connectTo(
       props.start
     );
   },
-  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
+  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig, event }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
@@ -111,7 +112,12 @@ const ChartWrapper = connectTo(
         {isInstanaEmail && (
           <div className={`${block}__button-panel`}>
             <DownloadButton>
-              <EventMetricChartDownloadView metric={metric} label={metric} snapshotId={[metricAccessId]} />
+              <EventMetricChartDownloadView
+                metric={metric}
+                label={metric}
+                snapshotId={[metricAccessId]}
+                event={event}
+              />
             </DownloadButton>
           </div>
         )}
