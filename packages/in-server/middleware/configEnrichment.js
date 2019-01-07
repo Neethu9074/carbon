@@ -10,6 +10,9 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
     return;
   }
 
+  req.tenant = coords.tenant;
+  req.unit = coords.unit;
+
   configResolver.getUiBackendBaseUrl(coords.tenant, coords.unit)
     .then(uiBackendBaseUrl => {
       req.uiBackendBaseUrl = uiBackendBaseUrl;
@@ -29,13 +32,6 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
 };
 
 function getTenantUnitCoordinates(req) {
-  if (serverConfig.clientConfig && serverConfig.clientConfig.tenant) {
-    return {
-      tenant: serverConfig.clientConfig.tenant,
-      unit: serverConfig.clientConfig.tenantUnit
-    };
-  }
-
   if (!req.hostname) {
     return null;
   }
