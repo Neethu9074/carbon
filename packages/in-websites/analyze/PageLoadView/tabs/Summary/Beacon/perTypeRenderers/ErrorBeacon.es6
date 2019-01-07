@@ -20,7 +20,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Error
+          JavaScript Error
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -63,12 +63,13 @@ export const Body = ({ beacon }) => {
       </Row>
 
       <Row>
-        {isNotBlank(beacon.stackTrace) && (
-          <Col lg={6}>
-            <BodyHeader>Stack Trace</BodyHeader>
-            <Stack stack={beacon.stackTrace} />
-          </Col>
-        )}
+        {!isScriptError(beacon.errorMessage) &&
+          isNotBlank(beacon.stackTrace) && (
+            <Col lg={6}>
+              <BodyHeader>Stack Trace</BodyHeader>
+              <Stack stack={beacon.stackTrace} />
+            </Col>
+          )}
 
         {isNotBlank(beacon.componentStack) && (
           <Col lg={6}>

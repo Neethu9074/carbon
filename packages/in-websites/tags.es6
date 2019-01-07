@@ -25,7 +25,7 @@ export const dataSourceTitles = {
   pageLoad: 'Page Load',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
-  error: 'Error'
+  error: 'JavaScript Error'
 };
 
 export const defaultGroupings = {

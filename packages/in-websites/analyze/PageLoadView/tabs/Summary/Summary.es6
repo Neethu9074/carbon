@@ -28,7 +28,7 @@ function Summary({ beacons, filter, setFilter }) {
           </Col>
         )}
         <Col lg={2}>
-          <KpiCard title="Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
+          <KpiCard title="JavaScript Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
         </Col>
         <Col lg={2}>
           <KpiCard title="Resources" value={number.compact(getBeaconCount(beacons, 'resourceLoad'))} />

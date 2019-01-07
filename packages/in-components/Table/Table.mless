@@ -1,5 +1,5 @@
-.in-table {
-  &__header {
+:local {
+  .header {
     height: 2.25rem;
     padding: 0 0.75rem;
     background: #40535b;
@@ -9,12 +9,12 @@
     flex-shrink: 0;
   }
 
-  &__table {
+  .table {
     width: 100%;
     border-collapse: collapse;
   }
 
-  &__header-cell {
+  .headerCell {
     border-right: 1px solid #40535b;
     padding: 0;
     height: 100%;
@@ -24,18 +24,18 @@
     }
   }
 
-  &__header-right {
+  .headerRight {
     display: flex;
     align-items: center;
   }
 
-  &__header-toggle-cell {
+  .headerToggleCell {
     background: #6b8088;
     border-right: 1px solid #40535b;
     width: 1.6rem;
   }
 
-  &__cell {
+  .cell {
     padding: 0 0.5rem;
     // allow bar charts to use 100% height
     height: 100%;
@@ -46,14 +46,18 @@
     &:first-child {
       border-left: 0;
     }
-
-    &--expanded {
-      padding: 0.3rem 0.5rem 0.6rem;
-      line-height: 1;
-    }
   }
 
-  &__column-header {
+  .expanded {
+    padding: 0.3rem 0.5rem 0.6rem;
+    line-height: 1;
+  }
+
+  .columnHeader {
     background: #6b8088;
+  }
+
+  .expansionSwitch {
+    height: 24px;
   }
 }

@@ -11,22 +11,20 @@ export default class SearchableTable extends React.Component {
   };
 
   render() {
-    return (
-      <div className={locals.table}>
-        <div className={locals.header}>
-          <Input
-            type="search"
-            value={this.state.filter}
-            onChange={e =>
-              this.setState({
-                filter: e.target.value
-              })
-            }
-            placeholder="Search…"
-          />
-        </div>
-        <Table filter={this.state.filter} {...this.props} />
-      </div>
+    const rightHeader = (
+      <Input
+        type="search"
+        value={this.state.filter}
+        onChange={e =>
+          this.setState({
+            filter: e.target.value
+          })
+        }
+        placeholder="Search…"
+        className={locals.searchInput}
+      />
     );
+
+    return <Table filter={this.state.filter} {...this.props} rightHeader={rightHeader} alwaysShowPagination />;
   }
 }

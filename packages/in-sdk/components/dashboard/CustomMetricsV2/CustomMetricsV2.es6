@@ -152,6 +152,7 @@ function CustomMetricsV2({
           metrics: [
             {
               name: `${countersMetricPrefix}${name}`,
+              label: 'Count',
               formatter: withSiPrefixThreeDecimalPlaces
             }
           ]
@@ -202,17 +203,17 @@ function CustomMetricsV2({
             {
               name: `${histogramsMetricPrefix}${name}.mean`,
               label: 'Mean',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.50th`,
               label: '50th',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.99th`,
               label: '99th',
-              formatter: timeByMillisTwoDecimalPlaces
+              formatter: withSiPrefixThreeDecimalPlaces
             }
           ]
         };
@@ -298,7 +299,14 @@ function CustomMetricsV2({
     <Fragment>
       {pinnedRows.length > 0 && (
         <DashboardSection title={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}>
-          <Table cols={cols} rows={pinnedRows} getRowDetails={getDetails} maxItemsPerPage={100} initialSortColumn={2} />
+          <Table
+            cols={cols}
+            rows={pinnedRows}
+            getRowDetails={getDetails}
+            maxItemsPerPage={100}
+            initialSortColumn={2}
+            showExpandAll
+          />
         </DashboardSection>
       )}
 

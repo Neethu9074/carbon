@@ -54,7 +54,7 @@ export default function BeaconUserSummary({ beacon }) {
 
           {isGeoCoordinatesAvailable && <Map beacon={beacon} />}
 
-          {noGeoAvailable && <NotDefined explanation="Geo location could not be determined from IP address." />}
+          {noGeoAvailable && <NotDefined explanation="Geolocation could not be determined from IP address." />}
         </Card>
       </Col>
       <Col lg={4}>
