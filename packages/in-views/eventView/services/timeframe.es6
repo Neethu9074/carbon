@@ -64,6 +64,23 @@ export function getTimeConfigFromEventForSnapshotRetrieval(event) {
   };
 }
 
+export function getTimeConfigFromEvent(event) {
+  const from = event.get('start');
+  if (from === undefined) {
+    throw new Error('Could not derive time config from event.');
+  }
+
+  const to = getToOfEvent(event);
+  const toForWs = to || Date.now();
+
+  return {
+    to,
+    focusedMoment: to,
+    windowSize: toForWs - from,
+    autoRefresh: false
+  };
+}
+
 function getFromOfEvent(event) {
   let from;
   if (typeof event.getIn === 'function') {
