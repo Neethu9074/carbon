@@ -5,11 +5,14 @@ import {
   getTimeConfigFromEventForCharts,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
+
+import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
+import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
@@ -47,7 +50,6 @@ export default addSection(
             const timeConfig = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
-
             return (
               <ChartWrapper
                 key={metricName}
@@ -105,6 +107,12 @@ const ChartWrapper = connectTo(
 
     return (
       <div className={`${block}__chart`}>
+        <div className={`${block}__button-panel`}>
+          <DownloadButton>
+            <EventMetricChartDownloadView metric={metric} label={metric} snapshotId={[metricAccessId]} />
+          </DownloadButton>
+        </div>
+
         <Chart
           snapshotId={metricAccessId}
           timeConfig$={timeConfig$}
