@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { init as initHighlightedSuggestionStore } from 'in-components/SearchBar/stores/highlightedSuggestion';
+import { init as initSelectedElementHighlighter } from 'in-new-components/SelectedElementHighlighter';
 import { isSelfService, isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { init as initGlyphTexture } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import { init as initNotMonitoringPresenter } from 'in-services/notMonitoringDialogPresenter';
@@ -103,6 +104,7 @@ initDebuggingBackchannel();
 initTracking();
 initAppcues();
 initIsMonitoring();
+initSelectedElementHighlighter();
 
 ReactDOM.render(
   <Router history={history}>
