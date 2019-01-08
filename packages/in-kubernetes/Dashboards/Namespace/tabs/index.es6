@@ -29,7 +29,7 @@ export default [
     icon: 'lib_kubernetes_workload'
   },
   {
-    label: 'Services',
+    label: 'K8s Services',
     path: `${namespaceDashboardFullyQualified}/services`,
     component: Services,
     icon: 'lib_kubernetes_service'

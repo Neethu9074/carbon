@@ -14,7 +14,7 @@ export default connectTo(
   }),
   function ServiceBreadcrumb({ service }) {
     return (
-      <Breadcrumb label="Service" icon="lib_kubernetes_service">
+      <Breadcrumb label="K8s Service" icon="lib_kubernetes_service">
         {service && service.name}
       </Breadcrumb>
     );
