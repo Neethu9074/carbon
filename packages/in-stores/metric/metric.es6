@@ -8,6 +8,8 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 
+import { isOneSecondRollupsForOneDay } from 'in-services/featureFlags';
+
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 export const aggregationLabels = {
@@ -47,7 +49,7 @@ export const dynamicRollupPredefinitions = [
 
 const rollupDurationThresholds = [
   {
-    availableFor: 1000 * 60 * 10 + 3000, // 10m + 3s (to give it some slack when deactivating live mode)
+    availableFor: isOneSecondRollupsForOneDay ? 1000 * 60 * 60 * 24 : 1000 * 60 * 10 + 3000, // 1s rollups available for one day or, 10m + 3s (to give it some slack when deactivating live mode)
     rollup: null, // 1s
     label: '1s'
   },
