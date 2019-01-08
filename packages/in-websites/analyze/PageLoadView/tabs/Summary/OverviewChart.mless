@@ -1,0 +1,5 @@
+:local {
+  .canvas {
+    width: 100%;
+  }
+}

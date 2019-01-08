@@ -2,9 +2,11 @@ import React, { Fragment } from 'react';
 
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
 import BeaconPageGroup from 'in-websites/analyze/PageLoadView/tabs/Summary/BeaconPageGroup';
+import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart';
 import { getType } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
 import { generateStableHash } from 'in-services/util/id';
+
 import locals from './Activity.mless';
 
 export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFilter }) {
@@ -35,6 +37,8 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
       <h1 className={locals.header}>Activity</h1>
 
       <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
+
+      <OverviewChart beacons={filteredBeacons} earliestTimestamp={firstBeacon.timestamp} />
 
       {groupBeaconsByPage(filteredBeacons).map((group, i) => (
         <BeaconPageGroup

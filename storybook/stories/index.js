@@ -32,6 +32,7 @@ import './website/BeaconUserSummaryStory';
 import './website/BrowserIconsStory';
 import './website/DeprecationsStory';
 import './website/NewWebsiteStory';
+import './website/OverviewChart';
 import './website/PageLoadView/PageLoadViewStory';
 
 import './components/Axis';
