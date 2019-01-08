@@ -2,13 +2,12 @@ import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggr
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createHistoricMetricsObservable from 'in-subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-subscription/historicMetric';
+import { isOneSecondRollupsForOneDay } from 'in-services/featureFlags';
 import createLiveMetricObservable from 'in-subscription/liveMetric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
-
-import { isOneSecondRollupsForOneDay } from 'in-services/featureFlags';
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
