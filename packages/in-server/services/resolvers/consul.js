@@ -26,6 +26,10 @@ exports.getUiBackendBaseUrl = (tenant, unit) => cache(`getUiBackendBaseUrl:${ten
   });
 });
 
+exports.getBaseUrl = (tenant, unit) => Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+
+exports.getButlerDomain = (tenant, unit) => Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+
 exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
   return Promise.all([
     getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, true),
