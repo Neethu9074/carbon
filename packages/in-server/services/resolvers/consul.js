@@ -58,7 +58,9 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     oneZeroWebsiteMonitoringEnabled,
     twoZeroWebsiteMonitoringEnabled,
     quickTagFiltersInWebsiteMonitoringDashboardEnabled,
-    kubernetesV2Enabled
+    kubernetesV2Enabled,
+    write1sRollupsToCassandra,
+    redisMetricWritingEnabled
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
