@@ -54,7 +54,7 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   if (hasSomeNonClusterTechnologies(entity)) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
-    buttonPropsList.push({ text: 'Container', key: 'DOCKER', onClick: () => setType('DOCKER') });
+    buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
@@ -136,7 +136,7 @@ function getTableData({
   type
 }) {
   return getInfrastructure({
-    category: type,
+    category: type === 'CONTAINER' ? 'DOCKER' : type,
     pagination: {
       page,
       pageSize
@@ -202,7 +202,7 @@ const getColumnDefinitions = type => {
         return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
       }
     };
-  } else if (type == 'DOCKER') {
+  } else if (type == 'CONTAINER') {
     infraColumnDefinition = {
       id: 'container',
       label: 'Container',
