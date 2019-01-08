@@ -27,6 +27,7 @@ export default function Endpoints({ timeConfig, data: service }) {
             defaultOrderBy="name"
             defaultOrderDirection="ASC"
             defaultPageSize={10}
+            withoutPadding={false}
           />
         </Col>
       </Row>
@@ -69,7 +70,7 @@ const columnDefinitions = [
   },
   {
     id: 'internal',
-    label: 'Interal',
+    label: 'Internal',
     getContent(item) {
       return <EntityCounter count={get(item, ['endpoint', 'internal'])} />;
     }
