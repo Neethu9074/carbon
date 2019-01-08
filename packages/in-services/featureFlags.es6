@@ -110,3 +110,9 @@ export const allowedMillisGapsInOneSecondResolution =
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
+
+// ########################################################################################
+// Moving from Redis to Cassandra for 1s rollups
+// ########################################################################################
+export const isOneSecondRollupsForOneDay =
+  !isFeatureFlagEnabled('redisMetricWritingEnabled') && isFeatureFlagEnabled('write1sRollupsToCassandra');
