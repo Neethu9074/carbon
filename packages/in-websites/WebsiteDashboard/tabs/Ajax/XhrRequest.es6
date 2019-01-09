@@ -78,8 +78,8 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              labels: ['50th', '90th', '95th', '99th'],
-              metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
+              labels: ['50th', '90th', '95th', '99th', 'Max'],
+              metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
             }}
             metricsConfiguration={{
               timeConfig,
@@ -104,6 +104,11 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
                   metric: 'beaconDuration',
                   granularity,
                   aggregation: 'P99'
+                },
+                onLoadTimeMax: {
+                  metric: 'beaconDuration',
+                  granularity,
+                  aggregation: 'MAX'
                 }
               }
             }}
