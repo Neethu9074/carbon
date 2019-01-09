@@ -87,11 +87,11 @@ function Header(props) {
       <Breadcrumbs
         items={[
           <Breadcrumb label={`Analyze ${dataSourceTitles[props.beaconType]}s`} href$={closePageLoadViewLink} />,
-          props.pageLoadLabel && <Breadcrumb label="Page Load">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
+          props.pageLoadLabel && <Breadcrumb label="Page View">{shorten(props.pageLoadLabel, 32)}</Breadcrumb>
         ].filter(Boolean)}
       />
       <BasicDashboardHeader
-        title="Page Load"
+        title="Page View"
         icon="lib_website"
         renderActions={Actions}
         getLabel={getLabelForHeader}
@@ -140,10 +140,10 @@ function Actions({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
       )}
 
       <Link href$={closePageLoadViewLink}>
-        <Tooltip content="Close page load details">
+        <Tooltip content="Close page view details">
           <SvgIcon
             className={locals.closeIcon}
-            aria-label="Close page load details"
+            aria-label="Close page view details"
             type="lib_openclose_cancel"
             width={24}
             height={24}

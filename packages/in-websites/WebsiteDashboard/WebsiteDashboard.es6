@@ -186,7 +186,7 @@ function Actions({ tagFilters, websiteLabel }) {
         group: defaultGroupings.pageLoad
       })}
     >
-      Analyze Page Loads
+      Analyze Page Views
     </Button>
   );
 }

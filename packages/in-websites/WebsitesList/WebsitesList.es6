@@ -135,7 +135,7 @@ const columnDefinitions = [
   },
   {
     id: 'pageLoadsAgg',
-    label: 'Page Loads',
+    label: 'Page Views',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
