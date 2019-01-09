@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
+import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
@@ -44,12 +46,14 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
           return (
             <div
               className={locals.beacon}
+              key={beacon.beaconId}
               style={{
                 top: i * 8 + 1,
                 left: `${startX * 100}%`,
                 width: `${(endX - startX) * 100}%`,
                 backgroundColor: typeDefinition.color
               }}
+              onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
             />
           );
         })}

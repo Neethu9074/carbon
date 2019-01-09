@@ -7,5 +7,10 @@
   .beacon {
     position: absolute;
     height: 5px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.75;
+    }
   }
 }
