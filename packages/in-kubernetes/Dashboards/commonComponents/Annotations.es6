@@ -6,6 +6,8 @@ import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 
+import locals from './Annotations.mless';
+
 export default connectTo(
   ({ snapshotId, annotations }) => {
     if (annotations || !snapshotId) {
@@ -37,7 +39,11 @@ export default connectTo(
 
 function formatAnnotation(value) {
   const code = parseAnnotation(value);
-  return <Code showLineNumbers={false} code={code.formatted} lang={code.lang} />;
+  return (
+    <div className={locals.noLeftPadding}>
+      <Code showLineNumbers={false} code={code.formatted} lang={code.lang} />
+    </div>
+  );
 }
 
 function parseAnnotation(value) {

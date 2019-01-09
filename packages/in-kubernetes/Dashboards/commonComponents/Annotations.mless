@@ -1,0 +1,5 @@
+:local {
+  .noLeftPadding pre[class*="language-"] {
+    padding-left: 0;
+  }
+}
