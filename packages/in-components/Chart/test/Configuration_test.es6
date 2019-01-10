@@ -12,6 +12,7 @@ import { number } from 'in-services/formatters/number';
 
 describe('in-components/Chart/Configuration', () => {
   let renderCallback;
+  let defaultProps;
   let Config;
 
   beforeEach(() => {
@@ -21,19 +22,31 @@ describe('in-components/Chart/Configuration', () => {
       }
     }).default;
     renderCallback = sinon.stub();
+    defaultProps = { y1: { metrics: [] }, timeConfig: { windowSize: 60000, to: null } };
   });
 
   describe('constuctor', () => {
     it('should not call render initially', () => {
-      new Config(getCanvasMock(), renderCallback);
+      new Config(getCanvasMock(), renderCallback, defaultProps);
       expect(renderCallback).to.have.callCount(0);
+    });
+
+    it('should set initial metrics as filtered', () => {
+      const props = {
+        y1: { labels: ['a', 'b'], metricIds: ['idA', 'idB'], defaultDisabledMetrics: ['idB'] },
+        timeConfig: { windowSize: 60000, to: null }
+      };
+      const config = new Config(getCanvasMock(), renderCallback, props);
+      expect(config.filteredDataSeries).to.be.an.instanceof(Map);
+      expect(config.filteredDataSeries.size).to.equal(1);
+      expect(config.filteredDataSeries.keys().next().value).to.equal('b');
     });
   });
 
   describe('update', () => {
     it('should copy the given config', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
-      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null }, foo: 'bar' });
+      const props = { y1: {}, timeConfig: { windowSize: 60000, to: null }, foo: 'bar' };
+      const config = new Config(getCanvasMock(), renderCallback, props);
       expect(config.y1).to.deep.equal({
         renderer: Renderer.line,
         formatter: [number],
@@ -46,13 +59,13 @@ describe('in-components/Chart/Configuration', () => {
     });
 
     it('should stack metric values on stacked renderer', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
-      config.update({
+      const props = {
         y1: {
           renderer: Renderer.stackedArea
         },
         timeConfig: { windowSize: 60000, to: null }
-      });
+      };
+      const config = new Config(getCanvasMock(), renderCallback, props);
       expect(config.y1).to.deep.equal({
         formatter: [number],
         renderer: Renderer.stackedArea,
@@ -66,28 +79,27 @@ describe('in-components/Chart/Configuration', () => {
 
     describe('enrichConfig', () => {
       it('should enrich config with further properties', () => {
-        const config = new Config(getCanvasMock(), renderCallback);
-        expect(config.rollup).to.be.undefined;
-        expect(config.rollupLabel).to.be.undefined;
-        expect(config.y1).to.be.undefined;
-
-        config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
+        const config = new Config(getCanvasMock(), renderCallback, defaultProps);
         expect(config.rollup).to.equal(1000);
         expect(config.rollupLabel).to.equal('1s');
+        expect(config.y1).to.be.defined;
+
+        config.update({ y1: {}, timeConfig: { windowSize: 60000, to: 20000 } });
+        expect(config.rollup).to.equal(3600000);
       });
     });
   });
 
   describe('calculateMaxMillisBetweenDatapoints', () => {
     it('should use hard defined rollups if no is defined', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
       config.rollup = 1000;
       const rollup = config.calculateMaxMillisBetweenDatapoints();
       expect(rollup).to.equal(allowedMillisGapsInOneSecondResolution);
     });
 
     it('should multiply pre defined rollup', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
       config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
       const rollup = config.calculateMaxMillisBetweenDatapoints();
       expect(rollup).to.equal(allowedMultiplesOfRollupSizeMissingInCharts * 1000);
@@ -95,25 +107,22 @@ describe('in-components/Chart/Configuration', () => {
   });
 
   describe('scale', () => {
-    it('should create scale on update', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
-      expect(config.scales).to.be.undefined;
-
-      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
+    it('should create scale', () => {
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
       expect(config.scales).to.not.equal(undefined);
     });
   });
 
   describe('getAllDomainValues', () => {
     it('should create collected domains lazy', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
-      expect(config.allDomainValues).to.be.undefined;
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
+      expect(config.allDomainValues).to.be.null;
       config.getAllDomainValues();
-      expect(config.allDomainValues).not.to.be.undefined;
+      expect(config.allDomainValues).to.deep.equal([]);
     });
 
     it('should contain all domain values', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
       expect(config.getAllDomainValues()).to.deep.equal([]);
 
       config.update({
@@ -129,7 +138,7 @@ describe('in-components/Chart/Configuration', () => {
 
   describe('calculateBlocks', () => {
     it('should extract blocks according to the given rollup', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
 
       let blocks = config.calculateBlocks([[0, 0], [1000, 1], [2000, 5], [3000, 10], [4000, 10], [5000, 9], [6000, 0]]);
       expect(blocks).to.have.length(1);
@@ -147,7 +156,7 @@ describe('in-components/Chart/Configuration', () => {
 
   describe('getFormatterForAxis', () => {
     it('should split formatter according to number of data series', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
 
       let formatter = config.getFormatterForAxis({
         numOfSeries: 4
@@ -163,7 +172,7 @@ describe('in-components/Chart/Configuration', () => {
     });
 
     it('should keep formatter series if configured', () => {
-      const config = new Config(getCanvasMock(), renderCallback);
+      const config = new Config(getCanvasMock(), renderCallback, defaultProps);
 
       let formatter = config.getFormatterForAxis({
         formatter: [42, 'foobar']

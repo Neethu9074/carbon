@@ -39,8 +39,7 @@ const ChartReactWrapper = enhance(
       static displayName = 'ChartReactWrapper';
 
       componentDidMount() {
-        const chart = new Chart(this.canvas);
-        chart.update(this.props);
+        const chart = new Chart(this.canvas, this.props);
         this.props.setChart(chart);
       }
 
