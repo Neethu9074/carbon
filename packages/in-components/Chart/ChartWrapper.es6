@@ -12,7 +12,8 @@ import invariant from 'invariant';
             y1={{
               renderer: Renderer.countErrorBar,
               labels: ['Calls', 'Errors'],
-              metricIds: ['calls', 'errors']  <-- theses ids will be referenced in the metricsConfiguration down below
+              metricIds: ['calls', 'errors'],  <-- theses ids will be referenced in the metricsConfiguration down below
+              defaultDisabledMetrics: ['errors']
             }}
             y2={{
               renderer: Renderer.line,

@@ -24,8 +24,9 @@ export default function Latency({
         calculateStackDifferences: true,
         renderer: Renderer.line,
         formatter: millis.fixed,
-        labels: ['mean', '50th', '90th', '95th', '99th', 'Max'],
-        metricIds: ['durationAvg', 'duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
+        labels: ['50th', '90th', '95th', '99th', 'Max', 'Mean'],
+        defaultDisabledMetrics: ['durationMax', 'durationAvg'],
+        metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax', 'durationAvg']
       }}
       metricsConfiguration={{
         filter: {
@@ -36,11 +37,6 @@ export default function Latency({
           includeSyntheticCalls
         },
         metrics: {
-          durationAvg: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'MEAN'
-          },
           duration50th: {
             metric: 'latency',
             granularity,
@@ -65,6 +61,11 @@ export default function Latency({
             metric: 'latency',
             granularity,
             aggregation: 'MAX'
+          },
+          durationAvg: {
+            metric: 'latency',
+            granularity,
+            aggregation: 'MEAN'
           }
         }
       }}

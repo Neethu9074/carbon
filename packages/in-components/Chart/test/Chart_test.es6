@@ -7,7 +7,7 @@ describe('in-components/Chart/Chart', () => {
   let chart;
 
   beforeEach(() => {
-    chart = new Chart(getCanvasMock());
+    chart = new Chart(getCanvasMock(), { y1: { metrics: [] }, timeConfig: { windowSize: 60000, to: null } });
   });
 
   describe('getNearestDataPointDomainForTimestamp', () => {
@@ -84,6 +84,10 @@ function getCanvasMock() {
   return {
     width: 100,
     height: 50,
-    getContext: () => {}
+    style: {},
+    getContext: () => ({
+      scale: () => {}
+    }),
+    setAttribute: () => {}
   };
 }
