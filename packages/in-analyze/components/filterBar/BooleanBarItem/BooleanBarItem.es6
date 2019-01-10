@@ -9,7 +9,7 @@ export default function BooleanBarItem(props) {
 
   const toggleFilter = () => {
     if (isTrue) {
-      removeTagFilter(tag);
+      removeTagFilter(tag, 'EQUALS');
     } else {
       upsertTagFilter({
         name: tag,

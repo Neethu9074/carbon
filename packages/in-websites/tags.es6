@@ -22,7 +22,7 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteL
 }
 
 export const dataSourceTitles = {
-  pageLoad: 'Page Load',
+  pageLoad: 'Page View',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
   error: 'JavaScript Error'

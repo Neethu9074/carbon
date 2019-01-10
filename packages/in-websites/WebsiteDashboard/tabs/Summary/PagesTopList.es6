@@ -8,7 +8,7 @@ import { millis, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['pageLoads', 'onLoadTime', 'errors'];
-const labels = ['Page Loads', 'onLoad Time', 'Errors'];
+const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, millis.fixedCompact, number.compact];
 

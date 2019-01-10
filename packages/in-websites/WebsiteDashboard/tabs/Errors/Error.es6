@@ -150,12 +150,12 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Page Loads"
+              cardTitle="Page Views"
               timeConfig={timeConfig}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
-                labels: ['Page Loads'],
+                labels: ['Page Views'],
                 metricIds: ['pageLoads']
               }}
               metricsConfiguration={{

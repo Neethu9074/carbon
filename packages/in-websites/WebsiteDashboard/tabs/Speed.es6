@@ -15,12 +15,12 @@ export default function Speed({ timeConfig, tagFilters }) {
       <Row>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle="Page Loads vs. onLoad Time"
+            cardTitle="Page Views vs. onLoad Time"
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['Page Loads'],
+              labels: ['Page Views'],
               metricIds: ['pageLoads']
             }}
             y2={{

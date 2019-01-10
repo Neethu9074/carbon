@@ -54,7 +54,7 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This page load is batched and represents ${item.beacon.batchSize} individual page loads.`}
+          tooltipContent={`This page view is batched and represents ${item.beacon.batchSize} individual page views.`}
         />
       </Td>
 
