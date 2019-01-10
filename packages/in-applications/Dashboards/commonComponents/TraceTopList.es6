@@ -127,7 +127,7 @@ function ViewAll({ applicationName, serviceName, endpointName, selectedMetric },
   );
 }
 
-function Label({ item, applicationName, serviceName, endpointId: endpointName }, className) {
+function Label({ item, applicationName, serviceName, endpointName }, className) {
   return (
     <Link
       className={className}

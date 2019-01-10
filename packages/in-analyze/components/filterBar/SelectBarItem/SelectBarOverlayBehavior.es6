@@ -12,7 +12,7 @@ import connect from 'in-hoc/connectTo';
 export default compose(
   withState('query', 'setQuery', ''),
   connect((props, prevProps) => {
-    const tagFilters = props.tagFilters.filter(f => f.name !== props.tag);
+    const tagFilters = props.tagFilters.filter(f => f.name !== props.tag || f.operator !== 'EQUALS');
     const queryNotBlank = isNotBlank(props.query);
     const filterSuggestionsClientSide = props.filterSuggestionsClientSide === true;
 
@@ -80,7 +80,7 @@ function SelectBarOverlayBehavior({
   // resorting in client because we sort by beacon count in backend to provide a meaningful set of values
   items.sort((a, b) => compareIgnoreCase(a.label, b.label));
 
-  const existingTagFilter = find(tagFilters, f => f.name === tag);
+  const existingTagFilter = find(tagFilters, f => f.name === tag && f.operator === 'EQUALS');
   let selectedItem;
   if (existingTagFilter) {
     selectedItem = find(items, i => i.key === existingTagFilter.stringValue || i.key === existingTagFilter.value);
@@ -96,7 +96,7 @@ function SelectBarOverlayBehavior({
       onQueryChange={setQuery}
       onSelectItem={newItem => {
         if (newItem == null) {
-          removeTagFilter(tag);
+          removeTagFilter(tag, 'EQUALS');
         } else {
           upsertTagFilter({
             name: tag,

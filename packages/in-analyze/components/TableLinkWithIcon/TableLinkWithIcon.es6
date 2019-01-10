@@ -6,7 +6,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TableLinkWithIcon.mless';
 
-export default function TableLinkWithIcon({ icon, href$, href, children, isPrimary }) {
+export default function TableLinkWithIcon({ icon, href$, href, onClick, children, isPrimary }) {
   return (
     <div className={locals.wrapper}>
       {icon && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
@@ -15,6 +15,7 @@ export default function TableLinkWithIcon({ icon, href$, href, children, isPrima
           [locals.link]: true,
           [locals.nonPrimary]: !isPrimary
         })}
+        onClick={onClick}
         href$={href$}
         href={href}
       >

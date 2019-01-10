@@ -32,7 +32,7 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
       <Row>
         <Col xs={12}>
           <ServerTableWithUrlBoundState
-            pathSegment="/resources"
+            pathSegment="/ajax"
             matrixPrefix=""
             get={getTableData}
             websiteId={websiteId}

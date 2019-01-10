@@ -22,7 +22,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
-            title="Page Loads"
+            title="Page Views"
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -91,13 +91,13 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
       <Row>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle="Page Loads"
+            cardTitle="Page Views"
             renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['Page Loads'],
+              labels: ['Page Views'],
               metricIds: ['pageLoads']
             }}
             metricsConfiguration={{

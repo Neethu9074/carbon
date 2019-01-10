@@ -13,7 +13,7 @@ export const getLabel = beacon => beacon.locationUrl;
 
 export const LeftHeader = ({ beacon, toggleExpanded }) => (
   <Fragment>
-    <KeyValueHeader label="Page Load Start" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader label="Page View Start" onClick={toggleExpanded} value={getLabel(beacon)} />
     <KeyValueHeader label="onLoad Time" value={millis.fixedCompact(beacon.duration)} />
   </Fragment>
 );

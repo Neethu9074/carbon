@@ -5,14 +5,16 @@ import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteE
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 
 export const tagFilterManipulators = withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags }) => ({
-  removeTagFilter(name) {
-    setTagFilters(tagFilters.filter(f => f.name !== name));
+  removeTagFilter(name, operator) {
+    setTagFilters(tagFilters.filter(f => f.name !== name || (operator != null && f.operator !== operator)));
   },
   addTagFilter(newTagFilter) {
     setTagFilters(tagFilters.concat(newTagFilter));
   },
   upsertTagFilter(newTagFilter) {
-    setTagFilters(tagFilters.filter(f => f.name !== newTagFilter.name).concat(newTagFilter));
+    setTagFilters(
+      tagFilters.filter(f => f.name !== newTagFilter.name || f.operator !== newTagFilter.operator).concat(newTagFilter)
+    );
   },
   clearTagFilters() {
     setTagFilters([]);

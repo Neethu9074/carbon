@@ -10,7 +10,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader
       label="Start Time"
-      value={`+${millis.fixed(beacon.timestamp - earliestTimestamp)}`}
+      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
     <KeyValueHeader label="Duration" value={millis.fixedCompact(beacon.duration)} />

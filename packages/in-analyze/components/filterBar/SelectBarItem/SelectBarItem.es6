@@ -23,7 +23,7 @@ function Content({
   refSetter,
   withoutTextTransform
 }) {
-  const existingTagFilter = find(tagFilters, f => f.name === tag);
+  const existingTagFilter = find(tagFilters, f => f.name === tag && f.operator === 'EQUALS');
   return (
     <BarItem
       showArrow

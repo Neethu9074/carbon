@@ -15,9 +15,9 @@ export const tagFilterManipulators = withProps(props => {
   const { filters, setTagFilters } = props;
   const tagFilters = filters.tagFilter;
   return {
-    removeTagFilter(name) {
-      setTagFilters(tagFilters.filter(f => f.name !== name));
-      const before = tagFilters.filter(f => f.name === name);
+    removeTagFilter(name, operator) {
+      setTagFilters(tagFilters.filter(f => f.name !== name || (operator != null && f.operator !== operator)));
+      const before = tagFilters.filter(f => f.name === name && (operator == null || f.operator === operator));
       if (before.length > 0) {
         filterRemovedTracker({ name, filter: before[0] });
       } else {
@@ -31,8 +31,10 @@ export const tagFilterManipulators = withProps(props => {
     },
     upsertTagFilter(newTagFilter) {
       const newFilter = createFilter(newTagFilter);
-      setTagFilters(tagFilters.filter(f => f.name !== newFilter.name).concat(newFilter));
-      const before = tagFilters.filter(f => f.name === newFilter.name);
+      setTagFilters(
+        tagFilters.filter(f => f.name !== newFilter.name || f.operator !== newTagFilter.operator).concat(newFilter)
+      );
+      const before = tagFilters.filter(f => f.name === newFilter.name && f.operator === newTagFilter.operator);
       if (before.length > 0) {
         filterChangedTracker({ before: before[0], after: newFilter });
       } else {
