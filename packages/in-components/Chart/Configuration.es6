@@ -17,7 +17,7 @@ import theme from 'in-themes';
 const MAX_FPS = 15;
 
 export default class Config {
-  constructor(canvas, renderCallback) {
+  constructor(canvas, renderCallback, props) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.signals = new RoEmitter();
@@ -28,7 +28,27 @@ export default class Config {
       .debounce(1000 / MAX_FPS)
       .subscribe(renderCallback);
 
+    this.initDefaultDisabledMetrics(props);
+    this.update(props);
+
     this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+  }
+
+  initDefaultDisabledMetrics(props) {
+    this.initDefaultDisabledMetricsForAxis(props.y1);
+    if (props.y2) {
+      this.initDefaultDisabledMetricsForAxis(props.y2);
+    }
+  }
+
+  initDefaultDisabledMetricsForAxis(axis) {
+    if (axis.defaultDisabledMetrics) {
+      for (let mId = 0; mId < axis.metricIds.length; mId++) {
+        if (axis.defaultDisabledMetrics.indexOf(axis.metricIds[mId]) >= 0) {
+          this.filteredDataSeries.set(axis.labels[mId], true);
+        }
+      }
+    }
   }
 
   requestRender() {

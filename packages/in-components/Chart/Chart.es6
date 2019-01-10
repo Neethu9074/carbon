@@ -5,8 +5,9 @@ import Config from 'in-components/Chart/Configuration';
 const emptyDataSeries = [];
 
 export default class Chart {
-  constructor(canvas) {
-    this.config = new Config(canvas, this.render.bind(this));
+  constructor(canvas, props) {
+    this.config = new Config(canvas, this.render.bind(this), props);
+    this.config.requestRender();
   }
 
   update(props) {

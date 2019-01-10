@@ -131,8 +131,16 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               y1={{
                 renderer: Renderer.integral,
                 formatter: millis.forcedFixedCompact,
-                labels: ['50th', '90th', '95th', '99th', 'Max'],
-                metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
+                labels: ['50th', '90th', '95th', '99th', 'Max', 'Mean'],
+                defaultDisabledMetrics: ['onLoadTimeMax', 'onLoadTimeMean'],
+                metricIds: [
+                  'onLoadTime50th',
+                  'onLoadTime90th',
+                  'onLoadTime95th',
+                  'onLoadTime99th',
+                  'onLoadTimeMax',
+                  'onLoadTimeMean'
+                ]
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -162,6 +170,11 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     metric: 'beaconDuration',
                     granularity,
                     aggregation: 'MAX'
+                  },
+                  onLoadTimeMean: {
+                    metric: 'onLoadTime',
+                    granularity,
+                    aggregation: 'MEAN'
                   }
                 }
               }}
