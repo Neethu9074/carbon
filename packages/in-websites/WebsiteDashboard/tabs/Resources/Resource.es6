@@ -130,6 +130,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               timeConfig={timeConfig}
               y1={{
                 renderer: Renderer.integral,
+                calculateStackDifferences: true,
                 formatter: millis.forcedFixedCompact,
                 labels: ['50th', '90th', '95th', '99th'],
                 metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th']
