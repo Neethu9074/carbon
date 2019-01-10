@@ -81,7 +81,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'service',
+    id: 'services',
     label: 'Services',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
