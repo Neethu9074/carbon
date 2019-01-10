@@ -26,6 +26,7 @@ export default function Events({ data: service, ...props }) {
             defaultOrderBy="time"
             defaultOrderDirection="DESC"
             defaultPageSize={10}
+            isSearchable={false}
             {...props}
           />
         </Col>
