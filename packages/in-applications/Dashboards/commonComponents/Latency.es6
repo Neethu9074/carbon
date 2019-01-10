@@ -21,12 +21,18 @@ export default function Latency({
       timeConfig={timeConfig}
       reverseTooltipOrder
       y1={{
-        calculateStackDifferences: true,
         renderer: Renderer.line,
         formatter: millis.fixed,
-        labels: ['50th', '90th', '95th', '99th', 'Max', 'Mean'],
-        defaultDisabledMetrics: ['durationMax', 'durationAvg'],
-        metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax', 'durationAvg']
+        labels: ['50th', '90th', '95th', '99th', 'Max'],
+        defaultDisabledMetrics: ['durationMax'],
+        metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
+      }}
+      y2={{
+        renderer: Renderer.line,
+        formatter: millis.fixed,
+        labels: ['Mean'],
+        defaultDisabledMetrics: ['durationAvg'],
+        metricIds: ['durationAvg']
       }}
       metricsConfiguration={{
         filter: {
