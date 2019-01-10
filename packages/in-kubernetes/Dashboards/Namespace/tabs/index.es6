@@ -25,19 +25,16 @@ export default [
   {
     label: 'Deployments',
     path: `${namespaceDashboardFullyQualified}/deployments`,
-    component: Deployments,
-    icon: 'lib_kubernetes_workload'
+    component: Deployments
   },
   {
     label: 'K8s Services',
     path: `${namespaceDashboardFullyQualified}/services`,
-    component: Services,
-    icon: 'lib_kubernetes_service'
+    component: Services
   },
   {
     label: 'Pods',
     path: `${namespaceDashboardFullyQualified}/pods`,
-    component: Pods,
-    icon: 'lib_kubernetes_pod'
+    component: Pods
   }
 ].filter(Boolean);

@@ -17,7 +17,6 @@ export default [
   {
     label: 'Pods',
     path: `${deploymentDashboardFullyQualified}/pods`,
-    component: Pods,
-    icon: 'lib_kubernetes_pod'
+    component: Pods
   }
 ].filter(Boolean);

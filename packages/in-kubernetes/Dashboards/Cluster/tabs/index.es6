@@ -21,31 +21,26 @@ export default [
   {
     label: 'Nodes',
     path: `${clusterDashboardFullyQualified}/nodes`,
-    component: Nodes,
-    icon: 'lib_kubernetes_node'
+    component: Nodes
   },
   {
     label: 'Namespaces',
     path: `${clusterDashboardFullyQualified}/namespaces`,
-    component: Namespaces,
-    icon: 'lib_kubernetes_namespace'
+    component: Namespaces
   },
   {
     label: 'Deployments',
     path: `${clusterDashboardFullyQualified}/deployments`,
-    component: Deployments,
-    icon: 'lib_kubernetes_workload'
+    component: Deployments
   },
   {
     label: 'K8s Services',
     path: `${clusterDashboardFullyQualified}/services`,
-    component: Services,
-    icon: 'lib_kubernetes_service'
+    component: Services
   },
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
-    component: PodsWithNamespaces,
-    icon: 'lib_kubernetes_pod'
+    component: PodsWithNamespaces
   }
 ].filter(Boolean);

@@ -18,8 +18,7 @@ export default [
   {
     label: 'Pods',
     path: `${serviceDashboardFullyQualified}/pods`,
-    component: Pods,
-    icon: 'lib_kubernetes_pod'
+    component: Pods
   },
   {
     label: 'Events',
