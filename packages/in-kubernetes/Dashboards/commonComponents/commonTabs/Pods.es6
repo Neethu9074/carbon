@@ -245,6 +245,7 @@ const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
 function getStatusIcon(status) {
   let iconType = 'lib_kubernetes_status_unknown';
   let color = theme.lib.colors.failure;
+  let style = {};
 
   if (status === 'Pending') {
     iconType = 'lib_kubernetes_status_pending';
@@ -252,6 +253,7 @@ function getStatusIcon(status) {
   } else if (status === 'Running') {
     iconType = 'lib_kubernetes_status_running';
     color = theme.lib.colors.success;
+    style = { transform: 'rotate(45deg)' };
   } else if (status === 'Succeeded') {
     iconType = 'lib_kubernetes_status_succeed';
     color = theme.lib.colors.success;
@@ -261,7 +263,7 @@ function getStatusIcon(status) {
   }
   return (
     <Tooltip themeStyle="light" content={status}>
-      <SvgIcon type={iconType} width={24} height={24} color={color} />
+      <SvgIcon type={iconType} width={24} height={24} color={color} style={style} />
     </Tooltip>
   );
 }
