@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
+import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
-import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import CustomMetrics from 'in-sdk/components/dashboard/customMetrics/CustomMetrics';
-import MicrometerMetrics from 'in-sdk/components/dashboard/customMetrics/micrometer/MicrometerMetrics';
+import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
+import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
@@ -124,7 +124,7 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
 
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <CustomMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Dropwizard" />
+      <CustomMetricsV2 snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Dropwizard" />
       <MicrometerMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Micrometer" />
     </div>
   );

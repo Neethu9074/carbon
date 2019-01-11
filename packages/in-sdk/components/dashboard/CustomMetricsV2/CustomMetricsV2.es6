@@ -113,10 +113,82 @@ export default withUrlDependingState({
   replaceHistory: true
 })(CustomMetricsV2);
 
-function CustomMetricsV2({
+function CustomMetricsV2(props) {
+  const { titlePrefix, pinnedMetrics, postProcessRow, getRows = getDefaultRows } = props;
+
+  const rows = getRows(props);
+
+  if (postProcessRow) {
+    rows.forEach(postProcessRow);
+  }
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const pinnedRows = rows.filter(r => pinnedMetrics.indexOf(r.key) !== -1);
+
+  return (
+    <Fragment>
+      {pinnedRows.length > 0 && (
+        <DashboardSection title={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}>
+          <Table
+            cols={cols}
+            rows={pinnedRows}
+            getRowDetails={getDetails}
+            maxItemsPerPage={100}
+            initialSortColumn={2}
+            showExpandAll
+          />
+        </DashboardSection>
+      )}
+
+      <DashboardSection title={`${titlePrefix || ''} Custom Metrics (${rows.length})`.trim()}>
+        <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} initialSortColumn={2} />
+      </DashboardSection>
+    </Fragment>
+  );
+}
+
+function getDetails(row) {
+  const y1Formatter = row.metrics[0].formatter;
+  const y1DataSeries = row.metrics.filter(m => m.formatter === y1Formatter);
+  const y2DataSeries = row.metrics.filter(m => m.formatter !== y1Formatter);
+
+  const y1 = {
+    formatter: y1DataSeries[0].formatter,
+    metrics: y1DataSeries.map(m => m.name),
+    labels: y1DataSeries.map(m => m.label),
+    type: 'line'
+  };
+
+  let y2 = undefined;
+  if (y2DataSeries.length > 0) {
+    y2 = {
+      formatter: y2DataSeries[0].formatter,
+      metrics: y2DataSeries.map(m => m.name),
+      labels: y2DataSeries.map(m => m.label),
+      type: 'line'
+    };
+  }
+
+  return (
+    <Chart
+      snapshotId={row.snapshotId}
+      timeConfig={row.timeConfig}
+      margins={{
+        left: 90,
+        right: 90
+      }}
+      y1={y1}
+      y2={y2}
+    />
+  );
+}
+
+function getDefaultRows({
   snapshot,
   timeConfig,
-  titlePrefix,
   setPinnedMetrics,
   pinnedMetrics,
   countersSnapshotLocation = ['data', 'metrics.counters'],
@@ -128,12 +200,10 @@ function CustomMetricsV2({
   metersSnapshotLocation = ['data', 'metrics.meters'],
   metersMetricPrefix = 'metrics.meters.',
   timersSnapshotLocation = ['data', 'metrics.timers'],
-  timersMetricPrefix = 'metrics.timers.',
-  postProcessRow
+  timersMetricPrefix = 'metrics.timers.'
 }) {
-  const snapshotId = snapshot.get('id');
-
   let rows = [];
+  const snapshotId = snapshot.get('id');
 
   rows = rows.concat(
     snapshot
@@ -285,70 +355,5 @@ function CustomMetricsV2({
       })
   );
 
-  if (postProcessRow) {
-    rows.forEach(postProcessRow);
-  }
-
-  if (rows.length === 0) {
-    return null;
-  }
-
-  const pinnedRows = rows.filter(r => pinnedMetrics.indexOf(r.key) !== -1);
-
-  return (
-    <Fragment>
-      {pinnedRows.length > 0 && (
-        <DashboardSection title={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}>
-          <Table
-            cols={cols}
-            rows={pinnedRows}
-            getRowDetails={getDetails}
-            maxItemsPerPage={100}
-            initialSortColumn={2}
-            showExpandAll
-          />
-        </DashboardSection>
-      )}
-
-      <DashboardSection title={`${titlePrefix || ''} Custom Metrics (${rows.length})`.trim()}>
-        <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} initialSortColumn={2} />
-      </DashboardSection>
-    </Fragment>
-  );
-}
-
-function getDetails(row) {
-  const y1Formatter = row.metrics[0].formatter;
-  const y1DataSeries = row.metrics.filter(m => m.formatter === y1Formatter);
-  const y2DataSeries = row.metrics.filter(m => m.formatter !== y1Formatter);
-
-  const y1 = {
-    formatter: y1DataSeries[0].formatter,
-    metrics: y1DataSeries.map(m => m.name),
-    labels: y1DataSeries.map(m => m.label),
-    type: 'line'
-  };
-
-  let y2 = undefined;
-  if (y2DataSeries.length > 0) {
-    y2 = {
-      formatter: y2DataSeries[0].formatter,
-      metrics: y2DataSeries.map(m => m.name),
-      labels: y2DataSeries.map(m => m.label),
-      type: 'line'
-    };
-  }
-
-  return (
-    <Chart
-      snapshotId={row.snapshotId}
-      timeConfig={row.timeConfig}
-      margins={{
-        left: 90,
-        right: 90
-      }}
-      y1={y1}
-      y2={y2}
-    />
-  );
+  return rows;
 }
