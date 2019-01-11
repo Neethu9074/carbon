@@ -14,7 +14,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
-export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
+export default function Summary({ websiteId, tagFilters, timeConfig, pageId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
 
   return (
@@ -86,7 +86,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId }) {
         </Col>
       </Row>
 
-      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
+      <Deprecations tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} websiteLabel={websiteLabel} />
 
       <Row>
         <Col lg={4}>
