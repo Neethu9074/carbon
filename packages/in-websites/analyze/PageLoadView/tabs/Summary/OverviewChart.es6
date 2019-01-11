@@ -2,12 +2,13 @@ import React, { Fragment } from 'react';
 
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
+import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import { deepFreeze } from 'in-services/util/object';
+import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 import theme from 'in-themes';
 
@@ -50,24 +51,34 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
 
       <div className={locals.beacons} style={{ height: `${chartHeight}px` }}>
         {beaconsStacked.map((beacon, i) => {
-          const typeDefinition = types[beacons[i].resourceType];
+          const type = getType(beacon);
+          const typeDefinition = types[type];
 
           var startX = scale.getRange(beaconsStacked[i].timestamp);
           var endX = scale.getRange(beaconsStacked[i].timestamp + beaconsStacked[i].duration);
           var startY = beaconsStacked[i].depth;
 
           return (
-            <div
-              className={locals.beacon}
+            <Tooltip
+              themeStyle="light"
+              content={`Click to go to resource: ${typeDefinition.long} - Start Time: ${millis.detailed(
+                beacon.timestamp - earliestTimestamp
+              )}.`}
+              align="bottomMiddle"
               key={beacon.beaconId}
-              style={{
-                top: `${startY}` * 8 + 1,
-                left: `${startX * 100}%`,
-                width: `${(endX - startX) * 100}%`,
-                backgroundColor: typeDefinition.color
-              }}
-              onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
-            />
+            >
+              <div
+                className={locals.beacon}
+                key={beacon.beaconId}
+                style={{
+                  top: `${startY}` * 8 + 1,
+                  left: `${startX * 100}%`,
+                  width: `${(endX - startX) * 100}%`,
+                  backgroundColor: typeDefinition.color
+                }}
+                onClick={() => triggerHighlight(getHighlighterId(beacon.beaconId))}
+              />
+            </Tooltip>
           );
         })}
       </div>
