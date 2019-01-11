@@ -76,14 +76,14 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'endpointsInt',
+    id: 'internalEndpoints',
     label: 'Int. endpoints',
     getContent(item) {
       return item.internalEndpoints;
     }
   },
   {
-    id: 'endpointsExt',
+    id: 'externalEndpoints',
     label: 'Ext. endpoints',
     getContent(item) {
       return item.externalEndpoints;
