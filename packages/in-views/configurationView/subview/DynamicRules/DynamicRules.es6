@@ -32,7 +32,7 @@ const cols = [
       get(row) {
         const entityType = row.entity.getIn(['match', 'entityType']);
         return {
-          value: entityType,
+          value: getSingular(entityType),
           content: (
             <Fragment>
               <PluginIcon dimension={16} color="#000" plugin={entityType} />

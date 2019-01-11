@@ -36,7 +36,7 @@ const cols = [
       get(row) {
         const entityType = row.entityType;
         return {
-          value: entityType,
+          value: getSingular(entityType),
           content: <WithIcon plugin={entityType}>{getSingular(entityType)}</WithIcon>
         };
       }
