@@ -38,9 +38,9 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
 
       <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
 
-      <OverviewChart beacons={filteredBeacons} earliestTimestamp={firstBeacon.timestamp} />
+      <OverviewChart beacons={sortBeaconsByTimestamp(filteredBeacons)} earliestTimestamp={firstBeacon.timestamp} />
 
-      {groupBeaconsByPage(filteredBeacons).map((group, i) => (
+      {groupBeaconsByPage(sortBeaconsByTimestamp(filteredBeacons)).map((group, i) => (
         <BeaconPageGroup
           key={`${i}-${group.page}-${filterHash}`}
           page={group.page}
@@ -70,4 +70,11 @@ function groupBeaconsByPage(beacons) {
   });
 
   return grouped;
+}
+
+function sortBeaconsByTimestamp(beacons) {
+  var sorted = beacons.sort(function(a, b) {
+    return a.timestamp - b.timestamp;
+  });
+  return sorted;
 }
