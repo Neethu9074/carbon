@@ -7,8 +7,10 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
+import { region } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+
 export default connectTo(
   {
     timeConfig: timeConfig$,
@@ -157,6 +159,36 @@ export default connectTo(
                 min: 0,
                 formatter: number.perSecond.compact,
                 metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.spa`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Kafka Writes In Same Region`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.kafka.writes.by_topic.website_monitoring_beacons`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Kafka Writes Into Other Region (${region})`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.kafka.writes.by_topic.${region}_website_monitoring_beacons`),
                 labels,
                 type: 'stackedArea'
               }}
