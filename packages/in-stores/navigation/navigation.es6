@@ -1,6 +1,6 @@
 import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
-import { applyResets } from 'in-stores/navigation/parameterResets';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
