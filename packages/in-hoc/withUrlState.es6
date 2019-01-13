@@ -3,6 +3,8 @@ import { isEqual } from 'lodash';
 
 import { mutateUrl, navigationParameters$, getModifiedUrlStream } from 'in-stores/navigation';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
+import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { identity } from 'in-services/util/function';
 import history from 'in-stores/navigation/history';
@@ -13,17 +15,16 @@ import history from 'in-stores/navigation/history';
 //   bind: [
 //     { // matrix parameter
 //       path: '/things',
-//       name: 'thingId'
-//       as: 'thing', // optional, will use "name" when "as" is not defined
-//       parser: parseInt
+//       name: 'page'
+//       as: 'page', // optional, will use "name" when "as" is not defined
+//       parser: v => v != null ? parseInt(v) : v,
+//       serializer: String,
+//       initialState: 1
 //     },
 //     { // query parameter because path definition is missing
 //       name: 'snapshotId'
 //     }
 //   ],
-//
-//   // define the initial state for the bound keys
-//   initialState,
 //
 //   // define cases which should reset / change the URL state
 //   resets: [
@@ -34,7 +35,7 @@ import history from 'in-stores/navigation/history';
 //           name: 'snapshotId'
 //         }
 //       ],
-//       onReset: () => ({ page: 1 })
+//       change: { page: 1 }
 //     }
 //   ],
 //
@@ -52,16 +53,20 @@ import history from 'in-stores/navigation/history';
 // })
 
 export default ({
-  initialState,
   bind,
   // TODO
-  // resets = emptyArray,
+  resets = emptyArray,
   reducerName,
   reduceAndGetAsUrlName,
   reducer = defaultingReducer,
   replaceHistory = true
 }) => BaseComponent => {
-  bind.forEach(b => (b.as = b.as || b.name));
+  const bindByAs = {};
+  bind.forEach(b => {
+    b.as = b.as || b.name;
+    bindByAs[b.as] = b;
+  });
+  resets.forEach(r => (r.as = r.as || r.name));
 
   reduceAndGetAsUrlName = reduceAndGetAsUrlName || `${reducerName}AndGetAsUrl`;
   replaceHistory = Boolean(replaceHistory);
@@ -75,12 +80,12 @@ export default ({
       super(props);
       // Initialize initial state so that the initial state already depends on the URL.
       // Otherwise we risk WithUrlState resets kicking in as well as unnecessary data retrieval.
-      let state = initialState;
-      state = this.determineStateChange(history.location, state) || state;
-      this.state = state;
+      this.state = this.determineStateChange(history.location, emptyObject) || emptyObject;
     }
 
     componentDidMount() {
+      addReset(this.exeuteResets);
+
       this.locationSubscription = navigationParameters$
         // Simple yet effective way to avoid state updates when navigating away from a route.
         // When not doing this, it can happen that we update this state and a downstream
@@ -94,6 +99,8 @@ export default ({
     }
 
     componentWillUnmount() {
+      removeReset(this.executeResets);
+
       if (this.locationSubscription) {
         this.locationSubscription.dispose();
       }
@@ -107,9 +114,8 @@ export default ({
     };
 
     determineStateChange(location, currentState) {
-      // retrieve all bindings from the URL
       let newState = {};
-      bind.forEach(({ path, name, as, parser = identity }) => {
+      bind.forEach(({ path, name, as, parser = identity, initialState }) => {
         let value = undefined;
         if (path) {
           value = getMatrixParameter(location, path, name);
@@ -120,7 +126,7 @@ export default ({
         if (value != null) {
           newState[as] = parser(value);
         } else {
-          newState[as] = initialState[as];
+          newState[as] = initialState;
         }
       });
 
@@ -142,18 +148,54 @@ export default ({
     }
 
     modifyLocation(state, location) {
-      bind.forEach(({ path, name, as, serializer = identity }) => {
-        const value = state[as];
-        if (path) {
+      bind.forEach(bind => this.setBindValue(bind, state[bind.as], location));
+    }
+
+    setBindValue({ path, name, serializer = identity }, value, location) {
+      if (path) {
+        if (value != null) {
           setOrDeleteMatrixKey(location, path, name, serializer(value));
         } else {
-          if (value != null) {
-            location.query[name] = serializer(value);
-          } else {
-            delete location.query[name];
-          }
+          setOrDeleteMatrixKey(location, path, name);
+        }
+      } else {
+        if (value != null) {
+          location.query[name] = serializer(value);
+        } else {
+          delete location.query[name];
+        }
+      }
+    }
+
+    executeResets = (previousLocation, nextLocation) => {
+      resets.forEach(({ bind, reset }) => {
+        if (this.shouldExecuteReset(previousLocation, nextLocation, bind)) {
+          Object.keys(reset).forEach(key => this.setBindValue(bindByAs[key], reset[key], nextLocation));
         }
       });
+    };
+
+    shouldExecuteReset(previousLocation, nextLocation, bind) {
+      // fori loop for early return
+      for (let i = 0; i < bind.length; i++) {
+        const { path, name } = bind[i];
+        let previousValue;
+        let nextValue;
+
+        if (path) {
+          previousValue = getMatrixParameter(previousLocation, path, name);
+          nextValue = getMatrixParameter(nextLocation, path, name);
+        } else {
+          previousValue = previousLocation.query[name];
+          nextValue = nextLocation.query[name];
+        }
+
+        if (nextValue !== previousValue) {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     render() {
