@@ -84,7 +84,7 @@ global.window.instana.user = {
   email: 'stan@instana.com'
 };
 
-global.requestAnimationFrame = fn => fn();
+global.requestAnimationFrame = fn => setTimeout(fn, 0);
 global.window.requestAnimationFrame = global.requestAnimationFrame;
 
 // many tests import a whole bunch of modules and at some point this always

@@ -2,11 +2,11 @@
 
 import { create } from 'reactive-observables';
 import { mount } from 'enzyme';
-import { omit } from 'lodash';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import React from 'react';
 
+import { getProps, NoopComponent } from 'in-test/enzymeTestUtils';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 describe('in-hoc/cursorPaginated', () => {
@@ -24,7 +24,7 @@ describe('in-hoc/cursorPaginated', () => {
     get.returns(getResult);
     getResettingProps = stub();
     getResettingProps.returns([resettingPropName]);
-    Component = cursorPaginated({ getResettingProps, get })(Dummy);
+    Component = cursorPaginated({ getResettingProps, get })(NoopComponent);
   });
 
   it('must start loading immediately', () => {
@@ -79,7 +79,9 @@ describe('in-hoc/cursorPaginated', () => {
     // simulate reload
     getResult = create();
     get.returns(getResult);
-    getProps(wrapper, false).reload();
+    getProps(wrapper, {
+      omitFunctions: false
+    }).reload();
     wrapper.update();
     expect(get.getCall(1).args[0].cursor).to.equal(null);
     expect(getProps(wrapper).items.length).to.equal(0);
@@ -129,7 +131,9 @@ describe('in-hoc/cursorPaginated', () => {
       }
     });
     get.returns(getResult);
-    getProps(wrapper, false).loadMore();
+    getProps(wrapper, {
+      omitFunctions: false
+    }).loadMore();
     wrapper.update();
     expect(get.getCall(1).args[0].cursor).to.equal('b');
     expect(getProps(wrapper).items).to.deep.equal([
@@ -184,11 +188,6 @@ describe('in-hoc/cursorPaginated', () => {
   });
 });
 
-function getProps(wrapper, omitFunctions = true) {
-  const props = wrapper.find(Dummy).props();
-  return omitFunctions ? omit(props, ['loadMore', 'reload']) : props;
-}
-
 function getSuccessfulResult() {
   return {
     progress: {
@@ -211,8 +210,4 @@ function getSuccessfulResult() {
       ]
     }
   };
-}
-
-function Dummy() {
-  return null;
 }

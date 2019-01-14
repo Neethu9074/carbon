@@ -54,7 +54,6 @@ import history from 'in-stores/navigation/history';
 
 export default ({
   bind,
-  // TODO
   resets = emptyArray,
   reducerName,
   reduceAndGetAsUrlName,
@@ -62,11 +61,17 @@ export default ({
   replaceHistory = true
 }) => BaseComponent => {
   const bindByAs = {};
-  bind.forEach(b => {
-    b.as = b.as || b.name;
+  bind = bind.map(b => {
     bindByAs[b.as] = b;
+    return {
+      ...b,
+      as: b.as || b.name
+    };
   });
-  resets.forEach(r => (r.as = r.as || r.name));
+  resets = resets.map(r => ({
+    ...r,
+    as: r.as || r.name
+  }));
 
   reduceAndGetAsUrlName = reduceAndGetAsUrlName || `${reducerName}AndGetAsUrl`;
   replaceHistory = Boolean(replaceHistory);
@@ -84,7 +89,9 @@ export default ({
     }
 
     componentDidMount() {
-      addReset(this.exeuteResets);
+      if (resets.length > 0) {
+        addReset(this.executeResets);
+      }
 
       this.locationSubscription = navigationParameters$
         // Simple yet effective way to avoid state updates when navigating away from a route.
@@ -99,7 +106,9 @@ export default ({
     }
 
     componentWillUnmount() {
-      removeReset(this.executeResets);
+      if (resets.length > 0) {
+        removeReset(this.executeResets);
+      }
 
       if (this.locationSubscription) {
         this.locationSubscription.dispose();
@@ -151,7 +160,7 @@ export default ({
       bind.forEach(bind => this.setBindValue(bind, state[bind.as], location));
     }
 
-    setBindValue({ path, name, serializer = identity }, value, location) {
+    setBindValue({ path, name, serializer = String }, value, location) {
       if (path) {
         if (value != null) {
           setOrDeleteMatrixKey(location, path, name, serializer(value));
@@ -212,6 +221,6 @@ export default ({
 function defaultingReducer(state, change) {
   return {
     ...state,
-    change
+    ...change
   };
 }
