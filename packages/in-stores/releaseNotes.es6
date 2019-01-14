@@ -83,10 +83,12 @@ function processReleaseNotesIndex(indexResponse) {
   }
   try {
     const index = JSON.parse(indexResponse.body);
-    const releaseNotesLink = index[majorMinor].link;
-    if (!releaseNotesLink) {
+    if (!index[majorMinor] || !index[majorMinor].link) {
+      // There are no release notes for the currently active release.
+      logger.warn('No release notes available for release ' + majorMinor + '.');
       return;
     }
+    const releaseNotesLink = index[majorMinor].link;
     const releaseNotesObservable = http({
       method: 'GET',
       maxRetries: 3,
