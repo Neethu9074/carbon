@@ -25,7 +25,7 @@ exports.send500 = function send403(req, res) {
 };
 
 exports.sendMaintenance = function sendMaintenance(req, res) {
-  res.status(500).send(templateMaintenance({}));
+  res.status(503).send(templateMaintenance({}));
 };
 
 function getCompiledTemplate(fileName) {
