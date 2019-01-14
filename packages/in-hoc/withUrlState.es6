@@ -35,7 +35,7 @@ import history from 'in-stores/navigation/history';
 //           name: 'snapshotId'
 //         }
 //       ],
-//       change: { page: 1 }
+//       reset: { page: 1 }
 //     }
 //   ],
 //
