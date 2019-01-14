@@ -5,3 +5,4 @@ exports.getBaseUrl = () => Promise.resolve(serverConfig.baseUrl);
 exports.getButlerDomain = () => Promise.resolve(serverConfig.clientConfig.butlerDomain);
 exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.configuration);
 exports.getUiBackendBaseUrl = () => Promise.resolve(serverConfig.uiBackendBaseUrl);
+exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);

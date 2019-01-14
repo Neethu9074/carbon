@@ -3,6 +3,7 @@ const serverConfig = require('../serverConfig.js');
 
 exports.getBaseUrl = activeResolver.getBaseUrl;
 exports.getUiBackendBaseUrl = activeResolver.getUiBackendBaseUrl;
+exports.getGroundskeeperBaseUrl = activeResolver.getGroundskeeperBaseUrl;
 exports.getClientConfig = (tenant, unit) => {
   return Promise.all([
     activeResolver.getButlerDomain(tenant, unit),

@@ -1,6 +1,7 @@
+const { getUnitInfo } = require('../services/availableUnits');
 const configResolver = require('../services/config');
-const errorPages = require('../errorPages');
 const serverConfig = require('../serverConfig');
+const errorPages = require('../errorPages');
 
 module.exports = exports = function enrichRequestWithConfig(req, res, next) {
   const coords = getTenantUnitCoordinates(req);
@@ -13,30 +14,40 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
   req.tenant = coords.tenant;
   req.unit = coords.unit;
 
-  configResolver.getUiBackendBaseUrl(coords.tenant, coords.unit).then(
-    uiBackendBaseUrl => {
-      req.uiBackendBaseUrl = uiBackendBaseUrl;
+  configResolver
+    .getUiBackendBaseUrl(coords.tenant, coords.unit)
+    .then(
+      uiBackendBaseUrl => {
+        req.uiBackendBaseUrl = uiBackendBaseUrl;
 
-      return Promise.all([
-        configResolver.getClientConfig(coords.tenant, coords.unit),
-        configResolver.getBaseUrl(coords.tenant, coords.unit)
-      ]).then(
-        ([clientConfig, baseUrl]) => {
-          req.clientConfig = clientConfig;
-          req.uiClientBaseUrl = baseUrl;
-          next();
-        },
-        error => {
+        return Promise.all([
+          configResolver.getClientConfig(coords.tenant, coords.unit),
+          configResolver.getBaseUrl(coords.tenant, coords.unit)
+        ]).then(
+          ([clientConfig, baseUrl]) => {
+            req.clientConfig = clientConfig;
+            req.uiClientBaseUrl = baseUrl;
+            next();
+          },
+          error => {
+            logError(error);
+            errorPages.send500(req, res);
+          }
+        );
+      },
+      error => {
+        if (error.notFound) {
+          return handleUiBackendNotFound(coords.tenant, coords.unit, req, res);
+        } else {
           logError(error);
           errorPages.send500(req, res);
         }
-      );
-    },
-    error => {
+      }
+    )
+    .catch(error => {
       logError(error);
-      errorPages.sendMaintenance(req, res);
-    }
-  );
+      errorPages.send500(req, res);
+    });
 };
 
 function getTenantUnitCoordinates(req) {
@@ -82,4 +93,24 @@ function logError(error) {
   } else {
     console.log('Failed to enrich config with config values', error);
   }
+}
+
+function handleUiBackendNotFound(tenant, unit, req, res) {
+  return getUnitInfo(tenant, unit).then(
+    info => {
+      if (!info) {
+        console.log(`Received request for unknown tenant %s / unit %s`, tenant, unit);
+        errorPages.send404(req, res);
+      } else if (info.hasLicense) {
+        errorPages.sendMaintenance(req, res);
+      } else {
+        console.log(`Received request for tenant %s / unit %s without an active license (and no running ui-backend).`, tenant, unit);
+        errorPages.send404(req, res);
+      }
+    },
+    error => {
+      logError(error);
+      errorPages.sendMaintenance(req, res);
+    }
+  );
 }

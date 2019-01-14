@@ -4,10 +4,10 @@ const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = module.exports = express.Router();
-const immutableCacheControlHeader = 'max-age=365000000, immutable';
-const sendImmutableFilesConfig = {
+const cacheControlHeader = 'public, max-age=86400';
+const sendFilesConfig = {
   headers: {
-    'Cache-Control': immutableCacheControlHeader
+    'Cache-Control': cacheControlHeader
   }
 };
 
@@ -33,7 +33,7 @@ router.use('/bundle/internal.*.js', (req, res, next) => {
 router.use(express.static(paths.assetDir, {
   cacheControl: false,
   setHeaders(res) {
-    res.setHeader('Cache-Control', immutableCacheControlHeader);
+    res.setHeader('Cache-Control', cacheControlHeader);
   }
 }));
 
@@ -44,7 +44,7 @@ router.get('/bundle/index-*.js', sendIndexJs);
 function sendIndexJs(req, res) {
   res.sendFile(
     paths.indexJs,
-    sendImmutableFilesConfig,
+    sendFilesConfig,
     err => {
       if (err) {
         console.error('Failed to send file. Cannot complete request.', err);
@@ -59,7 +59,7 @@ router.get('/bundle/index-*.css', sendIndexCss);
 function sendIndexCss(req, res) {
   res.sendFile(
     paths.indexCss,
-    sendImmutableFilesConfig,
+    sendFilesConfig,
     err => {
       if (err) {
         console.error('Failed to send file. Cannot complete request.', err);

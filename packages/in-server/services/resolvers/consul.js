@@ -6,24 +6,11 @@ const cache = require('../loadingCache').createLoadingCache({ttl: serverConfig.c
 console.log('Initializing Consul resolver with config', serverConfig.consul);
 
 exports.getUiBackendBaseUrl = (tenant, unit) => cache(`getUiBackendBaseUrl:${tenant}:${unit}`, () => {
-  const serviceName = `${tenant}-${unit}-ui-backend`;
-  return rp({
-    method: 'GET',
-    url: `${serverConfig.consul.baseUrl}/v1/catalog/service/${serviceName}`,
-    json: true,
-    simple: true,
-    timeout: 5000,
-    resolveWithFullResponse: false
-  })
-  .then(services => {
-    if (services.length === 0) {
-      const error = new Error(`Consul lookup returned zero results for service name: ${serviceName}`);
-      error.ignoreStackTrace = true;
-      error.notFound = true;
-      return Promise.reject(error);
-    }
-    return `http://${services[0].ServiceAddress}:${services[0].ServicePort}`;
-  });
+  return lookupServiceBaseUrl(`${tenant}-${unit}-ui-backend`);
+});
+
+exports.getGroundskeeperBaseUrl = () => cache(`groundskeeper`, () => {
+  return lookupServiceBaseUrl(`groundskeeper`);
 });
 
 exports.getBaseUrl = (tenant, unit) => Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
@@ -90,6 +77,26 @@ exports.getConfiguration = (tenant, unit) => cache(`getConfiguration:${tenant}:$
       maxAllowedAlertingConfigurations
     }));
 });
+
+function lookupServiceBaseUrl(serviceName) {
+  return rp({
+    method: 'GET',
+    url: `${serverConfig.consul.baseUrl}/v1/catalog/service/${serviceName}`,
+    json: true,
+    simple: true,
+    timeout: 5000,
+    resolveWithFullResponse: false
+  })
+  .then(services => {
+    if (services.length === 0) {
+      const error = new Error(`Consul lookup returned zero results for service name: ${serviceName}`);
+      error.ignoreStackTrace = true;
+      error.notFound = true;
+      return Promise.reject(error);
+    }
+    return `http://${services[0].ServiceAddress}:${services[0].ServicePort}`;
+  });
+}
 
 function getBooleanSetting(path, notDefinedFallback) {
   return getSetting(path, notDefinedFallback, str => str === 'true');
