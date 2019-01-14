@@ -30,7 +30,7 @@ export const dataSourceTitles = {
 
 export const defaultGroupings = {
   pageLoad: {
-    groupbyTag: 'beacon.page.name'
+    groupbyTag: 'beacon.location.path'
   },
   resourceLoad: {
     groupbyTag: 'beacon.http.origin'

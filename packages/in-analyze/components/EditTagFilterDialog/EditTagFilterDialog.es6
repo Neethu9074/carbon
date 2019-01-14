@@ -199,7 +199,14 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
   let keyValidator;
   let value;
   if (forAnalyzeCalls) {
-    value = tagFilter ? tagFilter.value || '' : '';
+    let defaultValue = '';
+    if (tagType === 'NUMBER') {
+      defaultValue = '0';
+    } else if (tagType === 'BOOLEAN') {
+      defaultValue = 'true';
+    }
+
+    value = tagFilter ? tagFilter.value || defaultValue : defaultValue;
     if (requiresSecondLevelName(resolvedTag)) {
       key = tagFilter ? tagFilter.secondLevelName : '';
       keyValidator = notBlankValidator;
