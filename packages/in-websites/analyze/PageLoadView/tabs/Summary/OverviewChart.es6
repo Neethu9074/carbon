@@ -16,12 +16,13 @@ import locals from './OverviewChart.mless';
 
 export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width }) {
   const scale = createScale();
+  const firstTimestamp = findFirstTimestamp(beacons);
   const endTimestamp = findEndTimestamp(beacons);
   const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
-  scale.setDomainFrom(earliestTimestamp);
+  scale.setDomainFrom(firstTimestamp);
   scale.setDomainTo(endTimestamp);
 
   let maxDepth = 0;
@@ -85,6 +86,16 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
     </Fragment>
   );
 });
+
+function findFirstTimestamp(beacons) {
+  if (beacons.length === 0) {
+    return;
+  }
+  var min = beacons.reduce(function(res, obj) {
+    return obj.timestamp < res.timestamp ? obj : res;
+  });
+  return min.timestamp;
+}
 
 function findEndTimestamp(beacons) {
   var max = 0;
