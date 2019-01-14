@@ -11,6 +11,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 
 const configEnrichment = require('./middleware/configEnrichment');
+const unitCoordinates = require('./middleware/unitCoordinates');
 const errorPagesRoutes = require('./routes/errorPages');
 const serverConfig = require('./serverConfig.js');
 const assetRoutes = require('./routes/assets');
@@ -34,10 +35,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(configEnrichment);
 
+app.use(unitCoordinates);
 app.use(errorPagesRoutes);
 app.use(assetRoutes);
+
+app.use(configEnrichment);
 app.use(pingRoutes);
 app.use(indexRoutes);
 

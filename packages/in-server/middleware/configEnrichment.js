@@ -1,28 +1,17 @@
 const { getUnitInfo } = require('../services/availableUnits');
 const configResolver = require('../services/config');
-const serverConfig = require('../serverConfig');
 const errorPages = require('../errorPages');
 
 module.exports = exports = function enrichRequestWithConfig(req, res, next) {
-  const coords = getTenantUnitCoordinates(req);
-  if (!coords) {
-    console.log(`Could not determine tenant unit coordinates from hostname ${req.hostname}`);
-    errorPages.send404(req, res);
-    return;
-  }
-
-  req.tenant = coords.tenant;
-  req.unit = coords.unit;
-
   configResolver
-    .getUiBackendBaseUrl(coords.tenant, coords.unit)
+    .getUiBackendBaseUrl(req.tenant, req.unit)
     .then(
       uiBackendBaseUrl => {
         req.uiBackendBaseUrl = uiBackendBaseUrl;
 
         return Promise.all([
-          configResolver.getClientConfig(coords.tenant, coords.unit),
-          configResolver.getBaseUrl(coords.tenant, coords.unit)
+          configResolver.getClientConfig(req.tenant, req.unit),
+          configResolver.getBaseUrl(req.tenant, req.unit)
         ]).then(
           ([clientConfig, baseUrl]) => {
             req.clientConfig = clientConfig;
@@ -37,7 +26,7 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
       },
       error => {
         if (error.notFound) {
-          return handleUiBackendNotFound(coords.tenant, coords.unit, req, res);
+          return handleUiBackendNotFound(req.tenant, req.unit, req, res);
         } else {
           logError(error);
           errorPages.send500(req, res);
@@ -49,43 +38,6 @@ module.exports = exports = function enrichRequestWithConfig(req, res, next) {
       errorPages.send500(req, res);
     });
 };
-
-function getTenantUnitCoordinates(req) {
-  // required for onprem deployments
-  if (
-    (!serverConfig.consul || !serverConfig.consul.baseUrl) &&
-    serverConfig.clientConfig &&
-    serverConfig.clientConfig.tenant
-  ) {
-    return {
-      tenant: serverConfig.clientConfig.tenant,
-      unit: serverConfig.clientConfig.tenantUnit
-    };
-  }
-
-  if (!req.hostname) {
-    return null;
-  }
-
-  const hostname = req.hostname.toLowerCase();
-  if (hostname.indexOf(serverConfig.clientConfig.tenantUnitDomainSuffix) === -1) {
-    return null;
-  }
-
-  // Don't do this completely via regex to avoid having to create a RegExp adhoc.
-  // This would be kinda complicated because we would need to RegExp escape
-  // the tenantUnitDomainSuffix.
-  const unitSegment = req.hostname.split(`.${serverConfig.clientConfig.tenantUnitDomainSuffix}`)[0];
-  const match = unitSegment.match(/(^|\.)([a-z0-9]+)-([a-z0-9]+)$/);
-  if (!match) {
-    return null;
-  }
-
-  return {
-    tenant: match[3],
-    unit: match[2]
-  };
-}
 
 function logError(error) {
   if (error.ignoreStackTrace) {

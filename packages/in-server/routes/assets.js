@@ -1,6 +1,5 @@
 const express = require('express');
 
-const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = module.exports = express.Router();
@@ -14,18 +13,11 @@ const sendFilesConfig = {
 
 // do not permit access to our internal chunk
 router.use('/bundle/internal.*.js', (req, res, next) => {
-  if (req.clientConfig.tenant !== 'instana' && req.clientConfig.tenant !== 'instanaops') {
+  if (req.tenant === 'instana' || req.tenant === 'instanaops') {
+    next();
+  } else {
     res.sendStatus(403);
-    return;
   }
-
-  getCurrentUser(req).then(([statusCode]) => {
-    if (statusCode === 200) {
-      next();
-    } else {
-      res.sendStatus(403);
-    }
-  });
 });
 
 
