@@ -29,17 +29,25 @@ export default connectTo(
     if (!metricValues) {
       return null;
     }
+    const data = getMetricData(event, metric, metricsRequest.metrics.shift(), metricValues);
     return (
       <EventMetricDownloadView
-        data={metricValues}
+        data={data}
+        metric={metric}
+        metrics={metricsRequest.metrics.shift()}
+        event={event}
         fileName={`metric-${metric}`}
-        getJsonData={() => getJsonData(event, metric, metricsRequest.metrics.shift(), metricValues)}
+        getJsonData={() => getJsonData(data)}
       />
     );
   }
 );
 
-function getJsonData(event, metric, metrics, metricValues) {
+function getJsonData(data) {
+  return JSON.stringify(data, null, 4);
+}
+
+function getMetricData(event, metric, metrics, metricValues) {
   var values = parseMetricValues(metric, metrics, metricValues);
   var finalValues = [];
   values.forEach(function(v) {
@@ -51,7 +59,7 @@ function getJsonData(event, metric, metrics, metricValues) {
 }
 
 function parseMetricValues(metric, metrics, metricValues) {
-  var array = Array.from(metricValues.get('items'));
+  var array = Array.from(metricValues['items']);
   var data = array
     .shift()
     .get('metrics')

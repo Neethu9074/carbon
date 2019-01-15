@@ -9,6 +9,7 @@ import {
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { getMetricDefinition, metricAggregations } from 'in-sdk/metrics/metricDefinitions';
 import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
+import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
@@ -16,7 +17,6 @@ import { fullyQualifiedPlugins } from 'in-forge/constants';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
-import { isInstanaEmail } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -122,6 +122,8 @@ const ChartWrapper = connectTo(
     }
 
     const timeFrame = {
+      //From time is set to 20 Minutes before the event triggering timeout
+      // as some algorithms need some time (more data) to warm up
       from: event.get('triggeringTime') - 1000 * 60 * 20,
       to: timeConfig.to ? timeConfig.to : Date.now(),
       windowSize: timeConfig.windowSize
@@ -138,7 +140,7 @@ const ChartWrapper = connectTo(
 
     return (
       <div className={`${block}__chart`}>
-        {isInstanaEmail && (
+        {allowDownloadMetricsFromCharts && (
           <div className={`${block}__button-panel`}>
             <DownloadButton>
               <EventMetricChartDownloadView
@@ -191,7 +193,6 @@ function getMetricsRequest(event, timeFrame, rollup, entityType, plugin, metric,
 
   let infraRequest = {
     timeFrame: timeFrame,
-    query: '*',
     plugin: plugin,
     metrics: [metric],
     rollup: rollup / 1000,
