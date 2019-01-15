@@ -35,13 +35,8 @@ const columnDefinitions = [
 const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
-const serviceIdUrlParameter = {
-  path: pathSegment,
-  name: `${matrixPrefix}serviceId`
-};
-
 const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceIdUrlParameter],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
   defaultOrderBy: 'time',
   defaultOrderDirection: 'DESC',
@@ -58,8 +53,6 @@ export default function Events({ data: service, ...props }) {
           <ServerTableWithUrlState
             cardTitle="Events"
             serviceId={service.id}
-            pathSegment={pathSegment}
-            matrixPrefix={matrixPrefix}
             get={getTableData}
             isSearchable={false}
             {...props}
