@@ -1,81 +1,65 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
+import { getInfrastructureMetrics, getApplicationMetrics, getServiceMetrics, getEndpointMetrics } from 'in-api/metrics';
 import EventMetricDownloadView from 'in-components/DownloadButton/components/EventMetricDownloadView';
-import { getMetricsForTimeframe } from 'in-stores/metric';
-import { serverTime$ } from 'in-stores/serverTime';
-import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
+    const { entityType, metricsRequest } = props;
+    if (entityType === 'Service20') {
+      return {
+        metricValues: getServiceMetrics(metricsRequest)
+      };
+    } else if (entityType === 'App20') {
+      return {
+        metricValues: getApplicationMetrics(metricsRequest)
+      };
+    } else if (entityType === 'Endpoint20') {
+      return {
+        metricValues: getEndpointMetrics(metricsRequest)
+      };
+    }
+    // else assume 'Entity10'
     return {
-      metricValues: combineLatest([timeConfig$, serverTime$])
-        .map(([timeConfig, serverTime]) => {
-          const timeConfigCopy = {
-            ...timeConfig
-          };
-
-          if (!timeConfigCopy.to) {
-            timeConfigCopy.to = serverTime;
-          }
-
-          if (!timeConfigCopy.focusedMoment) {
-            timeConfigCopy.focusedMoment = serverTime;
-          }
-
-          return timeConfig;
-        })
-        .distinct()
-        .flatMap(timeConfig =>
-          combineLatest(
-            props.snapshotId.map(snapshotId => {
-              const ops = {
-                snapshotId: snapshotId,
-                metric: props.metric,
-                timeConfig
-              };
-
-              return getMetricsForTimeframe(ops)
-                .map(metrics => {
-                  return {
-                    label: `${props.label}`,
-                    values: metrics.map(metricValues => metricValues.sort((a, b) => a.time - b.time))
-                  };
-                })
-                .startWith(null);
-            })
-          )
-        )
-        .map(metrics => {
-          const map = {};
-          metrics.forEach(metric => {
-            if (metric) {
-              map[metric.label] = metric.values;
-            }
-          });
-          return map;
-        })
+      metricValues: getInfrastructureMetrics(metricsRequest)
     };
   },
-  function EventMetricChartDownloadView({ event, metric, metricValues }) {
+  function EventMetricChartDownloadView({ event, metric, metricsRequest, metricValues }) {
+    if (!metricValues) {
+      return null;
+    }
     return (
       <EventMetricDownloadView
         data={metricValues}
         fileName={`metric-${metric}`}
-        getJsonData={() => getJsonData(event, metric, metricValues)}
+        getJsonData={() => getJsonData(event, metric, metricsRequest.metrics.shift(), metricValues)}
       />
     );
   }
 );
 
-function getJsonData(event, metric, metricValues) {
-  let values = metricValues[metric];
+function getJsonData(event, metric, metrics, metricValues) {
+  var values = parseMetricValues(metric, metrics, metricValues);
   var finalValues = [];
   values.forEach(function(v) {
     let fv = { timestamp: v[0], value: v[1] };
     finalValues.push(fv);
   });
   let data = { event: event, values: finalValues };
-  return JSON.stringify(data);
+  return data;
+}
+
+function parseMetricValues(metric, metrics, metricValues) {
+  var array = Array.from(metricValues.get('items'));
+  var data = array
+    .shift()
+    .get('metrics')
+    .toJS();
+  if (data.hasOwnProperty(metric)) {
+    return data[metric];
+  } else {
+    var key = metrics.metric + '.' + metrics.aggregation.toLowerCase() + '.' + metrics.granularity;
+    return data[key];
+  }
 }

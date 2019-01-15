@@ -7,11 +7,12 @@ import {
 } from 'in-views/eventView/services/timeframe';
 
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
+import { getMetricDefinition, metricAggregations } from 'in-sdk/metrics/metricDefinitions';
 import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
-import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -52,6 +53,8 @@ export default addSection(
             const timeConfig = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
+            const plugin = translateFullyQualifiedPluginToShortPluginName(metric.get('entityId').get('pluginId'));
+
             return (
               <ChartWrapper
                 key={metricName}
@@ -63,7 +66,8 @@ export default addSection(
                 start={event.get('start')}
                 timeConfig$={always(timeConfig)}
                 timeConfig={getTimeConfigFromEventForCharts(event)}
-                rollup={rollup.label}
+                rollup={rollup}
+                plugin={plugin}
                 anomalyConfig={anomalyConfig}
               />
             );
@@ -84,13 +88,23 @@ const ChartWrapper = connectTo(
       props.start
     );
   },
-  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig, event }) {
+  function ChartWrapper({
+    timeConfig$,
+    timeConfig,
+    entity,
+    entityType,
+    metric,
+    metricAccessId,
+    rollup,
+    anomalyConfig,
+    event,
+    plugin
+  }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
 
     let chartConfig = getChartConfig(metric, entity, entityType);
-
     let forecastSensitivity;
     let focusedMoment;
     if (anomalyConfig) {
@@ -107,6 +121,21 @@ const ChartWrapper = connectTo(
       });
     }
 
+    const timeFrame = {
+      from: event.get('triggeringTime') - 1000 * 60 * 20,
+      to: timeConfig.to ? timeConfig.to : Date.now(),
+      windowSize: timeConfig.windowSize
+    };
+    const metricsRequest = getMetricsRequest(
+      event,
+      timeFrame,
+      rollup.rollup,
+      entityType,
+      plugin,
+      metric,
+      metricAccessId
+    );
+
     return (
       <div className={`${block}__chart`}>
         {isInstanaEmail && (
@@ -114,8 +143,8 @@ const ChartWrapper = connectTo(
             <DownloadButton>
               <EventMetricChartDownloadView
                 metric={metric}
-                label={metric}
-                snapshotId={[metricAccessId]}
+                entityType={entityType}
+                metricsRequest={metricsRequest}
                 event={event}
               />
             </DownloadButton>
@@ -146,6 +175,83 @@ const ChartWrapper = connectTo(
     );
   }
 );
+
+function getMetricsRequest(event, timeFrame, rollup, entityType, plugin, metric, metricAccessId) {
+  let entity20Request = {
+    pagination: {
+      page: 1,
+      pageSize: 1
+    },
+    order: {
+      by: 'string',
+      direction: 'ASC'
+    },
+    timeFrame: timeFrame
+  };
+
+  let infraRequest = {
+    timeFrame: timeFrame,
+    query: '*',
+    plugin: plugin,
+    metrics: [metric],
+    rollup: rollup / 1000,
+    snapshotIds: [metricAccessId]
+  };
+
+  const backendMetric = getBackendMetricName(metric);
+
+  if (backendMetric != null) {
+    entity20Request.metrics = [
+      {
+        metric: backendMetric.name,
+        aggregation: backendMetric.aggregation,
+        granularity: rollup / 1000
+      }
+    ];
+    entity20Request.nameFilter = event.getIn(['metadata', 'entityLabel']);
+  }
+
+  if (entityType === 'Service20') {
+    if (backendMetric == null) {
+      return null;
+    }
+    entity20Request.serviceId = event.getIn(['metadata', 'app20ServiceId']);
+    return entity20Request;
+  } else if (entityType === 'App20') {
+    if (backendMetric == null) {
+      return null;
+    }
+    entity20Request.applicationId = event.getIn(['metadata', 'app20ApplicationId']);
+    return entity20Request;
+  } else if (entityType === 'Endpoint20') {
+    if (backendMetric == null) {
+      return null;
+    }
+    entity20Request.endpointId = event.getIn(['metadata', 'app20EndpointId']);
+    return entity20Request;
+  }
+  return infraRequest;
+}
+
+function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
+  for (const plugin in fullyQualifiedPlugins) {
+    if (!fullyQualifiedPlugins.hasOwnProperty(plugin)) {
+      continue;
+    }
+
+    if (fullyQualifiedPlugin === fullyQualifiedPlugins[plugin]) {
+      return plugin;
+    }
+  }
+  return null;
+}
+
+function getBackendMetricName(metricName) {
+  if (metricAggregations.hasOwnProperty(metricName)) {
+    return metricAggregations[metricName];
+  }
+  return null;
+}
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
