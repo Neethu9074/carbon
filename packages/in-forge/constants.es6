@@ -312,10 +312,11 @@ export const fullyQualifiedPlugins = {
   kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
   kafkaCluster: 'com.instana.forge.infrastructure.messaging.kafka.KafkaCluster',
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
-  kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesPod',
-  kubernetesDeployment: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesDeployment',
-  kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesNamespace',
-  kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesNode',
+  kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod',
+  kubernetesDeployment:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
+  kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
+  kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',
   kubernetesReplicaSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicaset.KubernetesReplicaSet',
   ldapLogicalConnection: 'com.instana.forge.connection.ldap.LdapLogicalConnection',
@@ -378,7 +379,8 @@ export const fullyQualifiedPlugins = {
   opc: 'com.instana.forge.hardware.virtual.opc.Opc',
   oracleDB: 'com.instana.forge.infrastructure.database.oracledb.OracleDB',
   openLDAP: 'com.instana.forge.infrastructure.directory.openldap.OpenLDAP',
-  openshiftDeploymentConfig: 'com.instana.forge.infrastructure.paas.kubernetes.OpenshiftDeploymentConfig',
+  openshiftDeploymentConfig:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.openshift.deploymentconfig.OpenshiftDeploymentConfig',
   pageResourceLogicalConnection: 'com.instana.forge.connection.eum.PageResourceLogicalConnection',
   pageResourceLogicalService: 'com.instana.forge.connection.eum.PageResourceLogicalService',
   pageResourceServiceInstance: 'com.instana.forge.connection.eum.PageResourceServiceInstance',

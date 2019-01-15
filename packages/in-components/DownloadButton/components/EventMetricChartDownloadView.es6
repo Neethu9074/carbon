@@ -54,12 +54,12 @@ function getMetricData(event, metric, metrics, metricValues) {
     let fv = { timestamp: v[0], value: v[1] };
     finalValues.push(fv);
   });
-  let data = { event: event, values: finalValues };
+  let data = { event: event, metrics: finalValues };
   return data;
 }
 
 function parseMetricValues(metric, metrics, metricValues) {
-  var array = Array.from(metricValues['items']);
+  var array = Array.from(metricValues.get('items'));
   var data = array
     .shift()
     .get('metrics')

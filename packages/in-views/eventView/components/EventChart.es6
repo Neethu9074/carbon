@@ -179,6 +179,14 @@ const ChartWrapper = connectTo(
 );
 
 function getMetricsRequest(event, timeFrame, rollup, entityType, plugin, metric, metricAccessId) {
+  if (plugin === null) {
+    return null;
+  }
+
+  if (rollup === 0) {
+    rollup = 5000;
+  }
+
   let entity20Request = {
     pagination: {
       page: 1,
