@@ -3,6 +3,7 @@ import { compose, withProps } from 'recompose';
 import { timeout } from 'reactive-observables';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { emptyArray } from 'in-services/fixedObjects';
 import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';
@@ -37,14 +38,14 @@ export default function createServerTableWithUrlState({
           name: `${matrixPrefix}page`,
           as: 'page',
           initialState: 1,
-          parser: v => (v != null ? parseInt(v, 10) : 1)
+          parser: intParser
         },
         {
           path: pathSegment,
           name: `${matrixPrefix}pageSize`,
           as: 'pageSize',
           initialState: defaultPageSize || 20,
-          parser: v => (v != null ? parseInt(v, 10) : 1)
+          parser: intParser
         },
         {
           path: pathSegment,

@@ -8,6 +8,7 @@ import { expect } from 'chai';
 import { stub } from 'sinon';
 import React from 'react';
 
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { getProps, NoopComponent } from 'in-test/enzymeTestUtils';
 
 describe('in-hoc/withUrlState', () => {
@@ -83,13 +84,13 @@ describe('in-hoc/withUrlState', () => {
         bind: [
           {
             name: 'time',
-            parser: numberParser
+            parser: intParser
           },
           {
             path: '/things',
             name: 'things.page',
             as: 'page',
-            parser: numberParser,
+            parser: intParser,
             initialState: 1
           }
         ],
@@ -116,14 +117,14 @@ describe('in-hoc/withUrlState', () => {
         bind: [
           {
             name: 'time',
-            parser: numberParser,
+            parser: intParser,
             initialState: 0
           },
           {
             path: '/things',
             name: 'thing.page',
             as: 'page',
-            parser: numberParser,
+            parser: intParser,
             initialState: 1
           }
         ],
@@ -158,13 +159,13 @@ describe('in-hoc/withUrlState', () => {
         bind: [
           {
             name: 'time',
-            parser: numberParser
+            parser: intParser
           },
           {
             path: '/things',
             name: 'things.page',
             as: 'page',
-            parser: numberParser,
+            parser: intParser,
             initialState: 1
           }
         ],
@@ -217,13 +218,13 @@ describe('in-hoc/withUrlState', () => {
       bind: [
         {
           name: 'time',
-          parser: numberParser
+          parser: intParser
         },
         {
           path: '/things',
           name: 'things.page',
           as: 'page',
-          parser: numberParser,
+          parser: intParser,
           initialState: 1
         }
       ],
@@ -278,7 +279,3 @@ describe('in-hoc/withUrlState', () => {
     navigationParameters$.emit(location);
   }
 });
-
-function numberParser(v) {
-  return v != null ? parseInt(v, 10) : 1;
-}

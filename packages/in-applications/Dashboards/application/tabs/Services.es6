@@ -186,8 +186,8 @@ export default compose(
     bind: [endpointTypesUrlParameter, technologiesUrlParameter],
     reducerName: 'setFilter',
     reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes ? endpointTypes : prevState.endpointTypes,
-      technologies: technologies ? technologies : prevState.technologies
+      endpointTypes: endpointTypes || prevState.endpointTypes,
+      technologies: technologies || prevState.technologies
     })
   })
 )(ServiceList);
@@ -222,6 +222,7 @@ function getTableData({
   technologies,
   timeConfig
 }) {
+  const granularity = getSparkChartGranularity(timeConfig);
   return getServices({
     pagination: {
       page,
@@ -243,7 +244,7 @@ function getTableData({
       calls: {
         metric: 'calls',
         aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
+        granularity
       },
       latencyAgg: {
         metric: 'latency',
@@ -252,7 +253,7 @@ function getTableData({
       latency: {
         metric: 'latency',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
+        granularity
       },
       errorsAgg: {
         metric: 'errors',
@@ -261,7 +262,7 @@ function getTableData({
       errors: {
         metric: 'errors',
         aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
+        granularity
       },
       openIssues: {
         metric: 'openIssues',
