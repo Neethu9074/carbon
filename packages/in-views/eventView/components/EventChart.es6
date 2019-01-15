@@ -193,6 +193,7 @@ function getMetricsRequest(event, timeFrame, rollup, entityType, plugin, metric,
 
   let infraRequest = {
     timeFrame: timeFrame,
+    query: '*',
     plugin: plugin,
     metrics: [metric],
     rollup: rollup / 1000,
