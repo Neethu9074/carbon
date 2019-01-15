@@ -51,6 +51,7 @@ export default function AlertingConfigurations() {
           : null
       }
       cols={cols}
+      maxItemsPerPage={20}
     />
   );
 }

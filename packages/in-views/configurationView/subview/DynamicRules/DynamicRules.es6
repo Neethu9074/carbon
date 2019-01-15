@@ -202,7 +202,7 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Custom Dynamic Rules</SectionHeading>
 
-            <Table cols={cols} rows={rows} />
+            <Table cols={cols} rows={rows} maxItemsPerPage={20} />
           </Section>
         ) : null}
       </SubViewWrapper>

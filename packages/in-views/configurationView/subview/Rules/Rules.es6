@@ -175,7 +175,7 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Custom Rules</SectionHeading>
 
-            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={15} />
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={20} />
           </Section>
         ) : null}
       </SubViewWrapper>

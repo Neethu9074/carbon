@@ -112,7 +112,7 @@ export default class extends React.Component {
         </Section>
 
         <Section>
-          <Table cols={cols} rows={rows} />
+          <Table cols={cols} rows={rows} maxItemsPerPage={20} />
         </Section>
       </SubViewWrapper>
     );

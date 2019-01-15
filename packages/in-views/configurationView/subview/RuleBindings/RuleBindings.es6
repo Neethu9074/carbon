@@ -287,7 +287,7 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Custom Issues</SectionHeading>
 
-            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={20} />
           </Section>
         ) : null}
       </SubViewWrapper>
