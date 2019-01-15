@@ -122,7 +122,7 @@ function ViewAll({ applicationName, serviceName, endpointName, selectedMetric },
         orderDirection: 'DESC'
       })}
     >
-      View All
+      View all traces
     </Link>
   );
 }

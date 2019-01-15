@@ -66,7 +66,7 @@ function ViewAll({ websiteId, selectedMetric }) {
         }
       })}
     >
-      View All
+      View all pages
     </Link>
   );
 }

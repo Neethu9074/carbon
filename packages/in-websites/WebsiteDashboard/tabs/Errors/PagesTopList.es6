@@ -70,7 +70,7 @@ function ViewAll({ tagFilters, websiteLabel }) {
         }
       })}
     >
-      View All
+      View all pages
     </Link>
   );
 }

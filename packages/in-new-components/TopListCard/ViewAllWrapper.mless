@@ -3,7 +3,7 @@
 :local {
   .viewAll {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin: 1rem 0 0;
   }
 
@@ -16,10 +16,10 @@
   }
 
   .viewAllLink {
-    color: @lib__colors__N600Light;
+    color: @lib__colors__teal800;
 
     &:hover {
-      color: @lib__colors__light-blue800;
+      color: @lib__colors__N600Light;
       text-decoration: none;
     }
   }

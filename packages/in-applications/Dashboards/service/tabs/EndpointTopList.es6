@@ -70,7 +70,7 @@ function ViewAll({ applicationId, serviceId, selectedMetric }, className) {
         }
       })}
     >
-      View All
+      View all endpoints
     </Link>
   );
 }

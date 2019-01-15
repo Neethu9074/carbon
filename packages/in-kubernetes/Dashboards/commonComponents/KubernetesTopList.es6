@@ -63,10 +63,10 @@ function getList({
   });
 }
 
-function ViewAll({ allItemsHref$ }, className) {
+function ViewAll({ viewAllEntityName, allItemsHref$ }, className) {
   return (
     <Link className={className} href$={allItemsHref$}>
-      View All
+      View all {viewAllEntityName ? `${viewAllEntityName}` : ''}
     </Link>
   );
 }

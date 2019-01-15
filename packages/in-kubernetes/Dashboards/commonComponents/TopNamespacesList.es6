@@ -8,6 +8,7 @@ export default function TopNamespacesList(props) {
   return (
     <KubernetesTopList
       title="Top Namespaces"
+      viewAllEntityName="namespaces"
       {...props}
       getItems={getKubernetesNamespaces}
       getItemHref$={item => getNamespaceDashboard(item.namespace.id, props)}

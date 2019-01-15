@@ -69,7 +69,7 @@ function ViewAll({ tagFilters, websiteLabel }) {
         }
       })}
     >
-      View All
+      View all paths
     </Link>
   );
 }

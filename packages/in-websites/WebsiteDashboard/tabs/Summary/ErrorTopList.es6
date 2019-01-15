@@ -65,7 +65,7 @@ function ViewAll({ websiteId, selectedMetric }) {
         }
       })}
     >
-      View All
+      View all errors
     </Link>
   );
 }

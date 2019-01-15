@@ -8,6 +8,7 @@ export default function TopPodsList(props) {
   return (
     <KubernetesTopList
       title="Top Pods"
+      viewAllEntityName="pods"
       {...props}
       metrics={['phase']}
       labels={['Status']}

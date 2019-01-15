@@ -93,7 +93,7 @@ function Footer(props) {
 function ViewAll({ allItemsHref$ }, className) {
   return (
     <Link className={className} href$={allItemsHref$}>
-      View All
+      View all events
     </Link>
   );
 }
