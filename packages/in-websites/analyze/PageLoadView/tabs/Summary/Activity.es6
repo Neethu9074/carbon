@@ -77,14 +77,15 @@ function groupBeaconsByPage(beacons) {
 }
 
 function sortBeaconsByTimestamp(beacons) {
-  var sorted = beacons.sort(function(a, b) {
+  let sortedArray = [...beacons];
+  const sorted = sortedArray.sort(function(a, b) {
     return a.timestamp - b.timestamp;
   });
   return sorted;
 }
 
 function findEndTimestamp(beacons) {
-  var max = 0;
+  let max = 0;
   beacons.forEach(beacon => {
     if (beacon.timestamp + beacon.duration > max) {
       max = beacon.timestamp + beacon.duration;
