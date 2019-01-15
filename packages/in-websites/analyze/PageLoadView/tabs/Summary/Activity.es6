@@ -37,9 +37,13 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
       <h1 className={locals.header}>Activity</h1>
 
       <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
-
-      <OverviewChart beacons={sortBeaconsByTimestamp(filteredBeacons)} earliestTimestamp={firstBeacon.timestamp} />
-
+      <div className={locals.overviewChartContainer}>
+        <OverviewChart
+          beacons={sortBeaconsByTimestamp(filteredBeacons)}
+          earliestTimestamp={firstBeacon.timestamp}
+          endTimestamp={findEndTimestamp(beacons)}
+        />
+      </div>
       {groupBeaconsByPage(sortBeaconsByTimestamp(filteredBeacons)).map((group, i) => (
         <BeaconPageGroup
           key={`${i}-${group.page}-${filterHash}`}
@@ -77,4 +81,14 @@ function sortBeaconsByTimestamp(beacons) {
     return a.timestamp - b.timestamp;
   });
   return sorted;
+}
+
+function findEndTimestamp(beacons) {
+  var max = 0;
+  beacons.forEach(beacon => {
+    if (beacon.timestamp + beacon.duration > max) {
+      max = beacon.timestamp + beacon.duration;
+    }
+  });
+  return max;
 }

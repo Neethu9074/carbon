@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
@@ -14,15 +15,13 @@ import theme from 'in-themes';
 
 import locals from './OverviewChart.mless';
 
-export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width }) {
+export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width, endTimestamp }) {
   const scale = createScale();
-  const firstTimestamp = findFirstTimestamp(beacons);
-  const endTimestamp = findEndTimestamp(beacons);
   const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
-  scale.setDomainFrom(firstTimestamp);
+  scale.setDomainFrom(earliestTimestamp);
   scale.setDomainTo(endTimestamp);
 
   let maxDepth = 0;
@@ -62,9 +61,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
           return (
             <Tooltip
               themeStyle="light"
-              content={`Click to go to resource: ${typeDefinition.long} - Start Time: ${millis.detailed(
-                beacon.timestamp - earliestTimestamp
-              )}.`}
+              content={<OverviewChartTooltip earliestTimestamp={earliestTimestamp} beacon={beacon} />}
               align="bottomMiddle"
               key={beacon.beaconId}
             >
@@ -73,7 +70,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
                 key={beacon.beaconId}
                 style={{
                   top: `${startY}` * 8 + 1,
-                  left: `${startX * 100}%`,
+                  left: `${setStartXToZero(startX) * 100}%`,
                   width: `${(endX - startX) * 100}%`,
                   backgroundColor: typeDefinition.color
                 }}
@@ -86,26 +83,6 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
     </Fragment>
   );
 });
-
-function findFirstTimestamp(beacons) {
-  if (beacons.length === 0) {
-    return;
-  }
-  var min = beacons.reduce(function(res, obj) {
-    return obj.timestamp < res.timestamp ? obj : res;
-  });
-  return min.timestamp;
-}
-
-function findEndTimestamp(beacons) {
-  var max = 0;
-  beacons.forEach(beacon => {
-    if (beacon.timestamp + beacon.duration > max) {
-      max = beacon.timestamp + beacon.duration;
-    }
-  });
-  return max;
-}
 
 function applyLayout(beacons) {
   let beaconsStacked = positionBeacons(beacons, 0, []);
@@ -150,4 +127,14 @@ function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesB
   occupiedTimeRangesByDepth[depth].push([start, end]);
 
   return depth;
+}
+
+// There's problems with some requests starting before the page load, this sets their startX to 0 to not break the chart.
+function setStartXToZero(startX) {
+  var newX;
+  if (startX < 0) {
+    newX = 0;
+    return newX;
+  }
+  return startX;
 }
