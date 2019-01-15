@@ -1,31 +1,66 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
+const columnDefinitions = [
+  {
+    id: 'title',
+    label: 'Event',
+    getContent(item) {
+      return <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />;
+    }
+  },
+  {
+    id: 'entityLabel',
+    label: 'Source',
+    getContent(item) {
+      return get(item, 'entityLabel');
+    }
+  },
+  {
+    id: 'time',
+    label: 'Time',
+    getContent(item) {
+      return formatDateTime(get(item, 'time'));
+    }
+  }
+];
+
 const pathSegment = '/events';
 const matrixPrefix = 'events.';
+
+const serviceIdUrlParameter = {
+  path: pathSegment,
+  name: `${matrixPrefix}serviceId`
+};
+
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceIdUrlParameter],
+  columnDefinitions,
+  defaultOrderBy: 'time',
+  defaultOrderDirection: 'DESC',
+  defaultPageSize: 10,
+  pathSegment,
+  matrixPrefix
+});
 
 export default function Events({ data: service, ...props }) {
   return (
     <Fragment>
       <Row>
         <Col lg={12}>
-          <ServerTableWithUrlBoundState
+          <ServerTableWithUrlState
             cardTitle="Events"
             serviceId={service.id}
             pathSegment={pathSegment}
             matrixPrefix={matrixPrefix}
             get={getTableData}
-            columnDefinitions={columnDefinitions}
-            paginationResettingProps={['serviceId', 'timeConfig']}
-            defaultOrderBy="time"
-            defaultOrderDirection="DESC"
-            defaultPageSize={10}
             isSearchable={false}
             {...props}
           />
@@ -61,27 +96,3 @@ function getTableData({
     }
   }).map(resultTransformer);
 }
-
-const columnDefinitions = [
-  {
-    id: 'title',
-    label: 'Event',
-    getContent(item) {
-      return <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />;
-    }
-  },
-  {
-    id: 'entityLabel',
-    label: 'Source',
-    getContent(item) {
-      return get(item, 'entityLabel');
-    }
-  },
-  {
-    id: 'time',
-    label: 'Time',
-    getContent(item) {
-      return formatDateTime(get(item, 'time'));
-    }
-  }
-];
