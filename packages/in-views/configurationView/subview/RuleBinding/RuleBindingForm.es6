@@ -4,10 +4,11 @@ import React from 'react';
 import RuleDetails from 'in-views/configurationView/subview/Rules/components/RuleDetails';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
+import { getSystemRules, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
-import { getSystemRules, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
@@ -27,9 +28,8 @@ export default connectTo(
   {
     systemRules: getSystemRules()
   },
-  function RuleBindingForm({ systemRules, rules, form, onChange, onChangeInRuleIds }) {
+  function RuleBindingForm({ systemRules, rules, form, onChange, onChangeInRuleIds, queryValidationInProgress }) {
     systemRules = systemRules || [];
-
     return (
       <fieldset>
         <Section>
@@ -90,6 +90,9 @@ export default connectTo(
                   onChange={e => onChange('query', e.target.value)}
                   hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                 />
+                {queryValidationInProgress && (
+                  <LoadingIndicator type="dark" className={`${block}__query-loading`} inline />
+                )}
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
               </Helpify>

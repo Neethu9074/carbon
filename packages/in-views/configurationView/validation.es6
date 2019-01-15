@@ -1,6 +1,6 @@
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
-export default function combinedValidationResults(validationResult10, validationResult20) {
+export function combinedValidationResults(validationResult10, validationResult20) {
   if (twoZeroModeEnabled) {
     if (validationResult10.valid && !validationResult20.valid) {
       return { valid: false, error: 'Dynamic Focus query is deprecated: ' + validationResult20.error };
@@ -19,4 +19,28 @@ export default function combinedValidationResults(validationResult10, validation
       }
     }
   }
+}
+
+export function queryValidationResultValidator(validationResult) {
+  if (!validationResult.valid) {
+    return [
+      {
+        severity: 'error',
+        message: `Please define a valid query`
+      }
+    ];
+  }
+  return null;
+}
+
+export function queryValidationInProgressValidator(valiationInProgress) {
+  if (valiationInProgress) {
+    return [
+      {
+        severity: 'error',
+        message: `Query validation still in progress`
+      }
+    ];
+  }
+  return null;
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
 import Input from 'in-components/form/Input';
@@ -63,6 +64,9 @@ export default function Step2({ form, onChange }) {
                     onChange={e => onChange('query', e.target.value)}
                     hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                   />
+                  {form.get('queryValidationInProgress').value && (
+                    <LoadingIndicator type="dark" className={`${block}__query-loading`} inline />
+                  )}
                   <BackendValidationMessages validationResult={form.get('validationResult').value} />
                   <MatchingEntitiesIndicator form={form} />
                 </div>

@@ -4,18 +4,22 @@ import { fromJS, List } from 'immutable';
 import { createLogger } from 'instalog';
 import React from 'react';
 
-import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-api/ruleBindings';
+import {
+  combinedValidationResults,
+  queryValidationResultValidator,
+  queryValidationInProgressValidator
+} from 'in-views/configurationView/validation';
 import RuleBindingForm from 'in-views/configurationView/subview/RuleBinding/RuleBindingForm';
+import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-api/ruleBindings';
 import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { bindingsPath } from 'in-stores/navigation/paths/settingPaths';
-import combinedValidationResults from 'in-services/util/validation';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
-import { getRules } from 'in-api/rules';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-components/Button';
 import { validate } from 'in-api/search';
+import { getRules } from 'in-api/rules';
 import Title from 'in-components/Title';
 
 const logger = createLogger('RuleBinding');
@@ -37,6 +41,7 @@ export default class extends React.Component {
 
   componentWillMount() {
     this.loadRuleBinding(this.props.match.params.ruleBindingId);
+
     const debouncedQuery = this.queryInput.debounce(1000);
     this.matchingEntitesSubscription = debouncedQuery
       .flatMap(query => {
@@ -50,6 +55,7 @@ export default class extends React.Component {
           'validationResult',
           combinedValidationResults(validationResponse10.body, validationResponse20.body)
         );
+        this.onChange('queryValidationInProgress', false);
       });
   }
 
@@ -98,6 +104,7 @@ export default class extends React.Component {
               rules={rules}
               onChange={this.onChange}
               onChangeInRuleIds={this.onChangeInRuleIds}
+              queryValidationInProgress={form.get('queryValidationInProgress').value}
             />
           ) : null}
         </form>
@@ -175,6 +182,7 @@ export default class extends React.Component {
     }
 
     if (fieldName == 'query') {
+      updatedForm = startValidationInProgress(updatedForm);
       this.queryInput.emit(value);
     }
 
@@ -242,6 +250,16 @@ export default class extends React.Component {
   };
 }
 
+function startValidationInProgress(updatedForm) {
+  // hide previous error message
+  updatedForm = updatedForm.updateIn(['validationResult'], field =>
+    field.setValue({ valid: true, error: null }).setTouched(false)
+  );
+  // show progress indicator
+  updatedForm = updatedForm.updateIn(['queryValidationInProgress'], field => field.setValue(true).setTouched(false));
+  return updatedForm;
+}
+
 function createForm(ruleBinding) {
   return createMapForm()
     .put(
@@ -296,7 +314,18 @@ function createForm(ruleBinding) {
     .put(
       'validationResult',
       createField({
-        value: { valid: true, error: null }
+        value: {
+          valid: true,
+          error: null
+        },
+        validator: queryValidationResultValidator
+      })
+    )
+    .put(
+      'queryValidationInProgress',
+      createField({
+        value: false,
+        validator: queryValidationInProgressValidator
       })
     )
     .put(

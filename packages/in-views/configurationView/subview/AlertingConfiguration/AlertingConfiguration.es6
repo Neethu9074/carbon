@@ -3,6 +3,10 @@ import { fromJS, List } from 'immutable';
 import React from 'react';
 
 import AlertingConfigurationForm from 'in-views/configurationView/subview/AlertingConfiguration/AlertingConfigurationForm';
+import {
+  queryValidationResultValidator,
+  queryValidationInProgressValidator
+} from 'in-views/configurationView/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import { alertingConfigurationsPath } from 'in-stores/navigation/paths/settingPaths';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
@@ -141,7 +145,15 @@ function createForm(config) {
         value: {
           valid: true,
           error: null
-        }
+        },
+        validator: queryValidationResultValidator
+      })
+    )
+    .put(
+      'queryValidationInProgress',
+      createField({
+        value: false,
+        validator: queryValidationInProgressValidator
       })
     )
     .put(

@@ -5,6 +5,7 @@ import BackendValidationMessages from 'in-components/form/BackendValidationMessa
 import Section from 'in-views/configurationView/components/Section';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import Helpify from 'in-components/form/Helpify';
@@ -20,7 +21,7 @@ export default function MaintenanceConfigurationForm(props) {
 
   return (
     <fieldset>
-      <FormDataEnrichment form={form} onChange={onChange} />
+      <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
 
       <Section>
         {form.get('name').map(field => (
@@ -56,6 +57,9 @@ export default function MaintenanceConfigurationForm(props) {
                 onChange={e => onChange('query', e.target.value)}
                 hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
               />
+              {form.get('queryValidationInProgress').value && (
+                <LoadingIndicator type="dark" className={locals.queryLoading} inline />
+              )}
               <BackendValidationMessages validationResult={form.get('validationResult').value} />
               <TouchedMessages field={field} />
             </Helpify>

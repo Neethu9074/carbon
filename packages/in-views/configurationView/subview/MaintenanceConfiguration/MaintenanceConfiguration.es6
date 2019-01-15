@@ -9,9 +9,14 @@ import {
   saveMaintenanceConfig
 } from 'in-api/maintenanceConfiguration';
 import MaintenanceConfigurationForm from 'in-views/configurationView/subview/MaintenanceConfiguration/MaintenanceConfigurationForm';
+import {
+  queryValidationResultValidator,
+  queryValidationInProgressValidator
+} from 'in-views/configurationView/validation';
 import { maintenanceConfigurationsPath } from 'in-stores/navigation/paths/settingPaths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
+
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
@@ -104,7 +109,15 @@ function createForm(config) {
         value: {
           valid: true,
           error: null
-        }
+        },
+        validator: queryValidationResultValidator
+      })
+    )
+    .put(
+      'queryValidationInProgress',
+      createField({
+        value: false,
+        validator: queryValidationInProgressValidator
       })
     )
     .put('window', getWindowSubForm(firstWindow));
