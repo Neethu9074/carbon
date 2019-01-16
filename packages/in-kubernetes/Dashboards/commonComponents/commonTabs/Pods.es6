@@ -6,16 +6,14 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-s
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import PodStatusIcon from 'in-kubernetes/Dashboards/commonComponents/PodStatusIcon';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -117,7 +115,7 @@ const allColumnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return getStatusIcon(get(item, ['pod', 'phase']));
+      return <PodStatusIcon status={get(item, ['pod', 'phase'])} withTooltip />;
     }
   },
   {
@@ -241,29 +239,3 @@ const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
     />
   );
 });
-
-function getStatusIcon(status) {
-  let iconType = 'lib_kubernetes_status_unknown';
-  let color = theme.lib.colors.failure;
-  let style = {};
-
-  if (status === 'Pending') {
-    iconType = 'lib_kubernetes_status_pending';
-    color = theme.lib.colors.warning;
-  } else if (status === 'Running') {
-    iconType = 'lib_kubernetes_status_running';
-    color = theme.lib.colors.success;
-    style = { transform: 'rotate(45deg)' };
-  } else if (status === 'Succeeded') {
-    iconType = 'lib_kubernetes_status_succeed';
-    color = theme.lib.colors.success;
-  } else if (status === 'Failed') {
-    iconType = 'lib_kubernetes_status_failed';
-    color = theme.lib.colors.failure;
-  }
-  return (
-    <Tooltip themeStyle="light" content={status}>
-      <SvgIcon type={iconType} width={24} height={24} color={color} style={style} />
-    </Tooltip>
-  );
-}

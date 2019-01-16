@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
 import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -16,7 +17,7 @@ export default function Summary({ timeConfig, data: pod }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Phase" value={pod.phase} raw />
+          <KpiCard title="Phase" value={<PodStatus status={pod.phase} />} raw />
         </Col>
         <Col lg={4}>
           <InfraMetricKpiCard

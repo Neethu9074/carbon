@@ -1,0 +1,10 @@
+:local {
+  .statusWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .statusLabel {
+    margin-left: 0.5rem;
+  }
+}
