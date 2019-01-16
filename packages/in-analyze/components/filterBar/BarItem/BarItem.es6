@@ -32,7 +32,7 @@ export default function BarItem({
       }}
       ref={refSetter}
     >
-      {children}
+      <span className={locals.text}>{children}</span>
       {showArrow && (
         <SvgIcon
           className={locals.icon}
