@@ -6,6 +6,10 @@ import { millis } from 'in-services/formatters/number';
 
 export const getLabel = () => 'Custom Page Transition';
 
+export const getExtraTooltipFields = beacon => ({
+  Duration: millis.fixedCompact(beacon.duration)
+});
+
 export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader

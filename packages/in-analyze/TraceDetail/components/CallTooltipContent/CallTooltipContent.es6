@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
@@ -39,17 +38,14 @@ export default function CallTooltipContent({ call }) {
   return (
     <div className={locals.content}>
       <div className={locals.heading}>
+        {call.endpoint &&
+          !isUnknownTypeSpan(call) && (
+            <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+              {call.endpoint.type}
+            </Pill>
+          )}
+
         <span className={locals.headingLabel}>{shorten(call.label, 32)}</span>
-        {call.endpoint && (
-          <Fragment>
-            {!isUnknownTypeSpan(call) && (
-              <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
-                {call.endpoint.type}
-              </Pill>
-            )}
-            <TechnologyIndicatorList technologies={call.technologies} showTechnologyLabel={false} />
-          </Fragment>
-        )}
       </div>
       {call.errorCount > 0 && <div className={locals.errorCount}>{call.errorCount} Errors</div>}
       <TimingValueList values={values} />

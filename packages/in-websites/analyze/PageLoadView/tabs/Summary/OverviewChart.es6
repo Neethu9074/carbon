@@ -58,7 +58,6 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
             <Tooltip
               themeStyle="light"
               content={<OverviewChartTooltip earliestTimestamp={earliestTimestamp} beacon={beacon} />}
-              align="bottomMiddle"
               key={beacon.beaconId}
             >
               <div

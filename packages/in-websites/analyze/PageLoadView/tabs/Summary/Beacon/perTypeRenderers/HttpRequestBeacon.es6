@@ -24,6 +24,10 @@ export const getLabel = beacon => {
   return label;
 };
 
+export const getExtraTooltipFields = beacon => ({
+  'Retrieval Time': millis.fixedCompact(beacon.duration)
+});
+
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader

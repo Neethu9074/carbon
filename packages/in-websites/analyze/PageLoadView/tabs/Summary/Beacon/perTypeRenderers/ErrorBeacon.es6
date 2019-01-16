@@ -15,6 +15,8 @@ import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => beacon.errorMessage;
 
+export const getExtraTooltipFields = () => ({});
+
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader
