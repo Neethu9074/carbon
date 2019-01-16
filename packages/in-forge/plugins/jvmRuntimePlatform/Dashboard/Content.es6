@@ -36,13 +36,15 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
         ) : null}
       </KpiSection>
 
-      <DashboardSection title="Threads">
+      <DashboardSection
+        title="Threads"
+        button={<ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />}
+      >
         <ChartExplanation>
           The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>,
           which means potentially executing code, or in <code>waiting</code> or <code>timed-waiting</code>, which
           usually is some kind of network read.
         </ChartExplanation>
-        <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
 
         <Chart
           snapshotId={snapshotId}
