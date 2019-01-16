@@ -3,6 +3,6 @@
     margin: 1.5rem 0 0.75rem;
   }
   .overviewChartContainer {
-    padding: 1rem;
+    padding: 0 1rem 1rem;
   }
 }

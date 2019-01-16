@@ -15,6 +15,8 @@ import theme from 'in-themes';
 
 import locals from './OverviewChart.mless';
 
+const barHeight = 8;
+
 export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width, endTimestamp }) {
   const scale = createScale();
   const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
@@ -24,13 +26,8 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
   scale.setDomainFrom(earliestTimestamp);
   scale.setDomainTo(endTimestamp);
 
-  let maxDepth = 0;
-
-  beaconsStacked.forEach(beacon => {
-    maxDepth = Math.max(maxDepth, beacon.depth);
-  });
-
-  const chartHeight = (maxDepth + 1) * 8;
+  const maxDepth = beaconsStacked.reduce((max, beacon) => Math.max(max, beacon.depth), 0);
+  const chartHeight = (maxDepth + 1) * barHeight;
 
   return (
     <Fragment>
@@ -53,10 +50,9 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
         {beaconsStacked.map((beacon, i) => {
           const type = getType(beacon);
           const typeDefinition = types[type];
-
-          var startX = scale.getRange(beaconsStacked[i].timestamp);
-          var endX = scale.getRange(beaconsStacked[i].timestamp + beaconsStacked[i].duration);
-          var startY = beaconsStacked[i].depth;
+          const startX = scale.getRange(beaconsStacked[i].timestamp);
+          const endX = scale.getRange(beaconsStacked[i].timestamp + beaconsStacked[i].duration);
+          const startY = beaconsStacked[i].depth;
 
           return (
             <Tooltip
@@ -69,8 +65,10 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
                 className={locals.beacon}
                 key={beacon.beaconId}
                 style={{
-                  top: `${startY}` * 8 + 1,
-                  left: `${setStartXToZero(startX) * 100}%`,
+                  top: `${startY}` * barHeight + 1,
+                  // There's problems with some requests starting before the page load, this sets their startX to 0
+                  // to not break the chart.
+                  left: `${Math.max(0, startX) * 100}%`,
                   width: `${(endX - startX) * 100}%`,
                   backgroundColor: typeDefinition.color
                 }}
@@ -85,16 +83,14 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
 });
 
 function applyLayout(beacons) {
-  let beaconsStacked = positionBeacons(beacons, 0, []);
-
-  return deepFreeze(beaconsStacked);
+  return deepFreeze(positionBeacons(beacons, 0, []));
 }
 
 function positionBeacons(beacons, depth, occupiedTimeRangesByDepth) {
   let stackedBeacons = [];
   beacons.map(beacon => {
     const end = beacon.timestamp + beacon.duration;
-    let depthWithoutOverlapping = findDepthWithoutAnyOverlapping(
+    const depthWithoutOverlapping = findDepthWithoutAnyOverlapping(
       depth,
       [beacon.timestamp, end],
       occupiedTimeRangesByDepth
@@ -127,14 +123,4 @@ function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesB
   occupiedTimeRangesByDepth[depth].push([start, end]);
 
   return depth;
-}
-
-// There's problems with some requests starting before the page load, this sets their startX to 0 to not break the chart.
-function setStartXToZero(startX) {
-  var newX;
-  if (startX < 0) {
-    newX = 0;
-    return newX;
-  }
-  return startX;
 }
