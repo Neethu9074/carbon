@@ -26,10 +26,10 @@ export default connectTo(
     };
   },
   function EventMetricChartDownloadView({ event, metric, metricsRequest, metricValues }) {
-    if (!metricValues) {
+    if (!metricValues || !metricValues.hasOwnProperty('items')) {
       return null;
     }
-    const data = getMetricData(event, metric, metricsRequest.metrics.shift(), metricValues);
+    const data = getMetricData(event, metric, metricsRequest.metrics.shift(), metricValues['items']);
     return (
       <EventMetricDownloadView
         data={data}
@@ -47,8 +47,8 @@ function getJsonData(data) {
   return JSON.stringify(data, null, 4);
 }
 
-function getMetricData(event, metric, metrics, metricValues) {
-  var values = parseMetricValues(metric, metrics, metricValues);
+function getMetricData(event, metric, metrics, items) {
+  var values = parseMetricValues(metric, metrics, items);
   var finalValues = [];
   values.forEach(function(v) {
     let fv = { timestamp: v[0], value: v[1] };
@@ -58,12 +58,8 @@ function getMetricData(event, metric, metrics, metricValues) {
   return data;
 }
 
-function parseMetricValues(metric, metrics, metricValues) {
-  var array = Array.from(metricValues.get('items'));
-  var data = array
-    .shift()
-    .get('metrics')
-    .toJS();
+function parseMetricValues(metric, metrics, items) {
+  var data = items[0]['metrics'];
   if (data.hasOwnProperty(metric)) {
     return data[metric];
   } else {

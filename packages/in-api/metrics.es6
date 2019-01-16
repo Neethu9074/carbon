@@ -1,5 +1,5 @@
-import { fromJS } from 'immutable';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { deepFreeze } from 'in-services/util/object';
 
 import http from 'in-services/http';
 
@@ -10,7 +10,7 @@ export function getInfrastructureMetrics(data) {
     headers: getCsrfHeader(),
     maxRetries: 3,
     data: data
-  }).map(response => fromJS(response.body));
+  }).map(response => deepFreeze(response.body));
 }
 
 export function getApplicationMetrics(data) {
@@ -20,7 +20,7 @@ export function getApplicationMetrics(data) {
     headers: getCsrfHeader(),
     maxRetries: 3,
     data: data
-  }).map(response => fromJS(response.body));
+  }).map(response => deepFreeze(response.body));
 }
 
 export function getServiceMetrics(data) {
@@ -30,7 +30,7 @@ export function getServiceMetrics(data) {
     headers: getCsrfHeader(),
     maxRetries: 3,
     data: data
-  }).map(response => fromJS(response.body));
+  }).map(response => deepFreeze(response.body));
 }
 
 export function getEndpointMetrics(data) {
@@ -40,5 +40,5 @@ export function getEndpointMetrics(data) {
     headers: getCsrfHeader(),
     maxRetries: 3,
     data: data
-  }).map(response => fromJS(response.body));
+  }).map(response => deepFreeze(response.body));
 }

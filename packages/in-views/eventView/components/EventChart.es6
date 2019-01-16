@@ -7,9 +7,9 @@ import {
 } from 'in-views/eventView/services/timeframe';
 
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
-import { getMetricDefinition, metricAggregations } from 'in-sdk/metrics/metricDefinitions';
 import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
+import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
@@ -26,6 +26,21 @@ import 'in-views/eventView/components/EventChart.less';
 // If an event is open, we will subscribe to live metrics which causes moving timewindows.
 // To avoid the chart running out of scope we add an offset to the windowSize.
 const block = 'in-event-detail-chart';
+
+const metricAggregations = {
+  count: { name: 'calls', aggregation: 'SUM' },
+  trace_count: { name: 'traces', aggregation: 'SUM' },
+  error_rate: { name: 'errors', aggregation: 'MEAN' },
+  'duration.mean': { name: 'latency', aggregation: 'MEAN' },
+  'duration.25th': { name: 'latency', aggregation: 'P25' },
+  'duration.50th': { name: 'latency', aggregation: 'P50' },
+  'duration.75th': { name: 'latency', aggregation: 'P75' },
+  'duration.95th': { name: 'latency', aggregation: 'P95' },
+  'duration.98th': { name: 'latency', aggregation: 'P98' },
+  'duration.99th': { name: 'latency', aggregation: 'P99' },
+  'duration.max': { name: 'latency', aggregation: 'MAX' },
+  'duration.min': { name: 'latency', aggregation: 'MIN' }
+};
 
 export default addSection(
   connectTo(
