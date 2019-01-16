@@ -7,7 +7,6 @@ import theme from 'in-themes';
 export default function PodStatusIcon({ status, withTooltip = false }) {
   let iconType = 'lib_kubernetes_status_unknown';
   let color = theme.lib.colors.failure;
-  let style = {};
 
   if (status === 'Pending') {
     iconType = 'lib_kubernetes_status_pending';
@@ -24,12 +23,12 @@ export default function PodStatusIcon({ status, withTooltip = false }) {
   }
 
   if (!withTooltip) {
-    return <SvgIcon type={iconType} width={24} height={24} color={color} style={style} />;
+    return <SvgIcon type={iconType} width={24} height={24} color={color} />;
   }
 
   return (
     <Tooltip themeStyle="light" content={status}>
-      <SvgIcon type={iconType} width={24} height={24} color={color} style={style} />
+      <SvgIcon type={iconType} width={24} height={24} color={color} />
     </Tooltip>
   );
 }
