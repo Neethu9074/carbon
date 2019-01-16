@@ -16,6 +16,10 @@ import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => beacon.customEventName;
 
+export const getExtraTooltipFields = beacon => ({
+  Duration: millis.fixedCompact(beacon.duration)
+});
+
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader

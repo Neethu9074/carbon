@@ -12,7 +12,7 @@
 
   .headingLabel {
     font-weight: bold;
-    margin-right: 0.5rem;
+    margin-left: 0.5rem;
   }
 
   .errorCount {
@@ -35,6 +35,7 @@
 
   .label {
     color: @lib__colors__N800Dark;
+    font-weight: 500;
   }
 
   .duration {
@@ -47,12 +48,12 @@
   }
 
   .horizontalLine {
-      display: block;
-      height: 1px;
-      border: 0;
-      border-top: 1px solid #ccc;
-      margin: 1em 0;
-      padding: 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
   }
 
   .timingValueTotal {
