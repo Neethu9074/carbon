@@ -30,7 +30,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
     maxDepth = Math.max(maxDepth, beacon.depth);
   });
 
-  const chartHeight = (maxDepth + 1) * 10;
+  const chartHeight = (maxDepth + 1) * 8;
 
   return (
     <Fragment>

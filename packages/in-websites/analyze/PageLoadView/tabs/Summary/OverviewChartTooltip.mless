@@ -4,12 +4,17 @@
   .tooltipWrapper {
     padding: 1rem;
 
-    > * {
+    .tooltipContent > div,
+    .tooltipContent > span {
       margin: 0 0 1rem 0;
 
       >:last-child {
         font-weight: 500;
       }
+    }
+
+    .tooltipContent > span {
+      text-transform: uppercase;
     }
   }
 }

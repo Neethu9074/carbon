@@ -13,8 +13,12 @@ export default function OverviewChartTooltip({ beacon, earliestTimestamp }) {
 
   return (
     <div className={locals.tooltipWrapper}>
-      <TypeHeader beacon={beacon} />
-      <beaconRenderers.LeftHeader beacon={beacon} earliestTimestamp={earliestTimestamp} />
+      <div className={locals.tooltipContent}>
+        <TypeHeader beacon={beacon} />
+      </div>
+      <div className={locals.tooltipContent}>
+        <beaconRenderers.LeftHeader beacon={beacon} earliestTimestamp={earliestTimestamp} />
+      </div>
     </div>
   );
 }
