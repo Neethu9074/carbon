@@ -19,12 +19,14 @@ import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
+import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Pill from 'in-new-components/Pill';
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -102,7 +104,16 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                     content: (
                       <Fragment>
                         <DescriptionText>
-                          {`For example where key is "docker.label" and value is "environment=Production Blue", or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a database from services matching this definition will automatically be included.`}
+                          {`For example where key is "docker.label" and value is "environment=Production Blue", 
+                            or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
+                          <Pill color={getColor('DATABASE')} kind="light">
+                            DATABASE
+                          </Pill>
+                          service or
+                          <Pill color={getColor('MESSAGING')} kind="light">
+                            MESSAGING
+                          </Pill>
+                          service from services matching this definition will automatically be included.
                           <br />
                           <br />
                           <strong>AND operators take precedence and are evaluated before OR operators</strong>
