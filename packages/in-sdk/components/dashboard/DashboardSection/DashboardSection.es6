@@ -14,7 +14,7 @@ export default function DashboardSection({ title, children, className, button })
   return (
     <div className={classes}>
       <div className="in-dashboard-section-header">
-        {title ? <ContentHeading>{title}</ContentHeading> : null}
+        {title && <ContentHeading>{title}</ContentHeading>}
         {button}
       </div>
       {children}
