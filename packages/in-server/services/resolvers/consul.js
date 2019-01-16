@@ -32,7 +32,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/QUICK_TAG_FILTERS_IN_WEBSITE_MONITORING_DASHBOARDS_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/WRITE_1S_ROLLUPS_TO_CASSANDRA`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true)
+    getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, true)
   ]).then(([
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -47,7 +48,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     quickTagFiltersInWebsiteMonitoringDashboardEnabled,
     kubernetesV2Enabled,
     write1sRollupsToCassandra,
-    redisMetricWritingEnabled
+    redisMetricWritingEnabled,
+    lastSevenDaysTimePresetEnabled
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -63,6 +65,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     kubernetesV2Enabled,
     write1sRollupsToCassandra,
     redisMetricWritingEnabled,
+    lastSevenDaysTimePresetEnabled,
     releaseNotesEnabled: true,
     maintenanceNotesEnabled: true,
     useInstanaSaasEumTrackingUrlEnabled: true,

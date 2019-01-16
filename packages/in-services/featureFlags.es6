@@ -39,6 +39,7 @@ export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebs
 export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
   'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
 );
+export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

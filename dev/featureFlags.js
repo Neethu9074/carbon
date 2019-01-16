@@ -16,5 +16,6 @@ module.exports = {
   isKubernetesV2Enabled: false,
   oneZeroWebsiteMonitoringEnabled: true,
   twoZeroWebsiteMonitoringEnabled: true,
-  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true
+  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true,
+  lastSevenDaysTimePresetEnabled: true
 };
