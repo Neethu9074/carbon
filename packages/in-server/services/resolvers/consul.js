@@ -1,95 +1,102 @@
 const rp = require('request-promise');
 
 const serverConfig = require('../../serverConfig.js');
-const cache = require('../loadingCache').createLoadingCache({ttl: serverConfig.consul.cacheExpiry});
+const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
 
-exports.getUiBackendBaseUrl = (tenant, unit) => cache(`getUiBackendBaseUrl:${tenant}:${unit}`, () => {
-  const serviceName = `${tenant}-${unit}-ui-backend`;
-  return rp({
-    method: 'GET',
-    url: `${serverConfig.consul.baseUrl}/v1/catalog/service/${serviceName}`,
-    json: true,
-    simple: true,
-    timeout: 5000,
-    resolveWithFullResponse: false
-  })
-  .then(services => {
-    if (services.length === 0) {
-      const error = new Error(`Consul lookup returned zero results for service name: ${serviceName}`);
-      error.ignoreStackTrace = true;
-      error.notFound = true;
-      return Promise.reject(error);
-    }
-    return `http://${services[0].ServiceAddress}:${services[0].ServicePort}`;
+exports.getUiBackendBaseUrl = (tenant, unit) =>
+  cache(`getUiBackendBaseUrl:${tenant}:${unit}`, () => {
+    const serviceName = `${tenant}-${unit}-ui-backend`;
+    return rp({
+      method: 'GET',
+      url: `${serverConfig.consul.baseUrl}/v1/catalog/service/${serviceName}`,
+      json: true,
+      simple: true,
+      timeout: 5000,
+      resolveWithFullResponse: false
+    }).then(services => {
+      if (services.length === 0) {
+        const error = new Error(`Consul lookup returned zero results for service name: ${serviceName}`);
+        error.ignoreStackTrace = true;
+        error.notFound = true;
+        return Promise.reject(error);
+      }
+      return `http://${services[0].ServiceAddress}:${services[0].ServicePort}`;
+    });
   });
-});
 
-exports.getBaseUrl = (tenant, unit) => Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getBaseUrl = (tenant, unit) =>
+  Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getButlerDomain = (tenant, unit) => Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getButlerDomain = (tenant, unit) =>
+  Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
-  return Promise.all([
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}/ONE_ZERO_SUPPORTED_UNTIL_MESSAGE_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/QUICK_TAG_FILTERS_IN_WEBSITE_MONITORING_DASHBOARDS_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/WRITE_1S_ROLLUPS_TO_CASSANDRA`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true)
-  ]).then(([
-    oneZeroAppDataEnabled,
-    oneZeroAppDataPresentationEnabled,
-    oneZeroSupportedUntilMessageEnabled,
-    twoZeroAppDataEnabled,
-    twoZeroAppDataPresentationEnabled,
-    twoZeroLearnMoreButtonEnabled,
-    pingComparisonEnabled,
-    isSelfService,
-    oneZeroWebsiteMonitoringEnabled,
-    twoZeroWebsiteMonitoringEnabled,
-    quickTagFiltersInWebsiteMonitoringDashboardEnabled,
-    kubernetesV2Enabled,
-    write1sRollupsToCassandra,
-    redisMetricWritingEnabled
-  ]) => ({
-    oneZeroAppDataEnabled,
-    oneZeroAppDataPresentationEnabled,
-    oneZeroSupportedUntilMessageEnabled,
-    twoZeroAppDataEnabled,
-    twoZeroAppDataPresentationEnabled,
-    twoZeroLearnMoreButtonEnabled,
-    oneZeroWebsiteMonitoringEnabled,
-    twoZeroWebsiteMonitoringEnabled,
-    quickTagFiltersInWebsiteMonitoringDashboardEnabled,
-    pingComparisonEnabled,
-    isSelfService,
-    kubernetesV2Enabled,
-    write1sRollupsToCassandra,
-    redisMetricWritingEnabled,
-    releaseNotesEnabled: true,
-    maintenanceNotesEnabled: true,
-    useInstanaSaasEumTrackingUrlEnabled: true,
-    tenantSwitcherEnabled: true,
-    onPremLicenseInformationEnabled: false
-  }));
-});
+exports.getFeatureFlags = (tenant, unit) =>
+  cache(`getFeatureFlags:${tenant}:${unit}`, () => {
+    return Promise.all([
+      getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}/ONE_ZERO_SUPPORTED_UNTIL_MESSAGE_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
+      getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/QUICK_TAG_FILTERS_IN_WEBSITE_MONITORING_DASHBOARDS_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/WRITE_1S_ROLLUPS_TO_CASSANDRA`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true)
+    ]).then(
+      ([
+        oneZeroAppDataEnabled,
+        oneZeroAppDataPresentationEnabled,
+        oneZeroSupportedUntilMessageEnabled,
+        twoZeroAppDataEnabled,
+        twoZeroAppDataPresentationEnabled,
+        twoZeroLearnMoreButtonEnabled,
+        pingComparisonEnabled,
+        isSelfService,
+        oneZeroWebsiteMonitoringEnabled,
+        twoZeroWebsiteMonitoringEnabled,
+        quickTagFiltersInWebsiteMonitoringDashboardEnabled,
+        isKubernetesV2Enabled,
+        write1sRollupsToCassandra,
+        redisMetricWritingEnabled
+      ]) => ({
+        oneZeroAppDataEnabled,
+        oneZeroAppDataPresentationEnabled,
+        oneZeroSupportedUntilMessageEnabled,
+        twoZeroAppDataEnabled,
+        twoZeroAppDataPresentationEnabled,
+        twoZeroLearnMoreButtonEnabled,
+        oneZeroWebsiteMonitoringEnabled,
+        twoZeroWebsiteMonitoringEnabled,
+        quickTagFiltersInWebsiteMonitoringDashboardEnabled,
+        pingComparisonEnabled,
+        isSelfService,
+        isKubernetesV2Enabled,
+        write1sRollupsToCassandra,
+        redisMetricWritingEnabled,
+        releaseNotesEnabled: true,
+        maintenanceNotesEnabled: true,
+        useInstanaSaasEumTrackingUrlEnabled: true,
+        tenantSwitcherEnabled: true,
+        onPremLicenseInformationEnabled: false
+      })
+    );
+  });
 
-exports.getConfiguration = (tenant, unit) => cache(`getConfiguration:${tenant}:${unit}`, () => {
-  return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 50)
-    .then(maxAllowedAlertingConfigurations => ({
-      maxAllowedAlertingConfigurations
-    }));
-});
+exports.getConfiguration = (tenant, unit) =>
+  cache(`getConfiguration:${tenant}:${unit}`, () => {
+    return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 50).then(
+      maxAllowedAlertingConfigurations => ({
+        maxAllowedAlertingConfigurations
+      })
+    );
+  });
 
 function getBooleanSetting(path, notDefinedFallback) {
   return getSetting(path, notDefinedFallback, str => str === 'true');
@@ -99,7 +106,9 @@ function getIntSetting(path, notDefinedFallback) {
   return getSetting(path, notDefinedFallback, str => {
     const v = parseInt(str, 10);
     if (isNaN(v)) {
-      const error = new Error(`Could not parse integer setting retrieved from Consul at path ${path}. Received value: ${str}`);
+      const error = new Error(
+        `Could not parse integer setting retrieved from Consul at path ${path}. Received value: ${str}`
+      );
       error.ignoreStackTrace = true;
       throw error;
     }
@@ -115,14 +124,17 @@ function getSetting(path, notDefinedFallback, valueParser) {
     simple: false,
     timeout: 5000,
     resolveWithFullResponse: true
-  })
-  .then(response => {
+  }).then(response => {
     if (response.statusCode === 404) {
       return notDefinedFallback;
     }
 
     if (response.statusCode < 200 || response.statusCode > 299) {
-      const error = new Error(`Retrieval of setting from consul at path ${path} failed. Received status code ${response.statusCode} from Consul API.`);
+      const error = new Error(
+        `Retrieval of setting from consul at path ${path} failed. Received status code ${
+          response.statusCode
+        } from Consul API.`
+      );
       error.ignoreStackTrace = true;
       return Promise.reject(error);
     }
