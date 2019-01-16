@@ -2,14 +2,14 @@
 
 :local {
   .tooltipWrapper {
-    padding: 1rem;
+    padding: 0.5rem;
 
     .tooltipContent > div,
     .tooltipContent > span {
-      margin: 0 0 1rem 0;
+      margin: 0 0 0.5rem 0;
 
       >:last-child {
-        font-weight: 500;
+        font-weight: bold;
       }
     }
 
