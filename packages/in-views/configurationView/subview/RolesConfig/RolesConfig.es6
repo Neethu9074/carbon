@@ -109,7 +109,7 @@ export default class extends React.Component {
         <Section>
           <SectionHeading>Existing Roles</SectionHeading>
 
-          <Table cols={cols} rows={rows} />
+          <Table cols={cols} rows={rows} maxItemsPerPage={20} />
         </Section>
       </SubViewWrapper>
     );
