@@ -5,6 +5,7 @@ import './application';
 import './availabilityZone';
 import './awsDynamoDb';
 import './awsEc';
+import './awsEs';
 import './awsElb';
 import './awsKinesis';
 import './awsLambda';
