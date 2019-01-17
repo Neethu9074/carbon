@@ -84,7 +84,7 @@ function Metric({ formattedMetricValue }) {
 }
 
 function Renderer(props) {
-  return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} />;
+  return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} useMaxAvailableHeight />;
 }
 function getMetricValueFromItem(metricId, item) {
   return get(item, metricId);
