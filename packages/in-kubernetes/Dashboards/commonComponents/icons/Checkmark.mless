@@ -1,11 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .okayIcon {
+  .icon {
     fill: @lib__colors__success;
-  }
-
-  .warningIcon {
-    fill: @lib__colors__failure;
   }
 }

@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { Checkmark } from 'in-kubernetes/Dashboards/commonComponents/icons';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import WithIcon from 'in-new-components/WithIcon';
 
@@ -55,31 +55,38 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 
 const columnDefinitions = [
   {
-    id: 'serviceUid',
-    label: 'Service UID',
+    id: 'address',
+    label: 'Address',
     getContent(item) {
-      return <WithIcon icon="lib_kubernetes_endpoint">{get(item, ['endpoint', 'serviceUid'])}</WithIcon>;
+      return <WithIcon icon="lib_kubernetes_endpoint">{get(item, 'address')}</WithIcon>;
     }
   },
   {
-    id: 'pods',
-    label: 'Pods',
+    id: 'port',
+    label: 'Port',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['endpoint', 'pods'])} />;
+      return get(item, 'port');
     }
   },
   {
-    id: 'internal',
-    label: 'Internal',
+    id: 'portName',
+    label: 'Port Name',
     getContent(item) {
-      return <EntityCounter count={get(item, ['endpoint', 'internal'])} />;
+      return get(item, 'portName') || '--';
     }
   },
   {
-    id: 'external',
-    label: 'External',
+    id: 'protocol',
+    label: 'Protocol',
     getContent(item) {
-      return <EntityCounter count={get(item, ['endpoint', 'external'])} />;
+      return get(item, 'protocol');
+    }
+  },
+  {
+    id: 'ready',
+    label: 'Ready',
+    getContent(item) {
+      return get(item, 'ready') && <Checkmark />;
     }
   }
 ];
