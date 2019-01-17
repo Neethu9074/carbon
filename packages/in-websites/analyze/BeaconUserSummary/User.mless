@@ -19,23 +19,27 @@
   .info {
     margin: 0 0 0 1.3rem;
     width: 100%;
+    overflow: hidden;
   }
 
   .first {
     font-weight: semibold;
     font-size: 1.125rem;
+    max-width: 100%;
     .ellipsis();
   }
 
   .second {
     font-size: .875rem;
     margin: 0.2rem 0 0;
+    max-width: 100%;
     .ellipsis();
   }
 
   .third {
     font-size: 0.675rem;
     margin: 0.3rem 0 0;
+    max-width: 100%;
     .ellipsis();
   }
 
