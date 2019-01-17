@@ -5,6 +5,7 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
 import { serviceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';
@@ -15,37 +16,38 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ data: service }) => ({ annotations: getAnnotations(service.id) }), function Details({
-  data: service,
-  annotations,
-  timeConfig,
-  clusterId,
-  namespaceId
-}) {
-  return (
-    <Fragment>
-      <Row>
-        <Col lg={4}>
-          <KpiCard title="Type" value={service.type} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Location" value={service.location} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Age" value={formatDuration(service.age)} raw />
-        </Col>
-      </Row>
-      <DetailsNavigation
-        navigationItems={navigationItems}
-        resource={service}
-        annotations={annotations}
-        timeConfig={timeConfig}
-        clusterId={clusterId}
-        namespaceId={namespaceId}
-      />
-    </Fragment>
-  );
-});
+export default connectTo(
+  ({ data: service, timeConfig }) => ({
+    annotations: getAnnotations(service.id),
+    counters: getKubernetesServiceItemCounters({ serviceId: service.id, timeConfig })
+  }),
+  function Details({ data: service, annotations, timeConfig, clusterId, namespaceId, counters }) {
+    return (
+      <Fragment>
+        <Row>
+          <Col lg={4}>
+            <KpiCard title="Type" value={service.type} raw />
+          </Col>
+          <Col lg={4}>
+            <KpiCard title="Location" value={service.location} raw />
+          </Col>
+          <Col lg={4}>
+            <KpiCard title="Age" value={formatDuration(service.age)} raw />
+          </Col>
+        </Row>
+        <DetailsNavigation
+          navigationItems={navigationItems}
+          resource={service}
+          annotations={annotations}
+          timeConfig={timeConfig}
+          clusterId={clusterId}
+          namespaceId={namespaceId}
+          counters={counters}
+        />
+      </Fragment>
+    );
+  }
+);
 
 const navigationItems = [
   {
@@ -66,7 +68,7 @@ const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}/endpoints`,
     icon: 'lib_kubernetes_endpoint',
-    label: 'Endpoints',
+    renderLabel: ({ counters }) => `Endpoints (${counters.data ? counters.data.endpoints : 0})`,
     component: ({ resource, ...props }) => <Endpoints data={resource} {...props} />
   }
 ].filter(Boolean);
