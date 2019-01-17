@@ -28,19 +28,18 @@ export function dateValidator(v) {
 
   if (moment(v, dateFormat, true).isValid()) {
     return null;
-  } else if (moment(v).isValid() === false) {
+  } else if (v.length !== dateFormat.length) {
     return [
       {
         severity: 'error',
-        message: `Date does not exist`
+        message: `Date does not have the format ${dateFormat}`
       }
     ];
   }
-
   return [
     {
       severity: 'error',
-      message: `Date does not have the format ${dateFormat}`
+      message: `Date does not exist`
     }
   ];
 }
