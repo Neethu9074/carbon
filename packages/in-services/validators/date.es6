@@ -28,6 +28,13 @@ export function dateValidator(v) {
 
   if (moment(v, dateFormat, true).isValid()) {
     return null;
+  } else if (moment(v).isValid() === false) {
+    return [
+      {
+        severity: 'error',
+        message: `Date does not exist`
+      }
+    ];
   }
 
   return [
