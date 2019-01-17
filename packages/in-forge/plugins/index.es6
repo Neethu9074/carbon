@@ -144,6 +144,7 @@ import './nova';
 import './opc';
 import './oracleDB';
 import './openLDAP';
+import './packet';
 import './pageResourceLogicalConnection';
 import './pageResourceLogicalService';
 import './pageResourceServiceInstance';
