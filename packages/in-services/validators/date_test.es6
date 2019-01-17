@@ -7,16 +7,21 @@ import { dateFormat } from 'in-services/formatters/date';
 describe('in-services/valiudators/date', () => {
   describe('dateValidator', () => {
     it('should return null when given an empty string or correct date', () => {
-      const result = dateValidator('', dateFormat, true);
-      expect(dateValidator(result)).to.equal(null);
-      expect(dateValidator('2019-01-30')).to.equal(null);
+      expect(dateValidator('', dateFormat, true)).to.equal(null);
+      expect(dateValidator('2019-01-30', dateFormat, true)).to.equal(null);
     });
 
     it('should return error message when given an invalid date', () => {
       expect(dateValidator('2019-01-32', dateFormat, true)).to.deep.equal([
         {
           severity: 'error',
-          message: `Date does not exist`
+          message: `Date is invalid`
+        }
+      ]);
+      expect(dateValidator('abcd-ef-gh', dateFormat, true)).to.deep.equal([
+        {
+          severity: 'error',
+          message: `Date is invalid`
         }
       ]);
     });

@@ -39,7 +39,7 @@ export function dateValidator(v) {
   return [
     {
       severity: 'error',
-      message: `Date does not exist`
+      message: `Date is invalid`
     }
   ];
 }
