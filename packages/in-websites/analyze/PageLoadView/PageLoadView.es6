@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { get, findIndex } from 'lodash';
 
 import {
-  pageLoadId as pageLoadIdMatrixParameter,
-  beaconId as beaconIdMatrixParameter,
-  beaconTimestamp as beaconTimestampMatrixParameter
-} from 'in-websites/navigation/matrix';
+  pageLoadIdUrlParameter,
+  beaconIdUrlParameter,
+  beaconTimestampUrlParameter
+} from 'in-websites/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import getWebsiteBeaconsForPageLoad from 'in-subscription/websiteMonitoring/getWebsiteBeaconsForPageLoad';
 import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
@@ -16,12 +16,11 @@ import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { pageLoadViewPath } from 'in-websites/navigation/paths';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import tabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
+import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -30,11 +29,8 @@ import Link from 'in-components/Link';
 
 import locals from './PageLoadView.mless';
 
-export default withUrlDependingState({
-  getPathSegment: () => pageLoadViewPath,
-  getMatrixPrefix: () => '',
-  boundKeys: [pageLoadIdMatrixParameter, beaconIdMatrixParameter, beaconTimestampMatrixParameter],
-  getInitialState: () => ({}),
+export default withUrlState({
+  bind: [pageLoadIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter],
   reducerName: 'onChange',
   reduceAndGetAsUrlName: 'getChangeAsUrl'
 })(PageLoadView);
@@ -42,7 +38,6 @@ export default withUrlDependingState({
 function PageLoadView(props) {
   const { pageLoadId, items, beaconType, onChange, beaconTimestamp } = props;
   const beaconId = props.beaconId || pageLoadId;
-
   return (
     <Fragment>
       <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
@@ -54,8 +49,8 @@ function PageLoadView(props) {
           openItem={e => {
             triggerHighlight(getHighlighterId(e.beacon.beaconId));
             onChange({
-              [pageLoadIdMatrixParameter]: e.beacon.pageLoadId,
-              [beaconIdMatrixParameter]: e.beacon.beaconId
+              pageLoadId: e.beacon.pageLoadId,
+              beaconId: e.beacon.beaconId
             });
           }}
         >
