@@ -7,13 +7,13 @@ export default connectTo(
     countersResult: props.getCounters()
   }),
   function TabLabelWithCounter({ label, resultPropName, countersResult }) {
-    if (!countersResult || !countersResult[resultPropName]) {
+    if (!countersResult || !countersResult.data || countersResult.data[resultPropName] === undefined) {
       return <span>{label}</span>;
     }
 
     return (
       <span>
-        {label} ({countersResult[resultPropName]})
+        {label} ({countersResult.data[resultPropName]})
       </span>
     );
   }
