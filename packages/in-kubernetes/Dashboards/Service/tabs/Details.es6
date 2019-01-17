@@ -18,7 +18,9 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(({ data: service }) => ({ annotations: getAnnotations(service.id) }), function Details({
   data: service,
   annotations,
-  timeConfig
+  timeConfig,
+  clusterId,
+  namespaceId
 }) {
   return (
     <Fragment>
@@ -38,6 +40,8 @@ export default connectTo(({ data: service }) => ({ annotations: getAnnotations(s
         resource={service}
         annotations={annotations}
         timeConfig={timeConfig}
+        clusterId={clusterId}
+        namespaceId={namespaceId}
       />
     </Fragment>
   );
@@ -63,6 +67,6 @@ const navigationItems = [
     path: `${serviceDashboardDetailsFullyQualified}/endpoints`,
     icon: 'lib_kubernetes_endpoint',
     label: 'Endpoints',
-    component: ({ resource, timeConfig }) => <Endpoints timeConfig={timeConfig} data={resource} />
+    component: ({ resource, ...props }) => <Endpoints data={resource} {...props} />
   }
 ].filter(Boolean);

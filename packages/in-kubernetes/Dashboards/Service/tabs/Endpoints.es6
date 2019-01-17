@@ -4,13 +4,15 @@ import { get } from 'lodash';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import { Checkmark } from 'in-kubernetes/Dashboards/commonComponents/icons';
+import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import EntityLink from 'in-new-components/EntityLink';
 import WithIcon from 'in-new-components/WithIcon';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';
 
-export default function Endpoints({ timeConfig, data: service }) {
+export default function Endpoints({ timeConfig, data: service, clusterId, namespaceId }) {
   return (
     <Fragment>
       <Row>
@@ -28,6 +30,8 @@ export default function Endpoints({ timeConfig, data: service }) {
             defaultOrderDirection="ASC"
             defaultPageSize={10}
             withoutPadding={false}
+            clusterId={clusterId}
+            namespaceId={namespaceId}
           />
         </Col>
       </Row>
@@ -87,6 +91,21 @@ const columnDefinitions = [
     label: 'Ready',
     getContent(item) {
       return get(item, 'ready') && <Checkmark />;
+    }
+  },
+  {
+    id: 'podName',
+    label: 'Target',
+    getContent(item, { namespaceId, clusterId }) {
+      return item.podName && item.podSnapshotId ? (
+        <EntityLink
+          icon="lib_kubernetes_pod"
+          label={item.podName}
+          href$={getPodDashboard(item.podSnapshotId, { namespaceId, clusterId })}
+        />
+      ) : (
+        '--'
+      );
     }
   }
 ];
