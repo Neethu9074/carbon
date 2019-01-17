@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
+import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumnHeaders';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import Group from 'in-analyze/components/GroupedTraces/Group';
 import Groups from 'in-analyze/components/Groups';
@@ -8,7 +9,9 @@ import Groups from 'in-analyze/components/Groups';
 import locals from './TraceGroupsTable.mless';
 
 export default function TraceGroupsTable(props) {
-  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore } = props;
+  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
+  const columnCount = 3 + metrics.length;
+
   return (
     <Fragment>
       <Table className={locals.table}>
@@ -28,8 +31,8 @@ export default function TraceGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="tracesAgg"
-              label="Traces"
+              technicalName="traces_SUM_Agg"
+              label="Count"
               noWrap
             />
             <SortableColumn
@@ -41,29 +44,13 @@ export default function TraceGroupsTable(props) {
               label="Earliest Timestamp"
               noWrap
             />
-            <SortableColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="latencyAgg"
-              label="Mean Latency"
-              noWrap
-            />
-            <SortableColumn
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              onChangeOrder={onChangeOrder}
-              defaultDirection="DESC"
-              technicalName="errorsAgg"
-              label="Error Rate"
-              noWrap
-            />
+
+            <MetricColumnHeaders {...props} />
           </Tr>
         </Thead>
         <Tbody>
-          <Groups {...props} groupComponent={Group} />
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={5} size="compact" />}
+          <Groups {...props} columnCount={columnCount} groupComponent={Group} />
+          {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={columnCount} size="compact" />}
         </Tbody>
       </Table>
     </Fragment>

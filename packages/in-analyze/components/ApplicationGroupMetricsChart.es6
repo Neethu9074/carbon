@@ -1,44 +1,29 @@
 import { withProps } from 'recompose';
 
-import { millis, percentage, number } from 'in-services/formatters/number';
-import GroupMetricsChart from 'in-analyze/components/GroupMetricsChart';
+import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/GroupMetricsChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { number } from 'in-services/formatters/number';
 
-const chartDefinitions = [
+const countChartDefinitions = [
   {
-    label: 'Latency',
-    key: 'latency',
-    renderer: Renderer.stackedArea,
-    formatter: millis.fixed,
-    min: 0
-  },
-  {
-    label: 'Calls',
-    key: 'calls',
+    label: 'Count',
+    key: 'calls_SUM',
     renderer: Renderer.stackedBar,
     aggregation: 'SUM',
     formatter: number.forcedCompact,
     min: 0
   },
   {
-    label: 'Traces',
-    key: 'traces',
+    label: 'Count',
+    key: 'traces_SUM',
     renderer: Renderer.stackedBar,
     aggregation: 'SUM',
     formatter: number.forcedCompact,
-    min: 0
-  },
-  {
-    label: 'Errors',
-    key: 'errors',
-    renderer: Renderer.line,
-    aggregation: 'MEAN',
-    formatter: percentage,
     min: 0
   }
 ];
 
-export default withProps(({ filters }) => ({
-  chartDefinitions,
-  timeConfig: filters.timeConfig
+export default withProps(({ filters, metrics, availableMetrics }) => ({
+  timeConfig: filters.timeConfig,
+  chartDefinitions: countChartDefinitions.concat(metricsChartDefinitions(metrics, availableMetrics))
 }))(GroupMetricsChart);

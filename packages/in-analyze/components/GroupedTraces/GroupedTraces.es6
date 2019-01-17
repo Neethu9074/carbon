@@ -1,71 +1,98 @@
-import { compose, withState } from 'recompose';
-import { assign } from 'lodash';
+import { compose, withProps, withState } from 'recompose';
 import React from 'react';
 
+import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
+import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import ResultHeader from 'in-analyze/components/ResultHeader';
+import { availableMetrics, defaultMetrics } from 'in-analyze/AnalyzeView/metrics';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import Button from 'in-new-components/Button';
 import theme from 'in-themes';
 
-import locals from './GroupedTraces.mless';
-
-const defaultOrder = 'tracesAgg';
+const defaultCountMetric = {
+  metric: 'traces',
+  aggregation: 'SUM'
+};
+const defaultOrder = 'traces_SUM_Agg';
 
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
-    boundKeys: ['orderBy', 'orderDirection'],
+    boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
     getInitialState: () => ({
+      [metricsMatrixParameter]: defaultMetrics,
       orderBy: defaultOrder,
       orderDirection: 'DESC'
     }),
-    reducerName: 'onChangeOrder'
+    getParsedUrlValues: props => ({
+      [metricsMatrixParameter]: deserializeMetrics(props[metricsMatrixParameter]),
+      orderBy: props.orderBy,
+      orderDirection: props.orderDirection
+    }),
+    getSerializedUrlValues: props => ({
+      [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
+      orderBy: props.orderBy,
+      orderDirection: props.orderDirection
+    }),
+    reducerName: 'onChange'
   }),
+  withProps(({ onChange, metrics, orderBy, orderDirection }) => ({
+    availableMetrics: availableMetrics,
+    onChangeOrder: onChange,
+    openMetricSelector: () => {
+      setActiveDialog(
+        <MetricSelector
+          title="Select Metrics"
+          help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+          availableMetrics={availableMetrics}
+          selectedMetrics={metrics}
+          maximumNumberOfMetrics={5}
+          onSave={metrics => {
+            const orderByMetricStillExists = metrics.reduce(
+              (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
+              false
+            );
+            onChange({
+              [metricsMatrixParameter]: metrics,
+              orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
+              orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
+            });
+          }}
+        />
+      );
+    }
+  })),
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded'],
-    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection, isChartSectionExpanded }) => {
+    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded', 'metrics'],
+    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection, isChartSectionExpanded, metrics }) => {
+      metrics = metrics.concat(defaultCountMetric);
       const timeConfig = filters.timeConfig;
       const granularity = getChartGranularity(timeConfig);
-      const tableMetrics = {
-        tracesAgg: {
-          metric: 'traces',
-          aggregation: 'SUM'
-        },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
+      const metricsForQuery = metrics.reduce((agg, { metric, aggregation }) => {
+        agg[`${metric}_${aggregation}_Agg`] = {
+          metric,
+          aggregation
+        };
+
+        if (isChartSectionExpanded) {
+          agg[`${metric}_${aggregation}`] = {
+            metric,
+            aggregation,
+            granularity
+          };
         }
-      };
-      const chartMetrics = {
-        traces: {
-          metric: 'traces',
-          aggregation: 'SUM',
-          granularity
-        },
-        errors: {
-          metric: 'errors',
-          aggregation: 'MEAN',
-          granularity
-        },
-        latency: {
-          metric: 'latency',
-          aggregation: 'MEAN',
-          granularity
-        }
-      };
+
+        return agg;
+      }, {});
 
       return getTraceGroups({
         pagination: {
@@ -79,7 +106,7 @@ export default compose(
         filter: {
           timeConfig
         },
-        metrics: isChartSectionExpanded ? assign(tableMetrics, chartMetrics) : tableMetrics,
+        metrics: metricsForQuery,
         tagFilters: tagFiltersForSubscription,
         group: {
           groupbyTag: filters.group ? filters.group.name : null,
@@ -91,7 +118,7 @@ export default compose(
 )(GroupedTraces);
 
 function GroupedTraces(props) {
-  const { items, totalHits, isChartSectionExpanded, setIsChartSectionExpanded } = props;
+  const { items, isChartSectionExpanded } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -100,16 +127,7 @@ function GroupedTraces(props) {
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <div className={locals.wrapper}>
-        <ResultHeader itemType="Group" nbRows={totalHits} />
-        <Button
-          kind="secondary"
-          onClick={() => setIsChartSectionExpanded(!isChartSectionExpanded)}
-          icon="lib_views_stats"
-        >
-          {isChartSectionExpanded ? 'Hide' : 'Show'} Graph
-        </Button>
-      </div>
+      <GroupingTableHeader itemType="Group" {...props} />
       {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>

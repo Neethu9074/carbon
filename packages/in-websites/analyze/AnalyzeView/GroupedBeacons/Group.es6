@@ -1,6 +1,7 @@
-import { get, find } from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 
+import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
@@ -34,23 +35,7 @@ export default function Group({ item, dotColor, showDot, getGroupAsFilterUrl, me
 
       <Td noWrap>{formatDateTime(item.earliestTimestamp)}</Td>
 
-      {metrics.map(({ metric, aggregation }) => {
-        const value = get(item, ['metrics', `${metric}_${aggregation}_Agg`, 0, 1]);
-        let formatter = number.detailed;
-        const metricDefinition = find(availableMetrics, m => m.metric === metric);
-        if (metricDefinition) {
-          formatter = metricDefinition.formatter.detailed;
-        }
-
-        return (
-          <Td key={`${metric}_${aggregation}`} noWrap>
-            <span className={locals.metricValue}>
-              {value == null && 'N/A'}
-              {value != null && formatter(value)}
-            </span>
-          </Td>
-        );
-      })}
+      <MetricColumnCells item={item} metrics={metrics} availableMetrics={availableMetrics} />
     </Tr>
   );
 }

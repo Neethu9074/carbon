@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SortableTh } from 'in-components/tables/sharedComponents';
 
-export default function SortableCallColumn({
+export default function SortableColumn({
   orderBy,
   orderDirection,
   defaultDirection,
