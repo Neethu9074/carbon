@@ -68,7 +68,7 @@ const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}/endpoints`,
     icon: 'lib_kubernetes_endpoint',
-    renderLabel: ({ counters }) => `Endpoints (${counters.data ? counters.data.endpoints : 0})`,
+    renderLabel: ({ counters }) => `Endpoints ${counters.data && `(${counters.data.endpoints}`})`,
     component: ({ resource, ...props }) => <Endpoints data={resource} {...props} />
   }
 ].filter(Boolean);
