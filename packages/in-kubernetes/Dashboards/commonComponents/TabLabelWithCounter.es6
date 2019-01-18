@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Badge from 'in-new-components/Badge';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -13,7 +14,7 @@ export default connectTo(
 
     return (
       <span>
-        {label} ({countersResult.data[resultPropName]})
+        {label} <Badge kind="light">{countersResult.data[resultPropName]}</Badge>
       </span>
     );
   }
