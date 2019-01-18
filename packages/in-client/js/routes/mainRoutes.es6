@@ -19,7 +19,6 @@ import {
   kubernetesEnabled,
   twoZeroModeEnabled,
   instanaInternalFeaturesEnabled,
-  oneZeroWebsiteMonitoringEnabled,
   twoZeroWebsiteMonitoringEnabled
 } from 'in-services/featureFlags';
 import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
@@ -51,10 +50,8 @@ export default (
 
     <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
-    {oneZeroWebsiteMonitoringEnabled && (
-      <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
-    )}
-    {oneZeroWebsiteMonitoringEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
+    <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
+    <Route component={createAsyncViewComponent(EumView)} path={websitePath} />
 
     <Route component={createAsyncViewComponent(GraphView)} path={graphPath} />
     <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
