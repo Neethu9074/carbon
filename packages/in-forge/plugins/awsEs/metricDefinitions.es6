@@ -1,4 +1,10 @@
-import { number, seconds, bytesPerSecondTwoDecimalPlaces, bytes } from 'in-services/formatters/number';
+import {
+  number,
+  seconds,
+  bytesPerSecondTwoDecimalPlaces,
+  bytes,
+  timeByMillisTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default [
   {
@@ -124,6 +130,24 @@ export default [
   {
     metric: 'write_iops',
     label: 'Write IOPS',
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: 'search_latency',
+    label: 'Search latency',
+    min: 0,
+    formatter: timeByMillisTwoDecimalPlaces
+  },
+  {
+    metric: 'cpu_credit_balance',
+    label: 'Cpu credit balance',
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: 'deleted_documents',
+    label: 'Deleted documents',
     min: 0,
     formatter: number.compact
   }

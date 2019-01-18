@@ -10,8 +10,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'AWS Elastic search',
-    plural: 'AWS Elastic search'
+    singular: 'AWS Elasticsearch',
+    plural: 'AWS Elasticsearch'
   },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'es_domain_name'], '');

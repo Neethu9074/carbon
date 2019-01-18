@@ -11,7 +11,7 @@ export default function AwsElasticSearchSidebar({ snapshot }) {
       <Separator />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>ElasticSearch Info</Collapsible.Header>
+        <Collapsible.Header>Elasticsearch Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

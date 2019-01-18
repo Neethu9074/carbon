@@ -1,14 +1,16 @@
 import React from 'react';
 
 import {
-  number,
-  bytesPerSecondZeroDecimalPlaces,
   percentagePlainZeroDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces,
+  timeByMillisTwoDecimalPlaces,
   seconds,
+  number,
   bytes
 } from 'in-services/formatters/number';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
 
@@ -17,20 +19,36 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
+      <ESClusterSummary snapshot={snapshot} />
       <Columize>
+        <DashboardSection title="Search latency">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['search_latency'],
+              labels: ['Value'],
+              type: 'line',
+              formatter: timeByMillisTwoDecimalPlaces
+            }}
+          />
+        </DashboardSection>
         <DashboardSection title="Cluster status">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['cluster_status_green', 'cluster_status_yellow', 'cluster_status_red', 'nodes'],
-              labels: ['Green', 'Yellow', 'Red', 'Nodes'],
+              metrics: ['cluster_status_green', 'cluster_status_yellow', 'cluster_status_red'],
+              labels: ['Green', 'Yellow', 'Red'],
               type: 'line',
               formatter: number.compact
             }}
           />
         </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title="CPU">
           <Chart
             snapshotId={snapshotId}
@@ -44,16 +62,29 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
             }}
           />
         </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title="Searchable documents">
+        <DashboardSection title="CPU Credit">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['searchable_documents'],
-              labels: ['Searchable documents'],
+              metrics: ['cpu_credit_balance'],
+              labels: ['Balance'],
+              type: 'line',
+              formatter: number.compact
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title="Documents">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['searchable_documents', 'deleted_documents'],
+              labels: ['Searchable documents', 'Deleted documents'],
               type: 'line',
               formatter: number.compact
             }}
