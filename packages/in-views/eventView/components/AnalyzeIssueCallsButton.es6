@@ -31,6 +31,7 @@ export default connectTo(
     } else if (entityType === 'Endpoint20') {
       observables.endpointLabel = getEndpointLabel({ id: entityId }).map(getLabel);
       const endpointEntity = getEntityObservable(event);
+      observables.endpointEntity = endpointEntity;
       observables.serviceLabel = endpointEntity.flatMap(endpoint => {
         if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
           return just(null);
@@ -41,7 +42,7 @@ export default connectTo(
 
     return observables;
   },
-  function AnalyzeIssueCalls({ event, applicationLabel, serviceLabel, endpointLabel }) {
+  function AnalyzeIssueCalls({ event, applicationLabel, serviceLabel, endpointLabel, endpointEntity }) {
     if (!event) {
       return null;
     }
@@ -51,6 +52,8 @@ export default connectTo(
     }
 
     const isErroneous = isErrorEvent(event);
+    const isSynthetic = isSyntheticEndpoint(endpointEntity);
+    const filters = getFilters(isErroneous, isSynthetic);
     const order = getAnalyzeOrder(event);
     const dataSource = 'calls';
 
@@ -64,7 +67,7 @@ export default connectTo(
             serviceName: serviceLabel,
             endpointName: endpointLabel,
             dataSource: dataSource,
-            filters: isErroneous ? [{ name: 'call.erroneous', value: 'true' }] : null,
+            filters: filters,
             groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
             orderBy: order.by,
             orderDirection: order.direction,
@@ -88,6 +91,27 @@ function getEntityObservable(event) {
 function isErrorEvent(event) {
   const problemText = getProblemTextOrEmpty(event);
   return containsIgnoreCase(problemText, 'error');
+}
+
+function isSyntheticEndpoint(endpoint) {
+  if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
+    return false;
+  }
+
+  return get(endpoint, ['data', 'synthetic'], false);
+}
+
+function getFilters(isErroneous, isSynthetic) {
+  const filters = [];
+
+  if (isErroneous) {
+    filters.push({ name: 'call.erroneous', value: 'true' });
+  }
+  if (isSynthetic) {
+    filters.push({ name: 'call.is_synthetic', value: 'true' });
+  }
+
+  return filters;
 }
 
 function getAnalyzeOrder(event) {
