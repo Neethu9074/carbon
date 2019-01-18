@@ -48,7 +48,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     oneZeroWebsiteMonitoringEnabled,
     twoZeroWebsiteMonitoringEnabled,
     quickTagFiltersInWebsiteMonitoringDashboardEnabled,
-    kubernetesV2Enabled,
+    isKubernetesV2Enabled,
     write1sRollupsToCassandra,
     redisMetricWritingEnabled,
     lastSevenDaysTimePresetEnabled
@@ -64,7 +64,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     quickTagFiltersInWebsiteMonitoringDashboardEnabled,
     pingComparisonEnabled,
     isSelfService,
-    kubernetesV2Enabled,
+    isKubernetesV2Enabled,
     write1sRollupsToCassandra,
     redisMetricWritingEnabled,
     lastSevenDaysTimePresetEnabled,
