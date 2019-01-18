@@ -1,8 +1,8 @@
-import { isEmpty } from 'lodash';
+import semver from 'semver';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
-import { build as uiClientVersion } from 'in-services/config';
+import { build as uiClientBuildInfo } from 'in-services/config';
 import { get, trySet } from 'in-services/localStorage';
 import { combineLatest } from 'reactive-observables';
 import { createStore } from 'in-stores/store';
@@ -21,11 +21,9 @@ const noReleaseNotesContent = {
   content: null
 };
 
-const majorMinorRegex = /(\d+\.\d+)\.\d+/;
-const uiClientMajorMinor =
-  uiClientVersion && uiClientVersion.tag && majorMinorRegex.test(uiClientVersion.tag)
-    ? majorMinorRegex.exec(uiClientVersion.tag)[1]
-    : null;
+// ui-client version modulo patch level (x.y.z will become x.y)
+const uiClientVersionMajorMinor =
+  uiClientBuildInfo && uiClientBuildInfo.tag ? removePatchLevel(uiClientBuildInfo.tag) : null;
 
 // Stores the major.minor version for which the user has read the release notes. This is used to implement the
 // "mark-as-read" functionality.
@@ -183,7 +181,7 @@ export function showReleaseNotes() {
  */
 function getCurrentlyRunningVersionMajorMinor(uiBackendVersionData) {
   const backEndMajorMinor = parseBackEndVersionData(uiBackendVersionData);
-  const currentlyRunningVersionMajorMinor = minimumOf(backEndMajorMinor, uiClientMajorMinor);
+  const currentlyRunningVersionMajorMinor = minimumOf(backEndMajorMinor, uiClientVersionMajorMinor);
   if (!currentlyRunningVersionMajorMinor) {
     // We do not have any information about the version that is currently running (neither from the static
     // ui-client build.json or from the back end API call).
@@ -197,37 +195,38 @@ function getCurrentlyRunningVersionMajorMinor(uiBackendVersionData) {
 }
 
 function parseBackEndVersionData(uiBackendVersionData) {
-  if (!uiBackendVersionData || !uiBackendVersionData.imageTag) {
+  if (!uiBackendVersionData) {
     return null;
   }
-  if (!majorMinorRegex.test(uiBackendVersionData.imageTag)) {
-    return null;
-  }
-  return majorMinorRegex.exec(uiBackendVersionData.imageTag)[1];
+  return removePatchLevel(uiBackendVersionData.imageTag);
 }
 
 function minimumOf(majorMinor1, majorMinor2) {
-  if (!isEmpty(majorMinor1) && isEmpty(majorMinor2)) {
+  const version1 = addDummyPatchLevel(majorMinor1);
+  const version2 = addDummyPatchLevel(majorMinor2);
+  if (semver.valid(version1) && !semver.valid(version2)) {
     return majorMinor1;
   }
-  if (isEmpty(majorMinor1) && !isEmpty(majorMinor2)) {
+  if (!semver.valid(version1) && semver.valid(version2)) {
     return majorMinor2;
   }
-  try {
-    const [major1, minor1] = majorMinor1.split('.').map(n => parseInt(n, 10));
-    const [major2, minor2] = majorMinor2.split('.').map(n => parseInt(n, 10));
-    if (major1 < major2) {
-      return majorMinor1;
-    } else if (major2 < major1) {
-      return majorMinor2;
-    } else {
-      if (minor1 < minor2) {
-        return majorMinor1;
-      } else {
-        return majorMinor2;
-      }
-    }
-  } catch (ignored) {
+  if (semver.lt(version1, version2)) {
+    return majorMinor1;
+  } else {
+    return majorMinor2;
+  }
+}
+
+function removePatchLevel(version) {
+  if (!version || !semver.valid(version)) {
     return null;
   }
+  return `${semver.major(version)}.${semver.minor(version)}`;
+}
+
+function addDummyPatchLevel(majorMinor) {
+  if (!majorMinor) {
+    return null;
+  }
+  return `${majorMinor}.0`;
 }
