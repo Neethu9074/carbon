@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 
 const serverConfig = require('../../serverConfig.js');
-const cache = require('../loadingCache').createLoadingCache({ttl: serverConfig.consul.cacheExpiry});
+const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.consul.cacheExpiry });
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
 
@@ -13,9 +13,11 @@ exports.getGroundskeeperBaseUrl = () => cache(`groundskeeper`, () => {
   return lookupServiceBaseUrl(`groundskeeper`);
 });
 
-exports.getBaseUrl = (tenant, unit) => Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getBaseUrl = (tenant, unit) =>
+  Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getButlerDomain = (tenant, unit) => Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
+exports.getButlerDomain = (tenant, unit) =>
+  Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
 exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
   return Promise.all([
@@ -74,12 +76,14 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
   }));
 });
 
-exports.getConfiguration = (tenant, unit) => cache(`getConfiguration:${tenant}:${unit}`, () => {
-  return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 50)
-    .then(maxAllowedAlertingConfigurations => ({
-      maxAllowedAlertingConfigurations
-    }));
-});
+exports.getConfiguration = (tenant, unit) =>
+  cache(`getConfiguration:${tenant}:${unit}`, () => {
+    return getIntSetting(`settings/${tenant}-${unit}/MAX_ALLOWED_ALERTINGS_CONFIGURATIONS`, 50).then(
+      maxAllowedAlertingConfigurations => ({
+        maxAllowedAlertingConfigurations
+      })
+    );
+  });
 
 function lookupServiceBaseUrl(serviceName) {
   return rp({
@@ -109,7 +113,9 @@ function getIntSetting(path, notDefinedFallback) {
   return getSetting(path, notDefinedFallback, str => {
     const v = parseInt(str, 10);
     if (isNaN(v)) {
-      const error = new Error(`Could not parse integer setting retrieved from Consul at path ${path}. Received value: ${str}`);
+      const error = new Error(
+        `Could not parse integer setting retrieved from Consul at path ${path}. Received value: ${str}`
+      );
       error.ignoreStackTrace = true;
       throw error;
     }
@@ -125,14 +131,17 @@ function getSetting(path, notDefinedFallback, valueParser) {
     simple: false,
     timeout: 5000,
     resolveWithFullResponse: true
-  })
-  .then(response => {
+  }).then(response => {
     if (response.statusCode === 404) {
       return notDefinedFallback;
     }
 
     if (response.statusCode < 200 || response.statusCode > 299) {
-      const error = new Error(`Retrieval of setting from consul at path ${path} failed. Received status code ${response.statusCode} from Consul API.`);
+      const error = new Error(
+        `Retrieval of setting from consul at path ${path} failed. Received status code ${
+          response.statusCode
+        } from Consul API.`
+      );
       error.ignoreStackTrace = true;
       return Promise.reject(error);
     }
