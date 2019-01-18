@@ -55,9 +55,10 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ websiteId, selectedMetric }) {
+function ViewAll({ websiteId, selectedMetric }, className) {
   return (
     <Link
+      className={className}
       href$={getLinkToWebsite(websiteId, {
         tabPath: '/errors',
         tabParameters: {

@@ -11,12 +11,9 @@
     font-size: 0.875rem;
     font-weight: 400;
     text-decoration: none;
+    color: @lib__colors__teal800;
 
     transition: color 0.25s ease-in-out;
-  }
-
-  .viewAllLink {
-    color: @lib__colors__teal800;
 
     &:hover {
       color: @lib__colors__N600Light;
