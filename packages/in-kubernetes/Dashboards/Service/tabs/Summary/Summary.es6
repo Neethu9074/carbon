@@ -1,5 +1,5 @@
-import { isEmpty } from 'lodash';
 import React, { Fragment } from 'react';
+import { isEmpty } from 'lodash';
 
 import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
 import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
