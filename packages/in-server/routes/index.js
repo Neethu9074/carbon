@@ -39,6 +39,8 @@ const prefetchItems = fs
   .filter(fileName => /^.*\.[a-z0-9]+\.js$/i.test(fileName))
   // There are just way too many Ammap files. No need to prefetch all of them.
   .filter(fileName => fileName.indexOf('AmMap') === -1)
+  // never attempt to preload the internal bundle
+  .filter(fileName => fileName.indexOf('internal') === -1)
   .map(fileName => {
     return {
       rel: 'prefetch',
