@@ -68,11 +68,13 @@ export function getAxisMinMax(axis, filteredDataSeries) {
   let maxValue = 0;
 
   const metrics = axis.metrics || [];
+  let allDataSeriesIgnored = true;
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
     if (isIgnoredIndex) {
       continue;
     }
+    allDataSeriesIgnored = false;
     const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
 
     if (axis.valuesNeedToBeStacked) {
@@ -109,7 +111,7 @@ export function getAxisMinMax(axis, filteredDataSeries) {
     maxValue = axis.max;
   }
 
-  return { minValue: 0, maxValue };
+  return { minValue: 0, maxValue, allDataSeriesIgnored };
 }
 
 function getMinMaxValueForDataSeries(dataSeries) {

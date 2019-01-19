@@ -43,8 +43,8 @@ const ChartReactWrapper = enhance(
         this.props.setChart(chart);
       }
 
-      componentWillUpdate(nextProps) {
-        nextProps.chart.update(nextProps);
+      componentDidUpdate() {
+        this.props.chart.update(this.props);
       }
 
       componentWillUnmount() {
