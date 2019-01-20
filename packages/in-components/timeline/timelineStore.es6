@@ -28,7 +28,7 @@ let currentServerTime;
 let initialized = false;
 
 export function init() {
-  if (initialized) {
+  if (initialized || twoZeroModeEnabled) {
     return;
   }
   initialized = true;

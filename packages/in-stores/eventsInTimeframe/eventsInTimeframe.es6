@@ -1,5 +1,7 @@
-import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
 import { create, combineLatest } from 'reactive-observables';
+
+import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';
@@ -10,6 +12,10 @@ export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
 let subscription;
 
 export function init() {
+  if (twoZeroModeEnabled) {
+    return;
+  }
+
   subscription = combineLatest([timeConfig$, query$])
     .flatMap(([timeConfig, query]) =>
       getEventsInTimeframeSubscription({

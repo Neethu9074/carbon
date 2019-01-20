@@ -1,3 +1,4 @@
+import { isTwoZeroBetaPhase } from 'in-services/featureFlags';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { settingsStore } from 'in-services/settings';
 
@@ -15,5 +16,7 @@ export function setV2ParamIfUnset() {
 }
 
 export function init() {
-  setV2ParamIfUnset();
+  if (isTwoZeroBetaPhase) {
+    setV2ParamIfUnset();
+  }
 }
