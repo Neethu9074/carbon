@@ -25,16 +25,16 @@
     margin-left: 0.25rem;
   }
 
-  .spacer {
-    width: 100%;
-    border-top: 1px dashed @lib__colors__N600Light;
-    margin-bottom: 0.5rem;
-  }
-
   .tooltipMetricList {
     list-style: none;
     margin: 0;
     padding: 0;
+
+    & + .tooltipMetricList {
+      border-top: 1px dashed @lib__colors__N600Light;
+      margin-top: 0.5rem;
+      padding-top: 0.8rem;
+    }
   }
 
   .metricValue {
