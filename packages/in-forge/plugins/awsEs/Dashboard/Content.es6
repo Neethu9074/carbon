@@ -13,6 +13,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
+import theme from 'in-themes';
 
 export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -21,14 +22,14 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <ESClusterSummary snapshot={snapshot} />
       <Columize>
-        <DashboardSection title="Search latency">
+        <DashboardSection title="Performance indicator">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['search_latency'],
-              labels: ['Value'],
+              labels: ['Search latency'],
               type: 'line',
               formatter: timeByMillisTwoDecimalPlaces
             }}
@@ -42,8 +43,9 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['cluster_status_green', 'cluster_status_yellow', 'cluster_status_red'],
               labels: ['Green', 'Yellow', 'Red'],
-              type: 'line',
-              formatter: number.compact
+              type: 'stackedArea',
+              formatter: number.compact,
+              colors: [theme.lib.colors.green800, theme.lib.colors.yellow800, theme.lib.colors.red800]
             }}
           />
         </DashboardSection>
@@ -133,7 +135,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Requests">
+        <DashboardSection title="HTTP requests by response code">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -142,7 +144,13 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               metrics: ['2xx', '3xx', '4xx', '5xx'],
               labels: ['2xx', '3xx', '4xx', '5xx'],
               type: 'line',
-              formatter: number.compact
+              formatter: number.compact,
+              colors: [
+                theme.lib.colors.green800,
+                theme.lib.colors.yellow800,
+                theme.lib.colors.blue800,
+                theme.lib.colors.red800
+              ]
             }}
           />
         </DashboardSection>
@@ -155,7 +163,8 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               metrics: ['read_latency', 'write_latency'],
               labels: ['read_latency', 'write_latency'],
               type: 'line',
-              formatter: seconds.fixedCompact
+              formatter: seconds.fixedCompact,
+              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
           />
         </DashboardSection>
@@ -170,7 +179,8 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               metrics: ['read_throughput', 'write_throughput'],
               labels: ['Read throughput', 'Write throughput'],
               type: 'line',
-              formatter: bytesPerSecondZeroDecimalPlaces
+              formatter: bytesPerSecondZeroDecimalPlaces,
+              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
           />
         </DashboardSection>
@@ -183,7 +193,8 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               metrics: ['read_iops', 'write_iops'],
               labels: ['Read iops', 'Write iops'],
               type: 'line',
-              formatter: number.perSecond.detailed
+              formatter: number.perSecond.detailed,
+              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
             }}
           />
         </DashboardSection>
