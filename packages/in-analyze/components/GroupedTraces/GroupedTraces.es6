@@ -5,13 +5,13 @@ import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter
 import ApplicationGroupMetricsChart from 'in-analyze/components/ApplicationGroupMetricsChart';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
+import { availableMetrics, defaultMetrics } from 'in-analyze/AnalyzeView/metrics';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { availableMetrics, defaultMetrics } from 'in-analyze/AnalyzeView/metrics';
 import { getChartGranularity } from 'in-applications/metrics';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -31,15 +31,15 @@ export default compose(
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
     boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
-    getInitialState: props => ({
+    getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
-      orderBy: defaultOrder(props.dataSource),
+      orderBy: null,
       orderDirection: 'DESC'
     }),
-    getParsedUrlValues: props => ({
-      [metricsMatrixParameter]: deserializeMetrics(props[metricsMatrixParameter]),
-      orderBy: props.orderBy,
-      orderDirection: props.orderDirection
+    getParsedUrlValues: urlValues => ({
+      [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
+      orderBy: urlValues.orderBy,
+      orderDirection: urlValues.orderDirection
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
@@ -50,6 +50,7 @@ export default compose(
   }),
   withProps(({ dataSource, onChange, metrics, orderBy, orderDirection }) => ({
     availableMetrics: availableMetrics,
+    orderBy: orderBy || defaultOrder(dataSource),
     onChangeOrder: onChange,
     openMetricSelector: () => {
       setActiveDialog(
