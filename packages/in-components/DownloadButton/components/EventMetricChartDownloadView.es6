@@ -59,21 +59,19 @@ export default connectTo(
 );
 
 function getMetricsRequest(props) {
-  let { event, timeConfig, rollup, entityType, plugin, metric, metricAccessId } = props;
-  const timeFrame = {
-    //From time is set to 20 Minutes before the event triggering timeout
-    // as some algorithms need some time (more data) to warm up
-    from: event.get('triggeringTime') - 1000 * 60 * 20,
-    to: timeConfig.to ? timeConfig.to : Date.now(),
-    windowSize: timeConfig.windowSize
-  };
+  let { event, entityType, plugin, metric, metricAccessId } = props;
+
+  let rollup;
+  const oneDay = Date.now() - 1000 * 60 * 60 * 24;
+  const windowSize1Sec = 600000;
+  const windowSize5Sec = 3000000;
+  const windowSize60Sec = 36000000;
+
+  const to = event.get('end') ? event.get('end') : Date.now();
+  let timeFrame = { to: to };
 
   if (plugin === null) {
     return null;
-  }
-
-  if (rollup === 0) {
-    rollup = 5000;
   }
 
   let entity20Request = {
@@ -84,27 +82,37 @@ function getMetricsRequest(props) {
     order: {
       by: 'string',
       direction: 'ASC'
-    },
-    timeFrame: timeFrame
+    }
   };
 
   let infraRequest = {
-    timeFrame: timeFrame,
     query: '*',
     plugin: plugin,
     metrics: [metric],
-    rollup: rollup / 1000,
     snapshotIds: [metricAccessId]
   };
 
   const backendMetric = getBackendMetricName(metric);
 
   if (backendMetric != null) {
+    //Time of event creation decides the Metric rollup / windowSize
+    //1 hour metric data is collected upto the event end time
+    if (event.get('start') - windowSize5Sec < oneDay) {
+      rollup = 60;
+      timeFrame.from = event.get('start') - windowSize60Sec;
+      timeFrame.windowSize = windowSize60Sec;
+    } else {
+      rollup = 5;
+      timeFrame.from = event.get('start') - windowSize5Sec;
+      timeFrame.windowSize = windowSize5Sec;
+    }
+
+    entity20Request.timeFrame = timeFrame;
     entity20Request.metrics = [
       {
         metric: backendMetric.name,
         aggregation: backendMetric.aggregation,
-        granularity: rollup / 1000
+        granularity: rollup
       }
     ];
     entity20Request.nameFilter = event.getIn(['metadata', 'entityLabel']);
@@ -129,6 +137,18 @@ function getMetricsRequest(props) {
     entity20Request.endpointId = event.getIn(['metadata', 'app20EndpointId']);
     return entity20Request;
   }
+
+  if (event.get('start') - windowSize1Sec < oneDay) {
+    rollup = 60;
+    timeFrame.from = event.get('start') - windowSize60Sec;
+    timeFrame.windowSize = windowSize60Sec;
+  } else {
+    rollup = 1;
+    timeFrame.from = event.get('start') - windowSize1Sec;
+    timeFrame.windowSize = windowSize1Sec;
+  }
+  infraRequest.rollup = rollup;
+  infraRequest.timeFrame = timeFrame;
   return infraRequest;
 }
 
@@ -140,13 +160,13 @@ function getBackendMetricName(metricName) {
 }
 
 function getJsonData(data) {
-  return JSON.stringify(data, null, 4);
+  return JSON.stringify(data, null, 2);
 }
 
 function getMetricData(event, metric, metricValues) {
-  var items = metricValues[0]['metrics'];
-  var values = Object.values(items)[0];
-  var finalValues = [];
+  let items = metricValues[0]['metrics'];
+  let values = Object.values(items)[0];
+  let finalValues = [];
   values.forEach(function(v) {
     let fv = { timestamp: v[0], value: v[1] };
     finalValues.push(fv);
