@@ -71,7 +71,7 @@ export default function NumberBarOverlayPresenter({
         )}
 
         <div className={locals.actions}>
-          <Button type="button" kind="danger" onClick={onClear}>
+          <Button type="button" kind="action" onClick={onClear}>
             Clear
           </Button>
 
