@@ -5,6 +5,7 @@ import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-compo
 const maximumDataSeriesInChart = 5;
 
 export default function Groups({
+  dataSource,
   items,
   filters,
   onChangeAnalyzeConfig,
@@ -25,6 +26,7 @@ export default function Groups({
       {items.map((item, groupIndex) => (
         <Group
           key={item.name}
+          dataSource={dataSource}
           orderBy={orderBy}
           orderDirection={orderDirection}
           item={item}

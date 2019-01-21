@@ -7,6 +7,7 @@ import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTab
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
+import getCallGroups from 'in-subscription/application/getCallGroups';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -16,20 +17,23 @@ import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import theme from 'in-themes';
 
-const defaultCountMetric = {
-  metric: 'traces',
-  aggregation: 'SUM'
+const defaultCountMetric = dataSource => {
+  return {
+    metric: dataSource,
+    aggregation: 'SUM'
+  };
 };
-const defaultOrder = 'traces_SUM_Agg';
+
+const defaultOrder = dataSource => `${dataSource}_SUM_Agg`;
 
 export default compose(
   withUrlDependingState({
     getPathSegment: () => analyze,
     getMatrixPrefix: () => 'groups.',
     boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
-    getInitialState: () => ({
+    getInitialState: props => ({
       [metricsMatrixParameter]: defaultMetrics,
-      orderBy: defaultOrder,
+      orderBy: defaultOrder(props.dataSource),
       orderDirection: 'DESC'
     }),
     getParsedUrlValues: props => ({
@@ -44,7 +48,7 @@ export default compose(
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ onChange, metrics, orderBy, orderDirection }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection }) => ({
     availableMetrics: availableMetrics,
     onChangeOrder: onChange,
     openMetricSelector: () => {
@@ -62,7 +66,7 @@ export default compose(
             );
             onChange({
               [metricsMatrixParameter]: metrics,
-              orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
+              orderBy: orderByMetricStillExists ? orderBy : defaultOrder(dataSource),
               orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
             });
           }}
@@ -73,8 +77,17 @@ export default compose(
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'isChartSectionExpanded', 'metrics'],
-    get: ({ tagFiltersForSubscription, cursor, filters, orderBy, orderDirection, isChartSectionExpanded, metrics }) => {
-      metrics = metrics.concat(defaultCountMetric);
+    get: ({
+      dataSource,
+      tagFiltersForSubscription,
+      cursor,
+      filters,
+      orderBy,
+      orderDirection,
+      isChartSectionExpanded,
+      metrics
+    }) => {
+      metrics = metrics.concat(defaultCountMetric(dataSource));
       const timeConfig = filters.timeConfig;
       const granularity = getChartGranularity(timeConfig);
       const metricsForQuery = metrics.reduce((agg, { metric, aggregation }) => {
@@ -94,13 +107,14 @@ export default compose(
         return agg;
       }, {});
 
-      return getTraceGroups({
+      const getGroupsData = dataSource === 'traces' ? getTraceGroups : getCallGroups;
+      return getGroupsData({
         pagination: {
           cursor,
           retrievalSize: 20
         },
         order: {
-          by: orderBy || defaultOrder,
+          by: orderBy || defaultOrder(dataSource),
           direction: orderDirection
         },
         filter: {

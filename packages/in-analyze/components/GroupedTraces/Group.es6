@@ -14,6 +14,7 @@ import Link from 'in-components/Link';
 import locals from './Group.mless';
 
 export default function Group({
+  dataSource,
   item,
   filters,
   onChangeAnalyzeConfigAndGetAsUrlObservable,
@@ -45,7 +46,7 @@ export default function Group({
         </div>
       </Td>
 
-      <Td noWrap>{number.compact(get(item, ['metrics', 'traces_SUM_Agg', 0, 1]))}</Td>
+      <Td noWrap>{number.compact(get(item, ['metrics', `${dataSource}_SUM_Agg`, 0, 1]))}</Td>
 
       <Td noWrap>{formatDateTime(item.timestamp)}</Td>
 
@@ -81,11 +82,11 @@ function getGroupingChange(filters, tagName) {
   };
 }
 
-function trackSetGrouping(filters, tagName) {
+function trackSetGrouping(dataSource, filters, tagName) {
   const group = filters.group;
   const currentGroupValue = tagName;
   clickGroupTracker({
-    context: 'traces',
+    context: dataSource,
     type: group.name,
     value: group.value,
     group: currentGroupValue

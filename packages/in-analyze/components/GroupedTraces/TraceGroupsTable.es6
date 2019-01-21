@@ -3,13 +3,13 @@ import React, { Fragment } from 'react';
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumnHeaders';
 import SortableColumn from 'in-analyze/components/SortableColumn';
+import Groups from 'in-analyze/components/GroupedTraces/Groups';
 import Group from 'in-analyze/components/GroupedTraces/Group';
-import Groups from 'in-analyze/components/Groups';
 
 import locals from './TraceGroupsTable.mless';
 
 export default function TraceGroupsTable(props) {
-  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
+  const { dataSource, orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
   const columnCount = 3 + metrics.length;
 
   return (
@@ -31,7 +31,7 @@ export default function TraceGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="traces_SUM_Agg"
+              technicalName={`${dataSource}_SUM_Agg`}
               label="Count"
               noWrap
             />
