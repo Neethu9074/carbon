@@ -5,6 +5,7 @@ import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-compo
 const maximumDataSeriesInChart = 5;
 
 export default function Groups({
+  dataSource,
   items,
   filters,
   onChangeAnalyzeConfig,
@@ -15,13 +16,17 @@ export default function Groups({
   orderDirection,
   groupColors,
   groupComponent: Group,
-  isChartSectionExpanded
+  isChartSectionExpanded,
+  metrics,
+  availableMetrics,
+  columnCount = 5
 }) {
   return (
     <Fragment>
       {items.map((item, groupIndex) => (
         <Group
           key={item.name}
+          dataSource={dataSource}
           orderBy={orderBy}
           orderDirection={orderDirection}
           item={item}
@@ -30,12 +35,14 @@ export default function Groups({
           onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
           dotColor={groupColors[groupIndex]}
           showDot={isChartSectionExpanded && groupIndex < maximumDataSeriesInChart}
+          metrics={metrics}
+          availableMetrics={availableMetrics}
         />
       ))}
 
-      <HorizontalIndicatorRow cols={5} progress={progress} />
-      <ErrorRows cols={5} errors={errors} size="compact" />
-      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
+      <HorizontalIndicatorRow cols={columnCount} progress={progress} />
+      <ErrorRows cols={columnCount} errors={errors} size="compact" />
+      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
     </Fragment>
   );
 }
