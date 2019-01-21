@@ -34,7 +34,7 @@ export default compose(
     boundKeys: [metricsMatrixParameter, 'orderBy', 'orderDirection'],
     getInitialState: () => ({
       [metricsMatrixParameter]: defaultMetrics,
-      orderBy: null,
+      orderBy: defaultOrder,
       orderDirection: 'DESC'
     }),
     getParsedUrlValues: urlValues => ({
@@ -51,7 +51,6 @@ export default compose(
   }),
   withProps(({ dataSource, onChange, metrics, orderBy, orderDirection }) => ({
     availableMetrics: availableMetrics,
-    orderBy: orderBy || defaultOrder,
     onChangeOrder: onChange,
     openMetricSelector: () => {
       setActiveDialog(
