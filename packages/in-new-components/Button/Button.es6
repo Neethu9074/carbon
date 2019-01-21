@@ -8,7 +8,17 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Button.mless';
 
-export const kinds = ['primary', 'primaryv2', 'secondary', 'action', 'subtle', 'create', 'danger', 'warning'];
+export const kinds = [
+  'primary',
+  'primaryv2',
+  'secondary',
+  'action',
+  'action--danger',
+  'subtle',
+  'create',
+  'danger',
+  'warning'
+];
 export const sizes = ['normal', 'compact'];
 
 const iconDimensions = {
