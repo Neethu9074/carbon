@@ -25,7 +25,7 @@ const defaultCountMetric = dataSource => {
   };
 };
 
-const defaultOrder = dataSource => `${dataSource}_SUM_Agg`;
+const defaultOrder = 'count';
 
 export default compose(
   withUrlDependingState({
@@ -51,7 +51,7 @@ export default compose(
   }),
   withProps(({ dataSource, onChange, metrics, orderBy, orderDirection }) => ({
     availableMetrics: availableMetrics,
-    orderBy: orderBy || defaultOrder(dataSource),
+    orderBy: orderBy || defaultOrder,
     onChangeOrder: onChange,
     openMetricSelector: () => {
       setActiveDialog(
@@ -72,7 +72,7 @@ export default compose(
             });
             onChange({
               [metricsMatrixParameter]: metrics,
-              orderBy: orderByMetricStillExists ? orderBy : defaultOrder(dataSource),
+              orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
               orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
             });
           }}
@@ -120,7 +120,7 @@ export default compose(
           retrievalSize: 20
         },
         order: {
-          by: orderBy || defaultOrder(dataSource),
+          by: !orderBy || orderBy == 'count' ? `${dataSource}_SUM_Agg` : orderBy,
           direction: orderDirection
         },
         filter: {

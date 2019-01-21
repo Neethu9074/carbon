@@ -9,7 +9,7 @@ import Group from 'in-analyze/components/GroupedTraces/Group';
 import locals from './TraceGroupsTable.mless';
 
 export default function TraceGroupsTable(props) {
-  const { dataSource, orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
+  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
   const columnCount = 3 + metrics.length;
 
   return (
@@ -31,7 +31,7 @@ export default function TraceGroupsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName={`${dataSource}_SUM_Agg`}
+              technicalName="count"
               label="Count"
               noWrap
             />
