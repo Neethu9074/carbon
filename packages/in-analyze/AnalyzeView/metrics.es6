@@ -1,4 +1,5 @@
-import { percentage, number, millis } from 'in-services/formatters/number';
+import { newTimeMetric, withRawDataField } from 'in-analyze/metricDefinitionHelpers';
+import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 
 export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors', aggregation: 'MEAN' }];
@@ -15,13 +16,6 @@ const errorRate = {
   rawDataFormatter: number.forcedCompact
 };
 
-const latency = {
-  metric: 'latency',
-  label: 'Latency',
-  formatter: millis.forcedFixedCompact,
-  supportedAggregations: ['MEAN', 'MAX'],
-  min: 0,
-  preferredRenderer: Renderer.stackedArea
-};
+const latency = withRawDataField(newTimeMetric({ metric: 'latency', label: 'Latency' }));
 
 export const availableMetrics = [latency, errorRate];
