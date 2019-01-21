@@ -4,3 +4,4 @@ export const filterAddedTracker = createTracker('analyze.filter.added');
 export const filterChangedTracker = createTracker('analyze.filter.changed');
 export const filterRemovedTracker = createTracker('analyze.filter.removed');
 export const filterClearedTracker = createTracker('analyze.filter.cleared');
+export const metricChangedTracker = createTracker('analyze.metric.changed');

@@ -13,6 +13,7 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getChartGranularity } from 'in-applications/metrics';
+import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import theme from 'in-themes';
@@ -65,6 +66,10 @@ export default compose(
               (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
               false
             );
+            metricChangedTracker({
+              dataSource,
+              metrics: JSON.stringify(metrics)
+            });
             onChange({
               [metricsMatrixParameter]: metrics,
               orderBy: orderByMetricStillExists ? orderBy : defaultOrder(dataSource),
