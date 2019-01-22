@@ -60,6 +60,7 @@ export default compose(
           availableMetrics={availableMetrics}
           selectedMetrics={metrics}
           maximumNumberOfMetrics={5}
+          isGroupedView
           onSave={metrics => {
             const orderByMetricStillExists = metrics.reduce(
               (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,

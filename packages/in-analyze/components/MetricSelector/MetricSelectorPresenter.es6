@@ -104,6 +104,7 @@ export default function MetricSelectorPresenter({
         ))}
 
         {isGroupedView &&
+          supportAggregations(selectedMetricDefinition) &&
           newMetricForm.get('aggregation').map(field => (
             <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
               <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
@@ -170,7 +171,7 @@ export default function MetricSelectorPresenter({
                             <div className={locals.metricLeftSide}>
                               <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
                               {isGroupedView ? definition.label : definition.rawDataLabel}
-                              {isGroupedView && ` (${aggregationLabels[metric.aggregation]})`}
+                              {isGroupedView && metric.aggregation && ` (${aggregationLabels[metric.aggregation]})`}
                             </div>
                             <Tooltip content="Remove metric">
                               <SvgIcon
@@ -220,4 +221,10 @@ function getMetricsToShowInList(metrics, isGroupedView, availableMetrics) {
 
 function getTag(availableMetrics, metric) {
   return find(availableMetrics, m => m.metric === metric.metric).tag;
+}
+
+function supportAggregations(metricDefinition) {
+  return (
+    metricDefinition && metricDefinition.supportedAggregations && metricDefinition.supportedAggregations.length > 0
+  );
 }

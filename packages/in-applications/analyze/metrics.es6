@@ -2,13 +2,13 @@ import { newTimeMetric } from 'in-analyze/metricDefinitionHelpers';
 import { percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 
-export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors', aggregation: 'MEAN' }];
+export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors' }];
 
 const errorRate = {
   metric: 'errors',
   label: 'Error Rate',
   formatter: percentage,
-  supportedAggregations: ['MEAN'],
+  supportedAggregations: [],
   preferredRenderer: Renderer.stackedBar,
   min: 0
 };
