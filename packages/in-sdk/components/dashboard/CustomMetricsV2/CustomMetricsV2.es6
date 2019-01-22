@@ -89,10 +89,10 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return row.metrics[0].name;
+        return row.metrics[row.tableMetric || 0].name;
       },
       getContent(value, row) {
-        return row.metrics[0].formatter(value);
+        return row.metrics[row.tableMetric || 0].formatter(value);
       },
       getTimeWindowAggregation() {
         return 'mean';
@@ -329,6 +329,7 @@ function getDefaultRows({
           color: '#F75C03',
           setPinnedMetrics,
           pinnedMetrics,
+          tableMetric: 1,
           metrics: [
             {
               name: `${timersMetricPrefix}${name}.rate`,
