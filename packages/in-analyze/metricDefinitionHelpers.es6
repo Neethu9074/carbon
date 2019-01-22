@@ -6,7 +6,7 @@ export function newTimeMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: millis.forcedFixedCompact,
+    formatter: wrapToDiscardNegativeValues(millis.forcedFixedCompact),
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
     category,
     min: 0,
@@ -18,7 +18,7 @@ export function newSizeMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: bytes,
+    formatter: wrapToDiscardNegativeValues(bytes),
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
     category,
     min: 0,
@@ -30,7 +30,7 @@ export function newNumberMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: number.forcedCompact,
+    formatter: wrapToDiscardNegativeValues(number.forcedCompact),
     supportedAggregations: ['SUM'],
     category,
     min: 0,
@@ -44,4 +44,11 @@ export function withRawDataField(metricDefinition, opts = emptyObject) {
   metricDefinition.rawDataFormatter = opts.rawDataFormatter || metricDefinition.formatter.detailed;
   metricDefinition.tag = opts.tag;
   return metricDefinition;
+}
+
+function wrapToDiscardNegativeValues(formatter) {
+  return {
+    compact: v => (v < 0 ? 'N/A' : formatter.compact(v)),
+    detailed: v => (v < 0 ? 'N/A' : formatter.detailed(v))
+  };
 }
