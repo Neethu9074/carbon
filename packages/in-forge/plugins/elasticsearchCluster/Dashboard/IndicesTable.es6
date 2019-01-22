@@ -12,6 +12,13 @@ import {
   number
 } from 'in-services/formatters/number';
 
+function optionalCountFormatter(v) {
+  if (v < 0) {
+    return 'N/A';
+  }
+  return number.compact(v);
+}
+
 const cols = [
   {
     title: 'Index',
@@ -24,34 +31,22 @@ const cols = [
   },
   {
     title: 'Shards',
-    type: 'metric',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getValue(row) {
+        return row.shards || -1;
       },
-      getMetricName(row) {
-        return `index.${row.name}.number_of_shards`;
-      },
-      getContent: withSiMultiplyPrefixZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+      getContent: optionalCountFormatter
     }
   },
   {
     title: 'Replicas',
-    type: 'metric',
+    type: 'number',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
+      getValue(row) {
+        return row.replicas;
       },
-      getMetricName(row) {
-        return `index.${row.name}.number_of_replicas`;
-      },
-      getContent: withSiMultiplyPrefixZeroDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+      getContent: optionalCountFormatter
     }
   },
   {
@@ -138,15 +133,19 @@ const cols = [
 
 export default function IndicesTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  const shards = snapshot.getIn(['data', 'index.shards'], emptyList);
+  const replicas = snapshot.getIn(['data', 'index.replicas'], emptyList);
   const rows = snapshot
     .getIn(['data', 'index_names'], emptyList)
     .toArray()
-    .map(name => {
+    .map((name, i) => {
       return {
         key: name,
         name,
         timeConfig,
-        snapshotId
+        snapshotId,
+        shards: shards.get(i),
+        replicas: replicas.get(i)
       };
     });
 

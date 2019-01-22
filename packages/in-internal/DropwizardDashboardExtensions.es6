@@ -60,9 +60,14 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
         </Button>
 
         {container.get('label').includes('filler') && (
-          <Button href={`${adminUrl}/admin/entity-creation-rate-limiter/physical`} target="_blank">
-            Physical Circuit Breaker
-          </Button>
+          <Fragment>
+            <Button href={`${adminUrl}/admin/entity-creation-rate-limiter/physical`} target="_blank">
+              Physical Circuit Breaker
+            </Button>
+            <Button href={`${adminUrl}/admin/metric-explosions`} target="_blank">
+              Metric Explosions
+            </Button>
+          </Fragment>
         )}
 
         {container.get('label').includes('appdata-processor') && (
