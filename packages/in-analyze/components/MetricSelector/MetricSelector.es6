@@ -1,5 +1,6 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
+import { find } from 'lodash';
 
 import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/MetricSelectorPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -17,59 +18,76 @@ export default compose(
     ],
     reducerName: 'onChange'
   }),
-  withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave }) => ({
-    onMetricChange: v =>
-      onChange({
-        newMetricForm: newMetricForm.updateIn(['metric'], f => f.setValue(v).setTouched(true))
-      }),
-    onAggregationChange: v =>
-      onChange({
-        newMetricForm: newMetricForm.updateIn(['aggregation'], f => f.setValue(v).setTouched(true))
-      }),
-    onRemoveMetric: metric =>
-      onChange({
-        selectedMetricsForm: selectedMetricsForm.setValue(selectedMetricsForm.value.filter(m => m !== metric))
-      }),
-    onSwitchMetricPosition: (oldPosition, newPosition) => {
-      const metrics = selectedMetricsForm.value.slice();
-      metrics.splice(oldPosition, 1);
-      metrics.splice(newPosition, 0, selectedMetricsForm.value[oldPosition]);
-      onChange({
-        selectedMetricsForm: selectedMetricsForm.setValue(metrics)
-      });
-    },
-    onAddMetric: e => {
-      stopPropagationAndPreventDefault(e);
-      if (!newMetricForm.hierarchyValid) {
+  withProps(
+    ({ onChange, newMetricForm, selectedMetricsForm, onSave, availableMetrics, requiresMetricAggregations }) => ({
+      onMetricChange: v =>
         onChange({
-          newMetricForm: newMetricForm.setTouched(true, { recurse: true })
-        });
-        return;
-      }
-
-      const metric = newMetricForm.get('metric').value;
-      const aggregation = newMetricForm.get('aggregation').value;
-      onChange({
-        newMetricForm: getEmptyNewForm(),
-        selectedMetricsForm: selectedMetricsForm.setValue(
-          selectedMetricsForm.value
-            // avoid duplicates
-            .filter(m => m.metric !== metric || m.aggregation !== aggregation)
-            // add new metric
-            .concat({
-              metric,
-              aggregation
+          newMetricForm: newMetricForm
+            .updateIn(['metric'], f => f.setValue(v).setTouched(true))
+            .updateIn(['aggregation'], f =>
+              f.setValue(find(availableMetrics, m => m.metric === v).supportedAggregations[0])
+            )
+        }),
+      onAggregationChange: v =>
+        onChange({
+          newMetricForm: newMetricForm.updateIn(['aggregation'], f => f.setValue(v).setTouched(true))
+        }),
+      onRemoveMetric: metric =>
+        onChange({
+          selectedMetricsForm: selectedMetricsForm.setValue(
+            selectedMetricsForm.value.filter(m => {
+              if (requiresMetricAggregations !== false) {
+                return m !== metric;
+              }
+              // When coming from the grouped to the ungrouped view, then it can be that the same
+              // metric is configured using various aggregations. In the ungrouped view, we are
+              // only showing one entry in the list for this metric. A removal of that metric
+              // must remove all configured metrics with that name.
+              return m.metric !== metric.metric;
             })
-        )
-      });
-    },
-    onClose: close,
-    onSave: e => {
-      stopPropagationAndPreventDefault(e);
-      onSave(selectedMetricsForm.value);
-      close();
-    }
-  }))
+          )
+        }),
+      onSwitchMetricPosition: (oldPosition, newPosition) => {
+        const metrics = selectedMetricsForm.value.slice();
+        metrics.splice(oldPosition, 1);
+        metrics.splice(newPosition, 0, selectedMetricsForm.value[oldPosition]);
+        onChange({
+          selectedMetricsForm: selectedMetricsForm.setValue(metrics)
+        });
+      },
+      onAddMetric: e => {
+        stopPropagationAndPreventDefault(e);
+        if (!newMetricForm.hierarchyValid) {
+          onChange({
+            newMetricForm: newMetricForm.setTouched(true, { recurse: true })
+          });
+          return;
+        }
+
+        const metric = newMetricForm.get('metric').value;
+        const aggregation = newMetricForm.get('aggregation').value;
+        onChange({
+          newMetricForm: getEmptyNewForm(),
+          selectedMetricsForm: selectedMetricsForm.setValue(
+            selectedMetricsForm.value
+              // avoid duplicates
+              .filter(m => m.metric !== metric || m.aggregation !== aggregation)
+              // add new metric
+              .concat({
+                metric,
+                aggregation
+              })
+          )
+        });
+      },
+      onClose: close,
+      onSave: e => {
+        stopPropagationAndPreventDefault(e);
+        onSave(selectedMetricsForm.value);
+        close();
+      }
+    })
+  )
 )(MetricSelectorPresenter);
 
 function getInitialState({ selectedMetrics, maximumNumberOfMetrics }) {

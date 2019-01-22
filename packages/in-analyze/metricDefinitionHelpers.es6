@@ -42,5 +42,6 @@ export function withRawDataField(metricDefinition, opts = emptyObject) {
   metricDefinition.rawDataField = opts.rawDataField || metricDefinition.metric;
   metricDefinition.rawDataLabel = opts.rawDataLabel || metricDefinition.label;
   metricDefinition.rawDataFormatter = opts.rawDataFormatter || metricDefinition.formatter;
+  metricDefinition.tag = opts.tag;
   return metricDefinition;
 }

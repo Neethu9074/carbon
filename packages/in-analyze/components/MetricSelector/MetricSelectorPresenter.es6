@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { find, groupBy, uniqBy } from 'lodash';
 import React, { Fragment } from 'react';
-import { find, groupBy } from 'lodash';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -42,7 +42,8 @@ export default function MetricSelectorPresenter({
   onAddMetric,
   onSwitchMetricPosition,
   onSave,
-  onClose
+  onClose,
+  requiresMetricAggregations
 }) {
   const selectedMetricDefinition = find(availableMetrics, m => m.metric === newMetricForm.get('metric').value);
 
@@ -94,32 +95,33 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        {newMetricForm.get('aggregation').map(field => (
-          <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
-            <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
-              Aggregation
-            </Label>
-            <Select
-              id="metric-select-aggregation"
-              value={field.value}
-              onChange={e => onAggregationChange(e.target.value)}
-              hasError={!field.valid && field.touched}
-              disabled={!selectedMetricDefinition}
-            >
-              <option value="" disabled>
-                Please select
-              </option>
+        {requiresMetricAggregations !== false &&
+          newMetricForm.get('aggregation').map(field => (
+            <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
+              <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
+                Aggregation
+              </Label>
+              <Select
+                id="metric-select-aggregation"
+                value={field.value}
+                onChange={e => onAggregationChange(e.target.value)}
+                hasError={!field.valid && field.touched}
+                disabled={!selectedMetricDefinition}
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
 
-              {selectedMetricDefinition &&
-                selectedMetricDefinition.supportedAggregations.map(aggregation => (
-                  <option value={aggregation} key={aggregation}>
-                    {aggregationLabels[aggregation]}
-                  </option>
-                ))}
-            </Select>
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+                {selectedMetricDefinition &&
+                  selectedMetricDefinition.supportedAggregations.map(aggregation => (
+                    <option value={aggregation} key={aggregation}>
+                      {aggregationLabels[aggregation]}
+                    </option>
+                  ))}
+              </Select>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
 
         <Button
           type="submit"
@@ -143,7 +145,7 @@ export default function MetricSelectorPresenter({
             <Droppable droppableId="droppable">
               {provided => (
                 <ul className={locals.metricList} ref={provided.innerRef}>
-                  {selectedMetricsForm.value.map((metric, i) => {
+                  {getMetricsToShowInList(selectedMetricsForm.value, requiresMetricAggregations).map((metric, i) => {
                     const definition = find(availableMetrics, m => m.metric === metric.metric);
                     return (
                       <Draggable key={i} draggableId={i} index={i}>
@@ -156,7 +158,8 @@ export default function MetricSelectorPresenter({
                           >
                             <div className={locals.metricLeftSide}>
                               <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
-                              {definition ? definition.label : metric.metric} ({aggregationLabels[metric.aggregation]})
+                              {definition ? definition.label : metric.metric}
+                              {requiresMetricAggregations !== false && ` (${aggregationLabels[metric.aggregation]})`}
                             </div>
                             <Tooltip content="Remove metric">
                               <SvgIcon
@@ -193,4 +196,11 @@ export default function MetricSelectorPresenter({
       </div>
     </Dialog>
   );
+}
+
+function getMetricsToShowInList(metrics, requiresMetricAggregations) {
+  if (requiresMetricAggregations !== false) {
+    return metrics;
+  }
+  return uniqBy(metrics, m => m.metric);
 }
