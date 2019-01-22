@@ -33,7 +33,7 @@ export default compose(
   withProps(({ metrics, location }) => ({
     metrics: metrics || defaultMetrics[getMatrixParameter(location, analyzePath, beaconTypeMatrixParameter)]
   })),
-  withProps(({ beaconType, onChange, metrics, orderBy, orderDirection, requiresMetricAggregations }) => ({
+  withProps(({ beaconType, onChange, metrics, orderBy, orderDirection, isGroupedView }) => ({
     availableMetrics: availableMetrics[beaconType],
     onChangeOrder: onChange,
     openMetricSelector: () => {
@@ -44,7 +44,7 @@ export default compose(
           availableMetrics={availableMetrics[beaconType]}
           selectedMetrics={metrics}
           maximumNumberOfMetrics={5}
-          requiresMetricAggregations={requiresMetricAggregations}
+          isGroupedView={isGroupedView}
           onSave={metrics => {
             const orderByMetricStillExists = metrics.reduce(
               (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,

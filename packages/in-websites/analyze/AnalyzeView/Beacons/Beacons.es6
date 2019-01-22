@@ -12,7 +12,7 @@ import cursorPaginated from 'in-hoc/cursorPaginated';
 
 export default compose(
   withProps({
-    requiresMetricAggregations: false
+    isGroupedView: false
   }),
   metricSelectionHocs,
   cursorPaginated({

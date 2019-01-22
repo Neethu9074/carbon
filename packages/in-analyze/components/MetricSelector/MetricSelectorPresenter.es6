@@ -43,11 +43,11 @@ export default function MetricSelectorPresenter({
   onSwitchMetricPosition,
   onSave,
   onClose,
-  requiresMetricAggregations
+  isGroupedView
 }) {
   const selectedMetricDefinition = find(availableMetrics, m => m.metric === newMetricForm.get('metric').value);
 
-  const groupedAvailableMetrics = groupBy(availableMetrics, m => m.category || '');
+  const groupedAvailableMetrics = groupBy(availableMetrics.filter(m => isGroupedView || m.tag), m => m.category || '');
 
   return (
     <Dialog title={title} onClose={onClose}>
@@ -74,9 +74,9 @@ export default function MetricSelectorPresenter({
               {Object.keys(groupedAvailableMetrics)
                 .sort(compareIgnoreCase)
                 .map(group => {
-                  const options = groupedAvailableMetrics[group].map(({ metric, label }) => (
+                  const options = groupedAvailableMetrics[group].map(({ metric, label, rawDataLabel }) => (
                     <option value={metric} key={metric}>
-                      {label}
+                      {isGroupedView ? label : rawDataLabel}
                     </option>
                   ));
 
@@ -95,7 +95,7 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        {requiresMetricAggregations !== false &&
+        {isGroupedView &&
           newMetricForm.get('aggregation').map(field => (
             <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
               <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
@@ -145,35 +145,37 @@ export default function MetricSelectorPresenter({
             <Droppable droppableId="droppable">
               {provided => (
                 <ul className={locals.metricList} ref={provided.innerRef}>
-                  {getMetricsToShowInList(selectedMetricsForm.value, requiresMetricAggregations).map((metric, i) => {
-                    const definition = find(availableMetrics, m => m.metric === metric.metric);
-                    return (
-                      <Draggable key={i} draggableId={i} index={i}>
-                        {provided => (
-                          <li
-                            className={locals.metric}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <div className={locals.metricLeftSide}>
-                              <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
-                              {definition ? definition.label : metric.metric}
-                              {requiresMetricAggregations !== false && ` (${aggregationLabels[metric.aggregation]})`}
-                            </div>
-                            <Tooltip content="Remove metric">
-                              <SvgIcon
-                                type="lib_openclose_cancel"
-                                width={16}
-                                className={locals.removeIcon}
-                                onClick={() => onRemoveMetric(metric)}
-                              />
-                            </Tooltip>
-                          </li>
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                  {getMetricsToShowInList(selectedMetricsForm.value, isGroupedView, availableMetrics).map(
+                    (metric, i) => {
+                      const definition = find(availableMetrics, m => m.metric === metric.metric);
+                      return (
+                        <Draggable key={i} draggableId={i} index={i}>
+                          {provided => (
+                            <li
+                              className={locals.metric}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <div className={locals.metricLeftSide}>
+                                <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
+                                {isGroupedView ? definition.label : definition.rawDataLabel}
+                                {isGroupedView && ` (${aggregationLabels[metric.aggregation]})`}
+                              </div>
+                              <Tooltip content="Remove metric">
+                                <SvgIcon
+                                  type="lib_openclose_cancel"
+                                  width={16}
+                                  className={locals.removeIcon}
+                                  onClick={() => onRemoveMetric(metric)}
+                                />
+                              </Tooltip>
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
 
                   {provided.placeholder}
                 </ul>
@@ -198,9 +200,9 @@ export default function MetricSelectorPresenter({
   );
 }
 
-function getMetricsToShowInList(metrics, requiresMetricAggregations) {
-  if (requiresMetricAggregations !== false) {
+function getMetricsToShowInList(metrics, isGroupedView, availableMetrics) {
+  if (isGroupedView) {
     return metrics;
   }
-  return uniqBy(metrics, m => m.metric);
+  return uniqBy(metrics, m => m.metric).filter(m => find(availableMetrics, metric => m.metric === metric.metric).tag);
 }

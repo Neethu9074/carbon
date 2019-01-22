@@ -25,7 +25,7 @@ const defaultCountMetric = {
 
 export default compose(
   withProps({
-    requiresMetricAggregations: true
+    isGroupedView: true
   }),
   metricSelectionHocs,
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
