@@ -5,6 +5,7 @@ import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
+import { ineum } from 'in-services/eum';
 
 const mixpanel = window.mixpanel;
 const registeredTrackers = [];
@@ -63,7 +64,13 @@ export function createTracker(event, defaultProperties = {}) {
   if (!mixpanel) {
     return noop;
   }
-  return props => mixpanel.track(event, assign({}, props, defaultProperties));
+  return props => {
+    const eventProps = assign({}, props, defaultProperties);
+    ineum('reportEvent', event, {
+      meta: eventProps
+    });
+    mixpanel.track(event, eventProps);
+  };
 }
 
 export function createDurationTracker(event, defaultProperties = {}) {
