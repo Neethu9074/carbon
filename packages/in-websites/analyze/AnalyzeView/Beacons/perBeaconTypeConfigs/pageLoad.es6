@@ -8,15 +8,14 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import { Th, Td } from 'in-components/tables/sharedComponents';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
-import { millis } from 'in-services/formatters/number';
+
+export const perTypeColumnCount = 3;
 
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <Th>Path</Th>
-
       <Th>Website</Th>
-
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
@@ -24,15 +23,6 @@ export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
         defaultDirection="DESC"
         technicalName="beacon.timestamp"
         label="Timestamp"
-      />
-
-      <SortableColumn
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        onChangeOrder={onChangeOrder}
-        defaultDirection="DESC"
-        technicalName="beacon.duration"
-        label="onLoad Time"
       />
     </Fragment>
   );
@@ -66,10 +56,6 @@ export function TableRowColumns({ item }) {
 
       <Td>
         <TimestampCell time={item.beacon.timestamp} />
-      </Td>
-
-      <Td>
-        <span>{millis.fixedCompact(item.beacon.duration)}</span>
       </Td>
     </Fragment>
   );

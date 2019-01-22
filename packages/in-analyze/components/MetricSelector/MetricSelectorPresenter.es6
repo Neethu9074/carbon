@@ -55,6 +55,8 @@ export default function MetricSelectorPresenter({
     groupedAvailableMetrics = groupBy(metrics, m => m.category || '');
   }
 
+  const selectedMetricsToShow = getMetricsToShowInList(selectedMetricsForm.value, isGroupedView, availableMetrics);
+
   return (
     <Dialog title={title} onClose={onClose}>
       <p className={locals.help}>{help}</p>
@@ -139,49 +141,50 @@ export default function MetricSelectorPresenter({
         </Button>
       </form>
 
-      {selectedMetricsForm.value.length > 0 && (
+      {selectedMetricsToShow.length > 0 && (
         <Fragment>
           <h2 className={`${locals.header} ${locals.selectedMetricHeader}`}>Selected Metrics</h2>
 
           <TouchedMessages field={selectedMetricsForm} />
 
           <DragDropContext
-            onDragEnd={e => e.destination && onSwitchMetricPosition(e.source.index, e.destination.index)}
+            onDragEnd={e =>
+              e.destination &&
+              onSwitchMetricPosition(e.source.index, /** TODO translate positions */ e.destination.index)
+            }
           >
             <Droppable droppableId="droppable">
               {provided => (
                 <ul className={locals.metricList} ref={provided.innerRef}>
-                  {getMetricsToShowInList(selectedMetricsForm.value, isGroupedView, availableMetrics).map(
-                    (metric, i) => {
-                      const definition = find(availableMetrics, m => m.metric === metric.metric);
-                      return (
-                        <Draggable key={i} draggableId={i} index={i}>
-                          {provided => (
-                            <li
-                              className={locals.metric}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <div className={locals.metricLeftSide}>
-                                <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
-                                {isGroupedView ? definition.label : definition.rawDataLabel}
-                                {isGroupedView && ` (${aggregationLabels[metric.aggregation]})`}
-                              </div>
-                              <Tooltip content="Remove metric">
-                                <SvgIcon
-                                  type="lib_openclose_cancel"
-                                  width={16}
-                                  className={locals.removeIcon}
-                                  onClick={() => onRemoveMetric(metric)}
-                                />
-                              </Tooltip>
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
+                  {selectedMetricsToShow.map((metric, i) => {
+                    const definition = find(availableMetrics, m => m.metric === metric.metric);
+                    return (
+                      <Draggable key={i} draggableId={i} index={i}>
+                        {provided => (
+                          <li
+                            className={locals.metric}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <div className={locals.metricLeftSide}>
+                              <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
+                              {isGroupedView ? definition.label : definition.rawDataLabel}
+                              {isGroupedView && ` (${aggregationLabels[metric.aggregation]})`}
+                            </div>
+                            <Tooltip content="Remove metric">
+                              <SvgIcon
+                                type="lib_openclose_cancel"
+                                width={16}
+                                className={locals.removeIcon}
+                                onClick={() => onRemoveMetric(metric)}
+                              />
+                            </Tooltip>
+                          </li>
+                        )}
+                      </Draggable>
+                    );
+                  })}
 
                   {provided.placeholder}
                 </ul>

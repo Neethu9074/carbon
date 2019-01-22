@@ -11,13 +11,13 @@ import TimestampCell from 'in-analyze/components/TimestampCell';
 import { Th, Td } from 'in-components/tables/sharedComponents';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
 
+export const perTypeColumnCount = 3;
+
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <Th>Error Message</Th>
-
       <Th>Website</Th>
-
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}

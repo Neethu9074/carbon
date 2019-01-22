@@ -1,10 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
 import { compose, withProps } from 'recompose';
+import { find } from 'lodash';
 import React from 'react';
 
 import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
+import { createMetricSelectionHocs } from 'in-websites/analyze/AnalyzeView/metricSelectionHocs';
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
-import metricSelectionHocs from 'in-websites/analyze/AnalyzeView/metricSelectionHocs';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
@@ -14,7 +15,10 @@ export default compose(
   withProps({
     isGroupedView: false
   }),
-  metricSelectionHocs,
+  createMetricSelectionHocs({
+    defaultOrderBy: 'beacon.timestamp',
+    createOrderByMetricName: ({ metric, availableMetrics }) => find(availableMetrics, m => m.metric === metric).tag
+  }),
   cursorPaginated({
     getResettingProps: () => ['tagFilters', 'orderBy', 'orderDirection', 'timeConfig'],
     get: ({ tagFilters, timeConfig, cursor, orderBy, orderDirection }) =>

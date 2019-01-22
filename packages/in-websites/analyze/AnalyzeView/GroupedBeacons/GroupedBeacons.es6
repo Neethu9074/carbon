@@ -4,8 +4,8 @@ import React, { Fragment } from 'react';
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import { createMetricSelectionHocs } from 'in-websites/analyze/AnalyzeView/metricSelectionHocs';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import metricSelectionHocs from 'in-websites/analyze/AnalyzeView/metricSelectionHocs';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
@@ -27,7 +27,10 @@ export default compose(
   withProps({
     isGroupedView: true
   }),
-  metricSelectionHocs,
+  createMetricSelectionHocs({
+    defaultOrderBy: 'beaconCount_SUM_Agg',
+    createOrderByMetricName: ({ metric, aggregation }) => `${metric}_${aggregation}_Agg`
+  }),
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
     getResettingProps: () => [
