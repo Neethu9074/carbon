@@ -47,7 +47,13 @@ export default function MetricSelectorPresenter({
 }) {
   const selectedMetricDefinition = find(availableMetrics, m => m.metric === newMetricForm.get('metric').value);
 
-  const groupedAvailableMetrics = groupBy(availableMetrics.filter(m => isGroupedView || m.tag), m => m.category || '');
+  let groupedAvailableMetrics;
+  if (isGroupedView) {
+    groupedAvailableMetrics = groupBy(availableMetrics, m => m.category || '');
+  } else {
+    const metrics = uniqBy(availableMetrics.filter(m => m.tag), m => m.tag);
+    groupedAvailableMetrics = groupBy(metrics, m => m.category || '');
+  }
 
   return (
     <Dialog title={title} onClose={onClose}>
@@ -204,5 +210,11 @@ function getMetricsToShowInList(metrics, isGroupedView, availableMetrics) {
   if (isGroupedView) {
     return metrics;
   }
-  return uniqBy(metrics, m => m.metric).filter(m => find(availableMetrics, metric => m.metric === metric.metric).tag);
+
+  metrics = metrics.filter(m => getTag(availableMetrics, m));
+  return uniqBy(metrics, m => getTag(availableMetrics, m));
+}
+
+function getTag(availableMetrics, metric) {
+  return find(availableMetrics, m => m.metric === metric.metric).tag;
 }

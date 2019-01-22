@@ -142,56 +142,56 @@ export const availableMetrics = {
     errorRate,
     uniqueUsers,
 
-    withRawDataField(newNumberMetric({ metric: 'http1xx', label: 'HTTP 1XX Count', category: 'HTTP Status' }), {
+    withRawDataField(newNumberMetric({ metric: 'http1xx', label: 'HTTP 1XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
       rawDataLabel: 'HTTP Status',
       rawDataFormatter: identity,
       tag: 'beacon.http.status'
     }),
-    withRawDataField(newNumberMetric({ metric: 'http2xx', label: 'HTTP 2XX Count', category: 'HTTP Status' }), {
+    withRawDataField(newNumberMetric({ metric: 'http2xx', label: 'HTTP 2XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
       rawDataLabel: 'HTTP Status',
       rawDataFormatter: identity,
       tag: 'beacon.http.status'
     }),
-    withRawDataField(newNumberMetric({ metric: 'http3xx', label: 'HTTP 3XX Count', category: 'HTTP Status' }), {
+    withRawDataField(newNumberMetric({ metric: 'http3xx', label: 'HTTP 3XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
       rawDataLabel: 'HTTP Status',
       rawDataFormatter: identity,
       tag: 'beacon.http.status'
     }),
-    withRawDataField(newNumberMetric({ metric: 'http4xx', label: 'HTTP 4XX Count', category: 'HTTP Status' }), {
+    withRawDataField(newNumberMetric({ metric: 'http4xx', label: 'HTTP 4XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
       rawDataLabel: 'HTTP Status',
       rawDataFormatter: identity,
       tag: 'beacon.http.status'
     }),
-    withRawDataField(newNumberMetric({ metric: 'http5xx', label: 'HTTP 5XX Count', category: 'HTTP Status' }), {
+    withRawDataField(newNumberMetric({ metric: 'http5xx', label: 'HTTP 5XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
       rawDataLabel: 'HTTP Status',
       rawDataFormatter: identity,
       tag: 'beacon.http.status'
     }),
 
-    withRawDataField(newNumberMetric({ metric: 'httpGet', label: 'HTTP GET Count', category: 'HTTP Method' }), {
+    withRawDataField(newNumberMetric({ metric: 'httpGet', label: 'HTTP GET Count', category: 'HTTP' }), {
       rawDataField: 'httpCallMethod',
       rawDataLabel: 'HTTP Method',
       rawDataFormatter: identity,
       tag: 'beacon.http.method'
     }),
-    withRawDataField(newNumberMetric({ metric: 'httpPost', label: 'HTTP POST Count', category: 'HTTP Method' }), {
+    withRawDataField(newNumberMetric({ metric: 'httpPost', label: 'HTTP POST Count', category: 'HTTP' }), {
       rawDataField: 'httpCallMethod',
       rawDataLabel: 'HTTP Method',
       rawDataFormatter: identity,
       tag: 'beacon.http.method'
     }),
-    withRawDataField(newNumberMetric({ metric: 'httpPut', label: 'HTTP PUT Count', category: 'HTTP Method' }), {
+    withRawDataField(newNumberMetric({ metric: 'httpPut', label: 'HTTP PUT Count', category: 'HTTP' }), {
       rawDataField: 'httpCallMethod',
       rawDataLabel: 'HTTP Method',
       rawDataFormatter: identity,
       tag: 'beacon.http.method'
     }),
-    withRawDataField(newNumberMetric({ metric: 'httpDelete', label: 'HTTP DELETE Count', category: 'HTTP Method' }), {
+    withRawDataField(newNumberMetric({ metric: 'httpDelete', label: 'HTTP DELETE Count', category: 'HTTP' }), {
       rawDataField: 'httpCallMethod',
       rawDataLabel: 'HTTP Method',
       rawDataFormatter: identity,
