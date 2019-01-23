@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { find, groupBy, uniqBy } from 'lodash';
+import { find, groupBy, uniqBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -83,7 +83,14 @@ export default function MetricSelectorPresenter({
                 .sort(compareIgnoreCase)
                 .map(group => {
                   const options = groupedAvailableMetrics[group].map(({ metric, label, rawDataLabel }) => (
-                    <option value={metric} key={metric}>
+                    <option
+                      value={metric}
+                      key={metric}
+                      disabled={isMetricAndAllAggregationsSelected(
+                        selectedMetricsToShow,
+                        find(availableMetrics, m => m.metric === metric)
+                      )}
+                    >
                       {isGroupedView ? label : rawDataLabel}
                     </option>
                   ));
@@ -123,7 +130,15 @@ export default function MetricSelectorPresenter({
 
                 {selectedMetricDefinition &&
                   selectedMetricDefinition.supportedAggregations.map(aggregation => (
-                    <option value={aggregation} key={aggregation}>
+                    <option
+                      value={aggregation}
+                      key={aggregation}
+                      disabled={isAggregationSelected(
+                        selectedMetricsToShow,
+                        selectedMetricDefinition.metric,
+                        aggregation
+                      )}
+                    >
                       {aggregationLabels[aggregation]}
                     </option>
                   ))}
@@ -227,4 +242,18 @@ function supportAggregations(metricDefinition) {
   return (
     metricDefinition && metricDefinition.supportedAggregations && metricDefinition.supportedAggregations.length > 0
   );
+}
+
+function isMetricAndAllAggregationsSelected(selectedMetrics, metricDefinition) {
+  if (supportAggregations(metricDefinition)) {
+    return every(metricDefinition.supportedAggregations, aggregation =>
+      isAggregationSelected(selectedMetrics, metricDefinition.metric, aggregation)
+    );
+  } else {
+    return findIndex(selectedMetrics, { metric: metricDefinition.metric }) > -1;
+  }
+}
+
+function isAggregationSelected(selectedMetrics, metric, aggregation) {
+  return findIndex(selectedMetrics, { metric, aggregation }) > -1;
 }
