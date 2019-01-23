@@ -66,7 +66,9 @@ export default compose(
 
     const availableMetrics = allAvailableMetrics[beaconType];
     const configuredMetrics = metrics || defaultMetrics[beaconType];
-    const metricsToShow = isGroupedView ? configuredMetrics : configuredMetrics.filter(m => getTag(m.metric));
+    const metricsToShow = isGroupedView
+      ? configuredMetrics
+      : configuredMetrics.filter(m => getTag(availableMetrics, m.metric));
 
     return {
       isGroupedView,

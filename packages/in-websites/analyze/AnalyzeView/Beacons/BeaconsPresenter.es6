@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { find, uniqBy } from 'lodash';
+import { find } from 'lodash';
 
 import {
   Table,
@@ -41,10 +41,7 @@ export default function BeaconsPresenter(props) {
     perTypeColumnCount
   } = props;
 
-  let metricsForTable = metrics.filter(m => getTag(availableMetrics, m));
-  metricsForTable = uniqBy(metricsForTable, m => getTag(availableMetrics, m));
-
-  const columnCount = perTypeColumnCount + metricsForTable.length;
+  const columnCount = perTypeColumnCount + metrics.length;
 
   return (
     <Fragment>
@@ -65,9 +62,9 @@ export default function BeaconsPresenter(props) {
           <Table tableInCard>
             <Thead>
               <Tr size="compact">
-                <TableHeaderColumns orderBy={orderBy} orderDirectio={orderDirection} onChangeOrder={onChangeOrder} />
+                <TableHeaderColumns orderBy={orderBy} orderDirection={orderDirection} onChangeOrder={onChangeOrder} />
 
-                {metricsForTable.map(metric => {
+                {metrics.map(metric => {
                   const definition = find(availableMetrics, m => m.metric === metric.metric);
 
                   return (
@@ -89,7 +86,7 @@ export default function BeaconsPresenter(props) {
                 <Tr key={item.beacon.beaconId} size="compact">
                   <TableRowColumns item={item} />
 
-                  {metricsForTable.map(metric => {
+                  {metrics.map(metric => {
                     const definition = find(availableMetrics, m => m.metric === metric.metric);
 
                     return (
@@ -109,9 +106,4 @@ export default function BeaconsPresenter(props) {
       </Sticky>
     </Fragment>
   );
-}
-
-function getTag(availableMetrics, metric) {
-  const definition = find(availableMetrics, m => m.metric === metric.metric);
-  return definition && definition.tag;
 }

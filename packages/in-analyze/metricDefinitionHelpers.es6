@@ -56,6 +56,6 @@ function wrapToDiscardNegativeValues(formatter) {
 }
 
 export function getTag(availableMetrics, metric) {
-  const definition = find(availableMetrics, m => m.metric === metric.metric);
+  const definition = find(availableMetrics, m => m.metric === metric);
   return definition && definition.tag;
 }

@@ -6,14 +6,19 @@ import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBea
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
+import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
 export default compose(
   cursorPaginated({
     getResettingProps: () => ['tagFilters', 'orderBy', 'orderDirection', 'timeConfig'],
-    get: ({ tagFilters, timeConfig, cursor, orderBy, orderDirection }) =>
-      getWebsiteBeacons({
+    get: ({ tagFilters, timeConfig, cursor, orderBy, orderDirection }) => {
+      if (orderBy === timestampMetricName) {
+        orderBy = 'beacon.timestamp';
+      }
+
+      return getWebsiteBeacons({
         pagination: {
           cursor,
           retrievalSize: 50
@@ -24,7 +29,8 @@ export default compose(
         },
         timeConfig,
         tagFilters
-      })
+      });
+    }
   }),
   withProps(({ beaconType }) => perBeaconTypeConfigs[beaconType])
 )(RawCalls);
