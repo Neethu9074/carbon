@@ -49,7 +49,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
         return {
           key: `timegauge${name}`,
           name,
-          type: 'gauge',
+          type: 'time gauge',
           snapshotId,
           timeConfig,
           color: '#D90368',
@@ -99,7 +99,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
         return {
           key: `functionCounter${name}`,
           name,
-          type: 'counter',
+          type: 'function counter',
           snapshotId,
           timeConfig,
           color: '#00CC66',
@@ -133,7 +133,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
           metrics: [
             {
               name: `micrometer.metrics.timer.${name}`,
-              label: 'Mean',
+              label: 'Value',
               formatter: timeByMillisTwoDecimalPlaces
             }
           ]
@@ -149,7 +149,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
         return {
           key: `functiontimer${name}`,
           name,
-          type: 'timer',
+          type: 'function timer',
           snapshotId,
           timeConfig,
           color: '#F75C03',
@@ -158,7 +158,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
           metrics: [
             {
               name: `micrometer.metrics.functionTimer.${name}`,
-              label: 'Mean',
+              label: 'Value',
               formatter: timeByMillisTwoDecimalPlaces
             }
           ]
@@ -174,7 +174,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
         return {
           key: `longTaskTimer${name}`,
           name,
-          type: 'timer',
+          type: 'long task timer',
           snapshotId,
           timeConfig,
           color: '#F75C03',
@@ -183,7 +183,7 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
           metrics: [
             {
               name: `micrometer.metrics.longTaskTimer.${name}`,
-              label: 'Mean',
+              label: 'Value',
               formatter: withSiPrefixZeroDecimalPlaces
             }
           ]
@@ -202,13 +202,13 @@ function getRows({ snapshot, timeConfig, setPinnedMetrics, pinnedMetrics }) {
           type: 'distribution',
           snapshotId,
           timeConfig,
-          color: '#F75C03',
+          color: '#f7b320',
           setPinnedMetrics,
           pinnedMetrics,
           metrics: [
             {
               name: `micrometer.metrics.distributionSummary.${name}`,
-              label: 'Mean',
+              label: 'Value',
               formatter: withSiPrefixThreeDecimalPlaces
             }
           ]
