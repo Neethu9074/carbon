@@ -11,7 +11,8 @@ export default function TopPodsList(props) {
       title="Top Pods"
       viewAllEntityName="pods"
       {...props}
-      metrics={['phase']}
+      metrics={['status']}
+      metricOrderDirection="ASC"
       labels={['Status']}
       getItems={getKubernetesPods}
       getItemHref$={item =>

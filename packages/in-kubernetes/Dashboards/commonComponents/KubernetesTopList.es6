@@ -40,6 +40,7 @@ function getList({
   nodeId,
   timeConfig,
   selectedMetric,
+  metricOrderDirection,
   getItems
 }) {
   return getItems({
@@ -49,7 +50,7 @@ function getList({
     },
     order: {
       by: selectedMetric,
-      direction: 'DESC'
+      direction: metricOrderDirection || 'DESC'
     },
     filter: {
       clusterId,
