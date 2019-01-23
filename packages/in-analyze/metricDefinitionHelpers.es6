@@ -1,3 +1,5 @@
+import { find } from 'lodash';
+
 import { millis, bytes, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -51,4 +53,9 @@ function wrapToDiscardNegativeValues(formatter) {
     compact: v => (v < 0 ? 'N/A' : formatter.compact(v)),
     detailed: v => (v < 0 ? 'N/A' : formatter.detailed(v))
   };
+}
+
+export function getTag(availableMetrics, metric) {
+  const definition = find(availableMetrics, m => m.metric === metric.metric);
+  return definition && definition.tag;
 }

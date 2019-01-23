@@ -1,5 +1,10 @@
 import React, { Fragment } from 'react';
 
+import {
+  timestampMetricName,
+  groupNameMetricName,
+  groupCountMetricName
+} from 'in-websites/analyze/AnalyzeView/metrics';
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumnHeaders';
 import Group from 'in-websites/analyze/AnalyzeView/GroupedBeacons/Group';
@@ -19,7 +24,7 @@ export default function GroupedBeaconsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
-              technicalName="name"
+              technicalName={groupNameMetricName}
               label="Group"
               noWrap
             />
@@ -28,7 +33,7 @@ export default function GroupedBeaconsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="beaconCount_SUM_Agg"
+              technicalName={groupCountMetricName}
               label="Count"
               noWrap
             />
@@ -37,7 +42,7 @@ export default function GroupedBeaconsTable(props) {
               orderDirection={orderDirection}
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
-              technicalName="earliestTimestamp"
+              technicalName={timestampMetricName}
               label="Earliest Timestamp"
               noWrap
             />

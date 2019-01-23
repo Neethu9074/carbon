@@ -9,7 +9,11 @@ import {
   beaconTimestamp,
   metrics,
   serializeMetrics,
-  deserializeMetrics
+  deserializeMetrics,
+  group,
+  serializeGroup,
+  deserializeGroup,
+  beaconType
 } from 'in-websites/navigation/matrix';
 import { websitePath, pageLoadViewPath, analyzePath } from 'in-websites/navigation/paths';
 
@@ -29,6 +33,7 @@ export const pageIdUrlParameter = {
 export const tagFiltersInDashboardUrlParameter = {
   path: websitePath,
   name: tagFilters,
+  as: tagFilters,
   initialState: [],
   parser: deserializeTagFilters,
   serializer: serializeTagFilters
@@ -37,23 +42,48 @@ export const tagFiltersInDashboardUrlParameter = {
 // ###################################
 // analyze view
 // ###################################
-export const groupedBeaconsMetricsUrlParameter = {
+export const analyzeTagFiltersUrlParameter = {
   path: analyzePath,
-  name: `groups.${metrics}`,
+  name: tagFilters,
+  as: 'tagFilters',
+  initialState: [],
+  parser: deserializeTagFilters,
+  serializer: serializeTagFilters
+};
+
+export const analyzeGroupingUrlParameter = {
+  path: analyzePath,
+  name: group,
+  as: 'group',
+  initialState: {},
+  parser: deserializeGroup,
+  serializer: serializeGroup
+};
+
+export const analyzeBeaconTypeUrlParameter = {
+  path: analyzePath,
+  name: beaconType,
+  as: 'beaconType',
+  initialState: 'pageLoad'
+};
+
+export const analyzeMetricsUrlParameter = {
+  path: analyzePath,
+  name: metrics,
   as: 'metrics',
   parser: deserializeMetrics,
   serializer: serializeMetrics
 };
 
-export const groupedBeaconsOrderByUrlParameter = {
+export const analyzeOrderByUrlParameter = {
   path: analyzePath,
-  name: 'groups.orderBy',
+  name: 'orderBy',
   as: 'orderBy'
 };
 
-export const groupedBeaconsOrderDirectionUrlParameter = {
+export const analyzeOrderDirectionUrlParameter = {
   path: analyzePath,
-  name: 'groups.orderDirection',
+  name: 'orderDirection',
   as: 'orderDirection'
 };
 

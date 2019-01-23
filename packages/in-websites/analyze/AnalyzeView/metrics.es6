@@ -3,6 +3,14 @@ import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { affectedUsers } from 'in-websites/formatters';
 
+export const timestampMetricName = 'timestamp';
+export const groupNameMetricName = 'name';
+export const groupCountMetricName = 'count';
+
+export function buildOrderByCriteria(metric, aggregation) {
+  return `${metric}_${aggregation}_Agg`;
+}
+
 export const defaultMetrics = {
   pageLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   resourceLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],

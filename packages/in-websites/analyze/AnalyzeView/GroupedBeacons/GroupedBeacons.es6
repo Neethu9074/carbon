@@ -1,10 +1,14 @@
-import { compose, withState, withProps } from 'recompose';
+import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 
+import {
+  timestampMetricName,
+  groupNameMetricName,
+  groupCountMetricName
+} from 'in-websites/analyze/AnalyzeView/metrics';
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
-import { createMetricSelectionHocs } from 'in-websites/analyze/AnalyzeView/metricSelectionHocs';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
@@ -24,13 +28,6 @@ const defaultCountMetric = {
 };
 
 export default compose(
-  withProps({
-    isGroupedView: true
-  }),
-  createMetricSelectionHocs({
-    defaultOrderBy: 'beaconCount_SUM_Agg',
-    createOrderByMetricName: ({ metric, aggregation }) => `${metric}_${aggregation}_Agg`
-  }),
   withState('isChartSectionExpanded', 'setIsChartSectionExpanded', false),
   cursorPaginated({
     getResettingProps: () => [
@@ -62,6 +59,14 @@ export default compose(
 
         return agg;
       }, {});
+
+      if (orderBy === timestampMetricName) {
+        orderBy = 'earliestTimestamp';
+      } else if (orderBy === groupNameMetricName) {
+        orderBy = 'name';
+      } else if (orderBy === groupCountMetricName) {
+        orderBy = 'beaconCount_SUM_Agg';
+      }
 
       return getWebsiteBeaconGroups({
         pagination: {
