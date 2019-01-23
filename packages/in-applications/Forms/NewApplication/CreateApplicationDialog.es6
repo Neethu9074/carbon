@@ -210,9 +210,22 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             </Label>
                             <OptionBox
                               icon="lib_application_downstream"
-                              title="Include Downstream Services"
-                              description="By checking this box you are including
-                              all services that fall downstream of this application defined by the tags above"
+                              title="Include All Downstream Services"
+                              description={
+                                <Fragment>
+                                  By checking the box below, you are including in the application all services that
+                                  transitively fall downstream of those matched by the tags specified above, instead of
+                                  only the immediate
+                                  <Pill color={getColor('DATABASE')} kind="light">
+                                    DATABASE
+                                  </Pill>
+                                  and
+                                  <Pill color={getColor('MESSAGING')} kind="light">
+                                    MESSAGING
+                                  </Pill>
+                                  ones.
+                                </Fragment>
+                              }
                               checked={field.value == 'ALL_DOWNSTREAM'}
                               onChange={checked =>
                                 setValue(['scope'], checked ? 'ALL_DOWNSTREAM' : 'INCLUDE_DATA_STORES', form)
