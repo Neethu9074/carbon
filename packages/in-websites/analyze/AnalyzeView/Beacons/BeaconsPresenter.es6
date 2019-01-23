@@ -112,5 +112,6 @@ export default function BeaconsPresenter(props) {
 }
 
 function getTag(availableMetrics, metric) {
-  return find(availableMetrics, m => m.metric === metric.metric).tag;
+  const definition = find(availableMetrics, m => m.metric === metric.metric);
+  return definition && definition.tag;
 }
