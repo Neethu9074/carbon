@@ -45,7 +45,8 @@ export function deleteApplicationConfig(id) {
 export function createNewApplicationConfig() {
   return {
     label: '',
-    matchSpecification: []
+    matchSpecification: [],
+    scope: 'INCLUDE_DATA_STORES'
   };
 }
 

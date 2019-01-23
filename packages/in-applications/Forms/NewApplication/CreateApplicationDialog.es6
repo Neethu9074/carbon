@@ -14,6 +14,7 @@ import { getTagFilterListForBackendSubscription, operatorBlacklists } from 'in-a
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
+import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -104,7 +105,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                     content: (
                       <Fragment>
                         <DescriptionText>
-                          {`For example where key is "docker.label" and value is "environment=Production Blue", 
+                          {`For example where key is "docker.label" and value is "environment=Production Blue",
                             or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
                           <Pill color={getColor('DATABASE')} kind="light">
                             DATABASE
@@ -201,6 +202,24 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
                           }))}
                         />
+
+                        {form.get('scope').map(field => (
+                          <FormGroup className={locals.scopeForm}>
+                            <Label htmlFor="scope" hasError={!field.valid && field.touched}>
+                              By checking this box you are including all downstream services to this application.
+                            </Label>
+                            <OptionBox
+                              icon="lib_application_downstream"
+                              title="Include Downstream Services"
+                              description="By checking this box you are including
+                              all services that fall downstream of this application defined by the tags above"
+                              checked={field.value == 'ALL_DOWNSTREAM'}
+                              onChange={checked =>
+                                setValue(['scope'], checked ? 'ALL_DOWNSTREAM' : 'INCLUDE_DATA_STORES', form)
+                              }
+                            />
+                          </FormGroup>
+                        ))}
                       </Fragment>
                     )
                   }
@@ -241,6 +260,12 @@ function getInitialForm(application) {
           validator: matchSpecificationValidator
         })
       )
+    )
+    .put(
+      'scope',
+      createField({
+        value: application.scope
+      })
     );
 }
 
