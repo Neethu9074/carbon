@@ -1,5 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import { compose, withProps } from 'recompose';
+import { find } from 'lodash';
 import React from 'react';
 
 import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
@@ -10,12 +11,21 @@ import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 
+const defaultOrderBy = 'beacon.timestamp';
+
 export default compose(
   cursorPaginated({
     getResettingProps: () => ['tagFilters', 'orderBy', 'orderDirection', 'timeConfig'],
-    get: ({ tagFilters, timeConfig, cursor, orderBy, orderDirection }) => {
+    get: ({ tagFilters, timeConfig, cursor, orderBy, orderDirection, availableMetrics }) => {
       if (orderBy === timestampMetricName) {
-        orderBy = 'beacon.timestamp';
+        orderBy = defaultOrderBy;
+      } else {
+        const definition = find(availableMetrics, m => orderBy.indexOf(m.metric) === 0);
+        if (definition) {
+          orderBy = definition.tag || defaultOrderBy;
+        } else {
+          orderBy = defaultOrderBy;
+        }
       }
 
       return getWebsiteBeacons({

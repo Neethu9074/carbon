@@ -13,6 +13,7 @@ import {
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { buildOrderByCriteria } from 'in-websites/analyze/AnalyzeView/metrics';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
@@ -74,7 +75,7 @@ export default function BeaconsPresenter(props) {
                       orderDirection={orderDirection}
                       onChangeOrder={onChangeOrder}
                       defaultDirection={definition.defaultOrderDirection || 'DESC'}
-                      technicalName={definition.tag}
+                      technicalName={buildOrderByCriteria(metric.metric, metric.aggregation)}
                       label={definition.rawDataLabel}
                     />
                   );
