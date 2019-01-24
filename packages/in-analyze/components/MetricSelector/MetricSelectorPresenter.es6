@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { find, groupBy, uniqBy, findIndex, every } from 'lodash';
+import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -46,16 +46,7 @@ export default function MetricSelectorPresenter({
   isGroupedView
 }) {
   const selectedMetricDefinition = find(availableMetrics, m => m.metric === newMetricForm.get('metric').value);
-
-  let groupedAvailableMetrics;
-  if (isGroupedView) {
-    groupedAvailableMetrics = groupBy(availableMetrics, m => m.category || '');
-  } else {
-    const metrics = uniqBy(availableMetrics.filter(m => m.tag), m => m.tag);
-    groupedAvailableMetrics = groupBy(metrics, m => m.category || '');
-  }
-
-  const selectedMetricsToShow = getMetricsToShowInList(selectedMetricsForm.value, isGroupedView, availableMetrics);
+  const groupedAvailableMetrics = groupBy(availableMetrics, m => m.category || '');
 
   return (
     <Dialog title={title} onClose={onClose}>
@@ -82,16 +73,18 @@ export default function MetricSelectorPresenter({
               {Object.keys(groupedAvailableMetrics)
                 .sort(compareIgnoreCase)
                 .map(group => {
-                  const options = groupedAvailableMetrics[group].map(({ metric, label, rawDataLabel }) => (
+                  const options = groupedAvailableMetrics[group].map(({ metric, label }) => (
                     <option
                       value={metric}
                       key={metric}
-                      disabled={isMetricAndAllAggregationsSelected(
-                        selectedMetricsToShow,
-                        find(availableMetrics, m => m.metric === metric)
-                      )}
+                      disabled={
+                        isMetricAndAllAggregationsSelected(
+                          selectedMetricsForm.value,
+                          find(availableMetrics, m => m.metric === metric)
+                        ) && field.value !== metric
+                      }
                     >
-                      {isGroupedView ? label : rawDataLabel}
+                      {label}
                     </option>
                   ));
 
@@ -110,8 +103,9 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        {isGroupedView &&
-          supportAggregations(selectedMetricDefinition) &&
+        {supportAggregations(selectedMetricDefinition) &&
+          (selectedMetricDefinition.supportedAggregations.length > 1 ||
+            newMetricForm.get('aggregation').value !== selectedMetricDefinition.supportedAggregations[0]) &&
           newMetricForm.get('aggregation').map(field => (
             <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
               <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
@@ -133,11 +127,13 @@ export default function MetricSelectorPresenter({
                     <option
                       value={aggregation}
                       key={aggregation}
-                      disabled={isAggregationSelected(
-                        selectedMetricsToShow,
-                        selectedMetricDefinition.metric,
-                        aggregation
-                      )}
+                      disabled={
+                        isAggregationSelected(
+                          selectedMetricsForm.value,
+                          selectedMetricDefinition.metric,
+                          aggregation
+                        ) && field.value !== aggregation
+                      }
                     >
                       {aggregationLabels[aggregation]}
                     </option>
@@ -157,22 +153,19 @@ export default function MetricSelectorPresenter({
         </Button>
       </form>
 
-      {selectedMetricsToShow.length > 0 && (
+      {selectedMetricsForm.value.length > 0 && (
         <Fragment>
           <h2 className={`${locals.header} ${locals.selectedMetricHeader}`}>Selected Metrics</h2>
 
           <TouchedMessages field={selectedMetricsForm} />
 
           <DragDropContext
-            onDragEnd={e =>
-              e.destination &&
-              onSwitchMetricPosition(e.source.index, /** TODO translate positions */ e.destination.index)
-            }
+            onDragEnd={e => e.destination && onSwitchMetricPosition(e.source.index, e.destination.index)}
           >
             <Droppable droppableId="droppable">
               {provided => (
                 <ul className={locals.metricList} ref={provided.innerRef}>
-                  {selectedMetricsToShow.map((metric, i) => {
+                  {selectedMetricsForm.value.map((metric, i) => {
                     const definition = find(availableMetrics, m => m.metric === metric.metric);
                     return (
                       <Draggable key={i} draggableId={i} index={i}>
@@ -185,8 +178,20 @@ export default function MetricSelectorPresenter({
                           >
                             <div className={locals.metricLeftSide}>
                               <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
-                              {isGroupedView ? definition.label : definition.rawDataLabel}
-                              {isGroupedView && metric.aggregation && ` (${aggregationLabels[metric.aggregation]})`}
+                              {definition.label}
+                              {metric.aggregation &&
+                                definition.supportedAggregations.length > 1 &&
+                                ` (${aggregationLabels[metric.aggregation]})`}
+                              {!isGroupedView &&
+                                !definition.tag && (
+                                  <Tooltip content="Metric only available when analyzing groups.">
+                                    <SvgIcon
+                                      type="lib_help_error_help_outline"
+                                      width={14}
+                                      className={locals.metricNotAvailable}
+                                    />
+                                  </Tooltip>
+                                )}
                             </div>
                             <Tooltip content="Remove metric">
                               <SvgIcon
@@ -223,19 +228,6 @@ export default function MetricSelectorPresenter({
       </div>
     </Dialog>
   );
-}
-
-function getMetricsToShowInList(metrics, isGroupedView, availableMetrics) {
-  if (isGroupedView) {
-    return metrics;
-  }
-
-  metrics = metrics.filter(m => getTag(availableMetrics, m));
-  return uniqBy(metrics, m => getTag(availableMetrics, m));
-}
-
-function getTag(availableMetrics, metric) {
-  return find(availableMetrics, m => m.metric === metric.metric).tag;
 }
 
 function supportAggregations(metricDefinition) {

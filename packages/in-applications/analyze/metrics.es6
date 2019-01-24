@@ -8,7 +8,7 @@ const errorRate = {
   metric: 'errors',
   label: 'Error Rate',
   formatter: percentage,
-  supportedAggregations: [],
+  supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
   min: 0
 };

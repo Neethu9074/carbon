@@ -65,6 +65,11 @@
     margin: 0 0.5rem 0 0;
   }
 
+  .metricNotAvailable {
+    fill: @lib__colors__N700Medium;
+    margin: 0 0 0 0.3rem;
+  }
+
   .separator {
     margin: 2rem 0 1rem;
     border-bottom: 1px solid @lib__colors__N400;
