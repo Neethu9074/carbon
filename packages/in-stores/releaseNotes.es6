@@ -204,6 +204,9 @@ function parseBackEndVersionData(uiBackendVersionData) {
 function minimumOf(majorMinor1, majorMinor2) {
   const version1 = addDummyPatchLevel(majorMinor1);
   const version2 = addDummyPatchLevel(majorMinor2);
+  if (!semver.valid(version1) && !semver.valid(version2)) {
+    return null;
+  }
   if (semver.valid(version1) && !semver.valid(version2)) {
     return majorMinor1;
   }
