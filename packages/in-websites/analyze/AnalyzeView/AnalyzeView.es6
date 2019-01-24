@@ -66,9 +66,8 @@ export default compose(
 
     const availableMetrics = allAvailableMetrics[beaconType];
     const configuredMetrics = metrics || defaultMetrics[beaconType];
-    const metricsToShow = isGroupedView
-      ? configuredMetrics
-      : configuredMetrics.filter(m => getTag(availableMetrics, m.metric));
+    const configuredRawDataSupportedMetrics = configuredMetrics.filter(m => getTag(availableMetrics, m.metric));
+    const metricsToShow = isGroupedView ? configuredMetrics : configuredRawDataSupportedMetrics;
 
     return {
       isGroupedView,
@@ -77,6 +76,7 @@ export default compose(
       orderDirection,
       implicitTagFilters,
       configuredMetrics,
+      configuredRawDataSupportedMetrics,
       metrics: metricsToShow,
       availableMetrics,
       onChangeOrder: onChange,
@@ -109,36 +109,77 @@ export default compose(
       }
     };
   }),
-  withProps(({ onChange, location, beaconType, implicitTagFilters }) => ({
-    setTagFilters: tagFilters => onChange({ tagFilters: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
-    setGroup: group => onChange({ group }),
-    disableGrouping: () => onChange({ group: {} }),
-    timeConfig: getTimeConfig(location),
-    groupableTags: availableGroupingTags[beaconType],
-    filterableTags: availableFilterTags[beaconType]
-  })),
-  withProps(({ group, setGroup, timeConfig, tagFilters, implicitTagFilters, getChangeAsUrl, groupableTags }) => ({
-    openEditGroupDialog() {
-      setActiveDialog(
-        <WebsiteEditGroupDialog
-          setGroup={setGroup}
-          group={group}
-          tagSuggestions={groupableTags}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-        />
-      );
-    },
-    getGroupAsFilterUrl: subGroupName =>
-      getChangeAsUrl({
-        tagFilters: addGroupToTagFilter(
-          tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
-          group,
-          subGroupName
-        ),
-        group: {}
-      })
-  })),
+  withProps(
+    ({
+      onChange,
+      location,
+      orderBy,
+      orderDirection,
+      beaconType,
+      implicitTagFilters,
+      configuredRawDataSupportedMetrics
+    }) => ({
+      setTagFilters: tagFilters =>
+        onChange({ tagFilters: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
+      setGroup: group => onChange({ group }),
+      disableGrouping: () => {
+        const orderCriteriaStillSupported = isOrderCriteriaSupportedForUngroupedView(
+          orderBy,
+          configuredRawDataSupportedMetrics
+        );
+        onChange({
+          group: {},
+          orderBy: orderCriteriaStillSupported ? orderBy : timestampMetricName,
+          orderDirection: orderCriteriaStillSupported ? orderDirection : 'DESC'
+        });
+      },
+      timeConfig: getTimeConfig(location),
+      groupableTags: availableGroupingTags[beaconType],
+      filterableTags: availableFilterTags[beaconType]
+    })
+  ),
+  withProps(
+    ({
+      group,
+      setGroup,
+      timeConfig,
+      tagFilters,
+      implicitTagFilters,
+      getChangeAsUrl,
+      groupableTags,
+      orderBy,
+      orderDirection,
+      configuredRawDataSupportedMetrics
+    }) => ({
+      openEditGroupDialog() {
+        setActiveDialog(
+          <WebsiteEditGroupDialog
+            setGroup={setGroup}
+            group={group}
+            tagSuggestions={groupableTags}
+            timeConfig={timeConfig}
+            tagFilters={tagFilters}
+          />
+        );
+      },
+      getGroupAsFilterUrl: subGroupName => {
+        const orderCriteriaStillSupported = isOrderCriteriaSupportedForUngroupedView(
+          orderBy,
+          configuredRawDataSupportedMetrics
+        );
+        return getChangeAsUrl({
+          tagFilters: addGroupToTagFilter(
+            tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
+            group,
+            subGroupName
+          ),
+          group: {},
+          orderBy: orderCriteriaStillSupported ? orderBy : timestampMetricName,
+          orderDirection: orderCriteriaStillSupported ? orderDirection : 'DESC'
+        });
+      }
+    })
+  ),
   tagFilterManipulators
 )(AnalyzeView);
 
@@ -149,4 +190,8 @@ function AnalyzeView(props) {
 
   // key defined to force a complete state reset
   return <Beacons key={props.beaconType} {...props} />;
+}
+
+function isOrderCriteriaSupportedForUngroupedView(orderBy, metrics) {
+  return metrics.reduce((agg, { metric }) => agg || orderBy.indexOf(metric) === 0, false);
 }
