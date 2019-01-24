@@ -2,7 +2,7 @@ import React from 'react';
 
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
-import { millis } from 'in-services/formatters/number';
+import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 
 import locals from './OverviewChartTooltip.mless';
 
@@ -25,7 +25,7 @@ export default function OverviewChartTooltip({ beacon, earliestTimestamp }) {
         {!beaconRenderers.hideStartTimeTooltipField && (
           <div className={locals.timing}>
             <dt className={locals.key}>Start Time</dt>
-            <dd className={locals.value}>+{millis.compact(beacon.timestamp - earliestTimestamp)}</dd>
+            <dd className={locals.value}>+{millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}</dd>
           </div>
         )}
 

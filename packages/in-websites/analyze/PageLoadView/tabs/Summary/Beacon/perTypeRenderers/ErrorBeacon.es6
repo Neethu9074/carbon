@@ -7,10 +7,10 @@ import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
+import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { millis } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => beacon.errorMessage;
@@ -31,7 +31,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     />
     <KeyValueHeader
       label="Start Time"
-      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
+      value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
   </Fragment>

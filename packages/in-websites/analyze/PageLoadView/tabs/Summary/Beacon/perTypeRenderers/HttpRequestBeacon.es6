@@ -5,10 +5,10 @@ import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
+import { millis, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
-import { millis, bytes } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -42,7 +42,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     />
     <KeyValueHeader
       label="Start Time"
-      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
+      value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
     <KeyValueHeader label="Retrieval Time" value={millis.fixedCompact(beacon.duration)} />
