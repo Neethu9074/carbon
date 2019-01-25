@@ -35,7 +35,7 @@ const block = 'in-rule-bindings-form';
 const logger = createLogger('RuleBindings');
 
 function checkRuleDeprecation(ruleBinding) {
-  const rule$ = getRule(ruleBinding.getIn(['ruleIds', 0], ''));
+  const rule$ = getRule(ruleBinding.getIn(['ruleIds', 0], ''), false);
   return rule$
     .map(rule => getRuleDeprecationBadgeText(isRuleDeprecated(rule)))
     .map(deprecationText => extendBadgeMessage(ruleBinding, deprecationText));
@@ -302,7 +302,7 @@ function getRowDetails(row) {
 const Details = connectTo(
   props => {
     return {
-      rule: getRule(props.ruleBinding.getIn(['ruleIds', 0], ''))
+      rule: getRule(props.ruleBinding.getIn(['ruleIds', 0], ''), false)
     };
   },
   function Details({ ruleBinding, rule }) {

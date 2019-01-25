@@ -25,10 +25,11 @@ export function getSystemRules() {
   }).map(response => response.body);
 }
 
-export function getRule(id) {
+export function getRule(id, treat400AsError = true) {
   return http({
     method: 'GET',
     maxRetries: 3,
+    treat400AsError: treat400AsError,
     url: `/api/rules/${encodeURIComponent(id)}`,
     queryParams: {
       newApplicationModelEnabled: twoZeroModeEnabled
