@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import {
-  getTimeConfigFromEvent,
+  getTimeConfigFromEventForCharts,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
 import { getEntityOfType, isLoading, hasErrors } from 'in-components/EntityInformation/entityUtils';
@@ -71,7 +71,7 @@ export default connectTo(
             groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
             orderBy: order.by,
             orderDirection: order.direction,
-            timeConfig: getTimeConfigFromEvent(event)
+            timeConfig: getTimeConfigFromEventForCharts(event)
           })}
         >
           Analyze Calls
