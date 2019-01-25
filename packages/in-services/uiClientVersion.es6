@@ -1,15 +1,15 @@
 import { interval } from 'reactive-observables';
 
 import { createTrackingStore } from 'in-stores/store';
-import { track } from 'in-services/tracking/appcues';
 import http from 'in-services/http';
+import { build } from 'in-services/config';
 
-export const localTag = window.instana.build.tag;
+export const localTag = build.tag;
 
 const timer$ = interval(1000 * 60).flatMap(getServerVersionTag);
 
 export function init() {
-  uiNeedsRefresh$.once(() => track('doesUIClientNeedRefresh'));
+  uiNeedsRefresh$;
 }
 
 export function getServerVersionTag() {
