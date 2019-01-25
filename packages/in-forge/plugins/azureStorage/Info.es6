@@ -16,6 +16,7 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
         <DescriptionItem title="Kind">{data.get('kind')}</DescriptionItem>
         <DescriptionItem title="State">{data.get('provisioningState')}</DescriptionItem>
+        <DescriptionItem title="Access Tier">{data.get('accessTier')}</DescriptionItem>
         <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
