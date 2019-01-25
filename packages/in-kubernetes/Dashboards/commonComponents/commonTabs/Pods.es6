@@ -49,6 +49,7 @@ const Pods = compose(
   clusterId,
   deploymentId,
   serviceId,
+  nodeId,
   columnDefinitions = columnDefinitionsWithoutNamespace
 }) {
   const rightHeader = (
@@ -75,6 +76,7 @@ const Pods = compose(
       deploymentId={deploymentId}
       clusterId={clusterId}
       serviceId={serviceId}
+      nodeId={nodeId}
       rightHeader={rightHeader}
       phase={phase}
       paginationResettingProps={['namespaceId', 'timeConfig']}
@@ -95,6 +97,7 @@ function getTableData({
   clusterId,
   serviceId,
   deploymentId,
+  nodeId,
   phase
 }) {
   return getKubernetesPods({
@@ -112,6 +115,7 @@ function getTableData({
       deploymentId,
       clusterId,
       serviceId,
+      nodeId,
       timeConfig,
       phase
     }
@@ -122,12 +126,12 @@ const allColumnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId, namespaceId, deploymentId, serviceId }) {
+    getContent(item, { clusterId, namespaceId, deploymentId, serviceId, nodeId }) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
           label={get(item, ['pod', 'label'])}
-          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId })}
+          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId, nodeId })}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );
