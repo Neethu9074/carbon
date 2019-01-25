@@ -3,9 +3,10 @@ import React, { Fragment } from 'react';
 import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import withUrlState from 'in-hoc/withUrlState';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -14,8 +15,6 @@ import Chart from 'in-components/Chart';
 import locals from './CustomMetricsV2.mless';
 
 const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
-const serializer = buildJsonSerializer();
-const deserializer = buildJsonParser([]);
 
 const cols = [
   {
@@ -101,16 +100,26 @@ const cols = [
   }
 ];
 
-export default withUrlDependingState({
-  getPathSegment: () => '/dashboard',
-  getMatrixPrefix: () => 'dashboardExtension.',
-  boundKeys: ['pinnedMetrics'],
-  getInitialState: () => ({ pinnedMetrics: [] }),
-  getParsedUrlValues: values => ({ pinnedMetrics: deserializer(values.pinnedMetrics) }),
-  getSerializedUrlValues: values => ({ pinnedMetrics: serializer(values.pinnedMetrics) }),
+export default withUrlState({
+  bind: [
+    {
+      path: '/dashboard',
+      name: 'pinnedMetrics',
+      initialState: [],
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser([])
+    }
+  ],
+  resets: [
+    {
+      bind: [snapshotIdUrlParameter],
+      reset: {
+        pinnedMetrics: []
+      }
+    }
+  ],
   reducerName: 'setPinnedMetrics',
-  reducer: (_, pinnedMetrics) => ({ pinnedMetrics }),
-  replaceHistory: true
+  reducer: (_, pinnedMetrics) => ({ pinnedMetrics })
 })(CustomMetricsV2);
 
 function CustomMetricsV2(props) {

@@ -62,7 +62,7 @@ export default ({
 }) => BaseComponent => {
   const bindByAs = {};
   bind = bind.map(b => {
-    bindByAs[b.as] = b;
+    bindByAs[b.as || b.name] = b;
     return {
       ...b,
       as: b.as || b.name
