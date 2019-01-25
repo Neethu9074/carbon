@@ -37,6 +37,7 @@ export default function Summary({ timeConfig, data: deployment }) {
                 snapshotId={snapshotId}
                 metrics={['availableReplicas', 'desiredReplicas']}
                 labels={['Available', 'Desired']}
+                timeWindowAggregation={null}
               />
             )}
           />
