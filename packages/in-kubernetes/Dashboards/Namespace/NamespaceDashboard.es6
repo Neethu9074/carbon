@@ -19,6 +19,7 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function NamespaceDashboard({ location }) {
   const props = {
     namespaceId: getMatrixParameter(location, namespaceDashboard, matrixNamespaceId),
+    clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId),
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };
@@ -27,8 +28,7 @@ export default function NamespaceDashboard({ location }) {
     <Fragment>
       <Breadcrumbs
         items={NamespaceBreadcrumbs({
-          ...props,
-          clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId)
+          ...props
         })}
       />
       <TabView
