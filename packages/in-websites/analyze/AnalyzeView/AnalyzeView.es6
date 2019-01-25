@@ -1,4 +1,5 @@
 import { compose, withProps } from 'recompose';
+import { uniqBy } from 'lodash';
 import React from 'react';
 
 import {
@@ -67,7 +68,9 @@ export default compose(
     const availableMetrics = allAvailableMetrics[beaconType];
     const configuredMetrics = metrics || defaultMetrics[beaconType];
     const configuredRawDataSupportedMetrics = configuredMetrics.filter(m => getTag(availableMetrics, m.metric));
-    const metricsToShow = isGroupedView ? configuredMetrics : configuredRawDataSupportedMetrics;
+    const metricsToShow = isGroupedView
+      ? configuredMetrics
+      : uniqBy(configuredRawDataSupportedMetrics, m => getTag(availableMetrics, m.metric));
 
     return {
       isGroupedView,
