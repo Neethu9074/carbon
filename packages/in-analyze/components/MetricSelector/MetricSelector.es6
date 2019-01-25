@@ -18,7 +18,7 @@ export default compose(
     ],
     reducerName: 'onChange'
   }),
-  withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave, availableMetrics, isGroupedView }) => ({
+  withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave, availableMetrics }) => ({
     onMetricChange: v =>
       onChange({
         newMetricForm: newMetricForm
@@ -33,18 +33,7 @@ export default compose(
       }),
     onRemoveMetric: metric =>
       onChange({
-        selectedMetricsForm: selectedMetricsForm.setValue(
-          selectedMetricsForm.value.filter(m => {
-            if (isGroupedView) {
-              return m !== metric;
-            }
-            // When coming from the grouped to the ungrouped view, then it can be that the same
-            // metric is configured using various aggregations. In the ungrouped view, we are
-            // only showing one entry in the list for this metric. A removal of that metric
-            // must remove all configured metrics with that name.
-            return m.metric !== metric.metric;
-          })
-        )
+        selectedMetricsForm: selectedMetricsForm.setValue(selectedMetricsForm.value.filter(m => m !== metric))
       }),
     onSwitchMetricPosition: (oldPosition, newPosition) => {
       const metrics = selectedMetricsForm.value.slice();
