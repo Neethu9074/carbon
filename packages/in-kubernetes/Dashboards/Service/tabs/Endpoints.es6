@@ -26,7 +26,7 @@ export default function Endpoints({ timeConfig, data: service, clusterId, namesp
             timeConfig={timeConfig}
             serviceId={service.id}
             paginationResettingProps={['serviceId', 'timeConfig']}
-            defaultOrderBy="name"
+            defaultOrderBy="address"
             defaultOrderDirection="ASC"
             defaultPageSize={10}
             withoutPadding={false}
