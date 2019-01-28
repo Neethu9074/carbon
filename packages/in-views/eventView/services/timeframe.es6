@@ -3,7 +3,7 @@ import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 const chartOffset = 5 * 60 * 1000; // 5 min
 const minEventEntityWindowSize = 3 * 60 * 1000; // 3 min
 
-export function getChartTimeframeByEvent({
+export function getChartTimeConfigByEvent({
   event,
   from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - 1000 * 60),
   to = event.get('state') === 'closed' ? event.get('end') : null
@@ -26,7 +26,7 @@ export function getChartTimeframeByEvent({
   return timeConfig;
 }
 
-export function getTimeConfigFromEventForCharts(event) {
+export function getTimeConfigFromEvent(event) {
   const from = getFromOfEvent(event);
   if (from === undefined) {
     throw new Error('Could not derive time config from event.');
