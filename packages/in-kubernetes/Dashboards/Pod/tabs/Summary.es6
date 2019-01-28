@@ -6,8 +6,6 @@ import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
 import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import Card from 'in-new-components/Card';
-import Chart from 'in-components/Chart';
 
 export default function Summary({ timeConfig, data: pod }) {
   const snapshotId = pod.id;
@@ -41,33 +39,37 @@ export default function Summary({ timeConfig, data: pod }) {
       </Row>
 
       <Row>
-        <Col lg={6}>
-          <Card title="CPU">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: twoDecimalPlaces,
-                metrics: ['cpuRequests', 'cpuLimits'],
-                labels: ['CPU Requests', 'CPU Limits'],
-                type: 'line'
-              }}
-            />
-          </Card>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="CPU Requests"
+            snapshotId={snapshotId}
+            metric="cpuRequests"
+            formatter={twoDecimalPlaces}
+          />
         </Col>
-        <Col lg={6}>
-          <Card title="Memory">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: bytesTwoDecimalPlaces,
-                metrics: ['memoryRequests', 'memoryLimits'],
-                labels: ['Memory Requests', 'Memory Limits'],
-                type: 'line'
-              }}
-            />
-          </Card>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="CPU Limits"
+            snapshotId={snapshotId}
+            metric="cpuLimits"
+            formatter={twoDecimalPlaces}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="Memory Requests"
+            snapshotId={snapshotId}
+            metric="memoryRequests"
+            formatter={bytesTwoDecimalPlaces}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="Memory Limits"
+            snapshotId={snapshotId}
+            metric="memoryLimits"
+            formatter={bytesTwoDecimalPlaces}
+          />
         </Col>
       </Row>
 
