@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
 import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
@@ -73,11 +72,8 @@ export default function Summary({ timeConfig, data: pod }) {
       </Row>
 
       <Row>
-        <Col lg={6}>
+        <Col lg={12}>
           <Containers timeConfig={timeConfig} podId={pod.id} />
-        </Col>
-        <Col lg={6}>
-          <KeyValueList title="Labels" icon="lib_kubernetes_label" items={pod.labels} />
         </Col>
       </Row>
     </Fragment>
