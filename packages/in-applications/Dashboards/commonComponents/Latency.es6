@@ -21,7 +21,7 @@ export default function Latency({
       timeConfig={timeConfig}
       reverseTooltipOrder
       y1={{
-        renderer: Renderer.line,
+        renderer: Renderer.integral,
         formatter: millis.fixed,
         labels: ['50th', '90th', '95th', '99th', 'Max'],
         defaultDisabledMetrics: ['durationMax'],
