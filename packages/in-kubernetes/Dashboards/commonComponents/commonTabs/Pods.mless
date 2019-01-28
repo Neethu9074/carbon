@@ -7,4 +7,10 @@
   .sparkChart {
     margin-right: 0.5rem;
   }
+
+  .filter {
+    z-index: 4;
+    margin-right: 0.5rem;
+    height: 2rem;
+  }
 }

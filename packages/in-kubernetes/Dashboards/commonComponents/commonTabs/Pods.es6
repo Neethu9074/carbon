@@ -1,5 +1,6 @@
+import React, { Fragment } from 'react';
 import { get, filter } from 'lodash';
-import React from 'react';
+import { compose } from 'recompose';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -7,12 +8,16 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import PodStatusIcon from 'in-kubernetes/Dashboards/commonComponents/PodStatusIcon';
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
+import podPhases from 'in-kubernetes/podPhases';
+import withUrlState from 'in-hoc/withUrlState';
+import ComboBox from 'in-components/ComboBox';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Pods.mless';
@@ -24,7 +29,24 @@ export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, .
   return <Pods columnDefinitions={columnDefinitions} {...props} />;
 }
 
-export default function Pods({
+export default Pods;
+
+const Pods = compose(
+  withUrlState({
+    reducerName: 'setPhase',
+    bind: [
+      {
+        path: pathSegment,
+        name: 'phase',
+        initialState: null,
+        parser: buildJsonParser(null),
+        serializer: buildJsonSerializer()
+      }
+    ]
+  })
+)(function Pods({
+  phase,
+  setPhase,
   timeConfig,
   namespaceId,
   clusterId,
@@ -32,6 +54,18 @@ export default function Pods({
   serviceId,
   columnDefinitions = columnDefinitionsWithoutNamespace
 }) {
+  const rightHeader = (
+    <Fragment>
+      <ComboBox
+        placeholder="Status…"
+        value={phase}
+        onChange={t => setPhase({ phase: t ? t.value : null })}
+        options={podPhases}
+        className={locals.filter}
+      />
+    </Fragment>
+  );
+
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -44,12 +78,14 @@ export default function Pods({
       deploymentId={deploymentId}
       clusterId={clusterId}
       serviceId={serviceId}
+      rightHeader={rightHeader}
+      phase={phase}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
     />
   );
-}
+});
 
 function getTableData({
   query,
@@ -61,7 +97,8 @@ function getTableData({
   namespaceId,
   clusterId,
   serviceId,
-  deploymentId
+  deploymentId,
+  phase
 }) {
   return getKubernetesPods({
     pagination: {
@@ -78,7 +115,8 @@ function getTableData({
       deploymentId,
       clusterId,
       serviceId,
-      timeConfig
+      timeConfig,
+      phase
     }
   });
 }
