@@ -4,12 +4,15 @@
   .wrapper {
     width: 100%;
     max-width: 1400px;
-    margin: 0 auto;
-    position: sticky;
+    position: fixed;
+    left: 0;
+    right: 0;
     bottom: 0;
+    margin: 0 auto;
     display: flex;
     flex-direction: row-reverse;
   }
+
   .betaMarker {
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
     width: 20rem;
@@ -25,12 +28,17 @@
     border-top-right-radius: @lib__shapes__radius_medium;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .headerTitle {
     font-size: 0.75rem;
     font-weight: 400;
     margin: 0 1rem 0 0;
+  }
+
+  .arrowIcon {
+    fill: @lib__colors__N600Light;
   }
 
   .body {

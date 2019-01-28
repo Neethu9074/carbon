@@ -14,6 +14,7 @@ import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
+import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function NamespaceDashboard({ location }) {
@@ -41,6 +42,7 @@ export default function NamespaceDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
+      <BetaMarker />
     </Fragment>
   );
 }

@@ -2,6 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { isOpen$, toggleMenu } from 'in-new-components/BetaMarker/BetaMarkerStore';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './BetaMarker.mless';
@@ -27,7 +28,14 @@ export default connectTo(
           <div className={locals.betaMarker}>
             <div className={locals.header} onClick={toggleMenu}>
               <h1 className={locals.headerTitle}>Beta Feature</h1>
-              <div className={locals.headerIcon}>Icon</div>
+              <div className={locals.headerIcon}>
+                <SvgIcon
+                  className={locals.arrowIcon}
+                  type={!this.props.isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+                  width={16}
+                  height={16}
+                />
+              </div>
             </div>
             {this.props.isOpen && (
               <div className={locals.body}>

@@ -18,6 +18,7 @@ import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function DeploymentDashboard({ location }) {
@@ -46,6 +47,7 @@ export default function DeploymentDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
+      <BetaMarker />
     </Fragment>
   );
 }

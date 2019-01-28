@@ -15,6 +15,7 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
@@ -49,6 +50,7 @@ export default function PodDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
+      <BetaMarker />
     </Fragment>
   );
 }

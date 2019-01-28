@@ -4,7 +4,6 @@ import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -56,7 +55,6 @@ export default function App() {
 
         {/* all the different dialogs e.g. in the settings */}
         <DialogPresenter />
-        <BetaMarker />
       </ErrorBoundary>
     </ErrorBoundary>
   );

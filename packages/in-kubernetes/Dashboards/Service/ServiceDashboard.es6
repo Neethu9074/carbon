@@ -14,6 +14,7 @@ import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -40,6 +41,7 @@ export default function ServiceDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
+      <BetaMarker />
     </Fragment>
   );
 }
