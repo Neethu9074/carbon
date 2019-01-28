@@ -4,7 +4,7 @@ import { getTraceViewFilteredBySnapshotIdAndTimeframe } from 'in-stores/navigati
 import { twoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNumberOfTracesTouchingServiceOrServiceInstance } from 'in-stores/traces';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { getChartTimeframeByEvent } from 'in-views/eventView/services/timeframe';
+import { getChartTimeConfigByEvent } from 'in-views/eventView/services/timeframe';
 import addSection from 'in-views/eventView/hocs/addSection';
 import MetricValue from 'in-components/MetricValue';
 import { serverTime$ } from 'in-stores/serverTime';
@@ -22,7 +22,7 @@ export default addSection(
     props => {
       const event = props.event;
       const serviceId = event.getIn(['entityId']);
-      const timeConfig = getChartTimeframeByEvent({ event });
+      const timeConfig = getChartTimeConfigByEvent({ event });
 
       return {
         href: serverTime$
@@ -43,7 +43,7 @@ export default addSection(
     },
     function EventTraces({ event, href, numberOfTraces }) {
       const serviceId = event.getIn(['entityId']);
-      const timeConfig = getChartTimeframeByEvent({ event });
+      const timeConfig = getChartTimeConfigByEvent({ event });
       const tracesAvailable = numberOfTraces > 0;
 
       return (
