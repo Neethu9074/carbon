@@ -1,38 +1,35 @@
 import React from 'react';
 
-import { getMetrics } from 'in-api/metrics';
 import EventMetricDownloadView from 'in-components/DownloadButton/components/EventMetricDownloadView';
+import { getMetrics } from 'in-api/metrics';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  props => {
-    const metricsRequest = getMetricsRequest(props);
-    return {
-      metricValues: getMetrics(metricsRequest)
-    };
-  },
-  function EventMetricChartDownloadView(props) {
-    const { event, metric, metricValues } = props;
-    if (!metricValues) {
-      return null;
-    }
-    const data = getMetricData(event, metric, metricValues['metrics']);
-    return (
-      <EventMetricDownloadView
-        data={data}
-        metric={metric}
-        fileName={`metric-${metric}`}
-        getJsonData={() => getJsonData(data)}
-      />
-    );
+export default connectTo(props => ({
+  metricValues: getMetrics(getMetricsRequest(props))
+}))(function EventMetricChartDownloadView(props) {
+  const { event, metric, metricValues } = props;
+  if (!metricValues) {
+    return null;
   }
-);
+  const data = getMetricData(event, metric, metricValues['metrics']);
+  return (
+    <EventMetricDownloadView
+      data={data}
+      metric={metric}
+      fileName={`metric-${metric}`}
+      getJsonData={() => getJsonData(data)}
+    />
+  );
+});
 
 function getMetricsRequest(props) {
-  let { event, entityType, plugin, metric, metricAccessId } = props;
-  const oneDay = Date.now() - 1000 * 60 * 60 * 24;
-  const windowSize = 3600000;
-  const windowSize60Sec = 36000000;
+  const { event, entityType, plugin, metric, metricAccessId } = props;
+
+  const now = Date.now();
+  const oneHourWindowSize = 1000 * 60 * 60;
+  const oneDay = now - oneHourWindowSize * 24;
+  const tenHoursWindowSize = oneHourWindowSize * 10;
+
   let rollup;
 
   const to = event.get('end') ? event.get('end') : Date.now();
@@ -42,18 +39,18 @@ function getMetricsRequest(props) {
     return null;
   }
 
-  if (oneDay - event.get('start') > windowSize) {
+  if (oneDay - event.get('start') > oneHourWindowSize) {
     rollup = 60;
-    timeFrame.from = to - windowSize60Sec;
-    timeFrame.windowSize = windowSize60Sec;
+    timeFrame.from = to - tenHoursWindowSize;
+    timeFrame.windowSize = tenHoursWindowSize;
   } else {
     if (entityType === 'Service20' || entityType === 'App20' || entityType === 'Endpoint20') {
       rollup = 5;
     } else {
       rollup = 1;
     }
-    timeFrame.from = to - windowSize;
-    timeFrame.windowSize = windowSize;
+    timeFrame.from = to - oneHourWindowSize;
+    timeFrame.windowSize = oneHourWindowSize;
   }
 
   let request = {
@@ -73,16 +70,16 @@ function getJsonData(data) {
 }
 
 function getMetricData(event, metric, metricValues) {
-  let data = { event: event };
-  let items = metricValues[metric];
+  return {
+    event,
+    metrics: mapMetricsToHumanReadableFormatIfPresent(metricValues[metric])
+  };
+}
+
+function mapMetricsToHumanReadableFormatIfPresent(items) {
   if (!items) {
-    return data;
+    return null;
   }
-  let finalValues = [];
-  items.forEach(function(v) {
-    let fv = { timestamp: v[0], value: v[1] };
-    finalValues.push(fv);
-  });
-  data.metrics = finalValues;
-  return data;
+
+  return items.map(v => ({ timestamp: v[0], value: v[1] }));
 }

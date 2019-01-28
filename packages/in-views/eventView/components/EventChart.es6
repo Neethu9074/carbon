@@ -53,7 +53,7 @@ export default addSection(
             const timeConfig = getChartTimeframeByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
-            const plugin = translateFullyQualifiedPluginToShortPluginName(metric.get('entityId').get('pluginId'));
+            const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
 
             return (
               <ChartWrapper
@@ -165,13 +165,11 @@ const ChartWrapper = connectTo(
 );
 
 function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
-  for (const plugin in fullyQualifiedPlugins) {
-    if (!fullyQualifiedPlugins.hasOwnProperty(plugin)) {
-      continue;
-    }
-
-    if (fullyQualifiedPlugin === fullyQualifiedPlugins[plugin]) {
-      return plugin;
+  const keys = Object.keys(fullyQualifiedPlugins);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (fullyQualifiedPlugins[key] === fullyQualifiedPlugin) {
+      return key;
     }
   }
   return null;

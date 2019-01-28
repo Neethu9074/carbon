@@ -1,7 +1,6 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
 import Button from 'in-components/Button';
 
 import locals from './EventMetricDownloadView.mless';
@@ -11,24 +10,19 @@ export default class extends React.Component {
 
   static propTypes = {
     getJsonData: rpt.func,
-    fileName: rpt.string,
-    data: rpt.any
+    fileName: rpt.string
   };
 
   render() {
-    const data = this.props.data;
-    if (!data) {
-      return <LoadingIndicator type="dark" inline />;
+    const getJsonData = this.props.getJsonData;
+    if (!getJsonData) {
+      return null;
     }
 
     return (
-      <div>
+      <div className={locals.downloadButtonWrapper}>
         <a ref={link => (this.downloadLink = link)} onClick={stopPropagation} />
-        <div className={locals.downloadButtonWrapper}>
-          {this.props.getJsonData ? (
-            <DownloadButtonJson onClick={fileType => this.downloadFile(this.props.getJsonData, fileType)} />
-          ) : null}
-        </div>
+        <DownloadButtonJson onClick={fileType => this.downloadFile(getJsonData, fileType)} />
       </div>
     );
   }

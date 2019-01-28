@@ -3,7 +3,6 @@ import { deepFreeze } from 'in-services/util/object';
 
 import http from 'in-services/http';
 
-// Retrieve metrics from Cassandra
 export function getMetrics(data) {
   return http({
     method: 'POST',
