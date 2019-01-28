@@ -48,7 +48,7 @@ export function createNewApplicationConfig() {
   return {
     label: '',
     matchSpecification: [],
-    scope: 'INCLUDE_DATA_STORES'
+    scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
   };
 }
 
