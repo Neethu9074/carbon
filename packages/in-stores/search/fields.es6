@@ -31,6 +31,7 @@ const helpTexts = {
   'entity.elasticsearch.cluster': 'Elasticsearch cluster',
   'entity.marathon': 'Mesosphere Marathon',
   'entity.process': 'Operating system process',
+  'entity.pingdirectory': 'PingIdentity Directory server',
   'entity.jboss': 'JBoss application server',
   'entity.tomcat': 'Apache Tomcat',
   'entity.nomad': 'HashiCorp Nomad scheduler',
