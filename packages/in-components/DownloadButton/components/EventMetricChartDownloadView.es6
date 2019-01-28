@@ -29,15 +29,14 @@ function getMetricsRequest(props) {
   const oneHourWindowSize = 1000 * 60 * 60;
   const oneDay = now - oneHourWindowSize * 24;
   const tenHoursWindowSize = oneHourWindowSize * 10;
-
-  let rollup;
-
-  const to = event.get('end') ? event.get('end') : Date.now();
-  let timeFrame = { to: to };
+  const to = event.get('end', now);
 
   if (plugin === null) {
     return null;
   }
+
+  const timeFrame = { to: to };
+  let rollup;
 
   if (oneDay - event.get('start') > oneHourWindowSize) {
     rollup = 60;
@@ -53,16 +52,14 @@ function getMetricsRequest(props) {
     timeFrame.windowSize = oneHourWindowSize;
   }
 
-  let request = {
+  return {
     query: '*',
-    plugin: plugin,
+    plugin,
+    rollup,
+    timeFrame,
     metrics: [metric],
     snapshotIds: [metricAccessId]
   };
-
-  request.rollup = rollup;
-  request.timeFrame = timeFrame;
-  return request;
 }
 
 function getJsonData(data) {
