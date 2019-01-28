@@ -11,11 +11,14 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 
 const configEnrichment = require('./middleware/configEnrichment');
-const errorPages = require('./errorPages.js');
+const unitCoordinates = require('./middleware/unitCoordinates');
+const errorPagesRoutes = require('./routes/errorPages');
 const serverConfig = require('./serverConfig.js');
 const assetRoutes = require('./routes/assets');
+const errorPages = require('./errorPages.js');
 const indexRoutes = require('./routes/index');
 const pingRoutes = require('./routes/ping');
+
 require('./admin');
 
 const app = express();
@@ -32,9 +35,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(configEnrichment);
 
+app.use(unitCoordinates);
+app.use(errorPagesRoutes);
 app.use(assetRoutes);
+
+app.use(configEnrichment);
 app.use(pingRoutes);
 app.use(indexRoutes);
 

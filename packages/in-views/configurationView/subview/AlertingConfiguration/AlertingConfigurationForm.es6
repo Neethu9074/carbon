@@ -6,10 +6,11 @@ import Step0 from 'in-views/configurationView/subview/AlertingConfiguration/comp
 import Step2 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step2';
 import Step3 from 'in-views/configurationView/subview/AlertingConfiguration/components/Step3';
 
-export default function AlertingConfigurationForm({ form, onChange }) {
+export default function AlertingConfigurationForm({ form, onChange, setForm }) {
   return (
     <fieldset>
-      <FormDataEnrichment form={form} onChange={onChange} />
+      <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
+
       <Step0 form={form} onChange={onChange} />
       <Step2 form={form} onChange={onChange} />
       <Step3 form={form} onChange={onChange} />

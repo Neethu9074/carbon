@@ -32,7 +32,7 @@ function SpanDetails({ title, call, kind }) {
   return (
     <Group title={title}>
       <div className={locals.forgeDetailsWrapper}>
-        <SpanForgeDetails span={fromJS(convert(span))} />
+        <SpanForgeDetails key={call.id} span={fromJS(convert(span))} />
       </div>
     </Group>
   );

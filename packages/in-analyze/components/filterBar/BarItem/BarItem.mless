@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .item {
@@ -56,5 +57,12 @@
 
   .withoutTextTransform {
     text-transform: initial;
+  }
+
+  .text {
+    max-width: 10rem;
+    // adjust for overflow-hidden that will hide parts of certain characters
+    line-height: 1.3;
+    .ellipsis();
   }
 }

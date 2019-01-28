@@ -1,5 +1,5 @@
-import { isEmpty } from 'lodash';
 import React, { Fragment } from 'react';
+import { isEmpty } from 'lodash';
 
 import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
 import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
@@ -26,13 +26,13 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={4}>
           <MatchingPodsList serviceId={service.id} timeConfig={timeConfig} />
         </Col>
         {!isEmpty(service.deploymentIds) && (
           <Col lg={4}>
-            <Card title="CPU Resources (Deployment)">
+            <Card title="CPU Resources (Deployment)" useMaxAvailableHeight>
               <Chart
                 snapshotId={service.deploymentIds[0]}
                 timeConfig={timeConfig}
@@ -48,7 +48,7 @@ export default function Summary({ timeConfig, data: service }) {
         )}
         {!isEmpty(service.deploymentIds) && (
           <Col lg={4}>
-            <Card title="Memory Resources (Deployment)">
+            <Card title="Memory Resources (Deployment)" useMaxAvailableHeight>
               <Chart
                 snapshotId={service.deploymentIds[0]}
                 timeConfig={timeConfig}

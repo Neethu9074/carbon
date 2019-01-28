@@ -11,7 +11,7 @@
   word-break: normal;
 
   z-index: @z-index__tooltips;
-  background: #203036;
+  background: @lib__colors__navy900;
 
   &::before {
     position: absolute;
@@ -26,7 +26,7 @@
       margin-top: 5px;
       margin-left: -17px;
 
-      border-color: #203036 #203036 transparent transparent;
+      border-color: @lib__colors__navy900 @lib__colors__navy900 transparent transparent;
     }
   }
 
@@ -35,7 +35,7 @@
       &::before {
         bottom: -8px;
 
-        border-color: #203036 transparent transparent #203036;
+        border-color: @lib__colors__navy900 transparent transparent @lib__colors__navy900;
       }
     }
 
@@ -44,7 +44,7 @@
         bottom: -8px;
         margin-left: ~'calc(100% - 34px)';
 
-        border-color: #203036 #203036 transparent transparent;
+        border-color: @lib__colors__navy900 @lib__colors__navy900 transparent transparent;
       }
     }
   }

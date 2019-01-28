@@ -2,37 +2,28 @@ import React, { Fragment } from 'react';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import { Th, Td } from 'in-components/tables/sharedComponents';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
-import { millis } from 'in-services/formatters/number';
+
+export const perTypeColumnCount = 3;
 
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <Th>Path</Th>
-
       <Th>Website</Th>
-
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
-        technicalName="beacon.timestamp"
+        technicalName={timestampMetricName}
         label="Timestamp"
-      />
-
-      <SortableColumn
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        onChangeOrder={onChangeOrder}
-        defaultDirection="DESC"
-        technicalName="beacon.duration"
-        label="onLoad Time"
       />
     </Fragment>
   );
@@ -54,7 +45,7 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This page load is batched and represents ${item.beacon.batchSize} individual page loads.`}
+          tooltipContent={`This page view is batched and represents ${item.beacon.batchSize} individual page views.`}
         />
       </Td>
 
@@ -66,10 +57,6 @@ export function TableRowColumns({ item }) {
 
       <Td>
         <TimestampCell time={item.beacon.timestamp} />
-      </Td>
-
-      <Td>
-        <span>{millis.fixedCompact(item.beacon.duration)}</span>
       </Td>
     </Fragment>
   );

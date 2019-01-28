@@ -22,15 +22,15 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteL
 }
 
 export const dataSourceTitles = {
-  pageLoad: 'Page Load',
+  pageLoad: 'Page View',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
-  error: 'Error'
+  error: 'JavaScript Error'
 };
 
 export const defaultGroupings = {
   pageLoad: {
-    groupbyTag: 'beacon.page.name'
+    groupbyTag: 'beacon.location.path'
   },
   resourceLoad: {
     groupbyTag: 'beacon.http.origin'

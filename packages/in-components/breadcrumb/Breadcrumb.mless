@@ -36,10 +36,6 @@
       .label {
         color: #ffffff8f;
       }
-
-      .icon {
-        display: none;
-      }
     }
   }
 }

@@ -1,3 +1,7 @@
+import React from 'react';
+
+import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
+import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
@@ -19,7 +23,7 @@ export default [
     label: 'Pods',
     path: `${serviceDashboardFullyQualified}/pods`,
     component: Pods,
-    icon: 'lib_kubernetes_pod'
+    header: props => getCounterComponent(props, 'pods')
   },
   {
     label: 'Events',
@@ -27,3 +31,13 @@ export default [
     component: Events
   }
 ].filter(Boolean);
+
+function getCounterComponent(props, resultPropName) {
+  return (
+    <TabLabelWithCounter
+      label={props.tab.label}
+      getCounters={() => getKubernetesServiceItemCounters({ serviceId: props.serviceId, timeConfig: props.timeConfig })}
+      resultPropName={resultPropName}
+    />
+  );
+}

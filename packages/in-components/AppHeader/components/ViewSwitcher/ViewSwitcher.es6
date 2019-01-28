@@ -27,6 +27,7 @@ import { SubMenuItem } from 'in-components/AppHeader/components/ViewSwitcher/Sub
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import View from 'in-components/AppHeader/components/ViewSwitcher/View';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -105,7 +106,8 @@ export default function ViewSwitcher() {
             icon="lib_analyze_inverted"
             isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
             href$={getLinkToAnalyze({
-              dataSource: 'traces'
+              dataSource: 'traces',
+              groupByTag: getConfigByDataSource('traces').defaultGrouping
             })}
           />
         )}

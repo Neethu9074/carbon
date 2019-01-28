@@ -58,9 +58,10 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel }) {
+function ViewAll({ tagFilters, websiteLabel }, className) {
   return (
     <Link
+      className={className}
       href$={getLinkToAnalyze({
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
         beaconType: 'resourceLoad',
@@ -69,7 +70,7 @@ function ViewAll({ tagFilters, websiteLabel }) {
         }
       })}
     >
-      View All
+      View all types
     </Link>
   );
 }

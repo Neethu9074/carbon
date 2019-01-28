@@ -31,6 +31,9 @@ describe('in-stores/eventsInTimeframe', () => {
       },
       'in-stores/events': {
         getEvent: () => create()
+      },
+      'in-services/featureFlags': {
+        twoZeroModeEnabled: false
       }
     });
 

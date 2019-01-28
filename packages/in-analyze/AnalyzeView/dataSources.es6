@@ -1,6 +1,5 @@
-import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
-import GroupedCalls from 'in-analyze/components/GroupedCalls';
+import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import RawTraces from 'in-analyze/components/RawTraces';
 import RawCalls from 'in-analyze/components/RawCalls';
 
@@ -42,7 +41,7 @@ export default function getByDataSource(dataSource) {
         getTraceIdByItem: item => item.call.traceId,
         getCallIdByItem: item => item.call.id,
         RawView: RawCalls,
-        GroupedView: GroupedCalls
+        GroupedView: GroupedTraces
       }
     };
   }

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import { withState } from 'recompose';
+import { withState, compose } from 'recompose';
 import React from 'react';
 
 import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
@@ -26,67 +26,61 @@ export default getElementDimensions(function ChartReactComponent(props) {
   );
 });
 
-const enhance = withState('chart', 'setChart', null);
-const ChartReactWrapper = enhance(
-  connectTo(
-    {
-      devicePixelRatio: getSetting$('charts_adaptToDevicePixelRatio')
-        .map(adaptToDevicePixelRatio => (adaptToDevicePixelRatio ? window.devicePixelRatio : 1))
-        .distinct()
-        .startWith(window.devicePixelRatio || 1)
-    },
-    class ChartReactWrapper extends React.Component {
-      static displayName = 'ChartReactWrapper';
+const ChartReactWrapper = compose(
+  withState('chart', 'setChart', null),
+  connectTo({
+    devicePixelRatio: getSetting$('charts_adaptToDevicePixelRatio')
+      .map(adaptToDevicePixelRatio => (adaptToDevicePixelRatio ? window.devicePixelRatio : 1))
+      .distinct()
+      .startWith(window.devicePixelRatio || 1)
+  })
+)(
+  class ChartReactWrapper extends React.Component {
+    static displayName = 'ChartReactWrapper';
 
-      componentDidMount() {
-        const chart = new Chart(this.canvas);
-        chart.update(this.props);
-        this.props.setChart(chart);
-      }
-
-      componentWillUpdate(nextProps) {
-        nextProps.chart.update(nextProps);
-      }
-
-      componentWillUnmount() {
-        this.props.chart.dispose();
-      }
-
-      render() {
-        const { chart, height, width, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
-
-        return (
-          <div className={locals.chart}>
-            {chart && renderLegend && <Legend chart={chart} />}
-            <div className={locals.chartAxisWrapper}>
-              {chart &&
-                chart.config.y1 && (
-                  <MetricAwareAxis chart={chart} axis={chart.config.y1} height={height} align="left" />
-                )}
-              <div>
-                {chart && <Tooltip chart={chart} reverseTooltipOrder={reverseTooltipOrder} />}
-                <canvas
-                  className={locals.canvas}
-                  ref={canvas => {
-                    this.canvas = canvas;
-                  }}
-                />
-                {width && (
-                  <HorizontalTimeAxis
-                    scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }}
-                    width={width}
-                  />
-                )}
-              </div>
-              {chart &&
-                chart.config.y2 && (
-                  <MetricAwareAxis chart={chart} axis={chart.config.y2} height={height} align="right" />
-                )}
-              {chart && !chart.config.y2 && <VerticalAxisPlaceholder />}
-            </div>
-          </div>
-        );
-      }
+    componentDidMount() {
+      const chart = new Chart(this.canvas, this.props);
+      this.props.setChart(chart);
     }
-  )
+
+    componentWillUpdate(nextProps) {
+      nextProps.chart.update(nextProps);
+    }
+
+    componentWillUnmount() {
+      this.props.chart.dispose();
+    }
+
+    render() {
+      const { chart, height, width, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
+
+      return (
+        <div className={locals.chart}>
+          {chart && renderLegend && <Legend chart={chart} />}
+          <div className={locals.chartAxisWrapper}>
+            {chart &&
+              chart.config.y1 && <MetricAwareAxis chart={chart} axis={chart.config.y1} height={height} align="left" />}
+            <div>
+              {chart && <Tooltip chart={chart} reverseTooltipOrder={reverseTooltipOrder} />}
+              <canvas
+                className={locals.canvas}
+                ref={canvas => {
+                  this.canvas = canvas;
+                }}
+              />
+              {width && (
+                <HorizontalTimeAxis
+                  scale={{ from: timeConfig.to - timeConfig.windowSize, to: timeConfig.to }}
+                  width={width}
+                />
+              )}
+            </div>
+            {chart &&
+              chart.config.y2 && <MetricAwareAxis chart={chart} axis={chart.config.y2} height={height} align="right" />}
+            {chart && !chart.config.y2 && <VerticalAxisPlaceholder />}
+          </div>
+        </div>
+      );
+    }
+  }
 );

@@ -18,7 +18,8 @@ export default function TopListCard(props) {
     onChangeMetric,
     selectedMetric,
     List: ListRenderer = List,
-    showMetricSelectorsForSingleMetrics
+    showMetricSelectorsForSingleMetrics,
+    useMaxAvailableHeight
   } = props;
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -57,7 +58,7 @@ export default function TopListCard(props) {
   }
 
   return (
-    <Card title={title} header={header} withoutPadding={withoutPadding}>
+    <Card title={title} header={header} withoutPadding={withoutPadding} useMaxAvailableHeight={useMaxAvailableHeight}>
       {content}
     </Card>
   );

@@ -129,15 +129,17 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
-        <span
-          className={evaluateClassNames({
-            [locals.label]: true,
-            [locals.clickable]: onCallClicked != null
-          })}
-          onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
-        >
-          {call.label || 'Undefined'}
-        </span>
+        <Tooltip themeStyle="light" content={call.label}>
+          <span
+            className={evaluateClassNames({
+              [locals.label]: true,
+              [locals.clickable]: onCallClicked != null
+            })}
+            onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
+          >
+            {call.label || 'Undefined'}
+          </span>
+        </Tooltip>
         {call.batchSize > 1 && (
           <Tooltip
             themeStyle="light"

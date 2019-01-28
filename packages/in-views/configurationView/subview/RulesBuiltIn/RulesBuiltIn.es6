@@ -30,7 +30,7 @@ const cols = [
       get(row) {
         const entityType = row.entityType;
         return {
-          value: entityType,
+          value: getSingular(entityType),
           content: <WithIcon plugin={entityType}>{getSingular(entityType)}</WithIcon>
         };
       }
@@ -184,7 +184,7 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Built-in Rules</SectionHeading>
 
-            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={15} />
+            <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={20} />
           </Section>
         ) : null}
       </SubViewWrapper>

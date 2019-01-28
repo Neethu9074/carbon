@@ -7,20 +7,22 @@ import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
+import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { millis } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 
 export const getLabel = beacon => beacon.errorMessage;
+
+export const getExtraTooltipFields = () => ({});
 
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader
       label={
         <Fragment>
-          Error
+          JavaScript Error
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -29,7 +31,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     />
     <KeyValueHeader
       label="Start Time"
-      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
+      value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
   </Fragment>
@@ -63,12 +65,13 @@ export const Body = ({ beacon }) => {
       </Row>
 
       <Row>
-        {isNotBlank(beacon.stackTrace) && (
-          <Col lg={6}>
-            <BodyHeader>Stack Trace</BodyHeader>
-            <Stack stack={beacon.stackTrace} />
-          </Col>
-        )}
+        {!isScriptError(beacon.errorMessage) &&
+          isNotBlank(beacon.stackTrace) && (
+            <Col lg={6}>
+              <BodyHeader>Stack Trace</BodyHeader>
+              <Stack stack={beacon.stackTrace} />
+            </Col>
+          )}
 
         {isNotBlank(beacon.componentStack) && (
           <Col lg={6}>

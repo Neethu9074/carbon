@@ -20,8 +20,12 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerNewApplicationModelHooks(snapshotDefinition);
 }
 
+export function getOptionalSnapshotDefinition(plugin) {
+  return registry[plugin];
+}
+
 export function getSnapshotDefinition(plugin) {
-  const defintion = registry[plugin];
+  const defintion = getOptionalSnapshotDefinition(plugin);
   if (!defintion) {
     throw new Error(`Unknown snapshot type: ${plugin}`);
   }

@@ -23,7 +23,7 @@ export default connectTo(
           timeConfig
         })}
       >
-        Explore Service
+        Explore K8s Service
       </Button>
     );
   }

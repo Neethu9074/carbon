@@ -5,10 +5,10 @@ import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definiti
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
+import { millis, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
-import { millis, bytes } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
@@ -20,12 +20,16 @@ export const getLabel = beacon => {
   return label;
 };
 
+export const getExtraTooltipFields = beacon => ({
+  'Retrieval Time': millis.fixedCompact(beacon.duration)
+});
+
 export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader label="Page Resource" onClick={toggleExpanded} value={getLabel(beacon)} />
     <KeyValueHeader
       label="Start Time"
-      value={`+${millis.compact(beacon.timestamp - earliestTimestamp)}`}
+      value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
     <KeyValueHeader label="Retrieval Time" value={millis.fixedCompact(beacon.duration)} />

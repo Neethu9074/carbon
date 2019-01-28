@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -25,13 +25,12 @@ export default function TooltipContent({ timestamp, chart, reverseTooltipOrder }
         axisName="y2"
         dataPointsAtTime={dataPointsAtTime}
         reverseTooltipOrder={reverseTooltipOrder}
-        addSpacer
       />
     </div>
   );
 }
 
-function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer, reverseTooltipOrder }) {
+function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder }) {
   const axis = config[axisName];
   if (!axis) {
     return null;
@@ -43,47 +42,45 @@ function MetricSeries({ config, axisName, dataPointsAtTime, addSpacer, reverseTo
     labels = labels.slice(0, config.restrictTooltipItemsTo);
   }
 
-  let items = labels.map((label, i) => {
-    if (!config.filteredDataSeries.has(label)) {
-      const dataPointsForAxis = dataPointsAtTime[axisName];
-      const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
-      const aggregations = axis.aggregations || [];
-      const aggregation = aggregations[i];
+  const items = labels.filter(label => !config.filteredDataSeries.has(label)).map((label, i) => {
+    const dataPointsForAxis = dataPointsAtTime[axisName];
+    const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
+    const aggregations = axis.aggregations || [];
+    const aggregation = aggregations[i];
 
-      return (
-        <li key={label} className={locals.metricValue}>
-          <div className={locals.entry}>
-            <div
-              style={{ background: axis.colors100[i] }}
-              className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
-            />
-            <span className={locals.label}>{label}</span>
-            <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
-          </div>
-          <span className={locals.value}>
-            {dataPoint
-              ? axis.tooltipFormatter
-                ? axis.tooltipFormatter(dataPoint[1])
-                : axis.formatter[i].detailed(dataPoint[1])
-              : '--'}
-          </span>
-        </li>
-      );
-    }
+    return (
+      <li key={label} className={locals.metricValue}>
+        <div className={locals.entry}>
+          <div
+            style={{ background: axis.colors100[i] }}
+            className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
+          />
+          <span className={locals.label}>{label}</span>
+          <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
+        </div>
+        <span className={locals.value}>
+          {dataPoint
+            ? axis.tooltipFormatter
+              ? axis.tooltipFormatter(dataPoint[1])
+              : axis.formatter[i].detailed(dataPoint[1])
+            : '--'}
+        </span>
+      </li>
+    );
   });
 
+  if (items.length < 1) {
+    return null;
+  }
+
   if (reverseTooltipOrder) {
-    items = items.reverse();
+    items.reverse();
   }
 
   return (
-    <Fragment>
-      {addSpacer && <div className={locals.spacer} />}
-
-      <ul className={locals.tooltipMetricList}>
-        {items}
-        {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
-      </ul>
-    </Fragment>
+    <ul className={locals.tooltipMetricList}>
+      {items}
+      {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
+    </ul>
   );
 }

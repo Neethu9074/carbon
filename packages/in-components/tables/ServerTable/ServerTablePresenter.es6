@@ -46,6 +46,7 @@ export default function ServerTablePresenter(props) {
     noDataMessage,
     showPagination = true,
     renderFooter = () => null,
+    withoutPadding = true,
 
     // events
     onChange,
@@ -138,7 +139,7 @@ export default function ServerTablePresenter(props) {
       );
     }
     return (
-      <Card title={cardTitle} header={header} withoutPadding>
+      <Card title={cardTitle} header={header} withoutPadding={withoutPadding}>
         {content}
         {pagination}
         {renderFooter(props)}

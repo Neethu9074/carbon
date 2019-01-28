@@ -36,6 +36,7 @@ export default connectTo(({ data: deployment }) => ({ annotations: getAnnotation
                 snapshotId={snapshotId}
                 metrics={['availableReplicas', 'desiredReplicas']}
                 labels={['Available', 'Desired']}
+                timeWindowAggregation={null}
               />
             )}
           />

@@ -8,7 +8,7 @@ import { millis, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['pageLoads', 'onLoadTime', 'errors'];
-const labels = ['Page Loads', 'onLoad Time', 'Errors'];
+const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, millis.fixedCompact, number.compact];
 
@@ -56,9 +56,10 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ websiteId, selectedMetric }) {
+function ViewAll({ websiteId, selectedMetric }, className) {
   return (
     <Link
+      className={className}
       href$={getLinkToWebsite(websiteId, {
         tabPath: '/pages',
         tabParameters: {
@@ -66,7 +67,7 @@ function ViewAll({ websiteId, selectedMetric }) {
         }
       })}
     >
-      View All
+      View all pages
     </Link>
   );
 }

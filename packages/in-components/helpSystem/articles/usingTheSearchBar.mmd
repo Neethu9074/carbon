@@ -7,7 +7,7 @@ Leveraging the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryp
 extensive abilities to search using fuzzy and wildcard searches as well as boolean operators. For example, the following
 query restricts views to production hosts with less than four CPUs:
 
-`entity.host.cpuCount:<4 AND entity.zone:production`.
+`entity.host.cpu.count:<4 AND entity.zone:production`.
 
 ## Search Bar Interaction
 The search bar supports autocompletion for search fields and will syntax highlight the lucene query while you type.
@@ -16,9 +16,9 @@ by hitting `RETURN`. Hit `CTRL+SPACE` to open the auto completion popup.
 
 ## Lucene Query Syntax Cheat Sheet
 
- - **Fielded search:** `entity.host.cpuCount:>4`
- - **Boolean operators:** `entity.host.cpuCount:<4 AND entity.zone:production`
- - **Grouping:** `(entity.host.cpuCount:<4 AND entity.zone:production) OR entity.host.cpuCount:>4`
+ - **Fielded search:** `entity.host.cpu.count:>4`
+ - **Boolean operators:** `entity.host.cpu.count:<4 AND entity.zone:production`
+ - **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`
  - **Wildcard searches:** `entity.type:*container*`
 
 Please refer to the [documentation](https://docs.instana.io/core_concepts/dynamic_focus) for more information.

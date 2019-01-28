@@ -99,6 +99,26 @@ describe('feature flags', () => {
     });
   });
 
+  describe('isOneSecondRollupsForOneDay', () => {
+    it('is false if Redis writing and Cassandra writing are enabled', () => {
+      setFeatureFlag('redisMetricWritingEnabled', true);
+      setFeatureFlag('write1sRollupsToCassandra', true);
+      expectFeatureFlag('isOneSecondRollupsForOneDay', false);
+    });
+
+    it('is false if only Redis writing is enabled', () => {
+      setFeatureFlag('redisMetricWritingEnabled', true);
+      setFeatureFlag('write1sRollupsToCassandra', false);
+      expectFeatureFlag('isOneSecondRollupsForOneDay', false);
+    });
+
+    it('is true if only Cassandra writing is enabled', () => {
+      setFeatureFlag('redisMetricWritingEnabled', false);
+      setFeatureFlag('write1sRollupsToCassandra', true);
+      expectFeatureFlag('isOneSecondRollupsForOneDay', true);
+    });
+  });
+
   function setFeatureFlag(key, value) {
     config.featureFlags[key] = value;
   }

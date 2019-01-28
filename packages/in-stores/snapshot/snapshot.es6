@@ -6,6 +6,7 @@ import createPhysicalHierarchyObservable from 'in-subscription/physicalHierarchy
 import createRunningComponentsObservable from 'in-subscription/runningComponents';
 import createSnapshotVersionsObservable from 'in-subscription/snapshotVersions';
 import createServiceInstancesObservable from 'in-subscription/serviceInstances';
+import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import createDeployedUnitsObservable from 'in-subscription/deployedUnits';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -24,10 +25,9 @@ const selectedSnapshotIdStore = createTrackingStore({
   observable: navigationParameters$
     .map(params => {
       const query = params.query;
-      if ('snapshotId' in query) {
-        return query.snapshotId;
+      if (snapshotIdUrlParameter.name in query) {
+        return query[snapshotIdUrlParameter.name];
       }
-
       return null;
     })
     .distinct()
@@ -76,7 +76,7 @@ export function setSelectedSnapshotId(id) {
   } else {
     mutateUrl(navParams => {
       delete navParams.query.incidentId;
-      navParams.query.snapshotId = id;
+      navParams.query[snapshotIdUrlParameter.name] = id;
       return navParams;
     });
   }
@@ -84,7 +84,7 @@ export function setSelectedSnapshotId(id) {
 
 export function clearSelectedSnapshotId() {
   mutateUrl(navParams => {
-    delete navParams.query.snapshotId;
+    delete navParams.query[snapshotIdUrlParameter.name];
     return navParams;
   });
 }

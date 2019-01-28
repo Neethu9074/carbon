@@ -1,38 +1,31 @@
 import React, { Fragment } from 'react';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
+import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
+import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import { Th, Td } from 'in-components/tables/sharedComponents';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
-import { millis } from 'in-services/formatters/number';
+
+export const perTypeColumnCount = 3;
 
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <Th>URI</Th>
-
       <Th>Website</Th>
-
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
-        technicalName="beacon.timestamp"
+        technicalName={timestampMetricName}
         label="Timestamp"
-      />
-
-      <SortableColumn
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        onChangeOrder={onChangeOrder}
-        defaultDirection="DESC"
-        technicalName="beacon.duration"
-        label="Retrieval Time"
       />
     </Fragment>
   );
@@ -49,6 +42,7 @@ export function TableRowColumns({ item }) {
             beaconId: item.beacon.beaconId,
             beaconTimestamp: item.beacon.timestamp
           })}
+          onClick={() => triggerHighlight(getHighlighterId(item.beacon.beaconId))}
         >
           <EllipsisCell>{item.beacon.httpCallUrl}</EllipsisCell>
         </TableLinkWithIcon>
@@ -69,10 +63,6 @@ export function TableRowColumns({ item }) {
       <Td>
         <TimestampCell time={item.beacon.timestamp} />
       </Td>
-
-      <Td>
-        <span>{millis.fixedCompact(item.beacon.duration)}</span>
-      </Td>
     </Fragment>
   );
 }
@@ -90,6 +80,7 @@ export function ListItem({ item, active }) {
         beaconTimestamp: item.beacon.timestamp
       })}
       time={item.beacon.timestamp}
+      onClick={() => triggerHighlight(getHighlighterId(item.beacon.beaconId))}
       duration={item.beacon.duration}
     />
   );

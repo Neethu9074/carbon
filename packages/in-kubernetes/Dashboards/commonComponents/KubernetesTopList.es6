@@ -40,6 +40,7 @@ function getList({
   nodeId,
   timeConfig,
   selectedMetric,
+  metricOrderDirection,
   getItems
 }) {
   return getItems({
@@ -49,7 +50,7 @@ function getList({
     },
     order: {
       by: selectedMetric,
-      direction: 'DESC'
+      direction: metricOrderDirection || 'DESC'
     },
     filter: {
       clusterId,
@@ -63,10 +64,10 @@ function getList({
   });
 }
 
-function ViewAll({ allItemsHref$ }, className) {
+function ViewAll({ viewAllEntityName, allItemsHref$ }, className) {
   return (
     <Link className={className} href$={allItemsHref$}>
-      View All
+      View all {viewAllEntityName ? `${viewAllEntityName}` : ''}
     </Link>
   );
 }
@@ -84,7 +85,7 @@ function Metric({ formattedMetricValue }) {
 }
 
 function Renderer(props) {
-  return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} />;
+  return <TopListCardPresenter {...props} getMetricValueFromItem={getMetricValueFromItem} useMaxAvailableHeight />;
 }
 function getMetricValueFromItem(metricId, item) {
   return get(item, metricId);

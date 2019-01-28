@@ -29,7 +29,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={6}>
           <TopDeploymentsList
             namespaceId={namespace.id}
@@ -50,9 +50,9 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={4}>
-          <Card title="CPU Requests / Limits">
+          <Card title="CPU Requests / Limits" useMaxAvailableHeight>
             <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -74,7 +74,7 @@ export default function Summary({ timeConfig, data: namespace }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Memory Requests / Limits">
+          <Card title="Memory Requests / Limits" useMaxAvailableHeight>
             <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -96,7 +96,7 @@ export default function Summary({ timeConfig, data: namespace }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Pods Allocation">
+          <Card title="Pods Allocation" useMaxAvailableHeight>
             <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

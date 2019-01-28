@@ -32,6 +32,7 @@ export default function MaintenanceConfigurations() {
       openEntityConfiguration={() => goToPath(maintenanceConfigurationPath)}
       cols={cols}
       getRowDetails={getRowDetails}
+      maxItemsPerPage={20}
     />
   );
 }

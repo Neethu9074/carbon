@@ -24,9 +24,11 @@
 
     font-size: 0.8rem;
     padding: 0.5rem 1rem;
+    border-radius: @lib__shapes__radius_small;
 
     &:hover {
       color: @lib__colors__N500;
+      background: @lib__colors__faded-blue800;
 
       .icon {
         fill: @lib__colors__N500;
@@ -45,6 +47,7 @@
 
     &:hover {
       color: #fff;
+      background: @lib__colors__N700Medium;
 
       .icon {
         fill: #fff;

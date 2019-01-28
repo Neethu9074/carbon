@@ -58,9 +58,9 @@ export default function Summary({ timeConfig, data: cluster }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={4}>
-          <Card title="CPU Resources">
+          <Card title="CPU Resources" useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -74,7 +74,7 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Memory Resources">
+          <Card title="Memory Resources" useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -88,7 +88,7 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Pods">
+          <Card title="Pods" useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -103,7 +103,7 @@ export default function Summary({ timeConfig, data: cluster }) {
         </Col>
       </Row>
 
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={4}>
           <TopNodesList
             clusterId={cluster.id}

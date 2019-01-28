@@ -157,6 +157,31 @@
     }
   }
 
+  .action--danger {
+    .buttonStyle(
+        // bg
+          @lib__colors__white,
+        // hover bg
+          #f8e8e8,
+        // font
+          @lib__colors__failure,
+        // hover font
+          @lib__colors__failure,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          normal
+      )
+      ;;
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: #62757d7a;
+      background: @lib__colors__white;
+    }
+  }
+
   .subtle {
     .buttonStyle(
         // bg

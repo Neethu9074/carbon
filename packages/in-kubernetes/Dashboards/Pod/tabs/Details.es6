@@ -5,10 +5,11 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { podDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
@@ -24,7 +25,7 @@ export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.i
     <Fragment>
       <Row>
         <Col lg={4}>
-          <KpiCard title="Phase" value={pod.phase} raw />
+          <KpiCard title="Phase" value={<PodStatus status={pod.phase} />} raw />
         </Col>
         <Col lg={4}>
           <InfraMetricKpiCard
@@ -47,6 +48,42 @@ export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.i
           <KpiCard title="Pod IP" value={pod.podIp} raw />
         </Col>
       </Row>
+
+      <Row>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="CPU Requests"
+            snapshotId={snapshotId}
+            metric="cpuRequests"
+            formatter={twoDecimalPlaces}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="CPU Limits"
+            snapshotId={snapshotId}
+            metric="cpuLimits"
+            formatter={twoDecimalPlaces}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="Memory Requests"
+            snapshotId={snapshotId}
+            metric="memoryRequests"
+            formatter={bytesTwoDecimalPlaces}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title="Memory Limits"
+            snapshotId={snapshotId}
+            metric="memoryLimits"
+            formatter={bytesTwoDecimalPlaces}
+          />
+        </Col>
+      </Row>
+
       <DetailsNavigation
         navigationItems={navigationItems}
         resource={pod}

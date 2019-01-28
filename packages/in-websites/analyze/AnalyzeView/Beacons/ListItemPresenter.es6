@@ -7,7 +7,7 @@ import Link from 'in-components/Link';
 
 import locals from './ListItemPresenter.mless';
 
-export default function ListItemPresenter({ label, time, duration, href$, active }) {
+export default function ListItemPresenter({ label, time, duration, href$, onClick, active }) {
   return (
     <Link
       className={evaluateClassNames({
@@ -15,6 +15,7 @@ export default function ListItemPresenter({ label, time, duration, href$, active
         [locals.active]: active
       })}
       href$={href$}
+      onClick={onClick}
     >
       <span className={locals.label}>{label}</span>
       <div className={locals.secondRow}>

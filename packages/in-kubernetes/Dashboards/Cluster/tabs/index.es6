@@ -1,3 +1,7 @@
+import React from 'react';
+
+import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
+import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
@@ -22,30 +26,40 @@ export default [
     label: 'Nodes',
     path: `${clusterDashboardFullyQualified}/nodes`,
     component: Nodes,
-    icon: 'lib_kubernetes_node'
+    header: props => getCounterComponent(props, 'nodes')
   },
   {
     label: 'Namespaces',
     path: `${clusterDashboardFullyQualified}/namespaces`,
     component: Namespaces,
-    icon: 'lib_kubernetes_namespace'
+    header: props => getCounterComponent(props, 'namespaces')
   },
   {
     label: 'Deployments',
     path: `${clusterDashboardFullyQualified}/deployments`,
     component: Deployments,
-    icon: 'lib_kubernetes_workload'
+    header: props => getCounterComponent(props, 'deployments')
   },
   {
-    label: 'Services',
+    label: 'K8s Services',
     path: `${clusterDashboardFullyQualified}/services`,
     component: Services,
-    icon: 'lib_kubernetes_service'
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
     component: PodsWithNamespaces,
-    icon: 'lib_kubernetes_pod'
+    header: props => getCounterComponent(props, 'pods')
   }
 ].filter(Boolean);
+
+function getCounterComponent(props, resultPropName) {
+  return (
+    <TabLabelWithCounter
+      label={props.tab.label}
+      getCounters={() => getKubernetesClusterItemCounters({ clusterId: props.clusterId, timeConfig: props.timeConfig })}
+      resultPropName={resultPropName}
+    />
+  );
+}

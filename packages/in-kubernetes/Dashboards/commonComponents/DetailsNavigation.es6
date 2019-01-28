@@ -69,6 +69,7 @@ export function labelsNavigationItem(path) {
 export function annotationsNavigationItem(path) {
   return {
     path,
+    icon: 'lib_kubernetes_annotation',
     renderLabel: ({ annotations }) => `Annotations (${annotations ? annotations.length : 0})`,
     component: ({ annotations }) => <Annotations annotations={annotations} onEmptyText="No Annotations" />
   };
@@ -77,6 +78,7 @@ export function annotationsNavigationItem(path) {
 export function specNavigationItem(path) {
   return {
     path,
+    icon: 'lib_kubernetes_spec',
     label: 'Spec',
     component: ({ resource }) => <Spec snapshotId={resource.id} />
   };

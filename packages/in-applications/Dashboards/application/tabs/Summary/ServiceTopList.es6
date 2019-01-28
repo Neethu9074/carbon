@@ -66,7 +66,7 @@ function ViewAll({ applicationId, selectedMetric }, className) {
         }
       })}
     >
-      View All
+      View all services
     </Link>
   );
 }

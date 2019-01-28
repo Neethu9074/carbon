@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .beacon {
@@ -7,6 +8,12 @@
     background: @lib__colors__N050;
     color: @lib__colors__N600Light;
     position: relative;
+
+    .highlightingBase();
+  }
+
+  .highlighted {
+    .highlightingActive();
   }
 
   .erroneous::before {

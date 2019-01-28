@@ -8,28 +8,31 @@ import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { uiNeedsRefresh$ } from 'in-services/uiClientVersion';
 import { getView } from 'in-stores/navigation/navigation';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { config } from 'in-services/config';
 import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 
-import './Menu.less';
+import locals from './Menu.mless';
 
-const block = 'in-account-menu';
 const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
 export default connectTo(
   {
-    isOpen: isOpen$
+    isOpen: isOpen$,
+    uiNeedsRefresh: uiNeedsRefresh$
   },
   class extends React.Component {
     static displayName = 'Menu';
 
     static propTypes = {
-      isOpen: rpt.bool
+      isOpen: rpt.bool,
+      uiNeedsRefresh: rpt.bool
     };
 
     componentDidMount() {
@@ -47,48 +50,66 @@ export default connectTo(
       }
 
       this.registerListener();
-      const linkElement = `${block}__link`;
 
       return (
-        <section className={block} ref={menu => (this.menu = menu)}>
-          <p className={block + '__account-name'}>Signed in as {window.instana.user.fullName}</p>
+        <section className={locals.wrapper} ref={menu => (this.menu = menu)}>
+          <p className={locals.accountName}>Signed in as {window.instana.user.fullName}</p>
 
-          <Link href={umpLink} className={`${linkElement} ${block}__account-menu-link`} onClick={closeMenu} external>
+          <Link
+            href={umpLink}
+            className={`${locals.linkElement} ${locals.accountMenuLink}`}
+            onClick={closeMenu}
+            external
+          >
             Management Portal
-            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
+            <SvgIcon className={locals.linkElementIcon} type="external_link" height={14} color="#92a5ae" />
           </Link>
+
+          {this.props.uiNeedsRefresh && (
+            <div className={locals.updateSection}>
+              <h1 className={locals.updateSectionHeader}>Update Available</h1>
+              <p>A new version of the Instana user interface is now available. Reload the page to get it!</p>
+              <Button
+                onClick={() => window.location.reload()}
+                className={locals.updateSectionHeaderButton}
+                kind="warning"
+              >
+                Reload
+              </Button>
+            </div>
+          )}
 
           <Separator />
 
           {tenantSwitcherEnabled && [<TenantUnitSwitcher key="0" />, <Separator key="1" />]}
 
-          <Link className={linkElement} href$={getView(settingsPath)} onClick={closeMenu}>
+          <Link className={locals.linkElement} href$={getView(settingsPath)} onClick={closeMenu}>
             Settings
           </Link>
 
           {role.canConfigureAgents ? (
-            <Link className={linkElement} href$={getView(agentsPath)} onClick={closeMenu}>
+            <Link className={locals.linkElement} href$={getView(agentsPath)} onClick={closeMenu}>
               Agents
             </Link>
           ) : null}
 
           {releaseNotesEnabled && (
-            <Link className={linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
+            <Link className={locals.linkElement} href="#" onClick={closeAndCall(showReleaseNotes)}>
               Release Notes
             </Link>
           )}
 
-          <Link className={linkElement} href="https://docs.instana.com" onClick={closeMenu} target="_block">
+          <Link className={locals.linkElement} href="https://docs.instana.com" onClick={closeMenu} target="_block">
             Documentation
-            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
+            <SvgIcon className={locals.linkElementIcon} type="external_link" height={14} color="#92a5ae" />
           </Link>
 
-          <Link className={linkElement} href="https://support.instana.com" onClick={closeMenu} target="_block">
+          <Link className={locals.linkElement} href="https://support.instana.com" onClick={closeMenu} target="_block">
             Support
-            <SvgIcon className={`${linkElement}__icon`} type="external_link" height={14} color="#92a5ae" />
+            <SvgIcon className={locals.linkElementIcon} type="external_link" height={14} color="#92a5ae" />
           </Link>
 
-          <Link className={linkElement} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
+          <Link className={locals.linkElement} onClick={() => setActiveDialog(<AboutInstanaDialog />)}>
             About Instana
           </Link>
 
@@ -97,7 +118,7 @@ export default connectTo(
           <form action="/auth/signOut" method="post">
             <button
               type="submit"
-              className={block + '__signout'}
+              className={locals.linkElement}
               // Do not close the popup. This would disconnect the <form /> from the HTML tree and therefore break
               // sign out behavior with the error:
               // > Form submission canceled because the form is not connected
@@ -148,7 +169,7 @@ export default connectTo(
 );
 
 function Separator() {
-  return <div className={block + '__separator'} />;
+  return <div className={locals.separator} />;
 }
 
 function closeAndCall(fn) {

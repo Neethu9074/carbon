@@ -5,11 +5,13 @@ import { deepFreeze } from 'in-services/util/object';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 
+const basePath = '/api/application-monitoring/settings/application';
+
 export function getApplicationConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/applicationConfigs/${encodeURIComponent(id)}`,
+    url: `${basePath}/${encodeURIComponent(id)}`,
     mapToResultObject: true
   }).map(mapFromServerResponse);
 }
@@ -17,7 +19,7 @@ export function getApplicationConfig(id) {
 export function addApplicationConfig(config) {
   return http({
     method: 'POST',
-    url: `/api/applicationConfigs`,
+    url: `${basePath}`,
     headers: getCsrfHeader(),
     data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
@@ -27,7 +29,7 @@ export function updateApplicationConfig(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/applicationConfigs/${config.id}`,
+    url: `${basePath}/${config.id}`,
     headers: getCsrfHeader(),
     data: mapToServerResponse(config)
   }).map(response => deepFreeze(response.body));
@@ -38,14 +40,15 @@ export function deleteApplicationConfig(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/applicationConfigs/${id}`
+    url: `${basePath}/${id}`
   });
 }
 
 export function createNewApplicationConfig() {
   return {
     label: '',
-    matchSpecification: []
+    matchSpecification: [],
+    scope: 'INCLUDE_DATA_STORES'
   };
 }
 

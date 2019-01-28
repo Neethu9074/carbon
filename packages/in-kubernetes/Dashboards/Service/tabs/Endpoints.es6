@@ -3,14 +3,16 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { Checkmark } from 'in-kubernetes/Dashboards/commonComponents/icons';
+import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import EntityLink from 'in-new-components/EntityLink';
 import WithIcon from 'in-new-components/WithIcon';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';
 
-export default function Endpoints({ timeConfig, data: service }) {
+export default function Endpoints({ timeConfig, data: service, clusterId, namespaceId }) {
   return (
     <Fragment>
       <Row>
@@ -24,9 +26,12 @@ export default function Endpoints({ timeConfig, data: service }) {
             timeConfig={timeConfig}
             serviceId={service.id}
             paginationResettingProps={['serviceId', 'timeConfig']}
-            defaultOrderBy="name"
+            defaultOrderBy="address"
             defaultOrderDirection="ASC"
             defaultPageSize={10}
+            withoutPadding={false}
+            clusterId={clusterId}
+            namespaceId={namespaceId}
           />
         </Col>
       </Row>
@@ -54,31 +59,53 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 
 const columnDefinitions = [
   {
-    id: 'serviceUid',
-    label: 'Service UID',
+    id: 'address',
+    label: 'Address',
     getContent(item) {
-      return <WithIcon icon="lib_kubernetes_endpoint">{get(item, ['endpoint', 'serviceUid'])}</WithIcon>;
+      return <WithIcon icon="lib_kubernetes_endpoint">{get(item, 'address')}</WithIcon>;
     }
   },
   {
-    id: 'pods',
-    label: 'Pods',
+    id: 'port',
+    label: 'Port',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={get(item, ['endpoint', 'pods'])} />;
+      return get(item, 'port');
     }
   },
   {
-    id: 'internal',
-    label: 'Interal',
+    id: 'portName',
+    label: 'Port Name',
     getContent(item) {
-      return <EntityCounter count={get(item, ['endpoint', 'internal'])} />;
+      return get(item, 'portName') || '--';
     }
   },
   {
-    id: 'external',
-    label: 'External',
+    id: 'protocol',
+    label: 'Protocol',
     getContent(item) {
-      return <EntityCounter count={get(item, ['endpoint', 'external'])} />;
+      return get(item, 'protocol');
+    }
+  },
+  {
+    id: 'ready',
+    label: 'Ready',
+    getContent(item) {
+      return get(item, 'ready') && <Checkmark />;
+    }
+  },
+  {
+    id: 'podName',
+    label: 'Target',
+    getContent(item, { namespaceId, clusterId }) {
+      return item.podName && item.podSnapshotId ? (
+        <EntityLink
+          icon="lib_kubernetes_pod"
+          label={item.podName}
+          href$={getPodDashboard(item.podSnapshotId, { namespaceId, clusterId })}
+        />
+      ) : (
+        '--'
+      );
     }
   }
 ];

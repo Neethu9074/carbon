@@ -1,4 +1,4 @@
-import { user, isInstanaEngineer, isInstanaEmail } from 'in-stores/user';
+import { isInstanaEngineer, isInstanaEmail } from 'in-stores/';
 import { config, isFeatureFlagEnabled } from 'in-services/config';
 
 // ########################################################################################
@@ -30,15 +30,13 @@ export const maintenanceNotesEnabled = isFeatureFlagEnabled('maintenanceNotesEna
 export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInstanaSaasEumTrackingUrlEnabled');
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
-export const kubernetesEnabled =
-  isInstanaEngineer ||
-  isFeatureFlagEnabled('isKubernetesV2Enabled') ||
-  user.email === 'matthias.luebken+kubecon@instana.com';
+export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
 export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
 export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
 export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
   'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
 );
+export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
@@ -113,3 +111,9 @@ export const allowedMultiplesOfRollupSizeMissingInCharts =
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
+
+// ########################################################################################
+// Moving from Redis to Cassandra for 1s rollups
+// ########################################################################################
+export const isOneSecondRollupsForOneDay =
+  !isFeatureFlagEnabled('redisMetricWritingEnabled') && isFeatureFlagEnabled('write1sRollupsToCassandra');

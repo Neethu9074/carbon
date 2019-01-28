@@ -1,21 +1,23 @@
+import React, { Fragment } from 'react';
 import { get, filter } from 'lodash';
-import React from 'react';
+import { compose } from 'recompose';
 
-import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import PodStatusIcon from 'in-kubernetes/Dashboards/commonComponents/PodStatusIcon';
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import HistoricMetricSparkChart from 'in-charts/SparkChart';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/timeline';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
+import podPhases from 'in-kubernetes/podPhases';
+import withUrlState from 'in-hoc/withUrlState';
+import ComboBox from 'in-components/ComboBox';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -26,7 +28,22 @@ export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, .
   return <Pods columnDefinitions={columnDefinitions} {...props} />;
 }
 
-export default function Pods({
+const Pods = compose(
+  withUrlState({
+    reducerName: 'setPhase',
+    bind: [
+      {
+        path: pathSegment,
+        name: 'phase',
+        initialState: null,
+        parser: buildJsonParser(null),
+        serializer: buildJsonSerializer()
+      }
+    ]
+  })
+)(function Pods({
+  phase,
+  setPhase,
   timeConfig,
   namespaceId,
   clusterId,
@@ -34,6 +51,18 @@ export default function Pods({
   serviceId,
   columnDefinitions = columnDefinitionsWithoutNamespace
 }) {
+  const rightHeader = (
+    <Fragment>
+      <ComboBox
+        placeholder="Status…"
+        value={phase}
+        onChange={t => setPhase({ phase: t ? t.value : null })}
+        options={podPhases}
+        className={locals.filter}
+      />
+    </Fragment>
+  );
+
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Pods"
@@ -46,12 +75,14 @@ export default function Pods({
       deploymentId={deploymentId}
       clusterId={clusterId}
       serviceId={serviceId}
+      rightHeader={rightHeader}
+      phase={phase}
       paginationResettingProps={['namespaceId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
     />
   );
-}
+});
 
 function getTableData({
   query,
@@ -63,7 +94,8 @@ function getTableData({
   namespaceId,
   clusterId,
   serviceId,
-  deploymentId
+  deploymentId,
+  phase
 }) {
   return getKubernetesPods({
     pagination: {
@@ -80,7 +112,8 @@ function getTableData({
       deploymentId,
       clusterId,
       serviceId,
-      timeConfig
+      timeConfig,
+      phase
     }
   });
 }
@@ -89,19 +122,13 @@ const allColumnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId, namespaceId, deploymentId, serviceId, timeConfig }) {
+    getContent(item, { clusterId, namespaceId, deploymentId, serviceId }) {
       return (
-        <KubernetesSeverity
-          clusterId={get(item, ['pod', 'id'])}
-          timeConfig={timeConfig}
-          renderLink={maxSeverity => (
-            <SeverityAwareEntityLink
-              icon="lib_kubernetes_pod"
-              label={get(item, ['pod', 'label'])}
-              href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId })}
-              severity={maxSeverity}
-            />
-          )}
+        <SeverityAwareEntityLink
+          icon="lib_kubernetes_pod"
+          label={get(item, ['pod', 'label'])}
+          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId })}
+          severity={item.entityHealthInfo.maxSeverity}
         />
       );
     }
@@ -117,7 +144,7 @@ const allColumnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return getStatusIcon(get(item, ['pod', 'phase']));
+      return <PodStatusIcon status={get(item, ['pod', 'phase'])} withTooltip />;
     }
   },
   {
@@ -206,13 +233,13 @@ const allColumnDefinitions = [
     }
   },
   {
-    id: 'maxSeverity',
+    id: 'health',
     label: 'Health',
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicatorBehavior
-          podId={item.pod.id}
+        <KubernetesEntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea
@@ -242,26 +269,4 @@ const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
   );
 });
 
-function getStatusIcon(status) {
-  let iconType = 'lib_kubernetes_status_unknown';
-  let color = theme.lib.colors.failure;
-
-  if (status === 'Pending') {
-    iconType = 'lib_kubernetes_status_pending';
-    color = theme.lib.colors.warning;
-  } else if (status === 'Running') {
-    iconType = 'lib_kubernetes_status_running';
-    color = theme.lib.colors.success;
-  } else if (status === 'Succeeded') {
-    iconType = 'lib_kubernetes_status_succeed';
-    color = theme.lib.colors.success;
-  } else if (status === 'Failed') {
-    iconType = 'lib_kubernetes_status_failed';
-    color = theme.lib.colors.failure;
-  }
-  return (
-    <Tooltip themeStyle="light" content={status}>
-      <SvgIcon type={iconType} width={24} height={24} color={color} />
-    </Tooltip>
-  );
-}
+export default Pods;

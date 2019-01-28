@@ -1,3 +1,7 @@
+import React from 'react';
+
+import getKubernetesDeploymentItemCounters from 'in-subscription/kubernetes/getKubernetesDeploymentItemCounters';
+import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
@@ -18,6 +22,18 @@ export default [
     label: 'Pods',
     path: `${deploymentDashboardFullyQualified}/pods`,
     component: Pods,
-    icon: 'lib_kubernetes_pod'
+    header: props => getCounterComponent(props, 'pods')
   }
 ].filter(Boolean);
+
+function getCounterComponent(props, resultPropName) {
+  return (
+    <TabLabelWithCounter
+      label={props.tab.label}
+      getCounters={() =>
+        getKubernetesDeploymentItemCounters({ deploymentId: props.deploymentId, timeConfig: props.timeConfig })
+      }
+      resultPropName={resultPropName}
+    />
+  );
+}

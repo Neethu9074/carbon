@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import TagList from 'in-sdk/components/sidebar/TagList';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -9,18 +10,16 @@ export default function Info({ snapshot }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-
+        <DescriptionItem title="Resource Group">{data.get('resourceGroup')}</DescriptionItem>
         <DescriptionItem title="Location">{data.get('location')}</DescriptionItem>
-
+        <DescriptionItem title="Subscription ID">{data.get('subscription')}</DescriptionItem>
+        <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
         <DescriptionItem title="Publisher">{data.get('publisherName')}</DescriptionItem>
-
         <DescriptionItem title="Provisioning State">{data.get('provisioningState')}</DescriptionItem>
-
         <DescriptionItem title="Gateway Url">{data.get('gatewayUrl')}</DescriptionItem>
-
         <DescriptionItem title="Portal Url">{data.get('portalUrl')}</DescriptionItem>
-
-        <DescriptionItem title="Sku">{data.get('sku')}</DescriptionItem>
+        <DescriptionItem title="Tier">{data.get('sku')}</DescriptionItem>
+        <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
   );

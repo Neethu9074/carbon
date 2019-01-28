@@ -23,7 +23,7 @@ export default [
     formatter: number
   },
   {
-    metric: 'status',
+    metric: 'metrics.status',
     label: 'Status of SpringBoot Application',
     min: 0,
     formatter: number

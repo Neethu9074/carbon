@@ -232,7 +232,12 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>{this.props.title}</SectionHeading>
 
-            <Table cols={this.props.cols} rows={rows} getRowDetails={this.props.getRowDetails} />
+            <Table
+              cols={this.props.cols}
+              rows={rows}
+              getRowDetails={this.props.getRowDetails}
+              maxItemsPerPage={this.props.maxItemsPerPage}
+            />
           </Section>
         ) : null}
       </SubViewWrapper>

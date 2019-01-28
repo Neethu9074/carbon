@@ -1,5 +1,6 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
+import { find, without } from 'lodash';
 
 import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/MetricSelectorPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -17,10 +18,14 @@ export default compose(
     ],
     reducerName: 'onChange'
   }),
-  withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave }) => ({
+  withProps(({ onChange, newMetricForm, selectedMetricsForm, onSave, availableMetrics }) => ({
     onMetricChange: v =>
       onChange({
-        newMetricForm: newMetricForm.updateIn(['metric'], f => f.setValue(v).setTouched(true))
+        newMetricForm: newMetricForm
+          .updateIn(['metric'], f => f.setValue(v).setTouched(true))
+          .updateIn(['aggregation'], f =>
+            f.setValue(getUnusedAggregation(v, availableMetrics, selectedMetricsForm.value))
+          )
       }),
     onAggregationChange: v =>
       onChange({
@@ -112,4 +117,11 @@ function getEmptyNewForm() {
         validator: notBlankValidator
       })
     );
+}
+
+function getUnusedAggregation(metric, availableMetrics, selectedMetrics) {
+  const definition = find(availableMetrics, m => m.metric === metric);
+  const usedAggregations = selectedMetrics.filter(m => m.metric == metric).map(m => m.aggregation);
+  const unusedAggregations = without.call(null, definition.supportedAggregations, ...usedAggregations);
+  return unusedAggregations[0] || definition.supportedAggregations[0];
 }

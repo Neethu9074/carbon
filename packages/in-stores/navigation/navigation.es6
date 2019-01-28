@@ -1,4 +1,5 @@
 import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -25,6 +26,7 @@ export function mutateUrl(mutator, replace = false) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneLocation(currentLocation);
     mutator(newLocation);
+    applyResets(currentLocation, newLocation);
     if (stringify(newLocation) !== stringify(currentLocation)) {
       if (replace) {
         history.replace(newLocation);
@@ -37,10 +39,11 @@ export function mutateUrl(mutator, replace = false) {
 
 export function getModifiedUrlStream(mapParams) {
   return navigationParameters$
-    .map(params => {
-      params = cloneLocation(params);
-      mapParams(params);
-      return '/#' + stringify(params);
+    .map(currentLocation => {
+      const newLocation = cloneLocation(currentLocation);
+      mapParams(newLocation);
+      applyResets(currentLocation, newLocation);
+      return '/#' + stringify(newLocation);
     })
     .distinct();
 }

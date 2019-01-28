@@ -1,4 +1,4 @@
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces, number, millis } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces, number, seconds } from 'in-services/formatters/number';
 
 export default [
   {
@@ -86,17 +86,17 @@ export default [
   {
     metric: 'health.disk_wal_fsync_duration',
     label: 'Disk fsync duration',
-    formatter: millis
+    formatter: seconds
   },
   {
     metric: 'health.disk_backend_commit_duration',
     label: 'Disk backend commit duration',
-    formatter: millis
+    formatter: seconds
   },
   {
     metric: 'health.debugging_snap_save_total_duration',
     label: 'Snap save total duration',
-    formatter: millis
+    formatter: seconds
   },
   {
     metric: 'health.server_has_leader',

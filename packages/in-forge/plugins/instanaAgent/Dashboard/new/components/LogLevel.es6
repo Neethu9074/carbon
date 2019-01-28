@@ -3,6 +3,7 @@ import React from 'react';
 import { setLogLevel } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
+import { isInstanaEngineer } from 'in-stores/user';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
@@ -47,6 +48,7 @@ export default class extends React.Component {
           >
             <option value="INFO">INFO</option>
             <option value="DEBUG">DEBUG</option>
+            {isInstanaEngineer ? <option value="TRACE">TRACE</option> : null};
           </Select>
         </FormGroup>
 

@@ -28,6 +28,7 @@ export default function AlertingConfigurations() {
       openEntityConfiguration={() => setActiveDialog(<NewIntegrationDialog />)}
       cols={cols}
       getRowDetails={getRowDetails}
+      maxItemsPerPage={20}
     />
   );
 }

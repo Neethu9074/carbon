@@ -726,6 +726,7 @@ describe('reactive-observables', () => {
   });
 
   describe('nextFrame', () => {
+    let originalRequestAnimationFrame;
     let requestAnimationFrameStub;
 
     beforeEach(() => {
@@ -734,11 +735,12 @@ describe('reactive-observables', () => {
       // reuqestAnimationFrame results the request id of this entry in
       // the event loop
       requestAnimationFrameStub.returns(Math.random());
+      originalRequestAnimationFrame = global.requestAnimationFrame;
       global.requestAnimationFrame = requestAnimationFrameStub;
     });
 
     afterEach(() => {
-      global.requestAnimationFrame = null;
+      global.requestAnimationFrame = originalRequestAnimationFrame;
     });
 
     it('should call subscribers on the next frame', () => {

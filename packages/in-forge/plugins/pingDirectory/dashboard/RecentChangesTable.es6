@@ -1,0 +1,174 @@
+import React from 'react';
+
+import Chart from 'in-components/Chart';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sdk/components/dashboard/Table';
+
+import { emptyList } from 'in-services/fixedImmutables';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+
+const cols = [
+  {
+    title: 'DB name',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'DB open records',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.database_open_record_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Add entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.add_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Add entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.add_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Modify entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.modify_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Delete entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.delete_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Rename entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.rename_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Changed entry',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `recent_changes.data.${row.key}.changed_entry_count`;
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default function RecentChangesTable({ snapshot, timeConfig }) {
+  const databases = snapshot.getIn(['data', 'recent_changes.names'], emptyList);
+  const rows = databases.toArray().map(database => {
+    return {
+      key: database,
+      snapshotId: snapshot.get('id'),
+      timeConfig
+    };
+  });
+  if (!rows) {
+    return null;
+  }
+  return (
+    <DashboardSection title={`Recent changes per database (${rows.length})`}>
+      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    </DashboardSection>
+  );
+}
+
+function getRowDetails(row) {
+  return (
+    <div>
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          metrics: [
+            'recent_changes.data.' + row.key + '.database_open_record_count',
+            'recent_changes.data.' + row.key + '.add_entry_count',
+            'recent_changes.data.' + row.key + '.modify_entry_count',
+            'recent_changes.data.' + row.key + '.delete_entry_count',
+            'recent_changes.data.' + row.key + '.rename_entry_count',
+            'recent_changes.data.' + row.key + '.changed_entry_count'
+          ],
+          labels: ['DB open records', 'Add entry', 'Modify entry', 'Delete entry', 'Rename entry', 'Changed entry'],
+          type: 'line'
+        }}
+      />
+    </div>
+  );
+}

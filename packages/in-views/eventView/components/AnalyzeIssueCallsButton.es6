@@ -3,13 +3,14 @@ import { get } from 'lodash';
 import React from 'react';
 
 import {
-  getTimeConfigFromEventForCharts,
+  getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
 import { getEntityOfType, isLoading, hasErrors } from 'in-components/EntityInformation/entityUtils';
 import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -30,6 +31,7 @@ export default connectTo(
     } else if (entityType === 'Endpoint20') {
       observables.endpointLabel = getEndpointLabel({ id: entityId }).map(getLabel);
       const endpointEntity = getEntityObservable(event);
+      observables.endpointEntity = endpointEntity;
       observables.serviceLabel = endpointEntity.flatMap(endpoint => {
         if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
           return just(null);
@@ -40,7 +42,7 @@ export default connectTo(
 
     return observables;
   },
-  function AnalyzeIssueCalls({ event, applicationLabel, serviceLabel, endpointLabel }) {
+  function AnalyzeIssueCalls({ event, applicationLabel, serviceLabel, endpointLabel, endpointEntity }) {
     if (!event) {
       return null;
     }
@@ -50,27 +52,31 @@ export default connectTo(
     }
 
     const isErroneous = isErrorEvent(event);
+    const isSynthetic = isSyntheticEndpoint(endpointEntity);
+    const filters = getFilters(isErroneous, isSynthetic);
     const order = getAnalyzeOrder(event);
+    const dataSource = 'calls';
 
     return (
-      <Button
-        kind="primary"
-        icon="lib_application_call"
-        href$={getLinkToAnalyze({
-          applicationName: applicationLabel,
-          serviceName: serviceLabel,
-          endpointName: endpointLabel,
-          dataSource: 'calls',
-          filters: isErroneous ? [{ name: 'call.erroneous', value: 'true' }] : null,
-          groupByTag: {}, // prevent default grouping
-          orderBy: order.by,
-          orderDirection: order.direction,
-          timeConfig: getTimeConfigFromEventForCharts(event)
-        })}
-        className={locals.analyzeButton}
-      >
-        Analyze Calls
-      </Button>
+      <div className={locals.buttonWrapper}>
+        <Button
+          kind="primary"
+          icon="lib_application_call"
+          href$={getLinkToAnalyze({
+            applicationName: applicationLabel,
+            serviceName: serviceLabel,
+            endpointName: endpointLabel,
+            dataSource: dataSource,
+            filters: filters,
+            groupByTag: endpointLabel ? {} : getConfigByDataSource(dataSource).defaultGrouping,
+            orderBy: order.by,
+            orderDirection: order.direction,
+            timeConfig: getTimeConfigFromEvent(event)
+          })}
+        >
+          Analyze Calls
+        </Button>
+      </div>
     );
   }
 );
@@ -87,12 +93,34 @@ function isErrorEvent(event) {
   return containsIgnoreCase(problemText, 'error');
 }
 
+function isSyntheticEndpoint(endpoint) {
+  if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
+    return false;
+  }
+
+  return get(endpoint, ['data', 'synthetic'], false);
+}
+
+function getFilters(isErroneous, isSynthetic) {
+  const filters = [];
+
+  if (isErroneous) {
+    filters.push({ name: 'call.erroneous', value: 'true' });
+  }
+  if (isSynthetic) {
+    filters.push({ name: 'call.is_synthetic', value: 'true' });
+  }
+
+  return filters;
+}
+
 function getAnalyzeOrder(event) {
   let orderBy;
   let orderDirection;
+  const entityType = event.get('entityType');
   const problemText = getProblemTextOrEmpty(event);
   if (containsIgnoreCase(problemText, 'latency')) {
-    orderBy = 'latency';
+    orderBy = entityType === 'Endpoint20' ? 'latency' : 'latencyAgg';
     orderDirection = 'DESC';
   }
   return {

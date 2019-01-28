@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
-import { find, groupBy } from 'lodash';
 
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -42,10 +42,10 @@ export default function MetricSelectorPresenter({
   onAddMetric,
   onSwitchMetricPosition,
   onSave,
-  onClose
+  onClose,
+  isGroupedView
 }) {
   const selectedMetricDefinition = find(availableMetrics, m => m.metric === newMetricForm.get('metric').value);
-
   const groupedAvailableMetrics = groupBy(availableMetrics, m => m.category || '');
 
   return (
@@ -74,7 +74,16 @@ export default function MetricSelectorPresenter({
                 .sort(compareIgnoreCase)
                 .map(group => {
                   const options = groupedAvailableMetrics[group].map(({ metric, label }) => (
-                    <option value={metric} key={metric}>
+                    <option
+                      value={metric}
+                      key={metric}
+                      disabled={
+                        isMetricAndAllAggregationsSelected(
+                          selectedMetricsForm.value,
+                          find(availableMetrics, m => m.metric === metric)
+                        ) && field.value !== metric
+                      }
+                    >
                       {label}
                     </option>
                   ));
@@ -94,32 +103,45 @@ export default function MetricSelectorPresenter({
           </FormGroup>
         ))}
 
-        {newMetricForm.get('aggregation').map(field => (
-          <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
-            <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
-              Aggregation
-            </Label>
-            <Select
-              id="metric-select-aggregation"
-              value={field.value}
-              onChange={e => onAggregationChange(e.target.value)}
-              hasError={!field.valid && field.touched}
-              disabled={!selectedMetricDefinition}
-            >
-              <option value="" disabled>
-                Please select
-              </option>
+        {supportAggregations(selectedMetricDefinition) &&
+          (selectedMetricDefinition.supportedAggregations.length > 1 ||
+            newMetricForm.get('aggregation').value !== selectedMetricDefinition.supportedAggregations[0]) &&
+          newMetricForm.get('aggregation').map(field => (
+            <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
+              <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
+                Aggregation
+              </Label>
+              <Select
+                id="metric-select-aggregation"
+                value={field.value}
+                onChange={e => onAggregationChange(e.target.value)}
+                hasError={!field.valid && field.touched}
+                disabled={!selectedMetricDefinition}
+              >
+                <option value="" disabled>
+                  Please select
+                </option>
 
-              {selectedMetricDefinition &&
-                selectedMetricDefinition.supportedAggregations.map(aggregation => (
-                  <option value={aggregation} key={aggregation}>
-                    {aggregationLabels[aggregation]}
-                  </option>
-                ))}
-            </Select>
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+                {selectedMetricDefinition &&
+                  selectedMetricDefinition.supportedAggregations.map(aggregation => (
+                    <option
+                      value={aggregation}
+                      key={aggregation}
+                      disabled={
+                        isAggregationSelected(
+                          selectedMetricsForm.value,
+                          selectedMetricDefinition.metric,
+                          aggregation
+                        ) && field.value !== aggregation
+                      }
+                    >
+                      {aggregationLabels[aggregation]}
+                    </option>
+                  ))}
+              </Select>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
 
         <Button
           type="submit"
@@ -156,7 +178,20 @@ export default function MetricSelectorPresenter({
                           >
                             <div className={locals.metricLeftSide}>
                               <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
-                              {definition ? definition.label : metric.metric} ({aggregationLabels[metric.aggregation]})
+                              {definition.label}
+                              {metric.aggregation &&
+                                definition.supportedAggregations.length > 1 &&
+                                ` (${aggregationLabels[metric.aggregation]})`}
+                              {!isGroupedView &&
+                                !definition.tag && (
+                                  <Tooltip content="Metric only available when analyzing groups.">
+                                    <SvgIcon
+                                      type="lib_help_error_help_outline"
+                                      width={14}
+                                      className={locals.metricNotAvailable}
+                                    />
+                                  </Tooltip>
+                                )}
                             </div>
                             <Tooltip content="Remove metric">
                               <SvgIcon
@@ -193,4 +228,24 @@ export default function MetricSelectorPresenter({
       </div>
     </Dialog>
   );
+}
+
+function supportAggregations(metricDefinition) {
+  return (
+    metricDefinition && metricDefinition.supportedAggregations && metricDefinition.supportedAggregations.length > 0
+  );
+}
+
+function isMetricAndAllAggregationsSelected(selectedMetrics, metricDefinition) {
+  if (supportAggregations(metricDefinition)) {
+    return every(metricDefinition.supportedAggregations, aggregation =>
+      isAggregationSelected(selectedMetrics, metricDefinition.metric, aggregation)
+    );
+  } else {
+    return findIndex(selectedMetrics, { metric: metricDefinition.metric }) > -1;
+  }
+}
+
+function isAggregationSelected(selectedMetrics, metric, aggregation) {
+  return findIndex(selectedMetrics, { metric, aggregation }) > -1;
 }

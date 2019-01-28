@@ -1,9 +1,9 @@
 @import '~in-themes/active.less';
 
 :local {
-  .analyzeButton {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+  .buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
 }

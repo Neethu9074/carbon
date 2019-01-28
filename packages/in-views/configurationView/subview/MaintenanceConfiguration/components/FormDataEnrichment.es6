@@ -1,6 +1,6 @@
 import React from 'react';
 
-import combinedValidationResults from 'in-services/util/validation';
+import { combinedValidationResults } from 'in-views/configurationView/validation';
 import { create, combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
@@ -25,10 +25,12 @@ export default class FormDataEnrichment extends React.Component {
           'validationResult',
           combinedValidationResults(validationResponse10.body, validationResponse20.body)
         );
+        this.props.onChange('queryValidationInProgress', false);
       });
   }
 
   componentWillUpdate(nextProps) {
+    startValidationInProgress(nextProps.setForm, nextProps.form);
     this.queryInput.emit(nextProps.form.get('query').value);
   }
 
@@ -51,4 +53,14 @@ export default class FormDataEnrichment extends React.Component {
   render() {
     return null;
   }
+}
+
+function startValidationInProgress(setForm, form) {
+  // hide previous error message
+  let updatedForm = form.updateIn(['validationResult'], field =>
+    field.setValue({ valid: true, error: null }).setTouched(false)
+  );
+  // show progress indicator
+  updatedForm = updatedForm.updateIn(['queryValidationInProgress'], field => field.setValue(true).setTouched(false));
+  setForm(updatedForm);
 }

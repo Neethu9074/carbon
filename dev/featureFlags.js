@@ -1,5 +1,5 @@
 // needs to be kept in sync with
-// https://github.com/instana/fleet/blob/master/ansible/roles/fleet_deploy_component/templates/ui-client.hcl.j2
+// packages/in-server/services/resolvers/consul.js
 module.exports = {
   releaseNotesEnabled: true,
   maintenanceNotesEnabled: false,
@@ -16,5 +16,6 @@ module.exports = {
   isKubernetesV2Enabled: false,
   oneZeroWebsiteMonitoringEnabled: true,
   twoZeroWebsiteMonitoringEnabled: true,
-  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true
+  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true,
+  lastSevenDaysTimePresetEnabled: true
 };

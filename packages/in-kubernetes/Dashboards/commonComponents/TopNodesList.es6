@@ -8,6 +8,7 @@ export default function TopNodesList(props) {
   return (
     <KubernetesTopList
       title="Top Nodes"
+      viewAllEntityName="nodes"
       {...props}
       getItems={getKubernetesNodes}
       getItemHref$={item => getNodeDashboard(item.node.id, props)}

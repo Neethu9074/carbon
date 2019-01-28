@@ -2,18 +2,27 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
-import { number, millis, percentage } from 'in-services/formatters/number';
+import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { clickGroupTracker } from 'in-analyze/components/tracker';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
+import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 import locals from './Group.mless';
 
-export default function Group({ item, filters, onChangeAnalyzeConfigAndGetAsUrlObservable, dotColor, showDot }) {
-  const errorMetric = get(item, ['metrics', 'errorsAgg', 0, 1]);
+export default function Group({
+  dataSource,
+  item,
+  filters,
+  onChangeAnalyzeConfigAndGetAsUrlObservable,
+  dotColor,
+  showDot,
+  metrics,
+  availableMetrics
+}) {
   const rowContent = (
     <Fragment>
       <Td className={locals.labelCell} ellipsis="50vw">
@@ -37,15 +46,11 @@ export default function Group({ item, filters, onChangeAnalyzeConfigAndGetAsUrlO
         </div>
       </Td>
 
-      <Td noWrap>{number.compact(get(item, ['metrics', 'tracesAgg', 0, 1]))}</Td>
+      <Td noWrap>{number.compact(get(item, ['metrics', `${dataSource}_SUM_Agg`, 0, 1]))}</Td>
 
       <Td noWrap>{formatDateTime(item.timestamp)}</Td>
 
-      <Td noWrap>
-        <span className={locals.metricValue}>{millis.fixedCompact(get(item, ['metrics', 'latencyAgg', 0, 1]))}</span>
-      </Td>
-
-      <Td noWrap>{errorMetric == 0 ? percentage.compact(errorMetric) : percentage.detailed(errorMetric)}</Td>
+      <MetricColumnCells item={item} metrics={metrics} availableMetrics={availableMetrics} />
     </Fragment>
   );
 
@@ -77,11 +82,11 @@ function getGroupingChange(filters, tagName) {
   };
 }
 
-function trackSetGrouping(filters, tagName) {
+function trackSetGrouping(dataSource, filters, tagName) {
   const group = filters.group;
   const currentGroupValue = tagName;
   clickGroupTracker({
-    context: 'traces',
+    context: dataSource,
     type: group.name,
     value: group.value,
     group: currentGroupValue

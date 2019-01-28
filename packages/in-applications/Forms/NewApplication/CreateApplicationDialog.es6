@@ -14,17 +14,20 @@ import { getTagFilterListForBackendSubscription, operatorBlacklists } from 'in-a
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
+import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
+import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Pill from 'in-new-components/Pill';
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -102,7 +105,16 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                     content: (
                       <Fragment>
                         <DescriptionText>
-                          {`For example where key is "docker.label" and value is "environment=Production Blue", or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a database from services matching this definition will automatically be included.`}
+                          {`For example where key is "docker.label" and value is "environment=Production Blue",
+                            or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
+                          <Pill color={getColor('DATABASE')} kind="light">
+                            DATABASE
+                          </Pill>
+                          service or
+                          <Pill color={getColor('MESSAGING')} kind="light">
+                            MESSAGING
+                          </Pill>
+                          service from services matching this definition will automatically be included.
                           <br />
                           <br />
                           <strong>AND operators take precedence and are evaluated before OR operators</strong>
@@ -190,6 +202,37 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
                           }))}
                         />
+
+                        {form.get('scope').map(field => (
+                          <FormGroup className={locals.scopeForm}>
+                            <Label htmlFor="scope" hasError={!field.valid && field.touched}>
+                              By checking this box you are including all downstream services to this application.
+                            </Label>
+                            <OptionBox
+                              icon="lib_application_downstream"
+                              title="Include All Downstream Services"
+                              description={
+                                <Fragment>
+                                  By checking the box below, you are including in the application all services that
+                                  transitively fall downstream of those matched by the tags specified above, instead of
+                                  only the immediate
+                                  <Pill color={getColor('DATABASE')} kind="light">
+                                    DATABASE
+                                  </Pill>
+                                  and
+                                  <Pill color={getColor('MESSAGING')} kind="light">
+                                    MESSAGING
+                                  </Pill>
+                                  ones.
+                                </Fragment>
+                              }
+                              checked={field.value == 'ALL_DOWNSTREAM'}
+                              onChange={checked =>
+                                setValue(['scope'], checked ? 'ALL_DOWNSTREAM' : 'INCLUDE_DATA_STORES', form)
+                              }
+                            />
+                          </FormGroup>
+                        ))}
                       </Fragment>
                     )
                   }
@@ -230,6 +273,12 @@ function getInitialForm(application) {
           validator: matchSpecificationValidator
         })
       )
+    )
+    .put(
+      'scope',
+      createField({
+        value: application.scope
+      })
     );
 }
 

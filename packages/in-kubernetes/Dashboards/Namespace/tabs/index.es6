@@ -1,3 +1,7 @@
+import React from 'react';
+
+import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
+import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -26,18 +30,30 @@ export default [
     label: 'Deployments',
     path: `${namespaceDashboardFullyQualified}/deployments`,
     component: Deployments,
-    icon: 'lib_kubernetes_workload'
+    header: props => getCounterComponent(props, 'deployments')
   },
   {
-    label: 'Services',
+    label: 'K8s Services',
     path: `${namespaceDashboardFullyQualified}/services`,
     component: Services,
-    icon: 'lib_kubernetes_service'
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',
     path: `${namespaceDashboardFullyQualified}/pods`,
     component: Pods,
-    icon: 'lib_kubernetes_pod'
+    header: props => getCounterComponent(props, 'pods')
   }
 ].filter(Boolean);
+
+function getCounterComponent(props, resultPropName) {
+  return (
+    <TabLabelWithCounter
+      label={props.tab.label}
+      getCounters={() =>
+        getKubernetesNamespaceItemCounters({ namespaceId: props.namespaceId, timeConfig: props.timeConfig })
+      }
+      resultPropName={resultPropName}
+    />
+  );
+}

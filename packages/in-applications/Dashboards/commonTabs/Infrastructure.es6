@@ -1,4 +1,4 @@
-import { withState, compose } from 'recompose';
+import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -8,6 +8,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { number, ms, percentage } from 'in-services/formatters/number';
+import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -19,22 +20,32 @@ import Card from 'in-new-components/Card';
 import locals from './Infrastructure.mless';
 
 export default compose(
-  withState(
-    'selectedType',
-    'setType',
-    ({ data: entity }) => (hasClusterTechnologiesOnly(entity) ? 'CLUSTER' : 'PROCESS')
-  )
+  withUrlDependingState({
+    getPathSegment: () => '/infrastructure',
+    getMatrixPrefix: () => '',
+    boundKeys: ['selectedType'],
+    getInitialState: () => ({
+      selectedType: null
+    }),
+    reducerName: 'setType',
+    reducer: (_, selectedType) => ({ selectedType }),
+    replaceHistory: true
+  })
 )(Infrastructure);
 
 function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   const buttonPropsList = [];
+
+  if (selectedType == null) {
+    selectedType = hasClusterTechnologiesOnly(entity) ? 'CLUSTER' : 'PROCESS';
+  }
 
   /*
   TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
 
   One service may have the 'kafkaCluster' technology assigned, not because it's a kafka cluster
   but because it's a service that reads or writes from/to to a Kafka topic.
-  
+
   And application don't have technologies anyway.
   */
   if (hasSomeClusterTechnologies(entity)) {
@@ -43,7 +54,7 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   if (hasSomeNonClusterTechnologies(entity)) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
-    buttonPropsList.push({ text: 'Container', key: 'DOCKER', onClick: () => setType('DOCKER') });
+    buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
@@ -125,7 +136,7 @@ function getTableData({
   type
 }) {
   return getInfrastructure({
-    category: type,
+    category: type === 'CONTAINER' ? 'DOCKER' : type,
     pagination: {
       page,
       pageSize
@@ -191,7 +202,7 @@ const getColumnDefinitions = type => {
         return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
       }
     };
-  } else if (type == 'DOCKER') {
+  } else if (type == 'CONTAINER') {
     infraColumnDefinition = {
       id: 'container',
       label: 'Container',

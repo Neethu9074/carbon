@@ -13,6 +13,13 @@ export const urlQueryKeys = Object.freeze({
   autoRefresh: 'timeline.ar'
 });
 
+export const urlParameters = [
+  { name: urlQueryKeys.to },
+  { name: urlQueryKeys.windowSize },
+  { name: urlQueryKeys.focusedMoment },
+  { name: urlQueryKeys.autoRefresh }
+];
+
 export const timeConfigShape = rpt.shape({
   windowSize: rpt.number.isRequired,
   to: rpt.number,

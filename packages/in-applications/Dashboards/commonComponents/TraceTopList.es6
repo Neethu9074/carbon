@@ -122,12 +122,12 @@ function ViewAll({ applicationName, serviceName, endpointName, selectedMetric },
         orderDirection: 'DESC'
       })}
     >
-      View All
+      View all traces
     </Link>
   );
 }
 
-function Label({ item, applicationName, serviceName, endpointId: endpointName }, className) {
+function Label({ item, applicationName, serviceName, endpointName }, className) {
   return (
     <Link
       className={className}

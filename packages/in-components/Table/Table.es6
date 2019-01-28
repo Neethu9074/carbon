@@ -2,23 +2,23 @@ import React from 'react';
 
 import SortIndicator from 'in-components/Table/components/SortIndicator';
 import { createStore } from 'in-components/Table/stores/content';
-import { joinClassNames } from 'in-services/util/classnames';
 import Row from 'in-components/Table/components/Row';
+import ButtonGroup from 'in-components/ButtonGroup';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import Pagination from 'in-components/Pagination';
+import Button from 'in-components/Button';
 
-import './Table.less';
+import locals from './Table.mless';
 
-const block = 'in-table';
-const headerElement = `${block}__header`;
-const headerLeftSideElement = `${block}__header-left`;
-const headerRightSideElement = `${block}__header-right`;
-const tableElement = `${block}__table`;
-const cellElement = `${block}__cell`;
-const expandedCellElement = `${cellElement} ${cellElement}--expanded`;
-const headerCellElement = `${block}__header-cell`;
-const headerToggleCellElement = `${block}__header-toggle-cell`;
-const columnHeader = `${block}__column-header`;
+const headerElement = locals.header;
+const headerLeftSideElement = locals.headerLeft;
+const headerRightSideElement = locals.headerRight;
+const tableElement = locals.table;
+const cellElement = locals.cell;
+const expandedCellElement = `${cellElement} ${locals.expanded}`;
+const headerCellElement = locals.headerCell;
+const headerToggleCellElement = locals.headerToggleCell;
+const columnHeader = locals.columnHeader;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -132,23 +132,46 @@ export default class Table extends React.Component {
       }
     }
 
-    const showPagination = data.pageCount > 1 || data.page >= data.pageCount;
+    const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const showHeader = this.props.leftHeader || this.props.rightHeader || showPagination;
 
     return (
-      <div className={joinClassNames(block, this.props.className)}>
+      <div className={this.props.className}>
         {showHeader ? (
           <div className={headerElement}>
             <div className={headerLeftSideElement}>{this.props.leftHeader}</div>
             <div className={headerRightSideElement}>
+              {this.props.showExpandAll &&
+                this.props.getRowDetails && (
+                  <ButtonGroup horizontal>
+                    <Button
+                      kind="secondary"
+                      size="sm"
+                      onClick={() => this.store.setExpansionStateForAll(true)}
+                      className={locals.expansionSwitch}
+                    >
+                      Expand All
+                    </Button>
+                    <Button
+                      kind="secondary"
+                      size="sm"
+                      onClick={() => this.store.setExpansionStateForAll(false)}
+                      className={locals.expansionSwitch}
+                    >
+                      Collapse All
+                    </Button>
+                  </ButtonGroup>
+                )}
+
               {this.props.rightHeader}
+
               {showPagination ? (
                 <Pagination
                   onPrevPage={this.store.onPrevPage}
                   onNextPage={this.store.onNextPage}
-                  currentPage={data.page}
+                  currentPage={data.page || 0}
                   pageCount={data.pageCount}
-                  ariaLabel="Pagination for previous table"
+                  ariaLabel="Pagination"
                 />
               ) : null}
             </div>

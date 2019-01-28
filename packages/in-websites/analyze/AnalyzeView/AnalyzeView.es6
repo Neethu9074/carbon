@@ -1,51 +1,58 @@
 import { compose, withProps } from 'recompose';
+import { uniqBy } from 'lodash';
 import React from 'react';
 
 import {
-  group as groupMatrixParameter,
-  tagFilters as tagFiltersMatrixParameter,
-  deserializeGroup,
-  serializeGroup,
-  serializeTagFilters,
-  deserializeTagFilters,
-  beaconType as beaconTypeMatrixParameter
-} from 'in-websites/navigation/matrix';
+  analyzeMetricsUrlParameter,
+  analyzeOrderByUrlParameter,
+  analyzeOrderDirectionUrlParameter,
+  analyzeTagFiltersUrlParameter,
+  analyzeGroupingUrlParameter,
+  analyzeBeaconTypeUrlParameter
+} from 'in-websites/navigation/urlParameters';
+import {} from 'in-websites/analyze/AnalyzeView/metrics';
 import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
 import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
-import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
+import {
+  availableMetrics as allAvailableMetrics,
+  defaultMetrics,
+  timestampMetricName,
+  groupCountMetricName,
+  buildOrderByCriteria
+} from 'in-websites/analyze/AnalyzeView/metrics';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import MetricSelector from 'in-analyze/components/MetricSelector';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
-import { analyzePath } from 'in-websites/navigation/paths';
+import { getTag } from 'in-analyze/metricDefinitionHelpers';
+import { changeAnalyzeMetrics } from 'in-websites/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import withUrlState from 'in-hoc/withUrlState';
 
 export default compose(
-  withUrlDependingState({
-    replaceHistory: false,
-    getPathSegment: () => analyzePath,
-    getMatrixPrefix: () => '',
-    boundKeys: [tagFiltersMatrixParameter, groupMatrixParameter, beaconTypeMatrixParameter],
-    getInitialState: () => ({
-      [tagFiltersMatrixParameter]: [],
-      [groupMatrixParameter]: { groupbyTag: 'beacon.location.path' },
-      [beaconTypeMatrixParameter]: 'pageLoad'
-    }),
+  withUrlState({
+    bind: [
+      analyzeTagFiltersUrlParameter,
+      analyzeGroupingUrlParameter,
+      analyzeBeaconTypeUrlParameter,
+      analyzeMetricsUrlParameter,
+      {
+        ...analyzeOrderByUrlParameter,
+        initialState: null
+      },
+      {
+        ...analyzeOrderDirectionUrlParameter,
+        initialState: null
+      }
+    ],
     reducerName: 'onChange',
     reduceAndGetAsUrlName: 'getChangeAsUrl',
-    getParsedUrlValues: props => ({
-      [tagFiltersMatrixParameter]: deserializeTagFilters(props[tagFiltersMatrixParameter]),
-      [groupMatrixParameter]: deserializeGroup(props[groupMatrixParameter]),
-      [beaconTypeMatrixParameter]: props[beaconTypeMatrixParameter]
-    }),
-    getSerializedUrlValues: props => ({
-      [tagFiltersMatrixParameter]: serializeTagFilters(props[tagFiltersMatrixParameter]),
-      [groupMatrixParameter]: serializeGroup(props[groupMatrixParameter]),
-      [beaconTypeMatrixParameter]: props[beaconTypeMatrixParameter]
-    })
+    replaceState: false
   }),
-  withProps(({ tagFilters, beaconType }) => {
+  withProps(({ tagFilters, beaconType, group, metrics, orderBy, orderDirection, onChange }) => {
+    const isGroupedView = group && !!group.groupbyTag;
     const implicitTagFilters = [
       {
         name: 'beacon.type',
@@ -53,42 +60,129 @@ export default compose(
         stringValue: beaconType
       }
     ];
+
+    const defaultOrderBy = isGroupedView ? groupCountMetricName : timestampMetricName;
+    orderBy = orderBy || defaultOrderBy;
+    orderDirection = orderDirection || 'DESC';
+
+    const availableMetrics = allAvailableMetrics[beaconType];
+    const configuredMetrics = metrics || defaultMetrics[beaconType];
+    const configuredRawDataSupportedMetrics = configuredMetrics.filter(m => getTag(availableMetrics, m.metric));
+    const metricsToShow = isGroupedView
+      ? configuredMetrics
+      : uniqBy(configuredRawDataSupportedMetrics, m => getTag(availableMetrics, m.metric));
+
     return {
+      isGroupedView,
       tagFilters: tagFilters.concat(implicitTagFilters),
-      implicitTagFilters
+      orderBy,
+      orderDirection,
+      implicitTagFilters,
+      configuredMetrics,
+      configuredRawDataSupportedMetrics,
+      metrics: metricsToShow,
+      availableMetrics,
+      onChangeOrder: onChange,
+      openMetricSelector: () => {
+        setActiveDialog(
+          <MetricSelector
+            title="Select Metrics"
+            help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+            availableMetrics={availableMetrics}
+            selectedMetrics={configuredMetrics}
+            maximumNumberOfMetrics={5}
+            isGroupedView={isGroupedView}
+            onSave={metrics => {
+              const orderByMetricStillExists = metrics.reduce(
+                (agg, { metric, aggregation }) => agg || orderBy === buildOrderByCriteria(metric, aggregation),
+                false
+              );
+              changeAnalyzeMetrics({
+                beaconType,
+                metrics: JSON.stringify(metrics)
+              });
+              onChange({
+                metrics,
+                orderBy: orderByMetricStillExists ? orderBy : defaultOrderBy,
+                orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
+              });
+            }}
+          />
+        );
+      }
     };
   }),
-  withProps(({ onChange, location, beaconType, implicitTagFilters }) => ({
-    setTagFilters: tagFilters =>
-      onChange({ [tagFiltersMatrixParameter]: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
-    setGroup: group => onChange({ [groupMatrixParameter]: group }),
-    disableGrouping: () => onChange({ [groupMatrixParameter]: {} }),
-    timeConfig: getTimeConfig(location),
-    groupableTags: availableGroupingTags[beaconType],
-    filterableTags: availableFilterTags[beaconType]
-  })),
-  withProps(({ group, setGroup, timeConfig, tagFilters, implicitTagFilters, getChangeAsUrl, groupableTags }) => ({
-    openEditGroupDialog() {
-      setActiveDialog(
-        <WebsiteEditGroupDialog
-          setGroup={setGroup}
-          group={group}
-          tagSuggestions={groupableTags}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-        />
-      );
-    },
-    getGroupAsFilterUrl: subGroupName =>
-      getChangeAsUrl({
-        [tagFiltersMatrixParameter]: addGroupToTagFilter(
-          tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
-          group,
-          subGroupName
-        ),
-        [groupMatrixParameter]: {}
-      })
-  })),
+  withProps(
+    ({
+      onChange,
+      location,
+      orderBy,
+      orderDirection,
+      beaconType,
+      implicitTagFilters,
+      configuredRawDataSupportedMetrics
+    }) => ({
+      setTagFilters: tagFilters =>
+        onChange({ tagFilters: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
+      setGroup: group => onChange({ group }),
+      disableGrouping: () => {
+        const orderCriteriaStillSupported = isOrderCriteriaSupportedForUngroupedView(
+          orderBy,
+          configuredRawDataSupportedMetrics
+        );
+        onChange({
+          group: {},
+          orderBy: orderCriteriaStillSupported ? orderBy : timestampMetricName,
+          orderDirection: orderCriteriaStillSupported ? orderDirection : 'DESC'
+        });
+      },
+      timeConfig: getTimeConfig(location),
+      groupableTags: availableGroupingTags[beaconType],
+      filterableTags: availableFilterTags[beaconType]
+    })
+  ),
+  withProps(
+    ({
+      group,
+      setGroup,
+      timeConfig,
+      tagFilters,
+      implicitTagFilters,
+      getChangeAsUrl,
+      groupableTags,
+      orderBy,
+      orderDirection,
+      configuredRawDataSupportedMetrics
+    }) => ({
+      openEditGroupDialog() {
+        setActiveDialog(
+          <WebsiteEditGroupDialog
+            setGroup={setGroup}
+            group={group}
+            tagSuggestions={groupableTags}
+            timeConfig={timeConfig}
+            tagFilters={tagFilters}
+          />
+        );
+      },
+      getGroupAsFilterUrl: subGroupName => {
+        const orderCriteriaStillSupported = isOrderCriteriaSupportedForUngroupedView(
+          orderBy,
+          configuredRawDataSupportedMetrics
+        );
+        return getChangeAsUrl({
+          tagFilters: addGroupToTagFilter(
+            tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1),
+            group,
+            subGroupName
+          ),
+          group: {},
+          orderBy: orderCriteriaStillSupported ? orderBy : timestampMetricName,
+          orderDirection: orderCriteriaStillSupported ? orderDirection : 'DESC'
+        });
+      }
+    })
+  ),
   tagFilterManipulators
 )(AnalyzeView);
 
@@ -99,4 +193,8 @@ function AnalyzeView(props) {
 
   // key defined to force a complete state reset
   return <Beacons key={props.beaconType} {...props} />;
+}
+
+function isOrderCriteriaSupportedForUngroupedView(orderBy, metrics) {
+  return metrics.reduce((agg, { metric }) => agg || orderBy.indexOf(metric) === 0, false);
 }

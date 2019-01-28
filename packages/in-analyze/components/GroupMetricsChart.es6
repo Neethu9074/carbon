@@ -3,8 +3,11 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { aggregationLabels } from 'in-stores/metric/metric';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { number } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 
 import locals from './GroupMetricsChart.mless';
@@ -107,4 +110,34 @@ function ChartElement({
       restrictTooltipItemsTo={5}
     />
   );
+}
+
+export function metricsChartDefinitions(metrics, availableMetrics) {
+  return metrics.map(({ metric, aggregation }) => {
+    let label = `${metric} (${aggregation})`;
+    let renderer = Renderer.line;
+    let formatter = number;
+    let min;
+
+    const metricDefinition = find(availableMetrics, m => m.metric === metric);
+    if (metricDefinition) {
+      label = metricDefinition.label;
+      renderer = metricDefinition.preferredRenderer;
+      formatter = metricDefinition.formatter;
+      min = metricDefinition.min;
+
+      if (metricDefinition.supportedAggregations.length > 1) {
+        label += ` (${aggregationLabels[aggregation]})`;
+      }
+    }
+
+    return {
+      label,
+      key: `${metric}_${aggregation}`,
+      renderer,
+      aggregation,
+      formatter,
+      min
+    };
+  });
 }

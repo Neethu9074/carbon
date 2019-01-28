@@ -25,6 +25,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Button from 'in-new-components/Button';
+import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
@@ -45,7 +46,8 @@ class Summary extends React.Component {
   selectedCall$ = create();
   openedCall$ = create();
   hoveredServiceEndpoint$ = create();
-  timeoutHandle = null;
+  selectedCallTimeoutHandle = null;
+  traceViewedTimeoutHandle = null;
 
   constructor(props) {
     super(props);
@@ -55,24 +57,38 @@ class Summary extends React.Component {
   componentDidMount() {
     this.selectedCallSubscription = this.selectedCall$.subscribe(call => {
       if (call) {
-        this.timeoutHandle = setTimeout(() => {
+        this.selectedCallTimeoutHandle = setTimeout(() => {
           this.selectedCall$.emit(null);
         }, 1000);
       }
     });
+
+    this.sendTraceViewedEventAfterDelay(this.props.data);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutHandle);
+    clearTimeout(this.selectedCallTimeoutHandle);
 
     if (this.selectedCallSubscription) {
       this.selectedCallSubscription.dispose();
       this.selectedCallSubscription = null;
     }
+
+    clearTimeout(this.traceViewedTimeoutHandle);
   }
 
   componentDidUpdate() {
     this.openedCall$.emit(this.props.callId);
+    this.sendTraceViewedEventAfterDelay(this.props.data);
+  }
+
+  sendTraceViewedEventAfterDelay(trace) {
+    clearTimeout(this.traceViewedTimeoutHandle);
+    this.traceViewedTimeoutHandle = setTimeout(() => {
+      connection.send('traceViewed', {
+        traceId: trace.id
+      });
+    }, 15000);
   }
 
   render() {

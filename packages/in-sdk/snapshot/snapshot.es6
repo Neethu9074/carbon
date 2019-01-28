@@ -1,12 +1,13 @@
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { addLabelFinder, getLabel } from 'in-sdk/snapshot/legacy';
-import { getSnapshotDefinition } from 'in-sdk/snapshot/registry';
+
+import { getSnapshotDefinition, getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { emptyMap } from 'in-services/fixedImmutables';
 export { getIconSvgPath } from 'in-sdk/iconRegistry';
 
 export function getChartWiggleRoom(plugin) {
-  const snapshotDefinition = getSnapshotDefinition(plugin);
-  const chartWiggleRoom = snapshotDefinition ? getSnapshotDefinition(plugin).chartWiggleRoom : null;
+  const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
+  const chartWiggleRoom = snapshotDefinition && snapshotDefinition.chartWiggleRoom;
   if (chartWiggleRoom == null) {
     return 5000;
   }

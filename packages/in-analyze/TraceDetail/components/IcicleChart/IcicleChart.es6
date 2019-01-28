@@ -14,12 +14,7 @@ const tooltipAlignment = 'topMiddle';
 export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCallClicked, hoveredServiceEndpoint$ }) {
   const callFrames = applyLayout(rootCall);
 
-  let maxDepth = 0;
-
-  callFrames.forEach(callFrame => {
-    maxDepth = Math.max(maxDepth, callFrame.depth);
-  });
-
+  const maxDepth = callFrames.reduce((max, callFrame) => Math.max(max, callFrame.depth), 0);
   const chartHeight = (maxDepth + 1) * FRAME_HEIGHT;
 
   const xScale = createScale();

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  getChartTimeframeByEvent,
-  getTimeConfigFromEventForCharts,
+  getChartTimeConfigByEvent,
+  getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
 
@@ -50,7 +50,7 @@ export default addSection(
         <div className={block}>
           {triggeringMetrics.map(metric => {
             const metricName = metric.get('metricName');
-            const timeConfig = getChartTimeframeByEvent({ event, to });
+            const timeConfig = getChartTimeConfigByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
             const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
@@ -65,9 +65,9 @@ export default addSection(
                 metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeConfig$={always(timeConfig)}
-                timeConfig={getTimeConfigFromEventForCharts(event)}
-                rollup={rollup}
                 plugin={plugin}
+                timeConfig={getTimeConfigFromEvent(event)}
+                rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
               />
             );

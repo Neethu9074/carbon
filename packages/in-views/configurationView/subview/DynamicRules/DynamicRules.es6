@@ -32,7 +32,7 @@ const cols = [
       get(row) {
         const entityType = row.entity.getIn(['match', 'entityType']);
         return {
-          value: entityType,
+          value: getSingular(entityType),
           content: (
             <Fragment>
               <PluginIcon dimension={16} color="#000" plugin={entityType} />
@@ -202,7 +202,7 @@ export default class extends React.Component {
           <Section>
             <SectionHeading>Custom Dynamic Rules</SectionHeading>
 
-            <Table cols={cols} rows={rows} />
+            <Table cols={cols} rows={rows} maxItemsPerPage={20} />
           </Section>
         ) : null}
       </SubViewWrapper>

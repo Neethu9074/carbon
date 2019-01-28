@@ -106,6 +106,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
     uiBackendBaseUrl: 'http://127.0.0.1:8080',
+    groundskeeperBaseUrl: 'http://127.0.0.1:8280',
     port: 3131,
     adminPort: 3132,
     bindAddress: '0.0.0.0',

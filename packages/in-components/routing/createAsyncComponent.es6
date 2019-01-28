@@ -1,7 +1,10 @@
 import { createLogger } from 'instalog';
 import React from 'react';
 
+import { getServerVersionTag, localTag } from 'in-services/uiClientVersion';
+import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import ReloadUiDialog from 'in-components/ReloadUiDialog';
 
 const logger = createLogger('in-components/AsyncFullscreenView');
 
@@ -39,6 +42,8 @@ export function createAsyncComponent(loadingPlaceholder, load) {
           }
         },
         err => {
+          checkServerVersionTag(localTag);
+
           logger.error(`Failed to load async component`, err);
         }
       );
@@ -58,3 +63,12 @@ export function createAsyncComponent(loadingPlaceholder, load) {
     }
   };
 }
+
+const checkServerVersionTag = localTag => {
+  const serverBuildTag$ = getServerVersionTag();
+  serverBuildTag$.once(result => {
+    if (result.tag !== localTag) {
+      setActiveDialog(<ReloadUiDialog />);
+    }
+  });
+};

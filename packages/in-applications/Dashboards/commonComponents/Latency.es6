@@ -21,11 +21,18 @@ export default function Latency({
       timeConfig={timeConfig}
       reverseTooltipOrder
       y1={{
-        calculateStackDifferences: true,
+        renderer: Renderer.integral,
+        formatter: millis.fixed,
+        labels: ['50th', '90th', '95th', '99th', 'Max'],
+        defaultDisabledMetrics: ['durationMax'],
+        metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
+      }}
+      y2={{
         renderer: Renderer.line,
         formatter: millis.fixed,
-        labels: ['mean', '50th', '90th', '95th', '99th'],
-        metricIds: ['durationAvg', 'duration50th', 'duration90th', 'duration95th', 'duration99th']
+        labels: ['Mean'],
+        defaultDisabledMetrics: ['durationAvg'],
+        metricIds: ['durationAvg']
       }}
       metricsConfiguration={{
         filter: {
@@ -36,11 +43,6 @@ export default function Latency({
           includeSyntheticCalls
         },
         metrics: {
-          durationAvg: {
-            metric: 'latency',
-            granularity,
-            aggregation: 'MEAN'
-          },
           duration50th: {
             metric: 'latency',
             granularity,
@@ -60,6 +62,16 @@ export default function Latency({
             metric: 'latency',
             granularity,
             aggregation: 'P99'
+          },
+          durationMax: {
+            metric: 'latency',
+            granularity,
+            aggregation: 'MAX'
+          },
+          durationAvg: {
+            metric: 'latency',
+            granularity,
+            aggregation: 'MEAN'
           }
         }
       }}

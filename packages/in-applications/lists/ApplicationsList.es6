@@ -63,7 +63,7 @@ export default connectTo(
               timeConfig={timeConfig}
               rightHeader={rightHeader}
               leftHeader={leftHeader}
-              paginationResettingProps={{ timeConfig }}
+              paginationResettingProps={['timeConfig']}
               defaultOrderBy="callsAgg"
               defaultOrderDirection="DESC"
             />

@@ -419,3 +419,5 @@ export function valueWithFormatterToReadableString(value, valueFormat) {
   }
   return value.toString();
 }
+
+export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));

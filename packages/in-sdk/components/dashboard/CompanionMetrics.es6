@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import CustomMetrics from 'in-sdk/components/dashboard/customMetrics/CustomMetrics';
+import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -24,7 +24,7 @@ export default connectTo(
     return (
       <Fragment>
         {companions.map(companion => (
-          <CustomMetrics key={companion.get('id')} snapshot={companion} timeConfig={timeConfig} />
+          <CustomMetricsV2 key={companion.get('id')} snapshot={companion} timeConfig={timeConfig} />
         ))}
       </Fragment>
     );

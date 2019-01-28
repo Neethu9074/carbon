@@ -37,7 +37,7 @@ export default function<PARAM, RESULT>({
   disposeSubscriptionOnDocumentHidden = true,
   transform
 }: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
-  if (!memoizeFor) {
+  if (memoizeFor == null) {
     memoizeFor = 10000;
   }
   return memoize(
