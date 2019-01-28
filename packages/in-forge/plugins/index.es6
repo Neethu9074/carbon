@@ -149,6 +149,7 @@ import './pageResourceLogicalConnection';
 import './pageResourceLogicalService';
 import './pageResourceServiceInstance';
 import './ping';
+import './pingDirectory';
 import './phpFpmRuntimePlatform';
 import './phpRuntimePlatform';
 import './postgreSqlDatabase';
