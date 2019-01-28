@@ -1,5 +1,5 @@
-import { millis, number } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { millis, number, percentage } from 'in-services/formatters/number';
 
 export default [
   {
@@ -37,5 +37,65 @@ export default [
     label: 'Errors',
     min: 0,
     formatter: number
+  },
+  {
+    metric: getMetricMatch('connectionPools', 'active'),
+    label: 'Active connections',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('connectionPools', 'available'),
+    label: 'Available connections',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('connectionPools', 'inUse'),
+    label: 'Connections in use',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('connectionPools', 'created'),
+    label: 'Connections created',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('connectionPools', 'usedRatio'),
+    label: 'Connections used percentage',
+    min: 0,
+    formatter: percentage
+  },
+  {
+    metric: getMetricMatch('threadPools', 'currentThreadCount'),
+    label: 'Current thread count',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('threadPools', 'currentThreadsBusy'),
+    label: 'Current busy threads',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('threadPools', 'minSpareThreads'),
+    label: 'Min spare threads',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('threadPools', 'maxSpareThreads'),
+    label: 'Max spare threads',
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getMetricMatch('threadPools', 'usedRatio'),
+    label: 'Threads used percentage',
+    min: 0,
+    formatter: percentage
   }
 ];
