@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .betaMarker {
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
+    width: 20rem;
+    z-index: 2;
+    background: #fff;
+  }
+
+  .header {
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-top-left-radius: @lib__shapes__radius_medium;
+    border-top-right-radius: @lib__shapes__radius_medium;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .headerTitle {
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin: 0 1rem 0 0;
+  }
+
+  .body {
+    padding: 1rem;
+  }
+}
