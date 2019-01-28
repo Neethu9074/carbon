@@ -2,14 +2,13 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
@@ -64,19 +63,13 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { timeConfig }) {
+    getContent(item) {
       return (
-        <KubernetesSeverity
-          clusterId={get(item, ['cluster', 'id'])}
-          timeConfig={timeConfig}
-          renderLink={maxSeverity => (
-            <SeverityAwareEntityLink
-              icon="lib_kubernetes_cluster"
-              label={get(item, ['cluster', 'label'])}
-              href$={getClusterDashboard(get(item, ['cluster', 'id']))}
-              severity={maxSeverity}
-            />
-          )}
+        <SeverityAwareEntityLink
+          icon="lib_kubernetes_cluster"
+          label={get(item, ['cluster', 'label'])}
+          href$={getClusterDashboard(get(item, ['cluster', 'id']))}
+          severity={item.entityHealthInfo.maxSeverity}
         />
       );
     }
@@ -117,13 +110,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'maxSeverity',
+    id: 'health',
     label: 'Health',
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicatorBehavior
-          clusterId={item.cluster.id}
+        <KubernetesEntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           inContentArea

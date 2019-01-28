@@ -1,12 +1,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
-import KubernetesSeverity from 'in-kubernetes/components/KubernetesSeverity';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
@@ -53,19 +52,13 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId, timeConfig }) {
+    getContent(item, { clusterId }) {
       return (
-        <KubernetesSeverity
-          clusterId={get(item, ['node', 'id'])}
-          timeConfig={timeConfig}
-          renderLink={maxSeverity => (
-            <SeverityAwareEntityLink
-              icon="lib_kubernetes_node"
-              label={get(item, ['node', 'name'])}
-              href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
-              severity={maxSeverity}
-            />
-          )}
+        <SeverityAwareEntityLink
+          icon="lib_kubernetes_node"
+          label={get(item, ['node', 'name'])}
+          href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+          severity={item.entityHealthInfo.maxSeverity}
         />
       );
     }
@@ -153,12 +146,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'maxSeverity',
+    id: 'health',
     label: 'Health',
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicatorBehavior
+        <KubernetesEntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
           nodeId={item.node.id}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
