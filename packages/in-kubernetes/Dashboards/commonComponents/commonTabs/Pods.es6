@@ -28,8 +28,6 @@ export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, .
   return <Pods columnDefinitions={columnDefinitions} {...props} />;
 }
 
-export default Pods;
-
 const Pods = compose(
   withUrlState({
     reducerName: 'setPhase',
@@ -270,3 +268,5 @@ const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
     />
   );
 });
+
+export default Pods;
