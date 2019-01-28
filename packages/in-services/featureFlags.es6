@@ -1,5 +1,5 @@
+import { isInstanaEmail, isInstanaEngineer } from 'in-stores/user';
 import { config, isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEngineer } from 'in-stores/user';
 
 // ########################################################################################
 // Reusable helpers for feature (de-) activation
@@ -108,6 +108,9 @@ export const allowedMillisGapsInOneSecondResolution =
 // allowedMultiplesOfRollupSizeMissingInCharts = 2.3
 export const allowedMultiplesOfRollupSizeMissingInCharts =
   onlyInternally || (isInstanaEngineer && !stagingTu && !currentTu && !trainingTu) ? 2.3 : 4;
+
+//Flag which exposes the download button - enables the download of metrics from event view
+export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
 
 // ########################################################################################
 // Moving from Redis to Cassandra for 1s rollups

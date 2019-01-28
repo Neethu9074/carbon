@@ -14,6 +14,8 @@ export const role = tenant.role;
 
 export const isInstanaEngineer = user.email === 'stan@instana.com';
 
+export const isInstanaEmail = user.email.endsWith('@instana.com');
+
 export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
