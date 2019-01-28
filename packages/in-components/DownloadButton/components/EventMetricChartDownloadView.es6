@@ -11,13 +11,10 @@ export default connectTo(props => ({
   if (!metricValues) {
     return null;
   }
-  const data = getMetricData(event, metric, metricValues['metrics']);
   return (
     <EventMetricDownloadView
-      data={data}
-      metric={metric}
       fileName={`metric-${metric}`}
-      getJsonData={() => getJsonData(data)}
+      getJsonData={() => getJsonData(event, metric, metricValues)}
     />
   );
 });
@@ -62,7 +59,8 @@ function getMetricsRequest(props) {
   };
 }
 
-function getJsonData(data) {
+function getJsonData(event, metric, metricValues) {
+  const data = getMetricData(event, metric, metricValues['metrics']);
   return JSON.stringify(data, null, 2);
 }
 
