@@ -6,6 +6,7 @@ import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/co
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
+import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
@@ -21,6 +22,11 @@ export default [
     label: 'Details',
     path: `${clusterDashboardFullyQualified}/details`,
     component: Details
+  },
+  {
+    label: 'Events',
+    path: `${clusterDashboardFullyQualified}/events`,
+    component: Events
   },
   {
     label: 'Nodes',

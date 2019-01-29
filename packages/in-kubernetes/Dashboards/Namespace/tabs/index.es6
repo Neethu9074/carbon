@@ -5,6 +5,7 @@ import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLa
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import PodMapTab from 'in-kubernetes/Dashboards/Namespace/tabs/PodMapTab';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
@@ -25,6 +26,11 @@ export default [
     label: 'Pod Map',
     path: `${namespaceDashboardFullyQualified}/podMap`,
     component: PodMapTab
+  },
+  {
+    label: 'Events',
+    path: `${namespaceDashboardFullyQualified}/events`,
+    component: Events
   },
   {
     label: 'Deployments',

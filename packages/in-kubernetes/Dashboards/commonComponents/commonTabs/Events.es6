@@ -45,14 +45,17 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function Events({ data: service, ...props }) {
+export default function Events({ serviceId, namespaceId, clusterId, podId, ...props }) {
   return (
     <Fragment>
       <Row>
         <Col lg={12}>
           <ServerTableWithUrlState
             cardTitle="Events"
-            serviceId={service.id}
+            serviceId={serviceId}
+            namespaceId={namespaceId}
+            clusterId={clusterId}
+            podId={podId}
             get={getTableData}
             isSearchable={false}
             {...props}
@@ -65,6 +68,9 @@ export default function Events({ data: service, ...props }) {
 
 function getTableData({
   serviceId,
+  namespaceId,
+  clusterId,
+  podId,
   page,
   pageSize,
   orderBy,
@@ -76,6 +82,9 @@ function getTableData({
   return getKubernetesEvents({
     filter: {
       serviceId,
+      namespaceId,
+      clusterId,
+      podId,
       timeConfig
     },
     query,

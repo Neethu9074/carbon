@@ -2,11 +2,11 @@ import React from 'react';
 
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
-import Events from 'in-kubernetes/Dashboards/Service/tabs/Events';
 
 export default [
   {
