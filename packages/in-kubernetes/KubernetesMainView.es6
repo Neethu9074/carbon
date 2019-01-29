@@ -4,7 +4,7 @@ import React from 'react';
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
-import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
+import BetaMarker from 'in-new-components/BetaMarker';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
 import Sticky from 'in-components/Sticky';
@@ -20,7 +20,12 @@ export default function KubernetesMainView(props) {
           </Switch>
         </MaxWidthFullscreenContainer>
       </Sticky>
-      <BetaMarker />
+      <BetaMarker title="Beta Feature">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
+          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+        </p>
+      </BetaMarker>
     </div>
   );
 }

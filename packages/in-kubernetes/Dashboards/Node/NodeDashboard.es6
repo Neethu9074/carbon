@@ -10,7 +10,7 @@ import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
+import BetaMarker from 'in-new-components/BetaMarker';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
@@ -38,7 +38,12 @@ export default function NodeDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker />
+      <BetaMarker title="Beta Feature">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
+          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+        </p>
+      </BetaMarker>
     </Fragment>
   );
 }

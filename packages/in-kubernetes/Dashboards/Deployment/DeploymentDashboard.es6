@@ -18,7 +18,7 @@ import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
+import BetaMarker from 'in-new-components/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function DeploymentDashboard({ location }) {
@@ -47,7 +47,12 @@ export default function DeploymentDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker />
+      <BetaMarker title="Beta Feature">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
+          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+        </p>
+      </BetaMarker>
     </Fragment>
   );
 }

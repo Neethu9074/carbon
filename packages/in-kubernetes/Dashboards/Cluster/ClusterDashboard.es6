@@ -12,7 +12,7 @@ import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import BetaMarker from 'in-new-components/BetaMarker/BetaMarker';
+import BetaMarker from 'in-new-components/BetaMarker';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
@@ -39,7 +39,12 @@ export default function ClusterDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker />
+      <BetaMarker title="Beta Feature">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
+          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+        </p>
+      </BetaMarker>
     </Fragment>
   );
 }
