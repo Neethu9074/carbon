@@ -10,7 +10,7 @@ export default connectTo(
   {
     highlightedTimeframe: highlightedTimeframe$
   },
-  function ApplyTimeframeButtons({ highlightedTimeframe, xScale }) {
+  function ApplyTimeframeButtons({ highlightedTimeframe, xScale, metrics }) {
     if (!highlightedTimeframe) {
       return null;
     }
@@ -24,7 +24,7 @@ export default connectTo(
         }}
         className={locals.applyTimeframeButtons}
       >
-        <ApplyButton />
+        <ApplyButton metrics={metrics} />
       </div>
     );
   }

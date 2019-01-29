@@ -226,9 +226,15 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                   ones.
                                 </Fragment>
                               }
-                              checked={field.value == 'ALL_DOWNSTREAM'}
+                              checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
                               onChange={checked =>
-                                setValue(['scope'], checked ? 'ALL_DOWNSTREAM' : 'INCLUDE_DATA_STORES', form)
+                                setValue(
+                                  ['scope'],
+                                  checked
+                                    ? 'INCLUDE_ALL_DOWNSTREAM'
+                                    : 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
+                                  form
+                                )
                               }
                             />
                           </FormGroup>

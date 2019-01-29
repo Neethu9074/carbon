@@ -84,7 +84,7 @@ export function getNamespaceDashboard(namespaceId, { tab, tabMatrix, timeConfig,
 
 export function getPodDashboard(
   podId,
-  { tab, tabMatrix, timeConfig, clusterId, namespaceId, deploymentId } = emptyObject
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId, deploymentId, nodeId } = emptyObject
 ) {
   return getDashboard({
     base: podDashboardFullyQualified,
@@ -98,6 +98,7 @@ export function getPodDashboard(
       setOrDeleteMatrixKey(params, podDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, podDashboard, matrixNamespaceId, namespaceId);
       setOrDeleteMatrixKey(params, podDashboard, matrixDeploymentId, deploymentId);
+      setOrDeleteMatrixKey(params, podDashboard, matrixNodeId, nodeId);
     }
   });
 }

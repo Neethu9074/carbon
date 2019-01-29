@@ -1,4 +1,4 @@
-import { isInstanaEngineer, isInstanaEmail } from 'in-stores/';
+import { isInstanaEmail, isInstanaEngineer } from 'in-stores/user';
 import { config, isFeatureFlagEnabled } from 'in-services/config';
 
 // ########################################################################################

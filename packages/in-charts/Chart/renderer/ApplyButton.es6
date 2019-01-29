@@ -2,6 +2,7 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { createTracker } from 'in-services/tracking/mixpanel';
@@ -49,16 +50,20 @@ export default connectTo(
       });
     })
   },
-  function ApplyButton({ href }) {
+  function ApplyButton({ href, metrics }) {
     if (!href) {
       return null;
     }
-
     return (
       <div className={block}>
         <Button className={`${block}__button`} kind="secondary" href={href} onClick={onZoomApplied}>
           <SvgIcon type="search" height={12} color="#172429" />
         </Button>
+        {allowDownloadMetricsFromCharts && (
+          <Button className={`${block}__button`} kind="secondary" href={href} onClick={() => download(metrics)}>
+            <SvgIcon type="download" height={12} color="#172429" />
+          </Button>
+        )}
         <Button className={`${block}__button`} kind="secondary" onClick={onButtonClicked}>
           <SvgIcon type="x" height={12} color="#172429" />
         </Button>
@@ -66,6 +71,34 @@ export default connectTo(
     );
   }
 );
+
+function mapMetricsToDownloadFormat(metrics) {
+  const values = {};
+  for (let i = 0; i < metrics.y1.labels.length; i++) {
+    values[metrics.y1.labels[i]] = getMetricData(metrics.y1.metrics[i]);
+  }
+  return values;
+}
+
+function download(metrics) {
+  const data = mapMetricsToDownloadFormat(metrics);
+  let fileName = metrics.cardTitle;
+  if (!fileName) {
+    fileName = 'metrics';
+  }
+  const a = document.body.appendChild(document.createElement('a'));
+  a.download = fileName + '.json';
+  a.href = `data:text/json;charset=utf-8,${encodeURIComponent(getJsonData(data))}`;
+  a.click();
+}
+
+function getMetricData(metricValues) {
+  return metricValues.map(v => ({ timestamp: v[0], value: v[1] }));
+}
+
+function getJsonData(data) {
+  return JSON.stringify(data, null, 2);
+}
 
 function onZoomApplied(e) {
   onButtonClicked(e);

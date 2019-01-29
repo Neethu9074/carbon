@@ -6,7 +6,7 @@ import React from 'react';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
-const WIDTH_OF_BUTTONS_IN_PX = 58;
+const WIDTH_OF_BUTTONS_IN_PX = 87;
 
 export default function createHighlightedTimeframeRenderer(config) {
   const eventEmitter = new RoEmitter();
@@ -67,7 +67,25 @@ export default function createHighlightedTimeframeRenderer(config) {
   }
 
   function show() {
-    ReactDOM.render(<ApplyButton />, config.dom.applyButtonContainer);
+    const data = config.dataHolders['y1'].getDataColumns();
+    if (!highlightedTimeframe || !data || data.length === 0) {
+      return;
+    }
+    let metricValues = [];
+    const varLength = data[0].length;
+    for (let i = 0; i < varLength; i++) {
+      const values = [];
+      for (let j = 0; j < data.length; j++) {
+        if (data[j][i].time >= highlightedTimeframe[0] && data[j][i].time <= highlightedTimeframe[1]) {
+          values.push(data[j][i]);
+        }
+      }
+      metricValues.push(values);
+    }
+    const metricIds = config.y1.metrics;
+    config.y1.metricIds = metricIds;
+    config.y1.metrics = metricValues;
+    ReactDOM.render(<ApplyButton metrics={config} />, config.dom.applyButtonContainer);
 
     config.dom.applyButtonContainer.style.display = 'block';
   }
