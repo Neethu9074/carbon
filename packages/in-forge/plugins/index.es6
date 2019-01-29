@@ -155,6 +155,7 @@ import './phpFpmRuntimePlatform';
 import './phpRuntimePlatform';
 import './postgreSqlDatabase';
 import './process';
+import './prometheus';
 import './pythonRuntimePlatform';
 import './rabbitMq';
 import './redis';
