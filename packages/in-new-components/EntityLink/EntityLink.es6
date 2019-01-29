@@ -8,9 +8,9 @@ import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
-export default function EntityLink({ label, plugin, icon, tooltip, href$, specialIndicator }) {
+export default function EntityLink({ label, plugin, snapshot, icon, tooltip, href$, specialIndicator }) {
   let content = (
-    <WithIcon plugin={plugin} icon={icon} iconColor={theme.lib.colors.blue800}>
+    <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={theme.lib.colors.blue800}>
       {tooltip ? (
         <Tooltip content={tooltip}>
           <Link href$={href$}>{label}</Link>
