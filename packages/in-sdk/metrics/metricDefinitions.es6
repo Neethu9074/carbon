@@ -36,6 +36,7 @@ const categories = {};
 //     }
 //   ]
 // }
+
 export const metricDefinitions = {};
 
 export function registerMetricDefinition(plugin, metricDefinition) {

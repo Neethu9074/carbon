@@ -5,11 +5,16 @@ import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
+
+import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
+import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
+import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
@@ -40,6 +45,7 @@ export default addSection(
         .getIn(['metadata', 'metrics'], emptyList)
         .toArray()
         .sort((a, b) => a.get('metricName').localeCompare(b.get('metricName')));
+
       return (
         <div className={block}>
           {triggeringMetrics.map(metric => {
@@ -47,6 +53,7 @@ export default addSection(
             const timeConfig = getChartTimeConfigByEvent({ event, to });
             const rollup = getRollupForTimeframe(timeConfig);
             const anomalyConfig = anomalyMap[metricName];
+            const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
 
             return (
               <ChartWrapper
@@ -58,6 +65,7 @@ export default addSection(
                 metricAccessId={event.get('metricAccessId')}
                 start={event.get('start')}
                 timeConfig$={always(timeConfig)}
+                plugin={plugin}
                 timeConfig={getTimeConfigFromEvent(event)}
                 rollup={rollup.label}
                 anomalyConfig={anomalyConfig}
@@ -80,13 +88,23 @@ const ChartWrapper = connectTo(
       props.start
     );
   },
-  function ChartWrapper({ timeConfig$, entity, entityType, metric, metricAccessId, rollup, anomalyConfig }) {
+  function ChartWrapper({
+    timeConfig$,
+    timeConfig,
+    entity,
+    entityType,
+    metric,
+    metricAccessId,
+    rollup,
+    anomalyConfig,
+    event,
+    plugin
+  }) {
     if (!entity || (entity.progress && entity.progress.loading)) {
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
 
     let chartConfig = getChartConfig(metric, entity, entityType);
-
     let forecastSensitivity;
     let focusedMoment;
     if (anomalyConfig) {
@@ -105,6 +123,22 @@ const ChartWrapper = connectTo(
 
     return (
       <div className={`${block}__chart`}>
+        {allowDownloadMetricsFromCharts && (
+          <div className={`${block}__button-panel`}>
+            <DownloadButton>
+              <EventMetricChartDownloadView
+                metric={metric}
+                entityType={entityType}
+                event={event}
+                rollup={rollup.rollup}
+                plugin={plugin}
+                timeConfig={timeConfig}
+                metricAccessId={metricAccessId}
+              />
+            </DownloadButton>
+          </div>
+        )}
+
         <Chart
           snapshotId={metricAccessId}
           timeConfig$={timeConfig$}
@@ -129,6 +163,17 @@ const ChartWrapper = connectTo(
     );
   }
 );
+
+function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
+  const keys = Object.keys(fullyQualifiedPlugins);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (fullyQualifiedPlugins[key] === fullyQualifiedPlugin) {
+      return key;
+    }
+  }
+  return null;
+}
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
