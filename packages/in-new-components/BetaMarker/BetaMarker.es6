@@ -5,7 +5,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BetaMarker.mless';
 
-export default compose(withState('expanded', 'setExpanded', false))(BetaMarker);
+export default compose(withState('expanded', 'setExpanded'))(BetaMarker);
 
 function BetaMarker({ title, children, expanded, setExpanded }) {
   return (
