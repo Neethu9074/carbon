@@ -15,7 +15,7 @@
 
   .betaMarker {
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
-    width: 20rem;
+    width: 11.625rem;
     z-index: 2;
     background: #fff;
   }
@@ -23,7 +23,7 @@
   .header {
     background: #000;
     color: #fff;
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 1rem;
     border-top-left-radius: @lib__shapes__radius_medium;
     border-top-right-radius: @lib__shapes__radius_medium;
     display: flex;
@@ -43,5 +43,6 @@
 
   .body {
     padding: 1rem;
+    font-size: 0.75rem;
   }
 }
