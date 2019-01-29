@@ -16,7 +16,7 @@ function BetaMarker({ title, children, expanded, setExpanded }) {
           <div className={locals.headerIcon}>
             <SvgIcon
               className={locals.arrowIcon}
-              type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+              type={expanded ? 'lib_arrow_expand_down' : 'lib_arrow_expand_up'}
               width={16}
               height={16}
             />

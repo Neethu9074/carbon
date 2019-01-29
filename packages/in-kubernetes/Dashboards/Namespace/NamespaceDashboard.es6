@@ -16,6 +16,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import BetaMarker from 'in-new-components/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 
 export default function NamespaceDashboard({ location }) {
   const props = {
@@ -42,11 +43,14 @@ export default function NamespaceDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker title="Beta Feature">
+      <BetaMarker title="Tech Preview">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
-          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+          You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get
+          in touch with us for any questions and feedback
         </p>
+        <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
+          Provide Feedback
+        </Button>
       </BetaMarker>
     </Fragment>
   );

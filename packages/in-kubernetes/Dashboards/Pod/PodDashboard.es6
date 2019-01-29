@@ -21,6 +21,7 @@ import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 
 export default function PodDashboard({ location }) {
   const props = {
@@ -50,11 +51,14 @@ export default function PodDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker title="Beta Feature">
+      <BetaMarker title="Tech Preview">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
-          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+          You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get
+          in touch with us for any questions and feedback
         </p>
+        <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
+          Provide Feedback
+        </Button>
       </BetaMarker>
     </Fragment>
   );

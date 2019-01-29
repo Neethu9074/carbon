@@ -10,11 +10,12 @@ import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import BetaMarker from 'in-new-components/BetaMarker';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
+import BetaMarker from 'in-new-components/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 
 export default function NodeDashboard({ location }) {
   const props = {
@@ -38,11 +39,14 @@ export default function NodeDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker title="Beta Feature">
+      <BetaMarker title="Tech Preview">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa quod voluptates tempora nostrum illum possimus
-          autem repellendus error impedit rem! Saepe, eius animi! Corporis eligendi at porro inventore ipsum totam.
+          You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get
+          in touch with us for any questions and feedback
         </p>
+        <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
+          Provide Feedback
+        </Button>
       </BetaMarker>
     </Fragment>
   );
