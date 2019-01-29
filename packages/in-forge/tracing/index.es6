@@ -117,6 +117,7 @@ import './sdk';
 import './sdk.database';
 import './sdk.http.entry';
 import './sdk.http.exit';
+import './sdk.messaging';
 import './sdk.rpc.entry';
 import './sdk.rpc.exit';
 import './servlet';
