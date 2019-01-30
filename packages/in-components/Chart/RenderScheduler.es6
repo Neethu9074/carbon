@@ -49,7 +49,7 @@ export default class RenderScheduler {
         const to = toServerTime(now, this.serverTimeOffset);
 
         // shift the backbuffer by time already animated
-        config.scales.xBackBuffer.setDomainFrom(to - windowSize + timeSinceLastAnimationDurationPassed);
+        config.scales.xBackBuffer.setDomainFrom(to - windowSize - wiggleRoom + timeSinceLastAnimationDurationPassed);
         config.scales.xBackBuffer.setDomainTo(to + timeSinceLastAnimationDurationPassed - wiggleRoom);
 
         // just renders the current state to the back-buffer
