@@ -11,6 +11,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -18,9 +19,7 @@ import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import BetaMarker from 'in-new-components/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 
 export default function DeploymentDashboard({ location }) {
   const props = {
@@ -48,15 +47,7 @@ export default function DeploymentDashboard({ location }) {
         tabs={tabs}
         props={props}
       />
-      <BetaMarker title="Tech Preview">
-        <p>
-          You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get
-          in touch with us for any questions and feedback
-        </p>
-        <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
-          Provide Feedback
-        </Button>
-      </BetaMarker>
+      <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>
   );
 }
