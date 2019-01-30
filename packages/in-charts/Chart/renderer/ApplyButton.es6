@@ -57,15 +57,15 @@ export default connectTo(
     return (
       <div className={block}>
         <Button className={`${block}__button`} kind="secondary" href={href} onClick={onZoomApplied}>
-          <SvgIcon type="search" height={12} color="#172429" />
+          <SvgIcon type="search" height={12} width={12} color="#172429" />
         </Button>
         {allowDownloadMetricsFromCharts && (
-          <Button className={`${block}__button`} kind="secondary" href={href} onClick={() => download(metrics)}>
-            <SvgIcon type="download" height={12} color="#172429" />
+          <Button className={`${block}__button`} kind="secondary" href={href} onClick={e => download(e, metrics)}>
+            <SvgIcon type="download" height={12} width={12} color="#172429" />
           </Button>
         )}
         <Button className={`${block}__button`} kind="secondary" onClick={onButtonClicked}>
-          <SvgIcon type="x" height={12} color="#172429" />
+          <SvgIcon type="x" height={12} width={12} color="#172429" />
         </Button>
       </div>
     );
@@ -80,7 +80,9 @@ function mapMetricsToDownloadFormat(metrics) {
   return values;
 }
 
-function download(metrics) {
+function download(e, metrics) {
+  e.preventDefault();
+  onButtonClicked(e);
   const data = mapMetricsToDownloadFormat(metrics);
   let fileName = metrics.cardTitle;
   if (!fileName) {
