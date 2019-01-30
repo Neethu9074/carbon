@@ -6,6 +6,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -15,7 +16,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
-import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import { getTimeConfig } from 'in-stores/time/config';
 import theme from 'in-themes';
 
