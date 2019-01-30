@@ -35,8 +35,10 @@ export const KubernetesBetaMarker = (
       You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get in
       touch with us for any questions and feedback
     </p>
-    <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
-      Provide Feedback
-    </Button>
+    <div className={locals.buttonWrapper}>
+      <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
+        Provide Feedback
+      </Button>
+    </div>
   </Fragment>
 );
