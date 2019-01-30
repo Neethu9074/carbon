@@ -9,7 +9,7 @@ import {
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/LegacyChartAdapter';
+import Chart from 'in-components/Chart/InfrastructureMetricChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';

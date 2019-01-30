@@ -9,8 +9,8 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 
-export default class LegacyChartAdapter extends React.Component {
-  static displayName = 'LegacyChartAdapter';
+export default class InfrastructureMetricChart extends React.Component {
+  static displayName = 'InfrastructureMetricChart';
 
   constructor(props) {
     super(props);

@@ -5,8 +5,8 @@ import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summa
 import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
 import TopEventsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopEventsList';
 import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChart';
 import { formatDuration } from 'in-services/formatters/date';
-import Chart from 'in-components/Chart/LegacyChartAdapter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
