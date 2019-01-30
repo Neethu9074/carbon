@@ -10,10 +10,10 @@ import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/Resour
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import Chart from 'in-components/Chart/LegacyChartAdapter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
-import Chart from 'in-components/Chart';
 
 export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;

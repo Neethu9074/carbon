@@ -4,10 +4,10 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage 
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import KubernetesHost from 'in-kubernetes/Dashboards/Node/tabs/KubernetesHost';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import Chart from 'in-components/Chart/LegacyChartAdapter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
-import Chart from 'in-components/Chart';
 
 export default function Summary({ timeConfig, data: node }) {
   const snapshotId = node.id;

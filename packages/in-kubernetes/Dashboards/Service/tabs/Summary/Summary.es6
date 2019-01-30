@@ -6,10 +6,10 @@ import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/Matc
 import TopEventsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopEventsList';
 import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDuration } from 'in-services/formatters/date';
+import Chart from 'in-components/Chart/LegacyChartAdapter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
-import Chart from 'in-components/Chart';
 
 export default function Summary({ timeConfig, data: service }) {
   return (
