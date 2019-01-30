@@ -1,6 +1,7 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
+import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
 import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
@@ -12,28 +13,26 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './Tooltip.mless';
 
 export default connectTo(
-  {
-    highlightedMoment: highlightedMoment$
+  props => {
+    const observables = { highlightedMoment: highlightedMoment$ };
+    if (props.timeConfig.autoRefresh) {
+      observables['timeSinceLastAnimationDurationPassed'] = getAnimationFramesWithAnAnimationDurationOf(
+        props.chart.config.animationDuration
+      ).map(({ timeSinceLastAnimationDurationPassed }) => timeSinceLastAnimationDurationPassed);
+    }
+    return observables;
   },
   class extends React.Component {
     static displayName = 'Tooltip';
 
+    xScale = createScale();
+
     state = {
-      xScale: createScale(),
       shouldRenderButtons: false
     };
 
     componentDidMount() {
-      this.updateScale();
       this.setupSubsriptions();
-    }
-
-    shouldComponentUpdate(nextProps) {
-      if (this.props.highlightedMoment !== nextProps.highlightedMoment || this.props.chart !== nextProps.chart) {
-        this.updateScale();
-        return true;
-      }
-      return false;
     }
 
     componentWillUnmount() {
@@ -44,39 +43,25 @@ export default connectTo(
       const nearestTimeInMetrics = this.getNearestDomain();
       const cursorXPositionOnCanvas = this.getNearestDomainXPosition(nearestTimeInMetrics);
       const cursorHasCrossedHalfOfTheCanvas = this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas);
+      this.updateScale();
 
       return (
         <div className={locals.tooltip}>
           <HighlightedTimeframe
-            xScale={this.state.xScale}
+            xScale={this.xScale}
             glassPane={this.glassPane}
             shouldRenderButtons={this.shouldRenderButtons}
           />
           {cursorXPositionOnCanvas ? (
-            <div
-              className={locals.line}
-              style={{
-                left: cursorXPositionOnCanvas
-              }}
-            >
-              <div
-                className={evaluateClassNames({
-                  [locals.rightAlignedContent]: !cursorHasCrossedHalfOfTheCanvas,
-                  [locals.leftAlignedContent]: cursorHasCrossedHalfOfTheCanvas
-                })}
-              >
-                <TooltipContent
-                  timestamp={nearestTimeInMetrics}
-                  chart={this.props.chart}
-                  reverseTooltipOrder={this.props.reverseTooltipOrder}
-                />
-              </div>
-            </div>
+            <TooltipLineAndContent
+              {...this.props}
+              cursorXPositionOnCanvas={cursorXPositionOnCanvas}
+              cursorHasCrossedHalfOfTheCanvas={cursorHasCrossedHalfOfTheCanvas}
+              nearestTimeInMetrics={nearestTimeInMetrics}
+            />
           ) : null}
           <div ref={glassPane => (this.glassPane = glassPane)} className={locals.glassPane} />
-          {this.state.shouldRenderButtons && (
-            <ApplyTimeframeButtons xScale={this.state.xScale} metrics={this.props.metrics} />
-          )}
+          {this.state.shouldRenderButtons && <ApplyTimeframeButtons xScale={this.xScale} metrics={this.props.metrics} />}
         </div>
       );
     }
@@ -95,16 +80,16 @@ export default connectTo(
 
     updateScale() {
       const config = this.props.chart.config;
-      this.state.xScale.setRangeFrom(0);
-      this.state.xScale.setRangeTo(this.glassPane.clientWidth);
-      this.state.xScale.setDomainFrom(config.timeConfig.to - config.timeConfig.windowSize);
-      this.state.xScale.setDomainTo(config.timeConfig.to);
-      this.setState({ xScale: this.state.xScale });
+      this.xScale.setRangeFrom(0);
+      this.xScale.setRangeTo(this.props.width);
+
+      this.xScale.setDomainFrom(config.scales.xBackBuffer.getDomainFrom() + config.animationDuration);
+      this.xScale.setDomainTo(config.scales.xBackBuffer.getDomainTo());
     }
 
     onMouseMove = e => {
-      if (e.offsetX >= this.state.xScale.getRangeFrom() && e.offsetX <= this.state.xScale.getRangeTo()) {
-        setHighlightedMoment(this.state.xScale.getDomain(e.offsetX));
+      if (e.offsetX >= this.xScale.getRangeFrom() && e.offsetX <= this.xScale.getRangeTo()) {
+        setHighlightedMoment(this.xScale.getDomain(e.offsetX));
       }
     };
 
@@ -112,7 +97,7 @@ export default connectTo(
 
     getNearestDomain = () => {
       const time = this.props.highlightedMoment;
-      if (time < this.state.xScale.getDomainFrom() || time > this.state.xScale.getDomainTo()) {
+      if (time < this.xScale.getDomainFrom() || time > this.xScale.getDomainTo()) {
         return null;
       }
 
@@ -120,13 +105,22 @@ export default connectTo(
     };
 
     getNearestDomainXPosition = nearestTimeInMetrics => {
-      return nearestTimeInMetrics
-        ? this.state.xScale.getRange(nearestTimeInMetrics) - this.state.xScale.getRangeFrom()
-        : null;
+      if (!nearestTimeInMetrics) {
+        return null;
+      }
+
+      let offset = 0;
+      if (this.props.timeSinceLastAnimationDurationPassed) {
+        offset = Math.max(
+          0,
+          this.props.chart.config.animationDuration - (this.props.timeSinceLastAnimationDurationPassed || 0)
+        );
+      }
+      return this.xScale.getRange(nearestTimeInMetrics + offset);
     };
 
     cursorHasCrossedHalfOfTheCanvas(cursorXPosition) {
-      const fullWidth = this.state.xScale.getRangeTo() - this.state.xScale.getRangeFrom();
+      const fullWidth = this.xScale.getRangeTo();
       return cursorXPosition > fullWidth / 2;
     }
 
@@ -137,3 +131,32 @@ export default connectTo(
     };
   }
 );
+
+function TooltipLineAndContent({
+  cursorXPositionOnCanvas,
+  cursorHasCrossedHalfOfTheCanvas,
+  nearestTimeInMetrics,
+  ...props
+}) {
+  return (
+    <div
+      className={locals.line}
+      style={{
+        left: cursorXPositionOnCanvas
+      }}
+    >
+      <div
+        className={evaluateClassNames({
+          [locals.rightAlignedContent]: !cursorHasCrossedHalfOfTheCanvas,
+          [locals.leftAlignedContent]: cursorHasCrossedHalfOfTheCanvas
+        })}
+      >
+        <TooltipContent
+          timestamp={nearestTimeInMetrics}
+          chart={props.chart}
+          reverseTooltipOrder={props.reverseTooltipOrder}
+        />
+      </div>
+    </div>
+  );
+}

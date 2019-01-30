@@ -1,37 +1,35 @@
-import RoEmitter from 'roemitter';
+import { create } from 'reactive-observables';
 import { assign } from 'lodash';
 
-import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
+import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { createCanvas } from 'in-components/Chart/canvasHelper';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { updateCanvasDimensions } from 'in-charts/canvas';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
 import theme from 'in-themes';
 
-const MAX_FPS = 15;
-
 export default class Config {
-  constructor(canvas, renderCallback, props) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.signals = new RoEmitter();
+  constructor(frontBufferCanvas, props) {
+    this.timeAxisHeight = 30;
+    this.frontBufferCanvas = frontBufferCanvas;
+    this.frontBufferCtx = this.frontBufferCanvas.getContext('2d');
+
+    this.backBufferCanvas = createCanvas();
+    this.backBufferCtx = this.backBufferCanvas.getContext('2d');
+
+    this.filteredDataSeries$ = create();
     this.filteredDataSeries = new Map();
-
-    this.renderingSubscription = this.signals
-      .on('render')
-      .debounce(1000 / MAX_FPS)
-      .subscribe(renderCallback);
-
     this.initDefaultDisabledMetrics(props);
-    this.update(props);
+    this.filteredDataSeries$.emit(this.filteredDataSeries);
 
-    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+    this.update(props);
   }
 
   initDefaultDisabledMetrics(props) {
@@ -51,11 +49,12 @@ export default class Config {
     }
   }
 
-  requestRender() {
-    this.signals.emit('render', true);
-  }
-
   update(props) {
+    let shouldResize = false;
+    if (this.frontBufferWidth !== props.width || this.height !== props.height) {
+      shouldResize = true;
+    }
+
     assign(this, props);
     this.enrichConfig();
 
@@ -64,7 +63,23 @@ export default class Config {
     }
     this.scales.update();
 
-    updateCanvasDimensions(this.canvas, this.ctx, this.width, this.height, this.devicePixelRatio);
+    updateCanvasDimensions(
+      this.backBufferCanvas,
+      this.backBufferCtx,
+      this.backBufferWidth,
+      this.height,
+      this.devicePixelRatio
+    );
+
+    if (shouldResize) {
+      updateCanvasDimensions(
+        this.frontBufferCanvas,
+        this.frontBufferCtx,
+        this.frontBufferWidth,
+        this.height,
+        this.devicePixelRatio
+      );
+    }
   }
 
   calculateMaxMillisBetweenDatapoints() {
@@ -75,6 +90,14 @@ export default class Config {
   }
 
   enrichConfig() {
+    const fullDomain = this.timeConfig.windowSize;
+    this.animationDuration = 2000;
+    this.bufferOffsetInPx = this.width * (this.animationDuration / fullDomain);
+
+    this.frontBufferWidth = this.width;
+    this.backBufferWidth = this.width + this.bufferOffsetInPx;
+    delete this.width;
+
     if (this.granularity) {
       this.rollup = this.granularity;
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
@@ -83,6 +106,11 @@ export default class Config {
       this.rollup = rollup || 1000;
       this.rollupLabel = label;
     }
+
+    // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
+    // of availability of metrics. We are removing x millis from the right border in order to
+    // hide this fact from the user.
+    this.wiggleRoom = this.wiggleRoom || 5000;
 
     this.maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints();
 
@@ -98,6 +126,7 @@ export default class Config {
     if (!axis) {
       return;
     }
+
     axis.numOfSeries = axis.labels ? axis.labels.length : 0;
     axis.formatter = this.getFormatterForAxis(axis);
     axis.renderer = axis.renderer || Renderer.line;
@@ -115,7 +144,11 @@ export default class Config {
     }
     const formatter = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
-      formatter.push(axis.formatter || number);
+      const f = axis.formatter || number;
+      formatter.push({
+        compact: f.compact ? f.compact : f,
+        detailed: f.detailed ? f.detailed : f
+      });
     }
     return formatter;
   }
@@ -131,7 +164,7 @@ export default class Config {
           windowSize: this.timeConfig.windowSize,
           maxDataPoints: axis.maxDataPoints,
           minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-          width: this.width,
+          width: this.frontBufferWidth,
           rollup: this.rollup
         })
       );
@@ -174,19 +207,19 @@ export default class Config {
   }
 
   clearTopOverdraw() {
-    this.ctx.clearRect(0, 0, this.width, this.scales.y1.getRangeTo());
+    this.backBufferCtx.clearRect(0, 0, this.backBufferWidth, this.scales.y1.getRangeTo());
   }
 
   clearBottomOverdraw() {
-    this.ctx.clearRect(0, this.scales.y1.getRangeFrom(), this.width, this.height);
+    this.backBufferCtx.clearRect(0, this.scales.y1.getRangeFrom(), this.backBufferWidth, this.height);
   }
 
   clearLeftOverdraw() {
-    this.ctx.clearRect(0, 0, this.scales.x.getRangeFrom(), this.height);
+    this.backBufferCtx.clearRect(0, 0, this.scales.xBackBuffer.getRangeFrom(), this.height);
   }
 
   clearRightOverdraw() {
-    this.ctx.clearRect(this.scales.x.getRangeTo(), 0, this.width, this.height);
+    this.backBufferCtx.clearRect(this.scales.xBackBuffer.getRangeTo(), 0, this.backBufferWidth, this.height);
   }
 
   getAllDomainValues() {
@@ -246,13 +279,7 @@ export default class Config {
     } else {
       this.filteredDataSeries.set(label, true);
     }
-    this.signals.emit('filteredDataSeriesChanged', this.filteredDataSeries);
+    this.filteredDataSeries$.emit(this.filteredDataSeries);
     this.scales.update();
-    this.requestRender();
-  }
-
-  dispose() {
-    this.renderingSubscription.dispose();
-    this.renderingSubscription = null;
   }
 }

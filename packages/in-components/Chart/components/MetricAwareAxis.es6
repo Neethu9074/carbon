@@ -6,11 +6,10 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    scale: props.chart.config.signals
-      .on('filteredDataSeriesChanged')
-      .map(filteredDataSeries => getAxisScale(props.axis, filteredDataSeries))
+    filteredDataSeries: props.chart.config.filteredDataSeries$
   }),
-  function MetricAwareAxis({ scale, axis, height, align }) {
+  function MetricAwareAxis({ filteredDataSeries, axis, height, align }) {
+    const scale = getAxisScale(axis, filteredDataSeries);
     if (scale && scale.allDataSeriesIgnored) {
       return <div style={{ width: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
     }

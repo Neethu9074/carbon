@@ -1,12 +1,25 @@
 /* eslint-env mocha */
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
-
-import Chart from 'in-components/Chart/Chart.es6';
 
 describe('in-components/Chart/Chart', () => {
   let chart;
 
   beforeEach(() => {
+    const Config = proxyquire('in-components/Chart/Configuration', {
+      'in-charts/canvas': {
+        updateCanvasDimensions: () => {}
+      },
+      'in-components/Chart/canvasHelper': {
+        createCanvas: () => ({
+          getContext: () => {}
+        })
+      }
+    }).default;
+
+    const Chart = proxyquire('in-components/Chart/Chart.es6', {
+      'in-components/Chart/Configuration': Config
+    }).default;
     chart = new Chart(getCanvasMock(), { y1: { metrics: [] }, timeConfig: { windowSize: 60000, to: null } });
   });
 

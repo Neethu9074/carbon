@@ -6,29 +6,32 @@ export default class Scales {
   constructor(config, filteredDataSeries) {
     this.config = config;
     this.filteredDataSeries = filteredDataSeries || new Map();
-    this.x = createScale();
+
+    this.xBackBuffer = createScale();
+    this.xBackBuffer.setRangeFrom(0);
+
     this.y1 = createScale();
     if (config.y2) {
       this.y2 = createScale();
     }
   }
 
-  update(filteredDataSeries) {
-    this.x.setRangeFrom(0);
-    this.x.setRangeTo(this.config.width);
-    this.x.setDomainFrom(this.config.timeConfig.to - this.config.timeConfig.windowSize);
-    this.x.setDomainTo(this.config.timeConfig.to);
-    this.x.tickPositions = this.calculateTickPositionsForXAxis();
+  update() {
+    this.xBackBuffer.setRangeTo(this.config.backBufferWidth);
 
-    this.updateScale(this.y1, this.config.y1, filteredDataSeries);
-    if (this.y2) {
-      this.updateScale(this.y2, this.config.y2, filteredDataSeries);
-    }
+    this.xBackBuffer.tickPositions = this.calculateTickPositionsForXAxis();
+
+    this.updateAxisScale(this.config.y1, this.y1);
+    this.updateAxisScale(this.config.y2, this.y2);
   }
 
-  updateScale(scale, axis) {
+  updateAxisScale(axis, scale) {
+    if (!axis) {
+      return;
+    }
+
     scale.setRangeTo(0);
-    scale.setRangeFrom(this.config.height);
+    scale.setRangeFrom(this.config.height - this.config.timeAxisHeight);
 
     const { minValue, maxValue } = getAxisMinMax(axis, this.filteredDataSeries);
     scale.setDomainFrom(minValue);
@@ -38,13 +41,14 @@ export default class Scales {
   }
 
   calculateTickPositionsForXAxis() {
-    const formatting = getAxisConfig(this.config.timeConfig.windowSize);
+    const timeConfig = this.config.timeConfig;
+    const formatting = getAxisConfig(timeConfig.windowSize);
     const ticks = [];
-    const width = this.x.getRangeTo();
+    const width = this.config.frontBufferWidth;
 
     let previousTickRange = Number.NEGATIVE_INFINITY;
-    let lastTickDomain = formatting.ceilToNearestStep(this.x.getDomainFrom());
-    let lastTickRange = this.x.getRange(lastTickDomain);
+    let lastTickDomain = formatting.ceilToNearestStep(timeConfig.to - timeConfig.windowSize);
+    let lastTickRange = this.xBackBuffer.getRange(lastTickDomain);
 
     while (lastTickRange <= width) {
       if (previousTickRange + formatting.expectLabelWidth < lastTickRange) {
@@ -56,7 +60,7 @@ export default class Scales {
       }
 
       lastTickDomain += formatting.stepSize;
-      lastTickRange = this.x.getRange(lastTickDomain);
+      lastTickRange = this.xBackBuffer.getRange(lastTickDomain);
     }
 
     return ticks;

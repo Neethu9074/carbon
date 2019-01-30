@@ -13,28 +13,28 @@ export default {
 
       const firstDataPoint = block[0];
       const lastDataPoint = block[block.length - 1];
-      const firstDataPointXPos = config.scales.x.getRange(firstDataPoint[0]);
-      const lastDataPointXPos = config.scales.x.getRange(lastDataPoint[0]);
+      const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);
+      const lastDataPointXPos = config.scales.xBackBuffer.getRange(lastDataPoint[0]);
 
-      config.ctx.beginPath();
-      config.ctx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
+      config.backBufferCtx.beginPath();
+      config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
 
       for (let i = 1; i < block.length; i++) {
         const dataPoint = block[i];
-        const xPos = config.scales.x.getRange(dataPoint[0]);
+        const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
         const yPos = scale.getRange(dataPoint[1]);
-        config.ctx.lineTo(xPos, yPos);
+        config.backBufferCtx.lineTo(xPos, yPos);
       }
 
-      config.ctx.strokeStyle = axis.colors100[index];
-      config.ctx.lineWidth = 2;
-      config.ctx.stroke();
-      config.ctx.lineTo(lastDataPointXPos, config.height);
-      config.ctx.lineTo(firstDataPointXPos, config.height);
+      config.backBufferCtx.strokeStyle = axis.colors100[index];
+      config.backBufferCtx.lineWidth = 2;
+      config.backBufferCtx.stroke();
+      config.backBufferCtx.lineTo(lastDataPointXPos, config.height - config.timeAxisHeight);
+      config.backBufferCtx.lineTo(firstDataPointXPos, config.height - config.timeAxisHeight);
 
-      config.ctx.closePath();
-      config.ctx.fillStyle = axis.colors[index];
-      config.ctx.fill();
+      config.backBufferCtx.closePath();
+      config.backBufferCtx.fillStyle = axis.colors[index];
+      config.backBufferCtx.fill();
     }
   }
 };

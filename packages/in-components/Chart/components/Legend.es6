@@ -7,19 +7,29 @@ import locals from './Legend.mless';
 
 export default connectTo(
   props => ({
-    filteredDataSeries: props.chart.config.signals.on('filteredDataSeriesChanged')
+    filteredDataSeries: props.chart.config.filteredDataSeries$
   }),
   function Legend({ chart, filteredDataSeries }) {
     return (
       <div className={locals.legend}>
-        <MetricSeries axis={chart.config.y1} filteredDataSeries={filteredDataSeries} config={chart.config} />
-        <MetricSeries axis={chart.config.y2} filteredDataSeries={filteredDataSeries} config={chart.config} />
+        <MetricSeries
+          chart={chart}
+          axis={chart.config.y1}
+          filteredDataSeries={filteredDataSeries}
+          config={chart.config}
+        />
+        <MetricSeries
+          chart={chart}
+          axis={chart.config.y2}
+          filteredDataSeries={filteredDataSeries}
+          config={chart.config}
+        />
       </div>
     );
   }
 );
 
-function MetricSeries({ axis, config, filteredDataSeries }) {
+function MetricSeries({ chart, axis, config, filteredDataSeries }) {
   if (!axis) {
     return null;
   }
@@ -35,7 +45,10 @@ function MetricSeries({ axis, config, filteredDataSeries }) {
               [locals.metric]: true,
               [locals.disabledMetric]: isDisabled
             })}
-            onClick={() => config.toggleDataSeries(label)}
+            onClick={() => {
+              config.toggleDataSeries(label);
+              chart.requestRender();
+            }}
           >
             <div
               className={evaluateClassNames({

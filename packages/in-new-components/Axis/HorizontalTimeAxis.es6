@@ -36,7 +36,7 @@ export default function HorizontalTimeAxis(props) {
   );
 }
 
-function getXTickPositions(formatting, width, scale) {
+export function getXTickPositions(formatting, width, scale) {
   const ticks = [];
 
   const x = createScale();

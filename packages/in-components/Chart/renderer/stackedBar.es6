@@ -8,8 +8,8 @@ export default {
     }
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
     const barWidth =
-      config.scales.x.getRange(config.scales.x.getDomainTo()) -
-      config.scales.x.getRange(config.scales.x.getDomainTo() - blockSizeMillis);
+      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo()) -
+      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
       renderDataSeries(config, axis.colors100[iMetric], metrics[iMetric], metricMap, scale, barWidth);
@@ -53,9 +53,9 @@ function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color)
 
   const chartHeight = scale.getRangeFrom();
 
-  config.ctx.beginPath();
-  config.ctx.globalAlpha = 1.0;
-  config.ctx.fillStyle = color;
+  config.backBufferCtx.beginPath();
+  config.backBufferCtx.globalAlpha = 1.0;
+  config.backBufferCtx.fillStyle = color;
 
   // For the very first set of blocks, skip the first (which would be half a bar), but for next sets start from 0
   // as otherwise full bars are skipped, resulting in a partial graph
@@ -70,15 +70,15 @@ function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color)
       metricMap[time] -= dataPoint[1];
     }
 
-    const xPos = config.scales.x.getRange(time) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
+    const xPos = config.scales.xBackBuffer.getRange(time) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
 
     // 2px minimum bar height so make them visible
     const yPos = scale.getRange(value);
     const barHeight = Math.max(MIN_HEIGHT_IN_PX, chartHeight - yPos);
 
-    config.ctx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, barHeight);
+    config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, barHeight);
   }
 
-  config.ctx.fill();
-  config.ctx.closePath();
+  config.backBufferCtx.fill();
+  config.backBufferCtx.closePath();
 }

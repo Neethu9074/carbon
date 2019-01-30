@@ -1,70 +1,36 @@
-import renderTickLines from 'in-components/Chart/renderer/tickLines';
-import clearRender from 'in-components/Chart/renderer/clear';
+import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import Config from 'in-components/Chart/Configuration';
 
 const emptyDataSeries = [];
 
 export default class Chart {
   constructor(canvas, props) {
-    this.config = new Config(canvas, this.render.bind(this), props);
-    this.config.requestRender();
+    this.isLive = false;
+    this.config = new Config(canvas, props);
+    this.renderScheduler = new RenderScheduler(this);
   }
 
   update(props) {
     this.config.update(props);
-    this.config.requestRender();
-  }
 
-  render() {
-    clearRender(this.config);
-    renderTickLines(this.config);
-
-    this.renderAxisMetrics('y1');
-    this.renderAxisMetrics('y2');
-
-    this.clearOverdraw();
-  }
-
-  renderAxisMetrics(axisName) {
-    const config = this.config;
-    const axis = config[axisName];
-    if (!axis) {
-      return;
+    const isLive = props.timeConfig.autoRefresh;
+    if (isLive && !this.isLive) {
+      this.renderScheduler.startLiveMode();
+    } else if (!isLive && this.isLive) {
+      this.renderScheduler.stopLiveMode();
     }
 
-    const metrics = this.filterDataSeries(axis);
-
-    if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther) {
-      axis.renderer.render({
-        axis,
-        metrics,
-        colors: axis.colors,
-        scale: config.scales[axisName],
-        config
-      });
-    } else {
-      for (let i = 0; i < metrics.length; i++) {
-        const dataSeries = metrics[i];
-        if (dataSeries.length === 0) {
-          continue;
-        }
-        axis.renderer.render({
-          axis,
-          index: i,
-          dataSeries: metrics[i],
-          color: axis.colors100[i],
-          scale: config.scales[axisName],
-          config
-        });
+    if (this.isLive !== isLive) {
+      if (!isLive) {
+        this.renderScheduler.atomicRender();
       }
+    } else if (!isLive) {
+      this.renderScheduler.atomicRender();
+    } else {
+      this.renderScheduler.intermediateRenderDuringUpdate();
     }
-  }
 
-  clearOverdraw() {
-    this.config.clearTopOverdraw();
-    this.config.clearBottomOverdraw();
-    this.config.clearLeftOverdraw();
-    this.config.clearRightOverdraw();
+    this.isLive = isLive;
   }
 
   getNearestDataPointDomainForTimestamp(timestamp) {
@@ -134,6 +100,10 @@ export default class Chart {
     return validMetrics;
   }
 
+  requestRender() {
+    this.renderScheduler.atomicRender();
+  }
+
   isLabelFilteredByUser(label) {
     return this.config.filteredDataSeries.has(label);
   }
@@ -143,6 +113,6 @@ export default class Chart {
   }
 
   dispose() {
-    this.config.dispose();
+    this.renderScheduler.dispose();
   }
 }

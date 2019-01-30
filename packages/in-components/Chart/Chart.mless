@@ -8,8 +8,13 @@
     width: fit-content;
   }
 
-  .canvas {
+  .canvas,
+  .timeAxisCanvas {
     display: block;
+  }
+
+  .timeAxisCanvas {
+    height: 3.125rem;
   }
 
   .chartAxisWrapper {

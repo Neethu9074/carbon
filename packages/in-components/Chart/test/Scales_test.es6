@@ -31,28 +31,24 @@ describe('in-components/Chart/Scales', () => {
   describe('update', () => {
     it('should update axis according to the given config', () => {
       const scales = new Scales({
+        animationDuration: 0,
         y1: { formatter: [number] },
         y2: { labels: ['a'], metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
         timeConfig: { windowSize: 20000, to: 60000 },
-        width: 100,
-        height: 50
+        backBufferWidth: 100,
+        height: 50,
+        timeAxisHeight: 0
       });
       scales.update();
 
-      expect(scales.x.getRangeFrom()).to.equal(0);
-      expect(scales.x.getRangeTo()).to.equal(100);
-      expect(scales.x.getDomainFrom()).to.equal(40000);
-      expect(scales.x.getDomainTo()).to.equal(60000);
+      expect(scales.xBackBuffer.getRangeFrom()).to.equal(0);
+      expect(scales.xBackBuffer.getRangeTo()).to.equal(100);
 
       expect(scales.y1.getRangeFrom()).to.equal(50);
       expect(scales.y1.getRangeTo()).to.equal(0);
-      expect(scales.y1.getDomainFrom()).to.equal(0);
-      expect(scales.y1.getDomainTo()).to.equal(1);
 
       expect(scales.y2.getRangeFrom()).to.equal(50);
       expect(scales.y2.getRangeTo()).to.equal(0);
-      expect(scales.y2.getDomainFrom()).to.equal(0);
-      expect(scales.y2.getDomainTo()).to.equal(20);
     });
 
     it('should take all metric series into account when calculating metrics', () => {
@@ -73,9 +69,11 @@ describe('in-components/Chart/Scales', () => {
           ],
           formatter: [number]
         },
+        animationDuration: 0,
         timeConfig: { windowSize: 20000, to: 60000 },
-        width: 100,
-        height: 50
+        backBufferWidth: 100,
+        height: 50,
+        timeAxisHeight: 0
       });
       scales.update();
 
@@ -89,9 +87,11 @@ describe('in-components/Chart/Scales', () => {
     it('should update tick positions on update', () => {
       const scales = new Scales({
         y1: { formatter: [number] },
+        animationDuration: 0,
         timeConfig: { windowSize: 20000, to: 60000 },
-        width: 100,
-        height: 50
+        backBufferWidth: 100,
+        height: 50,
+        timeAxisHeight: 0
       });
 
       expect(scales.y1.tickPositions).to.be.undefined;

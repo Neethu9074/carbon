@@ -2,6 +2,7 @@ import countErrorBar from 'in-components/Chart/renderer/countErrorBar';
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
 import stackedBar from 'in-components/Chart/renderer/stackedBar';
 import integral from 'in-components/Chart/renderer/integral';
+import timeLine from 'in-components/Chart/renderer/timeLine';
 import point from 'in-components/Chart/renderer/point';
 import line from 'in-components/Chart/renderer/line';
 import area from 'in-components/Chart/renderer/area';
@@ -15,5 +16,6 @@ export default {
   line,
   point,
   stackedArea,
-  stackedBar
+  stackedBar,
+  timeLine
 };
