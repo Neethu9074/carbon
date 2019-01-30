@@ -53,6 +53,7 @@ export default function Speed({ timeConfig, tagFilters }) {
           <WebsiteChartWrapper
             cardTitle="onLoad Time"
             timeConfig={timeConfig}
+            shareMaxAxisDomain
             y1={{
               renderer: Renderer.integral,
               calculateStackDifferences: true,

@@ -21,6 +21,15 @@ export default class Scales {
 
     this.xBackBuffer.tickPositions = this.calculateTickPositionsForXAxis();
 
+    calculateAxisMinMax(this.config.y1, this.filteredDataSeries);
+    calculateAxisMinMax(this.config.y2, this.filteredDataSeries);
+
+    if (this.config.shareMaxAxisDomain && this.config.y2) {
+      const maxValueOfBothAxis = Math.max(this.config.y1.maxValue, this.config.y2.maxValue);
+      this.config.y1.maxValue = maxValueOfBothAxis;
+      this.config.y2.maxValue = maxValueOfBothAxis;
+    }
+
     this.updateAxisScale(this.config.y1, this.y1);
     this.updateAxisScale(this.config.y2, this.y2);
   }
@@ -33,9 +42,8 @@ export default class Scales {
     scale.setRangeTo(0);
     scale.setRangeFrom(this.config.height - this.config.timeAxisHeight);
 
-    const { minValue, maxValue } = getAxisMinMax(axis, this.filteredDataSeries);
-    scale.setDomainFrom(minValue);
-    scale.setDomainTo(maxValue);
+    scale.setDomainFrom(axis.minValue);
+    scale.setDomainTo(axis.maxValue);
 
     scale.tickPositions = getAxisTickPositions(scale, axis.formatter[0].detailed);
   }
@@ -67,7 +75,11 @@ export default class Scales {
   }
 }
 
-export function getAxisMinMax(axis, filteredDataSeries) {
+export function calculateAxisMinMax(axis, filteredDataSeries) {
+  if (!axis) {
+    return;
+  }
+
   let minValue = Number.MAX_VALUE;
   let maxValue = 0;
 
@@ -115,7 +127,10 @@ export function getAxisMinMax(axis, filteredDataSeries) {
     maxValue = axis.max;
   }
 
-  return { minValue: 0, maxValue, allDataSeriesIgnored };
+  axis.minValue = 0;
+  axis.maxValue = maxValue;
+  axis.allDataSeriesIgnored = allDataSeriesIgnored;
+  return { minValue, maxValue, allDataSeriesIgnored };
 }
 
 function getMinMaxValueForDataSeries(dataSeries) {

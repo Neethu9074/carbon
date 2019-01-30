@@ -32,6 +32,7 @@ storiesOf('Components/Chart', module)
   .add('Integral', () => <Integral />)
   .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
+  .add('SharedAxis', () => <SharedAxis />)
   .add('Resize', () => <Resize />);
 
 function MissingData() {
@@ -338,6 +339,30 @@ function CountErrorBar() {
             labels: ['Count', 'Error'],
             metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 0.7, oneMinute)],
             aggregation: 'awesomeAggregation'
+          }
+        }}
+      />
+    </Root>
+  );
+}
+
+function SharedAxis() {
+  return (
+    <Root>
+      <ChartWrapperPresenter
+        result={constructResult(null, false)}
+        config={{
+          shareMaxAxisDomain: true,
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.line,
+            labels: ['A', 'B'],
+            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
+          },
+          y2: {
+            renderer: Renderer.line,
+            labels: ['C', 'D'],
+            metrics: [generateMetrics(60, 50, oneMinute), generateMetrics(60, 70, oneMinute)]
           }
         }}
       />

@@ -127,6 +127,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
             <WebsiteChartWrapper
               cardTitle="Retrieval Time"
               reverseTooltipOrder
+              shareMaxAxisDomain
               timeConfig={timeConfig}
               y1={{
                 renderer: Renderer.integral,

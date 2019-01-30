@@ -20,6 +20,7 @@ export default function Latency({
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       reverseTooltipOrder
+      shareMaxAxisDomain
       y1={{
         renderer: Renderer.integral,
         formatter: millis.fixed,

@@ -49,7 +49,10 @@ describe('in-components/Chart/Configuration', () => {
         formatter: [number],
         numOfSeries: 0,
         colors: [],
-        colors100: []
+        colors100: [],
+        minValue: 0,
+        maxValue: 1,
+        allDataSeriesIgnored: true
       });
       expect(config.timeConfig).to.deep.equal({ windowSize: 60000, to: null });
       expect(config.foo).to.equal('bar');
@@ -70,7 +73,10 @@ describe('in-components/Chart/Configuration', () => {
         colors: [],
         colors100: [],
         valuesNeedToBeStacked: true,
-        valuesDependOnEachOther: true
+        valuesDependOnEachOther: true,
+        minValue: 0,
+        maxValue: 1,
+        allDataSeriesIgnored: true
       });
     });
 

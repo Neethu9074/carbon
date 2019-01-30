@@ -73,6 +73,7 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
           <WebsiteChartWrapper
             cardTitle="Latency"
             reverseTooltipOrder
+            shareMaxAxisDomain
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.integral,
