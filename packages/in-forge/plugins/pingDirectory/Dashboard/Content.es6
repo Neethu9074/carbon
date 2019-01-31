@@ -8,7 +8,7 @@ import RecentChangesTable from './RecentChangesTable';
 export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <DashboardSection title="Operations">
+      <DashboardSection title="Activity">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -27,7 +27,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['established_connections', 'max_concurrent_connections', 'total_connections_since_startup'],
-            labels: ['Established connections', 'Max concurrent connections', 'Total connections'],
+            labels: ['Established', 'Max concurrent', 'Total'],
             type: 'line'
           }}
         />
@@ -39,12 +39,12 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['available_file_descriptors', 'open_file_descriptors', 'max_file_descriptors'],
-            labels: ['Available descriptors', 'Open descriptors', 'Max descriptors'],
+            labels: ['Available', 'Open', 'Max'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Failed operations">
+      <DashboardSection title="Failed Operations">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -60,21 +60,12 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
               'modify_op_failed',
               'search_op_failed'
             ],
-            labels: [
-              'All failed operations',
-              'Add op failed',
-              'Bind op failed',
-              'Compare op failed',
-              'Delete op failed',
-              'Extended op failed',
-              'Modify op failed',
-              'Search op failed'
-            ],
+            labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Total operations">
+      <DashboardSection title="Total Operations">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -90,16 +81,7 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
               'modify_op_total',
               'search_op_total'
             ],
-            labels: [
-              'All operations',
-              'Add op total',
-              'Bind op total',
-              'Compare op total',
-              'Delete op total',
-              'Extended op total',
-              'Modify op total',
-              'Search op total'
-            ],
+            labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
             type: 'line'
           }}
         />

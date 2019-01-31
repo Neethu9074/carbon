@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import List from 'in-sdk/components/sidebar/List';
 
 export default function Databases({ snapshot }) {
   const databases = snapshot.getIn(['data', 'recent_changes.names']);
@@ -16,11 +16,11 @@ export default function Databases({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Databases</Collapsible.Header>
         <Collapsible.Content>
-          {databases.map((database, i) => (
-            <DescriptionList key={i}>
-              <DescriptionItem>{database}</DescriptionItem>
-            </DescriptionList>
-          ))}
+          <List>
+            {databases.map((database, i) => (
+              <List.Item key={i}>{database}</List.Item>
+            ))}
+          </List>
         </Collapsible.Content>
       </Collapsible>
     </div>

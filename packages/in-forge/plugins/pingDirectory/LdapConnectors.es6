@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from '../../../in-components/DescriptionList';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import Collapsible from '../../../in-components/Collapsible';
+import List from 'in-sdk/components/sidebar/List';
 
 export default function LdapConnectors({ snapshot }) {
   const data = snapshot.get('data');
@@ -17,19 +17,13 @@ export default function LdapConnectors({ snapshot }) {
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Ldap Connectors</Collapsible.Header>
         <Collapsible.Content>
-          {connectorNames.map((connectorName, i) => (
-            <Collapsible initiallyOpen={false} key={i}>
-              <Collapsible.Header>{connectorName}</Collapsible.Header>
-              <Collapsible.Content>
-                <DescriptionList>
-                  <DescriptionItem title="Name">{connectorName}</DescriptionItem>
-                  <DescriptionItem title="Protocol">
-                    {data.get('ldap_connectors.data.' + connectorName + '.protocol')}
-                  </DescriptionItem>
-                </DescriptionList>
-              </Collapsible.Content>
-            </Collapsible>
-          ))}
+          <List>
+            {connectorNames.map((name, i) => (
+              <List.Item key={i}>
+                {name + ' (' + data.get('ldap_connectors.data.' + name + '.protocol') + ')'}
+              </List.Item>
+            ))}
+          </List>
         </Collapsible.Content>
       </Collapsible>
     </div>

@@ -71,7 +71,7 @@ export default function LdapConnectorsTable({ snapshot, timeConfig }) {
 function getRowDetails(row) {
   return (
     <div>
-      <DashboardSection title="Active connections">
+      <DashboardSection title="Active Connections">
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -83,7 +83,7 @@ function getRowDetails(row) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Connection statistics">
+      <DashboardSection title="Connection Statistics">
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
