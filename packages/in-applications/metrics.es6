@@ -79,6 +79,6 @@ export function extendWindowSizeOnLiveMode(timeConfig) {
 
   const granularity = getChartGranularity(timeConfig);
   const modifiedTimeConfig = assign({}, timeConfig);
-  modifiedTimeConfig.windowSize += Math.max(wiggleRoom + 2 * animationDuration, granularity);
+  modifiedTimeConfig.windowSize += wiggleRoom + 2 * Math.max(animationDuration, granularity);
   return modifiedTimeConfig;
 }
