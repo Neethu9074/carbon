@@ -13,14 +13,6 @@ export default function Details({ data: cluster }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Pods Alloc."
-            snapshotId={snapshotId}
-            metric="allocatedCapacityPodsRatio"
-            formatter={percentage.detailed}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
             title="CPU Req. Alloc."
             snapshotId={snapshotId}
             metric="requiredCapacityCPURatio"
@@ -48,6 +40,14 @@ export default function Details({ data: cluster }) {
             title="Memory Limits Alloc."
             snapshotId={snapshotId}
             metric="limitCapacityMemoryRatio"
+            formatter={percentage.detailed}
+          />
+        </Col>
+        <Col lg={2}>
+          <InfraMetricKpiCard
+            title="Pods Alloc."
+            snapshotId={snapshotId}
+            metric="allocatedCapacityPodsRatio"
             formatter={percentage.detailed}
           />
         </Col>

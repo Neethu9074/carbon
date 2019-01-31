@@ -70,7 +70,7 @@ export default function Summary({ timeConfig, data: node }) {
       </Row>
 
       <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <Card title="CPU Resources">
             <Chart
               snapshotId={snapshotId}
@@ -84,7 +84,7 @@ export default function Summary({ timeConfig, data: node }) {
             />
           </Card>
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           <Card title="Memory Resources">
             <Chart
               snapshotId={snapshotId}
@@ -98,9 +98,7 @@ export default function Summary({ timeConfig, data: node }) {
             />
           </Card>
         </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+        <Col lg={4}>
           <Card title="Pods Allocation">
             <Chart
               snapshotId={snapshotId}
