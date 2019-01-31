@@ -51,6 +51,11 @@ class Scale {
     return this.clamp;
   }
 
+  shiftDomain(offset) {
+    this.domainFrom += offset;
+    this.domainTo += offset;
+  }
+
   getRange(domainValue) {
     const domainRange = this.domainTo - this.domainFrom;
     if (domainRange === 0) {
@@ -59,7 +64,7 @@ class Scale {
       }
       return (this.rangeTo - this.rangeFrom) / 2 + this.rangeFrom;
     }
-    let percentageOfDomain = 1 / (this.domainTo - this.domainFrom) * (domainValue - this.domainFrom);
+    let percentageOfDomain = (1 / (this.domainTo - this.domainFrom)) * (domainValue - this.domainFrom);
     if (this.clamp) {
       percentageOfDomain = Math.max(0, percentageOfDomain);
       percentageOfDomain = Math.min(1, percentageOfDomain);
@@ -68,7 +73,7 @@ class Scale {
   }
 
   getDomain(rangeValue) {
-    const percentageOfRange = 1 / (this.rangeTo - this.rangeFrom) * (rangeValue - this.rangeFrom);
+    const percentageOfRange = (1 / (this.rangeTo - this.rangeFrom)) * (rangeValue - this.rangeFrom);
     return percentageOfRange * (this.domainTo - this.domainFrom) + this.domainFrom;
   }
 }

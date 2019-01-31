@@ -37,30 +37,35 @@ export default class RenderScheduler {
     const config = this.config;
     this.stopLiveMode();
 
+    this.setXDomainToLiveMode();
+
     let initialRenderDone = false;
-    const animate = ({ timeSinceLastAnimationDurationPassed, now, progress }) => {
+    const animate = ({ timeSinceLastAnimationDurationPassed, progress }) => {
       this.drawBackBufferToFrontBuffer(progress);
 
       if (timeSinceLastAnimationDurationPassed >= config.animationDuration || !initialRenderDone) {
-        initialRenderDone = true;
-
-        const windowSize = config.timeConfig.windowSize;
-        const wiggleRoom = config.wiggleRoom;
-        const to = toServerTime(now, this.serverTimeOffset);
-
-        // shift the backbuffer by time already animated
-        config.scales.xBackBuffer.setDomainFrom(to - windowSize - wiggleRoom + timeSinceLastAnimationDurationPassed);
-        config.scales.xBackBuffer.setDomainTo(to + timeSinceLastAnimationDurationPassed - wiggleRoom);
+        config.scales.xBackBuffer.shiftDomain(timeSinceLastAnimationDurationPassed);
 
         // just renders the current state to the back-buffer
         this.calculateTicks();
         this.render();
+        initialRenderDone = true;
 
         this.updateExistingTickPositions();
       }
     };
 
     this.updateSubscription = getAnimationFramesWithAnAnimationDurationOf(config.animationDuration).subscribe(animate);
+  }
+
+  setXDomainToLiveMode() {
+    const config = this.config;
+    const wiggleRoom = config.wiggleRoom;
+    const now = Date.now();
+    const windowSize = config.timeConfig.windowSize;
+    const to = toServerTime(now, this.serverTimeOffset);
+    config.scales.xBackBuffer.setDomainFrom(to - windowSize - wiggleRoom);
+    config.scales.xBackBuffer.setDomainTo(to - wiggleRoom);
   }
 
   stopLiveMode() {
