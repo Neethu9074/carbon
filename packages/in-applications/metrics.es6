@@ -1,4 +1,7 @@
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
+import { assign } from 'lodash';
+
+import { animationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
 
 const maximumNumberOfUsefulDataPoints = 80;
 
@@ -56,4 +59,26 @@ export function getSparkChartGranularity(timeConfig) {
     minPixelsPerBlock: 30,
     width: 300
   });
+}
+
+export function extendMetricConfigurationOnLiveMode(metricsConfiguration) {
+  const timeConfig = metricsConfiguration.filter.timeConfig;
+  if (!timeConfig.autoRefresh) {
+    return metricsConfiguration;
+  }
+
+  return assign({}, metricsConfiguration, {
+    filter: { timeConfig: extendWindowSizeOnLiveMode(metricsConfiguration.filter.timeConfig) }
+  });
+}
+
+export function extendWindowSizeOnLiveMode(timeConfig) {
+  if (!timeConfig.autoRefresh) {
+    return timeConfig;
+  }
+
+  const granularity = getChartGranularity(timeConfig);
+  const modifiedTimeConfig = assign({}, timeConfig);
+  modifiedTimeConfig.windowSize += Math.max(wiggleRoom + animationDuration, granularity);
+  return modifiedTimeConfig;
 }

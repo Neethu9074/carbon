@@ -15,6 +15,9 @@ import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
 import theme from 'in-themes';
 
+export const animationDuration = 2000;
+export const wiggleRoom = 5000;
+
 export default class Config {
   constructor(frontBufferCanvas, props) {
     this.timeAxisHeight = 30;
@@ -91,7 +94,7 @@ export default class Config {
 
   enrichConfig() {
     const fullDomain = this.timeConfig.windowSize;
-    this.animationDuration = 2000;
+    this.animationDuration = animationDuration;
     this.bufferOffsetInPx = this.width * (this.animationDuration / fullDomain);
 
     this.frontBufferWidth = this.width;
@@ -110,7 +113,7 @@ export default class Config {
     // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
     // of availability of metrics. We are removing x millis from the right border in order to
     // hide this fact from the user.
-    this.wiggleRoom = this.wiggleRoom || 5000;
+    this.wiggleRoom = this.wiggleRoom || wiggleRoom;
 
     this.maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints();
 

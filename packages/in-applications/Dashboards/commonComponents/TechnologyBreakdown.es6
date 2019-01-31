@@ -4,6 +4,7 @@ import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBre
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import { endpointNameTranslations } from 'in-applications/endpointTypes';
+import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { millis } from 'in-services/formatters/number';
@@ -17,7 +18,7 @@ export default connectTo(
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
-        timeConfig
+        timeConfig: extendWindowSizeOnLiveMode(timeConfig)
       },
       breakdownType: 'PROCESSING_TIME',
       granularity: getChartGranularity(timeConfig)
@@ -48,7 +49,7 @@ export default connectTo(
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),
         y1: {
-          renderer: Renderer.stackedArea,
+          renderer: Renderer.line,
           labels,
           metrics,
           colors,
