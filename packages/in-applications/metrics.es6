@@ -61,7 +61,18 @@ export function getSparkChartGranularity(timeConfig) {
   });
 }
 
-export function extendMetricConfigurationOnLiveMode(metricsConfiguration) {
+export function extendWebsiteMetricConfigurationOnLiveMode(metricsConfiguration) {
+  const timeConfig = metricsConfiguration.timeConfig;
+  if (!timeConfig.autoRefresh) {
+    return metricsConfiguration;
+  }
+
+  return assign({}, metricsConfiguration, {
+    timeConfig: extendWindowSizeOnLiveMode(metricsConfiguration.timeConfig)
+  });
+}
+
+export function extendAppDataMetricConfigurationOnLiveMode(metricsConfiguration) {
   const timeConfig = metricsConfiguration.filter.timeConfig;
   if (!timeConfig.autoRefresh) {
     return metricsConfiguration;
