@@ -12,10 +12,10 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Link from 'in-components/Link';
 import connect from 'in-hoc/connectTo';
 
-const metrics = ['traces', 'latency', 'errors'];
-const labels = ['Count', 'Latency', 'Errors'];
-const aggregations = ['SUM', 'MEAN', 'MEAN'];
-const formatters = [number.compact, millis.fixedCompact, percentage.detailed];
+const metrics = ['latency', 'traces', 'errors'];
+const labels = ['Latency', 'Count', 'Errors'];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [millis.fixedCompact, number.compact, percentage.detailed];
 
 export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};
@@ -100,7 +100,8 @@ function getList({
       }
     },
     filter: {
-      timeConfig
+      timeConfig,
+      useLongTermDataOnly: timeConfig.windowSize > 1000 * 60 * 60 // query long term data when window size > 1h
     },
     tagFilters,
     group: {
