@@ -49,7 +49,7 @@ export default connectTo(
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),
         y1: {
-          renderer: Renderer.line,
+          renderer: Renderer.stackedArea,
           labels,
           metrics,
           colors,
