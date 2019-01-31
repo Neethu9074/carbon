@@ -75,7 +75,9 @@ export function getEventsViewFilteredBy({
 
   return getModifiedUrlStream(params => {
     params.pathname = eventsPath;
-    params.query.q = query;
+    if (query) {
+      params.query.q = query;
+    }
     if (eventId) {
       params.query.eventId = eventId;
     }
