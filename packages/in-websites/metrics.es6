@@ -9,7 +9,7 @@ export {
   getSparkChartGranularity
 } from 'in-applications/metrics';
 
-export function extendConfigurationOnLiveMode(metricsConfiguration) {
+export function extendMetricConfigurationOnLiveMode(metricsConfiguration) {
   const timeConfig = metricsConfiguration.timeConfig;
   if (!timeConfig.autoRefresh) {
     return metricsConfiguration;
