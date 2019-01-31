@@ -17,7 +17,7 @@ export default function StackTraceWrapper({ call }) {
   const entryStackTrace =
     entrySpan && entrySpan.stackTrace && entrySpan.stackTrace.length > 0 ? entrySpan.stackTrace : null;
 
-  const intermediateSpan = find(call.spans, _span => _span.kind === 'INTERMEDIATE');
+  const intermediateSpan = find(call.spans, _span => _span.kind === 'INTERMEDIATE' || _span.kind == null);
   const intermediateStackTrace =
     intermediateSpan && intermediateSpan.stackTrace && intermediateSpan.stackTrace.length > 0
       ? intermediateSpan.stackTrace
@@ -25,10 +25,6 @@ export default function StackTraceWrapper({ call }) {
 
   const exitSpan = find(call.spans, _span => _span.kind === 'EXIT');
   const exitStackTrace = exitSpan && exitSpan.stackTrace && exitSpan.stackTrace.length > 0 ? exitSpan.stackTrace : null;
-
-  if (!entryStackTrace && !exitStackTrace) {
-    return null;
-  }
 
   return (
     <Fragment>
