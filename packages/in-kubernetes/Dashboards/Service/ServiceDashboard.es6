@@ -1,15 +1,12 @@
 import React, { Fragment } from 'react';
 
-import {
-  clusterId as matrixClusterId,
-  serviceId as matrixServiceId,
-  namespaceId as matrixNamespaceId
-} from 'in-kubernetes/navigation/matrix';
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
+import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -22,15 +19,26 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function ServiceDashboard({ location }) {
   const props = {
     serviceId: getMatrixParameter(location, serviceDashboard, matrixServiceId),
-    namespaceId: getMatrixParameter(location, serviceDashboard, matrixNamespaceId),
-    clusterId: getMatrixParameter(location, serviceDashboard, matrixClusterId),
     viewPath: serviceDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs items={ServiceBreadcrumbs(props)} />
+      <ClusterAndNamespaceIds
+        timeConfig={props.timeConfig}
+        serviceId={props.serviceId}
+        renderBreadcrumbs={(clusterId, namespaceId) => (
+          <Breadcrumbs
+            items={ServiceBreadcrumbs({
+              ...props,
+              clusterId,
+              namespaceId
+            })}
+          />
+        )}
+      />
+
       <TabView
         result$={getKubernetesService({
           id: props.serviceId,

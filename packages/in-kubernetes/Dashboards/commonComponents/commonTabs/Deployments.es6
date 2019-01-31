@@ -20,4 +20,3 @@ export default function Deployments({ timeConfig, namespaceId, clusterId }) {
     />
   );
 }
-

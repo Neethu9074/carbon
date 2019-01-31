@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
-import { nodeId as matrixNodeId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
@@ -25,9 +26,20 @@ export default function NodeDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={NodeBreadcrumbs({ ...props, clusterId: getMatrixParameter(location, nodeDashboard, matrixClusterId) })}
+      <ClusterAndNamespaceIds
+        timeConfig={props.timeConfig}
+        nodeId={props.nodeId}
+        renderBreadcrumbs={(clusterId, namespaceId) => (
+          <Breadcrumbs
+            items={NodeBreadcrumbs({
+              ...props,
+              clusterId,
+              namespaceId
+            })}
+          />
+        )}
       />
+
       <TabView
         result$={getKubernetesNode({
           id: props.nodeId,

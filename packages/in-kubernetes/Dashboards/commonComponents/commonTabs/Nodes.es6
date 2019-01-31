@@ -52,12 +52,12 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { clusterId }) {
+    getContent(item) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_node"
           label={get(item, ['node', 'name'])}
-          href$={getNodeDashboard(get(item, ['node', 'id']), { clusterId })}
+          href$={getNodeDashboard(get(item, ['node', 'id']))}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );

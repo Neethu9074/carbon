@@ -34,10 +34,11 @@ export function ServiceBreadcrumbs(props) {
 }
 
 export function NodeBreadcrumbs(props) {
-  const { nodeId, clusterId } = props;
+  const { nodeId, clusterId, namespaceId } = props;
   return [
     <HomeViewBreadcrumb />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
+    namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     nodeId && <NodeBreadcrumb {...props} />
   ];
 }

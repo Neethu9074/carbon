@@ -126,12 +126,12 @@ const allColumnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    getContent(item, { clusterId, namespaceId, deploymentId, serviceId, nodeId }) {
+    getContent(item, { deploymentId, serviceId, nodeId }) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
           label={get(item, ['pod', 'label'])}
-          href$={getPodDashboard(get(item, ['pod', 'id']), { clusterId, namespaceId, deploymentId, serviceId, nodeId })}
+          href$={getPodDashboard(get(item, ['pod', 'id']), { deploymentId, serviceId, nodeId })}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );

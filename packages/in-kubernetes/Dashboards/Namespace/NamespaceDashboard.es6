@@ -2,11 +2,12 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
-import { namespaceId as matrixNamespaceId, clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
+import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -20,18 +21,26 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function NamespaceDashboard({ location }) {
   const props = {
     namespaceId: getMatrixParameter(location, namespaceDashboard, matrixNamespaceId),
-    clusterId: getMatrixParameter(location, namespaceDashboard, matrixClusterId),
     viewPath: namespaceDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={NamespaceBreadcrumbs({
-          ...props
-        })}
+      <ClusterAndNamespaceIds
+        timeConfig={props.timeConfig}
+        namespaceId={props.namespaceId}
+        renderBreadcrumbs={clusterId => (
+          <Breadcrumbs
+            items={NamespaceBreadcrumbs({
+              ...props,
+              clusterId,
+              namespaceId: props.namespaceId
+            })}
+          />
+        )}
       />
+
       <TabView
         result$={getKubernetesNamespace({
           id: props.namespaceId,

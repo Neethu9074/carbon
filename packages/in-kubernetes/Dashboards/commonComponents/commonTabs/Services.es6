@@ -51,14 +51,8 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    getContent(item, { namespaceId, clusterId }) {
-      return (
-        <EntityLink
-          icon="lib_kubernetes_service"
-          label={item.name}
-          href$={getServiceDashboard(item.id, { namespaceId, clusterId })}
-        />
-      );
+    getContent(item) {
+      return <EntityLink icon="lib_kubernetes_service" label={item.name} href$={getServiceDashboard(item.id)} />;
     }
   },
   {

@@ -1,16 +1,13 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import {
-  deploymentId as matrixDeploymentId,
-  clusterId as matrixClusterId,
-  namespaceId as matrixNamespaceId
-} from 'in-kubernetes/navigation/matrix';
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
+import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -30,13 +27,20 @@ export default function DeploymentDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={DeploymentBreadcrumbs({
-          ...props,
-          clusterId: getMatrixParameter(location, deploymentDashboard, matrixClusterId),
-          namespaceId: getMatrixParameter(location, deploymentDashboard, matrixNamespaceId)
-        })}
+      <ClusterAndNamespaceIds
+        timeConfig={props.timeConfig}
+        deploymentId={props.deploymentId}
+        renderBreadcrumbs={(clusterId, namespaceId) => (
+          <Breadcrumbs
+            items={DeploymentBreadcrumbs({
+              ...props,
+              clusterId,
+              namespaceId
+            })}
+          />
+        )}
       />
+
       <TabView
         result$={getKubernetesDeployment({
           id: props.deploymentId,

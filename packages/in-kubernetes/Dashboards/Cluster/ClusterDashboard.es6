@@ -29,6 +29,7 @@ export default function ClusterDashboard({ location }) {
   return (
     <Fragment>
       <Breadcrumbs items={ClusterBreadcrumbs(props)} />
+
       <TabView
         result$={getKubernetesCluster({
           id: props.clusterId,

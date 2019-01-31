@@ -1,15 +1,11 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import {
-  clusterId as matrixClusterId,
-  namespaceId as matrixNamespaceId,
-  podId as matrixPodId,
-  deploymentId as matrixDeploymentId
-} from 'in-kubernetes/navigation/matrix';
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import { podId as matrixPodId, deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -25,21 +21,27 @@ import { getTimeConfig } from 'in-stores/time/config';
 export default function PodDashboard({ location }) {
   const props = {
     podId: getMatrixParameter(location, podDashboard, matrixPodId),
-
     viewPath: podDashboard,
     timeConfig: getTimeConfig(location)
   };
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={PodBreadcrumbs({
-          ...props,
-          clusterId: getMatrixParameter(location, podDashboard, matrixClusterId),
-          namespaceId: getMatrixParameter(location, podDashboard, matrixNamespaceId),
-          deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId)
-        })}
+      <ClusterAndNamespaceIds
+        timeConfig={props.timeConfig}
+        podId={props.podId}
+        renderBreadcrumbs={(clusterId, namespaceId) => (
+          <Breadcrumbs
+            items={PodBreadcrumbs({
+              ...props,
+              clusterId,
+              namespaceId,
+              deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId)
+            })}
+          />
+        )}
       />
+
       <TabView
         result$={getKubernetesPod({
           id: props.podId,
