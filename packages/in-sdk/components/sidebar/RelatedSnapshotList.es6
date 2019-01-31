@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -6,6 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
+import { getIconSvgPath } from 'in-sdk/snapshot';
 import { getPlural } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -38,7 +39,12 @@ export default connectTo(
             <Collapsible initiallyOpen={initiallyOpen}>
               <Collapsible.Header>
                 <div className={block + '__header'}>
-                  <PluginIcon className={block + '__plugin-icon'} snapshot={groups[plugin][0]} />
+                  <Fragment>
+                    {getUniqueIconPathSnapshotCollection(groups[plugin]).map((snapshot, i) => (
+                      <PluginIcon key={i} className={block + '__plugin-icon'} snapshot={snapshot} />
+                    ))}
+                  </Fragment>
+
                   <span>
                     {getPlural(plugin)} ({groups[plugin].length})
                   </span>
@@ -74,4 +80,17 @@ function getSnapshotsGroupedByPlugin(snapshots) {
   });
 
   return grouping;
+}
+
+function getUniqueIconPathSnapshotCollection(snapshots) {
+  if (!snapshots) {
+    return [];
+  }
+
+  const map = {};
+  for (let i = 0; i < snapshots.length; i++) {
+    map[getIconSvgPath(snapshots[i])] = snapshots[i];
+  }
+
+  return Object.keys(map).map(key => map[key]);
 }
