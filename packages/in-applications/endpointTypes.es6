@@ -6,6 +6,7 @@ export const endpointNameTranslations = {
   HTTP: 'Http',
   MESSAGING: 'Messaging',
   RPC: 'Rpc',
+  INTERNAL: 'Internal',
   UNDEFINED: 'Undefined',
   SELF: 'Self'
 };
@@ -16,6 +17,7 @@ export const colorTranslation = {
   HTTP: '#549ef8',
   MESSAGING: '#69b116',
   RPC: '#93bedc',
+  INTERNAL: '#D4D8DB',
   UNDEFINED: '#D4D8DB',
   SELF: '#D4D8DB'
 };
