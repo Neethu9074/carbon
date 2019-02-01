@@ -7,7 +7,7 @@ import SideNavigationAndContent from 'in-new-components/SideNavigationAndContent
 
 const navigationTree = [
   {
-    title: 'User Interface Settings',
+    title: 'User Interface',
     pages: [
       {
         path: userSettingsGeneral,
