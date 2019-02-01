@@ -28,15 +28,19 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
         <CloseButton onClick={onClose} />
       </h1>
       <Seperator />
-      <div className={locals.entityInformation}>
-        <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
-        {!isUnknownTypeSpan(call) &&
-          callTreeNode.endpoint && (
-            <Pill kind="light" color={getColorForEndpointType(callTreeNode.endpoint.type)}>
-              {callTreeNode.endpoint.type}
-            </Pill>
-          )}
-      </div>
+
+      {call && (
+        <div className={locals.entityInformation}>
+          <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
+          {!isUnknownTypeSpan(call) &&
+            callTreeNode &&
+            callTreeNode.endpoint && (
+              <Pill kind="light" color={getColorForEndpointType(callTreeNode.endpoint.type)}>
+                {callTreeNode.endpoint.type}
+              </Pill>
+            )}
+        </div>
+      )}
       {service &&
         service.id !== 'ROOT' &&
         service.id !== 'UNKNOWN' && (
