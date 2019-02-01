@@ -1,0 +1,82 @@
+import React from 'react';
+
+import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { fromNow, formatDateTime } from 'in-services/formatters/date';
+import { success, loading } from 'in-services/util/result';
+import ServerTable from 'in-components/tables/ServerTable';
+import { toHtml } from 'in-services/formatters/markdown';
+import { getAuditLog } from 'in-api/auditLog';
+import Gravatar from 'in-components/Gravatar';
+
+import locals from './AuditLog.mless';
+
+const NUM_ENTRIES_PER_PAGE = 10;
+
+export default function AuditLog() {
+  return (
+    <ServerTable
+      get={({ query, page, pageSize }) =>
+        getAuditLog(calcOffset(page, pageSize), query).map(
+          ({ entries, total }) =>
+            entries
+              ? success(
+                  {
+                    items: entries,
+                    totalHits: total,
+                    pageSize
+                  },
+                  Date.now()
+                )
+              : loading
+        )
+      }
+      getResettingProps={() => ['query']}
+      defaultPageSize={NUM_ENTRIES_PER_PAGE}
+      columnDefinitions={columnDefinitions}
+      paginationResettingProps={{}}
+      rightHeader={({ query, page, pageSize }) => (
+        <AuditLogDownloadView offset={calcOffset(page, pageSize)} query={query} />
+      )}
+    />
+  );
+}
+
+const columnDefinitions = [
+  {
+    id: 'gravatar',
+    label: 'User',
+    sortable: false,
+    getContent(logEntry) {
+      if (!logEntry.actor || logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
+        return 'API call';
+      }
+      return <Gravatar email={logEntry.actor.email} className={locals.avatar} />;
+    },
+    headCellProps: {
+      className: locals.narrowColumn
+    }
+  },
+  {
+    id: 'logEntry',
+    label: 'Log Entry',
+    sortable: false,
+    getContent(logEntry) {
+      return (
+        <div className={locals.text}>
+          {logEntry.actor && logEntry.actor.name && <span className={locals.fullName}>{logEntry.actor.name}</span>}
+          <span className={locals.topic}> - {logEntry.action}</span>
+          <span className={locals.time}>
+            {` - ${fromNow(logEntry.timestamp)} (${formatDateTime(logEntry.timestamp)})`}
+          </span>
+
+          <DangerousHtmlPresenter html={toHtml(logEntry.message)} />
+        </div>
+      );
+    }
+  }
+];
+
+function calcOffset(page, pageSize) {
+  return (page - 1) * pageSize;
+}

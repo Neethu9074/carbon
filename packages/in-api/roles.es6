@@ -5,11 +5,15 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getRoles() {
+  return getRolesMutable().map(fromJS);
+}
+
+export function getRolesMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/roles`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getRole(roleId) {

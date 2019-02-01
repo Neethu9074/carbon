@@ -5,12 +5,13 @@ import Switch from 'in-new-components/LocationAwareTabView/components/Switch';
 import Header from 'in-new-components/LocationAwareTabView/components/Header';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { emptyObject } from 'in-services/fixedObjects';
+import { alwaysNull } from 'in-services/fixedStreams';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
   connectTo(props => ({
-    result: props.result$
+    result: props.result$ ? props.result$ : alwaysNull
   })),
   withProps(({ result, withProps: customWithPropsExtension, props }) => {
     if (customWithPropsExtension) {

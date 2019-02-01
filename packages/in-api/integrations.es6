@@ -1,16 +1,23 @@
 import { fromJS } from 'immutable';
 
-import { configs, fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
+import {
+  configs,
+  fullyQualified
+} from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Integrations/configs';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getIntegrations() {
+  return getIntegrationsMutable().map(fromJS);
+}
+
+export function getIntegrationsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/integrations`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getIntegrationsByIds(ids) {

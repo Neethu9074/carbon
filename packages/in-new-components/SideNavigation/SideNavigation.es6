@@ -15,7 +15,7 @@ export function SideNavigation({ title, children }) {
   );
 }
 
-export function SideNavigationItem({ isActive, href$, href, onClick, icon, label }) {
+export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitEmptyIcon = false, label }) {
   return (
     <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
       <div
@@ -24,7 +24,7 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, label
           [locals.tabSelected]: isActive
         })}
       >
-        <SvgIcon className={locals.icon} type={icon} width={24} height={24} />
+        {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
         {label}
       </div>
     </Link>

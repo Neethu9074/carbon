@@ -15,6 +15,13 @@ export function scrollIntoViewIfNeeded(element) {
   }
 }
 
+export function scrollIdIntoViewIfNeeded(id) {
+  const element = document.getElementById(id);
+  if (element) {
+    scrollIntoViewIfNeeded(element);
+  }
+}
+
 // Calculate the position of an element relative to the document root;
 export function getCoords(elem) {
   const box = elem.getBoundingClientRect();

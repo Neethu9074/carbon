@@ -3,12 +3,28 @@ import { fromJS } from 'immutable';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function getUsers() {
+export function getUsersAndInvitations() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/tenant/users/overview`
   }).map(response => fromJS(response.body));
+}
+
+export function getUsers() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/tenant/users`
+  }).map(response => response.body);
+}
+
+export function getInvitations() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/tenant/users/invitations`
+  }).map(response => response.body);
 }
 
 export function setRole(userId, roleId) {

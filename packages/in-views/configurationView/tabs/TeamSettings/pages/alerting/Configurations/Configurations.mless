@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .nameWithTextBelow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .textBelowName {
+    font-size: .75rem;
+    color: @lib__colors__N600Light;
+  }
+}

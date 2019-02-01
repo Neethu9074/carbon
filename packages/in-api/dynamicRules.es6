@@ -5,11 +5,15 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getDynamicRules() {
+  return getDynamicRulesMutable().map(fromJS);
+}
+
+export function getDynamicRulesMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/alerts/anomaly`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getDynamicRule(id) {

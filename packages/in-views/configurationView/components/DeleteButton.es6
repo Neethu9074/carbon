@@ -23,6 +23,7 @@ export default function DeleteButton({ itemName, onDelete, size = 'sm' }) {
               close();
               onDelete();
             }}
+            bButtonIcon="lib_actions_delete"
           />
         )
       }

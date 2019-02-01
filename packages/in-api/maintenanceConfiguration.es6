@@ -5,11 +5,15 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getMaintenanceConfigs() {
+  return getMaintenanceConfigsMutable().map(fromJS);
+}
+
+export function getMaintenanceConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/maintenanceConfigs`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getMaintenanceConfig(id) {

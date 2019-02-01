@@ -4,11 +4,15 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
 export function getApiTokens() {
+  return getApiTokensMutable().map(fromJS);
+}
+
+export function getApiTokensMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/apiTokens`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getApiToken(apiTokenId) {

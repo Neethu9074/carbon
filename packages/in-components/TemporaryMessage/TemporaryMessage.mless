@@ -1,0 +1,33 @@
+@import '~in-themes/active.less';
+
+:local {
+  .temporyMessageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  .notificationIconSuccess,
+  .notificationIconError {
+    margin-right: 0.5rem;
+  }
+
+  .notificationIconSuccess {
+    fill: @lib__colors__success;
+  }
+
+  .notificationIconError {
+    margin-right: 0.5rem;
+    fill: @lib__colors__failure;
+  }
+
+  .notificationLabelSuccess {
+    color: @lib__colors__success;
+  }
+
+  .notificationLabelError {
+    color: @lib__colors__failure;
+  }
+}

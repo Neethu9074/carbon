@@ -2,7 +2,7 @@
 
 // Execute via
 //
-// npm run translateIconRegistry
+// yarn run translateIconRegistry
 //
 
 const path = require('path');

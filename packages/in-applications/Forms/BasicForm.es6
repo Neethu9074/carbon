@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
@@ -7,8 +7,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { regularExpressionValidator } from 'in-services/validators/regexp';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import TemporaryPresenter from 'in-components/TemporaryPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
@@ -171,35 +170,6 @@ class BasicForm extends React.Component {
   setValue = (updateForm, path, value, form) => {
     updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
   };
-}
-
-function TemporaryMessage({ type = 'success', message }) {
-  return (
-    <TemporaryPresenter duration={5000}>
-      <Fragment>
-        <Spacer type="light" />
-        <div className={locals.temporyMessageWrapper}>
-          <SvgIcon
-            className={evaluateClassNames({
-              [locals.notificationIconSuccess]: type === 'success',
-              [locals.notificationIconError]: type === 'error'
-            })}
-            type={type === 'success' ? 'lib_check' : 'lib_help_error_warning'}
-            width={24}
-            height={24}
-          />
-          <span
-            className={evaluateClassNames({
-              [locals.notificationLabelSuccess]: type === 'success',
-              [locals.notificationLabelError]: type === 'error'
-            })}
-          >
-            {message}
-          </span>
-        </div>
-      </Fragment>
-    </TemporaryPresenter>
-  );
 }
 
 export function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {

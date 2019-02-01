@@ -12,7 +12,7 @@ export default connectTo(
   },
   function ServiceConfigSwitcher({ isNewServiceViewActive, isConfigureSyntheticEndpointsViewActive }) {
     return (
-      <SideNavigation title="CONFIGURE">
+      <SideNavigation title="Configure">
         <SideNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
           icon="lib_application_service"

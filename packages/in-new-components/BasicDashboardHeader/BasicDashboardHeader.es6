@@ -10,7 +10,7 @@ export default function BasicDashboardHeader(props) {
   const { result, renderActions, title, getLabel = defaultGetLabel } = props;
 
   let content;
-  if (result.data == null) {
+  if (result && result.data == null) {
     content = (
       <Fragment>
         <Title title={title} />
@@ -56,6 +56,11 @@ function SuccessState(props) {
   );
 }
 
-function defaultGetLabel(result) {
-  return result.data.label || result.data.name;
+function defaultGetLabel(result, { title }) {
+  if (!result && title) {
+    return title;
+  } else if (result) {
+    return result.data.label || result.data.name;
+  }
+  return '';
 }

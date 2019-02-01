@@ -1,15 +1,14 @@
 import React from 'react';
 
-import Section from 'in-views/configurationView/components/Section';
+import SectionLine from 'in-views/configurationView/components/SectionLine';
 
-import './SubViewHeader.less';
-
-const block = 'in-config-view-sub-view-header';
+import locals from './SubViewHeader.mless';
 
 export default function SubViewHeader({ children }) {
   return (
-    <Section>
-      <h1 className={block}>{children}</h1>
-    </Section>
+    <div className={locals.wrapper}>
+      <h1 className={locals.header}>{children}</h1>
+      <SectionLine withMarginBottom={false} />
+    </div>
   );
 }

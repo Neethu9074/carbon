@@ -1,0 +1,134 @@
+import { withState, compose } from 'recompose';
+import React, { Fragment } from 'react';
+import { createLogger } from 'instalog';
+
+import InviteUserButton from 'in-views/configurationView/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
+import { getUsers, setRole, removeUserFromTenant } from 'in-api/users';
+import List from 'in-views/configurationView/components/List';
+import TemporaryMessage from 'in-components/TemporaryMessage';
+import { fallbackRoleId } from 'in-stores/user';
+import { getRolesMutable } from 'in-api/roles';
+import Gravatar from 'in-components/Gravatar';
+import connectTo from 'in-hoc/connectTo';
+
+import locals from './Users.mless';
+
+const logger = createLogger('Users');
+
+export default compose(
+  withState('message', 'setMessage', null),
+  connectTo({
+    roles: getRolesMutable()
+  })
+)(Users);
+
+function Users({ roles, message, setMessage }) {
+  let sortedRoles = roles
+    ? roles.filter(role => role.id !== fallbackRoleId).sort((a, b) => a.name.localeCompare(b.name))
+    : null;
+
+  return (
+    <Fragment>
+      {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
+      <List
+        title="Users"
+        getHeader={getHeader}
+        getEntityName={getEntityName}
+        columnDefinitions={columnDefinitions(sortedRoles, setMessage)}
+        tableActions={tableActions}
+        initialOrderBy="fullName"
+        loadEntities={getUsers}
+        rightHeader={<InviteUserButton setMessage={setMessage} />}
+        searchAttributes={['fullName', 'email', getRoleName(sortedRoles)]}
+      />
+    </Fragment>
+  );
+}
+
+function columnDefinitions(sortedRoles, setMessage) {
+  return [
+    {
+      id: 'gravatar',
+      sortable: false,
+      getContent(user) {
+        return <Gravatar email={user.email} className={locals.avatar} />;
+      },
+      headCellProps: {
+        className: locals.narrowColumn
+      }
+    },
+    {
+      id: 'fullName',
+      label: 'Name',
+      getContent(entity) {
+        return entity.fullName;
+      }
+    },
+    {
+      id: 'email',
+      label: 'E-Mail',
+      getContent(entity) {
+        return entity.email;
+      }
+    },
+    {
+      id: 'role',
+      label: 'Role',
+      getContent(user) {
+        if (!sortedRoles) {
+          return null;
+        }
+        return (
+          <select
+            id="user-management-roles"
+            value={user.roleId}
+            onChange={e => changeRoleTo(setMessage, user, e.target.value)}
+          >
+            {sortedRoles.map(role => (
+              <option value={role.id} key={role.id}>
+                {role.name}
+              </option>
+            ))}
+          </select>
+        );
+      }
+    }
+  ];
+}
+
+const tableActions = {
+  delete: {
+    deleteEntity: entity => removeUserFromTenant(entity.id)
+  }
+};
+
+function getHeader(entities) {
+  return entities ? `Existing Users (${entities.length})` : 'Existing Users';
+}
+
+function getEntityName(entity) {
+  return `user ${entity.fullName}`;
+}
+
+function changeRoleTo(setMessage, user, newRoleId) {
+  setMessage({ message: 'Saving role change…', type: 'success' });
+  const setRoleResult$ = setRole(user.id, newRoleId);
+  setRoleResult$.once(() => {
+    setMessage({ message: 'Role change successfully saved.', type: 'success' });
+  });
+  setRoleResult$.errors().once(error => {
+    const message = `Failed to set user role: ${error.message}`;
+    setMessage({ message, type: 'error' });
+    logger.warn(message, error);
+  });
+}
+
+function getRoleName(roles) {
+  return function(user) {
+    if (!roles) {
+      return null;
+    }
+    const role = roles.find(role => role.id === user.roleId);
+    return role ? role.name : null;
+  };
+}

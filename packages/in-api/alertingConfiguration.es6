@@ -5,11 +5,15 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getAlertingConfigs() {
+  return getAlertingConfigsMutable().map(fromJS);
+}
+
+export function getAlertingConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/alertingConfigurations`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getAlertingConfig(id) {
@@ -21,17 +25,22 @@ export function getAlertingConfig(id) {
 }
 
 export function setEnabled(config, enabled) {
-  return saveAlertingConfig(config.setIn(['muteUntil'], enabled ? 0 : Number.MAX_SAFE_INTEGER));
+  config.muteUntil = enabled ? 0 : Number.MAX_SAFE_INTEGER;
+  return saveAlertingConfigMutable(config);
 }
 
 export function saveAlertingConfig(config) {
+  return saveAlertingConfigMutable(config.toJS()).map(fromJS);
+}
+
+export function saveAlertingConfigMutable(config) {
   return http({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/alertingConfigurations/${encodeURIComponent(config.get('id'))}`,
-    data: config.toJS()
-  }).map(response => fromJS(response.body));
+    url: `/api/alertingConfigurations/${encodeURIComponent(config.id)}`,
+    data: config
+  }).map(response => response.body);
 }
 
 export function deleteAlertingConfig(id) {

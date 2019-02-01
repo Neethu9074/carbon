@@ -1,4 +1,5 @@
-import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
+import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
+import { identity } from 'in-services/util/function';
 import { just } from 'reactive-observables';
 
 export function mapData(result, fn) {
@@ -38,6 +39,23 @@ export function success(data, time = Date.now()) {
     time
   };
 }
+
+export function listSuccess(data, totalHits = data.length, pageSize = data.length, time = Date.now()) {
+  return success(
+    {
+      items: data,
+      pageSize,
+      totalHits
+    },
+    time
+  );
+}
+
+export function arrayToResult(array, totalHits, pageSize, itemMapper = identity, time = Date.now()) {
+  return array ? listSuccess(array.map(itemMapper), totalHits, pageSize, time) : loading;
+}
+
+export const loading = pendingResult;
 
 export function successObservable(data, time = Date.now()) {
   return just(success(data, time));

@@ -48,7 +48,7 @@
     outline: 0;
 
     svg {
-      fill: #d5dfe4;
+      fill: @lib__colors__N300 ! important;
     }
   }
 

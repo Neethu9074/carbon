@@ -4,7 +4,6 @@ import React from 'react';
 import {
   agentsPath,
   cockpitPath,
-  settingsPath,
   containerPath,
   eventsPath,
   graphPath,
@@ -22,10 +21,10 @@ import {
   oneZeroWebsiteMonitoringEnabled,
   twoZeroWebsiteMonitoringEnabled
 } from 'in-services/featureFlags';
-import ConfigurationView from 'promise-loader?global,configView!in-views/configurationView/ConfigurationView';
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import GraphView from 'promise-loader?global!in-components/graphView/GraphView';
+import configurationRoutes from 'in-views/configurationView/navigation/routes';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -57,7 +56,9 @@ export default (
     {oneZeroWebsiteMonitoringEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
 
     <Route component={createAsyncViewComponent(GraphView)} path={graphPath} />
-    <Route component={createAsyncViewComponent(ConfigurationView)} path={settingsPath} />
+
+    {configurationRoutes}
+
     <Route component={createAsyncViewComponent(TraceView)} path={tracesPath} />
     {role.canConfigureAgents && (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />

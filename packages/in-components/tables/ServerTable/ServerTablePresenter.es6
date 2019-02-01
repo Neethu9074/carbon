@@ -36,6 +36,7 @@ export default function ServerTablePresenter(props) {
     // values that define the content
     columnDefinitions,
     getRowProps,
+    getRowLink,
     result = pendingResult,
     cardTitle,
     tableInCard,
@@ -87,6 +88,7 @@ export default function ServerTablePresenter(props) {
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
+        getRowLink={getRowLink}
       />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
@@ -94,7 +96,7 @@ export default function ServerTablePresenter(props) {
 
   let header = (
     <div className={locals.rightHeader}>
-      {rightHeader}
+      {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
       {isSearchable && (
         <SearchInput
           maxWidth={140}

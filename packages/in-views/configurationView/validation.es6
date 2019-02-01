@@ -21,6 +21,13 @@ export function combinedValidationResults(validationResult10, validationResult20
   }
 }
 
+export function valid() {
+  return {
+    valid: true,
+    error: null
+  };
+}
+
 export function queryValidationResultValidator(validationResult) {
   if (!validationResult.valid) {
     return [

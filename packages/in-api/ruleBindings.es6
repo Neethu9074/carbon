@@ -5,11 +5,15 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getRuleBindings() {
+  return getRuleBindingsMutable().map(fromJS);
+}
+
+export function getRuleBindingsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/ruleBindings`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getRuleBinding(ruleBindingId) {
@@ -21,7 +25,18 @@ export function getRuleBinding(ruleBindingId) {
 }
 
 export function setEnabled(ruleBinding, enabled) {
-  return saveRuleBinding(ruleBinding.setIn(['enabled'], enabled));
+  ruleBinding.enabled = enabled;
+  return saveRuleBindingMutable(ruleBinding);
+}
+
+export function saveRuleBindingMutable(ruleBinding) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/ruleBindings/${encodeURIComponent(ruleBinding.id)}`,
+    data: ruleBinding
+  }).map(response => response.body);
 }
 
 export function saveRuleBinding(ruleBinding) {

@@ -1,0 +1,9 @@
+@import '~in-themes/active.less';
+
+:local {
+  .icon {
+    margin-right: .5rem;
+    position: relative;
+    top: 0.25rem;
+  }
+}

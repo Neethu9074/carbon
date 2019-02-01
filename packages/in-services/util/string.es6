@@ -17,7 +17,7 @@ export function toTitleCase(s) {
   if (s == null || typeof s !== 'string' || s.length < 2) {
     return s;
   }
-  return s[0] + s.substr(1).toLowerCase();
+  return s[0].toUpperCase() + s.substr(1).toLowerCase();
 }
 
 export function shorten(s, maxLength = 64) {

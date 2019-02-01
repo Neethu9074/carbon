@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SectionLine from 'in-views/configurationView/subview/DynamicRule/components/SectionLine';
+import SectionLine from 'in-views/configurationView/components/SectionLine';
 import Section from 'in-views/configurationView/components/Section';
 
 import './Step.less';

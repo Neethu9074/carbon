@@ -1,0 +1,12 @@
+:local {
+
+  .line {
+    height: 1px;
+    width: 100%;
+    background: #e2e9ec;
+  }
+
+  .marginBottom {
+    margin-bottom: 1.25rem;
+  }
+}

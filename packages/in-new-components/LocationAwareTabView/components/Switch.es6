@@ -10,8 +10,8 @@ import Title from 'in-components/Title';
 import locals from './Switch.mless';
 
 export default function TabSwitch({ tabs, result, location, props, withoutPadding }) {
-  const isLoading = result.progress.loading;
-  const hasErrors = result.errors.length > 0;
+  const isLoading = result && result.progress.loading;
+  const hasErrors = result && result.errors.length > 0;
 
   if (hasErrors) {
     return (
@@ -32,7 +32,7 @@ export default function TabSwitch({ tabs, result, location, props, withoutPaddin
           render={() => (
             <ViewWrapper
               tab={tab}
-              data={result.data}
+              data={result ? result.data : null}
               location={location}
               props={props}
               withoutPadding={withoutPadding}

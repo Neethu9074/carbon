@@ -6,6 +6,8 @@ import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Title from 'in-components/Title';
 
+export const savingMessage = 'Saving…';
+
 export default function entityForm(ComposedComponent) {
   return class extends React.Component {
     static displayName = getDisplayName(ComposedComponent, 'EntityFormHoc');
@@ -77,6 +79,7 @@ export default function entityForm(ComposedComponent) {
           error: false,
           message: null,
           entity,
+          isCreate: true,
           form: this.props.createForm(entity)
         });
         return;
@@ -86,6 +89,7 @@ export default function entityForm(ComposedComponent) {
         loading: true,
         error: false,
         message: 'Loading…',
+        isCreate: false,
         form: null
       });
 
@@ -126,7 +130,7 @@ export default function entityForm(ComposedComponent) {
       this.setState({
         loading: true,
         error: false,
-        message: 'Saving…'
+        message: savingMessage
       });
       this.responseSubscription = result$.once(this.props.openEntities);
 

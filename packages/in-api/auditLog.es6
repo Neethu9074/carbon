@@ -1,5 +1,3 @@
-import { fromJS } from 'immutable';
-
 import http from 'in-services/http';
 
 export function getAuditLog(offset, query) {
@@ -11,5 +9,5 @@ export function getAuditLog(offset, query) {
       offset,
       query
     }
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }

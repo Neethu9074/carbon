@@ -38,7 +38,7 @@ export function refresh() {
 export function remove(id, name) {
   setActiveDialog(
     <ConfirmationDialog
-      header="Confirm removal"
+      header="Confirm Removal"
       description={
         <span>
           Are you sure you want to remove the filter <strong>{name}</strong>?
@@ -59,6 +59,7 @@ export function remove(id, name) {
           errorStore.mutateTo('Failed to remove filter.');
         });
       }}
+      bButtonIcon="lib_actions_delete"
     />
   );
 }

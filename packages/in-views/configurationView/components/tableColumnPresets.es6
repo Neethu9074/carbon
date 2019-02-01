@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { fullyQualified } from 'in-views/configurationView/subview/Integration/configs';
+import { fullyQualified } from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Integrations/configs';
 import DeleteButton from 'in-views/configurationView/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Button from 'in-components/Button';

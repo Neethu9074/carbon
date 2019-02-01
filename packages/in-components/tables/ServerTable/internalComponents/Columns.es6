@@ -6,15 +6,21 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
   return (
     <Tr size="compact">
       {columnDefinitions.map(columnDefinition => {
-        const label = columnDefinition.label || columnDefinition.id;
+        const label = columnDefinition.label || null;
+        const headCellProps = columnDefinition.headCellProps ? columnDefinition.headCellProps : {};
         if (columnDefinition.sortable === false) {
-          return <Th key={columnDefinition.id}>{label}</Th>;
+          return (
+            <Th key={columnDefinition.id} {...headCellProps}>
+              {label}
+            </Th>
+          );
         }
 
         const isSortedByThisColumn = orderBy === columnDefinition.id;
         return (
           <SortableTh
             key={columnDefinition.id}
+            {...headCellProps}
             isSortedByThisColumn={isSortedByThisColumn}
             sortDirection={orderDirection}
             onClick={e => {

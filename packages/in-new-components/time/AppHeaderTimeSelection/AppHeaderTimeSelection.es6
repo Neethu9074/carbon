@@ -9,9 +9,9 @@ import {
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import TimePresenter from 'in-new-components/time/TimePresenter';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import connect from 'in-hoc/connectTo';
 
 import locals from './AppHeaderTimeSelection.mless';

@@ -25,7 +25,7 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
           </TabList>
         )}
       </Wrapper>
-      <HorizontalIndicator progress={result.progress} />
+      {result && <HorizontalIndicator progress={result.progress} />}
     </div>
   );
 }

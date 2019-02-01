@@ -6,6 +6,10 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
 export function getRules() {
+  return getRulesMutable().map(fromJS);
+}
+
+export function getRulesMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -13,7 +17,7 @@ export function getRules() {
     queryParams: {
       newApplicationModelEnabled: twoZeroModeEnabled
     }
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getSystemRules() {
@@ -25,7 +29,11 @@ export function getSystemRules() {
   }).map(response => response.body);
 }
 
-export function getRule(id, treat400AsError = true) {
+export function getRule(id, treat400AsError) {
+  return getRuleMutable(id, treat400AsError).map(fromJS);
+}
+
+export function getRuleMutable(id, treat400AsError = true) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -34,7 +42,7 @@ export function getRule(id, treat400AsError = true) {
     queryParams: {
       newApplicationModelEnabled: twoZeroModeEnabled
     }
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function saveRule(rule) {
@@ -90,6 +98,10 @@ export function isRuleDeprecated(rule) {
   return flag != null ? flag : false;
 }
 
+export function isRuleDeprecatedMutable(rule) {
+  return rule && !!rule.deprecated;
+}
+
 export function getRuleLabelWithDeprecationFlag(rule) {
   const flag = rule.get('deprecated');
   const name = rule.get('name');
@@ -97,11 +109,15 @@ export function getRuleLabelWithDeprecationFlag(rule) {
 }
 
 export function getBuiltInRules() {
+  return getBuiltInRulesMutable().map(fromJS);
+}
+
+export function getBuiltInRulesMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/settings/built-in-rules`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getBuiltInRule(id) {
@@ -113,12 +129,16 @@ export function getBuiltInRule(id) {
 }
 
 export function setBuiltInRuleEnabled(ruleId, enabled) {
+  return setBuiltInRuleEnabledMutable(ruleId, enabled).map(fromJS);
+}
+
+export function setBuiltInRuleEnabledMutable(ruleId, enabled) {
   return http({
     method: 'POST',
     maxRetries: 3,
     url: `/api/settings/built-in-rules/${encodeURIComponent(ruleId)}/` + (enabled ? 'enable' : 'disable'),
     headers: getCsrfHeader()
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function saveBuiltInRule(rule) {
