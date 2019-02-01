@@ -82,11 +82,11 @@ function getGroupingChange(filters, tagName) {
   };
 }
 
-function trackSetGrouping(dataSource, filters, tagName) {
+function trackSetGrouping(filters, tagName) {
   const group = filters.group;
   const currentGroupValue = tagName;
   clickGroupTracker({
-    context: dataSource,
+    context: filters.dataSource,
     type: group.name,
     value: group.value,
     group: currentGroupValue
