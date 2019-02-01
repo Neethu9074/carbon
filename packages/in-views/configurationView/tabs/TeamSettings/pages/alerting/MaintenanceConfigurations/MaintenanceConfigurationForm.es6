@@ -58,8 +58,8 @@ export default function MaintenanceConfigurationForm(props) {
               name="maintenance-applyOn"
               value={field.value}
               options={[
-                { value: 'dfq', label: 'Filter Query (Dynamic Focus)' },
-                { value: 'all', label: 'All Available Entities' }
+                { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
+                { value: 'all', label: 'All available entities' }
               ]}
               clearable={false}
               onChange={e => {
@@ -89,6 +89,7 @@ export default function MaintenanceConfigurationForm(props) {
                 id="maintenance-query"
                 className={locals.input}
                 type="text"
+                placeholder={'e.g. entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'}
                 value={field.value}
                 onChange={e => onChange('query', e.target.value)}
                 hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
@@ -100,8 +101,8 @@ export default function MaintenanceConfigurationForm(props) {
               <TouchedMessages field={field} />
               <DescriptionText>
                 A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues,
-                changes and online/offline to be muted. Select <i>&quot;Apply on: All Alerts&quot;</i> if you want to
-                mute all alerts. For more information on syntax, please see our&nbsp;
+                changes and online/offline to be muted. Select <i>&quot;Apply on: All available entities&quot;</i> if
+                you want to mute all alerts. For more information on syntax, please see our&nbsp;
                 <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
                   documentation
                 </Link>

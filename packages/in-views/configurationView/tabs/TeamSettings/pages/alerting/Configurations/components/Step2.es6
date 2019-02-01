@@ -45,8 +45,8 @@ export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
               name="config-applyOn"
               value={field.value}
               options={[
-                { value: 'dfq', label: 'Filter Query (Dynamic Focus)' },
-                { value: 'all', label: 'All Available Entities' }
+                { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
+                { value: 'all', label: 'All available entities' }
               ]}
               clearable={false}
               onChange={e => {
@@ -87,7 +87,7 @@ export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
               <TouchedMessages field={field} />
               <DescriptionText>
                 A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
-                applied. Select <i>&quot;Apply on: All Available Entities&quot;</i> if you want this rule to be applied
+                applied. Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be applied
                 on all entities. For more information on syntax, please see our&nbsp;
                 <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
                   documentation
