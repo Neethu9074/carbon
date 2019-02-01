@@ -24,7 +24,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
       <Row>
         <Col lg={4}>
           <AppDataKpiCard
-            title="Calls"
+            title="Inbound Calls"
             formatter={number.compact}
             metricsConfig={{
               filter,
