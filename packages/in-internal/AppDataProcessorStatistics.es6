@@ -51,6 +51,57 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Total spans (Call extraction)',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.meters.com.instana.spanprocessing.stream.calls.TraceWithRawCallExtractor.total-spans`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Intermediate spans (Call extraction)',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.meters.com.instana.spanprocessing.stream.calls.TraceWithRawCallExtractor.intermediate-spans`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Entry span missing parent (Call extraction)',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.meters.com.instana.spanprocessing.stream.calls.TraceWithRawCallExtractor.entry-spans-missing-parent`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
   }
 ];
 
