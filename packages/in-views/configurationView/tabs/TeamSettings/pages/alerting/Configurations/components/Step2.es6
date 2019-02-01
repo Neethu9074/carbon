@@ -3,11 +3,14 @@ import React from 'react';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import RuleControl from 'in-components/form/RuleControl';
+import FormGroup from 'in-components/form/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
+import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
+import Label from 'in-components/form/Label';
 import Step from 'in-components/form/Step';
 import Button from 'in-components/Button';
 import Link from 'in-components/Link';
@@ -16,7 +19,7 @@ import './Step2.less';
 
 const block = 'in-alerting-config-form-step-2';
 
-export default function Step2({ form, onChange }) {
+export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
   const types = form.get('eventTypes').value;
 
   return (
@@ -33,48 +36,68 @@ export default function Step2({ form, onChange }) {
           <LabelledToggle onChange={onChange} types={types} type="offline" title="Offline" />
         </Row>
         <TouchedMessages field={form.get('eventTypes')} />
-
-        {form.get('advancedMode').map(field => (
-          <div
-            className={`${block}__advanced-options-label-wrapper`}
-            onClick={() => onChange('advancedMode', !field.value)}
-          >
-            <span className={`${block}__bold-text`}>Advanced Filter:</span>
-            <SvgIcon
-              type={field.value ? 'triangle_up' : 'triangle_down'}
-              className={`${block}__icon`}
-              height={8}
-              color="#172429"
-            />
-          </div>
-        ))}
       </RuleControl>
-      {form.get('advancedMode').map(
-        field =>
-          field.value ? (
-            <RuleControl name="" helpComponent={QueryHelpComponent}>
-              {form.get('query').map(eventQueryField => (
-                <div>
-                  <Input
-                    id="rule-query"
-                    type="text"
-                    placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
-                    className={`${block}__input`}
-                    value={eventQueryField.value}
-                    onChange={e => onChange('query', e.target.value)}
-                    hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
-                  />
-                  {form.get('queryValidationInProgress').value && (
-                    <LoadingIndicator type="dark" className={`${block}__query-loading`} inline />
-                  )}
-                  <BackendValidationMessages validationResult={form.get('validationResult').value} />
-                  <MatchingEntitiesIndicator form={form} />
-                </div>
-              ))}
-            </RuleControl>
-          ) : null
-      )}
-      {form.get('advancedMode').map(field => (field.value ? null : <MatchingEntitiesIndicator form={form} />))}
+
+      <RuleControl name="Apply on" helpComponent={QueryHelpComponent}>
+        {form.get('applyOn').map(field => (
+          <FormGroup>
+            <ComboBox
+              name="config-applyOn"
+              value={field.value}
+              options={[
+                { value: 'dfq', label: 'Filter Query (Dynamic Focus)' },
+                { value: 'all', label: 'All Available Entities' }
+              ]}
+              clearable={false}
+              onChange={e => {
+                const updatedForm = onChangeApplyOn(form, e ? e.value : null);
+                if (updatedForm) {
+                  setForm(updatedForm);
+                }
+              }}
+            />
+            <TouchedMessages field={field} />
+            {form.get('applyOn').value === 'all' && (
+              <DescriptionText>
+                <strong>Caution!</strong> All events that match the event types will enter the notification stream.
+              </DescriptionText>
+            )}
+          </FormGroup>
+        ))}
+
+        {form.get('applyOn').value === 'dfq' &&
+          form.get('query').map(field => (
+            <FormGroup>
+              <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
+                Dynamic Focus Query
+              </Label>
+              <Input
+                id="config-query"
+                type="text"
+                placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
+                className={`${block}__input`}
+                value={field.value}
+                onChange={e => onChange('query', e.target.value)}
+                hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+              />
+              {form.get('queryValidationInProgress').value && (
+                <LoadingIndicator type="dark" className={`${block}__query-loading`} inline />
+              )}
+              <BackendValidationMessages validationResult={form.get('validationResult').value} />
+              <TouchedMessages field={field} />
+              <DescriptionText>
+                A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
+                applied. Select <i>&quot;Apply on: All Available Entities&quot;</i> if you want this rule to be applied
+                on all entities. For more information on syntax, please see our&nbsp;
+                <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+                  documentation
+                </Link>
+                .
+              </DescriptionText>
+            </FormGroup>
+          ))}
+        <MatchingEntitiesIndicator form={form} />
+      </RuleControl>
     </Step>
   );
 }
@@ -129,13 +152,6 @@ function MatchingEntitiesIndicator({ form }) {
 
 function QueryHelpComponent() {
   return (
-    <div className={`${block}__event-help`}>
-      Only events that match the event types and the advanced filter will enter the notification stream. When empty, no
-      filter is applied. For more information on syntax, please see our&nbsp;
-      <Link className={`${block}__link`} href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
-        documentation
-      </Link>
-      .
-    </div>
+    <div className={`${block}__event-help`}>Only events of selected entities will enter the notification stream.</div>
   );
 }

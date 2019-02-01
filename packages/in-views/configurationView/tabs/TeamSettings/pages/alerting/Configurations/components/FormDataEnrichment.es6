@@ -1,8 +1,9 @@
 import React from 'react';
 
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
-import { combinedValidationResults } from 'in-views/configurationView/validation';
+import { combinedValidationResults, valid } from 'in-views/configurationView/validation';
 import { create, combineLatest } from 'reactive-observables';
+import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
@@ -18,7 +19,7 @@ export default class FormDataEnrichment extends React.Component {
 
   componentWillMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
-    this.queryInput.emit(this.props.form.get('query').value);
+    this.queryInput.emit(getValueOrDefault(this.props.form, 'query', ''));
     this.matchingEntitesSubscription = debouncedQuery
       .flatMap(query => {
         const timeOpened = this.props.form.get('timeOpened').value;
@@ -40,22 +41,32 @@ export default class FormDataEnrichment extends React.Component {
         ]);
       })
       .subscribe(([validationResponse10, validationResponse20]) => {
-        this.props.onChange(
+        // we need to ensure here whether the field are available before we update,
+        // because in call Apply on 'all' is selected, we still query to get the
+        // number of matching entities, but e.g. the validation result field is only
+        // available when Apply on 'dfq'.
+        this.tryOnChange(
           'validationResult',
           combinedValidationResults(validationResponse10.body, validationResponse20.body)
         );
-        this.props.onChange('queryValidationInProgress', false);
+        this.tryOnChange('queryValidationInProgress', false);
       });
   }
 
+  tryOnChange = (field, value) => {
+    if (this.props.form.containsKey(field)) {
+      this.props.onChange(field, value);
+    }
+  };
+
   componentWillUpdate(nextProps) {
     startValidationInProgress(nextProps.setForm, nextProps.form);
-    this.queryInput.emit(nextProps.form.get('query').value);
+    this.queryInput.emit(getValueOrDefault(nextProps.form, 'query', ''));
   }
 
   shouldComponentUpdate(nextProps) {
-    const prevQuery = this.props.form.get('query').value;
-    const nextQuery = nextProps.form.get('query').value;
+    const prevQuery = getValueOrDefault(this.props.form, 'query', '');
+    const nextQuery = getValueOrDefault(nextProps.form, 'query', '');
     const prevEventTypes = this.props.form.get('eventTypes').value;
     const nextEventTypes = nextProps.form.get('eventTypes').value;
     if (prevQuery !== nextQuery || prevEventTypes !== nextEventTypes) {
@@ -103,11 +114,17 @@ function search(timeOpened, eventTypes, query) {
   });
 }
 
+function getValueOrDefault(form, key, fallback) {
+  return form.containsKey(key) ? form.get(key).value : fallback;
+}
+
 function startValidationInProgress(setForm, form) {
+  const query = getValueOrDefault(form, 'query', '');
+  if (isBlank(query)) {
+    return;
+  }
   // hide previous error message
-  let updatedForm = form.updateIn(['validationResult'], field =>
-    field.setValue({ valid: true, error: null }).setTouched(false)
-  );
+  let updatedForm = form.updateIn(['validationResult'], field => field.setValue(valid()).setTouched(false));
   // show progress indicator
   updatedForm = updatedForm.updateIn(['queryValidationInProgress'], field => field.setValue(true).setTouched(false));
   setForm(updatedForm);

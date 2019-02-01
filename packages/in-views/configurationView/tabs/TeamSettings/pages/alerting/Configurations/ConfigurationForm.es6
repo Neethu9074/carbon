@@ -5,12 +5,12 @@ import Step0 from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/C
 import Step2 from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Configurations/components/Step2';
 import Step3 from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Configurations/components/Step3';
 
-export default function AlertingConfigurationForm({ form, onChange, setForm }) {
+export default function AlertingConfigurationForm({ form, onChange, onChangeApplyOn, setForm }) {
   return (
     <fieldset>
       <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
       <Step0 form={form} onChange={onChange} />
-      <Step2 form={form} onChange={onChange} />
+      <Step2 form={form} onChange={onChange} onChangeApplyOn={onChangeApplyOn} setForm={setForm} />
       <Step3 form={form} onChange={onChange} />
     </fieldset>
   );

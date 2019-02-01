@@ -50,14 +50,17 @@ export default function MaintenanceConfigurationForm(props) {
       <Section>
         {form.get('applyOn').map(field => (
           <FormGroup>
-            <HelpText large>2. Define a dynamic focus query</HelpText>
+            <HelpText large>2. Select the entities to be muted</HelpText>
             <Label htmlFor="maintenance-applyOn" hasError={!field.valid && field.touched}>
               Apply on
             </Label>
             <ComboBox
               name="maintenance-applyOn"
               value={field.value}
-              options={[{ value: 'dfq', label: 'Filter Query (Dynamic Focus)' }, { value: 'all', label: 'All Alerts' }]}
+              options={[
+                { value: 'dfq', label: 'Filter Query (Dynamic Focus)' },
+                { value: 'all', label: 'All Available Entities' }
+              ]}
               clearable={false}
               onChange={e => {
                 const updatedForm = onChangeApplyOn(form, e ? e.value : null);
@@ -80,7 +83,7 @@ export default function MaintenanceConfigurationForm(props) {
           form.get('query').map(field => (
             <FormGroup>
               <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
-                Query
+                Dynamic Focus Query
               </Label>
               <Input
                 id="maintenance-query"
