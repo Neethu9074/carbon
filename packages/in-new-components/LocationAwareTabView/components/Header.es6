@@ -11,7 +11,15 @@ import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ tabs, result, HeaderComponent, location, props, useFullAvailableWidth }) {
+export default function Header({
+  tabs,
+  result,
+  HeaderComponent,
+  location,
+  props,
+  useFullAvailableWidth,
+  tabChangeTracker
+}) {
   const Wrapper = useFullAvailableWidth ? UseFullAvailableWidth : MaxWidthFullscreenContainer;
   return (
     <div className={locals.header}>
@@ -20,7 +28,13 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
           <TabList>
             {tabs.map(tab => (
-              <TabComponent key={tab.label} tab={tab} location={location} props={props} />
+              <TabComponent
+                key={tab.label}
+                tab={tab}
+                location={location}
+                props={props}
+                tabChangeTracker={tabChangeTracker}
+              />
             ))}
           </TabList>
         )}
@@ -34,7 +48,7 @@ function UseFullAvailableWidth({ children }) {
   return <div className={locals.fullWidthWrapper}>{children}</div>;
 }
 
-function TabComponent({ tab, location, props }) {
+function TabComponent({ tab, location, props, tabChangeTracker }) {
   const isActive = location && location.pathname.indexOf(tab.path) === 0;
   const Header = tab.header || DefaultHeader;
   return (
@@ -46,6 +60,13 @@ function TabComponent({ tab, location, props }) {
       href$={getModifiedUrlStream(params => {
         params.pathname = tab.path;
       })}
+      onClick={() => {
+        if (tabChangeTracker) {
+          tabChangeTracker({
+            tab: tab.label
+          });
+        }
+      }}
     >
       <Tab key={tab.label} isSelected={isActive}>
         <div className={locals.flexWrapper}>

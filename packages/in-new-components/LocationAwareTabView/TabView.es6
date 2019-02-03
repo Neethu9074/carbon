@@ -35,7 +35,8 @@ function TabView({
   props,
   withoutBreadcrumb = false,
   useFullAvailableWidth = false,
-  withoutPadding = false
+  withoutPadding = false,
+  tabChangeTracker
 }) {
   const filteredTabs = tabs.filter(filterTabByResult(result));
   return (
@@ -51,6 +52,7 @@ function TabView({
               props={props}
               HeaderComponent={HeaderComponent}
               useFullAvailableWidth={useFullAvailableWidth}
+              tabChangeTracker={tabChangeTracker}
             />
           </div>
         }

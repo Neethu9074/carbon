@@ -2,13 +2,14 @@ import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import { quickTagFiltersInWebsiteMonitoringDashboardEnabled } from 'in-services/featureFlags';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
+import { analyzeTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
@@ -20,6 +21,7 @@ import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfig } from 'in-stores/time/config';
+import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
@@ -55,7 +57,7 @@ export default compose(
     },
     timeConfig: getTimeConfig(location)
   })),
-  tagFilterManipulators
+  tagFilterManipulators({ tagFiltersTrackers })
 )(WebsiteDashboard);
 
 function WebsiteDashboard({
@@ -105,6 +107,7 @@ function WebsiteDashboard({
       HeaderComponent={Header}
       location={location}
       tabs={props.pageId ? pageTabs : websiteTabs}
+      tabChangeTracker={tabChange}
       props={props}
       withoutBreadcrumb
       withProps={({ result }) => ({

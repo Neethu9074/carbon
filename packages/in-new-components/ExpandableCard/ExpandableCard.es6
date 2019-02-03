@@ -9,7 +9,7 @@ import locals from './ExpandableCard.mless';
 
 export default compose(withState('expanded', 'setExpanded', false))(ExpandableCard);
 
-function ExpandableCard({ title, preview, children, header, expanded, setExpanded }) {
+function ExpandableCard({ title, preview, children, header, expanded, setExpanded, expansionTracker }) {
   const rightSide = (
     <div className={locals.rightSide}>
       {header}
@@ -18,7 +18,14 @@ function ExpandableCard({ title, preview, children, header, expanded, setExpande
         <SvgIcon
           className={locals.icon}
           type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-          onClick={() => setExpanded(!expanded)}
+          onClick={() => {
+            if (expansionTracker) {
+              expansionTracker({
+                expanded: !expanded
+              });
+            }
+            setExpanded(!expanded);
+          }}
           width={20}
           height={20}
         />

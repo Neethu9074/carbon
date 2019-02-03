@@ -10,7 +10,6 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
 import ReturnToClassic from 'in-websites/WebsitesList/ReturnToClassic';
 import { number, millis } from 'in-services/formatters/number';
-import { clickNewWebsiteTracker } from 'in-websites/tracker';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -22,13 +21,7 @@ import { role } from 'in-stores/user';
 import locals from './WebsitesList.mless';
 
 const rightHeader = role.canConfigureEumApplications && (
-  <Button
-    kind="action"
-    className={locals.button}
-    icon="lib_openclose_add_circle_outline"
-    href$={linkToNewWebsite$}
-    onClick={() => clickNewWebsiteTracker()}
-  >
+  <Button kind="action" className={locals.button} icon="lib_openclose_add_circle_outline" href$={linkToNewWebsite$}>
     Add Website
   </Button>
 );

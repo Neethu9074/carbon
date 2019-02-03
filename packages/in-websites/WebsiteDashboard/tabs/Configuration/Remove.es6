@@ -6,9 +6,10 @@ import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
+import { removeWebsite } from 'in-websites/tracker';
+import Button from 'in-new-components/Button';
 import { removeKey } from 'in-api/eumKeys';
 import Card from 'in-new-components/Card';
-import Button from 'in-new-components/Button';
 
 import locals from './Remove.mless';
 
@@ -69,6 +70,10 @@ export default class Remove extends React.PureComponent {
     this.setState({
       loading: true,
       removeError: null
+    });
+
+    removeWebsite({
+      websiteName: this.props.websiteLabel
     });
 
     this.subscription = combineDataAndError(removeKey(this.props.websiteId)).once(({ error }) => {

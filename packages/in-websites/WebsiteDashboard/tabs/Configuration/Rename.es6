@@ -9,6 +9,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import { renameKey, getAllEumKeys } from 'in-api/eumKeys';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
+import { renameWebsite } from 'in-websites/tracker';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -70,6 +71,11 @@ export default class Rename extends React.PureComponent {
     } else if (this.state.savedLabel === field.value) {
       return;
     }
+
+    renameWebsite({
+      newName: field.value,
+      previousName: this.props.data.label
+    });
 
     this.setState({
       loading: true,

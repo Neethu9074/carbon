@@ -1,23 +1,37 @@
 import { compose, withState } from 'recompose';
-import { find } from 'lodash';
+import { find, debounce } from 'lodash';
 import React from 'react';
 
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
+import LifecycleObserver from 'in-components/LifecycleObserver';
 import { millis, number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-new-components/KpiCard';
+
+// avoid potential high-refrequency updates when the user is just flicking through
+// views very quickly.
+const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
 export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
-function Summary({ beacons, filter, setFilter }) {
+function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
   return (
     <ContentWrapper>
+      <LifecycleObserver
+        onDidMount={() => {
+          debouncedOpenPageLoad({
+            pageLoadId,
+            pageLoadLabel
+          });
+        }}
+      />
       <Row>
         <Col lg={2}>
           <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />

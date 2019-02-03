@@ -10,11 +10,6 @@ import {
   analyzeGroupingUrlParameter,
   analyzeBeaconTypeUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import {} from 'in-websites/analyze/AnalyzeView/metrics';
-import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
-import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
-import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
-import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import {
   availableMetrics as allAvailableMetrics,
   defaultMetrics,
@@ -22,12 +17,20 @@ import {
   groupCountMetricName,
   buildOrderByCriteria
 } from 'in-websites/analyze/AnalyzeView/metrics';
+import {
+  changeAnalyzeMetrics,
+  analyzeTagFilters as tagFiltersTrackers,
+  analyzeGrouping as groupingTrackers
+} from 'in-websites/tracker';
+import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
+import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
+import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
 import { getTag } from 'in-analyze/metricDefinitionHelpers';
-import { changeAnalyzeMetrics } from 'in-websites/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 
@@ -99,7 +102,7 @@ export default compose(
               );
               changeAnalyzeMetrics({
                 beaconType,
-                metrics: JSON.stringify(metrics)
+                metrics: metrics
               });
               onChange({
                 metrics,
@@ -114,6 +117,7 @@ export default compose(
   }),
   withProps(
     ({
+      tagFilters: existingTagFilters,
       onChange,
       location,
       orderBy,
@@ -124,12 +128,25 @@ export default compose(
     }) => ({
       setTagFilters: tagFilters =>
         onChange({ tagFilters: tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1) }),
-      setGroup: group => onChange({ group }),
+      setGroup: group => {
+        onChange({ group });
+        if (!group || !group.groupbyTag) {
+          groupingTrackers.remove({
+            filters: existingTagFilters
+          });
+        } else {
+          groupingTrackers.set({
+            group: group,
+            filters: existingTagFilters
+          });
+        }
+      },
       disableGrouping: () => {
         const orderCriteriaStillSupported = isOrderCriteriaSupportedForUngroupedView(
           orderBy,
           configuredRawDataSupportedMetrics
         );
+        groupingTrackers.remove();
         onChange({
           group: {},
           orderBy: orderCriteriaStillSupported ? orderBy : timestampMetricName,
@@ -183,7 +200,7 @@ export default compose(
       }
     })
   ),
-  tagFilterManipulators
+  tagFilterManipulators({ tagFiltersTrackers })
 )(AnalyzeView);
 
 function AnalyzeView(props) {

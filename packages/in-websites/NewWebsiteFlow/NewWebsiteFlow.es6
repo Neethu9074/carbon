@@ -10,6 +10,7 @@ import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
 import ReadyStep from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 import { combineDataAndError } from 'in-services/util/ro';
+import { addWebsite } from 'in-websites/tracker';
 import { addKey } from 'in-api/eumKeys';
 
 export default class NewWebsiteFlow extends React.PureComponent {
@@ -43,6 +44,10 @@ export default class NewWebsiteFlow extends React.PureComponent {
     this.setState({
       loading: true,
       saveError: null
+    });
+
+    addWebsite({
+      websiteName: field.value
     });
 
     this.saveSubscription = combineDataAndError(addKey(field.value)).once(({ data, error }) => {
