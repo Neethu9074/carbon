@@ -10,9 +10,9 @@ import {
   defaultGroupings as defaultWebsiteGroupings,
   dataSourceTitles as websiteDataSourceTitles
 } from 'in-websites/tags';
+import { twoZeroWebsiteMonitoringEnabled, customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
-import { twoZeroWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -96,6 +96,18 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           isActive={dataSource === 'error'}
         />
       )}
+      {twoZeroWebsiteMonitoringEnabled &&
+        customEventsInWebsiteMonitoringEnabled && (
+          <SecondLevelNavigationItem
+            href$={getLinkToWebsiteAnalyze({
+              group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+              beaconType: 'custom'
+            })}
+            icon="lib_website_error"
+            label={`${websiteDataSourceTitles.custom}s`}
+            isActive={dataSource === 'custom'}
+          />
+        )}
     </SecondLevelNavigation>
   );
 }

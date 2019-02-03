@@ -84,7 +84,12 @@ export const Body = ({ beacon }) => {
         <Col lg={6}>
           <BodyHeader>Asset</BodyHeader>
           <Dl>
-            <Di title="URI">
+            <Di title="Window Location">
+              <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
+                {beacon.locationUrl}
+              </a>
+            </Di>
+            <Di title="Resource URI">
               <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.httpCallUrl}
               </a>

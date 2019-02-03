@@ -93,9 +93,11 @@ export default function Filter({ filter, setFilter, beacons }) {
             </a>
           </li>
 
-          {Object.keys(types).map(type => (
-            <FilterItem key={type} filter={filter} setFilter={setFilter} type={type} />
-          ))}
+          {Object.keys(types)
+            .filter(k => types[k])
+            .map(type => (
+              <FilterItem key={type} filter={filter} setFilter={setFilter} type={type} />
+            ))}
         </ul>
       </FilterBlock>
     </div>

@@ -25,7 +25,8 @@ export const dataSourceTitles = {
   pageLoad: 'Page View',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
-  error: 'JavaScript Error'
+  error: 'JavaScript Error',
+  custom: 'Custom Event'
 };
 
 export const defaultGroupings = {
@@ -40,6 +41,9 @@ export const defaultGroupings = {
   },
   error: {
     groupbyTag: 'beacon.error.message'
+  },
+  custom: {
+    groupbyTag: 'beacon.customEvent.name'
   }
 };
 
@@ -107,6 +111,16 @@ export const availableGroupingTags = {
     'beacon.error.type',
     'beacon.stackTrace',
     'beacon.componentStack'
+  ].sort(),
+  custom: [
+    ...commonGroupingTags,
+    'beacon.customEvent.name',
+    'beacon.erroneous',
+    'beacon.error.count',
+    'beacon.error.message',
+    'beacon.error.type',
+    'beacon.stackTrace',
+    'beacon.componentStack'
   ].sort()
 };
 
@@ -157,5 +171,6 @@ export const availableFilterTags = {
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
-  error: [...availableGroupingTags.error, ...commonFilterTags, 'beacon.batchSize', 'beacon.error.id'].sort()
+  error: [...availableGroupingTags.error, ...commonFilterTags, 'beacon.batchSize', 'beacon.error.id'].sort(),
+  custom: [...availableGroupingTags.custom, ...commonFilterTags, 'beacon.batchSize'].sort()
 };

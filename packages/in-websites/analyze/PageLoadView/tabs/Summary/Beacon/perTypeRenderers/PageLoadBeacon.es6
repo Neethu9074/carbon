@@ -78,7 +78,7 @@ export const Body = ({ beacon }) => {
         <Col lg={6}>
           <BodyHeader>Document</BodyHeader>
           <Dl>
-            <Di title="URI">
+            <Di title="Window Location">
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>

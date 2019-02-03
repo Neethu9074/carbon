@@ -25,7 +25,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Event
+          Custom Event
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -51,12 +51,12 @@ export const Body = ({ beacon }) => {
           <BodyHeader>Custom Event</BodyHeader>
 
           <Dl>
-            <Di title="Event Name">{beacon.customEventName}</Di>
-            <Di title="URI">
+            <Di title="Window Location">
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
             </Di>
+            <Di title="Event Name">{beacon.customEventName}</Di>
             <BackendDi beacon={beacon} />
           </Dl>
         </Col>

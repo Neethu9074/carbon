@@ -36,6 +36,7 @@ export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebs
 export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
   'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
 );
+export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 
 // ########################################################################################

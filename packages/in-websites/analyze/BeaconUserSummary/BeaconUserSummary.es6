@@ -1,12 +1,12 @@
 import React from 'react';
 
+import { toConsumableJson } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { sortKeys } from 'in-services/util/object';
 import Card from 'in-new-components/Card';
 import Code from 'in-components/Code';
 
@@ -62,7 +62,7 @@ export default function BeaconUserSummary({ beacon }) {
           {hasMeta && (
             <Code
               showLineNumbers={false}
-              code={JSON.stringify(sortKeys(beacon.meta), 0, 2)}
+              code={JSON.stringify(toConsumableJson(beacon.meta), 0, 2)}
               lang="json"
               wrapperClassName={locals.meta}
             />

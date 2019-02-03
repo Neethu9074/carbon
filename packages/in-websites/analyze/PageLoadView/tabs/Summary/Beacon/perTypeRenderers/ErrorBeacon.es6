@@ -46,6 +46,11 @@ export const Body = ({ beacon }) => {
 
           {!isScriptError(beacon.errorMessage) && (
             <Dl>
+              <Di title="Window Location">
+                <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
+                  {beacon.locationUrl}
+                </a>
+              </Di>
               <Di title="Error Message">{beacon.errorMessage}</Di>
               <Di title="Error Type">{beacon.errorType}</Di>
             </Dl>

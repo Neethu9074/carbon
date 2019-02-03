@@ -15,7 +15,8 @@ export const defaultMetrics = {
   pageLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   resourceLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
   httpRequest: [{ metric: 'beaconDuration', aggregation: 'MEAN' }, { metric: 'beaconErrorRate', aggregation: 'MEAN' }],
-  error: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
+  error: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
+  custom: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
 };
 
 const resourceTimingMetrics = [
@@ -202,5 +203,6 @@ export const availableMetrics = {
       // relabel the metric
       label: 'Affected Users'
     }
-  ]
+  ],
+  custom: [uniqueUsers]
 };

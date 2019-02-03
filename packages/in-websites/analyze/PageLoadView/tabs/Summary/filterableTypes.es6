@@ -1,3 +1,5 @@
+import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
+
 export const types = {
   xhr: {
     short: 'XHR',
@@ -41,6 +43,12 @@ export const types = {
     long: '(Un-)caught JavaScript Errors',
     color: 'darkred'
   },
+  custom: customEventsInWebsiteMonitoringEnabled && {
+    short: 'Cus',
+    badgeLabel: 'Cus',
+    long: 'Custom Events',
+    color: '#009e89'
+  },
   other: {
     short: 'Other',
     badgeLabel: 'Oth',
@@ -52,19 +60,22 @@ export const types = {
 export function getType(beacon) {
   if (types[beacon.resourceType]) {
     return beacon.resourceType;
-  }
-
-  if (beacon.type === 'error') {
+  } else if (beacon.type === 'error') {
     return 'error';
+  } else if (beacon.type === 'custom' && customEventsInWebsiteMonitoringEnabled) {
+    return 'custom';
   }
 
   return 'other';
 }
 
 export function getResourceTypes() {
-  return Object.keys(types)
-    .filter(k => k !== 'xhr' && k !== 'error') // Errors and XHR don't make sense as resource types
-    .sort();
+  return (
+    Object.keys(types)
+      // Errors and XHR don't make sense as resource types
+      .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom')
+      .sort()
+  );
 }
 
 export function getResourceTypesComboBoxItems(restrict = null) {

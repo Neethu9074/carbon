@@ -22,7 +22,7 @@ export default class WeaselLogAppender {
         logLevel: opts.severity,
         serverTimeInClient: window.instana.dev.storeStates.serverTime,
         message: opts.params.filter(p => typeof p === 'string')[0],
-        params: JSON.stringify(opts.params)
+        params: opts.params
       }
     });
 
