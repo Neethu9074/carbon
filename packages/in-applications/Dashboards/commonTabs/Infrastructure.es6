@@ -1,5 +1,4 @@
 import { compose } from 'recompose';
-import { get } from 'lodash';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -15,6 +14,7 @@ import ServerTable from 'in-components/tables/ServerTable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
+import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 
 import locals from './Infrastructure.mless';
@@ -191,15 +191,11 @@ const getColumnDefinitions = type => {
       id: 'process',
       label: 'Process',
       getContent(item) {
-        if (!item.physicalContext.process) {
-          return (
-            <div className={locals.cell}>
-              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
-              {get(item, ['physicalContext', 'process', 'label']) || 'Unknown'}
-            </div>
-          );
-        }
-        return <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />;
+        return item.physicalContext.process ? (
+          <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />
+        ) : (
+          <UnmonitoredEntity plugin={plugins.process} />
+        );
       }
     };
   } else if (type == 'CONTAINER') {
@@ -207,15 +203,11 @@ const getColumnDefinitions = type => {
       id: 'container',
       label: 'Container',
       getContent(item) {
-        if (!item.physicalContext.container) {
-          return (
-            <div className={locals.cell}>
-              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.docker} />
-              {get(item, ['physicalContext', 'container', 'label']) || 'Unknown'}
-            </div>
-          );
-        }
-        return <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />;
+        return item.physicalContext.container ? (
+          <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />
+        ) : (
+          <UnmonitoredEntity plugin={plugins.docker} />
+        );
       }
     };
   } else if (type == 'HOST') {
@@ -223,15 +215,11 @@ const getColumnDefinitions = type => {
       id: 'host',
       label: 'Host',
       getContent(item) {
-        if (!item.physicalContext.host) {
-          return (
-            <div className={locals.cell}>
-              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.host} />
-              {get(item, ['physicalContext', 'host', 'label']) || 'Unknown'}
-            </div>
-          );
-        }
-        return <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />;
+        return item.physicalContext.host ? (
+          <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
+        ) : (
+          <UnmonitoredEntity plugin={plugins.host} />
+        );
       }
     };
   } else if (type == 'CLUSTER') {
@@ -239,19 +227,13 @@ const getColumnDefinitions = type => {
       id: 'cluster',
       label: 'Cluster',
       getContent(item) {
-        if (!item.physicalContext.cluster) {
-          return (
-            <div className={locals.cell}>
-              <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugins.process} />
-              {get(item, ['physicalContext', 'cluster', 'label']) || 'Unknown'}
-            </div>
-          );
-        }
-        return (
+        return item.physicalContext.cluster ? (
           <InfrastructureEntityLink
             entity={item.physicalContext.cluster}
             plugin={item.physicalContext.cluster.plugin}
           />
+        ) : (
+          <UnmonitoredEntity plugin={plugins.process} />
         );
       }
     };
@@ -321,5 +303,18 @@ function InfrastructureEntityLink({ entity, plugin }) {
         focusedMoment: null
       })}
     />
+  );
+}
+
+function UnmonitoredEntity({ plugin }) {
+  return (
+    <div className={locals.cell}>
+      <Tooltip content={'Unmonitored infrastructure due to information outside of our running agent'}>
+        <div>
+          <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugin} />
+          Unmonitored
+        </div>
+      </Tooltip>
+    </div>
   );
 }
