@@ -46,8 +46,8 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
       >
         <div className={locals.networkTimeBar} style={{ background: getColor(call) }} />
         <ProcessingTime call={call} getColor={getColor} />
-        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
         <CallDurationLabel call={call} scale={scale} />
+        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
       </div>
     </Tooltip>
   );
