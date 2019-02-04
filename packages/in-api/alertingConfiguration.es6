@@ -2,6 +2,7 @@ import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
+import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 
 export function getAlertingConfigs() {
@@ -25,8 +26,9 @@ export function getAlertingConfig(id) {
 }
 
 export function setEnabled(config, enabled) {
-  config.muteUntil = enabled ? 0 : Number.MAX_SAFE_INTEGER;
-  return saveAlertingConfigMutable(config);
+  const copy = deepCopy(config);
+  copy.muteUntil = enabled ? 0 : Number.MAX_SAFE_INTEGER;
+  return saveAlertingConfigMutable(copy);
 }
 
 export function saveAlertingConfig(config) {

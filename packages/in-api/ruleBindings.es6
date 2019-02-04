@@ -1,3 +1,4 @@
+import { deepCopy } from 'in-services/util/object';
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -25,8 +26,9 @@ export function getRuleBinding(ruleBindingId) {
 }
 
 export function setEnabled(ruleBinding, enabled) {
-  ruleBinding.enabled = enabled;
-  return saveRuleBindingMutable(ruleBinding);
+  const copy = deepCopy(ruleBinding);
+  copy.enabled = enabled;
+  return saveRuleBindingMutable(copy);
 }
 
 export function saveRuleBindingMutable(ruleBinding) {

@@ -31,6 +31,12 @@ const reloadEntitiesSignal$ = create({
 const emptyListOnError$ = create({
   emitLatestOnSubscribe: false
 });
+const perCellLoadingIndicator$ = create({
+  emitLatestOnSubscribe: false
+});
+function clearPerCellLoadingIndicator() {
+  perCellLoadingIndicator$.emit(null);
+}
 
 export default compose(
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
@@ -45,8 +51,10 @@ export default compose(
     // example, if one has been deleted).
     // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
     // the entities fails (HTTP error etc.)
+    // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator
+    // (triggered by table actions like toggleEnabled or delete) is cleared when the reload is done.
     const entityObservable = reloadEntitiesSignal$
-      .flatMap(() => loadEntities())
+      .flatMap(() => loadEntities().tap(clearPerCellLoadingIndicator))
       .merge(loadEntities(), emptyListOnError$);
     entityObservable.errors().subscribe(error => {
       const errorMessage = `Failed to load the requested data: ${error.message}`;
@@ -57,7 +65,8 @@ export default compose(
       emptyListOnError$.emit([]);
     });
     return {
-      entities: entityObservable
+      entities: entityObservable,
+      perCellLoadingIndicator: perCellLoadingIndicator$
     };
   })
 )(List);
@@ -87,7 +96,8 @@ function List({
   queryState,
   setQuery,
   errorMessage,
-  setErrorMessage
+  setErrorMessage,
+  perCellLoadingIndicator
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -126,6 +136,7 @@ function List({
         columnDefinitions={addTableActions({
           columnDefinitions,
           tableActions,
+          perCellLoadingIndicator,
           getEntityName,
           setErrorMessage
         })}
@@ -205,18 +216,71 @@ function NewEntityButton({ label = 'Create New', href$, onCreateNew, disabled })
   );
 }
 
-function addTableActions({ columnDefinitions, tableActions, getEntityName, setErrorMessage }) {
+function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndicator, getEntityName, setErrorMessage }) {
   let allColumns = columnDefinitions;
   if (tableActions.toggleEnabled) {
-    allColumns = addToggleEnabledAction(allColumns, tableActions.toggleEnabled, setErrorMessage);
+    allColumns = addToggleEnabledAction(
+      allColumns,
+      tableActions.toggleEnabled,
+      perCellLoadingIndicator,
+      setErrorMessage
+    );
   }
   if (tableActions.delete) {
-    allColumns = addDeleteActionAction(allColumns, tableActions.delete, getEntityName, setErrorMessage);
+    allColumns = addDeleteActionAction(
+      allColumns,
+      tableActions.delete,
+      perCellLoadingIndicator,
+      getEntityName,
+      setErrorMessage
+    );
   }
   return allColumns;
 }
 
-function addDeleteActionAction(columns, actionDefinition, getEntityName, setErrorMessage) {
+function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicator, setErrorMessage) {
+  return columns.concat({
+    id: 'toggleEnabledAction',
+    tableAction: true,
+    getContent(entity) {
+      if (isCellLoading(perCellLoadingIndicator, entity, 'toggleEnabledAction')) {
+        return <TableActionLoadingIndicator />;
+      }
+      const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
+      return (
+        <Tooltip content={`Click to ${enabled ? 'disable.' : 'enable.'}`}>
+          <SvgIcon
+            type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              doToggleEnabled(entity, enabled, actionDefinition.toggle, setErrorMessage);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  });
+}
+
+function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
+  const toggle$ = toggle(entity);
+  perCellLoadingIndicator$.emit({ id: entity.id, column: 'toggleEnabledAction' });
+
+  toggle$.once(() => {
+    reloadEntitiesSignal$.emit(true);
+  });
+  toggle$.errors().once(error => {
+    const errorMessage = `Failed to ${enabled ? 'disable' : 'enable'} entity with ID ${entity.id}: ${error.message}`;
+    logger.error(errorMessage, error);
+    reloadEntitiesSignal$.emit(true);
+    setErrorMessage(errorMessage);
+  });
+}
+
+function addDeleteActionAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
     tableAction: true,
@@ -224,6 +288,9 @@ function addDeleteActionAction(columns, actionDefinition, getEntityName, setErro
       if (actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity)) {
         // some entities are protected and must not be deleted
         return null;
+      }
+      if (isCellLoading(perCellLoadingIndicator, entity, 'deleteAction')) {
+        return <TableActionLoadingIndicator />;
       }
       return (
         <Tooltip content={`Delete ${getEntityName(entity)}.`}>
@@ -264,6 +331,8 @@ function addDeleteActionAction(columns, actionDefinition, getEntityName, setErro
 
 function doDelete(entity, deleteEntity, setErrorMessage) {
   const deletion$ = deleteEntity(entity);
+  perCellLoadingIndicator$.emit({ id: entity.id, column: 'deleteAction' });
+
   deletion$.once(() => {
     reloadEntitiesSignal$.emit(true);
   });
@@ -275,39 +344,14 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
   });
 }
 
-function addToggleEnabledAction(columns, actionDefinition, setErrorMessage) {
-  return columns.concat({
-    id: 'toggleEnabledAction',
-    tableAction: true,
-    getContent(entity) {
-      const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
-      return (
-        <Tooltip content={`Click to ${enabled ? 'disable.' : 'enable.'}`}>
-          <SvgIcon
-            type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-            width={24}
-            height={24}
-            color={theme.lib.colors.primary2}
-            onClick={e => {
-              stopPropagationAndPreventDefault(e);
-              doToggleEnabled(entity, enabled, actionDefinition.toggle, setErrorMessage);
-            }}
-          />
-        </Tooltip>
-      );
-    }
-  });
+function isCellLoading(perCellLoadingIndicator, entity, columnName) {
+  return (
+    perCellLoadingIndicator && entity.id === perCellLoadingIndicator.id && perCellLoadingIndicator.column === columnName
+  );
 }
 
-function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
-  const toggle$ = toggle(entity);
-  toggle$.once(() => {
-    reloadEntitiesSignal$.emit(true);
-  });
-  toggle$.errors().once(error => {
-    const errorMessage = `Failed to ${enabled ? 'disable' : 'enable'} entity with ID ${entity.id}: ${error.message}`;
-    logger.error(errorMessage, error);
-    reloadEntitiesSignal$.emit(true);
-    setErrorMessage(errorMessage);
-  });
+function TableActionLoadingIndicator() {
+  return (
+    <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning={true} />
+  );
 }
