@@ -9,6 +9,7 @@ import TemporaryMessage from 'in-components/TemporaryMessage';
 import { fallbackRoleId } from 'in-stores/user';
 import { getRolesMutable } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
+import ComboBox from 'in-components/ComboBox';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Users.mless';
@@ -76,22 +77,7 @@ function columnDefinitions(sortedRoles, setMessage) {
       id: 'role',
       label: 'Role',
       getContent(user) {
-        if (!sortedRoles) {
-          return null;
-        }
-        return (
-          <select
-            id="user-management-roles"
-            value={user.roleId}
-            onChange={e => changeRoleTo(setMessage, user, e.target.value)}
-          >
-            {sortedRoles.map(role => (
-              <option value={role.id} key={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-        );
+        return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;
       }
     }
   ];
@@ -109,6 +95,26 @@ function getHeader(totalHits) {
 
 function getEntityName(entity) {
   return `user ${entity.fullName}`;
+}
+
+function RoleComboBox({ user, roles, setMessage }) {
+  if (!user || !roles) {
+    return null;
+  }
+
+  const options = roles.map(role => ({
+    value: role.id,
+    label: role.name
+  }));
+  return (
+    <ComboBox
+      name="user-management-roles"
+      value={user.roleId}
+      options={options}
+      onChange={e => changeRoleTo(setMessage, user, e.value)}
+      clearable={false}
+    />
+  );
 }
 
 function changeRoleTo(setMessage, user, newRoleId) {
