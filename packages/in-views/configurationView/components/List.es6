@@ -227,35 +227,37 @@ function addDeleteActionAction(columns, actionDefinition, getEntityName, setErro
         return null;
       }
       return (
-        <SvgIcon
-          type="lib_actions_delete"
-          width={24}
-          height={24}
-          color={theme.lib.colors.red800}
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            setActiveDialog(
-              <ConfirmationDialog
-                header="Please Confirm"
-                description={
-                  actionDefinition.dialogMessage ? (
-                    actionDefinition.dialogMessage(entity)
-                  ) : (
-                    <span>
-                      Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
-                    </span>
-                  )
-                }
-                bButtonLabel={actionDefinition.confirmLabel || 'Remove'}
-                onB={() => {
-                  close();
-                  doDelete(entity, actionDefinition.deleteEntity, setErrorMessage);
-                }}
-                bButtonIcon="lib_actions_delete"
-              />
-            );
-          }}
-        />
+        <Tooltip content={`Delete ${getEntityName(entity)}.`}>
+          <SvgIcon
+            type="lib_actions_delete"
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              setActiveDialog(
+                <ConfirmationDialog
+                  header="Please Confirm"
+                  description={
+                    actionDefinition.dialogMessage ? (
+                      actionDefinition.dialogMessage(entity)
+                    ) : (
+                      <span>
+                        Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
+                      </span>
+                    )
+                  }
+                  bButtonLabel={actionDefinition.confirmLabel || 'Remove'}
+                  onB={() => {
+                    close();
+                    doDelete(entity, actionDefinition.deleteEntity, setErrorMessage);
+                  }}
+                  bButtonIcon="lib_actions_delete"
+                />
+              );
+            }}
+          />
+        </Tooltip>
       );
     }
   });
@@ -285,16 +287,18 @@ function addToggleEnabledAction(columns, actionDefinition, setErrorMessage) {
     getContent(entity) {
       const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
-        <SvgIcon
-          type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-          width={24}
-          height={24}
-          color={theme.lib.colors.primary2}
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            doToggleEnabled(entity, enabled, actionDefinition.toggle, setErrorMessage);
-          }}
-        />
+        <Tooltip content={`Click to ${enabled ? 'disable.' : 'enable.'}`}>
+          <SvgIcon
+            type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              doToggleEnabled(entity, enabled, actionDefinition.toggle, setErrorMessage);
+            }}
+          />
+        </Tooltip>
       );
     }
   });
