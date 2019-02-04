@@ -1,7 +1,8 @@
 import React from 'react';
 
-import Code from 'in-sdk/components/traceDetails/Code';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import Code from 'in-sdk/components/traceDetails/Code';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function JaegerSpanDetailView({ span }) {
   return (
@@ -10,7 +11,7 @@ export default function JaegerSpanDetailView({ span }) {
         <DescriptionItem title="Service">{span.getIn(['data', 'service'])}</DescriptionItem>
         <DescriptionItem title="Operation">{span.getIn(['data', 'operation'])}</DescriptionItem>
         <DescriptionItem title="Tags">
-          <Code code={JSON.stringify(span.getIn(['data', 'tags']).toJS(), 0, 2)} lang="json" />
+          <Code code={JSON.stringify(span.getIn(['data', 'tags'], emptyMap).toJS(), 0, 2)} lang="json" />
         </DescriptionItem>
       </DescriptionList>
     </div>

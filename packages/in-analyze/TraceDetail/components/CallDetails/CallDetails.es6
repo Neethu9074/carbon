@@ -35,7 +35,7 @@ function CallDetails(props) {
     );
   }
 
-  const hasErrors = get(callResult, ['errors', 'length']) + get(callTreeResult, ['errors', 'length']) > 0;
+  const hasErrors = get(callResult, ['errors', 'length'], 0) + get(callTreeResult, ['errors', 'length'], 0) > 0;
   if (hasErrors) {
     return (
       <div className={locals.callDetails}>
@@ -46,6 +46,10 @@ function CallDetails(props) {
 
   const call = callResult.data;
   const callTreeNode = findCallTreeNode(callTreeResult.data, call.id);
+
+  if (!callTreeNode) {
+    return null;
+  }
 
   return (
     <aside className={locals.callDetails}>
