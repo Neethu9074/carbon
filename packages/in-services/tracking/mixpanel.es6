@@ -1,7 +1,10 @@
 /* global __HOT_RELOAD__: false */
+import { combineLatest } from 'reactive-observables';
 import { assign } from 'lodash';
 
 import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
+import getCompanyInfo from 'in-subscription/getCompanyInfo';
+import getUsageInfo from 'in-subscription/getUsageInfo';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
@@ -32,6 +35,22 @@ function initMixpanel(callback) {
     tenantId: tenant.id,
     tenantUnit: config.tenantUnit
   });
+
+  combineLatest([
+    getUsageInfo(),
+    getCompanyInfo()
+      .map(result => (result && result.data ? result.data : null))
+      .filter(data => data)
+  ]).subscribe(([usageInfo, companyInfo]) => {
+    mixpanel.register({
+      tenant: tenant.name,
+      tenantId: tenant.id,
+      tenantUnit: config.tenantUnit,
+      companyName: companyInfo.companyName,
+      licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
+    });
+  });
+
   tenantUnitStructure$.once(
     tenantWithUnits => {
       const units = tenantWithUnits[tenant.name];
