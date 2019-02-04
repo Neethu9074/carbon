@@ -2,9 +2,8 @@
 
 :local {
   .cell {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-
     cursor: not-allowed;
     color: @lib__colors__N500;
   }

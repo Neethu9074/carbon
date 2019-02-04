@@ -311,13 +311,11 @@ function InfrastructureEntityLink({ entity, plugin }) {
 
 function UnmonitoredEntity() {
   return (
-    <div className={locals.cell}>
-      <Tooltip content={'Unmonitored infrastructure due to information outside of our running agent'}>
-        <div>
-          <PluginIcon className={locals.simplePluginIcon} dimension={18} />
-          Unmonitored
-        </div>
-      </Tooltip>
-    </div>
+    <Tooltip content={'Unmonitored infrastructure due to information outside of our running agent'}>
+      <div className={locals.cell}>
+        <PluginIcon className={locals.simplePluginIcon} dimension={18} />
+        Unmonitored
+      </div>
+    </Tooltip>
   );
 }
