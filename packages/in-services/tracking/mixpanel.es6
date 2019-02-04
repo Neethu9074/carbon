@@ -40,12 +40,9 @@ function initMixpanel(callback) {
     getUsageInfo(),
     getCompanyInfo()
       .map(result => (result && result.data ? result.data : null))
-      .filter(data => data)
+      .filter(Boolean)
   ]).subscribe(([usageInfo, companyInfo]) => {
     mixpanel.register({
-      tenant: tenant.name,
-      tenantId: tenant.id,
-      tenantUnit: config.tenantUnit,
       companyName: companyInfo.companyName,
       licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
     });
