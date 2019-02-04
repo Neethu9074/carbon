@@ -30,8 +30,7 @@ function initMixpanel(callback) {
   mixpanel.register({
     tenant: tenant.name,
     tenantId: tenant.id,
-    tenantUnit: config.tenantUnit,
-    email: user.email
+    tenantUnit: config.tenantUnit
   });
   tenantUnitStructure$.once(
     tenantWithUnits => {
