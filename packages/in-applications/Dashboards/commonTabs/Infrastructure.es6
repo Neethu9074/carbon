@@ -192,9 +192,12 @@ const getColumnDefinitions = type => {
       label: 'Process',
       getContent(item) {
         return item.physicalContext.process ? (
-          <InfrastructureEntityLink entity={item.physicalContext.process} plugin={plugins.process} />
+          <InfrastructureEntityLink
+            entity={item.physicalContext.process}
+            plugin={item.physicalContext.process.plugin}
+          />
         ) : (
-          <UnmonitoredEntity plugin={plugins.process} />
+          <UnmonitoredEntity />
         );
       }
     };
@@ -206,7 +209,7 @@ const getColumnDefinitions = type => {
         return item.physicalContext.container ? (
           <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />
         ) : (
-          <UnmonitoredEntity plugin={plugins.docker} />
+          <UnmonitoredEntity />
         );
       }
     };
@@ -218,7 +221,7 @@ const getColumnDefinitions = type => {
         return item.physicalContext.host ? (
           <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
         ) : (
-          <UnmonitoredEntity plugin={plugins.host} />
+          <UnmonitoredEntity />
         );
       }
     };
@@ -306,12 +309,12 @@ function InfrastructureEntityLink({ entity, plugin }) {
   );
 }
 
-function UnmonitoredEntity({ plugin }) {
+function UnmonitoredEntity() {
   return (
     <div className={locals.cell}>
       <Tooltip content={'Unmonitored infrastructure due to information outside of our running agent'}>
         <div>
-          <PluginIcon className={locals.simplePluginIcon} dimension={18} plugin={plugin} />
+          <PluginIcon className={locals.simplePluginIcon} dimension={18} />
           Unmonitored
         </div>
       </Tooltip>
