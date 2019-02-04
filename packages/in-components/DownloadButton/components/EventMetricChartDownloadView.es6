@@ -13,7 +13,7 @@ export default connectTo(props => ({
   }
   return (
     <EventMetricDownloadView
-      fileName={`metric-${metric}`}
+      fileName={`event-${event.get('id')}-fp-report`}
       getJsonData={() => getJsonData(event, metric, metricValues)}
     />
   );
@@ -26,21 +26,22 @@ function getMetricsRequest(props) {
   const oneHourWindowSize = 1000 * 60 * 60;
   const oneDay = now - oneHourWindowSize * 24;
   const tenHoursWindowSize = oneHourWindowSize * 10;
-  const to = event.get('end', now);
+  // Extract metrics from 55 mins before event start to 5 mins after event start
+  const to = event.get('start') + 1000 * 60 * 5;
 
   if (plugin === null) {
     return null;
   }
-
+  const customIssue = event.getIn(['metadata', 'custom_issue']);
   const timeFrame = { to: to };
   let rollup;
 
-  if (oneDay - event.get('start') > oneHourWindowSize) {
+  if (to - oneHourWindowSize < oneDay) {
     rollup = 60;
     timeFrame.from = to - tenHoursWindowSize;
     timeFrame.windowSize = tenHoursWindowSize;
   } else {
-    if (entityType === 'Service20' || entityType === 'App20' || entityType === 'Endpoint20') {
+    if ((entityType === 'Service20' || entityType === 'App20' || entityType === 'Endpoint20') && !customIssue) {
       rollup = 5;
     } else {
       rollup = 1;
