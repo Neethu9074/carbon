@@ -1,8 +1,10 @@
-.in-hierarchical-link {
-  display: flex;
-  align-items: center;
+:local {
+  .link {
+    display: flex;
+    align-items: center;
+  }
 
-  &__dark {
+  .dark {
     color: #2d4048;
 
     &:hover {
@@ -10,7 +12,7 @@
     }
   }
 
-  &__light {
+  .light {
     color: #8c969a;
 
     &:hover {
@@ -18,7 +20,11 @@
     }
   }
 
-  &__info-icon {
+  .pluginIcon {
+    margin: 0 0.313rem 0 0;
+  }
+
+  .infoIcon {
     min-width: 0.75rem;
     min-height: 0.75rem;
     margin: 0.125rem 0.25rem 0 0.15rem;
@@ -39,13 +45,5 @@
         fill: #fff;
       }
     }
-  }
-
-  &__link-wrapper {
-    display: flex;
-  }
-
-  &__plugin-icon {
-    margin: 0 0.313rem 0 0;
   }
 }

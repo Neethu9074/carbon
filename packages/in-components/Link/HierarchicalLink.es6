@@ -16,9 +16,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import './HierarchicalLink.less';
-
-const block = 'in-hierarchical-link';
+import locals from './HierarchicalLink.mless';
 
 export default compose(
   connect(({ snapshot, timeConfig }) => ({
@@ -67,7 +65,7 @@ function HierarchicalLink({
   onClick: onClickProp,
   useSnapshotLink
 }) {
-  const linkClassName = `${block} ${block}${kind === 'dark' ? '__dark' : '__light'}`;
+  const linkClassName = `${locals.link} ${kind === 'dark' ? locals.dark : locals.light}`;
   if (useSnapshotFromHierarchyCallback) {
     snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
   }
@@ -80,7 +78,7 @@ function HierarchicalLink({
       className={joinClassNames(linkClassName, className, customLinkClassName)}
     >
       <HealthyPluginIcon
-        className={`${block}__plugin-icon`}
+        className={locals.pluginIcon}
         snapshot={snapshot}
         fallbackColor={kind === 'dark' ? '#000' : '#fff'}
         dimension={12}
@@ -95,9 +93,9 @@ function HierarchicalLink({
   }
 
   return (
-    <div className={`${block}__link-wrapper`}>
+    <div className={locals.link}>
       <SvgIcon
-        className={`${block}__info-icon ${block}__info-icon--${kind}`}
+        className={`${locals.infoIcon} ${locals.infoIcon}--${kind}`}
         onClick={e => {
           stopPropagation(e);
           setExpanded(!isExpanded);
