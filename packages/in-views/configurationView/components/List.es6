@@ -216,11 +216,7 @@ function addTableActions({ columnDefinitions, tableActions, getEntityName, setEr
 function addDeleteActionAction(columns, actionDefinition, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
-    sortable: false,
-    headCellProps: {
-      className: locals.tableActionHead
-    },
-    cellClassName: locals.tableActionCell,
+    tableAction: true,
     getContent(entity) {
       if (actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity)) {
         // some entities are protected and must not be deleted
@@ -279,11 +275,7 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
 function addToggleEnabledAction(columns, actionDefinition, setErrorMessage) {
   return columns.concat({
     id: 'toggleEnabledAction',
-    sortable: false,
-    headCellProps: {
-      className: locals.tableActionHead
-    },
-    cellClassName: locals.tableActionCell,
+    tableAction: true,
     getContent(entity) {
       const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (

@@ -1,0 +1,6 @@
+:local {
+  .tableActionHead {
+    // make the cell's min-width determine the row
+    width: 1px;
+  }
+}

@@ -2,13 +2,22 @@ import React from 'react';
 
 import { Tr, Th, SortableTh } from 'in-components/tables/sharedComponents';
 
+import locals from './Columns.mless';
+
 export default function Columns({ setOrder, orderBy, orderDirection, columnDefinitions }) {
   return (
     <Tr size="compact">
       {columnDefinitions.map(columnDefinition => {
         const label = columnDefinition.label || null;
         const headCellProps = columnDefinition.headCellProps ? columnDefinition.headCellProps : {};
-        if (columnDefinition.sortable === false) {
+        if (columnDefinition.tableAction) {
+          if (headCellProps.className) {
+            headCellProps.className += ' ' + locals.tableActionHead;
+          } else {
+            headCellProps.className = locals.tableActionHead;
+          }
+        }
+        if (columnDefinition.sortable === false || columnDefinition.tableAction) {
           return (
             <Th key={columnDefinition.id} {...headCellProps}>
               {label}

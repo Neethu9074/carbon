@@ -1,15 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .tableActionHead {
-    // make the cell's min-width determine the row
-    width: 1px;
-  }
-
-  .tableActionCell {
-    padding: 0;
-  }
-
   .createNewButton {
     margin-right: 0.5rem;
   }
