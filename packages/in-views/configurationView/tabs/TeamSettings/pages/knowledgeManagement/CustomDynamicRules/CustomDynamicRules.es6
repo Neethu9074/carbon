@@ -80,8 +80,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Custom Dynamic Rules (${entities.length})` : 'Custom Dynamic Rules';
+function getHeader(totalHits) {
+  return totalHits ? `Custom Dynamic Rules (${totalHits})` : 'Custom Dynamic Rules';
 }
 
 function getEntityName(entity) {

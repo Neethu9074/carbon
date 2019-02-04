@@ -45,8 +45,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Existing Roles (${entities.length})` : 'Existing Roles';
+function getHeader(totalHits) {
+  return totalHits ? `Existing Roles (${totalHits})` : 'Existing Roles';
 }
 
 function getEntityName(entity) {

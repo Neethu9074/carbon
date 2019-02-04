@@ -93,22 +93,24 @@ function List({
     return null;
   }
 
-  let totalHits = 0;
+  let totalHitsBeforeFilter = 0;
+  let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
   if (entities) {
+    totalHitsBeforeFilter = entities.length;
     if (!isBlank(queryState) && searchAttributes.length > 0) {
       entities = entities.filter(entity =>
         searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
       );
     }
     entities = sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
-    totalHits = entities.length;
+    totalHitsAfterFilter = entities.length;
     const offset = (pageState - 1) * pageSize;
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
   }
-  const header = getHeader(entities);
-  const result = arrayToResult(entities, totalHits, pageSize);
+  const header = getHeader(totalHitsBeforeFilter);
+  const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
   return (
     <MaxWidthFullscreenContainer>

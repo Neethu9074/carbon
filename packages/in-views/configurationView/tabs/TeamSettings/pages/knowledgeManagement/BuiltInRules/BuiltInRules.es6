@@ -53,8 +53,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Built-in Rules (${entities.length})` : 'Built-in Rules';
+function getHeader(totalHits) {
+  return totalHits ? `Built-in Rules (${totalHits})` : 'Built-in Rules';
 }
 
 function getEntityType(entity) {

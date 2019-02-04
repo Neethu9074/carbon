@@ -52,8 +52,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Existing Integrations (${entities.length})` : 'Existing Integrations';
+function getHeader(totalHits) {
+  return totalHits ? `Existing Integrations (${totalHits})` : 'Existing Integrations';
 }
 
 function getEntityName(entity) {

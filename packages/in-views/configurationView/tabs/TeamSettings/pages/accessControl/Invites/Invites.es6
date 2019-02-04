@@ -51,8 +51,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Pending Invitations (${entities.length})` : 'Pending Invitations';
+function getHeader(totalHits) {
+  return totalHits ? `Pending Invitations (${totalHits})` : 'Pending Invitations';
 }
 
 function getEntityName(entity) {

@@ -103,8 +103,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Existing Users (${entities.length})` : 'Existing Users';
+function getHeader(totalHits) {
+  return totalHits ? `Existing Users (${totalHits})` : 'Existing Users';
 }
 
 function getEntityName(entity) {

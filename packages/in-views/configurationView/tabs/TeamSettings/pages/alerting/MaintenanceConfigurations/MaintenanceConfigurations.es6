@@ -101,8 +101,8 @@ function getFormattedDateTimeFromFirstWindow(key, entity) {
   }
 }
 
-function getHeader(entities) {
-  return entities ? `Maintenance Window Configurations (${entities.length})` : 'Maintenance Window Configurations';
+function getHeader(totalHits) {
+  return totalHits ? `Maintenance Window Configurations (${totalHits})` : 'Maintenance Window Configurations';
 }
 
 function getEntityName(entity) {

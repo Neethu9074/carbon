@@ -67,8 +67,8 @@ const tableActions = {
   }
 };
 
-function getHeader(entities) {
-  return entities ? `Custom Rules (${entities.length})` : 'Custom Rules';
+function getHeader(totalHits) {
+  return totalHits ? `Custom Rules (${totalHits})` : 'Custom Rules';
 }
 
 function getEntityName(entity) {

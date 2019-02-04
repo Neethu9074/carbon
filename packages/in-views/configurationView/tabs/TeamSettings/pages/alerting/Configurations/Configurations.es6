@@ -76,8 +76,8 @@ function isEnabled(entity) {
   return entity.muteUntil == null || entity.muteUntil < Date.now();
 }
 
-function getHeader(entities) {
-  return entities ? `Existing Configurations (${entities.length})` : 'Existing Configurations';
+function getHeader(totalHits) {
+  return totalHits ? `Existing Configurations (${totalHits})` : 'Existing Configurations';
 }
 
 function getEntityName(entity) {
