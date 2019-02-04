@@ -2,32 +2,8 @@ import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: 'containers.count',
-    label: 'Containers',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'cpuRequests',
-    label: 'CPU Requests',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'cpuLimits',
-    label: 'CPU Limits',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'memoryRequests',
-    label: 'Memory Requests',
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'memoryLimits',
-    label: 'Memory Limits',
+    metrics: ['containers.count', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits', 'restartCount'],
+    labels: ['Containers', 'CPU Requests', 'CPU Limits', 'Memory Requests', 'Memory Limits', 'Restarts'],
     min: 0,
     formatter: number
   }
