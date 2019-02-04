@@ -28,8 +28,8 @@ export default function BasicDashboardHeader(props) {
 
   return (
     <header className={locals.header}>
-      {renderActions && <div className={locals.actions}>{renderActions(props)}</div>}
       {content}
+      {renderActions && <div className={locals.actions}>{renderActions(props)}</div>}
     </header>
   );
 }

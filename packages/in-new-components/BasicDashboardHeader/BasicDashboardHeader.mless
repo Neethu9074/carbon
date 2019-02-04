@@ -5,6 +5,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     padding-top: 1rem;
     height: 3.5rem;
@@ -27,7 +28,7 @@
     font-size: @lib__typography__h300__font-size;
     font-weight: 400;
 
-    max-width: 70vw;
+    max-width: 54vw;
     .ellipsis();
   }
 
@@ -50,8 +51,6 @@
   }
 
   .actions {
-    position: absolute;
-    right: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
