@@ -38,6 +38,7 @@ function Users({ roles, message, setMessage }) {
         tableActions={tableActions}
         initialOrderBy="fullName"
         loadEntities={getUsers}
+        pageSize={15}
         rightHeader={<InviteUserButton setMessage={setMessage} />}
         searchAttributes={['fullName', 'email', getRoleName(sortedRoles)]}
       />

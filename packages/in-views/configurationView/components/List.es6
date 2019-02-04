@@ -138,6 +138,7 @@ function List({
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
         getRowLink={getDetailsHref ? entity => getDetailsHref(entity) : null}
+        getRowProps={() => ({ size: 'compact' })}
       />
     </MaxWidthFullscreenContainer>
   );
