@@ -11,13 +11,13 @@ import Gravatar from 'in-components/Gravatar';
 
 import locals from './AuditLog.mless';
 
-const NUM_ENTRIES_PER_PAGE = 10;
+const PAGE_SIZE = 15;
 
 export default function AuditLog() {
   return (
     <ServerTable
       get={({ query, page, pageSize }) =>
-        getAuditLog(calcOffset(page, pageSize), query).map(
+        getAuditLog(calcOffset(page, pageSize), query, pageSize).map(
           ({ entries, total }) =>
             entries
               ? success(
@@ -32,12 +32,13 @@ export default function AuditLog() {
         )
       }
       getResettingProps={() => ['query']}
-      defaultPageSize={NUM_ENTRIES_PER_PAGE}
+      defaultPageSize={PAGE_SIZE}
       columnDefinitions={columnDefinitions}
       paginationResettingProps={{}}
       rightHeader={({ query, page, pageSize }) => (
         <AuditLogDownloadView offset={calcOffset(page, pageSize)} query={query} />
       )}
+      getRowProps={() => ({ size: 'compact' })}
     />
   );
 }
