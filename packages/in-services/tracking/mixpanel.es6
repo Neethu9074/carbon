@@ -30,7 +30,8 @@ function initMixpanel(callback) {
   mixpanel.register({
     tenant: tenant.name,
     tenantId: tenant.id,
-    tenantUnit: config.tenantUnit
+    tenantUnit: config.tenantUnit,
+    email: user.email
   });
   tenantUnitStructure$.once(
     tenantWithUnits => {
@@ -51,8 +52,6 @@ function initMixpanel(callback) {
       return callback(true);
     }
   );
-
-  console.log(config, user);
 }
 
 export function createTracker(event, defaultProperties = {}) {
