@@ -51,6 +51,8 @@ function initMixpanel(callback) {
       return callback(true);
     }
   );
+
+  console.log(config, user);
 }
 
 export function createTracker(event, defaultProperties = {}) {
