@@ -1,7 +1,6 @@
+import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import React from 'react';
 
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Title from 'in-components/Title';
@@ -43,7 +42,7 @@ export default function entityForm(ComposedComponent) {
       }
 
       return (
-        <SubViewWrapper>
+        <Fragment>
           <Title title={title} />
           <form onSubmit={this.onSubmit}>
             <ComposedComponent
@@ -55,7 +54,7 @@ export default function entityForm(ComposedComponent) {
               setForm={form => this.setState({ form })}
             />
           </form>
-        </SubViewWrapper>
+        </Fragment>
       );
     }
 

@@ -2,7 +2,6 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
@@ -89,78 +88,74 @@ export default {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="Slack Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="Slack Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-      <Section>
-        {form.get('webhookUrl').map(field => (
-          <FormGroup>
-            <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-              Webhook URL
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="webhookUrl"
-              type="url"
-              placeholder="https://hooks.slack.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
-              value={field.value}
-              onChange={e => onChange('webhookUrl', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('webhookUrl').map(field => (
+        <FormGroup>
+          <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
+            Webhook URL
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="webhookUrl"
+            type="url"
+            placeholder="https://hooks.slack.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
+            value={field.value}
+            onChange={e => onChange('webhookUrl', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-        {form.get('iconUrl').map(field => (
-          <FormGroup>
-            <Label htmlFor="iconUrl" hasError={!field.valid && field.touched}>
-              Icon URL
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="iconUrl"
-              type="url"
-              placeholder="https://www.example.com/media/instana.png"
-              value={field.value}
-              onChange={e => onChange('iconUrl', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('iconUrl').map(field => (
+        <FormGroup>
+          <Label htmlFor="iconUrl" hasError={!field.valid && field.touched}>
+            Icon URL
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="iconUrl"
+            type="url"
+            placeholder="https://www.example.com/media/instana.png"
+            value={field.value}
+            onChange={e => onChange('iconUrl', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-        {form.get('channel').map(field => (
-          <FormGroup>
-            <Label htmlFor="channel" hasError={!field.valid && field.touched}>
-              Channel Name
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="channel"
-              type="text"
-              placeholder="Channel Name"
-              value={field.value}
-              onChange={e => onChange('channel', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('channel').map(field => (
+        <FormGroup>
+          <Label htmlFor="channel" hasError={!field.valid && field.touched}>
+            Channel Name
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="channel"
+            type="text"
+            placeholder="Channel Name"
+            value={field.value}
+            onChange={e => onChange('channel', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
     </fieldset>
   );
 }

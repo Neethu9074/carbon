@@ -10,6 +10,7 @@ import {
 } from 'in-views/configurationView/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import { teamSettingsAlertingConfigurations } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
 import Section from 'in-views/configurationView/components/Section';
@@ -39,7 +40,7 @@ const Form = entityForm(function IntegrationForm(props) {
   const { form, message, error, loading, isCreate } = props;
 
   return (
-    <div>
+    <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create' : 'Edit'} Alerting Configuration</SubViewHeader>
 
       {message ? (
@@ -59,7 +60,7 @@ const Form = entityForm(function IntegrationForm(props) {
         isCreate={isCreate}
         listPath={teamSettingsAlertingConfigurations}
       />
-    </div>
+    </SettingsDetailPage>
   );
 });
 

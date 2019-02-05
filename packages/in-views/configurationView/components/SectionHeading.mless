@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .heading {
+    color: @lib__colors__primary1;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 0 1.5rem;
+    padding-top: 1rem;
+  }
+
+}

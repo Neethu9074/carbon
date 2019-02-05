@@ -12,8 +12,8 @@ import {
 } from 'in-views/configurationView/validation';
 import CustomIssueForm from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomIssues/CustomIssueForm';
 import { teamSettingsKnowledgeManagementCustomIssues } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import { getRuleBinding, saveRuleBinding, createRuleBinding } from 'in-api/ruleBindings';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
 import Section from 'in-views/configurationView/components/Section';
@@ -78,7 +78,7 @@ export default class extends React.Component {
     const { form, ruleBinding, rules, message, loading, isCreate } = this.state;
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title="Custom Issue" />
 
         <SubViewHeader>
@@ -119,7 +119,7 @@ export default class extends React.Component {
             />
           ) : null}
         </form>
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 

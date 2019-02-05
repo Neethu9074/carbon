@@ -7,7 +7,7 @@ import ServiceExtractionEndpointRuleConfigSubForm from 'in-views/configurationVi
 import { getServiceRule, saveServiceRule, createServiceRule, createEndpointRule } from 'in-api/serviceExtraction';
 import ServiceExtractionRuleConfigForm from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
 import { typeDefinitions } from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/types';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import Notification from 'in-components/form/Notification';
@@ -67,7 +67,7 @@ export default class extends React.Component {
     return (
       <div>
         <Title title="Service Extraction Rule" />
-        <SubViewWrapper>
+        <SettingsDetailPage>
           <SubViewHeader>
             {rule ? `Configure service extraction rule: ${rule.get('name')}` : 'Configure service extraction rule'}
           </SubViewHeader>
@@ -102,7 +102,7 @@ export default class extends React.Component {
               />
             ) : null}
           </form>
-        </SubViewWrapper>
+        </SettingsDetailPage>
 
         {supportsEndpoints !== false ? (
           <ServiceExtractionEndpointRuleConfigSubForm

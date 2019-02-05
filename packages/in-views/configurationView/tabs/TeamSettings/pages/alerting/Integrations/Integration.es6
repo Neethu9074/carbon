@@ -4,6 +4,7 @@ import React from 'react';
 import IntegrationTestButton from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Integrations/components/IntegrationTestButton';
 import { fullyQualified } from 'in-views/configurationView/tabs/TeamSettings/pages/alerting/Integrations/configs';
 import { teamSettingsAlertingIntegrations } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
@@ -42,7 +43,7 @@ const IntegrationForm = entityForm(function IntegrationForm(props) {
   const { entity, form, message, error, loading, setForm, isCreate } = props;
   const Form = fullyQualified[props.form.get('kind').value].Form;
   return (
-    <div>
+    <SettingsDetailPage>
       <SubViewHeader>{`${isCreate ? 'Create' : 'Configure'}
       ${fullyQualified[entity.get('kind')].label}
       Integration`}</SubViewHeader>
@@ -66,6 +67,6 @@ const IntegrationForm = entityForm(function IntegrationForm(props) {
         isCreate={isCreate}
         listPath={teamSettingsAlertingIntegrations}
       />
-    </div>
+    </SettingsDetailPage>
   );
 });

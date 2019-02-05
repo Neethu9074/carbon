@@ -6,6 +6,7 @@ import RuleForm, {
   ruleFormDefinition
 } from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomRules/RuleForm';
 import { teamSettingsKnowledgeManagementCustomRules } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
 import Section from 'in-views/configurationView/components/Section';
@@ -33,7 +34,7 @@ export default function Rule(props) {
 const Form = entityForm(function IntegrationForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
   return (
-    <div>
+    <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create A New Custom Rule' : `Configure Rule: ${entity.get('name')}`}</SubViewHeader>
 
       {message ? (
@@ -53,7 +54,7 @@ const Form = entityForm(function IntegrationForm(props) {
         isCreate={isCreate}
         listPath={teamSettingsKnowledgeManagementCustomRules}
       />
-    </div>
+    </SettingsDetailPage>
   );
 });
 

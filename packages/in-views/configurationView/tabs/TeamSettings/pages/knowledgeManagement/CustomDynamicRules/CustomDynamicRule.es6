@@ -4,6 +4,7 @@ import React from 'react';
 import CustomDynamicRuleForm from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomDynamicRules/CustomDynamicRuleForm';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import { teamSettingsKnowledgeManagementCustomDynamicRules } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import { getDynamicRule, saveDynamicRule, createDynamicRule } from 'in-api/dynamicRules';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
@@ -37,7 +38,7 @@ const Form = entityForm(
       const { entity, form, entityId, onChange, message, error, loading, setForm, isCreate } = this.props;
 
       return (
-        <div>
+        <SettingsDetailPage>
           {DashboardNavigationRoute}
 
           <SubViewHeader>
@@ -78,7 +79,7 @@ const Form = entityForm(
               listPath={teamSettingsKnowledgeManagementCustomDynamicRules}
             />
           ) : null}
-        </div>
+        </SettingsDetailPage>
       );
     }
 

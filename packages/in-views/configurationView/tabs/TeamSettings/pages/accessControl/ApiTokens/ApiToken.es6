@@ -5,7 +5,7 @@ import React from 'react';
 
 import ApiTokenForm from 'in-views/configurationView/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-views/configurationView/navigation/paths';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
 import Section from 'in-views/configurationView/components/Section';
@@ -86,7 +86,7 @@ export default class extends React.Component {
     const { apiToken, form, message, loading } = this.state;
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title="Api Token" />
 
         <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
@@ -112,7 +112,7 @@ export default class extends React.Component {
             />
           ) : null}
         </form>
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 

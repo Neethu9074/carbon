@@ -3,7 +3,6 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -108,82 +107,78 @@ function emails(emails) {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="Email Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
-      <Section>
-        {form.get('emails').map(field => (
-          <FormGroup>
-            <Label htmlFor="email" hasError={!field.valid && field.touched}>
-              Emails
-            </Label>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="Email Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+      {form.get('emails').map(field => (
+        <FormGroup>
+          <Label htmlFor="email" hasError={!field.valid && field.touched}>
+            Emails
+          </Label>
+          {field.touched
+            ? field.messages.map((message, i) => {
+                if (message.type !== 'no_mail') {
+                  return null;
+                }
+                return (
+                  <ValidationBlock hasError key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                );
+              })
+            : null}
+        </FormGroup>
+      ))}
+      {form.get('emails').map(field => {
+        const emails = field.value;
+        return emails.map((email, i) => (
+          <FormGroup key={i}>
+            <div className={`${block}__input-delete-wrapper`}>
+              <Input
+                className={`${block}__input`}
+                id={`email_${email}`}
+                type="email"
+                placeholder="ops@company.org"
+                value={email}
+                onChange={e => onChangeEmail(e, form, onChange, i)}
+              />
+              <Button
+                className={`${block}__delete-button`}
+                kind="danger"
+                onClick={() => removeEmail(form, onChange, i)}
+              >
+                Remove
+              </Button>
+            </div>
             {field.touched
-              ? field.messages.map((message, i) => {
-                  if (message.type !== 'no_mail') {
-                    return null;
-                  }
-                  return (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  );
-                })
+              ? field.messages.filter(msg => msg.mailIndex === i).map((message, i) => (
+                  <ValidationBlock hasError key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                ))
               : null}
           </FormGroup>
-        ))}
-        {form.get('emails').map(field => {
-          const emails = field.value;
-          return emails.map((email, i) => (
-            <FormGroup key={i}>
-              <div className={`${block}__input-delete-wrapper`}>
-                <Input
-                  className={`${block}__input`}
-                  id={`email_${email}`}
-                  type="email"
-                  placeholder="ops@company.org"
-                  value={email}
-                  onChange={e => onChangeEmail(e, form, onChange, i)}
-                />
-                <Button
-                  className={`${block}__delete-button`}
-                  kind="danger"
-                  onClick={() => removeEmail(form, onChange, i)}
-                >
-                  Remove
-                </Button>
-              </div>
-              {field.touched
-                ? field.messages.filter(msg => msg.mailIndex === i).map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))
-                : null}
-            </FormGroup>
-          ));
-        })}
-        <div className={`${block}__add-button-wrapper`}>
-          <span className={`${block}__add-link`} onClick={() => addEmail(form, onChange)}>
-            Add Email
-          </span>
-        </div>
-      </Section>
+        ));
+      })}
+      <div className={`${block}__add-button-wrapper`}>
+        <span className={`${block}__add-link`} onClick={() => addEmail(form, onChange)}>
+          Add Email
+        </span>
+      </div>
     </fieldset>
   );
 }

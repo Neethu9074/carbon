@@ -16,7 +16,6 @@ import {
 import MetricSelector from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomRules/components/MetricSelector';
 import { containsMetricInList, createMetricListItem, getPlainMetricList, isBuiltInMetric } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
-import Section from 'in-views/configurationView/components/Section';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
@@ -308,143 +307,141 @@ export default connectTo(
 
       return (
         <fieldset>
-          <Section>
-            {form.get('name').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-name" hasError={!field.valid && field.touched}>
-                  Name
-                </Label>
-                <Helpify helpText="Rules can be selected by name in the Custom Issues dialog.">
-                  <Input
-                    id="rule-name"
-                    type="text"
-                    className={`${block}__helpfified_input`}
-                    value={field.value}
-                    onChange={e => onChange('name', e.target.value)}
-                    hasError={!field.valid && field.touched}
-                    autoFocus
-                  />
-                  <TouchedMessages field={field} />
-                </Helpify>
-              </FormGroup>
-            ))}
-          </Section>
-
-          <Section>
-            {form.get('origin').map(field => (
-              <FormGroup>
-                <Label htmlFor="rule-origin" hasError={!field.valid && field.touched}>
-                  Origin
-                </Label>
-                <ComboBox
-                  name="rule-origin"
+          {form.get('name').map(field => (
+            <FormGroup>
+              <Label htmlFor="rule-name" hasError={!field.valid && field.touched}>
+                Name
+              </Label>
+              <Helpify helpText="Rules can be selected by name in the Custom Issues dialog.">
+                <Input
+                  id="rule-name"
+                  type="text"
+                  className={`${block}__helpfified_input`}
                   value={field.value}
-                  options={[
-                    { value: 'built-in', label: 'Built-in metrics' },
-                    { value: 'custom', label: 'Custom metrics' }
-                  ]}
-                  onChange={e => {
-                    if (e && e.value != field.value) {
-                      let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, '')));
-                      newForm = newForm.updateIn(['origin'], f => f.setValue(e.value || '').setTouched(false));
-                      setForm(newForm);
-                    }
-                  }}
+                  onChange={e => onChange('name', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  autoFocus
                 />
                 <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
+              </Helpify>
+            </FormGroup>
+          ))}
 
-            {form.get('origin').value === 'built-in'
-              ? form.get('entityType').map(field => (
-                  <FormGroup>
-                    <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
-                      Entity type
-                    </Label>
-                    <ComboBox
-                      name="rule-entityType"
-                      value={field.value}
-                      options={pluginsWithMetricDefinitions}
-                      onChange={e => {
-                        if (e && e.value != field.value) {
-                          let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, e.value)));
-                          newForm = newForm.updateIn(['origin'], f =>
-                            f.setValue(form.get('origin').value || '').setTouched(false)
-                          );
-                          setForm(newForm);
-                        }
-                      }}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))
-              : null}
+          {form.get('origin').map(field => (
+            <FormGroup>
+              <Label htmlFor="rule-origin" hasError={!field.valid && field.touched}>
+                Origin
+              </Label>
+              <ComboBox
+                name="rule-origin"
+                value={field.value}
+                options={[
+                  { value: 'built-in', label: 'Built-in metrics' },
+                  { value: 'custom', label: 'Custom metrics' }
+                ]}
+                onChange={e => {
+                  if (e && e.value != field.value) {
+                    let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, '')));
+                    newForm = newForm.updateIn(['origin'], f => f.setValue(e.value || '').setTouched(false));
+                    setForm(newForm);
+                  }
+                }}
+              />
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
 
-            {form.get('origin').value === 'custom' || form.get('entityType').value
-              ? form.get('metricName').map(field => (
-                  <FormGroup>
-                    <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
-                      Metric
-                    </Label>
-                    <MetricSelector
-                      id="rule-metricName"
-                      plugin={form.get('entityType').value}
-                      value={form.get('metricName').value}
-                      metrics={form.get('origin').value === 'custom' ? customMetrics : null}
-                      useComboBox
-                      onChange={e => {
-                        if (e && e.value != field.value) {
-                          onChange('metricName', e ? e.value : '', (updatedForm, rule) => {
-                            if (isPercentile(updatedForm)) {
-                              updatedForm = updatedForm.remove('window').remove('aggregation');
-                              updatedForm = putRollupField(updatedForm, rule);
-                            } else {
-                              updatedForm = updatedForm.remove('rollup');
-                              updatedForm = putWindowField(updatedForm, rule);
-                              updatedForm = putAggregationField(updatedForm, rule);
-                            }
+          {form.get('origin').value === 'built-in'
+            ? form.get('entityType').map(field => (
+                <FormGroup>
+                  <Label htmlFor="rule-entityType" hasError={!field.valid && field.touched}>
+                    Entity type
+                  </Label>
+                  <ComboBox
+                    name="rule-entityType"
+                    value={field.value}
+                    options={pluginsWithMetricDefinitions}
+                    onChange={e => {
+                      if (e && e.value != field.value) {
+                        let newForm = ruleFormDefinition(fromJS(createRule(null, form.get('name').value, e.value)));
+                        newForm = newForm.updateIn(['origin'], f =>
+                          f.setValue(form.get('origin').value || '').setTouched(false)
+                        );
+                        setForm(newForm);
+                      }
+                    }}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))
+            : null}
 
-                            if (form.get('origin').value === 'custom') {
-                              // manually update the hidden hidden entityType field in case of custom metrics
-                              updatedForm = updatedForm.updateIn(['entityType'], f => {
-                                const metricItem = find(customMetrics, _metric => _metric.value === e.value);
-                                if (metricItem == null) {
-                                  return f.setValue('');
-                                }
-                                return f.setValue(metricItem.entityType);
-                              });
-                            }
+          {form.get('origin').value === 'custom' || form.get('entityType').value
+            ? form.get('metricName').map(field => (
+                <FormGroup>
+                  <Label htmlFor="rule-metricName" hasError={!field.valid && field.touched}>
+                    Metric
+                  </Label>
+                  <MetricSelector
+                    id="rule-metricName"
+                    plugin={form.get('entityType').value}
+                    value={form.get('metricName').value}
+                    metrics={form.get('origin').value === 'custom' ? customMetrics : null}
+                    useComboBox
+                    onChange={e => {
+                      if (e && e.value != field.value) {
+                        onChange('metricName', e ? e.value : '', (updatedForm, rule) => {
+                          if (isPercentile(updatedForm)) {
+                            updatedForm = updatedForm.remove('window').remove('aggregation');
+                            updatedForm = putRollupField(updatedForm, rule);
+                          } else {
+                            updatedForm = updatedForm.remove('rollup');
+                            updatedForm = putWindowField(updatedForm, rule);
+                            updatedForm = putAggregationField(updatedForm, rule);
+                          }
 
-                            let metricFormatter = 'UNDEFINED';
-                            if (form.get('origin').value === 'custom') {
+                          if (form.get('origin').value === 'custom') {
+                            // manually update the hidden hidden entityType field in case of custom metrics
+                            updatedForm = updatedForm.updateIn(['entityType'], f => {
                               const metricItem = find(customMetrics, _metric => _metric.value === e.value);
-                              if (metricItem != null) {
-                                metricFormatter = metricItem.formatter;
+                              if (metricItem == null) {
+                                return f.setValue('');
                               }
-                            } else if (form.get('origin').value === 'built-in') {
-                              const entityType = form.get('entityType').value;
-                              const buildInMetricsList = getPlainMetricList(entityType);
-                              const metricItem = find(buildInMetricsList, _metric => _metric.value === e.value);
-                              if (metricItem != null) {
-                                metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
-                              }
-                            }
-
-                            updatedForm = updatedForm.updateIn(['formatter'], f => {
-                              return f.setValue(metricFormatter);
+                              return f.setValue(metricItem.entityType);
                             });
+                          }
 
-                            return updatedForm;
+                          let metricFormatter = 'UNDEFINED';
+                          if (form.get('origin').value === 'custom') {
+                            const metricItem = find(customMetrics, _metric => _metric.value === e.value);
+                            if (metricItem != null) {
+                              metricFormatter = metricItem.formatter;
+                            }
+                          } else if (form.get('origin').value === 'built-in') {
+                            const entityType = form.get('entityType').value;
+                            const buildInMetricsList = getPlainMetricList(entityType);
+                            const metricItem = find(buildInMetricsList, _metric => _metric.value === e.value);
+                            if (metricItem != null) {
+                              metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
+                            }
+                          }
+
+                          updatedForm = updatedForm.updateIn(['formatter'], f => {
+                            return f.setValue(metricFormatter);
                           });
-                        }
-                      }}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))
-              : null}
 
-            {form.get('origin').value === 'custom' || form.get('entityType').value ? (
+                          return updatedForm;
+                        });
+                      }
+                    }}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))
+            : null}
+
+          {form.get('origin').value === 'custom' || form.get('entityType').value ? (
+            <FormGroup noFlex>
               <Row>
                 {!isPercentileMetric && (
                   <Col cols={3}>
@@ -563,8 +560,8 @@ export default connectTo(
                   </span>
                 </Col>
               </Row>
-            ) : null}
-          </Section>
+            </FormGroup>
+          ) : null}
         </fieldset>
       );
     }
