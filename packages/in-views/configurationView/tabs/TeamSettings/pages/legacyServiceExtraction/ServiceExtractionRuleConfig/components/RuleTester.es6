@@ -3,7 +3,7 @@ import React from 'react';
 
 import ExtractedServiceNamePresenter from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/components/ExtractedServiceNamePresenter';
 import MatchPresenter from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/components/MatchPresenter';
-import FormGroup from 'in-components/form/FormGroup';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { Row, Col } from 'in-components/Grid';

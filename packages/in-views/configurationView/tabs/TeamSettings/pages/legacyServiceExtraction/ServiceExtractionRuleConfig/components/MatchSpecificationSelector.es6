@@ -1,7 +1,7 @@
 import React from 'react';
 
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';

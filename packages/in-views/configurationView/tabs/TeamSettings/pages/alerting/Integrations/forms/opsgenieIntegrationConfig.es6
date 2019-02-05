@@ -2,9 +2,9 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
-import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
