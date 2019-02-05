@@ -2,10 +2,10 @@ import { fromPromise } from 'reactive-observables';
 import React from 'react';
 
 import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';
-import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
-import Section from 'in-views/configurationView/components/Section';
+import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
