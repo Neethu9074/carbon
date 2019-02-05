@@ -20,6 +20,10 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
   } else if (group && isNotBlank(group.name)) {
     // analyze calls/traces
     groupedBy = group.name;
+
+    if (isNotBlank(group.value)) {
+      groupedBy = `${groupedBy}.${group.value}`;
+    }
   }
 
   return (
