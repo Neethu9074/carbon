@@ -5,10 +5,10 @@ import TooltipIcon from 'in-views/configurationView/tabs/TeamSettings/pages/know
 import MetricSelector from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomRules/components/MetricSelector';
 import Spacer from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomDynamicRules/components/Spacer';
 import { applicationPlugins, defaultAndUnknownPluginNames, oneZeroLogicalPlugins } from 'in-forge/constants';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import RuleControl from 'in-components/form/RuleControl';
-import FormGroup from 'in-components/form/FormGroup';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/Grid';

@@ -5,9 +5,9 @@ import SettingsDetailPage from 'in-views/configurationView/components/SettingsDe
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
-import FormGroup from 'in-components/form/FormGroup';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import TwoColumnMultiSelect from 'in-components/TwoColumnMultiSelect/TwoColumnMultiSelect';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import FormGroup from 'in-components/form/FormGroup';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

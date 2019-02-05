@@ -1,12 +1,12 @@
 import React from 'react';
 
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import RuleControl from 'in-components/form/RuleControl';
-import FormGroup from 'in-components/form/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';

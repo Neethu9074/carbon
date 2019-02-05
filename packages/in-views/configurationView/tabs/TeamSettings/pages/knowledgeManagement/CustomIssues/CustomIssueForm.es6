@@ -5,12 +5,12 @@ import RuleDetails from 'in-views/configurationView/tabs/TeamSettings/pages/know
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import { getSystemRules, getRuleLabelWithDeprecationFlag } from 'in-api/rules';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import EventDescription from 'in-components/EventDescription';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';

@@ -2,9 +2,9 @@ import React from 'react';
 
 import MatchSpecificationSelector from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/components/MatchSpecificationSelector';
 import RuleTester from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/components/RuleTester';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';

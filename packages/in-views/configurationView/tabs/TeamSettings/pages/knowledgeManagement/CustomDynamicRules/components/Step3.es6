@@ -3,11 +3,11 @@ import React from 'react';
 
 import TooltipIcon from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomDynamicRules/components/TooltipIcon';
 import Spacer from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomDynamicRules/components/Spacer';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import EventDescription from 'in-components/EventDescription';
 import RuleControl from 'in-components/form/RuleControl';
-import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
 import { Row, Col } from 'in-components/Grid';

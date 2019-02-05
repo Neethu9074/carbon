@@ -1,0 +1,14 @@
+.in-settings-form-group {
+
+  margin-bottom: 1rem;
+
+  & + & {
+    /* will collapse with the margin-bottom of the immediately preceding form group to be 1.5 rem in total */
+    margin-top: 1.5rem;
+  }
+
+  &--flex {
+    display: flex;
+    flex-direction: column;
+  }
+}

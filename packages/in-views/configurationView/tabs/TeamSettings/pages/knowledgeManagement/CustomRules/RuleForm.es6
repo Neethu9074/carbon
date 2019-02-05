@@ -16,11 +16,11 @@ import {
 import MetricSelector from 'in-views/configurationView/tabs/TeamSettings/pages/knowledgeManagement/CustomRules/components/MetricSelector';
 import { containsMetricInList, createMetricListItem, getPlainMetricList, isBuiltInMetric } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
-import FormGroup from 'in-components/form/FormGroup';
 import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';

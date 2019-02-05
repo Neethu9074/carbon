@@ -2,11 +2,11 @@ import React from 'react';
 
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import { Row, Col } from 'in-components/Grid';

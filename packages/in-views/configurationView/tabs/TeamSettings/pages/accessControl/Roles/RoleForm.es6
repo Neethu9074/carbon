@@ -4,8 +4,8 @@ import HorizontalFormGroupWithBackground from 'in-views/configurationView/compon
 import { twoZeroModeEnabled, roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
+import FormGroup from 'in-views/configurationView/components/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
