@@ -37,36 +37,30 @@ function initMixpanel(callback) {
   });
 
   combineLatest([
+    tenantUnitStructure$,
     getUsageInfo(),
     getCompanyInfo()
       .map(result => (result && result.data ? result.data : null))
       .filter(Boolean)
-  ]).subscribe(([usageInfo, companyInfo]) => {
+  ]).once(([tenantWithUnits, usageInfo, companyInfo]) => {
     mixpanel.register({
       companyName: companyInfo.companyName,
       licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
     });
-  });
 
-  tenantUnitStructure$.once(
-    tenantWithUnits => {
-      const units = tenantWithUnits[tenant.name];
-      if (!units) {
-        return callback(true);
-      }
-      const currentUnit = find(units, unit => unit.name === config.tenantUnit);
-      if (!currentUnit) {
-        return callback(true);
-      }
-      mixpanel.register({
-        tenantUnitId: currentUnit.id
-      });
-      return callback(true);
-    },
-    () => {
+    const units = tenantWithUnits[tenant.name];
+    if (!units) {
       return callback(true);
     }
-  );
+    const currentUnit = find(units, unit => unit.name === config.tenantUnit);
+    if (!currentUnit) {
+      return callback(true);
+    }
+    mixpanel.register({
+      tenantUnitId: currentUnit.id
+    });
+    return callback(true);
+  });
 }
 
 export function createTracker(event, defaultProperties = {}) {
