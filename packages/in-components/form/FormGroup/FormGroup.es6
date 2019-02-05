@@ -6,14 +6,16 @@ import './FormGroup.less';
 
 const block = 'in-form-group';
 
-export default function FormGroup({ children, className, withoutBottomMargin }) {
+export default function FormGroup({ children, className, style, withoutBottomMargin, noFlex = false }) {
   return (
     <div
       className={evaluateClassNames({
         [block]: true,
         [className]: className,
+        [`${block}--flex`]: !noFlex,
         [`${block}--without-bottom-margin`]: withoutBottomMargin
       })}
+      style={style}
     >
       {children}
     </div>

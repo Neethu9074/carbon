@@ -2,7 +2,6 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
@@ -81,61 +80,57 @@ export default {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="Splunk Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="Splunk Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-      <Section>
-        {form.get('url').map(field => (
-          <FormGroup>
-            <Label htmlFor="url" hasError={!field.valid && field.touched}>
-              URL
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="url"
-              type="url"
-              placeholder="https://your.splunk.server:8088/services/collector"
-              value={field.value}
-              onChange={e => onChange('url', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('url').map(field => (
+        <FormGroup>
+          <Label htmlFor="url" hasError={!field.valid && field.touched}>
+            URL
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="url"
+            type="url"
+            placeholder="https://your.splunk.server:8088/services/collector"
+            value={field.value}
+            onChange={e => onChange('url', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-        {form.get('token').map(field => (
-          <FormGroup>
-            <Label htmlFor="token" hasError={!field.valid && field.touched}>
-              Token
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="token"
-              type="text"
-              placeholder="Token"
-              value={field.value}
-              onChange={e => onChange('token', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('token').map(field => (
+        <FormGroup>
+          <Label htmlFor="token" hasError={!field.valid && field.touched}>
+            Token
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="token"
+            type="text"
+            placeholder="Token"
+            value={field.value}
+            onChange={e => onChange('token', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
     </fieldset>
   );
 }

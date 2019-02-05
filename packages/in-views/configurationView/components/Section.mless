@@ -1,0 +1,6 @@
+:local {
+  .section {
+    margin-bottom: .5rem;
+    padding: 0.5rem 0;
+  }
+}

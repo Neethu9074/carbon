@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { settings$, set } from 'in-services/settings/settings';
@@ -57,7 +57,7 @@ export default class extends React.Component {
     }
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title="Advanced User Interface Settings" />
         <SubViewHeader>Advanced User Interface Settings</SubViewHeader>
 
@@ -226,7 +226,7 @@ export default class extends React.Component {
             </Fragment>
           )}
         </Section>
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 }

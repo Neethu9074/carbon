@@ -20,8 +20,8 @@ import {
 } from 'in-api/serviceExtraction';
 import { getServiceExtractionRuleConfigPath, getEntityIdView } from 'in-views/configurationView/navigation/paths';
 import { openEditor } from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/stores/editAsJson';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
@@ -297,7 +297,7 @@ export default class extends React.Component {
     });
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title={this.props.title} />
         <SubViewHeader>{this.props.title}</SubViewHeader>
 
@@ -334,7 +334,7 @@ export default class extends React.Component {
             />
           </Section>
         ) : null}
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 

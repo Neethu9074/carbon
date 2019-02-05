@@ -2,7 +2,6 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
@@ -92,79 +91,76 @@ export default {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="OpsGenie Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
-      <Section>
-        {form.get('apiKey').map(field => (
-          <FormGroup>
-            <Label htmlFor="apiKey" hasError={!field.valid && field.touched}>
-              API Key
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="apiKey"
-              type="text"
-              placeholder="API Key"
-              value={field.value}
-              onChange={e => onChange('apiKey', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="OpsGenie Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-        {form.get('tags').map(field => (
-          <FormGroup>
-            <Label htmlFor="tags" hasError={!field.valid && field.touched}>
-              Tags
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="tags"
-              type="text"
-              placeholder="Tags (comma separated)"
-              value={field.value}
-              onChange={e => onChange('tags', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
+      {form.get('apiKey').map(field => (
+        <FormGroup>
+          <Label htmlFor="apiKey" hasError={!field.valid && field.touched}>
+            API Key
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="apiKey"
+            type="text"
+            placeholder="API Key"
+            value={field.value}
+            onChange={e => onChange('apiKey', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-        {form.get('region').map(field => (
-          <FormGroup>
-            <Label htmlFor="region" hasError={!field.valid && field.touched}>
-              Region
-            </Label>
-            <Select
-              className={`${block}__input`}
-              id="region"
-              value={field.value}
-              onChange={e => onChange('region', e.target.value)}
-            >
-              <option value="">Please Select</option>
-              <option value="US">US</option>
-              <option value="EU">EU</option>
-            </Select>
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('tags').map(field => (
+        <FormGroup>
+          <Label htmlFor="tags" hasError={!field.valid && field.touched}>
+            Tags
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="tags"
+            type="text"
+            placeholder="Tags (comma separated)"
+            value={field.value}
+            onChange={e => onChange('tags', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('region').map(field => (
+        <FormGroup>
+          <Label htmlFor="region" hasError={!field.valid && field.touched}>
+            Region
+          </Label>
+          <Select
+            className={`${block}__input`}
+            id="region"
+            value={field.value}
+            onChange={e => onChange('region', e.target.value)}
+          >
+            <option value="">Please Select</option>
+            <option value="US">US</option>
+            <option value="EU">EU</option>
+          </Select>
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
     </fieldset>
   );
 }

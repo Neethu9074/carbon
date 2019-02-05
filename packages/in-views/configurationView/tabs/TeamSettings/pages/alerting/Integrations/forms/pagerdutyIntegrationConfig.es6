@@ -2,7 +2,6 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-components/form/FormGroup';
@@ -71,43 +70,40 @@ export default {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="PagerDuty Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
-      <Section>
-        {form.get('serviceIntegrationKey').map(field => (
-          <FormGroup>
-            <Label htmlFor="serviceIntegrationKey" hasError={!field.valid && field.touched}>
-              Service Integration Key
-            </Label>
-            <Input
-              className={`${block}__input`}
-              id="serviceIntegrationKey"
-              type="text"
-              placeholder="Service Integration Key"
-              value={field.value}
-              onChange={e => onChange('serviceIntegrationKey', e.target.value)}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="PagerDuty Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('serviceIntegrationKey').map(field => (
+        <FormGroup>
+          <Label htmlFor="serviceIntegrationKey" hasError={!field.valid && field.touched}>
+            Service Integration Key
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="serviceIntegrationKey"
+            type="text"
+            placeholder="Service Integration Key"
+            value={field.value}
+            onChange={e => onChange('serviceIntegrationKey', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
     </fieldset>
   );
 }

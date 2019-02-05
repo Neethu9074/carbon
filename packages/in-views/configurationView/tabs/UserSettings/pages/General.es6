@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import { settings$, set } from 'in-services/settings/settings';
@@ -56,7 +56,7 @@ export default class extends React.Component {
     }
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title="User Interface Settings" />
         <SubViewHeader>User Interface Settings</SubViewHeader>
 
@@ -149,7 +149,7 @@ export default class extends React.Component {
             />
           </Group>
         </Section>
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 }

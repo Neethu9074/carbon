@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { teamSettingsKnowledgeManagementBuiltInRules } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
-import Section from 'in-views/configurationView/components/Section';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
+import FormGroup from 'in-components/form/FormGroup';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
@@ -50,26 +50,26 @@ export default connectTo(
       }));
 
     return (
-      <SubViewWrapper>
+      <SettingsDetailPage>
         <Title title="Built-in Rule" />
         <SubViewHeader>Configure Built-in Rule: {rule.get('name')}</SubViewHeader>
 
-        <Section>
+        <FormGroup>
           <Label>Entity type</Label>
           <div className={locals.flexWrapper}>
             <PluginIcon className={locals.entityIcon} dimension={16} color="#000" plugin={entityType} />
             {getSingular(entityType)}
           </div>
-        </Section>
-        <Section>
+        </FormGroup>
+        <FormGroup>
           <Label>Name</Label>
-          <p>{rule.get('name')}</p>
-        </Section>
-        <Section>
+          {rule.get('name')}
+        </FormGroup>
+        <FormGroup>
           <Label>Description</Label>
-          <p>{rule.get('description')}</p>
-        </Section>
-        <Section>
+          {rule.get('description')}
+        </FormGroup>
+        <FormGroup>
           <Label>Rule inputs</Label>
           <ul>
             {rule.get('ruleInputs').map((input, i) => {
@@ -87,11 +87,11 @@ export default connectTo(
               );
             })}
           </ul>
-        </Section>
-        <Section>
+        </FormGroup>
+        <FormGroup moreMargin>
           <Label>Parameters</Label>
           <Table cols={paramCols} rows={paramRows} />
-        </Section>
+        </FormGroup>
         <SaveCancel
           message=""
           loading={!rule}
@@ -100,7 +100,7 @@ export default connectTo(
           cancelButtonLabel="Back"
           hasSaveButton={false}
         />
-      </SubViewWrapper>
+      </SettingsDetailPage>
     );
   }
 );

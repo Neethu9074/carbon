@@ -1,7 +1,16 @@
 .in-form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
+
+  margin-bottom: 1rem;
+
+  & + & {
+    /* will collapse with the margin-bottom of the immediately preceding form group to be 1.5 rem in total */
+    margin-top: 1.5rem;
+  }
+
+  &--flex {
+    display: flex;
+    flex-direction: column;
+  }
 
   & > .react-toggle {
     position: relative;

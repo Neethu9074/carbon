@@ -2,7 +2,6 @@ import React from 'react';
 
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
-import Section from 'in-views/configurationView/components/Section';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -26,93 +25,87 @@ export default function MaintenanceConfigurationForm(props) {
     <fieldset>
       <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
 
-      <Section>
-        {form.get('name').map(field => (
+      {form.get('name').map(field => (
+        <FormGroup style={{ marginTop: '1rem' }}>
+          <HelpText large>1. Define a name for your maintenance window that will show up in the list</HelpText>
+          <Label htmlFor="maintenance-name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="maintenance-name"
+            className={locals.input}
+            type="text"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid}
+          />
+          <TouchedMessages field={field} />
+          <DescriptionText>Mainentance window names should be unique and meaningful.</DescriptionText>
+        </FormGroup>
+      ))}
+      {form.get('applyOn').map(field => (
+        <FormGroup>
+          <HelpText large>2. Select the entities to be muted</HelpText>
+          <Label htmlFor="maintenance-applyOn" hasError={!field.valid && field.touched}>
+            Apply on
+          </Label>
+          <ComboBox
+            name="maintenance-applyOn"
+            value={field.value}
+            options={[
+              { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
+              { value: 'all', label: 'All available entities' }
+            ]}
+            clearable={false}
+            onChange={e => {
+              const updatedForm = onChangeApplyOn(form, e ? e.value : null);
+              if (updatedForm) {
+                setForm(updatedForm);
+              }
+            }}
+          />
+          <TouchedMessages field={field} />
+          {form.get('applyOn').value === 'all' && (
+            <DescriptionText>
+              <strong>Caution!</strong> All alerts will be muted for the duration of this maintenance window.{' '}
+              <strong>This might affect other users in your organization as well.</strong>
+            </DescriptionText>
+          )}
+        </FormGroup>
+      ))}
+
+      {form.get('applyOn').value === 'dfq' &&
+        form.get('query').map(field => (
           <FormGroup>
-            <HelpText large>1. Define a name for your maintenance window that will show up in the list</HelpText>
-            <Label htmlFor="maintenance-name" hasError={!field.valid && field.touched}>
-              Name
+            <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
+              Dynamic Focus Query
             </Label>
             <Input
-              id="maintenance-name"
+              id="maintenance-query"
               className={locals.input}
               type="text"
+              placeholder={'e.g. entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'}
               value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid}
+              onChange={e => onChange('query', e.target.value)}
+              hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
             />
-            <TouchedMessages field={field} />
-            <DescriptionText>Mainentance window names should be unique and meaningful.</DescriptionText>
-          </FormGroup>
-        ))}
-      </Section>
-
-      <Section>
-        {form.get('applyOn').map(field => (
-          <FormGroup>
-            <HelpText large>2. Select the entities to be muted</HelpText>
-            <Label htmlFor="maintenance-applyOn" hasError={!field.valid && field.touched}>
-              Apply on
-            </Label>
-            <ComboBox
-              name="maintenance-applyOn"
-              value={field.value}
-              options={[
-                { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
-                { value: 'all', label: 'All available entities' }
-              ]}
-              clearable={false}
-              onChange={e => {
-                const updatedForm = onChangeApplyOn(form, e ? e.value : null);
-                if (updatedForm) {
-                  setForm(updatedForm);
-                }
-              }}
-            />
-            <TouchedMessages field={field} />
-            {form.get('applyOn').value === 'all' && (
-              <DescriptionText>
-                <strong>Caution!</strong> All alerts will be muted for the duration of this maintenance window.{' '}
-                <strong>This might affect other users in your organization as well.</strong>
-              </DescriptionText>
+            {form.get('queryValidationInProgress').value && (
+              <LoadingIndicator type="dark" className={locals.queryLoading} inline />
             )}
+            <BackendValidationMessages validationResult={form.get('validationResult').value} />
+            <TouchedMessages field={field} />
+            <DescriptionText>
+              A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues, changes
+              and online/offline to be muted. Select <i>&quot;Apply on: All available entities&quot;</i> if you want to
+              mute all alerts. For more information on syntax, please see our&nbsp;
+              <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+                documentation
+              </Link>
+              .
+            </DescriptionText>
           </FormGroup>
         ))}
-
-        {form.get('applyOn').value === 'dfq' &&
-          form.get('query').map(field => (
-            <FormGroup>
-              <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
-                Dynamic Focus Query
-              </Label>
-              <Input
-                id="maintenance-query"
-                className={locals.input}
-                type="text"
-                placeholder={'e.g. entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'}
-                value={field.value}
-                onChange={e => onChange('query', e.target.value)}
-                hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
-              />
-              {form.get('queryValidationInProgress').value && (
-                <LoadingIndicator type="dark" className={locals.queryLoading} inline />
-              )}
-              <BackendValidationMessages validationResult={form.get('validationResult').value} />
-              <TouchedMessages field={field} />
-              <DescriptionText>
-                A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues,
-                changes and online/offline to be muted. Select <i>&quot;Apply on: All available entities&quot;</i> if
-                you want to mute all alerts. For more information on syntax, please see our&nbsp;
-                <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
-                  documentation
-                </Link>
-                .
-              </DescriptionText>
-            </FormGroup>
-          ))}
-      </Section>
-
-      <Section>
+      <FormGroup noFlex>
         <HelpText large>3. Set the start and end of your maintenance window</HelpText>
         <Row>
           <Button
@@ -142,7 +135,7 @@ export default function MaintenanceConfigurationForm(props) {
         </Row>
         <TouchedMessages field={form.get('window')} />
         <DescriptionText>Maintenance windows without start or end dates will be ignored.</DescriptionText>
-      </Section>
+      </FormGroup>
     </fieldset>
   );
 }
@@ -153,7 +146,7 @@ function DateWithTime({ form, label, path, setForm }) {
   const timeField = windowForm.get(path).get('time');
 
   return (
-    <FormGroup>
+    <FormGroup withoutBottomMargin>
       <Label htmlFor={`maintenance-${path}-date`} hasError={!windowForm.valid && windowForm.touched}>
         {label}
       </Label>

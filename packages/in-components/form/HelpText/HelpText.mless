@@ -5,7 +5,7 @@
   }
 
   .helpLarge {
-    margin: 0.5rem 0 .5rem;
+    margin-bottom: 0.5rem;
     font-size: 1rem;
   }
 }

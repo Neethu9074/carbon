@@ -4,7 +4,6 @@ import HorizontalFormGroupWithBackground from 'in-views/configurationView/compon
 import { twoZeroModeEnabled, roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Helpify from 'in-components/form/Helpify';
@@ -23,50 +22,47 @@ export default function RoleForm({ form, onChange, roleId }) {
 
   return (
     <fieldset disabled={disabled}>
-      <Section>
-        <SectionHeading>General</SectionHeading>
+      <SectionHeading>General</SectionHeading>
 
-        {form.get('name').map(field => (
+      {form.get('name').map(field => (
+        <FormGroup>
+          <Label htmlFor="role-name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="role-name"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+            disabled={disabled || roleId === defaultRoleId}
+            autoFocus
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {roleViewFilterEnabled &&
+        form.get('implicitViewFilter').map(field => (
           <FormGroup>
-            <Label htmlFor="role-name" hasError={!field.valid && field.touched}>
-              Name
+            <Label htmlFor="role-implicit-view-filter" hasError={!field.valid && field.touched}>
+              View Filter
             </Label>
-            <Input
-              id="role-name"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-              disabled={disabled || roleId === defaultRoleId}
-              autoFocus
-            />
-            <TouchedMessages field={field} />
+            <Helpify helpText="Define a filter which will be applied to all the views and integrations. Only entities, events and traces {' '} matching this filter will be visible to the user.">
+              <Input
+                id="role-implicit-view-filter"
+                value={field.value}
+                className={`${block}__helpfified_input`}
+                onChange={e => onChange('implicitViewFilter', e.target.value)}
+                hasError={!field.valid && field.touched}
+                disabled={disabled}
+              />
+              <TouchedMessages field={field} />
+            </Helpify>
           </FormGroup>
         ))}
 
-        {roleViewFilterEnabled &&
-          form.get('implicitViewFilter').map(field => (
-            <FormGroup>
-              <Label htmlFor="role-implicit-view-filter" hasError={!field.valid && field.touched}>
-                View Filter
-              </Label>
-              <Helpify helpText="Define a filter which will be applied to all the views and integrations. Only entities, events and traces {' '} matching this filter will be visible to the user.">
-                <Input
-                  id="role-implicit-view-filter"
-                  value={field.value}
-                  className={`${block}__helpfified_input`}
-                  onChange={e => onChange('implicitViewFilter', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                  disabled={disabled}
-                />
-                <TouchedMessages field={field} />
-              </Helpify>
-            </FormGroup>
-          ))}
-      </Section>
-
-      <Section>
-        <SectionHeading>Permissions</SectionHeading>
-
+      <SectionHeading>Permissions</SectionHeading>
+      <FormGroup noFlex>
         {twoZeroModeEnabled && (
           <Permission
             form={form}
@@ -218,7 +214,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             helpText="Permits creation and configuration of applications."
           />
         )}
-      </Section>
+      </FormGroup>
     </fieldset>
   );
 }

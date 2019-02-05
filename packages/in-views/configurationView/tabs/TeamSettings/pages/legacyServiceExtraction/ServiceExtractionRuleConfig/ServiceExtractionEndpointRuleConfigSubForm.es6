@@ -2,7 +2,7 @@
 import React from 'react';
 
 import ServiceExtractionRuleConfigForm from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/ServiceExtractionRuleConfigForm';
-import SubViewWrapper from 'in-views/configurationView/components/SubViewWrapper';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import Section from 'in-views/configurationView/components/Section';
 import SvgIcon from 'in-components/SvgIcon';
@@ -36,7 +36,7 @@ export default class extends React.Component {
 
     return (
       <div className={`${block}__sub-section`}>
-        <SubViewWrapper>
+        <SettingsDetailPage>
           <SubViewHeader>Endpoints</SubViewHeader>
 
           <Section>
@@ -51,7 +51,7 @@ export default class extends React.Component {
               ))}
             </Section>
           ) : null}
-        </SubViewWrapper>
+        </SettingsDetailPage>
       </div>
     );
   }

@@ -3,7 +3,6 @@ import React from 'react';
 import HorizontalFormGroupWithBackground from 'in-views/configurationView/components/HorizontalFormGroupWithBackground';
 import { twoZeroModeEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-views/configurationView/components/SectionHeading';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Toggle from 'in-components/form/Toggle';
@@ -13,37 +12,34 @@ import Input from 'in-components/form/Input';
 export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
     <fieldset disabled={disabled}>
-      <Section>
-        <SectionHeading>General</SectionHeading>
+      <SectionHeading>General</SectionHeading>
 
-        {form.get('id').map(field => (
-          <FormGroup>
-            <Label htmlFor="api-token-id">API Token</Label>
-            <Input id="api-token-id" value={field.value} disabled />
-          </FormGroup>
-        ))}
+      {form.get('id').map(field => (
+        <FormGroup>
+          <Label htmlFor="api-token-id">API Token</Label>
+          <Input id="api-token-id" value={field.value} disabled />
+        </FormGroup>
+      ))}
 
-        {form.get('name').map(field => (
-          <FormGroup>
-            <Label htmlFor="api-token-name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="api-token-name"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-              disabled={disabled}
-              autoFocus
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
+      {form.get('name').map(field => (
+        <FormGroup>
+          <Label htmlFor="api-token-name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="api-token-name"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+            disabled={disabled}
+            autoFocus
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
 
-      <Section>
-        <SectionHeading>Permissions</SectionHeading>
-
+      <SectionHeading>Permissions</SectionHeading>
+      <FormGroup>
         {twoZeroModeEnabled && (
           <Permission
             form={form}
@@ -171,7 +167,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             label="Configuration of applications"
           />
         )}
-      </Section>
+      </FormGroup>
     </fieldset>
   );
 }

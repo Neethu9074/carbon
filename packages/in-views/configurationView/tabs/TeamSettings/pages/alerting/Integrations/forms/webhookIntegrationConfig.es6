@@ -3,7 +3,6 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import Section from 'in-views/configurationView/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -108,80 +107,77 @@ function webhooks(webhooks) {
 function Form({ form, onChange }) {
   return (
     <fieldset>
-      <Section>
-        {form.get('name').map(field => (
-          <FormGroup className={block}>
-            <Label htmlFor="name" hasError={!field.valid && field.touched}>
-              Name
-            </Label>
-            <Input
-              id="name"
-              className={`${block}__input`}
-              type="text"
-              placeholder="WebHook Integration"
-              value={field.value}
-              onChange={e => onChange('name', e.target.value)}
-              hasError={!field.valid && field.touched}
-            />
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Section>
-      <Section>
-        {form.get('webhookUrls').map(field => (
-          <FormGroup>
-            <Label hasError={!field.valid && field.touched}>Webhook URLs</Label>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="WebHook Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('webhookUrls').map(field => (
+        <FormGroup>
+          <Label hasError={!field.valid && field.touched}>Webhook URLs</Label>
+          {field.touched
+            ? field.messages.map((message, i) => {
+                if (message.type !== 'no_webhook') {
+                  return null;
+                }
+                return (
+                  <ValidationBlock hasError key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                );
+              })
+            : null}
+        </FormGroup>
+      ))}
+      {form.get('webhookUrls').map(field => {
+        const webhookUrls = field.value;
+        return webhookUrls.map((webhookUrl, i) => (
+          <FormGroup key={i}>
+            <div className={`${block}__input-delete-wrapper`}>
+              <Input
+                className={`${block}__input`}
+                id={`webhookUrl_${webhookUrl}`}
+                type="url"
+                placeholder="https://hooks.example.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
+                value={webhookUrl}
+                onChange={e => onChangewebHookUrl(e, form, onChange, i)}
+              />
+              <Button
+                className={`${block}__delete-button`}
+                kind="danger"
+                onClick={() => removewebHookUrl(form, onChange, i)}
+              >
+                Remove
+              </Button>
+            </div>
             {field.touched
-              ? field.messages.map((message, i) => {
-                  if (message.type !== 'no_webhook') {
-                    return null;
-                  }
-                  return (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  );
-                })
+              ? field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
+                  <ValidationBlock hasError key={i}>
+                    {message.message}
+                  </ValidationBlock>
+                ))
               : null}
           </FormGroup>
-        ))}
-        {form.get('webhookUrls').map(field => {
-          const webhookUrls = field.value;
-          return webhookUrls.map((webhookUrl, i) => (
-            <FormGroup key={i}>
-              <div className={`${block}__input-delete-wrapper`}>
-                <Input
-                  className={`${block}__input`}
-                  id={`webhookUrl_${webhookUrl}`}
-                  type="url"
-                  placeholder="https://hooks.example.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
-                  value={webhookUrl}
-                  onChange={e => onChangewebHookUrl(e, form, onChange, i)}
-                />
-                <Button
-                  className={`${block}__delete-button`}
-                  kind="danger"
-                  onClick={() => removewebHookUrl(form, onChange, i)}
-                >
-                  Remove
-                </Button>
-              </div>
-              {field.touched
-                ? field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
-                    <ValidationBlock hasError key={i}>
-                      {message.message}
-                    </ValidationBlock>
-                  ))
-                : null}
-            </FormGroup>
-          ));
-        })}
-        <div className={`${block}__add-button-wrapper`}>
-          <span className={`${block}__add-link`} onClick={() => addwebHookUrl(form, onChange)}>
-            Add WebHook
-          </span>
-        </div>
-      </Section>
+        ));
+      })}
+      <div className={`${block}__add-button-wrapper`}>
+        <span className={`${block}__add-link`} onClick={() => addwebHookUrl(form, onChange)}>
+          Add WebHook
+        </span>
+      </div>
     </fieldset>
   );
 }

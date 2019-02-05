@@ -15,6 +15,7 @@ import {
   valid
 } from 'in-views/configurationView/validation';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
@@ -48,7 +49,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   const { form, message, error, loading, isCreate } = props;
 
   return (
-    <div>
+    <SettingsDetailPage>
       <SubViewHeader>
         <SvgIcon type="lib_actions_build_outline" width={32} height={32} className={locals.headerIcon} />
         {isCreate ? 'Schedule' : 'Change'} Maintenance Window
@@ -71,7 +72,7 @@ const Form = entityForm(function MaintenanceForm(props) {
         isCreate={isCreate}
         listPath={teamSettingsAlertingMaintenanceConfigurations}
       />
-    </div>
+    </SettingsDetailPage>
   );
 });
 

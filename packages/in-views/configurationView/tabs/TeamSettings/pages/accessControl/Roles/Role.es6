@@ -4,6 +4,7 @@ import React from 'react';
 
 import RoleForm from 'in-views/configurationView/tabs/TeamSettings/pages/accessControl/Roles/RoleForm';
 import { teamSettingsAccessControlRoles } from 'in-views/configurationView/navigation/paths';
+import SettingsDetailPage from 'in-views/configurationView/components/SettingsDetailPage';
 import SubViewHeader from 'in-views/configurationView/components/SubViewHeader';
 import SaveCancel from 'in-views/configurationView/components/SaveCancel';
 import Section from 'in-views/configurationView/components/Section';
@@ -35,7 +36,7 @@ const Form = entityForm(function IntegrationForm(props) {
   const roleId = form ? form.get('id').value : null;
 
   return (
-    <div>
+    <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create Role' : `Configure Role: ${entity.get('name')}`}</SubViewHeader>
 
       {message ? (
@@ -55,7 +56,7 @@ const Form = entityForm(function IntegrationForm(props) {
         isCreate={isCreate}
         listPath={teamSettingsAccessControlRoles}
       />
-    </div>
+    </SettingsDetailPage>
   );
 });
 
