@@ -29,12 +29,11 @@ export default function NodeDashboard({ location }) {
       <ClusterAndNamespaceIds
         timeConfig={props.timeConfig}
         nodeId={props.nodeId}
-        renderBreadcrumbs={(clusterId, namespaceId) => (
+        renderBreadcrumbs={clusterId => (
           <Breadcrumbs
             items={NodeBreadcrumbs({
               ...props,
-              clusterId,
-              namespaceId
+              clusterId
             })}
           />
         )}
