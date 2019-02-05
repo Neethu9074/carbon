@@ -6,6 +6,7 @@ import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCod
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
+import TraceValidationResult from 'in-analyze/TraceDetail/tabs/Summary/TraceValidationResult';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
@@ -96,6 +97,7 @@ class Summary extends React.Component {
     const traceDetails = (
       <ContentWrapper>
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
+        <TraceValidationResult issues={trace.issues} />
         <div className={locals.left}>
           <Row>
             {trace.startTime != null && (
