@@ -22,10 +22,14 @@ export default function Summary({ timeConfig, data: node }) {
           <KpiCard title="Cluster" value={node.clusterId} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard title="Hostname" value={node.hostname} raw />
+          <KpiCard
+            title="Hostname"
+            renderValue={() => <KubernetesHost nodeId={snapshotId} timeConfig={timeConfig} />}
+            raw
+          />
         </Col>
       </Row>
-      <KubernetesHost nodeId={snapshotId} timeConfig={timeConfig} />
+
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
