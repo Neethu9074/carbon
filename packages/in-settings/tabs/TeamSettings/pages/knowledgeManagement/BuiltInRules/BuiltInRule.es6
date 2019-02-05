@@ -1,0 +1,156 @@
+import React from 'react';
+
+import { teamSettingsKnowledgeManagementBuiltInRules } from 'in-settings/navigation/paths';
+import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
+import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import SaveCancel from 'in-settings/components/SaveCancel';
+import FormGroup from 'in-settings/components/FormGroup';
+import Table from 'in-sdk/components/dashboard/Table';
+import { getPlainMetricList } from 'in-sdk/metrics';
+import { compare } from 'in-services/util/number';
+import PluginIcon from 'in-components/PluginIcon';
+import { getSingular } from 'in-sdk/pluginName';
+import { getBuiltInRule } from 'in-api/rules';
+import { find } from 'in-services/arrayUtils';
+import Label from 'in-components/form/Label';
+import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
+
+import locals from './BuiltInRule.mless';
+
+const paramCols = [
+  stringColumn('Name', 'name'),
+  stringColumn('Description', 'description', 120),
+  formattedColumn('Value', 'defaultValue')
+];
+
+export default connectTo(
+  props => ({
+    rule: getBuiltInRule(props.match.params.id)
+  }),
+  function RuleBuiltIn({ rule }) {
+    if (!rule) {
+      return <LoadingIndicator type="dark" />;
+    }
+
+    const entityType = rule.get('shortPluginId');
+    const metricList = getPlainMetricList(entityType);
+
+    const paramRows = rule
+      .get('hyperParams')
+      .toArray()
+      .map(param => ({
+        key: param.get('id'),
+        name: param.get('name'),
+        description: param.get('description'),
+        defaultValue: param.get('defaultValue'),
+        valueFormat: param.get('valueFormat')
+      }));
+
+    return (
+      <SettingsDetailPage>
+        <Title title="Built-in Rule" />
+        <SubViewHeader>Configure Built-in Rule: {rule.get('name')}</SubViewHeader>
+
+        <FormGroup>
+          <Label>Entity type</Label>
+          <div className={locals.flexWrapper}>
+            <PluginIcon className={locals.entityIcon} dimension={16} color="#000" plugin={entityType} />
+            {getSingular(entityType)}
+          </div>
+        </FormGroup>
+        <FormGroup>
+          <Label>Name</Label>
+          {rule.get('name')}
+        </FormGroup>
+        <FormGroup>
+          <Label>Description</Label>
+          {rule.get('description')}
+        </FormGroup>
+        <FormGroup>
+          <Label>Rule inputs</Label>
+          <ul>
+            {rule.get('ruleInputs').map((input, i) => {
+              let label = input.get('inputName');
+              if (input.get('inputKind') === 'METRIC') {
+                const metricDefinition = find(metricList, _metric => _metric.value === label);
+                if (metricDefinition) {
+                  label = metricDefinition.label;
+                }
+              }
+              return (
+                <li key={i}>
+                  {mapInputKind(input.get('inputKind'))} - {label}
+                </li>
+              );
+            })}
+          </ul>
+        </FormGroup>
+        <FormGroup moreMargin>
+          <Label>Parameters</Label>
+          <Table cols={paramCols} rows={paramRows} />
+        </FormGroup>
+        <SaveCancel
+          message=""
+          loading={!rule}
+          isCreate={false}
+          listPath={teamSettingsKnowledgeManagementBuiltInRules}
+          cancelButtonLabel="Back"
+          hasSaveButton={false}
+        />
+      </SettingsDetailPage>
+    );
+  }
+);
+
+function mapInputKind(kind) {
+  switch (kind) {
+    case 'METRIC':
+      return 'Metric';
+    case 'SNAPSHOT_FIELD':
+      return 'Snapshot field';
+    case 'EVENT':
+      return 'Event';
+    case 'DERIVED_METRIC':
+      return 'Derived metric';
+    case 'METRIC_PATTERN':
+      return 'Metric pattern';
+    default:
+      return '?';
+  }
+}
+
+function stringColumn(title, attr, width = 80) {
+  return {
+    title,
+    type: 'string',
+    width,
+    typeArgs: {
+      getValue(row) {
+        return row[attr];
+      }
+    }
+  };
+}
+
+function formattedColumn(title, attr) {
+  return {
+    title,
+    type: 'custom',
+    width: 50,
+    typeArgs: {
+      comparator: compare,
+      get(row) {
+        const valueFormat = row.valueFormat;
+        const value = row[attr];
+
+        return {
+          value,
+          content: valueWithFormatterToReadableString(value, valueFormat)
+        };
+      }
+    }
+  };
+}

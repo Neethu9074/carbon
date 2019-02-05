@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import EditAsJsonDialog from 'in-views/configurationView/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/components/EditAsJsonDialog';
+import EditAsJsonDialog from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/components/EditAsJsonDialog';
 import Editor from 'in-components/Editor';
 import Root from '../_helpers/Root';
 

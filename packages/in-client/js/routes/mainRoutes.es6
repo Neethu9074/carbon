@@ -24,7 +24,6 @@ import {
 import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import GraphView from 'promise-loader?global!in-components/graphView/GraphView';
-import configurationRoutes from 'in-views/configurationView/navigation/routes';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -35,6 +34,7 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
+import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import Cockpit from 'in-views/cockpit/Cockpit';

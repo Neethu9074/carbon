@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SectionLine from 'in-views/configurationView/components/SectionLine';
-import Section from 'in-views/configurationView/components/Section';
+import SectionLine from 'in-settings/components/SectionLine';
+import Section from 'in-settings/components/Section';
 
 import './Step.less';
 
