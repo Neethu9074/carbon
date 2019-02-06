@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
@@ -50,6 +51,9 @@ export default function DeploymentDashboard({ location }) {
         location={location}
         tabs={tabs}
         props={props}
+        renderErrors={errors => (
+          <ErroneousEntityVersionList snapshotId={props.deploymentId} timeConfig={props.timeConfig} errors={errors} />
+        )}
       />
       <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>
