@@ -1,11 +1,15 @@
 import { fromJS } from 'immutable';
+import { get } from 'lodash';
 import React from 'react';
 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getKubernetesHost from 'in-subscription/kubernetes/getKubernetesHost';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './KubernetesHost.mless';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({
@@ -19,9 +23,13 @@ export default connectTo(
       };
     })
   }),
-  function({ hostResult, timeConfig }) {
-    if (!hostResult || !hostResult.data) {
-      return null;
+  function KubernetesHost({ hostResult, timeConfig }) {
+    if (!hostResult || get(hostResult, ['progress', 'loading'])) {
+      return <Skeleton className={locals.skeleton} />;
+    }
+
+    if (!hostResult.data) {
+      return 'No host information available';
     }
 
     return (
