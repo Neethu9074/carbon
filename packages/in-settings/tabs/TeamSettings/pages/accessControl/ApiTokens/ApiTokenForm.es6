@@ -1,7 +1,7 @@
 import React from 'react';
 
-import HorizontalFormGroupWithBackground from 'in-settings/components/HorizontalFormGroupWithBackground';
 import { twoZeroModeEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -176,7 +176,7 @@ function Permission({ form, onChange, name, label, disabled }) {
   const field = form.get(name);
 
   return (
-    <HorizontalFormGroupWithBackground>
+    <HorizontalFormGroup>
       <Toggle
         id={`api-token-${name}`}
         checked={field.value}
@@ -185,6 +185,6 @@ function Permission({ form, onChange, name, label, disabled }) {
       />
 
       <Label htmlFor={`api-token-${name}`}>{label}</Label>
-    </HorizontalFormGroupWithBackground>
+    </HorizontalFormGroup>
   );
 }
