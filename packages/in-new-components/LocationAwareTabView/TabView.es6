@@ -28,6 +28,7 @@ export default compose(
 
 function TabView({
   result,
+  renderErrors,
   tabs,
   filterTabByResult = () => () => true,
   HeaderComponent,
@@ -57,7 +58,14 @@ function TabView({
           </div>
         }
       >
-        <Switch tabs={filteredTabs} result={result} location={location} props={props} withoutPadding={withoutPadding} />
+        <Switch
+          tabs={filteredTabs}
+          result={result}
+          location={location}
+          props={props}
+          renderErrors={renderErrors}
+          withoutPadding={withoutPadding}
+        />
       </Sticky>
     </section>
   );

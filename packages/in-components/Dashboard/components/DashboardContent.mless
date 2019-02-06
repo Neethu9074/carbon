@@ -1,9 +1,11 @@
-.in-dashboard-content {
-  height: 100%;
-  position: relative;
-  background: #eef2f4;
+:local {
+  .mainContent {
+    height: 100%;
+    position: relative;
+    background: #eef2f4;
+  }
 
-  &__wrapper {
+  .wrapper {
     width: 100%;
     height: ~'calc(100% - 36px)';
 
@@ -16,12 +18,12 @@
     position: relative;
   }
 
-  &__sidebar {
+  .sidebar {
     width: 274px;
     height: 100%;
   }
 
-  &__content {
+  .content {
     width: ~'calc(100% - 274px)';
     height: 100%;
     padding: 0 0 0.3rem 0;
@@ -33,5 +35,10 @@
       content: ' ';
       display: block;
     }
+  }
+
+  .notFoundDialog {
+    padding: 1rem 1rem 1rem 18.75rem;
+    max-width: 50rem;
   }
 }
