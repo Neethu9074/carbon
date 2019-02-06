@@ -6,4 +6,11 @@
     position: relative;
     top: 0.45rem;
   }
+
+  .shorten {
+    max-width: 20vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }

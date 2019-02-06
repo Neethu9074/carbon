@@ -62,6 +62,7 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'fullName',
       label: 'Name',
+      ellipsis: '20vw',
       getContent(entity) {
         return entity.fullName;
       }
@@ -69,6 +70,7 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'email',
       label: 'E-Mail',
+      ellipsis: '20vw',
       getContent(entity) {
         return entity.email;
       }

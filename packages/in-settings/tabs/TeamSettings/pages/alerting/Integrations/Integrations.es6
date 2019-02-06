@@ -29,6 +29,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    ellipsis: '35vw',
     getContent(entity) {
       return <Link href$={getEntityIdView(teamSettingsAlertingIntegrations, entity.id)}>{entity.name}</Link>;
     }

@@ -44,7 +44,10 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <div className={locals.nameWithTextBelow}>
-          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}>
+          <Link
+            href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}
+            className={locals.shorten}
+          >
             {entity.text} {entity.badgeMessage && <Badge size="sm">{entity.badgeMessage}</Badge>}
           </Link>
           {!entity.enabled && <span className={locals.textBelowName}>disabled</span>}
