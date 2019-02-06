@@ -3,8 +3,7 @@
 :local {
   .icon {
     margin-right: .25rem;
-    position: relative;
-    top: 0.45rem;
+    vertical-align: middle;
   }
 
   .shorten {
