@@ -50,7 +50,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <div className={locals.nameWithTextBelow}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.shorten}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
           {!isEnabled(entity) && <span className={locals.textBelowName}>disabled</span>}

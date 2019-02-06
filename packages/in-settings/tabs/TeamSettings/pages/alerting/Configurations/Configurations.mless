@@ -1,6 +1,14 @@
 @import '~in-themes/active.less';
 
 :local {
+
+  .shorten {
+    max-width: 50vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   .nameWithTextBelow {
     display: flex;
     flex-direction: column;

@@ -40,6 +40,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    ellipsis: '20vw',
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
@@ -58,6 +59,7 @@ const columnDefinitions = [
   {
     id: 'query',
     label: 'Query',
+    ellipsis: '20vw',
     getContent(entity) {
       return entity.query;
     }

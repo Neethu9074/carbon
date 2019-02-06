@@ -37,6 +37,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    ellipsis: '20vw',
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomRules, entity.id)}>
