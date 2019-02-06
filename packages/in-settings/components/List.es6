@@ -35,7 +35,9 @@ const perCellLoadingIndicator$ = create({
   emitLatestOnSubscribe: false
 });
 function clearPerCellLoadingIndicator() {
-  perCellLoadingIndicator$.emit(null);
+  // This is triggered as a side effect the loadEntities() subscription. In rare cases it might trigger a bit too early,
+  // showing the old state for a split second. Like any problem, this is easily solved with a little setTimeout.
+  setTimeout(() => perCellLoadingIndicator$.emit(null), 500);
 }
 
 export default compose(
