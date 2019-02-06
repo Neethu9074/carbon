@@ -213,9 +213,9 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                               title="Include All Downstream Services"
                               description={
                                 <Fragment>
-                                  By checking the box below, you are including in the application all services that
-                                  transitively fall downstream of those matched by the tags specified above, instead of
-                                  only the immediate
+                                  By checking the box to the left, you are including in the application all services
+                                  that transitively fall downstream of those matched by the tags specified above,
+                                  instead of only the immediate
                                   <Pill color={getColor('DATABASE')} kind="light">
                                     DATABASE
                                   </Pill>
