@@ -1,0 +1,50 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .static {
+    position: static;
+  }
+
+  /*
+   * Only relevant when the sidebar is taller than the window.
+
+   * The user is scrolling down so the sidebar would move up and out of the viewport. To avoid that, we make the bottom
+   * of the sidebar stick to the bottom of the viewport so that it gets dragged down by the viewport moving downwards.
+   * This state remains active until the user changes the scroll direction.
+   */
+  .fixedToBottom {
+    position: fixed;
+    bottom: 0;
+  }
+
+  /*
+   * The user is scrolling up so the sidebar would move down and out of the viewport. To avoid that, we make the top
+   * of the sidebar stick to the top of the viewport so that it gets dragged up by the viewport moving upwards.
+   *
+   * This state is always active when the sidebar is not as tall as the window. Otherwise this state is activated when
+   * the sidebar top reaches the scroll top from below. The state remains active until the user changes the scroll
+   * direction or we reach the top of the body.
+   */
+  .fixedToTop {
+    position: fixed;
+  }
+
+  /*
+   * We have been dragging the sidebar either up or down and now the user has changed scroll direction. As long as the
+   * opposite side of the viewport has not yet reached the top/bottom of the sidebar we keep the sidebar fixed in place,
+   * exactly where it was when the user changed scroll directions.
+   *
+   * This state remains active until either:
+   * - the viewport top hits the sidebar top, then we will enter fixedToTop again, or
+   * - the viewport bottom hits the sidebar bottom, then will we enter fixedToBottom again.
+   *
+   * In this state, we will also set style="top: {yOffset}px" at the element, where yOffset is taken from the actual
+   * yOffset relative to the body that the sidebar had when the user changed the scroll direction and we stopped
+   * dragging.
+   */
+  .keepAbsolutePosition {
+    position: absolute;
+  }
+
+}

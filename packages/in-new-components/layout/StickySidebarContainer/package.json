@@ -1,0 +1,6 @@
+{
+  "name": "StickySidebarContainer",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./StickySidebarContainer.es6"
+}

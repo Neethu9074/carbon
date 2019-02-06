@@ -81,6 +81,7 @@ import './forms/TagFilterEditFormStory';
 
 import './layout/GridStory';
 import './layout/SidebarStory';
+import './layout/StickySidebarStory';
 import './layout/StickyStory';
 
 import './utilities/ColorsStory';

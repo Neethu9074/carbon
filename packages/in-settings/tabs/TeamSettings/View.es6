@@ -63,12 +63,12 @@ import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/alerting/Integ
 import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/alerting/Integrations/Integration';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
-import type { NavigationTree, Page } from 'in-new-components/SideNavigationAndContent';
+import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
-import SideNavigationAndContent from 'in-new-components/SideNavigationAndContent';
 import { forecastsEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';

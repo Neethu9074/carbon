@@ -5,12 +5,10 @@ import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation';
-import { scrollIdIntoViewIfNeeded } from 'in-services/util/dom';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { scrollToTopSmoothly } from 'in-services/util/dom';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './SideNavigationAndContent.mless';
 
 export type NavigationTree = Array<NavigationTreeItem>;
 
@@ -63,25 +61,17 @@ export default function SideNavigationAndContent(props: Props) {
   const sideNavigationHasIcons = navigationTree.find(subTree => subTree.pages.find(page => page.icon));
 
   return (
-    <Row>
-      <Col lg={2}>
-        <div className={locals.sideNavigationColumn}>
-          <SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />
-        </div>
-      </Col>
-      <Col lg={10}>
-        <ContentPane pages={allContentPages} {...props} />
-      </Col>
-    </Row>
+    <StickySidebarContainer
+      sidebar={<SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />}
+    >
+      <ContentPane pages={allContentPages} {...props} />
+    </StickySidebarContainer>
   );
 }
 
 function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }: any) {
-  const sideNavigationTopId = 'side-navigation-pane-top';
-  const topAnchor = <a id={sideNavigationTopId} />;
   return (
     <Fragment>
-      {topAnchor}
       {navigationTree.map((subTree, idx) => (
         <SideNavigation title={subTree.title} key={idx}>
           {subTree.pages.map(page => (
@@ -89,7 +79,7 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }: any) {
               href$={getModifiedUrlStream(params => {
                 params.pathname = page.path;
               })}
-              onClick={scrollIdIntoViewIfNeeded(sideNavigationTopId)}
+              onClick={scrollToTopSmoothly}
               key={page.path}
               icon={page.icon}
               omitEmptyIcon={!hasIcons}
