@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .sideNavigationColumn {
-    padding-right: 1.5rem;
-    border-right: 1px solid @lib__colors__N400;
-  }
-}
