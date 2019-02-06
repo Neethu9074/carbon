@@ -29,7 +29,7 @@
     }
 
     &:hover {
-      background: @lib__colors__faded-blue800;
+      background: #2483b314;
     }
 
     &.depth-2 {
