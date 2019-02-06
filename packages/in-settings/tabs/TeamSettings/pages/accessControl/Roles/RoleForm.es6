@@ -10,8 +10,6 @@ import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
-import Tooltip from 'in-components/Tooltip';
 
 import './RoleForm.less';
 
@@ -223,19 +221,14 @@ function Permission({ form, onChange, name, label, helpText, disabled }) {
   const field = form.get(name);
 
   return (
-    <HorizontalFormGroup>
+    <HorizontalFormGroup helpText={helpText}>
+      <Label htmlFor={`role-${name}`}>{label}</Label>
       <Toggle
         id={`role-${name}`}
         checked={field.value}
         onChange={e => onChange(name, e.target.checked)}
         disabled={disabled}
       />
-      {helpText ? (
-        <Tooltip content={helpText} align="rightMiddle">
-          <SvgIcon type="info" width={16} height={16} color="#172429" />
-        </Tooltip>
-      ) : null}
-      <Label htmlFor={`role-${name}`}>{label}</Label>
     </HorizontalFormGroup>
   );
 }

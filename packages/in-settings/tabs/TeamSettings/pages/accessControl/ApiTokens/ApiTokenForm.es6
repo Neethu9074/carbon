@@ -176,15 +176,14 @@ function Permission({ form, onChange, name, label, disabled }) {
   const field = form.get(name);
 
   return (
-    <HorizontalFormGroup>
+    <HorizontalFormGroup noHelpTextSpacer>
+      <Label htmlFor={`api-token-${name}`}>{label}</Label>
       <Toggle
         id={`api-token-${name}`}
         checked={field.value}
         onChange={e => onChange(name, e.target.checked)}
         disabled={disabled}
       />
-
-      <Label htmlFor={`api-token-${name}`}>{label}</Label>
     </HorizontalFormGroup>
   );
 }
