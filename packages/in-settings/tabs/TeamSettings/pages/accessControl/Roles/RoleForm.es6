@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { twoZeroModeEnabled, roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
-import HorizontalFormGroupWithBackground from 'in-settings/components/HorizontalFormGroupWithBackground';
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -223,7 +223,7 @@ function Permission({ form, onChange, name, label, helpText, disabled }) {
   const field = form.get(name);
 
   return (
-    <HorizontalFormGroupWithBackground>
+    <HorizontalFormGroup>
       <Toggle
         id={`role-${name}`}
         checked={field.value}
@@ -236,6 +236,6 @@ function Permission({ form, onChange, name, label, helpText, disabled }) {
         </Tooltip>
       ) : null}
       <Label htmlFor={`role-${name}`}>{label}</Label>
-    </HorizontalFormGroupWithBackground>
+    </HorizontalFormGroup>
   );
 }

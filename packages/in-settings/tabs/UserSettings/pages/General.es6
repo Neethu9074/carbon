@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HorizontalFormGroupWithBackground from 'in-settings/components/HorizontalFormGroupWithBackground';
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
@@ -156,7 +156,7 @@ export default class extends React.Component {
 
 function Group({ children, helpText, isWarning }) {
   return (
-    <HorizontalFormGroupWithBackground className={`${block}__wrapper`}>
+    <HorizontalFormGroup className={`${block}__wrapper`}>
       {helpText ? (
         <Tooltip content={helpText} align="rightMiddle">
           <SvgIcon
@@ -170,7 +170,7 @@ function Group({ children, helpText, isWarning }) {
       ) : null}
 
       {children}
-    </HorizontalFormGroupWithBackground>
+    </HorizontalFormGroup>
   );
 }
 

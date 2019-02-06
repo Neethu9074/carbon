@@ -1,9 +1,11 @@
+@import '~in-themes/active.less';
+
 :local {
 
   .line {
     height: 1px;
     width: 100%;
-    background: #e2e9ec;
+    background: @lib__colors__N300;
   }
 
   .marginBottom {
