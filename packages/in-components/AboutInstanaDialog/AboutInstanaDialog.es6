@@ -27,7 +27,7 @@ export default connectTo(
           <span className={`${block}__revision`}>{build.revision}</span>
           {uiBackendVersion && (
             <Fragment>
-              <span>Back End: {uiBackendVersion.imageTag}</span>
+              <span style={{ marginTop: '1rem' }}>Back End: {uiBackendVersion.imageTag}</span>
               <span className={`${block}__revision`}>{uiBackendVersion.commit}</span>
             </Fragment>
           )}
