@@ -1,8 +1,18 @@
 import { just } from 'reactive-observables';
 import React from 'react';
 
+import {
+  getEntityOfType,
+  is20Type,
+  is20Endpoint,
+  is20Application,
+  is20Service,
+  isLoading,
+  hasErrors,
+  canCreate20EntitySurrogateFromEventMetadata,
+  create20EntityResultSurrogateFromEventMetadata
+} from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import { getEntityOfType, isLoading, hasErrors } from './entityUtils';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -13,12 +23,21 @@ const block = 'in-event-view-event-information';
 
 export default connectTo(
   props => {
-    if (props.snapshot) {
+    const { snapshot, entityId, entityType, metadata, timeConfig } = props;
+    if (snapshot) {
+      // if we get a snapshot (1.0 entity data), just use that
       return {
-        entity: just(props.snapshot)
+        entity: just(snapshot)
+      };
+    } else if (canCreate20EntitySurrogateFromEventMetadata(entityType, metadata)) {
+      // If there is no snapshot and it is a 2.0 applications entity (application, service, endpoint) all relevant data
+      // (well, the label) could have already been loaded - try to use that data instead of accesing the back end.
+      return {
+        entity: create20EntityResultSurrogateFromEventMetadata(entityType, entityId, metadata)
       };
     } else {
-      return getEntityOfType(props.entityId, props.entityType, props.timeConfig);
+      // last resort: load the entity
+      return getEntityOfType(entityId, entityType, timeConfig);
     }
   },
   function EntityInformation(props) {
@@ -33,7 +52,7 @@ export default connectTo(
       return null;
     }
 
-    if (entityType === 'Endpoint20' || entityType === 'Service20' || entityType === 'App20') {
+    if (is20Type(entityType)) {
       return <EntityInformation20 {...props} />;
     } else {
       // !entityType || entityType === 'Entity10'
@@ -66,11 +85,11 @@ function EntityInformation10({
 
 function EntityInformation20({ entityId, entity, entityType, label }) {
   let href$;
-  if (entityType === 'App20') {
+  if (is20Application(entityType)) {
     href$ = getApplicationDashboard(entityId);
-  } else if (entityType === 'Service20') {
+  } else if (is20Service(entityType)) {
     href$ = getServiceDashboard(entityId);
-  } else if (entityType === 'Endpoint20') {
+  } else if (is20Endpoint(entityType)) {
     const endpoint = entity.data;
     href$ = getEndpointDashboard(endpoint.id, {
       serviceId: endpoint.serviceId
