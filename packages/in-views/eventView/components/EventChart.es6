@@ -1,13 +1,19 @@
 import React from 'react';
 
 import {
+  getEntityOfType,
+  is20Application,
+  is20Endpoint,
+  is20Service,
+  canCreate20EntitySurrogateFromEventMetadata,
+  create20EntityResultSurrogateFromEventMetadata
+} from 'in-services/entityUtils';
+import {
   getChartTimeConfigByEvent,
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
-
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
-import { getEntityOfType } from 'in-components/EntityInformation/entityUtils';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -81,12 +87,22 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    return getEntityOfType(
-      props.entityId,
-      props.entityType,
-      getTimeConfigFromEventForSnapshotRetrieval(props.event),
-      props.start
-    );
+    if (canCreate20EntitySurrogateFromEventMetadata(props.entityType, props.event.get('metadata'))) {
+      return {
+        entity: create20EntityResultSurrogateFromEventMetadata(
+          props.entityType,
+          props.entityId,
+          props.event.get('metadata')
+        )
+      };
+    } else {
+      return getEntityOfType(
+        props.entityId,
+        props.entityType,
+        getTimeConfigFromEventForSnapshotRetrieval(props.event),
+        props.start
+      );
+    }
   },
   function ChartWrapper({
     timeConfig$,
@@ -104,7 +120,7 @@ const ChartWrapper = connectTo(
       return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
     }
 
-    let chartConfig = getChartConfig(metric, entity, entityType);
+    let chartConfig = getChartConfig(metric, entityType, entity);
     let forecastSensitivity;
     let focusedMoment;
     if (anomalyConfig) {
@@ -148,9 +164,9 @@ const ChartWrapper = connectTo(
           }}
           y1={{
             metrics: [metric],
-            labels: [chartConfig.getLabel(entity, metric)],
-            min: chartConfig.getMin(entity),
-            max: chartConfig.getMax(entity),
+            labels: [chartConfig.getLabel(entity, metric)], // TODO entity can be ommitted for app20
+            min: chartConfig.getMin(entity), // TODO entity can be ommitted for app20
+            max: chartConfig.getMax(entity), // TODO entity can be ommitted for app20
             type: 'line',
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed,
@@ -179,12 +195,12 @@ function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
 }
 
-function getChartConfig(metric, entity, entityType) {
-  if (entityType === 'Service20') {
-    return getMetricDefinition('service20', metric);
-  } else if (entityType === 'App20') {
+function getChartConfig(metric, entityType, entity) {
+  if (is20Application(entityType)) {
     return getMetricDefinition('application20', metric);
-  } else if (entityType === 'Endpoint20') {
+  } else if (is20Service(entityType)) {
+    return getMetricDefinition('service20', metric);
+  } else if (is20Endpoint(entityType)) {
     return getMetricDefinition('endpoint20', metric);
   }
   // else assume 'Entity10'

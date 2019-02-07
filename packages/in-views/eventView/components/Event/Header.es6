@@ -20,7 +20,12 @@ export default function EventHeader({ event }) {
   return (
     <Header heading={event.getIn(['problem', 'problemText'])} event={event}>
       <div>
-        <EntityWithParentInformation entityId={entityId} entityType={entityType} timeConfig={timeConfigFromEvent} />
+        <EntityWithParentInformation
+          entityId={entityId}
+          entityType={entityType}
+          metadata={event.get('metadata')}
+          timeConfig={timeConfigFromEvent}
+        />
 
         <div className={`${block}__status-line`}>
           <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />

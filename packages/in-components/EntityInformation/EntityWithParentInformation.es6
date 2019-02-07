@@ -1,40 +1,27 @@
-import { just } from 'reactive-observables';
+import { fromJS } from 'immutable';
 import React from 'react';
 
-import { getEntityOfType, isLoading, hasErrors } from './entityUtils';
 import EntityInformation from './EntityInformation';
-import connectTo from 'in-hoc/connectTo';
+import { is20Endpoint } from 'in-services/entityUtils';
 
-export default connectTo(
-  props => {
-    if (props.entityType === 'Endpoint20') {
-      return getEntityOfType(props.entityId, props.entityType, props.timeConfig);
-    }
-    return {
-      entity: just(null)
-    };
-  },
-  function EntityWithParentInformation(props) {
-    const { entity, entityType, timeConfig } = props;
+export default function EntityWithParentInformation(props) {
+  const { entityType, metadata, timeConfig } = props;
+  return (
+    <div>
+      <EntityInformation {...props} />
 
-    if (!entity || isLoading(entity) || hasErrors(entity)) {
-      return <EntityInformation {...props} />;
-    }
-
-    return (
-      <div>
-        <EntityInformation {...props} />
-
-        {entityType === 'Endpoint20' &&
-          entity && (
-            <EntityInformation
-              entityId={entity.data.serviceId}
-              entityType="Service20"
-              label="Of Service:"
-              timeConfig={timeConfig}
-            />
-          )}
-      </div>
-    );
-  }
-);
+      {is20Endpoint(entityType) &&
+        metadata && (
+          <EntityInformation
+            entityId={metadata.get('app20ServiceId')}
+            entityType="Service20"
+            label="Of Service:"
+            metadata={fromJS({
+              entityLabel: metadata.get('app20EndpointServiceLabel')
+            })}
+            timeConfig={timeConfig}
+          />
+        )}
+    </div>
+  );
+}
