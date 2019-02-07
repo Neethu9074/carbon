@@ -1,8 +1,8 @@
 import { just } from 'reactive-observables';
 
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import getEndpoint from 'in-subscription/application/getEndpoint';
-import getService from 'in-subscription/application/getService';
 import { always } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 
@@ -22,7 +22,7 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
       };
     }
     return {
-      entity: getService({
+      entity: getServiceLabel({
         id: entityId,
         filter: {
           timeConfig: timeConfig
