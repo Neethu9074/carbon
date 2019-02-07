@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import TagList from 'in-sdk/components/sidebar/TagList';
 export default function Info({ snapshot }) {
@@ -13,7 +14,10 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="Location">{data.get('location')}</DescriptionItem>
         <DescriptionItem title="Subscription ID">{data.get('subscription')}</DescriptionItem>
         <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
-        <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
+        <DescriptionItem title="Maximum Size">{bytesTwoDecimalPlaces(data.get('maxSizeBytes'))}</DescriptionItem>
+        <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
+        <DescriptionItem title="Zone Redundant">{data.get('zoneRedundant') ? 'Yes' : 'No'}</DescriptionItem>
+        <DescriptionItem title="SKU">{data.get('sku')}</DescriptionItem>
         <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
