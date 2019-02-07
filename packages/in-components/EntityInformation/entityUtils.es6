@@ -23,10 +23,7 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
     }
     return {
       entity: getServiceLabel({
-        id: entityId,
-        filter: {
-          timeConfig: timeConfig
-        }
+        id: entityId
       }).startWith(null)
     };
   } else if (entityType === 'Endpoint20') {
