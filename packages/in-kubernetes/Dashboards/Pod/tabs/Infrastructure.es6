@@ -11,7 +11,7 @@ import MetricValue from 'in-components/MetricValue';
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
 
-export default function Containers({ timeConfig, podId }) {
+export default function Infrastructure({ timeConfig, podId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Containers"
