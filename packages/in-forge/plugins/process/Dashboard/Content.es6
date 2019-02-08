@@ -54,6 +54,19 @@ export default function ProcessDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <ProcessCompanionMetrics snapshotId={snapshotId} />
+
+      <DashboardSection title="Open Files">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['openFiles.used'],
+            labels: ['Used'],
+            formatter: percentageZeroDecimalPlaces,
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
     </div>
   );
 }

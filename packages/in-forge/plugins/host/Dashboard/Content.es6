@@ -42,6 +42,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
+
+        <KpiKeyValue label="Open Files Usage">
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="openFiles.used"
+            formatter={percentageZeroDecimalPlaces}
+          />
+        </KpiKeyValue>
       </KpiSection>
 
       <Columize>
@@ -106,6 +114,21 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
             metrics: ['memory.used'],
+            labels: ['Used'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Open Files">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: percentageZeroDecimalPlaces,
+            tooltipFormatter: percentageTwoDecimalPlaces,
+            metrics: ['openFiles.used'],
             labels: ['Used'],
             type: 'stackedArea'
           }}

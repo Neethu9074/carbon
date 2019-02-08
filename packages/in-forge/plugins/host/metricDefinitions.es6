@@ -56,6 +56,24 @@ export default [
     formatter: percentage
   },
   {
+    metric: 'openFiles.current',
+    label: 'Current',
+    category: ['Open Files'],
+    min: 0,
+    getMax(snapshot) {
+      return snapshot.getIn(['data', 'openFiles.max']);
+    },
+    formatter: number
+  },
+  {
+    metric: 'openFiles.used',
+    label: 'Used',
+    category: ['Open Files'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
     metrics: ['topPID'],
     labels: ['Top PID'],
     min: 0,
