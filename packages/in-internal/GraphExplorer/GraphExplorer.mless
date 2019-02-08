@@ -1,0 +1,26 @@
+:local {
+  .view {
+    position: absolute;
+    top: 3rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: 1rem;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .input {
+    width: 20rem;
+  }
+
+  .map {
+    position: absolute;
+    top: 0rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 2.5rem;
+    background: #dbdbdb;
+  }
+}
