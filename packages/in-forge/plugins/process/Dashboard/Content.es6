@@ -60,6 +60,8 @@ export default function ProcessDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
+            min: 0,
+            max: 1,
             metrics: ['openFiles.used'],
             labels: ['Used'],
             formatter: percentageZeroDecimalPlaces,

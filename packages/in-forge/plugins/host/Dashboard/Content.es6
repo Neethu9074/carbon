@@ -126,6 +126,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
+            max: 1,
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
             metrics: ['openFiles.used'],
