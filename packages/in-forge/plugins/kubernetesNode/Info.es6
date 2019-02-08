@@ -1,5 +1,6 @@
 import React from 'react';
 
+import KubernetesDescriptionLinks from 'in-kubernetes/components/KubernetesDescriptionLinks';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
@@ -31,17 +32,7 @@ export default connectTo(
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
-        {hostSnapshot ? (
-          <DescriptionItem title="Host">
-            <SnapshotLink snapshotId={hostSnapshot.get('id')}>{getLabel(hostSnapshot)}</SnapshotLink>
-          </DescriptionItem>
-        ) : null}
-
-        {clusterSnapshot ? (
-          <DescriptionItem title="Cluster">
-            <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
-          </DescriptionItem>
-        ) : null}
+        <KubernetesDescriptionLinks hostSnapshot={hostSnapshot} clusterSnapshot={clusterSnapshot} />
 
         <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
