@@ -50,7 +50,7 @@ const tableActions = {
 };
 
 function getHeader(totalHits) {
-  return totalHits ? `Existing Integrations (${totalHits})` : 'Existing Integrations';
+  return totalHits ? `Integrations (${totalHits})` : 'Integrations';
 }
 
 function getEntityName(entity) {
