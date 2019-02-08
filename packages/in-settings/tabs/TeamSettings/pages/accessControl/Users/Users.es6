@@ -92,7 +92,7 @@ const tableActions = {
 };
 
 function getHeader(totalHits) {
-  return totalHits ? `Existing Users (${totalHits})` : 'Existing Users';
+  return totalHits ? `Users (${totalHits})` : 'Users';
 }
 
 function getEntityName(entity) {

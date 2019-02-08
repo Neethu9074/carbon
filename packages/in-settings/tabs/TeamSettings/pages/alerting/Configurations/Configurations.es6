@@ -77,7 +77,7 @@ function isEnabled(entity) {
 }
 
 function getHeader(totalHits) {
-  return totalHits ? `Existing Configurations (${totalHits})` : 'Existing Configurations';
+  return totalHits ? `Configurations (${totalHits})` : 'Configurations';
 }
 
 function getEntityName(entity) {
