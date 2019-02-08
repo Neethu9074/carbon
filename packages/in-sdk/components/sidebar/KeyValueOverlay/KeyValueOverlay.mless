@@ -1,0 +1,38 @@
+@import '~in-themes/active.less';
+
+:local {
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 1rem;
+  }
+
+  .header {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    color: #6b8088;
+  }
+
+  .button,
+  .buttonOpen {
+    border-radius: 0.1875rem;
+    padding: 0px 0.1875rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    height: 1.875rem;
+
+  }
+
+  .button:hover,
+  .buttonOpen {
+    background: @lib__colors__N800Dark;
+    .icon {
+      fill: white;
+    }
+  }
+
+  .icon {
+    margin: 0 0.3125rem;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/crystalRuntimePlatform/Info';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -21,7 +21,7 @@ export default function CrystalDashboardSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValuePopup header="Shards" data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValueOverlay header="Shards" data={snapshot.getIn(['data', 'versions'])} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>
