@@ -2,18 +2,18 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import {
-  getEntityOfType,
+  is10Type,
   is20Type,
   is20Endpoint,
   is20Application,
   is20Service,
   isLoading,
   hasErrors,
-  canCreate20EntitySurrogateFromEventMetadata,
-  create20EntityResultSurrogateFromEventMetadata
+  create20EntityConnectToMapFromEvent
 } from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -29,15 +29,13 @@ export default connectTo(
       return {
         entity: just(snapshot)
       };
-    } else if (canCreate20EntitySurrogateFromEventMetadata(entityType, metadata)) {
-      // If there is no snapshot and it is a 2.0 applications entity (application, service, endpoint) all relevant data
-      // (well, the label) could have already been loaded - try to use that data instead of accesing the back end.
+    } else if (is10Type(entityType)) {
+      // it is an 1.0 entity but the snapshot is not yet loaded, so load it now
       return {
-        entity: create20EntityResultSurrogateFromEventMetadata(entityType, entityId, metadata)
+        entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      // last resort: load the entity
-      return getEntityOfType(entityId, entityType, timeConfig);
+      return create20EntityConnectToMapFromEvent(entityType, entityId, metadata, timeConfig);
     }
   },
   function EntityInformation(props) {

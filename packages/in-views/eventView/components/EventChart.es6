@@ -1,12 +1,11 @@
 import React from 'react';
 
 import {
-  getEntityOfType,
+  is10Type,
   is20Application,
   is20Endpoint,
   is20Service,
-  canCreate20EntitySurrogateFromEventMetadata,
-  create20EntityResultSurrogateFromEventMetadata
+  create20EntityConnectToMapFromEvent
 } from 'in-services/entityUtils';
 import {
   getChartTimeConfigByEvent,
@@ -23,6 +22,7 @@ import { fullyQualifiedPlugins } from 'in-forge/constants';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
@@ -87,21 +87,14 @@ export default addSection(
 
 const ChartWrapper = connectTo(
   props => {
-    if (canCreate20EntitySurrogateFromEventMetadata(props.entityType, props.event.get('metadata'))) {
+    const { event, entityId, entityType } = props;
+    const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
+    if (is10Type(entityType)) {
       return {
-        entity: create20EntityResultSurrogateFromEventMetadata(
-          props.entityType,
-          props.entityId,
-          props.event.get('metadata')
-        )
+        entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return getEntityOfType(
-        props.entityId,
-        props.entityType,
-        getTimeConfigFromEventForSnapshotRetrieval(props.event),
-        props.start
-      );
+      return create20EntityConnectToMapFromEvent(entityType, entityId, event.get('metadata'), timeConfig);
     }
   },
   function ChartWrapper({
