@@ -8,18 +8,20 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/Redirect
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import { combineLatest } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 
 export type NavigationTree = Array<NavigationTreeItem>;
 
 export interface NavigationTreeItem {
-  title: string;
+  title?: string;
   pages: Array<Page>;
 }
 
 export interface Page {
   path: string;
-  label: string;
+  label?: string;
+  renderLabel?: Function;
   icon?: string;
   component: ComponentType<*>;
   subPages?: Array<SubPage>;
@@ -33,13 +35,26 @@ export interface SubPage {
 type Props = {
   location: any,
   navigationTree: NavigationTree,
+  sidebarWidth?: number,
   redirectToDefaultPage: string,
   redirectFrom: string,
   NotFoundPage?: ComponentType<*>
 };
 
+/**
+ * Takes a single array of pages and converts it into a navigation tree.
+ */
+export function singletonNavigationTree(pages: Array<Page>, title?: string): NavigationTree {
+  return [
+    {
+      title,
+      pages
+    }
+  ];
+}
+
 export default function SideNavigationAndContent(props: Props) {
-  const { location, navigationTree, redirectToDefaultPage, redirectFrom } = props;
+  const { location, navigationTree, sidebarWidth, stickySidebar, redirectToDefaultPage, redirectFrom } = props;
 
   if (redirectToDefaultPage && redirectFrom && location && location.pathname === redirectFrom) {
     return <RedirectWithHash props={props} to={redirectToDefaultPage} />;
@@ -63,6 +78,8 @@ export default function SideNavigationAndContent(props: Props) {
   return (
     <StickySidebarContainer
       sidebar={<SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />}
+      sidebarWidth={sidebarWidth}
+      stickySidebar={stickySidebar}
     >
       <ContentPane pages={allContentPages} {...props} />
     </StickySidebarContainer>
@@ -85,6 +102,8 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }: any) {
               omitEmptyIcon={!hasIcons}
               label={page.label ? page.label : page.renderLabel(otherProps)}
               path={page.path}
+              subPages={page.subPages}
+              {...otherProps}
             />
           ))}
         </SideNavigation>
@@ -94,11 +113,21 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }: any) {
 }
 
 const SideNavigationItemWithActiveFlag = connectTo(
-  // The isActive check currently takes a short cut - it will mark a menu item as active if the current path _starts
-  // with_ the path for the navigation tree item. With nicely structured URLs this is good enough.
-  ({ path }) => ({ isActive: isView(pathname => pathname.indexOf(path) === 0) }),
+  ({ path, subPages }) => ({ isActive: isActive(path, subPages) }),
   SideNavigationItem
 );
+
+function isActive(path, subPages) {
+  const isMainView$ = isView(pathname => pathname === path);
+  if (subPages) {
+    const isSubViewObservables = subPages.map(subPage => isView(subPage.path));
+    return combineLatest([isMainView$, ...isSubViewObservables]).map(results => {
+      return results.find(Boolean);
+    });
+  } else {
+    return isMainView$;
+  }
+}
 
 function ContentPane({ pages, ...props }) {
   const { NotFoundPage } = props;

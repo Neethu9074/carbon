@@ -30,17 +30,21 @@ export default class extends React.Component {
 
   componentDidMount() {
     this.sidebarInnerDomNode = this.sidebarInnerRef.current;
-    this.initialSidebarTop = getAbsoluteTop(this.sidebarInnerDomNode);
-    this.lastScrollTop = window.pageYOffset;
-    this.onBrowserResize();
-    this.resizeSubscription = debouncedResize$.subscribe(this.onBrowserResize);
-    window.addEventListener('scroll', this.handleScroll, { passive: true, capture: false });
+    if (this.props.stickySidebar) {
+      this.initialSidebarTop = getAbsoluteTop(this.sidebarInnerDomNode);
+      this.lastScrollTop = window.pageYOffset;
+      this.onBrowserResize();
+      this.resizeSubscription = debouncedResize$.subscribe(this.onBrowserResize);
+      window.addEventListener('scroll', this.handleScroll, { passive: true, capture: false });
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    if (this.resizeSubscription) {
-      this.resizeSubscription.dispose();
+    if (this.props.stickySidebar) {
+      window.removeEventListener('scroll', this.handleScroll);
+      if (this.resizeSubscription) {
+        this.resizeSubscription.dispose();
+      }
     }
   }
 

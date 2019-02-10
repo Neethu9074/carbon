@@ -28,6 +28,7 @@ const navigationTree: NavigationTree = [
 export default function View(props: any) {
   return (
     <SideNavigationAndContent
+      stickySidebar
       navigationTree={navigationTree}
       redirectToDefaultPage={userSettingsGeneral}
       redirectFrom={userSettings}

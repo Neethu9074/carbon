@@ -330,6 +330,7 @@ function navigationTreeForRole(role): NavigationTree {
 export default function View(props: any) {
   return (
     <SideNavigationAndContent
+      stickySidebar
       navigationTree={navigationTreeForRole(role)}
       redirectToDefaultPage={teamSettingsAccessControlUsers}
       redirectFrom={teamSettings}
