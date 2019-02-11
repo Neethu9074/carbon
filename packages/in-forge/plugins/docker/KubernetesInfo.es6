@@ -70,18 +70,6 @@ export default connectTo(
           <Collapsible.Header>Kubernetes</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-<<<<<<< HEAD
-              <KubernetesDescriptionLinks
-                deploymentSnapshot={deploymentSnapshot}
-                clusterSnapshot={clusterSnapshot}
-                namespaceSnapshot={namespaceSnapshot}
-                nodeSnapshot={nodeSnapshot}
-                podSnapshot={podSnapshot}
-                defaultNamespaceContent={
-                  <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
-                }
-              />
-=======
               {namespaceSnapshot ? (
                 <DescriptionItem title="Namespace">
                   <SnapshotLink snapshotId={namespaceSnapshot.get('id')}>{getLabel(namespaceSnapshot)}</SnapshotLink>
@@ -101,7 +89,6 @@ export default connectTo(
                   <SnapshotLink snapshotId={deploymentSnapshot.get('id')}>{getLabel(deploymentSnapshot)}</SnapshotLink>
                 </DescriptionItem>
               ) : null}
->>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
 
               {nodeSnapshot ? (
                 <DescriptionItem title="Node">

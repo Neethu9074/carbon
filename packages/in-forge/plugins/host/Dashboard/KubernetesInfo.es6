@@ -42,14 +42,6 @@ export default connectTo(
         <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <KubernetesDescriptionLinks
-              linkToDashboards={linkToDashboards}
-              nodeSnapshot={nodeSnapshot}
-              clusterSnapshot={clusterSnapshot}
-            />
-=======
             <DescriptionItem title="Node">
               <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
             </DescriptionItem>
@@ -58,10 +50,6 @@ export default connectTo(
                 <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
               </DescriptionItem>
             ) : null}
->>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
-=======
-            <KubernetesDescriptionLinks nodeSnapshot={nodeSnapshot} clusterSnapshot={clusterSnapshot} />
->>>>>>> parent of d827dc0c0... k8s sidebar links change the context on the map but jump to the dashboard when mounted in dashboards
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

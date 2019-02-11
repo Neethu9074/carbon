@@ -16,33 +16,17 @@ export default connectTo(
       cluster: getClusterForNamespace(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-  function Info({ snapshot, clusterSnapshot, linkToDashboards }) {
-=======
   function Info({ snapshot, cluster }) {
->>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
-=======
-  function Info({ snapshot, clusterSnapshot }) {
->>>>>>> parent of d827dc0c0... k8s sidebar links change the context on the map but jump to the dashboard when mounted in dashboards
     const data = snapshot.get('data');
 
     return (
       <div>
         <DescriptionList>
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <KubernetesDescriptionLinks linkToDashboards={linkToDashboards} clusterSnapshot={clusterSnapshot} />
-=======
           {cluster ? (
             <DescriptionItem title="Cluster">
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
->>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
-=======
-          <KubernetesDescriptionLinks clusterSnapshot={clusterSnapshot} />
->>>>>>> parent of d827dc0c0... k8s sidebar links change the context on the map but jump to the dashboard when mounted in dashboards
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
           <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
           <DescriptionItem title="Creation time">{formatDateTime(data.get('creationTime'))}</DescriptionItem>
