@@ -16,7 +16,6 @@ import Link from 'in-components/Link';
 import locals from './KubernetesDescriptionLinks.mless';
 
 export default function KubernetesDescriptionLinks({
-  linkToDashboards,
   deploymentSnapshot,
   deploymentConfig,
   nodeSnapshot,
@@ -26,12 +25,16 @@ export default function KubernetesDescriptionLinks({
   podSnapshot,
   defaultNamespaceContent
 }) {
-  if (kubernetesEnabled && linkToDashboards) {
+  if (kubernetesEnabled) {
     return (
       <Fragment>
         {deploymentSnapshot && (
           <DescriptionItem title="Deplyoment">
-            <KubernetesV2Link getDashboard={getDeploymentDashboard} snapshot={deploymentSnapshot} />
+            <KubernetesV2Link
+              icon="lib_kubernetes_deployment"
+              getDashboard={getDeploymentDashboard}
+              snapshot={deploymentSnapshot}
+            />
           </DescriptionItem>
         )}
         {deploymentConfig && (
@@ -41,12 +44,12 @@ export default function KubernetesDescriptionLinks({
         )}
         {podSnapshot && (
           <DescriptionItem title="Pod">
-            <KubernetesV2Link getDashboard={getPodDashboard} snapshot={podSnapshot} />
+            <KubernetesV2Link icon="lib_kubernetes_pod" getDashboard={getPodDashboard} snapshot={podSnapshot} />
           </DescriptionItem>
         )}
         {nodeSnapshot && (
           <DescriptionItem title="Node">
-            <KubernetesV2Link getDashboard={getNodeDashboard} snapshot={nodeSnapshot} />
+            <KubernetesV2Link icon="lib_kubernetes_node" getDashboard={getNodeDashboard} snapshot={nodeSnapshot} />
           </DescriptionItem>
         )}
         {hostSnapshot && (
@@ -56,12 +59,20 @@ export default function KubernetesDescriptionLinks({
         )}
         {clusterSnapshot && (
           <DescriptionItem title="Cluster">
-            <KubernetesV2Link getDashboard={getClusterDashboard} snapshot={clusterSnapshot} />
+            <KubernetesV2Link
+              icon="lib_kubernetes_cluster"
+              getDashboard={getClusterDashboard}
+              snapshot={clusterSnapshot}
+            />
           </DescriptionItem>
         )}
         {namespaceSnapshot ? (
           <DescriptionItem title="Namespace">
-            <KubernetesV2Link getDashboard={getNamespaceDashboard} snapshot={namespaceSnapshot} />
+            <KubernetesV2Link
+              icon="lib_kubernetes_namespace"
+              getDashboard={getNamespaceDashboard}
+              snapshot={namespaceSnapshot}
+            />
           </DescriptionItem>
         ) : (
           defaultNamespaceContent
@@ -113,10 +124,12 @@ export default function KubernetesDescriptionLinks({
   );
 }
 
-function KubernetesV2Link({ getDashboard, snapshot }) {
+function KubernetesV2Link({ icon, getDashboard, snapshot }) {
   return (
-    <Link className={locals.link} href$={getDashboard(snapshot.get('id'))}>
-      {getLabel(snapshot)}
-    </Link>
+    <div className={locals.flexWrapper}>
+      <WithIcon icon={icon} iconColor={theme.lib.colors.blue800} iconSize={18} ellipsisContent={false}>
+        <Link href$={getDashboard(snapshot.get('id'))}>{getLabel(snapshot)}</Link>
+      </WithIcon>
+    </div>
   );
 }

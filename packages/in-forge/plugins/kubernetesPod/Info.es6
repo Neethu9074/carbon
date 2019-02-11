@@ -26,7 +26,6 @@ export default connectTo(
 <<<<<<< HEAD
   function Info({
     snapshot,
-    linkToDashboards,
     deploymentSnapshot,
     deploymentConfig,
     nodeSnapshot,
@@ -43,7 +42,6 @@ export default connectTo(
         <DescriptionList>
 <<<<<<< HEAD
           <KubernetesDescriptionLinks
-            linkToDashboards={linkToDashboards}
             deploymentSnapshot={deploymentSnapshot}
             deploymentConfig={deploymentConfig}
             nodeSnapshot={nodeSnapshot}

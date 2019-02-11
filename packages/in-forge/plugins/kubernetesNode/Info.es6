@@ -21,7 +21,7 @@ export default connectTo(
       clusterSnapshot: getClusterForNode(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot, linkToDashboards }) {
+  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot }) {
     const data = snapshot.get('data');
 
     return (
@@ -31,6 +31,7 @@ export default connectTo(
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
+<<<<<<< HEAD
 <<<<<<< HEAD
         <KubernetesDescriptionLinks
           linkToDashboards={linkToDashboards}
@@ -50,6 +51,9 @@ export default connectTo(
           </DescriptionItem>
         ) : null}
 >>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
+=======
+        <KubernetesDescriptionLinks hostSnapshot={hostSnapshot} clusterSnapshot={clusterSnapshot} />
+>>>>>>> parent of d827dc0c0... k8s sidebar links change the context on the map but jump to the dashboard when mounted in dashboards
 
         <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>

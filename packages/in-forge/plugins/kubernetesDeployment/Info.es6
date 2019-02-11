@@ -18,10 +18,14 @@ export default connectTo(
     };
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   function Info({ snapshot, clusterSnapshot, namespaceSnapshot, linkToDashboards }) {
 =======
   function Info({ snapshot, cluster, namespace }) {
 >>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
+=======
+  function Info({ snapshot, clusterSnapshot, namespaceSnapshot }) {
+>>>>>>> parent of d827dc0c0... k8s sidebar links change the context on the map but jump to the dashboard when mounted in dashboards
     const data = snapshot.get('data');
 
     return (
@@ -29,7 +33,6 @@ export default connectTo(
         <DescriptionList>
 <<<<<<< HEAD
           <KubernetesDescriptionLinks
-            linkToDashboards={linkToDashboards}
             clusterSnapshot={clusterSnapshot}
             namespaceSnapshot={namespaceSnapshot}
             defaultNamespaceContent={<DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>}

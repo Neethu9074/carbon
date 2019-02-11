@@ -5,7 +5,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 
-export default function KubernetesNodeSidebar({ snapshot, linkToDashboards = true }) {
+export default function KubernetesNodeSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -13,7 +13,7 @@ export default function KubernetesNodeSidebar({ snapshot, linkToDashboards = tru
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Node</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot} linkToDashboards={linkToDashboards} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

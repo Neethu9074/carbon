@@ -6,7 +6,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import ConditionsList from '../Sidebar/ConditionsList';
 import Info from '../Info';
 
-export default function KubernetesDeploymentSidebar({ snapshot, linkToDashboards = true }) {
+export default function KubernetesDeploymentSidebar({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
@@ -16,7 +16,7 @@ export default function KubernetesDeploymentSidebar({ snapshot, linkToDashboards
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Deployment</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot} linkToDashboards={linkToDashboards} />
+          <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

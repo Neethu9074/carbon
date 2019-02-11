@@ -11,7 +11,7 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 
 import Info from '../Info';
 
-export default function HostSidebar({ snapshot, linkToDashboards = true }) {
+export default function HostSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
@@ -29,7 +29,7 @@ export default function HostSidebar({ snapshot, linkToDashboards = true }) {
 
       <HostHardware snapshotId={snapshot.get('id')} />
 
-      <KubernetesInfo snapshotId={snapshot.get('id')} linkToDashboards={linkToDashboards} />
+      <KubernetesInfo snapshotId={snapshot.get('id')} />
 
       <KeyValueOverlay header="Packages" data={snapshot.getIn(['data', 'packages'])} />
 

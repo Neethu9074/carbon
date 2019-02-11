@@ -7,8 +7,4 @@
   .icon {
     margin-right: 0.5rem;
   }
-
-  .link {
-    text-decoration: underline;
-  }
 }
