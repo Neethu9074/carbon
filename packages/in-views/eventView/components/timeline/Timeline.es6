@@ -26,9 +26,9 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      initTimelineStore();
+      initTimelineStore(true);
       initEvents();
-      initEventsInTimeframe();
+      initEventsInTimeframe(true);
     },
     componentWillUnmount() {
       disposeEventsInTimeframeSubscription();
