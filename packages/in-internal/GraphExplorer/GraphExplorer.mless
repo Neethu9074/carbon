@@ -48,6 +48,8 @@
   }
 
   .entry {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,5 +76,21 @@
   .relation {
     margin: 0 0.5rem;
     text-transform: uppercase;
+  }
+
+  .inIcon,
+  .outIcon {
+    position: absolute;
+    top: 0.25rem;
+
+    fill: @lib__colors__N500;
+  }
+
+  .inIcon {
+    left: ~'calc(100% + 1rem)';
+  }
+
+  .outIcon {
+    right: ~'calc(100% + 1rem)';
   }
 }

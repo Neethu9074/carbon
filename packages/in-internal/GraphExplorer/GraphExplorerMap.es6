@@ -5,6 +5,7 @@ import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
+import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -19,7 +20,7 @@ export default function GraphExplorer({ connected, onClick }) {
           <ul className={locals.incomingList}>
             {connected.incoming.map(incoming => (
               <li className={locals.listItem} key={incoming.id}>
-                <Entry {...incoming} onClick={onClick} />
+                <Entry isIn {...incoming} onClick={onClick} />
               </li>
             ))}
           </ul>
@@ -45,6 +46,7 @@ export default function GraphExplorer({ connected, onClick }) {
 
 const Entry = connectTo(props => ({ snapshot: getSnapshot(props.id) }), function Entry({
   id,
+  isIn,
   isOut,
   relation,
   snapshot,
@@ -61,6 +63,9 @@ const Entry = connectTo(props => ({ snapshot: getSnapshot(props.id) }), function
       >
         <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} />
         {relation && <span className={locals.relation}>{relation.substr(0, 2)}</span>}
+
+        {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" width={18} height={18} />}
+        {isOut && <SvgIcon className={locals.outIcon} type="lib_arrow_right" width={18} height={18} />}
       </div>
     </Tooltip>
   );
