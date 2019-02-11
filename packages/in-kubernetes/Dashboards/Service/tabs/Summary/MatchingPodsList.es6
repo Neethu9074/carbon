@@ -3,7 +3,7 @@ import React from 'react';
 import { getPodDashboard, getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
+import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
 
 export default function MatchingPodsList({ timeConfig, serviceId }) {
   return (
@@ -21,7 +21,7 @@ export default function MatchingPodsList({ timeConfig, serviceId }) {
         tab: '/pods'
       })}
       getItemLabel={item => item.pod.label}
-      renderMetric={props => <PodStatus status={props.item.pod.phase} />}
+      renderMetric={props => <PodPhase status={props.item.pod.status.phase} />}
     />
   );
 }

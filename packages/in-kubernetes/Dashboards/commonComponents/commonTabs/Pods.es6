@@ -3,21 +3,21 @@ import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 
 import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import PodResourceTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodResourceTooltipContent';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
-import PodStatusIcon from 'in-kubernetes/Dashboards/commonComponents/PodStatusIcon';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import HistoricMetricSparkChart from 'in-charts/SparkChart';
+import { formatDuration } from 'in-services/formatters/date';
 import MetricValue from 'in-components/MetricValue';
-import { timeConfig$ } from 'in-stores/timeline';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
-import connectTo from 'in-hoc/connectTo';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Pods.mless';
 
@@ -79,7 +79,7 @@ const Pods = compose(
       nodeId={nodeId}
       rightHeader={rightHeader}
       phase={phase}
-      paginationResettingProps={['namespaceId', 'timeConfig']}
+      paginationResettingProps={['namespaceId', 'clusterId', 'deploymentId', 'serviceId', 'nodeId', 'timeConfig']}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
     />
@@ -146,9 +146,20 @@ const allColumnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Status',
+    label: 'Status Summary',
     getContent(item) {
-      return <PodStatusIcon status={get(item, ['pod', 'phase'])} withTooltip />;
+      return (
+        <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
+          <span>{get(item, ['pod', 'status', 'statusSummary'], '-')}</span>
+        </Tooltip>
+      );
+    }
+  },
+  {
+    id: 'ready',
+    label: 'Ready',
+    getContent() {
+      return '';
     }
   },
   {
@@ -157,82 +168,31 @@ const allColumnDefinitions = [
     sortable: false,
     getContent(item) {
       return (
-        <div className={locals.flexWrapper}>
-          <div className={locals.sparkChart}>
-            <SparkChart
-              snapshotId={get(item, ['pod', 'id'])}
-              metric="restartCount"
-              formatter={zeroDecimalPlaces}
-              aggregation="mean"
-            />
-          </div>
-          <MetricValue
-            snapshotId={get(item, ['pod', 'id'])}
-            metric="restartCount"
-            formatter={zeroDecimalPlaces}
-            timeWindowAggregation="mean"
-          />
-        </div>
-      );
-    }
-  },
-  {
-    id: 'cpuRequests',
-    label: 'CPU Requests',
-    sortable: false,
-    getContent(item) {
-      return (
         <MetricValue
           snapshotId={get(item, ['pod', 'id'])}
-          metric="cpuRequests"
-          formatter={twoDecimalPlaces}
-          timeWindowAggregation="mean"
+          metric="restartCount"
+          formatter={zeroDecimalPlaces}
+          timeWindowAggregation="sum"
         />
       );
     }
   },
   {
-    id: 'cpuLimits',
-    label: 'CPU Limits',
-    sortable: false,
+    id: 'age',
+    label: 'Age',
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="cpuLimits"
-          formatter={twoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return item.pod.age ? formatDuration(item.pod.age) : '-';
     }
   },
   {
-    id: 'memoryRequests',
-    label: 'Memory Requests',
+    id: 'resources',
+    label: 'Resources',
     sortable: false,
     getContent(item) {
       return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="memoryRequests"
-          formatter={bytesTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
-    }
-  },
-  {
-    id: 'memoryLimits',
-    label: 'Memory Limits',
-    sortable: false,
-    getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="memoryLimits"
-          formatter={bytesTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
+        <Tooltip themeStyle="light" content={<PodResourceTooltipContent podId={item.pod.id} />} align="topMiddle">
+          <span>memory, cpu</span>
+        </Tooltip>
       );
     }
   },
@@ -254,23 +214,5 @@ const allColumnDefinitions = [
 ];
 
 const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
-
-const SparkChart = connectTo({ timeConfig: timeConfig$ }, function({
-  timeConfig,
-  snapshotId,
-  metric,
-  formatter,
-  aggregation
-}) {
-  return (
-    <HistoricMetricSparkChart
-      timeConfig={timeConfig}
-      snapshotId={snapshotId}
-      metric={metric}
-      tooltipFormatter={formatter}
-      aggregation={aggregation}
-    />
-  );
-});
 
 export default Pods;

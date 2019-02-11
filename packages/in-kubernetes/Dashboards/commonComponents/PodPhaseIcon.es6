@@ -4,7 +4,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 
-export default function PodStatusIcon({ status, withTooltip = false }) {
+export default function PodPhaseIcon({ status, withTooltip = false }) {
   let iconType = 'lib_kubernetes_status_unknown';
   let color = theme.lib.colors.failure;
 
