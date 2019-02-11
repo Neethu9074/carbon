@@ -54,7 +54,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
             bottom: 0,
             left: 0
           }}
-          labelTextColor="#ffffff00"
+          labelTextColor="rgba(255,255,255,0)"
           forceSquare={false}
           animate={false}
           hoverTarget="cell"
