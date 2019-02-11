@@ -18,5 +18,6 @@ module.exports = {
   twoZeroWebsiteMonitoringEnabled: true,
   customEventsInWebsiteMonitoringEnabled: true,
   quickTagFiltersInWebsiteMonitoringDashboardEnabled: true,
-  lastSevenDaysTimePresetEnabled: true
+  lastSevenDaysTimePresetEnabled: true,
+  unifiedAlerting: false
 };

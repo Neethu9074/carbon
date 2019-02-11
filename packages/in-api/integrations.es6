@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import { configs, fullyQualified } from 'in-settings/tabs/TeamSettings/pages/alerting/Integrations/configs';
+import { configs, fullyQualified } from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/configs';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
