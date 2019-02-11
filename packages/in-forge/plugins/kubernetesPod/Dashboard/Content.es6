@@ -4,6 +4,9 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-s
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createContainersForPodSubscription from 'in-subscription/containersForPod';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -51,6 +54,9 @@ const containerCols = [
 
 export default function KubernetesPodDashboard({ snapshot }) {
   const snapshotId = snapshot.get('id');
+  if (kubernetesEnabled) {
+    return <RedirectWithHash to$={getPodDashboard(snapshotId)} />;
+  }
 
   return (
     <div>

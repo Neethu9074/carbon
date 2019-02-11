@@ -3,8 +3,11 @@ import React from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import DeploymentConfigsTable from './DeploymentConfigsTable';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -16,6 +19,10 @@ import NodesTable from './NodesTable';
 
 export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  if (kubernetesEnabled) {
+    return <RedirectWithHash to$={getClusterDashboard(snapshotId)} />;
+  }
+
   const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
 
   return (

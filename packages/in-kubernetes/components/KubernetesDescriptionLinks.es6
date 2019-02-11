@@ -10,11 +10,8 @@ import {
 import { DescriptionItem } from 'in-components/DescriptionList';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
-import WithIcon from 'in-new-components/WithIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import Link from 'in-components/Link';
-
-import theme from 'in-themes';
 
 import locals from './KubernetesDescriptionLinks.mless';
 
@@ -54,14 +51,7 @@ export default function KubernetesDescriptionLinks({
         )}
         {hostSnapshot && (
           <DescriptionItem title="Host">
-            <WithIcon
-              snapshot={hostSnapshot}
-              iconColor={theme.lib.colors.blue800}
-              iconSize={16}
-              ellipsisContent={false}
-            >
-              <SnapshotLink snapshotId={hostSnapshot.get('id')}>{getLabel(hostSnapshot)}</SnapshotLink>
-            </WithIcon>
+            <SnapshotLink snapshotId={hostSnapshot.get('id')}>{getLabel(hostSnapshot)}</SnapshotLink>
           </DescriptionItem>
         )}
         {clusterSnapshot && (

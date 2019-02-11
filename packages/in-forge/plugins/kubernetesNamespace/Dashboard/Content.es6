@@ -8,7 +8,10 @@ import {
 } from '../../kubernetesCluster/formatters/resourceQuota';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import DeploymentConfigsTable from './DeploymentConfigsTable';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import DeploymentsTable from './DeploymentsTable';
@@ -17,6 +20,9 @@ import Chart from 'in-components/Chart';
 
 export default function KubernetesNamespaceDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  if (kubernetesEnabled) {
+    return <RedirectWithHash to$={getNamespaceDashboard(snapshotId)} />;
+  }
   const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
 
   return (
