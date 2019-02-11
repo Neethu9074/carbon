@@ -5,7 +5,6 @@ import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import ArgList from 'in-forge/plugins/process/ArgList';
 
 import Info from '../Info';
 
@@ -24,17 +23,7 @@ export default function ProcessSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {args && args.size > 0 ? (
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Arguments</Collapsible.Header>
-            <Collapsible.Content>
-              <ArgList snapshot={snapshot} />
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-      ) : null}
+      {args && args.size > 0 ? <KeyValueOverlay header="Arguments" data={args} /> : null}
 
       <KeyValueOverlay header="Environment Variables" data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
