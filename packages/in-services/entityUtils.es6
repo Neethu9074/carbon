@@ -86,7 +86,7 @@ export function create20EntityConnectToMapFromEvent(entityType, entityId, metada
 }
 
 function create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata) {
-  if (metadata && metadata.has('entityLabel')) {
+  if (metadata && metadata.get('entityLabel')) {
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
   } else {
     return wrapInConnectToMap(
@@ -100,7 +100,7 @@ function create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata
 }
 
 function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata, timeConfig) {
-  if (metadata && metadata.has('entityLabel')) {
+  if (metadata && metadata.get('entityLabel')) {
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
   } else {
     return wrapInConnectToMap(
@@ -121,13 +121,13 @@ function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata, ti
 function create20EndpointConnectToMapFromEvent(entityType, entityId, metadata, timeConfig) {
   if (
     metadata &&
-    metadata.has('entityLabel') &&
-    metadata.has('app20ServiceId') &&
-    metadata.has('app20EndpointServiceLabel')
+    metadata.get('entityLabel') &&
+    metadata.get('app20ServiceId') &&
+    metadata.get('app20EndpointServiceLabel')
   ) {
     // all required data (endpoint label, service id, service label) is present, no need to load anything else
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
-  } else if (metadata && metadata.has('entityLabel') && metadata.has('app20ServiceId')) {
+  } else if (metadata && metadata.get('entityLabel') && metadata.get('app20ServiceId')) {
     // only the service label is missing, just load that
     return wrapInConnectToMap(
       getServiceLabel({ id: metadata.get('app20ServiceId') }).map(
