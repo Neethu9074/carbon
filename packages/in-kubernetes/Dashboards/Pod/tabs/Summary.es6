@@ -3,11 +3,10 @@ import React, { Fragment } from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
-import Containers from 'in-kubernetes/Dashboards/Pod/tabs/Containers';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
-export default function Summary({ timeConfig, data: pod }) {
+export default function Summary({ data: pod }) {
   const snapshotId = pod.id;
 
   return (
@@ -70,12 +69,6 @@ export default function Summary({ timeConfig, data: pod }) {
             metric="memoryLimits"
             formatter={bytesTwoDecimalPlaces}
           />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12}>
-          <Containers timeConfig={timeConfig} podId={pod.id} />
         </Col>
       </Row>
     </Fragment>

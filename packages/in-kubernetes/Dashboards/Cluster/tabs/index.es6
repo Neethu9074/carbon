@@ -6,6 +6,7 @@ import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/co
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
+import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
@@ -57,6 +58,12 @@ export default [
     path: `${clusterDashboardFullyQualified}/pods`,
     component: PodsWithNamespaces,
     header: props => getCounterComponent(props, 'pods')
+  },
+  {
+    label: 'Infrastructure',
+    path: `${clusterDashboardFullyQualified}/hosts`,
+    component: Infrastructure,
+    header: props => getCounterComponent(props, 'hosts')
   }
 ].filter(Boolean);
 

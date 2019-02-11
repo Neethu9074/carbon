@@ -72,7 +72,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: #2ca9a07a;
+      background: rgba(244,169,160,0.48);
     }
   }
 
@@ -152,7 +152,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: #2ca9a07a;
+      color: rgba(44,169,160,0.48);
       background: @lib__colors__white;
     }
   }
@@ -177,7 +177,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: #62757d7a;
+      color: rgba(98,117,125,0.48);
       background: @lib__colors__white;
     }
   }
@@ -202,7 +202,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: #62757d7a;
+      color: rgba(98,117,125,0.48);
       background: @lib__colors__white;
     }
   }
@@ -251,7 +251,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: #dc4b417a;
+      background: rgba(220,75,65,0.48);
     }
   }
 

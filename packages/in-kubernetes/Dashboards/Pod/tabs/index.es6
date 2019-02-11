@@ -1,4 +1,5 @@
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
+import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details';
@@ -18,5 +19,10 @@ export default [
     label: 'Events',
     path: `${podDashboardFullyQualified}/events`,
     component: Events
+  },
+  {
+    label: 'Infrastructure',
+    path: `${podDashboardFullyQualified}/containers`,
+    component: Infrastructure
   }
 ].filter(Boolean);

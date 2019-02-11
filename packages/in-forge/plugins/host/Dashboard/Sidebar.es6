@@ -2,7 +2,7 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KubernetesInfo from 'in-forge/plugins/host/Dashboard/KubernetesInfo';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import InterfaceList from 'in-forge/plugins/host/InterfaceList';
 import HostHardware from 'in-forge/plugins/host/HostHardware';
@@ -31,7 +31,7 @@ export default function HostSidebar({ snapshot }) {
 
       <KubernetesInfo snapshotId={snapshot.get('id')} />
 
-      <KeyValuePopup header="Packages" data={snapshot.getIn(['data', 'packages'])} />
+      <KeyValueOverlay header="Packages" data={snapshot.getIn(['data', 'packages'])} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

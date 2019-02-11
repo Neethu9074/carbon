@@ -102,7 +102,8 @@ function buildLib() {
       deepPurple800: '#8257D9',
       indigo800: '#4D4DBF',
       blue800: '#2483B3',
-      fadedBlue800: '#2483B314',
+      fadedBlue800: 'rgba(36,131,179,0.08)',
+
       lightBlue800: '#17A1E6',
       cyan800: '#00CCCC',
       teal800: '#00B3B3',

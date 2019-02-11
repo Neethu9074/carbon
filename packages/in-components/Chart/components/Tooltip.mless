@@ -28,7 +28,7 @@
     bottom: 0;
 
     margin-left: -1px;
-    border-left: 1px solid #0000003d;
+    border-left: 1px solid rgba(0,0,0,0.24);
   }
 
   .rightAlignedContent {

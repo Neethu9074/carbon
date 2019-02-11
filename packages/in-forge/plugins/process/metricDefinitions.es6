@@ -21,5 +21,23 @@ export default [
     min: 0,
     category: ['Context switches'],
     formatter: number
+  },
+  {
+    metric: 'openFiles.current',
+    label: 'Current',
+    category: ['Open Files'],
+    min: 0,
+    getMax(snapshot) {
+      return snapshot.getIn(['data', 'openFiles.max']);
+    },
+    formatter: number
+  },
+  {
+    metric: 'openFiles.used',
+    label: 'Used',
+    category: ['Open Files'],
+    min: 0,
+    max: 1,
+    formatter: percentage
   }
 ];

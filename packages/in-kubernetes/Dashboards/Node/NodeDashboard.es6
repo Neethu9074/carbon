@@ -4,7 +4,7 @@ import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/Ku
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
-import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
+import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -27,7 +27,7 @@ export default function NodeDashboard({ location }) {
 
   return (
     <Fragment>
-      <ClusterAndNamespaceIds
+      <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         nodeId={props.nodeId}
         renderBreadcrumbs={clusterId => (

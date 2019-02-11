@@ -7,6 +7,7 @@ import {
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
+import MatchingServicesList from 'in-kubernetes/Dashboards/Deployment/tabs/MatchingServicesList';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChart';
@@ -177,6 +178,12 @@ export default function Summary({ timeConfig, data: deployment }) {
               }}
             />
           </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <MatchingServicesList timeConfig={timeConfig} deploymentId={snapshotId} />
         </Col>
       </Row>
 
