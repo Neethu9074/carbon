@@ -15,13 +15,13 @@ export default connectTo(
       clusterSnapshot: getClusterForNamespace(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, clusterSnapshot }) {
+  function Info({ snapshot, clusterSnapshot, linkToDashboards }) {
     const data = snapshot.get('data');
 
     return (
       <div>
         <DescriptionList>
-          <KubernetesDescriptionLinks clusterSnapshot={clusterSnapshot} />
+          <KubernetesDescriptionLinks linkToDashboards={linkToDashboards} clusterSnapshot={clusterSnapshot} />
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
           <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
           <DescriptionItem title="Creation time">{formatDateTime(data.get('creationTime'))}</DescriptionItem>

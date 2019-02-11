@@ -11,7 +11,7 @@ import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 import Info from 'in-forge/plugins/docker/Info';
 import Ports from 'in-forge/plugins/docker/Ports';
 
-export default function DockerSidebar({ snapshot }) {
+export default function DockerSidebar({ snapshot, linkToDashboards = true }) {
   const labels = snapshot.getIn(['data', 'Labels']);
   const ports = snapshot.getIn(['data', 'PortBindings']) || snapshot.getIn(['data', 'Ports']);
 
@@ -44,7 +44,7 @@ export default function DockerSidebar({ snapshot }) {
 
       <NomadInfo snapshot={snapshot} />
 
-      <KubernetesInfo snapshot={snapshot} />
+      <KubernetesInfo snapshot={snapshot} linkToDashboards={linkToDashboards} />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

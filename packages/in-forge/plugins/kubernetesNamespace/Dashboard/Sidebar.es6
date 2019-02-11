@@ -5,7 +5,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from '../Info';
 
-export default function KubernetesNamespaceSidebar({ snapshot }) {
+export default function KubernetesNamespaceSidebar({ snapshot, linkToDashboards = true }) {
   const data = snapshot.get('data');
 
   return (
@@ -15,7 +15,7 @@ export default function KubernetesNamespaceSidebar({ snapshot }) {
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Namespace</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot} />
+          <Info snapshot={snapshot} linkToDashboards={linkToDashboards} />
         </Collapsible.Content>
       </Collapsible>
 

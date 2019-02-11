@@ -24,6 +24,7 @@ export default connectTo(
   }),
   function Info({
     snapshot,
+    linkToDashboards,
     deploymentSnapshot,
     deploymentConfig,
     nodeSnapshot,
@@ -36,6 +37,7 @@ export default connectTo(
       <div>
         <DescriptionList>
           <KubernetesDescriptionLinks
+            linkToDashboards={linkToDashboards}
             deploymentSnapshot={deploymentSnapshot}
             deploymentConfig={deploymentConfig}
             nodeSnapshot={nodeSnapshot}

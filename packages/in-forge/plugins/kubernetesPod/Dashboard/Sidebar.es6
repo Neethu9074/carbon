@@ -7,7 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
-export default function KubernetesPodSidebar({ snapshot }) {
+export default function KubernetesPodSidebar({ snapshot, linkToDashboards = true }) {
   const data = snapshot.get('data');
 
   return (
@@ -17,7 +17,7 @@ export default function KubernetesPodSidebar({ snapshot }) {
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Pod</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot} />
+          <Info snapshot={snapshot} linkToDashboards={linkToDashboards} />
         </Collapsible.Content>
       </Collapsible>
 

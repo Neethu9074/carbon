@@ -39,6 +39,7 @@ export default connectTo(
 
   function KubernetesInfo({
     snapshot,
+    linkToDashboards,
     podSnapshot,
     deploymentSnapshot,
     nodeSnapshot,
@@ -71,6 +72,7 @@ export default connectTo(
           <Collapsible.Content>
             <DescriptionList>
               <KubernetesDescriptionLinks
+                linkToDashboards={linkToDashboards}
                 deploymentSnapshot={deploymentSnapshot}
                 clusterSnapshot={clusterSnapshot}
                 namespaceSnapshot={namespaceSnapshot}

@@ -16,13 +16,14 @@ export default connectTo(
       namespaceSnapshot: getNamespaceForDeployment(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, clusterSnapshot, namespaceSnapshot }) {
+  function Info({ snapshot, clusterSnapshot, namespaceSnapshot, linkToDashboards }) {
     const data = snapshot.get('data');
 
     return (
       <div>
         <DescriptionList>
           <KubernetesDescriptionLinks
+            linkToDashboards={linkToDashboards}
             clusterSnapshot={clusterSnapshot}
             namespaceSnapshot={namespaceSnapshot}
             defaultNamespaceContent={<DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>}

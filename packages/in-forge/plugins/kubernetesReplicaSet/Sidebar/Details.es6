@@ -1,2 +1,2 @@
-import Details from '../Dashboard/Sidebar';
-export default Details;
+import Sidebar from '../Dashboard/Sidebar';
+export default Sidebar;

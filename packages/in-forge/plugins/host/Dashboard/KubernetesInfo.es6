@@ -31,7 +31,7 @@ export default connectTo(
       )
     };
   },
-  function NodeAndClusterInformation({ nodeSnapshot, clusterSnapshot }) {
+  function NodeAndClusterInformation({ linkToDashboards, nodeSnapshot, clusterSnapshot }) {
     if (!nodeSnapshot) {
       return null;
     }
@@ -42,7 +42,11 @@ export default connectTo(
         <Collapsible.Header>{`Kubernetes${kubernetesEnabled ? ' (Beta)' : ''}`}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <KubernetesDescriptionLinks nodeSnapshot={nodeSnapshot} clusterSnapshot={clusterSnapshot} />
+            <KubernetesDescriptionLinks
+              linkToDashboards={linkToDashboards}
+              nodeSnapshot={nodeSnapshot}
+              clusterSnapshot={clusterSnapshot}
+            />
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

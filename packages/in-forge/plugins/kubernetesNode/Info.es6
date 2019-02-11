@@ -22,7 +22,7 @@ export default connectTo(
       clusterSnapshot: getClusterForNode(props.snapshot.get('id')).flatMap(getSnapshot)
     };
   },
-  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot }) {
+  function Info({ snapshot, zoneSnapshot, hostSnapshot, clusterSnapshot, linkToDashboards }) {
     const data = snapshot.get('data');
 
     return (
@@ -32,7 +32,11 @@ export default connectTo(
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
-        <KubernetesDescriptionLinks hostSnapshot={hostSnapshot} clusterSnapshot={clusterSnapshot} />
+        <KubernetesDescriptionLinks
+          linkToDashboards={linkToDashboards}
+          hostSnapshot={hostSnapshot}
+          clusterSnapshot={clusterSnapshot}
+        />
 
         <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
