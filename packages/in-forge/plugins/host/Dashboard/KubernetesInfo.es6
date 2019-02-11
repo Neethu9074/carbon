@@ -1,15 +1,15 @@
 import React from 'react';
 
-import KubernetesDescriptionLinks from 'in-kubernetes/components/KubernetesDescriptionLinks';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createNodeForHostSubscription from 'in-subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { DescriptionList } from 'in-components/DescriptionList';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -39,14 +39,25 @@ export default connectTo(
     return [
       <Separator key="1" />,
       <Collapsible key="2">
-        <Collapsible.Header>{`Kubernetes${kubernetesEnabled ? ' (Beta)' : ''}`}</Collapsible.Header>
+        <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
+<<<<<<< HEAD
             <KubernetesDescriptionLinks
               linkToDashboards={linkToDashboards}
               nodeSnapshot={nodeSnapshot}
               clusterSnapshot={clusterSnapshot}
             />
+=======
+            <DescriptionItem title="Node">
+              <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+            </DescriptionItem>
+            {clusterSnapshot ? (
+              <DescriptionItem title="Cluster">
+                <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+              </DescriptionItem>
+            ) : null}
+>>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

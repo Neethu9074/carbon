@@ -1,6 +1,5 @@
 import React from 'react';
 
-import KubernetesDescriptionLinks from 'in-kubernetes/components/KubernetesDescriptionLinks';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
@@ -9,10 +8,11 @@ import getPodForContainerSubscription from 'in-subscription/podForContainer';
 import getNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import getClusterForPodSubscription from 'in-subscription/clusterForPod';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import Separator from 'in-sdk/components/sidebar/Separator';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -68,9 +68,10 @@ export default connectTo(
         <Separator />
 
         <Collapsible initiallyOpen>
-          <Collapsible.Header>{`Kubernetes${kubernetesEnabled ? ' (Beta)' : ''}`}</Collapsible.Header>
+          <Collapsible.Header>Kubernetes</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
+<<<<<<< HEAD
               <KubernetesDescriptionLinks
                 linkToDashboards={linkToDashboards}
                 deploymentSnapshot={deploymentSnapshot}
@@ -82,18 +83,49 @@ export default connectTo(
                   <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
                 }
               />
+=======
+              {namespaceSnapshot ? (
+                <DescriptionItem title="Namespace">
+                  <SnapshotLink snapshotId={namespaceSnapshot.get('id')}>{getLabel(namespaceSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : (
+                <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
+              )}
 
+              {podSnapshot ? (
+                <DescriptionItem title="Pod">
+                  <SnapshotLink snapshotId={podSnapshot.get('id')}>{getLabel(podSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
+
+              {deploymentSnapshot ? (
+                <DescriptionItem title="Deployment">
+                  <SnapshotLink snapshotId={deploymentSnapshot.get('id')}>{getLabel(deploymentSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
+>>>>>>> parent of c3fc80842... link to kubernetes view entities inside the infra sidebar if the ff is set
+
+              {nodeSnapshot ? (
+                <DescriptionItem title="Node">
+                  <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
+
+              {clusterSnapshot ? (
+                <DescriptionItem title="Cluster">
+                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+                </DescriptionItem>
+              ) : null}
               <DescriptionItem title="Restart Count">
                 {labels.get('annotation.io.kubernetes.container.restartCount')}
               </DescriptionItem>
             </DescriptionList>
 
-            {labels &&
-              labels.size > 0 && (
-                <KeyValuePopupButton title="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix}>
-                  Kubernetes Labels
-                </KeyValuePopupButton>
-              )}
+            {labels && labels.size > 0 ? (
+              <KeyValuePopupButton title="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix}>
+                Kubernetes Labels
+              </KeyValuePopupButton>
+            ) : null}
           </Collapsible.Content>
         </Collapsible>
       </div>
