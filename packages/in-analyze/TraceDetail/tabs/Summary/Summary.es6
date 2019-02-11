@@ -38,7 +38,13 @@ const clickCallTracker = createTracker('analyze.detail.call.click');
 
 function getInitialLargeTraceState({ data }) {
   return {
-    isLargeTrace: data != null && data.callCount > maximumNumberOfCallsForLargeTraceConsideration,
+    isLargeTrace:
+      data != null &&
+      // The number of visual items we would have to render dictates whether a trace is large or not.
+      // The callCount itself is misleading, because a call can be batched. So a single visual item
+      // would represent 500 calls. This is why we are preferrring callCountIgnoringBatchSize
+      // over callCount
+      (data.callCountIgnoringBatchSize || data.callCount) > maximumNumberOfCallsForLargeTraceConsideration,
     showLargeTrace: false
   };
 }

@@ -1,15 +1,18 @@
-import { just } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
 import {
+  is20Application,
+  is20Service,
+  is20Endpoint,
+  getEntityOfType,
+  isLoading,
+  hasErrors
+} from 'in-services/entityUtils';
+import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
-import { getEntityOfType, isLoading, hasErrors } from 'in-components/EntityInformation/entityUtils';
-import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
@@ -22,29 +25,32 @@ export default connectTo(
   ({ event }) => {
     const observables = {};
     const entityType = event.get('entityType');
-    const entityId = event.get('entityId');
-
-    if (entityType === 'App20') {
-      observables.applicationLabel = getApplication({ id: entityId }).map(getLabel);
-    } else if (entityType === 'Service20') {
-      observables.serviceLabel = getServiceLabel({ id: entityId }).map(getLabel);
-    } else if (entityType === 'Endpoint20') {
-      observables.endpointLabel = getEndpointLabel({ id: entityId }).map(getLabel);
+    if (is20Endpoint(entityType)) {
+      // We would not need to subscribe to any observable here if it weren't for the endpoint's `synthetic` flag, which
+      // is not available from the event's meta data. We fetch the endpoint entity from the back end (possibly hitting
+      // appdata-reader) just for this one boolean flag.
       const endpointEntity = getEntityObservable(event);
       observables.endpointEntity = endpointEntity;
-      observables.serviceLabel = endpointEntity.flatMap(endpoint => {
-        if (!endpoint || isLoading(endpoint) || hasErrors(endpoint)) {
-          return just(null);
-        }
-        return getServiceLabel({ id: endpoint.data.serviceId }).map(getLabel);
-      });
     }
-
     return observables;
   },
-  function AnalyzeIssueCalls({ event, applicationLabel, serviceLabel, endpointLabel, endpointEntity }) {
+  function AnalyzeIssueCalls({ event, endpointEntity }) {
     if (!event) {
       return null;
+    }
+
+    const entityType = event.get('entityType');
+    let applicationLabel = null;
+    let serviceLabel = null;
+    let endpointLabel = null;
+
+    if (is20Application(entityType)) {
+      applicationLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
+    } else if (is20Service(entityType)) {
+      serviceLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
+    } else if (is20Endpoint(entityType)) {
+      endpointLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
+      serviceLabel = event.has('metadata') && event.get('metadata').get('app20EndpointServiceLabel');
     }
 
     if (!applicationLabel && !serviceLabel && !endpointLabel) {
@@ -52,7 +58,7 @@ export default connectTo(
     }
 
     const isErroneous = isErrorEvent(event);
-    const isSynthetic = isSyntheticEndpoint(endpointEntity);
+    const isSynthetic = endpointEntity && isSyntheticEndpoint(endpointEntity);
     const filters = getFilters(isErroneous, isSynthetic);
     const order = getAnalyzeOrder(event);
     const dataSource = 'calls';
@@ -120,7 +126,7 @@ function getAnalyzeOrder(event) {
   const entityType = event.get('entityType');
   const problemText = getProblemTextOrEmpty(event);
   if (containsIgnoreCase(problemText, 'latency')) {
-    orderBy = entityType === 'Endpoint20' ? 'latency' : 'latencyAgg';
+    orderBy = is20Endpoint(entityType) ? 'latency' : 'latencyAgg';
     orderDirection = 'DESC';
   }
   return {
@@ -135,8 +141,4 @@ function getProblemTextOrEmpty(event) {
     const problemText = problem.get('problemText');
     return problemText ? problemText : '';
   }
-}
-
-function getLabel(result) {
-  return get(result, ['data', 'label'], null);
 }

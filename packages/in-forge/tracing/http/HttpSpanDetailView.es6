@@ -34,6 +34,12 @@ export default function HttpSpanDetailView({ span }) {
         <DescriptionItem title="WSDL Service">{span.getIn(['data', 'http', 'wsdl_srv'])}</DescriptionItem>
         <DescriptionItem title="WSDL Operation">{span.getIn(['data', 'http', 'wsdl_op'])}</DescriptionItem>
         <DescriptionItem title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</DescriptionItem>
+        <DescriptionItem title="Route ID">{span.getIn(['data', 'http', 'route_id'])}</DescriptionItem>
+        <DescriptionItem title="Route URI">{span.getIn(['data', 'http', 'route_uri'])}</DescriptionItem>
+        <DescriptionItem title="Hystrix Name">{span.getIn(['data', 'http', 'hystrix_name'])}</DescriptionItem>
+        <DescriptionItem title="Hystrix Fallback URI">
+          {span.getIn(['data', 'http', 'hystrix_fallback_uri'])}
+        </DescriptionItem>
         {params != null && (
           <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
         )}

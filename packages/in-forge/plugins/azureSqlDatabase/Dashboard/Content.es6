@@ -1,5 +1,6 @@
 import React from 'react';
 
+import semver from 'semver';
 import { number } from 'in-services/formatters/number';
 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
@@ -12,28 +13,55 @@ import ElasticPoolTable from './ElasticPoolTable.es6';
 
 export default function AzureSqlDatabaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  if (
+    snapshot.get('data').get('sensorVersion') &&
+    semver.satisfies(snapshot.get('data').get('sensorVersion'), '1.1.14')
+  ) {
+    return (
+      <div>
+        <KpiSection>
+          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        </KpiSection>
 
-  return (
-    <div>
-      <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-      </KpiSection>
+        <DashboardSection>
+          <h3>From version 1.1.14, Azure SQL Database Sensor is replaced with three new sensors</h3>
+          <ul>
+            <li>
+              <strong>Azure SQL Server</strong>
+            </li>
+            <li>
+              <strong>Azure SQL Db</strong>
+            </li>
+            <li>
+              <strong>Azure SQL Elastic Pool</strong>
+            </li>
+          </ul>
+        </DashboardSection>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <KpiSection>
+          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
+        </KpiSection>
 
-      <DashboardSection title="Total DTU">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['total_dtu_limit', 'total_dtu_used'],
-            labels: ['Total DTU Limit', 'Total DTU Used'],
-            formatter: number.detailed,
-            type: 'area'
-          }}
-        />
-      </DashboardSection>
+        <DashboardSection title="Total DTU">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['total_dtu_limit', 'total_dtu_used'],
+              labels: ['Total DTU Limit', 'Total DTU Used'],
+              formatter: number.detailed,
+              type: 'area'
+            }}
+          />
+        </DashboardSection>
 
-      <DatabaseTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ElasticPoolTable snapshot={snapshot} timeConfig={timeConfig} />
-    </div>
-  );
+        <DatabaseTable snapshot={snapshot} timeConfig={timeConfig} />
+        <ElasticPoolTable snapshot={snapshot} timeConfig={timeConfig} />
+      </div>
+    );
+  }
 }

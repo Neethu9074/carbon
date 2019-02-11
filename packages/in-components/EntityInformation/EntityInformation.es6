@@ -1,9 +1,19 @@
 import { just } from 'reactive-observables';
 import React from 'react';
 
+import {
+  is10Type,
+  is20Type,
+  is20Endpoint,
+  is20Application,
+  is20Service,
+  isLoading,
+  hasErrors,
+  create20EntityConnectToMapFromEvent
+} from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import { getEntityOfType, isLoading, hasErrors } from './entityUtils';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -13,12 +23,19 @@ const block = 'in-event-view-event-information';
 
 export default connectTo(
   props => {
-    if (props.snapshot) {
+    const { snapshot, entityId, entityType, metadata, timeConfig } = props;
+    if (snapshot) {
+      // if we get a snapshot (1.0 entity data), just use that
       return {
-        entity: just(props.snapshot)
+        entity: just(snapshot)
+      };
+    } else if (is10Type(entityType)) {
+      // it is an 1.0 entity but the snapshot is not yet loaded, so load it now
+      return {
+        entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return getEntityOfType(props.entityId, props.entityType, props.timeConfig);
+      return create20EntityConnectToMapFromEvent(entityType, entityId, metadata, timeConfig);
     }
   },
   function EntityInformation(props) {
@@ -33,7 +50,7 @@ export default connectTo(
       return null;
     }
 
-    if (entityType === 'Endpoint20' || entityType === 'Service20' || entityType === 'App20') {
+    if (is20Type(entityType)) {
       return <EntityInformation20 {...props} />;
     } else {
       // !entityType || entityType === 'Entity10'
@@ -66,11 +83,11 @@ function EntityInformation10({
 
 function EntityInformation20({ entityId, entity, entityType, label }) {
   let href$;
-  if (entityType === 'App20') {
+  if (is20Application(entityType)) {
     href$ = getApplicationDashboard(entityId);
-  } else if (entityType === 'Service20') {
+  } else if (is20Service(entityType)) {
     href$ = getServiceDashboard(entityId);
-  } else if (entityType === 'Endpoint20') {
+  } else if (is20Endpoint(entityType)) {
     const endpoint = entity.data;
     href$ = getEndpointDashboard(endpoint.id, {
       serviceId: endpoint.serviceId

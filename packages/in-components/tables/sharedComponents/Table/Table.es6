@@ -37,6 +37,7 @@ export function Tr(props) {
         [locals[`depth-${props.depth || 1}`]]: true,
         [locals.trCompact]: props.size === 'compact',
         [locals.trRegular]: props.size !== 'compact',
+        [locals.trClickable]: props.onClick,
         [locals.active]: props.active,
         [locals.dull]: props.dull
       })}
