@@ -94,7 +94,7 @@ const cols = [
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:"appdata-reader"')
-})(function AppdataWriterStatistics({ rows }) {
+})(function AppdataWriterStatistics({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
   }
@@ -129,6 +129,28 @@ export default connectTo({
           the metric for the first appdata-reader).
         </strong>
       </p>
+
+      <DashboardSection title="ClickHouse Calls">
+        <Chart
+          snapshotId={process.dropwizard.get('id')}
+          timeConfig={timeConfig}
+          minRollup={5000}
+          y1={{
+            min: 0,
+            formatter: number.detailed,
+            metrics: ['metrics.meters.clickHouse.clustered.calls'],
+            labels: ['ClickHouse Calls'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: number.detailed,
+            metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
+            labels: ['ClickHouse Call Queue Size'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <DashboardSection title={`Methods (${rows.length})`}>
         <Table
