@@ -63,19 +63,23 @@ const redirects = [
   },
   {
     from: `${settingsPath}/alertingConfiguration/:id`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEventFilterEdit : paths.teamSettingsAlertingConfigurationEdit
+    to: unifiedAlerting ? paths.teamSettingsAlertingEventFilterEdit : paths.teamSettingsAlertingConfigurationEdit,
+    params: { id: 'id' }
   },
-  { from: `${settingsPath}/integrations`, to: paths.teamSettingsAlertingIntegrations },
-  { from: `${settingsPath}/integration/:id`, to: paths.teamSettingsAlertingIntegrationEdit },
   {
-    from: `${settingsPath}/maintenanceConfigurations`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingAlertChannels : paths.teamSettingsAlertingMaintenanceConfigurations
+    from: `${settingsPath}/integrations`,
+    to: unifiedAlerting ? paths.teamSettingsAlertingAlertChannels : paths.teamSettingsAlertingIntegrations
   },
+  {
+    from: `${settingsPath}/integration/:id`,
+    to: unifiedAlerting ? paths.teamSettingsAlertingAlertChannelEdit : paths.teamSettingsAlertingIntegrationEdit,
+    params: { id: 'id' }
+  },
+  { from: `${settingsPath}/maintenanceConfigurations`, to: paths.teamSettingsAlertingMaintenanceConfigurations },
   {
     from: `${settingsPath}/maintenanceConfiguration/:id`,
-    to: unifiedAlerting
-      ? paths.teamSettingsAlertingAlertChannelEdit
-      : paths.teamSettingsAlertingMaintenanceConfigurationEdit
+    to: paths.teamSettingsAlertingMaintenanceConfigurationEdit,
+    params: { id: 'id' }
   },
   { from: `${settingsPath}/auditlog`, to: paths.teamSettingsAuditLog }
 ];
