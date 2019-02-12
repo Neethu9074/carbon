@@ -1,5 +1,5 @@
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
-import { assign } from 'lodash';
+import { assign, merge } from 'lodash';
 
 import { animationDuration, wiggleRoom } from 'in-components/Chart/Configuration';
 
@@ -67,7 +67,7 @@ export function extendMetricConfigurationOnLiveMode(metricsConfiguration) {
     return metricsConfiguration;
   }
 
-  return assign({}, metricsConfiguration, {
+  return merge({}, metricsConfiguration, {
     filter: { timeConfig: extendWindowSizeOnLiveMode(metricsConfiguration.filter.timeConfig) }
   });
 }
