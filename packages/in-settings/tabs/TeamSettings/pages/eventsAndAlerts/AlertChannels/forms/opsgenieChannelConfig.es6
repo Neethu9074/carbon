@@ -11,7 +11,7 @@ import Label from 'in-components/form/Label';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
 const name = 'OPS_GENIE';
 const label = 'OpsGenie';
@@ -20,23 +20,23 @@ export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.apiKey = '';
-    integration.tags = '';
-    integration.region = '';
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.apiKey = '';
+    alertChannel.tags = '';
+    alertChannel.region = '';
   },
 
-  createDetails(integration) {
+  createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Api Key">{integration.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title="Tags">{integration.get('tags')}</DescriptionItem>
-        <DescriptionItem title="Region">{integration.get('region')}</DescriptionItem>
+        <DescriptionItem title="Api Key">{alertChannel.get('apiKey')}</DescriptionItem>
+        <DescriptionItem title="Tags">{alertChannel.get('tags')}</DescriptionItem>
+        <DescriptionItem title="Region">{alertChannel.get('region')}</DescriptionItem>
       </DescriptionList>
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -47,36 +47,36 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
         'apiKey',
         createField({
-          value: integration ? integration.get('apiKey') : '',
+          value: alertChannel ? alertChannel.get('apiKey') : '',
           validator: notBlankValidator
         })
       )
       .put(
         'tags',
         createField({
-          value: integration ? integration.get('tags') : '',
+          value: alertChannel ? alertChannel.get('tags') : '',
           validator: notBlankValidator
         })
       )
       .put(
         'region',
         createField({
-          value: integration ? integration.get('region') : '',
+          value: alertChannel ? alertChannel.get('region') : '',
           validator: notBlankValidator
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
       apiKey: form.get('apiKey').value,
@@ -100,7 +100,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="OpsGenie Integration"
+            placeholder="OpsGenie In Rucola-Pesto-Öl gebratene Pasta mit grünem Spargel bunten Tomaten, gelben Karotten und Parmesan	6,50 €"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}

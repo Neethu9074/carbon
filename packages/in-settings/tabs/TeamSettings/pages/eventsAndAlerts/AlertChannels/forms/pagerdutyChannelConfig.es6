@@ -10,28 +10,28 @@ import Label from 'in-components/form/Label';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
-const name = 'GOOGLE_CHAT';
-const label = 'Google Chat';
+const name = 'PAGER_DUTY';
+const label = 'PagerDuty';
 
 export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.webhookUrl = '';
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.serviceIntegrationKey = '';
   },
 
-  createDetails(integration) {
+  createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="Service Integration Key">{alertChannel.get('serviceIntegrationKey')}</DescriptionItem>
       </DescriptionList>
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -42,25 +42,25 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
-        'webhookUrl',
+        'serviceIntegrationKey',
         createField({
-          value: integration ? integration.get('webhookUrl') : '',
+          value: alertChannel ? alertChannel.get('serviceIntegrationKey') : '',
           validator: notBlankValidator
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      webhookUrl: form.get('webhookUrl').value
+      serviceIntegrationKey: form.get('serviceIntegrationKey').value
     };
   },
 
@@ -79,7 +79,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Google Chat Integration"
+            placeholder="PagerDuty Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -88,18 +88,18 @@ function Form({ form, onChange }) {
         </FormGroup>
       ))}
 
-      {form.get('webhookUrl').map(field => (
+      {form.get('serviceIntegrationKey').map(field => (
         <FormGroup>
-          <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            Webhook URL
+          <Label htmlFor="serviceIntegrationKey" hasError={!field.valid && field.touched}>
+            Service Integration Key
           </Label>
           <Input
             className={`${block}__input`}
-            id="webhookUrl"
-            type="url"
-            placeholder="https://chat.googleapis.com/v1/spaces/<id>/messages?key=<key>&token=<token>"
+            id="serviceIntegrationKey"
+            type="text"
+            placeholder="Service Integration Key"
             value={field.value}
-            onChange={e => onChange('webhookUrl', e.target.value)}
+            onChange={e => onChange('serviceIntegrationKey', e.target.value)}
           />
           <TouchedMessages field={field} />
         </FormGroup>

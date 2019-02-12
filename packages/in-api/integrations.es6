@@ -83,6 +83,6 @@ export function createIntegration(id, kind, name = '') {
     name
   };
 
-  fullyQualified[kind].enrichIntegrationObject(integration);
+  fullyQualified[kind].enrichAlertChannelObject(integration);
   return integration;
 }

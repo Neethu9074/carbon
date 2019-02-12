@@ -92,6 +92,13 @@ export function goToIntegrationView(kind) {
   });
 }
 
+export function goToAlertChannelView(kind) {
+  mutateUrl(location => {
+    location.pathname = teamSettingsAlertingAlertChannelNew;
+    setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
+  });
+}
+
 export function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
   return ruleId
     ? `${legacyServiceExtraction}/${encodeURIComponent(ruleType)}/serviceExtraction/${encodeURIComponent(ruleId)}`

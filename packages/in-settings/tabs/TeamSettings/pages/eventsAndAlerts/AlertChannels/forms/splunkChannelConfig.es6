@@ -10,28 +10,30 @@ import Label from 'in-components/form/Label';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
-const name = 'GOOGLE_CHAT';
-const label = 'Google Chat';
+const name = 'SPLUNK';
+const label = 'Splunk';
 
 export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.webhookUrl = '';
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.url = '';
+    alertChannel.token = '';
   },
 
-  createDetails(integration) {
+  createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="URL">{alertChannel.get('url')}</DescriptionItem>
+        <DescriptionItem title="Token">{alertChannel.get('token')}</DescriptionItem>
       </DescriptionList>
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -42,25 +44,33 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
-        'webhookUrl',
+        'url',
         createField({
-          value: integration ? integration.get('webhookUrl') : '',
+          value: alertChannel ? alertChannel.get('url') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'token',
+        createField({
+          value: alertChannel ? alertChannel.get('token') : '',
           validator: notBlankValidator
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      webhookUrl: form.get('webhookUrl').value
+      url: form.get('url').value,
+      token: form.get('token').value
     };
   },
 
@@ -79,7 +89,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Google Chat Integration"
+            placeholder="Splunk Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -88,18 +98,35 @@ function Form({ form, onChange }) {
         </FormGroup>
       ))}
 
-      {form.get('webhookUrl').map(field => (
+      {form.get('url').map(field => (
         <FormGroup>
-          <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            Webhook URL
+          <Label htmlFor="url" hasError={!field.valid && field.touched}>
+            URL
           </Label>
           <Input
             className={`${block}__input`}
-            id="webhookUrl"
+            id="url"
             type="url"
-            placeholder="https://chat.googleapis.com/v1/spaces/<id>/messages?key=<key>&token=<token>"
+            placeholder="https://your.splunk.server:8088/services/collector"
             value={field.value}
-            onChange={e => onChange('webhookUrl', e.target.value)}
+            onChange={e => onChange('url', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('token').map(field => (
+        <FormGroup>
+          <Label htmlFor="token" hasError={!field.valid && field.touched}>
+            Token
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="token"
+            type="text"
+            placeholder="Token"
+            value={field.value}
+            onChange={e => onChange('token', e.target.value)}
           />
           <TouchedMessages field={field} />
         </FormGroup>

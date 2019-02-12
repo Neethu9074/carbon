@@ -5,38 +5,37 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-settings/components/FormGroup';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
-const name = 'OPS_GENIE';
-const label = 'OpsGenie';
+const name = 'SLACK';
+const label = 'Slack';
 
 export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.apiKey = '';
-    integration.tags = '';
-    integration.region = '';
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.webhookUrl = '';
+    alertChannel.iconUrl = '';
+    alertChannel.channel = '';
   },
 
-  createDetails(integration) {
+  createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Api Key">{integration.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title="Tags">{integration.get('tags')}</DescriptionItem>
-        <DescriptionItem title="Region">{integration.get('region')}</DescriptionItem>
+        <DescriptionItem title="Webhook URL">{alertChannel.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="Icon URL">{alertChannel.get('iconUrl')}</DescriptionItem>
+        <DescriptionItem title="Channel">{alertChannel.get('channel')}</DescriptionItem>
       </DescriptionList>
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -47,41 +46,39 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
-        'apiKey',
+        'webhookUrl',
         createField({
-          value: integration ? integration.get('apiKey') : '',
+          value: alertChannel ? alertChannel.get('webhookUrl') : '',
           validator: notBlankValidator
         })
       )
       .put(
-        'tags',
+        'iconUrl',
         createField({
-          value: integration ? integration.get('tags') : '',
-          validator: notBlankValidator
+          value: alertChannel ? alertChannel.get('iconUrl') : ''
         })
       )
       .put(
-        'region',
+        'channel',
         createField({
-          value: integration ? integration.get('region') : '',
-          validator: notBlankValidator
+          value: alertChannel ? alertChannel.get('channel') : ''
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
-      apiKey: form.get('apiKey').value,
-      tags: form.get('tags').value,
-      region: form.get('region').value
+      webhookUrl: form.get('webhookUrl').value,
+      iconUrl: form.get('iconUrl').value,
+      channel: form.get('channel').value
     };
   },
 
@@ -100,7 +97,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="OpsGenie Integration"
+            placeholder="Slack Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -109,55 +106,53 @@ function Form({ form, onChange }) {
         </FormGroup>
       ))}
 
-      {form.get('apiKey').map(field => (
+      {form.get('webhookUrl').map(field => (
         <FormGroup>
-          <Label htmlFor="apiKey" hasError={!field.valid && field.touched}>
-            API Key
+          <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
+            Webhook URL
           </Label>
           <Input
             className={`${block}__input`}
-            id="apiKey"
-            type="text"
-            placeholder="API Key"
+            id="webhookUrl"
+            type="url"
+            placeholder="https://hooks.slack.com/services/A1B2C3D4E/A1B2C3D4E/abcDEFabcDEFabcDEFabcDEF"
             value={field.value}
-            onChange={e => onChange('apiKey', e.target.value)}
+            onChange={e => onChange('webhookUrl', e.target.value)}
           />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
 
-      {form.get('tags').map(field => (
+      {form.get('iconUrl').map(field => (
         <FormGroup>
-          <Label htmlFor="tags" hasError={!field.valid && field.touched}>
-            Tags
+          <Label htmlFor="iconUrl" hasError={!field.valid && field.touched}>
+            Icon URL
           </Label>
           <Input
             className={`${block}__input`}
-            id="tags"
-            type="text"
-            placeholder="Tags (comma separated)"
+            id="iconUrl"
+            type="url"
+            placeholder="https://www.example.com/media/instana.png"
             value={field.value}
-            onChange={e => onChange('tags', e.target.value)}
+            onChange={e => onChange('iconUrl', e.target.value)}
           />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
 
-      {form.get('region').map(field => (
+      {form.get('channel').map(field => (
         <FormGroup>
-          <Label htmlFor="region" hasError={!field.valid && field.touched}>
-            Region
+          <Label htmlFor="channel" hasError={!field.valid && field.touched}>
+            Channel Name
           </Label>
-          <Select
+          <Input
             className={`${block}__input`}
-            id="region"
+            id="channel"
+            type="text"
+            placeholder="Channel Name"
             value={field.value}
-            onChange={e => onChange('region', e.target.value)}
-          >
-            <option value="">Please Select</option>
-            <option value="US">US</option>
-            <option value="EU">EU</option>
-          </Select>
+            onChange={e => onChange('channel', e.target.value)}
+          />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}

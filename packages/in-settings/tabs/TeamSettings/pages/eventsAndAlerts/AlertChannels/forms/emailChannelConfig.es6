@@ -13,7 +13,7 @@ import Button from 'in-components/Button';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
 const name = 'EMAIL';
 const label = 'Email';
@@ -22,12 +22,12 @@ export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.emails = [''];
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.emails = [''];
   },
 
-  createDetails(integration) {
-    const emails = integration.get('emails');
+  createDetails(alertChannel) {
+    const emails = alertChannel.get('emails');
     if (!emails || emails.size === 0) {
       return null;
     }
@@ -43,7 +43,7 @@ export default {
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -54,22 +54,22 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
         'emails',
         createField({
-          value: integration ? integration.get('emails') : List(['']),
+          value: alertChannel ? alertChannel.get('emails') : List(['']),
           validator: emails
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
       emails: form.get('emails').value
@@ -116,7 +116,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Email Integration"
+            placeholder="Email Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}

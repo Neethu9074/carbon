@@ -22,7 +22,7 @@ export default {
   name,
   label,
 
-  enrichIntegrationObject(integration) {
+  enrichAlertChannelObject(integration) {
     integration.webhookUrls = [''];
   },
 

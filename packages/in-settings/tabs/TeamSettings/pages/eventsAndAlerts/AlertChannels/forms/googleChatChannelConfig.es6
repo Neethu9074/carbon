@@ -10,7 +10,7 @@ import Label from 'in-components/form/Label';
 
 import './Forms.less';
 
-const block = 'in-integrations-config-form';
+const block = 'in-alert-channel-config-form';
 
 const name = 'GOOGLE_CHAT';
 const label = 'Google Chat';
@@ -19,19 +19,19 @@ export default {
   name,
   label,
 
-  enrichAlertChannelObject(integration) {
-    integration.webhookUrl = '';
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.webhookUrl = '';
   },
 
-  createDetails(integration) {
+  createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="Webhook URL">{alertChannel.get('webhookUrl')}</DescriptionItem>
       </DescriptionList>
     );
   },
 
-  createForm(integration) {
+  createForm(alertChannel) {
     return createMapForm()
       .put(
         'kind',
@@ -42,22 +42,22 @@ export default {
       .put(
         'name',
         createField({
-          value: integration ? integration.get('name') : '',
+          value: alertChannel ? alertChannel.get('name') : '',
           validator: notBlankValidator
         })
       )
       .put(
         'webhookUrl',
         createField({
-          value: integration ? integration.get('webhookUrl') : '',
+          value: alertChannel ? alertChannel.get('webhookUrl') : '',
           validator: notBlankValidator
         })
       );
   },
 
-  createEntity(integration, form) {
+  createEntity(alertChannel, form) {
     return {
-      id: integration ? integration.get('id') : generateUniqueShortId(),
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
       kind: form.get('kind').value,
       name: form.get('name').value,
       webhookUrl: form.get('webhookUrl').value
@@ -79,7 +79,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Google Chat Integration"
+            placeholder="Google Chat Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
