@@ -51,7 +51,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.shorten}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.ellipsis50vw}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
         </WithSubscript>

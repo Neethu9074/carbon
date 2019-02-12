@@ -9,6 +9,7 @@ import {
   teamSettingsAlertingEventFilters
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
@@ -49,12 +50,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
-          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.shorten}>
+        <WithSubscript subscript={!isEnabled(entity) ? 'disabled' : null}>
+          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis50vw}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
-          {!isEnabled(entity) && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   }

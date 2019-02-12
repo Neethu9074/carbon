@@ -47,7 +47,7 @@ const columnDefinitions = [
         <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
           <Link
             href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}
-            className={locals.shorten}
+            className={locals.ellipsis50vw}
           >
             {entity.text} {entity.badgeMessage && <Badge size="sm">{entity.badgeMessage}</Badge>}
           </Link>

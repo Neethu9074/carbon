@@ -86,6 +86,9 @@ function List({
   newButtonDisabledTooltipMessage = () => null,
   rightHeader,
   searchAttributes = [],
+  extraFilters,
+  searchPlaceholder,
+  searchMaxWidth,
   entities,
   pageSize = 20,
   pageState,
@@ -110,6 +113,11 @@ function List({
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
   if (entities) {
     totalHitsBeforeFilter = entities.length;
+    if (extraFilters && extraFilters.length > 0) {
+      extraFilters.forEach(filter => {
+        entities = entities.filter(filter);
+      });
+    }
     if (!isBlank(queryState) && searchAttributes.length > 0) {
       entities = entities.filter(entity =>
         searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
@@ -148,6 +156,8 @@ function List({
         page={pageState}
         pageSize={pageSize}
         query={queryState}
+        searchPlaceholder={searchPlaceholder}
+        searchMaxWidth={searchMaxWidth}
         result={result}
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
@@ -180,14 +190,26 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
   if (columnDefinition && columnDefinition.getValue) {
     sortIteratee = columnDefinition.getValue;
   }
-  const sorted = sortBy(entities, sortIteratee);
+
+  // make sorting case insensitive
+  const caseInsensitiveSortIteratee = entity => {
+    let value = null;
+    if (typeof sortIteratee === 'string') {
+      value = entity[sortIteratee];
+    } else if (typeof sortIteratee === 'function') {
+      value = sortIteratee(entity);
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
   if (orderDirectionState === 'DESC') {
     reverse(sorted);
   }
   return sorted;
 }
 
-function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
+export function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
   if (!pathNew && !onCreateNew) {
     return null;
   }
@@ -359,7 +381,5 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 }
 
 function TableActionLoadingIndicator() {
-  return (
-    <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning={true} />
-  );
+  return <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning />;
 }
