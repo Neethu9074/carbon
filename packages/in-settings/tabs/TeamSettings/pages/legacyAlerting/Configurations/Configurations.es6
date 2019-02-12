@@ -10,6 +10,7 @@ import {
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
@@ -49,12 +50,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
+        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
           <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.shorten}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
-          {!isEnabled(entity) && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   }

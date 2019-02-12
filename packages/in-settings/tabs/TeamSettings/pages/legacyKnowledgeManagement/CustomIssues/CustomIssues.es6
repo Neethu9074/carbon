@@ -10,6 +10,7 @@ import {
 import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import { getRuleBindingsMutable, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import { getRuleMutable, isRuleDeprecatedMutable } from 'in-api/rules';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { combineLatest, just } from 'reactive-observables';
 import { toTitleCase } from 'in-services/util/string';
 import List from 'in-settings/components/List';
@@ -43,15 +44,14 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
+        <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
           <Link
             href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}
             className={locals.shorten}
           >
             {entity.text} {entity.badgeMessage && <Badge size="sm">{entity.badgeMessage}</Badge>}
           </Link>
-          {!entity.enabled && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   },

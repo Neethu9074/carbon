@@ -6,12 +6,13 @@ import {
   teamSettingsKnowledgeManagementBuiltInRules
 } from 'in-settings/navigation/paths';
 import { getBuiltInRulesMutable, setBuiltInRuleEnabledMutable } from 'in-api/rules';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import List from 'in-settings/components/List';
 import Link from 'in-components/Link';
 
-export default function BuiltInRule() {
+export default function BuiltInRules() {
   return (
     <List
       title="Built-in Rules"
@@ -32,7 +33,11 @@ const columnDefinitions = [
     label: 'Name',
     ellipsis: '35vw',
     getContent(entity) {
-      return <Link href$={getEntityIdView(teamSettingsKnowledgeManagementBuiltInRules, entity.id)}>{entity.name}</Link>;
+      return (
+        <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
+          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementBuiltInRules, entity.id)}>{entity.name}</Link>
+        </WithSubscript>
+      );
     }
   },
   {
