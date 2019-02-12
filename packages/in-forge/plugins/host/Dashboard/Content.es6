@@ -42,14 +42,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
-
-        <KpiKeyValue label="Open Files Usage">
-          <MetricValue
-            snapshotId={snapshot.get('id')}
-            metric="openFiles.used"
-            formatter={percentageZeroDecimalPlaces}
-          />
-        </KpiKeyValue>
       </KpiSection>
 
       <Columize>
