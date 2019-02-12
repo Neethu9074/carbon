@@ -1,12 +1,17 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  bytesTwoDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
-import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
@@ -68,13 +73,14 @@ const columnDefinitions = [
     id: 'cpuTotal',
     label: 'CPU Total %',
     sortable: false,
-    getContent(item) {
+    getContent(item, { timeConfig }) {
       return (
-        <MetricValue
+        <InfrastructureMetricSparkChart
           snapshotId={get(item, ['container', 'id'])}
-          metric="cpu.total_usage"
+          timeConfig={timeConfig}
           formatter={percentageZeroDecimalPlaces}
-          timeWindowAggregation="mean"
+          tooltipFormatter={percentageTwoDecimalPlaces}
+          metric="cpu.total_usage"
         />
       );
     }
@@ -83,13 +89,14 @@ const columnDefinitions = [
     id: 'memoryUsage',
     label: 'Memory Usage',
     sortable: false,
-    getContent(item) {
+    getContent(item, { timeConfig }) {
       return (
-        <MetricValue
+        <InfrastructureMetricSparkChart
           snapshotId={get(item, ['container', 'id'])}
+          timeConfig={timeConfig}
+          formatter={bytesZeroDecimalPlaces}
+          tooltipFormatter={bytesTwoDecimalPlaces}
           metric="memory.usage"
-          formatter={bytesTwoDecimalPlaces}
-          timeWindowAggregation="mean"
         />
       );
     }

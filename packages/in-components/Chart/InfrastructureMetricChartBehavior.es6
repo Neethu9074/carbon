@@ -9,8 +9,8 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 
-export default class InfrastructureMetricChart extends React.Component {
-  static displayName = 'InfrastructureMetricChart';
+export default class InfrastructureMetricChartBehavior extends React.Component {
+  static displayName = 'InfrastructureMetricChartBehavior';
 
   constructor(props) {
     super(props);
@@ -46,9 +46,12 @@ export default class InfrastructureMetricChart extends React.Component {
   }
 
   mapProps = props => {
-    let { timeConfig, y1, y2 } = props;
+    let { timeConfig, y1, y2, minRollup } = props;
     this.timeConfig = resolveTimeConfig(timeConfig);
     this.granularity = getChartGranularity(timeConfig);
+    if (minRollup) {
+      this.granularity = Math.max(this.granularity, minRollup);
+    }
     this.y1 = mapAxis(y1);
     this.y2 = mapAxis(y2);
   };
@@ -73,7 +76,7 @@ export default class InfrastructureMetricChart extends React.Component {
     }
 
     return createQueue({
-      numberOfSeries: axis.metrics.length,
+      numberOfSeries: this[axisName].numberOfSeries,
       requireExistenceInAllSeries: true
     });
   };
@@ -85,7 +88,7 @@ export default class InfrastructureMetricChart extends React.Component {
     }
 
     return createDataHolder({
-      numberOfSeries: axis.metrics.length
+      numberOfSeries: this[axisName].numberOfSeries
     });
   };
 
@@ -147,7 +150,7 @@ export default class InfrastructureMetricChart extends React.Component {
     dataHolder.expireDataPointsOlderThan(from - this.timeConfig.windowSize * 0.1); // keep 10% of the overall windowsize for a smooth fade out
     const dataColumnsMetrics = dataHolder.getDataColumns();
 
-    const numberOfSeries = axis.labels.length;
+    const numberOfSeries = axis.numberOfSeries;
     let metrics = [];
     for (let i = 0; i < numberOfSeries; i++) {
       metrics[i] = [];
@@ -179,7 +182,8 @@ export default class InfrastructureMetricChart extends React.Component {
       y2.metrics = y2Metrics;
     }
 
-    return <Chart timeConfig={timeConfig} granularity={granularity} y1={y1} y2={y2} />;
+    const ChartComponent = this.props.chartRenderer || Chart;
+    return <ChartComponent timeConfig={timeConfig} granularity={granularity} y1={y1} y2={y2} />;
   }
 }
 
@@ -196,9 +200,11 @@ function mapAxis(axis) {
   }
 
   return {
+    numberOfSeries: axis.metrics.length,
     min: axis.min || 0,
     renderer: Renderer[axis.type] || Renderer.point,
     labels: axis.labels,
-    formatter: axis.formatter
+    formatter: axis.formatter,
+    tooltipFormatter: axis.tooltipFormatter
   };
 }

@@ -2,15 +2,15 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
 
+import { LoadingSkeletonRows, ErrorRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
+import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesHostByNode from 'in-subscription/kubernetes/getKubernetesHostByNode';
-import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './Infrastructure.mless';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({
@@ -27,38 +27,63 @@ export default connectTo(
   function Infrastructure({ hostResult, timeConfig }) {
     const isLoading = hostResult && get(hostResult, ['progress', 'loading']);
     const hasErrors = hostResult && hostResult.errors.length > 0;
-    let content;
-    if (isLoading) {
-      content = <Skeleton className={locals.skeleton} />;
-    } else if (hasErrors) {
-      content = 'No host information available. Maybe the host is not monitored by Instana.';
-    } else {
-      content = (
-        <EntityLink
-          snapshot={hostResult.data}
-          label={getLabel(hostResult.data)}
-          href$={getDashboardLink(hostResult.data.get('id'), {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-        />
+    if (isLoading || hasErrors) {
+      return (
+        <Table>
+          <Thead />
+          <Tbody>
+            {isLoading && <LoadingSkeletonRows cols={3} />}
+            {hasErrors && <ErrorRows cols={5} errors={hostResult.errors} size="compact" />}
+          </Tbody>
+        </Table>
       );
     }
 
     return (
-      <Table>
-        <Thead>
-          <Tr size="compact">
-            <Th>Name</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>{content}</Td>
-          </Tr>
-        </Tbody>
-      </Table>
+      <Card title="Host" withoutPadding>
+        <Table>
+          <Thead>
+            <Tr size="compact">
+              <Th>Name</Th>
+              <Th>CPU Usage</Th>
+              <Th>Memory Usage</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            <Tr>
+              <Td>
+                <EntityLink
+                  snapshot={hostResult.data}
+                  label={getLabel(hostResult.data)}
+                  href$={getDashboardLink(hostResult.data.get('id'), {
+                    pathname: '/physical/dashboard',
+                    to: timeConfig.to,
+                    focusedMoment: timeConfig.to
+                  })}
+                />
+              </Td>
+              <Td>
+                <InfrastructureMetricSparkChart
+                  snapshotId={hostResult.data.get('id')}
+                  timeConfig={timeConfig}
+                  formatter={percentageZeroDecimalPlaces}
+                  tooltipFormatter={percentageTwoDecimalPlaces}
+                  metric="cpu.used"
+                />
+              </Td>
+              <Td>
+                <InfrastructureMetricSparkChart
+                  snapshotId={hostResult.data.get('id')}
+                  timeConfig={timeConfig}
+                  formatter={percentageZeroDecimalPlaces}
+                  tooltipFormatter={percentageTwoDecimalPlaces}
+                  metric="memory.used"
+                />
+              </Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </Card>
     );
   }
 );

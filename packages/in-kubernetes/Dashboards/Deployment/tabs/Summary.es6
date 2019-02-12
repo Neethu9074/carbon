@@ -10,7 +10,7 @@ import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/Me
 import MatchingServicesList from 'in-kubernetes/Dashboards/Deployment/tabs/MatchingServicesList';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';

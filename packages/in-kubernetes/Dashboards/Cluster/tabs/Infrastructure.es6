@@ -2,6 +2,8 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesHostsByCluster from 'in-subscription/kubernetes/getKubernetesHostsByCluster';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
@@ -58,6 +60,38 @@ const columnDefinitions = [
             to: timeConfig.to,
             focusedMoment: timeConfig.to
           })}
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuUsage',
+    label: 'CPU Usage',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentageZeroDecimalPlaces}
+          tooltipFormatter={percentageTwoDecimalPlaces}
+          metric="cpu.used"
+        />
+      );
+    }
+  },
+  {
+    id: 'memUsage',
+    label: 'Memory Usage',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentageZeroDecimalPlaces}
+          tooltipFormatter={percentageTwoDecimalPlaces}
+          metric="memory.used"
         />
       );
     }
