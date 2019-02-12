@@ -21,6 +21,7 @@ import {
 } from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
+import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
@@ -92,7 +93,10 @@ function RawTracesNavigator({
                   </Link>
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData
-                      extras={[formatDateTime(item.trace.startTime), millis.fixedCompact(item.trace.duration)]}
+                      extras={[
+                        formatDateTime(item.trace.startTime),
+                        wrapToDisplaySpecialLabelFor0(millis).compact(item.trace.duration)
+                      ]}
                     />
                   )}
                 </Td>
@@ -101,7 +105,7 @@ function RawTracesNavigator({
 
                 {showAllColumns && (
                   <Td>
-                    <span>{millis.fixedCompact(item.trace.duration)}</span>
+                    <span>{wrapToDisplaySpecialLabelFor0(millis).compact(item.trace.duration)}</span>
                   </Td>
                 )}
               </Tr>
