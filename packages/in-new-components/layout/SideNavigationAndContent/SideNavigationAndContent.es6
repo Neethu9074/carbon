@@ -121,9 +121,10 @@ function isActive(path, subPages) {
   const isMainView$ = isView(pathname => pathname === path);
   if (subPages) {
     const isSubViewObservables = subPages.map(subPage => isView(subPage.path));
-    return combineLatest([isMainView$, ...isSubViewObservables]).map(results => {
-      return results.find(Boolean);
-    });
+    // The !! before results.find(Boolean) is required, because [false, false, false].find(Boolean) will evaluate to
+    // undefined and an undefined value will not be emitted, so this SideNavigationItem will just stay on its last
+    // stale isActive state.
+    return combineLatest([isMainView$, ...isSubViewObservables]).map(results => !!results.find(Boolean));
   } else {
     return isMainView$;
   }
