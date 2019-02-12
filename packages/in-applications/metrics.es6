@@ -56,7 +56,7 @@ export function getResolvedTimeConfig(timeConfig, result) {
 export function getSparkChartGranularity(timeConfig) {
   return getBlockSizeMillis({
     windowSize: timeConfig.windowSize,
-    minPixelsPerBlock: 30,
+    minPixelsPerBlock: 25,
     width: 300
   });
 }
