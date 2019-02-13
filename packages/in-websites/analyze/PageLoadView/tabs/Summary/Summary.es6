@@ -52,7 +52,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         </Col>
       </Row>
 
-      <BeaconUserSummary beacon={firstBeacon} />
+      <BeaconUserSummary beacon={firstBeacon} beacons={beacons} />
 
       <Activity beacons={beacons} pageLoad={pageLoad} firstBeacon={firstBeacon} filter={filter} setFilter={setFilter} />
     </ContentWrapper>
