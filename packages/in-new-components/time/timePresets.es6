@@ -54,7 +54,7 @@ export function getLivePresets() {
 }
 
 export function getFixedTimePresets() {
-  return [getYesterdayPreset(), getDayBeforeYesterdayPreset(), getPreviousWeekPreset()];
+  return [getYesterdayPreset(), getDayBeforeYesterdayPreset(), getThisWeekPreset(), getPreviousWeekPreset()];
 }
 
 function getYesterdayPreset() {
@@ -78,6 +78,19 @@ function getDayBeforeYesterdayPreset() {
   return {
     label: 'Day before Yesterday',
     windowSize: twentyFourHours,
+    to
+  };
+}
+
+function getThisWeekPreset() {
+  const to = moment()
+    .startOf('week')
+    .add(1, 'week')
+    .toDate()
+    .getTime();
+  return {
+    label: 'This week',
+    windowSize: sevenDays,
     to
   };
 }
