@@ -2,9 +2,8 @@ import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
-import KubernetesHost from 'in-kubernetes/Dashboards/Node/tabs/KubernetesHost';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -22,11 +21,7 @@ export default function Summary({ timeConfig, data: node }) {
           <KpiCard title="Cluster" value={node.clusterId} raw />
         </Col>
         <Col lg={4}>
-          <KpiCard
-            title="Hostname"
-            renderValue={() => <KubernetesHost nodeId={snapshotId} timeConfig={timeConfig} />}
-            raw
-          />
+          <KpiCard title="Hostname" value={node.hostname} raw />
         </Col>
       </Row>
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import './Marker.less';
 
+import { is20Type } from 'in-services/entityUtils';
 const block = 'in-event-view-marker';
 
 export default function Marker({ event, className, label }) {
@@ -18,9 +19,9 @@ export default function Marker({ event, className, label }) {
 }
 
 export function hasServiceImpact(event) {
-  const eventType = event.get('entityType');
+  const entityType = event.get('entityType');
 
-  if (eventType === 'App20' || eventType === 'Service20' || eventType === 'Endpoint20') {
+  if (is20Type(entityType)) {
     return true;
   }
 

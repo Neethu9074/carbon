@@ -54,7 +54,7 @@ const tableActions = {
 };
 
 function getHeader(totalHits) {
-  return totalHits ? `Existing API Tokens (${totalHits})` : 'Existing API Tokens';
+  return totalHits ? `API Tokens (${totalHits})` : 'API Tokens';
 }
 
 function getEntityName(entity) {

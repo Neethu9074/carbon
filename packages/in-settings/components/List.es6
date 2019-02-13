@@ -287,46 +287,52 @@ function addDeleteActionAction(columns, actionDefinition, perCellLoadingIndicato
     id: 'deleteAction',
     tableAction: true,
     getContent(entity) {
-      if (actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity)) {
-        // some entities are protected and must not be deleted
-        return null;
-      }
       if (isCellLoading(perCellLoadingIndicator, entity, 'deleteAction')) {
         return <TableActionLoadingIndicator />;
       }
-      return (
-        <Tooltip content={`Delete ${getEntityName(entity)}.`}>
-          <SvgIcon
-            type="lib_actions_delete"
-            width={24}
-            height={24}
-            color={theme.lib.colors.primary2}
-            onClick={e => {
-              stopPropagationAndPreventDefault(e);
-              setActiveDialog(
-                <ConfirmationDialog
-                  header="Please Confirm"
-                  description={
-                    actionDefinition.dialogMessage ? (
-                      actionDefinition.dialogMessage(entity)
-                    ) : (
-                      <span>
-                        Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
-                      </span>
-                    )
+      // some entities are protected and must not be deleted
+      const disabled = actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity);
+      const icon = (
+        <SvgIcon
+          type="lib_actions_delete"
+          width={24}
+          height={24}
+          color={theme.lib.colors.primary2}
+          style={disabled ? { cursor: 'default', opacity: '0.6' } : null}
+          onClick={
+            disabled
+              ? null
+              : e => {
+                  stopPropagationAndPreventDefault(e);
+                  if (disabled) {
+                    return;
                   }
-                  bButtonLabel={actionDefinition.confirmLabel || 'Remove'}
-                  onB={() => {
-                    close();
-                    doDelete(entity, actionDefinition.deleteEntity, setErrorMessage);
-                  }}
-                  bButtonIcon="lib_actions_delete"
-                />
-              );
-            }}
-          />
-        </Tooltip>
+                  setActiveDialog(
+                    <ConfirmationDialog
+                      header="Please Confirm"
+                      description={
+                        actionDefinition.dialogMessage ? (
+                          actionDefinition.dialogMessage(entity)
+                        ) : (
+                          <span>
+                            Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
+                          </span>
+                        )
+                      }
+                      bButtonLabel={actionDefinition.confirmLabel || 'Remove'}
+                      onB={() => {
+                        close();
+                        doDelete(entity, actionDefinition.deleteEntity, setErrorMessage);
+                      }}
+                      bButtonIcon="lib_actions_delete"
+                    />
+                  );
+                }
+          }
+        />
       );
+
+      return disabled ? icon : <Tooltip content={`Delete ${getEntityName(entity)}.`}>{icon}</Tooltip>;
     }
   });
 }

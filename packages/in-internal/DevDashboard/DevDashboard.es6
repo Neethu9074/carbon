@@ -99,6 +99,9 @@ export default function DevDashboard() {
         <li>
           <a href="/#/cockpit">Cockpit</a>
         </li>
+        <li>
+          <a href="/#/internal/graphExplorer">Graph Explorer</a>
+        </li>
       </ul>
     </div>
   );

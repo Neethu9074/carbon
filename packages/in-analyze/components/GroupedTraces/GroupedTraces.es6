@@ -120,7 +120,7 @@ export default compose(
           retrievalSize: 20
         },
         order: {
-          by: !orderBy || orderBy == 'count' ? `${dataSource}_SUM_Agg` : orderBy,
+          by: getOrderByForQuery(orderBy, dataSource, metricsForQuery),
           direction: orderDirection
         },
         filter: {
@@ -152,4 +152,13 @@ function GroupedTraces(props) {
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>
   );
+}
+
+function getOrderByForQuery(orderBy, dataSource, metricsForQuery) {
+  const defaultOrderByForQuery = `${dataSource}_SUM_Agg`;
+
+  if (orderBy === 'group' || orderBy === 'firstTimestamp' || metricsForQuery[orderBy] != null) {
+    return orderBy;
+  }
+  return defaultOrderByForQuery;
 }

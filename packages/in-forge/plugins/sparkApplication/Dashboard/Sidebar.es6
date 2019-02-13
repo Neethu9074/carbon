@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -19,7 +19,7 @@ export default function Sidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <KeyValuePopup header="Spark Conf" data={conf} />
+      <KeyValueOverlay header="Spark Conf" data={conf} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

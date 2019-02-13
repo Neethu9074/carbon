@@ -147,7 +147,12 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <EntityWithParentInformation entityId={entityId} entityType={entityType} timeConfig={timeConfig} />
+          <EntityWithParentInformation
+            entityId={entityId}
+            entityType={entityType}
+            metadata={event.get('metadata')}
+            timeConfig={timeConfig}
+          />
         </div>
       </div>
 

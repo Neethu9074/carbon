@@ -33,7 +33,7 @@ export default function Row({
           key={key}
           noWrap={columnDefinitions[key].noWrap}
           ellipsis={columnDefinitions[key].ellipsis}
-          className={getCellClassName(columnDefinitions[key])}
+          className={joinClassNames(getCellClassName(columnDefinitions[key]), rowLinkHref ? locals.clickable : null)}
         >
           {columnDefinitions[key].getContent(item, cellOpts)}
         </Td>

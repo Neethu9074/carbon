@@ -9,14 +9,18 @@ import Title from 'in-components/Title';
 
 import locals from './Switch.mless';
 
-export default function TabSwitch({ tabs, result, location, props, withoutPadding }) {
+export default function TabSwitch({ tabs, result, location, props, renderErrors, withoutPadding }) {
   const isLoading = result && result.progress.loading;
   const hasErrors = result && result.errors.length > 0;
 
   if (hasErrors) {
     return (
       <MaxWidthFullscreenContainer>
-        <ErroneousResultPresenter errors={result.errors} className={locals.error} />
+        {renderErrors ? (
+          renderErrors(result.errors)
+        ) : (
+          <ErroneousResultPresenter errors={result.errors} className={locals.error} />
+        )}
       </MaxWidthFullscreenContainer>
     );
   } else if (isLoading) {

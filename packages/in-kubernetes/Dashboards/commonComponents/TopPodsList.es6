@@ -1,8 +1,9 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import PodStatus from 'in-kubernetes/Dashboards/commonComponents/PodStatus';
+import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 
 export default function TopPodsList(props) {
@@ -23,7 +24,7 @@ export default function TopPodsList(props) {
       }
       allItemsHref$={props.allItemsHref$}
       getItemLabel={item => item.pod.label}
-      renderMetric={props => <PodStatus status={props.item.pod.phase} />}
+      renderMetric={props => <PodPhase status={get(props.item.pod, ['status', 'phase'])} />}
     />
   );
 }

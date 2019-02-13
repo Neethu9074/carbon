@@ -2,15 +2,16 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
-import { podId as matrixPodId, deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
+import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
-import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
+import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
@@ -27,16 +28,16 @@ export default function PodDashboard({ location }) {
 
   return (
     <Fragment>
-      <ClusterAndNamespaceIds
+      <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
-        renderBreadcrumbs={(clusterId, namespaceId) => (
+        renderBreadcrumbs={(clusterId, namespaceId, deploymentId) => (
           <Breadcrumbs
             items={PodBreadcrumbs({
               ...props,
               clusterId,
               namespaceId,
-              deploymentId: getMatrixParameter(location, podDashboard, matrixDeploymentId)
+              deploymentId
             })}
           />
         )}
@@ -51,6 +52,9 @@ export default function PodDashboard({ location }) {
         location={location}
         tabs={tabs}
         props={props}
+        renderErrors={errors => (
+          <ErroneousEntityVersionList snapshotId={props.podId} timeConfig={props.timeConfig} errors={errors} />
+        )}
       />
       <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>

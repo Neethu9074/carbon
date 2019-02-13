@@ -1,0 +1,109 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import React from 'react';
+
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { generateUniqueShortId } from 'in-services/util/id';
+import FormGroup from 'in-settings/components/FormGroup';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+
+import './Forms.less';
+
+const block = 'in-alert-channel-config-form';
+
+const name = 'PAGER_DUTY';
+const label = 'PagerDuty';
+
+export default {
+  name,
+  label,
+
+  enrichAlertChannelObject(alertChannel) {
+    alertChannel.serviceIntegrationKey = '';
+  },
+
+  createDetails(alertChannel) {
+    return (
+      <DescriptionList>
+        <DescriptionItem title="Service Integration Key">{alertChannel.get('serviceIntegrationKey')}</DescriptionItem>
+      </DescriptionList>
+    );
+  },
+
+  createForm(alertChannel) {
+    return createMapForm()
+      .put(
+        'kind',
+        createField({
+          value: name
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: alertChannel ? alertChannel.get('name') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'serviceIntegrationKey',
+        createField({
+          value: alertChannel ? alertChannel.get('serviceIntegrationKey') : '',
+          validator: notBlankValidator
+        })
+      );
+  },
+
+  createEntity(alertChannel, form) {
+    return {
+      id: alertChannel ? alertChannel.get('id') : generateUniqueShortId(),
+      kind: form.get('kind').value,
+      name: form.get('name').value,
+      serviceIntegrationKey: form.get('serviceIntegrationKey').value
+    };
+  },
+
+  Form
+};
+
+function Form({ form, onChange }) {
+  return (
+    <fieldset>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="PagerDuty Alert Channel"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('serviceIntegrationKey').map(field => (
+        <FormGroup>
+          <Label htmlFor="serviceIntegrationKey" hasError={!field.valid && field.touched}>
+            Service Integration Key
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="serviceIntegrationKey"
+            type="text"
+            placeholder="Service Integration Key"
+            value={field.value}
+            onChange={e => onChange('serviceIntegrationKey', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+    </fieldset>
+  );
+}

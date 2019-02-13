@@ -3,6 +3,9 @@ import React from 'react';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createPodsForDeploymentSubscription from 'in-subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
@@ -78,6 +81,10 @@ const podCols = [
 
 export default function KubernetesDeploymentDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  if (kubernetesEnabled) {
+    return <RedirectWithHash to$={getDeploymentDashboard(snapshotId)} />;
+  }
+
   return (
     <div>
       <KpiSection>

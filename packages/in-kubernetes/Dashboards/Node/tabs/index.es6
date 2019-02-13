@@ -2,6 +2,7 @@ import React from 'react';
 
 import getKubernetesNodeItemCounters from 'in-subscription/kubernetes/getKubernetesNodeItemCounters';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
 import { nodeDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Node/tabs/Summary';
@@ -23,6 +24,11 @@ export default [
     path: `${nodeDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, 'pods')
+  },
+  {
+    label: 'Infrastructure',
+    path: `${nodeDashboardFullyQualified}/infrastructure`,
+    component: Infrastructure
   }
 ].filter(Boolean);
 

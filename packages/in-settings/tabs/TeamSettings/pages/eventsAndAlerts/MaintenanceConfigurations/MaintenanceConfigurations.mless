@@ -1,0 +1,15 @@
+@import '~in-themes/active.less';
+
+:local {
+  .icon {
+    margin-right: .25rem;
+    vertical-align: middle;
+  }
+
+  .shorten {
+    max-width: 20vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

@@ -36,7 +36,7 @@ export const KubernetesBetaMarker = (
       touch with us for any questions and feedback
     </p>
     <div className={locals.buttonWrapper}>
-      <Button kind="primaryv2" href="mailto:matthias.luebken@instana.com?subject=Feedback on Kubernetes support">
+      <Button kind="primaryv2" href="https://support.instana.com/hc/en-us/requests/new" target="_blank">
         Provide Feedback
       </Button>
     </div>

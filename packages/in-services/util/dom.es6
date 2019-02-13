@@ -15,10 +15,11 @@ export function scrollIntoViewIfNeeded(element) {
   }
 }
 
-export function scrollIdIntoViewIfNeeded(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    scrollIntoViewIfNeeded(element);
+export function scrollToTopSmoothly() {
+  var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+  if (currentScroll > 0) {
+    window.requestAnimationFrame(scrollToTopSmoothly);
+    window.scrollTo(0, currentScroll - currentScroll / 5);
   }
 }
 

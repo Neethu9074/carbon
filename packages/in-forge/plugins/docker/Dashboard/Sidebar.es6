@@ -1,8 +1,8 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import KubernetesInfo from 'in-forge/plugins/docker/KubernetesInfo';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
@@ -38,7 +38,7 @@ export default function DockerSidebar({ snapshot }) {
         </div>
       ) : null}
 
-      <KeyValuePopup header="Container Labels" data={labels} />
+      <KeyValueOverlay header="Container Labels" data={labels} />
 
       <MarathonInfo snapshot={snapshot} />
 

@@ -34,6 +34,11 @@ function gatherAndTransmitDebuggingData(instructions) {
 
     connection.send('debug', ensureJsonSerializability(filtered));
   }
+
+  if (instructions.reloadWindow === true) {
+    // Wait for debug data transmission
+    setTimeout(() => window.location.reload(), 5000);
+  }
 }
 
 function ensureJsonSerializability(obj) {

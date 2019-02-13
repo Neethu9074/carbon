@@ -1,3 +1,4 @@
+// @flow
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
@@ -5,6 +6,8 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
+import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -30,7 +33,7 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
         </Col>
       </Row>
       <DetailsNavigation
-        navigationItems={navigationItems}
+        navigationTree={navigationTree}
         resource={node}
         annotations={annotations}
         timeConfig={timeConfig}
@@ -39,8 +42,10 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
   );
 });
 
-const navigationItems = [
+const navigationItems: [Page] = [
   labelsNavigationItem(nodeDashboardDetailsFullyQualified),
   annotationsNavigationItem(`${nodeDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
+
+const navigationTree: NavigationTree = singletonNavigationTree(navigationItems);

@@ -38,6 +38,7 @@ export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagE
 );
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
+export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)

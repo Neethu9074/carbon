@@ -1,13 +1,4 @@
 :local {
-  .flexWrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  .sparkChart {
-    margin-right: 0.5rem;
-  }
-
   .filter {
     z-index: 4;
     margin-right: 0.5rem;

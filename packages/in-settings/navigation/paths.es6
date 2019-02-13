@@ -1,6 +1,6 @@
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { mutateUrl, getView } from 'in-stores/navigation';
+import { getView, mutateUrl } from 'in-stores/navigation';
 
 export const settingsBasePath = settingsPath;
 
@@ -14,12 +14,29 @@ export const teamSettings = `${settingsPath}/team`;
 const accessControl = `${teamSettings}/accessControl`;
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
-export const teamSettingsAccessControlRoles = `${accessControl}/roles`;
 export const teamSettingsAccessControlRoleEdit = `${accessControl}/roles/:id`;
 export const teamSettingsAccessControlRoleNew = `${accessControl}/roles/new`;
+export const teamSettingsAccessControlRoles = `${accessControl}/roles`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
+const alerting = `${teamSettings}/alerting`;
+
+// current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
+export const teamSettingsAlertingEventEdit = `${alerting}/events/:id`;
+export const teamSettingsAlertingEventNew = `${alerting}/events/new`;
+export const teamSettingsAlertingEvents = `${alerting}/events`;
+export const teamSettingsAlertingEventFilterEdit = `${alerting}/filters/:id`;
+export const teamSettingsAlertingEventFilterNew = `${alerting}/filters/new`;
+export const teamSettingsAlertingEventFilters = `${alerting}/filters`;
+export const teamSettingsAlertingAlertChannelEdit = `${alerting}/channels/:id`;
+export const teamSettingsAlertingAlertChannelNew = `${alerting}/channels/new`;
+export const teamSettingsAlertingAlertChannels = `${alerting}/channels`;
+export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/maintenanceConfigurations/:id`;
+export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
+export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
+
+// legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)
 const knowledgeManagement = `${teamSettings}/knowledgeManagement`;
 export const teamSettingsKnowledgeManagementBuiltInRuleEdit = `${knowledgeManagement}/builtInRules/:id`;
 export const teamSettingsKnowledgeManagementBuiltInRules = `${knowledgeManagement}/builtInRules`;
@@ -33,16 +50,13 @@ export const teamSettingsKnowledgeManagementCustomDynamicRuleEdit = `${knowledge
 export const teamSettingsKnowledgeManagementCustomDynamicRuleNew = `${knowledgeManagement}/customDynamicRules/new`;
 export const teamSettingsKnowledgeManagementCustomDynamicRules = `${knowledgeManagement}/customDynamicRules`;
 
-const alerting = `${teamSettings}/alerting`;
+// legacy alerting paths (prior to unification of alerting configuration in 2019-02)
 export const teamSettingsAlertingConfigurationEdit = `${alerting}/configurations/:id`;
 export const teamSettingsAlertingConfigurationNew = `${alerting}/configurations/new`;
 export const teamSettingsAlertingConfigurations = `${alerting}/configurations`;
 export const teamSettingsAlertingIntegrationEdit = `${alerting}/integrations/:id`;
 export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`;
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
-export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
-export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/maintenanceConfigurations/:id`;
-export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
 
 const audit = `${teamSettings}/audit`;
 export const teamSettingsAuditLog = `${audit}/log`;
@@ -75,6 +89,13 @@ export function goToIntegrationView(kind) {
   mutateUrl(location => {
     location.pathname = teamSettingsAlertingIntegrationNew;
     setOrDeleteMatrixKey(location, '/integrations', 'kind', kind);
+  });
+}
+
+export function goToAlertChannelView(kind) {
+  mutateUrl(location => {
+    location.pathname = teamSettingsAlertingAlertChannelNew;
+    setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
   });
 }
 

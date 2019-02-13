@@ -132,6 +132,8 @@ import './spray.client';
 import './spray.server';
 import './spring-batch';
 import './spring-rest';
+import './spring-cg-entry';
+import './spring-cg-exit';
 import './spring-web';
 import './spring-webflux-entry';
 import './spring-webflux-exit';

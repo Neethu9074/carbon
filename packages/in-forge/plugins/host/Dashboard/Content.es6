@@ -112,6 +112,22 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
+      <DashboardSection title="Open Files">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            max: 1,
+            formatter: percentageZeroDecimalPlaces,
+            tooltipFormatter: percentageTwoDecimalPlaces,
+            metrics: ['openFiles.used'],
+            labels: ['Used'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
       {swapTotal > 0 ? (
         <DashboardSection title="Swap Activity">
           <Chart

@@ -7,24 +7,24 @@
     border-radius: @lib__shapes__radius_medium;
 
     &:hover {
-      border: 1px solid #ffffff52;
+      border: 1px solid rgba(255,255,255,0.32);
 
       .toggleIcon {
-        fill: #ffffffb8;
+        fill: rgba(255,255,255,0.7);
       }
 
       .appName {
-        color: #ffffffb8;
+        color: rgba(255,255,255,0.7);
       }
     }
   }
 
   .appName {
-    color: #ffffff8f;
+    color: rgba(255,255,255,0.56);
   }
 
   .toggleIcon {
-    fill: #ffffff8f;
+    fill: rgba(255,255,255,0.56);
     margin-left: 0.5rem;
   }
 }
