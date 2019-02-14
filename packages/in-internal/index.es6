@@ -9,6 +9,7 @@ import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import GraphExplorer from 'in-internal/GraphExplorer/GraphExplorer';
 import SloViolations from 'in-internal/SloViolations/SloViolations';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
+import ResilientMapping from 'in-internal/ResilientMapping';
 import EumProcessor from 'in-internal/eum/EumProcessor';
 import WorkerStats from 'in-internal/sre/WorkerStats';
 import EumAcceptor from 'in-internal/eum/EumAcceptor';
@@ -38,6 +39,7 @@ export default function Internal() {
       <Route path="/internal/appdataProcessing" component={AppDataProcessorStatistics} />
       <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
       <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
+      <Route path="/internal/resilientMapping" component={ResilientMapping} />
       <Route path="/internal/tracesSubscriptionStats" component={TracesSubscriptionStats} />
       <Route path="/internal/sre/workerStats" component={WorkerStats} />
       <Route path="/internal/sre/selfserviceWorkerStats" component={SelfserviceWorkerStats} />
