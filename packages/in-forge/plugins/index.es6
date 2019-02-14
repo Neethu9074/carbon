@@ -9,6 +9,7 @@ import './awsEs';
 import './awsElb';
 import './awsKinesis';
 import './awsLambda';
+import './awsMq';
 import './awsRds';
 import './awsSqs';
 import './awsS3';
