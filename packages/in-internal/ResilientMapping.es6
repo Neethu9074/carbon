@@ -3,68 +3,70 @@ import React, { Fragment } from 'react';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
-import { number, percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
-const cols = [
-  {
-    title: 'Customer',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.container.get('label');
+function getCols(fqn) {
+  return [
+    {
+      title: 'Customer',
+      type: 'string',
+      typeArgs: {
+        getValue(row) {
+          return row.container.get('label');
+        }
+      }
+    },
+    {
+      title: 'appdata-processor',
+      type: 'snapshotLink',
+      typeArgs: {
+        pathname: physicalDashboardPath,
+        getSnapshotId(row) {
+          return row.dropwizard.get('id');
+        }
+      }
+    },
+    {
+      title: 'Successful predictions',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.dropwizard.get('id');
+        },
+        getMetricName() {
+          return `metrics.meters.${fqn}.successful-predictions`;
+        },
+        getContent: number.compact,
+        forceTimeWindowAggregation: true,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
+      }
+    },
+    {
+      title: 'Cache size',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.dropwizard.get('id');
+        },
+        getMetricName() {
+          return `metrics.gauges.${fqn}.cache-size`;
+        },
+        getContent: number.compact,
+        forceTimeWindowAggregation: true,
+        getTimeWindowAggregation() {
+          return 'mean';
+        }
       }
     }
-  },
-  {
-    title: 'appdata-processor',
-    type: 'snapshotLink',
-    typeArgs: {
-      pathname: physicalDashboardPath,
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      }
-    }
-  },
-  {
-    title: 'Prediction success rate',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName() {
-        return `metrics.gauges.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.predictions.error_rate`;
-      },
-      getContent: percentage.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Cache size',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName() {
-        return `metrics.gauges.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.cache-size`;
-      },
-      getContent: number.compact,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  }
-];
+  ];
+}
 
 export default connectTo({
   timeConfig: timeConfig$,
@@ -76,14 +78,31 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title={`appdata-processors (${rows.length})`}>
-        <Table cols={cols} rows={rows} maxItemsPerPage={20} getRowDetails={getRowDetails} />
+      <DashboardSection title="Application Mapping">
+        <Table
+          cols={getCols('com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier')}
+          rows={rows}
+          maxItemsPerPage={20}
+          getRowDetails={row =>
+            getRowDetails(row, 'com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier')
+          }
+        />
+      </DashboardSection>
+      <DashboardSection title="Service Mapping">
+        <Table
+          cols={getCols('com.instana.spanprocessing.stream.applicationextraction.ApplicationClassifier')}
+          rows={rows}
+          maxItemsPerPage={20}
+          getRowDetails={row =>
+            getRowDetails(row, 'com.instana.spanprocessing.stream.applicationextraction.ApplicationClassifier')
+          }
+        />
       </DashboardSection>
     </div>
   );
 });
 
-function getRowDetails(row) {
+function getRowDetails(row, fqn) {
   return (
     <Fragment>
       <Chart
@@ -94,10 +113,10 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.detailed,
           metrics: [
-            `metrics.meters.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.predictions.calls`,
-            `metrics.meters.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.predictions.errors`
+            `metrics.meters.${fqn}.successful-predictions`,
+            `metrics.meters.${fqn}.failed-predictions-caused-by-multiple-labels`
           ],
-          labels: ['Sucessful predictions', 'Failed predictions'],
+          labels: ['Sucessful predictions', 'Failed predictions caused by multiple labels'],
           type: 'line'
         }}
       />
@@ -108,7 +127,7 @@ function getRowDetails(row) {
         y1={{
           min: 0,
           formatter: number.detailed,
-          metrics: [`metrics.gauges.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.cache-size`],
+          metrics: [`metrics.gauges.${fqn}.cache-size`],
           labels: ['Cache size'],
           type: 'line'
         }}
@@ -120,9 +139,7 @@ function getRowDetails(row) {
         y1={{
           min: 0,
           formatter: number.detailed,
-          metrics: [
-            `metrics.meters.com.instana.spanprocessing.stream.serviceextraction.ServiceClassifier.expired-classifications-because-cache-full`
-          ],
+          metrics: [`metrics.meters.${fqn}.expired-classifications-because-cache-full`],
           labels: ['Evictions because of cache full'],
           type: 'line'
         }}
