@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
@@ -7,7 +6,6 @@ import DetailsNavigation, {
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
-import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { serviceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
@@ -52,7 +50,7 @@ export default connectTo(
   }
 );
 
-const navigationItems: [Page] = [
+const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}`,
     icon: 'lib_kubernetes_selector',
@@ -76,4 +74,4 @@ const navigationItems: [Page] = [
   }
 ].filter(Boolean);
 
-const navigationTree: NavigationTree = singletonNavigationTree(navigationItems);
+const navigationTree = singletonNavigationTree(navigationItems);

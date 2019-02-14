@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
@@ -6,7 +5,6 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
-import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { namespaceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
@@ -40,10 +38,10 @@ export default connectTo(({ data: namespace }) => ({ annotations: getAnnotations
   );
 });
 
-const navigationItems: [Page] = [
+const navigationItems = [
   labelsNavigationItem(namespaceDashboardDetailsFullyQualified),
   annotationsNavigationItem(`${namespaceDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${namespaceDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
 
-const navigationTree: NavigationTree = singletonNavigationTree(navigationItems);
+const navigationTree = singletonNavigationTree(navigationItems);

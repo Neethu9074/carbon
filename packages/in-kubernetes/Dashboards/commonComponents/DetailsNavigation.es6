@@ -1,17 +1,15 @@
-// @flow
 import React from 'react';
 
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
-import type { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
 
 export default function DetailsNavigation({ navigationTree, resource, ...props }) {
   return <SideNavigationAndContent navigationTree={navigationTree} sidebarWidth={3} resource={resource} {...props} />;
 }
 
-export function labelsNavigationItem(path: string): Page {
+export function labelsNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_label',
@@ -22,7 +20,7 @@ export function labelsNavigationItem(path: string): Page {
   };
 }
 
-export function annotationsNavigationItem(path: string): Page {
+export function annotationsNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_annotation',
@@ -31,7 +29,7 @@ export function annotationsNavigationItem(path: string): Page {
   };
 }
 
-export function specNavigationItem(path: string): Page {
+export function specNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_spec',
