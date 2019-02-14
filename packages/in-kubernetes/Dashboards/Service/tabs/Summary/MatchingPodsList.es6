@@ -21,7 +21,7 @@ export default function MatchingPodsList({ timeConfig, serviceId }) {
         tab: '/pods'
       })}
       getItemLabel={item => item.pod.label}
-      renderMetric={props => <PodPhase status={props.item.pod.status.phase} />}
+      renderMetric={props => <PodPhase status={props.item.pod.phase} />}
     />
   );
 }

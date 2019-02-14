@@ -84,6 +84,20 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
             <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>Host/port references</option>
           </Select>
         )}
+
+        {container.get('label').includes('appdata-processor') && (
+          <Select
+            id="tag-selection"
+            value=""
+            className={block + '__select'}
+            onChange={e => window.open(e.target.value, '_blank')}
+            autoFocus
+          >
+            <option value="">Resilient mapping (select one)</option>
+            <option value={`${adminUrl}/admin/appClassifications?size=50&minLabels=0`}>Application Mapping</option>
+            <option value={`${adminUrl}/admin/serviceClassifications?size=50&minLabels=0`}>Service Mapping</option>
+          </Select>
+        )}
       </DashboardSection>
 
       <DashboardSection title="Common Commands">

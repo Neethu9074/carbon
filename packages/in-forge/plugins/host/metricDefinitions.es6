@@ -63,7 +63,10 @@ export default [
     getMax(snapshot) {
       return snapshot.getIn(['data', 'openFiles.max']);
     },
-    formatter: number
+    formatter: number,
+    isAvailable(snapshot) {
+      return !isWindows(snapshot);
+    }
   },
   {
     metric: 'openFiles.used',
@@ -71,7 +74,10 @@ export default [
     category: ['Open Files'],
     min: 0,
     max: 1,
-    formatter: percentage
+    formatter: percentage,
+    isAvailable(snapshot) {
+      return !isWindows(snapshot);
+    }
   },
   {
     metrics: ['topPID'],
