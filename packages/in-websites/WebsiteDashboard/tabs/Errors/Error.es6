@@ -279,7 +279,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }])
             }),
             group: {
-              groupbyTag: 'beacon.page.name'
+              groupbyTag: 'beacon.location.path'
             }
           })}
         >
