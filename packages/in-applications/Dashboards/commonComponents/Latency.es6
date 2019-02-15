@@ -23,6 +23,7 @@ export default function Latency({
       shareMaxAxisDomain
       y1={{
         renderer: Renderer.integral,
+        calculateStackDifferences: true,
         formatter: millis.fixed,
         labels: ['50th', '90th', '95th', '99th', 'Max'],
         defaultDisabledMetrics: ['durationMax'],
