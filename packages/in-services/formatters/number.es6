@@ -88,6 +88,21 @@ export const minutes = {
   compact: t => formatTime(t, timeMinuteUnits, number.compact),
   detailed: timeByMinutesTwoDecimalPlaces
 };
+export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));
+// 'ms' are always formatted to compact zero decimal format,
+// 's' and 'min' can have both compact and detailed formats
+export const forcedCompactForMs = {
+  compact: t => millis.compact(t),
+  detailed: t => (t < 1000 ? millis.compact(t) : millis.detailed(t))
+};
+export const meanLatency = {
+  compact: t => (t > 0 && t < 1 ? '< 1ms' : forcedCompactForMs.compact(t)),
+  detailed: t => (t > 0 && t < 1 ? '< 1ms' : forcedCompactForMs.detailed(t))
+};
+export const latency = {
+  compact: v => (v < 1 ? '< 1ms' : forcedCompactForMs.compact(v)),
+  detailed: v => (v < 1 ? '< 1ms' : forcedCompactForMs.detailed(v))
+};
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
@@ -172,6 +187,7 @@ export const siMultiplyPrefix = {
   detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
 
+// deprecated in favor of millis
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const ms = {
@@ -419,5 +435,3 @@ export function valueWithFormatterToReadableString(value, valueFormat) {
   }
   return value.toString();
 }
-
-export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));

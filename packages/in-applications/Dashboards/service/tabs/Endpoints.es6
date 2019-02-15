@@ -11,7 +11,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { number, ms, percentage } from 'in-services/formatters/number';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
@@ -240,7 +240,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFormatterWrapper(ms).compact}
+          tooltipFormatter={meanLatencyFormatterWrapper(millis.fixed).compact}
         />
       );
     }

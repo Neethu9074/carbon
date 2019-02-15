@@ -16,7 +16,7 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { number, ms, percentage } from 'in-services/formatters/number';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -134,7 +134,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFormatterWrapper(ms).compact}
+          tooltipFormatter={meanLatencyFormatterWrapper(millis.fixed).compact}
         />
       );
     }

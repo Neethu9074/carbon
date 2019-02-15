@@ -16,7 +16,7 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
-import { percentage, ms, number } from 'in-services/formatters/number';
+import { percentage, millis, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
 import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Filters from 'in-applications/components/Filters';
@@ -107,7 +107,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFormatterWrapper(ms).compact}
+          tooltipFormatter={meanLatencyFormatterWrapper(millis.fixed).compact}
         />
       );
     }
