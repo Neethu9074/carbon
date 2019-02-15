@@ -4,18 +4,19 @@ import { get } from 'lodash';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
-import { millis, percentage, number } from 'in-services/formatters/number';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
+import { millis, percentage, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Link from 'in-components/Link';
 import connect from 'in-hoc/connectTo';
 
 const metrics = ['latency', 'traces', 'errors'];
 const labels = ['Latency', 'Count', 'Errors'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [millis.fixedCompact, number.compact, percentage.detailed];
+const formatters = [meanLatencyFormatterWrapper(millis.fixed).compact, number.compact, percentage.detailed];
 
 export default connect(({ applicationId, serviceId, endpointId }) => {
   const observables = {};

@@ -5,12 +5,13 @@ import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPrese
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { millis, percentage, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
+import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];
 const labels = ['Latency', 'Calls', 'Errors'];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
-const formatters = [millis.fixedCompact, number.compact, percentage.detailed];
+const formatters = [meanLatencyFormatterWrapper(millis.fixed).compact, number.compact, percentage.detailed];
 
 export default function ServiceTopList({ applicationId, timeConfig }) {
   return (

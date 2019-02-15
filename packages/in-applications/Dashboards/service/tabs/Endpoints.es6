@@ -16,6 +16,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Filters from 'in-applications/components/Filters';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
@@ -239,7 +240,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={ms.compact}
+          tooltipFormatter={meanLatencyFormatterWrapper(ms).compact}
         />
       );
     }

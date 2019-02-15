@@ -15,10 +15,11 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { ms, percentage, number } from 'in-services/formatters/number';
+import { percentage, ms, number } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Filters from 'in-applications/components/Filters';
 import ListTitle from 'in-new-components/lists/Title';
 import { isNotBlank } from 'in-services/util/string';
@@ -241,7 +242,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={ms.compact}
+          tooltipFormatter={meanLatencyFormatterWrapper(ms).compact}
         />
       );
     }
