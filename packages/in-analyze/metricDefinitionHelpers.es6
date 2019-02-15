@@ -8,7 +8,7 @@ export function newTimeMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: wrapToDisplaySpecialLabelFor0(millis.forcedFixedCompact),
+    formatter: latencyFormatterWrapper(millis.forcedFixedCompact),
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
     category,
     min: 0,
@@ -55,7 +55,7 @@ function wrapToDiscardNegativeValues(formatter) {
   };
 }
 
-export function wrapToDisplaySpecialLabelFor0(formatter) {
+export function latencyFormatterWrapper(formatter) {
   return {
     compact: v => (v < 1 ? '< 1ms' : formatter.compact(v)),
     detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { latencyFormatterWrapper } from 'in-analyze/metricDefinitionHelpers';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
@@ -61,7 +62,7 @@ function TimingValueList({ values }) {
       {values.map(value => {
         const { label, duration, totalDuration } = value;
 
-        const durationValue = duration == null ? '--' : `${millis.fixedCompact(duration)}`;
+        const durationValue = duration == null ? '--' : `${latencyFormatterWrapper(millis.fixed).compact(duration)}`;
         const durationInPercent =
           totalDuration && duration == null ? null : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
 
@@ -83,7 +84,7 @@ function TimingValueTotal({ value }) {
   return (
     <div className={locals.timingValueTotal}>
       <span>{TOTAL_TIME_LABEL}</span>
-      <span>{millis.fixedCompact(value)}</span>
+      <span>{latencyFormatterWrapper(millis.fixed).compact(value)}</span>
     </div>
   );
 }

@@ -15,7 +15,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
+import { latencyFormatterWrapper } from 'in-analyze/metricDefinitionHelpers';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -101,7 +101,7 @@ export default function RawCallsPresenter(props) {
                 <TimestampCell time={item.call.started} />
               </Td>
 
-              <Td>{wrapToDisplaySpecialLabelFor0(millis).compact(item.call.duration)}</Td>
+              <Td>{latencyFormatterWrapper(millis).compact(item.call.duration)}</Td>
             </Tr>
           ))}
 

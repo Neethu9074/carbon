@@ -2,6 +2,7 @@ import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
+import { latencyFormatterWrapper } from 'in-analyze/metricDefinitionHelpers';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -59,7 +60,7 @@ function ProcessingTime({ call, getColor }) {
   const processingEndTime = call.start + call.duration - networkTime / 2;
   const processingDuration = processingEndTime - processingStartTime;
 
-  const processingWidthInPercent = processingDuration / call.duration * 100;
+  const processingWidthInPercent = (processingDuration / call.duration) * 100;
 
   return (
     <div
@@ -91,7 +92,7 @@ function CallDurationLabel({ call }) {
           [locals.rightAlignedCallDuration]: false
         })}
       >
-        {millis.fixedCompact(call.duration)}
+        {latencyFormatterWrapper(millis.fixed).compact(call.duration)}
       </span>
     </div>
   );

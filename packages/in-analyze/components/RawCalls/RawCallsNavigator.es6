@@ -22,7 +22,7 @@ import {
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
+import { latencyFormatterWrapper } from 'in-analyze/metricDefinitionHelpers';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -119,7 +119,7 @@ function RawCallsNavigator({
                     <NavigatorMinifiedExtraData
                       extras={[
                         formatDateTime(item.call.started),
-                        wrapToDisplaySpecialLabelFor0(millis).compact(item.call.duration)
+                        latencyFormatterWrapper(millis).compact(item.call.duration)
                       ]}
                     />
                   )}
@@ -129,7 +129,7 @@ function RawCallsNavigator({
 
                 {showAllColumns && (
                   <Td>
-                    <span>{wrapToDisplaySpecialLabelFor0(millis).compact(item.call.duration)}</span>
+                    <span>{latencyFormatterWrapper(millis).compact(item.call.duration)}</span>
                   </Td>
                 )}
               </Tr>
