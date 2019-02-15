@@ -5,8 +5,8 @@ import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { combineLatest } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
@@ -125,7 +125,7 @@ const SideNavigationItemWithActiveFlag = connectTo(
 function isActive(path, subPages) {
   const isMainView$ = isView(pathname => pathname === path);
   if (subPages) {
-    const isSubViewObservables = subPages.map(subPage => isView(subPage.path));
+    const isSubViewObservables = subPages.map(subPage => isViewWithRouteParam(subPage.path));
     // The !! before results.find(Boolean) is required, because [false, false, false].find(Boolean) will evaluate to
     // undefined and an undefined value will not be emitted, so this SideNavigationItem will just stay on its last
     // stale isActive state.
