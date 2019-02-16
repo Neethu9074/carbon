@@ -18,11 +18,14 @@
   .text {
     margin: 0 0.5rem 0.125rem 0.5rem;
     color: @lib__colors__N600Light;
+    white-space: nowrap;
   }
 
   .link {
     white-space: nowrap;
     margin-bottom: 0.0625rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover {
       color: @lib__colors__N700Medium;

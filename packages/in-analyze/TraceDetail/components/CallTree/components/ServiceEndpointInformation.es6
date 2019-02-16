@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
@@ -7,10 +7,20 @@ import Link from 'in-components/Link';
 
 import locals from './ServiceEndpointInformation.mless';
 
-export default function ServiceEndpointInformation({ call, marginLeft }) {
-  if (((!call.service || !call.service.label) && (!call.endpoint || !call.endpoint.label)) || isUnknownTypeSpan(call)) {
+export default function ServiceEndpointInformation({ call, nonInternalParentCall, onCallClicked, marginLeft }) {
+  if (
+    ((!call.service || call.service.id === 'UNKNOWN') && (!call.endpoint || call.endpoint.id === 'UNKNOWN')) ||
+    isUnknownTypeSpan(call)
+  ) {
     return null;
   }
+
+  const handleCallLinkClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    onCallClicked(nonInternalParentCall);
+  };
+
   return (
     <div
       style={{
@@ -28,6 +38,16 @@ export default function ServiceEndpointInformation({ call, marginLeft }) {
       <Link className={locals.link} href$={getServiceDashboard(call.service.id)}>
         {call.service.label}
       </Link>
+
+      {isInternalCall(call) &&
+        nonInternalParentCall && (
+          <Fragment>
+            <span className={locals.text}>Inherited by</span>
+            <a className={locals.link} href="" onClick={handleCallLinkClick}>
+              {nonInternalParentCall.label || 'Undefined'}
+            </a>
+          </Fragment>
+        )}
     </div>
   );
 }
