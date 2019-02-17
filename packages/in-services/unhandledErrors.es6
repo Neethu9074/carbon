@@ -1,5 +1,6 @@
 import { setUnhandledErrorHandler } from 'reactive-observables';
 import { createLogger } from 'instalog';
+import { get } from 'lodash';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEngineer } from 'in-stores/user';
@@ -10,6 +11,12 @@ const unhandledLogger = createLogger('in-services/unhandledErrors');
 
 export function init() {
   setUnhandledErrorHandler(e => {
+    const status = get(e, ['response', 'status']);
+    if (status === 401 || status === 403) {
+      // No need to report unauthorized errors to our error tracking system.
+      return;
+    }
+
     ineum('reportError', e);
 
     unhandledLogger.error(`Unhandled error in observable chain: ${e.message}`, e);
