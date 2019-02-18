@@ -96,7 +96,7 @@ function Success({ statement, timeConfig, applicationId, serviceId, endpointId }
         <Col lg={4}>
           <AppDataKpiCard
             title="Mean Latency"
-            formatter={millis.detailed}
+            formatter={millis.forcedCompactOnMs.detailed}
             metricsConfig={{
               filter,
               metrics: {

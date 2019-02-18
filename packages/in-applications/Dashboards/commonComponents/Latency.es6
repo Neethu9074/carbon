@@ -23,14 +23,14 @@ export default function Latency({
       shareMaxAxisDomain
       y1={{
         renderer: Renderer.integral,
-        formatter: millis.fixed,
+        formatter: millis.forcedFixedCompact,
         labels: ['50th', '90th', '95th', '99th', 'Max'],
         defaultDisabledMetrics: ['durationMax'],
         metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
       }}
       y2={{
         renderer: Renderer.line,
-        formatter: millis.fixed,
+        formatter: millis.forcedFixedCompact,
         labels: ['Mean'],
         defaultDisabledMetrics: ['durationAvg'],
         metricIds: ['durationAvg']
