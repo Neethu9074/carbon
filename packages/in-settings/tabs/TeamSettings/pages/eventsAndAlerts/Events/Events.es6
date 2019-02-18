@@ -3,16 +3,19 @@ import React, { Fragment } from 'react';
 
 import { customEnumValue, builtInEnumValue, builtInValue, customValue, isBuiltInRule } from './util';
 import {
+  events,
   getEntityHref,
-  getEntityIdView,
   teamSettingsAlertingEvents,
   teamSettingsAlertingEventNew
 } from 'in-settings/navigation/paths';
 import { getEventSpecificationsMutable } from 'in-api/eventSpecifications';
 import List, { createNewEntityButton } from 'in-settings/components/List';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
+import { getModifiedUrlStream } from 'in-stores/navigation';
+import { eventType } from 'in-settings/navigation/matrix';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
@@ -55,7 +58,7 @@ function Events({ type, setType, severity, setSeverity, enabled, setEnabled }) {
       extraFilters={createFilters(type, severity, enabled)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={196}
-      getDetailsHref={entity => getEntityHref(teamSettingsAlertingEvents, entity.id)}
+      getDetailsHref={entity => getDetailsHref(entity)}
     />
   );
 }
@@ -70,7 +73,7 @@ const columnDefinitions = [
       return (
         <WithIcon icon={icon.icon} iconColor={icon.color}>
           <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getEntityIdView(teamSettingsAlertingEvents, entity.id)}>
+            <Link href$={getDetailsView(entity)}>
               {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
             </Link>
           </WithSubscript>

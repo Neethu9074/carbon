@@ -32,7 +32,7 @@ export default function EventFilter(props) {
   );
 }
 
-const Form = entityForm(function IntegrationForm(props) {
+const Form = entityForm(function DetailsForm(props) {
   const { form, message, error, loading, isCreate } = props;
 
   return (
