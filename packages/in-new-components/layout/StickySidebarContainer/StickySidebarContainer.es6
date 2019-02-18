@@ -24,7 +24,7 @@ export default class extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { mode: STATIC, yOffset: null, sidebarTallerThanAvailableSpace: false };
+    this.state = { mode: STATIC, yOffset: null, sidebarTallerThanAvailableSpace: false, width: null };
     this.sidebarInnerRef = React.createRef();
   }
 
@@ -58,6 +58,10 @@ export default class extends React.Component {
     if (this.state.sidebarTallerThanAvailableSpace !== sidebarTallerThanAvailableSpace) {
       this.setState({ sidebarTallerThanAvailableSpace });
     }
+    // Force the inner sidebar div to keep its width (actually, the width of the outer sidebar div. Otherwise, with
+    // some layout modes (like, position: absolute) it would take 100vw width. The - 24 is for 12 px padding on both
+    // sides.
+    this.setState({ width: `${this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width - 24}px` });
   };
 
   handleScroll = () => {
@@ -111,8 +115,8 @@ export default class extends React.Component {
   }
 
   render() {
-    const { sidebar, children, sidebarWidth = 2 } = this.props;
-    const { mode, yOffset, sidebarTallerThanAvailableSpace } = this.state;
+    const { sidebar, children, sidebarWidth = 2, stickySidebar } = this.props;
+    const { mode, yOffset, sidebarTallerThanAvailableSpace, width } = this.state;
     return (
       <Row>
         <Col lg={sidebarWidth}>
@@ -124,12 +128,17 @@ export default class extends React.Component {
               [locals.fixedToTop]: (!sidebarTallerThanAvailableSpace && mode !== STATIC) || mode === DRAGGING_UP,
               [locals.keepAbsolutePosition]: mode === KEEP_ABSOLUTE_POSITION
             })}
-            style={{ top: yOffset }}
+            style={{ top: yOffset, width }}
           >
             {sidebar}
           </div>
         </Col>
-        <Col lg={12 - sidebarWidth}>{children}</Col>
+        <Col
+          lg={12 - sidebarWidth}
+          className={evaluateClassNames({ [locals.rightColum]: true, [locals.minHeight]: stickySidebar })}
+        >
+          {children}
+        </Col>
       </Row>
     );
   }
