@@ -22,7 +22,9 @@ import {
   withSiPrefixThreeDecimalPlaces,
   withSiPrefixZeroDecimalPlaces,
   zeroDecimalPlaces,
-  millis
+  millis,
+  latency,
+  meanLatency
 } from './number';
 
 describe('in-services.formatter.number', () => {
@@ -236,6 +238,21 @@ describe('in-services.formatter.number', () => {
       expect(millis.forcedCompactOnMs.detailed(1)).to.equal('1ms');
       expect(millis.forcedCompactOnMs.compact(1200)).to.equal('1s');
       expect(millis.forcedCompactOnMs.detailed(1200)).to.equal('1.20s');
+    });
+  });
+
+  describe('latency', () => {
+    it('should format latency', () => {
+      expect(latency.compact(0)).to.equal('< 1ms');
+      expect(latency.detailed(1)).to.equal('1ms');
+      expect(latency.detailed(1200)).to.equal('1.20s');
+    });
+
+    it('should format mean latency', () => {
+      expect(meanLatency.compact(0)).to.equal('0ms');
+      expect(meanLatency.compact(0.25)).to.equal('< 1ms');
+      expect(meanLatency.detailed(1)).to.equal('1ms');
+      expect(meanLatency.detailed(1200)).to.equal('1.20s');
     });
   });
 });

@@ -5,11 +5,10 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import TraceTopList from 'in-applications/Dashboards/commonComponents/TraceTopList';
-import { number, millis, percentage } from 'in-services/formatters/number';
+import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
-import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default function Summary({ timeConfig, endpointId, applicationId, serviceId }) {
@@ -56,7 +55,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
         <Col lg={4}>
           <AppDataKpiCard
             title="Mean Latency"
-            formatter={meanLatencyFormatterWrapper(millis.forcedCompactOnMs).detailed}
+            formatter={meanLatency.detailed}
             metricsConfig={{
               filter,
               metrics: {

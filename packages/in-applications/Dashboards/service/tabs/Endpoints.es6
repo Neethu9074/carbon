@@ -9,14 +9,13 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { number, millis, percentage } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Filters from 'in-applications/components/Filters';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
@@ -240,7 +239,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFormatterWrapper(millis.fixed).compact}
+          tooltipFormatter={meanLatencyFixed.compact}
         />
       );
     }

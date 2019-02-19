@@ -96,6 +96,27 @@ export const minutes = {
 };
 export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));
 
+// call and beacon latency can be 0ms, we want to show '< 1ms' instead
+function latencyFormatterWrapper(formatter) {
+  return {
+    compact: v => (v < 1 ? '< 1ms' : formatter.compact(v)),
+    detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))
+  };
+}
+export const latency = latencyFormatterWrapper(millis.forcedCompactOnMs);
+export const latencyFixed = latencyFormatterWrapper(millis.fixed);
+
+// display '< 1ms' label for mean latency values between 0ms and 1ms
+// exclude 0 because mean latency can be 0 when there are no calls
+export function meanLatencyFormatterWrapper(formatter) {
+  return {
+    compact: t => (t > 0 && t < 1 ? '< 1ms' : formatter.compact(t)),
+    detailed: t => (t > 0 && t < 1 ? '< 1ms' : formatter.detailed(t))
+  };
+}
+export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs);
+export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.fixed);
+
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
 

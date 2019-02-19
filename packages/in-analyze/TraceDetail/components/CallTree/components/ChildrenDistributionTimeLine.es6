@@ -2,9 +2,8 @@ import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { latencyFormatterWrapper } from 'in-analyze/metricDefinitionHelpers';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { millis } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChildrenDistributionTimeLine.mless';
@@ -92,7 +91,7 @@ function CallDurationLabel({ call }) {
           [locals.rightAlignedCallDuration]: false
         })}
       >
-        {latencyFormatterWrapper(millis.fixed).compact(call.duration)}
+        {latencyFixed.compact(call.duration)}
       </span>
     </div>
   );

@@ -11,15 +11,14 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { percentage, millis, number } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { meanLatencyFormatterWrapper } from 'in-applications/metrics';
 import Filters from 'in-applications/components/Filters';
 import ListTitle from 'in-new-components/lists/Title';
 import { isNotBlank } from 'in-services/util/string';
@@ -242,7 +241,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={meanLatencyFormatterWrapper(millis.fixed).compact}
+          tooltipFormatter={meanLatencyFixed.compact}
         />
       );
     }

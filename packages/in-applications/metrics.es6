@@ -82,10 +82,3 @@ export function extendWindowSizeOnLiveMode(timeConfig) {
   modifiedTimeConfig.windowSize += wiggleRoom + 2 * Math.max(animationDuration, granularity);
   return modifiedTimeConfig;
 }
-
-export function meanLatencyFormatterWrapper(formatter) {
-  return {
-    compact: t => (t > 0 && t < 1 ? '< 1ms' : formatter.compact(t)),
-    detailed: t => (t > 0 && t < 1 ? '< 1ms' : formatter.detailed(t))
-  };
-}
