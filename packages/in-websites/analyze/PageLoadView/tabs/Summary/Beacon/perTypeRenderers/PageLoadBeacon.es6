@@ -6,21 +6,21 @@ import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/comp
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { millis, latencyFixed } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { millis } from 'in-services/formatters/number';
 
 export const getLabel = beacon => beacon.locationUrl;
 
 export const hideStartTimeTooltipField = true;
 
 export const getExtraTooltipFields = beacon => ({
-  'onLoad Time': millis.fixedCompact(beacon.duration)
+  'onLoad Time': latencyFixed.compact(beacon.duration)
 });
 
 export const LeftHeader = ({ beacon, toggleExpanded }) => (
   <Fragment>
     <KeyValueHeader label="Page View Start" onClick={toggleExpanded} value={getLabel(beacon)} />
-    <KeyValueHeader label="onLoad Time" value={millis.fixedCompact(beacon.duration)} />
+    <KeyValueHeader label="onLoad Time" value={latencyFixed.compact(beacon.duration)} />
   </Fragment>
 );
 

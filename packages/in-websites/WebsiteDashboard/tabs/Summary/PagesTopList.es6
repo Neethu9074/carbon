@@ -3,14 +3,14 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
-import { millis, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['pageLoads', 'onLoadTime', 'errors'];
 const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
-const formatters = [number.compact, millis.fixedCompact, number.compact];
+const formatters = [number.compact, meanLatencyFixed.compact, number.compact];
 
 export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
   return (

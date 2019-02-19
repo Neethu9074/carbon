@@ -9,7 +9,7 @@ import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
 import ReturnToClassic from 'in-websites/WebsitesList/ReturnToClassic';
-import { number, millis } from 'in-services/formatters/number';
+import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -155,7 +155,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.onLoadTime}
           metric={item.metrics.onLoadTimeAgg}
-          tooltipFormatter={millis.fixedCompact}
+          tooltipFormatter={meanLatencyFixed.compact}
         />
       );
     }
