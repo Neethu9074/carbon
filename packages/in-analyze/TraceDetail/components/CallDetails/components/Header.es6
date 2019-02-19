@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
-import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
@@ -46,16 +46,18 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
         service.id !== 'UNKNOWN' && (
           <Fragment>
             <span className={locals.serviceLabel}>Service</span>
+
             <div className={locals.serviceLine}>
               <div className={locals.rect} style={{ background: getColor({ service, endpoint }) }} />
-              <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
-              <Link className={locals.link} href$={getServiceDashboard(service.id)}>
-                {service.label}
-              </Link>
-              <SvgIcon className={locals.chevron} type="lib_arrow_expand_right" width={16} height={16} />
+              <span className={locals.text}>{isInternalCall(callTreeNode) ? 'In' : 'To'}</span>
               <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
               <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
                 {endpoint.label}
+              </Link>
+              <span className={locals.text}>of</span>
+              <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
+              <Link className={locals.link} href$={getServiceDashboard(service.id)}>
+                {service.label}
               </Link>
             </div>
           </Fragment>

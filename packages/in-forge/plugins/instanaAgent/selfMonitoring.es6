@@ -92,3 +92,11 @@ export function rebootAgent(snapshot) {
     logger.info('Agent reboot response', response);
   });
 }
+
+export function listSensors(snapshot) {
+  return createAgentResponseObservable({
+    action: 'agent.sensors.list',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).map(response => response.data.sensors);
+}

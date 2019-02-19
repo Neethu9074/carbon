@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
@@ -7,7 +6,6 @@ import DetailsNavigation, {
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
-import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { deploymentDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
@@ -55,10 +53,10 @@ export default connectTo(({ data: deployment }) => ({ annotations: getAnnotation
   );
 });
 
-const navigationItems: [Page] = [
+const navigationItems = [
   labelsNavigationItem(deploymentDashboardDetailsFullyQualified),
   annotationsNavigationItem(`${deploymentDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${deploymentDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
 
-const navigationTree: NavigationTree = singletonNavigationTree(navigationItems);
+const navigationTree = singletonNavigationTree(navigationItems);

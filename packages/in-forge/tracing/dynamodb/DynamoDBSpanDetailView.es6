@@ -7,7 +7,8 @@ export default function DynamoDBSpanDetailView({ span }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Item">{span.getIn(['data', 'dynamodb', 'item'])}</DescriptionItem>
+        <DescriptionItem title="Table">{span.getIn(['data', 'dynamodb', 'table'])}</DescriptionItem>
+        <DescriptionItem title="Operation">{span.getIn(['data', 'dynamodb', 'op'])}</DescriptionItem>
         <ErrorDescriptionItem error={span.getIn(['data', 'dynamodb', 'error'])} />
       </DescriptionList>
     </div>

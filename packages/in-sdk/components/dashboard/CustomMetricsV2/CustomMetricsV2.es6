@@ -34,7 +34,7 @@ const cols = [
           content: (
             <Tooltip
               align="topMiddle"
-              content="Pinned metrics are shown in a separate table above the custom metris. Use this to do an ad-hoc comparison between multiple custom metrics. Additionally, you can send the link to colleagues and they will see the same set of pinned metrics."
+              content="Pinned metrics are shown in a separate table above the custom metrics. Use this to do an ad-hoc comparison between multiple custom metrics. Additionally, you can send the link to colleagues and they will see the same set of pinned metrics."
             >
               <SvgIcon
                 type={isPinned ? 'pinned' : 'unpin'}
