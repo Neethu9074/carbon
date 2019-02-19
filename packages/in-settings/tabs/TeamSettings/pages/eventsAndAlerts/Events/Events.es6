@@ -35,15 +35,12 @@ const severityOptions = [
   { value: 10, label: 'Critical' }
 ];
 
-const enabledOptions = [{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }];
-
 export default compose(
   withState('type', 'setType', null),
-  withState('severity', 'setSeverity', null),
-  withState('enabled', 'setEnabled', null)
+  withState('severity', 'setSeverity', null)
 )(Events);
 
-function Events({ type, setType, severity, setSeverity, enabled, setEnabled }) {
+function Events({ type, setType, severity, setSeverity }) {
   return (
     <List
       title="Events"
@@ -53,9 +50,9 @@ function Events({ type, setType, severity, setSeverity, enabled, setEnabled }) {
       tableActions={tableActions}
       loadEntities={getEventSpecificationsMutable}
       initialOrderBy="name"
-      rightHeader={rightHeader(type, setType, severity, setSeverity, enabled, setEnabled)}
+      rightHeader={rightHeader(type, setType, severity, setSeverity)}
       searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(type, severity, enabled)}
+      extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={196}
       getDetailsHref={entity => getDetailsHref(entity)}
@@ -183,7 +180,7 @@ function getSubscript(entity) {
   return null;
 }
 
-function rightHeader(type, setType, severity, setSeverity, enabled, setEnabled) {
+function rightHeader(type, setType, severity, setSeverity) {
   return (
     <Fragment>
       {createNewEntityButton('New Event', teamSettingsAlertingEventNew)}
@@ -203,19 +200,11 @@ function rightHeader(type, setType, severity, setSeverity, enabled, setEnabled) 
         placeholder="Incidents & Severity…"
         className={joinClassNames(locals.severityDropdown, locals.filterDropdown)}
       />
-      <ComboBox
-        name="filter-enabled"
-        value={enabled}
-        options={enabledOptions}
-        onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-        placeholder="Enabled/Disabled…"
-        className={joinClassNames(locals.enabledDropdown, locals.filterDropdown)}
-      />
     </Fragment>
   );
 }
 
-function createFilters(type, severity, enabled) {
+function createFilters(type, severity) {
   const filters = [];
 
   if (type) {
@@ -226,10 +215,6 @@ function createFilters(type, severity, enabled) {
     filters.push(entity => entity.triggering);
   } else if (severity) {
     filters.push(entity => entity.severity === severity);
-  }
-
-  if (enabled != null) {
-    filters.push(entity => entity.enabled === enabled);
   }
 
   return filters;
