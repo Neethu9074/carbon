@@ -38,7 +38,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
         </Link>
       </Tooltip>
 
-      <span className={locals.text}>In</span>
+      <span className={locals.text}>of</span>
 
       <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={16} height={16} />
       <Tooltip themeStyle="light" content={call.service.label}>
@@ -50,7 +50,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
       {isInternalCall(call) &&
         nonInternalParentCall && (
           <Fragment>
-            <span className={locals.text}>Inherited by</span>
+            <span className={locals.text}>Inherited from</span>
             <Tooltip themeStyle="light" content={nonInternalParentCall.label}>
               <a className={locals.link} href="" onClick={handleCallLinkClick}>
                 {nonInternalParentCall.label || 'Undefined'}
