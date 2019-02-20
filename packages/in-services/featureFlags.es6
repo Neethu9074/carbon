@@ -118,3 +118,15 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
 // ########################################################################################
 export const isOneSecondRollupsForOneDay =
   !isFeatureFlagEnabled('redisMetricWritingEnabled') && isFeatureFlagEnabled('write1sRollupsToCassandra');
+
+// #####################################################################################################################
+// TL;DR: Some tenants have a lot of rule bindings and rules. Loading the rule bindings settings page makes two http
+// requests per rule binding. Users working with these pages a lot run into the API limit. This feature flag disables
+// these http requests.
+//
+// This is a stop gap measure and can be removed after the merging of rules and rule bindings into event specifications.
+//
+// See https://instana.slack.com/archives/GC1J42ZSR/p1550591400029100 or ask the Stan team for details.
+// #####################################################################################################################
+const ruleDeprecationDfqValidationBlackList = ['vorwerk', 'vorwerk2', 'vorwerkprod', 'conrad', 'adidas'];
+export const ruleDeprecationDfqValidationEnabled = ruleDeprecationDfqValidationBlackList.indexOf(config.tenant) < 0;

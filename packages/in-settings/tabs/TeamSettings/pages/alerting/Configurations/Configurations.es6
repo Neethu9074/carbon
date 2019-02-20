@@ -9,7 +9,7 @@ import {
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, ruleDeprecationDfqValidationEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
@@ -28,7 +28,7 @@ export default function Configurations() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={() => getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validateConfig)))}
+      loadEntities={loadEntities}
       initialOrderBy="alertName"
       labelNew="New Configuration"
       pathNew={teamSettingsAlertingConfigurationNew}
@@ -84,6 +84,11 @@ function getEntityName(entity) {
   return `alerting configuration "${entity.alertName}"`;
 }
 
+function loadEntities() {
+  const validationAction = ruleDeprecationDfqValidationEnabled ? validateConfig : assumeConfigIsValid;
+  return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
+}
+
 function validateConfig(config) {
   if (twoZeroModeEnabled && config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
     return validate({
@@ -94,7 +99,11 @@ function validateConfig(config) {
       return config;
     });
   } else {
-    config.valid = true;
-    return just(config);
+    return assumeConfigIsValid(config);
   }
+}
+
+function assumeConfigIsValid(config) {
+  config.valid = true;
+  return just(config);
 }

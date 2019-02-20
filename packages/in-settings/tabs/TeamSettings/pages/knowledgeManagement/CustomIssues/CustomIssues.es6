@@ -7,9 +7,9 @@ import {
   teamSettingsKnowledgeManagementCustomIssues,
   teamSettingsKnowledgeManagementCustomIssueNew
 } from 'in-settings/navigation/paths';
+import { twoZeroModeEnabled, ruleDeprecationDfqValidationEnabled } from 'in-services/featureFlags';
 import { getRuleBindingsMutable, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import { getRuleMutable, isRuleDeprecatedMutable } from 'in-api/rules';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { combineLatest, just } from 'reactive-observables';
 import { toTitleCase } from 'in-services/util/string';
 import List from 'in-settings/components/List';
@@ -100,13 +100,17 @@ function mapSeverityToLabel(severity) {
 }
 
 function getCustomIssuesWithDeprecationWarnings() {
-  return getRuleBindingsMutable()
-    .flatMap(customIssues => {
-      return combineLatest(customIssues.map(customIssue => checkRuleDeprecation(customIssue)));
-    })
-    .flatMap(customIssues => {
-      return combineLatest(customIssues.map(customIssue => validateDfq(customIssue)));
-    });
+  if (ruleDeprecationDfqValidationEnabled) {
+    return getRuleBindingsMutable()
+      .flatMap(customIssues => {
+        return combineLatest(customIssues.map(customIssue => checkRuleDeprecation(customIssue)));
+      })
+      .flatMap(customIssues => {
+        return combineLatest(customIssues.map(customIssue => validateDfq(customIssue)));
+      });
+  } else {
+    return getRuleBindingsMutable();
+  }
 }
 
 function checkRuleDeprecation(customIssue) {
