@@ -202,10 +202,10 @@ export default class RenderScheduler {
     config.frontBufferCtx.drawImage(
       config.backBufferCanvas,
 
-      progress * config.bufferOffsetInPx * dpr,
+      Math.round(progress * config.bufferOffsetInPx * dpr),
       0,
-      config.frontBufferWidth * dpr,
-      config.height * dpr,
+      Math.round(config.frontBufferWidth * dpr),
+      Math.round(config.height * dpr),
 
       0,
       0,

@@ -8,7 +8,7 @@ import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-website
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
-import { analyzeTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
+import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';

@@ -27,8 +27,8 @@ let currentServerTime;
 
 let initialized = false;
 
-export function init() {
-  if (initialized || twoZeroModeEnabled) {
+export function init(timelineShown = !twoZeroModeEnabled) {
+  if (initialized || !timelineShown) {
     return;
   }
   initialized = true;

@@ -1,4 +1,4 @@
-import { uniq } from 'lodash';
+import { uniq, find } from 'lodash';
 import React from 'react';
 
 import { isNotBlank } from 'in-services/util/string';
@@ -7,9 +7,13 @@ import Gravatar from 'in-components/Gravatar';
 
 import locals from './User.mless';
 
-export default function User({ beacon }) {
+export default function User({ beacon, beacons }) {
+  beacons = beacons || [beacon];
+
   let [first, second, third] = uniq(
-    [beacon.userName, beacon.userEmail, beacon.userId].filter(Boolean).filter(isNotBlank)
+    [getValue(beacons, 'userName'), getValue(beacons, 'userEmail'), getValue(beacons, 'userId')]
+      .filter(Boolean)
+      .filter(isNotBlank)
   );
 
   if (!first) {
@@ -38,4 +42,9 @@ export default function User({ beacon }) {
       </div>
     </div>
   );
+}
+
+function getValue(beacons, field) {
+  const beacon = find(beacons, b => isNotBlank(b[field]));
+  return beacon ? beacon[field] : undefined;
 }

@@ -25,6 +25,7 @@ export default function Latency({
         renderer: Renderer.integral,
         formatter: millis.forcedFixedCompact,
         tooltipFormatter: latencyFixed.compact,
+        calculateStackDifferences: true,
         labels: ['50th', '90th', '95th', '99th', 'Max'],
         defaultDisabledMetrics: ['durationMax'],
         metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']

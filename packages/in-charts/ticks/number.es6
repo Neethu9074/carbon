@@ -1,6 +1,6 @@
 import getTickPositionsDefault from 'in-charts/ticks/default';
 
-export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale) {
+export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale, formatter) {
   const domainRange = domainTo - domainFrom;
 
   // special case, the range is 1, happens on Calls and Instances frequently
@@ -11,7 +11,7 @@ export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainT
   const desiredNumberOfTicks = 4;
   const ticks = [];
 
-  const t = getTicks(domainFrom, domainTo, desiredNumberOfTicks);
+  const t = getTicks(domainFrom, domainTo, desiredNumberOfTicks, formatter);
   for (let i = 0, length = t.length; i < length; i++) {
     const tick = t[i];
     if (tick > domainTo) {
@@ -27,7 +27,7 @@ export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainT
 }
 
 const bases = [1, 2, 5];
-function getTicks(min, max, n) {
+function getTicks(min, max, n, formatter) {
   // swap min and max if necessary
   if (min > max) {
     const temp = min;
@@ -35,7 +35,7 @@ function getTicks(min, max, n) {
     max = temp;
   }
 
-  const interval = getNiceInterval(min, max, n);
+  const interval = getNiceInterval(min, max, n, formatter);
   let value = getFirstTickValue(min, interval);
 
   let ticks = [value];
@@ -61,7 +61,7 @@ function precision(interval) {
   };
 }
 
-function getNiceInterval(min, max, n) {
+function getNiceInterval(min, max, n, formatter) {
   const rawInterval = (max - min) / n;
   const rawExponent = Math.log10(rawInterval);
 
@@ -83,6 +83,16 @@ function getNiceInterval(min, max, n) {
       }
     });
   });
+
+  if (formatter) {
+    if (formatter.__supportsDecimalPlaces == null) {
+      formatter.__supportsDecimalPlaces = formatter(0.3) !== formatter(0.4);
+    }
+
+    if (!formatter.__supportsDecimalPlaces) {
+      nicestInterval = Math.max(1, nicestInterval);
+    }
+  }
 
   return nicestInterval;
 }

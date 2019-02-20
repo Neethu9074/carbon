@@ -34,7 +34,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, false)
+    getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true)
   ]).then(([
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -49,7 +50,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     redisMetricWritingEnabled,
     lastSevenDaysTimePresetEnabled,
     customEventsInWebsiteMonitoringEnabled,
-    unifiedAlerting
+    unifiedAlerting,
+    ruleDeprecationValidationChecksEnabled
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -69,7 +71,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     tenantSwitcherEnabled: true,
     onPremLicenseInformationEnabled: false,
     customEventsInWebsiteMonitoringEnabled,
-    unifiedAlerting
+    unifiedAlerting,
+    ruleDeprecationValidationChecksEnabled
   }));
 });
 

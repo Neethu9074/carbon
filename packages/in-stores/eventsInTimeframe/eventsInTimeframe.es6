@@ -11,8 +11,8 @@ export const data$ = create().emit(data);
 export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
 let subscription;
 
-export function init() {
-  if (twoZeroModeEnabled) {
+export function init(timelineShown = !twoZeroModeEnabled) {
+  if (!timelineShown) {
     return;
   }
 
