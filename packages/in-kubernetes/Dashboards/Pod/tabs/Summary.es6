@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import calculateReadyContainers from 'in-kubernetes/Dashboards/commonComponents/calculateReadyContainers';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/ContainerStates';
 import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -23,7 +24,7 @@ export default function Summary({ data: pod }) {
               <Di title="Phase">
                 <PodPhase status={get(pod, ['status', 'phase'], pod.phase)} />
               </Di>
-              <Di title="Ready">-</Di>
+              <Di title="Ready">{calculateReadyContainers(pod)}</Di>
               <Di title="Restarts">
                 <MetricValue
                   snapshotId={pod.id}

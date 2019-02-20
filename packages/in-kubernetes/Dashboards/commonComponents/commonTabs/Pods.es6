@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 
 import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import PodResourceTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodResourceTooltipContent';
+import calculateReadyContainers from 'in-kubernetes/Dashboards/commonComponents/calculateReadyContainers';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -158,8 +159,8 @@ const allColumnDefinitions = [
   {
     id: 'ready',
     label: 'Ready',
-    getContent() {
-      return '';
+    getContent(item) {
+      return calculateReadyContainers(get(item, ['pod']));
     }
   },
   {
