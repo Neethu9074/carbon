@@ -9,8 +9,8 @@ import {
   teamSettingsAlertingEventFilters
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
+import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
@@ -29,7 +29,7 @@ export default function EventFilters() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={() => getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validateConfig)))}
+      loadEntities={loadEntities}
       initialOrderBy="alertName"
       labelNew="New Event Filter"
       pathNew={teamSettingsAlertingEventFilterNew}
@@ -50,7 +50,7 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <WithSubscript subscript={!isEnabled(entity) ? 'disabled' : null}>
+        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
           <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis50vw}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
@@ -84,6 +84,11 @@ function getEntityName(entity) {
   return `event filter "${entity.alertName}"`;
 }
 
+function loadEntities() {
+  const validationAction = ruleDeprecationValidationChecksEnabled ? validateConfig : assumeConfigIsValid;
+  return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
+}
+
 function validateConfig(config) {
   if (twoZeroModeEnabled && config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
     return validate({
@@ -94,7 +99,11 @@ function validateConfig(config) {
       return config;
     });
   } else {
-    config.valid = true;
-    return just(config);
+    return assumeConfigIsValid(config);
   }
+}
+
+function assumeConfigIsValid(config) {
+  config.valid = true;
+  return just(config);
 }
