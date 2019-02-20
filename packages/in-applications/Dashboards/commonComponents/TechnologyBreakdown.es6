@@ -4,10 +4,10 @@ import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBre
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import { endpointNameTranslations } from 'in-applications/endpointTypes';
+import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { millis } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
@@ -54,6 +54,7 @@ export default connectTo(
           metrics,
           colors,
           formatter: millis.forcedFixedCompact,
+          tooltipFormatter: meanLatencyFixed.compact,
           min: 0
         }
       };
