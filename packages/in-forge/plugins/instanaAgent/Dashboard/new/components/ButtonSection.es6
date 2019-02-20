@@ -8,6 +8,7 @@ import {
   updateAgent,
   rebootAgent
 } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/new/components/SensorsInfo';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogLevel';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -56,6 +57,10 @@ export default function ButtonSection({ snapshot }) {
       <ImageButton iconType="refresh" onClick={() => rebootAgent(snapshot)}>
         Reboot Agent
       </ImageButton>
+
+      <ImageButton iconType="popup" onClick={() => sensorsInfo(snapshot)}>
+        Sensors Info
+      </ImageButton>
     </div>
   );
 }
@@ -77,4 +82,8 @@ function changeMode(snapshot) {
 
 function changeLogLevel(snapshot) {
   setActiveDialog(<LogLevel snapshot={snapshot} />);
+}
+
+function sensorsInfo(snapshot) {
+  setActiveDialog(<SensorsInfo snapshot={snapshot} />);
 }

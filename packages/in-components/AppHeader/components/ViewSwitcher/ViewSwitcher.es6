@@ -9,7 +9,6 @@ import {
   physicalPath,
   logicalTablePath,
   containerPath,
-  websitePath,
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
@@ -17,8 +16,7 @@ import {
   kubernetesEnabled,
   cockpitEnabled,
   twoZeroModeEnabled,
-  instanaInternalFeaturesEnabled,
-  twoZeroWebsiteMonitoringEnabled
+  instanaInternalFeaturesEnabled
 } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
@@ -96,7 +94,12 @@ export default function ViewSwitcher() {
           />
         )}
 
-        <WebsiteMonitoringMenuItems />
+        <View
+          label="Websites"
+          icon="lib_website_inverted"
+          href$={getView(websiteMonitoringPath)}
+          isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
+        />
 
         <IncidentsMenuPoint />
 
@@ -117,23 +120,6 @@ export default function ViewSwitcher() {
         )}
       </ul>
     </div>
-  );
-}
-
-function WebsiteMonitoringMenuItems() {
-  if (twoZeroWebsiteMonitoringEnabled) {
-    return (
-      <View
-        label="Websites"
-        icon="lib_website_inverted"
-        href$={getView(websiteMonitoringPath)}
-        isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
-      />
-    );
-  }
-
-  return (
-    <View label="Websites" icon="lib_website_inverted" href$={getView(websitePath)} isActive$={isView(websitePath)} />
   );
 }
 

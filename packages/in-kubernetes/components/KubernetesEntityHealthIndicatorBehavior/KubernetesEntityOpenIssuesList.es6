@@ -24,9 +24,8 @@ export default connectTo(
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function ApplicationEntityOpenIssuesList({
+  function KubernetesEntityOpenIssuesList({
     openIssuesResult,
-    resolvedEndpointId,
     clusterId,
     namespaceId,
     deploymentId,
@@ -38,6 +37,14 @@ export default connectTo(
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
+        analyzeLink$={getEventsViewFilteredBy({
+          clusterId,
+          namespaceId,
+          deploymentId,
+          podId,
+          nodeId,
+          eventTypeFilter: 'issue'
+        })}
         getIssueLink={eventId =>
           getEventsViewFilteredBy({
             clusterId,
@@ -45,7 +52,6 @@ export default connectTo(
             deploymentId,
             podId,
             nodeId,
-            resolvedEndpointId,
             eventId,
             eventTypeFilter: 'issue'
           })

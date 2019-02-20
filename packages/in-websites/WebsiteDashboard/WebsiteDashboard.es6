@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
-import { quickTagFiltersInWebsiteMonitoringDashboardEnabled } from 'in-services/featureFlags';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import StickyQuickFilterBar from 'in-websites/analyze/AnalyzeView/StickyQuickFilterBar';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
@@ -116,14 +115,11 @@ function WebsiteDashboard({
     />
   );
 
-  let content = tabView;
-  if (quickTagFiltersInWebsiteMonitoringDashboardEnabled) {
-    content = (
-      <StickyQuickFilterBar {...props} tagFilters={tagFilters} showClearFilters={customTagFilters.length > 0}>
-        {tabView}
-      </StickyQuickFilterBar>
-    );
-  }
+  let content = (
+    <StickyQuickFilterBar {...props} tagFilters={tagFilters} showClearFilters={customTagFilters.length > 0}>
+      {tabView}
+    </StickyQuickFilterBar>
+  );
 
   return (
     <Fragment>

@@ -1,8 +1,8 @@
+import { getRootPathPredicate, getPredicateForPathsWithRouteParamPlaceholders } from 'in-stores/navigation/paths';
 import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
@@ -103,9 +103,6 @@ export function getView(path) {
     params.pathname = path;
   });
 }
-function isInfrastructurePath(path) {
-  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
-}
 
 export function isView(...args) {
   const predicates = args.reduce((agg, arg) => {
@@ -114,8 +111,9 @@ export function isView(...args) {
     } else if (typeof arg === 'string') {
       agg.push(getRootPathPredicate(arg));
     } else {
-      // eslint-disable-next-line no-console
-      console.error('Unsupport isView predicate of type %s: %s', typeof arg, arg);
+      if (__DEV__) {
+        throw new Error(`Unsupported isView predicate of type ${typeof arg}: ${arg}`);
+      }
     }
     return agg;
   }, []);
@@ -130,4 +128,33 @@ export function isView(...args) {
       return false;
     })
     .distinct();
+}
+
+// A variant of isView that can handle routing parameter placeholders.
+export function isViewWithRouteParam(...args) {
+  const predicates = args.reduce((agg, arg) => {
+    if (typeof arg === 'string') {
+      agg.push(getPredicateForPathsWithRouteParamPlaceholders(arg));
+    } else {
+      if (__DEV__) {
+        throw new Error(`Unsupported isViewWithRouteParam predicate of type ${typeof arg}: ${arg}`);
+      }
+    }
+    return agg;
+  }, []);
+
+  return navigationParameters$
+    .map(location => {
+      for (let i = 0; i < predicates.length; i++) {
+        if (predicates[i](location.pathname)) {
+          return true;
+        }
+      }
+      return false;
+    })
+    .distinct();
+}
+
+function isInfrastructurePath(path) {
+  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
 }

@@ -5,8 +5,6 @@
   .wrapper {
     display: flex;
     align-items: center;
-
-    .ellipsis();
   }
 
   .pluginIcon,

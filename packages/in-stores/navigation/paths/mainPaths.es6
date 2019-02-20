@@ -15,8 +15,6 @@ export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 export const logicalTablePath = '/table;view=logical;plugin=service';
 export const tracesPath = '/traces';
-export const websitePath = '/website';
-export const newWebsitePath = '/website/new';
 
 export function getLinkToCurrentViewWithViewGrouping(view, vg) {
   return getModifiedUrlStream(params => (params.query[view] = vg));

@@ -3,7 +3,7 @@ import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
-import { isFakeRootCall, isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isFakeRootCall, isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -27,6 +27,7 @@ const EnhancedRow = compose(
 function Row(props) {
   const {
     call,
+    nonInternalParentCall,
     getColor,
     isExpanded,
     scale,
@@ -74,6 +75,8 @@ function Row(props) {
           <ServiceEndpointInformation
             marginLeft={marginLeft + lineWidth + (hasChildren ? marginPerDepth : 0)}
             call={call}
+            nonInternalParentCall={nonInternalParentCall}
+            onCallClicked={onCallClicked}
             getColor={getColor}
           />
         )}
@@ -86,6 +89,7 @@ function Row(props) {
             scale={scale}
             getColor={getColor}
             call={subCall}
+            nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
             isLargeTrace={isLargeTrace}
             depth={depth + 1}
             intermediateRow={i !== call.children.length - 1}

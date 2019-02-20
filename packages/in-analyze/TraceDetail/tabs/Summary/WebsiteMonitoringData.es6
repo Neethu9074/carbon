@@ -2,20 +2,14 @@ import React, { Fragment } from 'react';
 
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
-import { twoZeroWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { navigateToPageLoadFromBackendTrace } from 'in-websites/tracker';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
-import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 
 import locals from './WebsiteMonitoringData.mless';
 
 export default connect(({ traceId, startTime }) => {
-  if (!twoZeroWebsiteMonitoringEnabled) {
-    return emptyObject;
-  }
-
   return {
     result: getWebsiteBeacons({
       tagFilters: [{ name: 'beacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],

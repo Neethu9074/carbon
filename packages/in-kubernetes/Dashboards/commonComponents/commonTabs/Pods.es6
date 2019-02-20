@@ -206,7 +206,6 @@ const allColumnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          inContentArea
         />
       );
     }

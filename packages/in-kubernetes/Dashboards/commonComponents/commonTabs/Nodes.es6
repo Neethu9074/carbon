@@ -156,7 +156,6 @@ const columnDefinitions = [
           nodeId={item.node.id}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          inContentArea
         />
       );
     }

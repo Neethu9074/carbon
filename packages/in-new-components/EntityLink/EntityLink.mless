@@ -17,8 +17,4 @@
     border-radius: 50%;
     display: inline-block;
   }
-
-  .link {
-    .ellipsis();
-  }
 }
