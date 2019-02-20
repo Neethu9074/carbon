@@ -16,7 +16,6 @@
     "customEventName": "",
     "meta": {
       "permission.canSeeOnPremLicenseInformation": "true",
-      "featureFlag.oneZeroWebsiteMonitoringEnabled": "true",
       "featureFlag.releaseNotesEnabled": "true",
       "featureFlag.tenantSwitcherEnabled": "true",
       "permission.canConfigureObjectives": "true",
@@ -37,10 +36,8 @@
       "permission.canConfigureApiTokens": "true",
       "permission.canConfigureEumApplications": "true",
       "permission.canConfigureAgentRunMode": "true",
-      "featureFlag.twoZeroWebsiteMonitoringEnabled": "true",
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
       "featureFlag.oneZeroSupportedUntilMessageEnabled": "true",
-      "featureFlag.quickTagFiltersInWebsiteMonitoringDashboardEnabled": "true",
       "permission.canConfigureAgents": "true",
       "permission.canConfigureCustomAlerts": "true",
       "permission.canConfigureUsers": "true",
