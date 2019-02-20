@@ -128,5 +128,4 @@ export const isOneSecondRollupsForOneDay =
 //
 // See https://instana.slack.com/archives/GC1J42ZSR/p1550591400029100 or ask the Stan team for details.
 // #####################################################################################################################
-const ruleDeprecationDfqValidationBlackList = ['vorwerk', 'vorwerk2', 'vorwerkprod', 'conrad', 'adidas'];
-export const ruleDeprecationDfqValidationEnabled = ruleDeprecationDfqValidationBlackList.indexOf(config.tenant) < 0;
+export const ruleDeprecationValidationChecksEnabled = isFeatureFlagEnabled('ruleDeprecationValidationChecksEnabled');

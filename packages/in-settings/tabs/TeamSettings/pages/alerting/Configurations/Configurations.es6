@@ -9,7 +9,7 @@ import {
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled, ruleDeprecationDfqValidationEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
@@ -85,7 +85,7 @@ function getEntityName(entity) {
 }
 
 function loadEntities() {
-  const validationAction = ruleDeprecationDfqValidationEnabled ? validateConfig : assumeConfigIsValid;
+  const validationAction = ruleDeprecationValidationChecksEnabled ? validateConfig : assumeConfigIsValid;
   return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
 }
 

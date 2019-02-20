@@ -36,7 +36,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/WRITE_1S_ROLLUPS_TO_CASSANDRA`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false)
+    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true)
   ]).then(([
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -53,7 +54,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     write1sRollupsToCassandra,
     redisMetricWritingEnabled,
     lastSevenDaysTimePresetEnabled,
-    customEventsInWebsiteMonitoringEnabled
+    customEventsInWebsiteMonitoringEnabled,
+    ruleDeprecationValidationChecksEnabled
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -75,7 +77,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     useInstanaSaasEumTrackingUrlEnabled: true,
     tenantSwitcherEnabled: true,
     onPremLicenseInformationEnabled: false,
-    customEventsInWebsiteMonitoringEnabled
+    customEventsInWebsiteMonitoringEnabled,
+    ruleDeprecationValidationChecksEnabled
   }));
 });
 

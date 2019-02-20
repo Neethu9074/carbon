@@ -7,7 +7,7 @@ import {
   teamSettingsKnowledgeManagementCustomIssues,
   teamSettingsKnowledgeManagementCustomIssueNew
 } from 'in-settings/navigation/paths';
-import { twoZeroModeEnabled, ruleDeprecationDfqValidationEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import { getRuleBindingsMutable, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import { getRuleMutable, isRuleDeprecatedMutable } from 'in-api/rules';
 import { combineLatest, just } from 'reactive-observables';
@@ -100,7 +100,7 @@ function mapSeverityToLabel(severity) {
 }
 
 function getCustomIssuesWithDeprecationWarnings() {
-  if (ruleDeprecationDfqValidationEnabled) {
+  if (ruleDeprecationValidationChecksEnabled) {
     return getRuleBindingsMutable()
       .flatMap(customIssues => {
         return combineLatest(customIssues.map(customIssue => checkRuleDeprecation(customIssue)));
