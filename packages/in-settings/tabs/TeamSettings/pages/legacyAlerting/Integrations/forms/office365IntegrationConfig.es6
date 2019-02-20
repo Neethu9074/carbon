@@ -1,0 +1,109 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import React from 'react';
+
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { generateUniqueShortId } from 'in-services/util/id';
+import FormGroup from 'in-settings/components/FormGroup';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+
+import './Forms.less';
+
+const block = 'in-integrations-config-form';
+
+const name = 'OFFICE_365';
+const label = 'Office365';
+
+export default {
+  name,
+  label,
+
+  enrichAlertChannelObject(integration) {
+    integration.webhookUrl = '';
+  },
+
+  createDetails(integration) {
+    return (
+      <DescriptionList>
+        <DescriptionItem title="Webhook URL">{integration.get('webhookUrl')}</DescriptionItem>
+      </DescriptionList>
+    );
+  },
+
+  createForm(integration) {
+    return createMapForm()
+      .put(
+        'kind',
+        createField({
+          value: name
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: integration ? integration.get('name') : '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'webhookUrl',
+        createField({
+          value: integration ? integration.get('webhookUrl') : '',
+          validator: notBlankValidator
+        })
+      );
+  },
+
+  createEntity(integration, form) {
+    return {
+      id: integration ? integration.get('id') : generateUniqueShortId(),
+      kind: form.get('kind').value,
+      name: form.get('name').value,
+      webhookUrl: form.get('webhookUrl').value
+    };
+  },
+
+  Form
+};
+
+function Form({ form, onChange }) {
+  return (
+    <fieldset>
+      {form.get('name').map(field => (
+        <FormGroup className={block}>
+          <Label htmlFor="name" hasError={!field.valid && field.touched}>
+            Name
+          </Label>
+          <Input
+            id="name"
+            className={`${block}__input`}
+            type="text"
+            placeholder="Office365 Integration"
+            value={field.value}
+            onChange={e => onChange('name', e.target.value)}
+            hasError={!field.valid && field.touched}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+
+      {form.get('webhookUrl').map(field => (
+        <FormGroup>
+          <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
+            Webhook URL
+          </Label>
+          <Input
+            className={`${block}__input`}
+            id="webhookUrl"
+            type="url"
+            placeholder="https://outlook.office.com/connectors/Connect?state=<myAppsState>&app_id=<appId>&callback_url=<callbackUrl>"
+            value={field.value}
+            onChange={e => onChange('webhookUrl', e.target.value)}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+    </fieldset>
+  );
+}

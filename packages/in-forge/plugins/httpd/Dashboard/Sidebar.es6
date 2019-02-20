@@ -2,7 +2,7 @@ import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.es6';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -20,7 +20,7 @@ export default function HttpdSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header="Modules" data={snapshot.getIn(['data', 'modules'])} />
+      <KeyValueOverlay header="Modules" data={snapshot.getIn(['data', 'modules'])} />
       <PhpSnapshot snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />
     </div>

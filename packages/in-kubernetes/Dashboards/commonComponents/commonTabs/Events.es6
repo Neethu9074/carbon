@@ -57,7 +57,6 @@ export default function Events({ serviceId, namespaceId, clusterId, podId, ...pr
             clusterId={clusterId}
             podId={podId}
             get={getTableData}
-            isSearchable={false}
             {...props}
           />
         </Col>

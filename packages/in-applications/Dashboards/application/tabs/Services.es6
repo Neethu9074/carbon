@@ -14,9 +14,9 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { ms, percentage, number } from 'in-services/formatters/number';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
@@ -106,7 +106,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={item.metrics.latency}
           metric={item.metrics.latencyAgg}
-          tooltipFormatter={ms.compact}
+          tooltipFormatter={meanLatencyFixed.compact}
         />
       );
     }

@@ -50,6 +50,9 @@ export default function DevDashboard() {
             <li>
               <a href="/#/internal/appDataQueryPerformance">App 2.0 Query Performance</a>
             </li>
+            <li>
+              <a href="/#/internal/resilientMapping">Resilient Mapping</a>
+            </li>
           </ul>
         </li>
 
@@ -98,6 +101,9 @@ export default function DevDashboard() {
       <ul className={locals.links}>
         <li>
           <a href="/#/cockpit">Cockpit</a>
+        </li>
+        <li>
+          <a href="/#/internal/graphExplorer">Graph Explorer</a>
         </li>
       </ul>
     </div>

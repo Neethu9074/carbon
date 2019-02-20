@@ -19,9 +19,7 @@ import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
 
-import './DashboardContent.less';
-
-const block = 'in-dashboard-content';
+import locals from './DashboardContent.mless';
 
 export default connectTo(
   {
@@ -62,11 +60,13 @@ export default connectTo(
       return (
         <div className="in-dashboard">
           <LegacyView />
-          <NotFoundDialog
-            snapshotId={snapshotId}
-            versionsForFocusedMoment={versionsForFocusedMoment}
-            versionsForLive={versionsForLive}
-          />
+          <div className={locals.notFoundDialog}>
+            <NotFoundDialog
+              snapshotId={snapshotId}
+              versionsForFocusedMoment={versionsForFocusedMoment}
+              versionsForLive={versionsForLive}
+            />
+          </div>
         </div>
       );
     }
@@ -100,14 +100,14 @@ export default connectTo(
       <div className="in-dashboard">
         <LegacyView />
         <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-        <div className={block}>
+        <div className={locals.mainContent}>
           <DetailPopupPresenter />
           <Sticky header={<DashboardHeader snapshotId={snapshotId} />}>
-            <div className={`${block}__wrapper`}>
-              <div className={`${block}__sidebar`}>
+            <div className={locals.wrapper}>
+              <div className={locals.sidebar}>
                 <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
               </div>
-              <div className={`${block}__content`}>
+              <div className={locals.content}>
                 <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
                   <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
                 </Sticky>

@@ -12,10 +12,12 @@
 
   .horizontalMetricValue {
     margin-left: 0.25rem;
+    white-space: nowrap;
   }
 
   .verticalMetricValue {
     margin-bottom: 0.25rem;
+    white-space: nowrap;
   }
 
   .sparkChart {

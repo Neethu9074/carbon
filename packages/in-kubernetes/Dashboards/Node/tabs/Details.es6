@@ -5,6 +5,7 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -30,7 +31,7 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
         </Col>
       </Row>
       <DetailsNavigation
-        navigationItems={navigationItems}
+        navigationTree={navigationTree}
         resource={node}
         annotations={annotations}
         timeConfig={timeConfig}
@@ -44,3 +45,5 @@ const navigationItems = [
   annotationsNavigationItem(`${nodeDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
+
+const navigationTree = singletonNavigationTree(navigationItems);

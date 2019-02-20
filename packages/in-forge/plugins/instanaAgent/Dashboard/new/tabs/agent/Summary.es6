@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
@@ -100,7 +100,8 @@ export default function Summary({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['sensors.time', 'discovery.time'],
               labels: ['Sensor time', 'Discovery time'],
-              type: 'line'
+              type: 'line',
+              formatter: millis.compact
             }}
             y2={{
               min: 0,

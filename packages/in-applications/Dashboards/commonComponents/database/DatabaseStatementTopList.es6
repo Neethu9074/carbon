@@ -4,14 +4,14 @@ import getDatabaseStatementTopList from 'in-subscription/application/getDatabase
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import { ms, number } from 'in-services/formatters/number';
+import { millis, number } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];
 const labels = ['Latency', 'Calls', 'Error Rate'];
 const aggregations = ['MEAN', 'MEAN', 'MEAN'];
-const formatters = [ms.compact, number.compact, number.compact];
+const formatters = [millis.fixedCompact, number.compact, number.compact];
 
 export default function DatabaseStatementTopList({ applicationId, serviceId, endpointId, timeConfig }) {
   return (

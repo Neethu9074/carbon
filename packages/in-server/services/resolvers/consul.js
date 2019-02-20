@@ -29,14 +29,12 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_WEBSITE_MONITORING_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/QUICK_TAG_FILTERS_IN_WEBSITE_MONITORING_DASHBOARDS_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/WRITE_1S_ROLLUPS_TO_CASSANDRA`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/REDIS_METRIC_WRITING_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false)
+    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, false)
   ]).then(([
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -46,14 +44,12 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     twoZeroLearnMoreButtonEnabled,
     pingComparisonEnabled,
     isSelfService,
-    oneZeroWebsiteMonitoringEnabled,
-    twoZeroWebsiteMonitoringEnabled,
-    quickTagFiltersInWebsiteMonitoringDashboardEnabled,
     isKubernetesV2Enabled,
     write1sRollupsToCassandra,
     redisMetricWritingEnabled,
     lastSevenDaysTimePresetEnabled,
-    customEventsInWebsiteMonitoringEnabled
+    customEventsInWebsiteMonitoringEnabled,
+    unifiedAlerting
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -61,9 +57,6 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     twoZeroAppDataEnabled,
     twoZeroAppDataPresentationEnabled,
     twoZeroLearnMoreButtonEnabled,
-    oneZeroWebsiteMonitoringEnabled,
-    twoZeroWebsiteMonitoringEnabled,
-    quickTagFiltersInWebsiteMonitoringDashboardEnabled,
     pingComparisonEnabled,
     isSelfService,
     isKubernetesV2Enabled,
@@ -75,7 +68,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     useInstanaSaasEumTrackingUrlEnabled: true,
     tenantSwitcherEnabled: true,
     onPremLicenseInformationEnabled: false,
-    customEventsInWebsiteMonitoringEnabled
+    customEventsInWebsiteMonitoringEnabled,
+    unifiedAlerting
   }));
 });
 

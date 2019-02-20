@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, millis, percentage } from 'in-services/formatters/number';
+import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { joinClassNames } from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,7 +16,7 @@ export default connectTo(
     return (
       <div className={joinClassNames(locals.metrics, className)}>
         <span>{metrics.calls != undefined ? number.compact(metrics.calls) : '--'}</span>
-        <span>{metrics.latency != undefined ? millis.detailed(metrics.latency) : '--'}</span>
+        <span>{metrics.latency != undefined ? meanLatency.detailed(metrics.latency) : '--'}</span>
         <span>{metrics.errors != undefined ? percentage.detailed(metrics.errors) : '--'}</span>
       </div>
     );

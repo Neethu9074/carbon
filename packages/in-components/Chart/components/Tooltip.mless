@@ -4,7 +4,7 @@
   .tooltip {
     position: absolute;
     top: 0;
-    bottom: 2.1875rem;
+    bottom: 1.875rem;
     left: 3.125rem;
     right: 3.125rem;
 
@@ -28,7 +28,7 @@
     bottom: 0;
 
     margin-left: -1px;
-    border-left: 1px solid #0000003d;
+    border-left: 1px solid rgba(0,0,0,0.24);
   }
 
   .rightAlignedContent {

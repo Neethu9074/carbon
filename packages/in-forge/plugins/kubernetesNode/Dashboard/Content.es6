@@ -4,6 +4,9 @@ import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage 
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createPodsForK8sNodeSubscription from 'in-subscription/podsForK8sNode';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -42,8 +45,11 @@ export default connectTo(
         .flatMap(getSnapshots)
     };
   },
-  function PodsTable({ snapshot, pods = [], timeConfig }) {
+  function KubernetesNodeDashboard({ snapshot, pods = [], timeConfig }) {
     const snapshotId = snapshot.get('id');
+    if (kubernetesEnabled) {
+      return <RedirectWithHash to$={getNodeDashboard(snapshotId)} />;
+    }
     const rows = pods.map(pod => {
       const data = pod.get('data');
       return {

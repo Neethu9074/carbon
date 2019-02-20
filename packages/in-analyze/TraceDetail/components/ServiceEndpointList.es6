@@ -3,7 +3,7 @@ import React from 'react';
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { millis, number } from 'in-services/formatters/number';
+import { latencyFixed, number } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
@@ -56,7 +56,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       id: 'aggregatedTime',
       label: 'Aggregated Time',
       getContent(item) {
-        return <span className={locals.aggregatedTime}>{millis.fixedCompact(item.aggregatedTime)}</span>;
+        return <span className={locals.aggregatedTime}>{latencyFixed.compact(item.aggregatedTime)}</span>;
       }
     },
 

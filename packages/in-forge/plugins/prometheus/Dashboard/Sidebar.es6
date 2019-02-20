@@ -1,21 +1,12 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Info from 'in-forge/plugins/dropwizardApplicationContainer/Info';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function PrometheusSidebar({ snapshot }) {
   return (
     <div>
       <Separator />
-
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>Prometheus</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

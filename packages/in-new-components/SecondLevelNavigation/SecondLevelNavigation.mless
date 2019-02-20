@@ -44,12 +44,12 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: #ffffff8f;
+    fill: rgba(255,255,255,0.56);
   }
 
   .link {
     text-decoration: none;
-    color: #ffffff8f;
+    color: rgba(255,255,255,0.56);
 
     &:hover {
       text-decoration: none;

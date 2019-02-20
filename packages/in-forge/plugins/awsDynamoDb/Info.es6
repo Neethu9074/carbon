@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { formatDateTime } from 'in-services/formatters/date';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { formatDateTime } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

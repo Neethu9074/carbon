@@ -1,0 +1,10 @@
+:local {
+  .error {
+    margin: 1rem;
+  }
+
+  .notFoundDialog {
+    margin-top: 2rem;
+    max-width: 50rem;
+  }
+}

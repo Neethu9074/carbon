@@ -18,7 +18,7 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { number, millis } from 'in-services/formatters/number';
+import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import { traceDetail } from 'in-analyze/navigation/paths';
@@ -118,7 +118,12 @@ class Summary extends React.Component {
               <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
             </Col>
             <Col lg={3}>
-              <KpiCard title="Latency" value={millis.fixed.compact(trace.duration)} />
+              <KpiCard
+                title="Latency"
+                value={
+                  trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.compact(trace.duration)
+                }
+              />
             </Col>
           </Row>
 

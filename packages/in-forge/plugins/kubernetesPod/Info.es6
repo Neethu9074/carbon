@@ -33,31 +33,26 @@ export default connectTo(
               <SnapshotLink snapshotId={deployment.get('id')}>{getLabel(deployment)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
           {deploymentConfig ? (
             <DescriptionItem title="DeploymentConfig">
               <SnapshotLink snapshotId={deploymentConfig.get('id')}>{getLabel(deploymentConfig)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
           {node ? (
             <DescriptionItem title="Node">
               <SnapshotLink snapshotId={node.get('id')}>{getLabel(node)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
           {host ? (
             <DescriptionItem title="Host">
               <SnapshotLink snapshotId={host.get('id')}>{getLabel(host)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
           {cluster ? (
             <DescriptionItem title="Cluster">
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-
           {namespace ? (
             <DescriptionItem title="Namespace">
               <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
@@ -65,7 +60,6 @@ export default connectTo(
           ) : (
             <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
           )}
-
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
           <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
           <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>

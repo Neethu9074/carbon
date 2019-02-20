@@ -44,7 +44,7 @@
   }
 
   .trClickable:hover {
-    background: rgba(36,131,179,0.08);
+    background: @lib__colors__faded-blue800;
   }
 
   .trRegular {

@@ -9,7 +9,7 @@ import {
   SELF_TIME_LABEL,
   WAITING_TIME_LABEL
 } from 'in-analyze/TraceDetail/components/TimingConstants';
-import { millis } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
 import Pill from 'in-new-components/Pill';
 
@@ -61,7 +61,7 @@ function TimingValueList({ values }) {
       {values.map(value => {
         const { label, duration, totalDuration } = value;
 
-        const durationValue = duration == null ? '--' : `${millis.fixedCompact(duration)}`;
+        const durationValue = duration == null ? '--' : `${latencyFixed.compact(duration)}`;
         const durationInPercent =
           totalDuration && duration == null ? null : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
 
@@ -83,7 +83,7 @@ function TimingValueTotal({ value }) {
   return (
     <div className={locals.timingValueTotal}>
       <span>{TOTAL_TIME_LABEL}</span>
-      <span>{millis.fixedCompact(value)}</span>
+      <span>{latencyFixed.compact(value)}</span>
     </div>
   );
 }

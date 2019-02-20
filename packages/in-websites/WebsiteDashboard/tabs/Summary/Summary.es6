@@ -6,8 +6,8 @@ import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/D
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
+import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -39,7 +39,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={3}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (mean)"
-            formatter={millis.detailed}
+            formatter={meanLatency.detailed}
             metricsConfig={{
               tagFilters,
               timeConfig,
@@ -55,7 +55,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={3}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (90th)"
-            formatter={millis.detailed}
+            formatter={latency.detailed}
             metricsConfig={{
               tagFilters,
               timeConfig,
@@ -71,7 +71,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={3}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (95th)"
-            formatter={millis.detailed}
+            formatter={latency.detailed}
             metricsConfig={{
               tagFilters,
               timeConfig,

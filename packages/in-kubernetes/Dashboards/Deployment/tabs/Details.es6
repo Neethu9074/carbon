@@ -6,6 +6,7 @@ import DetailsNavigation, {
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
+import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { deploymentDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -43,7 +44,7 @@ export default connectTo(({ data: deployment }) => ({ annotations: getAnnotation
         </Col>
       </Row>
       <DetailsNavigation
-        navigationItems={navigationItems}
+        navigationTree={navigationTree}
         resource={deployment}
         annotations={annotations}
         timeConfig={timeConfig}
@@ -57,3 +58,5 @@ const navigationItems = [
   annotationsNavigationItem(`${deploymentDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${deploymentDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
+
+const navigationTree = singletonNavigationTree(navigationItems);

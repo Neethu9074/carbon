@@ -24,7 +24,7 @@ export default getElementDimensions(function CallTimeAxis({ width, call, showSta
         <HorizontalAxis
           align="top"
           width={width}
-          formatter={millis}
+          formatter={millis.forcedCompactOnMs}
           detailedFormatting
           tickLength={8}
           tickColor={theme.lib.colors.N400}

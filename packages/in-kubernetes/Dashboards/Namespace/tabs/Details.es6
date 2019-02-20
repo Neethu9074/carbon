@@ -5,6 +5,7 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
+import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { namespaceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
@@ -28,7 +29,7 @@ export default connectTo(({ data: namespace }) => ({ annotations: getAnnotations
         </Col>
       </Row>
       <DetailsNavigation
-        navigationItems={navigationItems}
+        navigationTree={navigationTree}
         resource={namespace}
         annotations={annotations}
         timeConfig={timeConfig}
@@ -42,3 +43,5 @@ const navigationItems = [
   annotationsNavigationItem(`${namespaceDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${namespaceDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
+
+const navigationTree = singletonNavigationTree(navigationItems);

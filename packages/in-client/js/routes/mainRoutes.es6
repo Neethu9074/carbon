@@ -10,22 +10,12 @@ import {
   logicalPath,
   physicalPath,
   tablePath,
-  tracesPath,
-  websitePath,
-  newWebsitePath
+  tracesPath
 } from 'in-stores/navigation/paths/mainPaths';
-import {
-  kubernetesEnabled,
-  twoZeroModeEnabled,
-  instanaInternalFeaturesEnabled,
-  oneZeroWebsiteMonitoringEnabled,
-  twoZeroWebsiteMonitoringEnabled
-} from 'in-services/featureFlags';
-import NewWebsite from 'promise-loader?global,eumView!in-views/eumView/components/NewWebsite';
+import { kubernetesEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import GraphView from 'promise-loader?global!in-components/graphView/GraphView';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
-import EumView from 'promise-loader?global,eumView!in-views/eumView/EumView';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
 import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
@@ -50,11 +40,6 @@ export default (
 
     <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
     <Route component={createAsyncViewComponent(TableView)} path={tablePath} />
-    {oneZeroWebsiteMonitoringEnabled && (
-      <Route component={createAsyncViewComponent(NewWebsite)} path={newWebsitePath} />
-    )}
-    {oneZeroWebsiteMonitoringEnabled && <Route component={createAsyncViewComponent(EumView)} path={websitePath} />}
-
     <Route component={createAsyncViewComponent(GraphView)} path={graphPath} />
 
     {configurationRoutes}
@@ -71,7 +56,7 @@ export default (
     {twoZeroModeEnabled && applicationRoutes}
     {twoZeroModeEnabled && analyzeRoutes}
     {kubernetesEnabled && kubernetesRoutes}
-    {twoZeroWebsiteMonitoringEnabled && websiteMonitoringRoutes}
+    {websiteMonitoringRoutes}
 
     {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />

@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
+import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
+import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
-import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
@@ -27,7 +28,7 @@ export default function DeploymentDashboard({ location }) {
 
   return (
     <Fragment>
-      <ClusterAndNamespaceIds
+      <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         deploymentId={props.deploymentId}
         renderBreadcrumbs={(clusterId, namespaceId) => (
@@ -50,6 +51,9 @@ export default function DeploymentDashboard({ location }) {
         location={location}
         tabs={tabs}
         props={props}
+        renderErrors={errors => (
+          <ErroneousEntityVersionList snapshotId={props.deploymentId} timeConfig={props.timeConfig} errors={errors} />
+        )}
       />
       <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>

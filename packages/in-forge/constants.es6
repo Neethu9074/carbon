@@ -13,6 +13,7 @@ export const nonServicePlugins = {
   awsElb: 'awsElb',
   awsKinesis: 'awsKinesis',
   awsLambda: 'awsLambda',
+  awsMq: 'awsMq',
   awsRds: 'awsRds',
   awsSqs: 'awsSqs',
   awsS3: 'awsS3',
@@ -215,16 +216,8 @@ export const applicationPlugins = {
   service: 'service'
 };
 
-const websiteMonitoring = {
-  browserLogicalConnection: 'browserLogicalConnection',
-  browserLogicalService: 'browserLogicalService',
-  pageResourceLogicalConnection: 'pageResourceLogicalConnection',
-  pageResourceLogicalService: 'pageResourceLogicalService',
-  pageResourceServiceInstance: 'pageResourceServiceInstance'
-};
-
-export const plugins10 = assign({}, oneZeroLogicalPlugins, nonServicePlugins, websiteMonitoring);
-export const plugins20 = assign({}, applicationPlugins, nonServicePlugins, websiteMonitoring);
+export const plugins10 = assign({}, oneZeroLogicalPlugins, nonServicePlugins);
+export const plugins20 = assign({}, applicationPlugins, nonServicePlugins);
 export const pluginsDeprecatedIn20 = omit(plugins10, Object.keys(plugins20), Object.keys(oneZeroServicePlugins));
 export const plugins = assign({}, plugins10, plugins20);
 
@@ -236,7 +229,7 @@ export const defaultAndUnknownPluginNames = [
   'defaultServiceInstance'
 ];
 
-export const customIssuesDisabledForPlugins = ['browserLogicalService', ...defaultAndUnknownPluginNames];
+export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
@@ -248,6 +241,7 @@ export const fullyQualifiedPlugins = {
   awsElb: 'com.instana.forge.hardware.virtual.aws.elb.AwsElb',
   awsKinesis: 'com.instana.forge.hardware.virtual.aws.kinesis.AwsKinesis',
   awsLambda: 'com.instana.forge.hardware.virtual.aws.lambda.AwsLambda',
+  awsMq: 'com.instana.forge.hardware.virtual.aws.mq.AwsMq',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
   awsSqs: 'com.instana.forge.hardware.virtual.aws.sqs.AwsSqs',
   awsS3: 'com.instana.forge.hardware.virtual.aws.sqs.AwsS3',
@@ -263,8 +257,6 @@ export const fullyQualifiedPlugins = {
   azureSqlElasticPool: 'com.instana.forge.hardware.virtual.azure.sqlelasticpool.AzureSqlElasticPool',
   azureSqlServer: 'com.instana.forge.hardware.virtual.azure.sqlserver.AzureSqlServer',
   batchServiceInstance: 'com.instana.forge.connection.batch.BatchServiceInstance',
-  browserLogicalConnection: 'com.instana.forge.connection.eum.BrowserLogicalConnection',
-  browserLogicalService: 'com.instana.forge.connection.eum.BrowserLogicalService',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
   cassandraKeyspaceServiceInstance: 'com.instana.forge.connection.database.cassandra.CassandraKeyspaceServiceInstance',
   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
@@ -395,9 +387,6 @@ export const fullyQualifiedPlugins = {
   openshiftDeploymentConfig:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.openshift.deploymentconfig.OpenshiftDeploymentConfig',
   packet: 'com.instana.forge.hardware.virtual.Packet',
-  pageResourceLogicalConnection: 'com.instana.forge.connection.eum.PageResourceLogicalConnection',
-  pageResourceLogicalService: 'com.instana.forge.connection.eum.PageResourceLogicalService',
-  pageResourceServiceInstance: 'com.instana.forge.connection.eum.PageResourceServiceInstance',
   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',
   phpRuntimePlatform: 'com.instana.forge.infrastructure.runtime.php.PhpRuntimePlatform',
   ping: 'com.instana.forge.infrastructure.synthetic.ping.Ping',

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 
@@ -19,8 +19,8 @@ export default function PythonDashboardSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValuePopup header="Loaded Modules" data={snapshot.getIn(['data', 'snapshot.versions'])} />
-      <KeyValuePopup header="Django Middleware" data={snapshot.getIn(['data', 'snapshot.djmw'])} />
+      <KeyValueOverlay header="Loaded Modules" data={snapshot.getIn(['data', 'snapshot.versions'])} />
+      <KeyValueOverlay header="Django Middleware" data={snapshot.getIn(['data', 'snapshot.djmw'])} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

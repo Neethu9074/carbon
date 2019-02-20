@@ -20,8 +20,10 @@ export default function PluginIcon({
   }
 
   style = style || {};
-  style.width = `${dimension}px`;
-  style.height = `${dimension}px`;
+  style.minWidth = `${dimension}px`;
+  style.minHeight = `${dimension}px`;
+  style.maxWidth = `${dimension}px`;
+  style.maxHeight = `${dimension}px`;
 
   return (
     <svg

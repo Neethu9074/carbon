@@ -1,4 +1,5 @@
 import { percentage, bytes, number } from 'in-services/formatters/number';
+import { isWindows } from 'in-forge/plugins/host/hostUtils';
 
 export default [
   {
@@ -21,5 +22,29 @@ export default [
     min: 0,
     category: ['Context switches'],
     formatter: number
+  },
+  {
+    metric: 'openFiles.current',
+    label: 'Current',
+    category: ['Open Files'],
+    min: 0,
+    getMax(snapshot) {
+      return snapshot.getIn(['data', 'openFiles.max']);
+    },
+    formatter: number,
+    isAvailable(snapshot) {
+      return !isWindows(snapshot);
+    }
+  },
+  {
+    metric: 'openFiles.used',
+    label: 'Used',
+    category: ['Open Files'],
+    min: 0,
+    max: 1,
+    formatter: percentage,
+    isAvailable(snapshot) {
+      return !isWindows(snapshot);
+    }
   }
 ];

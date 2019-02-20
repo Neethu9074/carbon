@@ -1,5 +1,6 @@
 import createSubscription from 'in-subscription/subscription';
 
 export default createSubscription({
-  eventId: 'subscribe-agent-response'
+  eventId: 'subscribe-agent-response',
+  memoizeFor: 100
 });

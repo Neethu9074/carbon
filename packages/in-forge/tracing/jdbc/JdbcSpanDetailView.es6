@@ -12,6 +12,7 @@ export default function JdbcSpanDetailView({ span }) {
     <div>
       <DescriptionList>
         <DescriptionItem title="Connection">{span.getIn(['data', 'jdbc', 'connection'])}</DescriptionItem>
+        <DescriptionItem title="User">{span.getIn(['data', 'jdbc', 'user'])}</DescriptionItem>
         <DescriptionItem title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</DescriptionItem>
         <DescriptionItem title="Result Size">{span.getIn(['data', 'jdbc', 'size'])}</DescriptionItem>
         <ErrorDescriptionItem error={span.getIn(['data', 'jdbc', 'error'])} />

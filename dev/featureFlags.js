@@ -14,9 +14,7 @@ module.exports = {
   twoZeroLearnMoreButtonEnabled: true,
   particlesInFlowMapEnabled: true,
   isKubernetesV2Enabled: false,
-  oneZeroWebsiteMonitoringEnabled: false,
-  twoZeroWebsiteMonitoringEnabled: true,
   customEventsInWebsiteMonitoringEnabled: true,
-  quickTagFiltersInWebsiteMonitoringDashboardEnabled: true,
-  lastSevenDaysTimePresetEnabled: true
+  lastSevenDaysTimePresetEnabled: true,
+  unifiedAlerting: false
 };

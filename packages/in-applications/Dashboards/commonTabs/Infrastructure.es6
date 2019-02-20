@@ -3,10 +3,11 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { number, ms, percentage } from 'in-services/formatters/number';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -268,7 +269,7 @@ const getColumnDefinitions = type => {
             timeConfig={getResolvedTimeConfig(timeConfig, result)}
             metrics={item.metrics.latency}
             metric={item.metrics.latencyAgg}
-            tooltipFormatter={ms.compact}
+            tooltipFormatter={meanLatencyFixed.compact}
           />
         );
       }
@@ -295,16 +296,21 @@ function InfrastructureEntityLink({ entity, plugin }) {
   if (!entity.id) {
     return null;
   }
-
   return (
     <EntityLink
       plugin={plugin}
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={getDashboardLink(entity.id, {
-        pathname: '/physical/dashboard',
-        to: entity.time,
-        focusedMoment: null
-      })}
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
+        stay =>
+          stay
+            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+            : getDashboardLink(entity.id, {
+                pathname: '/physical/dashboard',
+                to: entity.time,
+                focusedMoment: entity.time,
+                autoRefresh: false
+              })
+      )}
     />
   );
 }

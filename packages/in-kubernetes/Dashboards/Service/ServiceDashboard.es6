@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
+import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
-import ClusterAndNamespaceIds from 'in-kubernetes/breadcrumbs/ClusterAndNamespaceIds';
+import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
@@ -25,7 +26,7 @@ export default function ServiceDashboard({ location }) {
 
   return (
     <Fragment>
-      <ClusterAndNamespaceIds
+      <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         serviceId={props.serviceId}
         renderBreadcrumbs={(clusterId, namespaceId) => (
@@ -48,6 +49,9 @@ export default function ServiceDashboard({ location }) {
         location={location}
         tabs={tabs}
         props={props}
+        renderErrors={errors => (
+          <ErroneousEntityVersionList snapshotId={props.serviceId} timeConfig={props.timeConfig} errors={errors} />
+        )}
       />
       <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>

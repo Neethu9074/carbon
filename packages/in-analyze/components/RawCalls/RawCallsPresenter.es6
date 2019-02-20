@@ -24,7 +24,7 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickCallTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { millis } from 'in-services/formatters/number';
+import { latency } from 'in-services/formatters/number';
 
 import locals from './RawCallsPresenter.mless';
 
@@ -100,7 +100,7 @@ export default function RawCallsPresenter(props) {
                 <TimestampCell time={item.call.started} />
               </Td>
 
-              <Td>{millis.fixedCompact(item.call.duration)}</Td>
+              <Td>{latency.compact(item.call.duration)}</Td>
             </Tr>
           ))}
 

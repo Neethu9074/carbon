@@ -1,8 +1,8 @@
 import React from 'react';
 
-import KeyValuePopup from 'in-sdk/components/sidebar/KeyValuePopup';
-import { getRawPayload } from 'in-stores/snapshot';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { emptyList } from 'in-services/fixedImmutables';
+import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -21,6 +21,6 @@ export default connectTo(
       allQueues = allQueues.concat(oneTimeQueues);
     }
 
-    return <KeyValuePopup header="Queues" data={allQueues} />;
+    return <KeyValueOverlay header="Queues" data={allQueues} />;
   }
 );

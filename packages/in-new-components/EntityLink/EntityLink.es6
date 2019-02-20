@@ -16,7 +16,9 @@ export default function EntityLink({ label, plugin, snapshot, icon, tooltip, hre
           <Link href$={href$}>{label}</Link>
         </Tooltip>
       ) : (
-        <Link href$={href$}>{label}</Link>
+        <Link className={locals.link} href$={href$}>
+          {label}
+        </Link>
       )}
     </WithIcon>
   );

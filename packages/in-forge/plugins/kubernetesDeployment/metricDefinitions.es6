@@ -36,17 +36,5 @@ export default [
     labels: ['CPU Requests', 'CPU Limits'],
     min: 0,
     formatter: number
-  },
-  {
-    metrics: ['pods.required_mem', 'pods.limit_mem'],
-    labels: ['Memory Requests', 'Memory Limits'],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-    labels: ['CPU Requests', 'CPU Limits'],
-    min: 0,
-    formatter: number
   }
 ];

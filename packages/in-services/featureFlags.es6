@@ -31,13 +31,9 @@ export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInst
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
 export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
-export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
-export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
-export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
-  'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
-);
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
+export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
