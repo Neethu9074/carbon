@@ -7,7 +7,7 @@ import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/sn
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { number, ms, percentage } from 'in-services/formatters/number';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -269,7 +269,7 @@ const getColumnDefinitions = type => {
             timeConfig={getResolvedTimeConfig(timeConfig, result)}
             metrics={item.metrics.latency}
             metric={item.metrics.latencyAgg}
-            tooltipFormatter={ms.compact}
+            tooltipFormatter={meanLatencyFixed.compact}
           />
         );
       }

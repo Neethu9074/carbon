@@ -21,14 +21,13 @@ import {
 } from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickTraceTracker } from 'in-analyze/components/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
-import { millis } from 'in-services/formatters/number';
+import { latency } from 'in-services/formatters/number';
 
 import locals from './RawTracesNavigator.mless';
 
@@ -93,10 +92,7 @@ function RawTracesNavigator({
                   </Link>
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData
-                      extras={[
-                        formatDateTime(item.trace.startTime),
-                        wrapToDisplaySpecialLabelFor0(millis).compact(item.trace.duration)
-                      ]}
+                      extras={[formatDateTime(item.trace.startTime), latency.compact(item.trace.duration)]}
                     />
                   )}
                 </Td>
@@ -105,7 +101,7 @@ function RawTracesNavigator({
 
                 {showAllColumns && (
                   <Td>
-                    <span>{wrapToDisplaySpecialLabelFor0(millis).compact(item.trace.duration)}</span>
+                    <span>{latency.compact(item.trace.duration)}</span>
                   </Td>
                 )}
               </Tr>

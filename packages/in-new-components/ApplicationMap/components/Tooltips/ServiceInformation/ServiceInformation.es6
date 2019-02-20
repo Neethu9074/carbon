@@ -5,7 +5,7 @@ import ErroneousServiceInformation from 'in-new-components/ApplicationMap/compon
 import ApplicationMapTootlip from 'in-new-components/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
 import Header from 'in-new-components/ApplicationMap/components/Tooltips/ServiceInformation/Header';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { number, percentage, millis } from 'in-services/formatters/number';
+import { number, percentage, meanLatency } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
 
 import locals from './ServiceInformation.mless';
@@ -60,7 +60,7 @@ function DefaultServiceInformation({ service, timeConfig, metricsResult }) {
             aggregation="MEAN"
             metrics={get(metricsResult, ['data', 'latency'])}
             metric={get(metricsResult, ['data', 'latencyAgg'])}
-            tooltipFormatter={millis.detailed}
+            tooltipFormatter={meanLatency.detailed}
           />
         </div>
       )}

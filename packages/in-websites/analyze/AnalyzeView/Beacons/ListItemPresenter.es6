@@ -2,7 +2,7 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
-import { millis } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 import locals from './ListItemPresenter.mless';
@@ -20,7 +20,7 @@ export default function ListItemPresenter({ label, time, duration, href$, onClic
       <span className={locals.label}>{label}</span>
       <div className={locals.secondRow}>
         <time dateTime={new Date(time).toISOString()}>{formatDateTime(time)}</time>
-        {duration != null && <span className={locals.duration}>{millis.fixedCompact(duration)}</span>}
+        {duration != null && <span className={locals.duration}>{latencyFixed.compact(duration)}</span>}
       </div>
     </Link>
   );

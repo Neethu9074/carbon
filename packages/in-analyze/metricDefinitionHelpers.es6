@@ -1,6 +1,6 @@
 import { find } from 'lodash';
 
-import { millis, bytes, number } from 'in-services/formatters/number';
+import { latencyFixed, bytes, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { emptyObject } from 'in-services/fixedObjects';
 
@@ -8,7 +8,7 @@ export function newTimeMetric({ metric, label, category }) {
   return {
     metric,
     label,
-    formatter: wrapToDisplaySpecialLabelFor0(millis.forcedFixedCompact),
+    formatter: latencyFixed,
     supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
     category,
     min: 0,
@@ -52,13 +52,6 @@ function wrapToDiscardNegativeValues(formatter) {
   return {
     compact: v => (v < 0 ? 'N/A' : formatter.compact(v)),
     detailed: v => (v < 0 ? 'N/A' : formatter.detailed(v))
-  };
-}
-
-export function wrapToDisplaySpecialLabelFor0(formatter) {
-  return {
-    compact: v => (v < 1 ? '< 1ms' : formatter.compact(v)),
-    detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))
   };
 }
 

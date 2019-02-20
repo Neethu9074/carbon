@@ -34,3 +34,22 @@ export function numericValidator(v) {
 
   return failureMessage;
 }
+
+const positiveNumberFailureMessage = [
+  {
+    severity: 'error',
+    message: `Please type in a positive number.`
+  }
+];
+
+export function positiveNumberValidator(v) {
+  try {
+    const num = Number(v);
+    if (isNaN(num) || num <= 0) {
+      return positiveNumberFailureMessage;
+    }
+    return null;
+  } catch (e) {
+    return positiveNumberFailureMessage;
+  }
+}

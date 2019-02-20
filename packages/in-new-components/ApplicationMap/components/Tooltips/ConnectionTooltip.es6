@@ -3,7 +3,7 @@ import React from 'react';
 
 import ApplicationMapTootlip from 'in-new-components/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
-import { number, percentage, millis } from 'in-services/formatters/number';
+import { number, percentage, meanLatency } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -70,7 +70,7 @@ function renderContent(data) {
     <div className={locals.metrics}>
       <MetricValue title="Total Calls" metric={data.calls} tooltipFormatter={number.compact} />
       <MetricValue title="Error Rate" metric={data.errorRate} tooltipFormatter={percentage.compact} />
-      <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={millis.detailed} />
+      <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={meanLatency.detailed} />
     </div>
   );
 }

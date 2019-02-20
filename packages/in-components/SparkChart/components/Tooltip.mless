@@ -30,5 +30,6 @@
     color: @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_large;
     box-shadow: @lib__shadows__subtle;
+    white-space: nowrap;
   }
 }

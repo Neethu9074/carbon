@@ -6,8 +6,8 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
+import { latencyFixed, number } from 'in-services/formatters/number';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { millis, number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-new-components/KpiCard';
@@ -38,7 +38,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         </Col>
         {pageLoad && (
           <Col lg={2}>
-            <KpiCard title="onLoad Time" value={millis.fixedCompact(pageLoad.duration)} />
+            <KpiCard title="onLoad Time" value={latencyFixed.compact(pageLoad.duration)} />
           </Col>
         )}
         <Col lg={2}>

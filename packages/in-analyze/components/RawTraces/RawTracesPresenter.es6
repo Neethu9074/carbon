@@ -15,7 +15,6 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -24,7 +23,7 @@ import { clickTraceTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { Th } from 'in-components/tables/sharedComponents';
-import { millis } from 'in-services/formatters/number';
+import { latency } from 'in-services/formatters/number';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -91,7 +90,7 @@ export default function RawTracesPresenter(props) {
                 <TimestampCell time={item.trace.startTime} />
               </Td>
 
-              <Td>{wrapToDisplaySpecialLabelFor0(millis).compact(item.trace.duration)}</Td>
+              <Td>{latency.compact(item.trace.duration)}</Td>
             </Tr>
           ))}
 

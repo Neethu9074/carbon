@@ -66,6 +66,7 @@
     font-weight: 600;
     color: @lib__colors__N900Primary;
     background: #fff;
+    white-space: nowrap;
   }
 
   .callDurationWrapper {

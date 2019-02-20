@@ -53,7 +53,7 @@ export default connectTo(
           labels,
           metrics,
           colors,
-          formatter: millis,
+          formatter: millis.forcedFixedCompact,
           min: 0
         }
       };

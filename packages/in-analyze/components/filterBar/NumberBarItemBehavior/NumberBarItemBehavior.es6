@@ -15,7 +15,7 @@ export default function NumberBarItemBehavior(props) {
 }
 
 function Content(props) {
-  const { singularLabel, toggle, isOpen, refSetter, formatter = identity } = props;
+  const { singularLabel, toggle, isOpen, refSetter, formatter = identity, minValue } = props;
   const { gt, lt, neq, eq } = getNumberTagFilters(props);
 
   let label = singularLabel;
@@ -40,6 +40,7 @@ function Content(props) {
       onClick={toggle}
       refSetter={refSetter}
       withoutTextTransform={!!formatter}
+      minValue={minValue}
     >
       {label}
     </BarItem>
