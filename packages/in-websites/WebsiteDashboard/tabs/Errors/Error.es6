@@ -152,6 +152,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
             <WebsiteChartWrapper
               cardTitle="Page Views"
               timeConfig={timeConfig}
+              renderLegend={false}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
@@ -175,6 +176,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
             <WebsiteChartWrapper
               cardTitle="Occurrences"
               timeConfig={timeConfig}
+              renderLegend={false}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
@@ -199,6 +201,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
             <WebsiteChartWrapper
               cardTitle="Affected Users"
               timeConfig={timeConfig}
+              renderLegend={false}
               y1={{
                 renderer: Renderer.bar,
                 formatter: affectedUsersChart,
@@ -258,14 +261,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb label="Error Details">{result && result.data && shorten(result.data.message, 32)}</Breadcrumb>
+          <Breadcrumb label="JS Error Details">{result && result.data && shorten(result.data.message, 32)}</Breadcrumb>
         ]}
       />
       <Title title="Error Details" dynamic={result && result.data && result.data.message} />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of errors"
+          label="Back to list of JS errors"
           href$={getLinkToWebsite(websiteId, { tabPath: '/errors', pageId })}
           withoutMargin
         />
@@ -283,7 +286,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
             }
           })}
         >
-          Analyze Error
+          Analyze JS Error
         </Button>
       </div>
 

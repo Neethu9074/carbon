@@ -25,7 +25,7 @@ export const dataSourceTitles = {
   pageLoad: 'Page View',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
-  error: 'JavaScript Error',
+  error: 'JS Error',
   custom: 'Custom Event'
 };
 

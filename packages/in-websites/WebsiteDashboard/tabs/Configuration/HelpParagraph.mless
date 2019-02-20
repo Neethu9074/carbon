@@ -1,5 +1,5 @@
 :local {
   .para {
-    line-height: 1.2;
+    line-height: 1.4;
   }
 }

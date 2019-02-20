@@ -30,7 +30,7 @@ export const websiteTabs = [
     component: Ajax
   },
   {
-    label: 'Errors',
+    label: 'JS Errors',
     path: `${websitePathFullyQualified}/errors`,
     component: Errors
   },

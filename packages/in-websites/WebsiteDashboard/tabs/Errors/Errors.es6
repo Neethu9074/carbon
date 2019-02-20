@@ -25,7 +25,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze Errors
+      Analyze JS Errors
     </Button>
   );
 

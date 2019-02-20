@@ -115,13 +115,13 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle="Errors"
+            cardTitle="JS Errors"
             renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['Errors'],
+              labels: ['JS Errors'],
               metricIds: ['errors'],
               colors: [theme.lib.colors.failure]
             }}

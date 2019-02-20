@@ -142,7 +142,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Errors',
+    label: 'JS Errors',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

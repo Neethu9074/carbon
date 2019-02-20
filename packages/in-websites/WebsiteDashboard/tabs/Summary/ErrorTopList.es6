@@ -16,7 +16,7 @@ const formatters = [number.compact, affectedUsers.compact];
 export default function ErrorsTopList({ websiteId, pageId, timeConfig, tagFilters }) {
   return (
     <TopList
-      title="Top Errors"
+      title="Top JS Errors"
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -66,7 +66,7 @@ function ViewAll({ websiteId, selectedMetric }, className) {
         }
       })}
     >
-      View all errors
+      View all JS errors
     </Link>
   );
 }
