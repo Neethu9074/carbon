@@ -104,7 +104,7 @@ function latencyFormatterWrapper(formatter) {
   };
 }
 export const latency = latencyFormatterWrapper(millis.forcedCompactOnMs);
-export const latencyFixed = latencyFormatterWrapper(millis.fixed);
+export const latencyFixed = latencyFormatterWrapper(millis.forcedFixedCompact);
 
 // display '< 1ms' label for mean latency values between 0ms and 1ms
 // exclude 0 because mean latency can be 0 when there are no calls
@@ -115,7 +115,7 @@ export function meanLatencyFormatterWrapper(formatter) {
   };
 }
 export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs);
-export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.fixed);
+export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCompact);
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
