@@ -41,10 +41,6 @@ function clearPerCellLoadingIndicator() {
 }
 
 export default compose(
-  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
-  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
-  withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1),
   withState('errorMessage', 'setErrorMessage', null),
   connectTo(({ loadEntities, setErrorMessage }) => {
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
@@ -70,7 +66,11 @@ export default compose(
       entities: entityObservable,
       perCellLoadingIndicator: perCellLoadingIndicator$
     };
-  })
+  }),
+  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
+  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
+  withState('queryState', 'setQuery', ''),
+  withState('pageState', 'setPage', 1)
 )(List);
 
 function List({
