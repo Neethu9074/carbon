@@ -17,7 +17,8 @@ export default function NumberBarOverlayPresenter({
   getOnChangeHandler,
   onSubmit,
   onClear,
-  unit
+  unit,
+  minValue
 }) {
   return (
     <BarOverlay>
@@ -32,6 +33,7 @@ export default function NumberBarOverlayPresenter({
                 getOnChangeHandler={getOnChangeHandler}
                 autoFocus
                 unit={unit}
+                minValue={minValue}
               />
             </Col>
             <Col xs={6}>
@@ -41,6 +43,7 @@ export default function NumberBarOverlayPresenter({
                 fieldId="neq"
                 getOnChangeHandler={getOnChangeHandler}
                 unit={unit}
+                minValue={minValue}
               />
             </Col>
           </Row>
@@ -56,6 +59,7 @@ export default function NumberBarOverlayPresenter({
                 getOnChangeHandler={getOnChangeHandler}
                 autoFocus={!showEquality}
                 unit={unit}
+                minValue={minValue}
               />
             </Col>
             <Col xs={6}>
@@ -65,6 +69,7 @@ export default function NumberBarOverlayPresenter({
                 fieldId="lt"
                 getOnChangeHandler={getOnChangeHandler}
                 unit={unit}
+                minValue={minValue}
               />
             </Col>
           </Row>
@@ -84,7 +89,7 @@ export default function NumberBarOverlayPresenter({
   );
 }
 
-function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit }) {
+function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit, minValue }) {
   return form.get(fieldId).map(field => (
     <FormGroup withoutBottomMargin>
       <Label htmlFor={`filter-${fieldId}`} hasError={!field.valid && field.touched}>
@@ -98,6 +103,7 @@ function InputGroup({ label, form, fieldId, getOnChangeHandler, autoFocus, unit 
           onChange={getOnChangeHandler(fieldId)}
           hasError={!field.valid && field.touched}
           autoFocus={autoFocus}
+          min={minValue || '0'}
         />
         {unit && <span>{unit}</span>}
       </span>

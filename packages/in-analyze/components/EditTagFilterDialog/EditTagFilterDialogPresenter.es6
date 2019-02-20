@@ -152,6 +152,7 @@ export default function EditTagFilterDialogPresenter({
                   type="number"
                   id="filter-value"
                   value={field.value}
+                  min="0"
                   onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
                   autoFocus={editMode}
