@@ -184,7 +184,7 @@ const allColumnDefinitions = [
           snapshotId={get(item, ['pod', 'id'])}
           metric="restartCount"
           formatter={zeroDecimalPlaces}
-          timeWindowAggregation="sum"
+          timeWindowAggregation="mean"
         />
       );
     }

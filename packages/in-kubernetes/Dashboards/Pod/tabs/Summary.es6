@@ -30,7 +30,7 @@ export default function Summary({ data: pod }) {
                   snapshotId={pod.id}
                   metric="restartCount"
                   formatter={zeroDecimalPlaces}
-                  timeWindowAggregation="sum"
+                  timeWindowAggregation="mean"
                 />
               </Di>
               <Di title="Age">{pod.age ? formatDuration(pod.age) : '-'}</Di>
