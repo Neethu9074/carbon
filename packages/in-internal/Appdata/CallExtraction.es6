@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
-import { number, percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -19,41 +19,7 @@ const cols = [
     }
   },
   {
-    title: 'Host CPU load',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.host.get('id');
-      },
-      getMetricName() {
-        return `load.1min`;
-      },
-      getContent: number.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Dropped Spans (span_messages.error_rate)',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName() {
-        return `metrics.gauges.KPI.incoming.span_messages.error_rate`;
-      },
-      getContent: percentage.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Total spans (Call extraction)',
+    title: 'Total spans (TraceWithRawCallExtractor.total-spans)',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'Intermediate spans (Call extraction)',
+    title: 'Intermediate spans (TraceWithRawCallExtractor.intermediate-spans)',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +53,7 @@ const cols = [
     }
   },
   {
-    title: 'Entry span missing parent (Call extraction)',
+    title: 'Entry span missing parent (TraceWithRawCallExtractor.entry-spans-missing-parent)',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,13 +68,71 @@ const cols = [
         return 'sum';
       }
     }
+  },
+  {
+    title: 'Downstream spans',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.meters.kafka.writes.by_topic.raw_spans`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Downstream calls',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName(row) {
+        const tenantId =
+          'saas_' +
+          row.container
+            .get('label')
+            .split('-')
+            .slice(0, 2)
+            .join('_');
+        return `metrics.meters.kafka.writes.by_topic.${tenantId}_calls`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
+  },
+  {
+    title: 'Downstream logs',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.meters.kafka.writes.by_topic.logs`;
+      },
+      getContent: number.compact,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'sum';
+      }
+    }
   }
 ];
 
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:appdata-processor*')
-})(function FillerSpanProcessingStats({ rows }) {
+})(function CallExtraction({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
   }

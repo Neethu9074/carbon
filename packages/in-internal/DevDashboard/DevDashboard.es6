@@ -51,6 +51,9 @@ export default function DevDashboard() {
               <a href="/#/internal/appDataQueryPerformance">App 2.0 Query Performance</a>
             </li>
             <li>
+              <a href="/#/internal/callExtraction">Call Extraction</a>
+            </li>
+            <li>
               <a href="/#/internal/resilientMapping">Resilient Mapping</a>
             </li>
           </ul>
