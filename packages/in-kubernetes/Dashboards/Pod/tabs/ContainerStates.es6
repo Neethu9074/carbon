@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
-import { evaluateClassNames } from 'in-services/util/classnames';
-import SvgIcon from 'in-components/SvgIcon';
-
-import locals from './ContainerStates.mless';
+import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 
 export default function ContainerStates({ states }) {
   if (!states) {
@@ -22,22 +19,14 @@ export default function ContainerStates({ states }) {
         </Tr>
       </Thead>
       <Tbody>
-        {states.map((state, i) => (
+        {states.map((status, i) => (
           <Tr key={i}>
-            <Td>{state.name}</Td>
+            <Td>{status.name}</Td>
             <Td>
-              <SvgIcon
-                className={evaluateClassNames({
-                  [locals.ready]: state.ready,
-                  [locals.notReady]: !state.ready
-                })}
-                type={state.ready ? 'lib_check' : 'lib_openclose_cancel'}
-                width={24}
-                height={24}
-              />
+              <ReadyIcon isReady={status.ready} />
             </Td>
-            <Td>-</Td>
-            <Td>-</Td>
+            <Td>{status.state.status}</Td>
+            <Td>{status.message || '-'}</Td>
           </Tr>
         ))}
       </Tbody>
