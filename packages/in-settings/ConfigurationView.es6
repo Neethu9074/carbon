@@ -1,9 +1,10 @@
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 
+import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
-import { settingsBasePath, teamSettings } from 'in-settings/navigation/paths';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import tabs from 'in-settings/tabs/index';
@@ -13,7 +14,7 @@ export default function ConfigurationView(props) {
   if (location.pathname && location.pathname === settingsBasePath) {
     // in-components/AppHeader/components/AccountMenu/components/Menu (and possibly old bookmarks) just points to
     // /config, we redirect this to the default tab (team settings).
-    return <RedirectWithHash props={props} to={teamSettings} />;
+    return <RedirectWithHash props={props} to={roleHasAnyTeamPermissions() ? teamSettings : userSettingsGeneral} />;
   }
 
   // redirects for pre-2019 config paths (to support old bookmarks and links in docs etc.)
