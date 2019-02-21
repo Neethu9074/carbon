@@ -119,12 +119,20 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
+              max: snapshot.getIn(['data', 'openFiles.max']),
+              formatter: number.compact,
+              metrics: ['openFiles.current'],
+              labels: ['Current'],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
               max: 1,
               formatter: percentageZeroDecimalPlaces,
               tooltipFormatter: percentageTwoDecimalPlaces,
               metrics: ['openFiles.used'],
               labels: ['Used'],
-              type: 'stackedArea'
+              type: 'line'
             }}
           />
         </DashboardSection>
