@@ -4,7 +4,7 @@ import {
   teamSettingsAccessControlApiTokens,
   teamSettingsKnowledgeManagementBuiltInRules,
   teamSettingsAlertingEvents,
-  teamSettingsAlertingMaintenanceConfigurations,
+  teamSettingsAlertingAlertChannels,
   teamSettingsAlertingIntegrations,
   teamSettingsAuditLog,
   generalServiceExtractionPath
@@ -18,7 +18,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureRoles ||
     role.canConfigureApiTokens ||
     role.canConfigureCustomAlerts ||
-    (!unifiedAlerting && role.canConfigureIntegrations) ||
+    role.canConfigureIntegrations ||
     role.canViewAuditLog ||
     (!twoZeroModeEnabled && role.canConfigureServiceMapping)
   );
@@ -34,11 +34,11 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureApiTokens) {
     return teamSettingsAccessControlApiTokens;
   }
-  if (unifiedAlerting && role.canConfigureCustomAlerts && role.canConfigureIntegrations) {
+  if (unifiedAlerting && role.canConfigureCustomAlerts) {
     return teamSettingsAlertingEvents;
   }
-  if (unifiedAlerting && role.canConfigureCustomAlerts) {
-    return teamSettingsAlertingMaintenanceConfigurations;
+  if (unifiedAlerting && role.canConfigureIntegrations) {
+    return teamSettingsAlertingAlertChannels;
   }
   if (!unifiedAlerting && role.canConfigureCustomAlerts) {
     return teamSettingsKnowledgeManagementBuiltInRules;

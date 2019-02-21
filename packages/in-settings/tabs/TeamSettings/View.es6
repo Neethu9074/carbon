@@ -195,10 +195,10 @@ function navigationTreeForRole(role): NavigationTree {
     });
   }
 
-  if (unifiedAlerting && role.canConfigureCustomAlerts) {
+  if (unifiedAlerting && (role.canConfigureCustomAlerts || role.canConfigureIntegrations)) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureCustomAlerts && role.canConfigureIntegrations) {
+    if (role.canConfigureCustomAlerts) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
         label: 'Events',
@@ -230,7 +230,9 @@ function navigationTreeForRole(role): NavigationTree {
           }
         ]
       });
+    }
 
+    if (role.canConfigureIntegrations) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlertChannels,
         label: 'Alert Channels',
