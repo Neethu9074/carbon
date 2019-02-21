@@ -86,6 +86,7 @@ import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/U
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
+import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -194,7 +195,7 @@ function navigationTreeForRole(role): NavigationTree {
     });
   }
 
-  if (unifiedAlerting && (role.canConfigureCustomAlerts || role.canConfigureIntegrations)) {
+  if (unifiedAlerting && role.canConfigureCustomAlerts) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureCustomAlerts && role.canConfigureIntegrations) {
@@ -424,7 +425,7 @@ export default function View(props: any) {
     <SideNavigationAndContent
       stickySidebar
       navigationTree={navigationTreeForRole(role)}
-      redirectToDefaultPage={teamSettingsAccessControlUsers}
+      redirectToDefaultPage={findFirstPermittedTeamPage()}
       redirectFrom={teamSettings}
       NotFoundPage={NotFoundPage}
       {...props}
