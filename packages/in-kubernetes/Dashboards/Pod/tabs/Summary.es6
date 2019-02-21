@@ -26,12 +26,7 @@ export default function Summary({ data: pod }) {
               </Di>
               <Di title="Ready">{`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}</Di>
               <Di title="Restarts">
-                <MetricValue
-                  snapshotId={pod.id}
-                  metric="restartCount"
-                  formatter={zeroDecimalPlaces}
-                  timeWindowAggregation="mean"
-                />
+                <MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />
               </Di>
               <Di title="Age">{pod.age ? formatDuration(pod.age) : '-'}</Di>
             </Dl>

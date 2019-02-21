@@ -179,14 +179,7 @@ const allColumnDefinitions = [
     label: 'Restarts',
     sortable: false,
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="restartCount"
-          formatter={zeroDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return <MetricValue snapshotId={get(item, ['pod', 'id'])} metric="restartCount" formatter={zeroDecimalPlaces} />;
     }
   },
   {
