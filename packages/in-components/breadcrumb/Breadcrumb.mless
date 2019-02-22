@@ -25,6 +25,10 @@
     max-width: 250px;
     .ellipsis();
 
+    .breadcrumbContent {
+      .ellipsis();
+    }
+
     &:hover {
       color: #ffffffb8;
       text-decoration: none;
