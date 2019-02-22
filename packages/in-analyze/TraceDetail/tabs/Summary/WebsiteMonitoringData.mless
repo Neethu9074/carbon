@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     display: flex;
@@ -11,9 +13,19 @@
     flex-wrap: wrap;
   }
 
+  .leftSide {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    fill: @lib__colors__navy800;
+    margin: 0 .188rem 0 0;
+  }
+
   .title {
     color: #3D464D;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0 0.5rem 0 0;
   }
 }

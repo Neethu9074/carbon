@@ -106,7 +106,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureRoles"
-          label="Access role configration"
+          label="Access role configuration"
           helpText="Permits configuration of access roles and permissions for all users."
         />
 
