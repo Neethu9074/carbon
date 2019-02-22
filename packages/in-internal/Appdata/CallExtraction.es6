@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
-import { number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -15,6 +16,16 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.container.get('label');
+      }
+    }
+  },
+  {
+    title: 'appdata-processor',
+    type: 'snapshotLink',
+    typeArgs: {
+      pathname: physicalDashboardPath,
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
       }
     }
   },

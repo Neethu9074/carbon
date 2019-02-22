@@ -8,9 +8,9 @@ import AppDataQueryPerformance from 'in-internal/Appdata/AppDataQueryPerformance
 import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
 import GraphExplorer from 'in-internal/GraphExplorer/GraphExplorer';
 import SloViolations from 'in-internal/SloViolations/SloViolations';
+import ResilientMapping from 'in-internal/Appdata/ResilientMapping';
 import CallExtraction from 'in-internal/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
-import ResilientMapping from 'in-internal/ResilientMapping';
 import EumProcessor from 'in-internal/eum/EumProcessor';
 import WorkerStats from 'in-internal/sre/WorkerStats';
 import EumAcceptor from 'in-internal/eum/EumAcceptor';
