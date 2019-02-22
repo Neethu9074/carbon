@@ -15,7 +15,7 @@ export default function Breadcrumb({ className, children, href, href$, label, re
       <div className={joinClassNames(locals.twoRowWrapper, className)} ref={refSetter}>
         {icon && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
 
-        <div>
+        <div className={locals.breadcrumbContent}>
           {label && <div className={locals.label}>{label}</div>}
 
           {children}
