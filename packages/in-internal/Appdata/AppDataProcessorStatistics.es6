@@ -46,9 +46,9 @@ const cols = [
         return `metrics.meters.KPI.incoming.span_messages.calls`;
       },
       getContent: number.compact,
-      forceTimeWindowAggregation: false,
+      forceTimeWindowAggregation: true,
       getTimeWindowAggregation() {
-        return 'mean';
+        return 'sum';
       }
     }
   },
