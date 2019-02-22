@@ -194,6 +194,7 @@ export default class RenderScheduler {
   }
 
   drawBackBufferToFrontBuffer(progress = 1) {
+    progress = Math.min(1, progress);
     const config = this.config;
     const dpr = config.devicePixelRatio;
 
