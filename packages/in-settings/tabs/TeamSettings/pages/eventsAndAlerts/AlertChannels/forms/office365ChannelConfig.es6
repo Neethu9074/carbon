@@ -15,9 +15,28 @@ const block = 'in-alert-channel-config-form';
 const name = 'OFFICE_365';
 const label = 'Office365';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'webhookUrl',
+    label: 'Webhook URL'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.webhookUrl = '';

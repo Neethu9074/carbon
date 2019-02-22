@@ -16,5 +16,5 @@ module.exports = {
   isKubernetesV2Enabled: false,
   customEventsInWebsiteMonitoringEnabled: true,
   lastSevenDaysTimePresetEnabled: true,
-  unifiedAlerting: false
+  unifiedAlerting: true
 };

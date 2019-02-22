@@ -15,9 +15,28 @@ const block = 'in-alert-channel-config-form';
 const name = 'GOOGLE_CHAT';
 const label = 'Google Chat';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'webhookUrl',
+    label: 'Webhook URL'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.webhookUrl = '';

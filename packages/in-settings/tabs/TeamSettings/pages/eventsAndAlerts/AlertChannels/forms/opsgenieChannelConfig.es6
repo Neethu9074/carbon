@@ -16,9 +16,36 @@ const block = 'in-alert-channel-config-form';
 const name = 'OPS_GENIE';
 const label = 'OpsGenie';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'apiKey',
+    label: 'Api Key'
+  },
+  {
+    key: 'tags',
+    label: 'Tags'
+  },
+  {
+    key: 'region',
+    label: 'Region'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.apiKey = '';
