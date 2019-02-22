@@ -2,10 +2,10 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
+import { number, millis } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import { region } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
@@ -29,26 +29,45 @@ export default connectTo(
       <div>
         <h1>eum-acceptor</h1>
 
-        <DashboardSection title={`Host CPU load`}>
-          <Chart
-            snapshotIds={rows.map(r => r.host.get('id'))}
-            timeConfig={timeConfig}
-            minRollup={5000}
-            y1={{
-              min: 0,
-              formatter: number.detailed,
-              metrics: rows.map(() => 'load.1min'),
-              labels,
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <h2>Load</h2>
+
+        <Columize>
+          <DashboardSection title={`Host CPU load`}>
+            <Chart
+              snapshotIds={rows.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                metrics: rows.map(() => 'load.1min'),
+                labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={`Garbage Collection Activity`}>
+            <Chart
+              snapshotIds={rows.map(r => r.jvm.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: millis.compact,
+                metrics: rows.map(() => 'gc.G1 Young Generation.time'),
+                labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
 
         <Columize>
           <DashboardSection title={`Beacon Requests`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
@@ -65,6 +84,7 @@ export default connectTo(
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
@@ -79,6 +99,7 @@ export default connectTo(
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
@@ -93,6 +114,7 @@ export default connectTo(
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
@@ -104,11 +126,14 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
+        <h2>Beacon Type Breakdown</h2>
+
         <Columize>
-          <DashboardSection title={`Page Load Beacons`}>
+          <DashboardSection title={`Page Load`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               height={100}
               y1={{
                 min: 0,
@@ -119,10 +144,29 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`XHR / Fetch Beacons`}>
+          <DashboardSection title={`Page Resource`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.res`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`XHR / Fetch`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
               height={100}
               y1={{
                 min: 0,
@@ -133,13 +177,11 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-        </Columize>
-
-        <Columize>
-          <DashboardSection title={`Error Beacons`}>
+          <DashboardSection title={`Error`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               height={100}
               y1={{
                 min: 0,
@@ -150,10 +192,29 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`SPA Beacons`}>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Custom Event`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
+              height={100}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.cus`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={`SPA`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
               height={100}
               y1={{
                 min: 0,
@@ -166,11 +227,14 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
+        <h2>Cross Region Data Transfer</h2>
+
         <Columize>
           <DashboardSection title={`Kafka Writes In Same Region`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
@@ -185,6 +249,7 @@ export default connectTo(
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
+              minRollup={5000}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
