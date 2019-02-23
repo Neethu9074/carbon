@@ -1,21 +1,19 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { customEnumValue, builtInEnumValue, builtInValue, customValue, isBuiltInRule } from './util';
+import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
 import {
-  events,
   getEntityHref,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingEventNew
+  getEntityIdView,
+  teamSettingsAlertingEventBuiltIn,
+  teamSettingsAlertingEventCustom,
+  teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
 import { getEventSpecificationsMutable } from 'in-api/eventSpecifications';
 import List, { createNewEntityButton } from 'in-settings/components/List';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
-import { getModifiedUrlStream } from 'in-stores/navigation';
-import { eventType } from 'in-settings/navigation/matrix';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
@@ -55,7 +53,7 @@ function Events({ type, setType, severity, setSeverity }) {
       extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={196}
-      getDetailsHref={entity => getDetailsHref(entity)}
+      getDetailsHref={entity => getEntityHref(getDetailsPath(entity), entity.id)}
     />
   );
 }
@@ -70,7 +68,7 @@ const columnDefinitions = [
       return (
         <WithIcon icon={icon.icon} iconColor={icon.color}>
           <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getDetailsView(entity)}>
+            <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>
               {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
             </Link>
           </WithSubscript>
@@ -109,7 +107,7 @@ const tableActions = {
     }
   },
   delete: {
-    deleteProtection: entity => isBuiltInRule(entity), // TODO Tooltip - why is this disabled?
+    deleteProtection: entity => isBuiltInRule(entity),
     deleteEntity: entity => {
       if (!isBuiltInRule(entity)) {
         deleteRule(entity.id);
@@ -147,22 +145,8 @@ function getIcon(entity) {
   return { icon, color };
 }
 
-function getDetailsView(entity) {
-  return getModifiedUrlStream(params => {
-    params.pathname = getEntityHref(teamSettingsAlertingEvents, entity.id);
-    setOrDeleteMatrixKey(params, events, eventType, getMatrixValue(entity));
-  });
-}
-
-function getDetailsHref(entity) {
-  if (entity.id) {
-    return `${teamSettingsAlertingEvents};type=${getMatrixValue(entity)}/${encodeURIComponent(entity.id)}`;
-  }
-  return teamSettingsAlertingEvents;
-}
-
-function getMatrixValue(entity) {
-  return isBuiltInRule(entity) ? builtInValue : customValue;
+function getDetailsPath(entity) {
+  return isBuiltInRule(entity) ? teamSettingsAlertingEventBuiltIn : teamSettingsAlertingEventCustom;
 }
 
 function getEntityType(entity) {
@@ -183,7 +167,7 @@ function getSubscript(entity) {
 function rightHeader(type, setType, severity, setSeverity) {
   return (
     <Fragment>
-      {createNewEntityButton('New Event', teamSettingsAlertingEventNew)}
+      {createNewEntityButton('New Event', teamSettingsAlertingEventCustomNew)}
       <ComboBox
         name="filter-type"
         value={type}

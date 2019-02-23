@@ -16,7 +16,8 @@ export default function entityForm(ComposedComponent) {
       error: false,
       form: null,
       entity: null,
-      message: 'Loading…'
+      message: 'Loading…',
+      saveEnabled: true
     };
 
     componentWillMount() {
@@ -52,6 +53,8 @@ export default function entityForm(ComposedComponent) {
               form={form}
               onChange={this.onChange}
               setForm={form => this.setState({ form })}
+              setSaveEnabled={this.setSaveEnabled}
+              saveEnabled={this.state.saveEnabled}
             />
           </form>
         </Fragment>
@@ -160,6 +163,12 @@ export default function entityForm(ComposedComponent) {
 
       this.setState({
         form: updatedForm
+      });
+    };
+
+    setSaveEnabled = enabled => {
+      this.setState({
+        saveEnabled: enabled
       });
     };
   };
