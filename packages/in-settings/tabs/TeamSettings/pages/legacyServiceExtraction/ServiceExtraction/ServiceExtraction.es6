@@ -364,7 +364,6 @@ export default class extends React.Component {
   getRuleAfter = rule => {
     const ruleId = rule.get('id');
     const rules = sortServiceRules(this.state.serviceRules);
-    // console.log(ruleId, rules.toJS());
     for (let i = 0, size = rules.size - 1; i < size; i++) {
       if (rules.getIn([i, 'id']) === ruleId) {
         return {
