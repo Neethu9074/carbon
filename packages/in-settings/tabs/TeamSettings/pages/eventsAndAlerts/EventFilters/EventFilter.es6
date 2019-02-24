@@ -21,7 +21,7 @@ export default function EventFilter(props) {
 
   return (
     <Form
-      title="Event Filter"
+      title="Alert"
       entityId={entityId}
       createDefaultEntity={createAlertingConfig}
       createForm={config => createForm(config, !entityId)}
@@ -37,7 +37,7 @@ const Form = entityForm(function DetailsForm(props) {
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create' : 'Edit'} Event Filter</SubViewHeader>
+      <SubViewHeader>{isCreate ? 'Create' : 'Edit'} Alert</SubViewHeader>
 
       {message ? (
         <Section>

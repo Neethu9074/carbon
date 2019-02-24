@@ -24,18 +24,18 @@ const maxNumOfAlertingEventFilters = get(config, ['configuration', 'maxAllowedAl
 export default function EventFilters() {
   return (
     <List
-      title="Event Filters"
+      title="Alerts"
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
       loadEntities={loadEntities}
       initialOrderBy="alertName"
-      labelNew="New Event Filter"
+      labelNew="New Alert"
       pathNew={teamSettingsAlertingEventFilterNew}
       newButtonDisabledTooltipMessage={entities =>
         entities && entities.length >= maxNumOfAlertingEventFilters
-          ? `The number of event filters is restricted to ${maxNumOfAlertingEventFilters}.`
+          ? `The number of alerts is restricted to ${maxNumOfAlertingEventFilters}.`
           : null
       }
       searchAttributes={['alertName']}
@@ -77,11 +77,11 @@ function isEnabled(entity) {
 }
 
 function getHeader(totalHits) {
-  return totalHits ? `Event Filters (${totalHits})` : 'Event Filters';
+  return totalHits ? `Alerts (${totalHits})` : 'Alerts';
 }
 
 function getEntityName(entity) {
-  return `event filter "${entity.alertName}"`;
+  return `alert "${entity.alertName}"`;
 }
 
 function loadEntities() {

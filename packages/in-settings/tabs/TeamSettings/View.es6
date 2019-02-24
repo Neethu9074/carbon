@@ -217,7 +217,7 @@ function navigationTreeForRole(role): NavigationTree {
 
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEventFilters,
-        label: 'Event Filters',
+        label: 'Alerts',
         component: EventFiltersPage,
         subPages: [
           {
