@@ -1,8 +1,15 @@
 import React from 'react';
 
+import {
+  applicationNameToDfq,
+  scopeApplication,
+  scopeEverything,
+  scopeDfq
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import { create, combineLatest } from 'reactive-observables';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
 
@@ -13,21 +20,30 @@ export default class FormDataEnrichment extends React.Component {
     matchingEntities: null
   };
 
+  applyOnInput = create();
   queryInput = create();
+  applicationInput = create();
+
   matchingEntitesSubscription = null;
   validationResultSubscription = null;
 
   componentWillMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
+    this.applyOnInput.emit(getValueOrDefault(this.props.form, 'applyOn', ''));
     this.queryInput.emit(getValueOrDefault(this.props.form, 'query', ''));
-    this.matchingEntitesSubscription = debouncedQuery
-      .flatMap(query => {
+    this.applicationInput.emit(getValueOrDefault(this.props.form, 'application', ''));
+    this.matchingEntitesSubscription = combineLatest([debouncedQuery, this.applyOnInput, this.applicationInput])
+      .flatMap(([query, applyOn, application]) => {
         const timeOpened = this.props.form.get('timeOpened').value;
         const eventTypes = this.props.form.get('eventTypes').value;
-        if (!query) {
+        if (applyOn === scopeApplication && application) {
+          return search(timeOpened, eventTypes, applicationNameToDfq(application));
+        } else if (applyOn === scopeDfq) {
+          return search(timeOpened, eventTypes, query ? query : '');
+        } else if (applyOn === scopeEverything) {
           return search(timeOpened, eventTypes, '');
         } else {
-          return search(timeOpened, eventTypes, query);
+          return alwaysEmptyArray;
         }
       })
       .subscribe(events => {
@@ -61,18 +77,26 @@ export default class FormDataEnrichment extends React.Component {
 
   componentWillUpdate(nextProps) {
     startValidationInProgress(nextProps.setForm, nextProps.form);
+    this.applyOnInput.emit(getValueOrDefault(nextProps.form, 'applyOn', ''));
     this.queryInput.emit(getValueOrDefault(nextProps.form, 'query', ''));
+    this.applicationInput.emit(getValueOrDefault(nextProps.form, 'application', ''));
   }
 
   shouldComponentUpdate(nextProps) {
+    const prevApplyOn = getValueOrDefault(this.props.form, 'applyOn', '');
+    const nextApplyOn = getValueOrDefault(nextProps.form, 'applyOn', '');
     const prevQuery = getValueOrDefault(this.props.form, 'query', '');
     const nextQuery = getValueOrDefault(nextProps.form, 'query', '');
+    const prevApplication = getValueOrDefault(this.props.form, 'application', '');
+    const nextApplication = getValueOrDefault(nextProps.form, 'application', '');
     const prevEventTypes = this.props.form.get('eventTypes').value;
     const nextEventTypes = nextProps.form.get('eventTypes').value;
-    if (prevQuery !== nextQuery || prevEventTypes !== nextEventTypes) {
-      return true;
-    }
-    return false;
+    return (
+      prevApplyOn !== nextApplyOn ||
+      prevQuery !== nextQuery ||
+      prevApplication !== nextApplication ||
+      prevEventTypes !== nextEventTypes
+    );
   }
 
   componentWillUnmount() {

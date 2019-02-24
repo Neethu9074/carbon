@@ -8,12 +8,11 @@ import {
 } from 'in-api/eventSpecifications';
 import {
   dataSourceSystem,
-  createEventFormDefinition,
-  scopeApplication,
-  scopeDfq
+  createEventFormDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
+import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -31,7 +30,7 @@ export default function CustomEvent(props) {
       title="Event"
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
-      createForm={createEventFormDefinition}
+      createForm={event => createEventFormDefinition(event, !entityId)}
       getEntityFromApi={getCustomEventSpecification}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
@@ -114,18 +113,5 @@ function save(event, form) {
         form.get('severity') ? Number(form.get('severity').value) : 0
       )
     );
-  }
-}
-
-function serializeQuery(form) {
-  const applyOn = form.get('applyOn') ? form.get('applyOn').value : null;
-  const query = form.get('query') ? form.get('query').value : null;
-  const application = form.get('application') ? form.get('application').value : null;
-  if (applyOn === scopeApplication) {
-    return `entity.application.name:"${application}"`;
-  } else if (applyOn === scopeDfq) {
-    return query;
-  } else {
-    return null;
   }
 }

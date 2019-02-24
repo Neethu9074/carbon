@@ -1,6 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
 import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
+import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
 import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
@@ -13,22 +14,15 @@ import { find } from 'in-services/arrayUtils';
 export const dataSourceCustom = 'custom';
 export const dataSourceBuiltIn = 'built-in';
 export const dataSourceSystem = 'system';
-export const scopeApplication = 'application';
-export const scopeEverything = 'all';
-export const scopeDfq = 'dfq';
 
-// If the applyOn-scope is set to application, this is represented as a DFQ like entity.application.id:<appId>.
-// This regex checks if the query matches this and it also parses out the application ID as a capturing group.
-export const applicationScopeQueryRegex = /^entity.application.name:"([^"]*)"$/;
-
-export function createEventFormDefinition(event) {
+export function createEventFormDefinition(event, isCreate) {
   const mutableEvent = getMutableEvent(event);
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, metricName, severity } = ruleAttributes;
 
   const dataSource = getDataSourceFromEventSpecification(ruleType, entityType, metricName);
-  const { scope, applicationName } = getApplyOnFromQuery(query);
+  const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
 
   let form = createMapForm()
     .put(
@@ -85,7 +79,7 @@ export function createEventFormDefinition(event) {
     .put(
       'applyOn',
       createField({
-        value: scope,
+        value: applyOn,
         validator: notBlankValidator
       })
     );
@@ -96,9 +90,9 @@ export function createEventFormDefinition(event) {
     form = putSystemRuleSelection(form, ruleAttributes);
   }
 
-  if (scope === scopeApplication) {
+  if (applyOn === scopeApplication) {
     form = putApplicationField(form, applicationName);
-  } else if (scope === scopeDfq) {
+  } else if (applyOn === scopeDfq) {
     form = putQueryFields(form, event);
   }
 
@@ -277,11 +271,11 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   return form;
 }
 
-export function putApplicationField(form, applicationName, event) {
+export function putApplicationField(form, applicationName) {
   return form.put(
     'application',
     createField({
-      value: getApplication(applicationName, event),
+      value: applicationName,
       validator: notBlankValidator
     })
   );
@@ -326,15 +320,8 @@ export function putQueryFields(form, event) {
     );
 }
 
-function getApplyOnFromQuery(query) {
-  if (isBlank(query)) {
-    return { scope: scopeEverything };
-  }
-  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
-  if (!applicationScopeMatch || applicationScopeMatch.length < 2) {
-    return { scope: scopeDfq };
-  }
-  return { scope: scopeApplication, applicationName: applicationScopeMatch[1] };
+export function removeQueryFields(form) {
+  return form.remove('query').remove('validationResult');
 }
 
 export function getDataSourceFromEventSpecification(ruleType, entityType, metricName) {
@@ -348,17 +335,6 @@ export function getDataSourceFromEventSpecification(ruleType, entityType, metric
 
 export function isDeprecatedEntityType(entityType) {
   return Boolean(pluginsDeprecatedIn20[entityType]);
-}
-
-function getApplication(applicationName, event) {
-  if (applicationName) {
-    return applicationName;
-  }
-  const { scope, applicationName: parsedApplicationName } = getApplyOnFromQuery(event.get('query'));
-  if (scope === scopeApplication) {
-    return parsedApplicationName;
-  }
-  return null;
 }
 
 function getMutableEvent(event) {

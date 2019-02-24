@@ -13,11 +13,14 @@ import {
   putAggregationField,
   putQueryFields,
   putApplicationField,
-  scopeApplication,
-  scopeEverything,
-  scopeDfq,
+  removeQueryFields,
   updateFormDefinitionForDataSource
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import {
+  scopeApplication,
+  scopeEverything,
+  scopeDfq
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { formatterTypeToLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
 import { plugins10, plugins20, oneZeroServicePlugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
@@ -345,9 +348,7 @@ function EventForm({
           {form.get('applyOn').value === scopeApplication &&
             form.get('application').map(field => (
               <FormGroup>
-                <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
-                  Application
-                </Label>
+                <Label hasError={!field.valid && field.touched}>Application</Label>
                 <ApplicationSelect
                   applicationName={field.value}
                   onSelectApplicationName={applicationName => onChange('application', applicationName)}
@@ -728,21 +729,23 @@ function onChangeApplyOn(applyOn, onChange) {
 
   if (applyOn === scopeDfq) {
     updateFormDefinition = (form, event) => {
+      form = form.remove('application');
       form = putQueryFields(form, event);
       return form.updateIn(['query'], f => {
         return f.setValue('');
       });
     };
   } else if (applyOn === scopeApplication) {
-    updateFormDefinition = (form, event) => {
-      form = putApplicationField(form, null, event);
-      return form.updateIn(['application'], f => {
-        return f.setValue('');
-      });
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      return putApplicationField(form, null);
     };
   } else {
     // applyOn === scopeEverything or not selected
-    updateFormDefinition = form => form.remove('query').remove('application');
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      return form.remove('application');
+    };
   }
   onChange('applyOn', applyOn, updateFormDefinition);
 }

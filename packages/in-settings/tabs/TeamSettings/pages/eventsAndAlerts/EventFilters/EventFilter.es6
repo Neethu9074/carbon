@@ -2,6 +2,13 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
+import {
+  parseQuery,
+  scopeApplication,
+  scopeEverything,
+  scopeDfq,
+  serializeQuery
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import EventFilterForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilterForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
@@ -12,7 +19,6 @@ import { queryValidator } from 'in-stores/search/validations';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { isNotBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 
@@ -61,9 +67,7 @@ const Form = entityForm(function DetailsForm(props) {
 });
 
 function save(config, form) {
-  // the query field might not exist in case 'Apply on ALL' is selected,
-  // which corresponds to an empty query
-  const query = form.containsKey('query') ? form.get('query').value : '';
+  const query = serializeQuery(form);
 
   return saveAlertingConfig(
     fromJS(
@@ -86,19 +90,25 @@ function onChangeApplyOn(form, applyOn) {
     return;
   }
   let updatedForm = form.updateIn(['applyOn'], field => field.setValue(applyOn).setTouched(true));
-  if (applyOn === 'all') {
-    updatedForm = updatedForm.remove('query');
-  } else {
+
+  if (applyOn === scopeDfq) {
+    updatedForm = updatedForm.remove('application');
     updatedForm = putQueryFields(updatedForm, '');
+  } else if (applyOn === scopeApplication) {
+    updatedForm = removeQueryFields(updatedForm);
+    updatedForm = putApplicationField(updatedForm, null);
+  } else if (applyOn === scopeEverything) {
+    updatedForm = removeQueryFields(updatedForm);
+    updatedForm = updatedForm.remove('application');
   }
+
   return updatedForm;
 }
 
 function createForm(config, isCreate) {
   const query = config.getIn(['eventFilteringConfiguration', 'query'], '');
-  // always set to 'Dynamic Focus Query' per default for new configs, so that
-  // the user manually has to select 'All' in case he really want that
-  const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
+
+  const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
 
   let form = createMapForm()
     .put(
@@ -160,14 +170,16 @@ function createForm(config, isCreate) {
       })
     );
 
-  if (applyOn === 'dfq') {
+  if (applyOn === scopeDfq) {
     form = putQueryFields(form, query);
+  } else if (applyOn === scopeApplication) {
+    form = putApplicationField(form, applicationName);
   }
 
   return form;
 }
 
-function putQueryFields(form, query) {
+export function putQueryFields(form, query) {
   let updatedForm = form.put(
     'query',
     createField({
@@ -190,6 +202,23 @@ function putQueryFields(form, query) {
     })
   );
   return updatedForm;
+}
+
+export function removeQueryFields(form) {
+  return form
+    .remove('query')
+    .remove('validationResult')
+    .remove('queryValidationInProgress');
+}
+
+export function putApplicationField(form, applicationName) {
+  return form.put(
+    'application',
+    createField({
+      value: applicationName,
+      validator: notBlankValidator
+    })
+  );
 }
 
 function eventTypeValidator(eventType) {

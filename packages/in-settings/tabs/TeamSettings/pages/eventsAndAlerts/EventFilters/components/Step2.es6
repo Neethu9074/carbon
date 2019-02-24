@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  scopeApplication,
+  scopeEverything,
+  scopeDfq
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -45,8 +51,9 @@ export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
               name="config-applyOn"
               value={field.value}
               options={[
-                { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
-                { value: 'all', label: 'All available entities' }
+                { value: scopeApplication, label: 'Application' },
+                { value: scopeDfq, label: 'Selected entities (Dynamic Focus query)' },
+                { value: scopeEverything, label: 'All available entities' }
               ]}
               clearable={false}
               onChange={e => {
@@ -57,15 +64,14 @@ export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
               }}
             />
             <TouchedMessages field={field} />
-            {form.get('applyOn').value === 'all' && (
+            {form.get('applyOn').value === scopeEverything && (
               <DescriptionText>
                 <strong>Caution!</strong> All events that match the event types will enter the notification stream.
               </DescriptionText>
             )}
           </FormGroup>
         ))}
-
-        {form.get('applyOn').value === 'dfq' &&
+        {form.get('applyOn').value === scopeDfq &&
           form.get('query').map(field => (
             <FormGroup>
               <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
@@ -94,6 +100,17 @@ export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
                 </Link>
                 .
               </DescriptionText>
+            </FormGroup>
+          ))}
+        {form.get('applyOn').value === scopeApplication &&
+          form.get('application').map(field => (
+            <FormGroup>
+              <Label hasError={!field.valid && field.touched}>Application</Label>
+              <ApplicationSelect
+                applicationName={field.value}
+                onSelectApplicationName={applicationName => onChange('application', applicationName)}
+              />
+              <TouchedMessages field={field} />
             </FormGroup>
           ))}
         <MatchingEntitiesIndicator form={form} />

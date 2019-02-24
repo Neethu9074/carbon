@@ -12,7 +12,7 @@ export default function SaveCancel({
   form,
   message,
   loading,
-  saveEnabled,
+  saveEnabled = true,
   isCreate,
   listPath,
   cancelButtonLabel = 'Cancel',
