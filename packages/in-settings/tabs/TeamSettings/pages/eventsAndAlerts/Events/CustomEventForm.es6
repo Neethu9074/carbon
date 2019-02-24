@@ -12,6 +12,8 @@ import {
   putRollupField,
   putAggregationField,
   putQueryFields,
+  putApplicationField,
+  scopeApplication,
   scopeEverything,
   scopeDfq,
   updateFormDefinitionForDataSource
@@ -20,6 +22,7 @@ import { formatterTypeToLabel } from 'in-settings/tabs/TeamSettings/pages/events
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
 import { plugins10, plugins20, oneZeroServicePlugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
+import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
@@ -55,12 +58,12 @@ const previewStartDate = Date.now();
 
 const queryIsValid = just([true, true]);
 
-// We use two observables to manage the various query validation aspect:
-// 1. queryInput emits when the query is change (the user is editing the query in put field). When this happens we also
+// We use two observables to manage the various query validation aspects:
+// 1. queryInput emits when the query is changed (the user is editing the query input field). When this happens we also
 // start showing the progress indicator for the query validation and prohibit saving the form as long as the query
 // validation is in progress.
 const queryInput = create();
-// 2. queryValidationFinished emits when the subscription doing the validation has produced a new result, thus we now we
+// 2. queryValidationFinished emits when the subscription doing the validation has produced a new result, thus we now
 // can stop the progress indicator for the query validation and enable saving the form again.
 const queryValidationFinished = create();
 
@@ -290,7 +293,7 @@ function EventForm({
                 onChange={e => onChangeApplyOn(e ? e.value : null, onChange)}
               />
               <TouchedMessages field={field} />
-              {form.get('applyOn').value === 'all' && (
+              {form.get('applyOn').value === scopeEverything && (
                 <DescriptionText>
                   <strong>Caution!</strong> This will match and create issues on all available entities for the
                   conditions specified. <strong>This might affect other users in your organization as well.</strong>
@@ -300,7 +303,7 @@ function EventForm({
           ))}
         </Col>
         <Col cols={6}>
-          {form.get('applyOn').value === 'dfq' &&
+          {form.get('applyOn').value === scopeDfq &&
             form.get('query').map(field => (
               <FormGroup>
                 <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
@@ -337,6 +340,19 @@ function EventForm({
                   </Link>
                   .
                 </DescriptionText>
+              </FormGroup>
+            ))}
+          {form.get('applyOn').value === scopeApplication &&
+            form.get('application').map(field => (
+              <FormGroup>
+                <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
+                  Application
+                </Label>
+                <ApplicationSelect
+                  applicationName={field.value}
+                  onSelectApplicationName={applicationName => onChange('application', applicationName)}
+                />
+                <TouchedMessages field={field} />
               </FormGroup>
             ))}
         </Col>
@@ -708,8 +724,26 @@ function applyQueryValidationResult(queryValidationResults, form, onChange) {
 }
 
 function onChangeApplyOn(applyOn, onChange) {
-  const updateFormDefinition =
-    applyOn === 'all' ? form => form.remove('query') : (form, event) => putQueryFields(form, event);
+  let updateFormDefinition;
+
+  if (applyOn === scopeDfq) {
+    updateFormDefinition = (form, event) => {
+      form = putQueryFields(form, event);
+      return form.updateIn(['query'], f => {
+        return f.setValue('');
+      });
+    };
+  } else if (applyOn === scopeApplication) {
+    updateFormDefinition = (form, event) => {
+      form = putApplicationField(form, null, event);
+      return form.updateIn(['application'], f => {
+        return f.setValue('');
+      });
+    };
+  } else {
+    // applyOn === scopeEverything or not selected
+    updateFormDefinition = form => form.remove('query').remove('application');
+  }
   onChange('applyOn', applyOn, updateFormDefinition);
 }
 
@@ -794,8 +828,7 @@ const conditionOperatorOptions = [
 ];
 
 const applyOnOptions = [
-  // Will be enabled with https://www.pivotaltracker.com/story/show/163869567
-  // { value: scopeApplication, label: 'Application' },
+  { value: scopeApplication, label: 'Application' },
   { value: scopeDfq, label: 'Selected Entities (Dynamic Focus Query)' },
   { value: scopeEverything, label: 'All Available Entities' }
 ];

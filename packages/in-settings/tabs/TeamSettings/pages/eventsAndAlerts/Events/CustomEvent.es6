@@ -8,7 +8,9 @@ import {
 } from 'in-api/eventSpecifications';
 import {
   dataSourceSystem,
-  createEventFormDefinition
+  createEventFormDefinition,
+  scopeApplication,
+  scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
@@ -91,12 +93,13 @@ function save(event, form) {
     const formatterType = form.get('formatter') ? form.get('formatter').value : null;
     let conditionValue = Number(form.get('conditionValue').value);
     conditionValue = unmapConditionValue(conditionValue, formatterType);
+    const query = serializeQuery(form);
     return saveCustomEventSpecification(
       createCustomThresholdBasedEventSpecification(
         event ? event.get('id') : null,
         form.get('name').value,
         form.get('entityType') ? form.get('entityType').value : null,
-        form.get('query') ? form.get('query').value : null,
+        query,
         form.get('triggering').value,
         form.get('description').value,
         form.get('gracePeriod').value,
@@ -111,5 +114,18 @@ function save(event, form) {
         form.get('severity') ? Number(form.get('severity').value) : 0
       )
     );
+  }
+}
+
+function serializeQuery(form) {
+  const applyOn = form.get('applyOn') ? form.get('applyOn').value : null;
+  const query = form.get('query') ? form.get('query').value : null;
+  const application = form.get('application') ? form.get('application').value : null;
+  if (applyOn === scopeApplication) {
+    return `entity.application.name:"${application}"`;
+  } else if (applyOn === scopeDfq) {
+    return query;
+  } else {
+    return null;
   }
 }

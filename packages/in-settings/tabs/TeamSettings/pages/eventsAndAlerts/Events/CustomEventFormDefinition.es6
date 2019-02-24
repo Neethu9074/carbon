@@ -6,8 +6,8 @@ import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import { isBlank, isNotBlank } from 'in-services/util/string';
 import { pluginsDeprecatedIn20 } from 'in-forge/constants';
+import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 
 export const dataSourceCustom = 'custom';
@@ -17,6 +17,10 @@ export const scopeApplication = 'application';
 export const scopeEverything = 'all';
 export const scopeDfq = 'dfq';
 
+// If the applyOn-scope is set to application, this is represented as a DFQ like entity.application.id:<appId>.
+// This regex checks if the query matches this and it also parses out the application ID as a capturing group.
+export const applicationScopeQueryRegex = /^entity.application.name:"([^"]*)"$/;
+
 export function createEventFormDefinition(event) {
   const mutableEvent = getMutableEvent(event);
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
@@ -24,9 +28,7 @@ export function createEventFormDefinition(event) {
   const { ruleType, metricName, severity } = ruleAttributes;
 
   const dataSource = getDataSourceFromEventSpecification(ruleType, entityType, metricName);
-
-  // TODO add scopeApplication later
-  const applyOn = query && isNotBlank(query) ? scopeDfq : scopeEverything;
+  const { scope, applicationName } = getApplyOnFromQuery(query);
 
   let form = createMapForm()
     .put(
@@ -83,7 +85,7 @@ export function createEventFormDefinition(event) {
     .put(
       'applyOn',
       createField({
-        value: applyOn,
+        value: scope,
         validator: notBlankValidator
       })
     );
@@ -94,9 +96,9 @@ export function createEventFormDefinition(event) {
     form = putSystemRuleSelection(form, ruleAttributes);
   }
 
-  if (applyOn === scopeApplication) {
-    form = putApplicationField(form, event);
-  } else if (applyOn === scopeDfq) {
+  if (scope === scopeApplication) {
+    form = putApplicationField(form, applicationName);
+  } else if (scope === scopeDfq) {
     form = putQueryFields(form, event);
   }
 
@@ -275,11 +277,11 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   return form;
 }
 
-export function putApplicationField(form, event) {
+export function putApplicationField(form, applicationName, event) {
   return form.put(
     'application',
     createField({
-      value: getApplication(event),
+      value: getApplication(applicationName, event),
       validator: notBlankValidator
     })
   );
@@ -324,6 +326,17 @@ export function putQueryFields(form, event) {
     );
 }
 
+function getApplyOnFromQuery(query) {
+  if (isBlank(query)) {
+    return { scope: scopeEverything };
+  }
+  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
+  if (!applicationScopeMatch || applicationScopeMatch.length < 2) {
+    return { scope: scopeDfq };
+  }
+  return { scope: scopeApplication, applicationName: applicationScopeMatch[1] };
+}
+
 export function getDataSourceFromEventSpecification(ruleType, entityType, metricName) {
   if (ruleType === 'system') {
     return dataSourceSystem;
@@ -337,9 +350,14 @@ export function isDeprecatedEntityType(entityType) {
   return Boolean(pluginsDeprecatedIn20[entityType]);
 }
 
-function getApplication(/* event */) {
-  // If the event.match === 'entity.application.id:<appId>', then this event is application scoped. This will be
-  // implemented with https://www.pivotaltracker.com/story/show/163869567
+function getApplication(applicationName, event) {
+  if (applicationName) {
+    return applicationName;
+  }
+  const { scope, applicationName: parsedApplicationName } = getApplyOnFromQuery(event.get('query'));
+  if (scope === scopeApplication) {
+    return parsedApplicationName;
+  }
   return null;
 }
 
