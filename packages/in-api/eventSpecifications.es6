@@ -39,8 +39,6 @@ export function getCustomEventSpecificationMutable(id) {
 export function createCustomSytemRuleBasedEventSpecification(
   id,
   name = 'New Event',
-  // TODO Discuss with Benny - I don't think system rule based events should have an entityType
-  // It's removed fro the form when system rule is selected.
   entityType,
   query = '',
   triggering = false,

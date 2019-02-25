@@ -25,6 +25,17 @@ export function getAlertingConfig(id) {
   }).map(response => fromJS(response.body));
 }
 
+export function getAlertingConfigInfos(entityId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/alertingConfigurations/infos`,
+    queryParams: {
+      integrationIds: [entityId]
+    }
+  }).map(response => response.body);
+}
+
 export function setEnabled(config, enabled) {
   const copy = deepCopy(config);
   copy.muteUntil = enabled ? 0 : Number.MAX_SAFE_INTEGER;

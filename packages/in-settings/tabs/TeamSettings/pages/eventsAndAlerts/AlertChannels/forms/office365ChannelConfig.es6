@@ -15,9 +15,28 @@ const block = 'in-alert-channel-config-form';
 const name = 'OFFICE_365';
 const label = 'Office365';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'webhookUrl',
+    label: 'Webhook URL'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.webhookUrl = '';
@@ -79,7 +98,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Office365 In Rucola-Pesto-Öl gebratene Pasta mit grünem Spargel bunten Tomaten, gelben Karotten und Parmesan	6,50 €"
+            placeholder="Office365 Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
