@@ -20,7 +20,7 @@ export default function TraceValidationResult({ issues }) {
           <SvgIcon className={locals.icon} type={'lib_help_error_error_outline'} width={24} height={24} />
           <div className={locals.messages}>
             {issues.map(issueKey => (
-              <div>{issueMessages[issueKey] ? issueMessages[issueKey] : issueKey}</div>
+              <div key={issueKey}>{issueMessages[issueKey] ? issueMessages[issueKey] : issueKey}</div>
             ))}
           </div>
         </div>

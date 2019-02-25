@@ -1,8 +1,9 @@
 import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
@@ -12,7 +13,13 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
-      <ParentCallIndicator key={call.id} call={call} scale={scale} getColor={getColor} onClick={onCallClicked} />
+      <ParentCallIndicator
+        key={call.id}
+        call={call}
+        scale={scale}
+        getColor={getColor}
+        onClick={isFakeRootCall(call) ? null : onCallClicked}
+      />
       {call.children.map((subCall, i) => (
         <CallIndicator
           onClick={onSubCallClicked}
@@ -41,8 +48,11 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
           left: `${left}%`,
           width: `${width}%`
         }}
-        className={locals.callIndicator}
-        onClick={() => onClick(call)}
+        className={evaluateClassNames({
+          [locals.callIndicator]: true,
+          [locals.clickable]: onClick != null
+        })}
+        onClick={onClick ? () => onClick(call) : () => {}}
       >
         <div className={locals.networkTimeBar} style={{ background: getColor(call) }} />
         <ProcessingTime call={call} getColor={getColor} />
@@ -112,7 +122,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
           width: `${width}%`,
           background: getColor(call)
         }}
-        className={locals.subCallIndicator}
+        className={joinClassNames(locals.subCallIndicator, locals.clickable)}
         onClick={() => onClick(call)}
       />
     </Tooltip>
