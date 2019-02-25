@@ -34,7 +34,7 @@ export default function Summary({ snapshot, timeConfig }) {
           size="sm"
         />
         <KV k="User" v={snapshot.getIn(['data', 'user'])} size="sm" />
-        <KV k="Started" v={`${formatDateTime(startedAt)} (${fromNowAccurately(startedAt)})`} size="sm" />
+        {startedAt && <KV k="Started" v={`${formatDateTime(startedAt)} (${fromNowAccurately(startedAt)})`} size="sm" />}
       </Kpis>
 
       <Columize>

@@ -10,11 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
 export default connectTo(
-  props => {
-    return {
-      hostSnapshot: getHostSnapshotId(props.snapshot).flatMap(id => getSnapshot(id))
-    };
-  },
+  ({ snapshot }) => ({ hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot) }),
 
   function ProcessDashboard({ snapshot, timeConfig, hostSnapshot }) {
     const snapshotId = snapshot.get('id');
@@ -48,6 +44,31 @@ export default connectTo(
           />
         </DashboardSection>
 
+        {hostSnapshot && !(isWindows(hostSnapshot) || isZos(hostSnapshot)) ? (
+          <DashboardSection title="Open Files">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                max: snapshot.getIn(['data', 'openFiles.max']),
+                formatter: number.compact,
+                metrics: ['openFiles.current'],
+                labels: ['Current'],
+                type: 'line'
+              }}
+              y2={{
+                min: 0,
+                max: 1,
+                metrics: ['openFiles.used'],
+                labels: ['Used'],
+                formatter: percentageZeroDecimalPlaces,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        ) : null}
+
         {data.get('ctx_switches_enabled') ? (
           <DashboardSection title="Number of context switches">
             <Chart
@@ -65,23 +86,6 @@ export default connectTo(
         ) : null}
 
         <ProcessCompanionMetrics snapshotId={snapshotId} />
-
-        {hostSnapshot && !(isWindows(hostSnapshot) || isZos(hostSnapshot)) ? (
-          <DashboardSection title="Open Files">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                max: 1,
-                metrics: ['openFiles.used'],
-                labels: ['Used'],
-                formatter: percentageZeroDecimalPlaces,
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
-        ) : null}
       </div>
     );
   }

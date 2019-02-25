@@ -20,13 +20,14 @@ export const teamSettingsAccessControlRoles = `${accessControl}/roles`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
-const alerting = `${teamSettings}/alerting`;
+export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
-export const teamSettingsAlertingEventEdit = `${alerting}/events/:id`;
-export const teamSettingsAlertingEventNew = `${alerting}/events/new`;
-export const teamSettingsAlertingEvents = `${alerting}/events`;
+export const events = '/events';
+export const teamSettingsAlertingEventEdit = `${alerting}${events}/:id`;
+export const teamSettingsAlertingEventNew = `${alerting}${events}/new`;
+export const teamSettingsAlertingEvents = `${alerting}${events}`;
 export const teamSettingsAlertingEventFilterEdit = `${alerting}/filters/:id`;
 export const teamSettingsAlertingEventFilterNew = `${alerting}/filters/new`;
 export const teamSettingsAlertingEventFilters = `${alerting}/filters`;

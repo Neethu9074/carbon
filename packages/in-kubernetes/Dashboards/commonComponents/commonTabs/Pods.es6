@@ -4,7 +4,6 @@ import { compose } from 'recompose';
 
 import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import PodResourceTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodResourceTooltipContent';
-import calculateReadyContainers from 'in-kubernetes/Dashboards/commonComponents/calculateReadyContainers';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -14,6 +13,7 @@ import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
+import TwoValueBar from 'in-new-components/TwoValueBar';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
@@ -160,7 +160,18 @@ const allColumnDefinitions = [
     id: 'ready',
     label: 'Ready',
     getContent(item) {
-      return calculateReadyContainers(get(item, ['pod']));
+      const allContainerStatuses = [
+        ...get(item, ['pod', 'status', 'initContainerStatuses'], []),
+        ...get(item, ['pod', 'status', 'containerStatuses'], [])
+      ];
+      return (
+        <TwoValueBar
+          v1={allContainerStatuses.filter(c => c.ready).length}
+          v2={allContainerStatuses.length}
+          fullDomain={allContainerStatuses.length}
+          renderLabels={false}
+        />
+      );
     }
   },
   {
@@ -168,14 +179,7 @@ const allColumnDefinitions = [
     label: 'Restarts',
     sortable: false,
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="restartCount"
-          formatter={zeroDecimalPlaces}
-          timeWindowAggregation="sum"
-        />
-      );
+      return <MetricValue snapshotId={get(item, ['pod', 'id'])} metric="restartCount" formatter={zeroDecimalPlaces} />;
     }
   },
   {

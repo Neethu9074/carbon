@@ -3,11 +3,13 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 
 export default function HardwareInfo({ snapshot }) {
   const data = snapshot.get('data');
   const memoryTotal = data.get('memory.total');
   const start = data.get('start');
+  const openFilesMax = data.get('openFiles.max');
 
   return (
     <DescriptionList>
@@ -23,10 +25,14 @@ export default function HardwareInfo({ snapshot }) {
         <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>
       ) : null}
 
+      {!(isWindows(snapshot) || isZos(snapshot)) &&
+        openFilesMax != null && <DescriptionItem title="Max Open Files">{openFilesMax}</DescriptionItem>}
+
       <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
 
       <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>
       <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
+      <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
 
       {start != null ? (
         <DescriptionItem title="Started At">

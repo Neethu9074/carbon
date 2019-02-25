@@ -20,12 +20,12 @@ export default function entityForm(ComposedComponent) {
     };
 
     componentWillMount() {
-      this.load(this.props.entityId);
+      this.load(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
       if (this.props.entityId !== nextProps.entityId) {
-        this.load(nextProps.entityId);
+        this.load(nextProps);
       }
     }
 
@@ -68,11 +68,11 @@ export default function entityForm(ComposedComponent) {
       }
     };
 
-    load = id => {
+    load = ({ entityId, createDefaultEntity, getEntityFromApi }) => {
       this.disposeAsyncAction();
 
-      if (!id) {
-        const entity = fromJS(this.props.createDefaultEntity());
+      if (!entityId) {
+        const entity = fromJS(createDefaultEntity());
         this.setState({
           loading: false,
           error: false,
@@ -92,7 +92,7 @@ export default function entityForm(ComposedComponent) {
         form: null
       });
 
-      const apiEntityResult$ = this.props.getEntityFromApi(id);
+      const apiEntityResult$ = getEntityFromApi(entityId);
       this.responseSubscription = apiEntityResult$.once(entity => {
         this.setState({
           loading: false,

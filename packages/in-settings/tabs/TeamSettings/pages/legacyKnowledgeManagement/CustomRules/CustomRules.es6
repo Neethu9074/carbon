@@ -15,7 +15,7 @@ import List from 'in-settings/components/List';
 import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 
-export default function CustomRule() {
+export default function CustomRules() {
   return (
     <List
       title="Custom Rules"

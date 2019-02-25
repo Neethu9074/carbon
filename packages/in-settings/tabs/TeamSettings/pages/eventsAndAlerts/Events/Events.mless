@@ -1,0 +1,10 @@
+:local {
+
+  .filterDropdown {
+    margin-right: 0.5rem;
+  }
+
+  .severityDropdown {
+    width: 11.25rem;
+  }
+}

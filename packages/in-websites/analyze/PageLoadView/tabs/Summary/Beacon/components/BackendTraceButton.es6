@@ -4,11 +4,9 @@ import React from 'react';
 import getWebsiteBackendTraceId from 'in-subscription/websiteMonitoring/getWebsiteBackendTraceId';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import Button from 'in-new-components/Button';
 import TrackVisibility from 'react-on-screen';
-import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 import locals from './BackendTraceButton.mless';
 
@@ -25,15 +23,14 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
   }
 
   return (
-    <Tooltip content="Open backend trace" align="leftMiddle">
-      <Link
-        className={locals.link}
-        href$={getLinkToTraceDetail(result.data)}
-        onClick={() => navigateToBackendTraceFromPageLoad()}
-      >
-        <SvgIcon type="lib_application_trace_invert" className={locals.icon} width={20} />
-      </Link>
-    </Tooltip>
+    <Button
+      className={locals.button}
+      href$={getLinkToTraceDetail(result.data)}
+      onClick={() => navigateToBackendTraceFromPageLoad()}
+      size="compact"
+    >
+      View Backend Trace
+    </Button>
   );
 });
 

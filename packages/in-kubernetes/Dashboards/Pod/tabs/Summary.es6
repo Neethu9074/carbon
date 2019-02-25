@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import calculateReadyContainers from 'in-kubernetes/Dashboards/commonComponents/calculateReadyContainers';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/ContainerStates';
 import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -13,6 +12,7 @@ import Card from 'in-new-components/Card';
 
 export default function Summary({ data: pod }) {
   const snapshotId = pod.id;
+  const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
 
   return (
     <Fragment>
@@ -24,14 +24,9 @@ export default function Summary({ data: pod }) {
               <Di title="Phase">
                 <PodPhase status={get(pod, ['status', 'phase'], pod.phase)} />
               </Di>
-              <Di title="Ready">{calculateReadyContainers(pod)}</Di>
+              <Di title="Ready">{`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}</Di>
               <Di title="Restarts">
-                <MetricValue
-                  snapshotId={pod.id}
-                  metric="restartCount"
-                  formatter={zeroDecimalPlaces}
-                  timeWindowAggregation="sum"
-                />
+                <MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />
               </Di>
               <Di title="Age">{pod.age ? formatDuration(pod.age) : '-'}</Di>
             </Dl>

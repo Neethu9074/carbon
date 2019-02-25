@@ -2,20 +2,10 @@
 
 :local {
 
-  .shorten {
+  .ellipsis50vw {
     max-width: 50vw;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-  }
-
-  .nameWithTextBelow {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .textBelowName {
-    font-size: .75rem;
-    color: @lib__colors__N600Light;
   }
 }

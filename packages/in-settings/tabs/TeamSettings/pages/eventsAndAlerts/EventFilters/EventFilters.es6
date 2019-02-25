@@ -9,7 +9,8 @@ import {
   teamSettingsAlertingEventFilters
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
@@ -23,18 +24,18 @@ const maxNumOfAlertingEventFilters = get(config, ['configuration', 'maxAllowedAl
 export default function EventFilters() {
   return (
     <List
-      title="Event Filters"
+      title="Alerts"
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={() => getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validateConfig)))}
+      loadEntities={loadEntities}
       initialOrderBy="alertName"
-      labelNew="New Event Filter"
+      labelNew="New Alert"
       pathNew={teamSettingsAlertingEventFilterNew}
       newButtonDisabledTooltipMessage={entities =>
         entities && entities.length >= maxNumOfAlertingEventFilters
-          ? `The number of event filters is restricted to ${maxNumOfAlertingEventFilters}.`
+          ? `The number of alerts is restricted to ${maxNumOfAlertingEventFilters}.`
           : null
       }
       searchAttributes={['alertName']}
@@ -49,12 +50,11 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
-          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.shorten}>
+        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
+          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis50vw}>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
-          {!isEnabled(entity) && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   }
@@ -77,11 +77,16 @@ function isEnabled(entity) {
 }
 
 function getHeader(totalHits) {
-  return totalHits ? `Event Filters (${totalHits})` : 'Event Filters';
+  return totalHits ? `Alerts (${totalHits})` : 'Alerts';
 }
 
 function getEntityName(entity) {
-  return `event filter "${entity.alertName}"`;
+  return `alert "${entity.alertName}"`;
+}
+
+function loadEntities() {
+  const validationAction = ruleDeprecationValidationChecksEnabled ? validateConfig : assumeConfigIsValid;
+  return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
 }
 
 function validateConfig(config) {
@@ -94,7 +99,11 @@ function validateConfig(config) {
       return config;
     });
   } else {
-    config.valid = true;
-    return just(config);
+    return assumeConfigIsValid(config);
   }
+}
+
+function assumeConfigIsValid(config) {
+  config.valid = true;
+  return just(config);
 }

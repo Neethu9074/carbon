@@ -47,6 +47,7 @@ export default connectTo(
         <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
         <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
         <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
+        <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
         <KeyValuePopupButton title="Labels" data={data.get('labels')}>
           Labels
         </KeyValuePopupButton>

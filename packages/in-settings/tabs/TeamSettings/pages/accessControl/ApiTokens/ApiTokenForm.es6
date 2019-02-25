@@ -81,7 +81,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           disabled={disabled}
           onChange={onChange}
           name="canConfigureRoles"
-          label="Access role configration"
+          label="Access role configuration"
         />
 
         <Permission

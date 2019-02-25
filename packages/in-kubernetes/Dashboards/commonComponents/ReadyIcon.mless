@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .isReady {
+    fill: @lib__colors__success;
+  }
+
+  .isNotReady {
+    fill: @lib__colors__failure;
+  }
+}

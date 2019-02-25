@@ -9,11 +9,9 @@ import {
 import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
+import WithIcon from 'in-new-components/WithIcon';
 import List from 'in-settings/components/List';
-import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
-
-import locals from './MaintenanceConfigurations.mless';
 import theme from 'in-themes';
 
 export default function MaintenanceWindows() {
@@ -44,14 +42,9 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
-          <SvgIcon
-            type="lib_actions_build_outline"
-            width={24}
-            height={24}
-            className={locals.icon}
-            color={theme.lib.colors.primary2}
-          />
-          {entity.name}
+          <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2}>
+            {entity.name}
+          </WithIcon>
         </Link>
       );
     }
