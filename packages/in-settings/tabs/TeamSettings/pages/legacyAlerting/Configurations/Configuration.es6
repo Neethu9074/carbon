@@ -117,7 +117,7 @@ function createForm(config, isCreate) {
     .put(
       'integrationIds',
       createField({
-        value: config.get('integrationIds', List())
+        value: config.get('integrationIds', List()) || List()
       })
     )
     .put(
@@ -130,7 +130,7 @@ function createForm(config, isCreate) {
     .put(
       'ruleIds',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List())
+        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List()) || List()
       })
     )
     .put(
