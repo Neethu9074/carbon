@@ -239,7 +239,7 @@ function navigationTreeForRole(role): NavigationTree {
         subPages: [
           {
             path: teamSettingsAlertingAlertChannelNew,
-            component: AlertChannelPage
+            component: AlertChannelModificationPage
           },
           {
             path: teamSettingsAlertingAlertChannelEdit,

@@ -45,7 +45,9 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{'Modify ' + entity.get('name') + ' Alert Channel'}</SubViewHeader>
+      <SubViewHeader>{`${
+        isCreate ? 'Create ' + entity.get('kind') : 'Modify ' + entity.get('name')
+      } Alert Channel`}</SubViewHeader>
 
       {message ? (
         <Section>
