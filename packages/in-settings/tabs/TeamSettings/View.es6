@@ -28,6 +28,7 @@ import {
   teamSettingsAlertingEventFilterNew,
   teamSettingsAlertingEventFilters,
   teamSettingsAlertingAlertChannelEdit,
+  teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingMaintenanceConfigurationEdit,
@@ -60,6 +61,7 @@ import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAn
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import CustomDynamicRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRules';
 import CustomDynamicRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRule';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import BuiltInRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/BuiltInRules/BuiltInRules';
 import CustomIssuesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssues';
 import CustomIssuePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssue';
@@ -238,11 +240,15 @@ function navigationTreeForRole(role): NavigationTree {
         subPages: [
           {
             path: teamSettingsAlertingAlertChannelNew,
-            component: AlertChannelPage
+            component: AlertChannelModificationPage
           },
           {
             path: teamSettingsAlertingAlertChannelEdit,
             component: AlertChannelPage
+          },
+          {
+            path: teamSettingsAlertingAlertChannelEditDetails,
+            component: AlertChannelModificationPage
           }
         ]
       });

@@ -18,9 +18,28 @@ const block = 'in-alert-channel-config-form';
 const name = 'WEB_HOOK';
 const label = 'WebHook';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'webhookUrls',
+    label: 'WebHook Urls'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.webhookUrls = [''];
