@@ -37,66 +37,89 @@ export default compose(
   withState('severity', 'setSeverity', null)
 )(Events);
 
-function Events({ type, setType, severity, setSeverity }) {
+function Events({
+  type,
+  setType,
+  severity,
+  setSeverity,
+  setTitle = true,
+  getHeader = defaultGetHeader,
+  tableActions = defaultTableActions,
+  loadEntities,
+  noDataMessage,
+  rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
+  isSearchable = true,
+  hasRowNavigation = true
+}) {
   return (
     <List
-      title="Events"
+      title={setTitle ? 'Events' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
-      loadEntities={getEventSpecificationsMutable}
+      loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
+      noDataMessage={noDataMessage}
       initialOrderBy="name"
-      rightHeader={rightHeader(type, setType, severity, setSeverity)}
+      rightHeader={rightHeader}
+      isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={196}
-      getDetailsHref={entity => getEntityHref(getDetailsPath(entity), entity.id)}
+      getDetailsHref={hasRowNavigation ? entity => getEntityHref(getDetailsPath(entity), entity.id) : null}
     />
   );
 }
 
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: 'Name',
-    ellipsis: '20vw',
-    getContent(entity) {
-      const icon = getIcon(entity);
-      return (
-        <WithIcon icon={icon.icon} iconColor={icon.color}>
-          <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>
-              {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
-            </Link>
-          </WithSubscript>
-        </WithIcon>
-      );
+function columnDefinitions(hasRowNavigation) {
+  return [
+    {
+      id: 'name',
+      label: 'Name',
+      ellipsis: '20vw',
+      getContent(entity) {
+        const icon = getIcon(entity);
+        return (
+          <WithIcon icon={icon.icon} iconColor={icon.color}>
+            <WithSubscript subscript={getSubscript(entity)}>
+              {hasRowNavigation ? (
+                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>
+                  {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
+                </Link>
+              ) : (
+                <span>
+                  {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
+                </span>
+              )}
+            </WithSubscript>
+          </WithIcon>
+        );
+      },
+      getValue(entity) {
+        return entity.name;
+      }
     },
-    getValue(entity) {
-      return entity.name;
-    }
-  },
-  {
-    id: 'description',
-    label: 'Description',
-    ellipsis: '20vw',
-    getContent(entity) {
-      return entity.description;
-    }
-  },
-  {
-    id: 'entityType',
-    label: 'Entity Type',
-    getContent(entity) {
-      return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
+    {
+      id: 'description',
+      label: 'Description',
+      ellipsis: '20vw',
+      getContent(entity) {
+        return entity.description;
+      }
     },
-    getValue: getEntityType
-  }
-];
+    {
+      id: 'entityType',
+      label: 'Entity Type',
+      getContent(entity) {
+        return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
+      },
+      getValue: getEntityType
+    }
+  ];
+}
 
-const tableActions = {
+const defaultTableActions = {
   toggleEnabled: {
     key: 'enabled',
     toggle: entity => {
@@ -111,7 +134,7 @@ const tableActions = {
   }
 };
 
-function getHeader(totalHits) {
+function defaultGetHeader(totalHits) {
   return totalHits ? `Events (${totalHits})` : 'Events';
 }
 
@@ -159,7 +182,7 @@ function getSubscript(entity) {
   return null;
 }
 
-function rightHeader(type, setType, severity, setSeverity) {
+function defaultRightHeader(type, setType, severity, setSeverity) {
   return (
     <Fragment>
       {createNewEntityButton('New Event', teamSettingsAlertingEventCustomNew)}

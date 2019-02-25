@@ -89,21 +89,21 @@ function loadEntities() {
   return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
 }
 
-function validateConfig(config) {
-  if (twoZeroModeEnabled && config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
+function validateConfig(alertEntity) {
+  if (twoZeroModeEnabled && alertEntity.eventFilteringConfiguration && alertEntity.eventFilteringConfiguration.query) {
     return validate({
-      query: config.eventFilteringConfiguration.query,
+      query: alertEntity.eventFilteringConfiguration.query,
       newApplicationModelEnabled: true
     }).map(response => {
-      config.valid = response.body.valid;
-      return config;
+      alertEntity.valid = response.body.valid;
+      return alertEntity;
     });
   } else {
-    return assumeConfigIsValid(config);
+    return assumeConfigIsValid(alertEntity);
   }
 }
 
-function assumeConfigIsValid(config) {
-  config.valid = true;
-  return just(config);
+function assumeConfigIsValid(alertEntity) {
+  alertEntity.valid = true;
+  return just(alertEntity);
 }

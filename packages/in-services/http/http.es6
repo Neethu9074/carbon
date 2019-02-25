@@ -130,10 +130,26 @@ export default function({
 function formatUrl(url, queryParams = {}) {
   const queryPart = Object.keys(queryParams)
     .filter(k => queryParams[k] != null)
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
+    .map(mapQueryParameter.bind(null, queryParams))
     .join('&');
-
   return url + '?' + queryPart;
+}
+
+function mapQueryParameter(queryParams, key) {
+  const value = queryParams[key];
+  return Array.isArray(value)
+    ? serializeArrayQueryParam(key, value)
+    : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+}
+
+function serializeArrayQueryParam(key, value) {
+  const encodedKey = encodeURIComponent(key);
+  // ids=['a', 'b', 'c'] => 'ids=a&ids=b&ids=c'
+  return value.reduce(
+    (accumulator, currentValue, currentIndex) =>
+      `${accumulator}${encodedKey}=${encodeURIComponent(currentValue)}${currentIndex < value.length - 1 ? '&' : ''}`,
+    '' // initial value for reduce
+  );
 }
 
 export function isSuccess(response) {

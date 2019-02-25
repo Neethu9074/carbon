@@ -1,0 +1,16 @@
+:local {
+
+  .input {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .matchingEntitiesIndicator {
+    color: #6b8088;
+  }
+
+  .queryLoading {
+    height: 13px;
+    margin: 0.5rem 0;
+  }
+}

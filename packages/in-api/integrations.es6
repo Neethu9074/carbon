@@ -17,16 +17,10 @@ export function getIntegrationsMutable() {
   }).map(response => response.body);
 }
 
-export function getIntegrationsByIds(ids) {
-  return getIntegrations().map(integrations => {
-    if (!integrations) {
-      return null;
-    }
-
-    const integrationsMap = {};
-    integrations.forEach(integration => (integrationsMap[integration.get('id')] = integration));
-    return ids.map(id => integrationsMap[id]).filter(resolved => resolved);
-  });
+export function getIntegrationsByIdsMutable(ids) {
+  return getIntegrationsMutable().map(
+    integrations => (integrations ? integrations.filter(integration => ids.indexOf(integration.id) >= 0) : [])
+  );
 }
 
 export function getIntegration(id) {

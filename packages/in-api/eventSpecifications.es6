@@ -12,6 +12,17 @@ export function getEventSpecificationsMutable() {
   }).map(response => response.body);
 }
 
+export function getEventSpecificationByIds(eventIds) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/events/settings/event-specifications/infos',
+    queryParams: {
+      ids: eventIds && eventIds.toJS ? eventIds.toJS() : []
+    }
+  }).map(response => response.body);
+}
+
 export function getBuiltInEventSpecification(id) {
   return getBuiltInEventSpecificationMutable(id).map(fromJS);
 }

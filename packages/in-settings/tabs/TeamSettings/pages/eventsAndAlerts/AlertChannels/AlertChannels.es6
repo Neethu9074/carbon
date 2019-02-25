@@ -11,19 +11,30 @@ import Link from 'in-components/Link';
 
 import locals from './AlertChannels.mless';
 
-export default function AlertChannels() {
+export default function AlertChannels({
+  setTitle = true,
+  getHeader = defaultGetHeader,
+  tableActions = defaultTableActions,
+  loadEntities,
+  noDataMessage,
+  rightHeader = <NewChannelButton />,
+  isSearchable = true,
+  hasRowNavigation = true
+}) {
   return (
     <List
-      title="Alert Channels"
+      title={setTitle ? 'Alert Channels' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={getIntegrationsMutable}
+      loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
+      noDataMessage={noDataMessage}
       initialOrderBy="name"
-      rightHeader={<NewChannelButton />}
+      rightHeader={rightHeader}
+      isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
-      getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)}
+      getDetailsHref={hasRowNavigation ? entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id) : null}
     />
   );
 }
@@ -65,13 +76,13 @@ const columnDefinitions = [
   }
 ];
 
-const tableActions = {
+const defaultTableActions = {
   delete: {
     deleteEntity: entity => deleteIntegration(entity.id)
   }
 };
 
-function getHeader(totalHits) {
+function defaultGetHeader(totalHits) {
   return totalHits ? `Alert Channels (${totalHits})` : 'Alert Channels';
 }
 
