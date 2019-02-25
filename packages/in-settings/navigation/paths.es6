@@ -21,6 +21,7 @@ export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
 export const alerting = `${teamSettings}/alerting`;
+const channels = `/channels`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
 export const teamSettingsAlertingEventBuiltIn = `${alerting}/events/builtIn`;
@@ -32,9 +33,10 @@ export const teamSettingsAlertingEvents = `${alerting}/events`;
 export const teamSettingsAlertingEventFilterEdit = `${alerting}/filters/:id`;
 export const teamSettingsAlertingEventFilterNew = `${alerting}/filters/new`;
 export const teamSettingsAlertingEventFilters = `${alerting}/filters`;
-export const teamSettingsAlertingAlertChannelEdit = `${alerting}/channels/:id`;
-export const teamSettingsAlertingAlertChannelNew = `${alerting}/channels/new`;
-export const teamSettingsAlertingAlertChannels = `${alerting}/channels`;
+export const teamSettingsAlertingAlertChannelEdit = `${alerting}${channels}/:id`;
+export const teamSettingsAlertingAlertChannelEditDetails = `${alerting}${channels}/detail/:id`;
+export const teamSettingsAlertingAlertChannelNew = `${alerting}${channels}/new`;
+export const teamSettingsAlertingAlertChannels = `${alerting}${channels}`;
 export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/maintenanceConfigurations/:id`;
 export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
 export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
@@ -100,6 +102,10 @@ export function goToAlertChannelView(kind) {
     location.pathname = teamSettingsAlertingAlertChannelNew;
     setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
   });
+}
+
+export function getModifyAlertChannelUrl(kind, entityId) {
+  return `#${alerting}${channels};kind=${kind}/detail/${encodeURIComponent(entityId)}`;
 }
 
 export function getServiceExtractionRuleConfigPath(ruleId, ruleType) {

@@ -18,9 +18,28 @@ const block = 'in-alert-channel-config-form';
 const name = 'EMAIL';
 const label = 'Email';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'emails',
+    label: 'Emails'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.emails = [''];

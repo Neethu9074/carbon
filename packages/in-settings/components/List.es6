@@ -84,6 +84,8 @@ function List({
   labelNew,
   pathNew,
   newButtonDisabledTooltipMessage = () => null,
+  cardTitle,
+  tableInCard,
   rightHeader,
   searchAttributes = [],
   extraFilters,
@@ -132,6 +134,13 @@ function List({
   const header = getHeader(totalHitsBeforeFilter);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
+  let leftHeader = null;
+  if (cardTitle != null) {
+    leftHeader = null;
+  } else {
+    leftHeader = <ListTitle>{header}</ListTitle>;
+  }
+
   return (
     <MaxWidthFullscreenContainer>
       <Title title={title} />
@@ -150,7 +159,7 @@ function List({
           getEntityName,
           setErrorMessage
         })}
-        leftHeader={<ListTitle>{header}</ListTitle>}
+        leftHeader={leftHeader}
         orderBy={orderByState}
         orderDirection={orderDirectionState}
         page={pageState}
@@ -159,6 +168,8 @@ function List({
         searchPlaceholder={searchPlaceholder}
         searchMaxWidth={searchMaxWidth}
         result={result}
+        cardTitle={cardTitle}
+        tableInCard={tableInCard}
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
