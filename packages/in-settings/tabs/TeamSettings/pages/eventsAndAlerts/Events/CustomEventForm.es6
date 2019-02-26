@@ -78,11 +78,11 @@ export default compose(
       metricInstances.map(metricInstance => {
         customMetricsList.push(
           createMetricListItem(
-            metricInstance.get('metricId').value,
-            metricInstance.get('formatter').value,
-            metricInstance.get('label').value,
+            metricInstance.get('metricId'),
+            metricInstance.get('formatter'),
+            metricInstance.get('label'),
             false,
-            metricInstance.get('pluginId').value
+            metricInstance.get('pluginId')
           )
         );
       });
