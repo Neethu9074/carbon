@@ -72,11 +72,11 @@ export default compose(
       metricInstances.map(metricInstance => {
         customMetricsList.push(
           createMetricListItem(
-            metricInstance.get('metricId'),
-            metricInstance.get('formatter'),
-            metricInstance.get('label'),
+            metricInstance.get('metricId').value,
+            metricInstance.get('formatter').value,
+            metricInstance.get('label').value,
             false,
-            metricInstance.get('pluginId')
+            metricInstance.get('pluginId').value
           )
         );
       });
@@ -641,7 +641,7 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form /* TODO, 
     if (entityType && metricName) {
       if (!containsMetricInList(customMetricsList, metricName)) {
         customMetricsList.push(
-          createMetricListItem(metricName, form.get('formatter'), form.get('metricLabel'), entityType)
+          createMetricListItem(metricName, form.get('formatter').value, form.get('label').value, entityType)
         );
       }
     }

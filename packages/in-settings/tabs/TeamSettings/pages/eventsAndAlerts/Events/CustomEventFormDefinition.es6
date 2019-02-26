@@ -194,7 +194,7 @@ function putAllDataSourceFields(form, event) {
       })
     )
     .put(
-      'metricLabel',
+      'label',
       createField({
         value: metricLabel,
         validator: notBlankValidator
