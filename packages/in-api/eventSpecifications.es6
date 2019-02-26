@@ -119,3 +119,12 @@ export function saveCustomEventSpecification(event) {
     data: event
   }).map(response => fromJS(response.body));
 }
+
+export function deleteCustomEventSpecification(id) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}

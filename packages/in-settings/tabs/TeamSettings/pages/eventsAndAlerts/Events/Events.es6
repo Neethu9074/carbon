@@ -9,7 +9,7 @@ import {
   teamSettingsAlertingEventCustom,
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
-import { getEventSpecificationsMutable } from 'in-api/eventSpecifications';
+import { getEventSpecificationsMutable, deleteCustomEventSpecification } from 'in-api/eventSpecifications';
 import List, { createNewEntityButton } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -17,7 +17,6 @@ import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
-import { deleteRule } from 'in-api/rules';
 import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
@@ -107,12 +106,8 @@ const tableActions = {
     }
   },
   delete: {
-    deleteProtection: entity => isBuiltInRule(entity),
-    deleteEntity: entity => {
-      if (!isBuiltInRule(entity)) {
-        deleteRule(entity.id);
-      }
-    }
+    deleteEntity: entity => deleteCustomEventSpecification(entity.id),
+    deleteProtection: entity => isBuiltInRule(entity)
   }
 };
 
