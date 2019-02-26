@@ -78,11 +78,11 @@ export default compose(
       metricInstances.map(metricInstance => {
         customMetricsList.push(
           createMetricListItem(
-            metricInstance.get('metricId'),
-            'TODO formatter', // TODO metricInstance.get('formatter'),
-            'TODO LABEL', // TODO metricInstance.get('label'),
+            metricInstance.get('metricId').value,
+            metricInstance.get('formatter').value,
+            metricInstance.get('label').value,
             false,
-            metricInstance.get('pluginId')
+            metricInstance.get('pluginId').value
           )
         );
       });
@@ -594,7 +594,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={3}>
+        <Col cols={2}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -658,12 +658,7 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form /* TODO, 
     if (entityType && metricName) {
       if (!containsMetricInList(customMetricsList, metricName)) {
         customMetricsList.push(
-          createMetricListItem(
-            metricName,
-            'TODO FORMATTER' /* TODO entity.get('formatter')*/,
-            'TODO LABEL' /* TODO entity.get('label')*/,
-            entityType
-          )
+          createMetricListItem(metricName, form.get('formatter').value, form.get('label').value, entityType)
         );
       }
     }

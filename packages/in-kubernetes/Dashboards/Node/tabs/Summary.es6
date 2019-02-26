@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import ExpandingConditionsCard from 'in-kubernetes/Dashboards/commonComponents/ExpandingConditionsCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 
 export default function Summary({ timeConfig, data: node }) {
@@ -14,14 +16,34 @@ export default function Summary({ timeConfig, data: node }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
-          <KpiCard title="Machine ID" value={node.machineId} raw />
+        <Col lg={3}>
+          <Card title="Summary" useMaxAvailableHeight>
+            <Dl>
+              <Di title="Status">{node.status || '-'}</Di>
+              <Di title="Roles">{node.roles || '-'}</Di>
+              <Di title="Age">{node.age ? formatDuration(node.age) : '-'}</Di>
+              <Di title="Version">{node.version || '-'}</Di>
+              <Di title="OS-Image">{node.osImage || '-'}</Di>
+              <Di title="Kerner Version">{node.kernerVersion || '-'}</Di>
+              <Di title="Container Runtime">{node.containerRuntime || '-'}</Di>
+            </Dl>
+          </Card>
         </Col>
-        <Col lg={4}>
-          <KpiCard title="Cluster" value={node.clusterId} raw />
+        <Col lg={6}>
+          <Card title="Meta" useMaxAvailableHeight>
+            <Dl>
+              <Di title="Machine ID">{node.machineId}</Di>
+              <Di title="Hostname">{node.hostname}</Di>
+            </Dl>
+          </Card>
         </Col>
-        <Col lg={4}>
-          <KpiCard title="Hostname" value={node.hostname} raw />
+        <Col lg={3}>
+          <Card title="IPs" useMaxAvailableHeight>
+            <Dl>
+              <Di title="Internal IP">{node.internalIp}</Di>
+              <Di title="External IP">{node.externalIp}</Di>
+            </Dl>
+          </Card>
         </Col>
       </Row>
 
@@ -113,11 +135,10 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
       </Row>
 
-      <Row>
-        <Col lg={12}>
-          <ConditionsList conditions={node.conditions} />
-        </Col>
-      </Row>
+      <ExpandingConditionsCard
+        conditions={node.conditions}
+        viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
+      />
     </Fragment>
   );
 }

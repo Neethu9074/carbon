@@ -102,9 +102,15 @@ export function createEventFormDefinition(event, isCreate) {
 function putAllDataSourceFields(form, event) {
   const mutableEvent = getMutableEvent(event);
   const { entityType } = mutableEvent;
-  const { metricName, conditionOperator, conditionValue: originalConditionValue } = getRuleAttributes(mutableEvent);
+  const {
+    metricName,
+    metricLabel,
+    metricFormat,
+    conditionOperator,
+    conditionValue: originalConditionValue
+  } = getRuleAttributes(mutableEvent);
 
-  let formatter = 'UNDEFINED'; // TODO Apparently the formatter is currently not in the JSON that the back end returns.
+  let formatter = metricFormat;
 
   // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog
   if (event && formatter === 'UNDEFINED') {
@@ -180,6 +186,13 @@ function putAllDataSourceFields(form, event) {
       'formatter',
       createField({
         value: formatter,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: metricLabel,
         validator: notBlankValidator
       })
     );
@@ -343,7 +356,17 @@ function getMutableEvent(event) {
 
 function getRuleAttributes(event) {
   const { rules, rule } = event;
-  let ruleType, metricName, rollup, window, aggregation, conditionOperator, conditionValue, severity, systemRuleId;
+  let ruleType,
+    metricName,
+    rollup,
+    window,
+    aggregation,
+    conditionOperator,
+    conditionValue,
+    severity,
+    systemRuleId,
+    metricLabel,
+    metricFormat;
   if (rules && rules.length === 1) {
     ruleType = rules[0].ruleType;
     metricName = rules[0].metricName;
@@ -354,6 +377,8 @@ function getRuleAttributes(event) {
     conditionValue = rules[0].conditionValue;
     severity = rules[0].severity;
     systemRuleId = rules[0].systemRuleId;
+    metricLabel = rules[0].metricLabel;
+    metricFormat = rules[0].metricFormat;
   } else if (rules && rules.length > 1) {
     if (__DEV__) {
       throw new Error('Multiple rules per event are not supported yet.');
@@ -372,7 +397,9 @@ function getRuleAttributes(event) {
     conditionOperator,
     conditionValue,
     severity,
-    systemRuleId
+    systemRuleId,
+    metricLabel,
+    metricFormat
   };
 }
 
