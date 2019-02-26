@@ -2,6 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
@@ -16,7 +17,7 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
   TablePresenter
 }) {
   if (!conditions || conditions.length === 0) {
-    return null;
+    return <NoDataAvailable text="No Conditions found" />;
   }
 
   if (selectedStatus) {

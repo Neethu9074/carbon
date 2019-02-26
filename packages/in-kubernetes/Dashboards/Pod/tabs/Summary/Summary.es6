@@ -94,13 +94,7 @@ export default function Summary({ data: pod, timeConfig }) {
       <Row>
         <Col lg={4}>
           <ConditionsTableCard
-            conditions={[
-              { type: 'PodScheduled', status: 'false' },
-              { type: 'Ready', status: 'true' },
-              { type: 'Initialized', status: 'false' },
-              { type: 'Unschedulable', status: 'false' },
-              { type: 'ContainersReady', status: 'false' }
-            ]}
+            conditions={get(pod, ['status', 'conditions'])}
             viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
             TablePresenter={PodConditionsPresenter}
           />
