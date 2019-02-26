@@ -1,0 +1,52 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .condition {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5rem 0;
+  }
+
+  .column {
+    margin-right: 4rem;
+  }
+
+  .s {
+    width: 100%;
+  }
+
+  .m {
+    width: 50%;
+  }
+
+  .l {
+    width: 33%;
+  }
+
+  .type {
+    font-weight: bold;
+    margin-right: 0.125rem;
+  }
+
+  .status {
+    text-transform: lowercase;
+  }
+
+  .viewAllWrapper {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  .viewAllLink {
+    margin-top: 0.5rem;
+  }
+}

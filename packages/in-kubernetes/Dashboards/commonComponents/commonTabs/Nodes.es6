@@ -1,14 +1,14 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
-import MetricValue from 'in-components/MetricValue';
+import { formatDuration } from 'in-services/formatters/date';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -56,93 +56,59 @@ const columnDefinitions = [
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_node"
-          label={get(item, ['node', 'name'])}
-          href$={getNodeDashboard(get(item, ['node', 'id']))}
+          label={item.name}
+          href$={getNodeDashboard(item.node.id)}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );
     }
   },
   {
-    id: 'cpuRequestsAllocation',
-    label: 'CPU Requests Alloc.',
-    sortable: false,
+    id: 'status',
+    label: 'Status',
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['node', 'id'])}
-          metric="required_cpu_percentage"
-          formatter={percentageTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return item.node.status;
     }
   },
   {
-    id: 'cpuLimitsAllocation',
-    label: 'CPU Limits Alloc.',
-    sortable: false,
+    id: 'roles',
+    label: 'Roles',
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['node', 'id'])}
-          metric="limit_cpu_percentage"
-          formatter={percentageTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return item.node.roles;
     }
   },
   {
-    id: 'memoryRequestsAllocation',
-    label: 'Memory Requests Alloc.',
-    sortable: false,
+    id: 'age',
+    label: 'Age',
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['node', 'id'])}
-          metric="required_mem_percentage"
-          formatter={percentageTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return item.node.age && formatDuration(item.node.age);
     }
   },
   {
-    id: 'memoryLimitsAllocation',
-    label: 'Memory Limits Alloc.',
-    sortable: false,
+    id: 'version',
+    label: 'Version',
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['node', 'id'])}
-          metric="limit_mem_percentage"
-          formatter={percentageTwoDecimalPlaces}
-          timeWindowAggregation="mean"
-        />
-      );
+      return item.node.version;
     }
   },
   {
-    id: 'podAllocation',
-    label: 'Pods Alloc.',
+    id: 'resources',
+    label: 'Resources',
     sortable: false,
     getContent(item) {
       return (
-        <MetricValue
-          snapshotId={get(item, ['node', 'id'])}
-          metric="alloc_pods_percentage"
-          formatter={percentageTwoDecimalPlaces}
-          timeWindowAggregation="mean"
+        <KubernetesResources
+          snapshotId={item.node.id}
+          cpuReqMetric="required_cpu_percentage"
+          cpuLimitsMetric="limit_cpu_percentage"
+          memReqMetric="required_mem_percentage"
+          memLimitsMetric="limit_mem_percentage"
+          cpuReqMetricFormatter={percentageTwoDecimalPlaces}
+          cpuLimitsMetricFormatter={percentageTwoDecimalPlaces}
+          memReqMetricFormatter={percentageTwoDecimalPlaces}
+          memLimitsMetricFormatter={percentageTwoDecimalPlaces}
         />
       );
-    }
-  },
-  {
-    id: 'internalIp',
-    label: 'Internal IP',
-    getContent(item) {
-      return get(item, ['node', 'internalIp']);
     }
   },
   {

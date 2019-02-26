@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import DetailsNavigation, {
   labelsNavigationItem,
@@ -8,8 +8,6 @@ import DetailsNavigation, {
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node.id) }), function Details({
@@ -18,25 +16,12 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
   timeConfig
 }) {
   return (
-    <Fragment>
-      <Row>
-        <Col lg={4}>
-          <KpiCard title="Machine ID" value={node.machineId} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Cluster" value={node.clusterId} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Hostname" value={node.hostname} raw />
-        </Col>
-      </Row>
-      <DetailsNavigation
-        navigationTree={navigationTree}
-        resource={node}
-        annotations={annotations}
-        timeConfig={timeConfig}
-      />
-    </Fragment>
+    <DetailsNavigation
+      navigationTree={navigationTree}
+      resource={node}
+      annotations={annotations}
+      timeConfig={timeConfig}
+    />
   );
 });
 

@@ -1,3 +1,4 @@
+import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -14,6 +15,11 @@ export default [
     label: 'Details',
     path: `${podDashboardFullyQualified}/details`,
     component: Details
+  },
+  {
+    label: 'Conditions',
+    path: `${podDashboardFullyQualified}/conditions`,
+    component: Conditions
   },
   {
     label: 'Events',

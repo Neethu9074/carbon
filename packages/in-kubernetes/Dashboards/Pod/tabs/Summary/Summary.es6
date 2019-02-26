@@ -2,10 +2,12 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
+import ExpandingConditionsCard from 'in-kubernetes/Dashboards/commonComponents/ExpandingConditionsCard';
+import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/ContainerStates';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import MetricValue from 'in-components/MetricValue';
@@ -19,7 +21,7 @@ export default function Summary({ data: pod, timeConfig }) {
     <Fragment>
       <Row>
         <Col lg={4}>
-          <Card title="Summary" useMaxAvailableHeight>
+          <Card title="Status" useMaxAvailableHeight>
             <Dl>
               <Di title="Status Summary">
                 <Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>
@@ -89,19 +91,7 @@ export default function Summary({ data: pod, timeConfig }) {
       </Row>
 
       <Row>
-        <Col lg={3}>
-          <Card title="Conditions" useMaxAvailableHeight>
-            <Dl>
-              <Di title="PodScheduled">-</Di>
-              <Di title="Ready">-</Di>
-              <Di title="Initialized">-</Di>
-              <Di title="Unschedulable">-</Di>
-              <Di title="ContainersReady">-</Di>
-            </Dl>
-          </Card>
-        </Col>
-
-        <Col lg={9}>
+        <Col lg={12}>
           <Card title="Container States" useMaxAvailableHeight>
             <ContainerStates
               podId={snapshotId}
@@ -111,6 +101,17 @@ export default function Summary({ data: pod, timeConfig }) {
           </Card>
         </Col>
       </Row>
+
+      <ExpandingConditionsCard
+        conditions={[
+          { type: 'PodScheduled', status: 'false' },
+          { type: 'Ready', status: 'true' },
+          { type: 'Initialized', status: 'false' },
+          { type: 'Unschedulable', status: 'false' },
+          { type: 'ContainersReady', status: 'false' }
+        ]}
+        viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
+      />
     </Fragment>
   );
 }

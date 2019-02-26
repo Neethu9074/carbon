@@ -5,7 +5,17 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import MetricValue from 'in-components/MetricValue';
 
-export default function PodResourceTooltipContent({ podId: snapshotId }) {
+export default function ResourceTooltipContent({
+  snapshotId,
+  cpuReqMetric,
+  cpuLimitsMetric,
+  memReqMetric,
+  memLimitsMetric,
+  cpuReqMetricFormatter,
+  cpuLimitsMetricFormatter,
+  memReqMetricFormatter,
+  memLimitsMetricFormatter
+}) {
   return (
     <DescriptionList>
       <DescriptionItem title="CPU">
@@ -13,16 +23,16 @@ export default function PodResourceTooltipContent({ podId: snapshotId }) {
           <Di title="Requests">
             <MetricValue
               snapshotId={snapshotId}
-              metric="cpuRequests"
-              formatter={twoDecimalPlaces}
+              metric={cpuReqMetric}
+              formatter={cpuReqMetricFormatter || twoDecimalPlaces}
               timeWindowAggregation="mean"
             />
           </Di>
           <Di title="Limit">
             <MetricValue
               snapshotId={snapshotId}
-              metric="cpuLimits"
-              formatter={twoDecimalPlaces}
+              metric={cpuLimitsMetric}
+              formatter={cpuLimitsMetricFormatter || twoDecimalPlaces}
               timeWindowAggregation="mean"
             />
           </Di>
@@ -33,16 +43,16 @@ export default function PodResourceTooltipContent({ podId: snapshotId }) {
           <Di title="Requests">
             <MetricValue
               snapshotId={snapshotId}
-              metric="memoryRequests"
-              formatter={bytesTwoDecimalPlaces}
+              metric={memReqMetric}
+              formatter={memReqMetricFormatter || bytesTwoDecimalPlaces}
               timeWindowAggregation="mean"
             />
           </Di>
           <Di title="Limit">
             <MetricValue
               snapshotId={snapshotId}
-              metric="memoryLimits"
-              formatter={bytesTwoDecimalPlaces}
+              metric={memLimitsMetric}
+              formatter={memLimitsMetricFormatter || bytesTwoDecimalPlaces}
               timeWindowAggregation="mean"
             />
           </Di>
