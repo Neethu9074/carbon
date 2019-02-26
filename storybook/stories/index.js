@@ -41,6 +41,7 @@ import './components/ButtonGroupStory';
 import './components/ButtonStory';
 import './components/CardStory';
 import './components/ChartStory';
+import './components/CheckboxStory';
 import './components/DashboardHeaderStory';
 import './components/DialogStory';
 import './components/EntityWithTypeAndIconStory';
