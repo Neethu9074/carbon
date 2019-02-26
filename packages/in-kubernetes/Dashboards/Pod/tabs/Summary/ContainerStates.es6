@@ -8,6 +8,7 @@ import {
 } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
+import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
@@ -28,6 +29,7 @@ export default function ContainerStates({ podId, states, timeConfig }) {
             <Th>Name</Th>
             <Th>Ready</Th>
             <Th>Status</Th>
+            <Th>Message</Th>
             <Th>CPU Total %</Th>
             <Th>Memory Usage</Th>
           </Tr>
@@ -41,6 +43,9 @@ export default function ContainerStates({ podId, states, timeConfig }) {
               </Td>
               <Td>
                 <Capitalize>{status.state.status}</Capitalize>
+              </Td>
+              <Td>
+                <PodMessage message={status.message} />
               </Td>
               <Td>
                 {status.containerSnapshotId && (

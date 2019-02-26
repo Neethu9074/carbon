@@ -10,6 +10,7 @@ import {
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
+import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
@@ -94,6 +95,15 @@ function getColumnDefinitions(pod) {
       getContent(item) {
         const id = get(item, ['container', 'id']);
         return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : '-';
+      }
+    },
+    {
+      id: 'message',
+      label: 'Message',
+      sortable: false,
+      getContent(item) {
+        const id = get(item, ['container', 'id']);
+        return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : '-';
       }
     },
     {
