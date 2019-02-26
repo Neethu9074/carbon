@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/ContainerStates';
+import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
+import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDuration } from 'in-services/formatters/date';
@@ -10,7 +11,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
 
-export default function Summary({ data: pod }) {
+export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
 
@@ -20,7 +21,9 @@ export default function Summary({ data: pod }) {
         <Col lg={3}>
           <Card title="Summary" useMaxAvailableHeight>
             <Dl>
-              <Di title="Status Summary">{get(pod, ['status', 'statusSummary'], '-')}</Di>
+              <Di title="Status Summary">
+                <Capitalize> {get(pod, ['status', 'statusSummary'], '-')}</Capitalize>
+              </Di>
               <Di title="Phase">
                 <PodPhase status={get(pod, ['status', 'phase'], pod.phase)} />
               </Di>
@@ -103,7 +106,11 @@ export default function Summary({ data: pod }) {
 
         <Col lg={9}>
           <Card title="Container States" useMaxAvailableHeight>
-            <ContainerStates states={get(pod, ['status', 'containerStatuses'])} />
+            <ContainerStates
+              podId={snapshotId}
+              states={get(pod, ['status', 'containerStatuses'])}
+              timeConfig={timeConfig}
+            />
           </Card>
         </Col>
       </Row>
