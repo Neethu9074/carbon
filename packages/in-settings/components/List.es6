@@ -10,6 +10,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import CheckboxFancy from 'in-new-components/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { create, just } from 'reactive-observables';
@@ -434,10 +435,10 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     cellClassName: locals.selectCheckbox,
     getContent(entity) {
       return (
-        <input
-          type="checkbox"
+        <CheckboxFancy
           checked={actionDefinition.get(entity)}
           onChange={() => actionDefinition.toggle(entity)}
+          size="large"
         />
       );
     }
