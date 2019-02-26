@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 
+import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import ExpandingConditionsCard from 'in-kubernetes/Dashboards/commonComponents/ExpandingConditionsCard';
+import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -135,10 +136,15 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
       </Row>
 
-      <ExpandingConditionsCard
-        conditions={node.conditions}
-        viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
-      />
+      <Row>
+        <Col lg={12}>
+          <ConditionsTableCard
+            conditions={node.conditions}
+            viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
+            TablePresenter={NodeConditionsPresenter}
+          />
+        </Col>
+      </Row>
     </Fragment>
   );
 }

@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import PodConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/PodConditionsPresenter';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import ExpandingConditionsCard from 'in-kubernetes/Dashboards/commonComponents/ExpandingConditionsCard';
-import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/ContainerStates';
+import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -91,7 +92,20 @@ export default function Summary({ data: pod, timeConfig }) {
       </Row>
 
       <Row>
-        <Col lg={12}>
+        <Col lg={4}>
+          <ConditionsTableCard
+            conditions={[
+              { type: 'PodScheduled', status: 'false' },
+              { type: 'Ready', status: 'true' },
+              { type: 'Initialized', status: 'false' },
+              { type: 'Unschedulable', status: 'false' },
+              { type: 'ContainersReady', status: 'false' }
+            ]}
+            viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
+            TablePresenter={PodConditionsPresenter}
+          />
+        </Col>
+        <Col lg={8}>
           <Card title="Container States" useMaxAvailableHeight>
             <ContainerStates
               podId={snapshotId}
@@ -101,17 +115,6 @@ export default function Summary({ data: pod, timeConfig }) {
           </Card>
         </Col>
       </Row>
-
-      <ExpandingConditionsCard
-        conditions={[
-          { type: 'PodScheduled', status: 'false' },
-          { type: 'Ready', status: 'true' },
-          { type: 'Initialized', status: 'false' },
-          { type: 'Unschedulable', status: 'false' },
-          { type: 'ContainersReady', status: 'false' }
-        ]}
-        viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
-      />
     </Fragment>
   );
 }
