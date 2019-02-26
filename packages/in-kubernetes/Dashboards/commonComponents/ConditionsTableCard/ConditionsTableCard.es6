@@ -32,13 +32,11 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
     >
       <TablePresenter conditions={presentedConditions} />
 
-      {conditions.length > maxPresentedConditions && (
-        <div className={locals.viewAllWrapper}>
-          <Link className={locals.viewAllLink} href$={viewAllHref$}>
-            View all Conditions
-          </Link>
-        </div>
-      )}
+      <div className={locals.viewAllWrapper}>
+        <Link className={locals.viewAllLink} href$={viewAllHref$}>
+          View all Conditions
+        </Link>
+      </div>
     </Card>
   );
 });
