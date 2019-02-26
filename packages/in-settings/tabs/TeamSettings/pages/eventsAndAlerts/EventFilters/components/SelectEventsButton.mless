@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .selectButton {
-    margin-right: 0.5rem;
-  }
-}

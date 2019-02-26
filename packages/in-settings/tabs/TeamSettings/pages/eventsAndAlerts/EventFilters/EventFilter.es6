@@ -110,7 +110,7 @@ function createForm(alertEntity, isCreate) {
       })
     )
     .put(
-      'integrationIds',
+      'selectedAlertChannels',
       createField({
         value: alertEntity.get('integrationIds', List())
       })
@@ -299,7 +299,7 @@ function save(alertEntity, form) {
         alertEntity ? alertEntity.get('id') : null,
         form.get('name').value,
         form.get('muteUntil').value,
-        form.get('integrationIds').value.toJS(),
+        form.get('selectedAlertChannels').value.toJS(),
         eventSelectionMode === modeSelectedEvents && form.get('selectedEvents')
           ? form.get('selectedEvents').value.toJS()
           : null,

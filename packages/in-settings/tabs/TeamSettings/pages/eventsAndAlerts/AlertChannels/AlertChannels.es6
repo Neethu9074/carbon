@@ -17,6 +17,7 @@ export default function AlertChannels({
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  pageSize = 20,
   rightHeader = <NewChannelButton />,
   isSearchable = true,
   hasRowNavigation = true
@@ -26,10 +27,11 @@ export default function AlertChannels({
       title={setTitle ? 'Alert Channels' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
       noDataMessage={noDataMessage}
+      pageSize={pageSize}
       initialOrderBy="name"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
@@ -39,42 +41,48 @@ export default function AlertChannels({
   );
 }
 
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: 'Name',
-    ellipsis: '20vw',
-    getContent(entity) {
-      return (
-        <WithSubscript subscript={getKind(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)}>{entity.name}</Link>
-        </WithSubscript>
-      );
-    },
-    getValue(entity) {
-      return entity.name;
-    }
-  },
-  {
-    id: 'properties',
-    label: 'Properties',
-    sortable: false,
-    ellipsis: '40vw',
-    getContent(entity) {
-      const parameters = getParameters(entity);
-      if (!parameters) {
-        return null;
+function columnDefinitions(hasRowNavigation) {
+  return [
+    {
+      id: 'name',
+      label: 'Name',
+      ellipsis: '20vw',
+      getContent(entity) {
+        return (
+          <WithSubscript subscript={getKind(entity)}>
+            {hasRowNavigation ? (
+              <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)}>{entity.name}</Link>
+            ) : (
+              <span>{entity.name}</span>
+            )}
+          </WithSubscript>
+        );
+      },
+      getValue(entity) {
+        return entity.name;
       }
-      return (
-        <div className={locals.allProperties}>
-          {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-            <Property attribute={key} label={label} entity={entity} />
-          ))}
-        </div>
-      );
+    },
+    {
+      id: 'properties',
+      label: 'Properties',
+      sortable: false,
+      ellipsis: '40vw',
+      getContent(entity) {
+        const parameters = getParameters(entity);
+        if (!parameters) {
+          return null;
+        }
+        return (
+          <div className={locals.allProperties}>
+            {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
+              <Property key={key} attribute={key} label={label} entity={entity} />
+            ))}
+          </div>
+        );
+      }
     }
-  }
-];
+  ];
+}
 
 const defaultTableActions = {
   delete: {

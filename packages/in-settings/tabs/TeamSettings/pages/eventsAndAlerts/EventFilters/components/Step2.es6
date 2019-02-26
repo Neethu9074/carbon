@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
+import { fromJS } from 'immutable';
 
-import SelectEventsButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/SelectEventsButton';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -81,7 +82,20 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
               hasRowNavigation={false}
               noDataMessage="No Events Selected"
               tableActions={eventSelectionTableActions(form, setForm)}
-              rightHeader={<SelectEventsButton />}
+              rightHeader={
+                <SelectListDialogButton
+                  form={form}
+                  onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
+                  title="Select Events"
+                  label={'Select Events'}
+                  listComponent={Events}
+                  selectedItems={form.get('selectedEvents').value.toJS()}
+                  createSubmitLabel={numberOfItems =>
+                    numberOfItems > 0 ? `Confirm ${numberOfItems} Events` : 'Confirm'
+                  }
+                  requiresAtLeastOneMessage="Please select at least one event."
+                />
+              }
             />
             <TouchedMessages field={form.get('selectedEvents')} />
             <div style={{ marginBottom: '2rem' }} />
@@ -133,4 +147,12 @@ function eventSelectionTableActions(form, setForm) {
       }
     }
   };
+}
+
+function submitEventSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['selectedEvents'], field => {
+      return field.setValue(fromJS(selectedIds));
+    })
+  );
 }

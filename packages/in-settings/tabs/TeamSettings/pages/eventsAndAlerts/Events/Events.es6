@@ -47,6 +47,7 @@ function Events({
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  pageSize = 20,
   rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
   isSearchable = true,
   hasRowNavigation = true
@@ -60,6 +61,7 @@ function Events({
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
       noDataMessage={noDataMessage}
+      pageSize={pageSize}
       initialOrderBy="name"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
@@ -111,6 +113,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'entityType',
       label: 'Entity Type',
+      ellipsis: '10vw',
       getContent(entity) {
         return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
       },

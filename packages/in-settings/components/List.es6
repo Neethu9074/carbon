@@ -152,7 +152,7 @@ function List({
 
   return (
     <MaxWidthFullscreenContainer>
-      <Title title={title} />
+      {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
         onChange={({ page, query, orderBy, orderDirection }) => {
@@ -283,6 +283,9 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
   }
   if (tableActions.deselect) {
     allColumns = addDeselectAction(allColumns, tableActions.deselect);
+  }
+  if (tableActions.selectCheckbox) {
+    allColumns = addSelectCheckboxAction(allColumns, tableActions.selectCheckbox);
   }
   return allColumns;
 }
@@ -420,6 +423,26 @@ function addDeselectAction(columns, actionDefinition) {
       );
     }
   });
+}
+
+function addSelectCheckboxAction(columns, actionDefinition) {
+  // clone the column definitions array, then insert the checkbox as first column
+  columns = columns.slice();
+  columns.splice(0, 0, {
+    id: 'selectCheckbox',
+    tableAction: true,
+    cellClassName: locals.selectCheckbox,
+    getContent(entity) {
+      return (
+        <input
+          type="checkbox"
+          checked={actionDefinition.get(entity)}
+          onChange={() => actionDefinition.toggle(entity)}
+        />
+      );
+    }
+  });
+  return columns;
 }
 
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { List } from 'immutable';
+import { fromJS, List } from 'immutable';
 
-import SelectChannelsButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/SelectChannelsButton';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import AlertChannels from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getIntegrationsByIdsMutable } from 'in-api/integrations';
@@ -9,7 +9,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
 export default function Step4({ form, setForm }) {
-  const selectedChannels = form.get('integrationIds') ? form.get('integrationIds').value : List();
+  const selectedChannels = form.get('selectedAlertChannels') ? form.get('selectedAlertChannels').value : List();
 
   return (
     <Fragment>
@@ -17,12 +17,22 @@ export default function Step4({ form, setForm }) {
       <AlertChannels
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(selectedChannels)}
-        noDataMessage="No Alert Channels Selected"
         hasRowNavigation={false}
+        noDataMessage="No Alert Channels Selected"
         tableActions={alertChannelSelectionTableActions(form, setForm)}
-        rightHeader={<SelectChannelsButton />}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
+            title="Select Alert Channels"
+            label={'Select Alert Channels'}
+            listComponent={AlertChannels}
+            selectedItems={form.get('selectedAlertChannels').value.toJS()}
+            createSubmitLabel={numberOfItems => (numberOfItems > 0 ? `Confirm ${numberOfItems} Channels` : 'Confirm')}
+          />
+        }
       />
-      <TouchedMessages field={form.get('integrationIds')} />
+      <TouchedMessages field={form.get('selectedAlertChannels')} />
     </Fragment>
   );
 }
@@ -39,7 +49,7 @@ function alertChannelSelectionTableActions(form, setForm) {
     deselect: {
       deselect: deselectedEntity => {
         if (deselectedEntity) {
-          form = form.updateIn(['integrationIds'], field => {
+          form = form.updateIn(['selectedAlertChannels'], field => {
             return field.setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id));
           });
           setForm(form);
@@ -47,4 +57,12 @@ function alertChannelSelectionTableActions(form, setForm) {
       }
     }
   };
+}
+
+function submitChannelSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['selectedAlertChannels'], field => {
+      return field.setValue(fromJS(selectedIds));
+    })
+  );
 }
