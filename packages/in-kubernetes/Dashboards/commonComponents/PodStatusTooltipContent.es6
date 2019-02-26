@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
-import locals from './PodResourceTooltipContent.mless';
+
+import locals from './PodStatusTooltipContent.mless';
 
 export default function PodStatusTooltipContent({ pod }) {
   const podStatus = pod.status || {};
