@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
-import PodPhase from 'in-kubernetes/Dashboards/commonComponents/PodPhase';
+import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -18,31 +18,28 @@ export default function Summary({ data: pod, timeConfig }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={3}>
+        <Col lg={4}>
           <Card title="Summary" useMaxAvailableHeight>
             <Dl>
               <Di title="Status Summary">
-                <Capitalize> {get(pod, ['status', 'statusSummary'], '-')}</Capitalize>
+                <Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>
               </Di>
               <Di title="Phase">
-                <PodPhase status={get(pod, ['status', 'phase'], pod.phase)} />
+                <Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>
               </Di>
               <Di title="Ready">{`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}</Di>
               <Di title="Restarts">
                 <MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />
               </Di>
               <Di title="Age">{pod.age ? formatDuration(pod.age) : '-'}</Di>
+              <Di title="Message">
+                <PodMessage message={get(pod, ['status', 'message'])} />
+              </Di>
             </Dl>
           </Card>
         </Col>
 
-        <Col lg={3}>
-          <Card title="Message" useMaxAvailableHeight>
-            {get(pod, ['status', 'message'])}
-          </Card>
-        </Col>
-
-        <Col lg={3}>
+        <Col lg={4}>
           <Card title="IPs" useMaxAvailableHeight>
             <Dl>
               <Di title="Host IP">{pod.hostIp}</Di>
@@ -51,7 +48,7 @@ export default function Summary({ data: pod, timeConfig }) {
           </Card>
         </Col>
 
-        <Col lg={3}>
+        <Col lg={4}>
           <Card title="Requests & Limits" useMaxAvailableHeight>
             <Dl>
               <Di title="CPU Requests">
