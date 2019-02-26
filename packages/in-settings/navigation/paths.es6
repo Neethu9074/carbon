@@ -24,10 +24,12 @@ export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
-export const events = '/events';
-export const teamSettingsAlertingEventEdit = `${alerting}${events}/:id`;
-export const teamSettingsAlertingEventNew = `${alerting}${events}/new`;
-export const teamSettingsAlertingEvents = `${alerting}${events}`;
+export const teamSettingsAlertingEventBuiltIn = `${alerting}/events/builtIn`;
+export const teamSettingsAlertingEventBuiltInEdit = `${alerting}/events/builtIn/:id`;
+export const teamSettingsAlertingEventCustom = `${alerting}/events/custom`;
+export const teamSettingsAlertingEventCustomEdit = `${alerting}/events/custom/:id`;
+export const teamSettingsAlertingEventCustomNew = `${alerting}/events/custom/new`;
+export const teamSettingsAlertingEvents = `${alerting}/events`;
 export const teamSettingsAlertingEventFilterEdit = `${alerting}/filters/:id`;
 export const teamSettingsAlertingEventFilterNew = `${alerting}/filters/new`;
 export const teamSettingsAlertingEventFilters = `${alerting}/filters`;

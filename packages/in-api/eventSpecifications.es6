@@ -24,13 +24,6 @@ export function getBuiltInEventSpecificationMutable(id) {
   }).map(response => response.body);
 }
 
-export function createBuiltInEventSpecification() {
-  if (__DEV__) {
-    throw new Error('Built-in event specifications cannot be created.');
-  }
-  return {};
-}
-
 export function getCustomEventSpecification(id) {
   return getCustomEventSpecificationMutable(id).map(fromJS);
 }
@@ -43,33 +36,77 @@ export function getCustomEventSpecificationMutable(id) {
   }).map(response => response.body);
 }
 
-export function createCustomEventSpecification(
+export function createCustomSytemRuleBasedEventSpecification(
   id,
   name = 'New Event',
-  enabled = true,
-  match = {},
-  rule = {},
+  entityType,
+  query = '',
   triggering = false,
-  severity = 5,
   description = '',
   expirationTime = null,
-  lastUpdated,
-  downstream = {}
+  enabled = true,
+  ruleType = 'system',
+  severity = 5,
+  systemRuleId
 ) {
   return {
     id: id || generateUniqueShortId(),
     name,
+    entityType,
+    query,
+    triggering,
+    description,
+    expirationTime,
     enabled,
-    match,
-    rule,
-    event: {
-      triggering,
-      severity,
-      description,
-      expirationTime
-    },
-    downstream,
-    lastUpdated
+    rules: [
+      {
+        ruleType,
+        systemRuleId,
+        severity
+      }
+    ]
+  };
+}
+
+export function createCustomThresholdBasedEventSpecification(
+  id,
+  name = 'New Event',
+  entityType,
+  query = '',
+  triggering = false,
+  description = '',
+  expirationTime = null,
+  enabled = true,
+  ruleType = 'threshold',
+  metricName,
+  rollup,
+  window,
+  aggregation,
+  conditionOperator,
+  conditionValue,
+  severity = 5
+) {
+  return {
+    id: id || generateUniqueShortId(),
+    name,
+    entityType,
+    query,
+    triggering,
+    description,
+    expirationTime,
+    enabled,
+    rules: [
+      {
+        ruleType,
+        metricName,
+        rollup,
+        window,
+        aggregation,
+        conditionOperator,
+        conditionValue,
+        severity
+      }
+    ]
   };
 }
 
@@ -77,8 +114,8 @@ export function saveCustomEventSpecification(event) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.get('id'))}`,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.id)}`,
     headers: getCsrfHeader(),
-    data: event.toJS()
+    data: event
   }).map(response => fromJS(response.body));
 }

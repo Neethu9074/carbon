@@ -21,8 +21,9 @@ import {
   teamSettingsKnowledgeManagementCustomDynamicRules,
   teamSettingsKnowledgeManagementCustomDynamicRuleEdit,
   teamSettingsKnowledgeManagementCustomDynamicRuleNew,
-  teamSettingsAlertingEventEdit,
-  teamSettingsAlertingEventNew,
+  teamSettingsAlertingEventCustomNew,
+  teamSettingsAlertingEventCustomEdit,
+  teamSettingsAlertingEventBuiltInEdit,
   teamSettingsAlertingEvents,
   teamSettingsAlertingEventFilterEdit,
   teamSettingsAlertingEventFilterNew,
@@ -76,13 +77,14 @@ import EventFiltersPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integrations';
 import EventFilterPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integration';
+import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
+import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import { forecastsEnabled, twoZeroModeEnabled, unifiedAlerting } from 'in-services/featureFlags';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import EventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Event';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
@@ -197,22 +199,26 @@ function navigationTreeForRole(role): NavigationTree {
     });
   }
 
-  if (unifiedAlerting && role.canConfigureCustomAlerts) {
+  if (unifiedAlerting && (role.canConfigureCustomAlerts || role.canConfigureIntegrations)) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureCustomAlerts && role.canConfigureIntegrations) {
+    if (role.canConfigureCustomAlerts) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
         label: 'Events',
         component: EventsPage,
         subPages: [
           {
-            path: teamSettingsAlertingEventNew,
-            component: EventPage
+            path: teamSettingsAlertingEventCustomNew,
+            component: CustomEventPage
           },
           {
-            path: teamSettingsAlertingEventEdit,
-            component: EventPage
+            path: teamSettingsAlertingEventCustomEdit,
+            component: CustomEventPage
+          },
+          {
+            path: teamSettingsAlertingEventBuiltInEdit,
+            component: BuiltInEventPage
           }
         ]
       });
@@ -232,7 +238,9 @@ function navigationTreeForRole(role): NavigationTree {
           }
         ]
       });
+    }
 
+    if (role.canConfigureIntegrations) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlertChannels,
         label: 'Alert Channels',
