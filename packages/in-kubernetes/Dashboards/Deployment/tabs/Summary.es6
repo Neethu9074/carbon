@@ -6,9 +6,10 @@ import {
   bytesTwoDecimalPlaces,
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import ExpandingConditionsCard from 'in-kubernetes/Dashboards/commonComponents/ExpandingConditionsCard';
+import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import MatchingServicesList from 'in-kubernetes/Dashboards/Deployment/tabs/MatchingServicesList';
+import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
@@ -188,10 +189,15 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
       </Row>
 
-      <ExpandingConditionsCard
-        conditions={deployment.conditions}
-        viewAllHref$={getDeploymentDashboard(snapshotId, { tab: '/conditions' })}
-      />
+      <Row>
+        <Col lg={12}>
+          <ConditionsTableCard
+            conditions={deployment.conditions}
+            viewAllHref$={getDeploymentDashboard(snapshotId, { tab: '/conditions' })}
+            TablePresenter={NodeConditionsPresenter}
+          />
+        </Col>
+      </Row>
     </Fragment>
   );
 }
