@@ -4,6 +4,7 @@ import CallFrame, { FRAME_HEIGHT } from 'in-analyze/TraceDetail/components/Icicl
 import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
 import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTimeAxis';
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
+import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-charts/scale';
 
@@ -42,6 +43,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
                   getColor={getColor}
                   onCallClicked={onCallClicked}
                   hoveredServiceEndpoint$={hoveredServiceEndpoint$}
+                  isFakeRoot={isFakeRootCall(callFrame)}
                 />
               </Tooltip>
             </Fragment>

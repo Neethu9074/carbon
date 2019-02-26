@@ -23,6 +23,9 @@
     position: absolute;
 
     min-width: 5px;
+  }
+
+  .clickable {
     cursor: pointer;
   }
 
