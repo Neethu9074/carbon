@@ -57,7 +57,7 @@ function SelectChannelsDialog({
                 }
               }
             }}
-            rightHeader={''}
+            rightHeader={undefined}
           />
           {requiresAtLeastOneMessage &&
             numberOfItems === 0 && <ValidationBlock>{requiresAtLeastOneMessage}</ValidationBlock>}

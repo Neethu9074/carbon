@@ -428,7 +428,7 @@ function addDeselectAction(columns, actionDefinition) {
 function addSelectCheckboxAction(columns, actionDefinition) {
   // clone the column definitions array, then insert the checkbox as first column
   columns = columns.slice();
-  columns.splice(0, 0, {
+  columns.unshift({
     id: 'selectCheckbox',
     tableAction: true,
     cellClassName: locals.selectCheckbox,
