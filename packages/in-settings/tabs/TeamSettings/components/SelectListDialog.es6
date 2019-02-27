@@ -57,7 +57,13 @@ function SelectChannelsDialog({
                 }
               }
             }}
-            rightHeader={undefined}
+            rightHeader={
+              /* Can't use null or undefined here as this would make the default right header to be rendered, but we
+              want to explicitly disable that default header. Reason: The default right header (create new entitiy would
+              navigate from the form in which's context this dialog is shown, thus the user would lose all their unsaved
+              edits on the current form.
+              */ ''
+            }
           />
           {requiresAtLeastOneMessage &&
             numberOfItems === 0 && <ValidationBlock>{requiresAtLeastOneMessage}</ValidationBlock>}
