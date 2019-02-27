@@ -45,6 +45,28 @@ export function getEventSpecificationByIds(eventIds) {
   }).map(response => response.body);
 }
 
+export function setBuiltInEventSpecificationsEnabled(eventId, enabled) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url:
+      `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventId)}/` +
+      (enabled ? 'enable' : 'disable'),
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function setCustomEventSpecificationsEnabled(eventId, enabled) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url:
+      `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventId)}/` +
+      (enabled ? 'enable' : 'disable'),
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
 export function getBuiltInEventSpecification(id) {
   return getBuiltInEventSpecificationMutable(id).map(fromJS);
 }
