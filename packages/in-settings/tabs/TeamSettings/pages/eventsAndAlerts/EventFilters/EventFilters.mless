@@ -8,4 +8,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
   }
+
+  .invalidOrDeprecated {
+    color: @lib__colors__red800
+  }
 }

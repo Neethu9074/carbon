@@ -1,6 +1,5 @@
-import { combineLatest, just } from 'reactive-observables';
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import {
   getEntityHref,
@@ -9,11 +8,9 @@ import {
   teamSettingsAlertingEventFilters
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { intersperse } from 'in-services/arrayUtils';
 import List from 'in-settings/components/List';
-import { validate } from 'in-api/search';
-import Badge from 'in-components/Badge';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
 
@@ -29,7 +26,7 @@ export default function EventFilters() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={loadEntities}
+      loadEntities={getAlertingConfigsMutable}
       initialOrderBy="alertName"
       labelNew="New Alert"
       pathNew={teamSettingsAlertingEventFilterNew}
@@ -50,9 +47,9 @@ const columnDefinitions = [
     label: 'Name',
     getContent(entity) {
       return (
-        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
+        <WithSubscript subscript={getSubscript(entity)}>
           <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis50vw}>
-            {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
+            {entity.alertName}
           </Link>
         </WithSubscript>
       );
@@ -84,26 +81,20 @@ function getEntityName(entity) {
   return `alert "${entity.alertName}"`;
 }
 
-function loadEntities() {
-  const validationAction = ruleDeprecationValidationChecksEnabled ? validateConfig : assumeConfigIsValid;
-  return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
-}
-
-function validateConfig(alertEntity) {
-  if (twoZeroModeEnabled && alertEntity.eventFilteringConfiguration && alertEntity.eventFilteringConfiguration.query) {
-    return validate({
-      query: alertEntity.eventFilteringConfiguration.query,
-      newApplicationModelEnabled: true
-    }).map(response => {
-      alertEntity.valid = response.body.valid;
-      return alertEntity;
-    });
-  } else {
-    return assumeConfigIsValid(alertEntity);
-  }
-}
-
-function assumeConfigIsValid(alertEntity) {
-  alertEntity.valid = true;
-  return just(alertEntity);
+function getSubscript(entity) {
+  return (
+    <Fragment>
+      {intersperse(
+        [
+          !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
+          entity.invalid ? (
+            <span key="invalid" className={locals.invalidOrDeprecated}>
+              Invalid Query
+            </span>
+          ) : null
+        ].filter(elem => elem),
+        <span>, </span>
+      )}
+    </Fragment>
+  );
 }
