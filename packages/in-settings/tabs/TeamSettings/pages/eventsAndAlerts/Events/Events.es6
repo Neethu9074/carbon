@@ -9,11 +9,15 @@ import {
   teamSettingsAlertingEventCustom,
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
-import { getEventSpecificationsMutable, deleteCustomEventSpecification } from 'in-api/eventSpecifications';
+import {
+  getEventSpecificationsMutable,
+  deleteCustomEventSpecification,
+  setBuiltInEventSpecificationsEnabled,
+  setCustomEventSpecificationsEnabled
+} from 'in-api/eventSpecifications';
 import List, { createNewEntityButton } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
-import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
@@ -98,10 +102,12 @@ const columnDefinitions = [
 
 const tableActions = {
   toggleEnabled: {
-    key: 'enabled',
+    get: isEnabled,
     toggle: entity => {
       if (isBuiltInRule(entity)) {
-        return setBuiltInRuleEnabledMutable(entity.id, !entity.enabled);
+        return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);
+      } else {
+        return setCustomEventSpecificationsEnabled(entity.id, !entity.enabled);
       }
     }
   },
@@ -110,6 +116,10 @@ const tableActions = {
     deleteProtection: entity => isBuiltInRule(entity)
   }
 };
+
+function isEnabled(entity) {
+  return entity.enabled;
+}
 
 function getHeader(totalHits) {
   return totalHits ? `Events (${totalHits})` : 'Events';

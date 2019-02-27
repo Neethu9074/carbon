@@ -485,10 +485,12 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
               }
 
               let metricFormatter = 'UNDEFINED';
+              let metricLabel = 'UNKNOWN';
               if (form.get('dataSource').value === dataSourceCustom) {
                 const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = metricItem.formatter;
+                  metricLabel = metricItem.label;
                 }
               } else if (form.get('dataSource').value === dataSourceBuiltIn) {
                 const entityType = form.get('entityType').value;
@@ -496,11 +498,15 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
                 const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
+                  metricLabel = metricItem.label;
                 }
               }
 
               updatedForm = updatedForm.updateIn(['formatter'], f => {
                 return f.setValue(metricFormatter);
+              });
+              updatedForm = updatedForm.updateIn(['label'], f => {
+                return f.setValue(metricLabel);
               });
 
               return updatedForm;
