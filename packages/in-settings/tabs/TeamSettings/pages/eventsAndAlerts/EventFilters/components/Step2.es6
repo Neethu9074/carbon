@@ -91,7 +91,7 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
                   listComponent={Events}
                   selectedItems={form.get('selectedEvents').value.toJS()}
                   createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0 ? `Confirm ${numberOfItems} Events` : 'Confirm'
+                    numberOfItems > 0 ? `Select ${numberOfItems} Events` : 'Select Events'
                   }
                   requiresAtLeastOneMessage="Please select at least one event."
                 />
