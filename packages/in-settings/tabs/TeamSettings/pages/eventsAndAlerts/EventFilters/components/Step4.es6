@@ -13,6 +13,7 @@ export default function Step4({ form, setForm }) {
 
   return (
     <Fragment>
+      <div style={{ marginTop: '2rem' }} />
       <SectionHeading>4. Alerting</SectionHeading>
       <AlertChannels
         setTitle={false}

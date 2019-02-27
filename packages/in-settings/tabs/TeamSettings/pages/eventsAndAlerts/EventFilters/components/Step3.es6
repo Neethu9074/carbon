@@ -52,6 +52,8 @@ export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
               )}
             </FormGroup>
           ))}
+        </Col>
+        <Col cols={6}>
           {form.get('applyOn').value === scopeDfq &&
             form.get('query').map(field => (
               <FormGroup>
