@@ -25,13 +25,13 @@ export function getAlertingConfig(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function getAlertsForAlertChannelIds(alertChannelIds) {
+export function getAlertsForAlertChannelId(alertChannelId) {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: `/api/events/settings/alerts/infos`,
     queryParams: {
-      integrationIds: alertChannelIds
+      integrationIds: alertChannelId
     }
   }).map(response => response.body);
 }

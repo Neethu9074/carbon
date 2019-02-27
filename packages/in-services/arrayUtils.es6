@@ -40,10 +40,13 @@ export function diff(a, b) {
 /**
  * Inserts an element between every pair of elements in the source array.
  *
- * @param array the array into which elements are inserted
- * @param interspersee the element that is inserted
+ * @param array: the array into which elements are inserted
+ * @param interspersed: the element that is inserted or a function that receives the curreent index and creates a new
+ * element for every index (the latter variant is useful if you are using this to intersperse React elements and need to
+ * add a unique key property to each inserted element).
  * @returns a new array
  */
 export function intersperse(array, interspersed) {
-  return flatMap(array, (element, idx) => (idx ? [interspersed, element] : [element]));
+  const interspersee = typeof interspersed === 'function' ? interspersed : () => interspersed;
+  return flatMap(array, (element, idx) => (idx ? [interspersee(idx), element] : [element]));
 }

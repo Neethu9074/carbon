@@ -6,22 +6,4 @@
     display: flex;
     flex-direction: row;
   }
-
-  .propertyContainer{
-    display: flex;
-    flex-direction: column;
-    margin-right: 1rem;
-  }
-
-  .propertyLabel {
-    text-transform: uppercase;
-    color: @lib__colors__N600Light;
-    max-width: 20rem;
-    .ellipsis()
-  }
-
-  .propertyValue {
-    max-width: 20rem;
-    .ellipsis()
-  }
 }

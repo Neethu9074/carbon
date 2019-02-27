@@ -12,7 +12,7 @@ import {
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { getAlertsForAlertChannelIds } from 'in-api/alertingConfiguration';
+import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -103,7 +103,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             tableInCard
             getEntityName={getEntityName}
             columnDefinitions={columnDefinitions}
-            loadEntities={() => getAlertsForAlertChannelIds([entityId])}
+            loadEntities={() => getAlertsForAlertChannelId(entityId)}
             initialOrderBy="label"
             searchAttributes={['label']}
             getDetailsHref={entity => getEntityHref(teamSettingsAlertingConfigurations, entity.id)}

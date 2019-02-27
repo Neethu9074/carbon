@@ -96,5 +96,9 @@ describe('arrayUtils', () => {
         7
       ]);
     });
+
+    it('should intersperse with a function', () => {
+      expect(intersperse(['a', 'b', 'c', 'd'], i => '' + i)).to.deep.equal(['a', '1', 'b', '2', 'c', '3', 'd']);
+    });
   });
 });

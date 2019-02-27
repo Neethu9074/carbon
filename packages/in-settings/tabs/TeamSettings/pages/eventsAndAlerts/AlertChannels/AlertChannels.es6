@@ -4,6 +4,7 @@ import React from 'react';
 import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import { deleteIntegration, getIntegrationsMutable } from 'in-api/integrations';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
@@ -128,13 +129,5 @@ function getStringifiedParameters(entity) {
 }
 
 function Property({ attribute, label, entity }) {
-  if (entity[attribute]) {
-    return (
-      <div className={locals.propertyContainer}>
-        <span className={locals.propertyLabel}>{label}</span>
-        <span className={locals.propertyValue}>{entity[attribute]}</span>
-      </div>
-    );
-  }
-  return null;
+  return <PropertyInTable label={label} value={entity[attribute]} />;
 }

@@ -188,7 +188,9 @@ function getSubscript(entity) {
             </span>
           ) : null
         ].filter(elem => elem),
-        <span>, </span>
+        i => (
+          <span key={`comma-${i}`}>, </span>
+        )
       )}
     </Fragment>
   );
