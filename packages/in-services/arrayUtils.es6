@@ -1,3 +1,5 @@
+import { flatMap } from 'lodash';
+
 export function find(array, predicate) {
   for (let i = 0; i < array.length; i++) {
     if (predicate(array[i])) {
@@ -33,4 +35,15 @@ export function diff(a, b) {
   }
 
   return result;
+}
+
+/**
+ * Inserts an element between every pair of elements in the source array.
+ *
+ * @param array the array into which elements are inserted
+ * @param interspersee the element that is inserted
+ * @returns a new array
+ */
+export function intersperse(array, interspersed) {
+  return flatMap(array, (element, idx) => (idx ? [interspersed, element] : [element]));
 }

@@ -1,7 +1,6 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
 import {
   getEntityHref,
   getEntityIdView,
@@ -10,14 +9,15 @@ import {
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
 import { getEventSpecificationsMutable, deleteCustomEventSpecification } from 'in-api/eventSpecifications';
+import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
 import List, { createNewEntityButton } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
+import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
-import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
@@ -86,13 +86,9 @@ function columnDefinitions(hasRowNavigation) {
           <WithIcon icon={icon.icon} iconColor={icon.color}>
             <WithSubscript subscript={getSubscript(entity)}>
               {hasRowNavigation ? (
-                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>
-                  {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
-                </Link>
+                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>{entity.name}</Link>
               ) : (
-                <span>
-                  {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
-                </span>
+                <span>{entity.name}</span>
               )}
             </WithSubscript>
           </WithIcon>
@@ -175,14 +171,27 @@ function getEntityType(entity) {
 }
 
 function getSubscript(entity) {
-  if (isBuiltInRule(entity) && entity.enabled) {
-    return 'Built-in';
-  } else if (isBuiltInRule(entity)) {
-    return 'Built-in, Disabled';
-  } else if (entity.enabled === false) {
-    return 'Disabled';
-  }
-  return null;
+  return (
+    <Fragment>
+      {intersperse(
+        [
+          isBuiltInRule(entity) ? <span key="built-in">Built-in</span> : null,
+          entity.enabled === false ? <span key="disabled">Disabled</span> : null,
+          entity.invalid ? (
+            <span key="invalid" className={locals.invalidOrDeprecated}>
+              Invalid Query
+            </span>
+          ) : null,
+          entity.deprecated ? (
+            <span key="deprecated" className={locals.invalidOrDeprecated}>
+              Deprecated Entity
+            </span>
+          ) : null
+        ].filter(elem => elem),
+        <span>, </span>
+      )}
+    </Fragment>
+  );
 }
 
 function defaultRightHeader(type, setType, severity, setSeverity) {
