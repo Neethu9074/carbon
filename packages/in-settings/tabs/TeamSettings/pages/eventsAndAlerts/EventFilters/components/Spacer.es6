@@ -1,9 +1,7 @@
 import React from 'react';
 
-import './Spacer.less';
-
-const block = 'in-dynamic-rule-dialog-spacer';
+import locals from './Spacer.mless';
 
 export default function Spacer() {
-  return <div className={block} />;
+  return <div className={locals.spacer} />;
 }

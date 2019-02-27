@@ -17,6 +17,7 @@ import {
   updateFormDefinitionForDataSource
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
+  applyOnOptions,
   scopeApplication,
   scopeEverything,
   scopeDfq
@@ -829,10 +830,4 @@ const conditionOperatorOptions = [
   { value: '>=', label: '>=' },
   { value: '>', label: '>' },
   { value: '!=', label: '!=' }
-];
-
-const applyOnOptions = [
-  { value: scopeApplication, label: 'Application' },
-  { value: scopeDfq, label: 'Selected Entities (Dynamic Focus Query)' },
-  { value: scopeEverything, label: 'All Available Entities' }
 ];

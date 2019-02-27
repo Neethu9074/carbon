@@ -197,8 +197,6 @@ function putAllDataSourceFields(form, event) {
       })
     );
 
-  // TODO backend validation always expects window and aggregation but it seems it should be either those two or rollup,
-  // not both.
   if (isMetricPercentile(entityType, metricName)) {
     form = putRollupField(form, event);
   } else {

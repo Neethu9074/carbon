@@ -4,6 +4,7 @@ import React from 'react';
 import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import { deleteIntegration, getIntegrationsMutable } from 'in-api/integrations';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
@@ -11,67 +12,86 @@ import Link from 'in-components/Link';
 
 import locals from './AlertChannels.mless';
 
-export default function AlertChannels() {
+export default function AlertChannels({
+  setTitle = true,
+  getHeader = defaultGetHeader,
+  tableActions = defaultTableActions,
+  loadEntities,
+  noDataMessage,
+  pageSize = 20,
+  rightHeader = <NewChannelButton />,
+  isSearchable = true,
+  hasRowNavigation = true
+}) {
   return (
     <List
-      title="Alert Channels"
+      title={setTitle ? 'Alert Channels' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
-      loadEntities={getIntegrationsMutable}
+      loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
+      noDataMessage={noDataMessage}
+      pageSize={pageSize}
       initialOrderBy="name"
-      rightHeader={<NewChannelButton />}
+      rightHeader={rightHeader}
+      isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
-      getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)}
+      getDetailsHref={hasRowNavigation ? entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id) : null}
     />
   );
 }
 
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: 'Name',
-    ellipsis: '20vw',
-    getContent(entity) {
-      return (
-        <WithSubscript subscript={getKind(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)}>{entity.name}</Link>
-        </WithSubscript>
-      );
-    },
-    getValue(entity) {
-      return entity.name;
-    }
-  },
-  {
-    id: 'properties',
-    label: 'Properties',
-    sortable: false,
-    ellipsis: '40vw',
-    getContent(entity) {
-      const parameters = getParameters(entity);
-      if (!parameters) {
-        return null;
+function columnDefinitions(hasRowNavigation) {
+  return [
+    {
+      id: 'name',
+      label: 'Name',
+      ellipsis: '20vw',
+      getContent(entity) {
+        return (
+          <WithSubscript subscript={getKind(entity)}>
+            {hasRowNavigation ? (
+              <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)}>{entity.name}</Link>
+            ) : (
+              <span>{entity.name}</span>
+            )}
+          </WithSubscript>
+        );
+      },
+      getValue(entity) {
+        return entity.name;
       }
-      return (
-        <div className={locals.allProperties}>
-          {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-            <Property attribute={key} label={label} entity={entity} />
-          ))}
-        </div>
-      );
+    },
+    {
+      id: 'properties',
+      label: 'Properties',
+      sortable: false,
+      ellipsis: '40vw',
+      getContent(entity) {
+        const parameters = getParameters(entity);
+        if (!parameters) {
+          return null;
+        }
+        return (
+          <div className={locals.allProperties}>
+            {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
+              <Property key={key} attribute={key} label={label} entity={entity} />
+            ))}
+          </div>
+        );
+      }
     }
-  }
-];
+  ];
+}
 
-const tableActions = {
+const defaultTableActions = {
   delete: {
     deleteEntity: entity => deleteIntegration(entity.id)
   }
 };
 
-function getHeader(totalHits) {
+function defaultGetHeader(totalHits) {
   return totalHits ? `Alert Channels (${totalHits})` : 'Alert Channels';
 }
 
@@ -109,13 +129,5 @@ function getStringifiedParameters(entity) {
 }
 
 function Property({ attribute, label, entity }) {
-  if (entity[attribute]) {
-    return (
-      <div className={locals.propertyContainer}>
-        <span className={locals.propertyLabel}>{label}</span>
-        <span className={locals.propertyValue}>{entity[attribute]}</span>
-      </div>
-    );
-  }
-  return null;
+  return <PropertyInTable label={label} value={entity[attribute]} />;
 }

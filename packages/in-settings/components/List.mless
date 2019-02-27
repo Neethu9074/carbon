@@ -4,4 +4,11 @@
   .createNewButton {
     margin-right: 1.5rem;
   }
+
+  .selectCheckbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 }

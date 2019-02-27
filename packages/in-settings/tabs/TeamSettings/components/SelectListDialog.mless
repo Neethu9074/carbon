@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .dialog{
+    width: 80vw;
+    max-width: 100rem;
+    max-height: 90vh;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 0;
+  }
+}

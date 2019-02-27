@@ -4,6 +4,12 @@ export const scopeApplication = 'application';
 export const scopeEverything = 'all';
 export const scopeDfq = 'dfq';
 
+export const applyOnOptions = [
+  { value: scopeApplication, label: 'Application Perspective' },
+  { value: scopeDfq, label: 'Selected Entities Only (Dynamic Focus Query)' },
+  { value: scopeEverything, label: 'All Available Entities' }
+];
+
 // If the applyOn-scope is set to application, this is represented as a DFQ like
 // entity.application.name:"<applicationName>". This regex checks if the query matches this and it also parses out the
 // application name as a capturing group.

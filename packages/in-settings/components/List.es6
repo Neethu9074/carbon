@@ -10,11 +10,12 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
+import { create, just } from 'reactive-observables';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import { create } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -42,7 +43,14 @@ function clearPerCellLoadingIndicator() {
 
 export default compose(
   withState('errorMessage', 'setErrorMessage', null),
-  connectTo(({ loadEntities, setErrorMessage }) => {
+  connectTo(({ loadEntities, setErrorMessage, rows }) => {
+    if (rows) {
+      return {
+        entities: just(rows),
+        perCellLoadingIndicator: perCellLoadingIndicator$
+      };
+    }
+
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
     // rendered
     // 2. The reloadSignal.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the entities (for
@@ -87,11 +95,13 @@ function List({
   cardTitle,
   tableInCard,
   rightHeader,
+  isSearchable = true,
   searchAttributes = [],
   extraFilters,
   searchPlaceholder,
   searchMaxWidth,
   entities,
+  noDataMessage,
   pageSize = 20,
   pageState,
   setPage,
@@ -143,7 +153,7 @@ function List({
 
   return (
     <MaxWidthFullscreenContainer>
-      <Title title={title} />
+      {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
         onChange={({ page, query, orderBy, orderDirection }) => {
@@ -165,9 +175,11 @@ function List({
         page={pageState}
         pageSize={pageSize}
         query={queryState}
+        isSearchable={isSearchable}
         searchPlaceholder={searchPlaceholder}
         searchMaxWidth={searchMaxWidth}
         result={result}
+        noDataMessage={noDataMessage}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
         rightHeader={
@@ -262,13 +274,19 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
     );
   }
   if (tableActions.delete) {
-    allColumns = addDeleteActionAction(
+    allColumns = addDeleteAction(
       allColumns,
       tableActions.delete,
       perCellLoadingIndicator,
       getEntityName,
       setErrorMessage
     );
+  }
+  if (tableActions.deselect) {
+    allColumns = addDeselectAction(allColumns, tableActions.deselect);
+  }
+  if (tableActions.selectCheckbox) {
+    allColumns = addSelectCheckboxAction(allColumns, tableActions.selectCheckbox);
   }
   return allColumns;
 }
@@ -315,7 +333,7 @@ function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
   });
 }
 
-function addDeleteActionAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
+function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
     tableAction: true,
@@ -383,6 +401,49 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
     reloadEntitiesSignal$.emit(true);
     setErrorMessage(errorMessage);
   });
+}
+
+function addDeselectAction(columns, actionDefinition) {
+  return columns.concat({
+    id: 'deselectAction',
+    tableAction: true,
+    getContent(entity) {
+      return (
+        <Tooltip content="Click to deselect.">
+          <SvgIcon
+            type={'lib_openclose_remove_circle_outline'}
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              actionDefinition.deselect(entity);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  });
+}
+
+function addSelectCheckboxAction(columns, actionDefinition) {
+  // clone the column definitions array, then insert the checkbox as first column
+  columns = columns.slice();
+  columns.unshift({
+    id: 'selectCheckbox',
+    tableAction: true,
+    cellClassName: locals.selectCheckbox,
+    getContent(entity) {
+      return (
+        <CheckboxFancy
+          checked={actionDefinition.get(entity)}
+          onChange={() => actionDefinition.toggle(entity)}
+          size="large"
+        />
+      );
+    }
+  });
+  return columns;
 }
 
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {
