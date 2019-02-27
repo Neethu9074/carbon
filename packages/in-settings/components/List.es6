@@ -10,7 +10,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
-import CheckboxFancy from 'in-new-components/CheckboxFancy';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { create, just } from 'reactive-observables';
