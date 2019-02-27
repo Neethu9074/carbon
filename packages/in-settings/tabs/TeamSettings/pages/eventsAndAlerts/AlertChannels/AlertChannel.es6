@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import React from 'react';
 
 import {
   getEntityHref,
@@ -16,9 +16,11 @@ import { getAlertsForAlertChannelIds } from 'in-api/alertingConfiguration';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import Notification from 'in-components/form/Notification';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { toTitleCase } from 'in-services/util/string';
+import { intersperse } from 'in-services/arrayUtils';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import List from 'in-settings/components/List';
@@ -47,16 +49,16 @@ export default function AlertChannel(props) {
 }
 
 function save(alertChannel, form) {
-  return saveIntegration(fromJS(fullyQualified[alertChannel.get('kind')].createEntity(alertChannel, form)));
+  return saveIntegration(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 
-function createForm(config) {
-  return fullyQualified[config.get('kind')].createForm(config);
+function createForm(alertChannel) {
+  return getConfig(alertChannel).createForm(alertChannel);
 }
 
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const { entity, entityId, message, error, loading } = props;
-  const parameters = fullyQualified[entity.get('kind')].getParameters();
+  const parameters = getConfig(entity).getParameters();
   return (
     <SettingsDetailPage>
       <SubViewHeader>{entity.get('name') + ' Alert Channel'}</SubViewHeader>
@@ -79,15 +81,15 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             }
           >
             <Dl>
-              {parameters.map(param => (
+              {parameters.filter(({ key }) => key !== 'name').map(({ key, label }) => (
                 <Di
-                  key={param.key}
-                  title={param.label}
+                  key={key}
+                  title={label}
                   rowClassName={locals.row}
                   ddClassName={locals.rowInnerPadding}
                   dtClassName={locals.titleRow}
                 >
-                  {entity.get(param.key)}
+                  {key === 'kind' ? getConfig(entity).label : entity.get(key)}
                 </Di>
               ))}
             </Dl>
@@ -102,8 +104,8 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             getEntityName={getEntityName}
             columnDefinitions={columnDefinitions}
             loadEntities={() => getAlertsForAlertChannelIds([entityId])}
-            initialOrderBy="name"
-            searchAttributes={['name']}
+            initialOrderBy="label"
+            searchAttributes={['label']}
             getDetailsHref={entity => getEntityHref(teamSettingsAlertingConfigurations, entity.id)}
           />
         </Col>
@@ -117,23 +119,32 @@ function getHeader() {
 }
 
 function getEntityName(entity) {
-  return entity.name;
+  return entity.label;
 }
 
 const columnDefinitions = [
   {
     id: 'icon',
     label: '',
+    sortable: false,
     getContent() {
       return Icon();
+    },
+    getValue() {
+      return null;
     }
   },
   {
-    id: 'name',
+    id: 'label',
     label: 'Name',
-    ellipsis: '35vw',
     getContent(entity) {
-      return <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)}>{entity.label}</Link>;
+      return (
+        <WithSubscript subscript={getSubscript(entity)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.ellipsis10vw}>
+            {entity.label}
+          </Link>
+        </WithSubscript>
+      );
     }
   },
   {
@@ -161,4 +172,27 @@ function Icon() {
       <SvgIcon type={'lib_events_inverted'} height={20} width={20} color="#40535b" />
     </div>
   );
+}
+
+function getSubscript(/* entity */) {
+  return (
+    <Fragment>
+      {intersperse(
+        [
+          // TODO Waiting for back end to provide invalid/deprecated flag
+          // !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
+          // !entity.valid ? (
+          //   <span key="invalid" className={locals.invalidOrDeprecated}>
+          //     Invalid Query
+          //   </span>
+          // ) : null
+        ].filter(elem => elem),
+        <span>, </span>
+      )}
+    </Fragment>
+  );
+}
+
+function getConfig(entity) {
+  return fullyQualified[entity.get('kind')];
 }
