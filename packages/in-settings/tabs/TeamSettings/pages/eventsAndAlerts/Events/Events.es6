@@ -22,6 +22,7 @@ import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
@@ -111,7 +112,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'description',
       label: 'Description',
-      width: 50,
+      width: 45,
       multiLineEllipsis: 4,
       getContent(entity) {
         return <div className={locals.fourLines}>{entity.description}</div>;
@@ -120,16 +121,17 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'entityType',
       label: 'Entity Type',
-      width: 20,
-      ellipsis: true,
+      width: 25,
       getContent(entity) {
         if (entity.entityType === 'any') {
           return '';
         }
         return (
-          <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
-            {getSingular(entity.entityType)}
-          </WithIcon>
+          <Tooltip content={getSingular(entity.entityType)}>
+            <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
+              {getSingular(entity.entityType)}
+            </WithIcon>
+          </Tooltip>
         );
       },
       getValue: getEntityType
