@@ -6,7 +6,7 @@ import './FormGroup.less';
 
 const block = 'in-form-group';
 
-export default function FormGroup({ children, className, withoutBottomMargin }) {
+export default function FormGroup({ children, className, style, withoutBottomMargin }) {
   return (
     <div
       className={evaluateClassNames({
@@ -14,6 +14,7 @@ export default function FormGroup({ children, className, withoutBottomMargin }) 
         [className]: className,
         [`${block}--without-bottom-margin`]: withoutBottomMargin
       })}
+      style={style}
     >
       {children}
     </div>

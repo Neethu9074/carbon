@@ -48,6 +48,8 @@ function Events({
   setSeverity,
   setTitle = true,
   getHeader = defaultGetHeader,
+  tableClassName,
+  tableStyle,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
@@ -62,6 +64,8 @@ function Events({
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
+      tableClassName={tableClassName}
+      tableStyle={tableStyle}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
       noDataMessage={noDataMessage}

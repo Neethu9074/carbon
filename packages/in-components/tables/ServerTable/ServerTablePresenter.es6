@@ -50,6 +50,8 @@ export default function ServerTablePresenter(props) {
     showPagination = true,
     renderFooter = () => null,
     withoutPadding = true,
+    tableClassName,
+    tableStyle,
 
     // events
     onChange,
@@ -110,7 +112,12 @@ export default function ServerTablePresenter(props) {
     </div>
   );
   let content = (
-    <Table tableInCard={tableInCard || cardTitle != null} fixedLayout={fixedLayout}>
+    <Table
+      className={tableClassName}
+      style={tableStyle}
+      tableInCard={tableInCard || cardTitle != null}
+      fixedLayout={fixedLayout}
+    >
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}

@@ -114,7 +114,9 @@ function List({
   setQuery,
   errorMessage,
   setErrorMessage,
-  perCellLoadingIndicator
+  perCellLoadingIndicator,
+  tableClassName,
+  tableStyle
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -182,6 +184,8 @@ function List({
         noDataMessage={noDataMessage}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
+        tableClassName={tableClassName}
+        tableStyle={tableStyle}
         fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)

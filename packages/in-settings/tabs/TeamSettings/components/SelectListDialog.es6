@@ -25,9 +25,6 @@ function SelectChannelsDialog({
   setSelectedItems
 }) {
   const ListComponent = listComponent;
-  // TODO There are sometimes references to ghost entities (IDs which no longer refer to an existing entity). Those are
-  // counted here but not displayed in the list, which is confusing. This needs to be cleaned up by the back end if we
-  // want to avoid loading _all entities_.
   const numberOfItems = selectedItems.length;
   return (
     <Dialog title={title} onClose={close} className={locals.dialog}>
@@ -38,9 +35,11 @@ function SelectChannelsDialog({
         }}
         autoComplete="off"
       >
-        <FormGroup>
+        <FormGroup style={{ height: 'calc(90vh - 180px)', overflowY: 'auto' }}>
           <ListComponent
             setTitle={false}
+            tableClassName={locals.tableHeight}
+            tableStyle={{ height: 'calc(100vh - 450px)' }}
             pageSize={7}
             hasRowNavigation={false}
             tableActions={{
