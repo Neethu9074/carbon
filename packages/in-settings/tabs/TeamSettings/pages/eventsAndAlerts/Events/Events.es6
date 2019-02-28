@@ -57,6 +57,7 @@ function Events({
   pageSize = 20,
   rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
   isSearchable = true,
+  onRowClick,
   hasRowNavigation = true
 }) {
   return (
@@ -78,7 +79,10 @@ function Events({
       extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={210}
-      getDetailsHref={hasRowNavigation ? entity => getEntityHref(getDetailsPath(entity), entity.id) : null}
+      onRowClick={onRowClick}
+      getDetailsHref={
+        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
+      }
     />
   );
 }

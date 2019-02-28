@@ -42,17 +42,14 @@ function SelectChannelsDialog({
             tableStyle={{ height: 'calc(100vh - 450px)' }}
             pageSize={7}
             hasRowNavigation={false}
+            onRowClick={entity => toggle(selectedItems, setSelectedItems, entity)}
             tableActions={{
               selectCheckbox: {
                 get(entity) {
                   return selectedItems.indexOf(entity.id) >= 0;
                 },
                 toggle(entity) {
-                  if (selectedItems.indexOf(entity.id) >= 0) {
-                    setSelectedItems(selectedItems.filter(id => id !== entity.id));
-                  } else {
-                    setSelectedItems(selectedItems.concat(entity.id));
-                  }
+                  toggle(selectedItems, setSelectedItems, entity);
                 }
               }
             }}
@@ -78,4 +75,12 @@ function SelectChannelsDialog({
       </form>
     </Dialog>
   );
+}
+
+function toggle(selectedItems, setSelectedItems, entity) {
+  if (selectedItems.indexOf(entity.id) >= 0) {
+    setSelectedItems(selectedItems.filter(id => id !== entity.id));
+  } else {
+    setSelectedItems(selectedItems.concat(entity.id));
+  }
 }

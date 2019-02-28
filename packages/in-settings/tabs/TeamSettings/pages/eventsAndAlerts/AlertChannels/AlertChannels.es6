@@ -23,6 +23,7 @@ export default function AlertChannels({
   pageSize = 20,
   rightHeader = <NewChannelButton />,
   isSearchable = true,
+  onRowClick,
   hasRowNavigation = true
 }) {
   return (
@@ -41,7 +42,10 @@ export default function AlertChannels({
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
-      getDetailsHref={hasRowNavigation ? entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id) : null}
+      onRowClick={onRowClick}
+      getDetailsHref={
+        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)
+      }
     />
   );
 }

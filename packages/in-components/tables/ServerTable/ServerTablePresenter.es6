@@ -35,7 +35,7 @@ export default function ServerTablePresenter(props) {
     // values that define the content
     columnDefinitions,
     getRowProps,
-    getRowLink,
+    onRowClick,
     result = pendingResult,
     cardTitle,
     tableInCard,
@@ -92,7 +92,7 @@ export default function ServerTablePresenter(props) {
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        getRowLink={getRowLink}
+        onRowClick={onRowClick}
       />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);

@@ -1,6 +1,7 @@
 import { find, get, reverse, sortBy } from 'lodash';
 import { withState, compose } from 'recompose';
 import { createLogger } from 'instalog';
+import invariant from 'invariant';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -8,7 +9,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
@@ -86,6 +87,7 @@ function List({
   getHeader,
   getEntityName,
   getDetailsHref,
+  onRowClick,
   columnDefinitions,
   tableActions = {},
   onCreateNew,
@@ -153,6 +155,13 @@ function List({
     leftHeader = <ListTitle>{header}</ListTitle>;
   }
 
+  if (__DEV__) {
+    invariant(!(onRowClick && getDetailsHref), 'You cannot specify both, onRowClick and getDetailsHref.');
+  }
+  if (getDetailsHref) {
+    onRowClick = entity => goToPath(getDetailsHref(entity));
+  }
+
   return (
     <MaxWidthFullscreenContainer>
       {title && <Title title={title} />}
@@ -190,8 +199,8 @@ function List({
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
-        getRowLink={getDetailsHref ? entity => getDetailsHref(entity) : null}
         getRowProps={() => ({ size: 'compact' })}
+        onRowClick={onRowClick}
       />
     </MaxWidthFullscreenContainer>
   );
