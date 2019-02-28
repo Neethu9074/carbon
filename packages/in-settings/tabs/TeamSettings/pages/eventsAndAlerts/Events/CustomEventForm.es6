@@ -464,7 +464,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
         useComboBox
         onChange={e => {
           if ((field.value && !e) || (e && e.value != field.value)) {
-            const selectedMetric = e ? e.value : '';
+            let selectedMetric = e ? e.value : '';
             onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
               if (isPercentile(updatedForm)) {
                 updatedForm = updatedForm.remove('window').remove('aggregation');
@@ -492,7 +492,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
                 const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = metricItem.formatter;
-                  metricLabel = metricItem.label;
+                  metricLabel = metricItem.origLabel || metricItem.label;
                 }
               } else if (form.get('dataSource').value === dataSourceBuiltIn) {
                 const entityType = form.get('entityType').value;
@@ -500,7 +500,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
                 const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
-                  metricLabel = metricItem.label;
+                  metricLabel = metricItem.origLabel || metricItem.label;
                 }
               }
 
