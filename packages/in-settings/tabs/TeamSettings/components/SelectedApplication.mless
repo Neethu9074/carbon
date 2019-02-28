@@ -23,7 +23,7 @@
   }
 
   .hasValue {
-    color: @lib__colors__N600Light;
+    color: #333;
   }
 
   .icon {

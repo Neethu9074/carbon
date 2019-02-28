@@ -10,7 +10,7 @@ import locals from './SelectedApplication.mless';
 
 export default function SelectedApplication(props) {
   return (
-    <Overlay withoutWrapper content={SelectBarOverlayBehavior} props={props}>
+    <Overlay withoutWrapper content={SelectBarOverlayBehavior} props={props} align="topMiddle" inContentArea>
       {Content}
     </Overlay>
   );
