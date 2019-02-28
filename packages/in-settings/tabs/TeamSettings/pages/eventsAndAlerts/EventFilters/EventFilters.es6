@@ -47,10 +47,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    width: 40,
     getContent(entity) {
       return (
         <WithSubscript subscript={getSubscript(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis20vw}>
+          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} ellipsis>
             {entity.alertName}
           </Link>
         </WithSubscript>
@@ -60,14 +61,16 @@ const columnDefinitions = [
   {
     id: 'scope',
     label: 'Additional Scope',
-    ellipsis: '10vw',
+    width: 20,
+    ellipsis: true,
     getContent: renderScope,
     getValue: scopeToString
   },
   {
     id: 'channels',
     label: 'Alert Channels',
-    ellipsis: '15vw',
+    width: 40,
+    ellipsis: true,
     getContent: concatChannelNames,
     getValue: concatChannelNames
   }

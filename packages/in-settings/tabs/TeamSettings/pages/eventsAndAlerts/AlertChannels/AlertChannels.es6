@@ -47,7 +47,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'name',
       label: 'Name',
-      ellipsis: '20vw',
+      width: 35,
       getContent(entity) {
         return (
           <WithSubscript subscript={getKind(entity)}>
@@ -67,7 +67,7 @@ function columnDefinitions(hasRowNavigation) {
       id: 'properties',
       label: 'Properties',
       sortable: false,
-      ellipsis: '40vw',
+      width: 65,
       getContent(entity) {
         const parameters = getParameters(entity);
         if (!parameters) {

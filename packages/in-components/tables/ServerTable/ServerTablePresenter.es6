@@ -39,6 +39,7 @@ export default function ServerTablePresenter(props) {
     result = pendingResult,
     cardTitle,
     tableInCard,
+    fixedLayout,
     rightHeader,
     leftHeader,
     isSearchable = true,
@@ -109,7 +110,7 @@ export default function ServerTablePresenter(props) {
     </div>
   );
   let content = (
-    <Table tableInCard={tableInCard || cardTitle != null}>
+    <Table tableInCard={tableInCard || cardTitle != null} fixedLayout={fixedLayout}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}

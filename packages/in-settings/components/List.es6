@@ -182,6 +182,7 @@ function List({
         noDataMessage={noDataMessage}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
+        fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }

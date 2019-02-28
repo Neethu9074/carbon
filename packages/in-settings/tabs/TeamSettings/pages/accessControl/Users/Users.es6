@@ -62,7 +62,8 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'fullName',
       label: 'Name',
-      ellipsis: '20vw',
+      width: 30,
+      ellipsis: true,
       getContent(entity) {
         return entity.fullName;
       }
@@ -70,7 +71,8 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'email',
       label: 'E-Mail',
-      ellipsis: '20vw',
+      width: 40,
+      ellipsis: true,
       getContent(entity) {
         return entity.email;
       }
@@ -78,6 +80,8 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'role',
       label: 'Role',
+      width: 20,
+      ellipsis: true,
       getContent(user) {
         return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;
       }

@@ -9,6 +9,10 @@
     border-collapse: initial;
   }
 
+  .fixedLayout {
+    table-layout: fixed;
+  }
+
   .tableInCard {
     border-radius: 0;
     box-shadow: none;

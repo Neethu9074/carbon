@@ -1,5 +1,5 @@
-@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
@@ -25,5 +25,10 @@
     background-color: @lib__colors__orange800;
     border-radius: 50%;
     display: inline-block;
+  }
+
+  .childWrapper {
+    width: 100%;
+    .ellipsis();
   }
 }

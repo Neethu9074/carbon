@@ -83,14 +83,16 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'name',
       label: 'Name',
-      ellipsis: '20vw',
+      width: 30,
       getContent(entity) {
         const icon = getIcon(entity);
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
             <WithSubscript subscript={getSubscript(entity)}>
               {hasRowNavigation ? (
-                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>{entity.name}</Link>
+                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
+                  {entity.name}
+                </Link>
               ) : (
                 <span>{entity.name}</span>
               )}
@@ -105,14 +107,17 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'description',
       label: 'Description',
-      ellipsis: '20vw',
+      width: 50,
+      multiLineEllipsis: 4,
       getContent(entity) {
-        return entity.description;
+        return <div className={locals.fourLines}>{entity.description}</div>;
       }
     },
     {
       id: 'entityType',
       label: 'Entity Type',
+      width: 20,
+      ellipsis: true,
       getContent(entity) {
         return (
           <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>

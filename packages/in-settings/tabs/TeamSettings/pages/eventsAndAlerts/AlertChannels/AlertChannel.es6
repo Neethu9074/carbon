@@ -97,8 +97,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
         </Col>
         <Col lg={7}>
           <List
-            title="Events & Alerts"
-            cardTitle="Events & Alerts"
+            cardTitle="Alerts"
             getHeader={getHeader}
             tableInCard
             getEntityName={getEntityName}
@@ -127,6 +126,7 @@ const columnDefinitions = [
     id: 'icon',
     label: '',
     sortable: false,
+    width: 5,
     getContent() {
       return Icon();
     },
@@ -137,10 +137,11 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
+    width: 40,
     getContent(entity) {
       return (
         <WithSubscript subscript={getSubscript(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.ellipsis10vw}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
             {entity.label}
           </Link>
         </WithSubscript>
@@ -150,6 +151,8 @@ const columnDefinitions = [
   {
     id: 'kind',
     label: 'Type',
+    width: 30,
+    ellipsis: true,
     getContent() {
       return 'Alert';
     }
@@ -157,6 +160,8 @@ const columnDefinitions = [
   {
     id: 'enabled',
     label: 'Status',
+    width: 30,
+    ellipsis: true,
     getContent(entity) {
       if (entity.enabled) {
         return toTitleCase('Enabled');

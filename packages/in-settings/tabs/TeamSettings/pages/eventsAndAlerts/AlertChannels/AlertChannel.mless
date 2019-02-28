@@ -20,11 +20,4 @@
     padding: 0.5rem;
   }
 
-  .ellipsis10vw {
-    max-width: 10vw;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
 }
