@@ -269,8 +269,8 @@ function EventForm({
             value={field.value}
             options={dataSourceOptions}
             onChange={e => {
-              onChange('dataSource', e ? e.value : null, (updateForm, eventSpec) => {
-                return updateFormDefinitionForDataSource(updateForm, field.value, eventSpec, systemRules);
+              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
               });
             }}
           />

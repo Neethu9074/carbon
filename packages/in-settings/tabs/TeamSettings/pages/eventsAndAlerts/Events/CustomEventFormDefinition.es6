@@ -265,20 +265,17 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
 }
 
 export function updateFormDefinitionForDataSource(form, previousDataSource, event, systemRules) {
-  if (
-    previousDataSource !== dataSourceSystem &&
-    form.get('dataSource') &&
-    form.get('dataSource').value === dataSourceSystem
-  ) {
+  const nextDataSource = form.get('dataSource') ? form.get('dataSource').value : null;
+  if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
     form = removeAllDataSourceFields(form);
     form = putSystemRuleSelection(form, event, systemRules);
-  } else if (
-    previousDataSource === dataSourceSystem &&
-    form.get('dataSource') &&
-    form.get('dataSource').value !== dataSourceSystem
-  ) {
+  } else if (previousDataSource === dataSourceSystem && nextDataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, event);
     form = form.remove('systemRule');
+  }
+
+  if (previousDataSource !== nextDataSource) {
+    form = form.setTouched(false, { recurse: true });
   }
   return form;
 }
