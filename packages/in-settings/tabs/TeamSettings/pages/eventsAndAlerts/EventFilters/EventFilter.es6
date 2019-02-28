@@ -86,10 +86,10 @@ function createForm(alertEntity, isCreate) {
   }
 
   let eventSelectionMode;
-  if (!selectedEvents.isEmpty()) {
-    eventSelectionMode = modeSelectedEvents;
-  } else if (!eventTypes.isEmpty()) {
+  if (!eventTypes.isEmpty()) {
     eventSelectionMode = modeEventTypes;
+  } else {
+    eventSelectionMode = modeSelectedEvents;
   }
 
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');

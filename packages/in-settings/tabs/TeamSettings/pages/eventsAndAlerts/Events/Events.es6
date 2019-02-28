@@ -72,7 +72,7 @@ function Events({
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
-      searchMaxWidth={196}
+      searchMaxWidth={210}
       getDetailsHref={hasRowNavigation ? entity => getEntityHref(getDetailsPath(entity), entity.id) : null}
     />
   );
@@ -113,9 +113,12 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'entityType',
       label: 'Entity Type',
-      ellipsis: '10vw',
       getContent(entity) {
-        return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
+        return (
+          <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
+            {getSingular(entity.entityType)}
+          </WithIcon>
+        );
       },
       getValue: getEntityType
     }

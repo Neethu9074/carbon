@@ -253,6 +253,7 @@ function EventForm({
               event={createIssueForPreview(form)}
               snapshotId="snapshotId"
               isNotClickable
+              isPreview
             />
           </FormGroup>
         </Col>
@@ -406,7 +407,7 @@ function ConditionsForNonSystemSource(form, pluginsWithMetricDefinitions, onChan
   return (
     <Fragment>
       <Row>
-        <Col cols={6}>
+        <Col cols={!isBuiltInMetric(form) ? 12 : 6}>
           {isBuiltInMetric(form)
             ? EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange)
             : MetricSelectionFormGroup(form, customMetrics, onChange)}
@@ -601,7 +602,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={2}>
+        <Col cols={3}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -772,11 +773,7 @@ function is10ServiceType(entityType) {
 
 const severityWarning = '5';
 const severityCritical = '10';
-const severityOptions = [
-  { value: '', label: 'Please select' },
-  { value: severityWarning, label: 'warning' },
-  { value: severityCritical, label: 'critical' }
-];
+const severityOptions = [{ value: severityWarning, label: 'warning' }, { value: severityCritical, label: 'critical' }];
 
 const dataSourceOptions = [
   { value: dataSourceBuiltIn, label: 'Built-in metrics' },
@@ -792,7 +789,6 @@ function systemRuleOptions(systemRules) {
 }
 
 const gracePeriodOptions = [
-  { value: '', label: 'Please select' },
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10s' },
   { value: '60000', label: '1 min' },

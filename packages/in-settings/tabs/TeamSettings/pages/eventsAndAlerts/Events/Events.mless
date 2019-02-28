@@ -7,7 +7,7 @@
   }
 
   .severityDropdown {
-    width: 11.25rem;
+    width: 13rem;
   }
 
   .invalidOrDeprecated {
