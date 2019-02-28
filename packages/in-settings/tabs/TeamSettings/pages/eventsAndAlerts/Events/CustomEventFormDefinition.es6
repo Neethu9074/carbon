@@ -243,6 +243,7 @@ function removeAllDataSourceFields(form) {
     .remove('conditionOperator')
     .remove('conditionValue')
     .remove('formatter')
+    .remove('label')
     .remove('rollup')
     .remove('window')
     .remove('aggregation');
