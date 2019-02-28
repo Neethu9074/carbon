@@ -123,6 +123,9 @@ function columnDefinitions(hasRowNavigation) {
       width: 20,
       ellipsis: true,
       getContent(entity) {
+        if (entity.entityType === 'any') {
+          return '';
+        }
         return (
           <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
             {getSingular(entity.entityType)}
@@ -189,6 +192,9 @@ function getDetailsPath(entity) {
 }
 
 function getEntityType(entity) {
+  if (entity.entityType === 'any') {
+    return '';
+  }
   return getSingular(entity.entityType);
 }
 

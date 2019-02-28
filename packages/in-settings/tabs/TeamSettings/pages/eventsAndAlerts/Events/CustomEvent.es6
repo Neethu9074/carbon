@@ -69,6 +69,7 @@ const Form = entityForm(function DetailsForm(props) {
 
 function save(event, form) {
   const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
+  const query = serializeQuery(form);
 
   if (ruleType === 'system') {
     return saveCustomEventSpecification(
@@ -78,7 +79,7 @@ function save(event, form) {
         // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
         // attribute at all but the back end validation requires a value.
         'any',
-        form.get('query') ? form.get('query').value : null,
+        query,
         form.get('triggering').value,
         form.get('description').value,
         form.get('gracePeriod').value,
@@ -92,7 +93,7 @@ function save(event, form) {
     const formatterType = form.get('formatter') ? form.get('formatter').value : null;
     let conditionValue = Number(form.get('conditionValue').value);
     conditionValue = unmapConditionValue(conditionValue, formatterType);
-    const query = serializeQuery(form);
+
     return saveCustomEventSpecification(
       createCustomThresholdBasedEventSpecification(
         event ? event.get('id') : null,
