@@ -9,6 +9,10 @@
     color: #6b8088;
   }
 
+  .matchingEntitiesQueryInProgressIndicator {
+    height: 0.5rem;
+  }
+
   .queryLoading {
     height: 13px;
     margin: 0.5rem 0;

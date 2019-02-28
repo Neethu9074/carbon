@@ -106,22 +106,26 @@ export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
 function MatchingEntitiesIndicator({ form }) {
   return (
     <div className={locals.matchingEntitiesIndicator}>
-      {form.get('matchingEntities').map(field => {
-        const matchingEntities = field.value;
-        if (!matchingEntities && matchingEntities != 0) {
-          return null;
-        }
-        if (matchingEntities === 0) {
-          return 'Your selection matches no events in the past 2 weeks';
-        } else {
-          return (
-            <span>
-              Your selection matches {matchingEntities >= 10000 ? '>' : ''} {matchingEntities}{' '}
-              {matchingEntities === 1 ? 'event' : 'events'} over the past 2 weeks.
-            </span>
-          );
-        }
-      })}
+      {form.get('matchingEntitiesQueryInProgress').value && (
+        <LoadingIndicator type="dark" inline className={locals.matchingEntitiesQueryInProgressIndicator} />
+      )}
+      {!form.get('matchingEntitiesQueryInProgress').value &&
+        form.get('matchingEntities').map(field => {
+          const matchingEntities = field.value;
+          if (!matchingEntities && matchingEntities != 0) {
+            return null;
+          }
+          if (matchingEntities === 0) {
+            return 'Your selection matches no events in the past 2 weeks';
+          } else {
+            return (
+              <span>
+                Your selection matches {matchingEntities >= 10000 ? '>' : ''} {matchingEntities}{' '}
+                {matchingEntities === 1 ? 'event' : 'events'} over the past 2 weeks.
+              </span>
+            );
+          }
+        })}
     </div>
   );
 }

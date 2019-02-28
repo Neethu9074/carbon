@@ -66,7 +66,7 @@ export default class FormDataEnrichment extends React.Component {
     ])
       .flatMap(([eventSelectionMode, eventTypes, selectedEvents, applyOn, query, application]) => {
         const timeOpened = this.props.form.get('timeOpened').value;
-
+        this.props.onChange('matchingEntitiesQueryInProgress', true);
         let searchFn;
         let eventParam;
         if (eventSelectionMode === modeEventTypes) {
@@ -94,6 +94,7 @@ export default class FormDataEnrichment extends React.Component {
       })
       .subscribe(events => {
         this.props.onChange('matchingEntities', events ? events.length : events);
+        this.props.onChange('matchingEntitiesQueryInProgress', false);
       });
   }
 

@@ -136,6 +136,12 @@ function createForm(alertEntity, isCreate) {
       })
     )
     .put(
+      'matchingEntitiesQueryInProgress',
+      createField({
+        value: false
+      })
+    )
+    .put(
       'timeOpened',
       createField({
         value: Date.now()
