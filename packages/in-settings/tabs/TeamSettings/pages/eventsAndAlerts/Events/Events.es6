@@ -94,7 +94,7 @@ function columnDefinitions(hasRowNavigation) {
                   {entity.name}
                 </Link>
               ) : (
-                <span>{entity.name}</span>
+                <span className={locals.ellipsis}>{entity.name}</span>
               )}
             </WithSubscript>
           </WithIcon>

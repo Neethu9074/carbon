@@ -52,9 +52,11 @@ function columnDefinitions(hasRowNavigation) {
         return (
           <WithSubscript subscript={getKind(entity)}>
             {hasRowNavigation ? (
-              <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)}>{entity.name}</Link>
+              <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
+                {entity.name}
+              </Link>
             ) : (
-              <span>{entity.name}</span>
+              <span className={locals.ellipsis}>{entity.name}</span>
             )}
           </WithSubscript>
         );
