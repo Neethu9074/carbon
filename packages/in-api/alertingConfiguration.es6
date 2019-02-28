@@ -31,7 +31,7 @@ export function getAlertsForAlertChannelId(alertChannelId) {
     maxRetries: 3,
     url: `/api/events/settings/alerts/infos`,
     queryParams: {
-      integrationIds: alertChannelId
+      integrationId: alertChannelId
     }
   }).map(response => response.body);
 }
