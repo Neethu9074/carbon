@@ -16,7 +16,6 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 
 import locals from './Infrastructure.mless';
 
@@ -61,27 +60,23 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   return (
     <MaxWidthFullscreenContainer>
-      <Card
-        title="Infrastructure"
-        header={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
-        withoutPadding
-      >
-        <ServerTable
-          get={getTableData}
-          type={selectedType}
-          defaultPageSize={10}
-          columnDefinitions={getColumnDefinitions(selectedType)}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-          paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-          defaultOrderBy="callsAgg"
-          defaultOrderDirection="DESC"
-          size="compact"
-          isSearchable={false}
-        />
-      </Card>
+      <ServerTable
+        get={getTableData}
+        type={selectedType}
+        defaultPageSize={10}
+        columnDefinitions={getColumnDefinitions(selectedType)}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
+        defaultOrderBy="callsAgg"
+        defaultOrderDirection="DESC"
+        size="compact"
+        isSearchable={false}
+        rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
+        cardTitle="Infrastructure"
+      />
     </MaxWidthFullscreenContainer>
   );
 }
