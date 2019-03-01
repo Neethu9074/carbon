@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -12,7 +13,10 @@ export function getMaintenanceConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/maintenanceConfigs`
+    url: `/api/maintenanceConfigs`,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => response.body);
 }
 

@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
@@ -13,7 +14,10 @@ export function getAlertingConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/alerts`
+    url: `/api/events/settings/alerts`,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => response.body);
 }
 
@@ -31,7 +35,8 @@ export function getAlertsForAlertChannelId(alertChannelId) {
     maxRetries: 3,
     url: `/api/events/settings/alerts/infos`,
     queryParams: {
-      integrationId: alertChannelId
+      integrationId: alertChannelId,
+      newApplicationModelEnabled: twoZeroModeEnabled
     }
   }).map(response => response.body);
 }
