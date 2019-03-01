@@ -180,10 +180,10 @@ function getIcon(entity) {
   let icon = 'lib_events_change';
   let color = theme.lib.colors.N400;
   if (entity.severity >= 1 && entity.severity <= 5) {
-    icon = 'lib_events_warning';
+    icon = 'lib_events_critical';
     color = theme.lib.colors.yellow800;
   } else if (entity.severity > 5) {
-    icon = 'lib_events_critical';
+    icon = 'lib_events_warning';
     color = theme.lib.colors.red800;
   }
   if (entity.triggering) {
