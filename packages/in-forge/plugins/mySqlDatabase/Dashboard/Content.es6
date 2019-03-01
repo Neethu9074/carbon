@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { msZeroDecimalPlaces, msTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
+import { msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
@@ -42,7 +42,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
         {performanceDataAvailable ? (
           <KpiKeyValue label="avg. Query Latency">
-            <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={msZeroDecimalPlaces} />
+            <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={millis.detailed} />
           </KpiKeyValue>
         ) : null}
         <KpiKeyValue label="Client Connections">
@@ -79,7 +79,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
             labels: ['Slow Queries', 'Errors'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.detailed
           }}
         />
       </DashboardSection>
@@ -93,7 +93,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
               metrics: ['status.DB_QUERY_LATENCY'],
               labels: ['avg. Query Latency'],
               type: 'line',
-              formatter: msZeroDecimalPlaces
+              formatter: millis.detailed
             }}
           />
         </DashboardSection>
@@ -135,14 +135,14 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
             labels: ['Read Requests', 'Write Requests'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.detailed
           }}
           y2={{
             min: 0,
             metrics: ['status.KEY_READS', 'status.KEY_WRITES'],
             labels: ['Reads', 'Writes'],
             type: 'line',
-            formatter: number.compact
+            formatter: number.detailed
           }}
         />
       </DashboardSection>
