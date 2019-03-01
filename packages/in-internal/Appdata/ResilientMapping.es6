@@ -44,7 +44,24 @@ function getCols(fqn) {
         getContent: number.compact,
         forceTimeWindowAggregation: true,
         getTimeWindowAggregation() {
-          return 'mean';
+          return 'sum';
+        }
+      }
+    },
+    {
+      title: 'Failed predictions (multi-labels)',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.dropwizard.get('id');
+        },
+        getMetricName() {
+          return `metrics.meters.${fqn}.failed-predictions-caused-by-multiple-labels`;
+        },
+        getContent: number.compact,
+        forceTimeWindowAggregation: true,
+        getTimeWindowAggregation() {
+          return 'sum';
         }
       }
     },
