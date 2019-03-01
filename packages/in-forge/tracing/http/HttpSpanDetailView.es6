@@ -20,6 +20,7 @@ export default function HttpSpanDetailView({ span }) {
     }
   }
 
+  const status = span.getIn(['data', 'http', 'status']);
   const error = span.getIn(['data', 'http', 'error']);
   const params = span.getIn(['data', 'http', 'params']);
   const traceContextState = span.getIn(['data', 'tc', 's'], emptyList);
@@ -44,7 +45,10 @@ export default function HttpSpanDetailView({ span }) {
           <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
         )}
         <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
-        <DescriptionItem title="Status Code">{span.getIn(['data', 'http', 'status'])}</DescriptionItem>
+        <DescriptionItem title="Status Code">
+          {status}
+          {!isNaN(status) ? ' - ' + statusCodes[status] : null}
+        </DescriptionItem>
         <DescriptionItem title="Content Length">
           {span.getIn(['data', 'http', 'size'], span.getIn(['data', 'net', 'in']))}
         </DescriptionItem>
@@ -90,3 +94,68 @@ function getCustomHeaders(span) {
     .valueSeq()
     .toArray();
 }
+
+const statusCodes = {
+  100: 'Continue',
+  101: 'Switching Protocols',
+  102: 'Processing',
+  103: 'Early Hints',
+  200: 'OK',
+  201: 'Created',
+  202: 'Accepted',
+  203: 'Non-Authoritative Information',
+  204: 'No Content',
+  205: 'Reset Content',
+  206: 'Partial Content',
+  207: 'Multi Status',
+  208: 'Already Reported',
+  226: 'IM Used',
+  300: 'Multiple Choices',
+  301: 'Moved Permanently',
+  302: 'Found',
+  303: 'See Other',
+  304: 'Not Modified',
+  305: 'Use Proxy',
+  306: 'Switch Proxy',
+  307: 'Temporary Redirect',
+  308: 'Permanent Redirect',
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  402: 'Payment Required',
+  403: 'Forbidden',
+  404: 'Not Found',
+  405: 'Method Not Allowed',
+  406: 'Not Acceptable',
+  407: 'Proxy Authentication Required',
+  408: 'Request Time-out',
+  409: 'Conflict',
+  410: 'Gone',
+  411: 'Length Required',
+  412: 'Precondition Failed',
+  413: 'Request Entity Too Large',
+  414: 'Request-URI Too Large',
+  415: 'Unsupported Media Type',
+  416: 'Requested Range not Satisfiable',
+  417: 'Expectation Failed',
+  418: "I'm a teapot",
+  421: 'Misdirected Request',
+  422: 'Unprocessable Entity',
+  423: 'Locked',
+  424: 'Failed Dependency',
+  426: 'Upgrade Required',
+  428: 'Precondition Required', // RFC 6585
+  429: 'Too Many Requests',
+  431: 'Request Header Fields Too Large', // RFC 6585
+  451: 'Unavailable For Legal Reasons',
+  500: 'Internal Server Error',
+  501: 'Not Implemented',
+  502: 'Bad Gateway',
+  503: 'Service Unavailable',
+  504: 'Gateway Time-out',
+  505: 'HTTP Version not Supported',
+  506: 'Variant Also Negotiates',
+  507: 'Insufficient Storage',
+  508: 'Loop Detected',
+  510: 'Not Extended',
+  511: 'Network Authentication Required'
+};
