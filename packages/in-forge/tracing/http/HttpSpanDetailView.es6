@@ -45,10 +45,12 @@ export default function HttpSpanDetailView({ span }) {
           <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
         )}
         <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
-        <DescriptionItem title="Status Code">
-          {status}
-          {!isNaN(status) ? ' - ' + statusCodes[status] : null}
-        </DescriptionItem>
+        {status != null &&
+          <DescriptionItem title="Status Code">
+            {status}
+            {statusCodes[status] != null && ` – ${statusCodes[status]}`}
+          </DescriptionItem>
+        }
         <DescriptionItem title="Content Length">
           {span.getIn(['data', 'http', 'size'], span.getIn(['data', 'net', 'in']))}
         </DescriptionItem>
