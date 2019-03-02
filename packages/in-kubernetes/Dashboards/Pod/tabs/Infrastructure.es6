@@ -55,10 +55,13 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
 }
 
 function getColumnDefinitions(pod) {
-  const states = get(pod, ['status', 'containerStatuses'], []);
+  const allContainerStatuses = [
+    ...get(pod, ['status', 'initContainerStatuses'], []),
+    ...get(pod, ['status', 'containerStatuses'], [])
+  ];
   const statesMap = {};
-  for (let i = 0; i < states.length; i++) {
-    statesMap[states[i].containerSnapshotId] = states[i];
+  for (let i = 0; i < allContainerStatuses.length; i++) {
+    statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
   }
 
   return [

@@ -11,14 +11,15 @@ import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComp
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import Link from 'in-components/Link';
 
 import locals from './ContainerStates.mless';
 
 export default function ContainerStates({ podId, states, timeConfig }) {
-  if (!states) {
-    return null;
+  if (!states || states.length === 0) {
+    return <NoDataAvailable height={160} />;
   }
 
   return (

@@ -17,6 +17,7 @@ import Card from 'in-new-components/Card';
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
+  const allContainerStatuses = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
 
   return (
     <Fragment>
@@ -45,8 +46,8 @@ export default function Summary({ data: pod, timeConfig }) {
         <Col lg={4}>
           <Card title="IPs" useMaxAvailableHeight>
             <Dl>
-              <Di title="Host IP">{pod.hostIp}</Di>
-              <Di title="Pod IP">{pod.podIp}</Di>
+              <Di title="Host IP">{pod.hostIp || '-'}</Di>
+              <Di title="Pod IP">{pod.podIp || '-'}</Di>
             </Dl>
           </Card>
         </Col>
@@ -101,11 +102,7 @@ export default function Summary({ data: pod, timeConfig }) {
         </Col>
         <Col lg={8}>
           <Card title="Container States" useMaxAvailableHeight>
-            <ContainerStates
-              podId={snapshotId}
-              states={get(pod, ['status', 'containerStatuses'])}
-              timeConfig={timeConfig}
-            />
+            <ContainerStates podId={snapshotId} states={allContainerStatuses} timeConfig={timeConfig} />
           </Card>
         </Col>
       </Row>
