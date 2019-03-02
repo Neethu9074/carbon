@@ -89,7 +89,7 @@ export function Td(props) {
 }
 
 export function ErroneousRowTh() {
-  return <Th width={14} className={locals.erroneousRowTh} />;
+  return <Th className={locals.erroneousRowTh} />;
 }
 
 export function ErroneousRowTd({ isErroneous = true }) {
