@@ -94,8 +94,18 @@ export default class Config {
 
   enrichConfig() {
     const fullDomain = this.timeConfig.windowSize;
-    this.animationDuration = animationDuration;
-    this.bufferOffsetInPx = Math.ceil(this.width * (this.animationDuration / fullDomain));
+
+    // we need to round the pixels to full values because some browser APIs cannot handle floats here.
+    // because rounding manipulates the calculation we need to add the error created by the rounding to the animation time
+    // to avoid chart hoppings
+    const bufferOffsetInPx = this.width * (animationDuration / fullDomain);
+    const bufferOffsetInPxRounded = Math.ceil(this.width * (animationDuration / fullDomain));
+    const differenceInPx = bufferOffsetInPxRounded - bufferOffsetInPx || 0;
+    const differenceInTime = (fullDomain / this.width) * differenceInPx || 0;
+
+    this.animationDuration = animationDuration + differenceInTime;
+
+    this.bufferOffsetInPx = bufferOffsetInPxRounded;
 
     this.frontBufferWidth = this.width;
     this.backBufferWidth = this.width + this.bufferOffsetInPx;
