@@ -1,12 +1,8 @@
+import { fromJS } from 'immutable';
 import React from 'react';
 
-import {
-  getEvent,
-  getIconTypeForEventType,
-  getEventType,
-  getColorForEventAtFocusedMomentAsStream
-} from 'in-stores/events';
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
+import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { is20Application, is20Service, is20Endpoint, is20Type } from 'in-services/entityUtils';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
@@ -37,33 +33,33 @@ const cols = [
     field: 'problem.severity',
     width: 35,
     nowrap: true,
-    getContent(row, { event }) {
-      if (!event) {
-        return null;
-      }
-      return <Icon event={event} />;
+    getContent(row) {
+      return (
+        <Icon
+          event={fromJS({
+            ...row.rawEvent,
+            problem: {
+              severity: row.rawEvent.severity
+            }
+          })}
+        />
+      );
     }
   },
   {
     title: 'Start',
     field: 'start',
     width: 135,
-    getContent(row, { event }) {
-      if (!event) {
-        return null;
-      }
-      return formatDateTime(event.get('start'));
+    getContent(row) {
+      return formatDateTime(row.rawEvent.start);
     }
   },
   {
     title: 'End',
     field: 'end',
     width: 135,
-    getContent(row, { event }) {
-      if (!event) {
-        return null;
-      }
-      return event.get('state') === 'open' ? 'active' : formatDateTime(event.get('end'));
+    getContent(row) {
+      return row.rawEvent.state === 'open' ? 'active' : formatDateTime(row.rawEvent.end);
     }
   },
   {
@@ -114,9 +110,6 @@ export default connectTo(
         cols={cols}
         rows={rows}
         loadMoreData={loadMoreRawEvents}
-        rowSubscriptions={row => ({
-          event: getEvent(row.eventId)
-        })}
         sortBy$={sortBy$}
         sortDirection$={sortDirection$}
         furtherDataAvailable$={furtherDataAvailable$}

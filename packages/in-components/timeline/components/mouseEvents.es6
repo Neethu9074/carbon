@@ -21,8 +21,8 @@ import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiv
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
-import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { createTracker } from 'in-services/tracking/mixpanel';
+import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
 
 export const trackSelectedMomentPlacedViaTimeline = createTracker('time.selectedMoment.viaTimeline');
