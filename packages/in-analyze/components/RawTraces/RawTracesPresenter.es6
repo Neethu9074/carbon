@@ -23,7 +23,7 @@ import { clickTraceTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { Th } from 'in-components/tables/sharedComponents';
-import { latency } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -90,7 +90,7 @@ export default function RawTracesPresenter(props) {
                 <TimestampCell time={item.trace.startTime} />
               </Td>
 
-              <Td>{latency.compact(item.trace.duration)}</Td>
+              <Td>{latencyFixed.compact(item.trace.duration)}</Td>
             </Tr>
           ))}
 

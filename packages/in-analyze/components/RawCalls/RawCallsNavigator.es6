@@ -27,7 +27,7 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { clickCallTracker } from 'in-analyze/components/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
-import { latency } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
@@ -116,7 +116,7 @@ function RawCallsNavigator({
 
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData
-                      extras={[formatDateTime(item.call.started), latency.compact(item.call.duration)]}
+                      extras={[formatDateTime(item.call.started), latencyFixed.compact(item.call.duration)]}
                     />
                   )}
                 </Td>
@@ -125,7 +125,7 @@ function RawCallsNavigator({
 
                 {showAllColumns && (
                   <Td>
-                    <span>{latency.compact(item.call.duration)}</span>
+                    <span>{latencyFixed.compact(item.call.duration)}</span>
                   </Td>
                 )}
               </Tr>
