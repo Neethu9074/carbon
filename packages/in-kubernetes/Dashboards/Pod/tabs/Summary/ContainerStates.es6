@@ -22,6 +22,9 @@ export default function ContainerStates({ podId, states, timeConfig }) {
     return <NoDataAvailable height={160} />;
   }
 
+  const maxPresentedConditions = 5;
+  const presentedStates = states.slice(0, maxPresentedConditions);
+
   return (
     <Fragment>
       <Table>
@@ -36,7 +39,7 @@ export default function ContainerStates({ podId, states, timeConfig }) {
           </Tr>
         </Thead>
         <Tbody>
-          {states.map((status, i) => (
+          {presentedStates.map((status, i) => (
             <Tr key={i}>
               <Td>{status.name}</Td>
               <Td>
