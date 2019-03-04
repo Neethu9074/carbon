@@ -179,17 +179,9 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
     .fill(maxNonces)
     .map(() => uuid.v4());
 
-  let cspExtensions = '';
-  // Ff this route was called by safari -> add the unsafe inline Content-Security-Policy
-  // as it has no nonce support.
-  if (!supportsCspNonces(req)) {
-    cspExtensions = "'unsafe-inline' ";
-  }
-
   res.set(
     'Content-Security-Policy',
     "script-src 'self' " +
-      cspExtensions +
       nonces.map(n => "'nonce-" + n + "'").join(' ') +
       ' https://www.google-analytics.com https://cdn.mxpnl.com https://fast.appcues.com *.instana.io'
   );
@@ -236,14 +228,4 @@ function findMaxNonces(indexHtmlTemplate) {
     return Math.max(...nonceIndices) + 1;
   }
   return 0;
-}
-
-function supportsCspNonces(req) {
-  let userAgent = req.headers['user-agent'];
-  if (!userAgent) {
-    return false;
-  }
-
-  userAgent = userAgent.toLowerCase();
-  return userAgent.indexOf('safari') === -1 || userAgent.indexOf('chrome') !== -1;
 }
