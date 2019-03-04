@@ -18,8 +18,6 @@ import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 
-import locals from './CustomIssues.mless';
-
 export default function CustomIssues() {
   return (
     <List
@@ -42,13 +40,11 @@ const columnDefinitions = [
   {
     id: 'text',
     label: 'Name',
+    width: 70,
     getContent(entity) {
       return (
         <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
-          <Link
-            href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}
-            className={locals.ellipsis50vw}
-          >
+          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)} ellipsis>
             {entity.text} {entity.badgeMessage && <Badge size="sm">{entity.badgeMessage}</Badge>}
           </Link>
         </WithSubscript>
@@ -58,6 +54,8 @@ const columnDefinitions = [
   {
     id: 'severity',
     label: 'Severity',
+    width: 30,
+    ellipsis: true,
     getContent(entity) {
       return toTitleCase(getSeverityLabel(entity));
     },

@@ -2,10 +2,7 @@
 
 :local {
 
-  .ellipsis50vw {
-    max-width: 50vw;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  .invalidOrDeprecated {
+    color: @lib__colors__red800
   }
 }

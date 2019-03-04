@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -9,6 +10,18 @@ export function getEventSpecificationsMutable() {
     method: 'GET',
     maxRetries: 3,
     url: '/api/events/settings/event-specifications/infos'
+  }).map(response => response.body);
+}
+
+export function getEventSpecificationByIds(eventIds) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/events/settings/event-specifications/infos',
+    queryParams: {
+      ids: eventIds && eventIds.toJS ? eventIds.toJS() : [],
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => response.body);
 }
 
@@ -116,6 +129,40 @@ export function saveCustomEventSpecification(event) {
     maxRetries: 3,
     url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.id)}`,
     headers: getCsrfHeader(),
-    data: event
+    data: event,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
+  }).map(response => fromJS(response.body));
+}
+
+export function setBuiltInEventSpecificationsEnabled(eventId, enabled) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url:
+      `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventId)}/` +
+      (enabled ? 'enable' : 'disable'),
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function setCustomEventSpecificationsEnabled(eventId, enabled) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url:
+      `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventId)}/` +
+      (enabled ? 'enable' : 'disable'),
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function deleteCustomEventSpecification(id) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }

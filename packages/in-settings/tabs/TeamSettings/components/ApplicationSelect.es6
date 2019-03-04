@@ -8,13 +8,12 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ApplicationSelect.mless';
 
-const dummyTimeConfig = {
+const last24Hours = {
   windowSize: 86400000, // 24 hours
   to: null, // now
   autoRefresh: false
 };
 
-const timeConfig = dummyTimeConfig;
 const tagFilters = [];
 
 export default withProps(({ onSelectApplicationName }) => ({
@@ -32,7 +31,7 @@ export default withProps(({ onSelectApplicationName }) => ({
   singularLabel: 'Application',
   pluralLabel: 'Application',
   tagFilters,
-  timeConfig,
+  timeConfig: last24Hours,
   dataSource: 'calls',
   itemLabelRenderer: ApplicationItemLabel,
   withoutTextTransform: true,

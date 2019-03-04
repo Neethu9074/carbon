@@ -17,8 +17,6 @@ import Badge from 'in-components/Badge';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
 
-import locals from './Configurations.mless';
-
 const maxNumOfAlertingConfigurations = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
 
 export default function Configurations() {
@@ -48,10 +46,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    width: 100,
     getContent(entity) {
       return (
         <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.ellipsis50vw}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
         </WithSubscript>

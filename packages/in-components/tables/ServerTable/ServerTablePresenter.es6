@@ -35,10 +35,11 @@ export default function ServerTablePresenter(props) {
     // values that define the content
     columnDefinitions,
     getRowProps,
-    getRowLink,
+    onRowClick,
     result = pendingResult,
     cardTitle,
     tableInCard,
+    fixedLayout,
     rightHeader,
     leftHeader,
     isSearchable = true,
@@ -49,6 +50,8 @@ export default function ServerTablePresenter(props) {
     showPagination = true,
     renderFooter = () => null,
     withoutPadding = true,
+    tableClassName,
+    tableStyle,
 
     // events
     onChange,
@@ -89,7 +92,7 @@ export default function ServerTablePresenter(props) {
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        getRowLink={getRowLink}
+        onRowClick={onRowClick}
       />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
@@ -109,7 +112,12 @@ export default function ServerTablePresenter(props) {
     </div>
   );
   let content = (
-    <Table tableInCard={tableInCard || cardTitle != null}>
+    <Table
+      className={tableClassName}
+      style={tableStyle}
+      tableInCard={tableInCard || cardTitle != null}
+      fixedLayout={fixedLayout}
+    >
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}

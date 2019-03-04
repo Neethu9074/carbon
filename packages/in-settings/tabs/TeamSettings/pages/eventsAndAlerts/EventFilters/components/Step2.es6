@@ -1,174 +1,158 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { fromJS } from 'immutable';
 
-import {
-  scopeApplication,
-  scopeEverything,
-  scopeDfq
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
-import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
+import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import FormGroup from 'in-settings/components/FormGroup';
-import RuleControl from 'in-components/form/RuleControl';
 import { Row, Col } from 'in-components/Grid/Grid';
+import Toggle from 'in-components/form/Toggle';
 import ComboBox from 'in-components/ComboBox';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Step from 'in-components/form/Step';
-import Button from 'in-components/Button';
-import Link from 'in-components/Link';
 
-import './Step2.less';
+import locals from './Step2.mless';
 
-const block = 'in-alerting-config-form-step-2';
+export const modeEventTypes = 'event-types';
+export const modeSelectedEvents = 'selected-events';
 
-export default function Step2({ form, setForm, onChange, onChangeApplyOn }) {
-  const types = form.get('eventTypes').value;
+const eventSelectionModeOptions = [
+  { value: modeEventTypes, label: 'Alert on Event Type(s)' },
+  { value: modeSelectedEvents, label: 'Alert on Event(s)' }
+];
+
+export default function Step2({ form, setForm, onChange, onChangeEventSelectionMode }) {
+  const eventSelectionMode = form.get('eventSelectionMode').value;
+  const types = eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null;
+  const selectedEvents =
+    eventSelectionMode === modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value : null;
 
   return (
-    <Step number={1} title="Event Rules" form={form} onChange={onChange}>
-      <RuleControl name="Notify on" helpText="Only send alerts for these event types.">
-        <Row>
-          <LabelledToggle onChange={onChange} types={types} type="incident" title="Incidents" />
-          <LabelledToggle onChange={onChange} types={types} type="critical" title="Critical Issues" />
-          <LabelledToggle onChange={onChange} types={types} type="warning" title="Warning Issues" />
-        </Row>
-        <Row>
-          <LabelledToggle onChange={onChange} types={types} type="change" title="Changes" />
-          <LabelledToggle onChange={onChange} types={types} type="online" title="Online" />
-          <LabelledToggle onChange={onChange} types={types} type="offline" title="Offline" />
-        </Row>
-        <TouchedMessages field={form.get('eventTypes')} />
-      </RuleControl>
-
-      <RuleControl name="Apply on" helpComponent={QueryHelpComponent}>
-        {form.get('applyOn').map(field => (
-          <FormGroup>
-            <ComboBox
-              name="config-applyOn"
-              value={field.value}
-              options={[
-                { value: scopeApplication, label: 'Application' },
-                { value: scopeDfq, label: 'Selected entities (Dynamic Focus query)' },
-                { value: scopeEverything, label: 'All available entities' }
-              ]}
-              clearable={false}
-              onChange={e => {
-                const updatedForm = onChangeApplyOn(form, e ? e.value : null);
-                if (updatedForm) {
-                  setForm(updatedForm);
-                }
-              }}
-            />
-            <TouchedMessages field={field} />
-            {form.get('applyOn').value === scopeEverything && (
-              <DescriptionText>
-                <strong>Caution!</strong> All events that match the event types will enter the notification stream.
-              </DescriptionText>
-            )}
-          </FormGroup>
-        ))}
-        {form.get('applyOn').value === scopeDfq &&
-          form.get('query').map(field => (
+    <Fragment>
+      <SectionHeading>2. Events</SectionHeading>
+      <DescriptionText>
+        Only send alerts for a particular event, built-in event groups or a selection of event types.
+      </DescriptionText>
+      <Row className={locals.eventSelection}>
+        <Col cols={6}>
+          {form.get('eventSelectionMode').map(field => (
             <FormGroup>
-              <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
-                Dynamic Focus Query
-              </Label>
-              <Input
-                id="config-query"
-                type="text"
-                placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
-                className={`${block}__input`}
+              <ComboBox
+                name="alert-event-selection-mode"
                 value={field.value}
-                onChange={e => onChange('query', e.target.value)}
-                hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
-              />
-              {form.get('queryValidationInProgress').value && (
-                <LoadingIndicator type="dark" className={`${block}__query-loading`} inline />
-              )}
-              <BackendValidationMessages validationResult={form.get('validationResult').value} />
-              <TouchedMessages field={field} />
-              <DescriptionText>
-                A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
-                applied. Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be applied
-                on all entities. For more information on syntax, please see our&nbsp;
-                <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
-                  documentation
-                </Link>
-                .
-              </DescriptionText>
-            </FormGroup>
-          ))}
-        {form.get('applyOn').value === scopeApplication &&
-          form.get('application').map(field => (
-            <FormGroup>
-              <Label hasError={!field.valid && field.touched}>Application</Label>
-              <ApplicationSelect
-                applicationName={field.value}
-                onSelectApplicationName={applicationName => onChange('application', applicationName)}
+                options={eventSelectionModeOptions}
+                clearable={false}
+                onChange={e => {
+                  const updatedForm = onChangeEventSelectionMode(form, e ? e.value : null);
+                  if (updatedForm) {
+                    setForm(updatedForm);
+                  }
+                }}
               />
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
-        <MatchingEntitiesIndicator form={form} />
-      </RuleControl>
-    </Step>
+        </Col>
+        {eventSelectionMode === modeEventTypes &&
+          types && (
+            <Col cols={6}>
+              <h3>Event Types</h3>
+              <FormGroup noFlex className={locals.eventTypes}>
+                <EventType form={form} onChange={onChange} types={types} type="incident" label="Incidents" />
+                <EventType form={form} onChange={onChange} types={types} type="critical" label="Critical Issues" />
+                <EventType form={form} onChange={onChange} types={types} type="warning" label="Warning Issues" />
+                <EventType form={form} onChange={onChange} types={types} type="change" label="Changes" />
+                <EventType form={form} onChange={onChange} types={types} type="online" label="Online" />
+                <EventType form={form} onChange={onChange} types={types} type="offline" label="Offline" />
+              </FormGroup>
+              <TouchedMessages field={form.get('eventTypes')} />
+            </Col>
+          )}
+      </Row>
+      {eventSelectionMode === modeSelectedEvents &&
+        form.get('selectedEvents') && (
+          <Fragment>
+            <Events
+              setTitle={false}
+              loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
+              hasRowNavigation={false}
+              noDataMessage="No Events Selected"
+              tableActions={eventSelectionTableActions(form, setForm)}
+              rightHeader={
+                <SelectListDialogButton
+                  form={form}
+                  onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
+                  title="Select Events"
+                  label={'Select Events'}
+                  listComponent={Events}
+                  selectedItems={form.get('selectedEvents').value.toJS()}
+                  createSubmitLabel={numberOfItems =>
+                    numberOfItems > 0 ? `Select ${numberOfItems} Events` : 'Select Events'
+                  }
+                  requiresAtLeastOneMessage="Please select at least one event."
+                />
+              }
+            />
+            <TouchedMessages field={form.get('selectedEvents')} />
+            <div style={{ marginBottom: '2rem' }} />
+          </Fragment>
+        )}
+    </Fragment>
   );
 }
 
-function LabelledToggle({ onChange, types, title, type }) {
+function EventType({ onChange, types, type, label }) {
   return (
-    <Col cols={4}>
-      <Button
-        className={evaluateClassNames({
-          [`${block}__button`]: true,
-          [`${block}__button--selected`]: types.includes(type)
-        })}
-        onClick={() => onSelectChanged(types, onChange, type)}
-      >
-        {title}
-      </Button>
-    </Col>
+    <HorizontalFormGroup noHelpTextSpacer>
+      <Label htmlFor={`event-type-${type}`}>{label}</Label>
+      <Toggle
+        id={`event-type-${type}`}
+        checked={types.includes(type)}
+        onChange={() => onSelectChanged(types, onChange, type)}
+      />
+    </HorizontalFormGroup>
   );
 }
 
 function onSelectChanged(types, onChange, type) {
-  const containsType = types.includes(type);
-
-  if (containsType) {
+  if (types.includes(type)) {
     types = types.delete(types.indexOf(type));
   } else {
     types = types.push(type);
   }
-
   onChange('eventTypes', types);
 }
 
-function MatchingEntitiesIndicator({ form }) {
-  return (
-    <div className={`${block}__matching-entities-indicator`}>
-      {form.get('matchingEntities').map(field => {
-        const matchingEntities = field.value;
-        if (!matchingEntities && matchingEntities != 0) {
-          return null;
-        }
-
-        return (
-          <div className={`${block}__matching-text`}>
-            {matchingEntities >= 10000 ? '>' : ''}
-            {matchingEntities} {matchingEntities === 1 ? 'event' : 'events'} match over the past 2 weeks
-          </div>
-        );
-      })}
-    </div>
-  );
+function getSelectedEventsForAlert(selectedEvents) {
+  if (selectedEvents.isEmpty()) {
+    return alwaysEmptyArray;
+  }
+  return getEventSpecificationByIds(selectedEvents);
 }
 
-function QueryHelpComponent() {
-  return (
-    <div className={`${block}__event-help`}>Only events of selected entities will enter the notification stream.</div>
+function eventSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          form = form.updateIn(['selectedEvents'], field => {
+            return field.setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id));
+          });
+          setForm(form);
+        }
+      }
+    }
+  };
+}
+
+function submitEventSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['selectedEvents'], field => {
+      return field.setValue(fromJS(selectedIds));
+    })
   );
 }

@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .avatar {
@@ -14,6 +15,7 @@
 
   .text {
     height: 2.625rem;
+    .ellipsis()
   }
 
   .fullName {

@@ -15,6 +15,26 @@ export default function MetricSelector({ id, plugin, onChange, value, metrics })
     });
   }
 
+  metricsList.forEach(metricDef => {
+    if (metricDef.origLabel) {
+      return;
+    }
+    metricDef.origLabel = metricDef.label;
+    metricDef.label = (
+      <span
+        style={{
+          maxWidth: '720px',
+          display: 'inline-block',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}
+      >
+        {metricDef.label}
+      </span>
+    );
+  });
+
   const select = <ComboBox name={id} value={value} options={metricsList} onChange={onChange} />;
 
   if (value === 'custom') {

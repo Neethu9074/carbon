@@ -38,11 +38,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '20vw',
+    width: 26,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
-          <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2}>
+          <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
             {entity.name}
           </WithIcon>
         </Link>
@@ -52,7 +52,8 @@ const columnDefinitions = [
   {
     id: 'query',
     label: 'Query',
-    ellipsis: '20vw',
+    width: 25,
+    ellipsis: true,
     getContent(entity) {
       return entity.query;
     }
@@ -60,6 +61,8 @@ const columnDefinitions = [
   {
     id: 'starts',
     label: 'Starts',
+    width: 17,
+    ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('start', entity);
     }
@@ -67,6 +70,8 @@ const columnDefinitions = [
   {
     id: 'ends',
     label: 'Ends',
+    width: 17,
+    ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('end', entity);
     }
@@ -74,6 +79,8 @@ const columnDefinitions = [
   {
     id: 'status',
     label: 'Status',
+    width: 15,
+    ellipsis: true,
     getContent(entity) {
       return toTitleCase(entity.status);
     }

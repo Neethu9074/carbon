@@ -17,6 +17,7 @@ import {
   updateFormDefinitionForDataSource
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
+  applyOnOptions,
   scopeApplication,
   scopeEverything,
   scopeDfq
@@ -78,11 +79,11 @@ export default compose(
       metricInstances.map(metricInstance => {
         customMetricsList.push(
           createMetricListItem(
-            metricInstance.get('metricId').value,
-            metricInstance.get('formatter').value,
-            metricInstance.get('label').value,
+            metricInstance.get('metricId'),
+            metricInstance.get('formatter'),
+            metricInstance.get('label'),
             false,
-            metricInstance.get('pluginId').value
+            metricInstance.get('pluginId')
           )
         );
       });
@@ -252,6 +253,7 @@ function EventForm({
               event={createIssueForPreview(form)}
               snapshotId="snapshotId"
               isNotClickable
+              isPreview
             />
           </FormGroup>
         </Col>
@@ -267,8 +269,8 @@ function EventForm({
             value={field.value}
             options={dataSourceOptions}
             onChange={e => {
-              onChange('dataSource', e ? e.value : null, (updateForm, eventSpec) => {
-                return updateFormDefinitionForDataSource(updateForm, field.value, eventSpec, systemRules);
+              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
               });
             }}
           />
@@ -405,7 +407,7 @@ function ConditionsForNonSystemSource(form, pluginsWithMetricDefinitions, onChan
   return (
     <Fragment>
       <Row>
-        <Col cols={6}>
+        <Col cols={!isBuiltInMetric(form) ? 12 : 6}>
           {isBuiltInMetric(form)
             ? EntityTypeFormGroup(form, pluginsWithMetricDefinitions, onChange)
             : MetricSelectionFormGroup(form, customMetrics, onChange)}
@@ -462,7 +464,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
         useComboBox
         onChange={e => {
           if ((field.value && !e) || (e && e.value != field.value)) {
-            const selectedMetric = e ? e.value : '';
+            let selectedMetric = e ? e.value : '';
             onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
               if (isPercentile(updatedForm)) {
                 updatedForm = updatedForm.remove('window').remove('aggregation');
@@ -485,10 +487,12 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
               }
 
               let metricFormatter = 'UNDEFINED';
+              let metricLabel = 'UNKNOWN';
               if (form.get('dataSource').value === dataSourceCustom) {
                 const metricItem = find(customMetrics, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = metricItem.formatter;
+                  metricLabel = metricItem.origLabel || metricItem.label;
                 }
               } else if (form.get('dataSource').value === dataSourceBuiltIn) {
                 const entityType = form.get('entityType').value;
@@ -496,11 +500,15 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
                 const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
                 if (metricItem != null) {
                   metricFormatter = numberFormatterToFormatterType(metricItem.formatter);
+                  metricLabel = metricItem.origLabel || metricItem.label;
                 }
               }
 
               updatedForm = updatedForm.updateIn(['formatter'], f => {
                 return f.setValue(metricFormatter);
+              });
+              updatedForm = updatedForm.updateIn(['label'], f => {
+                return f.setValue(metricLabel);
               });
 
               return updatedForm;
@@ -594,7 +602,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={2}>
+        <Col cols={3}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -765,11 +773,7 @@ function is10ServiceType(entityType) {
 
 const severityWarning = '5';
 const severityCritical = '10';
-const severityOptions = [
-  { value: '', label: 'Please select' },
-  { value: severityWarning, label: 'warning' },
-  { value: severityCritical, label: 'critical' }
-];
+const severityOptions = [{ value: severityWarning, label: 'warning' }, { value: severityCritical, label: 'critical' }];
 
 const dataSourceOptions = [
   { value: dataSourceBuiltIn, label: 'Built-in metrics' },
@@ -785,7 +789,6 @@ function systemRuleOptions(systemRules) {
 }
 
 const gracePeriodOptions = [
-  { value: '', label: 'Please select' },
   { value: '5000', label: '5 s' },
   { value: '10000', label: '10s' },
   { value: '60000', label: '1 min' },
@@ -823,10 +826,4 @@ const conditionOperatorOptions = [
   { value: '>=', label: '>=' },
   { value: '>', label: '>' },
   { value: '!=', label: '!=' }
-];
-
-const applyOnOptions = [
-  { value: scopeApplication, label: 'Application' },
-  { value: scopeDfq, label: 'Selected Entities (Dynamic Focus Query)' },
-  { value: scopeEverything, label: 'All Available Entities' }
 ];

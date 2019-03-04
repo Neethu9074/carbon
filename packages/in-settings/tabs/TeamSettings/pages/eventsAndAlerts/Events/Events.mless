@@ -1,3 +1,6 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
 :local {
 
   .filterDropdown {
@@ -5,6 +8,25 @@
   }
 
   .severityDropdown {
-    width: 11.25rem;
+    width: 13.5rem;
+  }
+
+  .invalidOrDeprecated {
+    color: @lib__colors__red800
+  }
+
+  .fourLines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-height: 1.15rem; /* fallback */
+    max-height: 4.6rem; /* fallback, line-height x number of lines */
+  }
+
+
+  .ellipsis {
+    .ellipsis();
   }
 }

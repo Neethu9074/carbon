@@ -1,6 +1,5 @@
-import { combineLatest, just } from 'reactive-observables';
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import {
   getEntityHref,
@@ -8,12 +7,12 @@ import {
   teamSettingsAlertingEventFilterNew,
   teamSettingsAlertingEventFilters
 } from 'in-settings/navigation/paths';
+import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
+import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { intersperse } from 'in-services/arrayUtils';
 import List from 'in-settings/components/List';
-import { validate } from 'in-api/search';
-import Badge from 'in-components/Badge';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
 
@@ -29,7 +28,7 @@ export default function EventFilters() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={loadEntities}
+      loadEntities={getAlertingConfigsMutable}
       initialOrderBy="alertName"
       labelNew="New Alert"
       pathNew={teamSettingsAlertingEventFilterNew}
@@ -38,7 +37,7 @@ export default function EventFilters() {
           ? `The number of alerts is restricted to ${maxNumOfAlertingEventFilters}.`
           : null
       }
-      searchAttributes={['alertName']}
+      searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingEventFilters, entity.id)}
     />
   );
@@ -48,15 +47,32 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    width: 40,
     getContent(entity) {
       return (
-        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
-          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} className={locals.ellipsis50vw}>
-            {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
+        <WithSubscript subscript={getSubscript(entity)}>
+          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} ellipsis>
+            {entity.alertName}
           </Link>
         </WithSubscript>
       );
     }
+  },
+  {
+    id: 'scope',
+    label: 'Additional Scope',
+    width: 20,
+    ellipsis: true,
+    getContent: renderScope,
+    getValue: scopeToString
+  },
+  {
+    id: 'channels',
+    label: 'Alert Channels',
+    width: 40,
+    ellipsis: true,
+    getContent: concatChannelNames,
+    getValue: concatChannelNames
   }
 ];
 
@@ -84,26 +100,107 @@ function getEntityName(entity) {
   return `alert "${entity.alertName}"`;
 }
 
-function loadEntities() {
-  const validationAction = ruleDeprecationValidationChecksEnabled ? validateConfig : assumeConfigIsValid;
-  return getAlertingConfigsMutable().flatMap(configs => combineLatest(configs.map(validationAction)));
+function getSubscript(entity) {
+  const typesOrNumberOfEvents = renderTypesOrNumberOfEvents(entity);
+  return (
+    <Fragment>
+      {intersperse(
+        [
+          !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
+          typesOrNumberOfEvents ? <span key="events">{renderTypesOrNumberOfEvents(entity)}</span> : null,
+          entity.invalid ? (
+            <span key="invalid" className={locals.invalidOrDeprecated}>
+              Invalid Query
+            </span>
+          ) : null
+        ].filter(elem => elem),
+        i => (
+          <span key={`comma-${i}`}>, </span>
+        )
+      )}
+    </Fragment>
+  );
 }
 
-function validateConfig(config) {
-  if (twoZeroModeEnabled && config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
-    return validate({
-      query: config.eventFilteringConfiguration.query,
-      newApplicationModelEnabled: true
-    }).map(response => {
-      config.valid = response.body.valid;
-      return config;
-    });
+function renderTypesOrNumberOfEvents(entity) {
+  if (
+    entity.eventFilteringConfiguration &&
+    entity.eventFilteringConfiguration.eventTypes &&
+    entity.eventFilteringConfiguration.eventTypes.length > 0
+  ) {
+    return renderTypes(entity.eventFilteringConfiguration.eventTypes);
+  } else if (
+    entity.eventFilteringConfiguration &&
+    entity.eventFilteringConfiguration.ruleIds &&
+    entity.eventFilteringConfiguration.ruleIds.length > 0
+  ) {
+    return renderNumberOfSelectedEvents(entity.eventFilteringConfiguration.ruleIds);
+  }
+  return '';
+}
+
+function renderTypes(eventTypes) {
+  if (eventTypes.length === 1 && eventTypes[0]) {
+    return `All ${renderType(eventTypes[0])}`;
+  }
+  if (eventTypes.length >= 4) {
+    return 'Various Event Types';
   } else {
-    return assumeConfigIsValid(config);
+    return eventTypes.map(renderType).join(', ');
   }
 }
 
-function assumeConfigIsValid(config) {
-  config.valid = true;
-  return just(config);
+function renderType(t) {
+  switch (t) {
+    case 'incident':
+      return 'Incidents';
+    case 'critical':
+      return 'Critical Events';
+    case 'warning':
+      return 'Warnings';
+    case 'change':
+      return 'Changes';
+    case 'online':
+      return 'Online Events';
+    case 'offline':
+      return 'Offline Events';
+    default:
+      return '?';
+  }
+}
+
+function renderNumberOfSelectedEvents(eventIds) {
+  return eventIds.length === 1 ? 'One Selected Event' : `Selected Events (${eventIds.length})`;
+}
+
+function renderScope(entity) {
+  if (!entity.eventFilteringConfiguration || !entity.eventFilteringConfiguration.query) {
+    return '';
+  }
+  const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
+  if (applyOn === scopeDfq) {
+    return <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />;
+  } else if (applyOn === scopeApplication && applicationName) {
+    return <PropertyInTable label="Application" value={applicationName} />;
+  } else {
+    return '';
+  }
+}
+
+function scopeToString(entity) {
+  if (!entity.eventFilteringConfiguration || !entity.eventFilteringConfiguration.query) {
+    return '';
+  }
+  const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
+  if (applyOn === scopeDfq) {
+    return entity.eventFilteringConfiguration.query;
+  } else if (applyOn === scopeApplication && applicationName) {
+    return applicationName;
+  } else {
+    return '';
+  }
+}
+
+function concatChannelNames(entity) {
+  return entity.alertChannelNames ? entity.alertChannelNames.join(', ') : '';
 }

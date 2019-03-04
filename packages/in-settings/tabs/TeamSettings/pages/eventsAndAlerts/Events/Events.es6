@@ -1,7 +1,6 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
 import {
   getEntityHref,
   getEntityIdView,
@@ -9,16 +8,21 @@ import {
   teamSettingsAlertingEventCustom,
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
-import { getEventSpecificationsMutable } from 'in-api/eventSpecifications';
+import {
+  getEventSpecificationsMutable,
+  deleteCustomEventSpecification,
+  setBuiltInEventSpecificationsEnabled,
+  setCustomEventSpecificationsEnabled
+} from 'in-api/eventSpecifications';
 import List, { createNewEntityButton } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
-import { setBuiltInRuleEnabledMutable } from 'in-api/rules';
+import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
+import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
-import { deleteRule } from 'in-api/rules';
-import Badge from 'in-components/Badge';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
@@ -38,85 +42,129 @@ export default compose(
   withState('severity', 'setSeverity', null)
 )(Events);
 
-function Events({ type, setType, severity, setSeverity }) {
+function Events({
+  type,
+  setType,
+  severity,
+  setSeverity,
+  setTitle = true,
+  getHeader = defaultGetHeader,
+  tableClassName,
+  tableStyle,
+  tableActions = defaultTableActions,
+  loadEntities,
+  noDataMessage,
+  pageSize = 20,
+  rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
+  isSearchable = true,
+  onRowClick,
+  hasRowNavigation = true
+}) {
   return (
     <List
-      title="Events"
+      title={setTitle ? 'Events' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      tableClassName={tableClassName}
+      tableStyle={tableStyle}
       tableActions={tableActions}
-      loadEntities={getEventSpecificationsMutable}
+      loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
+      noDataMessage={noDataMessage}
+      pageSize={pageSize}
       initialOrderBy="name"
-      rightHeader={rightHeader(type, setType, severity, setSeverity)}
+      rightHeader={rightHeader}
+      isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(type, severity)}
       searchPlaceholder="Filter Events…"
-      searchMaxWidth={196}
-      getDetailsHref={entity => getEntityHref(getDetailsPath(entity), entity.id)}
+      searchMaxWidth={210}
+      onRowClick={onRowClick}
+      getDetailsHref={
+        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
+      }
     />
   );
 }
 
-const columnDefinitions = [
-  {
-    id: 'name',
-    label: 'Name',
-    ellipsis: '20vw',
-    getContent(entity) {
-      const icon = getIcon(entity);
-      return (
-        <WithIcon icon={icon.icon} iconColor={icon.color}>
-          <WithSubscript subscript={getSubscript(entity)}>
-            <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)}>
-              {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Event</Badge>}
-            </Link>
-          </WithSubscript>
-        </WithIcon>
-      );
+function columnDefinitions(hasRowNavigation) {
+  return [
+    {
+      id: 'name',
+      label: 'Name',
+      width: 30,
+      getContent(entity) {
+        const icon = getIcon(entity);
+        return (
+          <WithIcon icon={icon.icon} iconColor={icon.color}>
+            <WithSubscript subscript={getSubscript(entity)}>
+              {hasRowNavigation ? (
+                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
+                  {entity.name}
+                </Link>
+              ) : (
+                <span className={locals.ellipsis}>{entity.name}</span>
+              )}
+            </WithSubscript>
+          </WithIcon>
+        );
+      },
+      getValue(entity) {
+        return entity.name;
+      }
     },
-    getValue(entity) {
-      return entity.name;
-    }
-  },
-  {
-    id: 'description',
-    label: 'Description',
-    ellipsis: '20vw',
-    getContent(entity) {
-      return entity.description;
-    }
-  },
-  {
-    id: 'entityType',
-    label: 'Entity Type',
-    getContent(entity) {
-      return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
+    {
+      id: 'description',
+      label: 'Description',
+      width: 45,
+      multiLineEllipsis: 4,
+      getContent(entity) {
+        return <div className={locals.fourLines}>{entity.description}</div>;
+      }
     },
-    getValue: getEntityType
-  }
-];
+    {
+      id: 'entityType',
+      label: 'Entity Type',
+      width: 25,
+      getContent(entity) {
+        if (entity.entityType === 'any') {
+          return '';
+        }
+        return (
+          <Tooltip content={getSingular(entity.entityType)}>
+            <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
+              {getSingular(entity.entityType)}
+            </WithIcon>
+          </Tooltip>
+        );
+      },
+      getValue: getEntityType
+    }
+  ];
+}
 
-const tableActions = {
+const defaultTableActions = {
   toggleEnabled: {
-    key: 'enabled',
+    get: isEnabled,
     toggle: entity => {
       if (isBuiltInRule(entity)) {
-        return setBuiltInRuleEnabledMutable(entity.id, !entity.enabled);
+        return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);
+      } else {
+        return setCustomEventSpecificationsEnabled(entity.id, !entity.enabled);
       }
     }
   },
   delete: {
-    deleteProtection: entity => isBuiltInRule(entity),
-    deleteEntity: entity => {
-      if (!isBuiltInRule(entity)) {
-        deleteRule(entity.id);
-      }
-    }
+    deleteEntity: entity => deleteCustomEventSpecification(entity.id),
+    deleteProtection: entity => isBuiltInRule(entity)
   }
 };
 
-function getHeader(totalHits) {
+function isEnabled(entity) {
+  return entity.enabled;
+}
+
+function defaultGetHeader(totalHits) {
   return totalHits ? `Events (${totalHits})` : 'Events';
 }
 
@@ -132,10 +180,10 @@ function getIcon(entity) {
   let icon = 'lib_events_change';
   let color = theme.lib.colors.N400;
   if (entity.severity >= 1 && entity.severity <= 5) {
-    icon = 'lib_events_warning';
+    icon = 'lib_events_critical';
     color = theme.lib.colors.yellow800;
   } else if (entity.severity > 5) {
-    icon = 'lib_events_critical';
+    icon = 'lib_events_warning';
     color = theme.lib.colors.red800;
   }
   if (entity.triggering) {
@@ -150,21 +198,39 @@ function getDetailsPath(entity) {
 }
 
 function getEntityType(entity) {
+  if (entity.entityType === 'any') {
+    return '';
+  }
   return getSingular(entity.entityType);
 }
 
 function getSubscript(entity) {
-  if (isBuiltInRule(entity) && entity.enabled) {
-    return 'Built-in';
-  } else if (isBuiltInRule(entity)) {
-    return 'Built-in, Disabled';
-  } else if (entity.enabled === false) {
-    return 'Disabled';
-  }
-  return null;
+  return (
+    <Fragment>
+      {intersperse(
+        [
+          isBuiltInRule(entity) ? <span key="built-in">Built-in</span> : null,
+          entity.enabled === false ? <span key="disabled">Disabled</span> : null,
+          entity.invalid ? (
+            <span key="invalid" className={locals.invalidOrDeprecated}>
+              Invalid Query
+            </span>
+          ) : null,
+          entity.deprecated ? (
+            <span key="deprecated" className={locals.invalidOrDeprecated}>
+              Deprecated Entity
+            </span>
+          ) : null
+        ].filter(elem => elem),
+        i => (
+          <span key={`comma-${i}`}>, </span>
+        )
+      )}
+    </Fragment>
+  );
 }
 
-function rightHeader(type, setType, severity, setSeverity) {
+function defaultRightHeader(type, setType, severity, setSeverity) {
   return (
     <Fragment>
       {createNewEntityButton('New Event', teamSettingsAlertingEventCustomNew)}

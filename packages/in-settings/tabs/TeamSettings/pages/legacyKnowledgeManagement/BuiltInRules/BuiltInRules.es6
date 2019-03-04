@@ -31,11 +31,13 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '35vw',
+    width: 60,
     getContent(entity) {
       return (
         <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
-          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementBuiltInRules, entity.id)}>{entity.name}</Link>
+          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementBuiltInRules, entity.id)} ellipsis>
+            {entity.name}
+          </Link>
         </WithSubscript>
       );
     }
@@ -43,6 +45,8 @@ const columnDefinitions = [
   {
     id: 'entityType',
     label: 'Entity Type',
+    width: 40,
+    ellipsis: true,
     getContent(entity) {
       return <WithIcon plugin={entity.shortPluginId}>{getSingular(entity.shortPluginId)}</WithIcon>;
     },

@@ -13,27 +13,26 @@ export function getIntegrationsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/integrations`
+    url: `/api/events/settings/alertingChannels`
   }).map(response => response.body);
 }
 
-export function getIntegrationsByIds(ids) {
-  return getIntegrations().map(integrations => {
-    if (!integrations) {
-      return null;
+export function getIntegrationsByIdsMutable(ids) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/events/settings/alertingChannels',
+    queryParams: {
+      ids: ids ? ids : []
     }
-
-    const integrationsMap = {};
-    integrations.forEach(integration => (integrationsMap[integration.get('id')] = integration));
-    return ids.map(id => integrationsMap[id]).filter(resolved => resolved);
-  });
+  }).map(response => response.body);
 }
 
 export function getIntegration(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/integrations/${encodeURIComponent(id)}`
+    url: `/api/events/settings/alertingChannels/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
 
@@ -42,7 +41,7 @@ export function saveIntegration(integration) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/integrations/${encodeURIComponent(integration.get('id'))}`,
+    url: `/api/events/settings/alertingChannels/${encodeURIComponent(integration.get('id'))}`,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
 }
@@ -52,7 +51,7 @@ export function deleteIntegration(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/integrations/${encodeURIComponent(id)}`
+    url: `/api/events/settings/alertingChannels/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
 
@@ -61,7 +60,7 @@ export function integrationTest(integration) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/integrations/test/${encodeURIComponent(integration.get('id'))}`,
+    url: `/api/events/settings/alertingChannels/test/${encodeURIComponent(integration.get('id'))}`,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
 }
