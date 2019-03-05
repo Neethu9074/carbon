@@ -4,6 +4,7 @@ import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { focusedMoment$ } from 'in-components/timeline/timelineStore';
 import { isEventOpenAtFocusedMoment } from 'in-stores/events';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { copyCanvasIntoShort } from 'in-charts/canvas';
 import { emptyArray } from 'in-services/fixedObjects';
 
 const highlightedColor = '#ffffff';
@@ -144,13 +145,7 @@ export default function createEventRenderer(ctx, scale) {
   }
 
   function drawImage(image, x, y, iconSize) {
-    ctx.drawImage(
-      image,
-      x - iconSize / 2, // x
-      y + 20 - iconSize / 2 - 1, // y
-      iconSize, // width
-      iconSize // height
-    );
+    copyCanvasIntoShort(image, ctx, x - iconSize / 2, y + 20 - iconSize / 2 - 1, iconSize, iconSize);
   }
 
   function getEventStart(event) {
