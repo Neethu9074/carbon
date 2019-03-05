@@ -602,7 +602,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={3}>
+        <Col cols={2}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
