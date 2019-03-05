@@ -106,13 +106,23 @@ export default class RenderScheduler {
       return;
     }
 
-    const metrics = this.chart.filterDataSeries(axis);
+    const filteredIndices = this.chart.getFilteredMetricIndices(axis);
+
+    // all metrics are filtered, so don't try to paint anything
+    if (filteredIndices.length === axis.metrics.length) {
+      return;
+    }
+
+    const metrics = axis.metrics.filter((series, i) => filteredIndices.indexOf(i) === -1);
+    const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
+    const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);
 
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther) {
       axis.renderer.render({
         axis,
         metrics,
-        colors: axis.colors,
+        colors,
+        colors100,
         scale: config.scales[axisName],
         config
       });
@@ -126,7 +136,9 @@ export default class RenderScheduler {
           axis,
           index: i,
           dataSeries: metrics[i],
-          color: axis.colors100[i],
+          color: colors100[i],
+          colors,
+          colors100,
           scale: config.scales[axisName],
           config
         });

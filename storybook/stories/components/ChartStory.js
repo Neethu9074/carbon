@@ -307,6 +307,17 @@ function Integral() {
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             renderer: Renderer.integral,
+            labels: ['foo', 'bar', 'baz'],
+            metrics: generateMultipleMetrics(3, 100, 100, oneMinute)
+          }
+        }}
+      />
+      <ChartWrapperPresenter
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.integral,
             labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
             metrics: generateMultipleMetrics(8, 30, 10, oneMinute)
           }

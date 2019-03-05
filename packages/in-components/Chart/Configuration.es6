@@ -273,7 +273,7 @@ export default class Config {
       }
     }
 
-    return blocks;
+    return blocks.filter(block => block.length !== 0);
   }
 
   toggleDataSeries(label) {

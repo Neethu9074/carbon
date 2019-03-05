@@ -1,5 +1,5 @@
 export default {
-  render: ({ dataSeries, axis, index, scale, config }) => {
+  render: ({ dataSeries, colors, colors100, index, scale, config }) => {
     const blocks = config.calculateBlocks(dataSeries);
 
     for (let i = 0; i < blocks.length; i++) {
@@ -7,10 +7,6 @@ export default {
     }
 
     function drawBlock(block) {
-      if (block.length === 0) {
-        return;
-      }
-
       const firstDataPoint = block[0];
       const lastDataPoint = block[block.length - 1];
       const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);
@@ -26,14 +22,14 @@ export default {
         config.backBufferCtx.lineTo(xPos, yPos);
       }
 
-      config.backBufferCtx.strokeStyle = axis.colors100[index];
+      config.backBufferCtx.strokeStyle = colors100[index];
       config.backBufferCtx.lineWidth = 2;
       config.backBufferCtx.stroke();
       config.backBufferCtx.lineTo(lastDataPointXPos, config.height - config.timeAxisHeight);
       config.backBufferCtx.lineTo(firstDataPointXPos, config.height - config.timeAxisHeight);
 
       config.backBufferCtx.closePath();
-      config.backBufferCtx.fillStyle = axis.colors[index];
+      config.backBufferCtx.fillStyle = colors[index];
       config.backBufferCtx.fill();
     }
   }
