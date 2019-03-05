@@ -25,16 +25,8 @@ const parameters = [
     label: 'Type'
   },
   {
-    key: 'apiKey',
-    label: 'Api Key'
-  },
-  {
-    key: 'tags',
-    label: 'Tags'
-  },
-  {
-    key: 'region',
-    label: 'Region'
+    key: 'serviceIntegrationKey',
+    label: 'Service Integration Key'
   }
 ];
 
