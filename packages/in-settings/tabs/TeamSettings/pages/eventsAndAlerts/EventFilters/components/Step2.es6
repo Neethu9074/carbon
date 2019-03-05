@@ -34,9 +34,7 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
   return (
     <Fragment>
       <SectionHeading>2. Events</SectionHeading>
-      <DescriptionText>
-        Only send alerts for a particular event, built-in event groups or a selection of event types.
-      </DescriptionText>
+      <DescriptionText>Only send alerts for event types or on selected events.</DescriptionText>
       <Row className={locals.eventSelection}>
         <Col cols={6}>
           {form.get('eventSelectionMode').map(field => (
