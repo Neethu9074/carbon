@@ -45,10 +45,18 @@
     &.dull {
       opacity: 0.5;
     }
+
+    &.selected:nth-child(even)  {
+      background: @lib__colors__table-row-selected-even;
+    }
+
+    &.selected:nth-child(odd) {
+      background: @lib__colors__table-row-selected-odd;
+    }
   }
 
   .trClickable:hover {
-    background: @lib__colors__faded-blue800;
+    background: @lib__colors__faded-blue800 ! important;
   }
 
   .trRegular {

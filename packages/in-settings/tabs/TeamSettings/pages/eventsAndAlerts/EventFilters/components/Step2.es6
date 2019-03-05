@@ -87,9 +87,9 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
                   title="Select Events"
                   label={'Select Events'}
                   listComponent={Events}
-                  selectedItems={form.get('selectedEvents').value.toJS()}
+                  hiddenIds={form.get('selectedEvents').value.toJS()}
                   createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0 ? `Select ${numberOfItems} Events` : 'Select Events'
+                    numberOfItems > 0 ? `Add ${numberOfItems} Events` : 'Add Events'
                   }
                   requiresAtLeastOneMessage="Please select at least one event."
                 />
@@ -150,7 +150,7 @@ function eventSelectionTableActions(form, setForm) {
 function submitEventSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['selectedEvents'], field => {
-      return field.setValue(fromJS(selectedIds));
+      return field.setValue(field.value.concat(fromJS(selectedIds)));
     })
   );
 }

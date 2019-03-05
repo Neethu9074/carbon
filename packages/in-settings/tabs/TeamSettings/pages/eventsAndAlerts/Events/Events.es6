@@ -64,6 +64,7 @@ function Events({
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  hiddenIds,
   pageSize = 20,
   rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
   isSearchable = true,
@@ -91,7 +92,7 @@ function Events({
       }
       isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(type, severity, entityType)}
+      extraFilters={createFilters(hiddenIds, type, severity, entityType)}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={210}
       onRowClick={onRowClick}
@@ -300,8 +301,12 @@ function inSelectListDialogRightHeader(type, setType, severity, setSeverity, ent
   );
 }
 
-function createFilters(type, severity, entityType) {
+function createFilters(hiddenIds, type, severity, entityType) {
   const filters = [];
+
+  if (hiddenIds) {
+    filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
+  }
 
   if (type) {
     filters.push(entity => entity.type === type);

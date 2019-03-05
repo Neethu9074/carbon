@@ -52,6 +52,8 @@ export default function ServerTablePresenter(props) {
     withoutPadding = true,
     tableClassName,
     tableStyle,
+    allRowsAreSelected = false,
+    setSelectedStateForRows,
 
     // events
     onChange,
@@ -124,6 +126,8 @@ export default function ServerTablePresenter(props) {
           columnDefinitions={columnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
+          allRowsAreSelected={allRowsAreSelected}
+          setSelectedStateForRows={setSelectedStateForRows}
         />
       </Thead>
 

@@ -9,19 +9,16 @@ import Button from 'in-new-components/Button';
 
 import locals from './SelectListDialog.mless';
 
-export default withState(
-  'selectedItems',
-  'setSelectedItems',
-  ({ selectedItems: initiallySelectedItems }) => initiallySelectedItems
-)(SelectChannelsDialog);
+export default withState('selectedItems', 'setSelectedItems', [])(SelectChannelsDialog);
 
 function SelectChannelsDialog({
   title = 'Select',
   listComponent,
   listComponentRightHeader,
   onSubmit,
-  createSubmitLabel = () => 'Confirm',
-  requiresAtLeastOneMessage,
+  createSubmitLabel = () => 'Add',
+  requiresAtLeastOneMessage = 'Please select at least one item.',
+  hiddenIds,
   selectedItems,
   setSelectedItems
 }) {
@@ -36,18 +33,23 @@ function SelectChannelsDialog({
         }}
         autoComplete="off"
       >
-        <FormGroup style={{ height: 'calc(90vh - 180px)', overflowY: 'auto' }}>
+        <FormGroup style={{ height: 'calc(90vh - 180px)' }}>
           <ListComponent
             setTitle={false}
-            tableClassName={locals.tableHeight}
+            tableClassName={locals.tableHeightWrapper}
             tableStyle={{ height: 'calc(100vh - 450px)' }}
             pageSize={7}
+            hiddenIds={hiddenIds}
             hasRowNavigation={false}
+            noDataMessage="No items available."
             onRowClick={entity => toggle(selectedItems, setSelectedItems, entity)}
             tableActions={{
               selectCheckbox: {
                 get(entity) {
-                  return selectedItems.indexOf(entity.id) >= 0;
+                  return get(selectedItems, entity);
+                },
+                setAll(entities, selected) {
+                  setAll(selectedItems, setSelectedItems, entities, selected);
                 },
                 toggle(entity) {
                   toggle(selectedItems, setSelectedItems, entity);
@@ -57,8 +59,7 @@ function SelectChannelsDialog({
             rightHeader={listComponentRightHeader}
             inSelectListDialog
           />
-          {requiresAtLeastOneMessage &&
-            numberOfItems === 0 && <ValidationBlock>{requiresAtLeastOneMessage}</ValidationBlock>}
+          {numberOfItems === 0 && <ValidationBlock>{requiresAtLeastOneMessage}</ValidationBlock>}
         </FormGroup>
         <div className={locals.actions}>
           <Button type="submit" kind={'secondary'} onClick={close} classNam>
@@ -73,10 +74,35 @@ function SelectChannelsDialog({
   );
 }
 
+function get(selectedItems, entity) {
+  return selectedItems.indexOf(entity.id) >= 0;
+}
+
 function toggle(selectedItems, setSelectedItems, entity) {
-  if (selectedItems.indexOf(entity.id) >= 0) {
-    setSelectedItems(selectedItems.filter(id => id !== entity.id));
+  if (get(selectedItems, entity)) {
+    removeFromSelection(setSelectedItems, selectedItems, entity);
   } else {
-    setSelectedItems(selectedItems.concat(entity.id));
+    addToSelection(setSelectedItems, selectedItems, entity);
   }
+}
+
+function setAll(selectedItems, setSelectedItems, entities, selected) {
+  let entity;
+  for (let i = 0; i < entities.length; i++) {
+    entity = entities[i];
+    if (get(selectedItems, entity) && !selected) {
+      selectedItems = selectedItems.filter(id => id !== entity.id);
+    } else if (!get(selectedItems, entity) && selected) {
+      selectedItems = selectedItems.concat(entity.id);
+    }
+  }
+  setSelectedItems(selectedItems);
+}
+
+function addToSelection(setSelectedItems, selectedItems, entity) {
+  setSelectedItems(selectedItems.concat(entity.id));
+}
+
+function removeFromSelection(setSelectedItems, selectedItems, entity) {
+  setSelectedItems(selectedItems.filter(id => id !== entity.id));
 }

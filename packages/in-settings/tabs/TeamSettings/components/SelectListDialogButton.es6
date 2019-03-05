@@ -12,7 +12,7 @@ export default function SelectListDialogButton({
   label,
   listComponent,
   listComponentRightHeader,
-  selectedItems,
+  hiddenIds,
   createSubmitLabel,
   requiresAtLeastOneMessage
 }) {
@@ -26,7 +26,7 @@ export default function SelectListDialogButton({
             title={title}
             listComponent={listComponent}
             listComponentRightHeader={listComponentRightHeader}
-            selectedItems={selectedItems}
+            hiddenIds={hiddenIds}
             onSubmit={onSubmit}
             createSubmitLabel={createSubmitLabel}
             requiresAtLeastOneMessage={requiresAtLeastOneMessage}

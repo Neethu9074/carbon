@@ -106,7 +106,9 @@ function buildLib() {
 
       lightBlue800: '#17A1E6',
       cyan800: '#00CCCC',
+      fadedCyan800: 'rgba(0, 204, 204, 0.1)',
       teal800: '#00B3B3',
+      fadedTeal800: 'rgba(0, 179, 179, 0.11)',
       green800: '#39BF7C',
       lime800: '#ADCC14',
 
@@ -198,6 +200,10 @@ function buildLib() {
   lib.colors.success = lib.colors.green800;
   lib.colors.failure = lib.colors.red800;
   lib.colors.warning = lib.colors.yellow800;
+
+  // table
+  lib.colors.tableRowSelectedOdd = lib.colors.fadedTeal800;
+  lib.colors.tableRowSelectedEven = lib.colors.fadedCyan800;
 
   // stroke colors
   lib.colors.chart.strokeColors100 = [

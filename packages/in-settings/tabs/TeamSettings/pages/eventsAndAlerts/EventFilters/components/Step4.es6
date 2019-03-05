@@ -31,8 +31,9 @@ export default function Step4({ form, setForm }) {
             label={'Select Alert Channels'}
             listComponent={AlertChannels}
             listComponentRightHeader={noRightHeader}
-            selectedItems={form.get('selectedAlertChannels').value.toJS()}
-            createSubmitLabel={numberOfItems => (numberOfItems > 0 ? `Confirm ${numberOfItems} Channels` : 'Confirm')}
+            hiddenIds={form.get('selectedAlertChannels').value.toJS()}
+            createSubmitLabel={numberOfItems => (numberOfItems > 0 ? `Add ${numberOfItems} Channels` : 'Add')}
+            requiresAtLeastOneMessage="Please select at least one alert channel."
           />
         }
       />
@@ -66,7 +67,7 @@ function alertChannelSelectionTableActions(form, setForm) {
 function submitChannelSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['selectedAlertChannels'], field => {
-      return field.setValue(fromJS(selectedIds));
+      return field.setValue(field.value.concat(fromJS(selectedIds)));
     })
   );
 }

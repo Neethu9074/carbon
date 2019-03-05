@@ -20,6 +20,7 @@ export default function AlertChannels({
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  hiddenIds,
   pageSize = 20,
   rightHeader = <NewChannelButton />,
   isSearchable = true,
@@ -42,6 +43,7 @@ export default function AlertChannels({
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
+      extraFilters={createFilters(hiddenIds)}
       onRowClick={onRowClick}
       getDetailsHref={
         onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)
@@ -148,4 +150,14 @@ export function noRightHeader() {
   // the edit form in which's context the dialog is shown, thus the user would lose all their unsaved edits on that
   // form.
   return null;
+}
+
+function createFilters(hiddenIds) {
+  const filters = [];
+
+  if (hiddenIds) {
+    filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
+  }
+
+  return filters;
 }

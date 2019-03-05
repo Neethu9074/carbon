@@ -6,8 +6,8 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
@@ -127,6 +127,7 @@ function List({
   let totalHitsBeforeFilter = 0;
   let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
+  let entitiesBeforePagination = entities;
   if (entities) {
     totalHitsBeforeFilter = entities.length;
     if (extraFilters && extraFilters.length > 0) {
@@ -141,6 +142,7 @@ function List({
     }
     entities = sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
     totalHitsAfterFilter = entities.length;
+    entitiesBeforePagination = entities;
     const offset = (pageState - 1) * pageSize;
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
@@ -199,8 +201,10 @@ function List({
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
-        getRowProps={() => ({ size: 'compact' })}
+        getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
+        allRowsAreSelected={areAllRowsSelected(entitiesBeforePagination, tableActions)}
+        setSelectedStateForRows={setSelectedStateForRows(entitiesBeforePagination, tableActions)}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -445,7 +449,11 @@ function addSelectCheckboxAction(columns, actionDefinition) {
   columns = columns.slice();
   columns.unshift({
     id: 'selectCheckbox',
-    tableAction: true,
+    sortable: false,
+    headCellProps: {
+      className: locals.selectCheckboxHead
+    },
+    selectAllCheckbox: true,
     cellClassName: locals.selectCheckbox,
     getContent(entity) {
       return (
@@ -458,6 +466,32 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     }
   });
   return columns;
+}
+
+function areAllRowsSelected(entities, tableActions) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return false;
+  }
+  for (let i = 0; i < entities.length; i++) {
+    if (!tableActions.selectCheckbox.get(entities[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function setSelectedStateForRows(entities, tableActions) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return noop;
+  }
+  return selected => tableActions.selectCheckbox.setAll(entities, selected);
+}
+
+function getRowProps(tableActions) {
+  if (tableActions.selectCheckbox) {
+    return entity => ({ size: 'compact', selected: tableActions.selectCheckbox.get(entity) });
+  }
+  return () => ({ size: 'compact' });
 }
 
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {
