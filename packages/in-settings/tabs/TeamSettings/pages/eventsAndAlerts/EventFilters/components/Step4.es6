@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import { fromJS, List } from 'immutable';
 
+import AlertChannels, {
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import AlertChannels from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getIntegrationsByIdsMutable } from 'in-api/integrations';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -28,6 +30,7 @@ export default function Step4({ form, setForm }) {
             title="Select Alert Channels"
             label={'Select Alert Channels'}
             listComponent={AlertChannels}
+            listComponentRightHeader={noRightHeader}
             selectedItems={form.get('selectedAlertChannels').value.toJS()}
             createSubmitLabel={numberOfItems => (numberOfItems > 0 ? `Confirm ${numberOfItems} Channels` : 'Confirm')}
           />

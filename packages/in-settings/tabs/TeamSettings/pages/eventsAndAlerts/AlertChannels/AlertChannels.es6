@@ -141,3 +141,11 @@ function getStringifiedParameters(entity) {
 function Property({ attribute, label, entity }) {
   return <PropertyInTable label={label} value={entity[attribute]} />;
 }
+
+export function noRightHeader() {
+  // Used to explicitly disable that default right header (create new alert channel button) when this is used in a
+  // dialog to select alert channels in the alert details form. Reason: The create-new button would navigate away from
+  // the edit form in which's context the dialog is shown, thus the user would lose all their unsaved edits on that
+  // form.
+  return null;
+}

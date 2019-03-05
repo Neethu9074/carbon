@@ -11,6 +11,10 @@
     width: 13.5rem;
   }
 
+  .entityTypeDropdown {
+    width: 10rem;
+  }
+
   .invalidOrDeprecated {
     color: @lib__colors__red800
   }

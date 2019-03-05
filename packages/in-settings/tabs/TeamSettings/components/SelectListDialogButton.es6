@@ -11,6 +11,7 @@ export default function SelectListDialogButton({
   title,
   label,
   listComponent,
+  listComponentRightHeader,
   selectedItems,
   createSubmitLabel,
   requiresAtLeastOneMessage
@@ -24,6 +25,7 @@ export default function SelectListDialogButton({
           <SelectListDialog
             title={title}
             listComponent={listComponent}
+            listComponentRightHeader={listComponentRightHeader}
             selectedItems={selectedItems}
             onSubmit={onSubmit}
             createSubmitLabel={createSubmitLabel}

@@ -1,3 +1,9 @@
+import { plugins10, plugins20, customIssuesDisabledForPlugins } from 'in-forge/constants';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { getCategories } from 'in-sdk/metrics';
+import { getSingular } from 'in-sdk/pluginName';
+
 // event specification type enum names that the back end uses
 export const builtInEnumValue = 'BUILT_IN';
 export const customEnumValue = 'CUSTOM';
@@ -38,4 +44,19 @@ export function getDescription(entity) {
     return entity.event.description;
   }
   return null;
+}
+
+export function getEntityTypeOptions() {
+  const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
+  return Object.keys(plugins)
+    .map(k => plugins[k])
+    .filter(plugin => getCategories(plugin).length > 0)
+    .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
+    .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
+    .map(plugin => {
+      return {
+        value: plugin,
+        label: getSingular(plugin)
+      };
+    });
 }
