@@ -25,7 +25,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'queueMetrics.' + row.key + '.queue_size';
+        return row.metricPrefix + '.queue_size';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -41,7 +41,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'queueMetrics.' + row.key + '.enqueue_count';
+        return row.metricPrefix + '.enqueue_count';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -57,7 +57,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'queueMetrics.' + row.key + '.dequeue_count';
+        return row.metricPrefix + '.dequeue_count';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -73,7 +73,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'queueMetrics.' + row.key + '.memory_usage';
+        return row.metricPrefix + '.memory_usage';
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -83,7 +83,7 @@ const cols = [
   }
 ];
 
-export default function QueuesTable({ snapshot, timeConfig }) {
+export default function QueuesTable({ snapshot, timeConfig, type }) {
   const queues = snapshot.getIn(['data', 'queues'], emptyList);
   if (queues.size === 0) {
     return null;
@@ -93,7 +93,8 @@ export default function QueuesTable({ snapshot, timeConfig }) {
       return {
         key: queue,
         timeConfig,
-        snapshotId: snapshot.get('id')
+        snapshotId: snapshot.get('id'),
+        metricPrefix: 'queueMetrics' + type + '.' + queue
       };
     })
     .toArray();
@@ -105,7 +106,6 @@ export default function QueuesTable({ snapshot, timeConfig }) {
 }
 
 function getDetails(row) {
-  const id = row.key;
   return (
     <div>
       <Chart
@@ -114,7 +114,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           max: 1,
-          metrics: ['queueMetrics.' + id + '.memory_usage'],
+          metrics: [row.metricPrefix + '.memory_usage'],
           labels: ['Memory Usage'],
           type: 'line',
           formatter: percentage.detailed
@@ -125,7 +125,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['queueMetrics.' + id + '.producer_count', 'queueMetrics.' + id + '.consumer_count'],
+          metrics: [row.metricPrefix + '.producer_count', row.metricPrefix + '.consumer_count'],
           labels: ['Producer Count', 'Consumer Count'],
           type: 'line',
           formatter: number.compact
@@ -138,9 +138,9 @@ function getDetails(row) {
           y1={{
             min: 0,
             metrics: [
-              'queueMetrics.' + id + '.enqueue_count',
-              'queueMetrics.' + id + '.dispatch_count',
-              'queueMetrics.' + id + '.dequeue_count'
+              row.metricPrefix + '.enqueue_count',
+              row.metricPrefix + '.dispatch_count',
+              row.metricPrefix + '.dequeue_count'
             ],
             labels: ['Enqueue Count', 'Dispatch Count', 'Dequeue Count'],
             type: 'line',
@@ -152,7 +152,7 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            metrics: ['queueMetrics.' + id + '.expired_count'],
+            metrics: [row.metricPrefix + '.expired_count'],
             labels: ['ExpiredCount'],
             type: 'line',
             formatter: number.detailed
@@ -164,7 +164,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['queueMetrics.' + id + '.enqueue_time'],
+          metrics: [row.metricPrefix + '.enqueue_time'],
           labels: ['EnqueueTime'],
           type: 'line',
           formatter: millis.detailed
@@ -175,7 +175,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['queueMetrics.' + id + '.queue_size'],
+          metrics: [row.metricPrefix + '.queue_size'],
           labels: ['QueueSize'],
           type: 'line',
           formatter: number.compact
