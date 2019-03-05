@@ -171,6 +171,7 @@ function EventForm({
                   value={field.value}
                   onChange={e => onChange('name', e.target.value)}
                   hasError={!field.valid && field.touched}
+                  maxLength={256}
                   autoFocus
                 />
                 <TouchedMessages field={field} />
@@ -187,6 +188,7 @@ function EventForm({
                   value={field.value}
                   onChange={e => onChange('description', e.target.value)}
                   hasError={!field.valid && field.touched}
+                  maxLength={65536}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -320,6 +322,7 @@ function EventForm({
                   placeholder={'e.g. entity.zone:"prod" AND entity.service.name:"Shop"'}
                   className={locals.helpified}
                   value={field.value || ''}
+                  maxLength={2048}
                   onChange={e => {
                     onChange('query', e.target.value, updatedForm => {
                       return startQueryValidation(
