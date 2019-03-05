@@ -210,7 +210,7 @@ export function putWindowField(form, event) {
   return form.put(
     'window',
     createField({
-      value: getRuleAttribute(event, 'window', ''),
+      value: String(getRuleAttribute(event, 'window', '')),
       validator: notBlankValidator
     })
   );
@@ -220,7 +220,7 @@ export function putRollupField(form, event) {
   return form.put(
     'rollup',
     createField({
-      value: getRuleAttribute(event, 'rollup', ''),
+      value: String(getRuleAttribute(event, 'rollup', '')),
       validator: notBlankValidator
     })
   );
