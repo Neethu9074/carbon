@@ -95,7 +95,7 @@ export default class Config {
   enrichConfig() {
     const fullDomain = this.timeConfig.windowSize;
     this.animationDuration = animationDuration;
-    this.bufferOffsetInPx = this.width * (this.animationDuration / fullDomain);
+    this.bufferOffsetInPx = Math.ceil(this.width * (this.animationDuration / fullDomain));
 
     this.frontBufferWidth = this.width;
     this.backBufferWidth = this.width + this.bufferOffsetInPx;
@@ -273,7 +273,7 @@ export default class Config {
       }
     }
 
-    return blocks;
+    return blocks.filter(block => block.length !== 0);
   }
 
   toggleDataSeries(label) {

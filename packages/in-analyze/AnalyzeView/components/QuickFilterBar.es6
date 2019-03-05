@@ -99,6 +99,7 @@ export default function QuickFilterBar(props) {
         formatter={millis.fixedCompact}
         unit="ms"
         showRange
+        minValue="1"
       />
       <BooleanBarItem
         {...props}

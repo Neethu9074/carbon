@@ -1,8 +1,6 @@
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import Config from 'in-components/Chart/Configuration';
 
-const emptyDataSeries = [];
-
 export default class Chart {
   constructor(canvas, props) {
     this.isLive = false;
@@ -92,12 +90,14 @@ export default class Chart {
     }
   }
 
-  filterDataSeries(axis) {
-    const validMetrics = [];
+  getFilteredMetricIndices(axis) {
+    const filteredIndices = [];
     for (let i = 0; i < axis.metrics.length; i++) {
-      validMetrics.push(this.isLabelFilteredByUser(axis.labels[i]) ? emptyDataSeries : axis.metrics[i]);
+      if (this.isLabelFilteredByUser(axis.labels[i])) {
+        filteredIndices.push(i);
+      }
     }
-    return validMetrics;
+    return filteredIndices;
   }
 
   requestRender() {

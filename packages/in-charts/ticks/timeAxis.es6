@@ -60,7 +60,7 @@ export function getAxisTickPositions(scale, formatter) {
   }
 
   const strategy = tickPositionStrategies[formatter] || getTickPositionsNumber;
-  let ticks = strategy(rangeFrom, rangeTo, domainFrom, domainTo, scale);
+  let ticks = strategy(rangeFrom, rangeTo, domainFrom, domainTo, scale, formatter);
 
   // remove close data points, skip first and last
   ticks = removeCloseTicks(ticks);

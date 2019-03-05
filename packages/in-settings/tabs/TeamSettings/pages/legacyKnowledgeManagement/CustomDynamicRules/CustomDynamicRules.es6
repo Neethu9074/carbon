@@ -36,10 +36,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '20vw',
     getContent(entity) {
       return (
-        <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomDynamicRules, entity.id)}>{entity.name}</Link>
+        <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomDynamicRules, entity.id)} ellipsis>
+          {entity.name}
+        </Link>
       );
     }
   },

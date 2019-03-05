@@ -1,7 +1,7 @@
 import { MARGIN_BETWEEN_BARS, MIN_HEIGHT_IN_PX } from 'in-components/Chart/renderer/bar';
 
 export default {
-  render: ({ metrics, scale, config, axis }) => {
+  render: ({ metrics, scale, config, colors100, axis }) => {
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
       metricMap = calculateMetricMap(metrics);
@@ -12,7 +12,7 @@ export default {
       config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, axis.colors100[iMetric], metrics[iMetric], metricMap, scale, barWidth);
+      renderDataSeries(config, colors100[iMetric], metrics[iMetric], metricMap, scale, barWidth);
     }
   },
 
@@ -47,10 +47,6 @@ function renderDataSeries(config, color, dataSeries, metricMap, scale, barWidth)
 }
 
 function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color) {
-  if (block.length === 0) {
-    return;
-  }
-
   const chartHeight = scale.getRangeFrom();
 
   config.backBufferCtx.beginPath();

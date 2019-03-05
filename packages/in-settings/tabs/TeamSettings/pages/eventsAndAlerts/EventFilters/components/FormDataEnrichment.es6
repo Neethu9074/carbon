@@ -1,10 +1,23 @@
 import React from 'react';
 
+import {
+  applicationNameToDfq,
+  scopeApplication,
+  scopeDfq,
+  scopeEverything
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import {
+  modeEventTypes,
+  modeSelectedEvents
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/Step2';
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { create, combineLatest } from 'reactive-observables';
+import { combineLatest, create } from 'reactive-observables';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
+
+const twoWeeks = 1000 * 60 * 60 * 24 * 7 * 2;
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -13,26 +26,79 @@ export default class FormDataEnrichment extends React.Component {
     matchingEntities: null
   };
 
+  eventSelectionModeInput = create();
+  eventTypesInput = create();
+  selectedEventsInput = create();
+  applyOnInput = create();
   queryInput = create();
+  applicationInput = create();
+
   matchingEntitesSubscription = null;
   validationResultSubscription = null;
 
   componentWillMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
-    this.queryInput.emit(getValueOrDefault(this.props.form, 'query', ''));
-    this.matchingEntitesSubscription = debouncedQuery
-      .flatMap(query => {
+    this.emitAllInputs(this.props.form);
+    this.setUpMatchingEntitesSubscription(debouncedQuery);
+    this.setUpQueryValidationSubscription(debouncedQuery);
+  }
+
+  emitAllInputs(form) {
+    this.eventSelectionModeInput.emit(getValueOrDefault(form, 'eventSelectionMode', ''));
+    this.eventTypesInput.emit(getValueOrDefault(form, 'eventTypes', ''));
+    this.selectedEventsInput.emit(getValueOrDefault(form, 'selectedEvents', ''));
+    this.applyOnInput.emit(getValueOrDefault(form, 'applyOn', ''));
+    this.queryInput.emit(getValueOrDefault(form, 'query', ''));
+    this.applicationInput.emit(getValueOrDefault(form, 'application', ''));
+  }
+
+  setUpMatchingEntitesSubscription(debouncedQuery) {
+    const debouncedEventTypes = this.eventTypesInput.debounce(1000);
+    const debouncedSelectedEvents = this.selectedEventsInput.debounce(1000);
+
+    this.matchingEntitesSubscription = combineLatest([
+      this.eventSelectionModeInput,
+      debouncedEventTypes,
+      debouncedSelectedEvents,
+      this.applyOnInput,
+      debouncedQuery,
+      this.applicationInput
+    ])
+      .flatMap(([eventSelectionMode, eventTypes, selectedEvents, applyOn, query, application]) => {
         const timeOpened = this.props.form.get('timeOpened').value;
-        const eventTypes = this.props.form.get('eventTypes').value;
-        if (!query) {
-          return search(timeOpened, eventTypes, '');
+        this.props.onChange('matchingEntitiesQueryInProgress', true);
+        let searchFn;
+        let eventParam;
+        if (eventSelectionMode === modeEventTypes) {
+          searchFn = searchWithEventTypes;
+          eventParam = eventTypes;
+        } else if (eventSelectionMode === modeSelectedEvents) {
+          searchFn = searchWithSelectedEvents;
+          eventParam = selectedEvents;
         } else {
-          return search(timeOpened, eventTypes, query);
+          return alwaysEmptyArray;
         }
+
+        let queryForSearch;
+        if (applyOn === scopeApplication && application) {
+          queryForSearch = applicationNameToDfq(application);
+        } else if (applyOn === scopeDfq) {
+          queryForSearch = query ? query : '';
+        } else if (applyOn === scopeEverything) {
+          queryForSearch = '';
+        } else {
+          return alwaysEmptyArray;
+        }
+
+        return searchFn(timeOpened, eventParam, queryForSearch);
       })
       .subscribe(events => {
         this.props.onChange('matchingEntities', events ? events.length : events);
+        this.props.onChange('matchingEntitiesQueryInProgress', false);
       });
+  }
+
+  setUpQueryValidationSubscription(debouncedQuery) {
     this.validationResultSubscription = debouncedQuery
       .flatMap(query => {
         return combineLatest([
@@ -41,10 +107,8 @@ export default class FormDataEnrichment extends React.Component {
         ]);
       })
       .subscribe(([validationResponse10, validationResponse20]) => {
-        // we need to ensure here whether the field are available before we update,
-        // because in call Apply on 'all' is selected, we still query to get the
-        // number of matching entities, but e.g. the validation result field is only
-        // available when Apply on 'dfq'.
+        // We need to ensure whether the field is available before we update. If the current selected scope is not
+        // 'dfq', the validation result field is not available.
         this.tryOnChange(
           'validationResult',
           combinedValidationResults(validationResponse10.body, validationResponse20.body)
@@ -59,20 +123,33 @@ export default class FormDataEnrichment extends React.Component {
     }
   };
 
-  componentWillUpdate(nextProps) {
-    startValidationInProgress(nextProps.setForm, nextProps.form);
-    this.queryInput.emit(getValueOrDefault(nextProps.form, 'query', ''));
-  }
-
   shouldComponentUpdate(nextProps) {
+    const prevEventSelectionMode = getValueOrDefault(this.props.form, 'eventSelectionMode', '');
+    const nextEventSelectionMode = getValueOrDefault(nextProps.form, 'eventSelectionMode', '');
+    const prevEventTypes = getValueOrDefault(this.props.form, 'eventTypes', '');
+    const nextEventTypes = getValueOrDefault(nextProps.form, 'eventTypes', '');
+    const prevSelectedEvents = getValueOrDefault(this.props.form, 'selectedEvents', '');
+    const nextSelectedEvents = getValueOrDefault(nextProps.form, 'selectedEvents', '');
+    const prevApplyOn = getValueOrDefault(this.props.form, 'applyOn', '');
+    const nextApplyOn = getValueOrDefault(nextProps.form, 'applyOn', '');
     const prevQuery = getValueOrDefault(this.props.form, 'query', '');
     const nextQuery = getValueOrDefault(nextProps.form, 'query', '');
-    const prevEventTypes = this.props.form.get('eventTypes').value;
-    const nextEventTypes = nextProps.form.get('eventTypes').value;
-    if (prevQuery !== nextQuery || prevEventTypes !== nextEventTypes) {
-      return true;
-    }
-    return false;
+    const prevApplication = getValueOrDefault(this.props.form, 'application', '');
+    const nextApplication = getValueOrDefault(nextProps.form, 'application', '');
+
+    return (
+      prevEventSelectionMode !== nextEventSelectionMode ||
+      prevEventTypes !== nextEventTypes ||
+      prevSelectedEvents !== nextSelectedEvents ||
+      prevApplyOn !== nextApplyOn ||
+      prevQuery !== nextQuery ||
+      prevApplication !== nextApplication
+    );
+  }
+
+  componentWillUpdate(nextProps) {
+    startValidationInProgress(nextProps.setForm, nextProps.form);
+    this.emitAllInputs(nextProps.form);
   }
 
   componentWillUnmount() {
@@ -91,24 +168,39 @@ export default class FormDataEnrichment extends React.Component {
   }
 }
 
-function search(timeOpened, eventTypes, query) {
+function searchWithEventTypes(timeOpened, eventTypes, query) {
+  let eventTypesQueryPart = null;
   if (eventTypes && eventTypes.size > 0) {
-    const eventTypesQueryPart = eventTypes
+    eventTypesQueryPart = eventTypes
       .toArray()
       .map(type => `event.type:${type}`)
       .join(' OR ');
-    if (query) {
-      query = `(${query}) AND (${eventTypesQueryPart})`;
-    } else {
-      query = eventTypesQueryPart;
-    }
   }
+  return search(timeOpened, query, eventTypesQueryPart);
+}
 
+function searchWithSelectedEvents(timeOpened, selectedEvents, query) {
+  let selectedEventsQueryPart = null;
+  if (selectedEvents && selectedEvents.size > 0) {
+    selectedEventsQueryPart = selectedEvents
+      .toArray()
+      .map(eventSpecificationId => `event.specification.id:${eventSpecificationId}`)
+      .join(' OR ');
+  }
+  return search(timeOpened, query, selectedEventsQueryPart);
+}
+
+function search(timeOpened, query, additionalQueryPart) {
+  if (query) {
+    query = `(${query}) AND (${additionalQueryPart})`;
+  } else {
+    query = additionalQueryPart;
+  }
   return getEventsInTimeframeSubscription({
     timeConfig: {
       focusedMoment: timeOpened,
       to: timeOpened,
-      windowSize: 1000 * 60 * 60 * 24 * 7 * 2 // 2 weeks
+      windowSize: twoWeeks
     },
     query
   });
@@ -119,8 +211,9 @@ function getValueOrDefault(form, key, fallback) {
 }
 
 function startValidationInProgress(setForm, form) {
+  const applyOn = getValueOrDefault(form, 'applyOn', null);
   const query = getValueOrDefault(form, 'query', '');
-  if (isBlank(query)) {
+  if (applyOn !== scopeDfq && isBlank(query)) {
     return;
   }
   // hide previous error message

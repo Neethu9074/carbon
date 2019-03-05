@@ -3,7 +3,7 @@ import React from 'react';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { millis } from 'in-services/formatters/number';
+import { millis, latencyFixed, meanLatencyFixed } from 'in-services/formatters/number';
 
 export default function Latency({
   timeConfig,
@@ -23,14 +23,17 @@ export default function Latency({
       shareMaxAxisDomain
       y1={{
         renderer: Renderer.integral,
-        formatter: millis.fixed,
+        formatter: millis.forcedFixedCompact,
+        tooltipFormatter: latencyFixed.compact,
+        calculateStackDifferences: true,
         labels: ['50th', '90th', '95th', '99th', 'Max'],
         defaultDisabledMetrics: ['durationMax'],
         metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
       }}
       y2={{
         renderer: Renderer.line,
-        formatter: millis.fixed,
+        formatter: millis.forcedFixedCompact,
+        tooltipFormatter: meanLatencyFixed.compact,
         labels: ['Mean'],
         defaultDisabledMetrics: ['durationAvg'],
         metricIds: ['durationAvg']

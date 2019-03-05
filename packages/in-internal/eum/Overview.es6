@@ -6,10 +6,13 @@ import { getNginxWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { number } from 'in-services/formatters/number';
+import { number, time } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+import Table from 'in-sdk/components/dashboard/Table';
+import { hostTableCols, getHostDetails } from 'in-internal/sre/datastores';
+
 export default connectTo(
   {
     timeConfig: timeConfig$,
@@ -69,8 +72,10 @@ export default connectTo(
               }}
             />
           </DashboardSection>
+        </Columize>
 
-          <DashboardSection title={`Host CPU load`}>
+        <Columize>
+          <DashboardSection title={`CPU load`}>
             <Chart
               snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -84,6 +89,10 @@ export default connectTo(
                 type: 'line'
               }}
             />
+          </DashboardSection>
+
+          <DashboardSection title={`CPU Usage`}>
+            <Table cols={hostTableCols} rows={eumLoadbalancers} getRowDetails={getHostDetails} maxItemsPerPage={5} />
           </DashboardSection>
         </Columize>
 
@@ -100,6 +109,22 @@ export default connectTo(
                 metrics: eumAcceptors.map(() => `metrics.meters.instana.beaconRequests.total`),
                 labels: eumAcceptorLabels,
                 type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Young generation GC time`}>
+            <Chart
+              snapshotIds={eumAcceptors.map(r => r.jvm.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: time,
+                tooltipFormatter: number.detailed,
+                metrics: eumAcceptors.map(() => 'gc.G1 Young Generation.time'),
+                labels: eumAcceptorLabels,
+                type: 'line'
               }}
             />
           </DashboardSection>

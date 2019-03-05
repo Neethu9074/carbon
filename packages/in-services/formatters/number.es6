@@ -78,6 +78,12 @@ export const millis = {
   forcedFixedCompact: {
     compact: t => number.compact(t) + 'ms',
     detailed: t => number.compact(t) + 'ms'
+  },
+  // 'ms' are always formatted to compact zero decimal format,
+  // 's' and 'min' can have both compact and detailed formats
+  forcedCompactOnMs: {
+    compact: t => formatTime(t, timeMilliUnits, number.compact),
+    detailed: t => (t < 1000 ? formatTime(t, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(t))
   }
 };
 export const seconds = {
@@ -88,6 +94,28 @@ export const minutes = {
   compact: t => formatTime(t, timeMinuteUnits, number.compact),
   detailed: timeByMinutesTwoDecimalPlaces
 };
+export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));
+
+// call and beacon latency can be 0ms, we want to show '< 1ms' instead
+function latencyFormatterWrapper(formatter) {
+  return {
+    compact: v => (v < 1 ? '< 1ms' : formatter.compact(v)),
+    detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))
+  };
+}
+export const latency = latencyFormatterWrapper(millis.forcedCompactOnMs);
+export const latencyFixed = latencyFormatterWrapper(millis.forcedFixedCompact);
+
+// display '< 1ms' label for mean latency values between 0ms and 1ms
+// exclude 0 because mean latency can be 0 when there are no calls
+export function meanLatencyFormatterWrapper(formatter) {
+  return {
+    compact: t => (t > 0 && t < 1 ? '< 1ms' : formatter.compact(t)),
+    detailed: t => (t > 0 && t < 1 ? '< 1ms' : formatter.detailed(t))
+  };
+}
+export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs);
+export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCompact);
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
@@ -172,6 +200,7 @@ export const siMultiplyPrefix = {
   detailed: withSiMultiplyPrefixThreeDecimalPlaces
 };
 
+// deprecated in favor of millis
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const ms = {
@@ -419,5 +448,3 @@ export function valueWithFormatterToReadableString(value, valueFormat) {
   }
   return value.toString();
 }
-
-export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));

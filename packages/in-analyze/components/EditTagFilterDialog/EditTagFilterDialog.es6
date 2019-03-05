@@ -1,16 +1,17 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { timeout, empty } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
+import { get } from 'lodash';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
+import { getTagType, requiresSecondLevelName, isLatencyTag } from 'in-applications/tags';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { positiveNumberValidator } from 'in-services/validators/number';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { requiresSecondLevelName } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
-import { getTagType } from 'in-applications/tags';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -39,7 +40,7 @@ export default compose(
     }) => ({
       onClose: close,
       editMode: Boolean(tagFilter),
-      operatorSuggestions: TAG_TYPES[selectedTagType].operators,
+      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], []),
       onRemoveTagFilter: () => {
         setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
         close();
@@ -198,10 +199,17 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
   let key;
   let keyValidator;
   let value;
+  let valueValidator = notBlankValidator;
   if (forAnalyzeCalls) {
     let defaultValue = '';
     if (tagType === 'NUMBER') {
-      defaultValue = '0';
+      // only allow filtering latencies with positive integers
+      if (isLatencyTag(resolvedTag)) {
+        defaultValue = '100';
+        valueValidator = positiveNumberValidator;
+      } else {
+        defaultValue = '0';
+      }
     } else if (tagType === 'BOOLEAN') {
       defaultValue = 'true';
     }
@@ -214,7 +222,12 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
   } else if (tagType === 'STRING') {
     value = tagFilter ? tagFilter.stringValue || '' : '';
   } else if (tagType === 'NUMBER') {
-    value = tagFilter ? String(tagFilter.numberValue || 0) : '0';
+    let defaultValue = 0;
+    if (isLatencyTag(resolvedTag)) {
+      defaultValue = 100;
+      valueValidator = positiveNumberValidator;
+    }
+    value = tagFilter ? String(tagFilter.numberValue || defaultValue) : String(defaultValue);
   } else if (tagType === 'BOOLEAN') {
     value = tagFilter ? String(tagFilter.booleanValue || false) : 'true';
   } else if (tagType === 'KEY_VALUE_PAIR') {
@@ -248,7 +261,7 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
       'value',
       createField({
         value: value,
-        validator: notBlankValidator
+        validator: valueValidator
       })
     );
   }

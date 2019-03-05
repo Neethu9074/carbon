@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { millis, percentage as percentageFormatter } from 'in-services/formatters/number';
+import { latencyFixed, percentage as percentageFormatter } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Timings.mless';
@@ -15,7 +15,7 @@ export default function Timings({ timings, totalDuration, totalDurationName }) {
         return (
           <div key={i} className={locals.timing}>
             <dt className={locals.label}>{label}</dt>
-            <dd className={locals.value}>{millis.fixedCompact(value)}</dd>
+            <dd className={locals.value}>{latencyFixed.compact(value)}</dd>
             <Tooltip align="topMiddle" content={`${percentageFormatter.detailed(percentage)} of ${totalDurationName}`}>
               <div className={locals.indicator} style={{ width: `${100 * percentage}%` }} />
             </Tooltip>

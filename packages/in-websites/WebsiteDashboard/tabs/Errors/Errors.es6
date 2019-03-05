@@ -25,7 +25,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze Errors
+      Analyze JS Errors
     </Button>
   );
 
@@ -43,6 +43,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
             tagFilters={tagFilters}
             timeConfig={timeConfig}
             columnDefinitions={columnDefinitions}
+            cardTitle="JS Errors"
             rightHeader={rightHeader}
             paginationResettingProps={['timeConfig', 'tagFilters']}
             defaultOrderBy="errorsAgg"

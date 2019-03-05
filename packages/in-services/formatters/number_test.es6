@@ -21,7 +21,12 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiPrefixThreeDecimalPlaces,
   withSiPrefixZeroDecimalPlaces,
-  zeroDecimalPlaces
+  zeroDecimalPlaces,
+  millis,
+  latency,
+  latencyFixed,
+  meanLatency,
+  meanLatencyFixed
 } from './number';
 
 describe('in-services.formatter.number', () => {
@@ -218,5 +223,55 @@ describe('in-services.formatter.number', () => {
     expect(withSiMultiplyPrefixZeroDecimalPlaces(null)).to.equal('0');
     expect(withSiPrefixThreeDecimalPlaces(null)).to.equal('0.000');
     expect(withSiPrefixZeroDecimalPlaces(null)).to.equal('0');
+  });
+
+  describe('millis', () => {
+    it('should format millis dynamically', () => {
+      expect(millis.compact(1)).to.equal('1ms');
+      expect(millis.detailed(1)).to.equal('1.00ms');
+      expect(millis.compact(1200)).to.equal('1s');
+      expect(millis.detailed(1200)).to.equal('1.20s');
+      expect(millis.compact(75000)).to.equal('1min');
+      expect(millis.detailed(75000)).to.equal('1.25min');
+    });
+
+    it('should force compact for ms', () => {
+      expect(millis.forcedCompactOnMs.compact(1)).to.equal('1ms');
+      expect(millis.forcedCompactOnMs.detailed(1)).to.equal('1ms');
+      expect(millis.forcedCompactOnMs.compact(1200)).to.equal('1s');
+      expect(millis.forcedCompactOnMs.detailed(1200)).to.equal('1.20s');
+    });
+  });
+
+  describe('latency', () => {
+    it('should format latency', () => {
+      expect(latency.compact(0)).to.equal('< 1ms');
+      expect(latency.detailed(1)).to.equal('1ms');
+      expect(latency.detailed(10.5)).to.equal('11ms');
+      expect(latency.detailed(1200.2)).to.equal('1.20s');
+    });
+
+    it('should format latency fixed', () => {
+      expect(latencyFixed.compact(0)).to.equal('< 1ms');
+      expect(latencyFixed.detailed(1)).to.equal('1ms');
+      expect(latencyFixed.detailed(10.5)).to.equal('11ms');
+      expect(latencyFixed.detailed(1200.2)).to.equal('1,200ms');
+    });
+
+    it('should format mean latency', () => {
+      expect(meanLatency.compact(0)).to.equal('0ms');
+      expect(meanLatency.compact(0.25)).to.equal('< 1ms');
+      expect(meanLatency.detailed(1)).to.equal('1ms');
+      expect(meanLatency.detailed(10.5)).to.equal('11ms');
+      expect(meanLatency.detailed(1200.2)).to.equal('1.20s');
+    });
+
+    it('should format mean latency fixed', () => {
+      expect(meanLatencyFixed.compact(0)).to.equal('0ms');
+      expect(meanLatencyFixed.compact(0.25)).to.equal('< 1ms');
+      expect(meanLatencyFixed.detailed(1)).to.equal('1ms');
+      expect(meanLatencyFixed.detailed(10.5)).to.equal('11ms');
+      expect(meanLatencyFixed.detailed(1200.2)).to.equal('1,200ms');
+    });
   });
 });

@@ -1,8 +1,8 @@
 import { interval } from 'reactive-observables';
 
 import { createTrackingStore } from 'in-stores/store';
-import http from 'in-services/http';
 import { build } from 'in-services/config';
+import http from 'in-services/http';
 
 export const localTag = build.tag;
 
@@ -16,7 +16,10 @@ export function getServerVersionTag() {
   return http({
     method: 'GET',
     url: `/build.json`,
-    maxRetries: 3
+    maxRetries: 3,
+    queryParams: {
+      noCache: Date.now()
+    }
   });
 }
 

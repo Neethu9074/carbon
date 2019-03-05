@@ -1,0 +1,8 @@
+@import '~in-themes/mixins.less';
+
+:local {
+
+  .ellipsis {
+    .ellipsis();
+  }
+}

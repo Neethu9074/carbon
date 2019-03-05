@@ -17,6 +17,7 @@ export default function Columns({ setOrder, orderBy, orderDirection, columnDefin
             headCellProps.className = locals.tableActionHead;
           }
         }
+        headCellProps.width = columnDefinition.width;
         if (columnDefinition.sortable === false || columnDefinition.tableAction) {
           return (
             <Th key={columnDefinition.id} {...headCellProps}>

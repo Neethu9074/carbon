@@ -40,7 +40,7 @@ export const types = {
   error: {
     short: 'Err',
     badgeLabel: 'Err',
-    long: '(Un-)caught JavaScript Errors',
+    long: '(Un-)caught JS Errors',
     color: 'darkred'
   },
   custom: customEventsInWebsiteMonitoringEnabled && {

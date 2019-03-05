@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
@@ -13,7 +14,10 @@ export function getAlertingConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/alertingConfigurations`
+    url: `/api/events/settings/alerts`,
+    queryParams: {
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
   }).map(response => response.body);
 }
 
@@ -21,8 +25,20 @@ export function getAlertingConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/alertingConfigurations/${encodeURIComponent(id)}`
+    url: `/api/events/settings/alerts/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
+}
+
+export function getAlertsForAlertChannelId(alertChannelId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/alerts/infos`,
+    queryParams: {
+      integrationId: alertChannelId,
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
+  }).map(response => response.body);
 }
 
 export function setEnabled(config, enabled) {
@@ -40,7 +56,7 @@ export function saveAlertingConfigMutable(config) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/alertingConfigurations/${encodeURIComponent(config.id)}`,
+    url: `/api/events/settings/alerts/${encodeURIComponent(config.id)}`,
     data: config
   }).map(response => response.body);
 }
@@ -50,7 +66,7 @@ export function deleteAlertingConfig(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/alertingConfigurations/${encodeURIComponent(id)}`
+    url: `/api/events/settings/alerts/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
 
@@ -62,7 +78,7 @@ export function createAlertingConfig(
   ruleIds = [],
   query = '',
   eventQuery = '',
-  eventTypes = ['incident', 'critical']
+  eventTypes = []
 ) {
   return {
     id: id || generateUniqueShortId(),

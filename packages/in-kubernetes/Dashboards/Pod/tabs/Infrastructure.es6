@@ -10,20 +10,23 @@ import {
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
+import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
+import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import EntityLink from 'in-new-components/EntityLink';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
 
-export default function Infrastructure({ timeConfig, podId }) {
+export default function Infrastructure({ data: pod, timeConfig, podId }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Containers"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={getColumnDefinitions(pod)}
       timeConfig={timeConfig}
       podId={podId}
       paginationResettingProps={['podId', 'timeConfig']}
@@ -51,54 +54,92 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
   });
 }
 
-const columnDefinitions = [
-  {
-    id: 'label',
-    label: 'Name',
-    getContent(item, { timeConfig }) {
-      return (
-        <EntityLink
-          icon="lib_container"
-          label={get(item, ['container', 'label'])}
-          href$={getDashboardLink(get(item, ['container', 'id']), {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-        />
-      );
-    }
-  },
-  {
-    id: 'cpuTotal',
-    label: 'CPU Total %',
-    sortable: false,
-    getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={get(item, ['container', 'id'])}
-          timeConfig={timeConfig}
-          formatter={percentageZeroDecimalPlaces}
-          tooltipFormatter={percentageTwoDecimalPlaces}
-          metric="cpu.total_usage"
-        />
-      );
-    }
-  },
-  {
-    id: 'memoryUsage',
-    label: 'Memory Usage',
-    sortable: false,
-    getContent(item, { timeConfig }) {
-      return (
-        <InfrastructureMetricSparkChart
-          snapshotId={get(item, ['container', 'id'])}
-          timeConfig={timeConfig}
-          formatter={bytesZeroDecimalPlaces}
-          tooltipFormatter={bytesTwoDecimalPlaces}
-          metric="memory.usage"
-        />
-      );
-    }
+function getColumnDefinitions(pod) {
+  const allContainerStatuses = [
+    ...get(pod, ['status', 'initContainerStatuses'], []),
+    ...get(pod, ['status', 'containerStatuses'], [])
+  ];
+  const statesMap = {};
+  for (let i = 0; i < allContainerStatuses.length; i++) {
+    statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
   }
-];
+
+  return [
+    {
+      id: 'label',
+      label: 'Name',
+      getContent(item, { timeConfig }) {
+        return (
+          <EntityLink
+            icon="lib_container"
+            label={get(item, ['container', 'label'])}
+            href$={getDashboardLink(get(item, ['container', 'id']), {
+              pathname: '/physical/dashboard',
+              to: timeConfig.to,
+              focusedMoment: timeConfig.to
+            })}
+          />
+        );
+      }
+    },
+    {
+      id: 'ready',
+      label: 'Ready',
+      sortable: false,
+      getContent(item) {
+        const id = get(item, ['container', 'id']);
+        return statesMap[id] ? <ReadyIcon isReady={statesMap[id].ready} /> : '-';
+      }
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      sortable: false,
+      getContent(item) {
+        const id = get(item, ['container', 'id']);
+        return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : '-';
+      }
+    },
+    {
+      id: 'message',
+      label: 'Message',
+      sortable: false,
+      getContent(item) {
+        const id = get(item, ['container', 'id']);
+        return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : '-';
+      }
+    },
+    {
+      id: 'cpuTotal',
+      label: 'CPU Total %',
+      sortable: false,
+      getContent(item, { timeConfig }) {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={get(item, ['container', 'id'])}
+            timeConfig={timeConfig}
+            formatter={percentageZeroDecimalPlaces}
+            tooltipFormatter={percentageTwoDecimalPlaces}
+            metric="cpu.total_usage"
+          />
+        );
+      }
+    },
+    {
+      id: 'memoryUsage',
+      label: 'Memory Usage',
+      sortable: false,
+      getContent(item, { timeConfig }) {
+        return (
+          <InfrastructureMetricSparkChart
+            snapshotId={get(item, ['container', 'id'])}
+            timeConfig={timeConfig}
+            formatter={bytesZeroDecimalPlaces}
+            tooltipFormatter={bytesTwoDecimalPlaces}
+            metric="memory.usage"
+          />
+        );
+      }
+    }
+  ];
+}

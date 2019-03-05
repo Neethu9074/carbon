@@ -1,11 +1,11 @@
 export default {
-  render: ({ metrics, colors, scale, config, axis }) => {
+  render: ({ metrics, colors, colors100, scale, config, axis }) => {
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
       metricMap = calculateMetricMap(metrics);
     }
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors[iMetric], axis.colors100[iMetric], metrics[iMetric], metricMap, scale);
+      renderDataSeries(config, colors[iMetric], colors100[iMetric], metrics[iMetric], metricMap, scale);
     }
   },
 
@@ -42,10 +42,6 @@ function renderDataSeries(config, color, borderColor, dataSeries, metricMap, sca
 }
 
 function drawBlock(metricMap, config, scale, block, borderColor) {
-  if (block.length === 0) {
-    return;
-  }
-
   const firstDataPoint = block[0];
   const lastDataPoint = block[block.length - 1];
   const firstDataPointXPos = config.scales.xBackBuffer.getRange(firstDataPoint[0]);

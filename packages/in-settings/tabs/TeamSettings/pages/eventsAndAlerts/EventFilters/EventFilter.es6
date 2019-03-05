@@ -2,6 +2,16 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
+import {
+  parseQuery,
+  scopeApplication,
+  scopeDfq,
+  serializeQuery
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import {
+  modeEventTypes,
+  modeSelectedEvents
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/Step2';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import EventFilterForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilterForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
@@ -12,7 +22,6 @@ import { queryValidator } from 'in-stores/search/validations';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { isNotBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 
@@ -21,10 +30,10 @@ export default function EventFilter(props) {
 
   return (
     <Form
-      title="Event Filter"
+      title="Alert"
       entityId={entityId}
       createDefaultEntity={createAlertingConfig}
-      createForm={config => createForm(config, !entityId)}
+      createForm={alertEntity => createForm(alertEntity, !entityId)}
       getEntityFromApi={getAlertingConfig}
       openEntities={() => goToPath(teamSettingsAlertingEventFilters)}
       saveEntity={save}
@@ -32,12 +41,12 @@ export default function EventFilter(props) {
   );
 }
 
-const Form = entityForm(function IntegrationForm(props) {
+const Form = entityForm(function DetailsForm(props) {
   const { form, message, error, loading, isCreate } = props;
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create' : 'Edit'} Event Filter</SubViewHeader>
+      <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
 
       {message ? (
         <Section>
@@ -47,7 +56,11 @@ const Form = entityForm(function IntegrationForm(props) {
         </Section>
       ) : null}
 
-      <EventFilterForm onChangeApplyOn={onChangeApplyOn} {...props} />
+      <EventFilterForm
+        onChangeApplyOn={onChangeApplyOn}
+        onChangeEventSelectionMode={onChangeEventSelectionMode}
+        {...props}
+      />
 
       <SaveCancel
         form={form}
@@ -60,90 +73,72 @@ const Form = entityForm(function IntegrationForm(props) {
   );
 });
 
-function save(config, form) {
-  // the query field might not exist in case 'Apply on ALL' is selected,
-  // which corresponds to an empty query
-  const query = form.containsKey('query') ? form.get('query').value : '';
-
-  return saveAlertingConfig(
-    fromJS(
-      createAlertingConfig(
-        config ? config.get('id') : null,
-        form.get('name').value,
-        form.get('muteUntil').value,
-        form.get('integrationIds').value.toJS(),
-        form.get('ruleIds').value.toJS(),
-        query,
-        form.get('eventQuery').value,
-        form.get('eventTypes').value
-      )
-    )
-  );
-}
-
-function onChangeApplyOn(form, applyOn) {
-  if (!applyOn) {
-    return;
+function createForm(alertEntity, isCreate) {
+  let eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([]));
+  if (eventTypes == null) {
+    // Can be null even though we provide a fallback to getIn, when it is present as null in the back end payload.
+    eventTypes = List([]);
   }
-  let updatedForm = form.updateIn(['applyOn'], field => field.setValue(applyOn).setTouched(true));
-  if (applyOn === 'all') {
-    updatedForm = updatedForm.remove('query');
+  let selectedEvents = alertEntity.getIn(['eventFilteringConfiguration', 'ruleIds'], List([]));
+  if (selectedEvents == null) {
+    // Can be null even though we provide a fallback to getIn, when it is present as null in the back end payload.
+    selectedEvents = List([]);
+  }
+
+  let eventSelectionMode;
+  if (!eventTypes.isEmpty()) {
+    eventSelectionMode = modeEventTypes;
   } else {
-    updatedForm = putQueryFields(updatedForm, '');
+    eventSelectionMode = modeSelectedEvents;
   }
-  return updatedForm;
-}
 
-function createForm(config, isCreate) {
-  const query = config.getIn(['eventFilteringConfiguration', 'query'], '');
-  // always set to 'Dynamic Focus Query' per default for new configs, so that
-  // the user manually has to select 'All' in case he really want that
-  const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
+  const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
+  const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
 
   let form = createMapForm()
     .put(
       'name',
       createField({
-        value: config.get('alertName'),
+        value: alertEntity.get('alertName'),
         validator: notBlankValidator
       })
     )
     .put(
       'muteUntil',
       createField({
-        value: config.get('muteUntil')
+        value: alertEntity.get('muteUntil')
       })
     )
     .put(
-      'integrationIds',
+      'selectedAlertChannels',
       createField({
-        value: config.get('integrationIds', List())
+        value: alertEntity.get('integrationIds', List())
       })
     )
     .put(
       'eventQuery',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
+        value: alertEntity.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
         validator: queryValidator
       })
     )
     .put(
-      'ruleIds',
+      'eventSelectionMode',
       createField({
-        value: config.getIn(['eventFilteringConfiguration', 'ruleIds'], List())
-      })
-    )
-    .put(
-      'eventTypes',
-      createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventTypes'], List(['incident', 'critical'])),
-        validator: eventTypeValidator
+        value: eventSelectionMode,
+        validator: notBlankValidator
       })
     )
     .put(
       'matchingEntities',
       createField({
         value: null
+      })
+    )
+    .put(
+      'matchingEntitiesQueryInProgress',
+      createField({
+        value: false
       })
     )
     .put(
@@ -160,14 +155,42 @@ function createForm(config, isCreate) {
       })
     );
 
-  if (applyOn === 'dfq') {
+  if (eventSelectionMode === modeEventTypes) {
+    form = putEventTypesField(form, eventTypes);
+  } else if (eventSelectionMode === modeSelectedEvents) {
+    form = putSelectedEventsField(form, selectedEvents);
+  }
+
+  if (applyOn === scopeDfq) {
     form = putQueryFields(form, query);
+  } else if (applyOn === scopeApplication) {
+    form = putApplicationField(form, applicationName);
   }
 
   return form;
 }
 
-function putQueryFields(form, query) {
+export function putEventTypesField(form, eventTypes) {
+  return form.put(
+    'eventTypes',
+    createField({
+      value: eventTypes ? eventTypes : List([]),
+      validator: eventTypeValidator
+    })
+  );
+}
+
+export function putSelectedEventsField(form, selectedEvents) {
+  return form.put(
+    'selectedEvents',
+    createField({
+      value: selectedEvents ? selectedEvents : List([]),
+      validator: selectedEventsValidator
+    })
+  );
+}
+
+export function putQueryFields(form, query) {
   let updatedForm = form.put(
     'query',
     createField({
@@ -192,13 +215,104 @@ function putQueryFields(form, query) {
   return updatedForm;
 }
 
+export function removeQueryFields(form) {
+  return form
+    .remove('query')
+    .remove('validationResult')
+    .remove('queryValidationInProgress');
+}
+
+export function putApplicationField(form, applicationName) {
+  return form.put(
+    'application',
+    createField({
+      value: applicationName,
+      validator: notBlankValidator
+    })
+  );
+}
+
+function onChangeEventSelectionMode(form, eventSelectionMode) {
+  if (!eventSelectionMode) {
+    return;
+  }
+  let updatedForm = form.updateIn(['eventSelectionMode'], field => field.setValue(eventSelectionMode).setTouched(true));
+
+  if (eventSelectionMode === modeEventTypes) {
+    updatedForm = updatedForm.remove('selectedEvents');
+    updatedForm = putEventTypesField(updatedForm);
+  } else if (eventSelectionMode === modeSelectedEvents) {
+    updatedForm = updatedForm.remove('eventTypes');
+    updatedForm = putSelectedEventsField(updatedForm);
+  } else {
+    updatedForm = updatedForm.remove('selectedEvents');
+    updatedForm = updatedForm.remove('eventTypes');
+  }
+
+  return updatedForm;
+}
+
+function onChangeApplyOn(form, applyOn) {
+  if (!applyOn) {
+    return;
+  }
+  let updatedForm = form.updateIn(['applyOn'], field => field.setValue(applyOn).setTouched(true));
+
+  if (applyOn === scopeDfq) {
+    updatedForm = updatedForm.remove('application');
+    updatedForm = putQueryFields(updatedForm, '');
+  } else if (applyOn === scopeApplication) {
+    updatedForm = removeQueryFields(updatedForm);
+    updatedForm = putApplicationField(updatedForm, null);
+  } else {
+    // scope "everything" or no apply-on value selected
+    updatedForm = removeQueryFields(updatedForm);
+    updatedForm = updatedForm.remove('application');
+  }
+
+  return updatedForm;
+}
+
 function eventTypeValidator(eventType) {
   if (eventType.size === 0) {
     return [
       {
         severity: 'error',
-        message: `Please select at least one event type`
+        message: `Please select at least one event type.`
       }
     ];
   }
+}
+
+function selectedEventsValidator(selectedEvents) {
+  if (selectedEvents.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: `Please select at least one event.`
+      }
+    ];
+  }
+}
+
+function save(alertEntity, form) {
+  const query = serializeQuery(form);
+  const eventSelectionMode = form.get('eventSelectionMode').value;
+
+  return saveAlertingConfig(
+    fromJS(
+      createAlertingConfig(
+        alertEntity ? alertEntity.get('id') : null,
+        form.get('name').value,
+        form.get('muteUntil').value,
+        form.get('selectedAlertChannels').value.toJS(),
+        eventSelectionMode === modeSelectedEvents && form.get('selectedEvents')
+          ? form.get('selectedEvents').value.toJS()
+          : null,
+        query,
+        form.get('eventQuery').value,
+        eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null
+      )
+    )
+  );
 }

@@ -7,7 +7,7 @@ import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/sn
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { number, ms, percentage } from 'in-services/formatters/number';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -16,7 +16,6 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 
 import locals from './Infrastructure.mless';
 
@@ -61,27 +60,23 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   return (
     <MaxWidthFullscreenContainer>
-      <Card
-        title="Infrastructure"
-        header={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
-        withoutPadding
-      >
-        <ServerTable
-          get={getTableData}
-          type={selectedType}
-          defaultPageSize={10}
-          columnDefinitions={getColumnDefinitions(selectedType)}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-          paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-          defaultOrderBy="callsAgg"
-          defaultOrderDirection="DESC"
-          size="compact"
-          isSearchable={false}
-        />
-      </Card>
+      <ServerTable
+        get={getTableData}
+        type={selectedType}
+        defaultPageSize={10}
+        columnDefinitions={getColumnDefinitions(selectedType)}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
+        defaultOrderBy="callsAgg"
+        defaultOrderDirection="DESC"
+        size="compact"
+        isSearchable={false}
+        rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
+        cardTitle="Infrastructure"
+      />
     </MaxWidthFullscreenContainer>
   );
 }
@@ -269,7 +264,7 @@ const getColumnDefinitions = type => {
             timeConfig={getResolvedTimeConfig(timeConfig, result)}
             metrics={item.metrics.latency}
             metric={item.metrics.latencyAgg}
-            tooltipFormatter={ms.compact}
+            tooltipFormatter={meanLatencyFixed.compact}
           />
         );
       }

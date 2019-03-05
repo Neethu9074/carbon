@@ -3,13 +3,14 @@ import React from 'react';
 
 import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/FillerSpanProcessingStats';
 import TracesSubscriptionStats from 'in-internal/TracesSubscriptionStats/TracesSubscriptionStats';
-import AppDataProcessorStatistics from 'in-internal/AppDataProcessorStatistics';
+import AppDataProcessorStatistics from 'in-internal/Appdata/AppDataProcessorStatistics';
+import AppDataQueryPerformance from 'in-internal/Appdata/AppDataQueryPerformance';
 import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
-import AppDataQueryPerformance from 'in-internal/AppDataQueryPerformance';
 import GraphExplorer from 'in-internal/GraphExplorer/GraphExplorer';
 import SloViolations from 'in-internal/SloViolations/SloViolations';
+import ResilientMapping from 'in-internal/Appdata/ResilientMapping';
+import CallExtraction from 'in-internal/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
-import ResilientMapping from 'in-internal/ResilientMapping';
 import EumProcessor from 'in-internal/eum/EumProcessor';
 import WorkerStats from 'in-internal/sre/WorkerStats';
 import EumAcceptor from 'in-internal/eum/EumAcceptor';
@@ -37,6 +38,7 @@ export default function Internal() {
       <Route path="/internal/fillerStats" component={FillerStats} />
       <Route path="/internal/appdata" component={Appdata} />
       <Route path="/internal/appdataProcessing" component={AppDataProcessorStatistics} />
+      <Route path="/internal/callExtraction" component={CallExtraction} />
       <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
       <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
       <Route path="/internal/resilientMapping" component={ResilientMapping} />

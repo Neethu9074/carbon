@@ -7,13 +7,13 @@
     .ellipsis();
   }
 
-  @media screen and (min-width: 1280px) {
+  @media (min-width: 1280px) {
     .shorten {
       max-width: 40rem;
     }
   }
 
-  @media screen and (min-width: 1400px) {
+  @media (min-width: 1400px) {
     .shorten {
       max-width: 50rem;
     }

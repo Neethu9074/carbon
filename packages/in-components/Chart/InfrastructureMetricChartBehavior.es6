@@ -3,7 +3,6 @@ import { isEqual } from 'lodash';
 import React from 'react';
 
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
-import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import createDataHolder from 'in-charts/data/dataHolder';
@@ -48,10 +47,7 @@ export default class InfrastructureMetricChartBehavior extends React.Component {
   mapProps = props => {
     let { timeConfig, y1, y2, minRollup } = props;
     this.timeConfig = resolveTimeConfig(timeConfig);
-    this.granularity = getChartGranularity(timeConfig);
-    if (minRollup) {
-      this.granularity = Math.max(this.granularity, minRollup);
-    }
+    this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
     this.y1 = mapAxis(y1);
     this.y2 = mapAxis(y2);
   };

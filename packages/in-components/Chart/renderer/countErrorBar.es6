@@ -8,6 +8,10 @@ export default {
     const countDataSeries = metrics[0];
     bar.render({ axis, dataSeries: countDataSeries, color: colors[0], scale, config });
 
+    if (!metrics[1]) {
+      return;
+    }
+
     let errorMetrics = [];
     if (countDataSeries.length == 0) {
       errorMetrics = metrics[1];

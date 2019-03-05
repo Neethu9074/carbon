@@ -1,14 +1,11 @@
 import React from 'react';
 
+import { activityTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import { emptyList } from 'in-services/fixedImmutables';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-
-import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
-
-const queriesFormatter = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -30,7 +27,7 @@ const cols = [
       getMetricName(row) {
         return `databases.${row.key}.queries`;
       },
-      getContent: queriesFormatter,
+      getContent: activityTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -46,7 +43,7 @@ const cols = [
       getMetricName(row) {
         return `databases.${row.key}.avg_query_latency`;
       },
-      getContent: msZeroDecimalPlaces,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -89,7 +86,7 @@ function getDetails(row) {
           metrics: ['databases.' + row.key + '.avg_query_latency'],
           labels: ['avg. Query Latency'],
           type: 'line',
-          formatter: msZeroDecimalPlaces
+          formatter: millis.detailed
         }}
       />
       <Columize>
@@ -98,7 +95,7 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: queriesFormatter,
+            formatter: activityTwoDecimalPlaces,
             metrics: ['databases.' + row.key + '.queries'],
             labels: ['Queries'],
             type: 'line'
@@ -109,7 +106,7 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: queriesFormatter,
+            formatter: activityTwoDecimalPlaces,
             metrics: [
               'databases.' + row.key + '.select_count',
               'databases.' + row.key + '.insert_count',

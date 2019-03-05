@@ -35,18 +35,23 @@ export default function ServerTablePresenter(props) {
     // values that define the content
     columnDefinitions,
     getRowProps,
-    getRowLink,
+    onRowClick,
     result = pendingResult,
     cardTitle,
     tableInCard,
+    fixedLayout,
     rightHeader,
     leftHeader,
     isSearchable = true,
+    searchPlaceholder = '',
+    searchMaxWidth,
     size = 'regular',
     noDataMessage,
     showPagination = true,
     renderFooter = () => null,
     withoutPadding = true,
+    tableClassName,
+    tableStyle,
 
     // events
     onChange,
@@ -87,7 +92,7 @@ export default function ServerTablePresenter(props) {
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        getRowLink={getRowLink}
+        onRowClick={onRowClick}
       />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
@@ -98,15 +103,21 @@ export default function ServerTablePresenter(props) {
       {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
       {isSearchable && (
         <SearchInput
-          maxWidth={140}
+          maxWidth={searchMaxWidth ? searchMaxWidth : 140}
           query={query}
+          placeholder={searchPlaceholder}
           onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
         />
       )}
     </div>
   );
   let content = (
-    <Table tableInCard={tableInCard || cardTitle != null}>
+    <Table
+      className={tableClassName}
+      style={tableStyle}
+      tableInCard={tableInCard || cardTitle != null}
+      fixedLayout={fixedLayout}
+    >
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}

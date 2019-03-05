@@ -144,7 +144,7 @@ export default connectTo(
                       { value: '5', label: 'warning' },
                       { value: '10', label: 'critical' }
                     ]}
-                    onChange={e => onChange('severity', (e = e ? e.value : ''))}
+                    onChange={e => onChange('severity', e ? e.value : '')}
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>
@@ -169,7 +169,7 @@ export default connectTo(
                         { value: '300000', label: '5min' },
                         { value: '3600000', label: '60min' }
                       ]}
-                      onChange={e => onChange('expirationTime', (e = e ? e.value : ''))}
+                      onChange={e => onChange('expirationTime', e ? e.value : '')}
                     />
                     <TouchedMessages field={field} />
                   </Helpify>
@@ -261,7 +261,7 @@ function RulesDropDown({ value, rules, systemRules, onChangeInRuleIds }) {
             };
           })
         )}
-      onChange={e => onChangeInRuleIds((e = e ? e.value : ''))}
+      onChange={e => onChangeInRuleIds(e ? e.value : '')}
     />
   );
 }

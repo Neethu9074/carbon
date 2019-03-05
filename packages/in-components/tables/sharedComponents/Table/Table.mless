@@ -9,6 +9,10 @@
     border-collapse: initial;
   }
 
+  .fixedLayout {
+    table-layout: fixed;
+  }
+
   .tableInCard {
     border-radius: 0;
     box-shadow: none;
@@ -118,6 +122,7 @@
   }
 
   .erroneousRowTh, .erroneousRowTd {
+    max-width: 3.75rem;
     padding-right: 0;
 
     & + .th, & + .td {

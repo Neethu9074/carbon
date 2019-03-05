@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .ellipsis();
+  }
+
+  .smallTextBelow {
+    font-size: .75rem;
+    color: @lib__colors__N600Light;
+  }
+}

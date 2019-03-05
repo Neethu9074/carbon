@@ -15,7 +15,7 @@ import List from 'in-settings/components/List';
 import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
 
-export default function CustomRule() {
+export default function CustomRules() {
   return (
     <List
       title="Custom Rules"
@@ -37,10 +37,10 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '20vw',
+    width: 40,
     getContent(entity) {
       return (
-        <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomRules, entity.id)}>
+        <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomRules, entity.id)} ellipsis>
           {entity.name} {entity.deprecated && <Badge size="sm">Deprecated Rule</Badge>}
         </Link>
       );
@@ -49,6 +49,7 @@ const columnDefinitions = [
   {
     id: 'entityType',
     label: 'Entity Type',
+    width: 30,
     getContent(entity) {
       return <WithIcon plugin={entity.entityType}>{getSingular(entity.entityType)}</WithIcon>;
     },
@@ -57,6 +58,8 @@ const columnDefinitions = [
   {
     id: 'metric',
     label: 'Metric',
+    width: 30,
+    ellipsis: true,
     getContent: getMetric,
     getValue: getMetric
   }

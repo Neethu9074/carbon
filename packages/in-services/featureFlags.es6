@@ -31,11 +31,6 @@ export const useInstanaSaasEumTrackingUrlEnabled = isFeatureFlagEnabled('useInst
 export const onPremLicenseInformationEnabled = isFeatureFlagEnabled('onPremLicenseInformationEnabled');
 export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEnabled', true);
 export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
-export const oneZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('oneZeroWebsiteMonitoringEnabled');
-export const twoZeroWebsiteMonitoringEnabled = isFeatureFlagEnabled('twoZeroWebsiteMonitoringEnabled');
-export const quickTagFiltersInWebsiteMonitoringDashboardEnabled = isFeatureFlagEnabled(
-  'quickTagFiltersInWebsiteMonitoringDashboardEnabled'
-);
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
@@ -119,3 +114,14 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
 // ########################################################################################
 export const isOneSecondRollupsForOneDay =
   !isFeatureFlagEnabled('redisMetricWritingEnabled') && isFeatureFlagEnabled('write1sRollupsToCassandra');
+
+// #####################################################################################################################
+// TL;DR: Some tenants have a lot of rule bindings and rules. Loading the rule bindings settings page makes two http
+// requests per rule binding. Users working with these pages a lot run into the API limit. This feature flag disables
+// these http requests.
+//
+// This is a stop gap measure and can be removed after the merging of rules and rule bindings into event specifications.
+//
+// See https://instana.slack.com/archives/GC1J42ZSR/p1550591400029100 or ask the Stan team for details.
+// #####################################################################################################################
+export const ruleDeprecationValidationChecksEnabled = isFeatureFlagEnabled('ruleDeprecationValidationChecksEnabled');

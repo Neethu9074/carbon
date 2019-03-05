@@ -6,8 +6,8 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
+import { latencyFixed, number } from 'in-services/formatters/number';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { millis, number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-new-components/KpiCard';
@@ -38,11 +38,11 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         </Col>
         {pageLoad && (
           <Col lg={2}>
-            <KpiCard title="onLoad Time" value={millis.fixedCompact(pageLoad.duration)} />
+            <KpiCard title="onLoad Time" value={latencyFixed.compact(pageLoad.duration)} />
           </Col>
         )}
         <Col lg={2}>
-          <KpiCard title="JavaScript Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
+          <KpiCard title="JS Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
         </Col>
         <Col lg={2}>
           <KpiCard title="Resources" value={number.compact(getBeaconCount(beacons, 'resourceLoad'))} />
@@ -52,7 +52,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         </Col>
       </Row>
 
-      <BeaconUserSummary beacon={firstBeacon} />
+      <BeaconUserSummary beacon={firstBeacon} beacons={beacons} />
 
       <Activity beacons={beacons} pageLoad={pageLoad} firstBeacon={firstBeacon} filter={filter} setFilter={setFilter} />
     </ContentWrapper>

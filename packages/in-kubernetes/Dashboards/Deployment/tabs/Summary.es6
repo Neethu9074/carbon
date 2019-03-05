@@ -6,11 +6,13 @@ import {
   bytesTwoDecimalPlaces,
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import MatchingServicesList from 'in-kubernetes/Dashboards/Deployment/tabs/MatchingServicesList';
-import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -189,7 +191,11 @@ export default function Summary({ timeConfig, data: deployment }) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsList conditions={deployment.conditions} />
+          <ConditionsTableCard
+            conditions={deployment.conditions}
+            viewAllHref$={getDeploymentDashboard(snapshotId, { tab: '/conditions' })}
+            TablePresenter={NodeConditionsPresenter}
+          />
         </Col>
       </Row>
     </Fragment>

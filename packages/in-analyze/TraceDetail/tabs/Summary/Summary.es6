@@ -11,7 +11,6 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
@@ -19,7 +18,7 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { number, millis } from 'in-services/formatters/number';
+import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import { traceDetail } from 'in-analyze/navigation/paths';
@@ -122,9 +121,7 @@ class Summary extends React.Component {
               <KpiCard
                 title="Latency"
                 value={
-                  trace.issues && trace.issues.includes('missing_root_span')
-                    ? 'N/A'
-                    : wrapToDisplaySpecialLabelFor0(millis).compact(trace.duration)
+                  trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.compact(trace.duration)
                 }
               />
             </Col>

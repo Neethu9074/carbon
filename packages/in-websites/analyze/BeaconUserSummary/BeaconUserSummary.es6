@@ -12,7 +12,7 @@ import Code from 'in-components/Code';
 
 import locals from './BeaconUserSummary.mless';
 
-export default function BeaconUserSummary({ beacon }) {
+export default function BeaconUserSummary({ beacon, beacons }) {
   const hasMeta = Object.keys(beacon.meta).length > 0;
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
@@ -22,7 +22,7 @@ export default function BeaconUserSummary({ beacon }) {
     <Row className={locals.summary} verticallyStretchColumns>
       <Col lg={4}>
         <Card title="User Information" useMaxAvailableHeight>
-          <User beacon={beacon} />
+          <User beacon={beacon} beacons={beacons} />
 
           <Dl>
             <Di title="Browser" ddClassName={locals.browserItem}>

@@ -1,6 +1,7 @@
 import { find, get, reverse, sortBy } from 'lodash';
 import { withState, compose } from 'recompose';
 import { createLogger } from 'instalog';
+import invariant from 'invariant';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -8,13 +9,14 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
+import { create, just } from 'reactive-observables';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
-import { create } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -41,12 +43,15 @@ function clearPerCellLoadingIndicator() {
 }
 
 export default compose(
-  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
-  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
-  withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1),
   withState('errorMessage', 'setErrorMessage', null),
-  connectTo(({ loadEntities, setErrorMessage }) => {
+  connectTo(({ loadEntities, setErrorMessage, rows }) => {
+    if (rows) {
+      return {
+        entities: just(rows),
+        perCellLoadingIndicator: perCellLoadingIndicator$
+      };
+    }
+
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
     // rendered
     // 2. The reloadSignal.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the entities (for
@@ -70,7 +75,11 @@ export default compose(
       entities: entityObservable,
       perCellLoadingIndicator: perCellLoadingIndicator$
     };
-  })
+  }),
+  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
+  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
+  withState('queryState', 'setQuery', ''),
+  withState('pageState', 'setPage', 1)
 )(List);
 
 function List({
@@ -78,15 +87,23 @@ function List({
   getHeader,
   getEntityName,
   getDetailsHref,
+  onRowClick,
   columnDefinitions,
   tableActions = {},
   onCreateNew,
   labelNew,
   pathNew,
   newButtonDisabledTooltipMessage = () => null,
+  cardTitle,
+  tableInCard,
   rightHeader,
+  isSearchable = true,
   searchAttributes = [],
+  extraFilters,
+  searchPlaceholder,
+  searchMaxWidth,
   entities,
+  noDataMessage,
   pageSize = 20,
   pageState,
   setPage,
@@ -99,7 +116,9 @@ function List({
   setQuery,
   errorMessage,
   setErrorMessage,
-  perCellLoadingIndicator
+  perCellLoadingIndicator,
+  tableClassName,
+  tableStyle
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -110,6 +129,11 @@ function List({
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
   if (entities) {
     totalHitsBeforeFilter = entities.length;
+    if (extraFilters && extraFilters.length > 0) {
+      extraFilters.forEach(filter => {
+        entities = entities.filter(filter);
+      });
+    }
     if (!isBlank(queryState) && searchAttributes.length > 0) {
       entities = entities.filter(entity =>
         searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
@@ -124,9 +148,23 @@ function List({
   const header = getHeader(totalHitsBeforeFilter);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
+  let leftHeader = null;
+  if (cardTitle != null) {
+    leftHeader = null;
+  } else {
+    leftHeader = <ListTitle>{header}</ListTitle>;
+  }
+
+  if (__DEV__) {
+    invariant(!(onRowClick && getDetailsHref), 'You cannot specify both, onRowClick and getDetailsHref.');
+  }
+  if (getDetailsHref) {
+    onRowClick = entity => goToPath(getDetailsHref(entity));
+  }
+
   return (
     <MaxWidthFullscreenContainer>
-      <Title title={title} />
+      {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
         onChange={({ page, query, orderBy, orderDirection }) => {
@@ -142,18 +180,27 @@ function List({
           getEntityName,
           setErrorMessage
         })}
-        leftHeader={<ListTitle>{header}</ListTitle>}
+        leftHeader={leftHeader}
         orderBy={orderByState}
         orderDirection={orderDirectionState}
         page={pageState}
         pageSize={pageSize}
         query={queryState}
+        isSearchable={isSearchable}
+        searchPlaceholder={searchPlaceholder}
+        searchMaxWidth={searchMaxWidth}
         result={result}
+        noDataMessage={noDataMessage}
+        cardTitle={cardTitle}
+        tableInCard={tableInCard}
+        tableClassName={tableClassName}
+        tableStyle={tableStyle}
+        fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
-        getRowLink={getDetailsHref ? entity => getDetailsHref(entity) : null}
         getRowProps={() => ({ size: 'compact' })}
+        onRowClick={onRowClick}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -180,14 +227,26 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
   if (columnDefinition && columnDefinition.getValue) {
     sortIteratee = columnDefinition.getValue;
   }
-  const sorted = sortBy(entities, sortIteratee);
+
+  // make sorting case insensitive
+  const caseInsensitiveSortIteratee = entity => {
+    let value = null;
+    if (typeof sortIteratee === 'string') {
+      value = entity[sortIteratee];
+    } else if (typeof sortIteratee === 'function') {
+      value = sortIteratee(entity);
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
   if (orderDirectionState === 'DESC') {
     reverse(sorted);
   }
   return sorted;
 }
 
-function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
+export function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
   if (!pathNew && !onCreateNew) {
     return null;
   }
@@ -229,13 +288,19 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
     );
   }
   if (tableActions.delete) {
-    allColumns = addDeleteActionAction(
+    allColumns = addDeleteAction(
       allColumns,
       tableActions.delete,
       perCellLoadingIndicator,
       getEntityName,
       setErrorMessage
     );
+  }
+  if (tableActions.deselect) {
+    allColumns = addDeselectAction(allColumns, tableActions.deselect);
+  }
+  if (tableActions.selectCheckbox) {
+    allColumns = addSelectCheckboxAction(allColumns, tableActions.selectCheckbox);
   }
   return allColumns;
 }
@@ -282,7 +347,7 @@ function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
   });
 }
 
-function addDeleteActionAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
+function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
     tableAction: true,
@@ -352,6 +417,49 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
   });
 }
 
+function addDeselectAction(columns, actionDefinition) {
+  return columns.concat({
+    id: 'deselectAction',
+    tableAction: true,
+    getContent(entity) {
+      return (
+        <Tooltip content="Click to deselect.">
+          <SvgIcon
+            type={'lib_openclose_remove_circle_outline'}
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              actionDefinition.deselect(entity);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  });
+}
+
+function addSelectCheckboxAction(columns, actionDefinition) {
+  // clone the column definitions array, then insert the checkbox as first column
+  columns = columns.slice();
+  columns.unshift({
+    id: 'selectCheckbox',
+    tableAction: true,
+    cellClassName: locals.selectCheckbox,
+    getContent(entity) {
+      return (
+        <CheckboxFancy
+          checked={actionDefinition.get(entity)}
+          onChange={() => actionDefinition.toggle(entity)}
+          size="large"
+        />
+      );
+    }
+  });
+  return columns;
+}
+
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {
   return (
     perCellLoadingIndicator && entity.id === perCellLoadingIndicator.id && perCellLoadingIndicator.column === columnName
@@ -359,7 +467,5 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 }
 
 function TableActionLoadingIndicator() {
-  return (
-    <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning={true} />
-  );
+  return <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning />;
 }

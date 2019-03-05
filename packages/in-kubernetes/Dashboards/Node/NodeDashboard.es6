@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
@@ -16,7 +17,9 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
+import BadgeList from 'in-new-components/Badge/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
+import theme from 'in-themes';
 
 export default function NodeDashboard({ location }) {
   const props = {
@@ -83,9 +86,12 @@ function Actions({ nodeId, timeConfig }) {
   );
 }
 
-function SubTypes() {
+function SubTypes({ result }) {
+  const version = get(result, ['data', 'version']);
+
   return (
     <Fragment>
+      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type="K8s Node" />
       <KubernetesIndicator />
     </Fragment>

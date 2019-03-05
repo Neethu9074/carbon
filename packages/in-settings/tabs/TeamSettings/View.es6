@@ -21,13 +21,15 @@ import {
   teamSettingsKnowledgeManagementCustomDynamicRules,
   teamSettingsKnowledgeManagementCustomDynamicRuleEdit,
   teamSettingsKnowledgeManagementCustomDynamicRuleNew,
-  teamSettingsAlertingEventEdit,
-  teamSettingsAlertingEventNew,
+  teamSettingsAlertingEventCustomNew,
+  teamSettingsAlertingEventCustomEdit,
+  teamSettingsAlertingEventBuiltInEdit,
   teamSettingsAlertingEvents,
   teamSettingsAlertingEventFilterEdit,
   teamSettingsAlertingEventFilterNew,
   teamSettingsAlertingEventFilters,
   teamSettingsAlertingAlertChannelEdit,
+  teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingMaintenanceConfigurationEdit,
@@ -60,6 +62,7 @@ import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAn
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import CustomDynamicRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRules';
 import CustomDynamicRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRule';
+import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import BuiltInRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/BuiltInRules/BuiltInRules';
 import CustomIssuesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssues';
 import CustomIssuePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssue';
@@ -74,18 +77,20 @@ import EventFiltersPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integrations';
 import EventFilterPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integration';
+import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
+import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import { forecastsEnabled, twoZeroModeEnabled, unifiedAlerting } from 'in-services/featureFlags';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import EventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Event';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
+import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -197,26 +202,30 @@ function navigationTreeForRole(role): NavigationTree {
   if (unifiedAlerting && (role.canConfigureCustomAlerts || role.canConfigureIntegrations)) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureCustomAlerts && role.canConfigureIntegrations) {
+    if (role.canConfigureCustomAlerts) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
         label: 'Events',
         component: EventsPage,
         subPages: [
           {
-            path: teamSettingsAlertingEventNew,
-            component: EventPage
+            path: teamSettingsAlertingEventCustomNew,
+            component: CustomEventPage
           },
           {
-            path: teamSettingsAlertingEventEdit,
-            component: EventPage
+            path: teamSettingsAlertingEventCustomEdit,
+            component: CustomEventPage
+          },
+          {
+            path: teamSettingsAlertingEventBuiltInEdit,
+            component: BuiltInEventPage
           }
         ]
       });
 
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEventFilters,
-        label: 'Event Filters',
+        label: 'Alerts',
         component: EventFiltersPage,
         subPages: [
           {
@@ -229,7 +238,9 @@ function navigationTreeForRole(role): NavigationTree {
           }
         ]
       });
+    }
 
+    if (role.canConfigureIntegrations) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlertChannels,
         label: 'Alert Channels',
@@ -237,11 +248,15 @@ function navigationTreeForRole(role): NavigationTree {
         subPages: [
           {
             path: teamSettingsAlertingAlertChannelNew,
-            component: AlertChannelPage
+            component: AlertChannelModificationPage
           },
           {
             path: teamSettingsAlertingAlertChannelEdit,
             component: AlertChannelPage
+          },
+          {
+            path: teamSettingsAlertingAlertChannelEditDetails,
+            component: AlertChannelModificationPage
           }
         ]
       });
@@ -424,7 +439,7 @@ export default function View(props: any) {
     <SideNavigationAndContent
       stickySidebar
       navigationTree={navigationTreeForRole(role)}
-      redirectToDefaultPage={teamSettingsAccessControlUsers}
+      redirectToDefaultPage={findFirstPermittedTeamPage()}
       redirectFrom={teamSettings}
       NotFoundPage={NotFoundPage}
       {...props}

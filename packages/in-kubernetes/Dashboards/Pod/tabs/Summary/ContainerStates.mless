@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .viewAllLink {
+    margin-top: 0.5rem;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+  }
+}

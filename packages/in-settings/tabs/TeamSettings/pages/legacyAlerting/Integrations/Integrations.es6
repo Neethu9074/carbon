@@ -29,14 +29,20 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '35vw',
+    width: 70,
     getContent(entity) {
-      return <Link href$={getEntityIdView(teamSettingsAlertingIntegrations, entity.id)}>{entity.name}</Link>;
+      return (
+        <Link href$={getEntityIdView(teamSettingsAlertingIntegrations, entity.id)} ellipsis>
+          {entity.name}
+        </Link>
+      );
     }
   },
   {
     id: 'kind',
     label: 'Type',
+    width: 30,
+    ellipsis: true,
     getContent(entity) {
       return get(fullyQualified[entity.kind], ['label'], entity.kind);
     }

@@ -19,6 +19,8 @@ export const dashboardTagFilters = {
 
 // analyze
 export const changeAnalyzeMetrics = createTracker('websites.analyze.changeMetrics');
+export const showWebsiteDetailsInTraceView = createTracker('websites.analyze.showWebsiteDetailsInTraceView');
+export const hideWebsiteDetailsInTraceView = createTracker('websites.analyze.hideWebsiteDetailsInTraceView');
 export const analyzeTagFilters = {
   add: createTracker('websites.analyze.filter.add'),
   change: createTracker('websites.analyze.filter.change'),

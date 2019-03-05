@@ -15,7 +15,6 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import { wrapToDisplaySpecialLabelFor0 } from 'in-analyze/metricDefinitionHelpers';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -25,7 +24,7 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickCallTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { millis } from 'in-services/formatters/number';
+import { latency } from 'in-services/formatters/number';
 
 import locals from './RawCallsPresenter.mless';
 
@@ -101,7 +100,7 @@ export default function RawCallsPresenter(props) {
                 <TimestampCell time={item.call.started} />
               </Td>
 
-              <Td>{wrapToDisplaySpecialLabelFor0(millis).compact(item.call.duration)}</Td>
+              <Td>{latency.compact(item.call.duration)}</Td>
             </Tr>
           ))}
 

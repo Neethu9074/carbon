@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tooltip {
+    min-width: 18rem;
+  }
+
+  .podPhaseLabel {
+    margin: 0.25rem 0 0.5rem 0.8125rem;
+  }
+
+  .headlingFlexWrapper,
+  .flexWrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .headlingFlexWrapper {
+    color: @lib__colors__N500;
+  }
+}

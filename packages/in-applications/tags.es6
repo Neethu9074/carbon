@@ -69,6 +69,11 @@ function isBeaconTag(tag) {
   return tag.indexOf('beacon.') === 0;
 }
 
+const latencyTags = ['call.latency', 'trace.latency', 'beacon.duration'];
+export function isLatencyTag(tag) {
+  return latencyTags.includes(tag);
+}
+
 export const getTraceGroupTagKeys = () => ['trace.endpoint.name', 'trace.service.name'];
 
 export const getCallGroupTagKeys = () =>
