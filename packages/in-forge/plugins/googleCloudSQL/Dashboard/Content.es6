@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { number, bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Chart from 'in-components/Chart';
@@ -26,7 +26,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               metrics: ['database.cpu.utilization'],
               labels: ['Utilization'],
               type: 'line',
-              formatter: percentageZeroDecimalPlaces
+              formatter: percentageTwoDecimalPlaces
             }}
           />
         </DashboardSection>
@@ -46,7 +46,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               metrics: ['database.memory.utilization'],
               labels: ['Utilization'],
               type: 'line',
-              formatter: percentageZeroDecimalPlaces
+              formatter: percentageTwoDecimalPlaces
             }}
           />
         </DashboardSection>
@@ -68,7 +68,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               metrics: ['database.disk.utilization'],
               labels: ['Utilization'],
               type: 'line',
-              formatter: percentageZeroDecimalPlaces
+              formatter: percentageTwoDecimalPlaces
             }}
           />
         </DashboardSection>
