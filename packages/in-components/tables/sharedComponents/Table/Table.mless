@@ -39,7 +39,7 @@
     }
 
     &.active > .td {
-      background: #EFF5F9;
+      background: #eff5f9;
     }
 
     &.dull {
@@ -54,7 +54,8 @@
   .trRegular {
     @padding: 1.25rem;
 
-    & > .td, & > .th {
+    & > .td,
+    & > .th {
       padding-top: @padding;
       padding-bottom: @padding;
     }
@@ -68,7 +69,8 @@
   .trCompact {
     @padding: 0.75rem;
 
-    & > .td, & > .th {
+    & > .td,
+    & > .th {
       padding-top: @padding;
       padding-bottom: @padding;
     }
@@ -121,11 +123,13 @@
     }
   }
 
-  .erroneousRowTh, .erroneousRowTd {
+  .erroneousRowTh,
+  .erroneousRowTd {
     max-width: 3.75rem;
     padding-right: 0;
 
-    & + .th, & + .td {
+    & + .th,
+    & + .td {
       padding-left: 0.8rem;
     }
   }
@@ -137,7 +141,7 @@
     border-radius: 50%;
     background: #ff5d3b;
     color: white;
-    font-size: .75rem;
+    font-size: 0.75rem;
     text-align: center;
   }
 

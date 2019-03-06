@@ -15,7 +15,11 @@
     justify-content: space-between;
   }
 
-  .headlingFlexWrapper {
+  .headingFlexWrapper {
     color: @lib__colors__N500;
+  }
+
+  .summaryCell {
+    font-weight: bold;
   }
 }

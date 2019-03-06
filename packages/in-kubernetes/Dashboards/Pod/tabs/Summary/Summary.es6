@@ -31,7 +31,9 @@ export default function Summary({ data: pod, timeConfig }) {
               <Di title="Phase">
                 <Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>
               </Di>
-              <Di title="Ready">{`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}</Di>
+              <Di title="Ready">{`${allContainerStatuses.filter(c => c.ready).length}/${
+                allContainerStatuses.length
+              }`}</Di>
               <Di title="Restarts">
                 <MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />
               </Di>

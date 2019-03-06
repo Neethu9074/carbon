@@ -7,12 +7,13 @@ import locals from './PodStatusTooltipContent.mless';
 
 export default function PodStatusTooltipContent({ pod }) {
   const podStatus = pod.status || {};
+  const allContainerStatuses = [...podStatus.initContainerStatuses, ...podStatus.containerStatuses];
 
   return (
     <div className={locals.tooltip}>
       <div className={locals.podPhaseLabel}>{`Pod Phase:  ${podStatus.phase || pod.phase}`}</div>
 
-      <div className={locals.headlingFlexWrapper}>
+      <div className={locals.headingFlexWrapper}>
         <Table>
           <Thead>
             <Tr size="compact">
@@ -23,7 +24,7 @@ export default function PodStatusTooltipContent({ pod }) {
           </Thead>
 
           <Tbody>
-            {[...podStatus.initContainerStatuses, ...podStatus.containerStatuses].map(containerStatus => (
+            {allContainerStatuses.map(containerStatus => (
               <Tr key={containerStatus.name} size="compact">
                 <Td>{containerStatus.name}</Td>
                 <Td>{containerStatus.state.status}</Td>
@@ -32,6 +33,13 @@ export default function PodStatusTooltipContent({ pod }) {
                 </Td>
               </Tr>
             ))}
+            <Tr size="compact">
+              <Td className={locals.summaryCell}>Summary</Td>
+              <Td className={locals.summaryCell}>Running</Td>
+              <Td className={locals.summaryCell}>{`${allContainerStatuses.filter(c => c.ready).length}/${
+                allContainerStatuses.length
+              }`}</Td>
+            </Tr>
           </Tbody>
         </Table>
       </div>
