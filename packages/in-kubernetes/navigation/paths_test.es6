@@ -1,11 +1,19 @@
 /* eslint-env mocha */
-
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import { kubernetesPlugins } from 'in-kubernetes/constants';
 
 describe('in-kubernetes/navigation/paths', () => {
+  beforeEach(() => {
+    mutateUrl(location => {
+      location.pathname = '';
+      location.matrix = {};
+    });
+  });
+
   it('should return the correct link for an event on a pod', () => {
     const snapshotId = '47_wi4IoJojdvsh1f3ebmi7DHII';
     const plugin = kubernetesPlugins.pod;
