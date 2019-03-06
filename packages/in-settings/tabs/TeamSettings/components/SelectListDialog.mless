@@ -14,9 +14,8 @@
     margin: 1rem 0 0;
   }
 
-  .tableHeightWrapper {
+  .tableScrollWrapper {
     display: block;
     overflow-y: auto;
-    border-bottom: 1px solid @lib__colors__N400;
   }
 }

@@ -15,8 +15,8 @@ import locals from './AlertChannels.mless';
 export default function AlertChannels({
   setTitle = true,
   getHeader = defaultGetHeader,
-  tableClassName,
-  tableStyle,
+  scrollWrapperClassName,
+  scrollWrapperStyle,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
@@ -33,8 +33,8 @@ export default function AlertChannels({
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
-      tableClassName={tableClassName}
-      tableStyle={tableStyle}
+      scrollWrapperClassName={scrollWrapperClassName}
+      scrollWrapperStyle={scrollWrapperStyle}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
       noDataMessage={noDataMessage}

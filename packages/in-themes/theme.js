@@ -121,6 +121,8 @@ function buildLib() {
       orange800: '#FF8C19',
       red800: '#FF4040',
 
+      transparent: 'rgba(255, 255, 255, 0)',
+
       chart: {}
     },
 

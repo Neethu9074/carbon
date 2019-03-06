@@ -2,12 +2,12 @@ import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
 import {
-  Table,
-  Thead,
-  Tbody,
+  ErrorRows,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
-  ErrorRows
+  Table,
+  Tbody,
+  Thead
 } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
@@ -16,6 +16,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
+import ScrollHints from 'in-components/ScrollHints';
 import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
@@ -40,6 +41,8 @@ export default function ServerTablePresenter(props) {
     cardTitle,
     tableInCard,
     fixedLayout,
+    scrollWrapperClassName,
+    scrollWrapperStyle,
     rightHeader,
     leftHeader,
     isSearchable = true,
@@ -50,8 +53,6 @@ export default function ServerTablePresenter(props) {
     showPagination = true,
     renderFooter = () => null,
     withoutPadding = true,
-    tableClassName,
-    tableStyle,
     allRowsAreSelected = false,
     setSelectedStateForRows,
 
@@ -113,13 +114,9 @@ export default function ServerTablePresenter(props) {
       )}
     </div>
   );
-  let content = (
-    <Table
-      className={tableClassName}
-      style={tableStyle}
-      tableInCard={tableInCard || cardTitle != null}
-      fixedLayout={fixedLayout}
-    >
+
+  const tableElement = (
+    <Table tableInCard={tableInCard || cardTitle != null} fixedLayout={fixedLayout}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
@@ -130,10 +127,28 @@ export default function ServerTablePresenter(props) {
           setSelectedStateForRows={setSelectedStateForRows}
         />
       </Thead>
-
       <Tbody>{body}</Tbody>
     </Table>
   );
+  let content =
+    scrollWrapperClassName || scrollWrapperStyle ? (
+      <ScrollHints
+        className={scrollWrapperClassName}
+        style={scrollWrapperStyle}
+        contentChangeMarker={
+          /*
+          * Triggers a re-render when the number of rows change (which is necessary because the height of the content
+          * will change).
+          */
+          result.data && result.data.items ? result.data.items.length : 0
+        }
+      >
+        {tableElement}
+      </ScrollHints>
+    ) : (
+      tableElement
+    );
+
   let pagination = showPagination &&
     lastPage > 1 && (
       <Pagination
