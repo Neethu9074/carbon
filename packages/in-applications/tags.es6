@@ -36,6 +36,15 @@ export const customServiceMappingTagKeys = [
   'springboot.name'
 ];
 
+export const callAnalysisBlacklistedTags = [
+  'trace.id',
+  'trace.name',
+  'trace.endpoint.name',
+  'trace.service.name',
+  'trace.latency',
+  'trace.erroneous'
+];
+
 const blacklists = {
   generalBlacklist: (() => {
     const blacklist = {
@@ -52,14 +61,10 @@ const blacklists = {
     return tag => blacklist[tag];
   })(),
   callGroupBlacklist: (() => {
-    const blacklist = {
-      'trace.id': true,
-      'trace.name': true,
-      'trace.endpoint.name': true,
-      'trace.service.name': true,
-      'trace.latency': true,
-      'trace.erroneous': true
-    };
+    const blacklist = callAnalysisBlacklistedTags.reduce((agg, k) => {
+      agg[k] = true;
+      return agg;
+    }, {});
     return tag => blacklist[tag] || isBeaconTag(tag);
   })(),
   analyzeFilterBlacklist: isBeaconTag

@@ -32,6 +32,10 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       label: 'Endpoint',
       ellipsis: '1vw',
       getContent(item) {
+        if (!item.endpoint) {
+          return null;
+        }
+
         return (
           <div className={locals.cell}>
             <SvgIcon type="lib_application_endpoint" width={24} height={24} className={locals.endpointIcon} />

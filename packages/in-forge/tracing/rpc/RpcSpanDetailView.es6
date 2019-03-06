@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
+import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function RpcSpanDetailView({ span }) {
@@ -14,6 +15,7 @@ export default function RpcSpanDetailView({ span }) {
       <DescriptionItem title="Parameters">{span.getIn(['data', 'rpc', 'params'])}</DescriptionItem>
       <DescriptionItem title="Baggage">{span.getIn(['data', 'rpc', 'baggage'])}</DescriptionItem>
       <ErrorDescriptionItem error={span.getIn(['data', 'rpc', 'error'])} />
+      <CustomDataDescriptionItem span={span} />
     </DescriptionList>
   );
 }
