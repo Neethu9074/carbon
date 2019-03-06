@@ -34,9 +34,10 @@ function SpanDetails({ title, call, kind }) {
     <Group title={title}>
       <div className={locals.forgeDetailsWrapper}>
         {isInstanaEngineer && (
-          <span>
-            <b>Span Type</b> {span.name}
-          </span>
+          <Fragment>
+            <div className={locals.title}>Span Type</div>
+            <div className={locals.text}>{span.name}</div>
+          </Fragment>
         )}
         <SpanForgeDetails key={call.id} span={fromJS(convert(span))} />
       </div>
