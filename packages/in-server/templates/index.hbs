@@ -54,7 +54,7 @@
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
     ineum('traceId', '{{backendTraceId}}');
-    ineum('ignoreUrls', [/.*\/api\/data.*/]);
+    ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
     ineum('meta', 'build.tag', window.instana.build.tag);
     ineum('meta', 'build.revision', window.instana.build.revision);
