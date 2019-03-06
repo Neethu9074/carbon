@@ -208,7 +208,15 @@ function VerticalLine({ depth = 0, intermediateRow = true, marginLeft }) {
   if (depth === 0) {
     return null;
   }
-  return <div style={{ left: marginLeft }} className={intermediateRow ? locals.intermediateLine : locals.lineEnd} />;
+  return (
+    <div
+      style={{ left: marginLeft }}
+      className={evaluateClassNames({
+        [locals.intermediateLine]: intermediateRow,
+        [locals.lineEnd]: !intermediateRow
+      })}
+    />
+  );
 }
 
 export default EnhancedRow;
