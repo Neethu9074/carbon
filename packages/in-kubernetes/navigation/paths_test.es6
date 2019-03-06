@@ -2,16 +2,17 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { setHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
+import { setFocusedMoment } from 'in-components/timeline/timelineStore';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
-import { mutateUrl } from 'in-stores/navigation/navigation';
 import { kubernetesPlugins } from 'in-kubernetes/constants';
+import { setSelectedSnapshotId } from 'in-stores/snapshot';
 
 describe('in-kubernetes/navigation/paths', () => {
   beforeEach(() => {
-    mutateUrl(location => {
-      location.pathname = '';
-      location.matrix = {};
-    });
+    setFocusedMoment(null);
+    setSelectedSnapshotId(null);
+    setHighlightedEntityId(null);
   });
 
   it('should return the correct link for an event on a pod', () => {
