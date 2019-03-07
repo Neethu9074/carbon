@@ -49,7 +49,7 @@ function ipNavigationItem(path) {
 function hostNavigationItem(path) {
   return {
     path,
-    icon: 'lib_kubernetes_annotation',
+    icon: 'lib_infrastructure',
     label: 'Host',
     component: Host
   };
