@@ -4,6 +4,7 @@ import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAnd
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
 import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
+import IPs from 'in-kubernetes/Dashboards/commonComponents/IPs';
 
 export default function DetailsNavigation({ navigationTree, resource, ...props }) {
   return <SideNavigationAndContent navigationTree={navigationTree} sidebarWidth={3} resource={resource} {...props} />;
@@ -35,5 +36,14 @@ export function specNavigationItem(path) {
     icon: 'lib_kubernetes_spec',
     label: 'Spec',
     component: ({ resource }) => <Spec snapshotId={resource.id} />
+  };
+}
+
+export function ipNavigationItem(path) {
+  return {
+    path,
+    icon: 'lib_kubernetes_ip',
+    label: 'IPs',
+    component: ({ resource }) => <IPs item={resource} />
   };
 }

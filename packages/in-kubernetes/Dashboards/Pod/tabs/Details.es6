@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
+  ipNavigationItem,
   labelsNavigationItem,
   annotationsNavigationItem,
   specNavigationItem
@@ -28,7 +29,8 @@ export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.i
 });
 
 const navigationItems = [
-  labelsNavigationItem(podDashboardDetailsFullyQualified),
+  ipNavigationItem(podDashboardDetailsFullyQualified),
+  labelsNavigationItem(`${podDashboardDetailsFullyQualified}/labels`),
   annotationsNavigationItem(`${podDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${podDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
