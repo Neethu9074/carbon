@@ -104,8 +104,6 @@ function UnmonitoredContainers({ containerStatuses }) {
             <Th>Ready</Th>
             <Th>Status</Th>
             <Th>Message</Th>
-            <Th>CPU Total %</Th>
-            <Th>Memory Usage</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -121,8 +119,6 @@ function UnmonitoredContainers({ containerStatuses }) {
               <Td>
                 <PodMessage message={status.message} />
               </Td>
-              <Td>-</Td>
-              <Td>-</Td>
             </Tr>
           ))}
         </Tbody>
