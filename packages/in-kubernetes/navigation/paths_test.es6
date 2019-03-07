@@ -23,7 +23,9 @@ describe('in-kubernetes/navigation/paths', () => {
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
 
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0]).to.equal(
+
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
       '/#/kubernetes/pod;podId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
     );
   });
@@ -36,7 +38,8 @@ describe('in-kubernetes/navigation/paths', () => {
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
 
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0]).to.equal(
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
       '/#/kubernetes/service;serviceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
     );
   });
@@ -49,7 +52,8 @@ describe('in-kubernetes/navigation/paths', () => {
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
 
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0]).to.equal(
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
       '/#/kubernetes/deployment;deploymentId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
     );
   });
@@ -62,7 +66,8 @@ describe('in-kubernetes/navigation/paths', () => {
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
 
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0]).to.equal(
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
       '/#/kubernetes/namespace;namespaceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
     );
   });
@@ -75,8 +80,13 @@ describe('in-kubernetes/navigation/paths', () => {
     getDashboardForEntity(snapshotId, plugin).subscribe(subscriber);
 
     expect(subscriber.callCount).to.equal(1);
-    expect(subscriber.getCall(0).args[0]).to.equal(
+    pathShouldStartWith(
+      subscriber.getCall(0).args[0],
       '/#/kubernetes/cluster;clusterId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
     );
   });
 });
+
+function pathShouldStartWith(path, starter) {
+  expect(path.indexOf(starter)).to.not.equal(-1);
+}
