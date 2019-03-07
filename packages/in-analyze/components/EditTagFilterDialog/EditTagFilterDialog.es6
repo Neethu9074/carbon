@@ -12,6 +12,7 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
+import { isBlank } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -40,7 +41,12 @@ export default compose(
     }) => ({
       onClose: close,
       editMode: Boolean(tagFilter),
-      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], []),
+      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], [])
+        // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
+        .filter(
+          operator =>
+            (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
+        ),
       onRemoveTagFilter: () => {
         setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
         close();
@@ -57,7 +63,7 @@ export default compose(
       onTagChange: tag => setForm(createForm(tag, null, forAnalyzeCalls)),
       onOperatorChange: operator => {
         let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
-        if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
+        if (isNoValueOperator(operator)) {
           updatedForm = updatedForm.remove('value');
         } else if (!updatedForm.get('value')) {
           updatedForm = updatedForm.put(
@@ -70,8 +76,13 @@ export default compose(
         }
         setForm(updatedForm);
       },
-      onKeyChange: key =>
-        setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true)).updateIn(['value'], f => f.setValue(''))),
+      onKeyChange: key => {
+        let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
+        if (form.get('value')) {
+          updatedForm = updatedForm.updateIn(['value'], f => f.setValue(''));
+        }
+        setForm(updatedForm);
+      },
       onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
       onSubmit: e => {
         stopPropagationAndPreventDefault(e);
@@ -242,7 +253,7 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
     }
   }
 
-  if (form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY') {
+  if (isNoValueOperator(form.get('operator').value)) {
     value = null;
   }
 
@@ -271,4 +282,8 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
 
 function isSameFilter(f1, f2) {
   return f1 === f2;
+}
+
+function isNoValueOperator(operator) {
+  return ['NOT_EMPTY', 'IS_EMPTY', 'NOT_BLANK', 'IS_BLANK'].includes(operator);
 }

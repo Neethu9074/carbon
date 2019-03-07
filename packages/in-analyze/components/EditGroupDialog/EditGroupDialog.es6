@@ -93,8 +93,7 @@ function createForm(tag, group) {
     form = form.put(
       'key',
       createField({
-        value: (group && group.groupbyTagSecondLevelKey) || '',
-        validator: notBlankValidator
+        value: (group && group.groupbyTagSecondLevelKey) || ''
       })
     );
   }

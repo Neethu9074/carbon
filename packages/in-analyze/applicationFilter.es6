@@ -32,7 +32,9 @@ export const operators = {
   NOT_EMPTY: 'NOT_EMPTY',
   IS_EMPTY: 'IS_EMPTY',
   NOT_EQUAL: 'NOT_EQUAL',
-  NOT_CONTAIN: 'NOT_CONTAIN'
+  NOT_CONTAIN: 'NOT_CONTAIN',
+  NOT_BLANK: 'NOT_BLANK',
+  IS_BLANK: 'IS_BLANK'
 };
 
 export const operatorBlacklists = {
@@ -73,7 +75,9 @@ export const TAG_TYPES = {
       operators.CONTAINS,
       operators.NOT_CONTAIN,
       operators.NOT_EMPTY,
-      operators.IS_EMPTY
+      operators.IS_EMPTY,
+      operators.NOT_BLANK,
+      operators.IS_BLANK
     ],
     splitValue: value => {
       if (value.indexOf('=') === -1) {
@@ -119,7 +123,9 @@ const operatorLabelLUT = {
     CONTAINS: 'contains',
     NOT_CONTAIN: 'does not contain',
     NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present'
+    IS_EMPTY: 'is not present',
+    IS_BLANK: 'does not have value',
+    NOT_BLANK: 'has value'
   }
 };
 

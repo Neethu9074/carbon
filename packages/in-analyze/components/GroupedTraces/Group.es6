@@ -9,6 +9,8 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
+import { isBlank } from 'in-services/util/string';
+import { getTagType } from 'in-applications/tags';
 import Link from 'in-components/Link';
 
 import locals from './Group.mless';
@@ -57,38 +59,53 @@ export default function Group({
   return <Tr size="compact">{rowContent}</Tr>;
 }
 
-function getGroupingChange(filters, tagName) {
+function getGroupingChange(filters, selectedGroupValue) {
   const group = filters.group;
-  const currentGroupValue = tagName;
+  const tagName = group.name;
+  const secondLevelKey = group.value;
   const tagFilter = filters.tagFilter;
-  const newTagFilter = createFilter({
-    name: group.name,
-    secondLevelName: group.value,
-    value: currentGroupValue,
-    operator: operators.EQUALS
-  });
-  return {
-    [groupByMatrixParameter]: {},
-    [tagFilterMatrixParameter]: tagFilter
-      // avoid duplicate addition of same filter
-      .filter(
-        f =>
-          f.name !== newTagFilter.name ||
-          f.secondLevelName !== newTagFilter.secondLevelName ||
-          f.value !== newTagFilter.value ||
-          f.operator !== newTagFilter.operator
-      )
-      .concat(newTagFilter)
-  };
+
+  // if the second level key of a key value pair tag is empty
+  // set the selected group as second level key and update the grouping tag
+  if (getTagType(tagName) === 'KEY_VALUE_PAIR' && isBlank(secondLevelKey)) {
+    return {
+      [groupByMatrixParameter]: {
+        name: tagName,
+        value: selectedGroupValue
+      },
+      [tagFilterMatrixParameter]: tagFilter
+    };
+  } else {
+    // for other cases, add a tag filter with the selected group value
+    const newTagFilter = createFilter({
+      name: group.name,
+      secondLevelName: group.value,
+      value: selectedGroupValue,
+      operator: operators.EQUALS
+    });
+    return {
+      [groupByMatrixParameter]: {},
+      [tagFilterMatrixParameter]: tagFilter
+        // avoid duplicate addition of same filter
+        .filter(
+          f =>
+            f.name !== newTagFilter.name ||
+            f.secondLevelName !== newTagFilter.secondLevelName ||
+            f.value !== newTagFilter.value ||
+            f.operator !== newTagFilter.operator
+        )
+        .concat(newTagFilter)
+    };
+  }
 }
 
-function trackSetGrouping(filters, tagName) {
+function trackSetGrouping(filters, selectedGroupValue) {
   const group = filters.group;
-  const currentGroupValue = tagName;
+
   clickGroupTracker({
     context: filters.dataSource,
     type: group.name,
     value: group.value,
-    group: currentGroupValue
+    group: selectedGroupValue
   });
 }
