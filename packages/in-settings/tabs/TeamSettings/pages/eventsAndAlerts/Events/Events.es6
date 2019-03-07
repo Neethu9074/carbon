@@ -91,6 +91,7 @@ function Events({
       isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(hiddenIds, type, severity, entityType)}
+      extraFilterValues={{ type, severity, entityType }}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={210}
       onRowClick={onRowClick}

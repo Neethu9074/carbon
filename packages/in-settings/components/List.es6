@@ -1,5 +1,5 @@
-import { find, get, reverse, sortBy } from 'lodash';
-import { withState, compose } from 'recompose';
+import { find, get, isEqual, reverse, sortBy } from 'lodash';
+import { compose, lifecycle, withState } from 'recompose';
 import { createLogger } from 'instalog';
 import invariant from 'invariant';
 import React from 'react';
@@ -72,7 +72,14 @@ export default compose(
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
   withState('orderDirectionState', 'setOrderDirection', 'ASC'),
   withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1)
+  withState('pageState', 'setPage', 1),
+  lifecycle({
+    componentDidUpdate({ extraFilterValues: nextExtraFilterValues }) {
+      if (!isEqual(this.props.extraFilterValues, nextExtraFilterValues)) {
+        this.props.setPage(1);
+      }
+    }
+  })
 )(List);
 
 function List({
