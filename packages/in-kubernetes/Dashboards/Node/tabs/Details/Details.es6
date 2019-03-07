@@ -8,7 +8,7 @@ import DetailsNavigation, {
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import Meta from 'in-kubernetes/Dashboards/Node/tabs/Details/Meta';
+import Host from 'in-kubernetes/Dashboards/Node/tabs/Details/Host';
 import IPs from 'in-kubernetes/Dashboards/Node/tabs/Details/IPs';
 import connectTo from 'in-hoc/connectTo';
 
@@ -29,7 +29,7 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
 
 const navigationItems = [
   ipNavigationItem(nodeDashboardDetailsFullyQualified),
-  metaNavigationItem(`${nodeDashboardDetailsFullyQualified}/meta`),
+  hostNavigationItem(`${nodeDashboardDetailsFullyQualified}/host`),
   labelsNavigationItem(`${nodeDashboardDetailsFullyQualified}/labels`),
   annotationsNavigationItem(`${nodeDashboardDetailsFullyQualified}/annotations`),
   specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`)
@@ -46,11 +46,11 @@ function ipNavigationItem(path) {
   };
 }
 
-function metaNavigationItem(path) {
+function hostNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_annotation',
-    label: 'Meta',
-    component: Meta
+    label: 'Host',
+    component: Host
   };
 }
