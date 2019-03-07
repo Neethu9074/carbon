@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Title from 'in-components/Title';
 
 export const savingMessage = 'Saving…';
@@ -107,6 +108,7 @@ export default function entityForm(ComposedComponent) {
       });
 
       this.errorSubscription = apiEntityResult$.errors().once(() => {
+        scrollToTopSmoothly();
         this.setState({
           loading: false,
           error: true,
@@ -137,11 +139,20 @@ export default function entityForm(ComposedComponent) {
       this.responseSubscription = result$.once(this.props.openEntities);
 
       this.errorSubscription = result$.errors().once(error => {
-        const message = `Failed to save: ${error.message}`;
+        let message = error.message;
+        if (
+          error.response &&
+          error.response.body &&
+          error.response.body.errors &&
+          error.response.body.errors.length > 0
+        ) {
+          message = error.response.body.errors.join(', ');
+        }
+        scrollToTopSmoothly();
         this.setState({
           loading: false,
           error: true,
-          message
+          message: `Failed to save: ${message}`
         });
       });
     };
