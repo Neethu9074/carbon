@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
+import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -88,8 +89,9 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
                   label={'Select Events'}
                   listComponent={Events}
                   hiddenIds={form.get('selectedEvents').value.toJS()}
+                  limit={limitForConnectedEntities}
                   createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0 ? `Add ${numberOfItems} Events` : 'Add Events'
+                    numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
                   }
                   requiresAtLeastOneMessage="Please select at least one event."
                 />

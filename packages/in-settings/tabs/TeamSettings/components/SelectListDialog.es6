@@ -1,6 +1,7 @@
-import { withState } from 'recompose';
+import { compose, withState } from 'recompose';
 import React from 'react';
 
+import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
@@ -9,7 +10,17 @@ import Button from 'in-new-components/Button';
 
 import locals from './SelectListDialog.mless';
 
-export default withState('selectedItems', 'setSelectedItems', [])(SelectChannelsDialog);
+const defaultRequiresAtLeastOneMessage = 'Please select at least one item.';
+
+export default compose(
+  withState('selectedItems', 'setSelectedItems', []),
+  withState(
+    'errorMessage',
+    'setErrorMessage',
+    ({ requiresAtLeastOneMessage }) =>
+      requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  )
+)(SelectChannelsDialog);
 
 function SelectChannelsDialog({
   title = 'Select',
@@ -17,13 +28,20 @@ function SelectChannelsDialog({
   listComponentRightHeader,
   onSubmit,
   createSubmitLabel = () => 'Add',
-  requiresAtLeastOneMessage = 'Please select at least one item.',
-  hiddenIds,
+  requiresAtLeastOneMessage = defaultRequiresAtLeastOneMessage,
+  hiddenIds = [],
   selectedItems,
-  setSelectedItems
+  setSelectedItems,
+  errorMessage,
+  setErrorMessage,
+  limit = limitForConnectedEntities
 }) {
+  limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
   const numberOfItems = selectedItems.length;
+  if (!errorMessage && numberOfItems === 0) {
+    errorMessage = requiresAtLeastOneMessage;
+  }
   return (
     <Dialog title={title} onClose={close} className={locals.dialog}>
       <form
@@ -50,24 +68,24 @@ function SelectChannelsDialog({
             hiddenIds={hiddenIds}
             hasRowNavigation={false}
             noDataMessage="No items available."
-            onRowClick={entity => toggle(selectedItems, setSelectedItems, entity)}
+            onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
             tableActions={{
               selectCheckbox: {
                 get(entity) {
                   return get(selectedItems, entity);
                 },
                 setAll(entities, selected) {
-                  setAll(selectedItems, setSelectedItems, entities, selected);
+                  setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage);
                 },
                 toggle(entity) {
-                  toggle(selectedItems, setSelectedItems, entity);
+                  toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
                 }
               }
             }}
             rightHeader={listComponentRightHeader}
             inSelectListDialog
           />
-          {numberOfItems === 0 && <ValidationBlock>{requiresAtLeastOneMessage}</ValidationBlock>}
+          {errorMessage && <ValidationBlock>{errorMessage}</ValidationBlock>}
         </FormGroup>
         <div className={locals.actions}>
           <Button type="submit" kind={'secondary'} onClick={close} classNam>
@@ -86,16 +104,60 @@ function get(selectedItems, entity) {
   return selectedItems.indexOf(entity.id) >= 0;
 }
 
-function toggle(selectedItems, setSelectedItems, entity) {
+function toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage) {
   if (get(selectedItems, entity)) {
-    removeFromSelection(setSelectedItems, selectedItems, entity);
+    removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMessage);
   } else {
-    addToSelection(setSelectedItems, selectedItems, entity);
+    addToSelection(setSelectedItems, selectedItems, entity, limit, setErrorMessage);
   }
 }
 
-function setAll(selectedItems, setSelectedItems, entities, selected) {
+function addToSelection(setSelectedItems, selectedItems, entity, limit, setErrorMessage) {
+  if (selectedItems.length >= limit) {
+    if (limit === 0) {
+      setErrorMessage('You cannot add more items.');
+    } else if (limit === 1) {
+      setErrorMessage('You can only add one item.');
+    } else {
+      setErrorMessage(`You can add at most ${limit} items.`);
+    }
+    return;
+  }
+  setSelectedItems(selectedItems.concat(entity.id));
+  setErrorMessage(null);
+}
+
+function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMessage) {
+  setSelectedItems(selectedItems.filter(id => id !== entity.id));
+  setErrorMessage(null);
+}
+
+function setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage) {
   let entity;
+
+  if (selected) {
+    let entitiesToBeAdded = 0;
+    for (let i = 0; i < entities.length; i++) {
+      entity = entities[i];
+      if (!get(selectedItems, entity)) {
+        entitiesToBeAdded++;
+      }
+    }
+    if (selectedItems.length + entitiesToBeAdded > limit) {
+      if (limit === 0) {
+        setErrorMessage('You cannot add more items.');
+      } else if (limit === 1) {
+        setErrorMessage('You can only add one item.');
+      } else {
+        setErrorMessage(
+          `You can add at most ${limit} items more items. Please narrow down your selection by using the filters.`
+        );
+      }
+      return;
+    }
+  }
+  setErrorMessage(null);
+
   for (let i = 0; i < entities.length; i++) {
     entity = entities[i];
     if (get(selectedItems, entity) && !selected) {
@@ -105,12 +167,4 @@ function setAll(selectedItems, setSelectedItems, entities, selected) {
     }
   }
   setSelectedItems(selectedItems);
-}
-
-function addToSelection(setSelectedItems, selectedItems, entity) {
-  setSelectedItems(selectedItems.concat(entity.id));
-}
-
-function removeFromSelection(setSelectedItems, selectedItems, entity) {
-  setSelectedItems(selectedItems.filter(id => id !== entity.id));
 }

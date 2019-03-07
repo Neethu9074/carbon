@@ -4,6 +4,7 @@ import { fromJS, List } from 'immutable';
 import AlertChannels, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getIntegrationsByIdsMutable } from 'in-api/integrations';
@@ -32,7 +33,10 @@ export default function Step4({ form, setForm }) {
             listComponent={AlertChannels}
             listComponentRightHeader={noRightHeader}
             hiddenIds={form.get('selectedAlertChannels').value.toJS()}
-            createSubmitLabel={numberOfItems => (numberOfItems > 0 ? `Add ${numberOfItems} Channels` : 'Add')}
+            limit={limitForConnectedEntities}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
             requiresAtLeastOneMessage="Please select at least one alert channel."
           />
         }
