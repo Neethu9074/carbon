@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import {
   bytesTwoDecimalPlaces,
@@ -10,16 +10,69 @@ import {
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
+import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
+import Card from 'in-new-components/Card';
+import connectTo from 'in-hoc/connectTo';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
 
-export default function Infrastructure({ data: pod, timeConfig, podId }) {
+export default connectTo(
+  ({ data: pod, timeConfig }) => ({
+    monitoredContainersResult: getTableData({
+      query: '',
+      page: 1,
+      pageSize: 20,
+      orderBy: 'label',
+      orderDirection: 'ASC',
+      timeConfig,
+      podId: pod.id
+    })
+  }),
+  function UnmonitoredInfrastructure(props) {
+    const { data: pod, monitoredContainersResult } = props;
+    const isLoading = get(monitoredContainersResult, ['progress', 'loading']);
+    const hasErrors = get(monitoredContainersResult, ['errors', 'length'], 0);
+
+    if (isLoading || hasErrors) {
+      return <MonitoredContainers {...props} />;
+    }
+
+    const monitoredSnapshotIds = monitoredContainersResult.data.items.map(item => item.container.id);
+    const containerStatuses = [
+      ...get(pod, ['status', 'initContainerStatuses'], []),
+      ...get(pod, ['status', 'containerStatuses'], [])
+    ].filter(containerStatus => monitoredSnapshotIds.indexOf(containerStatus.containerSnapshotId) === -1);
+
+    if (monitoredSnapshotIds.length === 0) {
+      return <UnmonitoredContainers containerStatuses={containerStatuses} />;
+    } else if (containerStatuses.length === 0) {
+      return <MonitoredContainers {...props} />;
+    }
+    return (
+      <Fragment>
+        <Row>
+          <Col lg={12}>
+            <MonitoredContainers {...props} />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <UnmonitoredContainers containerStatuses={containerStatuses} />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
+);
+
+function MonitoredContainers({ data: pod, timeConfig }) {
   return (
     <ServerTableWithUrlBoundState
       cardTitle="Containers"
@@ -28,11 +81,53 @@ export default function Infrastructure({ data: pod, timeConfig, podId }) {
       get={getTableData}
       columnDefinitions={getColumnDefinitions(pod)}
       timeConfig={timeConfig}
-      podId={podId}
+      podId={pod.id}
       paginationResettingProps={['podId', 'timeConfig']}
       defaultOrderBy="label"
       defaultOrderDirection="ASC"
     />
+  );
+}
+
+function UnmonitoredContainers({ containerStatuses }) {
+  const statesMap = {};
+  for (let i = 0; i < containerStatuses.length; i++) {
+    statesMap[containerStatuses[i].containerSnapshotId] = containerStatuses[i];
+  }
+
+  return (
+    <Card title="Containers (Unmonitored)">
+      <Table>
+        <Thead>
+          <Tr size="compact">
+            <Th>Name</Th>
+            <Th>Ready</Th>
+            <Th>Status</Th>
+            <Th>Message</Th>
+            <Th>CPU Total %</Th>
+            <Th>Memory Usage</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {containerStatuses.map((status, i) => (
+            <Tr key={i}>
+              <Td>{status.name}</Td>
+              <Td>
+                <ReadyIcon isReady={status.ready} />
+              </Td>
+              <Td>
+                <Capitalize>{status.state.status}</Capitalize>
+              </Td>
+              <Td>
+                <PodMessage message={status.message} />
+              </Td>
+              <Td>-</Td>
+              <Td>-</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Card>
   );
 }
 
