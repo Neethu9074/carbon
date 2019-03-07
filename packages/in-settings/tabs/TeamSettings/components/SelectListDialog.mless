@@ -2,9 +2,13 @@
 
 :local {
 
-  .dialog{
+  .dialog {
     width: 80vw;
     max-width: 100rem;
+  }
+
+  .listFormGroup {
+    height: ~'calc(90vh - 180px)';
   }
 
   .actions {
@@ -17,5 +21,6 @@
   .tableScrollWrapper {
     display: block;
     overflow-y: auto;
+    height: ~'calc(100vh - 420px)';
   }
 }

@@ -110,8 +110,7 @@ function List({
   errorMessage,
   setErrorMessage,
   perCellLoadingIndicator,
-  scrollWrapperClassName,
-  scrollWrapperStyle
+  scrollWrapperClassName
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -189,7 +188,6 @@ function List({
         cardTitle={cardTitle}
         tableInCard={tableInCard}
         scrollWrapperClassName={scrollWrapperClassName}
-        scrollWrapperStyle={scrollWrapperStyle}
         fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)

@@ -42,7 +42,6 @@ export default function ServerTablePresenter(props) {
     tableInCard,
     fixedLayout,
     scrollWrapperClassName,
-    scrollWrapperStyle,
     rightHeader,
     leftHeader,
     isSearchable = true,
@@ -130,24 +129,22 @@ export default function ServerTablePresenter(props) {
       <Tbody>{body}</Tbody>
     </Table>
   );
-  let content =
-    scrollWrapperClassName || scrollWrapperStyle ? (
-      <ScrollHints
-        className={scrollWrapperClassName}
-        style={scrollWrapperStyle}
-        contentChangeMarker={
-          /*
+  let content = scrollWrapperClassName ? (
+    <ScrollHints
+      className={scrollWrapperClassName}
+      contentChangeMarker={
+        /*
           * Triggers a re-render when the number of rows change (which is necessary because the height of the content
           * will change).
           */
-          result.data && result.data.items ? result.data.items.length : 0
-        }
-      >
-        {tableElement}
-      </ScrollHints>
-    ) : (
-      tableElement
-    );
+        result.data && result.data.items ? result.data.items.length : 0
+      }
+    >
+      {tableElement}
+    </ScrollHints>
+  ) : (
+    tableElement
+  );
 
   let pagination = showPagination &&
     lastPage > 1 && (

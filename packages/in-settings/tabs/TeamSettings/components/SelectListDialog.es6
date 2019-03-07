@@ -51,19 +51,10 @@ function SelectChannelsDialog({
         }}
         autoComplete="off"
       >
-        <FormGroup
-          style={{
-            // calc expressions are corrupted by our CSS processing :-/
-            height: 'calc(90vh - 180px)'
-          }}
-        >
+        <FormGroup className={locals.listFormGroup}>
           <ListComponent
             setTitle={false}
             scrollWrapperClassName={locals.tableScrollWrapper}
-            scrollWrapperStyle={{
-              // calc expressions are corrupted by our CSS processing :-/
-              height: 'calc(100vh - 420px)'
-            }}
             pageSize={7}
             hiddenIds={hiddenIds}
             hasRowNavigation={false}

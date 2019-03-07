@@ -60,7 +60,6 @@ function Events({
   setTitle = true,
   getHeader = defaultGetHeader,
   scrollWrapperClassName,
-  scrollWrapperStyle,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
@@ -79,7 +78,6 @@ function Events({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
-      scrollWrapperStyle={scrollWrapperStyle}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
       noDataMessage={noDataMessage}

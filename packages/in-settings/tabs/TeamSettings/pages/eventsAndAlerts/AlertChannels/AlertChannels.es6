@@ -16,7 +16,6 @@ export default function AlertChannels({
   setTitle = true,
   getHeader = defaultGetHeader,
   scrollWrapperClassName,
-  scrollWrapperStyle,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
@@ -34,7 +33,6 @@ export default function AlertChannels({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
-      scrollWrapperStyle={scrollWrapperStyle}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
       noDataMessage={noDataMessage}
