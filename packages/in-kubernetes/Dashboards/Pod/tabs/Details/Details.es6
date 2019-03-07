@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
-  ipNavigationItem,
   labelsNavigationItem,
   annotationsNavigationItem,
   specNavigationItem
@@ -9,6 +8,7 @@ import DetailsNavigation, {
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { podDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
+import IPs from 'in-kubernetes/Dashboards/Pod/tabs/Details/IPs';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.id) }), function Details({
@@ -36,3 +36,12 @@ const navigationItems = [
 ].filter(Boolean);
 
 const navigationTree = singletonNavigationTree(navigationItems);
+
+function ipNavigationItem(path) {
+  return {
+    path,
+    icon: 'lib_kubernetes_ip',
+    label: 'IPs',
+    component: IPs
+  };
+}
