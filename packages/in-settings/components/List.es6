@@ -14,8 +14,8 @@ import TemporaryMessage from 'in-components/TemporaryMessage';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
-import { create, just } from 'reactive-observables';
 import { isBlank } from 'in-services/util/string';
+import { create } from 'reactive-observables';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -44,18 +44,11 @@ function clearPerCellLoadingIndicator() {
 
 export default compose(
   withState('errorMessage', 'setErrorMessage', null),
-  connectTo(({ loadEntities, setErrorMessage, rows }) => {
-    if (rows) {
-      return {
-        entities: just(rows),
-        perCellLoadingIndicator: perCellLoadingIndicator$
-      };
-    }
-
+  connectTo(({ loadEntities, setErrorMessage }) => {
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
     // rendered
-    // 2. The reloadSignal.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the entities (for
-    // example, if one has been deleted).
+    // 2. The reloadEntitiesSignal$.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the
+    // entities (for example, if one has been deleted).
     // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
     // the entities fails (HTTP error etc.)
     // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator

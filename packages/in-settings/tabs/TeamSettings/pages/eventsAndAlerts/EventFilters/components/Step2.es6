@@ -131,7 +131,8 @@ function getSelectedEventsForAlert(selectedEvents) {
   if (selectedEvents.isEmpty()) {
     return alwaysEmptyArray;
   }
-  return getEventSpecificationByIds(selectedEvents);
+  // null is treated as a pending result when converting the HTTP response into a result
+  return getEventSpecificationByIds(selectedEvents).startWith(null);
 }
 
 function eventSelectionTableActions(form, setForm) {

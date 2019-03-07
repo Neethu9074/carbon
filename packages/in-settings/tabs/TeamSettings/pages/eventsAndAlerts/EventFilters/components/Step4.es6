@@ -50,7 +50,8 @@ function getSelectedAlertChannels(selectedChannels) {
   if (selectedChannels.isEmpty()) {
     return alwaysEmptyArray;
   }
-  return getIntegrationsByIdsMutable(selectedChannels.toJS());
+  // null is treated as a pending result when converting the HTTP response into a result
+  return getIntegrationsByIdsMutable(selectedChannels.toJS()).startWith(null);
 }
 
 function alertChannelSelectionTableActions(form, setForm) {
