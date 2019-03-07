@@ -19,8 +19,11 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
 
+import locals from './Summary.mless';
+
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
+  const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const allContainerStatuses = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
 
@@ -55,6 +58,14 @@ export default function Summary({ data: pod, timeConfig }) {
           <KpiCard title="Age" value={pod.age ? formatDuration(pod.age) : '-'} raw />
         </Col>
       </Row>
+
+      {message && (
+        <Row>
+          <Col lg={12}>
+            <KpiCard title="Message" valuesClassName={locals.message} value={message} raw />
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col lg={3}>

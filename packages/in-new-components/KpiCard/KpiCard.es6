@@ -1,13 +1,17 @@
 import React from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
+
 import locals from './KpiCard.mless';
 
-export default function KpiCard({ title, value, raw = false, renderValue }) {
+export default function KpiCard({ title, value, raw = false, renderValue, valuesClassName }) {
   if (raw || renderValue) {
     return (
       <div className={locals.wrapper}>
         <div className={locals.title}>{title}</div>
-        <span className={locals.minor}>{renderValue ? renderValue(value) : value}</span>
+        <span className={joinClassNames(locals.minor, valuesClassName)}>
+          {renderValue ? renderValue(value) : value}
+        </span>
       </div>
     );
   }
