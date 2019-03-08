@@ -41,12 +41,14 @@ function createForm(config) {
 
 const AlertChannelModificationForm = entityForm(function AlertChannelModificationForm(props) {
   const { entity, form, message, error, loading, setForm, isCreate } = props;
-  const Form = fullyQualified[props.form.get('kind').value].Form;
+  const fullyQualifiedAlertChannel = fullyQualified[entity.get('kind')];
+  const Form = fullyQualifiedAlertChannel.Form;
+  const alertChannelLabel = fullyQualifiedAlertChannel.label;
 
   return (
     <SettingsDetailPage>
       <SubViewHeader>{`${
-        isCreate ? 'Create ' + entity.get('kind') : 'Modify ' + entity.get('name')
+        isCreate ? 'Create ' + alertChannelLabel : 'Modify ' + entity.get('name')
       } Alert Channel`}</SubViewHeader>
 
       {message ? (

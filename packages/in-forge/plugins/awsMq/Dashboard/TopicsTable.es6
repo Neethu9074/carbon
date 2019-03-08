@@ -25,7 +25,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'topicMetrics.' + row.key + '.enqueue_count';
+        return row.metricPrefix + '.enqueue_count';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -41,7 +41,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'topicMetrics.' + row.key + '.dequeue_count';
+        return row.metricPrefix + '.dequeue_count';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -57,7 +57,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'topicMetrics.' + row.key + '.memory_usage';
+        return row.metricPrefix + '.memory_usage';
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -67,7 +67,7 @@ const cols = [
   }
 ];
 
-export default function TopicsTable({ snapshot, timeConfig }) {
+export default function TopicsTable({ snapshot, timeConfig, type }) {
   const topics = snapshot.getIn(['data', 'topics'], emptyList);
   if (topics.size === 0) {
     return null;
@@ -77,7 +77,8 @@ export default function TopicsTable({ snapshot, timeConfig }) {
       return {
         key: topic,
         timeConfig,
-        snapshotId: snapshot.get('id')
+        snapshotId: snapshot.get('id'),
+        metricPrefix: 'topicMetrics' + type + '.' + topic
       };
     })
     .toArray();
@@ -89,7 +90,6 @@ export default function TopicsTable({ snapshot, timeConfig }) {
 }
 
 function getDetails(row) {
-  const id = row.key;
   return (
     <div>
       <Chart
@@ -98,7 +98,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           max: 1,
-          metrics: ['topicMetrics.' + id + '.memory_usage'],
+          metrics: [row.metricPrefix + '.memory_usage'],
           labels: ['Memory Usage'],
           type: 'line',
           formatter: percentage.detailed
@@ -109,7 +109,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['topicMetrics.' + id + '.producer_count', 'topicMetrics.' + id + '.consumer_count'],
+          metrics: [row.metricPrefix + '.producer_count', row.metricPrefix + '.consumer_count'],
           labels: ['Producer Count', 'Consumer Count'],
           type: 'line',
           formatter: number.compact
@@ -122,9 +122,9 @@ function getDetails(row) {
           y1={{
             min: 0,
             metrics: [
-              'topicMetrics.' + id + '.enqueue_count',
-              'topicMetrics.' + id + '.dispatch_count',
-              'topicMetrics.' + id + '.dequeue_count'
+              row.metricPrefix + '.enqueue_count',
+              row.metricPrefix + '.dispatch_count',
+              row.metricPrefix + '.dequeue_count'
             ],
             labels: ['Enqueue Count', 'Dispatch Count', 'Dequeue Count'],
             type: 'line',
@@ -136,7 +136,7 @@ function getDetails(row) {
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            metrics: ['topicMetrics.' + id + '.expired_count'],
+            metrics: [row.metricPrefix + '.expired_count'],
             labels: ['ExpiredCount'],
             type: 'line',
             formatter: number.detailed
@@ -148,7 +148,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          metrics: ['topicMetrics.' + id + '.enqueue_time'],
+          metrics: [row.metricPrefix + '.enqueue_time'],
           labels: ['EnqueueTime'],
           type: 'line',
           formatter: millis.detailed

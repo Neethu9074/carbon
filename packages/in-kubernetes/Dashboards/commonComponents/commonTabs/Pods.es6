@@ -165,12 +165,14 @@ const allColumnDefinitions = [
         ...get(item, ['pod', 'status', 'containerStatuses'], [])
       ];
       return (
-        <TwoValueBar
-          v1={allContainerStatuses.filter(c => c.ready).length}
-          v2={allContainerStatuses.length}
-          fullDomain={allContainerStatuses.length}
-          renderLabels={false}
-        />
+        <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
+          <TwoValueBar
+            v1={allContainerStatuses.filter(c => c.ready).length}
+            v2={allContainerStatuses.length}
+            fullDomain={allContainerStatuses.length}
+            renderLabels={false}
+          />
+        </Tooltip>
       );
     }
   },
@@ -215,6 +217,7 @@ const allColumnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          podId={item.pod.id}
         />
       );
     }

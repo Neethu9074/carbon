@@ -19,7 +19,7 @@ export function getEventSpecificationByIds(eventIds) {
     maxRetries: 3,
     url: '/api/events/settings/event-specifications/infos',
     queryParams: {
-      ids: eventIds && eventIds.toJS ? eventIds.toJS() : [],
+      ids: eventIds ? eventIds : [],
       newApplicationModelEnabled: twoZeroModeEnabled
     }
   }).map(response => response.body);

@@ -23,7 +23,7 @@ export function scrollToTopSmoothly() {
   }
 }
 
-// Calculate the position of an element relative to the document root;
+// Calculate the position of an element relative to the document root.
 export function getCoords(elem) {
   const box = elem.getBoundingClientRect();
 

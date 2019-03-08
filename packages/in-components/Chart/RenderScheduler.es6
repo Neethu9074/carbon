@@ -7,6 +7,7 @@ import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { toServerTime } from 'in-stores/timeOffset';
+import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';
 
 export default class RenderScheduler {
@@ -210,16 +211,13 @@ export default class RenderScheduler {
     const config = this.config;
     const dpr = config.devicePixelRatio;
 
-    config.frontBufferCtx.clearRect(0, 0, config.frontBufferWidth, config.height);
-
-    config.frontBufferCtx.drawImage(
+    copyCanvasInto(
       config.backBufferCanvas,
-
+      config.frontBufferCtx,
       Math.round(progress * config.bufferOffsetInPx * dpr),
       0,
       Math.round(config.frontBufferWidth * dpr),
       Math.round(config.height * dpr),
-
       0,
       0,
       config.frontBufferWidth,

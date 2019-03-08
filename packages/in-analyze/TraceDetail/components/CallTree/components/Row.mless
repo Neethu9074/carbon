@@ -8,8 +8,8 @@
   }
 
   .row {
-    padding-bottom: 1.25rem;
     transition: background 0.4s ease-in-out;
+    height: 3.5rem;
   }
 
   .rootRow {
@@ -86,7 +86,7 @@
   .intermediateLine,
   .lineEnd {
     position: absolute;
-    top: -35px;
+    top: -1.75rem;
 
     margin-left: 8px;
     border-right: 1px solid @lineColor;
@@ -98,6 +98,6 @@
   }
 
   .lineEnd {
-    height: 45px;
+    height: 2.5rem;
   }
 }

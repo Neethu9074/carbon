@@ -6,11 +6,14 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { maintenanceNotesEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
+import { get, trySet } from 'in-services/localStorage';
 import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
 const messageId = 'maintenanceNote';
+const localStorageKey = 'maintenanceNote.lastViewedTimestamp';
+const maxTimeToStoreInLocalStorage = 1000 * 60 * 60 * 2; // 2 hours;
 
 const messageStore = createStore({
   name: 'maintenance/message',
@@ -20,11 +23,13 @@ const message$ = messageStore.observable.distinct();
 
 const messageReadStore = createStore({
   name: 'maintenance/messageRead',
-  initialValue: false
+  initialValue: Date.now() - Number(get(localStorageKey)) < maxTimeToStoreInLocalStorage
 });
+
 const messageRead$ = messageReadStore.observable;
 
 function markAsRead() {
+  trySet(localStorageKey, Date.now());
   messageReadStore.mutateTo(true);
 }
 

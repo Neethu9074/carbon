@@ -32,7 +32,7 @@ export function Tbody(props) {
 export function Tr(props) {
   return (
     <tr
-      {...omit(props, ['active'])}
+      {...omit(props, ['active', 'selected'])}
       className={evaluateClassNames({
         [props.className]: true,
         [locals.tr]: true,
@@ -41,7 +41,8 @@ export function Tr(props) {
         [locals.trRegular]: props.size !== 'compact',
         [locals.trClickable]: props.onClick,
         [locals.active]: props.active,
-        [locals.dull]: props.dull
+        [locals.dull]: props.dull,
+        [locals.selected]: props.selected
       })}
     />
   );

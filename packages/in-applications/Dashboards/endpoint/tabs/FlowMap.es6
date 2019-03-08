@@ -15,7 +15,6 @@ export default connectTo(
       metricValues: getMetrics({
         filter: {
           application: applicationId,
-          service: serviceId,
           endpoint: endpointId,
           timeConfig
         },

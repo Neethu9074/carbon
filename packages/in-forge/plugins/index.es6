@@ -58,6 +58,7 @@ import './f5';
 import './ftpServiceInstance';
 import './garden';
 import './gce';
+import './googleCloudSQL';
 import './genericHardware';
 import './genericZone';
 import './glassfishApplicationContainer';

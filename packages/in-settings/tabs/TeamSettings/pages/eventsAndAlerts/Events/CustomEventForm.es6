@@ -24,14 +24,14 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { formatterTypeToLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
-import { plugins10, plugins20, oneZeroServicePlugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
+import { getEntityTypeOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
 import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
+import { plugins20, oneZeroServicePlugins } from 'in-forge/constants';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import { create, combineLatest, just } from 'reactive-observables';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -41,6 +41,7 @@ import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-settings/components/FormGroup';
+import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
@@ -148,7 +149,7 @@ function EventForm({
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
-    pluginsWithMetricDefinitions = getPluginsWithMetricDefinitions();
+    pluginsWithMetricDefinitions = getEntityTypeOptions();
     updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form);
   }
 
@@ -171,6 +172,7 @@ function EventForm({
                   value={field.value}
                   onChange={e => onChange('name', e.target.value)}
                   hasError={!field.valid && field.touched}
+                  maxLength={256}
                   autoFocus
                 />
                 <TouchedMessages field={field} />
@@ -187,6 +189,7 @@ function EventForm({
                   value={field.value}
                   onChange={e => onChange('description', e.target.value)}
                   hasError={!field.valid && field.touched}
+                  maxLength={65536}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -320,6 +323,7 @@ function EventForm({
                   placeholder={'e.g. entity.zone:"prod" AND entity.service.name:"Shop"'}
                   className={locals.helpified}
                   value={field.value || ''}
+                  maxLength={2048}
                   onChange={e => {
                     onChange('query', e.target.value, updatedForm => {
                       return startQueryValidation(
@@ -602,7 +606,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={3}>
+        <Col cols={formatterTypeToLabel(form.get('formatter').value) ? 2 : 3}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -649,7 +653,7 @@ function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
   pluginsWithMetricDefinitions.sort((a, b) => compareIgnoreCase(a.label, b.label));
 }
 
-function addCurrentCustomMetricToListIfMissing(customMetricsList, form /* TODO, entity */) {
+function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
   if (!form || !customMetricsList) {
     return;
   }
@@ -671,21 +675,6 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form /* TODO, 
       }
     }
   }
-}
-
-function getPluginsWithMetricDefinitions() {
-  const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
-  return Object.keys(plugins)
-    .map(k => plugins[k])
-    .filter(plugin => getCategories(plugin).length > 0)
-    .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
-    .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
-    .map(plugin => {
-      return {
-        value: plugin,
-        label: getSingular(plugin)
-      };
-    });
 }
 
 function startQueryValidation(query, form, onChange, setQueryValidationInProgress, setSaveEnabled) {

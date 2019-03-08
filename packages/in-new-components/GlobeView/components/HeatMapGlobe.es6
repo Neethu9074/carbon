@@ -5,6 +5,7 @@ import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } 
 import { findCountryConfigByLabel } from 'in-new-components/GlobeView/components/countryConfig';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
 import { rgbToHex } from 'in-services/formatters/color';
+import { copyCanvasIntoShort } from 'in-charts/canvas';
 
 export default class HeatMapGlobe {
   constructor(scene, getData$) {
@@ -29,7 +30,7 @@ export default class HeatMapGlobe {
             return;
           }
 
-          this.ctx.drawImage(image, 0, 0, 4096, 2048);
+          copyCanvasIntoShort(image, this.ctx, 0, 0, 4096, 2048);
 
           let min = null;
           let max = null;

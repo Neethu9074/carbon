@@ -30,22 +30,6 @@ export default function Summary({ timeConfig, data: node }) {
             </Dl>
           </Card>
         </Col>
-        <Col lg={6}>
-          <Card title="Meta" useMaxAvailableHeight>
-            <Dl>
-              <Di title="Machine ID">{node.machineId}</Di>
-              <Di title="Hostname">{node.hostname}</Di>
-            </Dl>
-          </Card>
-        </Col>
-        <Col lg={3}>
-          <Card title="IPs" useMaxAvailableHeight>
-            <Dl>
-              <Di title="Internal IP">{node.internalIp}</Di>
-              <Di title="External IP">{node.externalIp}</Di>
-            </Dl>
-          </Card>
-        </Col>
       </Row>
 
       <Row>

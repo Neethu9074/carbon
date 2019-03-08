@@ -15,11 +15,11 @@ import locals from './AlertChannels.mless';
 export default function AlertChannels({
   setTitle = true,
   getHeader = defaultGetHeader,
-  tableClassName,
-  tableStyle,
+  scrollWrapperClassName,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  hiddenIds,
   pageSize = 20,
   rightHeader = <NewChannelButton />,
   isSearchable = true,
@@ -32,8 +32,7 @@ export default function AlertChannels({
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
-      tableClassName={tableClassName}
-      tableStyle={tableStyle}
+      scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
       noDataMessage={noDataMessage}
@@ -42,6 +41,7 @@ export default function AlertChannels({
       rightHeader={rightHeader}
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
+      extraFilters={createFilters(hiddenIds)}
       onRowClick={onRowClick}
       getDetailsHref={
         onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)
@@ -140,4 +140,22 @@ function getStringifiedParameters(entity) {
 
 function Property({ attribute, label, entity }) {
   return <PropertyInTable label={label} value={entity[attribute]} />;
+}
+
+export function noRightHeader() {
+  // Used to explicitly disable that default right header (create new alert channel button) when this is used in a
+  // dialog to select alert channels in the alert details form. Reason: The create-new button would navigate away from
+  // the edit form in which's context the dialog is shown, thus the user would lose all their unsaved edits on that
+  // form.
+  return null;
+}
+
+function createFilters(hiddenIds) {
+  const filters = [];
+
+  if (hiddenIds) {
+    filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
+  }
+
+  return filters;
 }

@@ -1,93 +1,146 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import {
+  resourceQuotaBytes,
+  resourceQuotaTwoDecimalPlaces
+} from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
 import PodConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/PodConditionsPresenter';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
-import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
 
+import locals from './Summary.mless';
+
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
+  const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const allContainerStatuses = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
 
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
-          <Card title="Status" useMaxAvailableHeight>
-            <Dl>
-              <Di title="Status Summary">
-                <Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>
-              </Di>
-              <Di title="Phase">
-                <Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>
-              </Di>
-              <Di title="Ready">{`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}</Di>
-              <Di title="Restarts">
-                <MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />
-              </Di>
-              <Di title="Age">{pod.age ? formatDuration(pod.age) : '-'}</Di>
-              <Di title="Message">
-                <PodMessage message={get(pod, ['status', 'message'])} />
-              </Di>
-            </Dl>
+        <Col lg={2}>
+          <KpiCard
+            title="Status Summary"
+            value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <KpiCard title="Phase" value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>} raw />
+        </Col>
+        <Col lg={2}>
+          <KpiCard
+            title="Ready Summary"
+            value={`${allContainerStatuses.filter(c => c.ready).length}/${allContainerStatuses.length}`}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <KpiCard
+            title="Restarts"
+            value={<MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <KpiCard title="Age" value={pod.age ? formatDuration(pod.age) : '-'} raw />
+        </Col>
+      </Row>
+
+      {message && (
+        <Row>
+          <Col lg={12}>
+            <KpiCard title="Message" valuesClassName={locals.message} value={message} raw />
+          </Col>
+        </Row>
+      )}
+
+      <Row>
+        <Col lg={3}>
+          <KpiCard
+            title="CPU Req. Alloc."
+            value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaTwoDecimalPlaces} />}
+            raw
+          />
+        </Col>
+        <Col lg={3}>
+          <KpiCard
+            title="CPU Limits Alloc."
+            value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaTwoDecimalPlaces} />}
+            raw
+          />
+        </Col>
+        <Col lg={3}>
+          <KpiCard
+            title="Memory Req. Alloc."
+            value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
+            raw
+          />
+        </Col>
+        <Col lg={3}>
+          <KpiCard
+            title="Memory Limits Alloc."
+            value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
+            raw
+          />
+        </Col>
+      </Row>
+
+      <Row verticallyStretchColumns>
+        <Col lg={6}>
+          <Card title="CPU Resources" useMaxAvailableHeight>
+            <ResourceQuotaChart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              metrics={[`cpuRequests`, `cpuLimits`]}
+              renderChart={() => (
+                <Chart
+                  snapshotId={snapshotId}
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: resourceQuotaTwoDecimalPlaces,
+                    metrics: [`cpuRequests`, `cpuLimits`],
+                    labels: ['CPU Requests', 'CPU Limits'],
+                    type: 'line',
+                    min: 0
+                  }}
+                />
+              )}
+            />
           </Card>
         </Col>
-
-        <Col lg={4}>
-          <Card title="IPs" useMaxAvailableHeight>
-            <Dl>
-              <Di title="Host IP">{pod.hostIp || '-'}</Di>
-              <Di title="Pod IP">{pod.podIp || '-'}</Di>
-            </Dl>
-          </Card>
-        </Col>
-
-        <Col lg={4}>
-          <Card title="Requests & Limits" useMaxAvailableHeight>
-            <Dl>
-              <Di title="CPU Requests">
-                <MetricValue
+        <Col lg={6}>
+          <Card title="Memory Resources" useMaxAvailableHeight>
+            <ResourceQuotaChart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              metrics={[`memoryRequests`, `memoryLimits`]}
+              renderChart={() => (
+                <Chart
                   snapshotId={snapshotId}
-                  metric="cpuRequests"
-                  formatter={twoDecimalPlaces}
-                  timeWindowAggregation="mean"
+                  timeConfig={timeConfig}
+                  y1={{
+                    formatter: resourceQuotaBytes,
+                    metrics: [`memoryRequests`, `memoryLimits`],
+                    labels: ['Memory Requests', 'Memory Limits'],
+                    type: 'line',
+                    min: 0
+                  }}
                 />
-              </Di>
-              <Di title="CPU Limits">
-                <MetricValue
-                  snapshotId={snapshotId}
-                  metric="cpuLimits"
-                  formatter={twoDecimalPlaces}
-                  timeWindowAggregation="mean"
-                />
-              </Di>
-              <Di title="Memory Requests">
-                <MetricValue
-                  snapshotId={snapshotId}
-                  metric="memoryRequests"
-                  formatter={bytesTwoDecimalPlaces}
-                  timeWindowAggregation="mean"
-                />
-              </Di>
-              <Di title="Memory Limits">
-                <MetricValue
-                  snapshotId={snapshotId}
-                  metric="memoryLimits"
-                  formatter={bytesTwoDecimalPlaces}
-                  timeWindowAggregation="mean"
-                />
-              </Di>
-            </Dl>
+              )}
+            />
           </Card>
         </Col>
       </Row>

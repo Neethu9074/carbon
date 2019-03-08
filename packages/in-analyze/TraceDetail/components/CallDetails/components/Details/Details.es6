@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import convert from 'in-analyze/TraceDetail/components/CallDetails/fakedSpanConverter';
 import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
 import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
+import { isInstanaEngineer } from 'in-stores/user';
 import { find } from 'in-services/arrayUtils';
 
 import locals from './Details.mless';
@@ -32,6 +33,12 @@ function SpanDetails({ title, call, kind }) {
   return (
     <Group title={title}>
       <div className={locals.forgeDetailsWrapper}>
+        {isInstanaEngineer && (
+          <Fragment>
+            <div className={locals.title}>Span Type</div>
+            <div className={locals.text}>{span.name}</div>
+          </Fragment>
+        )}
         <SpanForgeDetails key={call.id} span={fromJS(convert(span))} />
       </div>
     </Group>

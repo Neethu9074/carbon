@@ -2,7 +2,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
-
+import { kubernetesPlugins } from '../constants.es6';
 import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
@@ -133,6 +133,21 @@ export function getDeploymentDashboard(
       setOrDeleteMatrixKey(params, deploymentDashboard, matrixNamespaceId, namespaceId);
     }
   });
+}
+
+export function getDashboardForEntity(snapshotId, plugin) {
+  switch (plugin) {
+    case kubernetesPlugins.pod:
+      return getPodDashboard(snapshotId);
+    case kubernetesPlugins.service:
+      return getServiceDashboard(snapshotId);
+    case kubernetesPlugins.deployment:
+      return getDeploymentDashboard(snapshotId);
+    case kubernetesPlugins.namespace:
+      return getNamespaceDashboard(snapshotId);
+    case kubernetesPlugins.cluster:
+      return getClusterDashboard(snapshotId);
+  }
 }
 
 function getDashboard({

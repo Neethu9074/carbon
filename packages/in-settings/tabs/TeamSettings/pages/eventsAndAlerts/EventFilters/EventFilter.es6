@@ -25,6 +25,8 @@ import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 
+export const limitForConnectedEntities = 100;
+
 export default function EventFilter(props) {
   const entityId = props.match.params.id;
 
@@ -112,7 +114,8 @@ function createForm(alertEntity, isCreate) {
     .put(
       'selectedAlertChannels',
       createField({
-        value: alertEntity.get('integrationIds', List())
+        value: alertEntity.get('integrationIds', List()),
+        validator: selectedAlertChannelsValidator
       })
     )
     .put(
@@ -289,7 +292,26 @@ function selectedEventsValidator(selectedEvents) {
     return [
       {
         severity: 'error',
-        message: `Please select at least one event.`
+        message: 'Please select at least one event.'
+      }
+    ];
+  }
+  if (selectedEvents.size > limitForConnectedEntities) {
+    return [
+      {
+        severity: 'error',
+        message: `Please select at most ${limitForConnectedEntities} events.`
+      }
+    ];
+  }
+}
+
+function selectedAlertChannelsValidator(selectedAlertChannels) {
+  if (selectedAlertChannels.size > limitForConnectedEntities) {
+    return [
+      {
+        severity: 'error',
+        message: `Please select at most ${limitForConnectedEntities} alert channels.`
       }
     ];
   }

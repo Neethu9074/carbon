@@ -7,10 +7,11 @@ import {
   orderBy as orderByMatrixParameter,
   orderDirection as orderDirectionMatrixParameter
 } from 'in-analyze/navigation/matrix';
-import { getTagFilterToUrlString, getGroupToUrlString } from 'in-analyze/filterBuilder';
+import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
+import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { APPLICATION, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { callAnalysisBlacklistedTags } from 'in-applications/tags';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -67,6 +68,18 @@ export function getLinkToAnalyze({
 
     if (tagFilter != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
+    } else if (dataSource === 'calls') {
+      // remove blacklisted filters
+      let existingTagFilters = getTagFilterFromUrlString(
+        getMatrixParameter(params, analyze, `callList.${tagFilterMatrixParameter}`)
+      );
+      existingTagFilters = existingTagFilters.filter(t => callAnalysisBlacklistedTags.indexOf(t.name) === -1);
+      setOrDeleteMatrixKey(
+        params,
+        analyze,
+        `callList.${tagFilterMatrixParameter}`,
+        getTagFilterToUrlString(existingTagFilters)
+      );
     }
 
     const orderMatrixParameterPrefix = groupByTag == null || !isBlank(groupByTag.name) ? 'groups.' : 'rawItems.';
