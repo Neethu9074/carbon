@@ -121,7 +121,7 @@ class Summary extends React.Component {
               <KpiCard
                 title="Latency"
                 value={
-                  trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.compact(trace.duration)
+                  trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.detailed(trace.duration)
                 }
               />
             </Col>

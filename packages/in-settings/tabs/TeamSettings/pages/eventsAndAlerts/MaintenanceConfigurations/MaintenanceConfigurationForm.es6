@@ -38,6 +38,7 @@ export default function MaintenanceConfigurationForm(props) {
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
           <DescriptionText>Mainentance window names should be unique and meaningful.</DescriptionText>
@@ -88,6 +89,7 @@ export default function MaintenanceConfigurationForm(props) {
               value={field.value}
               onChange={e => onChange('query', e.target.value)}
               hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+              maxLength={2048}
             />
             {form.get('queryValidationInProgress').value && (
               <LoadingIndicator type="dark" className={locals.queryLoading} inline />

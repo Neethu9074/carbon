@@ -1,21 +1,21 @@
-import { find, get, reverse, sortBy } from 'lodash';
-import { withState, compose } from 'recompose';
+import { find, get, isEqual, reverse, sortBy } from 'lodash';
+import { compose, lifecycle, withState } from 'recompose';
 import { createLogger } from 'instalog';
 import invariant from 'invariant';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
-import { create, just } from 'reactive-observables';
 import { isBlank } from 'in-services/util/string';
+import { create } from 'reactive-observables';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -44,18 +44,11 @@ function clearPerCellLoadingIndicator() {
 
 export default compose(
   withState('errorMessage', 'setErrorMessage', null),
-  connectTo(({ loadEntities, setErrorMessage, rows }) => {
-    if (rows) {
-      return {
-        entities: just(rows),
-        perCellLoadingIndicator: perCellLoadingIndicator$
-      };
-    }
-
+  connectTo(({ loadEntities, setErrorMessage }) => {
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
     // rendered
-    // 2. The reloadSignal.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the entities (for
-    // example, if one has been deleted).
+    // 2. The reloadEntitiesSignal$.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the
+    // entities (for example, if one has been deleted).
     // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
     // the entities fails (HTTP error etc.)
     // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator
@@ -79,7 +72,14 @@ export default compose(
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
   withState('orderDirectionState', 'setOrderDirection', 'ASC'),
   withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1)
+  withState('pageState', 'setPage', 1),
+  lifecycle({
+    componentDidUpdate({ extraFilterValues: nextExtraFilterValues }) {
+      if (!isEqual(this.props.extraFilterValues, nextExtraFilterValues)) {
+        this.props.setPage(1);
+      }
+    }
+  })
 )(List);
 
 function List({
@@ -117,8 +117,7 @@ function List({
   errorMessage,
   setErrorMessage,
   perCellLoadingIndicator,
-  tableClassName,
-  tableStyle
+  scrollWrapperClassName
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -127,6 +126,7 @@ function List({
   let totalHitsBeforeFilter = 0;
   let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
+  let entitiesBeforePagination = entities;
   if (entities) {
     totalHitsBeforeFilter = entities.length;
     if (extraFilters && extraFilters.length > 0) {
@@ -141,6 +141,7 @@ function List({
     }
     entities = sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
     totalHitsAfterFilter = entities.length;
+    entitiesBeforePagination = entities;
     const offset = (pageState - 1) * pageSize;
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
@@ -193,14 +194,15 @@ function List({
         noDataMessage={noDataMessage}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
-        tableClassName={tableClassName}
-        tableStyle={tableStyle}
+        scrollWrapperClassName={scrollWrapperClassName}
         fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
-        getRowProps={() => ({ size: 'compact' })}
+        getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
+        allRowsAreSelected={areAllRowsSelected(entitiesBeforePagination, tableActions)}
+        setSelectedStateForRows={setSelectedStateForRows(entitiesBeforePagination, tableActions)}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -445,7 +447,11 @@ function addSelectCheckboxAction(columns, actionDefinition) {
   columns = columns.slice();
   columns.unshift({
     id: 'selectCheckbox',
-    tableAction: true,
+    sortable: false,
+    headCellProps: {
+      className: locals.selectCheckboxHead
+    },
+    selectAllCheckbox: true,
     cellClassName: locals.selectCheckbox,
     getContent(entity) {
       return (
@@ -458,6 +464,32 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     }
   });
   return columns;
+}
+
+function areAllRowsSelected(entities, tableActions) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return false;
+  }
+  for (let i = 0; i < entities.length; i++) {
+    if (!tableActions.selectCheckbox.get(entities[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function setSelectedStateForRows(entities, tableActions) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return noop;
+  }
+  return selected => tableActions.selectCheckbox.setAll(entities, selected);
+}
+
+function getRowProps(tableActions) {
+  if (tableActions.selectCheckbox) {
+    return entity => ({ size: 'compact', selected: tableActions.selectCheckbox.get(entity) });
+  }
+  return () => ({ size: 'compact' });
 }
 
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {

@@ -17,5 +17,6 @@ module.exports = {
   customEventsInWebsiteMonitoringEnabled: true,
   lastSevenDaysTimePresetEnabled: true,
   unifiedAlerting: true,
-  ruleDeprecationValidationChecksEnabled: true
+  ruleDeprecationValidationChecksEnabled: true,
+  trackUrlPathChanges: true
 };

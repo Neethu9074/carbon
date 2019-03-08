@@ -25,16 +25,8 @@ const parameters = [
     label: 'Type'
   },
   {
-    key: 'apiKey',
-    label: 'Api Key'
-  },
-  {
-    key: 'tags',
-    label: 'Tags'
-  },
-  {
-    key: 'region',
-    label: 'Region'
+    key: 'serviceIntegrationKey',
+    label: 'Service Integration Key'
   }
 ];
 
@@ -110,6 +102,7 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
         </FormGroup>

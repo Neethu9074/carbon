@@ -6,6 +6,7 @@ import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags
 import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
+import { trackUrlPathChanges } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { combineLatest, just } from 'reactive-observables';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -247,7 +248,24 @@ function getAppIdFromLocation(location) {
 
 function initViewTrackers() {
   trackView();
+  trackPathChanges();
   trackOpenDashboardClassic();
+}
+
+function trackPathChanges() {
+  if (!trackUrlPathChanges) {
+    return;
+  }
+
+  const pathChange = createTracker('url.path.change');
+  let prevPath = null;
+  navigationParameters$.subscribe(location => {
+    // We deliberately only want to track path changes while ignoring query / matrix parameter changes
+    if (location.pathname !== prevPath) {
+      prevPath = location.pathname;
+      pathChange();
+    }
+  });
 }
 
 function trackView() {

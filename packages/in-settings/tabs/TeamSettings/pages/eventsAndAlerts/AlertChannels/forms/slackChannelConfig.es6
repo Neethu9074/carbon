@@ -128,6 +128,7 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
         </FormGroup>

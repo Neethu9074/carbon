@@ -35,7 +35,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true)
+    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
+    getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
   ]).then(([
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -51,7 +52,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     lastSevenDaysTimePresetEnabled,
     customEventsInWebsiteMonitoringEnabled,
     unifiedAlerting,
-    ruleDeprecationValidationChecksEnabled
+    ruleDeprecationValidationChecksEnabled,
+    trackUrlPathChanges
   ]) => ({
     oneZeroAppDataEnabled,
     oneZeroAppDataPresentationEnabled,
@@ -72,7 +74,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     onPremLicenseInformationEnabled: false,
     customEventsInWebsiteMonitoringEnabled,
     unifiedAlerting,
-    ruleDeprecationValidationChecksEnabled
+    ruleDeprecationValidationChecksEnabled,
+    trackUrlPathChanges
   }));
 });
 

@@ -14,10 +14,15 @@ import {
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
+import {
+  customEnumValue,
+  builtInEnumValue,
+  getEntityTypeOptions,
+  isBuiltInRule
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import List, { createNewEntityButton } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
-import { customEnumValue, builtInEnumValue, isBuiltInRule } from './util';
 import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
@@ -37,9 +42,12 @@ const severityOptions = [
   { value: 10, label: 'Critical' }
 ];
 
+const entityTypeOptions = getEntityTypeOptions();
+
 export default compose(
   withState('type', 'setType', null),
-  withState('severity', 'setSeverity', null)
+  withState('severity', 'setSeverity', null),
+  withState('entityType', 'setEntityType', null)
 )(Events);
 
 function Events({
@@ -47,18 +55,21 @@ function Events({
   setType,
   severity,
   setSeverity,
+  entityType,
+  setEntityType,
   setTitle = true,
   getHeader = defaultGetHeader,
-  tableClassName,
-  tableStyle,
+  scrollWrapperClassName,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
+  hiddenIds,
   pageSize = 20,
   rightHeader = defaultRightHeader(type, setType, severity, setSeverity),
   isSearchable = true,
   onRowClick,
-  hasRowNavigation = true
+  hasRowNavigation = true,
+  inSelectListDialog = false
 }) {
   return (
     <List
@@ -66,17 +77,21 @@ function Events({
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
-      tableClassName={tableClassName}
-      tableStyle={tableStyle}
+      scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="name"
-      rightHeader={rightHeader}
+      rightHeader={
+        !inSelectListDialog
+          ? rightHeader
+          : inSelectListDialogRightHeader(type, setType, severity, setSeverity, entityType, setEntityType)
+      }
       isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(type, severity)}
+      extraFilters={createFilters(hiddenIds, type, severity, entityType)}
+      extraFilterValues={{ type, severity, entityType }}
       searchPlaceholder="Filter Events…"
       searchMaxWidth={210}
       onRowClick={onRowClick}
@@ -254,8 +269,43 @@ function defaultRightHeader(type, setType, severity, setSeverity) {
   );
 }
 
-function createFilters(type, severity) {
+function inSelectListDialogRightHeader(type, setType, severity, setSeverity, entityType, setEntityType) {
+  return (
+    <Fragment>
+      <ComboBox
+        name="filter-type"
+        value={type}
+        options={typeOptions}
+        onChange={e => (e ? setType(e.value) : setType(null))}
+        placeholder="Type…"
+        className={locals.filterDropdown}
+      />
+      <ComboBox
+        name="filter-severity"
+        value={severity}
+        options={severityOptions}
+        onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
+        placeholder="Incidents & Severity…"
+        className={joinClassNames(locals.severityDropdown, locals.filterDropdown)}
+      />
+      <ComboBox
+        name="filter-entity-type"
+        value={entityType}
+        options={entityTypeOptions}
+        onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
+        placeholder="Entity Type…"
+        className={joinClassNames(locals.entityTypeDropdown, locals.filterDropdown)}
+      />
+    </Fragment>
+  );
+}
+
+function createFilters(hiddenIds, type, severity, entityType) {
   const filters = [];
+
+  if (hiddenIds) {
+    filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
+  }
 
   if (type) {
     filters.push(entity => entity.type === type);
@@ -265,6 +315,10 @@ function createFilters(type, severity) {
     filters.push(entity => entity.triggering);
   } else if (severity) {
     filters.push(entity => entity.severity === severity);
+  }
+
+  if (entityType) {
+    filters.push(entity => entity.entityType === entityType);
   }
 
   return filters;
