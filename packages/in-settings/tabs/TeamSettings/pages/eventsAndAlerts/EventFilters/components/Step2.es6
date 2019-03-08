@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 
 import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import UpdateOnlyWhenChanged from 'in-settings/tabs/TeamSettings/components/UpdateOnlyWhenChanged';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -30,7 +31,9 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
   const eventSelectionMode = form.get('eventSelectionMode').value;
   const types = eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null;
   const selectedEvents =
-    eventSelectionMode === modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value : null;
+    eventSelectionMode === modeSelectedEvents && form.get('selectedEvents')
+      ? form.get('selectedEvents').value.toJS()
+      : [];
 
   return (
     <Fragment>
@@ -75,28 +78,30 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
       {eventSelectionMode === modeSelectedEvents &&
         form.get('selectedEvents') && (
           <Fragment>
-            <Events
-              setTitle={false}
-              loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
-              hasRowNavigation={false}
-              noDataMessage="No Events Selected"
-              tableActions={eventSelectionTableActions(form, setForm)}
-              rightHeader={
-                <SelectListDialogButton
-                  form={form}
-                  onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-                  title="Select Events"
-                  label={'Select Events'}
-                  listComponent={Events}
-                  hiddenIds={form.get('selectedEvents').value.toJS()}
-                  limit={limitForConnectedEntities}
-                  createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
-                  }
-                  requiresAtLeastOneMessage="Please select at least one event."
-                />
-              }
-            />
+            <UpdateOnlyWhenChanged array={selectedEvents}>
+              <Events
+                setTitle={false}
+                loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
+                hasRowNavigation={false}
+                noDataMessage="No Events Selected"
+                tableActions={eventSelectionTableActions(form, setForm)}
+                rightHeader={
+                  <SelectListDialogButton
+                    form={form}
+                    onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
+                    title="Select Events"
+                    label={'Select Events'}
+                    listComponent={Events}
+                    hiddenIds={selectedEvents}
+                    limit={limitForConnectedEntities}
+                    createSubmitLabel={numberOfItems =>
+                      numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
+                    }
+                    requiresAtLeastOneMessage="Please select at least one event."
+                  />
+                }
+              />
+            </UpdateOnlyWhenChanged>
             <TouchedMessages field={form.get('selectedEvents')} />
             <div style={{ marginBottom: '2rem' }} />
           </Fragment>
@@ -128,7 +133,7 @@ function onSelectChanged(types, onChange, type) {
 }
 
 function getSelectedEventsForAlert(selectedEvents) {
-  if (selectedEvents.isEmpty()) {
+  if (selectedEvents.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
