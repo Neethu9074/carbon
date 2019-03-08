@@ -1,11 +1,12 @@
 import React from 'react';
 
-import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
+import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForHostSubscription from 'in-subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -43,13 +44,23 @@ export default connectTo(
         <Collapsible.Content>
           <DescriptionList>
             <DescriptionItem title="Node">
-              <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+              <KubernetesSnapshotLink
+                getKubernetesViewEntityDashboard={getNodeDashboard}
+                snapshotId={nodeSnapshot.get('id')}
+              >
+                {getLabel(nodeSnapshot)}
+              </KubernetesSnapshotLink>
             </DescriptionItem>
-            {clusterSnapshot ? (
+            {clusterSnapshot && (
               <DescriptionItem title="Cluster">
-                <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+                <KubernetesSnapshotLink
+                  getKubernetesViewEntityDashboard={getClusterDashboard}
+                  snapshotId={clusterSnapshot.get('id')}
+                >
+                  {getLabel(clusterSnapshot)}
+                </KubernetesSnapshotLink>
               </DescriptionItem>
-            ) : null}
+            )}
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
