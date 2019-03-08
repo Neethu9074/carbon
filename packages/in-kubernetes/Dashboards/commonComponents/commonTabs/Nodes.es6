@@ -119,9 +119,9 @@ const columnDefinitions = [
         <KubernetesEntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
-          nodeId={item.node.id}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          nodeId={item.node.id}
         />
       );
     }

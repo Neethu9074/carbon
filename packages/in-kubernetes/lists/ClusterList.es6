@@ -119,6 +119,7 @@ const columnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          clusterId={item.cluster.id}
         />
       );
     }

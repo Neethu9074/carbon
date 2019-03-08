@@ -217,6 +217,7 @@ const allColumnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          podId={item.pod.id}
         />
       );
     }
