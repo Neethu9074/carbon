@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
-import { number, percentage } from 'in-services/formatters/number';
+import { number, percentage, millis } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -63,7 +63,24 @@ const cols = [
         return `metrics.gauges.KPI.incoming.span_messages.error_rate`;
       },
       getContent: percentage.detailed,
-      forceTimeWindowAggregation: false,
+      forceTimeWindowAggregation: true,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Time diff with acceptor (ms)',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.dropwizard.get('id');
+      },
+      getMetricName() {
+        return `metrics.gauges.com.instana.spanprocessing.stream.source.RawSpanMessageDeserializer.time-difference-to-acceptor`;
+      },
+      getContent: millis.compact,
+      forceTimeWindowAggregation: true,
       getTimeWindowAggregation() {
         return 'mean';
       }
