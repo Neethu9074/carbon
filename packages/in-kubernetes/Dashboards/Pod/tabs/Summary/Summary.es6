@@ -43,7 +43,7 @@ export default function Summary({ data: pod, timeConfig }) {
         <Col lg={2}>
           <KpiCard
             title="Ready Summary"
-            value={`${allContainerStatuses.filter(c => c.ready).length}/${allContainerStatuses.length}`}
+            value={`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}
             raw
           />
         </Col>

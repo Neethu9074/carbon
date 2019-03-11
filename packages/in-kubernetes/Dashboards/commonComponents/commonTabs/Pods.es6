@@ -161,19 +161,16 @@ const allColumnDefinitions = [
     id: 'ready',
     label: 'Ready',
     getContent(item) {
-      const allContainerStatuses = [
-        ...get(item, ['pod', 'status', 'initContainerStatuses'], []),
-        ...get(item, ['pod', 'status', 'containerStatuses'], [])
-      ];
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
         <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
           <TwoValueBar
             rightToLeft
-            v1={allContainerStatuses.filter(c => c.ready).length}
-            v2={allContainerStatuses.length}
+            v1={containerStatuses.filter(c => c.ready).length}
+            v2={containerStatuses.length}
             v2Color={theme.lib.colors.N300}
             v1Color={theme.lib.colors.success}
-            fullDomain={allContainerStatuses.length}
+            fullDomain={containerStatuses.length}
             renderLabels={false}
           />
         </Tooltip>

@@ -36,8 +36,8 @@ export default function PodStatusTooltipContent({ pod }) {
             <Tr size="compact">
               <Td className={locals.summaryCell}>Summary</Td>
               <Td className={locals.summaryCell}>Running</Td>
-              <Td className={locals.summaryCell}>{`${allContainerStatuses.filter(c => c.ready).length}/${
-                allContainerStatuses.length
+              <Td className={locals.summaryCell}>{`${podStatus.containerStatuses.filter(c => c.ready).length}/${
+                podStatus.containerStatuses.length
               }`}</Td>
             </Tr>
           </Tbody>
