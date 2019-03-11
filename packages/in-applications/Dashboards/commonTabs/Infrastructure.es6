@@ -4,10 +4,10 @@ import React from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -82,7 +82,7 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 }
 
 function hasSomeClusterTechnologies(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return false;
   }
 
@@ -92,7 +92,7 @@ function hasSomeClusterTechnologies(entity) {
 }
 
 function hasSomeNonClusterTechnologies(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return true;
   }
 
@@ -102,7 +102,7 @@ function hasSomeNonClusterTechnologies(entity) {
 }
 
 function hasClusterTechnologiesOnly(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return false;
   }
   for (const technology of entity.technologies) {
