@@ -58,10 +58,17 @@ export default class extends React.Component {
     if (this.state.sidebarTallerThanAvailableSpace !== sidebarTallerThanAvailableSpace) {
       this.setState({ sidebarTallerThanAvailableSpace });
     }
+
     // Force the inner sidebar div to keep its width (actually, the width of the outer sidebar div. Otherwise, with
     // some layout modes (like, position: absolute) it would take 100vw width. The - 24 is for 12 px padding on both
     // sides.
-    this.setState({ width: `${this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width - 24}px` });
+    const sidebarWidth = this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width;
+    this.setState({
+      width: `${sidebarWidth - 24}px`,
+      // If the windows is too narrow, the "display: flex; flex-wrap: wrap;" of the grid row kicks in, pushing the
+      // content below the left sidebar. When this happens, we need to stop all sticky sidebar shenanigans.
+      flexWrapIsActive: sidebarWidth >= document.body.clientWidth * 0.9
+    });
   };
 
   handleScroll = () => {
@@ -116,19 +123,20 @@ export default class extends React.Component {
 
   render() {
     const { sidebar, children, sidebarWidth = 2, stickySidebar } = this.props;
-    const { mode, yOffset, sidebarTallerThanAvailableSpace, width } = this.state;
+    const { mode, yOffset, sidebarTallerThanAvailableSpace, width, flexWrapIsActive } = this.state;
     return (
       <Row>
         <Col lg={sidebarWidth}>
           <div
             ref={this.sidebarInnerRef}
             className={evaluateClassNames({
-              [locals.static]: mode === STATIC,
-              [locals.fixedToBottom]: sidebarTallerThanAvailableSpace && mode === DRAGGING_DOWN,
-              [locals.fixedToTop]: (!sidebarTallerThanAvailableSpace && mode !== STATIC) || mode === DRAGGING_UP,
-              [locals.keepAbsolutePosition]: mode === KEEP_ABSOLUTE_POSITION
+              [locals.static]: flexWrapIsActive || mode === STATIC,
+              [locals.fixedToBottom]: !flexWrapIsActive && sidebarTallerThanAvailableSpace && mode === DRAGGING_DOWN,
+              [locals.fixedToTop]:
+                !flexWrapIsActive && ((!sidebarTallerThanAvailableSpace && mode !== STATIC) || mode === DRAGGING_UP),
+              [locals.keepAbsolutePosition]: !flexWrapIsActive && mode === KEEP_ABSOLUTE_POSITION
             })}
-            style={{ top: yOffset, width }}
+            style={!flexWrapIsActive ? { top: yOffset, width } : {}}
           >
             {sidebar}
           </div>
