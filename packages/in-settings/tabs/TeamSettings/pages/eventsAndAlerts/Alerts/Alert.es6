@@ -11,11 +11,11 @@ import {
 import {
   modeEventTypes,
   modeSelectedEvents
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/Step2';
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
-import EventFilterForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilterForm';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
-import { teamSettingsAlertingEventFilters } from 'in-settings/navigation/paths';
+import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
+import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { queryValidator } from 'in-stores/search/validations';
@@ -27,7 +27,7 @@ import entityForm from 'in-hoc/entityForm';
 
 export const limitForConnectedEntities = 100;
 
-export default function EventFilter(props) {
+export default function Alert(props) {
   const entityId = props.match.params.id;
 
   return (
@@ -37,7 +37,7 @@ export default function EventFilter(props) {
       createDefaultEntity={createAlertingConfig}
       createForm={alertEntity => createForm(alertEntity, !entityId)}
       getEntityFromApi={getAlertingConfig}
-      openEntities={() => goToPath(teamSettingsAlertingEventFilters)}
+      openEntities={() => goToPath(teamSettingsAlertingAlerts)}
       saveEntity={save}
     />
   );
@@ -58,18 +58,14 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <EventFilterForm
-        onChangeApplyOn={onChangeApplyOn}
-        onChangeEventSelectionMode={onChangeEventSelectionMode}
-        {...props}
-      />
+      <AlertForm onChangeApplyOn={onChangeApplyOn} onChangeEventSelectionMode={onChangeEventSelectionMode} {...props} />
 
       <SaveCancel
         form={form}
         message={message}
         loading={loading}
         isCreate={isCreate}
-        listPath={teamSettingsAlertingEventFilters}
+        listPath={teamSettingsAlertingAlerts}
       />
     </SettingsDetailPage>
   );

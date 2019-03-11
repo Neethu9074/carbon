@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 import AlertChannels, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
-import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
+import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import UpdateOnlyWhenChanged from 'in-settings/tabs/TeamSettings/components/UpdateOnlyWhenChanged';
 import SectionHeading from 'in-settings/components/SectionHeading';

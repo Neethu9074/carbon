@@ -25,9 +25,9 @@ import {
   teamSettingsAlertingEventCustomEdit,
   teamSettingsAlertingEventBuiltInEdit,
   teamSettingsAlertingEvents,
-  teamSettingsAlertingEventFilterEdit,
-  teamSettingsAlertingEventFilterNew,
-  teamSettingsAlertingEventFilters,
+  teamSettingsAlertingAlertEdit,
+  teamSettingsAlertingAlertNew,
+  teamSettingsAlertingAlerts,
   teamSettingsAlertingAlertChannelEdit,
   teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
@@ -73,9 +73,7 @@ import ConfigurationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerti
 import ConfigurationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Configurations/Configuration';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
-import EventFiltersPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilters';
 import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integrations';
-import EventFilterPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
 import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integration';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
@@ -85,6 +83,8 @@ import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiT
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
+import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
@@ -224,17 +224,17 @@ function navigationTreeForRole(role): NavigationTree {
       });
 
       eventsAndAlertsPages.push({
-        path: teamSettingsAlertingEventFilters,
+        path: teamSettingsAlertingAlerts,
         label: 'Alerts',
-        component: EventFiltersPage,
+        component: AlertsPage,
         subPages: [
           {
-            path: teamSettingsAlertingEventFilterNew,
-            component: EventFilterPage
+            path: teamSettingsAlertingAlertNew,
+            component: AlertPage
           },
           {
-            path: teamSettingsAlertingEventFilterEdit,
-            component: EventFilterPage
+            path: teamSettingsAlertingAlertEdit,
+            component: AlertPage
           }
         ]
       });
