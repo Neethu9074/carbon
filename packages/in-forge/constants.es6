@@ -6,6 +6,7 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 
 export const nonServicePlugins = {
   activemq: 'activeMQ',
+  activemqartemis: 'activeMQArtemis',
   availabilityZone: 'availabilityZone',
   awsDynamoDb: 'awsDynamoDb',
   awsEc: 'awsEc',
@@ -233,6 +234,7 @@ export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
+  activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
