@@ -30,14 +30,14 @@ export default function Summary({ data: pod, timeConfig }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={2}>
+        <Col lg={3}>
           <KpiCard
             title="Status Summary"
             value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>}
             raw
           />
         </Col>
-        <Col lg={2}>
+        <Col lg={3}>
           <KpiCard title="Phase" value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>} raw />
         </Col>
         <Col lg={2}>
@@ -62,7 +62,7 @@ export default function Summary({ data: pod, timeConfig }) {
       {message && (
         <Row>
           <Col lg={12}>
-            <KpiCard title="Message" valuesClassName={locals.message} value={message} raw />
+            <KpiCard title="Status Message" valuesClassName={locals.message} value={message} raw />
           </Col>
         </Row>
       )}

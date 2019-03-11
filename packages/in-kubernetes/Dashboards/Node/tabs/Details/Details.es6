@@ -28,11 +28,11 @@ export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node
 });
 
 const navigationItems = [
-  ipNavigationItem(nodeDashboardDetailsFullyQualified),
-  hostNavigationItem(`${nodeDashboardDetailsFullyQualified}/host`),
-  labelsNavigationItem(`${nodeDashboardDetailsFullyQualified}/labels`),
+  labelsNavigationItem(nodeDashboardDetailsFullyQualified),
   annotationsNavigationItem(`${nodeDashboardDetailsFullyQualified}/annotations`),
-  specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`)
+  specNavigationItem(`${nodeDashboardDetailsFullyQualified}/spec`),
+  ipNavigationItem(`${nodeDashboardDetailsFullyQualified}/ips`),
+  hostNavigationItem(`${nodeDashboardDetailsFullyQualified}/host`)
 ].filter(Boolean);
 
 const navigationTree = singletonNavigationTree(navigationItems);

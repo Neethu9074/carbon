@@ -8,6 +8,7 @@ export default function Host({ resource: node }) {
     <Card title="Host" useMaxAvailableHeight>
       <Dl>
         <Di title="Machine ID">{node.machineId || '-'}</Di>
+        <Di title="Boot ID">{node.bootId}</Di>
         <Di title="Hostname">{node.hostname || '-'}</Di>
       </Dl>
     </Card>
