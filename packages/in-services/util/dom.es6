@@ -16,7 +16,7 @@ export function scrollIntoViewIfNeeded(element) {
 }
 
 export function scrollToTopSmoothly() {
-  var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+  const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
   if (currentScroll > 0) {
     window.requestAnimationFrame(scrollToTopSmoothly);
     window.scrollTo(0, currentScroll - currentScroll / 5);
