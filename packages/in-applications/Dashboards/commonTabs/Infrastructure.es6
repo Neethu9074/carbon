@@ -52,7 +52,10 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
     buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
   }
 
-  if (hasSomeNonClusterTechnologies(entity)) {
+  // refine it by entity type
+  const onlyShowCluster = isDatabase(entity) && hasSomeClusterTechnologies(entity);
+
+  if (hasSomeNonClusterTechnologies(entity) && onlyShowCluster == false) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
     buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
@@ -79,6 +82,19 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
       />
     </MaxWidthFullscreenContainer>
   );
+}
+
+function isDatabase(entity) {
+  if (!entity.types) {
+    return false;
+  }
+
+  for (const type of entity.types) {
+    if (type == 'DATABASE') {
+      return true;
+    }
+  }
+  return false;
 }
 
 function hasSomeClusterTechnologies(entity) {
