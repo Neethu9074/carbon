@@ -70,28 +70,28 @@ export default function Summary({ data: pod, timeConfig }) {
       <Row>
         <Col lg={3}>
           <KpiCard
-            title="CPU Req. Alloc."
+            title="CPU Requests"
             value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaTwoDecimalPlaces} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="CPU Limits Alloc."
+            title="CPU Limits"
             value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaTwoDecimalPlaces} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="Memory Req. Alloc."
+            title="Memory Requests"
             value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="Memory Limits Alloc."
+            title="Memory Limits"
             value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
             raw
           />
