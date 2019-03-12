@@ -36,10 +36,6 @@ export default compose(
 function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   const buttonPropsList = [];
 
-  if (selectedType == null) {
-    selectedType = hasClusterTechnologiesOnly(entity) ? 'CLUSTER' : 'PROCESS';
-  }
-
   /*
   TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
 
@@ -59,6 +55,10 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
     buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+  }
+
+  if (selectedType == null) {
+    selectedType = onlyShowCluster ? 'CLUSTER' : 'PROCESS';
   }
 
   return (
@@ -115,18 +115,6 @@ function hasSomeNonClusterTechnologies(entity) {
   return entity.technologies.some(function(technology) {
     return !isClusterTechnology(technology);
   });
-}
-
-function hasClusterTechnologiesOnly(entity) {
-  if (!entity || !entity.technologies) {
-    return false;
-  }
-  for (const technology of entity.technologies) {
-    if (!isClusterTechnology(technology)) {
-      return false;
-    }
-  }
-  return true;
 }
 
 const clusterTechnologies = ['elasticsearchCluster', 'cassandraCluster', 'couchbaseCluster'];
