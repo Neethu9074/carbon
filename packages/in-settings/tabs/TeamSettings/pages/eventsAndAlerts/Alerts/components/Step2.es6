@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
-import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/EventFilter';
+import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import UpdateOnlyWhenChanged from 'in-settings/tabs/TeamSettings/components/UpdateOnlyWhenChanged';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';

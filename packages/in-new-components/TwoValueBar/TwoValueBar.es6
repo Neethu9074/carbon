@@ -1,8 +1,21 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
+
 import locals from './TwoValueBar.mless';
 
-export default function TwoValueBar({ v1, v2, v1Label, v2Label, renderLabels = true, formatter, fullDomain }) {
+export default function TwoValueBar({
+  v1,
+  v2,
+  v1Color,
+  v2Color,
+  v1Label,
+  v2Label,
+  renderLabels = true,
+  formatter,
+  fullDomain,
+  rightToLeft = false
+}) {
   if (v1 == null || v1 < 0) {
     return null;
   }
@@ -11,8 +24,15 @@ export default function TwoValueBar({ v1, v2, v1Label, v2Label, renderLabels = t
 
   return (
     <div className={locals.wrapper}>
-      <div className={locals.bar}>
-        <div className={locals.fill} style={{ width: v1BarWidth }} />
+      <div className={locals.bar} style={{ background: v2Color }}>
+        <div
+          className={evaluateClassNames({
+            [locals.fill]: true,
+            [locals.rightToLeft]: rightToLeft,
+            [locals.leftToRight]: !rightToLeft
+          })}
+          style={{ width: v1BarWidth, background: v1Color }}
+        />
       </div>
 
       {renderLabels && (

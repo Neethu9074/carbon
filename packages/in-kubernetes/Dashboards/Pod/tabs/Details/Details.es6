@@ -29,10 +29,10 @@ export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.i
 });
 
 const navigationItems = [
-  ipNavigationItem(podDashboardDetailsFullyQualified),
-  labelsNavigationItem(`${podDashboardDetailsFullyQualified}/labels`),
+  labelsNavigationItem(podDashboardDetailsFullyQualified),
   annotationsNavigationItem(`${podDashboardDetailsFullyQualified}/annotations`),
-  specNavigationItem(`${podDashboardDetailsFullyQualified}/spec`)
+  specNavigationItem(`${podDashboardDetailsFullyQualified}/spec`),
+  ipNavigationItem(`${podDashboardDetailsFullyQualified}/ips`)
 ].filter(Boolean);
 
 const navigationTree = singletonNavigationTree(navigationItems);

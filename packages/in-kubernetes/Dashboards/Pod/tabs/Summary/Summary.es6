@@ -30,20 +30,20 @@ export default function Summary({ data: pod, timeConfig }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={2}>
+        <Col lg={3}>
           <KpiCard
             title="Status Summary"
             value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>}
             raw
           />
         </Col>
-        <Col lg={2}>
+        <Col lg={3}>
           <KpiCard title="Phase" value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>} raw />
         </Col>
         <Col lg={2}>
           <KpiCard
             title="Ready Summary"
-            value={`${allContainerStatuses.filter(c => c.ready).length}/${allContainerStatuses.length}`}
+            value={`${containerStatuses.filter(c => c.ready).length}/${containerStatuses.length}`}
             raw
           />
         </Col>
@@ -62,7 +62,7 @@ export default function Summary({ data: pod, timeConfig }) {
       {message && (
         <Row>
           <Col lg={12}>
-            <KpiCard title="Message" valuesClassName={locals.message} value={message} raw />
+            <KpiCard title="Status Message" valuesClassName={locals.message} value={message} raw />
           </Col>
         </Row>
       )}
@@ -70,28 +70,28 @@ export default function Summary({ data: pod, timeConfig }) {
       <Row>
         <Col lg={3}>
           <KpiCard
-            title="CPU Req. Alloc."
+            title="CPU Requests"
             value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaTwoDecimalPlaces} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="CPU Limits Alloc."
+            title="CPU Limits"
             value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaTwoDecimalPlaces} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="Memory Req. Alloc."
+            title="Memory Requests"
             value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
-            title="Memory Limits Alloc."
+            title="Memory Limits"
             value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
             raw
           />

@@ -59,11 +59,11 @@ const redirects = [
   },
   {
     from: `${settingsPath}/alertingConfigurations`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEventFilters : paths.teamSettingsAlertingConfigurations
+    to: unifiedAlerting ? paths.teamSettingsAlertingAlerts : paths.teamSettingsAlertingConfigurations
   },
   {
     from: `${settingsPath}/alertingConfiguration/:id`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEventFilterEdit : paths.teamSettingsAlertingConfigurationEdit,
+    to: unifiedAlerting ? paths.teamSettingsAlertingAlertEdit : paths.teamSettingsAlertingConfigurationEdit,
     params: { id: 'id' }
   },
   {
@@ -95,8 +95,8 @@ if (unifiedAlerting) {
     { from: paths.teamSettingsKnowledgeManagementCustomIssueEdit, to: paths.teamSettingsAlertingEvents },
     { from: paths.teamSettingsKnowledgeManagementCustomDynamicRules, to: paths.teamSettingsAlertingEvents },
     { from: paths.teamSettingsKnowledgeManagementCustomDynamicRuleEdit, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsAlertingConfigurations, to: paths.teamSettingsAlertingEventFilters },
-    { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingEventFilterEdit },
+    { from: paths.teamSettingsAlertingConfigurations, to: paths.teamSettingsAlertingAlerts },
+    { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingAlertEdit },
     { from: paths.teamSettingsAlertingIntegrations, to: paths.teamSettingsAlertingAlertChannels },
     { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit }
   );

@@ -9,7 +9,7 @@ import {
 import {
   modeEventTypes,
   modeSelectedEvents
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/EventFilters/components/Step2';
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import { combineLatest, create } from 'reactive-observables';

@@ -58,10 +58,17 @@ export default class extends React.Component {
     if (this.state.sidebarTallerThanAvailableSpace !== sidebarTallerThanAvailableSpace) {
       this.setState({ sidebarTallerThanAvailableSpace });
     }
+
     // Force the inner sidebar div to keep its width (actually, the width of the outer sidebar div. Otherwise, with
     // some layout modes (like, position: absolute) it would take 100vw width. The - 24 is for 12 px padding on both
     // sides.
-    this.setState({ width: `${this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width - 24}px` });
+    const sidebarWidth = this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width;
+    this.setState({
+      width: `${sidebarWidth - 24}px`,
+      // If the windows is too narrow, the "display: flex; flex-wrap: wrap;" of the grid row kicks in, pushing the
+      // content below the left sidebar. When this happens, we need to stop all sticky sidebar shenanigans.
+      flexWrapIsActive: sidebarWidth >= document.body.clientWidth * 0.9
+    });
   };
 
   handleScroll = () => {
@@ -87,6 +94,19 @@ export default class extends React.Component {
       return;
     }
 
+    if (isScrollingUp && scrollTop === 0 && this.state.mode === KEEP_ABSOLUTE_POSITION && this.state.yOffset < 0) {
+      // Situation: We have a page where the sidebar is
+      //   a) taller than the viewport, and
+      //   b) taller than the main content.
+      // The user has scrolled to the bottom once and is now scrolling up again. The sidebar is in mode
+      // KEEP_ABSOLUTE_POSITION now. When the user reaches the top of the main content, the scrollTop (scroll position
+      // with respect to the whole document) is 0, thus the browser will not allow scrolling any further up. But since
+      // we moved the sidebar up relative to the main content when scrolling down, the top portion of the sidebar is still
+      // off screen. Solution: Move the sidebar down smoothly to unstuck it and align the top of the sidebar with the
+      // top of the main content again.
+      this.unstuckSidebarSmoothly();
+    }
+
     const sidebarBottom = sidebarTop + this.sidebarHeight;
     const shouldDragDown = isScrollingDown && scrollBottom >= sidebarBottom;
     const shouldDragUp = isScrollingUp && sidebarTop >= scrollTop + this.initialSidebarTop;
@@ -99,10 +119,10 @@ export default class extends React.Component {
       // We have been dragging the sidebar down until now and the user has just changed their scroll direction to up, or
       // we have been dragging the sidebar up until now and the user has just changed their scroll direction to down.
       // In both cases:
-      // 1. calculate the current y-offset of the sidebar relative to the document body.
-      const currentYOffset = `${sidebarTop - this.initialSidebarTop}px`;
+      // 1. calculate the current y-offset of the sidebar relative to the document body
+      //    (sidebarTop - this.initialSidebarTop).
       // 2. fix the sidebar on its current y-offset
-      this.setState({ mode: KEEP_ABSOLUTE_POSITION, yOffset: currentYOffset });
+      this.setState({ mode: KEEP_ABSOLUTE_POSITION, yOffset: sidebarTop - this.initialSidebarTop });
     }
   };
 
@@ -114,21 +134,29 @@ export default class extends React.Component {
     return this.state.mode === DRAGGING_UP;
   }
 
+  unstuckSidebarSmoothly() {
+    if (this.state.yOffset < 0) {
+      window.requestAnimationFrame(this.unstuckSidebarSmoothly.bind(this));
+      this.setState({ yOffset: this.state.yOffset - this.state.yOffset / 10 });
+    }
+  }
+
   render() {
     const { sidebar, children, sidebarWidth = 2, stickySidebar } = this.props;
-    const { mode, yOffset, sidebarTallerThanAvailableSpace, width } = this.state;
+    const { mode, yOffset, sidebarTallerThanAvailableSpace, width, flexWrapIsActive } = this.state;
     return (
       <Row>
         <Col lg={sidebarWidth}>
           <div
             ref={this.sidebarInnerRef}
             className={evaluateClassNames({
-              [locals.static]: mode === STATIC,
-              [locals.fixedToBottom]: sidebarTallerThanAvailableSpace && mode === DRAGGING_DOWN,
-              [locals.fixedToTop]: (!sidebarTallerThanAvailableSpace && mode !== STATIC) || mode === DRAGGING_UP,
-              [locals.keepAbsolutePosition]: mode === KEEP_ABSOLUTE_POSITION
+              [locals.static]: flexWrapIsActive || mode === STATIC,
+              [locals.fixedToBottom]: !flexWrapIsActive && sidebarTallerThanAvailableSpace && mode === DRAGGING_DOWN,
+              [locals.fixedToTop]:
+                !flexWrapIsActive && ((!sidebarTallerThanAvailableSpace && mode !== STATIC) || mode === DRAGGING_UP),
+              [locals.keepAbsolutePosition]: !flexWrapIsActive && mode === KEEP_ABSOLUTE_POSITION
             })}
-            style={{ top: yOffset, width }}
+            style={!flexWrapIsActive ? { top: yOffset ? `${yOffset}px` : null, width } : {}}
           >
             {sidebar}
           </div>

@@ -17,8 +17,15 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
     background: #d3e600;
+  }
+
+  .rightToLeft {
+    right: 0;
+  }
+
+  .leftToRight {
+    left: 0;
   }
 
   .values {

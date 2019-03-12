@@ -19,6 +19,7 @@ import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -160,16 +161,16 @@ const allColumnDefinitions = [
     id: 'ready',
     label: 'Ready',
     getContent(item) {
-      const allContainerStatuses = [
-        ...get(item, ['pod', 'status', 'initContainerStatuses'], []),
-        ...get(item, ['pod', 'status', 'containerStatuses'], [])
-      ];
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
         <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
           <TwoValueBar
-            v1={allContainerStatuses.filter(c => c.ready).length}
-            v2={allContainerStatuses.length}
-            fullDomain={allContainerStatuses.length}
+            rightToLeft
+            v1={containerStatuses.filter(c => c.ready).length}
+            v2={containerStatuses.length}
+            v2Color={theme.lib.colors.N300}
+            v1Color={theme.lib.colors.success}
+            fullDomain={containerStatuses.length}
             renderLabels={false}
           />
         </Tooltip>

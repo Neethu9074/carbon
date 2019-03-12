@@ -18,6 +18,12 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Tier">{data.get('tier')}</DescriptionItem>
       <DescriptionItem title="Instance type">{data.get('instanceType')}</DescriptionItem>
       <DescriptionItem title="Master">{data.get('masterInstanceName')}</DescriptionItem>
+      <DescriptionItem title="Slave IO running">
+        {data.get('database.mysql.replication.slave_io_running')}
+      </DescriptionItem>
+      <DescriptionItem title="Slave SQL running">
+        {data.get('database.mysql.replication.slave_sql_running')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

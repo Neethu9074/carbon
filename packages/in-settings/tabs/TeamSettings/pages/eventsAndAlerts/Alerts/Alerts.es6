@@ -4,8 +4,8 @@ import { get } from 'lodash';
 import {
   getEntityHref,
   getEntityIdView,
-  teamSettingsAlertingEventFilterNew,
-  teamSettingsAlertingEventFilters
+  teamSettingsAlertingAlertNew,
+  teamSettingsAlertingAlerts
 } from 'in-settings/navigation/paths';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
@@ -16,11 +16,11 @@ import List from 'in-settings/components/List';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
 
-import locals from './EventFilters.mless';
+import locals from './Alerts.mless';
 
-const maxNumOfAlertingEventFilters = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
+const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
 
-export default function EventFilters() {
+export default function Alerts() {
   return (
     <List
       title="Alerts"
@@ -31,14 +31,14 @@ export default function EventFilters() {
       loadEntities={getAlertingConfigsMutable}
       initialOrderBy="alertName"
       labelNew="New Alert"
-      pathNew={teamSettingsAlertingEventFilterNew}
+      pathNew={teamSettingsAlertingAlertNew}
       newButtonDisabledTooltipMessage={entities =>
-        entities && entities.length >= maxNumOfAlertingEventFilters
-          ? `The number of alerts is restricted to ${maxNumOfAlertingEventFilters}.`
+        entities && entities.length >= maxNumOfAlertingAlerts
+          ? `The number of alerts is restricted to ${maxNumOfAlertingAlerts}.`
           : null
       }
       searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
-      getDetailsHref={entity => getEntityHref(teamSettingsAlertingEventFilters, entity.id)}
+      getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
     />
   );
 }
@@ -51,7 +51,7 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <WithSubscript subscript={getSubscript(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingEventFilters, entity.id)} ellipsis>
+          <Link href$={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
             {entity.alertName}
           </Link>
         </WithSubscript>
