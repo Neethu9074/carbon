@@ -4,11 +4,12 @@ import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/C
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 
 export default function Summary({ timeConfig, data: node }) {
@@ -18,17 +19,13 @@ export default function Summary({ timeConfig, data: node }) {
     <Fragment>
       <Row>
         <Col lg={3}>
-          <Card title="Summary" useMaxAvailableHeight>
-            <Dl>
-              <Di title="Status">{node.status || '-'}</Di>
-              <Di title="Roles">{node.roles || '-'}</Di>
-              <Di title="Age">{node.age ? formatDuration(node.age) : '-'}</Di>
-              <Di title="Version">{node.version || '-'}</Di>
-              <Di title="OS-Image">{node.osImage || '-'}</Di>
-              <Di title="Kerner Version">{node.kernerVersion || '-'}</Di>
-              <Di title="Container Runtime">{node.containerRuntime || '-'}</Di>
-            </Dl>
-          </Card>
+          <KpiCard title="Status" value={<Capitalize>{node.status || '-'}</Capitalize>} raw />
+        </Col>
+        <Col lg={3}>
+          <KpiCard title="Roles" value={<Capitalize>{node.roles || '-'}</Capitalize>} raw />
+        </Col>
+        <Col lg={3}>
+          <KpiCard title="Age" value={<Capitalize>{node.age ? formatDuration(node.age) : '-'}</Capitalize>} raw />
         </Col>
       </Row>
 
