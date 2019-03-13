@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
+import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -98,7 +98,10 @@ function ListItem({ from, to }) {
 
   return (
     <li className={`${block}__list-item`}>
-      <Link href$={getCurrentViewWithTimelineFocusedAt(time)} className={`${block}__set-time`}>
+      <Link
+        href$={getFixedTimeframeUrl({ windowSize: (to || Date.now()) - from, to, focusedMoment: time })}
+        className={`${block}__set-time`}
+      >
         <span className={`${block}__key`}>from:</span>
         <span className={`${block}__value`}>{formatDateTime(from)}</span>
         <span className={`${block}__key`}>to:</span>
