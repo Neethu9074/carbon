@@ -4,6 +4,8 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import { emptyMap } from 'in-services/fixedImmutables';
 
+import EbsList from './EbsList';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   const tags = data.get('tags', emptyMap);
@@ -37,6 +39,8 @@ export default function Info({ snapshot }) {
           Tags
         </KeyValuePopupButton>
       ) : null}
+
+      <EbsList snapshotId={snapshot.get('id')} />
     </div>
   );
 }
