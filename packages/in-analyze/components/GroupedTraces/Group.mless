@@ -22,6 +22,10 @@
     .ellipsis();
   }
 
+  .specialName {
+    font-style: italic;
+  }
+
   .labelCell {
     position: relative;
 

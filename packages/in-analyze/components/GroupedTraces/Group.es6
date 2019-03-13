@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
 import { clickGroupTracker } from 'in-analyze/components/tracker';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { operators } from 'in-analyze/applicationFilter';
@@ -14,6 +15,9 @@ import { getTagType } from 'in-applications/tags';
 import Link from 'in-components/Link';
 
 import locals from './Group.mless';
+
+const NO_VALUE = 'no_value';
+const NO_VALUE_LABEL = 'No Value';
 
 export default function Group({
   dataSource,
@@ -41,9 +45,12 @@ export default function Group({
           <Link
             href$={onChangeAnalyzeConfigAndGetAsUrlObservable(getGroupingChange(filters, item.name))}
             onClick={() => trackSetGrouping(filters, item.name)}
-            className={locals.name}
+            className={evaluateClassNames({
+              [locals.name]: true,
+              [locals.specialName]: isSpecialItem(item)
+            })}
           >
-            {item.name}
+            {getItemLabel(item)}
           </Link>
         </div>
       </Td>
@@ -57,6 +64,18 @@ export default function Group({
   );
 
   return <Tr size="compact">{rowContent}</Tr>;
+}
+
+function isSpecialItem(item) {
+  return item.name === NO_VALUE;
+}
+
+function getItemLabel(item) {
+  if (item.name === NO_VALUE) {
+    return NO_VALUE_LABEL;
+  } else {
+    return item.name;
+  }
 }
 
 function getGroupingChange(filters, selectedGroupValue) {
@@ -77,12 +96,21 @@ function getGroupingChange(filters, selectedGroupValue) {
     };
   } else {
     // for other cases, add a tag filter with the selected group value
-    const newTagFilter = createFilter({
-      name: group.name,
-      secondLevelName: group.value,
-      value: selectedGroupValue,
-      operator: operators.EQUALS
-    });
+    let newTagFilter;
+    if (selectedGroupValue === NO_VALUE && !isBlank(group.value)) {
+      newTagFilter = createFilter({
+        name: group.name,
+        secondLevelName: group.value,
+        operator: operators.IS_BLANK
+      });
+    } else {
+      newTagFilter = createFilter({
+        name: group.name,
+        secondLevelName: group.value,
+        value: selectedGroupValue,
+        operator: operators.EQUALS
+      });
+    }
     return {
       [groupByMatrixParameter]: {},
       [tagFilterMatrixParameter]: tagFilter
