@@ -1,9 +1,9 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { emptyList } from 'in-services/fixedObjects';
 
 const cols = [
   {
