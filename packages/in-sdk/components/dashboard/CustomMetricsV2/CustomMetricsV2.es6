@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
 
-import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  withSiPrefixThreeDecimalPlaces,
+  timeByMillisTwoDecimalPlaces,
+  withSiMultiplyPrefixThreeDecimalPlaces
+} from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
@@ -232,7 +236,7 @@ function getDefaultRows({
             {
               name: `${countersMetricPrefix}${name}`,
               label: 'Count',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
