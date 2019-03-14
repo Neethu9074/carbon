@@ -4,6 +4,7 @@ import './activeMQ';
 import './activeMQArtemis';
 import './application';
 import './availabilityZone';
+import './awsBeanstalk';
 import './awsDynamoDb';
 import './awsEc';
 import './awsEs';
