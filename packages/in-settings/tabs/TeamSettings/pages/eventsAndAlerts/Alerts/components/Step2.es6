@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import UpdateOnlyWhenChanged from 'in-settings/tabs/TeamSettings/components/UpdateOnlyWhenChanged';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -78,30 +78,28 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
       {eventSelectionMode === modeSelectedEvents &&
         form.get('selectedEvents') && (
           <Fragment>
-            <UpdateOnlyWhenChanged array={selectedEvents}>
-              <Events
-                setTitle={false}
-                loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
-                hasRowNavigation={false}
-                noDataMessage="No Events Selected"
-                tableActions={eventSelectionTableActions(form, setForm)}
-                rightHeader={
-                  <SelectListDialogButton
-                    form={form}
-                    onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-                    title="Select Events"
-                    label={'Select Events'}
-                    listComponent={Events}
-                    hiddenIds={selectedEvents}
-                    limit={limitForConnectedEntities}
-                    createSubmitLabel={numberOfItems =>
-                      numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
-                    }
-                    requiresAtLeastOneMessage="Please select at least one event."
-                  />
-                }
-              />
-            </UpdateOnlyWhenChanged>
+            <Events
+              setTitle={false}
+              loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
+              hasRowNavigation={false}
+              noDataMessage="No Events Selected"
+              tableActions={eventSelectionTableActions(form, setForm)}
+              rightHeader={
+                <SelectListDialogButton
+                  form={form}
+                  onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
+                  title="Select Events"
+                  label={'Select Events'}
+                  listComponent={Events}
+                  hiddenIds={selectedEvents}
+                  limit={limitForConnectedEntities}
+                  createSubmitLabel={numberOfItems =>
+                    numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
+                  }
+                  requiresAtLeastOneMessage="Please select at least one event."
+                />
+              }
+            />
             <TouchedMessages field={form.get('selectedEvents')} />
             <div style={{ marginBottom: '2rem' }} />
           </Fragment>
@@ -132,13 +130,13 @@ function onSelectChanged(types, onChange, type) {
   onChange('eventTypes', types);
 }
 
-function getSelectedEventsForAlert(selectedEvents) {
+const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function(selectedEvents) {
   if (selectedEvents.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getEventSpecificationByIds(selectedEvents).startWith(null);
-}
+});
 
 function eventSelectionTableActions(form, setForm) {
   return {

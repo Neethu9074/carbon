@@ -4,9 +4,9 @@ import { fromJS } from 'immutable';
 import AlertChannels, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import UpdateOnlyWhenChanged from 'in-settings/tabs/TeamSettings/components/UpdateOnlyWhenChanged';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getIntegrationsByIdsMutable } from 'in-api/integrations';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -19,43 +19,41 @@ export default function Step4({ form, setForm }) {
     <Fragment>
       <div style={{ marginTop: '2rem' }} />
       <SectionHeading>4. Alerting</SectionHeading>
-      <UpdateOnlyWhenChanged array={selectedChannels}>
-        <AlertChannels
-          setTitle={false}
-          loadEntities={() => getSelectedAlertChannels(selectedChannels)}
-          hasRowNavigation={false}
-          noDataMessage="No Alert Channels Selected"
-          tableActions={alertChannelSelectionTableActions(form, setForm)}
-          rightHeader={
-            <SelectListDialogButton
-              form={form}
-              onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
-              title="Select Alert Channels"
-              label={'Select Alert Channels'}
-              listComponent={AlertChannels}
-              listComponentRightHeader={noRightHeader}
-              hiddenIds={form.get('selectedAlertChannels').value.toJS()}
-              limit={limitForConnectedEntities}
-              createSubmitLabel={numberOfItems =>
-                numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
-              }
-              requiresAtLeastOneMessage="Please select at least one alert channel."
-            />
-          }
-        />
-      </UpdateOnlyWhenChanged>
+      <AlertChannels
+        setTitle={false}
+        loadEntities={() => getSelectedAlertChannels(selectedChannels)}
+        hasRowNavigation={false}
+        noDataMessage="No Alert Channels Selected"
+        tableActions={alertChannelSelectionTableActions(form, setForm)}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
+            title="Select Alert Channels"
+            label={'Select Alert Channels'}
+            listComponent={AlertChannels}
+            listComponentRightHeader={noRightHeader}
+            hiddenIds={form.get('selectedAlertChannels').value.toJS()}
+            limit={limitForConnectedEntities}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
+            requiresAtLeastOneMessage="Please select at least one alert channel."
+          />
+        }
+      />
       <TouchedMessages field={form.get('selectedAlertChannels')} />
     </Fragment>
   );
 }
 
-function getSelectedAlertChannels(selectedChannels) {
+const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function(selectedChannels) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
   return getIntegrationsByIdsMutable(selectedChannels).startWith(null);
-}
+});
 
 function alertChannelSelectionTableActions(form, setForm) {
   return {
