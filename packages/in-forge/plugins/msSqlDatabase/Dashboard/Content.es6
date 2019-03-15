@@ -7,10 +7,11 @@ import {
   msZeroDecimalPlaces,
   msTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
 import DashboardNotification from 'in-components/DashboardNotification';
+import Chart from 'in-components/Chart';
 
 export default function MsSqlDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -119,6 +120,8 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <TopQueriesTable snapshotId={snapshotId} />
     </div>
   );
 }
