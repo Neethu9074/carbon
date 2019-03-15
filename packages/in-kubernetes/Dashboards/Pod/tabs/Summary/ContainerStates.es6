@@ -22,8 +22,8 @@ export default function ContainerStates({ podId, states, timeConfig }) {
     return <NoDataAvailable height={160} />;
   }
 
-  const maxPresentedConditions = 5;
-  const presentedStates = states.slice(0, maxPresentedConditions);
+  const maxPresentedStates = 5;
+  const presentedStates = states.slice(0, maxPresentedStates);
 
   return (
     <Fragment>
