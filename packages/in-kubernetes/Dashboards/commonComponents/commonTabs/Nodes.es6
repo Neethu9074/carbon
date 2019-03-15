@@ -74,7 +74,7 @@ const columnDefinitions = [
     id: 'roles',
     label: 'Roles',
     getContent(item) {
-      return item.node.roles;
+      return item.node.roles || '-';
     }
   },
   {
