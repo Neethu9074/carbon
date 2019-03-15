@@ -70,8 +70,13 @@ export default compose(
         }
         setForm(updatedForm);
       },
-      onKeyChange: key =>
-        setForm(form.updateIn(['key'], f => f.setValue(key).setTouched(true)).updateIn(['value'], f => f.setValue(''))),
+      onKeyChange: key => {
+        let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
+        if (form.get('value')) {
+          updatedForm = updatedForm.updateIn(['value'], f => f.setValue(''));
+        }
+        setForm(updatedForm);
+      },
       onValueChange: value => setForm(form.updateIn(['value'], f => f.setValue(value).setTouched(true))),
       onSubmit: e => {
         stopPropagationAndPreventDefault(e);
