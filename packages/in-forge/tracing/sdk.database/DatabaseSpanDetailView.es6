@@ -45,5 +45,9 @@ function Statement({ span }) {
     }
   }
 
-  return <Code code={code} lang={lang} />;
+  return (
+    <DescriptionItem title="Statement">
+      <Code code={code} lang={lang} />
+    </DescriptionItem>
+  );
 }
