@@ -29,7 +29,7 @@ function Statement({ span }) {
   let lang = 'plain';
   let code = statement;
 
-  if (span.getIn(['data', 'db', 'type']) === 'sql') {
+  if (span.getIn(['data', 'db', 'type']) === 'sql' || span.getIn(['data', 'db', 'type']) === 'clickhouse') {
     lang = 'sql';
     code = formatSql(statement);
   } else if (typeof statement === 'object') {
