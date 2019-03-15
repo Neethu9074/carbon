@@ -8,6 +8,7 @@ import { number, meanLatencyFixed, percentage } from 'in-services/formatters/num
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -36,6 +37,9 @@ export default compose(
 function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   const buttonPropsList = [];
 
+  // in the service infra view, show all tabs, because we do not know the type of all entities
+  const showAllTabs = entity.entityType == 'APPLICATION';
+
   /*
   TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
 
@@ -44,12 +48,13 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   And application don't have technologies anyway.
   */
-  if (hasSomeClusterTechnologies(entity)) {
+  if (hasSomeClusterTechnologies(entity) || showAllTabs) {
     buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
   }
 
   // refine it by entity type
-  const onlyShowCluster = isDatabase(entity) && hasSomeClusterTechnologies(entity);
+  const onlyShowCluster = isDatabase(entity) && hasSomeClusterTechnologies(entity) && !showAllTabs;
+  //const onlyShowCluster = false;
 
   if (hasSomeNonClusterTechnologies(entity) && onlyShowCluster == false) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
@@ -85,8 +90,9 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 }
 
 function isDatabase(entity) {
+  // endpoints only have .type, not .types
   if (!entity.types) {
-    return false;
+    return entity.type == 'DATABASE';
   }
 
   for (const type of entity.types) {
@@ -230,13 +236,21 @@ const getColumnDefinitions = type => {
       id: 'cluster',
       label: 'Cluster',
       getContent(item) {
-        return item.physicalContext.cluster ? (
+        if (!item.physicalContext.cluster) {
+          return <UnmonitoredEntity plugin={plugins.process} />;
+        }
+
+        return 'kubernetesService' == item.physicalContext.cluster.plugin ? (
+          <EntityLink
+            icon="lib_kubernetes_service"
+            label={item.physicalContext.cluster.label}
+            href$={getServiceDashboard(item.physicalContext.cluster.id)}
+          />
+        ) : (
           <InfrastructureEntityLink
             entity={item.physicalContext.cluster}
             plugin={item.physicalContext.cluster.plugin}
           />
-        ) : (
-          <UnmonitoredEntity plugin={plugins.process} />
         );
       }
     };
