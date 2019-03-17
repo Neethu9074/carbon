@@ -3,7 +3,7 @@ const express = require('express');
 const paths = require('../services/paths');
 
 const router = module.exports = express.Router();
-const cacheControlHeader = 'public, max-age=86400';
+const cacheControlHeader = 'public, max-age=86400, stale-while-revalidate=3600, stale-if-error=86400';
 const sendFilesConfig = {
   headers: {
     'Cache-Control': cacheControlHeader
