@@ -3,9 +3,9 @@ import { combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
-import getKubernetesEntitiesHealthInfo from 'in-subscription/kubernetes/getKubernetesEntitiesHealthInfo';
 import PodTooltip, { PodTooltipComponent } from 'in-kubernetes/Dashboards/Namespace/tabs/PodTooltip';
 import { podDashboard, podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import getEntitiesHealthInfo from 'in-subscription/kubernetes/getEntitiesHealthInfo';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -34,7 +34,7 @@ export default compose(
     const podIds = data.ids[1]; // level 0 = groups, level 1 = pods, level 2 = container
 
     if (showHealth && podIds.length > 0) {
-      observables.entitiesHealthInfo = getKubernetesEntitiesHealthInfo({
+      observables.entitiesHealthInfo = getEntitiesHealthInfo({
         timeConfig,
         ids: podIds
       }).map(result => result.data);

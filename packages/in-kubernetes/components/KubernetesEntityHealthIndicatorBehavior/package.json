@@ -1,6 +1,0 @@
-{
-  "name": "KubernetesEntityHealthIndicatorBehavior",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./KubernetesEntityHealthIndicatorBehavior.es6"
-}

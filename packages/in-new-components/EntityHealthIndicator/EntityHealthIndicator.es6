@@ -1,9 +1,9 @@
 import React from 'react';
 
-import KubernetesEntityOpenIssuesList from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityOpenIssuesList';
+import EntityOpenIssuesList from 'in-new-components/EntityHealthIndicator/EntityOpenIssuesList';
 import Overlay from 'in-new-components/overlays/Overlay';
 
-export default function KubernetesEntityHealthIndicator(props) {
+export default function EntityHealthIndicator(props) {
   const { openIssues, showOkayOnNoIssues = true } = props;
   if (openIssues == null || openIssues < 0) {
     return null;
@@ -27,5 +27,5 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
 }
 
 function Content(props) {
-  return <KubernetesEntityOpenIssuesList {...props} />;
+  return <EntityOpenIssuesList {...props} />;
 }

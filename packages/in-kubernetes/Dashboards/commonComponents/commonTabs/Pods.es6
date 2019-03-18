@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 
-import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
@@ -213,12 +213,12 @@ const allColumnDefinitions = [
     label: 'Health',
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicator
+        <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          podId={item.pod.id}
+          snapshotId={item.pod.id}
         />
       );
     }

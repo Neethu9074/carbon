@@ -60,11 +60,7 @@ export function getEventsViewFilteredBy({
   serviceId = null,
   endpointId = null,
   resolvedEndpointId = null,
-  clusterId = null,
-  namespaceId = null,
-  deploymentId = null,
-  podId = null,
-  nodeId = null,
+  snapshotId = null,
   eventId = null,
   eventTypeFilter = null
 }) {
@@ -75,8 +71,8 @@ export function getEventsViewFilteredBy({
     query += ` entity.service.id:"${serviceId}"`;
   } else if (applicationId) {
     query += ` entity.application.id:"${applicationId}"`;
-  } else if (clusterId || namespaceId || deploymentId || podId || nodeId) {
-    query += ` entity.id:"${clusterId || namespaceId || deploymentId || podId || nodeId}"`;
+  } else if (snapshotId) {
+    query += ` entity.id:"${snapshotId}"`;
   }
   query = query.trim();
 

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -11,6 +10,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -76,10 +76,10 @@ function Header(props) {
 function Actions({ namespaceId, timeConfig }) {
   return (
     <Fragment>
-      <KubernetesEntityHealthIndicatorBehavior
+      <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
-        namespaceId={namespaceId}
+        snapshotId={namespaceId}
         timeConfig={timeConfig}
       />
     </Fragment>

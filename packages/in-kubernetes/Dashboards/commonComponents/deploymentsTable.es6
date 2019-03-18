@@ -1,9 +1,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -121,12 +121,12 @@ const columnDefinitions = [
     label: 'Health',
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicator
+        <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          deploymentId={item.deployment.id}
+          snapshotId={item.deployment.id}
         />
       );
     }

@@ -1,57 +1,35 @@
 import React from 'react';
 
-import getKubernetesEntityHealthInfo from 'in-subscription/kubernetes/getKubernetesEntityHealthInfo';
 import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import getEntityHealthInfo from 'in-subscription/kubernetes/getEntityHealthInfo';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ clusterId, namespaceId, deploymentId, podId, nodeId, timeConfig }) => {
+  ({ snapshotId, timeConfig }) => {
     return {
-      openIssuesResult: getKubernetesEntityHealthInfo({
-        filter: {
-          clusterId,
-          namespaceId,
-          deploymentId,
-          podId,
-          nodeId,
-          timeConfig
-        }
+      openIssuesResult: getEntityHealthInfo({
+        snapshotId,
+        timeConfig
       })
         .startWith(indeterminateProgress)
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function KubernetesEntityOpenIssuesList({
-    openIssuesResult,
-    clusterId,
-    namespaceId,
-    deploymentId,
-    podId,
-    nodeId,
-    close
-  }) {
+  function EntityOpenIssuesList({ openIssuesResult, snapshotId, close }) {
     return (
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
         analyzeLink$={getEventsViewFilteredBy({
-          clusterId,
-          namespaceId,
-          deploymentId,
-          podId,
-          nodeId,
+          snapshotId,
           eventTypeFilter: 'issue'
         })}
         getIssueLink={eventId =>
           getEventsViewFilteredBy({
-            clusterId,
-            namespaceId,
-            deploymentId,
-            podId,
-            nodeId,
+            snapshotId,
             eventId,
             eventTypeFilter: 'issue'
           })

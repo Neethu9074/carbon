@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
-import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -105,12 +105,12 @@ const columnDefinitions = [
     label: 'Health',
     getContent(item, { timeConfig }) {
       return (
-        <KubernetesEntityHealthIndicator
+        <EntityHealthIndicator
           openIssues={item.entityHealthInfo.openIssues.length}
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          namespaceId={item.namespace.id}
+          snapshotId={item.namespace.id}
         />
       );
     }

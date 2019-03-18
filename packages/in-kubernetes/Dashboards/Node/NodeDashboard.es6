@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import KubernetesEntityHealthIndicatorBehavior from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior';
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
@@ -10,6 +9,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -76,10 +76,10 @@ function Header(props) {
 function Actions({ nodeId, timeConfig }) {
   return (
     <Fragment>
-      <KubernetesEntityHealthIndicatorBehavior
+      <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
-        nodeId={nodeId}
+        snapshotId={nodeId}
         timeConfig={timeConfig}
       />
     </Fragment>
