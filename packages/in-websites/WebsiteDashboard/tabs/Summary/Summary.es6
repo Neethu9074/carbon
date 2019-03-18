@@ -20,23 +20,39 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
   return (
     <Fragment>
       <Row>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
-            title={'Page Views'}
+            title={'Page Loads'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
               timeConfig,
               metrics: {
                 pageLoads: {
-                  metric: 'pageViews',
+                  metric: 'pageLoads',
                   aggregation: 'SUM'
                 }
               }
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
+          <WebsiteMetricsKpiCard
+            title={'Page Transitions'}
+            formatter={number.compact}
+            metricsConfig={{
+              tagFilters,
+              timeConfig,
+              metrics: {
+                pageTransitions: {
+                  metric: 'pageTransitions',
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+        </Col>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (mean)"
             formatter={meanLatency.detailed}
@@ -52,7 +68,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (90th)"
             formatter={latency.detailed}
@@ -68,7 +84,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (95th)"
             formatter={latency.detailed}
@@ -120,7 +136,6 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={4}>
           <WebsiteChartWrapper
             cardTitle="JS Errors"
-            renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
@@ -147,7 +162,6 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="onLoad Time"
-                renderLegend={false}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{
