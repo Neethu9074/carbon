@@ -4,9 +4,10 @@ import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/Websi
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
+import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
-import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
+import Activity from 'in-websites/WebsiteDashboard/tabs/Summary/Activity';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -22,14 +23,14 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
-            title="Page Loads"
+            title={pageId ? 'Page Views' : 'Page Loads'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
               timeConfig,
               metrics: {
                 pageLoads: {
-                  metric: 'pageLoads',
+                  metric: pageId ? 'pageViews' : 'pageLoads',
                   aggregation: 'SUM'
                 }
               }
@@ -90,28 +91,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
 
       <Row>
         <Col lg={4}>
-          <WebsiteChartWrapper
-            cardTitle="Page Views"
-            renderLegend={false}
-            timeConfig={timeConfig}
-            y1={{
-              renderer: Renderer.bar,
-              formatter: number.forcedCompact,
-              labels: ['Page Views'],
-              metricIds: ['pageLoads']
-            }}
-            metricsConfiguration={{
-              timeConfig,
-              tagFilters,
-              metrics: {
-                pageLoads: {
-                  metric: 'pageLoads',
-                  granularity,
-                  aggregation: 'SUM'
-                }
-              }
-            }}
-          />
+          <Activity timeConfig={timeConfig} tagFilters={tagFilters} granularity={granularity} pageId={pageId} />
         </Col>
         <Col lg={4}>
           <WebsiteChartWrapper

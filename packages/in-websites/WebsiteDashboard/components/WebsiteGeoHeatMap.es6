@@ -6,7 +6,7 @@ import getWebsiteSubdivisions from 'in-subscription/websiteMonitoring/getWebsite
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
-const valueFormatter = v => `${number.compact(v)} page views`;
+const valueFormatter = v => `${number.compact(v)} page loads`;
 
 export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
   return (

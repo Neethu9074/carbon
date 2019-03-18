@@ -157,14 +157,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
                 labels: ['Page Views'],
-                metricIds: ['pageLoads']
+                metricIds: ['pageViews']
               }}
               metricsConfiguration={{
                 timeConfig,
                 tagFilters,
                 metrics: {
-                  pageLoads: {
-                    metric: 'pageLoads',
+                  pageViews: {
+                    metric: 'pageViews',
                     granularity,
                     aggregation: 'SUM'
                   }
