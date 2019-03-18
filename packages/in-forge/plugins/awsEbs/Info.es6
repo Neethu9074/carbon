@@ -5,6 +5,8 @@ import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { formatDateTime } from 'in-services/formatters/date';
 
+import HostLink from './Dashboard/HostLink';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
@@ -19,6 +21,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Mounted Instance ID">{data.get('mounted_instance_id')}</DescriptionItem>
       <DescriptionItem title="Mounted Path">{data.get('mounted_path')}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <HostLink snapshot={snapshot} />
     </DescriptionList>
   );
 }
