@@ -86,11 +86,11 @@ function Actions({ namespaceId, timeConfig }) {
   );
 }
 
-function SubTypes() {
+function SubTypes({ result }) {
   return (
     <Fragment>
       <TypesBadgeList type="K8s Namespace" />
-      <KubernetesIndicator />
+      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }

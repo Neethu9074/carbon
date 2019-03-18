@@ -87,11 +87,11 @@ function Actions({ podId, timeConfig }) {
   );
 }
 
-function SubTypes() {
+function SubTypes({ result }) {
   return (
     <Fragment>
       <TypesBadgeList type="K8s Pod" />
-      <KubernetesIndicator />
+      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }

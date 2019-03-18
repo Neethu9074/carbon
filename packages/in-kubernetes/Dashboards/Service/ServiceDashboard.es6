@@ -70,11 +70,11 @@ function Header(props) {
   );
 }
 
-function SubTypes() {
+function SubTypes({ result }) {
   return (
     <Fragment>
       <TypesBadgeList type="K8s Service" />
-      <KubernetesIndicator />
+      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }

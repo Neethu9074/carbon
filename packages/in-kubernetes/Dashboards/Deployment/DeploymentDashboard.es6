@@ -86,11 +86,11 @@ function Actions({ deploymentId, timeConfig }) {
   );
 }
 
-function SubTypes() {
+function SubTypes({ result }) {
   return (
     <Fragment>
       <TypesBadgeList type="K8s Deployment" />
-      <KubernetesIndicator />
+      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }

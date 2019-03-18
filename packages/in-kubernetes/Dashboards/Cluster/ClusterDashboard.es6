@@ -81,7 +81,7 @@ function SubTypes({ result }) {
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type="K8s Cluster" />
-      <KubernetesIndicator />
+      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }
