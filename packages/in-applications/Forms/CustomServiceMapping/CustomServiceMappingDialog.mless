@@ -11,7 +11,7 @@
 
   .matchSpecification {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     max-width: 38rem;
   }
 
@@ -25,7 +25,7 @@
   }
 
   .removeMatchRuleIcon {
-    margin: 0 0 1.2rem 0.25rem;
+    margin: 1.5rem 0 1.2rem 0.25rem;
     fill: @lib__colors__N500;
   }
 

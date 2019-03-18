@@ -9,6 +9,7 @@ import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
+import { isBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -173,18 +174,12 @@ class BasicForm extends React.Component {
 }
 
 export function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
-  return createMapForm()
+  let form = createMapForm()
     .put(
       'key',
       createField({
         value: get(matchSpecification, 'key', ''),
         validator: notBlankValidator
-      })
-    )
-    .put(
-      'secondLevelName',
-      createField({
-        value: get(matchSpecification, 'secondLevelName', '')
       })
     )
     .put(
@@ -200,6 +195,18 @@ export function getMatchSpecificationForm(matchSpecification = {}, defaultValue 
         value: get(matchSpecification, 'operator', 'EQUALS')
       })
     );
+
+  if (!isBlank(get(matchSpecification, 'secondLevelName'))) {
+    form = form.put(
+      'secondLevelName',
+      createField({
+        value: get(matchSpecification, 'secondLevelName', ''),
+        validator: notBlankValidator
+      })
+    );
+  }
+
+  return form;
 }
 
 export function matchSpecificationValidator(items) {
