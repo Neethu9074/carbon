@@ -98,7 +98,7 @@ const cols = [
 ];
 
 export default function QueuesTable({ snapshot, timeframe }) {
-  const queueNames = snapshot.getIn(['data', 'monitoredQueues'], emptyMap);
+  const queueNames = snapshot.getIn(['data', 'monitoredQueueNames'], emptyMap);
   if (queueNames.size === 0) {
     return null;
   }
