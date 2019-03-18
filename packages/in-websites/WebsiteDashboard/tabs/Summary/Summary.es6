@@ -7,7 +7,6 @@ import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGe
 import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
-import Activity from 'in-websites/WebsiteDashboard/tabs/Summary/Activity';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -23,14 +22,14 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
-            title={pageId ? 'Page Views' : 'Page Loads'}
+            title={'Page Views'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
               timeConfig,
               metrics: {
                 pageLoads: {
-                  metric: pageId ? 'pageViews' : 'pageLoads',
+                  metric: 'pageViews',
                   aggregation: 'SUM'
                 }
               }
@@ -91,7 +90,32 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
 
       <Row>
         <Col lg={4}>
-          <Activity timeConfig={timeConfig} tagFilters={tagFilters} granularity={granularity} pageId={pageId} />
+          <WebsiteChartWrapper
+            cardTitle="Page Views"
+            timeConfig={timeConfig}
+            y1={{
+              renderer: Renderer.stackedBar,
+              formatter: number.forcedCompact,
+              labels: ['Page Loads', 'Page Transitions'],
+              metricIds: ['pageLoads', 'pageTransitions']
+            }}
+            metricsConfiguration={{
+              timeConfig,
+              tagFilters,
+              metrics: {
+                pageLoads: {
+                  metric: 'pageLoads',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                pageTransitions: {
+                  metric: 'pageTransitions',
+                  granularity,
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
         </Col>
         <Col lg={4}>
           <WebsiteChartWrapper
