@@ -75,7 +75,7 @@ export default connectTo(
             rightHeader={rightHeader}
             leftHeader={leftHeader}
             paginationResettingProps={{ timeConfig }}
-            defaultOrderBy="pageLoadsAgg"
+            defaultOrderBy="pageViewsAgg"
             defaultOrderDirection="DESC"
           />
         </MaxWidthFullscreenContainer>
@@ -95,12 +95,12 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       direction: orderDirection
     },
     metrics: {
-      pageLoadsAgg: {
-        metric: 'pageLoads',
+      pageViewsAgg: {
+        metric: 'pageViews',
         aggregation: 'SUM'
       },
-      pageLoads: {
-        metric: 'pageLoads',
+      pageViews: {
+        metric: 'pageViews',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       },
@@ -128,7 +128,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'pageLoadsAgg',
+    id: 'pageViewsAgg',
     label: 'Page Views',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
@@ -137,8 +137,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.pageLoads}
-          metric={item.metrics.pageLoadsAgg}
+          metrics={item.metrics.pageViews}
+          metric={item.metrics.pageViewsAgg}
           tooltipFormatter={number.compact}
         />
       );
