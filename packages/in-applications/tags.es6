@@ -97,7 +97,8 @@ export function getApplicationCreationTagKeys() {
     'docker.container.name': true,
     'aws.service.type': true,
     'application.id': true,
-    'application.name': true
+    'application.name': true,
+    'call.name': true
   };
   getTagTree();
   let tagKeys = [];
