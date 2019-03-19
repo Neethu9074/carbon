@@ -46,6 +46,12 @@ export default onClickOutside(
       }
     };
 
+    onViewSwitched = e => {
+      e.stopPropagation();
+      this.disposeHandle();
+      this.setExpandedState(false);
+    };
+
     disposeHandle = () => {
       if (this.timeoutHandle) {
         clearTimeout(this.timeoutHandle);
@@ -81,6 +87,7 @@ export default onClickOutside(
             isExpanded={isExpanded}
             expandedSubMenu={expandedSubMenu}
             setExpandedSubMenu={view => this.setState({ expandedSubMenu: view })}
+            onViewSwitched={this.onViewSwitched}
           />
         </div>
       );
