@@ -14,8 +14,8 @@ export default connectTo(
     if (!highlightedTimeframe) {
       return null;
     }
-
     const to = Math.min(xScale.getRangeTo(), xScale.getRange(highlightedTimeframe[1]));
+    metrics.y1._metricValuesForDownload = metrics['y1'].metrics;
 
     return (
       <div
