@@ -5,7 +5,7 @@ import {
   muSecondsToMillisZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
   twoDecimalPlaces,
-  zeroDecimalPlaces
+  number
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
@@ -53,14 +53,14 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             metrics: ['clientrequests.read.count'],
             labels: ['Reads'],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.detailed
           }}
           y2={{
             min: 0,
             metrics: ['clientrequests.write.count'],
             labels: ['Writes'],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.detailed
           }}
         />
       </DashboardSection>

@@ -148,7 +148,7 @@ function getDetails(row) {
       }}
       y2={{
         min: 0,
-        formatter: number.compact,
+        formatter: number.detailed,
         metrics: ['keyspace.' + row.key + '.reads', 'keyspace.' + row.key + '.writes'],
         labels: ['Reads', 'Writes'],
         type: 'line'
