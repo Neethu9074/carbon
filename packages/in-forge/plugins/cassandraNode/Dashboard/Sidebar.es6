@@ -1,17 +1,16 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import List from 'in-sdk/components/sidebar/List';
 
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 import CassandraTopologyInfo from '../CassandraTopologyInfo';
 import Info from '../Info';
 
 export default function CassandraSidebar({ snapshot }) {
-  const data = snapshot.get('data');
-  const tokens = data.get('tokens');
+  const tokens = snapshot.getIn(['data', 'tokens']);
 
   return (
     <div>
@@ -42,22 +41,7 @@ export default function CassandraSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {tokens && tokens.size > 0 ? (
-        <div>
-          <Separator />
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Tokens ({tokens.size})</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {tokens
-                  .toArray()
-                  .sort()
-                  .map((token, i) => <List.Item key={i}>{token}</List.Item>)}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
-      ) : null}
+      {tokens ? <KeyValueOverlay header="Tokens" data={tokens} /> : null}
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>
