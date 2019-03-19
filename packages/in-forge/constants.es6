@@ -297,7 +297,7 @@ export const fullyQualifiedPlugins = {
   ftpServiceInstance: 'com.instana.forge.connection.ftp.FtpServiceInstance',
   garden: 'com.instana.forge.infrastructure.virtualization.garden.Garden',
   gce: 'com.instana.forge.hardware.virtual.gce.Gce',
-  googleCloudSQL: 'com.instana.forge.hardware.virtual.gce.sql.GoogleCloudSQL',
+  googleCloudSQL: 'com.instana.forge.hardware.virtual.gcp.sql.GoogleCloudSQL',
   genericHardware: 'com.instana.forge.hardware.GenericHardware',
   genericZone: 'com.instana.forge.hardware.GenericZone',
   glassfishApplicationContainer: 'com.instana.forge.infrastructure.application.glassfish.GlassfishApplicationContainer',
