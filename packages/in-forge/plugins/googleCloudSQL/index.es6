@@ -10,8 +10,8 @@ registerSnapshotDefinition({
   metricDefinitions,
 
   pluginName: {
-    singular: 'GCE SQL Instance',
-    plural: 'GCE SQL Instances'
+    singular: 'GCP SQL Instance',
+    plural: 'GCP SQL Instances'
   },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'name'], '');

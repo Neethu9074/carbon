@@ -28,7 +28,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
             }}
             y2={{
               min: 0,
-              metrics: ['database.cpu.utilization'],
+              metrics: ['cpu.used'],
               labels: ['Utilization'],
               type: 'line',
               formatter: percentageTwoDecimalPlaces
@@ -48,7 +48,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
             }}
             y2={{
               min: 0,
-              metrics: ['database.memory.utilization'],
+              metrics: ['memory.used'],
               labels: ['Utilization'],
               type: 'line',
               formatter: percentageTwoDecimalPlaces

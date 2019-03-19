@@ -38,6 +38,8 @@ const helpTexts = {
   'entity.tomcat': 'Apache Tomcat',
   'entity.nomad': 'HashiCorp Nomad scheduler',
   'entity.gce': 'Google Compute Engine',
+  'entity.gcp': 'Google Cloud Platform',
+  'entity.gcp.sql': 'Google Cloud SQL',
   trace: 'Trace and root span',
   event: 'Changes, issues and incidents',
   span: 'Spans within traces',
