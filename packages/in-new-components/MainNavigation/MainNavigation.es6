@@ -68,7 +68,7 @@ export default class MainNavigation extends React.Component {
         onMouseLeave={this.delayedCollapse}
         onClick={() => this.setState({ isExpanded: true })}
       >
-        <Link href$={getView(homePath)} className={locals.lettering}>
+        <Link href$={getView(homePath)} className={locals.lettering} onClick={e => e.stopPropagation()}>
           <Stan isExpanded={isExpanded} />
         </Link>
         <ViewSwitcher
