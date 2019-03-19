@@ -154,6 +154,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         sidebarIsExpanded={isExpanded}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
+        isActive$={any(isView(agentsPath))}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
         <SubViewItem label="Tenants" href="https://instana.io/tenantSwitcher" external />
