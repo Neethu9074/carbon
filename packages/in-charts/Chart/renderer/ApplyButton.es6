@@ -75,7 +75,7 @@ export default connectTo(
 function mapMetricsToDownloadFormat(metrics) {
   const values = {};
   for (let i = 0; i < metrics.y1.labels.length; i++) {
-    values[metrics.y1.labels[i]] = getMetricData(metrics.y1.metrics[i]);
+    values[metrics.y1.labels[i]] = getMetricData(metrics.y1._metricValuesForDownload[i]);
   }
   return values;
 }
