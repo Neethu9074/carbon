@@ -98,7 +98,13 @@ export function getApplicationCreationTagKeys() {
     'aws.service.type': true,
     'application.id': true,
     'application.name': true,
-    'call.name': true
+    'call.name': true,
+    'trace.id': true,
+    'trace.service.name': true,
+    'trace.name': true,
+    'log.level': true,
+    'log.message': true,
+    'call.error.message': true
   };
   getTagTree();
   let tagKeys = [];
