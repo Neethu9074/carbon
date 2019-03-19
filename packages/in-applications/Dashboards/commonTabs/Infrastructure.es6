@@ -37,7 +37,7 @@ export default compose(
 function Infrastructure({ data: entity, applicationId, serviceId, endpointId, timeConfig, selectedType, setType }) {
   const buttonPropsList = [];
 
-  // in the service infra view, show all tabs, because we do not know the type of all entities
+  // in the application infra view, show all tabs, because we do not know the type of all entities
   const showAllTabs = entity.entityType == 'APPLICATION';
 
   /*
@@ -54,7 +54,6 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   // refine it by entity type
   const onlyShowCluster = isDatabase(entity) && hasSomeClusterTechnologies(entity) && !showAllTabs;
-  //const onlyShowCluster = false;
 
   if (hasSomeNonClusterTechnologies(entity) && onlyShowCluster == false) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
