@@ -5,8 +5,7 @@ export default {
       metricMap = calculateMetricMap(metrics);
     }
 
-    const metricBaseLine = calculateMetricBaseLineMap(metrics[0]);
-
+    const metricBaseLine = metrics[0];
     for (let iMetric = metrics.length - 1; iMetric > 0; iMetric--) {
       renderDataSeries(config, colors[iMetric], colors100[iMetric], metrics[iMetric], metricMap, metricBaseLine, scale);
     }
@@ -34,15 +33,6 @@ function calculateMetricMap(metrics) {
     }
   }
   return metricMap;
-}
-
-function calculateMetricBaseLineMap(lastDataSeries) {
-  const baseLineMetricsMap = {};
-  for (let i = 0; i < lastDataSeries.length; i++) {
-    const dataPoint = lastDataSeries[i];
-    baseLineMetricsMap[dataPoint[0]] = dataPoint[1];
-  }
-  return baseLineMetricsMap;
 }
 
 function renderDataSeries(config, color, borderColor, dataSeries, metricMap, metricBaseLine, scale) {
@@ -76,19 +66,21 @@ function drawIntegralBlock(metricMap, config, scale, block, metricBaseLine, bord
     config.backBufferCtx.lineTo(xPos, yPos);
   }
 
-  for (let i = block.length - 1; i >= 0; i--) {
-    const dataPoint = block[i];
-    const time = dataPoint[0];
-    if (metricBaseLine[time]) {
-      const xPos = config.scales.xBackBuffer.getRange(time);
-      const yPos = scale.getRange(metricMap[time]);
+  config.backBufferCtx.strokeStyle = borderColor;
+  config.backBufferCtx.lineWidth = 2;
+  config.backBufferCtx.stroke();
+
+  for (let i = metricBaseLine.length - 1; i >= 0; i--) {
+    const dataPoint = metricBaseLine[i];
+    const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
+    const yPos = scale.getRange(dataPoint[1]);
+    if (i === metricBaseLine.length - 1) {
+      config.backBufferCtx.lineTo(xPos, yPos);
+    } else {
       config.backBufferCtx.lineTo(xPos, yPos);
     }
   }
 
-  config.backBufferCtx.strokeStyle = borderColor;
-  config.backBufferCtx.lineWidth = 2;
-  config.backBufferCtx.stroke();
   config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
 }
