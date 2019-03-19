@@ -180,15 +180,12 @@ const IncidentsMenuPoint = connectTo(
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
     let color = null;
-    let opacity = 0;
     if (numIncidents > 0) {
       color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
-      opacity = isExpanded || isActive ? 0 : 0.4;
     }
 
     return (
       <div className={locals.incidentMenu}>
-        <div className={locals.incidentColorOverlay} style={{ background: color, opacity }} />
         <View
           label="Events"
           icon="lib_events_inverted"
