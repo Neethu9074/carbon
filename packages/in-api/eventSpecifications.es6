@@ -13,13 +13,26 @@ export function getEventSpecificationsMutable() {
   }).map(response => response.body);
 }
 
-export function getEventSpecificationByIds(eventIds) {
+export function getEventSpecifications(eventIds) {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: '/api/events/settings/event-specifications/infos',
     queryParams: {
       ids: eventIds ? eventIds : [],
+      newApplicationModelEnabled: twoZeroModeEnabled
+    }
+  }).map(response => response.body);
+}
+
+export function getEventSpecificationByIds(eventIds) {
+  return http({
+    method: 'POST',
+    headers: getCsrfHeader(),
+    maxRetries: 3,
+    url: '/api/events/settings/event-specifications/infos',
+    data: eventIds ? eventIds : [],
+    queryParams: {
       newApplicationModelEnabled: twoZeroModeEnabled
     }
   }).map(response => response.body);
