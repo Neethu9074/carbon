@@ -6,7 +6,7 @@
   }
 
   .selectCheckbox {
-    display: inline-flex;
+    padding-top: 0.95rem !important;
     flex-direction: row;
     justify-content: center;
     align-items: center;

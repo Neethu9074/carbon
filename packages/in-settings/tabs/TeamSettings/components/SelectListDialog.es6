@@ -51,33 +51,36 @@ function SelectChannelsDialog({
         }}
         autoComplete="off"
       >
-        <FormGroup className={locals.listFormGroup}>
-          <ListComponent
-            setTitle={false}
-            scrollWrapperClassName={locals.tableScrollWrapper}
-            pageSize={7}
-            hiddenIds={hiddenIds}
-            hasRowNavigation={false}
-            noDataMessage="No items available."
-            onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
-            tableActions={{
-              selectCheckbox: {
-                get(entity) {
-                  return get(selectedItems, entity);
-                },
-                setAll(entities, selected) {
-                  setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage);
-                },
-                toggle(entity) {
-                  toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
+        <FormGroup>
+          <div className={locals.listFormGroup}>
+            <ListComponent
+              setTitle={false}
+              scrollWrapperClassName={locals.tableScrollWrapper}
+              pageSize={7}
+              hiddenIds={hiddenIds}
+              hasRowNavigation={false}
+              noDataMessage="No items available."
+              onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
+              tableActions={{
+                selectCheckbox: {
+                  get(entity) {
+                    return get(selectedItems, entity);
+                  },
+                  setAll(entities, selected, page, pageSize) {
+                    setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, page, pageSize);
+                  },
+                  toggle(entity) {
+                    toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
+                  }
                 }
-              }
-            }}
-            rightHeader={listComponentRightHeader}
-            inSelectListDialog
-          />
-          {errorMessage && <ValidationBlock>{errorMessage}</ValidationBlock>}
+              }}
+              rightHeader={listComponentRightHeader}
+              inSelectListDialog
+            />
+          </div>
+          {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
         </FormGroup>
+
         <div className={locals.actions}>
           <Button type="submit" kind={'secondary'} onClick={close} classNam>
             Cancel
@@ -123,12 +126,14 @@ function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMe
   setErrorMessage(null);
 }
 
-function setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage) {
+function setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, page, pageSize) {
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = Math.min(page * pageSize, entities.length);
   let entity;
 
   if (selected) {
     let entitiesToBeAdded = 0;
-    for (let i = 0; i < entities.length; i++) {
+    for (let i = startIndex; i < endIndex; i++) {
       entity = entities[i];
       if (!get(selectedItems, entity)) {
         entitiesToBeAdded++;
@@ -149,7 +154,7 @@ function setAll(selectedItems, setSelectedItems, entities, selected, limit, setE
   }
   setErrorMessage(null);
 
-  for (let i = 0; i < entities.length; i++) {
+  for (let i = startIndex; i < endIndex; i++) {
     entity = entities[i];
     if (get(selectedItems, entity) && !selected) {
       selectedItems = selectedItems.filter(id => id !== entity.id);

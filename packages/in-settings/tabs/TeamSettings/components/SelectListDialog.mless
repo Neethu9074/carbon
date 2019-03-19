@@ -23,4 +23,9 @@
     overflow-y: auto;
     height: ~'calc(100vh - 420px)';
   }
+
+  .errorMessage {
+    margin: 0;
+    text-align: center;
+  }
 }
