@@ -3,12 +3,14 @@ import React, { Fragment } from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
-import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import tabs from 'in-settings/tabs/index';
+import Sticky from 'in-components/Sticky';
+
+import locals from './ConfigurationView.mless';
 
 export default function ConfigurationView(props) {
   const { location } = props;
@@ -27,10 +29,11 @@ export default function ConfigurationView(props) {
   }
 
   return (
-    <Fragment>
-      <SecondLevelNavigation />
-      <TabView HeaderComponent={Header} location={props.location} tabs={tabs} props={props} />;
-    </Fragment>
+    <Sticky header={<div className={locals.header} />}>
+      <Fragment>
+        <TabView HeaderComponent={Header} location={props.location} tabs={tabs} props={props} />;
+      </Fragment>
+    </Sticky>
   );
 }
 
