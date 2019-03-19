@@ -101,6 +101,7 @@ export function getApplicationCreationTagKeys() {
     'call.name': true,
     'trace.id': true,
     'trace.service.name': true,
+    'trace.endpoint.name': true,
     'trace.name': true,
     'log.level': true,
     'log.message': true,
