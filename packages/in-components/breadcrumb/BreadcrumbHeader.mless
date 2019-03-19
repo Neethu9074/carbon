@@ -2,21 +2,22 @@
 
 :local {
   .breadcrumbHeader {
-    background: @lib__colors__navy800;
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
     overflow: hidden;
-    color: rgba(255,255,255,0.56);
     font-size: 0.875rem;
     font-weight: lighter;
-    box-shadow: @lib__shadows__pronounced;
   }
 
   .container {
+    display: flex;
+    align-items: center;
+
+    height: 4rem;
+
     max-width: @max-width * 1px;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
-    align-items: center;
-    height: 3rem;
   }
 
   .useFullAvailableWidth {
@@ -30,6 +31,6 @@
   }
 
   .chevronIcon {
-    fill: rgba(255,255,255,0.24);
+    fill: @lib__colors__N400;
   }
 }

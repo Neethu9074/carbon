@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1rem 0 0 0;
+    padding: 0;
+  }
+
+  .spacer {
+    height: 1.75rem;
+  }
+
+  .incidentMenu {
+    position: relative;
+  }
+
+  .incidentColorOverlay {
+    width: 100%;
+    height: 3.25rem;
+    margin-bottom: -3.125rem;
+
+    pointer-events: none;
+    transition: opacity 0.35s ease-in-out;
+  }
+
+  .issueIndicator {
+    position: absolute;
+    left: 2.4375rem;
+    top: 0.3125rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.125rem;
+    height: 1.125rem;
+
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.6875rem;
+  }
+}

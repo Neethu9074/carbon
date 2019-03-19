@@ -1,5 +1,6 @@
 import React from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -44,6 +45,10 @@ export default connectTo(
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 
-    return <div className={locals.breadcrumbHeader}>{crumbsElement}</div>;
+    return (
+      <div className={locals.breadcrumbHeader}>
+        <MaxWidthFullscreenContainer>{crumbsElement}</MaxWidthFullscreenContainer>
+      </div>
+    );
   }
 );

@@ -1,6 +1,0 @@
-{
-  "name": "AccountMenu",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./AccountMenu.es6"
-}

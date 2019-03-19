@@ -23,7 +23,6 @@ import './analyse/MetricSelectorStory';
 import './analyse/TagFilterListStory';
 import './analyse/TraceConverter';
 
-import './application/AppHeaderStory';
 import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';

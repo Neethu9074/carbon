@@ -2,8 +2,8 @@
 
 :local {
   .header {
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
+    background: white;
+    box-shadow: 0px 10px 16px -13px rgba(0, 0, 0, 0.3);
   }
 
   .fullWidthWrapper {

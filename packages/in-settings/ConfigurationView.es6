@@ -1,8 +1,9 @@
 import { generatePath, matchPath } from 'react-router';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
@@ -25,7 +26,12 @@ export default function ConfigurationView(props) {
     }
   }
 
-  return <TabView HeaderComponent={Header} location={props.location} tabs={tabs} props={props} />;
+  return (
+    <Fragment>
+      <SecondLevelNavigation />
+      <TabView HeaderComponent={Header} location={props.location} tabs={tabs} props={props} />;
+    </Fragment>
+  );
 }
 
 function Header(props) {

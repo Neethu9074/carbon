@@ -2,10 +2,11 @@
 
 :local {
   .nav {
-    background: @lib__colors__navy800;
+    background: @lib__colors__N050;
     font-size: 22px;
     font-weight: lighter;
     overflow: hidden;
+    border-bottom: 1px solid @lib__colors__N300;
   }
 
   .tabList {
@@ -24,36 +25,36 @@
     border-bottom: 3px solid transparent;
 
     &:hover {
-      border-bottom: 3px solid #fff;
+      border-bottom: 3px solid @lib__colors__N400;
 
       .icon {
-        fill: #fff;
+        fill: @lib__colors__N500;
       }
     }
   }
 
   .tabSelected {
-    color: #fff;
-    border-bottom: 3px solid #fff;
+    color: @lib__colors__N500;
+    border-bottom: 3px solid @lib__colors__N500;
     cursor: default;
 
     .icon {
-      fill: #fff;
+      fill: @lib__colors__N500;
     }
   }
 
   .icon {
     margin-right: 0.5rem;
-    fill: rgba(255,255,255,0.56);
+    fill: @lib__colors__N500;
   }
 
   .link {
     text-decoration: none;
-    color: rgba(255,255,255,0.56);
+    color: @lib__colors__N500;
 
     &:hover {
       text-decoration: none;
-      color: #fff;
+      color: @lib__colors__N500;
     }
   }
 
@@ -68,8 +69,8 @@
       left: 0;
       bottom: 0.7rem;
       width: 2px;
-      background: #84969C;
-      content: "";
+      background: #84969c;
+      content: '';
     }
   }
 }
