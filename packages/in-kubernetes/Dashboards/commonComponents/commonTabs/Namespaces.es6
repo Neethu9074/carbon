@@ -97,7 +97,6 @@ const columnDefinitions = [
           snapshotId={get(item, ['namespace', 'id'])}
           metric="required_cpu_percentage"
           formatter={resourceQuotaPercentage}
-          timeWindowAggregation="mean"
         />
       );
     }
@@ -112,7 +111,6 @@ const columnDefinitions = [
           snapshotId={get(item, ['namespace', 'id'])}
           metric="limit_cpu_percentage"
           formatter={resourceQuotaPercentage}
-          timeWindowAggregation="mean"
         />
       );
     }
@@ -127,7 +125,6 @@ const columnDefinitions = [
           snapshotId={get(item, ['namespace', 'id'])}
           metric="required_mem_percentage"
           formatter={resourceQuotaPercentage}
-          timeWindowAggregation="mean"
         />
       );
     }
@@ -142,7 +139,6 @@ const columnDefinitions = [
           snapshotId={get(item, ['namespace', 'id'])}
           metric="limit_mem_percentage"
           formatter={resourceQuotaPercentage}
-          timeWindowAggregation="mean"
         />
       );
     }
@@ -157,7 +153,6 @@ const columnDefinitions = [
           snapshotId={get(item, ['namespace', 'id'])}
           metric="used_pods_percentage"
           formatter={resourceQuotaPercentage}
-          timeWindowAggregation="mean"
         />
       );
     }
