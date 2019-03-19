@@ -28,6 +28,7 @@ export default connectTo(
     isActive,
     sidebarIsExpanded,
     expandedSubMenu,
+    onClick,
     setExpandedSubMenu
   }) {
     const isExpanded = expandedSubMenu === label;
@@ -53,6 +54,10 @@ export default connectTo(
               }
             } else {
               e.stopPropagation();
+            }
+
+            if (onClick) {
+              onClick(e);
             }
           }}
         >

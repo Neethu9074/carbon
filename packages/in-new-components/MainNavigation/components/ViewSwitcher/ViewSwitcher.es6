@@ -34,7 +34,7 @@ import locals from './ViewSwitcher.mless';
 
 const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
-export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedSubMenu }) {
+export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedSubMenu, onViewSwitched }) {
   return (
     <ul className={locals.list}>
       <View
@@ -49,8 +49,14 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
           label="Map"
           href$={getView(physicalPath)}
           isActive$={any(isView(physicalPath), isView(containerPath))}
+          onClick={onViewSwitched}
         />
-        <SubViewItem label="Comparison Table" href$={getView(physicalTablePath)} isActive$={isTableView('physical')} />
+        <SubViewItem
+          label="Comparison Table"
+          href$={getView(physicalTablePath)}
+          isActive$={isTableView('physical')}
+          onClick={onViewSwitched}
+        />
       </View>
 
       {kubernetesEnabled && (
@@ -60,6 +66,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
           href$={getView(kubernetesClusterList)}
           isActive$={isView(kubernetes)}
           sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
         />
       )}
 
@@ -71,6 +78,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         isActive$={isView(isApplicationsView)}
         href$={getView(applicationsList)}
         sidebarIsExpanded={isExpanded}
+        onClick={onViewSwitched}
       />
 
       <View
@@ -79,6 +87,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         href$={getView(websiteMonitoringPath)}
         isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
         sidebarIsExpanded={isExpanded}
+        onClick={onViewSwitched}
       />
 
       <View
@@ -90,11 +99,12 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
           groupByTag: getConfigByDataSource('traces').defaultGrouping
         })}
         sidebarIsExpanded={isExpanded}
+        onClick={onViewSwitched}
       />
 
       <Spacer />
 
-      <IncidentsMenuPoint isExpanded={isExpanded} />
+      <IncidentsMenuPoint isExpanded={isExpanded} onViewSwitched={onViewSwitched} />
 
       <Spacer />
 
@@ -104,6 +114,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         isActive$={isView(settingsPath)}
         href$={getView(settingsPath)}
         sidebarIsExpanded={isExpanded}
+        onClick={onViewSwitched}
       />
 
       {(cockpitEnabled || instanaInternalFeaturesEnabled) && <Spacer />}
@@ -115,6 +126,7 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
           isActive$={isView(containerPath)}
           href$={getView(cockpitPath)}
           sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
         />
       )}
 
@@ -122,9 +134,10 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         <View
           label="Internal"
           icon="lib_actions_lock"
-          isActive$={just(false)}
+          isActive$={isView('/internal')}
           href$={just('/#/internal')}
           sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
         />
       )}
 
@@ -154,11 +167,17 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         sidebarIsExpanded={isExpanded}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
+        isActive$={any(isView(agentsPath))}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
         <SubViewItem label="Tenants" href="https://instana.io/tenantSwitcher" external />
         {role.canConfigureAgents && (
-          <SubViewItem label="Agents" href$={getView(agentsPath)} isActive$={isView(agentsPath)} />
+          <SubViewItem
+            label="Agents"
+            href$={getView(agentsPath)}
+            isActive$={isView(agentsPath)}
+            onClick={onViewSwitched}
+          />
         )}
         {releaseNotesEnabled && <SubViewItem label="Release Notes" onClick={showReleaseNotes} />}
         <SubViewItem label="Documentation" href="https://docs.instana.com" external />
@@ -174,26 +193,24 @@ const IncidentsMenuPoint = connectTo(
     events: openEventsAtServerTime$,
     isActive: isView(eventsPath)
   },
-  function IncidentsMenuPoint({ events, isActive, isExpanded }) {
+  function IncidentsMenuPoint({ events, isActive, isExpanded, onViewSwitched }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
     let color = null;
-    let opacity = 0;
     if (numIncidents > 0) {
       color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
-      opacity = isExpanded || isActive ? 0 : 0.4;
     }
 
     return (
       <div className={locals.incidentMenu}>
-        <div className={locals.incidentColorOverlay} style={{ background: color, opacity }} />
         <View
           label="Events"
           icon="lib_events_inverted"
           href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
           isActive={isActive}
           sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
         />
         {numIncidents > 0 && (
           <div className={locals.issueIndicator} style={{ background: color }}>

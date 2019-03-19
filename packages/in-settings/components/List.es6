@@ -201,8 +201,8 @@ function List({
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
-        allRowsAreSelected={areAllRowsSelected(entitiesBeforePagination, tableActions)}
-        setSelectedStateForRows={setSelectedStateForRows(entitiesBeforePagination, tableActions)}
+        allRowsAreSelected={areAllRowsSelected(entitiesBeforePagination, tableActions, pageState, pageSize)}
+        setSelectedStateForRows={setSelectedStateForRows(entitiesBeforePagination, tableActions, pageState, pageSize)}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -466,11 +466,13 @@ function addSelectCheckboxAction(columns, actionDefinition) {
   return columns;
 }
 
-function areAllRowsSelected(entities, tableActions) {
+function areAllRowsSelected(entities, tableActions, page, pageSize) {
   if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
     return false;
   }
-  for (let i = 0; i < entities.length; i++) {
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = Math.min(page * pageSize, entities.length);
+  for (let i = startIndex; i < endIndex; i++) {
     if (!tableActions.selectCheckbox.get(entities[i])) {
       return false;
     }
@@ -478,11 +480,11 @@ function areAllRowsSelected(entities, tableActions) {
   return true;
 }
 
-function setSelectedStateForRows(entities, tableActions) {
+function setSelectedStateForRows(entities, tableActions, page, pageSize) {
   if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
     return noop;
   }
-  return selected => tableActions.selectCheckbox.setAll(entities, selected);
+  return selected => tableActions.selectCheckbox.setAll(entities, selected, page, pageSize);
 }
 
 function getRowProps(tableActions) {

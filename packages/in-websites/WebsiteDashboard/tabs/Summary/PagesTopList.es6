@@ -7,7 +7,7 @@ import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
-const metrics = ['pageLoads', 'onLoadTime', 'errors'];
+const metrics = ['pageViews', 'onLoadTime', 'errors'];
 const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, meanLatencyFixed.compact, number.compact];

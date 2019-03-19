@@ -4,9 +4,9 @@ import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/Websi
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
+import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
-import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -20,9 +20,9 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
   return (
     <Fragment>
       <Row>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
-            title="Page Views"
+            title={'Page Loads'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -36,7 +36,23 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
+          <WebsiteMetricsKpiCard
+            title={'Page Transitions'}
+            formatter={number.compact}
+            metricsConfig={{
+              tagFilters,
+              timeConfig,
+              metrics: {
+                pageTransitions: {
+                  metric: 'pageTransitions',
+                  aggregation: 'SUM'
+                }
+              }
+            }}
+          />
+        </Col>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (mean)"
             formatter={meanLatency.detailed}
@@ -52,7 +68,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (90th)"
             formatter={latency.detailed}
@@ -68,7 +84,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <WebsiteMetricsKpiCard
             title="onLoad Time (95th)"
             formatter={latency.detailed}
@@ -92,13 +108,12 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={4}>
           <WebsiteChartWrapper
             cardTitle="Page Views"
-            renderLegend={false}
             timeConfig={timeConfig}
             y1={{
-              renderer: Renderer.bar,
+              renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Page Views'],
-              metricIds: ['pageLoads']
+              labels: ['Page Loads', 'Page Transitions'],
+              metricIds: ['pageLoads', 'pageTransitions']
             }}
             metricsConfiguration={{
               timeConfig,
@@ -106,6 +121,11 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               metrics: {
                 pageLoads: {
                   metric: 'pageLoads',
+                  granularity,
+                  aggregation: 'SUM'
+                },
+                pageTransitions: {
+                  metric: 'pageTransitions',
                   granularity,
                   aggregation: 'SUM'
                 }
@@ -116,7 +136,6 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         <Col lg={4}>
           <WebsiteChartWrapper
             cardTitle="JS Errors"
-            renderLegend={false}
             timeConfig={timeConfig}
             y1={{
               renderer: Renderer.bar,
@@ -143,7 +162,6 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="onLoad Time"
-                renderLegend={false}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{

@@ -34,8 +34,14 @@ export const types = {
   document: {
     short: 'Doc',
     badgeLabel: 'Doc',
-    long: 'Documents',
+    long: 'Documents (Page Loads)',
     color: '#F16528' // based on the HTML logo color
+  },
+  pageChange: {
+    short: 'Tra',
+    badgeLabel: 'Tra',
+    long: 'Page Transitions',
+    color: '#91c200'
   },
   error: {
     short: 'Err',
@@ -64,6 +70,8 @@ export function getType(beacon) {
     return 'error';
   } else if (beacon.type === 'custom' && customEventsInWebsiteMonitoringEnabled) {
     return 'custom';
+  } else if (beacon.type === 'pageChange') {
+    return 'pageChange';
   }
 
   return 'other';
@@ -73,7 +81,7 @@ export function getResourceTypes() {
   return (
     Object.keys(types)
       // Errors and XHR don't make sense as resource types
-      .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom')
+      .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom' && k !== 'pageChange')
       .sort()
   );
 }

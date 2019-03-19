@@ -23,7 +23,7 @@ export default function Pages({ timeConfig, tagFilters, websiteId }) {
           timeConfig={timeConfig}
           columnDefinitions={columnDefinitions}
           paginationResettingProps={['timeConfig', 'tagFilters']}
-          defaultOrderBy="pageLoadsAgg"
+          defaultOrderBy="pageViewsAgg"
           defaultOrderDirection="DESC"
           cardTitle="Pages"
         />
@@ -52,12 +52,12 @@ function getTableData({ page, pageSize, orderBy, orderDirection, timeConfig, que
       groupbyTag: 'beacon.page.name'
     },
     metrics: {
-      pageLoadsAgg: {
-        metric: 'pageLoads',
+      pageViewsAgg: {
+        metric: 'pageViews',
         aggregation: 'SUM'
       },
-      pageLoads: {
-        metric: 'pageLoads',
+      pageViews: {
+        metric: 'pageViews',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       },
@@ -108,7 +108,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'pageLoadsAgg',
+    id: 'pageViewsAgg',
     label: 'Page Views',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
@@ -117,8 +117,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.pageLoads}
-          metric={item.metrics.pageLoadsAgg}
+          metrics={item.metrics.pageViews}
+          metric={item.metrics.pageViewsAgg}
           tooltipFormatter={number.compact}
         />
       );

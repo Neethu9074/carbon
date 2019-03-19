@@ -42,6 +42,7 @@ export default function AlertChannels({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
       extraFilters={createFilters(hiddenIds)}
+      searchPlaceholder="Filter…"
       onRowClick={onRowClick}
       getDetailsHref={
         onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)

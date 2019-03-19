@@ -43,7 +43,7 @@ export default function EditGroupDialogPresenter({
               }))}
               onChange={e => onTagChange(e ? e.value : tagSuggestions[0])}
               autoFocus
-              isClearable={false}
+              clearable={false}
               openOnFocus
               searchable
               menuIsOpen

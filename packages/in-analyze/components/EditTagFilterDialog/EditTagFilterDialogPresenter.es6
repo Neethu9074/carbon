@@ -54,7 +54,7 @@ export default function EditTagFilterDialogPresenter({
               }))}
               onChange={e => onTagChange(e ? e.value : tagSuggestions[0])}
               autoFocus={!editMode}
-              isClearable={false}
+              clearable={false}
               openOnFocus
               searchable
               menuIsOpen
