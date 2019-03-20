@@ -6,15 +6,14 @@ import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } fro
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
 import { deleteIntegration, getIntegrationsMutable } from 'in-api/integrations';
+import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import List from 'in-settings/components/List';
 import Link from 'in-components/Link';
 
 import locals from './AlertChannels.mless';
 
 export default function AlertChannels({
   setTitle = true,
-  getHeader = defaultGetHeader,
   scrollWrapperClassName,
   tableActions = defaultTableActions,
   loadEntities,
@@ -24,7 +23,9 @@ export default function AlertChannels({
   rightHeader = <NewChannelButton />,
   isSearchable = true,
   onRowClick,
-  hasRowNavigation = true
+  hasRowNavigation = true,
+  inSelectListDialog = false,
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
   return (
     <List
@@ -102,8 +103,8 @@ const defaultTableActions = {
   }
 };
 
-function defaultGetHeader(totalHits) {
-  return totalHits ? `Alert Channels (${totalHits})` : 'Alert Channels';
+function defaultGetHeader(inSelectListDialog, tableActions) {
+  return leftHeaderWithSelectAll('Alert Channels', inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {

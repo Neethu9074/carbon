@@ -1,8 +1,8 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import { createLogger } from 'instalog';
+import React, { Fragment } from 'react';
 import invariant from 'invariant';
-import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -146,7 +146,7 @@ function List({
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
   }
-  const header = getHeader(totalHitsBeforeFilter);
+  const header = getHeader(totalHitsBeforeFilter, entitiesBeforePagination);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
   let leftHeader = null;
@@ -201,8 +201,18 @@ function List({
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
-        allRowsAreSelected={areAllRowsSelected(entitiesBeforePagination, tableActions, pageState, pageSize)}
-        setSelectedStateForRows={setSelectedStateForRows(entitiesBeforePagination, tableActions, pageState, pageSize)}
+        allRowsAreSelected={areAllRowsOnCurrentPageSelected(
+          entitiesBeforePagination,
+          tableActions,
+          pageState,
+          pageSize
+        )}
+        setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(
+          entitiesBeforePagination,
+          tableActions,
+          pageState,
+          pageSize
+        )}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -466,12 +476,23 @@ function addSelectCheckboxAction(columns, actionDefinition) {
   return columns;
 }
 
-function areAllRowsSelected(entities, tableActions, page, pageSize) {
+function areAllRowsOnCurrentPageSelected(entities, tableActions, page, pageSize) {
+  return areAllRowsSelected(
+    entities,
+    tableActions,
+    (page - 1) * pageSize,
+    Math.min(page * pageSize, entities ? entities.length : 0)
+  );
+}
+
+function areAllRowsOnAllPagesSelected(entities, tableActions) {
+  return areAllRowsSelected(entities, tableActions, 0, entities ? entities.length : 0);
+}
+
+function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
   if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
     return false;
   }
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = Math.min(page * pageSize, entities.length);
   for (let i = startIndex; i < endIndex; i++) {
     if (!tableActions.selectCheckbox.get(entities[i])) {
       return false;
@@ -480,11 +501,40 @@ function areAllRowsSelected(entities, tableActions, page, pageSize) {
   return true;
 }
 
-function setSelectedStateForRows(entities, tableActions, page, pageSize) {
+export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
+  return function(totalHits, entitiesBeforePagination) {
+    const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
+    if (
+      inSelectListDialog &&
+      entitiesBeforePagination &&
+      entitiesBeforePagination.length > 0 &&
+      tableActions.selectCheckbox &&
+      tableActions.selectCheckbox.setAllOnAllPages
+    ) {
+      return (
+        <Fragment>
+          <span className={locals.headerWithSelectAllButton}>{entityName}</span>
+          <Button
+            kind="action"
+            onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
+          >
+            {`${allSelected ? 'Deselect' : 'Select'} All (${entitiesBeforePagination.length})`}
+          </Button>
+        </Fragment>
+      );
+    } else if (inSelectListDialog || !totalHits) {
+      return entityName;
+    } else {
+      return `${entityName} (${totalHits})`;
+    }
+  };
+}
+
+function setSelectedStateForRowsOnCurrentPage(entities, tableActions, page, pageSize) {
   if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
     return noop;
   }
-  return selected => tableActions.selectCheckbox.setAll(entities, selected, page, pageSize);
+  return selected => tableActions.selectCheckbox.setAllOnCurrentPage(entities, selected, page, pageSize);
 }
 
 function getRowProps(tableActions) {
