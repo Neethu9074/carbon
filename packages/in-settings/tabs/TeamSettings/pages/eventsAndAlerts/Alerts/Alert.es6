@@ -25,7 +25,8 @@ import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 
-export const limitForConnectedEntities = 100;
+export const limitForConnectedEvents = 1000;
+export const limitForConnectedAlertChannels = 100;
 
 export default function Alert(props) {
   const entityId = props.match.params.id;
@@ -292,22 +293,22 @@ function selectedEventsValidator(selectedEvents) {
       }
     ];
   }
-  if (selectedEvents.size > limitForConnectedEntities) {
+  if (selectedEvents.size > limitForConnectedEvents) {
     return [
       {
         severity: 'error',
-        message: `Please select at most ${limitForConnectedEntities} events.`
+        message: `Please select at most ${limitForConnectedEvents} events.`
       }
     ];
   }
 }
 
 function selectedAlertChannelsValidator(selectedAlertChannels) {
-  if (selectedAlertChannels.size > limitForConnectedEntities) {
+  if (selectedAlertChannels.size > limitForConnectedAlertChannels) {
     return [
       {
         severity: 'error',
-        message: `Please select at most ${limitForConnectedEntities} alert channels.`
+        message: `Please select at most ${limitForConnectedAlertChannels} alert channels.`
       }
     ];
   }

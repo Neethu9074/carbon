@@ -5,7 +5,7 @@ import AlertChannels, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getIntegrationsByIdsMutable } from 'in-api/integrations';
@@ -29,12 +29,12 @@ export default function Step4({ form, setForm }) {
           <SelectListDialogButton
             form={form}
             onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
-            title="Select Alert Channels"
-            label={'Select Alert Channels'}
+            title="Add Alert Channels"
+            label={'Add Alert Channels'}
             listComponent={AlertChannels}
             listComponentRightHeader={noRightHeader}
             hiddenIds={form.get('selectedAlertChannels').value.toJS()}
-            limit={limitForConnectedEntities}
+            limit={limitForConnectedAlertChannels}
             createSubmitLabel={numberOfItems =>
               numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
             }

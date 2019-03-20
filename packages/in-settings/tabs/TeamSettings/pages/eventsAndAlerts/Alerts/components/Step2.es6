@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -84,15 +84,16 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
               hasRowNavigation={false}
               noDataMessage="No Events Selected"
               tableActions={eventSelectionTableActions(form, setForm)}
+              pageSize={10}
               rightHeader={
                 <SelectListDialogButton
                   form={form}
                   onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-                  title="Select Events"
-                  label={'Select Events'}
+                  title="Add Events"
+                  label={'Add Events'}
                   listComponent={Events}
                   hiddenIds={selectedEvents}
-                  limit={limitForConnectedEntities}
+                  limit={limitForConnectedEvents}
                   createSubmitLabel={numberOfItems =>
                     numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
                   }
