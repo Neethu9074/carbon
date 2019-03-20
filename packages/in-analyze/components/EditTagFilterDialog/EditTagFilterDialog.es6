@@ -32,6 +32,9 @@ export default compose(
       tagFilter,
       tagFilters,
       setTagFilters,
+      addTagFilter,
+      updateTagFilter,
+      removeTagFilter,
       selectedTagType,
       setForm,
       form,
@@ -48,7 +51,12 @@ export default compose(
             (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
         ),
       onRemoveTagFilter: () => {
-        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
+        if (setTagFilters) {
+          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
+        }
+        if (removeTagFilter) {
+          removeTagFilter(tagFilter);
+        }
         close();
 
         if (filterRemovedTracker) {
@@ -121,7 +129,15 @@ export default compose(
           }
         }
 
-        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)).concat(newTagFilter));
+        if (addTagFilter) {
+          addTagFilter(newTagFilter);
+        }
+        if (updateTagFilter) {
+          updateTagFilter(newTagFilter);
+        }
+        if (setTagFilters) {
+          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)).concat(newTagFilter));
+        }
         close();
 
         const before = tagFilters.filter(f => isSameFilter(f, tagFilter));

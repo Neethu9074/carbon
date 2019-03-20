@@ -1,15 +1,11 @@
-import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
 import React from 'react';
 import { compose } from 'recompose';
-import { get } from 'lodash';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import { regularExpressionValidator } from 'in-services/validators/regexp';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
-import { isBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -171,42 +167,6 @@ class BasicForm extends React.Component {
   setValue = (updateForm, path, value, form) => {
     updateForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
   };
-}
-
-export function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
-  let form = createMapForm()
-    .put(
-      'key',
-      createField({
-        value: get(matchSpecification, 'key', ''),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'value',
-      createField({
-        value: get(matchSpecification, 'value', defaultValue),
-        validator: composeValidators(regularExpressionValidator)
-      })
-    )
-    .put(
-      'operator',
-      createField({
-        value: get(matchSpecification, 'operator', 'EQUALS')
-      })
-    );
-
-  if (!isBlank(get(matchSpecification, 'secondLevelName'))) {
-    form = form.put(
-      'secondLevelName',
-      createField({
-        value: get(matchSpecification, 'secondLevelName', ''),
-        validator: notBlankValidator
-      })
-    );
-  }
-
-  return form;
 }
 
 export function matchSpecificationValidator(items) {
