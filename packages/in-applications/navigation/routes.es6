@@ -34,7 +34,10 @@ export default (
     {role.canConfigureApplications && (
       <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
     )}
-    <Route path={`${newApplicationWaiterView}/:appId`} component={createAsyncViewComponent(NewApplicationWaiter)} />
+    <Route
+      path={`${newApplicationWaiterView}/:appId/:appName`}
+      component={createAsyncViewComponent(NewApplicationWaiter)}
+    />
 
     {role.canConfigureServiceMapping && (
       <Fragment>
