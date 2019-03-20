@@ -65,8 +65,20 @@ function SelectListDialog({
                   get(entity) {
                     return get(selectedItems, entity);
                   },
-                  setAll(entities, selected, page, pageSize) {
-                    setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, page, pageSize);
+                  setAllOnCurrentPage(entities, selected, page, pageSize) {
+                    setAllOnCurrentPage(
+                      selectedItems,
+                      setSelectedItems,
+                      entities,
+                      selected,
+                      limit,
+                      setErrorMessage,
+                      page,
+                      pageSize
+                    );
+                  },
+                  setAllOnAllPages(entities, selected) {
+                    setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage);
                   },
                   toggle(entity) {
                     toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
@@ -125,9 +137,42 @@ function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMe
   setErrorMessage(null);
 }
 
-function setAll(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, page, pageSize) {
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = Math.min(page * pageSize, entities.length);
+function setAllOnCurrentPage(
+  selectedItems,
+  setSelectedItems,
+  entities,
+  selected,
+  limit,
+  setErrorMessage,
+  page,
+  pageSize
+) {
+  setAllInternal(
+    selectedItems,
+    setSelectedItems,
+    entities,
+    selected,
+    limit,
+    setErrorMessage,
+    (page - 1) * pageSize,
+    Math.min(page * pageSize, entities.length)
+  );
+}
+
+function setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage) {
+  setAllInternal(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage, 0, entities.length);
+}
+
+function setAllInternal(
+  selectedItems,
+  setSelectedItems,
+  entities,
+  selected,
+  limit,
+  setErrorMessage,
+  startIndex,
+  endIndex
+) {
   let entity;
 
   if (selected) {

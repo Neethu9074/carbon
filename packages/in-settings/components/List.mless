@@ -15,4 +15,8 @@
   .selectCheckboxHead {
     width: 2rem;
   }
+
+  .headerWithSelectAllButton {
+    margin-right: 0.5rem;
+  }
 }

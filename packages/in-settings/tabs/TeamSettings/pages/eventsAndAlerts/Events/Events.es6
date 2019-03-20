@@ -20,7 +20,7 @@ import {
   getEntityTypeOptions,
   isBuiltInRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import List, { createNewEntityButton } from 'in-settings/components/List';
+import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { intersperse } from 'in-services/arrayUtils';
@@ -58,7 +58,6 @@ function Events({
   entityType,
   setEntityType,
   setTitle = true,
-  getHeader = defaultGetHeader,
   scrollWrapperClassName,
   tableActions = defaultTableActions,
   loadEntities,
@@ -69,7 +68,8 @@ function Events({
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
-  inSelectListDialog = false
+  inSelectListDialog = false,
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
   return (
     <List
@@ -179,8 +179,8 @@ function isEnabled(entity) {
   return entity.enabled;
 }
 
-function defaultGetHeader(totalHits) {
-  return totalHits ? `Events (${totalHits})` : 'Events';
+function defaultGetHeader(inSelectListDialog, tableActions) {
+  return leftHeaderWithSelectAll('Events', inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {
