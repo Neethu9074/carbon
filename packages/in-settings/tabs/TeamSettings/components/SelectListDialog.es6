@@ -1,7 +1,6 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
-import { limitForConnectedEntities } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
@@ -20,9 +19,9 @@ export default compose(
     ({ requiresAtLeastOneMessage }) =>
       requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
   )
-)(SelectChannelsDialog);
+)(SelectListDialog);
 
-function SelectChannelsDialog({
+function SelectListDialog({
   title = 'Select',
   listComponent,
   listComponentRightHeader,
@@ -34,7 +33,7 @@ function SelectChannelsDialog({
   setSelectedItems,
   errorMessage,
   setErrorMessage,
-  limit = limitForConnectedEntities
+  limit = Number.MAX_VALUE // unlimited by default
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
@@ -117,8 +116,6 @@ function addToSelection(setSelectedItems, selectedItems, entity, limit, setError
     }
     return;
   }
-  setSelectedItems(selectedItems.concat(entity.id));
-  setErrorMessage(null);
 }
 
 function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMessage) {
