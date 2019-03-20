@@ -116,6 +116,8 @@ function addToSelection(setSelectedItems, selectedItems, entity, limit, setError
     }
     return;
   }
+  setSelectedItems(selectedItems.concat(entity.id));
+  setErrorMessage(null);
 }
 
 function removeFromSelection(setSelectedItems, selectedItems, entity, setErrorMessage) {
