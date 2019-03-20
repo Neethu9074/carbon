@@ -186,6 +186,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'process',
       label: 'Process',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.process ? (
           <InfrastructureEntityLink
@@ -201,6 +202,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'container',
       label: 'Container',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.container ? (
           <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />
@@ -213,6 +215,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'host',
       label: 'Host',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.host ? (
           <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
@@ -225,6 +228,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'cluster',
       label: 'Cluster',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.cluster ? (
           <InfrastructureEntityLink
