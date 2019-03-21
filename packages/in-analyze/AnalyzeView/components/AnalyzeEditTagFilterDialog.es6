@@ -31,7 +31,7 @@ export default withProps(props => {
   };
 })(EditTagFilterDialog);
 
-function getSecondLevelKeySuggestions({ tagFilters, timeConfig, form }) {
+export function getSecondLevelKeySuggestions({ tagFilters, timeConfig, form }) {
   if (isMissingInForm(form, 'tag')) {
     return noResultObservable();
   }
@@ -48,7 +48,7 @@ function getSecondLevelKeySuggestions({ tagFilters, timeConfig, form }) {
   }).map(mapResultData);
 }
 
-function getValueSuggestions({ tagFilters, timeConfig, form }) {
+export function getValueSuggestions({ tagFilters, timeConfig, form }) {
   if (isMissingInForm(form, 'tag') || isRequiredButMissingInForm(form, 'key')) {
     return noResultObservable();
   }

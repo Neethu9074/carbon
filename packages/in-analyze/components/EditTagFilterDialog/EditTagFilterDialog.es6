@@ -12,6 +12,7 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';
+import { isBlank } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
 
 export default compose(
@@ -31,6 +32,9 @@ export default compose(
       tagFilter,
       tagFilters,
       setTagFilters,
+      addTagFilter,
+      updateTagFilter,
+      removeTagFilter,
       selectedTagType,
       setForm,
       form,
@@ -40,9 +44,19 @@ export default compose(
     }) => ({
       onClose: close,
       editMode: Boolean(tagFilter),
-      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], []),
+      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], [])
+        // IS_BLANK and NOT_BLANK operator are only available when a second level key is defined
+        .filter(
+          operator =>
+            (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
+        ),
       onRemoveTagFilter: () => {
-        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
+        if (setTagFilters) {
+          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
+        }
+        if (removeTagFilter) {
+          removeTagFilter(tagFilter);
+        }
         close();
 
         if (filterRemovedTracker) {
@@ -57,7 +71,7 @@ export default compose(
       onTagChange: tag => setForm(createForm(tag, null, forAnalyzeCalls)),
       onOperatorChange: operator => {
         let updatedForm = form.updateIn(['operator'], f => f.setValue(operator).setTouched(true));
-        if (operator === 'NOT_EMPTY' || operator === 'IS_EMPTY') {
+        if (isNoValueOperator(operator)) {
           updatedForm = updatedForm.remove('value');
         } else if (!updatedForm.get('value')) {
           updatedForm = updatedForm.put(
@@ -115,7 +129,15 @@ export default compose(
           }
         }
 
-        setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)).concat(newTagFilter));
+        if (addTagFilter) {
+          addTagFilter(newTagFilter);
+        }
+        if (updateTagFilter) {
+          updateTagFilter(newTagFilter);
+        }
+        if (setTagFilters) {
+          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)).concat(newTagFilter));
+        }
         close();
 
         const before = tagFilters.filter(f => isSameFilter(f, tagFilter));
@@ -247,7 +269,7 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
     }
   }
 
-  if (form.get('operator').value === 'NOT_EMPTY' || form.get('operator').value === 'IS_EMPTY') {
+  if (isNoValueOperator(form.get('operator').value)) {
     value = null;
   }
 
@@ -276,4 +298,8 @@ function createForm(tag, tagFilter, forAnalyzeCalls) {
 
 function isSameFilter(f1, f2) {
   return f1 === f2;
+}
+
+function isNoValueOperator(operator) {
+  return ['NOT_EMPTY', 'IS_EMPTY', 'NOT_BLANK', 'IS_BLANK'].includes(operator);
 }

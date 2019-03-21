@@ -1,4 +1,4 @@
-import { createField, createMapForm, createListForm } from 'formalistic';
+import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
@@ -9,14 +9,18 @@ import {
   addApplicationConfig,
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
-import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { getTagFilterListForBackendSubscription, operatorBlacklists } from 'in-analyze/applicationFilter';
+import {
+  getSecondLevelKeySuggestions,
+  getValueSuggestions
+} from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog.es6';
+import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
+import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import EditFilterDialog from 'in-analyze/Dialogs/EditFilterDialog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -125,16 +129,18 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             kind="action"
                             onClick={() =>
                               setActiveDialog(
-                                <EditFilterDialog
-                                  filters={filters}
-                                  keys={getApplicationCreationTagKeys()}
-                                  onSave={_tag => {
+                                <EditTagFilterDialog
+                                  tagFilters={filters.tagFilter}
+                                  timeConfig={filters.timeConfig}
+                                  tagSuggestions={getApplicationCreationTagKeys()}
+                                  getKeySuggestions={getSecondLevelKeySuggestions}
+                                  getValueSuggestions={getValueSuggestions}
+                                  addTagFilter={_tag => {
                                     const additionalSubForm = getEnrichedMatchSpecificationForm({
                                       key: _tag.name,
-                                      secondLevelName: _tag.secondLevelName,
-                                      value: _tag.value,
-                                      operator: _tag.operator,
-                                      conjunction: _tag.conjunction
+                                      secondLevelName: _tag.secondLevelName || '',
+                                      value: _tag.value || '',
+                                      operator: _tag.operator
                                     });
                                     updateForm(
                                       form.updateIn(['matchSpecification'], list =>
@@ -142,7 +148,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                       )
                                     );
                                   }}
-                                  operatorBlacklist={operatorBlacklists.appConfigBlacklist}
+                                  forAnalyzeCalls
                                 />
                               )
                             }
@@ -171,16 +177,21 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             },
                             onClick: () =>
                               setActiveDialog(
-                                <EditFilterDialog
-                                  filters={filters}
-                                  keys={getApplicationCreationTagKeys()}
-                                  name={matchSpecification.get('key').value}
-                                  value={matchSpecification.get('value').value}
-                                  operator={matchSpecification.get('operator').value}
-                                  secondLevelName={matchSpecification.get('secondLevelName').value}
-                                  onSave={_tag => {
+                                <EditTagFilterDialog
+                                  tagFilter={{
+                                    name: matchSpecification.get('key').value,
+                                    value: matchSpecification.get('value').value,
+                                    operator: matchSpecification.get('operator').value,
+                                    secondLevelName: matchSpecification.get('secondLevelName').value
+                                  }}
+                                  tagFilters={filters.tagFilter}
+                                  timeConfig={filters.timeConfig}
+                                  tagSuggestions={getApplicationCreationTagKeys()}
+                                  getKeySuggestions={getSecondLevelKeySuggestions}
+                                  getValueSuggestions={getValueSuggestions}
+                                  updateTagFilter={_tag => {
                                     form = form.updateIn(['matchSpecification', i, 'value'], field =>
-                                      field.setValue(_tag.value).setTouched(true)
+                                      field.setValue(_tag.value || '').setTouched(true)
                                     );
                                     form = form.updateIn(['matchSpecification', i, 'key'], field =>
                                       field.setValue(_tag.name).setTouched(true)
@@ -194,9 +205,8 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
 
                                     updateForm(form);
                                   }}
-                                  onRemove={() => removeMatchSpecification(i, form, updateForm)}
-                                  removeItemName="Filter"
-                                  operatorBlacklist={operatorBlacklists.appConfigBlacklist}
+                                  removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
+                                  forAnalyzeCalls
                                 />
                               ),
                             onRemove: () => removeMatchSpecification(i, form, updateForm)
@@ -284,6 +294,35 @@ function getInitialForm(application) {
       'scope',
       createField({
         value: application.scope
+      })
+    );
+}
+
+function getMatchSpecificationForm(matchSpecification = {}) {
+  return createMapForm()
+    .put(
+      'key',
+      createField({
+        value: get(matchSpecification, 'key', ''),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'secondLevelName',
+      createField({
+        value: get(matchSpecification, 'secondLevelName', '')
+      })
+    )
+    .put(
+      'value',
+      createField({
+        value: get(matchSpecification, 'value', '')
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: get(matchSpecification, 'operator', 'EQUALS')
       })
     );
 }

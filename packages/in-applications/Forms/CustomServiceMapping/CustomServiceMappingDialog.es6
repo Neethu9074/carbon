@@ -1,4 +1,4 @@
-import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, createListForm, notBlankValidator, composeValidators } from 'formalistic';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
@@ -8,9 +8,10 @@ import {
   addServiceConfig,
   getServiceConfigs
 } from 'in-api/serviceConfiguration';
-import BasicForm, { getMatchSpecificationForm, matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
 import RemoveSection from 'in-applications/Forms/CustomServiceMapping/Remove';
-import { customServiceMappingTagKeys } from 'in-applications/tags';
+import { regularExpressionValidator } from 'in-services/validators/regexp';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
@@ -18,6 +19,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
 import FormGroup from 'in-components/form/FormGroup';
+import { isBlank } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
@@ -105,10 +107,21 @@ export default function CustomServiceMappingDialog() {
                                   let updatedForm = form.updateIn(['matchSpecification', i, 'key'], field =>
                                     field.setValue(e.target.value).setTouched(true)
                                   );
-                                  updatedForm = updatedForm.updateIn(
-                                    ['matchSpecification', i, 'secondLevelName'],
-                                    field => field.setValue('').setTouched(false)
-                                  );
+                                  if (getTagType(e.target.value) === 'KEY_VALUE_PAIR') {
+                                    updatedForm = updatedForm.updateIn(['matchSpecification', i], matchSpecification =>
+                                      matchSpecification.put(
+                                        'secondLevelName',
+                                        createField({
+                                          value: '',
+                                          validator: notBlankValidator
+                                        })
+                                      )
+                                    );
+                                  } else {
+                                    updatedForm = updatedForm.updateIn(['matchSpecification', i], matchSpecification =>
+                                      matchSpecification.remove('secondLevelName')
+                                    );
+                                  }
                                   updateForm(updatedForm);
                                 }}
                                 autoComplete="off"
@@ -120,28 +133,32 @@ export default function CustomServiceMappingDialog() {
                             </FormGroup>
                           ))}
 
-                          {matchSpecification.get('secondLevelName').map(field => {
-                            const key = matchSpecification.get('key').value;
-                            if (key !== 'docker.label' && key !== 'kubernetes.pod.label' && key !== 'agent.tag') {
-                              return null;
-                            }
+                          {matchSpecification.get('secondLevelName') &&
+                            matchSpecification.get('secondLevelName').map(field => {
+                              const key = matchSpecification.get('key').value;
+                              if (getTagType(key) !== 'KEY_VALUE_PAIR') {
+                                return null;
+                              }
 
-                            return (
-                              <FormGroup className={locals.matchSpecificationGroupValue}>
-                                <Input
-                                  type="text"
-                                  id={`match-${i}-secondLevelName`}
-                                  value={field.value}
-                                  onChange={e =>
-                                    setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
-                                  }
-                                  autoComplete="off"
-                                  hasError={!field.valid && field.touched}
-                                />
-                                <TouchedMessages field={field} />
-                              </FormGroup>
-                            );
-                          })}
+                              return (
+                                <FormGroup className={locals.matchSpecificationGroupValue}>
+                                  <Label htmlFor={`match-${i}-key`} hasError={!field.valid && field.touched}>
+                                    Key
+                                  </Label>
+                                  <Input
+                                    type="text"
+                                    id={`match-${i}-secondLevelName`}
+                                    value={field.value}
+                                    onChange={e =>
+                                      setValue(['matchSpecification', i, 'secondLevelName'], e.target.value, form)
+                                    }
+                                    autoComplete="off"
+                                    hasError={!field.valid && field.touched}
+                                  />
+                                  <TouchedMessages field={field} />
+                                </FormGroup>
+                              );
+                            })}
 
                           {form.get('matchSpecification').size > 1 && (
                             <Tooltip content="Remove this match condition">
@@ -220,4 +237,40 @@ function getInitialForm(serviceConfig) {
         })
       )
     );
+}
+
+function getMatchSpecificationForm(matchSpecification = {}, defaultValue = '.*') {
+  let form = createMapForm()
+    .put(
+      'key',
+      createField({
+        value: get(matchSpecification, 'key', ''),
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'value',
+      createField({
+        value: get(matchSpecification, 'value', defaultValue),
+        validator: composeValidators(regularExpressionValidator)
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: get(matchSpecification, 'operator', 'EQUALS')
+      })
+    );
+
+  if (!isBlank(get(matchSpecification, 'secondLevelName', ''))) {
+    form = form.put(
+      'secondLevelName',
+      createField({
+        value: get(matchSpecification, 'secondLevelName', ''),
+        validator: notBlankValidator
+      })
+    );
+  }
+
+  return form;
 }
