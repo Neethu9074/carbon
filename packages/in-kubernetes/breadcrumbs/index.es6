@@ -11,13 +11,13 @@ import PodBreadcrumb from 'in-kubernetes/breadcrumbs/PodBreadcrumb';
 
 export function ClusterBreadcrumbs(props) {
   const { clusterId } = props;
-  return [<HomeViewBreadcrumb />, clusterId && <ClusterBreadcrumb {...props} />];
+  return [<HomeViewBreadcrumb clusterId={clusterId} />, clusterId && <ClusterBreadcrumb {...props} />];
 }
 
 export function NamespaceBreadcrumbs(props) {
   const { namespaceId, clusterId } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb clusterId={clusterId} />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} />
   ];
@@ -26,7 +26,7 @@ export function NamespaceBreadcrumbs(props) {
 export function ServiceBreadcrumbs(props) {
   const { serviceId, namespaceId, clusterId } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb clusterId={clusterId} />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     serviceId && <ServiceBreadcrumb {...props} />
@@ -36,7 +36,7 @@ export function ServiceBreadcrumbs(props) {
 export function NodeBreadcrumbs(props) {
   const { nodeId, clusterId, namespaceId } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb clusterId={clusterId} />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     nodeId && <NodeBreadcrumb {...props} />
@@ -46,7 +46,7 @@ export function NodeBreadcrumbs(props) {
 export function PodBreadcrumbs(props) {
   const { podId, clusterId, namespaceId, deploymentId } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb clusterId={clusterId} />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     deploymentId && <DeploymentBreadcrumb {...props} href$={getDeploymentDashboard(deploymentId)} />,
@@ -57,7 +57,7 @@ export function PodBreadcrumbs(props) {
 export function DeploymentBreadcrumbs(props) {
   const { deploymentId, clusterId, namespaceId } = props;
   return [
-    <HomeViewBreadcrumb />,
+    <HomeViewBreadcrumb clusterId={clusterId} />,
     clusterId && <ClusterBreadcrumb {...props} href$={getClusterDashboard(clusterId)} />,
     namespaceId && <NamespaceBreadcrumb {...props} href$={getNamespaceDashboard(namespaceId)} />,
     deploymentId && <DeploymentBreadcrumb {...props} />
