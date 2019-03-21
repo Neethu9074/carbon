@@ -19,10 +19,10 @@ export default connectTo(
     )
   }),
   function HomeViewBreadcrumb({ monitoringState }) {
-    const solutionType = get(monitoringState, 'solutionType', 'Kubernetes');
+    const distributionType = get(monitoringState, 'distributionType', 'Kubernetes');
     return (
       <Breadcrumb href$={getView(clusterListFullyQualified)}>
-        <Capitalize>{solutionType}</Capitalize>
+        <Capitalize>{distributionType}</Capitalize>
       </Breadcrumb>
     );
   }

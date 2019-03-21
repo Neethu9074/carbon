@@ -15,11 +15,11 @@ export default connectTo(
     )
   },
   function KubernetesMainIcon({ monitoringState, isExpanded, onViewSwitched }) {
-    const solutionType = get(monitoringState, 'solutionType', 'Kubernetes');
-    const iconPath = `lib_${solutionType.toLowerCase()}_inverted`;
+    const distributionType = get(monitoringState, 'distributionType', 'Kubernetes');
+    const iconPath = `lib_${distributionType.toLowerCase()}_inverted`;
     return (
       <View
-        label={solutionType}
+        label={distributionType}
         icon={iconPath}
         href$={getView(kubernetesClusterList)}
         isActive$={isView(kubernetes)}
