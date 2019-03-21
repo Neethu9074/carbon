@@ -67,6 +67,17 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
             <Button href={`${adminUrl}/admin/metric-explosions`} target="_blank">
               Metric Explosions
             </Button>
+            <Select
+              id="cache-selection"
+              value=""
+              className={block + '__select'}
+              onChange={e => window.open(e.target.value, '_blank')}
+              autoFocus
+            >
+              <option value="">Cache data (select one)</option>
+              <option value={`${adminUrl}/admin/snapshots`}>Snapshots with Dependencies</option>
+              <option value={`${adminUrl}/admin/search-snapshots`}>Search Snapshots</option>
+            </Select>
           </Fragment>
         )}
 
@@ -87,7 +98,7 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
 
         {container.get('label').includes('appdata-processor') && (
           <Select
-            id="tag-selection"
+            id="resilient-selection"
             value=""
             className={block + '__select'}
             onChange={e => window.open(e.target.value, '_blank')}
