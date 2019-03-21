@@ -7,6 +7,7 @@ import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { toServerTime } from 'in-stores/timeOffset';
+import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';
 
 export default class RenderScheduler {
@@ -106,13 +107,23 @@ export default class RenderScheduler {
       return;
     }
 
-    const metrics = this.chart.filterDataSeries(axis);
+    const filteredIndices = this.chart.getFilteredMetricIndices(axis);
+
+    // all metrics are filtered, so don't try to paint anything
+    if (filteredIndices.length === axis.metrics.length) {
+      return;
+    }
+
+    const metrics = axis.metrics.filter((series, i) => filteredIndices.indexOf(i) === -1);
+    const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
+    const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);
 
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther) {
       axis.renderer.render({
         axis,
         metrics,
-        colors: axis.colors,
+        colors,
+        colors100,
         scale: config.scales[axisName],
         config
       });
@@ -126,7 +137,9 @@ export default class RenderScheduler {
           axis,
           index: i,
           dataSeries: metrics[i],
-          color: axis.colors100[i],
+          color: colors100[i],
+          colors,
+          colors100,
           scale: config.scales[axisName],
           config
         });
@@ -198,16 +211,13 @@ export default class RenderScheduler {
     const config = this.config;
     const dpr = config.devicePixelRatio;
 
-    config.frontBufferCtx.clearRect(0, 0, config.frontBufferWidth, config.height);
-
-    config.frontBufferCtx.drawImage(
+    copyCanvasInto(
       config.backBufferCanvas,
-
+      config.frontBufferCtx,
       Math.round(progress * config.bufferOffsetInPx * dpr),
       0,
       Math.round(config.frontBufferWidth * dpr),
       Math.round(config.height * dpr),
-
       0,
       0,
       config.frontBufferWidth,

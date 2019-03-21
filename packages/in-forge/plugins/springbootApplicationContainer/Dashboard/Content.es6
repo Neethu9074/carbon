@@ -7,6 +7,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 export default function SpringbootDashboard({ snapshot, timeConfig }) {
   const httpSessionsMax = snapshot.getIn(['data', 'httpsessionsMax']);
@@ -19,7 +20,8 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
         This can be due to a bug in{' '}
         <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external>
           Spring Boot
-        </Link>.
+        </Link>
+        .
       </DashboardNotification>
     );
   }
@@ -56,6 +58,14 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
               'Requests with Status Code 3xx',
               'Requests with Status Code 4xx',
               'Requests with Status Code 5xx'
+            ],
+            colors: [
+              theme.lib.colors.indigo800,
+              theme.lib.colors.lightBlue800,
+              theme.lib.colors.green800,
+              theme.lib.colors.yellow800,
+              theme.lib.colors.orange800,
+              theme.lib.colors.red800
             ],
             type: 'line'
           }}

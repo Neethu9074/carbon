@@ -10,10 +10,12 @@ import locals from './Table.mless';
 export function Table(props) {
   const reducedProps = assign({}, props);
   delete reducedProps.tableInCard;
+  delete reducedProps.fixedLayout;
 
   const className = evaluateClassNames({
     [props.className]: true,
     [locals.table]: true,
+    [locals.fixedLayout]: props.fixedLayout,
     [locals.tableInCard]: props.tableInCard
   });
   return <table {...reducedProps} className={className} cellSpacing="0" />;
@@ -30,7 +32,7 @@ export function Tbody(props) {
 export function Tr(props) {
   return (
     <tr
-      {...omit(props, ['active'])}
+      {...omit(props, ['active', 'selected'])}
       className={evaluateClassNames({
         [props.className]: true,
         [locals.tr]: true,
@@ -39,16 +41,25 @@ export function Tr(props) {
         [locals.trRegular]: props.size !== 'compact',
         [locals.trClickable]: props.onClick,
         [locals.active]: props.active,
-        [locals.dull]: props.dull
+        [locals.dull]: props.dull,
+        [locals.selected]: props.selected
       })}
     />
   );
 }
 
 export function Th(props) {
+  let additionalStyleProps = {};
+  if (props.width != null && props.style) {
+    props.style.width = `${props.width}%`;
+  } else if (props.width != null) {
+    // can't add style to props directly as props are not extensible
+    additionalStyleProps = { style: { width: `${props.width}%` } };
+  }
   return (
     <th
-      {...omit(props, ['noWrap'])}
+      {...omit(props, ['noWrap', 'width'])}
+      {...additionalStyleProps}
       className={evaluateClassNames({
         [props.className]: true,
         [locals.th]: true,
@@ -60,7 +71,7 @@ export function Th(props) {
 
 export function Td(props) {
   const style = props.style ? { ...props.style } : {};
-  if (props.ellipsis) {
+  if (props.ellipsis && typeof props.ellipsis !== 'boolean') {
     style.maxWidth = props.ellipsis;
   }
   return (
@@ -79,7 +90,7 @@ export function Td(props) {
 }
 
 export function ErroneousRowTh() {
-  return <Th width={14} className={locals.erroneousRowTh} />;
+  return <Th className={locals.erroneousRowTh} />;
 }
 
 export function ErroneousRowTd({ isErroneous = true }) {

@@ -14,7 +14,7 @@ exports.getCurrentUser = req => {
       headers: {
         'Cookie': `${serverConfig.cookie.name}=${cookieValue}`
       },
-      timeout: 5000
+      timeout: 15000
     }, (error, response, userStr) => {
       if (error) {
         reject(new Error('Failed to retrieve current user from ui-backend: ' + String(error)));

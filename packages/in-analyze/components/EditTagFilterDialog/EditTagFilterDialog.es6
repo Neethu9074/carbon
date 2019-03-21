@@ -1,6 +1,7 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { timeout, empty } from 'reactive-observables';
 import { compose, withProps } from 'recompose';
+import { get } from 'lodash';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
 import { getTagType, requiresSecondLevelName, isLatencyTag } from 'in-applications/tags';
@@ -39,7 +40,7 @@ export default compose(
     }) => ({
       onClose: close,
       editMode: Boolean(tagFilter),
-      operatorSuggestions: TAG_TYPES[selectedTagType].operators,
+      operatorSuggestions: get(TAG_TYPES, [selectedTagType, 'operators'], []),
       onRemoveTagFilter: () => {
         setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
         close();

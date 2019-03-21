@@ -82,9 +82,7 @@ export default function createHighlightedTimeframeRenderer(config) {
       }
       metricValues.push(values);
     }
-    const metricIds = config.y1.metrics;
-    config.y1.metricIds = metricIds;
-    config.y1.metrics = metricValues;
+    config.y1._metricValuesForDownload = metricValues;
     ReactDOM.render(<ApplyButton metrics={config} />, config.dom.applyButtonContainer);
 
     config.dom.applyButtonContainer.style.display = 'block';

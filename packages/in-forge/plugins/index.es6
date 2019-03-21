@@ -1,8 +1,10 @@
 // require all forge modules inside this one, as
 // this is the only module required by the application.
 import './activeMQ';
+import './activeMQArtemis';
 import './application';
 import './availabilityZone';
+import './awsBeanstalk';
 import './awsDynamoDb';
 import './awsEc';
 import './awsEs';
@@ -58,6 +60,7 @@ import './f5';
 import './ftpServiceInstance';
 import './garden';
 import './gce';
+import './googleCloudSQL';
 import './genericHardware';
 import './genericZone';
 import './glassfishApplicationContainer';

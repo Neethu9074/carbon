@@ -9,11 +9,9 @@ import {
 import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
+import WithIcon from 'in-new-components/WithIcon';
 import List from 'in-settings/components/List';
-import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
-
-import locals from './MaintenanceConfigurations.mless';
 import theme from 'in-themes';
 
 export default function MaintenanceWindows() {
@@ -40,18 +38,13 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    ellipsis: '20vw',
+    width: 26,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
-          <SvgIcon
-            type="lib_actions_build_outline"
-            width={24}
-            height={24}
-            className={locals.icon}
-            color={theme.lib.colors.primary2}
-          />
-          {entity.name}
+          <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
+            {entity.name}
+          </WithIcon>
         </Link>
       );
     }
@@ -59,7 +52,8 @@ const columnDefinitions = [
   {
     id: 'query',
     label: 'Query',
-    ellipsis: '20vw',
+    width: 25,
+    ellipsis: true,
     getContent(entity) {
       return entity.query;
     }
@@ -67,6 +61,8 @@ const columnDefinitions = [
   {
     id: 'starts',
     label: 'Starts',
+    width: 17,
+    ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('start', entity);
     }
@@ -74,6 +70,8 @@ const columnDefinitions = [
   {
     id: 'ends',
     label: 'Ends',
+    width: 17,
+    ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('end', entity);
     }
@@ -81,6 +79,8 @@ const columnDefinitions = [
   {
     id: 'status',
     label: 'Status',
+    width: 15,
+    ellipsis: true,
     getContent(entity) {
       return toTitleCase(entity.status);
     }

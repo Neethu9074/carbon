@@ -1,0 +1,6 @@
+{
+  "name": "ConditionsTableCard",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ConditionsTableCard.es6"
+}

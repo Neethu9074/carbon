@@ -1,0 +1,131 @@
+import React, { Fragment } from 'react';
+
+import {
+  applyOnOptions,
+  scopeApplication,
+  scopeEverything,
+  scopeDfq
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
+import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import SectionHeading from 'in-settings/components/SectionHeading';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import DescriptionText from 'in-components/form/DescriptionText';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import FormGroup from 'in-settings/components/FormGroup';
+import { Row, Col } from 'in-components/Grid/Grid';
+import ComboBox from 'in-components/ComboBox';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
+import Link from 'in-components/Link';
+
+import locals from './Step3.mless';
+
+export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
+  return (
+    <Fragment>
+      <SectionHeading>3. Scope</SectionHeading>
+      <Row>
+        <Col cols={6}>
+          {form.get('applyOn').map(field => (
+            <FormGroup>
+              <Label htmlFor="alert-apply-on" hasError={!field.valid && field.touched}>
+                Apply on (required)
+              </Label>
+              <ComboBox
+                name="alert-apply-on"
+                value={field.value}
+                options={applyOnOptions}
+                clearable={false}
+                onChange={e => {
+                  const updatedForm = onChangeApplyOn(form, e ? e.value : null);
+                  if (updatedForm) {
+                    setForm(updatedForm);
+                  }
+                }}
+              />
+              <TouchedMessages field={field} />
+              {form.get('applyOn').value === scopeEverything && (
+                <DescriptionText>
+                  <strong>Caution!</strong> All events that match the event types will enter the notification stream.
+                </DescriptionText>
+              )}
+            </FormGroup>
+          ))}
+        </Col>
+        <Col cols={6}>
+          {form.get('applyOn').value === scopeDfq &&
+            form.get('query').map(field => (
+              <FormGroup>
+                <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
+                  Dynamic Focus Query
+                </Label>
+                <Input
+                  id="config-query"
+                  type="text"
+                  placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
+                  className={locals.input}
+                  value={field.value}
+                  onChange={e => onChange('query', e.target.value)}
+                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+                />
+                {form.get('queryValidationInProgress').value && (
+                  <LoadingIndicator type="dark" className={locals.queryLoading} inline />
+                )}
+                <BackendValidationMessages validationResult={form.get('validationResult').value} />
+                <TouchedMessages field={field} />
+                <DescriptionText>
+                  A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
+                  applied. Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be
+                  applied on all entities. For more information on syntax, please see our&nbsp;
+                  <Link href="https://docs.instana.io/core_concepts/dynamic_focus/#usage" external>
+                    documentation
+                  </Link>
+                  .
+                </DescriptionText>
+              </FormGroup>
+            ))}
+          {form.get('applyOn').value === scopeApplication &&
+            form.get('application').map(field => (
+              <FormGroup>
+                <Label hasError={!field.valid && field.touched}>Application</Label>
+                <ApplicationSelect
+                  applicationName={field.value}
+                  onSelectApplicationName={applicationName => onChange('application', applicationName)}
+                />
+                <TouchedMessages field={field} />
+              </FormGroup>
+            ))}
+        </Col>
+      </Row>
+      <MatchingEntitiesIndicator form={form} />
+    </Fragment>
+  );
+}
+
+function MatchingEntitiesIndicator({ form }) {
+  return (
+    <div className={locals.matchingEntitiesIndicator}>
+      {form.get('matchingEntitiesQueryInProgress').value && (
+        <LoadingIndicator type="dark" inline className={locals.matchingEntitiesQueryInProgressIndicator} />
+      )}
+      {!form.get('matchingEntitiesQueryInProgress').value &&
+        form.get('matchingEntities').map(field => {
+          const matchingEntities = field.value;
+          if (!matchingEntities && matchingEntities != 0) {
+            return null;
+          }
+          if (matchingEntities === 0) {
+            return 'Your selection matches no events in the past 2 weeks';
+          } else {
+            return (
+              <span>
+                Your selection matches {matchingEntities >= 10000 ? '>' : ''} {matchingEntities}{' '}
+                {matchingEntities === 1 ? 'event' : 'events'} over the past 2 weeks.
+              </span>
+            );
+          }
+        })}
+    </div>
+  );
+}

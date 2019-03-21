@@ -1,5 +1,13 @@
 import React from 'react';
 
+import {
+  getDeploymentDashboard,
+  getPodDashboard,
+  getNamespaceDashboard,
+  getClusterDashboard,
+  getNodeDashboard
+} from 'in-kubernetes/navigation/paths';
+import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
@@ -9,7 +17,6 @@ import getNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import getClusterForPodSubscription from 'in-subscription/clusterForPod';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -72,7 +79,12 @@ export default connectTo(
             <DescriptionList>
               {namespaceSnapshot ? (
                 <DescriptionItem title="Namespace">
-                  <SnapshotLink snapshotId={namespaceSnapshot.get('id')}>{getLabel(namespaceSnapshot)}</SnapshotLink>
+                  <KubernetesSnapshotLink
+                    getKubernetesViewEntityDashboard={getNamespaceDashboard}
+                    snapshotId={namespaceSnapshot.get('id')}
+                  >
+                    {getLabel(namespaceSnapshot)}
+                  </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : (
                 <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
@@ -80,25 +92,45 @@ export default connectTo(
 
               {podSnapshot ? (
                 <DescriptionItem title="Pod">
-                  <SnapshotLink snapshotId={podSnapshot.get('id')}>{getLabel(podSnapshot)}</SnapshotLink>
+                  <KubernetesSnapshotLink
+                    getKubernetesViewEntityDashboard={getPodDashboard}
+                    snapshotId={podSnapshot.get('id')}
+                  >
+                    {getLabel(podSnapshot)}
+                  </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : null}
 
               {deploymentSnapshot ? (
                 <DescriptionItem title="Deployment">
-                  <SnapshotLink snapshotId={deploymentSnapshot.get('id')}>{getLabel(deploymentSnapshot)}</SnapshotLink>
+                  <KubernetesSnapshotLink
+                    getKubernetesViewEntityDashboard={getDeploymentDashboard}
+                    snapshotId={deploymentSnapshot.get('id')}
+                  >
+                    {getLabel(deploymentSnapshot)}
+                  </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : null}
 
               {nodeSnapshot ? (
                 <DescriptionItem title="Node">
-                  <SnapshotLink snapshotId={nodeSnapshot.get('id')}>{getLabel(nodeSnapshot)}</SnapshotLink>
+                  <KubernetesSnapshotLink
+                    getKubernetesViewEntityDashboard={getNodeDashboard}
+                    snapshotId={nodeSnapshot.get('id')}
+                  >
+                    {getLabel(nodeSnapshot)}
+                  </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : null}
 
               {clusterSnapshot ? (
                 <DescriptionItem title="Cluster">
-                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
+                  <KubernetesSnapshotLink
+                    getKubernetesViewEntityDashboard={getClusterDashboard}
+                    snapshotId={clusterSnapshot.get('id')}
+                  >
+                    {getLabel(clusterSnapshot)}
+                  </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : null}
               <DescriptionItem title="Restart Count">

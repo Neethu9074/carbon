@@ -19,7 +19,7 @@
     overflow: unset;
   }
 
-  @media screen and (min-height: 600px) {
+  @media (min-height: 600px) {
     .overlay {
       max-height: 25rem;
     }

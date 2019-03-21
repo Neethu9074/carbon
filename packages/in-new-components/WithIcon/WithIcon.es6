@@ -19,7 +19,7 @@ export default function WithIcon({ plugin, snapshot, icon, iconColor, children }
       ) : (
         <SvgIcon style={{ fill: iconColor }} className={locals.linkEntityIcon} type={icon} width={24} height={24} />
       )}
-      {children}
+      <div className={locals.childWrapper}>{children}</div>
     </div>
   );
 }

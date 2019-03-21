@@ -80,8 +80,8 @@ function Actions({ podId, timeConfig }) {
       <KubernetesEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
-        podId={podId}
         timeConfig={timeConfig}
+        podId={podId}
       />
     </Fragment>
   );

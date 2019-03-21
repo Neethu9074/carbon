@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Title from 'in-components/Title';
 
 export const savingMessage = 'Saving…';
@@ -16,16 +17,17 @@ export default function entityForm(ComposedComponent) {
       error: false,
       form: null,
       entity: null,
-      message: 'Loading…'
+      message: 'Loading…',
+      saveEnabled: true
     };
 
     componentWillMount() {
-      this.load(this.props.entityId);
+      this.load(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
       if (this.props.entityId !== nextProps.entityId) {
-        this.load(nextProps.entityId);
+        this.load(nextProps);
       }
     }
 
@@ -52,6 +54,8 @@ export default function entityForm(ComposedComponent) {
               form={form}
               onChange={this.onChange}
               setForm={form => this.setState({ form })}
+              setSaveEnabled={this.setSaveEnabled}
+              saveEnabled={this.state.saveEnabled}
             />
           </form>
         </Fragment>
@@ -68,11 +72,11 @@ export default function entityForm(ComposedComponent) {
       }
     };
 
-    load = id => {
+    load = ({ entityId, createDefaultEntity, getEntityFromApi }) => {
       this.disposeAsyncAction();
 
-      if (!id) {
-        const entity = fromJS(this.props.createDefaultEntity());
+      if (!entityId) {
+        const entity = fromJS(createDefaultEntity());
         this.setState({
           loading: false,
           error: false,
@@ -92,7 +96,7 @@ export default function entityForm(ComposedComponent) {
         form: null
       });
 
-      const apiEntityResult$ = this.props.getEntityFromApi(id);
+      const apiEntityResult$ = getEntityFromApi(entityId);
       this.responseSubscription = apiEntityResult$.once(entity => {
         this.setState({
           loading: false,
@@ -104,6 +108,7 @@ export default function entityForm(ComposedComponent) {
       });
 
       this.errorSubscription = apiEntityResult$.errors().once(() => {
+        scrollToTopSmoothly();
         this.setState({
           loading: false,
           error: true,
@@ -134,11 +139,20 @@ export default function entityForm(ComposedComponent) {
       this.responseSubscription = result$.once(this.props.openEntities);
 
       this.errorSubscription = result$.errors().once(error => {
-        const message = `Failed to save: ${error.message}`;
+        let message = error.message;
+        if (
+          error.response &&
+          error.response.body &&
+          error.response.body.errors &&
+          error.response.body.errors.length > 0
+        ) {
+          message = error.response.body.errors.join(', ');
+        }
+        scrollToTopSmoothly();
         this.setState({
           loading: false,
           error: true,
-          message
+          message: `Failed to save: ${message}`
         });
       });
     };
@@ -160,6 +174,12 @@ export default function entityForm(ComposedComponent) {
 
       this.setState({
         form: updatedForm
+      });
+    };
+
+    setSaveEnabled = enabled => {
+      this.setState({
+        saveEnabled: enabled
       });
     };
   };

@@ -16,14 +16,14 @@ export function scrollIntoViewIfNeeded(element) {
 }
 
 export function scrollToTopSmoothly() {
-  var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+  const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
   if (currentScroll > 0) {
     window.requestAnimationFrame(scrollToTopSmoothly);
     window.scrollTo(0, currentScroll - currentScroll / 5);
   }
 }
 
-// Calculate the position of an element relative to the document root;
+// Calculate the position of an element relative to the document root.
 export function getCoords(elem) {
   const box = elem.getBoundingClientRect();
 

@@ -12,6 +12,7 @@ import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/new/components/
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogLevel';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { isInstanaEngineer } from 'in-stores/user';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import { role } from 'in-stores/user';
@@ -38,10 +39,12 @@ export default function ButtonSection({ snapshot }) {
       <ImageButton iconType="refresh" onClick={() => updateAgent(snapshot)}>
         Update Agent
       </ImageButton>
-
-      <ImageButton iconType="refresh" onClick={() => resetSensors(snapshot)}>
-        Reset Sensors
-      </ImageButton>
+      {isInstanaEngineer ? (
+        // Resetting the sensors is a feature that we almost never use, restrict it to instana engineer
+        <ImageButton iconType="refresh" onClick={() => resetSensors(snapshot)}>
+          Reset Sensors
+        </ImageButton>
+      ) : null}
 
       <ImageButton iconType="refresh" onClick={() => resetAgent(snapshot)}>
         Reset Agent

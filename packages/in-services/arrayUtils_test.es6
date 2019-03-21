@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { diff, find } from './arrayUtils';
+import { diff, find, intersperse } from './arrayUtils';
 
 describe('arrayUtils', () => {
   describe('find', () => {
@@ -55,6 +55,50 @@ describe('arrayUtils', () => {
       expect(diff([42, 4711], [42]).uniqueItemsA).to.have.members([4711]);
       expect(diff([1, 2], [3, 4]).uniqueItemsA).to.have.members([1, 2]);
       expect(diff([1, 2], [1, 2]).uniqueItemsA).to.have.members([]);
+    });
+  });
+
+  describe('intersperse', () => {
+    it('should not change an empty array', () => {
+      expect(intersperse([], 'will not be inserted')).to.deep.equal([]);
+    });
+
+    it('should not change an array of length one', () => {
+      expect(intersperse(['ohai'], 'will not be inserted')).to.deep.equal(['ohai']);
+    });
+
+    it('should intersperse between two elements', () => {
+      expect(intersperse(['ohai', 'kthxbye'], 'will be inserted')).to.deep.equal([
+        'ohai',
+        'will be inserted',
+        'kthxbye'
+      ]);
+    });
+
+    it('should intersperse between many elements', () => {
+      expect(intersperse([1, 2, 3, 4, 5, 6, 7], 0)).to.deep.equal([1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7]);
+    });
+
+    it('should handle null interspersee', () => {
+      expect(intersperse([1, 2, 3, 4, 5, 6, 7], null)).to.deep.equal([
+        1,
+        null,
+        2,
+        null,
+        3,
+        null,
+        4,
+        null,
+        5,
+        null,
+        6,
+        null,
+        7
+      ]);
+    });
+
+    it('should intersperse with a function', () => {
+      expect(intersperse(['a', 'b', 'c', 'd'], i => '' + i)).to.deep.equal(['a', '1', 'b', '2', 'c', '3', 'd']);
     });
   });
 });

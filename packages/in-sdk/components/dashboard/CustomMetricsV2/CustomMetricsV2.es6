@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
@@ -14,7 +14,7 @@ import Chart from 'in-components/Chart';
 
 import locals from './CustomMetricsV2.mless';
 
-const rateFormatter = d => withSiPrefixThreeDecimalPlaces(d) + ' / sec';
+const rateFormatter = d => withSiMultiplyPrefixThreeDecimalPlaces(d) + ' / sec';
 
 const cols = [
   {
@@ -232,7 +232,7 @@ function getDefaultRows({
             {
               name: `${countersMetricPrefix}${name}`,
               label: 'Count',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
@@ -257,7 +257,7 @@ function getDefaultRows({
             {
               name: `${gaugesMetricPrefix}${name}`,
               label: 'Value',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
@@ -282,17 +282,17 @@ function getDefaultRows({
             {
               name: `${histogramsMetricPrefix}${name}.mean`,
               label: 'Mean',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.50th`,
               label: '50th',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             },
             {
               name: `${histogramsMetricPrefix}${name}.99th`,
               label: '99th',
-              formatter: withSiPrefixThreeDecimalPlaces
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };

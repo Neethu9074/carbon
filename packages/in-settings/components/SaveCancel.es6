@@ -12,6 +12,7 @@ export default function SaveCancel({
   form,
   message,
   loading,
+  saveEnabled = true,
   isCreate,
   listPath,
   cancelButtonLabel = 'Cancel',
@@ -38,7 +39,7 @@ export default function SaveCancel({
             kind="create"
             type="submit"
             className={locals.button}
-            disabled={(!form.hierarchyValid && form.touched) || loading || saving}
+            disabled={(!form.hierarchyValid && form.touched) || loading || saving || !saveEnabled}
             icon={saving ? 'spinner' : null}
             iconSpinning
           >

@@ -6,7 +6,9 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 
 export const nonServicePlugins = {
   activemq: 'activeMQ',
+  activemqartemis: 'activeMQArtemis',
   availabilityZone: 'availabilityZone',
+  awsBeanstalk: 'awsBeanstalk',
   awsDynamoDb: 'awsDynamoDb',
   awsEc: 'awsEc',
   awsEs: 'awsEs',
@@ -49,6 +51,7 @@ export const nonServicePlugins = {
   f5: 'f5',
   garden: 'garden',
   gce: 'gce',
+  googleCloudSQL: 'googleCloudSQL',
   genericHardware: 'genericHardware',
   genericZone: 'genericZone',
   glassfish: 'glassfishApplicationContainer',
@@ -233,8 +236,10 @@ export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
+  activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  awsBeanstalk: 'com.instana.forge.hardware.virtual.aws.beanstalk.AwsBeanstalk',
   awsDynamoDb: 'com.instana.forge.hardware.virtual.aws.dynamodb.AwsDynamoDb',
   awsEc: 'com.instana.forge.hardware.virtual.aws.ec.AwsEc',
   awsEs: 'com.instana.forge.hardware.virtual.aws.es.AwsEs',
@@ -292,6 +297,7 @@ export const fullyQualifiedPlugins = {
   ftpServiceInstance: 'com.instana.forge.connection.ftp.FtpServiceInstance',
   garden: 'com.instana.forge.infrastructure.virtualization.garden.Garden',
   gce: 'com.instana.forge.hardware.virtual.gce.Gce',
+  googleCloudSQL: 'com.instana.forge.hardware.virtual.gcp.sql.GoogleCloudSQL',
   genericHardware: 'com.instana.forge.hardware.GenericHardware',
   genericZone: 'com.instana.forge.hardware.GenericZone',
   glassfishApplicationContainer: 'com.instana.forge.infrastructure.application.glassfish.GlassfishApplicationContainer',

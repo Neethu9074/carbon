@@ -1,0 +1,7 @@
+:local {
+  .statement {
+      font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+      line-height: 1.4;
+      font-size: 0.688rem;
+  }
+}

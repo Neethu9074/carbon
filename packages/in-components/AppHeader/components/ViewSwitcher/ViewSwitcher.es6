@@ -63,7 +63,7 @@ export default function ViewSwitcher() {
         {kubernetesEnabled && (
           <View
             label="Kubernetes"
-            icon="lib_kubernetes"
+            icon="lib_kubernetes_inverted"
             href$={getView(kubernetesClusterList)}
             isActive$={isView(kubernetes)}
           />

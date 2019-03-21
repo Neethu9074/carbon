@@ -1,21 +1,40 @@
 import React from 'react';
 
 import { Tr, Th, SortableTh } from 'in-components/tables/sharedComponents';
+import { joinClassNames } from 'in-services/util/classnames';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './Columns.mless';
 
-export default function Columns({ setOrder, orderBy, orderDirection, columnDefinitions }) {
+export default function Columns({
+  setOrder,
+  orderBy,
+  orderDirection,
+  columnDefinitions,
+  allRowsAreSelected,
+  setSelectedStateForRows
+}) {
   return (
     <Tr size="compact">
       {columnDefinitions.map(columnDefinition => {
         const label = columnDefinition.label || null;
         const headCellProps = columnDefinition.headCellProps ? columnDefinition.headCellProps : {};
         if (columnDefinition.tableAction) {
-          if (headCellProps.className) {
-            headCellProps.className += ' ' + locals.tableActionHead;
-          } else {
-            headCellProps.className = locals.tableActionHead;
-          }
+          headCellProps.className = joinClassNames(headCellProps.className, locals.tableActionHead);
+        }
+        headCellProps.width = columnDefinition.width;
+
+        if (columnDefinition.selectAllCheckbox) {
+          // render toggle-all checkbox in thead
+          return (
+            <Th key={columnDefinition.id} {...headCellProps}>
+              <CheckboxFancy
+                checked={allRowsAreSelected}
+                onChange={() => setSelectedStateForRows(!allRowsAreSelected)}
+                size="large"
+              />
+            </Th>
+          );
         }
         if (columnDefinition.sortable === false || columnDefinition.tableAction) {
           return (

@@ -11,19 +11,26 @@
 
   .metricList {
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
 
-    list-style: none;
+    height: 2rem;
     margin: 0;
     padding: 0;
+
+    list-style: none;
   }
 
   .metric {
     display: flex;
     align-items: center;
 
-    padding: 0.125rem 0;
     margin-right: 1rem;
     cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   .disabledMetric {

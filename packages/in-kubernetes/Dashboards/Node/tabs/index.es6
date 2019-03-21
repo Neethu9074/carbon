@@ -2,11 +2,12 @@ import React from 'react';
 
 import getKubernetesNodeItemCounters from 'in-subscription/kubernetes/getKubernetesNodeItemCounters';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
 import { nodeDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import Details from 'in-kubernetes/Dashboards/Node/tabs/Details/Details';
 import Summary from 'in-kubernetes/Dashboards/Node/tabs/Summary';
-import Details from 'in-kubernetes/Dashboards/Node/tabs/Details';
 
 export default [
   {
@@ -18,6 +19,11 @@ export default [
     label: 'Details',
     path: `${nodeDashboardFullyQualified}/details`,
     component: Details
+  },
+  {
+    label: 'Conditions',
+    path: `${nodeDashboardFullyQualified}/conditions`,
+    component: Conditions
   },
   {
     label: 'Pods',

@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 
+import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import ConditionsList from 'in-kubernetes/Dashboards/commonComponents/ConditionsList';
+import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -14,14 +18,14 @@ export default function Summary({ timeConfig, data: node }) {
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
-          <KpiCard title="Machine ID" value={node.machineId} raw />
+        <Col lg={3}>
+          <KpiCard title="Status" value={<Capitalize>{node.status || '-'}</Capitalize>} raw />
         </Col>
-        <Col lg={4}>
-          <KpiCard title="Cluster" value={node.clusterId} raw />
+        <Col lg={3}>
+          <KpiCard title="Roles" value={<Capitalize>{node.roles || '-'}</Capitalize>} raw />
         </Col>
-        <Col lg={4}>
-          <KpiCard title="Hostname" value={node.hostname} raw />
+        <Col lg={3}>
+          <KpiCard title="Age" value={<Capitalize>{node.age ? formatDuration(node.age) : '-'}</Capitalize>} raw />
         </Col>
       </Row>
 
@@ -115,7 +119,11 @@ export default function Summary({ timeConfig, data: node }) {
 
       <Row>
         <Col lg={12}>
-          <ConditionsList conditions={node.conditions} />
+          <ConditionsTableCard
+            conditions={node.conditions}
+            viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
+            TablePresenter={NodeConditionsPresenter}
+          />
         </Col>
       </Row>
     </Fragment>

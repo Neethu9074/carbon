@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .invalidOrDeprecated {
+    color: @lib__colors__red800
+  }
+}

@@ -1,4 +1,4 @@
-import { updateCanvasDimensions } from 'in-charts/canvas';
+import { updateCanvasDimensions, copyCanvasIntoShort } from 'in-charts/canvas';
 
 export default function createController(canvas) {
   const ctx = canvas.getContext('2d');
@@ -35,7 +35,8 @@ export default function createController(canvas) {
     ctxAnomalies.globalCompositeOperation = 'destination-out';
     renderCorridor(ctxAnomalies);
     ctxAnomalies.globalCompositeOperation = 'source-over';
-    ctx.drawImage(anomaliesCanvas, 0, 0, width, height);
+
+    copyCanvasIntoShort(anomaliesCanvas, ctx, 0, 0, width, height);
   }
 
   function renderMetric(context, color, lineWidth) {

@@ -27,7 +27,7 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import { clickTraceTracker } from 'in-analyze/components/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
-import { latency } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 
 import locals from './RawTracesNavigator.mless';
 
@@ -92,7 +92,7 @@ function RawTracesNavigator({
                   </Link>
                   {!showAllColumns && (
                     <NavigatorMinifiedExtraData
-                      extras={[formatDateTime(item.trace.startTime), latency.compact(item.trace.duration)]}
+                      extras={[formatDateTime(item.trace.startTime), latencyFixed.compact(item.trace.duration)]}
                     />
                   )}
                 </Td>
@@ -101,7 +101,7 @@ function RawTracesNavigator({
 
                 {showAllColumns && (
                   <Td>
-                    <span>{latency.compact(item.trace.duration)}</span>
+                    <span>{latencyFixed.compact(item.trace.duration)}</span>
                   </Td>
                 )}
               </Tr>

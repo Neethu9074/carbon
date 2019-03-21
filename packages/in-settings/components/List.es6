@@ -1,20 +1,22 @@
-import { find, get, reverse, sortBy } from 'lodash';
-import { withState, compose } from 'recompose';
+import { find, get, isEqual, reverse, sortBy } from 'lodash';
+import { compose, lifecycle, withState } from 'recompose';
 import { createLogger } from 'instalog';
-import React from 'react';
+import React, { Fragment } from 'react';
+import invariant from 'invariant';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import { create } from 'reactive-observables';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -45,8 +47,8 @@ export default compose(
   connectTo(({ loadEntities, setErrorMessage }) => {
     // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
     // rendered
-    // 2. The reloadSignal.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the entities (for
-    // example, if one has been deleted).
+    // 2. The reloadEntitiesSignal$.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the
+    // entities (for example, if one has been deleted).
     // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
     // the entities fails (HTTP error etc.)
     // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator
@@ -70,7 +72,14 @@ export default compose(
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
   withState('orderDirectionState', 'setOrderDirection', 'ASC'),
   withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1)
+  withState('pageState', 'setPage', 1),
+  lifecycle({
+    componentDidUpdate({ extraFilterValues: nextExtraFilterValues }) {
+      if (!isEqual(this.props.extraFilterValues, nextExtraFilterValues)) {
+        this.props.setPage(1);
+      }
+    }
+  })
 )(List);
 
 function List({
@@ -78,15 +87,23 @@ function List({
   getHeader,
   getEntityName,
   getDetailsHref,
+  onRowClick,
   columnDefinitions,
   tableActions = {},
   onCreateNew,
   labelNew,
   pathNew,
   newButtonDisabledTooltipMessage = () => null,
+  cardTitle,
+  tableInCard,
   rightHeader,
+  isSearchable = true,
   searchAttributes = [],
+  extraFilters,
+  searchPlaceholder,
+  searchMaxWidth,
   entities,
+  noDataMessage,
   pageSize = 20,
   pageState,
   setPage,
@@ -99,7 +116,8 @@ function List({
   setQuery,
   errorMessage,
   setErrorMessage,
-  perCellLoadingIndicator
+  perCellLoadingIndicator,
+  scrollWrapperClassName
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -108,8 +126,14 @@ function List({
   let totalHitsBeforeFilter = 0;
   let totalHitsAfterFilter = 0;
   const newDisabledMessage = entities && newButtonDisabledTooltipMessage(entities);
+  let entitiesBeforePagination = entities;
   if (entities) {
     totalHitsBeforeFilter = entities.length;
+    if (extraFilters && extraFilters.length > 0) {
+      extraFilters.forEach(filter => {
+        entities = entities.filter(filter);
+      });
+    }
     if (!isBlank(queryState) && searchAttributes.length > 0) {
       entities = entities.filter(entity =>
         searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
@@ -117,16 +141,31 @@ function List({
     }
     entities = sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
     totalHitsAfterFilter = entities.length;
+    entitiesBeforePagination = entities;
     const offset = (pageState - 1) * pageSize;
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
   }
-  const header = getHeader(totalHitsBeforeFilter);
+  const header = getHeader(totalHitsBeforeFilter, entitiesBeforePagination);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
+
+  let leftHeader = null;
+  if (cardTitle != null) {
+    leftHeader = null;
+  } else {
+    leftHeader = <ListTitle>{header}</ListTitle>;
+  }
+
+  if (__DEV__) {
+    invariant(!(onRowClick && getDetailsHref), 'You cannot specify both, onRowClick and getDetailsHref.');
+  }
+  if (getDetailsHref) {
+    onRowClick = entity => goToPath(getDetailsHref(entity));
+  }
 
   return (
     <MaxWidthFullscreenContainer>
-      <Title title={title} />
+      {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
         onChange={({ page, query, orderBy, orderDirection }) => {
@@ -142,18 +181,38 @@ function List({
           getEntityName,
           setErrorMessage
         })}
-        leftHeader={<ListTitle>{header}</ListTitle>}
+        leftHeader={leftHeader}
         orderBy={orderByState}
         orderDirection={orderDirectionState}
         page={pageState}
         pageSize={pageSize}
         query={queryState}
+        isSearchable={isSearchable}
+        searchPlaceholder={searchPlaceholder}
+        searchMaxWidth={searchMaxWidth}
         result={result}
+        noDataMessage={noDataMessage}
+        cardTitle={cardTitle}
+        tableInCard={tableInCard}
+        scrollWrapperClassName={scrollWrapperClassName}
+        fixedLayout
         rightHeader={
           rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
         }
-        getRowLink={getDetailsHref ? entity => getDetailsHref(entity) : null}
-        getRowProps={() => ({ size: 'compact' })}
+        getRowProps={getRowProps(tableActions)}
+        onRowClick={onRowClick}
+        allRowsAreSelected={areAllRowsOnCurrentPageSelected(
+          entitiesBeforePagination,
+          tableActions,
+          pageState,
+          pageSize
+        )}
+        setSelectedStateForRows={setSelectedStateForRowsOnCurrentPage(
+          entitiesBeforePagination,
+          tableActions,
+          pageState,
+          pageSize
+        )}
       />
     </MaxWidthFullscreenContainer>
   );
@@ -180,14 +239,26 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
   if (columnDefinition && columnDefinition.getValue) {
     sortIteratee = columnDefinition.getValue;
   }
-  const sorted = sortBy(entities, sortIteratee);
+
+  // make sorting case insensitive
+  const caseInsensitiveSortIteratee = entity => {
+    let value = null;
+    if (typeof sortIteratee === 'string') {
+      value = entity[sortIteratee];
+    } else if (typeof sortIteratee === 'function') {
+      value = sortIteratee(entity);
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
   if (orderDirectionState === 'DESC') {
     reverse(sorted);
   }
   return sorted;
 }
 
-function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
+export function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
   if (!pathNew && !onCreateNew) {
     return null;
   }
@@ -229,13 +300,19 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
     );
   }
   if (tableActions.delete) {
-    allColumns = addDeleteActionAction(
+    allColumns = addDeleteAction(
       allColumns,
       tableActions.delete,
       perCellLoadingIndicator,
       getEntityName,
       setErrorMessage
     );
+  }
+  if (tableActions.deselect) {
+    allColumns = addDeselectAction(allColumns, tableActions.deselect);
+  }
+  if (tableActions.selectCheckbox) {
+    allColumns = addSelectCheckboxAction(allColumns, tableActions.selectCheckbox);
   }
   return allColumns;
 }
@@ -282,7 +359,7 @@ function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
   });
 }
 
-function addDeleteActionAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
+function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
     tableAction: true,
@@ -352,6 +429,121 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
   });
 }
 
+function addDeselectAction(columns, actionDefinition) {
+  return columns.concat({
+    id: 'deselectAction',
+    tableAction: true,
+    getContent(entity) {
+      return (
+        <Tooltip content="Click to deselect.">
+          <SvgIcon
+            type={'lib_openclose_remove_circle_outline'}
+            width={24}
+            height={24}
+            color={theme.lib.colors.primary2}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              actionDefinition.deselect(entity);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  });
+}
+
+function addSelectCheckboxAction(columns, actionDefinition) {
+  // clone the column definitions array, then insert the checkbox as first column
+  columns = columns.slice();
+  columns.unshift({
+    id: 'selectCheckbox',
+    sortable: false,
+    headCellProps: {
+      className: locals.selectCheckboxHead
+    },
+    selectAllCheckbox: true,
+    cellClassName: locals.selectCheckbox,
+    getContent(entity) {
+      return (
+        <CheckboxFancy
+          checked={actionDefinition.get(entity)}
+          onChange={() => actionDefinition.toggle(entity)}
+          size="large"
+        />
+      );
+    }
+  });
+  return columns;
+}
+
+function areAllRowsOnCurrentPageSelected(entities, tableActions, page, pageSize) {
+  return areAllRowsSelected(
+    entities,
+    tableActions,
+    (page - 1) * pageSize,
+    Math.min(page * pageSize, entities ? entities.length : 0)
+  );
+}
+
+function areAllRowsOnAllPagesSelected(entities, tableActions) {
+  return areAllRowsSelected(entities, tableActions, 0, entities ? entities.length : 0);
+}
+
+function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return false;
+  }
+  for (let i = startIndex; i < endIndex; i++) {
+    if (!tableActions.selectCheckbox.get(entities[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
+  return function(totalHits, entitiesBeforePagination) {
+    const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
+    if (
+      inSelectListDialog &&
+      entitiesBeforePagination &&
+      entitiesBeforePagination.length > 0 &&
+      tableActions.selectCheckbox &&
+      tableActions.selectCheckbox.setAllOnAllPages
+    ) {
+      return (
+        <Fragment>
+          <span className={locals.headerWithSelectAllButton}>{entityName}</span>
+          <Button
+            kind="action"
+            onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
+          >
+            {`${allSelected ? 'Deselect' : 'Select'} All (${entitiesBeforePagination.length})`}
+          </Button>
+        </Fragment>
+      );
+    } else if (inSelectListDialog || !totalHits) {
+      return entityName;
+    } else {
+      return `${entityName} (${totalHits})`;
+    }
+  };
+}
+
+function setSelectedStateForRowsOnCurrentPage(entities, tableActions, page, pageSize) {
+  if (!tableActions.selectCheckbox || !entities || entities.length === 0) {
+    return noop;
+  }
+  return selected => tableActions.selectCheckbox.setAllOnCurrentPage(entities, selected, page, pageSize);
+}
+
+function getRowProps(tableActions) {
+  if (tableActions.selectCheckbox) {
+    return entity => ({ size: 'compact', selected: tableActions.selectCheckbox.get(entity) });
+  }
+  return () => ({ size: 'compact' });
+}
+
 function isCellLoading(perCellLoadingIndicator, entity, columnName) {
   return (
     perCellLoadingIndicator && entity.id === perCellLoadingIndicator.id && perCellLoadingIndicator.column === columnName
@@ -359,7 +551,5 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 }
 
 function TableActionLoadingIndicator() {
-  return (
-    <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning={true} />
-  );
+  return <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning />;
 }

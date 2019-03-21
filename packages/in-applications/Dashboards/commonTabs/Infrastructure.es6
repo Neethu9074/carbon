@@ -4,10 +4,10 @@ import React from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -16,7 +16,6 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 
 import locals from './Infrastructure.mless';
 
@@ -61,33 +60,29 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
 
   return (
     <MaxWidthFullscreenContainer>
-      <Card
-        title="Infrastructure"
-        header={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
-        withoutPadding
-      >
-        <ServerTable
-          get={getTableData}
-          type={selectedType}
-          defaultPageSize={10}
-          columnDefinitions={getColumnDefinitions(selectedType)}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-          paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-          defaultOrderBy="callsAgg"
-          defaultOrderDirection="DESC"
-          size="compact"
-          isSearchable={false}
-        />
-      </Card>
+      <ServerTable
+        get={getTableData}
+        type={selectedType}
+        defaultPageSize={10}
+        columnDefinitions={getColumnDefinitions(selectedType)}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
+        defaultOrderBy="callsAgg"
+        defaultOrderDirection="DESC"
+        size="compact"
+        isSearchable={false}
+        rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
+        cardTitle="Infrastructure"
+      />
     </MaxWidthFullscreenContainer>
   );
 }
 
 function hasSomeClusterTechnologies(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return false;
   }
 
@@ -97,7 +92,7 @@ function hasSomeClusterTechnologies(entity) {
 }
 
 function hasSomeNonClusterTechnologies(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return true;
   }
 
@@ -107,7 +102,7 @@ function hasSomeNonClusterTechnologies(entity) {
 }
 
 function hasClusterTechnologiesOnly(entity) {
-  if (!entity.technologies) {
+  if (!entity || !entity.technologies) {
     return false;
   }
   for (const technology of entity.technologies) {
@@ -191,6 +186,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'process',
       label: 'Process',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.process ? (
           <InfrastructureEntityLink
@@ -206,6 +202,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'container',
       label: 'Container',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.container ? (
           <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />
@@ -218,6 +215,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'host',
       label: 'Host',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.host ? (
           <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
@@ -230,6 +228,7 @@ const getColumnDefinitions = type => {
     infraColumnDefinition = {
       id: 'cluster',
       label: 'Cluster',
+      sortable: false,
       getContent(item) {
         return item.physicalContext.cluster ? (
           <InfrastructureEntityLink

@@ -3,21 +3,23 @@ import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 
 import KubernetesEntityHealthIndicator from 'in-kubernetes/components/KubernetesEntityHealthIndicatorBehavior/KubernetesEntityHealthIndicator';
-import PodResourceTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodResourceTooltipContent';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
+import TwoValueBar from 'in-new-components/TwoValueBar';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -158,8 +160,21 @@ const allColumnDefinitions = [
   {
     id: 'ready',
     label: 'Ready',
-    getContent() {
-      return '';
+    getContent(item) {
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
+      return (
+        <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
+          <TwoValueBar
+            rightToLeft
+            v1={containerStatuses.filter(c => c.ready).length}
+            v2={containerStatuses.length}
+            v2Color={theme.lib.colors.N300}
+            v1Color={theme.lib.colors.success}
+            fullDomain={containerStatuses.length}
+            renderLabels={false}
+          />
+        </Tooltip>
+      );
     }
   },
   {
@@ -167,21 +182,14 @@ const allColumnDefinitions = [
     label: 'Restarts',
     sortable: false,
     getContent(item) {
-      return (
-        <MetricValue
-          snapshotId={get(item, ['pod', 'id'])}
-          metric="restartCount"
-          formatter={zeroDecimalPlaces}
-          timeWindowAggregation="sum"
-        />
-      );
+      return <MetricValue snapshotId={get(item, ['pod', 'id'])} metric="restartCount" formatter={zeroDecimalPlaces} />;
     }
   },
   {
     id: 'age',
     label: 'Age',
     getContent(item) {
-      return item.pod.age ? formatDuration(item.pod.age) : '-';
+      return item.pod.age && formatDuration(item.pod.age);
     }
   },
   {
@@ -190,9 +198,13 @@ const allColumnDefinitions = [
     sortable: false,
     getContent(item) {
       return (
-        <Tooltip themeStyle="light" content={<PodResourceTooltipContent podId={item.pod.id} />} align="topMiddle">
-          <span>memory, cpu</span>
-        </Tooltip>
+        <KubernetesResources
+          snapshotId={item.pod.id}
+          cpuReqMetric="cpuRequests"
+          cpuLimitsMetric="cpuLimits"
+          memReqMetric="memoryRequests"
+          memLimitsMetric="memoryLimits"
+        />
       );
     }
   },
@@ -206,6 +218,7 @@ const allColumnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          podId={item.pod.id}
         />
       );
     }

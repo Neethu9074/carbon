@@ -2,12 +2,12 @@ import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
 import {
-  Table,
-  Thead,
-  Tbody,
+  ErrorRows,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
-  ErrorRows
+  Table,
+  Tbody,
+  Thead
 } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
@@ -16,6 +16,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
+import ScrollHints from 'in-components/ScrollHints';
 import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
@@ -35,18 +36,24 @@ export default function ServerTablePresenter(props) {
     // values that define the content
     columnDefinitions,
     getRowProps,
-    getRowLink,
+    onRowClick,
     result = pendingResult,
     cardTitle,
     tableInCard,
+    fixedLayout,
+    scrollWrapperClassName,
     rightHeader,
     leftHeader,
     isSearchable = true,
+    searchPlaceholder = '',
+    searchMaxWidth,
     size = 'regular',
     noDataMessage,
     showPagination = true,
     renderFooter = () => null,
     withoutPadding = true,
+    allRowsAreSelected = false,
+    setSelectedStateForRows,
 
     // events
     onChange,
@@ -87,7 +94,7 @@ export default function ServerTablePresenter(props) {
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
         getRowProps={getRowProps}
-        getRowLink={getRowLink}
+        onRowClick={onRowClick}
       />
     ));
     lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
@@ -98,27 +105,47 @@ export default function ServerTablePresenter(props) {
       {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
       {isSearchable && (
         <SearchInput
-          maxWidth={140}
+          maxWidth={searchMaxWidth ? searchMaxWidth : 140}
           query={query}
+          placeholder={searchPlaceholder}
           onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
         />
       )}
     </div>
   );
-  let content = (
-    <Table tableInCard={tableInCard || cardTitle != null}>
+
+  const tableElement = (
+    <Table tableInCard={tableInCard || cardTitle != null} fixedLayout={fixedLayout}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
           columnDefinitions={columnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
+          allRowsAreSelected={allRowsAreSelected}
+          setSelectedStateForRows={setSelectedStateForRows}
         />
       </Thead>
-
       <Tbody>{body}</Tbody>
     </Table>
   );
+  let content = scrollWrapperClassName ? (
+    <ScrollHints
+      className={scrollWrapperClassName}
+      contentChangeMarker={
+        /*
+          * Triggers a re-render when the number of rows change (which is necessary because the height of the content
+          * will change).
+          */
+        result.data && result.data.items ? result.data.items.length : 0
+      }
+    >
+      {tableElement}
+    </ScrollHints>
+  ) : (
+    tableElement
+  );
+
   let pagination = showPagination &&
     lastPage > 1 && (
       <Pagination

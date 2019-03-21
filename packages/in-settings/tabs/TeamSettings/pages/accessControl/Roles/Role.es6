@@ -30,7 +30,7 @@ export default function AlertingConfiguration(props) {
   );
 }
 
-const Form = entityForm(function IntegrationForm(props) {
+const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   const roleId = form ? form.get('id').value : null;

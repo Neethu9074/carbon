@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .row {
+    &:nth-child(even) {
+      background: @lib__colors__N050;
+    }
+    border-bottom: 1px solid @lib__colors__N300;
+    margin-top: 0 ! important;
+    color: @lib__colors__N600Light;
+  }
+
+  .rowInnerPadding {
+    padding: 0.5rem;
+  }
+
+  .titleRow {
+    font-weight: normal;
+    padding: 0.5rem;
+  }
+
+}

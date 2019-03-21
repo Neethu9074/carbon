@@ -16,9 +16,36 @@ const block = 'in-alert-channel-config-form';
 const name = 'OPS_GENIE';
 const label = 'OpsGenie';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'apiKey',
+    label: 'Api Key'
+  },
+  {
+    key: 'tags',
+    label: 'Tags'
+  },
+  {
+    key: 'region',
+    label: 'Region'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.apiKey = '';
@@ -100,10 +127,11 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="OpsGenie In Rucola-Pesto-Öl gebratene Pasta mit grünem Spargel bunten Tomaten, gelben Karotten und Parmesan	6,50 €"
+            placeholder="OpsGenie Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
         </FormGroup>

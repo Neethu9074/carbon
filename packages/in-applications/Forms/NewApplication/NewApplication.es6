@@ -16,5 +16,5 @@ export default function NewApplication({ timeconfig, location }) {
 }
 
 export function getNewApplicationWaiterViewPath(app) {
-  return `${newApplicationWaiterView}/${encodeURIComponent(app.id)}`;
+  return `${newApplicationWaiterView}/${encodeURIComponent(app.id)}/${encodeURIComponent(app.label)}`;
 }

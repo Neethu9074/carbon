@@ -15,9 +15,32 @@ const block = 'in-alert-channel-config-form';
 const name = 'SPLUNK';
 const label = 'Splunk';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'url',
+    label: 'URL'
+  },
+  {
+    key: 'token',
+    label: 'Token'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.url = '';
@@ -93,6 +116,7 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
         </FormGroup>

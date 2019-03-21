@@ -28,7 +28,16 @@ export default connectTo(
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
     };
   },
-  function EventDescription({ snapshotId, showFullTextIfToLong, color, event, isNotClickable, className, isOpen }) {
+  function EventDescription({
+    snapshotId,
+    showFullTextIfToLong,
+    color,
+    event,
+    isNotClickable,
+    className,
+    isOpen,
+    isPreview
+  }) {
     const eventType = getEventType(event);
     const start = event.get('start');
     const end = event.get('end');
@@ -46,7 +55,7 @@ export default connectTo(
         }}
       >
         <SvgIcon
-          className={`${block}__icon`}
+          className={evaluateClassNames({ [`${block}__icon`]: true, [`${block}__icon_in_preview`]: isPreview })}
           type={getIconTypeForEventType(eventType)}
           width={16}
           height={16}

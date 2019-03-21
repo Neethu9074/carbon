@@ -1,6 +1,9 @@
 import React from 'react';
 
+import evaluateClassNames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './Link.mless';
 
 export default connectTo(
   props => {
@@ -11,14 +14,14 @@ export default connectTo(
       href: props.href$
     };
   },
-  function Link({ href, onClick, children, title, target, className, style, external }) {
+  function Link({ href, onClick, children, title, target, className, style, external, ellipsis }) {
     if (external) {
       return (
         <a
           href={href}
           onClick={onClick}
           title={title}
-          className={className}
+          className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
           style={style}
           target="_blank"
           rel="noopener noreferrer"
@@ -28,7 +31,14 @@ export default connectTo(
       );
     }
     return (
-      <a href={href} onClick={onClick} title={title} target={target} className={className} style={style}>
+      <a
+        href={href}
+        onClick={onClick}
+        title={title}
+        target={target}
+        className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
+        style={style}
+      >
         {children}
       </a>
     );

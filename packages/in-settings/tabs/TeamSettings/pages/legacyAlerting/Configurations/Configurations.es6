@@ -10,13 +10,12 @@ import {
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
-
-import locals from './Configurations.mless';
 
 const maxNumOfAlertingConfigurations = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 50);
 
@@ -47,14 +46,14 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
+    width: 100,
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} className={locals.shorten}>
+        <WithSubscript subscript={isEnabled(entity) ? null : 'disabled'}>
+          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
             {entity.alertName} {!entity.valid && <Badge size="sm">Deprecated Dynamic Focus Query</Badge>}
           </Link>
-          {!isEnabled(entity) && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   }

@@ -15,9 +15,36 @@ const block = 'in-alert-channel-config-form';
 const name = 'SLACK';
 const label = 'Slack';
 
+const parameters = [
+  {
+    key: 'name',
+    label: 'Name'
+  },
+  {
+    key: 'kind',
+    label: 'Type'
+  },
+  {
+    key: 'webhookUrl',
+    label: 'Webhook URL'
+  },
+  {
+    key: 'iconUrl',
+    label: 'Icon URL'
+  },
+  {
+    key: 'channel',
+    label: 'Channel'
+  }
+];
+
 export default {
   name,
   label,
+
+  getParameters() {
+    return parameters;
+  },
 
   enrichAlertChannelObject(alertChannel) {
     alertChannel.webhookUrl = '';
@@ -101,6 +128,7 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
+            maxLength={256}
           />
           <TouchedMessages field={field} />
         </FormGroup>

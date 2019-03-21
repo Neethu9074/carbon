@@ -1,3 +1,5 @@
+import './aiohttp-client';
+import './aiohttp-server';
 import './actioncontroller';
 import './actionview';
 import './activerecord';
@@ -52,6 +54,8 @@ import './ibmdb2';
 import './ios.error';
 import './jaeger';
 import './java.http';
+import './java.rmi.entry';
+import './java.rmi.exit';
 import './jdbc';
 import './jersey.client';
 import './jersey';

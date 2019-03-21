@@ -11,7 +11,7 @@ import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import MetricValue from 'in-components/MetricValue';
 
-export const resourceQuotaPercentage = d => (d < 0 ? '–' : percentageTwoDecimalPlaces(d));
+export const resourceQuotaPercentage = d => (d < 0 ? '-' : percentageTwoDecimalPlaces(d));
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -172,6 +172,7 @@ const columnDefinitions = [
           maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
+          namespaceId={item.namespace.id}
         />
       );
     }

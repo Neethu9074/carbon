@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .eventSelection {
+    margin-top: 2rem;
+    color: @lib__colors__primary1;
+  }
+
+  .eventTypes {
+    border-top: 1px solid @lib__colors__N300;
+  }
+}

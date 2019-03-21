@@ -10,14 +10,13 @@ import {
 import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import { getRuleBindingsMutable, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
 import { getRuleMutable, isRuleDeprecatedMutable } from 'in-api/rules';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { combineLatest, just } from 'reactive-observables';
 import { toTitleCase } from 'in-services/util/string';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
 import Badge from 'in-components/Badge';
 import Link from 'in-components/Link';
-
-import locals from './CustomIssues.mless';
 
 export default function CustomIssues() {
   return (
@@ -41,23 +40,22 @@ const columnDefinitions = [
   {
     id: 'text',
     label: 'Name',
+    width: 70,
     getContent(entity) {
       return (
-        <div className={locals.nameWithTextBelow}>
-          <Link
-            href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)}
-            className={locals.shorten}
-          >
+        <WithSubscript subscript={entity.enabled ? null : 'disabled'}>
+          <Link href$={getEntityIdView(teamSettingsKnowledgeManagementCustomIssues, entity.id)} ellipsis>
             {entity.text} {entity.badgeMessage && <Badge size="sm">{entity.badgeMessage}</Badge>}
           </Link>
-          {!entity.enabled && <span className={locals.textBelowName}>disabled</span>}
-        </div>
+        </WithSubscript>
       );
     }
   },
   {
     id: 'severity',
     label: 'Severity',
+    width: 30,
+    ellipsis: true,
     getContent(entity) {
       return toTitleCase(getSeverityLabel(entity));
     },

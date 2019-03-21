@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
@@ -8,12 +8,19 @@ import './DescriptionList.less';
 const block = 'in-detail-pane';
 const listClassName = `${block}__description-list`;
 const itemClassName = `${block}__description-item`;
+const noDetailClassName = `${block}__description-no-details`;
 
 export function DescriptionList({ children, className }) {
-  return <dl className={joinClassNames(listClassName, className)}>{children}</dl>;
+  return (
+    <Fragment>
+      <dl className={joinClassNames(listClassName, className)}>{children}</dl>
+      <div className={noDetailClassName}>No details available.</div>
+    </Fragment>
+  );
 }
 
 export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
+  // return null;
   if (isItemEmpty(children)) {
     return null;
   }
