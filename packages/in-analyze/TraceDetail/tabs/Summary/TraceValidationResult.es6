@@ -6,10 +6,12 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './TraceValidationResult.mless';
 
 const issueMessages = {
-  multiple_root_spans: 'The trace is malformed and contains multiple root spans',
-  missing_root_span: 'The root span of the trace is missing or has not yet arrived in the processing pipeline.',
-  duplicated_spans: 'The trace contains duplicated spans with the same id.',
-  too_many_spans: 'The trace contains too many spans, it is only partially retrieved.'
+  multiple_root_spans: 'The trace is malformed and contains multiple root calls',
+  missing_root_span: 'The root call of the trace is missing or has not yet arrived in the processing pipeline.',
+  duplicated_spans: 'The trace contains duplicated calls with the same id.',
+  too_many_spans: 'The trace contains too many calls, it is only partially retrieved.',
+  missing_parent_span:
+    'Some calls are missing their parent call. They consequently inherit the root call as their parent'
 };
 
 export default function TraceValidationResult({ issues }) {
