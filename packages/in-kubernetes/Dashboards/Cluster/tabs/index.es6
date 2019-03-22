@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
+import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
@@ -46,6 +47,12 @@ export default [
     path: `${clusterDashboardFullyQualified}/deployments`,
     component: Deployments,
     header: props => getCounterComponent(props, 'deployments')
+  },
+  {
+    label: 'Deployment Configs',
+    path: `${clusterDashboardFullyQualified}/deploymentconfigs`,
+    component: DeploymentConfigs,
+    header: props => getCounterComponent(props, 'deploymentConfigs')
   },
   {
     label: 'K8s Services',

@@ -1,13 +1,14 @@
 import { get } from 'lodash';
 
-import getKubernetesIdsForBreadcrumb from 'in-subscription/kubernetes/getKubernetesIdsForBreadcrumb';
+import getKubernetesIdsForBreadcrumb$ from 'in-subscription/kubernetes/getKubernetesIdsForBreadcrumb';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    resolvedIdsResult: getKubernetesIdsForBreadcrumb({
+    resolvedIdsResult: getKubernetesIdsForBreadcrumb$({
       filter: {
         deploymentId: props.deploymentId,
+        deploymentConfigId: props.deploymentConfigId,
         namespaceId: props.namespaceId,
         clusterId: props.clusterId,
         serviceId: props.serviceId,

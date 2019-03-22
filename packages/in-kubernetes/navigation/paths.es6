@@ -9,7 +9,8 @@ import {
   namespaceId as matrixNamespaceId,
   podId as matrixPodId,
   nodeId as matrixNodeId,
-  deploymentId as matrixDeploymentId
+  deploymentId as matrixDeploymentId,
+  deploymentConfigId as matrixDeploymentConfigId
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -41,6 +42,10 @@ export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified
 export const deploymentDashboard = `/deployment`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
 export const deploymentDashboardDetailsFullyQualified = `${deploymentDashboardFullyQualified}/details`;
+
+export const deploymentConfigDashboard = `/deploymentconfig`;
+export const deploymentConfigDashboardFullyQualified = `${kubernetes}${deploymentConfigDashboard}`;
+export const deploymentConfigDashboardDetailsFullyQualified = `${deploymentConfigDashboardFullyQualified}/details`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
@@ -131,6 +136,25 @@ export function getDeploymentDashboard(
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, deploymentDashboard, matrixClusterId, clusterId);
       setOrDeleteMatrixKey(params, deploymentDashboard, matrixNamespaceId, namespaceId);
+    }
+  });
+}
+
+export function getDeploymentConfigDashboard(
+  deploymentConfigId,
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject
+) {
+  return getDashboard({
+    base: deploymentConfigDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: deploymentConfigDashboard,
+    matrixParam: matrixDeploymentConfigId,
+    id: deploymentConfigId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, deploymentConfigDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, deploymentConfigDashboard, matrixNamespaceId, namespaceId);
     }
   });
 }

@@ -39,6 +39,12 @@ export default function ClusterDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        filterTabByResult={result => {
+          return tab => {
+            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            else return tab.label !== 'Deployment Configs';
+          };
+        }}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.clusterId} timeConfig={props.timeConfig} errors={errors} />

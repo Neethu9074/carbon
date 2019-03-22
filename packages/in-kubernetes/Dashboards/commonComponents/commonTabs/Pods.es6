@@ -50,6 +50,7 @@ const Pods = compose(
   namespaceId,
   clusterId,
   deploymentId,
+  deploymentConfigId,
   serviceId,
   nodeId,
   columnDefinitions = columnDefinitionsWithoutNamespace
@@ -76,12 +77,21 @@ const Pods = compose(
       timeConfig={timeConfig}
       namespaceId={namespaceId}
       deploymentId={deploymentId}
+      deploymentConfigId={deploymentConfigId}
       clusterId={clusterId}
       serviceId={serviceId}
       nodeId={nodeId}
       rightHeader={rightHeader}
       phase={phase}
-      paginationResettingProps={['namespaceId', 'clusterId', 'deploymentId', 'serviceId', 'nodeId', 'timeConfig']}
+      paginationResettingProps={[
+        'namespaceId',
+        'clusterId',
+        'deploymentId',
+        'deploymentConfigId',
+        'serviceId',
+        'nodeId',
+        'timeConfig'
+      ]}
       defaultOrderBy="name"
       defaultOrderDirection="ASC"
     />
@@ -99,6 +109,7 @@ function getTableData({
   clusterId,
   serviceId,
   deploymentId,
+  deploymentConfigId,
   nodeId,
   phase
 }) {
@@ -115,6 +126,7 @@ function getTableData({
       label: query,
       namespaceId,
       deploymentId,
+      deploymentConfigId,
       clusterId,
       serviceId,
       nodeId,

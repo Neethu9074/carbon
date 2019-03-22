@@ -23,7 +23,7 @@ export default connectTo(
   function HomeViewBreadcrumb({ distributionType }) {
     return (
       <Breadcrumb href$={getView(clusterListFullyQualified)}>
-        <Capitalize>{distributionType ? distributionType.toLowerCase() : 'Kubernetes'}</Capitalize>
+        <Capitalize>{distributionType ? distributionType : 'Kubernetes'}</Capitalize>
       </Breadcrumb>
     );
   }

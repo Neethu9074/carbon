@@ -3,26 +3,26 @@ import { get } from 'lodash';
 
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import getOpenShiftDeploymentConfig$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
+import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
+import { deploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
+import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
+import { DeploymentConfigBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
-import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
-import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfig } from 'in-stores/time/config';
 
-export default function DeploymentDashboard({ location }) {
+export default function DeploymentConfigDashboard({ location }) {
   const props = {
-    deploymentId: getMatrixParameter(location, deploymentDashboard, matrixDeploymentId),
-    viewPath: deploymentDashboard,
+    deploymentConfigId: getMatrixParameter(location, deploymentConfigDashboard, matrixDeploymentConfigId),
+    viewPath: deploymentConfigDashboard,
     timeConfig: getTimeConfig(location)
   };
 
@@ -30,10 +30,10 @@ export default function DeploymentDashboard({ location }) {
     <Fragment>
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
-        deploymentId={props.deploymentId}
+        deploymentConfigId={props.deploymentConfigId}
         renderBreadcrumbs={(clusterId, namespaceId) => (
           <Breadcrumbs
-            items={DeploymentBreadcrumbs({
+            items={DeploymentConfigBreadcrumbs({
               ...props,
               clusterId,
               namespaceId
@@ -43,8 +43,8 @@ export default function DeploymentDashboard({ location }) {
       />
 
       <TabView
-        result$={getKubernetesDeployment({
-          id: props.deploymentId,
+        result$={getOpenShiftDeploymentConfig$({
+          id: props.deploymentConfigId,
           timeConfig: props.timeConfig
         })}
         HeaderComponent={Header}
@@ -52,7 +52,11 @@ export default function DeploymentDashboard({ location }) {
         tabs={tabs}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList snapshotId={props.deploymentId} timeConfig={props.timeConfig} errors={errors} />
+          <ErroneousEntityVersionList
+            snapshotId={props.deploymentConfigId}
+            timeConfig={props.timeConfig}
+            errors={errors}
+          />
         )}
       />
       <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
@@ -63,7 +67,7 @@ export default function DeploymentDashboard({ location }) {
 function Header(props) {
   return (
     <BasicDashboardHeader
-      title="Deployment"
+      title="Deployment Config"
       icon="lib_kubernetes_workload"
       {...props}
       renderActions={Actions}
@@ -73,12 +77,12 @@ function Header(props) {
   );
 }
 
-function Actions({ deploymentId, timeConfig }) {
+function Actions({ deploymentConfigId, timeConfig }) {
   return (
     <EntityHealthIndicator
       showOkayOnNoIssues={false}
       IndicatorPresenter={HealthIndicatorButtonPresenter}
-      snapshotId={deploymentId}
+      snapshotId={deploymentConfigId}
       timeConfig={timeConfig}
     />
   );
@@ -87,7 +91,7 @@ function Actions({ deploymentId, timeConfig }) {
 function SubTypes({ result }) {
   return (
     <Fragment>
-      <TypesBadgeList type="K8s Deployment" />
+      <TypesBadgeList type="K8s Deployment Config" />
       <KubernetesIndicator result={result} />
     </Fragment>
   );
