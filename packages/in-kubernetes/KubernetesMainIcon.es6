@@ -1,5 +1,5 @@
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import getKubernetesMonitoringState$ from 'in-subscription/kubernetes/getKubernetesMonitoringState';
@@ -10,13 +10,14 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
-    monitoringState: timeConfig$.flatMap(timeConfig =>
-      getKubernetesMonitoringState$({ timeConfig }).map(result => (result.data ? result.data : null))
+    distributionType: timeConfig$.flatMap(timeConfig =>
+      getKubernetesMonitoringState$({ timeConfig })
+        .map(result => get(result, ['data', 'distributionType'], 'Kubernetes'))
+        .distinct()
     )
   },
-  function KubernetesMainIcon({ monitoringState, isExpanded, onViewSwitched }) {
-    const distributionType = get(monitoringState, 'distributionType', 'Kubernetes');
-    const iconPath = `lib_${distributionType.toLowerCase()}_inverted`;
+  function KubernetesMainIcon({ distributionType, isExpanded, onViewSwitched }) {
+    const iconPath = `lib_${distributionType ? distributionType.toLowerCase() : 'Kubernetes'}_inverted`;
     return (
       <View
         label={distributionType}

@@ -1,5 +1,5 @@
-import React from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import getKubernetesClusterMonitoringState$ from 'in-subscription/kubernetes/getKubernetesClusterMonitoringState';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
@@ -11,18 +11,19 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    monitoringState: timeConfig$.flatMap(timeConfig =>
+    distributionType: timeConfig$.flatMap(timeConfig =>
       getKubernetesClusterMonitoringState$({
         id: props.clusterId,
         timeConfig: timeConfig
-      }).map(result => (result.data ? result.data : null))
+      })
+        .map(result => get(result, ['data', 'distributionType'], 'Kubernetes'))
+        .distinct()
     )
   }),
-  function HomeViewBreadcrumb({ monitoringState }) {
-    const distributionType = get(monitoringState, 'distributionType', 'Kubernetes');
+  function HomeViewBreadcrumb({ distributionType }) {
     return (
       <Breadcrumb href$={getView(clusterListFullyQualified)}>
-        <Capitalize>{distributionType}</Capitalize>
+        <Capitalize>{distributionType ? distributionType.toLowerCase() : 'Kubernetes'}</Capitalize>
       </Breadcrumb>
     );
   }
