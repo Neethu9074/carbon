@@ -77,7 +77,6 @@ import './forms/ApplicationConfigurationStory';
 import './forms/BasicFormStory';
 import './forms/FormFieldsStory';
 import './forms/ServiceConfigurationStory';
-import './forms/TagFilterEditFormStory';
 
 import './layout/GridStory';
 import './layout/SidebarStory';
