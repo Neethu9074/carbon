@@ -11,7 +11,6 @@ import locals from './TimePresenter.mless';
 export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter }) {
   return (
     <Tooltip themeStyle="light" align="bottomMiddle" content={getTooltipContent(timeConfig)}>
-      <SvgIcon className={locals.timeIcon} width={24} type="lib_datetime_time_inverted" />
       <a
         className={joinClassNames(locals.wrapper, className)}
         href="#"

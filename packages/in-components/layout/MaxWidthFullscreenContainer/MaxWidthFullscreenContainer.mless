@@ -6,7 +6,5 @@
     max-width: @max-width * 1px;
     margin-left: auto;
     margin-right: auto;
-
-    padding: 0 3rem;
   }
 }

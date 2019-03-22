@@ -16,12 +16,12 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N500;
+    fill: rgba(255,255,255,0.56);
   }
 
   .breadcrumb {
     text-decoration: none;
-    color: @lib__colors__N500;
+    color: rgba(255,255,255,0.56);
     max-width: 250px;
     .ellipsis();
 
@@ -30,8 +30,16 @@
     }
 
     &:hover {
-      color: @lib__colors__N400;
+      color: rgba(255,255,255,0.7);
       text-decoration: none;
+    }
+
+    &:last-child {
+      color: #fff !important;
+
+      .label {
+        color: rgba(255,255,255,0.56);
+      }
     }
   }
 }

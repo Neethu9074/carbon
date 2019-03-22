@@ -37,31 +37,27 @@
   .icon {
     margin-left: 0;
     margin-right: 0.125rem;
-    fill: @lib__colors__N400;
   }
 
   .on {
     opacity: 1;
-    color: white;
+    color: @lib__colors__black;
     border-color: @lib__colors__green800;
     background: @lib__colors__green800;
 
-    .icon {
-      fill: white;
-    }
-
     &.hover:not(.disabled) {
-      background: @lib__colors__N700Medium;
+      background: @lib__colors__white;
+      color: @lib__colors__black;
+      border-color: @lib__colors__white;
     }
   }
 
   .off {
-    color: @lib__colors__N400;
-    background: @lib__colors__N500;
+    color: @lib__colors__black;
     border-color: @lib__colors__N500;
+    background: @lib__colors__N500;
 
     &.hover:not(.disabled) {
-      background: @lib__colors__N700Medium;
       opacity: 1;
     }
   }

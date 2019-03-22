@@ -1,9 +1,0 @@
-:local {
-  .content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 4.5rem;
-    bottom: 0;
-  }
-}

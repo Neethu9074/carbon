@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   getTimeframeNonLiveUrl,
@@ -14,15 +14,15 @@ import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import connect from 'in-hoc/connectTo';
 
-import locals from './TimeSelection.mless';
+import locals from './AppHeaderTimeSelection.mless';
 
 export const trackWindowSizeViaPicker = createTracker('time.windowSize.viaPicker');
 
 export default connect({
   timeConfig: timeConfig$
-})(TimeSelection);
+})(AppHeaderTimeSelection);
 
-function TimeSelection({ timeConfig }) {
+function AppHeaderTimeSelection({ timeConfig }) {
   return (
     <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
       {TimePresenterWrapper}
@@ -32,7 +32,7 @@ function TimeSelection({ timeConfig }) {
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
-    <div className={locals.timePresenter}>
+    <Fragment>
       <TimePresenter
         expanded={isOpen}
         timeConfig={timeConfig}
@@ -41,7 +41,7 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
         refSetter={refSetter}
       />
       <LiveModeToggle isLive={timeConfig.autoRefresh} />
-    </div>
+    </Fragment>
   );
 }
 
@@ -55,6 +55,7 @@ function LiveModeToggle({ isLive }) {
       iconOn="lib_actions_loading"
       iconOnSpinning="clockwise"
       iconOnHover="lib_actions_stop"
+      className={locals.liveToggle}
     >
       LIVE
     </ToggleButton>

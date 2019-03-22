@@ -15,15 +15,13 @@ module.exports = {
     // a select box can be within an overlay
     selectBoxFlyouts: zIndex++,
     stickyHeader: (zIndex += 20),
-    timeSelection: ++zIndex,
-    detailPopupPresenter: ++zIndex,
-    graphView: ++zIndex,
-    overlays: ++zIndex,
-    dialog: ++zIndex,
-    subMenu: ++zIndex,
-    mainNavigation: ++zIndex,
-    messageFlyout: ++zIndex,
-    tooltips: ++zIndex
+    detailPopupPresenter: zIndex++,
+    graphView: zIndex++,
+    overlays: zIndex++,
+    dialog: zIndex++,
+    subMenu: zIndex++,
+    messageFlyout: zIndex++,
+    tooltips: zIndex++
   },
   fontColor: '#222627',
   fontFamilySansSerif:
@@ -49,7 +47,7 @@ module.exports = {
       '#965742'
     ]
   },
-  maxWidth: 1500,
+  maxWidth: 1400,
   grid: {
     gutter: 24,
     columns: 12
@@ -65,7 +63,7 @@ module.exports = {
     heightOpen: 147
   },
   header: {
-    height: 64
+    height: 88
   },
   map: {
     colors: {

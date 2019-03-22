@@ -1,0 +1,9 @@
+:local {
+  .time {
+    margin: 0 .5rem 0 0;
+  }
+
+  .liveToggle {
+    font-weight: bold;
+  }
+}
