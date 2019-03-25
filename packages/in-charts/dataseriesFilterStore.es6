@@ -1,9 +1,9 @@
 import { createStore } from 'in-stores/store';
 
-export default function createDataSeriesFilterStore() {
+export default function createDataSeriesFilterStore(props) {
   const store = createStore({
     isGlobal: false,
-    initialValue: {},
+    initialValue: props ? (props.initialValue ? props.initialValue : {}) : {},
     reducers: {
       reduceTo(currentFilters, action) {
         const filteredResult = {};

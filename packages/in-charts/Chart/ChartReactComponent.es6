@@ -5,11 +5,10 @@ import createDataSeriesFilterStore from 'in-charts/dataseriesFilterStore';
 import { number, percentage } from 'in-services/formatters/number';
 import ChartLegend from 'in-charts/Chart/components/Legend';
 import createChart from 'in-charts/Chart/Chart';
+import { get } from 'lodash';
 
 export default class extends React.Component {
   static displayName = 'ChartReactComponent';
-
-  filterStore = createDataSeriesFilterStore();
 
   static defaultProps = {
     height: 150
@@ -17,9 +16,26 @@ export default class extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const filteredMetrics = this.calculateFilteredMetrics(props);
+
+    this.filterStore = createDataSeriesFilterStore({
+      initialValue: filteredMetrics
+    });
+
     this.state = {
       chartProps: processChartProps(props)
     };
+  }
+
+  calculateFilteredMetrics(props) {
+    const y1Filtered = get(props, ['y1', 'defaultDisabledMetrics'], []);
+    const y2Filtered = get(props, ['y2', 'defaultDisabledMetrics'], []);
+
+    return [...y1Filtered, ...y2Filtered].reduce((m, v) => {
+      m[v] = true;
+      return m;
+    }, {});
   }
 
   componentWillReceiveProps(nextProps) {

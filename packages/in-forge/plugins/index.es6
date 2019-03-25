@@ -34,6 +34,8 @@ import './ceph';
 import './clickHouseDatabase';
 import './clrRuntimePlatform';
 import './cloudFoundry';
+import './cockroachDBCluster';
+import './cockroachDBNode';
 import './consul';
 import './consulCluster';
 import './couchbaseCluster';
