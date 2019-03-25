@@ -190,11 +190,11 @@ function isVisible(event) {
 
 function getChartConfig(metric, entityType, entity) {
   if (is20Application(entityType)) {
-    return getMetricDefinition('application20', metric);
+    return getMetricDefinition('application', metric);
   } else if (is20Service(entityType)) {
-    return getMetricDefinition('service20', metric);
+    return getMetricDefinition('service', metric);
   } else if (is20Endpoint(entityType)) {
-    return getMetricDefinition('endpoint20', metric);
+    return getMetricDefinition('endpoint', metric);
   }
   // else assume 'Entity10'
   return getMetricDefinition(entity.get('plugin'), metric);
