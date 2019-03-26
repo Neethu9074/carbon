@@ -19,7 +19,6 @@ const maxNonces = findMaxNonces(indexHtmlTemplate);
 const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
 const compiledRedirectTemplate = Handlebars.compile(fs.readFileSync(paths.redirectToSignInTemplate, { encoding: 'utf8' }));
 
-const indexJsSri = checkSumMod.getSriIntegrityForFile(paths.indexJs);
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
@@ -189,7 +188,6 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
   res.send(
     compiledTemplate({
       indexJsChecksum,
-      indexJsSri,
       indexCssChecksum,
       nonces,
       googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,

@@ -12,8 +12,7 @@
   <title>Instana</title>
 
   <link rel="stylesheet"
-        href="/bundle/index-{{indexCssChecksum}}.css"
-        integrity="{{themeSri}}">
+        href="/bundle/index-{{indexCssChecksum}}.css">
 
   {{#each prefetchItems}}
   <link rel="{{rel}}" href="/bundle/{{fileName}}" as="{{as}}">
@@ -106,8 +105,7 @@
       </div>
     </div>
   </noscript>
-  <script src="/bundle/index-{{indexJsChecksum}}.js"
-          integrity="{{indexJsSri}}"
-          crossorigin="anonymous"></script>
+
+  <script src="/bundle/index-{{indexJsChecksum}}.js"></script>
 </body>
 </html>
