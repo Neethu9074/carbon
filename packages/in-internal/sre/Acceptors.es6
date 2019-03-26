@@ -9,7 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { timeConfig$ } from 'in-stores/time/config';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { number } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
 
@@ -160,6 +160,66 @@ export default connectTo(
                 metrics: acceptors.map(() => `metrics.meters.acceptor.messages.ipfilter.dropped`),
                 labels: acceptorLabels,
                 type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Kafka - span messages error rate`}>
+            <Chart
+              snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: acceptors.map(() => `metrics.gauges.KPI.outgoing.span_messages.error_rate`),
+                labels: acceptorLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Kafka - # span message errors`}>
+            <Chart
+              snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: acceptors.map(() => `metrics.meters.KPI.outgoing.span_messages.errors`),
+                labels: acceptorLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Network - data received`}>
+            <Chart
+              snapshotIds={acceptors.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: acceptors.map(() => `ifs.eth0.rx.bytes`),
+                labels: acceptorLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Network - data transmitted`}>
+            <Chart
+              snapshotIds={acceptors.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: acceptors.map(() => `ifs.eth0.tx.bytes`),
+                labels: acceptorLabels,
+                type: 'line'
               }}
             />
           </DashboardSection>
