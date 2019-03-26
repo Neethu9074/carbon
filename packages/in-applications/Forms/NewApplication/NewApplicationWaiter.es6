@@ -30,7 +30,8 @@ export default connectTo(
               timeConfig: getWaitForEntityCreationTimeConfig()
             });
           }
-        })
+        }),
+      label: just(props.match.params.appName)
     };
   },
   function NewApplicationWaiter({ result, label }) {

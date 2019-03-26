@@ -57,7 +57,7 @@ function CrossRegionForwarding({ websiteId, websiteLabel, totalBeaconsResult, de
     </Fragment>
   );
   return (
-    <Deprecation title="Missing / Wrong Reporting URL" preview={firstParagraph} supportedUntil="2019-04-01">
+    <Deprecation title="Missing / Wrong Reporting URL" preview={firstParagraph} supportedUntil="2019-06-01">
       <p>{firstParagraph}</p>
       {total != null &&
         deprecated != null && (

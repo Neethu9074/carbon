@@ -1,10 +1,13 @@
 import React from 'react';
 
 import { startProfiling } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/store';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+const startCpuProfilingTracker = createTracker('nodejs.cpuProfiling.start');
 
 export default connectTo(
   props => {
@@ -32,6 +35,7 @@ export default connectTo(
     function onClick() {
       if (isOnline) {
         startProfiling(snapshot, 1000 * 10);
+        startCpuProfilingTracker();
       }
     }
   }

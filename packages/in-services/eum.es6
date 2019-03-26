@@ -1,6 +1,5 @@
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { region } from 'in-services/config';
-import { role } from 'in-stores/user';
 
 export function ineum() {
   if (typeof window !== 'undefined' && window.ineum) {
@@ -50,9 +49,3 @@ export function getEumSnippet({ key, additionalScript = null }) {
   lines.push(`</script>`);
   return lines.join('\n');
 }
-
-Object.keys(role).forEach(key => {
-  if (key !== 'id' && key !== 'name' && key !== 'implicitViewFilter') {
-    ineum('meta', `permission.${key}`, String(role[key]));
-  }
-});

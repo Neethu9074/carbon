@@ -13,12 +13,15 @@ import {
 import PercentageIndicator from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler/PercentageIndicator';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsCodeView, getCodeView } from 'in-sdk/snapshot';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import './ResultTable.less';
+
+const toggleNodeTracker = createTracker('nodejs.cpuProfiling.toggleNode');
 
 const block = 'in-nodejs-cpu-profiling-table';
 
@@ -68,7 +71,10 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
         <div className={`${block}__content`}>
           {node.c.length > 0 ? (
             <SvgIcon
-              onClick={() => toggleExpandedNode(node.id)}
+              onClick={() => {
+                toggleExpandedNode(node.id);
+                toggleNodeTracker();
+              }}
               type={isExpanded ? 'triangle_down' : 'triangle_right'}
               className={`${block}__expand`}
               width={10}
