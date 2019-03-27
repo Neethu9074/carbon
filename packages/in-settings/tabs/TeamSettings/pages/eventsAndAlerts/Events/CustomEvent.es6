@@ -40,6 +40,15 @@ export default function CustomEvent(props) {
 
 const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
+  if (entity && entity.get('errors')) {
+    return (
+      <SettingsDetailPage>
+        <SubViewHeader>Unknown Event</SubViewHeader>
+        <p>{entity.get('errors').get(0)}</p>
+        <p>If you followed a link to get here, it has most likely been deleted.</p>
+      </SettingsDetailPage>
+    );
+  }
 
   return (
     <SettingsDetailPage>

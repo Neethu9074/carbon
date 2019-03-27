@@ -1,5 +1,6 @@
 import React from 'react';
 
+import EventSpecificationLink from 'in-views/eventView/components/Event/EventSpecificationLink';
 import AnalyzeIssueCallsButton from 'in-views/eventView/components/AnalyzeIssueCallsButton';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
 import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
@@ -16,7 +17,12 @@ export default function EventContent({ event }) {
     <div>
       <Header event={event} />
 
-      <ProblemDescription event={event} sectionized className="in-event-view-event-content" />
+      <Section>
+        <div>
+          <ProblemDescription event={event} className="in-event-view-event-content" />
+          <EventSpecificationLink event={event} />
+        </div>
+      </Section>
 
       <Section>
         <div className={locals.chartWrapper}>

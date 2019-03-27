@@ -35,6 +35,16 @@ export default connectTo(
       return <LoadingIndicator type="dark" />;
     }
 
+    if (event && event.get('errors')) {
+      return (
+        <SettingsDetailPage>
+          <SubViewHeader>Unknown Event</SubViewHeader>
+          <p>{event.get('errors').get(0)}</p>
+          <p>If you followed a link to get here, it has most likely been deleted.</p>
+        </SettingsDetailPage>
+      );
+    }
+
     const entityType = event.get('shortPluginId');
     const metricList = getPlainMetricList(entityType);
 

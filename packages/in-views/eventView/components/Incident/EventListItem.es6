@@ -4,6 +4,7 @@ import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
+import EventSpecificationLink from 'in-views/eventView/components/Event/EventSpecificationLink';
 import AnalyzeIssueCallsButton from 'in-views/eventView/components/AnalyzeIssueCallsButton';
 import EventDurationMarker from 'in-views/eventView/components/marker/EventDurationMarker';
 import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
@@ -97,6 +98,7 @@ export default connectTo(
               {isExpanded ? (
                 <div className={`${block}__expanded-details`}>
                   <ProblemDescription event={event} />
+                  <EventSpecificationLink event={event} />
                   <Spacer />
                   <EventChart event={event} />
                   <Spacer />

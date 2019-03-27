@@ -46,7 +46,8 @@ export function getBuiltInEventSpecificationMutable(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(id)}`
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(id)}`,
+    treat400AsError: false
   }).map(response => response.body);
 }
 
@@ -58,7 +59,8 @@ export function getCustomEventSpecificationMutable(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
+    treat400AsError: false
   }).map(response => response.body);
 }
 
