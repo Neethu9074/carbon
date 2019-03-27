@@ -4,6 +4,7 @@ import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/Serve
 import { getLinkToWebsite, newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
@@ -61,6 +62,7 @@ export default connectTo(
 
     return (
       <Fragment>
+        <SecondLevelNavigation />
         <MaxWidthFullscreenContainer>
           <Title title="Websites" />
 
