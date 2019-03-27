@@ -1,6 +1,7 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
@@ -12,13 +13,36 @@ import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
-import ServerTable from 'in-components/tables/ServerTable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Infrastructure.mless';
+
+const tablesByType = {
+  CLUSTER: getTable('CLUSTER'),
+  PROCESS: getTable('PROCESS'),
+  CONTAINER: getTable('CONTAINER'),
+  HOST: getTable('HOST')
+};
+
+function getTable(type) {
+  return createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      {
+        path: '/infrastructure',
+        name: `selectedType`
+      }
+    ],
+    columnDefinitions: getColumnDefinitions(type),
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment: '/infrastructure',
+    matrixPrefix: ''
+  });
+}
 
 export default compose(
   withUrlDependingState({
@@ -65,20 +89,17 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
     selectedType = onlyShowCluster ? 'CLUSTER' : 'PROCESS';
   }
 
+  const Table = tablesByType[selectedType];
+
   return (
     <MaxWidthFullscreenContainer>
-      <ServerTable
+      <Table
         get={getTableData}
         type={selectedType}
-        defaultPageSize={10}
-        columnDefinitions={getColumnDefinitions(selectedType)}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
         timeConfig={timeConfig}
-        paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-        defaultOrderBy="callsAgg"
-        defaultOrderDirection="DESC"
         size="compact"
         isSearchable={false}
         rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
@@ -189,7 +210,7 @@ function getTableData({
   });
 }
 
-const getColumnDefinitions = type => {
+function getColumnDefinitions(type) {
   let infraColumnDefinition;
   if (type == 'PROCESS') {
     infraColumnDefinition = {
@@ -306,7 +327,7 @@ const getColumnDefinitions = type => {
       }
     }
   ];
-};
+}
 
 function InfrastructureEntityLink({ entity, plugin }) {
   if (!entity.id) {
