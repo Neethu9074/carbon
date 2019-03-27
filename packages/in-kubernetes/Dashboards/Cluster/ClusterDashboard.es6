@@ -3,7 +3,6 @@ import { get } from 'lodash';
 
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
@@ -56,10 +55,13 @@ export default function ClusterDashboard({ location }) {
 }
 
 function Header(props) {
+  const distributionType = get(props, ['result', 'data', 'distributionType'], 'Kubernetes');
+  const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+
   return (
     <BasicDashboardHeader
       title="Cluster"
-      icon="lib_kubernetes_cluster"
+      icon={clusterIcon}
       {...props}
       renderActions={Actions}
       renderSubTypes={SubTypes}
@@ -87,7 +89,6 @@ function SubTypes({ result }) {
     <Fragment>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
       <TypesBadgeList type="K8s Cluster" />
-      <KubernetesIndicator result={result} />
     </Fragment>
   );
 }

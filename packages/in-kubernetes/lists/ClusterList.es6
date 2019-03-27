@@ -64,9 +64,11 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
+      const distributionType = get(item, ['cluster', 'distributionType'], 'Kubernetes');
+      const clusterIcon = `lib_${distributionType.toLowerCase()}`;
       return (
         <SeverityAwareEntityLink
-          icon="lib_kubernetes_cluster"
+          icon={clusterIcon}
           label={get(item, ['cluster', 'label'])}
           href$={getClusterDashboard(get(item, ['cluster', 'id']))}
           severity={item.entityHealthInfo.maxSeverity}

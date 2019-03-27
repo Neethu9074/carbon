@@ -9,6 +9,7 @@ import {
   cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
+import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { kubernetesEnabled, cockpitEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
@@ -19,7 +20,6 @@ import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import KubernetesMainIcon from 'in-kubernetes/KubernetesMainIcon';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
@@ -59,7 +59,16 @@ export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedS
         />
       </View>
 
-      {kubernetesEnabled && <KubernetesMainIcon isExpanded={isExpanded} onViewSwitched={onViewSwitched} />}
+      {kubernetesEnabled && (
+        <View
+          label="Kubernetes"
+          icon="lib_kubernetes_inverted"
+          href$={getView(kubernetesClusterList)}
+          isActive$={isView(kubernetes)}
+          sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
+        />
+      )}
 
       <Spacer />
 

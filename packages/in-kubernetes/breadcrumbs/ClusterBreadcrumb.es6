@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
@@ -13,8 +14,11 @@ export default connectTo(
     }).map(result => (result.data ? result.data : null))
   }),
   function ClusterBreadcrumb({ cluster, href$ }) {
+    const distributionType = get(cluster, ['distributionType'], 'Kubernetes');
+    const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+
     return (
-      <Breadcrumb label="Cluster" icon="lib_kubernetes_cluster" href$={href$}>
+      <Breadcrumb label="Cluster" icon={clusterIcon} href$={href$}>
         {cluster && cluster.label}
       </Breadcrumb>
     );
