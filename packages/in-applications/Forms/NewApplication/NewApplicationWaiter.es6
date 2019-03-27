@@ -46,7 +46,7 @@ export default connectTo(
             <SvgIcon className={locals.icon} type="lib_application" width={56} height={56} />
             <h1 className={locals.title}>Application perspective is being created…</h1>
             <p className={locals.text}>
-              We are preparing everything to monitor your application perspective <strong>{label}</strong>.
+              We are preparing everything to monitor your application perspective <strong>{decodeURI(label)}</strong>.
             </p>
             <SvgIcon spinning type="lib_actions_loading" width={32} className={locals.loadingIcon} />
           </div>
