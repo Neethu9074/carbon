@@ -51,6 +51,7 @@ function RawTracesNavigator({
 
   return (
     <HeightRestrictedView
+      className={locals.navigator}
       render={() => (
         <Table tableInCard>
           <Thead>

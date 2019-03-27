@@ -1,6 +1,13 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .navigator {
+    max-height: ~'calc(100vh - 169px)';
+    position: fixed;
+    width: 37.5rem;
+    border-right: 1px solid #d5dfe4;
+  }
+
   .labelColumn {
     max-width: 16rem;
 

@@ -22,6 +22,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
+import Sticky from 'in-components/Sticky';
 
 import locals from './TraceDetail.mless';
 
@@ -68,37 +69,37 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
   };
   return (
     <Fragment>
-      <Breadcrumbs
-        items={[
-          <Breadcrumb label={getConfigByDataSource(filters.dataSource).breadcrumbLabel} href$={getLinkToAnalyze()} />,
-          <TraceDetailBreadcrumb traceId={traceId} />
-        ]}
-      />
-      <BreadcrumbHeader useFullAvailableWidth />
-
-      <AppNavigatorSplitScreen
-        navigator={navigator}
-        dataSource={filters.dataSource}
-        traceDetail={
-          <TabView
-            HeaderComponent={Header}
-            location={location}
-            tabs={tabs}
-            result$={getTraceSummary({ id: traceId })}
-            props={props}
-            withoutBreadcrumb
-            useFullAvailableWidth
-            withoutPadding
-          />
-        }
-      />
+      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
+        <AppNavigatorSplitScreen
+          navigator={navigator}
+          dataSource={filters.dataSource}
+          traceDetail={
+            <TabView
+              HeaderComponent={Header}
+              location={location}
+              tabs={tabs}
+              result$={getTraceSummary({ id: traceId })}
+              props={props}
+              withoutBreadcrumb
+              useFullAvailableWidth
+              withoutPadding
+            />
+          }
+        />
+      </Sticky>
     </Fragment>
   );
 }
 
-function Header(props) {
+function Header(props, filters) {
   return (
-    <div>
+    <Fragment>
+      <Breadcrumbs
+        items={[
+          <Breadcrumb label={getConfigByDataSource(filters.dataSource).breadcrumbLabel} href$={getLinkToAnalyze()} />,
+          <TraceDetailBreadcrumb traceId={props.traceId} />
+        ]}
+      />
       <BasicDashboardHeader
         title="Trace"
         icon="lib_application_trace"
@@ -107,7 +108,7 @@ function Header(props) {
         {...props}
       />
       <div className={locals.tabViewPlaceholder} />
-    </div>
+    </Fragment>
   );
 }
 

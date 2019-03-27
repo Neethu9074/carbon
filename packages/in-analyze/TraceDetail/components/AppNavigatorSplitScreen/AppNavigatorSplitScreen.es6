@@ -19,6 +19,7 @@ import { prefetch } from 'in-subscription/util/prefetch';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import Sticky from 'in-components/Sticky';
 
 import locals from './AppNavigatorSplitScreen.mless';
 
@@ -67,49 +68,62 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
     <div className={locals.navigatorSplitScreen}>
       {expanded && (
         <div className={locals.navigator}>
-          <div className={locals.header}>
-            <ResultHeader itemType={typeLabel} nbRows={totalHits} nbItems={totalRepresentedItemCount} withoutMargin />
-
-            <div className={locals.actions}>
-              {hasPrev && (
-                <Tooltip content={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}>
-                  <SvgIcon
-                    type="lib_arrow_drop_left"
-                    aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
-                    width={20}
-                    className={locals.prev}
-                    id={leftArrowId}
-                    onClick={e => openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
-                  />
-                </Tooltip>
-              )}
-
-              {hasNext && (
-                <Tooltip content={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}>
-                  <SvgIcon
-                    type="lib_arrow_drop_right"
-                    aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
-                    width={20}
-                    className={locals.next}
-                    id={rightArrowId}
-                    onClick={e => openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, dataSourceConfig)}
-                  />
-                </Tooltip>
-              )}
-
-              <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
-                <SvgIcon
-                  type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                  aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
-                  width={20}
-                  className={locals.toggle}
-                  onClick={() => setExpanded(!expanded)}
+          <Sticky
+            header={
+              <div className={locals.header}>
+                <ResultHeader
+                  itemType={typeLabel}
+                  nbRows={totalHits}
+                  nbItems={totalRepresentedItemCount}
+                  withoutMargin
                 />
-              </Tooltip>
-            </div>
-          </div>
 
-          {navigator}
+                <div className={locals.actions}>
+                  {hasPrev && (
+                    <Tooltip content={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}>
+                      <SvgIcon
+                        type="lib_arrow_drop_left"
+                        aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
+                        width={20}
+                        className={locals.prev}
+                        id={leftArrowId}
+                        onClick={e =>
+                          openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, dataSourceConfig)
+                        }
+                      />
+                    </Tooltip>
+                  )}
+
+                  {hasNext && (
+                    <Tooltip content={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}>
+                      <SvgIcon
+                        type="lib_arrow_drop_right"
+                        aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
+                        width={20}
+                        className={locals.next}
+                        id={rightArrowId}
+                        onClick={e =>
+                          openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, dataSourceConfig)
+                        }
+                      />
+                    </Tooltip>
+                  )}
+
+                  <Tooltip content={expanded ? 'Close sidebar' : 'Open sidebar'}>
+                    <SvgIcon
+                      type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                      aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
+                      width={20}
+                      className={locals.toggle}
+                      onClick={() => setExpanded(!expanded)}
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+            }
+          >
+            {navigator}
+          </Sticky>
         </div>
       )}
 
