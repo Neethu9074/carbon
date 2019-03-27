@@ -1,6 +1,10 @@
 const express = require('express');
 
+const checkSumMod = require('../services/checksum');
 const paths = require('../services/paths');
+
+const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
+const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
 
 const router = module.exports = express.Router();
 const cacheControlHeader = 'public, max-age=86400, stale-while-revalidate=3600, stale-if-error=86400';
@@ -29,11 +33,16 @@ router.use(express.static(paths.assetDir, {
   }
 }));
 
+// This file doesn't actually exist on disk. The path exists for cache busting reasons.
+// When receiving the call, we need to make sure that the version supplied is actually
+// the version this ui-client supports. If it is not, we must return a 404 so that the
+// proxy may attempt calling another ui-client to retrieve the correct file.
+router.get('/bundle/index-:version.js', (req, res) => {
+  if (req.params.version !== indexJsChecksum) {
+    res.sendStatus(404);
+    return;
+  }
 
-// support both requests with and without checksum
-router.get('/bundle/index.js', sendIndexJs);
-router.get('/bundle/index-*.js', sendIndexJs);
-function sendIndexJs(req, res) {
   res.sendFile(
     paths.indexJs,
     sendFilesConfig,
@@ -43,12 +52,18 @@ function sendIndexJs(req, res) {
       }
     }
   );
-}
+});
 
-// support both requests with and without checksum
-router.get('/bundle/index.css', sendIndexCss);
-router.get('/bundle/index-*.css', sendIndexCss);
-function sendIndexCss(req, res) {
+// This file doesn't actually exist on disk. The path exists for cache busting reasons.
+// When receiving the call, we need to make sure that the version supplied is actually
+// the version this ui-client supports. If it is not, we must return a 404 so that the
+// proxy may attempt calling another ui-client to retrieve the correct file.
+router.get('/bundle/index-:version.css', (req, res) => {
+  if (req.params.version !== indexCssChecksum) {
+    res.sendStatus(404);
+    return;
+  }
+
   res.sendFile(
     paths.indexCss,
     sendFilesConfig,
@@ -58,4 +73,4 @@ function sendIndexCss(req, res) {
       }
     }
   );
-}
+});
