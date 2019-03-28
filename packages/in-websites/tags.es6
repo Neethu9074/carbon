@@ -75,7 +75,8 @@ const commonGroupingTags = [
   'beacon.website.name',
   'beacon.window.height',
   'beacon.window.hidden',
-  'beacon.window.width'
+  'beacon.window.width',
+  'beacon.connectionType'
 ];
 
 export const availableGroupingTags = {
