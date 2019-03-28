@@ -18,6 +18,7 @@ import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './BuiltInEvent.mless';
 
@@ -39,7 +40,9 @@ export default connectTo(
     if (event && event.get('errors')) {
       return (
         <SettingsDetailPage>
-          <SubViewHeader>Unknown Event</SubViewHeader>
+          <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+            Unknown Event
+          </SubViewHeader>
           <DescriptionText>
             {event.get('errors').get(0)}
             <br />

@@ -22,6 +22,7 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
@@ -44,7 +45,7 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor="#FFC422">
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           Unknown Event
         </SubViewHeader>
         <DescriptionText>
