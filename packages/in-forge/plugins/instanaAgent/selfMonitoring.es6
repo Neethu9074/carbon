@@ -1,33 +1,8 @@
 import { createLogger } from 'instalog';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import { goToDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 
 const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
-
-export function start(snapshot, open) {
-  createAgentResponseObservable({
-    action: 'agent.selfmonitoring.start',
-    target: snapshot.get('volatileId'),
-    args: {}
-  }).once(response => {
-    logger.info('Self monitoring start response', response);
-
-    if (open && response.data) {
-      goToDashboard(response.data);
-    }
-  });
-}
-
-export function stop(snapshot) {
-  createAgentResponseObservable({
-    action: 'agent.selfmonitoring.stop',
-    target: snapshot.get('volatileId'),
-    args: {}
-  }).once(response => {
-    logger.info('Self monitoring stop response', response);
-  });
-}
 
 export function setMode(snapshot, mode) {
   createAgentResponseObservable({

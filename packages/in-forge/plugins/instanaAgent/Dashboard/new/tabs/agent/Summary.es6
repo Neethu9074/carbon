@@ -6,8 +6,6 @@ import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
-import { start } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import KV from 'in-sdk/components/dashboard/KV';
@@ -20,8 +18,6 @@ export default function Summary({ snapshot, timeConfig }) {
 
   return (
     <MaxWidthFullscreenContainer>
-      <LifecycleObserver onWillMount={() => start(snapshot, true)} />
-
       <SnapshotLabel>{getLabel(snapshot)}</SnapshotLabel>
 
       <Kpis>
