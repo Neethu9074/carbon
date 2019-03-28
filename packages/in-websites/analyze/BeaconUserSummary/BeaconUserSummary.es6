@@ -40,6 +40,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
             <Di title="Screen Resolution">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
             <Di title="IP Address">{beacon.userIp}</Di>
+            {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}
           </Dl>
         </Card>
       </Col>
