@@ -112,7 +112,7 @@ function columnDefinitions(hasRowNavigation) {
         const icon = getIcon(entity);
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <Tooltip content={entity.name}>
+            <Tooltip content={entity.name} align="topLeft" delay={500}>
               <WithSubscript subscript={getSubscript(entity)}>
                 {hasRowNavigation ? (
                   <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
@@ -147,7 +147,7 @@ function columnDefinitions(hasRowNavigation) {
           return '';
         }
         return (
-          <Tooltip content={getSingular(entity.entityType)}>
+          <Tooltip content={getSingular(entity.entityType)} align="topLeft" delay={500}>
             <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
               {getSingular(entity.entityType)}
             </WithIcon>

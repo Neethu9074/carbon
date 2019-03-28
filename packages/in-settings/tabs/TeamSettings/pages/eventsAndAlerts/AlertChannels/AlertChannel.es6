@@ -141,7 +141,7 @@ const columnDefinitions = [
     width: 55,
     getContent(entity) {
       return (
-        <Tooltip content={entity.label}>
+        <Tooltip content={entity.label} align="topLeft" delay={500}>
           <WithSubscript subscript={getSubscript(entity)}>
             <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
               {entity.label}

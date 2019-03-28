@@ -30,7 +30,8 @@ export default class extends React.PureComponent {
       'bottomRight',
       'auto',
       'mousePosition'
-    ])
+    ]),
+    delay: rpt.number
   };
 
   static defaultProps = {
@@ -76,6 +77,14 @@ export default class extends React.PureComponent {
   }
 
   onMouseIn = () => {
+    if (this.props.delay > 0) {
+      this.delayedTooltip = setTimeout(() => this.showTooltip(), this.props.delay);
+    } else {
+      this.showTooltip();
+    }
+  };
+
+  showTooltip = () => {
     setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
@@ -86,6 +95,9 @@ export default class extends React.PureComponent {
   };
 
   onMouseOut = () => {
+    if (this.delayedTooltip) {
+      clearTimeout(this.delayedTooltip);
+    }
     clearActiveTooltip();
     this.isActive = false;
   };

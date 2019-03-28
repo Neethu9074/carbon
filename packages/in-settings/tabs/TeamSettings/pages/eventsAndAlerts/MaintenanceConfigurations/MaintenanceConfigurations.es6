@@ -42,7 +42,7 @@ const columnDefinitions = [
     width: 26,
     getContent(entity) {
       return (
-        <Tooltip content={entity.name}>
+        <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
@@ -59,7 +59,7 @@ const columnDefinitions = [
     ellipsis: true,
     getContent(entity) {
       return (
-        <Tooltip content={entity.query}>
+        <Tooltip content={entity.query} delay={500}>
           <span>{entity.query}</span>
         </Tooltip>
       );

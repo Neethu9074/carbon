@@ -61,7 +61,7 @@ function columnDefinitions(hasRowNavigation) {
       width: 35,
       getContent(entity) {
         return (
-          <Tooltip content={entity.name}>
+          <Tooltip content={entity.name} align="topLeft" delay={500}>
             <WithSubscript subscript={getKind(entity)}>
               {hasRowNavigation ? (
                 <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
@@ -91,8 +91,8 @@ function columnDefinitions(hasRowNavigation) {
         return (
           <div className={locals.allProperties}>
             {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-              <Tooltip content={`${key}: ${label}`}>
-                <Property key={key} attribute={key} label={label} entity={entity} />
+              <Tooltip key={key} content={`${key}: ${label}`} delay={500}>
+                <Property attribute={key} label={label} entity={entity} />
               </Tooltip>
             ))}
           </div>

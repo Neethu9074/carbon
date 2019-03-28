@@ -51,7 +51,7 @@ const columnDefinitions = [
     width: 40,
     getContent(entity) {
       return (
-        <Tooltip content={entity.alertName}>
+        <Tooltip content={entity.alertName} align="topLeft" delay={500}>
           <WithSubscript subscript={getSubscript(entity)}>
             <Link href$={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
               {entity.alertName}
@@ -77,7 +77,7 @@ const columnDefinitions = [
     getContent(entity) {
       const allChannels = concatChannelNames(entity);
       return (
-        <Tooltip content={allChannels}>
+        <Tooltip content={allChannels} delay={500}>
           <span>{allChannels}</span>
         </Tooltip>
       );
@@ -190,13 +190,13 @@ function renderScope(entity) {
   const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
   if (applyOn === scopeDfq) {
     return (
-      <Tooltip content={entity.eventFilteringConfiguration.query}>
+      <Tooltip content={entity.eventFilteringConfiguration.query} delay={500}>
         <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />
       </Tooltip>
     );
   } else if (applyOn === scopeApplication && applicationName) {
     return (
-      <Tooltip content={applicationName}>
+      <Tooltip content={applicationName} delay={500}>
         <PropertyInTable label="Application" value={applicationName} />
       </Tooltip>
     );

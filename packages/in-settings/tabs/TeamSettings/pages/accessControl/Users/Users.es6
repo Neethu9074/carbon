@@ -67,7 +67,7 @@ function columnDefinitions(sortedRoles, setMessage) {
       ellipsis: true,
       getContent(entity) {
         return (
-          <Tooltip content={entity.fullName}>
+          <Tooltip content={entity.fullName} delay={500}>
             <span>{entity.fullName}</span>
           </Tooltip>
         );
@@ -80,7 +80,7 @@ function columnDefinitions(sortedRoles, setMessage) {
       ellipsis: true,
       getContent(entity) {
         return (
-          <Tooltip content={entity.email}>
+          <Tooltip content={entity.email} delay={500}>
             <span>{entity.email}</span>
           </Tooltip>
         );
