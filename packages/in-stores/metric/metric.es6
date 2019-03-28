@@ -2,7 +2,6 @@ import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggr
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createHistoricMetricsObservable from 'in-subscription/historicMetrics';
 import createHistoricMetricObservable from 'in-subscription/historicMetric';
-import { isOneSecondRollupsForOneDay } from 'in-services/featureFlags';
 import createLiveMetricObservable from 'in-subscription/liveMetric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -48,7 +47,7 @@ export const dynamicRollupPredefinitions = [
 
 const rollupDurationThresholds = [
   {
-    availableFor: isOneSecondRollupsForOneDay ? 1000 * 60 * 60 * 24 : 1000 * 60 * 10 + 3000, // 1s rollups available for one day or, 10m + 3s (to give it some slack when deactivating live mode)
+    availableFor: 1000 * 60 * 60 * 24,
     rollup: null, // 1s
     label: '1s'
   },

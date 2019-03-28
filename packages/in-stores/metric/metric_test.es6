@@ -68,7 +68,7 @@ describe('in-stores/metric', () => {
       () => {
         clock.tick(oneMinute * 20);
 
-        expect(getDefaultMetricRollupDuration(timeConfig(oneMinute * 15, oneMinute * 10)).rollup).to.equal(5000);
+        expect(getDefaultMetricRollupDuration(timeConfig(oneMinute * 5, oneMinute * 15)).rollup).to.equal(5000);
       }
     );
   });

@@ -110,12 +110,6 @@ export const allowedMultiplesOfRollupSizeMissingInCharts =
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
 
-// ########################################################################################
-// Moving from Redis to Cassandra for 1s rollups
-// ########################################################################################
-export const isOneSecondRollupsForOneDay =
-  !isFeatureFlagEnabled('redisMetricWritingEnabled') && isFeatureFlagEnabled('write1sRollupsToCassandra');
-
 // #####################################################################################################################
 // TL;DR: Some tenants have a lot of rule bindings and rules. Loading the rule bindings settings page makes two http
 // requests per rule binding. Users working with these pages a lot run into the API limit. This feature flag disables
