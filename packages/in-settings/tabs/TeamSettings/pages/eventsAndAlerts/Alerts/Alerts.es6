@@ -13,6 +13,7 @@ import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyIn
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import List from 'in-settings/components/List';
+import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
 import Link from 'in-components/Link';
 
@@ -50,11 +51,13 @@ const columnDefinitions = [
     width: 40,
     getContent(entity) {
       return (
-        <WithSubscript subscript={getSubscript(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
-            {entity.alertName}
-          </Link>
-        </WithSubscript>
+        <Tooltip content={entity.alertName}>
+          <WithSubscript subscript={getSubscript(entity)}>
+            <Link href$={getEntityIdView(teamSettingsAlertingAlerts, entity.id)} ellipsis>
+              {entity.alertName}
+            </Link>
+          </WithSubscript>
+        </Tooltip>
       );
     }
   },
@@ -71,7 +74,14 @@ const columnDefinitions = [
     label: 'Alert Channels',
     width: 40,
     ellipsis: true,
-    getContent: concatChannelNames,
+    getContent(entity) {
+      const allChannels = concatChannelNames(entity);
+      return (
+        <Tooltip content={allChannels}>
+          <span>{allChannels}</span>
+        </Tooltip>
+      );
+    },
     getValue: concatChannelNames
   }
 ];
@@ -179,9 +189,17 @@ function renderScope(entity) {
   }
   const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
   if (applyOn === scopeDfq) {
-    return <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />;
+    return (
+      <Tooltip content={entity.eventFilteringConfiguration.query}>
+        <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />
+      </Tooltip>
+    );
   } else if (applyOn === scopeApplication && applicationName) {
-    return <PropertyInTable label="Application" value={applicationName} />;
+    return (
+      <Tooltip content={applicationName}>
+        <PropertyInTable label="Application" value={applicationName} />
+      </Tooltip>
+    );
   } else {
     return '';
   }

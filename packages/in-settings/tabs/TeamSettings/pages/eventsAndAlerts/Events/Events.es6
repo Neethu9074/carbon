@@ -107,20 +107,22 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'name',
       label: 'Name',
-      width: 30,
+      width: 40,
       getContent(entity) {
         const icon = getIcon(entity);
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <WithSubscript subscript={getSubscript(entity)}>
-              {hasRowNavigation ? (
-                <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
-                  {entity.name}
-                </Link>
-              ) : (
-                <span className={locals.ellipsis}>{entity.name}</span>
-              )}
-            </WithSubscript>
+            <Tooltip content={entity.name}>
+              <WithSubscript subscript={getSubscript(entity)}>
+                {hasRowNavigation ? (
+                  <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
+                    {entity.name}
+                  </Link>
+                ) : (
+                  <span className={locals.ellipsis}>{entity.name}</span>
+                )}
+              </WithSubscript>
+            </Tooltip>
           </WithIcon>
         );
       },
@@ -131,8 +133,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'description',
       label: 'Description',
-      width: 45,
-      multiLineEllipsis: 4,
+      width: 40,
       getContent(entity) {
         return <div className={locals.fourLines}>{entity.description}</div>;
       }
@@ -140,7 +141,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'entityType',
       label: 'Entity Type',
-      width: 25,
+      width: 20,
       getContent(entity) {
         if (entity.entityType === 'any') {
           return '';

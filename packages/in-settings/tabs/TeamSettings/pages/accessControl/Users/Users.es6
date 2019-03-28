@@ -10,6 +10,7 @@ import List from 'in-settings/components/List';
 import { getRolesMutable } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
 import ComboBox from 'in-components/ComboBox';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Users.mless';
@@ -65,7 +66,11 @@ function columnDefinitions(sortedRoles, setMessage) {
       width: 30,
       ellipsis: true,
       getContent(entity) {
-        return entity.fullName;
+        return (
+          <Tooltip content={entity.fullName}>
+            <span>{entity.fullName}</span>
+          </Tooltip>
+        );
       }
     },
     {
@@ -74,7 +79,11 @@ function columnDefinitions(sortedRoles, setMessage) {
       width: 40,
       ellipsis: true,
       getContent(entity) {
-        return entity.email;
+        return (
+          <Tooltip content={entity.email}>
+            <span>{entity.email}</span>
+          </Tooltip>
+        );
       }
     },
     {

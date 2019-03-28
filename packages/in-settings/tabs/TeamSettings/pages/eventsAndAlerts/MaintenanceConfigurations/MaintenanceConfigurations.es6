@@ -11,6 +11,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-new-components/WithIcon';
 import List from 'in-settings/components/List';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
@@ -41,11 +42,13 @@ const columnDefinitions = [
     width: 26,
     getContent(entity) {
       return (
-        <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
-          <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
-            {entity.name}
-          </WithIcon>
-        </Link>
+        <Tooltip content={entity.name}>
+          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
+            <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
+              {entity.name}
+            </WithIcon>
+          </Link>
+        </Tooltip>
       );
     }
   },
@@ -55,7 +58,11 @@ const columnDefinitions = [
     width: 25,
     ellipsis: true,
     getContent(entity) {
-      return entity.query;
+      return (
+        <Tooltip content={entity.query}>
+          <span>{entity.query}</span>
+        </Tooltip>
+      );
     }
   },
   {

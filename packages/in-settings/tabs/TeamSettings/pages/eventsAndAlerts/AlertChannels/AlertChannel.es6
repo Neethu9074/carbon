@@ -25,6 +25,7 @@ import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import List from 'in-settings/components/List';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
@@ -137,21 +138,23 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    width: 40,
+    width: 55,
     getContent(entity) {
       return (
-        <WithSubscript subscript={getSubscript(entity)}>
-          <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
-            {entity.label}
-          </Link>
-        </WithSubscript>
+        <Tooltip content={entity.label}>
+          <WithSubscript subscript={getSubscript(entity)}>
+            <Link href$={getEntityIdView(teamSettingsAlertingConfigurations, entity.id)} ellipsis>
+              {entity.label}
+            </Link>
+          </WithSubscript>
+        </Tooltip>
       );
     }
   },
   {
     id: 'kind',
     label: 'Type',
-    width: 30,
+    width: 20,
     ellipsis: true,
     getContent() {
       return 'Alert';
@@ -160,7 +163,7 @@ const columnDefinitions = [
   {
     id: 'enabled',
     label: 'Status',
-    width: 30,
+    width: 25,
     ellipsis: true,
     getContent(entity) {
       if (entity.enabled) {

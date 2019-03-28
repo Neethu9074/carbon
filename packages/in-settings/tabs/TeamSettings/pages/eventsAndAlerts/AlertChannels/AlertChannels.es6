@@ -8,6 +8,7 @@ import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyIn
 import { deleteIntegration, getIntegrationsMutable } from 'in-api/integrations';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
 import locals from './AlertChannels.mless';
@@ -60,15 +61,17 @@ function columnDefinitions(hasRowNavigation) {
       width: 35,
       getContent(entity) {
         return (
-          <WithSubscript subscript={getKind(entity)}>
-            {hasRowNavigation ? (
-              <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
-                {entity.name}
-              </Link>
-            ) : (
-              <span className={locals.ellipsis}>{entity.name}</span>
-            )}
-          </WithSubscript>
+          <Tooltip content={entity.name}>
+            <WithSubscript subscript={getKind(entity)}>
+              {hasRowNavigation ? (
+                <Link href$={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
+                  {entity.name}
+                </Link>
+              ) : (
+                <span className={locals.ellipsis}>{entity.name}</span>
+              )}
+            </WithSubscript>
+          </Tooltip>
         );
       },
       getValue(entity) {
@@ -88,7 +91,9 @@ function columnDefinitions(hasRowNavigation) {
         return (
           <div className={locals.allProperties}>
             {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-              <Property key={key} attribute={key} label={label} entity={entity} />
+              <Tooltip content={`${key}: ${label}`}>
+                <Property key={key} attribute={key} label={label} entity={entity} />
+              </Tooltip>
             ))}
           </div>
         );
