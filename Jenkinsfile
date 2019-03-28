@@ -15,7 +15,7 @@ stage('Checkout') {
 
     instanaVersion  = getVersion('ui-client')
     if ( env.BRANCH_NAME == 'onprem-hotfix' || env.BRANCH_NAME == 'dist-onprem' ) {
-      instanaVersion = getOnPremVersion('ui-client')
+      instanaVersion = getOnPremVersion('ui-client', env.BRANCH_NAME)
     }
 
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
