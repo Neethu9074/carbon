@@ -11,8 +11,8 @@ import locals from './EventSpecificationLink.mless';
 
 export default function EventSpecificationLink({ event }) {
   const eventSpecificationId = event.getIn(['metadata', 'eventSpecificationId']);
-  if (eventSpecificationId == null) {
-    return;
+  if (!eventSpecificationId) {
+    return null;
   }
 
   const isCustom = isCustomEvent(event);

@@ -15,6 +15,7 @@ import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -43,9 +44,14 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader>Unknown Event</SubViewHeader>
-        <p>{entity.get('errors').get(0)}</p>
-        <p>If you followed a link to get here, it has most likely been deleted.</p>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor="#FFC422">
+          Unknown Event
+        </SubViewHeader>
+        <DescriptionText>
+          {entity.get('errors').get(0)}
+          <br />
+          If you followed a link to get here, it has most likely been deleted.
+        </DescriptionText>
       </SettingsDetailPage>
     );
   }

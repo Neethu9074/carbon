@@ -4,6 +4,7 @@ import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
+import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -39,8 +40,11 @@ export default connectTo(
       return (
         <SettingsDetailPage>
           <SubViewHeader>Unknown Event</SubViewHeader>
-          <p>{event.get('errors').get(0)}</p>
-          <p>If you followed a link to get here, it has most likely been deleted.</p>
+          <DescriptionText>
+            {event.get('errors').get(0)}
+            <br />
+            If you followed a link to get here, it has most likely been deleted.
+          </DescriptionText>
         </SettingsDetailPage>
       );
     }
