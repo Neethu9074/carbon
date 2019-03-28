@@ -12,15 +12,15 @@ export default function NodeSummary({ snapshot }) {
       <KpiHeading>n{snapshot.getIn(['data', 'node_id'])}</KpiHeading>
 
       <KpiKeyValue label="SQL Connections">
-        <MetricValue snapshotId={snapshotId} metric="metrics.sql.conns" formatter={zeroDecimalPlaces} />
+        <MetricValue snapshotId={snapshotId} metric="sql.conns" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
 
       <KpiKeyValue label="SQL Reads">
-        <MetricValue snapshotId={snapshotId} metric="metrics.sql.select.count" formatter={zeroDecimalPlaces} />
+        <MetricValue snapshotId={snapshotId} metric="sql.select.count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
 
       <KpiKeyValue label="SQL Writes">
-        <MetricValue snapshotId={snapshotId} metric="metrics.sql.write.count" formatter={zeroDecimalPlaces} />
+        <MetricValue snapshotId={snapshotId} metric="sql.write.count" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>
 
       <KpiKeyValue label="Total Ranges">
