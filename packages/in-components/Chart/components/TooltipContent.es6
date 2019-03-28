@@ -42,32 +42,37 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder 
     labels = labels.slice(0, config.restrictTooltipItemsTo);
   }
 
-  const items = labels.filter(label => !config.filteredDataSeries.has(label)).map((label, i) => {
-    const dataPointsForAxis = dataPointsAtTime[axisName];
-    const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
-    const aggregations = axis.aggregations || [];
-    const aggregation = aggregations[i];
+  const items = labels
+    .map((label, i) => {
+      if (config.filteredDataSeries.has(label)) {
+        return null;
+      }
+      const dataPointsForAxis = dataPointsAtTime[axisName];
+      const dataPoint = dataPointsForAxis ? dataPointsForAxis[label] : null;
+      const aggregations = axis.aggregations || [];
+      const aggregation = aggregations[i];
 
-    return (
-      <li key={label} className={locals.metricValue}>
-        <div className={locals.entry}>
-          <div
-            style={{ background: axis.colors100[i] }}
-            className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
-          />
-          <span className={locals.label}>{label}</span>
-          <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
-        </div>
-        <span className={locals.value}>
-          {dataPoint
-            ? axis.tooltipFormatter
-              ? axis.tooltipFormatter(dataPoint[1])
-              : axis.formatter[i].detailed(dataPoint[1])
-            : '--'}
-        </span>
-      </li>
-    );
-  });
+      return (
+        <li key={label} className={locals.metricValue}>
+          <div className={locals.entry}>
+            <div
+              style={{ background: axis.colors100[i] }}
+              className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
+            />
+            <span className={locals.label}>{label}</span>
+            <span className={locals.aggregation}>{aggregation && `(${aggregationLabels[aggregation]})`}</span>
+          </div>
+          <span className={locals.value}>
+            {dataPoint
+              ? axis.tooltipFormatter
+                ? axis.tooltipFormatter(dataPoint[1])
+                : axis.formatter[i].detailed(dataPoint[1])
+              : '--'}
+          </span>
+        </li>
+      );
+    })
+    .filter(Boolean);
 
   if (items.length < 1) {
     return null;
