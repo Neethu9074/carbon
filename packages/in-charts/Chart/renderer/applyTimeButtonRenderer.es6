@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import ApplyButton from 'in-charts/Chart/renderer/ApplyButton';
 
-const WIDTH_OF_BUTTONS_IN_PX = 87;
+const WIDTH_OF_BUTTONS_IN_PX = allowDownloadMetricsFromCharts ? 87 : 55;
 
 export default function createHighlightedTimeframeRenderer(config) {
   const eventEmitter = new RoEmitter();

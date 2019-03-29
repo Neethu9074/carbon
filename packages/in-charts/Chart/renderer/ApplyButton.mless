@@ -1,0 +1,11 @@
+:local {
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .button {
+    padding: 0.4rem 0.4rem 0.3rem;
+  }
+}

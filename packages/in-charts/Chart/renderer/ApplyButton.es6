@@ -13,9 +13,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import './ApplyButton.less';
-
-const block = 'in-chart-apply-button';
+import locals from './ApplyButton.mless';
 
 const trackWindowSizeChartZoom = twoZeroModeEnabled ? createTracker('time.windowSize.viaZoom') : null;
 
@@ -55,16 +53,16 @@ export default connectTo(
       return null;
     }
     return (
-      <div className={block}>
-        <Button className={`${block}__button`} kind="secondary" href={href} onClick={onZoomApplied}>
+      <div className={locals.buttons}>
+        <Button className={locals.button} kind="secondary" href={href} onClick={onZoomApplied}>
           <SvgIcon type="search" height={12} width={12} color="#172429" />
         </Button>
         {allowDownloadMetricsFromCharts && (
-          <Button className={`${block}__button`} kind="secondary" href={href} onClick={e => download(e, metrics)}>
+          <Button className={locals.button} kind="secondary" href={href} onClick={e => download(e, metrics)}>
             <SvgIcon type="download" height={12} width={12} color="#172429" />
           </Button>
         )}
-        <Button className={`${block}__button`} kind="secondary" onClick={onButtonClicked}>
+        <Button className={locals.button} kind="secondary" onClick={onButtonClicked}>
           <SvgIcon type="x" height={12} width={12} color="#172429" />
         </Button>
       </div>
