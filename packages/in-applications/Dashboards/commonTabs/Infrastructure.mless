@@ -12,4 +12,28 @@
     margin-right: 0.5rem;
     fill: @lib__colors__N500;
   }
+
+  .linkWithMetaEntities {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metaRow {
+    display: flex;
+    align-items: center;
+
+    color: @lib__colors__N500;
+    font-size: 0.75rem;
+  }
+
+  .entitiyIcon {
+    margin: 0 0.25rem 0 0.5rem;
+    fill: @lib__colors__N500;
+  }
+
+  .entityLink {
+    margin-right: 0.5rem;
+    color: @lib__colors__N500;
+  }
 }

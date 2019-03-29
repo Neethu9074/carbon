@@ -1,6 +1,12 @@
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import React from 'react';
 
+import {
+  getPodDashboard,
+  getNamespaceDashboard,
+  getClusterDashboard,
+  getNodeDashboard
+} from 'in-kubernetes/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -12,11 +18,14 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
 
@@ -234,8 +243,18 @@ function getColumnDefinitions(type) {
       label: 'Container',
       sortable: false,
       getContent(item) {
+        const kubernetesPhysicalContext = item.kubernetesPhysicalContext || {};
         return item.physicalContext.container ? (
-          <InfrastructureEntityLink entity={item.physicalContext.container} plugin={plugins.docker} />
+          <InfrastructureEntityLink
+            entity={item.physicalContext.container}
+            plugin={plugins.docker}
+            inEntity={kubernetesPhysicalContext.pod}
+            onEntity={kubernetesPhysicalContext.namespace}
+            inIcon="lib_kubernetes_pod"
+            onIcon="lib_kubernetes_namespace"
+            getInEntityDashboard={getPodDashboard}
+            getOnEntityDashboard={getNamespaceDashboard}
+          />
         ) : (
           <UnmonitoredEntity />
         );
@@ -247,8 +266,18 @@ function getColumnDefinitions(type) {
       label: 'Host',
       sortable: false,
       getContent(item) {
+        const kubernetesPhysicalContext = item.kubernetesPhysicalContext || {};
         return item.physicalContext.host ? (
-          <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
+          <InfrastructureEntityLink
+            entity={item.physicalContext.host}
+            plugin={plugins.host}
+            inEntity={kubernetesPhysicalContext.node}
+            onEntity={kubernetesPhysicalContext.cluster}
+            inIcon="lib_kubernetes_node"
+            onIcon="lib_kubernetes_cluster"
+            getInEntityDashboard={getNodeDashboard}
+            getOnEntityDashboard={getClusterDashboard}
+          />
         ) : (
           <UnmonitoredEntity />
         );
@@ -329,11 +358,20 @@ function getColumnDefinitions(type) {
   ];
 }
 
-function InfrastructureEntityLink({ entity, plugin }) {
+function InfrastructureEntityLink({
+  entity,
+  plugin,
+  inEntity,
+  onEntity,
+  inIcon,
+  onIcon,
+  getInEntityDashboard,
+  getOnEntityDashboard
+}) {
   if (!entity.id) {
     return null;
   }
-  return (
+  const link = (
     <EntityLink
       plugin={plugin}
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
@@ -349,6 +387,38 @@ function InfrastructureEntityLink({ entity, plugin }) {
               })
       )}
     />
+  );
+  if ((inEntity || onEntity) && kubernetesEnabled) {
+    return (
+      <div className={locals.linkWithMetaEntities}>
+        {link}
+        <div className={locals.metaRow}>
+          {inEntity && (
+            <MetaEntityLink entity={inEntity} icon={inIcon} getDashboard={getInEntityDashboard}>
+              in
+            </MetaEntityLink>
+          )}
+          {onEntity && (
+            <MetaEntityLink entity={onEntity} icon={onIcon} getDashboard={getOnEntityDashboard}>
+              of
+            </MetaEntityLink>
+          )}
+        </div>
+      </div>
+    );
+  }
+  return link;
+}
+
+function MetaEntityLink({ icon, getDashboard, entity, children }) {
+  return (
+    <Fragment>
+      {children}
+      <SvgIcon className={locals.entitiyIcon} type={icon} width={18} height={18} />
+      <Link className={locals.entityLink} href$={getDashboard(entity.id)}>
+        {entity.label}
+      </Link>
+    </Fragment>
   );
 }
 
