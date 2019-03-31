@@ -9,7 +9,7 @@ export default function EventListingPresenter({ snapshotId, events }) {
     return null;
   }
 
-  events = events.sort((a, b) => a.get('severity') < b.get('severity'));
+  events = events.sort((a, b) => a.get('severity') - b.get('severity'));
 
   return (
     <div>
