@@ -29,6 +29,7 @@ import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { role } from 'in-stores/user';
 
 import locals from './AlertChannel.mless';
 
@@ -97,17 +98,19 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
           </Card>
         </Col>
         <Col lg={7}>
-          <List
-            cardTitle="Alerts"
-            getHeader={getHeader}
-            tableInCard
-            getEntityName={getEntityName}
-            columnDefinitions={columnDefinitions}
-            loadEntities={() => getAlertsForAlertChannelId(entityId)}
-            initialOrderBy="label"
-            searchAttributes={['label']}
-            getDetailsHref={entity => getEntityHref(teamSettingsAlertingConfigurations, entity.id)}
-          />
+          {role.canConfigureCustomAlerts && (
+            <List
+              cardTitle="Alerts"
+              getHeader={getHeader}
+              tableInCard
+              getEntityName={getEntityName}
+              columnDefinitions={columnDefinitions}
+              loadEntities={() => getAlertsForAlertChannelId(entityId)}
+              initialOrderBy="label"
+              searchAttributes={['label']}
+              getDetailsHref={entity => getEntityHref(teamSettingsAlertingConfigurations, entity.id)}
+            />
+          )}
         </Col>
       </Row>
     </SettingsDetailPage>
