@@ -58,6 +58,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
   const traceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const props = {
     traceId,
+    filters,
     getColor: args =>
       getColor({
         ...args,
@@ -91,12 +92,15 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
   );
 }
 
-function Header(props, filters) {
+function Header(props) {
   return (
     <Fragment>
       <Breadcrumbs
         items={[
-          <Breadcrumb label={getConfigByDataSource(filters.dataSource).breadcrumbLabel} href$={getLinkToAnalyze()} />,
+          <Breadcrumb
+            label={getConfigByDataSource(props.filters.dataSource).breadcrumbLabel}
+            href$={getLinkToAnalyze()}
+          />,
           <TraceDetailBreadcrumb traceId={props.traceId} />
         ]}
       />
