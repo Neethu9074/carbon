@@ -64,7 +64,7 @@ function getTableData({
   orderDirection,
   applicationId,
   serviceId,
-  endpointName,
+  endpointId,
   timeConfig
 }) {
   return getErrorMessages({
@@ -81,7 +81,7 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpoint: endpointName
+      endpoint: endpointId
     },
     metrics: {
       callsAgg: {
