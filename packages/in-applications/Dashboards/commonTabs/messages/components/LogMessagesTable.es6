@@ -81,7 +81,7 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpoint: endpointName // logs are still using endpoint names as ids
+      endpointName: endpointName // logs are still using endpoint names as ids
     },
     metrics: {
       logsAgg: {
