@@ -96,6 +96,24 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Disk">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['sys.host.disk.read.bytes', 'sys.host.disk.write.bytes'],
+            labels: ['Read bytes', 'Write bytes'],
+            type: 'line',
+            formatter: bytesZeroDecimalPlaces
+          }}
+          y2={{
+            metrics: ['sys.host.disk.read.count', 'sys.host.disk.write.count'],
+            labels: ['Read Ops', 'Write Ops'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
       <DashboardSection title="Disk IOPS in progress">
         <Chart
           snapshotId={snapshot.get('id')}
@@ -108,55 +126,7 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Disk read bytes">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['sys.host.disk.read.bytes'],
-            labels: ['Read'],
-            type: 'line',
-            formatter: bytesZeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Disk write bytes">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['sys.host.disk.write.bytes'],
-            labels: ['Write'],
-            type: 'line',
-            formatter: bytesZeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Disk read Ops">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['sys.host.disk.read.count'],
-            labels: ['Read'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Disk write Ops">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['sys.host.disk.write.count'],
-            labels: ['Write'],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Network received bytes">
+      <DashboardSection title="Network">
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -166,15 +136,9 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
-        />
-      </DashboardSection>
-      <DashboardSection title="Network send bytes">
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
+          y2={{
             metrics: ['sys.host.net.send.bytes'],
-            labels: ['Send'],
+            labels: ['Sent'],
             type: 'line',
             formatter: bytesZeroDecimalPlaces
           }}
