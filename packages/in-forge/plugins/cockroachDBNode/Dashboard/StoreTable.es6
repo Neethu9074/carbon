@@ -2,7 +2,7 @@ import { Range } from 'immutable';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { bytesZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
 import Table from 'in-components/Table';
 import Chart from 'in-components/Chart';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -34,7 +34,7 @@ const cols = [
       getMetricName(row) {
         return `storeStatuses.${row.storeNum}.capacity`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -50,7 +50,7 @@ const cols = [
       getMetricName(row) {
         return `storeStatuses.${row.storeNum}.available`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `storeStatuses.${row.storeNum}.used`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -135,7 +135,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: bytesZeroDecimalPlaces,
+          formatter: bytesTwoDecimalPlaces,
           metrics: [
             'storeStatuses.' + row.storeNum + '.capacity',
             'storeStatuses.' + row.storeNum + '.available',
