@@ -129,6 +129,30 @@ class Summary extends React.Component {
 
           <WebsiteMonitoringData traceId={traceId} startTime={trace.startTime} />
 
+          {!isLargeTrace && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Timeline" withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
+                  <div className={locals.icicleChartWrapper}>
+                    <ServerIcicleChart
+                      traceId={traceId}
+                      getColor={getColor}
+                      onCallClicked={this.onCallClicked}
+                      hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                    />
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          )}
+
+          <ServiceEndpointList
+            traceId={traceId}
+            getColor={getColor}
+            onListItemMouseEnter={this.onListItemMouseEnter}
+            onListItemMouseLeave={this.onListItemMouseLeave}
+          />
+
           {isLargeTrace &&
             !showLargeTrace && (
               <Row>
@@ -152,29 +176,6 @@ class Summary extends React.Component {
                 </Col>
               </Row>
             )}
-
-          {!isLargeTrace && (
-            <Row>
-              <Col lg={12}>
-                <Card title="Timeline" withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
-                  <div className={locals.icicleChartWrapper}>
-                    <ServerIcicleChart
-                      traceId={traceId}
-                      getColor={getColor}
-                      onCallClicked={this.onCallClicked}
-                      hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
-                    />
-                  </div>
-                  <ServiceEndpointList
-                    traceId={traceId}
-                    getColor={getColor}
-                    onListItemMouseEnter={this.onListItemMouseEnter}
-                    onListItemMouseLeave={this.onListItemMouseLeave}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          )}
 
           {(!isLargeTrace || showLargeTrace) && (
             <Row>

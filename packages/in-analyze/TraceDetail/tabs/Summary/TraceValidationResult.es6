@@ -9,7 +9,7 @@ const issueMessages = {
   multiple_root_spans: 'The trace is malformed and contains multiple root calls',
   missing_root_span: 'The root call of the trace is missing or has not yet arrived in the processing pipeline.',
   duplicated_spans: 'The trace contains duplicated calls with the same id.',
-  too_many_spans: 'The trace contains too many calls, it is only partially retrieved.',
+  too_many_spans: 'The trace contains too many calls, it can only be partially displayed and downloaded.',
   missing_parent_span:
     'Some calls are missing their parent call. They consequently inherit the root call as their parent'
 };
