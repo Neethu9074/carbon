@@ -25,7 +25,8 @@ export function getAlertingConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/alerts/${encodeURIComponent(id)}`
+    url: `/api/events/settings/alerts/${encodeURIComponent(id)}`,
+    treat400AsError: false
   }).map(response => fromJS(response.body));
 }
 

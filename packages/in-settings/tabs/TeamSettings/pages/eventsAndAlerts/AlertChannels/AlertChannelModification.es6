@@ -1,3 +1,4 @@
+import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -8,11 +9,14 @@ import { teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths'
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import DescriptionText from 'in-components/form/DescriptionText';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
 
 export default function AlertChannelModification(props) {
   const kind = getMatrixParameter(props.location, '/channels', 'kind');
@@ -32,16 +36,44 @@ export default function AlertChannelModification(props) {
 }
 
 function save(alertChannel, form) {
-  return saveIntegration(fromJS(fullyQualified[alertChannel.get('kind')].createEntity(alertChannel, form)));
+  return saveIntegration(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 
-function createForm(config) {
-  return fullyQualified[config.get('kind')].createForm(config);
+function createForm(alertChannel) {
+  if (!alertChannel || alertChannel.get('errors')) {
+    return createMapForm();
+  }
+
+  return getConfig(alertChannel).createForm(alertChannel);
+}
+
+function getConfig(alertChannel) {
+  return fullyQualified[alertChannel.get('kind')];
 }
 
 const AlertChannelModificationForm = entityForm(function AlertChannelModificationForm(props) {
   const { entity, form, message, error, loading, setForm, isCreate } = props;
-  const fullyQualifiedAlertChannel = fullyQualified[entity.get('kind')];
+
+  if (!entity || !form) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  if (entity && entity.get('errors')) {
+    return (
+      <SettingsDetailPage>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+          Unknown Alert Channel
+        </SubViewHeader>
+        <DescriptionText>
+          {entity.get('errors').get(0)}
+          <br />
+          If you followed a link to get here, it has most likely been deleted.
+        </DescriptionText>
+      </SettingsDetailPage>
+    );
+  }
+
+  const fullyQualifiedAlertChannel = getConfig(entity);
   const Form = fullyQualifiedAlertChannel.Form;
   const alertChannelLabel = fullyQualifiedAlertChannel.label;
 

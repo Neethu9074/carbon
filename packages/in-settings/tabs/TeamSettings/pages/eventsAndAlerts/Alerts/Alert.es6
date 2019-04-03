@@ -17,13 +17,16 @@ import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
 import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import { queryValidator } from 'in-stores/search/validations';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
 
 export const limitForConnectedEvents = 1000;
 export const limitForConnectedAlertChannels = 100;
@@ -45,7 +48,26 @@ export default function Alert(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
-  const { form, message, error, loading, isCreate } = props;
+  const { entity, form, message, error, loading, isCreate } = props;
+
+  if (!entity || !form) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  if (entity && entity.get('errors')) {
+    return (
+      <SettingsDetailPage>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+          Unknown Alert
+        </SubViewHeader>
+        <DescriptionText>
+          {entity.get('errors').get(0)}
+          <br />
+          If you followed a link to get here, it has most likely been deleted.
+        </DescriptionText>
+      </SettingsDetailPage>
+    );
+  }
 
   return (
     <SettingsDetailPage>
