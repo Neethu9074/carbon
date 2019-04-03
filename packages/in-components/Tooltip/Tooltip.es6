@@ -85,13 +85,18 @@ export default class extends React.PureComponent {
   };
 
   showTooltip = () => {
-    setActiveTooltip({
-      focusedElement: this.domNode,
-      content: this.props.content,
-      themeStyle: this.props.themeStyle,
-      align: this.props.align || 'auto'
-    });
-    this.isActive = true;
+    // For a tooltip with delay it can happen that the component for which we want to show the tooltip has been
+    // unmounted since the mouseenter event. In these cases the dom node will be null.
+    // (componentWillUnmount -> removeListeners)
+    if (this.domNode) {
+      setActiveTooltip({
+        focusedElement: this.domNode,
+        content: this.props.content,
+        themeStyle: this.props.themeStyle,
+        align: this.props.align || 'auto'
+      });
+      this.isActive = true;
+    }
   };
 
   onMouseOut = () => {
