@@ -1,11 +1,17 @@
 @import '~in-themes/mixins.less';
+@import '~in-themes/mediaQueries.less';
 
 :local {
   .navigator {
     max-height: ~'calc(100vh - 169px)';
     position: fixed;
-    width: 37.5rem;
+    width: 20rem;
     border-right: 1px solid #d5dfe4;
+  }
+  @media @min-medium-screen {
+    .navigator {
+      width: 37.5rem;
+    }
   }
 
   .labelColumn {
