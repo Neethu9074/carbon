@@ -51,11 +51,11 @@ export default compose(
             (form.get('key') && !isBlank(form.get('key').value)) || (operator != 'IS_BLANK' && operator != 'NOT_BLANK')
         ),
       onRemoveTagFilter: () => {
-        if (setTagFilters) {
-          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
-        }
         if (removeTagFilter) {
           removeTagFilter(tagFilter);
+        }
+        if (setTagFilters) {
+          setTagFilters(tagFilters.filter(f => !isSameFilter(f, tagFilter)));
         }
         close();
 
