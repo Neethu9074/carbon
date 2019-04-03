@@ -7,9 +7,8 @@ import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Separator from 'in-sdk/components/sidebar/Separator';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
-
-import Info from 'in-forge/plugins/docker/Info';
 import Ports from 'in-forge/plugins/docker/Ports';
+import Info from 'in-forge/plugins/docker/Info';
 
 export default function DockerSidebar({ snapshot }) {
   const labels = snapshot.getIn(['data', 'Labels']);

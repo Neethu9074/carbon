@@ -8,6 +8,7 @@ import {
 } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
+import ContainerInfoButton from 'in-forge/plugins/docker/ContainerInfoButton';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
@@ -35,6 +36,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
+        <ContainerInfoButton snapshot={snapshot} />
       </KpiSection>
 
       <DashboardSection title="CPU">
