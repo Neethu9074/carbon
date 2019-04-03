@@ -1,0 +1,36 @@
+@import '~in-themes/active.less';
+
+:local {
+  .navigation,
+  .background {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .navigation {
+    width: 4.5rem;
+    transition: width 0.2s ease-in-out;
+
+    padding: 0.75rem 0 4rem 0;
+
+    background: @lib__colors__navy900;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
+
+    overflow: hidden;
+    z-index: @z-index__main-navigation;
+  }
+
+  .expandedNavigation {
+    width: 17.5rem;
+    overflow-y: auto;
+  }
+
+  .background {
+    right: 0;
+
+    background: rgba(216, 216, 216, 0.5);
+    z-index: @z-index__main-navigation-background;
+  }
+}

@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .timePresenter {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    display: flex;
+
+    height: @header__height * 1px;
+    width: 17.5rem;
+
+    align-items: center;
+    border-left: 1px solid @lib__colors__N400;
+    padding: 0 2rem 0 2rem;
+    z-index: @z-index__time-selection;
+  }
+
+  .light {
+    border-left: 1px solid #2d4048;
+  }
+
+  .time {
+    margin: 0 0.5rem 0 0;
+  }
+}

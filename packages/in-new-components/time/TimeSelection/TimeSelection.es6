@@ -1,5 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
+import {
+  eventsPath,
+  physicalPath,
+  containerPath,
+  settingsPath,
+  isTableView
+} from 'in-stores/navigation/paths/mainPaths';
 import {
   getTimeframeNonLiveUrl,
   getTimeframeLiveUrl,
@@ -8,40 +15,64 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { isView } from 'in-stores/navigation/navigation';
+import { any } from 'in-services/fixedStreams';
 import connect from 'in-hoc/connectTo';
 
-import locals from './AppHeaderTimeSelection.mless';
+import locals from './TimeSelection.mless';
 
 export const trackWindowSizeViaPicker = createTracker('time.windowSize.viaPicker');
 
 export default connect({
-  timeConfig: timeConfig$
-})(AppHeaderTimeSelection);
+  timeConfig: timeConfig$,
+  isHidden: isView(settingsPath).distinct(),
+  useLightTheme: any(
+    isView(physicalPath),
+    isView(containerPath),
+    isTableView('physical'),
+    isView(eventsPath)
+  ).distinct()
+})(TimeSelection);
 
-function AppHeaderTimeSelection({ timeConfig }) {
+function TimeSelection({ timeConfig, isHidden, useLightTheme }) {
+  if (isHidden) {
+    return null;
+  }
+
   return (
-    <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
+    <Overlay
+      props={{ timeConfig, useLightTheme }}
+      content={TimeSelectionDialogPresenterWrapper}
+      withoutWrapper
+      withoutArrow
+    >
       {TimePresenterWrapper}
     </Overlay>
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, useLightTheme, refSetter }) {
   return (
-    <Fragment>
+    <div
+      className={evaluateClassNames({
+        [locals.timePresenter]: true,
+        [locals.light]: useLightTheme
+      })}
+    >
       <TimePresenter
+        className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
-        className={locals.time}
         onClick={toggle}
         refSetter={refSetter}
       />
       <LiveModeToggle isLive={timeConfig.autoRefresh} />
-    </Fragment>
+    </div>
   );
 }
 
@@ -55,7 +86,6 @@ function LiveModeToggle({ isLive }) {
       iconOn="lib_actions_loading"
       iconOnSpinning="clockwise"
       iconOnHover="lib_actions_stop"
-      className={locals.liveToggle}
     >
       LIVE
     </ToggleButton>

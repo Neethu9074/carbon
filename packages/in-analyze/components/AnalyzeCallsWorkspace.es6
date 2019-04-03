@@ -11,11 +11,9 @@ export default function AnalyzeCallsWorkspace(props) {
   return (
     <Fragment>
       <Title title="Analyze Calls" />
-
       <Sticky header={<AnalyzeHeader isGrouped={filters.group && !!filters.group.name} />}>
         <QueryBuilderWorkspace {...props} />
       </Sticky>
-
       <MaxWidthFullscreenContainer>{children}</MaxWidthFullscreenContainer>
     </Fragment>
   );

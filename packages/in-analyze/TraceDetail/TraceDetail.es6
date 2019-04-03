@@ -20,9 +20,9 @@ import tabs from 'in-analyze/TraceDetail/tabs/index';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
-import Sticky from 'in-components/Sticky';
 
 import locals from './TraceDetail.mless';
 

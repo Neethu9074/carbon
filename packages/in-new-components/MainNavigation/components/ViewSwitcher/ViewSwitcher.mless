@@ -1,3 +1,4 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
 :local {
@@ -5,12 +6,12 @@
     display: flex;
     flex-direction: column;
 
-    margin: 1rem 0 0 0;
+    margin: 2.5rem 0 0 0;
     padding: 0;
   }
 
   .spacer {
-    height: 1.75rem;
+    height: 1.5rem;
   }
 
   .incidentMenu {
@@ -32,5 +33,21 @@
     border-radius: 50%;
     font-weight: bold;
     font-size: 0.6875rem;
+  }
+
+  .signOutButton {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+
+  .userEmail {
+    max-width: 11.5rem;
+
+    font-size: 10px;
+    color: @lib__colors__primary1;
+    .ellipsis();
   }
 }
