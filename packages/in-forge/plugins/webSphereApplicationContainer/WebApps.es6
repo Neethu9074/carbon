@@ -7,7 +7,7 @@ import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function WebApps({ snapshot }) {
-  const webApps = snapshot.getIn(['data', 'appInfo'], emptyMap).toOrderedMap();
+  const webApps = snapshot.getIn(['data', 'appInfo'], emptyMap);
   if (webApps.size === 0) {
     return null;
   }
@@ -16,7 +16,7 @@ export default function WebApps({ snapshot }) {
     <div>
       <Separator />
 
-      {webApps.map((info, webAppName) => (
+      {webApps.keySeq().map(webAppName => (
         <Collapsible initiallyOpen={false} key={webAppName}>
           <Collapsible.Header>App [{webAppName}]</Collapsible.Header>
           <Collapsible.Content>
