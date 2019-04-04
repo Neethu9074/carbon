@@ -8,9 +8,9 @@
     justify-content: space-between;
 
     padding-top: 1rem;
-    height: @header__height * 1px;
+    height: 3.5rem;
     position: relative;
-    background: white;
+    background: @lib__colors__N050;
   }
 
   .type {

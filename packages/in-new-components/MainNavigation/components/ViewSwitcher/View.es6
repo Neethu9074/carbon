@@ -29,7 +29,6 @@ export default connectTo(
     sidebarIsExpanded,
     expandedSubMenu,
     onClick,
-    onMouseLeave,
     setExpandedSubMenu
   }) {
     const isExpanded = expandedSubMenu === label;
@@ -39,7 +38,6 @@ export default connectTo(
       <li
         className={evaluateClassNames({
           [locals.view]: true,
-          [locals.viewWithChildren]: children,
           [locals.collapsed]: !isExpanded && !isActive && !sidebarIsExpanded,
           [locals.collapsedActive]: isActive && !sidebarIsExpanded && !children,
           [locals.collapsedActiveWithChildren]: isActive && !sidebarIsExpanded && children,
@@ -59,10 +57,9 @@ export default connectTo(
             }
 
             if (onClick) {
-              onClick(e, label);
+              onClick(e);
             }
           }}
-          onMouseLeave={onMouseLeave}
         >
           <Link className={locals.link} href$={href$}>
             <SvgIcon className={locals.icon} style={{ fill: color }} type={icon} width={32} height={32} />

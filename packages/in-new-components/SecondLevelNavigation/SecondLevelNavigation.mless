@@ -2,18 +2,17 @@
 
 :local {
   .nav {
-    background: @lib__colors__N050;
-    font-size: 1.375rem;
+    background: @lib__colors__navy800;
+    font-size: 22px;
     font-weight: lighter;
     overflow: hidden;
-    border-bottom: 1px solid @lib__colors__N300;
   }
 
   .tabList {
     display: flex;
     align-items: flex-end;
 
-    height: @header__height * 1px;
+    height: 4rem;
   }
 
   .tab {
@@ -21,40 +20,40 @@
     align-items: center;
 
     font-size: 1rem;
-    padding: 0 1rem 0.75rem;
+    padding: 0 1rem 1rem;
     border-bottom: 3px solid transparent;
 
     &:hover {
-      border-bottom: 3px solid @lib__colors__N400;
+      border-bottom: 3px solid #fff;
 
       .icon {
-        fill: @lib__colors__N500;
+        fill: #fff;
       }
     }
   }
 
   .tabSelected {
-    color: @lib__colors__N500;
-    border-bottom: 3px solid @lib__colors__N500;
+    color: #fff;
+    border-bottom: 3px solid #fff;
     cursor: default;
 
     .icon {
-      fill: @lib__colors__N500;
+      fill: #fff;
     }
   }
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N500;
+    fill: rgba(255,255,255,0.56);
   }
 
   .link {
     text-decoration: none;
-    color: @lib__colors__N500;
+    color: rgba(255,255,255,0.56);
 
     &:hover {
       text-decoration: none;
-      color: @lib__colors__N500;
+      color: #fff;
     }
   }
 
@@ -69,8 +68,8 @@
       left: 0;
       bottom: 0.7rem;
       width: 2px;
-      background: #84969c;
-      content: '';
+      background: #84969C;
+      content: "";
     }
   }
 }

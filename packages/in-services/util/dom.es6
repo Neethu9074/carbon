@@ -23,12 +23,6 @@ export function scrollToTopSmoothly() {
   }
 }
 
-export function scrollToTop(domElement) {
-  if (domElement.scrollTo) {
-    domElement.scrollTo(0, 0);
-  }
-}
-
 // Calculate the position of an element relative to the document root.
 export function getCoords(elem) {
   const box = elem.getBoundingClientRect();

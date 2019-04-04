@@ -1,12 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import {
-  eventsPath,
-  physicalPath,
-  containerPath,
-  settingsPath,
-  isTableView
-} from 'in-stores/navigation/paths/mainPaths';
 import {
   getTimeframeNonLiveUrl,
   getTimeframeLiveUrl,
@@ -15,64 +8,40 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { isView } from 'in-stores/navigation/navigation';
-import { any } from 'in-services/fixedStreams';
 import connect from 'in-hoc/connectTo';
 
-import locals from './TimeSelection.mless';
+import locals from './AppHeaderTimeSelection.mless';
 
 export const trackWindowSizeViaPicker = createTracker('time.windowSize.viaPicker');
 
 export default connect({
-  timeConfig: timeConfig$,
-  isHidden: isView(settingsPath).distinct(),
-  useLightTheme: any(
-    isView(physicalPath),
-    isView(containerPath),
-    isTableView('physical'),
-    isView(eventsPath)
-  ).distinct()
-})(TimeSelection);
+  timeConfig: timeConfig$
+})(AppHeaderTimeSelection);
 
-function TimeSelection({ timeConfig, isHidden, useLightTheme }) {
-  if (isHidden) {
-    return null;
-  }
-
+function AppHeaderTimeSelection({ timeConfig }) {
   return (
-    <Overlay
-      props={{ timeConfig, useLightTheme }}
-      content={TimeSelectionDialogPresenterWrapper}
-      withoutWrapper
-      withoutArrow
-    >
+    <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
       {TimePresenterWrapper}
     </Overlay>
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, useLightTheme, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.timePresenter]: true,
-        [locals.light]: useLightTheme
-      })}
-    >
+    <Fragment>
       <TimePresenter
-        className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
+        className={locals.time}
         onClick={toggle}
         refSetter={refSetter}
       />
       <LiveModeToggle isLive={timeConfig.autoRefresh} />
-    </div>
+    </Fragment>
   );
 }
 
@@ -86,6 +55,7 @@ function LiveModeToggle({ isLive }) {
       iconOn="lib_actions_loading"
       iconOnSpinning="clockwise"
       iconOnHover="lib_actions_stop"
+      className={locals.liveToggle}
     >
       LIVE
     </ToggleButton>

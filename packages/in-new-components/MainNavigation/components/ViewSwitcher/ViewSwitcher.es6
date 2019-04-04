@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { combineLatest, just } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -6,12 +6,13 @@ import {
   physicalTablePath,
   physicalPath,
   containerPath,
+  cockpitPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
+import { kubernetesEnabled, cockpitEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { kubernetesEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -22,11 +23,9 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
-import { joinClassNames } from 'in-services/util/classnames';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { getColorBySeverity } from 'in-stores/events';
-import { all, any } from 'in-services/fixedStreams';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
@@ -35,13 +34,7 @@ import locals from './ViewSwitcher.mless';
 
 const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
 
-export default function ViewSwitcher({
-  isExpanded,
-  expandedSubMenu,
-  setExpandedSubMenu,
-  onViewSwitched,
-  onMouseLeave
-}) {
+export default function ViewSwitcher({ isExpanded, expandedSubMenu, setExpandedSubMenu, onViewSwitched }) {
   return (
     <ul className={locals.list}>
       <View
@@ -51,7 +44,6 @@ export default function ViewSwitcher({
         sidebarIsExpanded={isExpanded}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
-        onMouseLeave={onMouseLeave}
       >
         <SubViewItem
           label="Map"
@@ -75,7 +67,6 @@ export default function ViewSwitcher({
           isActive$={isView(kubernetes)}
           sidebarIsExpanded={isExpanded}
           onClick={onViewSwitched}
-          onMouseLeave={onMouseLeave}
         />
       )}
 
@@ -88,7 +79,6 @@ export default function ViewSwitcher({
         href$={getView(applicationsList)}
         sidebarIsExpanded={isExpanded}
         onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
       />
 
       <View
@@ -98,7 +88,6 @@ export default function ViewSwitcher({
         isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
         sidebarIsExpanded={isExpanded}
         onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
       />
 
       <View
@@ -111,12 +100,11 @@ export default function ViewSwitcher({
         })}
         sidebarIsExpanded={isExpanded}
         onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
       />
 
       <Spacer />
 
-      <IncidentsMenuPoint isExpanded={isExpanded} onViewSwitched={onViewSwitched} onMouseLeave={onMouseLeave} />
+      <IncidentsMenuPoint isExpanded={isExpanded} onViewSwitched={onViewSwitched} />
 
       <Spacer />
 
@@ -127,10 +115,20 @@ export default function ViewSwitcher({
         href$={getView(settingsPath)}
         sidebarIsExpanded={isExpanded}
         onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
       />
 
-      {instanaInternalFeaturesEnabled && <Spacer />}
+      {(cockpitEnabled || instanaInternalFeaturesEnabled) && <Spacer />}
+
+      {cockpitEnabled && (
+        <View
+          label="cockpit"
+          icon="dashboard"
+          isActive$={isView(containerPath)}
+          href$={getView(cockpitPath)}
+          sidebarIsExpanded={isExpanded}
+          onClick={onViewSwitched}
+        />
+      )}
 
       {instanaInternalFeaturesEnabled && (
         <View
@@ -140,11 +138,28 @@ export default function ViewSwitcher({
           href$={just('/#/internal')}
           sidebarIsExpanded={isExpanded}
           onClick={onViewSwitched}
-          onMouseLeave={onMouseLeave}
         />
       )}
 
       <Spacer />
+
+      <View
+        label={user.email}
+        icon="lib_menu_account"
+        sidebarIsExpanded={isExpanded}
+        expandedSubMenu={expandedSubMenu}
+        setExpandedSubMenu={setExpandedSubMenu}
+      >
+        <form action="/auth/signOut" method="post">
+          <SubViewItem
+            renderLabel={className => (
+              <button className={className} type="submit">
+                Sign Out
+              </button>
+            )}
+          />
+        </form>
+      </View>
 
       <View
         label="Additional Resources"
@@ -153,7 +168,6 @@ export default function ViewSwitcher({
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
         isActive$={any(isView(agentsPath))}
-        onMouseLeave={onMouseLeave}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
         <SubViewItem label="Tenants" href="https://instana.io/tenantSwitcher" external />
@@ -165,25 +179,10 @@ export default function ViewSwitcher({
             onClick={onViewSwitched}
           />
         )}
-        {releaseNotesEnabled && (
-          <SubViewItem
-            label="Release Notes"
-            onClick={e => {
-              showReleaseNotes();
-              onViewSwitched(e, 'Release Notes');
-            }}
-          />
-        )}
+        {releaseNotesEnabled && <SubViewItem label="Release Notes" onClick={showReleaseNotes} />}
         <SubViewItem label="Documentation" href="https://docs.instana.com" external />
         <SubViewItem label="Support" className={locals.linkElement} href="https://support.instana.com" external />
-        <SubViewItem
-          label="About Instana"
-          onClick={e => {
-            setActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, 'About Instana');
-          }}
-        />
-        <SignOut />
+        <SubViewItem label="About Instana" onClick={() => setActiveDialog(<AboutInstanaDialog />)} />
       </View>
     </ul>
   );
@@ -194,7 +193,7 @@ const IncidentsMenuPoint = connectTo(
     events: openEventsAtServerTime$,
     isActive: isView(eventsPath)
   },
-  function IncidentsMenuPoint({ events, isActive, isExpanded, onViewSwitched, onMouseLeave }) {
+  function IncidentsMenuPoint({ events, isActive, isExpanded, onViewSwitched }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
@@ -212,7 +211,6 @@ const IncidentsMenuPoint = connectTo(
           isActive={isActive}
           sidebarIsExpanded={isExpanded}
           onClick={onViewSwitched}
-          onMouseLeave={onMouseLeave}
         />
         {numIncidents > 0 && (
           <div className={locals.issueIndicator} style={{ background: color }}>
@@ -224,21 +222,17 @@ const IncidentsMenuPoint = connectTo(
   }
 );
 
-function SignOut() {
-  return (
-    <form action="/auth/signOut" method="post">
-      <SubViewItem
-        renderLabel={className => (
-          <button className={joinClassNames(locals.signOutButton, className)} type="submit">
-            Sign Out
-            <span className={locals.userEmail}>{user.email}</span>
-          </button>
-        )}
-      />
-    </form>
-  );
-}
-
 function Spacer() {
   return <li className={locals.spacer} />;
+}
+
+function any() {
+  const args = Array.from(arguments);
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a || b, false)));
+}
+
+function all() {
+  const args = Array.from(arguments);
+  // the observable should return true, if any of the given streams returns true
+  return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a && b, true)));
 }

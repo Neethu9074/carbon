@@ -1,0 +1,82 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding:0.5rem * 2 0.5rem 0.5rem;
+    min-width: 13.75rem;
+    box-sizing: border-box;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+
+    background: hsla(198, 23%, 23%, 0.98);
+    font-size: @lib__typography__h100__font-size;
+    color: #92a5ae;
+  }
+
+  .accountName {
+    margin: 0 0.5rem;
+    font-size: 0.875rem;
+    color: #fff;
+  }
+
+  .linkElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.56rem;
+    padding: 0.3rem 0.5rem;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: @lib__typography__h100__font-size;
+    width: 100%;
+    box-sizing: border-box;
+    color: #92a5ae;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      background: #43565e;
+      border-radius: 0.25rem;
+
+      .linkElementIcon {
+        opacity: 1;
+      };
+    }
+  }
+
+  .linkElementIcon {
+    opacity: 0;
+  };
+
+  .accountMenuLink {
+    margin-top: 1rem;
+  }
+
+  .separator {
+    content: '';
+    display: block;
+    border-bottom: 1px solid #43565e;
+    margin: 0.5rem 0;
+  }
+
+  .updateSection {
+    display: flex;
+    flex-direction: column;
+    padding: 0.3rem 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .updateSectionHeader {
+    font-size: @lib__typography__h100__font-size;
+    color: @lib__colors__warning;
+  }
+
+  .updateSectionHeaderButton {
+    align-self: center;
+  }
+}

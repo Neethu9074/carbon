@@ -18,8 +18,8 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import { prefetch } from 'in-subscription/util/prefetch';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
+import Sticky from 'in-components/Sticky';
 
 import locals from './AppNavigatorSplitScreen.mless';
 

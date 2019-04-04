@@ -1,10 +1,12 @@
 import onClickOutside from 'react-onclickoutside';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { scrollToTop } from 'in-services/util/dom';
+import { homePath } from 'in-stores/navigation/paths/mainPaths';
+import { getView } from 'in-stores/navigation/navigation';
+import Link from 'in-components/Link';
 
 import locals from './MainNavigation.mless';
 
@@ -27,7 +29,7 @@ export default onClickOutside(
 
     delayedExpand = () => {
       this.disposeHandle();
-      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 250);
+      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 3000);
     };
 
     delayedCollapse = () => {
@@ -37,8 +39,6 @@ export default onClickOutside(
 
     setExpandedState = newState => {
       if (newState !== this.state.isExpanded) {
-        scrollToTop(this.mainNavigation);
-
         this.setState({
           isExpanded: newState,
           expandedSubMenu: newState ? this.state.expandedSubMenu : null
@@ -46,22 +46,10 @@ export default onClickOutside(
       }
     };
 
-    onViewSwitched = (e, viewLabel) => {
+    onViewSwitched = e => {
       e.stopPropagation();
       this.disposeHandle();
       this.setExpandedState(false);
-      this.setState({
-        lastClickedViewLabel: viewLabel
-      });
-    };
-
-    onMouseLeave = viewLabel => {
-      if (this.state.lastClickedViewLabel !== viewLabel) {
-        this.delayedExpand();
-        this.setState({
-          lastClickedViewLabel: null
-        });
-      }
     };
 
     disposeHandle = () => {
@@ -83,28 +71,25 @@ export default onClickOutside(
       const { isExpanded, expandedSubMenu } = this.state;
 
       return (
-        <Fragment>
-          <div
-            className={evaluateClassNames({
-              [locals.navigation]: true,
-              [locals.expandedNavigation]: isExpanded
-            })}
-            onMouseEnter={this.delayedExpand}
-            onMouseLeave={this.delayedCollapse}
-            onClick={() => this.setState({ isExpanded: true })}
-            ref={nav => (this.mainNavigation = nav)}
-          >
+        <div
+          className={evaluateClassNames({
+            [locals.navigation]: true,
+            [locals.expandedNavigation]: isExpanded
+          })}
+          onMouseEnter={this.delayedExpand}
+          onMouseLeave={this.delayedCollapse}
+          onClick={() => this.setState({ isExpanded: true })}
+        >
+          <Link href$={getView(homePath)} className={locals.lettering} onClick={e => e.stopPropagation()}>
             <Stan isExpanded={isExpanded} />
-            <ViewSwitcher
-              isExpanded={isExpanded}
-              expandedSubMenu={expandedSubMenu}
-              setExpandedSubMenu={view => this.setState({ expandedSubMenu: view })}
-              onViewSwitched={this.onViewSwitched}
-              onMouseLeave={this.onMouseLeave}
-            />
-          </div>
-          {isExpanded && <div className={locals.background} />}
-        </Fragment>
+          </Link>
+          <ViewSwitcher
+            isExpanded={isExpanded}
+            expandedSubMenu={expandedSubMenu}
+            setExpandedSubMenu={view => this.setState({ expandedSubMenu: view })}
+            onViewSwitched={this.onViewSwitched}
+          />
+        </div>
       );
     }
   }
