@@ -1,5 +1,7 @@
 import { createLogger } from 'instalog';
 
+import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinition';
+
 let missingSpanDefinitionReported = false;
 
 // maps type => spanDefinition
@@ -34,6 +36,8 @@ export function getSpanDefinition(type, span) {
   const spanDefinition = registry[type];
   if (spanDefinition) {
     return spanDefinition;
+  } else if (type.indexOf('log.') === 0) {
+    return genericLogSpanDefinition;
   }
 
   if (!missingSpanDefinitionReported) {

@@ -21,6 +21,8 @@ export default function Header({ call, onClose, getColor }) {
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
 
+  const isLogSpan = get(call, ['spans', '0', 'name'], '').indexOf('log') === 0 && call.spans.length === 1;
+
   return (
     <Fragment>
       <h1 className={locals.title}>
@@ -33,7 +35,8 @@ export default function Header({ call, onClose, getColor }) {
         <div className={locals.entityInformation}>
           <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
           {!isUnknownTypeSpan(call) &&
-            endpoint && (
+            endpoint &&
+            !isLogSpan && (
               <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
                 {endpoint.type}
               </Pill>

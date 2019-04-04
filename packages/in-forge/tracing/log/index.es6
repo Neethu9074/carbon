@@ -1,17 +1,4 @@
+import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
-import { getLabel } from 'in-forge/tracing/log/spanDefinition';
-
-registerSpanDefinition({
-  type: 'log',
-  category: 'logger',
-
-  typeName: {
-    singular: 'Log',
-    plural: 'Logs'
-  },
-
-  detailView: 'LogSpanDetailView',
-
-  getLabel
-});
+registerSpanDefinition(genericLogSpanDefinition);
