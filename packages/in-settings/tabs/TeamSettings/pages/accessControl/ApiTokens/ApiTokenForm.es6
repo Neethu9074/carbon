@@ -17,7 +17,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
       {form.get('id').map(field => (
         <FormGroup>
           <Label htmlFor="api-token-id">API Token</Label>
-          <Input id="api-token-id" value={field.value} disabled />
+          <Input id="api-token-id" value={field.value} readonly />
         </FormGroup>
       ))}
 
