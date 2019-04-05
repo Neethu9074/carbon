@@ -10,23 +10,19 @@ import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/components
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import { pendingResult } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
 
 import locals from './CallDetails.mless';
 
 export default connect(props => ({
-  callResult: getTraceActivityTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(
-    pendingResult
-  ),
-  callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
+  callResult: getTraceActivityTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(pendingResult)
 }))(CallDetails);
 
 function CallDetails(props) {
-  const { callResult, callTreeResult, getColor, onClose } = props;
+  const { callResult, getColor, onClose } = props;
 
-  const isLoading = get(callResult, ['progress', 'loading']) || get(callTreeResult, ['progress', 'loading']);
+  const isLoading = get(callResult, ['progress', 'loading']);
   if (isLoading) {
     return (
       <div className={locals.callDetails}>
@@ -35,7 +31,7 @@ function CallDetails(props) {
     );
   }
 
-  const hasErrors = get(callResult, ['errors', 'length'], 0) + get(callTreeResult, ['errors', 'length'], 0) > 0;
+  const hasErrors = get(callResult, ['errors', 'length'], 0) > 0;
   if (hasErrors) {
     return (
       <div className={locals.callDetails}>
@@ -45,15 +41,10 @@ function CallDetails(props) {
   }
 
   const call = callResult.data;
-  const callTreeNode = findCallTreeNode(callTreeResult.data, call.id);
-
-  if (!callTreeNode) {
-    return null;
-  }
 
   return (
     <aside className={locals.callDetails}>
-      <Header call={call} callTreeNode={callTreeNode} getColor={getColor} onClose={onClose} />
+      <Header call={call} getColor={getColor} onClose={onClose} />
       <Seperator />
       <IsSynthetic call={call} />
       <CallStatus call={call} />
@@ -61,19 +52,4 @@ function CallDetails(props) {
       <StackTrace call={call} />
     </aside>
   );
-}
-
-function findCallTreeNode(treeNode, nodeId) {
-  if (treeNode.id === nodeId) {
-    return treeNode;
-  }
-
-  for (let i = 0; i < treeNode.children.length; i++) {
-    const subTreeMatch = findCallTreeNode(treeNode.children[i], nodeId);
-    if (subTreeMatch) {
-      return subTreeMatch;
-    }
-  }
-
-  return null;
 }

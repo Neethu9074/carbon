@@ -3,8 +3,8 @@ import { get } from 'lodash';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
-import { isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
+import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -17,7 +17,7 @@ import Link from 'in-components/Link';
 
 import locals from './Header.mless';
 
-export default function Header({ call, callTreeNode, onClose, getColor }) {
+export default function Header({ call, onClose, getColor }) {
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
 
@@ -33,15 +33,15 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
         <div className={locals.entityInformation}>
           <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
           {!isUnknownTypeSpan(call) &&
-            callTreeNode &&
-            callTreeNode.endpoint && (
-              <Pill kind="light" color={getColorForEndpointType(callTreeNode.endpoint.type)}>
-                {callTreeNode.endpoint.type}
+            endpoint && (
+              <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
+                {endpoint.type}
               </Pill>
             )}
         </div>
       )}
       {service &&
+        endpoint &&
         service.id !== 'ROOT' &&
         service.id !== 'UNKNOWN' && (
           <Fragment>
@@ -49,7 +49,7 @@ export default function Header({ call, callTreeNode, onClose, getColor }) {
 
             <div className={locals.serviceLine}>
               <div className={locals.rect} style={{ background: getColor({ service, endpoint }) }} />
-              <span className={locals.text}>{isInternalCall(callTreeNode) ? 'In' : 'To'}</span>
+              <span className={locals.text}>{endpoint.type === 'INTERNAL' ? 'In' : 'To'}</span>
               <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
               <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
                 {endpoint.label}
