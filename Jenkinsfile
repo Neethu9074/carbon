@@ -80,6 +80,12 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
+  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'release' ) {
+    build job: '/deployment/k8s/k8s-deploy', parameters: [
+      string(name: 'BRANCH', value: env.BRANCH_NAME)
+    ]
+  }
+  
   def deployments = [:]
   deployments['deploy-test'] = {
     if ( env.BRANCH_NAME == 'develop' ) {
