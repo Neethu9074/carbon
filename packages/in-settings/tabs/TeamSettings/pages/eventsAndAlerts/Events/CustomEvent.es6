@@ -17,6 +17,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Section from 'in-settings/components/Section';
@@ -42,6 +43,11 @@ export default function CustomEvent(props) {
 
 const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
+
+  if (!entity || !form) {
+    return <LoadingIndicator type="dark" />;
+  }
+
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>

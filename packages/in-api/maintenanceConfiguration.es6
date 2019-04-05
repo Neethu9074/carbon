@@ -24,7 +24,8 @@ export function getMaintenanceConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/maintenanceConfigs/${encodeURIComponent(id)}`
+    url: `/api/maintenanceConfigs/${encodeURIComponent(id)}`,
+    treat400AsError: false
   }).map(response => fromJS(response.body));
 }
 

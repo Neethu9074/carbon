@@ -35,7 +35,7 @@ function createKeyValueHtmlContent(items, query) {
     <dl>
       {items
         .toArray()
-        .filter(item => containsIgnoreCase(item.key, query))
+        .filter(item => containsIgnoreCase(item.key, query) || containsIgnoreCase(item.value, query))
         .sort((a, b) => compareIgnoreCase(a.key, b.key))
         .map(item => (
           <div className={locals.keyValueItem} key={item.key}>

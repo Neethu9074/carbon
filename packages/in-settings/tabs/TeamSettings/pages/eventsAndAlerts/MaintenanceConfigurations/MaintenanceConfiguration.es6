@@ -1,5 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import React from 'react';
 
 import {
@@ -14,7 +14,9 @@ import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navig
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -22,6 +24,7 @@ import { isNotBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
 
 import locals from './MaintenanceConfiguration.mless';
 
@@ -42,7 +45,26 @@ export default function MaintenanceConfiguration(props) {
 }
 
 const Form = entityForm(function MaintenanceForm(props) {
-  const { form, message, error, loading, isCreate } = props;
+  const { entity, form, message, error, loading, isCreate } = props;
+
+  if (!entity || !form) {
+    return <LoadingIndicator type="dark" />;
+  }
+
+  if (entity && entity.get('errors')) {
+    return (
+      <SettingsDetailPage>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+          Unknown Maintenance Window Configuration
+        </SubViewHeader>
+        <DescriptionText>
+          {entity.get('errors').get(0)}
+          <br />
+          If you followed a link to get here, it has most likely been deleted.
+        </DescriptionText>
+      </SettingsDetailPage>
+    );
+  }
 
   return (
     <SettingsDetailPage>
@@ -111,7 +133,7 @@ function onChangeApplyOn(form, applyOn) {
 }
 
 function createForm(config, isCreate) {
-  const windows = config.get('windows');
+  const windows = config.get('windows', List([]));
   const firstWindow = windows.size > 0 ? windows.get(0).toJS() : createMaintenanceWindow();
 
   const query = config.get('query');
