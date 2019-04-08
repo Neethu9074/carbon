@@ -5,10 +5,6 @@
     min-width: 18rem;
   }
 
-  .podPhaseLabel {
-    margin: 0.25rem 0 0.5rem 0.8125rem;
-  }
-
   .headlingFlexWrapper,
   .flexWrapper {
     display: flex;
@@ -17,9 +13,5 @@
 
   .headingFlexWrapper {
     color: @lib__colors__N500;
-  }
-
-  .summaryCell {
-    font-weight: bold;
   }
 }

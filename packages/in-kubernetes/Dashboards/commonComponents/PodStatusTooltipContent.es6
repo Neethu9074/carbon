@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 
 import locals from './PodStatusTooltipContent.mless';
 
@@ -11,8 +12,6 @@ export default function PodStatusTooltipContent({ pod }) {
 
   return (
     <div className={locals.tooltip}>
-      <div className={locals.podPhaseLabel}>{`Pod Phase:  ${podStatus.phase || pod.phase}`}</div>
-
       <div className={locals.headingFlexWrapper}>
         <Table>
           <Thead>
@@ -33,13 +32,13 @@ export default function PodStatusTooltipContent({ pod }) {
                 </Td>
               </Tr>
             ))}
-            <Tr size="compact">
-              <Td className={locals.summaryCell}>Summary</Td>
-              <Td className={locals.summaryCell}>{podStatus.statusSummary}</Td>
-              <Td className={locals.summaryCell}>{`${podStatus.containerStatuses.filter(c => c.ready).length}/${
-                podStatus.containerStatuses.length
-              }`}</Td>
-            </Tr>
+            {allContainerStatuses.length === 0 && (
+              <Tr size="compact">
+                <Td colSpan="3">
+                  <NoDataAvailable text="No Containers" height={80} />
+                </Td>
+              </Tr>
+            )}
           </Tbody>
         </Table>
       </div>
