@@ -94,7 +94,8 @@ stage('Deployment') {
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'test'),
-          string(name: 'VERSION', value: instanaVersion)
+          string(name: 'VERSION', value: instanaVersion),
+          string(name: 'BRANCH_NAME', value: 'develop')
         ]
 
         slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
@@ -121,7 +122,8 @@ stage('Deployment') {
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'release'),
-          string(name: 'VERSION', value: instanaVersion)
+          string(name: 'VERSION', value: instanaVersion),
+          string(name: 'BRANCH_NAME', value: 'release')
         ]
 
         slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult)
