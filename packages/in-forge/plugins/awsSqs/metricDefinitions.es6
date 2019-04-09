@@ -1,6 +1,13 @@
-import { number } from 'in-services/formatters/number';
+import { number, millis, bytes } from 'in-services/formatters/number';
 
 export default [
+  {
+    metric: 'age_of_oldest_msg',
+    label: 'Age of oldest messages',
+    category: ['Messages'],
+    min: 0,
+    formatter: millis
+  },
   {
     metric: 'num_of_msg_delayed',
     label: 'Number of messages delayed',
@@ -41,5 +48,12 @@ export default [
     category: ['Messages'],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'sent_message_size',
+    label: 'Sent messages size',
+    category: ['Messages'],
+    min: 0,
+    formatter: bytes
   }
 ];
