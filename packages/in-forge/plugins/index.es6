@@ -36,6 +36,7 @@ import './clrRuntimePlatform';
 import './cloudFoundry';
 import './cockroachDBCluster';
 import './cockroachDBNode';
+import './containerd';
 import './consul';
 import './consulCluster';
 import './couchbaseCluster';
