@@ -81,20 +81,6 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-
-      <DashboardSection title="Block IO">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['blkio.blk_read', 'blkio.blk_write'],
-            labels: ['Read', 'Write'],
-            type: 'line',
-            formatter: bytesTwoDecimalPlaces
-          }}
-        />
-      </DashboardSection>
     </div>
   );
 }

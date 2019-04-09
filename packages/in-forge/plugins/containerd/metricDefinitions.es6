@@ -1,4 +1,4 @@
-import { percentage, number, micros, bytes } from 'in-services/formatters/number';
+import { percentage, micros, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -38,17 +38,6 @@ export default [
     ],
     min: 0,
     category: ['Memory'],
-    formatter: bytes,
-    isAvailable(snapshot) {
-      const containerdVersion = snapshot.getIn(['data', 'containerd_version']);
-      return containerdVersion === '1.11.0' || containerdVersion === '1.11.1';
-    }
-  },
-  {
-    metrics: ['blkio.blk_read', 'blkio.blk_write'],
-    labels: ['Read', 'Write'],
-    category: ['Block IO'],
-    min: 0,
-    formatter: number
+    formatter: bytes
   }
 ];

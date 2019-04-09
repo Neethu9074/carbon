@@ -20,8 +20,7 @@ registerSnapshotDefinition({
 
   getContext(snapshot) {
     return Map({
-      Labels: snapshot.getIn(['data', 'labels']),
-      Marathon: snapshot.getIn(['data', 'Marathon', 'labels'])
+      Labels: snapshot.getIn(['data', 'labels'])
     });
   }
 });
