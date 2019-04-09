@@ -6,12 +6,26 @@ def gitCommitAuthor = null
 def instanaVersion  = null
 def archiveName     = null
 
+void setBuildStatus(String message, String state) {
+  commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://api.github.com/instana/ui-client"],
+      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 stage('Checkout') {
   node {
 
     deleteDir()
 
     checkout scm
+    setBuildStatus('Build started', 'PENDING')
 
     instanaVersion  = getVersion('ui-client')
     if ( env.BRANCH_NAME == 'onprem-hotfix' || env.BRANCH_NAME == 'dist-onprem' ) {
@@ -53,7 +67,10 @@ stage('Node Build') {
           uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
         }
         markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
+        setBuildStatus('Build successful', 'SUCCESS')
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+      } else {
+        setBuildStatus('Build failed', 'FAILURE')
       }
     }
   }
@@ -85,7 +102,7 @@ stage('Deployment') {
       string(name: 'BRANCH', value: env.BRANCH_NAME)
     ]
   }
-  
+
   def deployments = [:]
   deployments['deploy-test'] = {
     if ( env.BRANCH_NAME == 'develop' ) {
