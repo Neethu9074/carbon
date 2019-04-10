@@ -108,6 +108,9 @@ export default function DevDashboard() {
         <li>
           <a href="/#/internal/graphExplorer">Graph Explorer</a>
         </li>
+        <li>
+          <a href="/#/internal/snapshotVersions">Snapshot Versions</a>
+        </li>
       </ul>
     </div>
   );

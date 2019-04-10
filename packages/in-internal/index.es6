@@ -5,6 +5,7 @@ import FillerSpanProcessingStats from 'in-internal/FillerSpanProcessingStats/Fil
 import TracesSubscriptionStats from 'in-internal/TracesSubscriptionStats/TracesSubscriptionStats';
 import AppDataProcessorStatistics from 'in-internal/Appdata/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/Appdata/AppDataQueryPerformance';
+import SnapshotVersions from 'in-internal/SnapshotVersions/SnapshotVersions';
 import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
 import GraphExplorer from 'in-internal/GraphExplorer/GraphExplorer';
 import SloViolations from 'in-internal/SloViolations/SloViolations';
@@ -28,6 +29,7 @@ export default function Internal() {
   return (
     <Switch>
       <Route path="/internal/graphExplorer" component={GraphExplorer} />
+      <Route path="/internal/snapshotVersions" component={SnapshotVersions} />
       <Route path="/internal/devDashboard" component={DevDashboard} />
       <Route path="/internal/tuStatistics" component={TuStatistics} />
       <Route path="/internal/sloViolations" component={SloViolations} />

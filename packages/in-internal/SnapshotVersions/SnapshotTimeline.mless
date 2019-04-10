@@ -1,0 +1,61 @@
+@import '~in-themes/active.less';
+
+:local {
+  .view {
+    position: absolute;
+    top: 4rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+
+  .snapshot,
+  .gap {
+    position: absolute;
+    bottom: ~'calc(50% + 2rem)';
+
+    min-height: 1rem;
+    min-width: 1px;
+  }
+
+  .snapshot {
+    background: @lib__colors__light-blue800;
+    cursor: pointer;
+
+    &:hover {
+      background: @lib__colors__indigo800;
+    }
+  }
+
+  .selectedSnapshot {
+    background: @lib__colors__indigo800;
+  }
+
+  .even {
+    bottom: ~'calc(50% + 2.5rem)';
+  }
+
+  .gap {
+    min-height: 2rem;
+    background: #ff404044;
+  }
+
+  .gapIcon {
+    position: absolute;
+    top: 100%;
+    left: ~'calc(50% - 6px)';
+    fill: @lib__colors__red800;
+  }
+
+  .fullSnapshot {
+    position: absolute;
+    top: 4rem;
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .time {
+    font-weight: bold;
+  }
+}

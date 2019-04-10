@@ -1,0 +1,23 @@
+:local {
+  .view {
+    padding: 1rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
+    width: 20rem;
+    margin-right: 0.25rem;
+  }
+
+  .content {
+    position: absolute;
+    top: 7.25rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
