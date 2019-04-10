@@ -129,10 +129,10 @@ export default function MaintenanceConfigurationForm(props) {
 
         <Row>
           <Col cols={6}>
-            <DateWithTime label="Start date" path="start" {...props} />
+            <DateWithTime label="Start time (UTC)" path="start" {...props} />
           </Col>
           <Col cols={6}>
-            <DateWithTime label="End date" path="end" {...props} />
+            <DateWithTime label="End time (UTC)" path="end" {...props} />
           </Col>
         </Row>
         <TouchedMessages field={form.get('window')} />
@@ -156,6 +156,7 @@ function DateWithTime({ form, label, path, setForm }) {
         <Col cols={5}>
           <DateInput
             id={`maintenance-${path}-date`}
+            placeholder="YYYY-MM-DD"
             value={dateField.value}
             onChange={v => setValue(form, ['window', path, 'date'], v)}
             hasError={!dateField.valid && dateField.touched}
