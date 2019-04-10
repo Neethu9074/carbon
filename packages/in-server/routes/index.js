@@ -55,18 +55,30 @@ router.get('/', (req, res) => {
   getCurrentUser(req)
     .then(([statusCode, userStr]) => {
       if (statusCode === 401) {
-        sendUnauthorizedResponse(req, res);
+        res.status(401).send(
+          compiledRedirectTemplate({
+            signInUrl: `${req.uiClientBaseUrl}/auth/signIn`,
+            returnUrlWithoutHash: encodeURIComponent(req.uiClientBaseUrl + req.originalUrl)
+          })
+        );
+        return;
+      } else if (statusCode === 403) {
+        errorPages.send403(req, res);
+        return;
+      } else if (statusCode < 200 || statusCode > 299) {
+        console.error('Undefined state: Server returned unknown status code ' + statusCode);
+        errorPages.send500(req, res);
         return;
       }
 
       return Promise.all([
-        getUserSettings(req, res, statusCode, userStr),
-        getSearchFields(req, res),
-        getFilterTags(req, res),
+        getUserSettings(req),
+        getSearchFields(req),
+        getFilterTags(req),
         getCsrfToken(req)
       ])
-      .then(([[statusCode, userStr, userSettings], searchFieldsStr, filterTags, csrf]) =>
-        sendIndex(req, res, statusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf)
+      .then(([userSettings, searchFieldsStr, filterTags, csrf]) =>
+        sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf)
       );
     })
     .catch(err => {
@@ -75,7 +87,7 @@ router.get('/', (req, res) => {
     });
 });
 
-function getUserSettings(req, res, getUserStatusCode, userStr) {
+function getUserSettings(req) {
   return new Promise((resolve, reject) => {
     sendRequest(
       {
@@ -83,13 +95,13 @@ function getUserSettings(req, res, getUserStatusCode, userStr) {
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
-        timeout: 5000
+        timeout: 15000
       },
       (error, response, userSettings) => {
         if (error) {
           reject(new Error('Failed to retrieve user settings from ui-backend: ' + String(error)));
         } else {
-          resolve([response.statusCode, userStr, userSettings]);
+          resolve(userSettings);
         }
       }
     );
@@ -104,7 +116,7 @@ function getSearchFields(req) {
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
-        timeout: 5000
+        timeout: 15000
       },
       (error, response, searchFields) => {
         if (error) {
@@ -125,7 +137,7 @@ function getFilterTags(req) {
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
-        timeout: 5000
+        timeout: 15000
       },
       (error, response, tags) => {
         if (error) {
@@ -146,7 +158,7 @@ function getCsrfToken(req) {
         headers: {
           Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
         },
-        timeout: 5000
+        timeout: 15000
       },
       (error, response) => {
         if (error) {
@@ -161,19 +173,7 @@ function getCsrfToken(req) {
   });
 }
 
-function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFieldsStr, filterTags, csrf) {
-  if (getUserStatusCode === 401) {
-    sendUnauthorizedResponse(req, res);
-    return;
-  } else if (getUserStatusCode === 403) {
-    errorPages.send403(req, res);
-    return;
-  } else if (getUserStatusCode < 200 || getUserStatusCode > 299) {
-    console.error('Undefined state: Server returned unknown status code ' + getUserStatusCode);
-    errorPages.send500(req, res);
-    return;
-  }
-
+function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf) {
   const nonces = Array(maxNonces)
     .fill(maxNonces)
     .map(() => uuid.v4());
@@ -206,15 +206,6 @@ function sendIndex(req, res, getUserStatusCode, userStr, userSettings, searchFie
       tags: filterTags,
       csrf,
       numberLocale: getNumberLocaleDefinition(req)
-    })
-  );
-}
-
-function sendUnauthorizedResponse(req, res) {
-  res.status(401).send(
-    compiledRedirectTemplate({
-      signInUrl: `${req.uiClientBaseUrl}/auth/signIn`,
-      returnUrlWithoutHash: encodeURIComponent(req.uiClientBaseUrl + req.originalUrl)
     })
   );
 }
