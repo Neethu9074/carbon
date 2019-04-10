@@ -15,7 +15,7 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
 
   const beaconRenderers = renderers[beacon.type];
   if (!beaconRenderers) {
-    return <div>Unsupported beacon type: {beacon.type}</div>;
+    return null;
   }
 
   return (
