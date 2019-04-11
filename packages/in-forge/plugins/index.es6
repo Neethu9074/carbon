@@ -83,6 +83,7 @@ import './javaMailLogicalService';
 import './javaMailServiceInstance';
 import './jBossAsApplicationContainer';
 import './jbossDataGrid';
+import './jenkins';
 import './jettyApplicationContainer';
 import './jiraApplication';
 import './jvmRuntimePlatform';
