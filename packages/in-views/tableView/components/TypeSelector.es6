@@ -12,6 +12,7 @@ const physicalDomains = {
   host: 'Hosts',
   jvm: 'JVMs',
   nodejs: 'Node.js Apps',
+  containerd: 'Containerd Containers',
   docker: 'Docker Containers',
   garden: 'Garden Containers',
   process: 'Processes',

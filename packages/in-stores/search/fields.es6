@@ -19,6 +19,7 @@ const helpTexts = {
   'entity.host': 'Infrastructure host',
   'entity.host.os': 'Operating system',
   'entity.service': 'Logical service',
+  'entity.containerd': 'Containerd container',
   'entity.docker': 'Docker container',
   'entity.garden': 'Garden container',
   'entity.ruby': 'Ruby application',
@@ -66,6 +67,7 @@ filters$.subscribe(_filters => {
 });
 
 let treeBySearchContext = {};
+
 export function getTree(searchContext) {
   if (!(searchContext in treeBySearchContext)) {
     const fields = buildCategorizedFields(searchContext);
