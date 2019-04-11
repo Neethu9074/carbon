@@ -27,11 +27,7 @@ stage('Checkout') {
     checkout scm
     setBuildStatus('Build started', 'PENDING')
 
-    instanaVersion  = getVersion('ui-client')
-    if ( env.BRANCH_NAME == 'onprem-hotfix' || env.BRANCH_NAME == 'dist-onprem' ) {
-      instanaVersion = getOnPremVersion('ui-client', env.BRANCH_NAME)
-    }
-
+    instanaVersion  = getVersion('ui-client', env.BRANCH_NAME)
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
 
@@ -97,7 +93,7 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'release' ) {
+  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release-') ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME)
     ]
@@ -133,7 +129,7 @@ stage('Deployment') {
     }
   }
   deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME == 'release' ) {
+    if ( env.BRANCH_NAME.startsWith('release') ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
