@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  bytesTwoDecimalPlaces,
-  timeByNanoTwoDecimalPlaces,
-  percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, timeByNanoTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import MetricValue from 'in-components/MetricValue';
@@ -19,15 +14,15 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        <KpiKeyValue label="CPU Total %">
-          <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
+        <KpiKeyValue label="CPU Total">
+          <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={timeByNanoTwoDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title="CPU Time">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -35,7 +30,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
             labels: ['Total', 'Kernel', 'User'],
-            formatter: percentageTwoDecimalPlaces,
+            formatter: timeByNanoTwoDecimalPlaces,
             type: 'line'
           }}
         />
@@ -46,7 +41,8 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['cpu.throttling_count'],
             labels: ['Throttling count'],
-            type: 'line'
+            type: 'line',
+            formatter: number.compact
           }}
           y2={{
             min: 0,
