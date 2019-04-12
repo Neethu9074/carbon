@@ -107,7 +107,7 @@ stage('Deployment') {
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH_NAME', value: 'develop')
+          string(name: 'BRANCH', value: env.BRANCH_NAME)
         ]
 
         slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
@@ -128,14 +128,14 @@ stage('Deployment') {
     }
   }
   deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME.startsWith('release') ) {
+    if ( env.BRANCH_NAME.startsWith('release-') ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: env.BRANCH_NAME),
+          string(name: 'ENVIRONMENT', value: 'release'),
           string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH_NAME', value: env.BRANCH_NAME)
+          string(name: 'BRANCH', value: env.BRANCH_NAME)
         ]
 
         slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
