@@ -1,17 +1,17 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { hostTableCols, getHostDetails } from 'in-internal/sre/datastores';
 import { getDropwizardWithContext } from 'in-internal/dataRetrieval';
 import { getNginxWithContext } from 'in-internal/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { number, time } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
-import Table from 'in-sdk/components/dashboard/Table';
-import { hostTableCols, getHostDetails } from 'in-internal/sre/datastores';
 
 export default connectTo(
   {
