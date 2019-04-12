@@ -12,8 +12,8 @@ import {
   tablePath,
   tracesPath
 } from 'in-stores/navigation/paths/mainPaths';
-import { kubernetesEnabled, twoZeroModeEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { kubernetesEnabled, twoZeroModeEnabled } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global!in-components/graphView/GraphView';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import TableView from 'promise-loader?global!in-views/tableView/TableView';
@@ -49,9 +49,7 @@ export default (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
 
-    {instanaInternalFeaturesEnabled && (
-      <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
-    )}
+    <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
 
     {twoZeroModeEnabled && applicationRoutes}
     {twoZeroModeEnabled && analyzeRoutes}

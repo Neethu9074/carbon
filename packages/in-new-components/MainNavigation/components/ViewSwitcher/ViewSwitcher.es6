@@ -1,5 +1,5 @@
 import { just } from 'reactive-observables';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   eventsPath,
@@ -8,10 +8,11 @@ import {
   containerPath,
   isTableView
 } from 'in-stores/navigation/paths/mainPaths';
+import isInternalVisible$ from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { kubernetesEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import { instanaInternalFeaturesEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -21,12 +22,13 @@ import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { joinClassNames } from 'in-services/util/classnames';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { getColorBySeverity } from 'in-stores/events';
 import { all, any } from 'in-services/fixedStreams';
+import { isInstanaEngineer } from 'in-stores/user';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
@@ -130,19 +132,7 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       />
 
-      {instanaInternalFeaturesEnabled && <Spacer />}
-
-      {instanaInternalFeaturesEnabled && (
-        <View
-          label="Internal"
-          icon="lib_actions_lock"
-          isActive$={isView('/internal')}
-          href$={just('/#/internal')}
-          sidebarIsExpanded={isExpanded}
-          onClick={onViewSwitched}
-          onMouseLeave={onMouseLeave}
-        />
-      )}
+      <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
 
       <Spacer />
 
@@ -188,6 +178,33 @@ export default function ViewSwitcher({
     </ul>
   );
 }
+
+const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, function({
+  isInternalVisible,
+  sidebarIsExpanded,
+  onClick,
+  onMouseLeave
+}) {
+  // should always be visible when instanaInternalFeaturesEnabled is set. if not, then only when instana engineer AND isVisible
+  if (!instanaInternalFeaturesEnabled && (!isInternalVisible || !isInstanaEngineer)) {
+    return null;
+  }
+
+  return (
+    <Fragment>
+      <Spacer />
+      <View
+        label="Internal"
+        icon="lib_actions_lock"
+        isActive$={isView('/internal')}
+        href$={just('/#/internal')}
+        sidebarIsExpanded={sidebarIsExpanded}
+        onClick={onClick}
+        onMouseLeave={onMouseLeave}
+      />
+    </Fragment>
+  );
+});
 
 const IncidentsMenuPoint = connectTo(
   {

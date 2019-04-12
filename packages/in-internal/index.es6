@@ -22,15 +22,14 @@ import EumOverview from 'in-internal/eum/Overview';
 import FillerStats from 'in-internal/FillerStats';
 import Appdata from 'in-internal/Appdata/Appdata';
 import Cassandra from 'in-internal/sre/Cassandra';
-import Elastic from 'in-internal/sre/Elastic';
 import Acceptors from 'in-internal/sre/Acceptors';
+import Elastic from 'in-internal/sre/Elastic';
 
 export default function Internal() {
   return (
     <Switch>
       <Route path="/internal/graphExplorer" component={GraphExplorer} />
       <Route path="/internal/snapshotVersions" component={SnapshotVersions} />
-      <Route path="/internal/devDashboard" component={DevDashboard} />
       <Route path="/internal/tuStatistics" component={TuStatistics} />
       <Route path="/internal/sloViolations" component={SloViolations} />
       <Route path="/internal/eum/eum-acceptor" component={EumAcceptor} />
@@ -51,6 +50,8 @@ export default function Internal() {
       <Route path="/internal/sre/acceptors" component={Acceptors} />
       <Route path="/internal/sre/elastic" component={Elastic} />
       <Route path="/internal/sre/clickhouse" component={Clickhouse} />
+
+      <Route path="/internal/devDashboard" component={DevDashboard} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
   );

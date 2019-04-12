@@ -1,6 +1,7 @@
 import onClickOutside from 'react-onclickoutside';
 import React, { Fragment } from 'react';
 
+import { click } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -91,7 +92,10 @@ export default onClickOutside(
             })}
             onMouseEnter={this.delayedExpand}
             onMouseLeave={this.delayedCollapse}
-            onClick={() => this.setState({ isExpanded: true })}
+            onClick={() => {
+              this.setState({ isExpanded: true });
+              click();
+            }}
             ref={nav => (this.mainNavigation = nav)}
           >
             <Stan isExpanded={isExpanded} />

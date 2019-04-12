@@ -35,12 +35,10 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use(unitCoordinates);
 app.use(errorPagesRoutes);
-app.use(assetRoutes);
-
 app.use(configEnrichment);
+app.use(assetRoutes);
 app.use(pingRoutes);
 app.use(indexRoutes);
 

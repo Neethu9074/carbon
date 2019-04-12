@@ -1,12 +1,13 @@
 const express = require('express');
 
 const checkSumMod = require('../services/checksum');
+const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
 
-const router = module.exports = express.Router();
+const router = (module.exports = express.Router());
 const cacheControlHeader = 'public, max-age=86400, stale-while-revalidate=3600, stale-if-error=86400';
 const sendFilesConfig = {
   headers: {
@@ -14,24 +15,36 @@ const sendFilesConfig = {
   }
 };
 
-
 // do not permit access to our internal chunk
 router.use('/bundle/internal.*.js', (req, res, next) => {
-  if (req.tenant === 'instana' || req.tenant === 'instanaops') {
-    next();
-  } else {
-    res.sendStatus(403);
-  }
+  getCurrentUser(req)
+    .then(([statusCode, userStr]) => {
+      const user = getUserFromUserStr(userStr);
+      if (statusCode === 200) {
+        if (user && user.email.endsWith('@instana.com')) {
+          next();
+        } else {
+          res.sendStatus(403);
+        }
+      } else {
+        res.sendStatus(statusCode);
+      }
+    })
+    .catch(err => {
+      console.error('Failed to deliver bundle to user:', err);
+      res.send500(req, res);
+    });
 });
 
-
 // assets directory will be populated with generated JavaScript during the build process.
-router.use(express.static(paths.assetDir, {
-  cacheControl: false,
-  setHeaders(res) {
-    res.setHeader('Cache-Control', cacheControlHeader);
-  }
-}));
+router.use(
+  express.static(paths.assetDir, {
+    cacheControl: false,
+    setHeaders(res) {
+      res.setHeader('Cache-Control', cacheControlHeader);
+    }
+  })
+);
 
 // This file doesn't actually exist on disk. The path exists for cache busting reasons.
 // When receiving the call, we need to make sure that the version supplied is actually
@@ -43,15 +56,11 @@ router.get('/bundle/index-:version.js', (req, res) => {
     return;
   }
 
-  res.sendFile(
-    paths.indexJs,
-    sendFilesConfig,
-    err => {
-      if (err) {
-        console.error('Failed to send file. Cannot complete request.', err);
-      }
+  res.sendFile(paths.indexJs, sendFilesConfig, err => {
+    if (err) {
+      console.error('Failed to send file. Cannot complete request.', err);
     }
-  );
+  });
 });
 
 // This file doesn't actually exist on disk. The path exists for cache busting reasons.
@@ -64,13 +73,19 @@ router.get('/bundle/index-:version.css', (req, res) => {
     return;
   }
 
-  res.sendFile(
-    paths.indexCss,
-    sendFilesConfig,
-    err => {
-      if (err) {
-        console.error('Failed to send file. Cannot complete request.', err);
-      }
+  res.sendFile(paths.indexCss, sendFilesConfig, err => {
+    if (err) {
+      console.error('Failed to send file. Cannot complete request.', err);
     }
-  );
+  });
 });
+
+function getUserFromUserStr(userStr) {
+  let user;
+  try {
+    user = JSON.parse(userStr);
+  } catch (error) {
+    user = null;
+  }
+  return user;
+}
