@@ -10,8 +10,8 @@ const issueMessages = {
   missing_root_span: 'The root call of the trace is missing or has not yet arrived in the processing pipeline.',
   duplicated_spans: 'The trace contains duplicated calls with the same id.',
   too_many_spans: 'The trace contains too many calls, it can only be partially displayed and downloaded.',
-  missing_parent_span:
-    'Some calls are missing their parent call. They consequently inherit the root call as their parent'
+  database_parent_spans:
+    'Some calls are malformed: they are built from a pair of exit/entry spans where the exit span represents a database call.'
 };
 
 export default function TraceValidationResult({ issues }) {
