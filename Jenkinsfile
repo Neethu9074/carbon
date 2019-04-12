@@ -121,8 +121,6 @@ stage('Deployment') {
 
         build job: '/deployment/staging/deploy-ui-client', parameters: [
           string(name: 'VERSION', value: instanaVersion)
-          string(name: 'ENVIRONMENT', value: 'staging'),
-          string(name: 'BRANCH', value: env.BRANCH)
         ]
 
         slackNotification('Deploy Staging', 'ui-client', gitCommitId, currentBuild.currentResult)
