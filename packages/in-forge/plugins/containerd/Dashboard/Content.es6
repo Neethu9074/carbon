@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, timeByNanoTwoDecimalPlaces, number } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function ContainerdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -13,7 +12,6 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="CPU Total">
           <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={timeByNanoTwoDecimalPlaces} />
         </KpiKeyValue>

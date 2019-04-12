@@ -3,7 +3,6 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import Info from 'in-forge/plugins/containerd/Info';
 
 export default function ContainerdSidebar({ snapshot }) {
@@ -11,8 +10,6 @@ export default function ContainerdSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Containerd Container</Collapsible.Header>
         <Collapsible.Content>
