@@ -57,9 +57,7 @@ export default connectTo(
       return <RedirectWithHash to={newWebsitePathFullyQualified} />;
     }
 
-    const leftHeader = (
-      <ListTitle>Websites {totalNumberOfWebsites != null && `(${number.compact(totalNumberOfWebsites)})`}</ListTitle>
-    );
+    const leftHeader = <ListTitle>Websites</ListTitle>;
 
     return (
       <Fragment>
