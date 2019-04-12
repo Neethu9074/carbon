@@ -12,6 +12,7 @@ export default function TimeZones() {
       <TimeZone timeZone="America/Los_Angeles" label="San Francisco" />
       <TimeZone timeZone="America/Chicago" label="Austin" />
       <TimeZone timeZone="America/New_York" label="New York City" />
+      <TimeZone timeZone="UTC" label="UTC" />
       <TimeZone timeZone="Europe/Berlin" label="Solingen" />
       <TimeZone timeZone="Europe/Belgrade" label="Novi Sad" />
       <TimeZone timeZone="Asia/Tokyo" label="Tokyo" />
