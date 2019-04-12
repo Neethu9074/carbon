@@ -18,9 +18,6 @@ import theme from 'in-themes';
 
 import locals from './DashboardBreadcrumb.mless';
 
-const block = locals.dashboardBreadcrumb;
-const crumbElement = `${block}__crumb`;
-
 const Crumb = connectTo(
   props => {
     return {
@@ -30,7 +27,7 @@ const Crumb = connectTo(
   function Crumb({ snapshot, snapshotId, selectedSnapshotId }) {
     if (!snapshot) {
       return (
-        <li className={crumbElement}>
+        <li className={locals.crumbElement}>
           <LoadingIndicator
             type="light"
             inline
@@ -45,10 +42,10 @@ const Crumb = connectTo(
     const label = getSingular(snapshot.get('plugin'));
     const tooltip = `${label}: ${getLabel(snapshot)}`;
 
-    let classes = crumbElement;
+    let classes = locals.crumbElement;
     const isSelected = snapshot.get('id') === selectedSnapshotId;
     if (isSelected) {
-      classes = `${classes} ${crumbElement}--selected`;
+      classes = locals.crumbElementSelected;
     }
 
     return (
@@ -57,9 +54,9 @@ const Crumb = connectTo(
           <Link
             href$={getDashboardLink(snapshotId)}
             title="Open dashboard for this entity."
-            className={`${crumbElement}-link`}
+            className={locals.crumbElementLink}
           >
-            <HealthyPluginIcon className={`${crumbElement}-icon`} dimension={14} snapshot={snapshot} />
+            <HealthyPluginIcon className={locals.crumbElementIcon} dimension={14} snapshot={snapshot} />
             {label}
           </Link>
         </li>
@@ -93,7 +90,7 @@ export default connectTo(
         </Button>
         <div>
           <SvgIcon
-            className={`${block}__crumb-separator`}
+            className={locals.crumbSeperator}
             type="lib_arrow_expand_right"
             width={24}
             height={24}
@@ -102,13 +99,13 @@ export default connectTo(
         </div>
         <ul className={locals.dashboardBreadcrumb}>
           {physicalHierarchy.map((id, i) => (
-            <div key={id} className={`${block}__crumb-wrapper`}>
+            <div key={id} className={locals.crumbWrapper}>
               <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
 
               {i !== physicalHierarchy.length - 1 ? (
                 <div>
                   <SvgIcon
-                    className={`${block}__crumb-separator`}
+                    className={locals.crumbSeperator}
                     type="lib_arrow_expand_right"
                     width={24}
                     height={24}

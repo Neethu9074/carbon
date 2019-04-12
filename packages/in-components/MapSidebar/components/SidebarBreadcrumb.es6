@@ -14,9 +14,6 @@ import Link from 'in-components/Link';
 
 import locals from './SidebarBreadcrumb.mless';
 
-const block = locals.sidebarBreadcrumb;
-const crumbElement = `${block}__crumb`;
-
 const Crumb = connectTo(
   props => {
     return {
@@ -30,19 +27,19 @@ const Crumb = connectTo(
 
     const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
 
-    let imgClasses = `${crumbElement}-icon`;
+    let imgClasses = locals.crumbIcon;
     const isSelected = snapshot.get('id') === selectedSnapshotId;
     if (isSelected) {
-      imgClasses = `${imgClasses} ${crumbElement}-icon--selected`;
+      imgClasses = locals.crumbIconSelected;
     }
 
     return (
       <Tooltip content={tooltip} align="rightMiddle">
-        <li className={crumbElement}>
+        <li className={locals.crumb}>
           <Link
             href$={getLinkToSnapshotInCurrentView(snapshotId)}
             title="Select this entity."
-            className={`${crumbElement}-link`}
+            className={locals.crumbLink}
             onClick={() => {
               mapSelectEntityTracker({ origin: 'elevator', type: snapshot.get('plugin') });
             }}
@@ -69,7 +66,7 @@ export default connectTo(
     physicalHierarchy = physicalHierarchy.toArray();
 
     return (
-      <ul className={block}>
+      <ul className={locals.sidebarBreadcrumb}>
         {physicalHierarchy.map(id => (
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
         ))}

@@ -12,30 +12,32 @@
 
     background: #fff;
     border-radius: 0.125rem;
+  }
+  .crumb {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1rem;
+  }
 
-    &__crumb {
-      width: 2.25rem;
-      height: 2.25rem;
-      font-size: 1rem;
+  .crumbLink {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .crumbIcon {
+    opacity: 0.5;
+    fill: @lib__colors__N700Medium;
+
+    &:hover {
+      opacity: 1;
+      fill: @lib__colors__blue800;
     }
-
-    &__crumb-link {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__crumb-icon {
-      opacity: 0.5;
-      fill: @lib__colors__N700Medium;
-
-      &:hover,
-      &--selected {
-        opacity: 1;
-        fill: @lib__colors__blue800;
-      }
-    }
+  }
+  .crumbIconSelected {
+    opacity: 1;
+    fill: @lib__colors__blue800;
   }
 }

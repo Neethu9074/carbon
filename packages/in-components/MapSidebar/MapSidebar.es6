@@ -41,7 +41,7 @@ export default connectTo(
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
 
         <div
-          className={`${locals.mapSidebar}__scroll-wrapper`}
+          className={locals.scrollWrapper}
           style={{
             maxHeight: toPx(windowHeight - timelineHeight - 300)
           }}

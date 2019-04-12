@@ -2,10 +2,6 @@ import React from 'react';
 
 import locals from './PercentageCell.mless';
 
-const block = locals.percentageCell;
-const levelElement = `${block}__level`;
-const valueElement = `${block}__value`;
-
 export default function PercentageCell({ value, content }) {
   let width = '0px';
   if (value != null) {
@@ -13,9 +9,9 @@ export default function PercentageCell({ value, content }) {
     width = `${Math.round(Math.min(1, value) * 100)}%`;
   }
   return (
-    <div className={block}>
-      <div className={levelElement} style={{ width }} />
-      <span className={valueElement}>{content}</span>
+    <div className={locals.percentageCell}>
+      <div className={locals.percentageCellLevel} style={{ width }} />
+      <span className={locals.percentageCellValue}>{content}</span>
     </div>
   );
 }

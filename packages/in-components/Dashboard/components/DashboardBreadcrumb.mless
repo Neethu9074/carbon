@@ -17,35 +17,44 @@
 
     display: flex;
     align-items: center;
+  }
 
-    &__crumb-wrapper {
-      display: flex;
-      align-items: center;
+  .crumbSeperator {
+    margin: 0 0.5rem;
+  }
+
+  .crumbWrapper {
+    display: flex;
+    align-items: center;
+  }
+  .crumbElementLink {
+    display: flex;
+    align-items: center;
+    color: @lib__colors__N400;
+    text-decoration: none;
+  }
+  .crumbElementIcon {
+    margin: 0 0.3rem 0 0;
+  }
+  .crumElementIconSelected {
+    > a {
+      color: #fff;
+      text-decoration: underline;
     }
+  }
 
-    &__crumb-separator {
-      margin: 0 0.5rem;
-    }
-
-    &__crumb {
-      &--selected,
-      &:hover {
-        > a {
-          color: #fff;
-          text-decoration: underline;
-        }
+  .crumbElement {
+    &:hover {
+      > a {
+        color: #fff;
+        text-decoration: underline;
       }
     }
-
-    &__crumb-link {
-      display: flex;
-      align-items: center;
-      color: @lib__colors__N400;
-      text-decoration: none;
-    }
-
-    &__crumb-icon {
-      margin: 0 0.3rem 0 0;
+  }
+  .crumbElementSelected {
+    > a {
+      color: #fff;
+      text-decoration: underline;
     }
   }
 }

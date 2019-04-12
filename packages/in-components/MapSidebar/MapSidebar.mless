@@ -6,13 +6,12 @@
     width: 328px;
     background: #fff;
     border-radius: 0.125rem;
+  }
+  .scrollWrapper {
+    overflow-y: auto;
 
-    &__scroll-wrapper {
-      overflow-y: auto;
-
-      & > div {
-        width: 328px;
-      }
+    & > div {
+      width: 328px;
     }
   }
 }
