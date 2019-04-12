@@ -19,7 +19,7 @@ export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth }) {
+  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth, theme }) {
     if (breadcrumbs == null || breadcrumbs.length === 0) {
       return null;
     }
@@ -47,13 +47,18 @@ export default connectTo(
     const crumbsElement = React.createElement.apply(React, crumbs);
 
     return (
-      <div className={locals.breadcrumbHeader}>
+      <div
+        className={evaluateClassNames({
+          [locals.breadcrumbHeader]: true,
+          [locals.dark]: theme === 'dark'
+        })}
+      >
         {useFullAvailableWidth ? (
           crumbsElement
         ) : (
           <MaxWidthFullscreenContainer>{crumbsElement}</MaxWidthFullscreenContainer>
         )}
-        <TimeSelection />
+        <TimeSelection theme={theme} />
       </div>
     );
   }

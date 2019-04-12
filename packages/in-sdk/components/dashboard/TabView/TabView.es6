@@ -1,9 +1,9 @@
 import React from 'react';
 
 import NavigationRoutes from 'in-sdk/components/dashboard/TabView/components/NavigationRoutes';
-import BreadcrumbHeader from 'in-sdk/components/dashboard/TabView/components/BreadcrumbHeader';
 import NavigationTabs from 'in-sdk/components/dashboard/TabView/components/NavigationTabs';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
+import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import { navigationParameters$ } from 'in-stores/navigation';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -38,7 +38,7 @@ export default connectTo(
         header={
           <div>
             {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-            <BreadcrumbHeader />
+            <BreadcrumbHeader theme="dark" useFullAvailableWidth />
           </div>
         }
       >
