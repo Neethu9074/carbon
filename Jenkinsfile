@@ -27,13 +27,13 @@ stage('Checkout') {
     checkout scm
     setBuildStatus('Build started', 'PENDING')
 
-    instanaVersion  = getVersion('ui-client', env.BRANCH_NAME)
+    instanaVersion  = getVersion('ui-client', env.BRANCH)
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
 
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
-    archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
+    archiveName = "ui-client-${env.BRANCH}-${instanaVersion}.tar.gz"
 
     stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
   }
@@ -56,13 +56,13 @@ stage('Node Build') {
     node {
       runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
-        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
+        if ( isDeliveryBranch(env.BRANCH) ) {
           runNodeScriptInCurrentWorkDir('yarn run test:compression')
         }
-        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-          uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+        if ( isDeliveryBranch(env.BRANCH) ) {
+          uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH, instanaVersion)
         }
-        markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
+        markStableVersion('ui-client', env.BRANCH, instanaVersion)
         setBuildStatus('Build successful', 'SUCCESS')
         stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
       } else {
@@ -78,7 +78,7 @@ stage('Node Build') {
 
 stage ('Container Build') {
 
-  if ( isDeliveryBranch(env.BRANCH_NAME) ) {
+  if ( isDeliveryBranch(env.BRANCH) ) {
     containerBuild {
       component    = 'ui-client'
       commitId     = gitCommitId
@@ -93,21 +93,21 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release') ) {
+  if ( env.BRANCH == 'master' || env.BRANCH == 'develop' || env.BRANCH.startsWith('release') ) {
     build job: '/deployment/k8s-deploy', parameters: [
-      string(name: 'BRANCH', value: env.BRANCH_NAME)
+      string(name: 'BRANCH', value: env.BRANCH)
     ]
   }
   def deployments = [:]
   deployments['deploy-test'] = {
-    if ( env.BRANCH_NAME == 'develop' ) {
+    if ( env.BRANCH == 'develop' ) {
       node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
           string(name: 'ENVIRONMENT', value: 'test'),
           string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH_NAME', value: 'develop')
+          string(name: 'BRANCH', value: env.BRANCH)
         ]
 
         slackNotification('Deploy Test', 'ui-client', gitCommitId, currentBuild.currentResult)
@@ -115,12 +115,14 @@ stage('Deployment') {
     }
   }
   deployments['deploy-staging'] = {
-    if ( env.BRANCH_NAME == 'master' ) {
+    if ( env.BRANCH == 'master' ) {
       node {
         echo "Deploying master:${instanaVersion} to staging.instana.io ..."
 
         build job: '/deployment/staging/deploy-ui-client', parameters: [
           string(name: 'VERSION', value: instanaVersion)
+          string(name: 'ENVIRONMENT', value: 'staging'),
+          string(name: 'BRANCH', value: env.BRANCH)
         ]
 
         slackNotification('Deploy Staging', 'ui-client', gitCommitId, currentBuild.currentResult)
@@ -128,17 +130,17 @@ stage('Deployment') {
     }
   }
   deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME.startsWith('release') ) {
+    if ( env.BRANCH.startsWith('release') ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: env.BRANCH_NAME),
+          string(name: 'ENVIRONMENT', 'release'),
           string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH_NAME', value: env.BRANCH_NAME)
+          string(name: 'BRANCH', value: env.BRANCH)
         ]
 
-        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
+        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH)
       }
     }
   }
@@ -147,7 +149,7 @@ stage('Deployment') {
 }
 
 stage('Storybook build') {
-  if (env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH == 'develop' ) {
     node {
       runNodeBuild(gitCommitId, 'yarn && yarn run storybookBuild')
       if ( currentBuild.currentResult == 'SUCCESS' ) {
@@ -159,9 +161,9 @@ stage('Storybook build') {
 }
 
 stage('Deploy Storybook to S3') {
-  if (env.BRANCH_NAME == 'develop' ) {
+  if (env.BRANCH == 'develop' ) {
     node {
-      sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH_NAME}/"
+      sh "s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/${env.BRANCH}/"
     }
     slackNotification('Storybook S3 Deployment', 'ui-client', gitCommitId, currentBuild.currentResult)
   }
