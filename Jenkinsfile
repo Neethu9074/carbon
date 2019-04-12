@@ -93,7 +93,7 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release-') ) {
+  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release') ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME)
     ]
@@ -133,12 +133,12 @@ stage('Deployment') {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
         build job: '/deployment/fullstack-deploy-ui-client', parameters: [
-          string(name: 'ENVIRONMENT', value: 'release'),
+          string(name: 'ENVIRONMENT', value: env.BRANCH_NAME),
           string(name: 'VERSION', value: instanaVersion),
-          string(name: 'BRANCH_NAME', value: 'release')
+          string(name: 'BRANCH_NAME', value: env.BRANCH_NAME)
         ]
 
-        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult)
+        slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
       }
     }
   }
