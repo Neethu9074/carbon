@@ -4,7 +4,7 @@ import React from 'react';
 
 import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { identity } from 'in-services/util/function';
 import connectTo from 'in-hoc/connectTo';
@@ -128,7 +128,7 @@ function WebsiteBeaconGroupsChartWrapper({
     }
   }
 
-  return <ChartWrapperPresenter result={result} config={chartConfig} />;
+  return <ResultAwareChart result={result} config={chartConfig} />;
 
   function getLabel(key) {
     const label = parseJson(key);

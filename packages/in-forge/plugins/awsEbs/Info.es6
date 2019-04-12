@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { formatDateTime } from 'in-services/formatters/date';

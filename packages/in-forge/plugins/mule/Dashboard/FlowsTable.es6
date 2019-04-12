@@ -1,10 +1,9 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -47,9 +46,7 @@ export default function FlowsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Flows (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Flows (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 

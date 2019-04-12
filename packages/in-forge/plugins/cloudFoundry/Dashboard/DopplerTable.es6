@@ -100,9 +100,13 @@ export default function DopplerTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Doppler (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Doppler (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

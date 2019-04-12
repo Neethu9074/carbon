@@ -2,15 +2,12 @@ import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from 'in-forge/plugins/garden/Info';
 
 export default function GardenSidebar({ snapshot }) {
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Garden Container</Collapsible.Header>
         <Collapsible.Content>

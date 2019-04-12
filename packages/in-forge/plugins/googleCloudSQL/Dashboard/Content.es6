@@ -2,8 +2,8 @@ import React from 'react';
 
 import { number, bytesZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 
 export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

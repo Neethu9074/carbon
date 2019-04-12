@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { withSiPrefixZeroDecimalPlaces, bytes } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
@@ -9,8 +9,6 @@ export default function ESClusterSummary({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiHeading>{snapshot.getIn(['data', 'es_domain_name'])}</KpiHeading>
-
       <KpiKeyValue label="Nodes">
         <MetricValue snapshotId={snapshotId} metric="nodes" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>

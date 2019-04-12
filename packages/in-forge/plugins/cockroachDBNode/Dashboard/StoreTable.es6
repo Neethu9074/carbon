@@ -1,11 +1,10 @@
 import { Range } from 'immutable';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
-import Table from 'in-components/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -120,11 +119,7 @@ export default function StoreTable({ snapshot, timeConfig }) {
       };
     });
 
-  return (
-    <DashboardSection title="Store stats">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle="Store stats" cols={cols} rows={rows} getRowDetails={getRowDetails} />;
 }
 
 function getRowDetails(row) {

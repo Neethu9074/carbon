@@ -1,11 +1,10 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
-import Chart from 'in-components/Chart';
 import {
   percentage,
   bytesZeroDecimalPlaces,
@@ -15,6 +14,7 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 const deviceColumn = {
   title: 'Device',
@@ -124,21 +124,21 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title="Filesystems">
-      <Table
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-        initialSortDirection="desc"
-        initialSortColumn={cols.indexOf(usedColumn)}
-      />
-    </DashboardSection>
+    <Table
+      cardTitle="Filesystems"
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+      initialSortDirection="desc"
+      initialSortColumn={cols.indexOf(usedColumn)}
+    />
   );
 }
 
 function getDetails(row) {
   return (
-    <div>
+    <Columize>
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
@@ -173,6 +173,6 @@ function getDetails(row) {
           type: 'line'
         }}
       />
-    </div>
+    </Columize>
   );
 }

@@ -1,15 +1,14 @@
 import React from 'react';
 
 import createPodsForDeploymentConfigSubscription from 'in-subscription/podsForDeploymentConfig';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
@@ -80,7 +79,6 @@ export default function OpenshiftDeploymentConfigDashboard({ snapshot, timeConfi
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Pods">
           <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} initialValue="0" />
         </KpiKeyValue>
@@ -241,10 +239,6 @@ const PodsTable = connectTo(
       }));
     }
 
-    return (
-      <DashboardSection title={`Pods (${rows.length})`}>
-        <Table cols={podCols} rows={rows} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle={`Pods (${rows.length})`} cols={podCols} rows={rows} />;
   }
 );

@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createPodsForK8sNodeSubscription from 'in-subscription/podsForK8sNode';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { kubernetesEnabled } from 'in-services/featureFlags';
@@ -12,9 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -63,7 +62,6 @@ export default connectTo(
     return (
       <div>
         <KpiSection>
-          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
           <KpiKeyValue label="Pods Allocation">
             <MetricValue snapshotId={snapshotId} metric="alloc_pods_percentage" formatter={percentage.detailed} />
           </KpiKeyValue>
@@ -121,9 +119,7 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title={`Pods (${rows.length})`}>
-          <Table cols={cols} rows={rows} />
-        </DashboardSection>
+        <Table withoutPadding cardTitle={`Pods (${rows.length})`} cols={cols} rows={rows} />
       </div>
     );
   }

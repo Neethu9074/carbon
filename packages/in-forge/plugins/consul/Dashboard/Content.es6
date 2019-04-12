@@ -1,9 +1,8 @@
 import React from 'react';
 import semver from 'semver';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { getLabel } from 'in-sdk/snapshot';
 import GaugesTable from './GaugesTable';
 
 const runtimeMetrics = [
@@ -40,7 +39,6 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         {semver.valid(consulVersion) &&
           semver.satisfies(consulVersion, '>=1.0.0') &&
           snapshot.getIn(['data', 'raft.state']) && (

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { emptyMap } from 'in-services/fixedImmutables';
 
@@ -97,7 +96,7 @@ const cols = [
   }
 ];
 
-export default function TopicsTable({ snapshot, timeframe }) {
+export default function TopicsTable({ snapshot, timeConfig }) {
   const topicNames = snapshot.getIn(['data', 'topicNames'], emptyMap);
   if (topicNames.size === 0) {
     return null;
@@ -106,13 +105,9 @@ export default function TopicsTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
-  return (
-    <DashboardSection title={`Topics (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
 }

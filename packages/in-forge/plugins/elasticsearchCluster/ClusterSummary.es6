@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withSiPrefixZeroDecimalPlaces, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
 
 export default function ClusterSummary({ snapshot }) {
@@ -9,8 +9,6 @@ export default function ClusterSummary({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiHeading>{snapshot.getIn(['data', 'groupId'])}</KpiHeading>
-
       <KpiKeyValue label="Nodes">
         <MetricValue snapshotId={snapshotId} metric="node_count" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>

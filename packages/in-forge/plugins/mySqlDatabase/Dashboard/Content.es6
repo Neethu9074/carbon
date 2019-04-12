@@ -1,15 +1,14 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { msTwoDecimalPlaces, number, millis } from 'in-services/formatters/number';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 const msFormatter = d => (d < 0 ? 'No activity' : msTwoDecimalPlaces(d));
 
@@ -36,7 +35,6 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
     <div>
       {getPerformanceSchemaHint(snapshot)}
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Queries">
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
         </KpiKeyValue>

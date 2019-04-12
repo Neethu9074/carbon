@@ -10,7 +10,7 @@ import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/Keyspace
 import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.es6';
 import ClusterDownNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterDownNodesTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { capitalize } from 'in-services/formatters/string';
 
 export default function CassandraClusterDashboard({ snapshot, timeConfig }) {

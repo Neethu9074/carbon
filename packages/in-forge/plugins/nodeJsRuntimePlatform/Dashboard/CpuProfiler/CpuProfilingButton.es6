@@ -4,7 +4,7 @@ import { startProfiling } from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard
 import { createTracker } from 'in-services/tracking/mixpanel';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 const startCpuProfilingTracker = createTracker('nodejs.cpuProfiling.start');
@@ -17,7 +17,7 @@ export default connectTo(
   },
   function CpuProfilingDumpButton({ snapshot, isOnline }) {
     const button = (
-      <Button onClick={onClick} disabled={!isOnline}>
+      <Button kind="primary" onClick={onClick} disabled={!isOnline}>
         Gather CPU Profile for 10 seconds
       </Button>
     );

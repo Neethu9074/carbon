@@ -1,8 +1,7 @@
 import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, minutes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -75,9 +74,13 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Web Apps (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Web Apps (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

@@ -2,10 +2,10 @@ import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
-export default function AwsLambdaDashboard({ snapshot, timeframe }) {
+export default function AwsLambdaDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -14,7 +14,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Invocations">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['invocations'],
@@ -27,7 +27,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Durations">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['duration', 'duration_maximum', 'duration_minimum'],
@@ -47,7 +47,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['errors'],
@@ -60,7 +60,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Throttles">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['throttles'],
@@ -73,7 +73,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Dead Letter Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['dead_letter_error'],
@@ -86,7 +86,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Iterator Age">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['iterator_age', 'iterator_age_maximum', 'iterator_age_minimum'],
@@ -106,7 +106,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Concurrent Executions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['concurrent_executions', 'concurrent_executions_maximum', 'concurrent_executions_minimum'],
@@ -126,7 +126,7 @@ export default function AwsLambdaDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Unreserved Concurrent Executions">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['unreserved_concurrent_executions'],

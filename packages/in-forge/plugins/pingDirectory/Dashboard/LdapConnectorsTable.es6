@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -62,9 +62,13 @@ export default function LdapConnectorsTable({ snapshot, timeConfig }) {
     return null;
   }
   return (
-    <DashboardSection title={`Ldap Connectors (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Ldap Connectors (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

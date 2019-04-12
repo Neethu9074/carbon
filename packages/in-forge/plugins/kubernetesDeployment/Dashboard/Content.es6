@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createPodsForDeploymentSubscription from 'in-subscription/podsForDeployment';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { kubernetesEnabled } from 'in-services/featureFlags';
@@ -11,9 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import MetricValue from 'in-components/MetricValue';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
@@ -88,7 +87,6 @@ export default function KubernetesDeploymentDashboard({ snapshot, timeConfig }) 
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Pods">
           <MetricValue snapshotId={snapshotId} metric="pods.count" formatter={zeroDecimalPlaces} initialValue="0" />
         </KpiKeyValue>
@@ -248,10 +246,6 @@ const PodsTable = connectTo(
       }));
     }
 
-    return (
-      <DashboardSection title={`Pods (${rows.length})`}>
-        <Table cols={podCols} rows={rows} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle={`Pods (${rows.length})`} cols={podCols} rows={rows} />;
   }
 );

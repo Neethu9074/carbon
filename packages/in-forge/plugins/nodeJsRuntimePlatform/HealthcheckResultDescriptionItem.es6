@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 

@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/paths';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForHostSubscription from 'in-subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -37,9 +36,8 @@ export default connectTo(
       return null;
     }
 
-    return [
-      <Separator key="1" />,
-      <Collapsible key="2">
+    return (
+      <Collapsible>
         <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
@@ -64,6 +62,6 @@ export default connectTo(
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>
-    ];
+    );
   }
 );

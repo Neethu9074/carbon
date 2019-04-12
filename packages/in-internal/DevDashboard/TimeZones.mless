@@ -2,7 +2,7 @@
   .zones {
     display: flex;
     justify-content: center;
-    margin: 1rem;
+    margin: 0.375rem 0 0 0;
   }
 
   .zone {
@@ -26,5 +26,6 @@
     // we do not want a monospace font. But at the same time we do not want
     // the presentation to be jumpy on number / time changes
     min-width: 6rem;
+    margin-bottom: 0;
   }
 }

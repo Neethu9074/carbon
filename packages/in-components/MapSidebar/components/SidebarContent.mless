@@ -1,0 +1,17 @@
+@import '~in-themes/mediaQueries.less';
+
+:local {
+  .sidebarContent {
+    position: relative;
+    width: 20rem;
+
+    font-size: 0.875rem;
+    color: #172429;
+  }
+
+  @media @min-medium-screen {
+    .sidebarContent {
+      width: 25rem;
+    }
+  }
+}

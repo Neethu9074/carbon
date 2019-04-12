@@ -1,9 +1,8 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -62,9 +61,13 @@ export default function OperationsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Operations (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Operations (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

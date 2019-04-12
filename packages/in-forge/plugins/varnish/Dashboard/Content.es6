@@ -6,12 +6,11 @@ import {
   bytesZeroDecimalPlaces,
   hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MseTable from 'in-forge/plugins/varnish/Dashboard/MseTable';
-import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default function VarnishDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
@@ -20,7 +19,6 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Requests">
           <MetricValue snapshotId={snapshotId} metric="client_req" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

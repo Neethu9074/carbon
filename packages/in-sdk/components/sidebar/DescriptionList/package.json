@@ -1,0 +1,6 @@
+{
+  "name": "DescriptionList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DescriptionList.es6"
+}

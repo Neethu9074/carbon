@@ -5,7 +5,7 @@ import { bytes, number, percentage, seconds } from 'in-services/formatters/numbe
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 
-export default function AwsEbsDashboard({ snapshot, timeframe }) {
+export default function AwsEbsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -13,7 +13,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Bytes">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_bytes', 'write_bytes'],
@@ -26,7 +26,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Operations">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_ops', 'write_ops'],
@@ -39,7 +39,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Time">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['total_read_time', 'total_write_time'],
@@ -52,7 +52,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Idle">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['idle_time'],
@@ -65,7 +65,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
       <DashboardSection title="Queue">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['queue_length'],
@@ -79,7 +79,7 @@ export default function AwsEbsDashboard({ snapshot, timeframe }) {
         <DashboardSection title="Burst">
           <Chart
             snapshotId={snapshotId}
-            timeframe={timeframe}
+            timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['burst_balance'],

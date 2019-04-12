@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -81,7 +80,7 @@ const cols = [
   }
 ];
 
-export default function DLQueuesTable({ snapshot, timeframe }) {
+export default function DLQueuesTable({ snapshot, timeConfig }) {
   const queueNames = snapshot.getIn(['data', 'dlqueueNames'], emptyMap);
   if (queueNames.size === 0) {
     return null;
@@ -90,13 +89,9 @@ export default function DLQueuesTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
-  return (
-    <DashboardSection title={`Dead-Letter Queues (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Dead-Letter Queues (${rows.length})`} cols={cols} rows={rows} />;
 }

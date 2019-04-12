@@ -12,9 +12,9 @@ import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
-import './SidebarBreadcrumb.less';
+import locals from './SidebarBreadcrumb.mless';
 
-const block = 'in-sidebar-breadcrumb';
+const block = locals.sidebarBreadcrumb;
 const crumbElement = `${block}__crumb`;
 
 const Crumb = connectTo(

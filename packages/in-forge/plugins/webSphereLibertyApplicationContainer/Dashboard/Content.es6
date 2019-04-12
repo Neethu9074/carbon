@@ -1,9 +1,9 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
 import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';

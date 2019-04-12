@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .sidebarHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    background: @lib__colors__N050;
+    border-top-left-radius: 0.125rem;
+    border-top-right-radius: 0.125rem;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

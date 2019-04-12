@@ -1,10 +1,10 @@
 import React from 'react';
 
-import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { isEntityOnline } from 'in-stores/snapshot';
+import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
-import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -16,7 +16,7 @@ export default connectTo(
   },
   function EnableSelfMonitoringButton({ isOnline, href }) {
     const button = (
-      <Button kind="default" disabled={!isOnline} href={href}>
+      <Button kind="primary" disabled={!isOnline} href={href}>
         Open Agent Management
       </Button>
     );

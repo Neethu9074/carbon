@@ -87,7 +87,7 @@ export default class extends React.PureComponent {
     if (this.props.initialValue) {
       this.node.textContent = this.props.initialValue;
     } else {
-      this.node.textContent = '';
+      this.node.textContent = 'No Data Available';
     }
 
     this.stream = stream;

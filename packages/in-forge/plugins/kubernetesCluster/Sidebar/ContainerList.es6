@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function ContainerList({ snapshot }) {
   const containers = snapshot.getIn(['data', 'spec', 'containers'], emptyList);
@@ -14,21 +13,17 @@ export default function ContainerList({ snapshot }) {
   }
 
   return (
-    <div>
-      <Separator />
-
-      <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Containers ({containers.size})</Collapsible.Header>
-        <Collapsible.Content>
-          <DescriptionList>
-            {containers.toArray().map(c => (
-              <DescriptionItem key={c.get('image')}>
-                {c.get('name')} ({c.get('image')})
-              </DescriptionItem>
-            ))}
-          </DescriptionList>
-        </Collapsible.Content>
-      </Collapsible>
-    </div>
+    <Collapsible initiallyOpen={false}>
+      <Collapsible.Header>Containers ({containers.size})</Collapsible.Header>
+      <Collapsible.Content>
+        <DescriptionList>
+          {containers.toArray().map(c => (
+            <DescriptionItem key={c.get('image')}>
+              {c.get('name')} ({c.get('image')})
+            </DescriptionItem>
+          ))}
+        </DescriptionList>
+      </Collapsible.Content>
+    </Collapsible>
   );
 }

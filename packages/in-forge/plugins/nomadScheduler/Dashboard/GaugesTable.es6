@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const metrics = [
@@ -63,9 +62,14 @@ export default function Gauges({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Gauges (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Gauges (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+      maxItemsPerPage={100}
+    />
   );
 }
 

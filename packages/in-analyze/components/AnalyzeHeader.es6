@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
+import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
@@ -32,73 +33,77 @@ export default connectTo({
 
 function AnalyzeHeader({ dataSource, isGrouped }) {
   return (
-    <SecondLevelNavigation>
-      <SecondLevelNavigationItem
-        href$={getLinkToAnalyze({
-          dataSource: 'traces',
-          groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-        })}
-        icon="lib_application_trace"
-        label="Traces"
-        isActive={dataSource === 'traces'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToAnalyze({
-          dataSource: 'calls',
-          groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
-        })}
-        icon="lib_application_call"
-        label="Calls"
-        isActive={dataSource === 'calls'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
-          beaconType: 'pageLoad'
-        })}
-        icon="lib_website_page_load"
-        label={`${websiteDataSourceTitles.pageLoad}s`}
-        isActive={dataSource === 'pageLoad'}
-        addSeparator
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
-          beaconType: 'resourceLoad'
-        })}
-        icon="lib_website_resource"
-        label={`${websiteDataSourceTitles.resourceLoad}s`}
-        isActive={dataSource === 'resourceLoad'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
-          beaconType: 'httpRequest'
-        })}
-        icon="lib_website_ajax"
-        label={`${websiteDataSourceTitles.httpRequest}s`}
-        isActive={dataSource === 'httpRequest'}
-      />
-      <SecondLevelNavigationItem
-        href$={getLinkToWebsiteAnalyze({
-          group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
-          beaconType: 'error'
-        })}
-        icon="lib_website_error"
-        label={`${websiteDataSourceTitles.error}s`}
-        isActive={dataSource === 'error'}
-      />
-      {customEventsInWebsiteMonitoringEnabled && (
+    <Fragment>
+      <SecondLevelNavigation>
+        <SecondLevelNavigationItem
+          href$={getLinkToAnalyze({
+            dataSource: 'traces',
+            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+          })}
+          icon="lib_application_trace"
+          label="Traces"
+          isActive={dataSource === 'traces'}
+        />
+        <SecondLevelNavigationItem
+          href$={getLinkToAnalyze({
+            dataSource: 'calls',
+            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
+          })}
+          icon="lib_application_call"
+          label="Calls"
+          isActive={dataSource === 'calls'}
+        />
         <SecondLevelNavigationItem
           href$={getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
-            beaconType: 'custom'
+            group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+            beaconType: 'pageLoad'
+          })}
+          icon="lib_website_page_load"
+          label={`${websiteDataSourceTitles.pageLoad}s`}
+          isActive={dataSource === 'pageLoad'}
+          addSeparator
+        />
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+            beaconType: 'resourceLoad'
+          })}
+          icon="lib_website_resource"
+          label={`${websiteDataSourceTitles.resourceLoad}s`}
+          isActive={dataSource === 'resourceLoad'}
+        />
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+            beaconType: 'httpRequest'
+          })}
+          icon="lib_website_ajax"
+          label={`${websiteDataSourceTitles.httpRequest}s`}
+          isActive={dataSource === 'httpRequest'}
+        />
+        <SecondLevelNavigationItem
+          href$={getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+            beaconType: 'error'
           })}
           icon="lib_website_error"
-          label={`${websiteDataSourceTitles.custom}s`}
-          isActive={dataSource === 'custom'}
+          label={`${websiteDataSourceTitles.error}s`}
+          isActive={dataSource === 'error'}
         />
-      )}
-    </SecondLevelNavigation>
+        {customEventsInWebsiteMonitoringEnabled && (
+          <SecondLevelNavigationItem
+            href$={getLinkToWebsiteAnalyze({
+              group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+              beaconType: 'custom'
+            })}
+            icon="lib_website_error"
+            label={`${websiteDataSourceTitles.custom}s`}
+            isActive={dataSource === 'custom'}
+          />
+        )}
+      </SecondLevelNavigation>
+
+      <TimeSelection />
+    </Fragment>
   );
 }

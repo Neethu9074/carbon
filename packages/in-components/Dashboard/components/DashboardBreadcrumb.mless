@@ -1,0 +1,51 @@
+@import '~in-themes/active.less';
+
+:local {
+  .breadcrumbContainer {
+    display: flex;
+    align-items: center;
+  }
+  .dashboardBreadcrumb {
+    float: right;
+    width: 100%;
+    height: 3rem;
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+    list-style: none;
+
+    display: flex;
+    align-items: center;
+
+    &__crumb-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    &__crumb-separator {
+      margin: 0 0.5rem;
+    }
+
+    &__crumb {
+      &--selected,
+      &:hover {
+        > a {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &__crumb-link {
+      display: flex;
+      align-items: center;
+      color: @lib__colors__N400;
+      text-decoration: none;
+    }
+
+    &__crumb-icon {
+      margin: 0 0.3rem 0 0;
+    }
+  }
+}

@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 
@@ -123,9 +122,13 @@ export default function OperationsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Operations (${rows.size})`}>
-      <Table cols={cols} rows={rows.toArray()} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Operations (${rows.size})`}
+      cols={cols}
+      rows={rows.toArray()}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

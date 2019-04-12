@@ -1,7 +1,7 @@
 import React from 'react';
 import CollectionsTable from './CollectionsTable.es6';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import zeroDecimalPlaces from 'in-services/formatters/number';
 
 export default function Region({ snapshot, timeConfig, region, collections, statusCodes, resourceTypes }) {

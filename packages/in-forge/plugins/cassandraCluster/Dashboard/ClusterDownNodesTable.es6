@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -24,9 +23,5 @@ export default function ClusterDownNodesTable({ snapshot }) {
     };
   });
 
-  return (
-    <DashboardSection title={`Unreachable Nodes (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Unreachable Nodes (${rows.length})`} cols={cols} rows={rows} />;
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytesTwoDecimalPlaces, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -66,9 +65,5 @@ export default function MseTable({ snapshot, timeConfig }) {
       snapshotId: snapshot.get('id')
     }
   ];
-  return (
-    <DashboardSection title="Details">
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle="Details" cols={cols} rows={rows} />;
 }

@@ -4,18 +4,16 @@ import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-s
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { getLabel, getCodeView } from 'in-sdk/snapshot';
 import MetricValue from 'in-components/MetricValue';
+import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
-import Chart from 'in-components/Chart';
-
-import './Content.less';
 
 export default function JVMDashboard({ snapshot, timeConfig }) {
   const collectors = snapshot.getIn(['data', 'jvm.collectors']);
@@ -24,7 +22,6 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Memory Used">
           <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytes.detailed} />
         </KpiKeyValue>

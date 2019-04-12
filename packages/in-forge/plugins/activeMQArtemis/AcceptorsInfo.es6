@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function AcceptorsInfo({ snapshot }) {

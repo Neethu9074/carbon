@@ -2,7 +2,6 @@ import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyList } from 'in-services/fixedImmutables';
 
 import SolrCoreInfo from '../SolrCoreInfo';
@@ -16,8 +15,6 @@ export default function SolrSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Solr</Collapsible.Header>
         <Collapsible.Content>
@@ -27,8 +24,6 @@ export default function SolrSidebar({ snapshot }) {
 
       {coreNames.map(cn => (
         <div key={cn}>
-          <Separator />
-
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>Core: {cn}</Collapsible.Header>
             <Collapsible.Content>

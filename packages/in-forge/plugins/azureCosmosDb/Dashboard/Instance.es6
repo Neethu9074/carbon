@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
 import { zeroDecimalPlaces, millis, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import MetricValue from 'in-components/MetricValue';
 
 export default function Instance({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -12,8 +12,6 @@ export default function Instance({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>Summary</KpiHeading>
-
         <KpiKeyValue label="Document Count">
           <MetricValue snapshotId={snapshotId} metric="metrics.instance.dc" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

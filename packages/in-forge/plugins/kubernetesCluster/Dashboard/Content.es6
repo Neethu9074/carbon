@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
@@ -13,8 +14,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import DeploymentsTable from './DeploymentsTable';
 import NamespacesTable from './NamespacesTable';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 import NodesTable from './NodesTable';
 
 export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
@@ -30,7 +29,6 @@ export default function KubernetesClusterDashboard({ snapshot, timeConfig }) {
       {getMissingResourceWatchesHint(snapshot)}
 
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Node Count">
           <MetricValue snapshotId={snapshotId} metric="nodes.count" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -84,8 +83,13 @@ export default function DriversTable({ snapshot, timeConfig }) {
     .toArray();
 
   return (
-    <DashboardSection title="Most Recent Drivers">
-      <Table cols={cols} rows={rows} initialSortColumn={4} initialSortDirection={'asc'} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle="Most Recent Drivers"
+      cols={cols}
+      rows={rows}
+      initialSortColumn={4}
+      initialSortDirection={'asc'}
+    />
   );
 }

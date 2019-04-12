@@ -1,9 +1,8 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -131,11 +130,7 @@ export default function NodesTable({ snapshot, timeConfig }) {
     })
     .toArray();
 
-  return (
-    <DashboardSection title="Nodes">
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle="Nodes" cols={cols} rows={rows} getRowDetails={getDetails} />;
 }
 
 function getDetails(row) {

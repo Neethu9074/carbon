@@ -1,16 +1,15 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import {
   number,
   bytes,
   percentageTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -136,9 +135,7 @@ export default function PoolTable({ snapshot, timeConfig }) {
     .toArray();
 
   return (
-    <DashboardSection title={`Pools (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Pools (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 

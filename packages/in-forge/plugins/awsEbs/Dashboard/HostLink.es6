@@ -1,7 +1,7 @@
 import React from 'react';
 
 import createAwsHostForEbs from 'in-subscription/awsHostForEbs';
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';

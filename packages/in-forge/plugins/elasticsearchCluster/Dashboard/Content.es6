@@ -14,7 +14,7 @@ import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/Indice
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) {
   return (

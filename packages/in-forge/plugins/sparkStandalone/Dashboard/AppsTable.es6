@@ -1,11 +1,10 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-import Link from 'in-components/Link';
+import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
-import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import Link from 'in-components/Link';
 
 const cols = [
   {
@@ -126,8 +125,13 @@ export default function AppsTable({ snapshot, timeConfig }) {
     .toArray();
 
   return (
-    <DashboardSection title="Most Recent Apps">
-      <Table cols={cols} rows={rows} initialSortColumn={5} initialSortDirection={'asc'} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle="Most Recent Apps"
+      cols={cols}
+      rows={rows}
+      initialSortColumn={5}
+      initialSortDirection={'asc'}
+    />
   );
 }

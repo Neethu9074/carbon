@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import StandaloneInfo from 'in-forge/plugins/zooKeeper/StandaloneInfo';
 import ReplicatedInfo from 'in-forge/plugins/zooKeeper/ReplicatedInfo';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -11,7 +10,6 @@ export default function ZooKeeperSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
       <Collapsible initiallyOpen>
         <Collapsible.Header>ZooKeeper Info</Collapsible.Header>
         <Collapsible.Content>
@@ -21,8 +19,6 @@ export default function ZooKeeperSidebar({ snapshot }) {
 
       {peerNames.map(peerName => (
         <div key={peerName}>
-          <Separator />
-
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>Peer: {peerName}</Collapsible.Header>
             <Collapsible.Content>

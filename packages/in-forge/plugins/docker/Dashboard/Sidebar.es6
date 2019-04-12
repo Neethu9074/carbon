@@ -5,7 +5,6 @@ import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import KubernetesInfo from 'in-forge/plugins/docker/KubernetesInfo';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 import Ports from 'in-forge/plugins/docker/Ports';
 import Info from 'in-forge/plugins/docker/Info';
@@ -16,8 +15,6 @@ export default function DockerSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Docker Container</Collapsible.Header>
         <Collapsible.Content>
@@ -27,7 +24,6 @@ export default function DockerSidebar({ snapshot }) {
 
       {ports && ports.size > 0 ? (
         <div>
-          <Separator />
           <Collapsible>
             <Collapsible.Header>Ports</Collapsible.Header>
             <Collapsible.Content>

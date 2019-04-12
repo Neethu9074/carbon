@@ -1,8 +1,8 @@
-import { millis } from 'in-services/formatters/number';
-
 import React from 'react';
+
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { millis } from 'in-services/formatters/number';
 
 export default function PingDashboard({ snapshot, timeConfig }) {
   return (

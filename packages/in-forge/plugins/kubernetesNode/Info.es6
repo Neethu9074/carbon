@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import createClusterForNodeSubscription from 'in-subscription/clusterForNode';
 import createHostForNodeSubscription from 'in-subscription/hostForNode';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
@@ -48,9 +48,7 @@ export default connectTo(
         <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
         <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
         <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
-        <KeyValuePopupButton title="Labels" data={data.get('labels')}>
-          Labels
-        </KeyValuePopupButton>
+        <KeyValueOverlay header="Labels" data={data.get('labels')} />
       </DescriptionList>
     );
   }

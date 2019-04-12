@@ -1,11 +1,11 @@
 import semver from 'semver';
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
 import Link from 'in-components/Link';
 
 import { bytesZeroDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -26,7 +26,6 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{snapshot.getIn(['data', 'version'])}</KpiHeading>
         {status !== 'EXTENDED_INFO_DISABLED' ? (
           <KpiKeyValue label="Requests">
             <MetricValue snapshotId={snapshotId} metric="requests" />

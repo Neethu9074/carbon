@@ -1,6 +1,0 @@
-{
-  "name": "VersionSwitcher",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./VersionSwitcher.es6"
-}

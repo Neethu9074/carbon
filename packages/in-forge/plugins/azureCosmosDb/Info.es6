@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import TagList from 'in-sdk/components/sidebar/TagList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
@@ -16,7 +16,6 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
         <DescriptionItem title="Api">{data.get('api')}</DescriptionItem>
         <DescriptionItem title="Endpoint">{data.get('endpoint')}</DescriptionItem>
-        <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
   );

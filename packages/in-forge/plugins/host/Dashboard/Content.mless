@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .agentManagementContainer {
+    margin-top: 1.75rem;
+    padding: 0 2rem;
+  }
+  .agentManagementHeader {
+    font-size: 1rem;
+    color: @lib__colors__N800Dark;
+    font-weight: normal;
+    margin-bottom: 1rem;
+  }
+  .agentManagementContent {
+    display: flex;
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+  .agentManagementDescription {
+    max-width: 40rem;
+    margin: 0 1.75rem 0 0;
+
+    & > :first-child {
+      margin-top: 0;
+    }
+  }
+}

@@ -4,7 +4,6 @@ import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/side
 import createAwsEbsesForHostSubscription from 'in-subscription/awsEbsesForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -25,8 +24,6 @@ export default connectTo(
 
     return (
       <Fragment>
-        <Separator />
-
         <Collapsible initiallyOpen>
           <Collapsible.Header>EBS Volumes ({ebses.length})</Collapsible.Header>
           <Collapsible.Content>

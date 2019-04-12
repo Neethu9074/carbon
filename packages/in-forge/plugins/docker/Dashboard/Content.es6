@@ -6,14 +6,12 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
-import ContainerInfoButton from 'in-forge/plugins/docker/ContainerInfoButton';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
@@ -29,14 +27,12 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="CPU Total %">
           <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        <ContainerInfoButton snapshot={snapshot} />
       </KpiSection>
 
       <DashboardSection title="CPU">

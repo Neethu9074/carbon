@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function NomadInfo({ snapshot }) {
   const nomad = snapshot.getIn(['data', 'Nomad']);
@@ -15,7 +14,6 @@ export default function NomadInfo({ snapshot }) {
 
   return (
     <div>
-      <Separator />
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Nomad</Collapsible.Header>
         <Collapsible.Content>
@@ -34,11 +32,7 @@ export default function NomadInfo({ snapshot }) {
             </DescriptionItem>
           </DescriptionList>
 
-          {ports && ports.size > 0 ? (
-            <KeyValuePopupButton title="Port Names" data={ports}>
-              Show port names
-            </KeyValuePopupButton>
-          ) : null}
+          {ports && ports.size > 0 ? <KeyValueOverlay header="Port Names" data={ports} /> : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

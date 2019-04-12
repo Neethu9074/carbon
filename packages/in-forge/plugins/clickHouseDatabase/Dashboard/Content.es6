@@ -1,16 +1,15 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import RunningQueries from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningQueries';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import ActiveParts from 'in-forge/plugins/clickHouseDatabase/Dashboard/ActiveParts';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,7 +22,6 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Query Thread">
           <MetricValue snapshotId={snapshotId} metric="QueryThread" formatter={number.compact} />
         </KpiKeyValue>

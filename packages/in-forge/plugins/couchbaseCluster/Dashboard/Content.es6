@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { number } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
 import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterNodesTable';

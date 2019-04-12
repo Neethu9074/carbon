@@ -2,8 +2,8 @@ import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
 
 import AlertsTable from './AlertsTable.es6';
 

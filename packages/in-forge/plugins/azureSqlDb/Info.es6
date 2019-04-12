@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import TagList from 'in-sdk/components/sidebar/TagList';
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

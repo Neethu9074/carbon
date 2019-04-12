@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import { emptyMap } from 'in-services/fixedImmutables';

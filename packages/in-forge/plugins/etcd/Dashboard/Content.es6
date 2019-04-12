@@ -5,7 +5,7 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function EtcdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -62,9 +62,8 @@ export default function EtcdDashboard({ snapshot, timeConfig }) {
             }}
           />
         </Columize>
-
-        <OperationsTable snapshot={snapshot} timeConfig={timeConfig} />
       </DashboardSection>
+      <OperationsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

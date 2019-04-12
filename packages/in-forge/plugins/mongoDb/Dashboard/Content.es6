@@ -1,16 +1,15 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
 
 import DatabaseSizesTable from './DatabaseSizesTable';
 
 import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -19,7 +18,9 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
   if (sensorConnectionProblems.size > 0) {
     return (
       <DashboardNotification type="info">
-        {sensorConnectionProblems.map(problem => <div>{problem}</div>)}
+        {sensorConnectionProblems.map(problem => (
+          <div>{problem}</div>
+        ))}
       </DashboardNotification>
     );
   }
@@ -27,7 +28,6 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Connections">
           <MetricValue
             snapshotId={snapshotId}

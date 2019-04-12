@@ -5,7 +5,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid @lib__colors__N300;
   }
 
   .header {

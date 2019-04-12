@@ -1,7 +1,6 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import {
   percentageZeroDecimalPlaces,
@@ -124,11 +123,7 @@ export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
     .valueSeq()
     .toArray();
 
-  return (
-    <DashboardSection title="Network Interfaces">
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
-  );
+  return <Table cardTitle="Network Interfaces" withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
 }
 
 function getDetails(row) {

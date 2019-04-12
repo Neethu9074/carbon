@@ -28,14 +28,20 @@ export default class InfrastructureMetricChartBehavior extends React.Component {
     this.setupMetricSubscriptions(this.queues);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
+  }
+
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props, prevProps)) {
       this.disposeMetricSubscriptions();
 
       this.queues$ = create();
+
       this.mapProps(this.props);
       this.createQueuesAndDataHolders();
 
+      this.queues$.emit({ queues: this.queues, dataHolders: this.dataHolders });
       this.setupMetricSubscriptions(this.queues);
     }
   }

@@ -10,13 +10,17 @@
       text-decoration: none;
 
       .timeSetting {
-        color: #fff;
+        color: @lib__colors__N500;
       }
 
       .timeIcon {
-        fill: #fff;
+        fill: @lib__colors__N600Light;
       }
     }
+  }
+
+  .timeIcon {
+    fill: @lib__colors__N500;
   }
 
   .toggleIcon {
@@ -24,17 +28,19 @@
   }
 
   .toggleIconExpanded {
-    fill: #fff;
+    fill: @lib__colors__N600Light;
   }
 
   .timeSetting {
-    color: #fff;
+    color: @lib__colors__N600Light;
     margin-left: 0.25rem;
-    font-size: 0.875rem;
+    font-size: 0.6875rem;
+    line-height: 0.8125rem;
+    font-weight: 700;
   }
 
   .timeSettingExpanded {
-    color: #fff;
+    color: @lib__colors__N600Light;
   }
 
   .tooltip {

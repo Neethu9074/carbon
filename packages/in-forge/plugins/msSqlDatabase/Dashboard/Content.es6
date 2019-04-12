@@ -10,8 +10,8 @@ import {
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
 
 export default function MsSqlDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

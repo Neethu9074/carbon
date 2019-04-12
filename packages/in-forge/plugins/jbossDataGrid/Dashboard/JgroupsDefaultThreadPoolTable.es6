@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { number } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -89,9 +88,13 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title="JGroups Default Thread Pool Statistics">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle="JGroups Default Thread Pool Statistics"
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

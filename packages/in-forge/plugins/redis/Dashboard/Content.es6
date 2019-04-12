@@ -10,15 +10,14 @@ import {
   kiloBytesTwoDecimalPlaces,
   hitRateZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 
 const persistenceFormater = d => (d < 0 ? 'Not in progress' : twoDecimalPlaces(d) + 's');
 const latencyFormatter = (d, threshold) =>
@@ -70,7 +69,6 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Throughput">
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

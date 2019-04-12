@@ -1,9 +1,8 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
@@ -108,11 +107,7 @@ export default function WorkersTable({ snapshot, timeConfig }) {
     })
     .toArray();
 
-  return (
-    <DashboardSection title="Workers">
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle="Workers" cols={cols} rows={rows} getRowDetails={getDetails} />;
 }
 
 function getDetails(row) {

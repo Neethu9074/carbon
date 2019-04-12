@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Info from '../Info';
@@ -22,7 +21,6 @@ export default function KubernetesClusterSidebar({ snapshot }) {
   const isOpenshift = snapshot.getIn(['data', 'isOpenshift'], false);
   return (
     <div>
-      <Separator />
       <Columize>
         <SparkChartsSection
           snapshot={snapshot}
@@ -48,16 +46,12 @@ export default function KubernetesClusterSidebar({ snapshot }) {
         />
       </Columize>
 
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Cluster</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      {!isOpenshift && <Separator />}
 
       {!isOpenshift && (
         <Collapsible initiallyOpen>

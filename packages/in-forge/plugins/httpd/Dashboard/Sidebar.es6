@@ -4,15 +4,12 @@ import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.es6';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
 export default function HttpdSidebar({ snapshot }) {
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Apache Httpd</Collapsible.Header>
         <Collapsible.Content>

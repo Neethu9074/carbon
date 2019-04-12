@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/awsLambda/Info';
 import TriggersList from './TriggersList';
@@ -9,8 +8,6 @@ import TriggersList from './TriggersList';
 export default function AwsLambdaSidebar({ snapshot }) {
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Lambda Info</Collapsible.Header>
         <Collapsible.Content>

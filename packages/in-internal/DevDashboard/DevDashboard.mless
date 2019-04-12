@@ -3,12 +3,20 @@
     margin: 0 1rem 1rem;
   }
 
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 3rem;
+  }
+
   .links {
     font-size: 1rem;
   }
 
   .subTitle {
     font-weight: bold;
-    margin: .313rem 0;
+    margin: 0.313rem 0;
   }
 }

@@ -3,11 +3,11 @@ import React from 'react';
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { isWindows, isZos } from 'in-forge/plugins/process/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 
 export default connectTo(
   ({ snapshot }) => ({ hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot) }),

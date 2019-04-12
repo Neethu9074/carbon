@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { emptyMap } from 'in-services/fixedImmutables';
 
@@ -97,7 +96,7 @@ const cols = [
   }
 ];
 
-export default function QueuesTable({ snapshot, timeframe }) {
+export default function QueuesTable({ snapshot, timeConfig }) {
   const queueNames = snapshot.getIn(['data', 'monitoredQueueNames'], emptyMap);
   if (queueNames.size === 0) {
     return null;
@@ -106,13 +105,9 @@ export default function QueuesTable({ snapshot, timeframe }) {
     return {
       key,
       snapshotId: snapshot.get('id'),
-      timeframe
+      timeConfig
     };
   });
 
-  return (
-    <DashboardSection title={`Queues (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} />;
 }

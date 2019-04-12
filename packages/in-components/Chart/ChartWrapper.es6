@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { deepCopy } from 'in-services/util/object';
 import invariant from 'invariant';
 
@@ -51,7 +51,7 @@ import invariant from 'invariant';
           />
  */
 export default function ChartWrapper({ result, ...props }) {
-  return <ChartWrapperPresenter result={result} config={wrapProps(result, props)} />;
+  return <ResultAwareChart result={result} config={wrapProps(result, props)} />;
 }
 
 function wrapProps(result, props) {

@@ -6,6 +6,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
@@ -63,6 +64,7 @@ export default connectTo(
     return (
       <Fragment>
         <SecondLevelNavigation />
+        <TimeSelection />
         <MaxWidthFullscreenContainer>
           <Title title="Websites" />
 

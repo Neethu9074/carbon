@@ -3,7 +3,6 @@ import React from 'react';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import JettyThreadsInfo from '../JettyThreadsInfo.es6';
 import JettyConnectors from '../JettyConnectors.es6';
@@ -13,8 +12,6 @@ import Info from '../Info.es6';
 export default function JettySidebar({ snapshot }) {
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Jetty Server Info</Collapsible.Header>
         <Collapsible.Content>

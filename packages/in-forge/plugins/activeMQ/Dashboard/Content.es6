@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 import DLQueuesTable from './DLQueuesTable';
 import TopicsTable from './TopicsTable';
 import QueuesTable from './QueuesTable';
@@ -29,7 +28,6 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Topics">{snapshot.getIn(['data', 'topicNames'], emptyList).size}</KpiKeyValue>
         <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
         <KpiKeyValue label="DL Queues">{snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}</KpiKeyValue>

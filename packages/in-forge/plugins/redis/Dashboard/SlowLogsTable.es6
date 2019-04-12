@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TimeOfLastUpdateDescriptionItem from 'in-sdk/components/sidebar/TimeOfLastUpdateDescriptionItem';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { muSecondsZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -74,10 +73,15 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title={`Slow Logs (${rows.length})`}>
-        <Table cols={cols} rows={rows} initialSortColumn={1} initialSortDirection="desc" />
-        <TimeOfLastUpdateDescriptionItem data={data} />
-      </DashboardSection>
+      <Table
+        withoutPadding
+        cardTitle={`Slow Logs (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={1}
+        initialSortDirection="desc"
+        bottomContent={<TimeOfLastUpdateDescriptionItem data={data} />}
+      />
     );
   }
 );

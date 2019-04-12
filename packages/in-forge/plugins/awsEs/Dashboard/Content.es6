@@ -10,9 +10,9 @@ import {
 } from 'in-services/formatters/number';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 import theme from 'in-themes';
 
 export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {

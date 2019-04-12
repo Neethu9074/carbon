@@ -4,7 +4,6 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import AppInfo from '../AppInfo';
 import Info from '../Info';
@@ -14,16 +13,12 @@ export default function JvmRuntimeSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>App</Collapsible.Header>
         <Collapsible.Content>
           <AppInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      <Separator />
 
       <Collapsible initiallyOpen>
         <Collapsible.Header>JVM</Collapsible.Header>

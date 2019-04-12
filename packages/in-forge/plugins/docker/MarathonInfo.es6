@@ -1,9 +1,8 @@
 import React from 'react';
 
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function MarathonInfo({ snapshot }) {
   const marathon = snapshot.getIn(['data', 'Marathon']);
@@ -15,8 +14,6 @@ export default function MarathonInfo({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Marathon</Collapsible.Header>
         <Collapsible.Content>
@@ -32,11 +29,7 @@ export default function MarathonInfo({ snapshot }) {
             </DescriptionItem>
           </DescriptionList>
 
-          {labels && labels.size > 0 ? (
-            <KeyValuePopupButton title="Marathon Labels" data={labels}>
-              Show Marathon labels
-            </KeyValuePopupButton>
-          ) : null}
+          {labels && labels.size > 0 ? <KeyValueOverlay header="Marathon Labels" data={labels} /> : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

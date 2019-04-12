@@ -2,6 +2,7 @@ import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
+import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
@@ -84,6 +85,7 @@ export default connectTo(
               />
             </div>
             <ErrorIndicator />
+            <TimeSelection theme="dark" />
           </div>
         </div>
       );

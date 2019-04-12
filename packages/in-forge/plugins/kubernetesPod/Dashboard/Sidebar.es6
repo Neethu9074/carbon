@@ -1,9 +1,8 @@
 import React from 'react';
 
 import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 import Info from '../Info';
 
@@ -12,8 +11,6 @@ export default function KubernetesPodSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Kubernetes Pod</Collapsible.Header>
         <Collapsible.Content>
@@ -22,8 +19,6 @@ export default function KubernetesPodSidebar({ snapshot }) {
       </Collapsible>
 
       <ConditionsList snapshot={snapshot} />
-
-      <Separator />
 
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>kubectl</Collapsible.Header>

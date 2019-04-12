@@ -7,25 +7,22 @@ import {
   percentageTwoDecimalPlaces,
   number
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import { isWindows, isZos, isLinux } from 'in-forge/plugins/host/hostUtils';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 import { role } from 'in-stores/user';
 
-import './Content.less';
-
-const block = 'in-forge-host-dashboard';
+import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
   const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
@@ -33,8 +30,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-
         <KpiKeyValue label="CPU Usage">
           <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
@@ -186,9 +181,10 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 
       {role.canConfigureAgents ? (
-        <DashboardSection title="Agent Management">
-          <div className={`${block}__self-monitoring`}>
-            <div className={`${block}__self-monitoring-description`}>
+        <div className={locals.agentManagementContainer}>
+          <h1 className={locals.agentManagementHeader}>Agent Management</h1>
+          <div className={locals.agentManagementContent}>
+            <div className={locals.agentManagementDescription}>
               <p>
                 The Instana Agent has management and self monitoring capabilities which assist troubleshooting and
                 provide deeper insights without the need to log in and review files. This includes inspecting the agent
@@ -196,11 +192,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               </p>
             </div>
 
-            <div className={`${block}__self-monitoring-controls`}>
+            <div className={locals.agentManagementControls}>
               <AgentManagementButton snapshot={snapshot} />
             </div>
           </div>
-        </DashboardSection>
+        </div>
       ) : null}
     </div>
   );

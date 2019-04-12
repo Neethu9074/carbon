@@ -1,12 +1,7 @@
 import React from 'react';
 
-import Table from 'in-components/SearchableTable';
-
-import './Table.less';
-
-const block = 'in-dashboard-table';
+import Table from 'in-sdk/components/dashboard/Table/Table';
 
 export default function DashboardTable(props) {
-  const newProps = { ...props, className: block };
-  return <Table {...newProps} />;
+  return <Table {...props} />;
 }

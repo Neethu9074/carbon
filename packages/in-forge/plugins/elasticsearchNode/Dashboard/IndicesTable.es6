@@ -1,9 +1,8 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
@@ -89,9 +88,7 @@ export default function IndicesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Indices (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Indices (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 

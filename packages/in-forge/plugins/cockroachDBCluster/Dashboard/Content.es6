@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart';
 import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 import NodeSummary from '../NodeSummary.es6';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -54,9 +53,15 @@ export default function AlertsTable({ snapshot }) {
   }
 
   return (
-    <DashboardSection title={`Alerts ${rows.length}`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} initialSortColumn={2} initialSortDirection="desc" />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Alerts ${rows.length}`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+      initialSortColumn={2}
+      initialSortDirection="desc"
+    />
   );
 }
 

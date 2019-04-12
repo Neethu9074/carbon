@@ -1,8 +1,8 @@
 import React from 'react';
 
 import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { formatDateTime } from 'in-services/formatters/date';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -30,9 +30,7 @@ export default connectTo(
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
           <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
           <DescriptionItem title="Creation time">{formatDateTime(data.get('creationTime'))}</DescriptionItem>
-          <KeyValuePopupButton title="Labels" data={data.get('labels')}>
-            Labels
-          </KeyValuePopupButton>
+          <KeyValueOverlay header="Labels" data={data.get('labels')} />
         </DescriptionList>
       </div>
     );

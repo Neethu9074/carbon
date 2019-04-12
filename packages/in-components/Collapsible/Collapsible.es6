@@ -3,16 +3,15 @@ import invariant from 'invariant';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from './Collapsible.mless';
 
 class Collapsible extends React.PureComponent {
   static propTypes = {
     children: rpt.array.isRequired,
-    initiallyOpen: rpt.bool,
-    className: rpt.string
+    initiallyOpen: rpt.bool
   };
 
   state = {
@@ -27,11 +26,7 @@ class Collapsible extends React.PureComponent {
     const header = children[0].props;
     const contentProps = children[1].props;
     return (
-      <div
-        className={evaluateClassNames({
-          [this.props.className]: this.props.className
-        })}
-      >
+      <div className={isOpen ? locals.collapsibleOpen : locals.collapsibleClosed}>
         <Header className={header.className} style={header.style} toggle={this.toggle} isOpen={isOpen}>
           {header.children}
         </Header>
@@ -56,11 +51,11 @@ function Header({ isOpen, toggle, style, children }) {
       <span>{children}</span>
 
       <SvgIcon
-        type={isOpen ? 'triangle_down' : 'triangle_right'}
+        type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
         className={locals.toggle}
-        color="#6B8088"
-        height={6}
-        width={6}
+        color={theme.lib.colors.N700Medium}
+        height={24}
+        width={24}
       />
     </div>
   );

@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
 
 export default function ClusterSummary({ snapshot }) {
   const snapshotId = snapshot.get('id');
-  const data = snapshot.get('data');
   return (
     <KpiSection>
-      <KpiHeading>{data.get('groupId')}</KpiHeading>
       <KpiKeyValue label="All Brokers Messages In">
         <MetricValue snapshotId={snapshotId} metric="broker.messagesIn" formatter={zeroDecimalPlaces} />
       </KpiKeyValue>

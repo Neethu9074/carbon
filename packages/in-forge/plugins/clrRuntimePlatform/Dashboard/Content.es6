@@ -6,11 +6,10 @@ import {
   bytesTwoDecimalPlaces,
   bytesZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default function ClrDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -18,7 +17,6 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="All heaps">
           <MetricValue snapshotId={snapshotId} metric="mem.all_heaps" formatter={bytesZeroDecimalPlaces} />
         </KpiKeyValue>

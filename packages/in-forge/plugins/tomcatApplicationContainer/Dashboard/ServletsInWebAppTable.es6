@@ -1,8 +1,7 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -86,9 +85,13 @@ export default function ServletsTable({ webAppContext, snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Servlets of ${webAppContext} (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Servlets of ${webAppContext} (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

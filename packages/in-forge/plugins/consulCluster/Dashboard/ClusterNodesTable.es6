@@ -1,7 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -69,10 +68,6 @@ export default connectTo(
       };
     });
 
-    return (
-      <DashboardSection title={`Live Nodes (${rows.length})`}>
-        <Table cols={cols} rows={rows} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle={`Live Nodes (${rows.length})`} cols={cols} rows={rows} />;
   }
 );

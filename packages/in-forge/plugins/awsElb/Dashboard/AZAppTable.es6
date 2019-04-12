@@ -1,10 +1,9 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -66,9 +65,13 @@ export default function AZClassicTable({ snapshot, timeConfig }) {
     .toArray();
 
   return (
-    <DashboardSection title={`Availability Zones (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Availability Zones (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 

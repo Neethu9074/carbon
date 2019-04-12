@@ -2,7 +2,7 @@ import React from 'react';
 
 import { number, millis, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default function NetCoreDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

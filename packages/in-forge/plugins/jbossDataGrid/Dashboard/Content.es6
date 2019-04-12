@@ -2,17 +2,16 @@ import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
-import Chart from 'in-components/Chart';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
+import JgroupsDefaultThreadPoolTable from './JgroupsDefaultThreadPoolTable.es6';
 import CacheLatencyThroughputTable from './CacheLatencyThroughputTable.es6';
+import JgroupsTimerThreadPoolTable from './JgroupsTimerThreadPoolTable.es6';
+import JgroupsOOBThreadPoolTable from './JgroupsOOBThreadPoolTable.es6';
 import CacheHitsAndMissesTable from './CacheHitsAndMissesTable.es6';
 import CacheOtherStatsTable from './CacheOtherStatsTable.es6';
 import CacheManagersTable from './CacheManagersTable.es6';
-import JgroupsDefaultThreadPoolTable from './JgroupsDefaultThreadPoolTable.es6';
-import JgroupsOOBThreadPoolTable from './JgroupsOOBThreadPoolTable.es6';
-import JgroupsTimerThreadPoolTable from './JgroupsTimerThreadPoolTable.es6';
 
 export default function JbossDataGridDashboard({ snapshot, timeConfig }) {
   return (

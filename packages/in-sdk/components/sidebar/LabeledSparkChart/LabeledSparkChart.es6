@@ -24,7 +24,7 @@ export default connectTo(
     return (
       <div className={classes}>
         <HistoricMetricSparkChart
-          width={115}
+          width={140}
           theme={theme}
           timeConfig={timeConfig}
           snapshotId={snapshotId}

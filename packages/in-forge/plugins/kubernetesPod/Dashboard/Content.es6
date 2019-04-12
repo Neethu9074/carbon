@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import createContainersForPodSubscription from 'in-subscription/containersForPod';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { kubernetesEnabled } from 'in-services/featureFlags';
@@ -12,7 +11,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const containerCols = [
@@ -61,7 +59,6 @@ export default function KubernetesPodDashboard({ snapshot }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Phase">{snapshot.getIn(['data', 'phase'], null)}</KpiKeyValue>
         <KpiKeyValue label="Restarts">
           <MetricValue snapshotId={snapshotId} metric="restartCount" formatter={zeroDecimalPlaces} />
@@ -80,9 +77,7 @@ export default function KubernetesPodDashboard({ snapshot }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Containers">
-        <ContainerTable snapshotId={snapshotId} snapshot={snapshot} />
-      </DashboardSection>
+      <ContainerTable snapshotId={snapshotId} snapshot={snapshot} />
     </div>
   );
 }
@@ -107,6 +102,6 @@ const ContainerTable = connectTo(
       }));
     }
 
-    return <Table cols={containerCols} rows={rows} />;
+    return <Table withoutPadding cardTitle="Containers" cols={containerCols} rows={rows} />;
   }
 );

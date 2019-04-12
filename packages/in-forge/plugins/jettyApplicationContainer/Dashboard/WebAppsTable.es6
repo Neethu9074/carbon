@@ -1,10 +1,9 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -40,38 +39,38 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
     .getIn(['data', 'webApps'], emptyList)
     .toArray()
     .filter(webApp => webApp.get('state') === 'STARTED')
-    .map((webApp, i) => {
-      return {
-        key: i,
-        name: webApp.get('displayName') || '<unnamed>',
-        timeConfig,
-        snapshotId
-      };
-    });
+    .map((webApp, i) => ({
+      key: webApp.get('displayName', `${i}`),
+      name: webApp.get('displayName', '<unnamed>'),
+      timeConfig,
+      snapshotId
+    }));
 
   if (rows.length === 0) {
     return null;
   }
 
   return (
-    <DashboardSection title={`Web Apps (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Web Apps (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
 function getRowDetails(row) {
   return (
-    <div>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          metrics: ['webAppsSessionData.' + row.name + '.sessions'],
-          labels: ['Active Sessions'],
-          type: 'line'
-        }}
-      />
-    </div>
+    <Chart
+      snapshotId={row.snapshotId}
+      timeConfig={row.timeConfig}
+      y1={{
+        metrics: ['webAppsSessionData.' + row.name + '.sessions'],
+        labels: ['Active Sessions'],
+        type: 'line'
+      }}
+    />
   );
 }

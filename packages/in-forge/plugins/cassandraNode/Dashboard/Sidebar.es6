@@ -3,7 +3,7 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
+import List from 'in-sdk/components/sidebar/List';
 
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 import CassandraTopologyInfo from '../CassandraTopologyInfo';
@@ -14,16 +14,12 @@ export default function CassandraSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      <Separator />
 
       <Collapsible initiallyOpen>
         <Collapsible.Header>Topology</Collapsible.Header>
@@ -32,8 +28,6 @@ export default function CassandraSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Communication</Collapsible.Header>
         <Collapsible.Content>
@@ -41,7 +35,23 @@ export default function CassandraSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {tokens ? <KeyValueOverlay header="Tokens" data={tokens} /> : null}
+      {tokens && tokens.size > 0 ? (
+        <div>
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Tokens ({tokens.size})</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {tokens
+                  .toArray()
+                  .sort()
+                  .map((token, i) => (
+                    <List.Item key={i}>{token}</List.Item>
+                  ))}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        </div>
+      ) : null}
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

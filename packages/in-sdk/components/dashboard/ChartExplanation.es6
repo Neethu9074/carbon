@@ -1,5 +1,7 @@
 import React from 'react';
 
+import locals from './ChartExplanation.mless';
+
 export default function ChartExplanation({ children }) {
-  return <p>{children}</p>;
+  return <p className={locals.explanation}>{children}</p>;
 }

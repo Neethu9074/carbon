@@ -3,9 +3,9 @@ import React from 'react';
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number, percentage } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 import QueuesTable from './QueuesTable';
 import TopicsTable from './TopicsTable';

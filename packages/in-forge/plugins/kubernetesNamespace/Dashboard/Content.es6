@@ -6,8 +6,9 @@ import {
   resourceQuotaZeroDecimalPlaces,
   resourceQuotaTwoDecimalPlaces
 } from '../../kubernetesCluster/formatters/resourceQuota';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import DeploymentConfigsTable from './DeploymentConfigsTable';
@@ -15,8 +16,6 @@ import { kubernetesEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import DeploymentsTable from './DeploymentsTable';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function KubernetesNamespaceDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -28,7 +27,6 @@ export default function KubernetesNamespaceDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Status">{snapshot.getIn(['data', 'status'], null)}</KpiKeyValue>
         <KpiKeyValue label="Pods Allocation">
           <MetricValue snapshotId={snapshotId} metric="used_pods_percentage" formatter={resourceQuotaPercentage} />

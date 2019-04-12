@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

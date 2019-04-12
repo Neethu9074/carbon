@@ -2,7 +2,7 @@ import React from 'react';
 
 import getSnapshotFromHierarchyByPlugin from 'in-sdk/components/hoc/getSnapshotFromHierarchyByPlugin';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { plugins } from 'in-forge/constants';
 
 export default getSnapshotFromHierarchyByPlugin(plugins.process, function ProcessStartedAtDescriptionItem({

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   withSiMultiplyPrefixThreeDecimalPlaces,
   timeByMillisTwoDecimalPlaces,
@@ -174,24 +174,24 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             type: 'stackedArea'
           }}
         />
-        <DashboardSection title="Rejected Tasks">
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'threads.search_rejected',
-                'threads.index_rejected',
-                'threads.bulk_rejected',
-                'threads.get_rejected'
-              ],
-              labels: ['Search', 'Index', 'Bulk', 'Get'],
-              formatter: twoDecimalPlaces,
-              type: 'stackedArea'
-            }}
-          />
-        </DashboardSection>
+      </DashboardSection>
+      <DashboardSection title="Rejected Tasks">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'threads.search_rejected',
+              'threads.index_rejected',
+              'threads.bulk_rejected',
+              'threads.get_rejected'
+            ],
+            labels: ['Search', 'Index', 'Bulk', 'Get'],
+            formatter: twoDecimalPlaces,
+            type: 'stackedArea'
+          }}
+        />
       </DashboardSection>
     </div>
   );

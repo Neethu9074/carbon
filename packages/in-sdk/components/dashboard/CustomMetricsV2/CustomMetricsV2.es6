@@ -2,15 +2,14 @@ import React, { Fragment } from 'react';
 
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import withUrlState from 'in-hoc/withUrlState';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
-import Chart from 'in-components/Chart';
 
 import locals from './CustomMetricsV2.mless';
 
@@ -140,21 +139,27 @@ function CustomMetricsV2(props) {
   return (
     <Fragment>
       {pinnedRows.length > 0 && (
-        <DashboardSection title={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}>
-          <Table
-            cols={cols}
-            rows={pinnedRows}
-            getRowDetails={getDetails}
-            maxItemsPerPage={100}
-            initialSortColumn={2}
-            showExpandAll
-          />
-        </DashboardSection>
+        <Table
+          cardTitle={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}
+          withoutPadding
+          cols={cols}
+          rows={pinnedRows}
+          getRowDetails={getDetails}
+          maxItemsPerPage={20}
+          initialSortColumn={2}
+          showExpandAll
+        />
       )}
 
-      <DashboardSection title={`${titlePrefix || ''} Custom Metrics (${rows.length})`.trim()}>
-        <Table cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={100} initialSortColumn={2} />
-      </DashboardSection>
+      <Table
+        cardTitle={`${titlePrefix || ''} Custom Metrics (${rows.length})`.trim()}
+        withoutPadding
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+        maxItemsPerPage={20}
+        initialSortColumn={2}
+      />
     </Fragment>
   );
 }

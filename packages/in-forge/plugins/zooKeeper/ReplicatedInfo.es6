@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 
 export default function ReplicatedInfo({ snapshot, peer }) {

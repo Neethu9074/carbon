@@ -9,12 +9,11 @@ import {
   muSecondsZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import MetricValue from 'in-components/MetricValue';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import RedisCacheShardTable from 'in-forge/plugins/azureRedisCache/Dashboard/RedisCacheShardTable.es6';
 
 export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
@@ -23,8 +22,6 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-
         <KpiKeyValue label="Operations Per Second">
           <MetricValue snapshotId={snapshotId} metric="operationsPerSecond" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>

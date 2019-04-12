@@ -5,36 +5,34 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import MainNavigation from 'in-new-components/MainNavigation';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import AppHeader from 'in-components/AppHeader';
-import Sticky from 'in-components/Sticky';
 
 import routes from 'in-client/js/routes/mainRoutes';
 
 import 'in-themes/foundation.less';
+import locals from './App.mless';
 
 export default function App() {
   return (
     <ErrorBoundary name="app">
-      <Sticky
-        header={
-          <ErrorBoundary name="app-header">
-            <AppHeader />
-          </ErrorBoundary>
-        }
-      >
-        <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-      </Sticky>
+      <ErrorBoundary name="main-navigation">
+        <MainNavigation />
+      </ErrorBoundary>
 
-      {!twoZeroModeEnabled && (
-        <ErrorBoundary name="timeline">
-          <Timeline />
-        </ErrorBoundary>
-      )}
+      <div className={locals.content}>
+        <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+
+        {!twoZeroModeEnabled && (
+          <ErrorBoundary name="timeline">
+            <Timeline />
+          </ErrorBoundary>
+        )}
+      </div>
 
       <ErrorBoundary name="dialogs">
         {/* for release notes */}

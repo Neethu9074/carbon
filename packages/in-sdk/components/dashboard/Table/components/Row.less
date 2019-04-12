@@ -1,0 +1,44 @@
+:local {
+  .tableRow {
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid #E1E5E8;
+
+    &:nth-child(even) {
+      background: #FAFBFC;
+    }
+    &:last-child {
+      border-bottom: 0px;
+    }
+    &:hover {
+      background: #e1e8eb;
+    }
+  }
+
+  .toggle {
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+  }
+
+  .clickableRow {
+    cursor: pointer;
+  }
+
+  .expandedRow {
+    border-bottom: 1px solid #fff;
+
+    & > td {
+      border-bottom: 1px solid #fff;
+    }
+  }
+
+  .selectedRow {
+    background: #fff;
+    border-left: 0.5rem solid #24d8d8;
+
+    &:hover {
+      background: #fff;
+    }
+  }
+}

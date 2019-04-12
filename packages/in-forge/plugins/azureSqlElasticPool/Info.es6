@@ -1,7 +1,7 @@
 import React from 'react';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import TagList from 'in-sdk/components/sidebar/TagList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
@@ -17,7 +17,6 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
         <DescriptionItem title="Zone Redundant">{data.get('zoneRedundant') ? 'Yes' : 'No'}</DescriptionItem>
         <DescriptionItem title="SKU">{data.get('sku')}</DescriptionItem>
-        <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
   );

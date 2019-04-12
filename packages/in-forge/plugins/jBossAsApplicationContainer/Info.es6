@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { emptyMap } from 'in-services/fixedImmutables';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 
 export default function JBossAsInfo({ snapshot }) {
   const serverInfo = snapshot.getIn(['data', 'serverInfo'], emptyMap);

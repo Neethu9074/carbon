@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -127,9 +126,13 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title={`Nodes (${rows.length})`}>
-        <Table cols={cols} rows={rows} getRowDetails={getNodeRowDetails} />
-      </DashboardSection>
+      <Table
+        withoutPadding
+        cardTitle={`Nodes (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getNodeRowDetails}
+      />
     );
   }
 );

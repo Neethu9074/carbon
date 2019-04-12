@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 
 import { emptyList } from 'in-services/fixedImmutables';
@@ -144,9 +143,13 @@ export default function RecentChangesTable({ snapshot, timeConfig }) {
     return null;
   }
   return (
-    <DashboardSection title={`Recent changes per database (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Recent changes per database (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

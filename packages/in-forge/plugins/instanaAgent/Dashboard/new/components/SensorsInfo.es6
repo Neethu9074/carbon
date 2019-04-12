@@ -1,7 +1,6 @@
 import React from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { listSensors } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -63,9 +62,7 @@ export default connectTo(
       let rows = getRows(this.props.sensors);
       return (
         <Dialog header="Sensors Info" onClose={close} contentClassName={block}>
-          <DashboardSection title={`Sensors (${rows.length})`}>
-            <Table cols={cols} rows={rows} />
-          </DashboardSection>
+          <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
 
           {this.props.sensors ? (
             <DownloadView

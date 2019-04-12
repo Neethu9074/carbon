@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
-import Tag from 'in-components/Tags/Tag';
+import Tag from 'in-sdk/components/sidebar/Tag';
+
+import locals from './TagList.mless';
 
 export default function TagList({ snapshot }) {
   const tags = snapshot.get('processorTags');
@@ -12,11 +13,15 @@ export default function TagList({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Tags ({tags.size})</Collapsible.Header>
-        <Collapsible.Content>{tags.toArray().map(tag => <Tag key={tag} tag={tag} />)}</Collapsible.Content>
+        <Collapsible.Content>
+          <div className={locals.tagList}>
+            {tags.toArray().map(tag => (
+              <Tag key={tag} tag={tag} />
+            ))}
+          </div>
+        </Collapsible.Content>
       </Collapsible>
     </div>
   );

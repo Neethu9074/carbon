@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { minutes } from 'in-services/formatters/number';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
+import { minutes } from 'in-services/formatters/number';
 
 import Info from '../Info';
 
@@ -16,87 +15,76 @@ export default function TomcatSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Tomcat</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-
-      {webapps && webapps.size > 0 ? (
-        <div>
-          <Separator />
-
+      {webapps &&
+        webapps.size > 0 && (
           <Collapsible initiallyOpen>
             <Collapsible.Header>Webapps</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {webapps
-                  .map((data, name) => [
-                    <DescriptionItem title="Context" addSeparator>
+                {webapps.keySeq().map(name => (
+                  <Fragment key={name}>
+                    <DescriptionItem key={name} title="Context" addSeparator>
                       {name}
-                    </DescriptionItem>,
-                    <DescriptionItem title="Session Timeout">
-                      {minutes.compact(data.get('session-timeout'))}
                     </DescriptionItem>
-                  ])
-                  .valueSeq()}
+                    <DescriptionItem title="Session Timeout">
+                      {minutes.compact(webapps.getIn([name, 'session-timeout']))}
+                    </DescriptionItem>
+                  </Fragment>
+                ))}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
-        </div>
-      ) : null}
+        )}
 
-      {connectors && connectors.size > 0 ? (
-        <div>
-          <Separator />
-
+      {connectors &&
+        connectors.size > 0 && (
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>Connectors</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {connectors
-                  .map(data => [
+                {connectors.toArray().map((data, i) => (
+                  <Fragment key={i}>
                     <DescriptionItem title="Port" addSeparator>
                       {data.get('port')}
-                    </DescriptionItem>,
-                    <DescriptionItem title="Executor">{data.get('executor')}</DescriptionItem>,
-                    <DescriptionItem title="Max Threads">{data.getIn(['threads', 'max'])}</DescriptionItem>,
-                    <DescriptionItem title="Max Connections">{data.getIn(['connections', 'max'])}</DescriptionItem>,
-                    <DescriptionItem title="Connect Timeout">{data.get('connect-timeout')}</DescriptionItem>,
+                    </DescriptionItem>
+                    <DescriptionItem title="Executor">{data.get('executor')}</DescriptionItem>
+                    <DescriptionItem title="Max Threads">{data.getIn(['threads', 'max'])}</DescriptionItem>
+                    <DescriptionItem title="Max Connections">{data.getIn(['connections', 'max'])}</DescriptionItem>
+                    <DescriptionItem title="Connect Timeout">{data.get('connect-timeout')}</DescriptionItem>
                     <DescriptionItem title="Keepalive Timeout">{data.get('keepalive-timeout')}</DescriptionItem>
-                  ])
-                  .valueSeq()}
+                  </Fragment>
+                ))}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
-        </div>
-      ) : null}
+        )}
 
-      {executors && executors.size > 0 ? (
-        <div>
-          <Separator />
-
+      {executors &&
+        executors.size > 0 && (
           <Collapsible initiallyOpen={false}>
             <Collapsible.Header>Executors</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {executors
-                  .map(data => [
+                {executors.toArray().map((data, i) => (
+                  <Fragment key={i}>
                     <DescriptionItem title="Max Threads" addSeparator>
                       {data.get('maxThreads')}
-                    </DescriptionItem>,
-                    <DescriptionItem title="Max Idle">{data.get('maxIdleTime')}</DescriptionItem>,
+                    </DescriptionItem>
+                    <DescriptionItem title="Max Idle">{data.get('maxIdleTime')}</DescriptionItem>
                     <DescriptionItem title="Core Pool">{data.get('corePoolSize')}</DescriptionItem>
-                  ])
-                  .valueSeq()}
+                  </Fragment>
+                ))}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
-        </div>
-      ) : null}
+        )}
+
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />
     </div>

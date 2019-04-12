@@ -1,10 +1,9 @@
 import React from 'react';
 
 import HumanReadablePluginName from 'in-sdk/components/sidebar/HumanReadablePluginName';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SnapshotLabel from 'in-sdk/components/sidebar/SnapshotLabel';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { getServiceInstances } from 'in-stores/snapshot';
 import { emptySet } from 'in-services/fixedImmutables';
@@ -58,8 +57,6 @@ export default connectTo(
 
     return (
       <div>
-        <Separator />
-
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Services</Collapsible.Header>
           <Collapsible.Content>

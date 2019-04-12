@@ -1,9 +1,8 @@
 import React from 'react';
 
 import metrics from 'in-forge/plugins/clickHouseDatabase/Dashboard/metrics';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -44,9 +43,14 @@ export default function MetricsTable({ snapshot, timeConfig }) {
   }));
 
   return (
-    <DashboardSection title="Metrics">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={25} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle="Metrics"
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+      maxItemsPerPage={25}
+    />
   );
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -43,9 +42,5 @@ export default function TopicsTable({ snapshot }) {
     return null;
   }
 
-  return (
-    <DashboardSection title={`Topics (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
 }

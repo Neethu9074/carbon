@@ -3,7 +3,6 @@ import React from 'react';
 import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/ClickableList';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 
 export default function App20ServicesPresenter({ result }) {
   // we are not showing progress/errors in the Infra 1.0 sidebars
@@ -13,8 +12,6 @@ export default function App20ServicesPresenter({ result }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Services</Collapsible.Header>
         <Collapsible.Content>

@@ -1,0 +1,41 @@
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .descriptionList {
+    margin: 0;
+    padding: 0 1rem
+  }
+
+  .descriptionListItem {
+    justify-content: space-between;
+    padding: 0.5rem 0;
+  }
+
+  .itemTitle {
+    display: block;
+    font-size: 0.75rem;
+    color: @lib__colors__navy800;
+    font-weight: bold;
+    margin: 0 0 0.063rem;
+    .breakWord();
+  }
+
+  .itemText {
+    font-size: 0.75rem;
+    display: block;
+    color: @lib__colors__N700Medium;
+    .breakWord();
+    margin: 0;
+  }
+
+  .descriptionList:empty + .descriptionListNoDetails {
+    display: block;
+  }
+
+  .descriptionListNoDetails {
+    display: none;
+    padding: 0 1rem;
+  }
+}

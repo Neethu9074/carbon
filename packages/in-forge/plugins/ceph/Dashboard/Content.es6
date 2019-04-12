@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
@@ -11,7 +11,6 @@ import {
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
 
 export default function CephDashboard({ snapshot, timeConfig }) {
@@ -30,7 +29,6 @@ export default function CephDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Overall Status">
           <MetricValue snapshotId={snapshotId} metric="overall_status" formatter={healthFormatter} />
         </KpiKeyValue>

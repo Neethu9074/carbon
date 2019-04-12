@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
 import AZClassicTable from './AZClassicTable';
 

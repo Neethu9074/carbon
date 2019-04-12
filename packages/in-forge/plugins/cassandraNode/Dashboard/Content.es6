@@ -7,13 +7,12 @@ import {
   twoDecimalPlaces,
   number
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import KeyspacesTable from 'in-forge/plugins/cassandraNode/Dashboard/KeyspacesTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { capitalize } from 'in-services/formatters/string';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function CassandraDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -21,7 +20,6 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Read Requests">
           <MetricValue snapshotId={snapshotId} metric="clientrequests.read.count" />
         </KpiKeyValue>

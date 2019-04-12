@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
@@ -72,9 +71,5 @@ export default function ElasticPoolTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  return (
-    <DashboardSection title={`Elastic Pools (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Elastic Pools (${rows.length})`} cols={cols} rows={rows} />;
 }

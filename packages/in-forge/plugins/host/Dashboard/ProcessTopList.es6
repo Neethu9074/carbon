@@ -3,7 +3,6 @@ import React from 'react';
 import TimeOfLastUpdateDescriptionItem from 'in-sdk/components/sidebar/TimeOfLastUpdateDescriptionItem';
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -90,10 +89,15 @@ export default connectTo(
     });
 
     return (
-      <DashboardSection title="Process Top List">
-        <Table cols={cols} rows={rows} initialSortColumn={2} initialSortDirection={'desc'} />
-        <TimeOfLastUpdateDescriptionItem data={data} />
-      </DashboardSection>
+      <Table
+        cardTitle="Process Top List"
+        withoutPadding
+        cols={cols}
+        rows={rows}
+        initialSortColumn={2}
+        initialSortDirection={'desc'}
+        bottomContent={<TimeOfLastUpdateDescriptionItem data={data} />}
+      />
     );
   }
 );

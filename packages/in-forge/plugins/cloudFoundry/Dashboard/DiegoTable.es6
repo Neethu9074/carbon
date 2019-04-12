@@ -30,9 +30,7 @@ export default function DiegoTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Diego (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Diego (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

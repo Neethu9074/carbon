@@ -2,13 +2,12 @@ import React from 'react';
 
 import { number, percentagePlainTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import DatabaseTable from 'in-forge/plugins/azureSqlServer/Dashboard/DatabaseTable.es6';
-import { getLabel } from 'in-sdk/snapshot';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import MetricValue from 'in-components/MetricValue';
 
 export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -16,7 +15,6 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="CPU">
           <MetricValue
             snapshotId={snapshotId}

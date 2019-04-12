@@ -1,12 +1,11 @@
 import React from 'react';
 
-import Chart from 'in-components/Chart';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-
 import { number, percentage, millis } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 import theme from 'in-themes';
 
 const cols = [
@@ -98,9 +97,7 @@ export default function InstancesTable({ snapshot, timeConfig }) {
     };
   });
   return (
-    <DashboardSection title={`Instances (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Instances (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 
@@ -179,22 +176,13 @@ function getDetails(row) {
               'instanceMetrics.' + instanceId + '.application_latency_p99',
               'instanceMetrics.' + instanceId + '.application_latency_p99.9'
             ],
-            labels: [
-              'Application Latency P10',
-              'Application Latency P50',
-              'Application Latency P75',
-              'Application Latency P85',
-              'Application Latency P90',
-              'Application Latency P95',
-              'Application Latency P99',
-              'Application Latency P99.9'
-            ],
+            labels: ['10th', '50th', '75th', '85th', '90th', '95th', '99th', '99.9th'],
             type: 'line',
             formatter: millis.compact
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Application Latency">
+      <DashboardSection title="Application Requests">
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -206,13 +194,7 @@ function getDetails(row) {
               'instanceMetrics.' + instanceId + '.application_requests_5xx',
               'instanceMetrics.' + instanceId + '.application_requests_total'
             ],
-            labels: [
-              'Application Requests 2xx',
-              'Application Requests 3xx',
-              'Application Requests 4xx',
-              'Application Requests 5xx',
-              'Application Requests Total'
-            ],
+            labels: ['2xx', '3xx', '4xx', '5xx', 'Total'],
             colors: [
               theme.lib.colors.green800,
               theme.lib.colors.yellow800,

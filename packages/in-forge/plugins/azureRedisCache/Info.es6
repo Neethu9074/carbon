@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import TagList from 'in-sdk/components/sidebar/TagList';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
@@ -39,7 +39,6 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="Subnet ID">{data.get('subnetId')}</DescriptionItem>
         <DescriptionItem title="Cluster Enabled">{data.get('shardCount') > 0 ? 'Yes' : 'No'}</DescriptionItem>
         {data.get('shardCount') > 0 && <DescriptionItem title="Shard Count">{data.get('shardCount')}</DescriptionItem>}
-        <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
   );

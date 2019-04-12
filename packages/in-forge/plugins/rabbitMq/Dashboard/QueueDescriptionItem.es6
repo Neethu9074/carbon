@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getRawPayload } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';

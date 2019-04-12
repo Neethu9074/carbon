@@ -1,13 +1,12 @@
 import React from 'react';
 
 import TableExplanation from 'in-sdk/components/dashboard/TableExplanation';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { bytes } from 'in-services/formatters/number';
 import { getMaxValue } from 'in-sdk/metrics';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -78,16 +77,23 @@ export default function MemoryPoolsTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  return (
-    <DashboardSection title={`Memory Pools`}>
-      <TableExplanation>
-        Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>,{' '}
-        <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it
-        may resize any of these pools.
-      </TableExplanation>
+  const explanation = (
+    <TableExplanation>
+      Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>,{' '}
+      <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it may
+      resize any of these pools.
+    </TableExplanation>
+  );
 
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+  return (
+    <Table
+      cardTitle={`Memory Pools`}
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+      explanation={explanation}
+    />
   );
 }
 

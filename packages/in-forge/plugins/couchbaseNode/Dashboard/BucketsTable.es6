@@ -3,8 +3,8 @@ import React from 'react';
 import { number, bytes, percentage } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
 const cols = [
@@ -128,9 +128,7 @@ export default function BucketsTable({ snapshot, timeConfig, bucketMetricsPrefix
   }
 
   return (
-    <DashboardSection title={`Buckets (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Buckets (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 

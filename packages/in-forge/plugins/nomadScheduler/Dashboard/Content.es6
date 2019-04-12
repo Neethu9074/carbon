@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { getLabel } from 'in-sdk/snapshot';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import Chart from 'in-components/Chart';
-import MetricValue from 'in-components/MetricValue';
-import DashboardNotification from 'in-components/DashboardNotification';
 import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import MetricValue from 'in-components/MetricValue';
 import GaugesTable from './GaugesTable';
 
 export default function NomadDashboard({ snapshot, timeConfig }) {
@@ -32,7 +31,6 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
     return (
       <div>
         <KpiSection>
-          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
           <KpiKeyValue label="Running">
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.running" formatter={number.compact} />
           </KpiKeyValue>

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import { emptyMap } from 'in-services/fixedImmutables';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 const formatBoolean = value => (value ? 'Yes' : 'No');
 const nullOrFormatBoolean = value => (value == null ? null : formatBoolean(value));

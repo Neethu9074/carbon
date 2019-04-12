@@ -1,19 +1,13 @@
 import React from 'react';
 
 import { timeByMillisTwoDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default function PythonDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-      </KpiSection>
-
       <Columize>
         <DashboardSection title="GC Activity">{renderGcMetrics(snapshot, timeConfig)}</DashboardSection>
 

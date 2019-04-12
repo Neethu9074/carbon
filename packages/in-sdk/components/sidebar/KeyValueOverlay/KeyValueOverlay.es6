@@ -2,7 +2,6 @@ import { compose, withState } from 'recompose';
 import React from 'react';
 
 import KeyValueDialogPresenter from 'in-sdk/components/sidebar/KeyValueOverlay/KeyValueDialogPresenter';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -28,7 +27,6 @@ function KeyValueButtonWrapper(props) {
 
   return (
     <div className={locals.wrapper}>
-      <Separator />
       <div className={locals.item}>
         <div className={locals.header}>{header}</div>
         <div className={isOpen ? locals.buttonOpen : locals.button} onClick={toggle}>

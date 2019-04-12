@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import MetricValue from 'in-components/MetricValue';
 
 export default function LiferayDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -12,7 +11,6 @@ export default function LiferayDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Average Time">
           <MetricValue snapshotId={snapshotId} metric="portalStatistics.averageTime" />
         </KpiKeyValue>

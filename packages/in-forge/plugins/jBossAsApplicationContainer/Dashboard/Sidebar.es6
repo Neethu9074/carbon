@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 import Info from '../Info';
@@ -18,8 +17,6 @@ export default function JBossAsSidebar({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>JBoss Application Server</Collapsible.Header>
         <Collapsible.Content>
@@ -28,47 +25,39 @@ export default function JBossAsSidebar({ snapshot }) {
       </Collapsible>
 
       {deployments.size > 0 ? (
-        <div>
-          <Separator />
-
-          <Collapsible initiallyOpen>
-            <Collapsible.Header>Deployments</Collapsible.Header>
-            <Collapsible.Content>
-              <DescriptionList>
-                {deployments
-                  .map((data, name) => (
-                    <DescriptionItem title={name} key={name}>
-                      {data.get('contextRoot')}
-                    </DescriptionItem>
-                  ))
-                  .valueSeq()
-                  .toArray()}
-              </DescriptionList>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
+        <Collapsible initiallyOpen>
+          <Collapsible.Header>Deployments</Collapsible.Header>
+          <Collapsible.Content>
+            <DescriptionList>
+              {deployments
+                .map((data, name) => (
+                  <DescriptionItem title={name} key={name}>
+                    {data.get('contextRoot')}
+                  </DescriptionItem>
+                ))
+                .valueSeq()
+                .toArray()}
+            </DescriptionList>
+          </Collapsible.Content>
+        </Collapsible>
       ) : null}
 
       {sockets.size > 0 ? (
-        <div>
-          <Separator />
-
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Ports</Collapsible.Header>
-            <Collapsible.Content>
-              <DescriptionList>
-                {sockets
-                  .map((data, name) => (
-                    <DescriptionItem key={name} title={name}>
-                      {data.get('port')}
-                    </DescriptionItem>
-                  ))
-                  .valueSeq()
-                  .toArray()}
-              </DescriptionList>
-            </Collapsible.Content>
-          </Collapsible>
-        </div>
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Ports</Collapsible.Header>
+          <Collapsible.Content>
+            <DescriptionList>
+              {sockets
+                .map((data, name) => (
+                  <DescriptionItem key={name} title={name}>
+                    {data.get('port')}
+                  </DescriptionItem>
+                ))
+                .valueSeq()
+                .toArray()}
+            </DescriptionList>
+          </Collapsible.Content>
+        </Collapsible>
       ) : null}
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />

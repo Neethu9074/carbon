@@ -3,7 +3,6 @@ import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
-import DashboardJumpLabels from 'in-components/Dashboard/components/DashboardJumpLabels';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -98,19 +97,26 @@ export default connectTo(
 
     return (
       <div className="in-dashboard">
-        <LegacyView />
         <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={locals.mainContent}>
           <DetailPopupPresenter />
-          <Sticky header={<DashboardHeader snapshotId={snapshotId} />}>
+          <Sticky
+            header={
+              <DashboardHeader
+                snapshotId={snapshotId}
+                snapshot={snapshot}
+                timeConfig={timeConfig}
+                plugin={plugin}
+                title={getLabel(snapshot)}
+              />
+            }
+          >
             <div className={locals.wrapper}>
               <div className={locals.sidebar}>
                 <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
               </div>
               <div className={locals.content}>
-                <Sticky header={<DashboardJumpLabels snapshotId={snapshotId} />}>
-                  <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
-                </Sticky>
+                <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
               </div>
             </div>
           </Sticky>

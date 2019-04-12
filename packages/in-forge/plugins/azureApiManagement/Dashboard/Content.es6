@@ -7,15 +7,13 @@ import {
   millis
 } from 'in-services/formatters/number';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import ApisTable from './ApisTable.es6';
+import MetricValue from 'in-components/MetricValue';
 import OperationsTable from './OperationsTable.es6';
+import ApisTable from './ApisTable.es6';
 
 export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,8 +21,6 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-
         <KpiKeyValue label="Capacity">
           <MetricValue snapshotId={snapshotId} metric="metrics.Capacity" formatter={percentagePlainTwoDecimalPlaces} />
         </KpiKeyValue>

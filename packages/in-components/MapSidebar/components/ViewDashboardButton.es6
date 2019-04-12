@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewDashboardButton.less';

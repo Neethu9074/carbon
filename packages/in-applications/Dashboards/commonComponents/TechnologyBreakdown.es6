@@ -2,10 +2,10 @@ import React from 'react';
 
 import getTechnologyBreakdown from 'in-subscription/application/getTechnologyBreakdown';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
 import { endpointNameTranslations } from 'in-applications/endpointTypes';
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -60,6 +60,6 @@ export default connectTo(
       };
     }
 
-    return <ChartWrapperPresenter result={result} config={config} />;
+    return <ResultAwareChart result={result} config={config} />;
   }
 );

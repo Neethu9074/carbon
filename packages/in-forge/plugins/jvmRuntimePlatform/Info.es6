@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function JVMInfo({ snapshot }) {

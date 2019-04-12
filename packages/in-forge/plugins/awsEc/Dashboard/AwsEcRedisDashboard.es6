@@ -1,9 +1,9 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, seconds } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
+import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

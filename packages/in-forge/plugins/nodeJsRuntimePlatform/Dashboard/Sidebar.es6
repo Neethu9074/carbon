@@ -3,7 +3,6 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import TagList from 'in-sdk/components/sidebar/TagList';
 
 import Info from '../Info';
@@ -11,8 +10,6 @@ import Info from '../Info';
 export default function NodejsDashboardSidebar({ snapshot }) {
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen>
         <Collapsible.Header>Node.js</Collapsible.Header>
         <Collapsible.Content>

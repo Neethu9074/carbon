@@ -1,15 +1,14 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import DashboardNotification from 'in-components/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 export default function RabbitMqDashboard({ snapshot, timeConfig }) {
@@ -23,7 +22,6 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
     <div>
       {netPartitions.size > 0 && renderNetworkPartitionWarn(netPartitions)}
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Messages ready">
           <MetricValue snapshotId={snapshotId} metric="overview.messages_ready" />
         </KpiKeyValue>

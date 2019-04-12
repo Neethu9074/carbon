@@ -2,7 +2,7 @@ import React from 'react';
 
 import HealthcheckResultDescriptionItem from 'in-forge/plugins/nodeJsRuntimePlatform/HealthcheckResultDescriptionItem';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 
 export default function NodeJsInfo({ snapshot }) {
   const data = snapshot.get('data');

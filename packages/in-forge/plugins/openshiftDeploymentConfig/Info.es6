@@ -1,8 +1,8 @@
 import React from 'react';
 
 import createNamespaceForDeploymentConfigSubscription from 'in-subscription/namespaceForDeploymentConfig';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -38,9 +38,7 @@ export default connectTo(
           )}
 
           <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <KeyValuePopupButton title="Labels" data={data.get('labels')}>
-            Labels
-          </KeyValuePopupButton>
+          <KeyValueOverlay header="Labels" data={data.get('labels')} />
         </DescriptionList>
       </div>
     );

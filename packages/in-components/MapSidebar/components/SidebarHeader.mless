@@ -1,0 +1,37 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .sidebarHeader {
+    padding: 0 0 1rem 0;
+
+    &__entity {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    &__entity-icon {
+      margin: 0.25rem 0.75rem 0 0;
+    }
+
+    &__entity-label {
+      font-size: 0.875rem;
+      font-weight: normal;
+      color: @lib__colors__N900Primary;
+      margin: 0 0 0.4rem;
+      .breakWord();
+    }
+
+    &__entity-type {
+      font-size: 0.75rem;
+      color: @lib__colors__N600Light;
+      margin: 0 0.35rem 0 0;
+    }
+
+    &__type-id-wrapper {
+      .breakWord();
+      line-height: 1.8;
+    }
+  }
+}
+

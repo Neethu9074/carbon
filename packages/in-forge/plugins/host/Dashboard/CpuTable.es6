@@ -1,13 +1,13 @@
 import { Range } from 'immutable';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
-import Table from 'in-components/Table';
-import Chart from 'in-components/Chart';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
+    id: 'CPU',
     title: 'CPU',
     type: 'number',
     typeArgs: {
@@ -20,6 +20,7 @@ const cols = [
     }
   },
   {
+    id: 'User',
     title: 'User',
     type: 'metric',
     typeArgs: {
@@ -36,6 +37,7 @@ const cols = [
     }
   },
   {
+    id: 'System',
     title: 'System',
     type: 'metric',
     typeArgs: {
@@ -52,6 +54,7 @@ const cols = [
     }
   },
   {
+    id: 'Wait',
     title: 'Wait',
     type: 'metric',
     typeArgs: {
@@ -68,6 +71,7 @@ const cols = [
     }
   },
   {
+    id: 'Nice',
     title: 'Nice',
     type: 'metric',
     typeArgs: {
@@ -84,6 +88,7 @@ const cols = [
     }
   },
   {
+    id: 'Steal',
     title: 'Steal',
     type: 'metric',
     typeArgs: {
@@ -121,9 +126,14 @@ export default function CpuTable({ snapshot, timeConfig }) {
   // typical CPU counts are 2, 4, 8, 16, 32, 64
   // to have evenly filled pages, we use 8 as maxItems instead of default 10
   return (
-    <DashboardSection title="Individual CPU Usage">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} maxItemsPerPage={8} />
-    </DashboardSection>
+    <Table
+      cardTitle="Individual CPU Usage"
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+      maxItemsPerPage={8}
+    />
   );
 }
 

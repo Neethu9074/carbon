@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import getAgentResponse from 'in-subscription/agentResponse';
@@ -71,10 +70,18 @@ export default connectTo(
         ...r
       }));
       content = (
-        <Table cols={cols} rows={rows} maxItemsPerPage={25} initialSortColumn={2} initialSortDirection="desc" />
+        <Table
+          withoutPadding
+          cardTitle="Active Parts"
+          cols={cols}
+          rows={rows}
+          maxItemsPerPage={25}
+          initialSortColumn={2}
+          initialSortDirection="desc"
+        />
       );
     }
 
-    return <DashboardSection title="Active Parts">{content}</DashboardSection>;
+    return content;
   }
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 

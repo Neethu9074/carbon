@@ -3,7 +3,7 @@ import React from 'react';
 import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -118,9 +118,7 @@ export default function CoresTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Cores (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Cores (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

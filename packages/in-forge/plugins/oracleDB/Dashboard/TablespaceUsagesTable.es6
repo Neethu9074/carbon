@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -89,9 +88,13 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Tablespaces ${rows.length}`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Tablespaces ${rows.length}`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

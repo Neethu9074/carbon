@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -38,9 +37,5 @@ export default function ApplicationPoolsTable({ snapshot }) {
     };
   });
 
-  return (
-    <DashboardSection title={`Application Pools (${rows.length})`}>
-      <Table cols={cols} rows={rows} />
-    </DashboardSection>
-  );
+  return <Table withoutPadding cardTitle={`Application Pools (${rows.length})`} cols={cols} rows={rows} />;
 }

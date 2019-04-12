@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -11,9 +10,7 @@ import { getPlural } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import './RelatedSnapshotList.less';
-
-const block = 'in-related-snapshot-list';
+import locals from './RelatedSnapshotList.mless';
 
 export default connectTo(
   props => {
@@ -34,14 +31,12 @@ export default connectTo(
       <div>
         {groupPlugins.map(plugin => (
           <div key={plugin}>
-            <Separator />
-
             <Collapsible initiallyOpen={initiallyOpen}>
               <Collapsible.Header>
-                <div className={block + '__header'}>
+                <div className={locals.snapshotListHeader}>
                   <Fragment>
                     {getUniqueIconPathSnapshotCollection(groups[plugin]).map((snapshot, i) => (
-                      <PluginIcon key={i} className={block + '__plugin-icon'} snapshot={snapshot} />
+                      <PluginIcon key={i} className={locals.snapshotListPluginIcon} snapshot={snapshot} />
                     ))}
                   </Fragment>
 

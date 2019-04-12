@@ -7,12 +7,11 @@ import {
 } from '../formatters/resourceQuota';
 import createNamespacesForClusterSubscription from 'in-subscription/namespacesForCluster';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -117,14 +116,13 @@ const cols = [
 
 export default connectTo(
   props => ({
-    namespaceSnapshots: timeConfig$
-      .flatMap(timeConfig =>
-        createNamespacesForClusterSubscription({ snapshotId: props.snapshot.get('id'), timeConfig })
-      )
-      .flatMap(getSnapshots)
+    namespaceSnapshots: createNamespacesForClusterSubscription({
+      snapshotId: props.snapshot.get('id'),
+      timeConfig: props.timeConfig
+    }).flatMap(getSnapshots)
   }),
 
-  function NamespacesTable({ namespaceSnapshots }) {
+  function NamespacesTable({ namespaceSnapshots, timeConfig }) {
     let rows = [];
 
     if (namespaceSnapshots) {
@@ -132,14 +130,19 @@ export default connectTo(
         key: namespaceSnapshot.get('id'),
         snapshotId: namespaceSnapshot.get('id'),
         name: namespaceSnapshot.getIn(['data', 'name']),
-        status: namespaceSnapshot.getIn(['data', 'status'])
+        status: namespaceSnapshot.getIn(['data', 'status']),
+        timeConfig
       }));
     }
 
     return (
-      <DashboardSection title={`Namespaces (${rows.length})`}>
-        <Table cols={cols} rows={rows} getRowDetails={getNamespaceRowDetails} />
-      </DashboardSection>
+      <Table
+        withoutPadding
+        cardTitle={`Namespaces (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getNamespaceRowDetails}
+      />
     );
   }
 );

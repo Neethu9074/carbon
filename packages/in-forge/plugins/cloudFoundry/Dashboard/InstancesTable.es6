@@ -58,9 +58,13 @@ export default function InstancesTable({ snapshot, timeConfig, instances }) {
   });
 
   return (
-    <DashboardSection title={`Instances (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Instances (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

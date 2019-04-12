@@ -1,10 +1,9 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number, micros } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -128,9 +127,7 @@ export default function KeyspacesTable({ snapshot, timeConfig }) {
     });
 
   return (
-    <DashboardSection title={`Keyspaces (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Keyspaces (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 

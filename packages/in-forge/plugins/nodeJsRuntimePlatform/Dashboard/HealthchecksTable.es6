@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -71,8 +70,6 @@ export default function HealthchecksTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Health checks (${rows.length})`}>
-      <Table cols={cols} rows={rows} maxItemsPerPage={20} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Health checks (${rows.length})`} cols={cols} rows={rows} maxItemsPerPage={20} />
   );
 }

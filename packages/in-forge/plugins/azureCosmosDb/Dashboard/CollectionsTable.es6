@@ -1,6 +1,5 @@
 import React from 'react';
 import Collection from './Collection.es6';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -66,9 +65,13 @@ export default function CollectionsTable({ snapshot, timeConfig, region, collect
   });
 
   return (
-    <DashboardSection title={`Collections (${rows.size})`}>
-      <Table cols={cols} rows={rows.toArray()} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Collections (${rows.size})`}
+      cols={cols}
+      rows={rows.toArray()}
+      getRowDetails={getRowDetails}
+    />
   );
 
   function getRowDetails(row) {

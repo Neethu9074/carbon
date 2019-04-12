@@ -2,7 +2,6 @@ import React from 'react';
 
 import createDeploymentsForNamespaceSubscription from 'in-subscription/deploymentsForNamespace';
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -90,10 +89,6 @@ export default connectTo(
       }));
     }
 
-    return (
-      <DashboardSection title={`Deployments (${rows.length})`}>
-        <Table cols={cols} rows={rows} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle={`Deployments (${rows.length})`} cols={cols} rows={rows} />;
   }
 );

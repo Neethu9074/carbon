@@ -2,8 +2,8 @@ import React from 'react';
 
 import createDeploymentConfigForPodSubscription from 'in-subscription/deploymentConfigForPod';
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import createNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import createNodeForPodSubscription from 'in-subscription/nodeForPod';
@@ -64,9 +64,7 @@ export default connectTo(
           <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
           <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
           <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
-          <KeyValuePopupButton title="Labels" data={data.get('labels')}>
-            Labels
-          </KeyValuePopupButton>
+          <KeyValueOverlay header="Labels" data={data.get('labels')} />
         </DescriptionList>
       </div>
     );

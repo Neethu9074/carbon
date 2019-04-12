@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
 import Code from 'in-components/Code';
 
 const stubStatusSampleConfig = `location /nginx_status {
@@ -108,7 +107,6 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Requests per second">
           <MetricValue snapshotId={snapshotId} metric="requests" />
         </KpiKeyValue>

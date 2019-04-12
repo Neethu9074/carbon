@@ -148,9 +148,7 @@ export default function DEATable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`DEA (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`DEA (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

@@ -1,7 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -81,10 +80,6 @@ export default connectTo(
       };
     });
 
-    return (
-      <DashboardSection title="Cluster Nodes">
-        <Table cols={cols} rows={rows} initialSortColumn={1} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle="Cluster Nodes" cols={cols} rows={rows} initialSortColumn={1} />;
   }
 );

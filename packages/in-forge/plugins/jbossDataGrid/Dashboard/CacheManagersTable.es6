@@ -1,10 +1,9 @@
 import React from 'react';
 
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -85,9 +84,7 @@ export default function CacheManagersTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title="Cache Manager Caches">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle="Cache Manager Caches" cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

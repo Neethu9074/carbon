@@ -1,14 +1,21 @@
 @import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
 
 :local {
+  .collapsibleOpen {
+    background: linear-gradient(-180deg, #f0f3f4 0%, #e8ebed 100%);
+    padding-bottom: 0.75rem;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid @lib__colors__N300;
 
     .breakWord();
     font-size: 0.75rem;
-    color: #6b8088;
     cursor: pointer;
 
     transition: color 0.25s ease-in-out;
@@ -20,10 +27,6 @@
         fill: lighten(#6b8088, 20%);
       }
     }
-  }
-
-  .content {
-    margin: 0.438rem 0 0 0.625rem;
   }
 
   .toggle {

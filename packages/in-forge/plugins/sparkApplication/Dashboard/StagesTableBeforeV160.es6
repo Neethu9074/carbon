@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -125,9 +124,14 @@ export default connectTo(
       .toArray();
 
     return (
-      <DashboardSection title={`Top Longest Completed Stages`}>
-        <Table cols={cols} rows={rows} initialSortColumn={3} initialSortDirection={'desc'} />
-      </DashboardSection>
+      <Table
+        withoutPadding
+        cardTitle={`Top Longest Completed Stages`}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={3}
+        initialSortDirection={'desc'}
+      />
     );
   }
 );

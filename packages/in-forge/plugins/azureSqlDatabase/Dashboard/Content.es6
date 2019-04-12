@@ -1,15 +1,11 @@
+import semver from 'semver';
 import React from 'react';
 
-import semver from 'semver';
-import { number } from 'in-services/formatters/number';
-
-import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
-
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import { getLabel } from 'in-sdk/snapshot';
-import DatabaseTable from './DatabaseTable.es6';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number } from 'in-services/formatters/number';
 import ElasticPoolTable from './ElasticPoolTable.es6';
+import DatabaseTable from './DatabaseTable.es6';
 
 export default function AzureSqlDatabaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -19,10 +15,6 @@ export default function AzureSqlDatabaseDashboard({ snapshot, timeConfig }) {
   ) {
     return (
       <div>
-        <KpiSection>
-          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        </KpiSection>
-
         <DashboardSection>
           <h3>From version 1.1.14, Azure SQL Database Sensor is replaced with three new sensors</h3>
           <ul>
@@ -42,10 +34,6 @@ export default function AzureSqlDatabaseDashboard({ snapshot, timeConfig }) {
   } else {
     return (
       <div>
-        <KpiSection>
-          <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-        </KpiSection>
-
         <DashboardSection title="Total DTU">
           <Chart
             snapshotId={snapshotId}

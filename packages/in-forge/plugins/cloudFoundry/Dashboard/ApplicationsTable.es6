@@ -1,7 +1,6 @@
 import React from 'react';
 
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -91,9 +90,13 @@ export default function ApplicationsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Applications (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Applications (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

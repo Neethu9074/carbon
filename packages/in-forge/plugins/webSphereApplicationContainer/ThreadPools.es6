@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function JettyThreadsInfo({ snapshot }) {
@@ -10,8 +9,6 @@ export default function JettyThreadsInfo({ snapshot }) {
 
   return (
     <div>
-      <Separator />
-
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>Web Container Thread Pool</Collapsible.Header>
         <Collapsible.Content>

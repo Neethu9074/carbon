@@ -1,15 +1,13 @@
 import React from 'react';
 
-import EntityHealthInfo from 'in-components/MapSidebar/components/EntityHealthInfo';
 import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSingular } from 'in-sdk/pluginName';
 
-import './SidebarHeader.less';
+import locals from './SidebarHeader.mless';
 
-const block = 'in-sidebar-header';
+const block = locals.sidebarHeader;
 
 export default function SidebarHeader({ snapshot }) {
   const plugin = snapshot.get('plugin');
@@ -28,10 +26,6 @@ export default function SidebarHeader({ snapshot }) {
           </div>
         </div>
       </div>
-
-      <Separator />
-
-      <EntityHealthInfo snapshotId={snapshot.get('id')} />
     </div>
   );
 }

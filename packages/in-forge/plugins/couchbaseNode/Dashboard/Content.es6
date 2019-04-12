@@ -1,11 +1,9 @@
 import React from 'react';
 
 import { bytes, number } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
-import { getLabel } from 'in-sdk/snapshot';
 import DashboardNotification from 'in-components/DashboardNotification';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.es6';
@@ -22,10 +20,6 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-      </KpiSection>
-
       <DashboardSection title="Used Resources">
         <Columize>
           <Chart

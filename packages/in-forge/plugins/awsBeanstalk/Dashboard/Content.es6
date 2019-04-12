@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
-import MetricValue from 'in-components/MetricValue';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import InstancesTable from 'in-forge/plugins/awsBeanstalk/Dashboard/InstancesTable';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
-import { getLabel } from 'in-sdk/snapshot';
+import MetricValue from 'in-components/MetricValue';
 import theme from 'in-themes';
-import InstancesTable from './InstancesTable';
 
 export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -16,8 +15,6 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
-
         <KpiKeyValue label="OK Instances">
           <MetricValue snapshotId={snapshotId} metric="environment_instances_ok" formatter={number.compact} />
         </KpiKeyValue>
@@ -37,7 +34,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Statuses">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeConfig}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'environment_health',
@@ -67,7 +64,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeConfig}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'application_latency_p10',
@@ -79,16 +76,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'application_latency_p99',
               'application_latency_p99.9'
             ],
-            labels: [
-              'Application Latency P10',
-              'Application Latency P50',
-              'Application Latency P75',
-              'Application Latency P85',
-              'Application Latency P90',
-              'Application Latency P95',
-              'Application Latency P99',
-              'Application Latency P99.9'
-            ],
+            labels: ['10th', '50th', '75th', '85th', '90th', '95th', '99th', '99.9th'],
             min: 0,
             type: 'line',
             formatter: millis.compact
@@ -98,7 +86,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeConfig}
+          timeConfig={timeConfig}
           y1={{
             metrics: [
               'application_requests_2xx',
@@ -107,13 +95,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'application_requests_5xx',
               'application_requests_total'
             ],
-            labels: [
-              'Application Requests 2xx',
-              'Application Requests 3xx',
-              'Application Requests 4xx',
-              'Application Requests 5xx',
-              'Application Requests Total'
-            ],
+            labels: ['2xx', '3xx', '4xx', '5xx', 'Total'],
             colors: [
               theme.lib.colors.green800,
               theme.lib.colors.yellow800,

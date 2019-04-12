@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/sidebar/ClickableList';
 import Separator from 'in-sdk/components/sidebar/Separator';
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { getSnapshot } from 'in-stores/snapshot';
 import { viewStructure } from 'in-stores/view';
 import { getLabel } from 'in-sdk/snapshot';

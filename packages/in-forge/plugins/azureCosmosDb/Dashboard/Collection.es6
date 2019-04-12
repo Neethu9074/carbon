@@ -1,7 +1,7 @@
 import React from 'react';
 import StatusCode from './StatusCode.es6';
 import ResourceType from './ResourceType.es6';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default function Collection({ snapshot, timeConfig, collection, statusCodes, resourceTypes }) {

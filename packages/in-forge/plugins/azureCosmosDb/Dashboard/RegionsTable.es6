@@ -1,6 +1,5 @@
 import React from 'react';
 import Region from './Region.es6';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { number } from 'in-services/formatters/number';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
@@ -107,9 +106,13 @@ export default function RegionsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Regions (${rows.size})`}>
-      <Table cols={cols} rows={rows.toArray()} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Regions (${rows.size})`}
+      cols={cols}
+      rows={rows.toArray()}
+      getRowDetails={getRowDetails}
+    />
   );
 
   function getRowDetails(row) {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -44,10 +43,6 @@ export default connectTo(
       };
     });
 
-    return (
-      <DashboardSection title="Hosts">
-        <Table cols={cols} rows={rows} maxItemsPerPage={40} />
-      </DashboardSection>
-    );
+    return <Table withoutPadding cardTitle="Hosts" cols={cols} rows={rows} maxItemsPerPage={40} />;
   }
 );

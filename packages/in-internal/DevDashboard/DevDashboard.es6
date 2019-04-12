@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import TimeZones from 'in-internal/DevDashboard/TimeZones';
 
 import locals from './DevDashboard.mless';
@@ -7,7 +8,10 @@ import locals from './DevDashboard.mless';
 export default function DevDashboard() {
   return (
     <div className={locals.wrapper}>
-      <TimeZones />
+      <div className={locals.header}>
+        <TimeZones />
+        <TimeSelection />
+      </div>
 
       <h3>SLO</h3>
       <ul className={locals.links}>

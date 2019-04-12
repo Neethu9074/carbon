@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
 import DatasourcesTable from './DatasourcesTable';
 import WebModulesTable from './WebModulesTable';

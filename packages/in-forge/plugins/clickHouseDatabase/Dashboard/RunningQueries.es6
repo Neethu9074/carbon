@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { number, millis, bytes } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -91,10 +90,18 @@ export default connectTo(
         ...r
       }));
       content = (
-        <Table cols={cols} rows={rows} maxItemsPerPage={25} initialSortColumn={2} initialSortDirection="desc" />
+        <Table
+          withoutPadding
+          cardTitle="Running Queries"
+          cols={cols}
+          rows={rows}
+          maxItemsPerPage={25}
+          initialSortColumn={2}
+          initialSortDirection="desc"
+        />
       );
     }
 
-    return <DashboardSection title="Running Queries">{content}</DashboardSection>;
+    return content;
   }
 );

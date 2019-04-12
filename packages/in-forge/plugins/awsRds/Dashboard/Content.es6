@@ -3,7 +3,7 @@ import React from 'react';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function AwsRdsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

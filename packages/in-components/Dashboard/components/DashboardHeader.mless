@@ -1,0 +1,21 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 3.5rem;
+    padding: 0 0.625rem;
+
+    background: @lib__colors__N900Primary;
+    border-left: 1px solid @lib__colors__N700Medium;
+    overflow: hidden;
+  }
+  .dashboardHeader {
+    padding: 0 1rem 1rem 1rem;
+    background: #fff;
+    box-shadow: 0px 10px 16px -13px rgba(0, 0, 0, 0.3);
+  }
+}

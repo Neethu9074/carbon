@@ -3,8 +3,8 @@ import React from 'react';
 import ClusterNodesTable from 'in-forge/plugins/hazelcastCluster/Dashboard/ClusterNodesTable';
 import ClusterSummary from 'in-forge/plugins/hazelcastCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
 export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
   return (

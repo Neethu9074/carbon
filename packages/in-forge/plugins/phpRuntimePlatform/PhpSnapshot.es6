@@ -1,10 +1,9 @@
 import React from 'react';
 import { combineLatest } from 'reactive-observables';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getProcessCompanions } from 'in-stores/snapshot/graph';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -36,8 +35,6 @@ export default connectTo(
       <div>
         {companions.map(companion => (
           <div key={companion.get('id')}>
-            <Separator />
-
             <Collapsible initiallyOpen={initiallyOpen}>
               <Collapsible.Header>PHP</Collapsible.Header>
               <Collapsible.Content>

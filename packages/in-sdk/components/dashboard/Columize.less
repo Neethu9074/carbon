@@ -2,18 +2,14 @@
   .in-dashboard-columize {
     display: flex;
     flex-direction: row;
+    padding-right: 1rem;
 
     & > * {
       width: 100%;
       flex-grow: 0;
     }
-
-    & > .in-dashboard-tile + .in-dashboard-tile {
-      margin-left: 0.6rem;
-    }
-
-    & > .in-dashboard-section + .in-dashboard-section {
-      margin-left: 4px;
+    & > div {
+      padding-right: 0rem;
     }
   }
 }

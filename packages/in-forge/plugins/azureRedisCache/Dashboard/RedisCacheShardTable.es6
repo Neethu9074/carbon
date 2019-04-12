@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart';
 import {
   zeroDecimalPlaces,
@@ -169,9 +168,7 @@ export default function ShardTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Shards (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Shards (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

@@ -4,16 +4,16 @@ import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
 import { time, bytes, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { getLabel, getCodeView } from 'in-sdk/snapshot';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
+import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
-import Chart from 'in-components/Chart';
 
 export default function NodejsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,7 +23,6 @@ export default function NodejsDashboard({ snapshot, timeConfig }) {
       {getNativeExtensionHint(snapshot)}
 
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         {gcStatsSupported ? (
           <KpiKeyValue label="GC Pause">
             <MetricValue snapshotId={snapshotId} metric="gc.gcPause" formatter={time} />

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function Datasources({ snapshot }) {
@@ -17,7 +16,6 @@ export default function Datasources({ snapshot }) {
 
   return (
     <div>
-      <Separator />
       {datasources.map((datasource, i) => (
         <Collapsible initiallyOpen={false} key={i}>
           <Collapsible.Header>Datasource [{datasource}]</Collapsible.Header>

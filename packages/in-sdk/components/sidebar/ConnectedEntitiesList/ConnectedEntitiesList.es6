@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SnapshotLabel from 'in-sdk/components/sidebar/SnapshotLabel';
 import { getConnectedEntities } from 'in-stores/connectedEntities';
 import Separator from 'in-sdk/components/sidebar/Separator';

@@ -1,4 +1,5 @@
 @import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
 
 :local {
   .list {
@@ -8,21 +9,21 @@
   }
 
   .item {
-    background: #e2e9ec;
-    border-radius: 0.125rem;
+    border-bottom: 1px solid @lib__colors__N300;
     cursor: pointer;
-    margin-top: 0.125rem;
-    color: #2d4048;
-    font-size: 0.688rem;
-    padding: 0.25rem 0.438rem;
+    font-size: 0.75rem;
+    padding: .75rem 1rem;
+    margin: 0;
+    color: @lib__colors__blue800;
     .breakWord();
 
-    &:first-child {
-      margin-top: 0;
+    &:hover {
+      color: lighten(@lib__colors__blue800, 20%);
+      text-decoration: underline;
     }
 
-    &:hover {
-      color: lighten(#2d4048, 20%);
+    &:last-child {
+      border-bottom: 0px;
     }
   }
 

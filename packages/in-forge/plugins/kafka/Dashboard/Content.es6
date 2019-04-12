@@ -9,13 +9,12 @@ import {
   msTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import TopicsTable from 'in-forge/plugins/kafka/Dashboard/TopicsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
-import { getLabel } from 'in-sdk/snapshot';
 
 export default function KafkaDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,7 +22,6 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="Produce Latency">
           <MetricValue snapshotId={snapshotId} metric="broker.totalTimeProduce" formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>

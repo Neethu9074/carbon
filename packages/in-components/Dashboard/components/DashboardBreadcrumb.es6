@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -7,15 +8,17 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
-import './DashboardBreadcrumb.less';
+import locals from './DashboardBreadcrumb.mless';
 
-const block = 'in-dashboard-breadcrumb';
+const block = locals.dashboardBreadcrumb;
 const crumbElement = `${block}__crumb`;
 
 const Crumb = connectTo(
@@ -84,25 +87,39 @@ export default connectTo(
     physicalHierarchy.reverse();
 
     return (
-      <ul className={block}>
-        {physicalHierarchy.map((id, i) => (
-          <div key={id} className={`${block}__crumb-wrapper`}>
-            <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
+      <div className={locals.breadcrumbContainer}>
+        <Button href$={getCloseDashboardLink()} kind="primary">
+          Close
+        </Button>
+        <div>
+          <SvgIcon
+            className={`${block}__crumb-separator`}
+            type="lib_arrow_expand_right"
+            width={24}
+            height={24}
+            color={theme.lib.colors.N600Light}
+          />
+        </div>
+        <ul className={locals.dashboardBreadcrumb}>
+          {physicalHierarchy.map((id, i) => (
+            <div key={id} className={`${block}__crumb-wrapper`}>
+              <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
 
-            {i !== physicalHierarchy.length - 1 ? (
-              <div>
-                <SvgIcon
-                  className={`${block}__crumb-separator`}
-                  type="chevron_right"
-                  width={8}
-                  height={8}
-                  color="#D5DFE4"
-                />
-              </div>
-            ) : null}
-          </div>
-        ))}
-      </ul>
+              {i !== physicalHierarchy.length - 1 ? (
+                <div>
+                  <SvgIcon
+                    className={`${block}__crumb-separator`}
+                    type="lib_arrow_expand_right"
+                    width={24}
+                    height={24}
+                    color={theme.lib.colors.N600Light}
+                  />
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </ul>
+      </div>
     );
   }
 );

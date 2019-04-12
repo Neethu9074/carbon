@@ -149,9 +149,13 @@ export default function HealthManagerTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Health Manager (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Health Manager (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

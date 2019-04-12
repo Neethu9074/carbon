@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { emptyMap } from 'in-services/fixedImmutables';
 
 import EbsList from './EbsList';
@@ -35,9 +35,9 @@ export default function Info({ snapshot }) {
       </DescriptionList>
 
       {tags.size > 0 ? (
-        <KeyValuePopupButton title="Tags" data={tags}>
+        <KeyValueOverlay title="Tags" data={tags}>
           Tags
-        </KeyValuePopupButton>
+        </KeyValueOverlay>
       ) : null}
 
       <EbsList snapshotId={snapshot.get('id')} />

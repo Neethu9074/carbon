@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { emptyMap } from 'in-services/fixedImmutables';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   zeroDecimalPlaces,
   number,
@@ -143,9 +142,13 @@ export default function DatabaseTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Databases (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Databases (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

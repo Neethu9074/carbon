@@ -1,10 +1,9 @@
 import React from 'react';
 
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, hitRate } from 'in-services/formatters/number';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -105,9 +104,7 @@ export default function CacheStatisticsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title="Other Cache Statistics">
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle="Other Cache Statistics" cols={cols} rows={rows} getRowDetails={getRowDetails} />
   );
 }
 

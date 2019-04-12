@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import ChartWrapperPresenter from 'in-components/Chart/ChartWrapperPresenter';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
@@ -38,7 +38,7 @@ storiesOf('Components/Chart', module)
 function MissingData() {
   return (
     <Root>
-      <ChartWrapperPresenter config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
+      <ResultAwareChart config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
     </Root>
   );
 }
@@ -49,7 +49,7 @@ function Simple() {
 
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -61,7 +61,7 @@ function Simple() {
           }
         }}
       />
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -80,9 +80,9 @@ function Simple() {
 function States() {
   return (
     <Root>
-      <ChartWrapperPresenter result={constructResult('Some error happened.', false)} config={{}} />
+      <ResultAwareChart result={constructResult('Some error happened.', false)} config={{}} />
       <br />
-      <ChartWrapperPresenter result={constructResult(null, true)} config={{}} />
+      <ResultAwareChart result={constructResult(null, true)} config={{}} />
     </Root>
   );
 }
@@ -93,7 +93,7 @@ function MultipleSeries() {
 
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -115,7 +115,7 @@ function LongSeriesLabels() {
 
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -146,7 +146,7 @@ function DualAxis() {
 
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -174,7 +174,7 @@ function DualAxisDifferentMetricCount() {
 
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           granularity,
@@ -199,7 +199,7 @@ function DualAxisDifferentMetricCount() {
 function Gaps() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -217,7 +217,7 @@ function Gaps() {
 function Bar() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -236,7 +236,7 @@ function Bar() {
 function Area() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -254,7 +254,7 @@ function Area() {
 function StackedArea() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -265,7 +265,7 @@ function StackedArea() {
           }
         }}
       />
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -283,7 +283,7 @@ function StackedArea() {
 function StackedBar() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -301,7 +301,7 @@ function StackedBar() {
 function Integral() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -312,7 +312,7 @@ function Integral() {
           }
         }}
       />
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -323,7 +323,7 @@ function Integral() {
           }
         }}
       />
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -341,7 +341,7 @@ function Integral() {
 function CountErrorBar() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -360,7 +360,7 @@ function CountErrorBar() {
 function SharedAxis() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           shareMaxAxisDomain: true,
@@ -384,7 +384,7 @@ function SharedAxis() {
 function Points() {
   return (
     <Root>
-      <ChartWrapperPresenter
+      <ResultAwareChart
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneMinute),
@@ -414,7 +414,7 @@ const Resize = connectTo(
     return (
       <Root>
         <div style={{ width: size.width }}>
-          <ChartWrapperPresenter
+          <ResultAwareChart
             result={constructResult(null, false)}
             config={{
               customHeight: size.height,

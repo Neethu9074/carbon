@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 
 import { yesOrNo } from 'in-services/formatters/boolean';
 

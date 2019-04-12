@@ -100,9 +100,13 @@ export default function CloudControllerTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <DashboardSection title={`Cloud Controller (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getRowDetails} />
-    </DashboardSection>
+    <Table
+      withoutPadding
+      cardTitle={`Cloud Controller (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

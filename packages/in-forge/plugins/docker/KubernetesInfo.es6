@@ -7,16 +7,15 @@ import {
   getClusterDashboard,
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
-import KeyValuePopupButton from 'in-sdk/components/sidebar/KeyValuePopupButton';
 import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
 import getNodeForContainerSubscription from 'in-subscription/nodeForContainer';
 import getPodForContainerSubscription from 'in-subscription/podForContainer';
 import getNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import getClusterForPodSubscription from 'in-subscription/clusterForPod';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Separator from 'in-sdk/components/sidebar/Separator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -71,8 +70,6 @@ export default connectTo(
 
     return (
       <div>
-        <Separator />
-
         <Collapsible initiallyOpen>
           <Collapsible.Header>Kubernetes</Collapsible.Header>
           <Collapsible.Content>
@@ -139,9 +136,7 @@ export default connectTo(
             </DescriptionList>
 
             {labels && labels.size > 0 ? (
-              <KeyValuePopupButton title="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix}>
-                Kubernetes Labels
-              </KeyValuePopupButton>
+              <KeyValueOverlay header="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix} />
             ) : null}
           </Collapsible.Content>
         </Collapsible>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 
 export default function Info({ snapshot }) {

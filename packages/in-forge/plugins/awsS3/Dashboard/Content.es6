@@ -2,10 +2,10 @@ import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, millis } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
-export default function AwsS3Dashboard({ snapshot, timeframe }) {
+export default function AwsS3Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
@@ -14,7 +14,7 @@ export default function AwsS3Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [
@@ -35,7 +35,7 @@ export default function AwsS3Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Traffic">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_downloaded', 'bytes_uploaded'],
@@ -48,7 +48,7 @@ export default function AwsS3Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Errors">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['4xx_errors', '5xx_errors'],
@@ -61,7 +61,7 @@ export default function AwsS3Dashboard({ snapshot, timeframe }) {
       <DashboardSection title="Latency">
         <Chart
           snapshotId={snapshotId}
-          timeframe={timeframe}
+          timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['first_byte_latency', 'total_request_latency'],

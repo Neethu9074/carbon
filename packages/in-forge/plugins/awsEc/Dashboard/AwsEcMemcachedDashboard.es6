@@ -2,10 +2,10 @@ import React from 'react';
 import semver from 'semver';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import AwsEcNewMemcachedDashboard from './AwsEcNewMemcachedDashboard';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number, bytes } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
 
 export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

@@ -1,0 +1,40 @@
+:local {
+  .tableSortIndicator {
+    padding: 0.75rem 0.5rem;
+    // line-height: 1.625rem;
+
+    color: #1b2733;
+    font-weight: normal;
+    font-size: 0.75rem;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    &:hover {
+      color: #1b2733;
+    }
+
+    &--active {
+      // background: #fff;
+      font-weight: bold;
+      color: #1b2733;
+    }
+
+    &__icon {
+      margin-left: 0.5rem;
+      fill: #1b2733;
+
+      &--hidden {
+        // do not use display: none as we want it to continue to occupy the
+        // space so that the columns do not change their widths when resorting.
+        visibility: hidden;
+      }
+    }
+
+    &:hover &__icon {
+      background: white;
+    }
+  }
+}
