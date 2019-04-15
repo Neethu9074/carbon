@@ -39,6 +39,7 @@ export const websiteTabs = [
     path: `${websitePathFullyQualified}/geography`,
     component: Geography,
     stickToHeader: true,
+    stickToBottom: true,
     isFullWidth: true
   },
   {

@@ -20,6 +20,7 @@ export default [
     path: `${applicationDashboard}/map`,
     component: Map,
     stickToHeader: true,
+    stickToBottom: true,
     isFullWidth: true
   },
   {

@@ -36,7 +36,6 @@ function TabView({
   props,
   withoutBreadcrumb = false,
   useFullAvailableWidth = false,
-  withoutPadding = false,
   tabChangeTracker
 }) {
   const filteredTabs = tabs.filter(filterTabByResult(result));
@@ -58,14 +57,7 @@ function TabView({
           </div>
         }
       >
-        <Switch
-          tabs={filteredTabs}
-          result={result}
-          location={location}
-          props={props}
-          renderErrors={renderErrors}
-          withoutPadding={withoutPadding}
-        />
+        <Switch tabs={filteredTabs} result={result} location={location} props={props} renderErrors={renderErrors} />
       </Sticky>
     </section>
   );

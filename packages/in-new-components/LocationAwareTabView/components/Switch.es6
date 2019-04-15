@@ -6,10 +6,11 @@ import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDa
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Switch.mless';
 
-export default function TabSwitch({ tabs, result, location, props, renderErrors, withoutPadding }) {
+export default function TabSwitch({ tabs, result, location, props, renderErrors }) {
   const isLoading = result && result.progress.loading;
   const hasErrors = result && result.errors.length > 0;
 
@@ -33,35 +34,28 @@ export default function TabSwitch({ tabs, result, location, props, renderErrors,
         <Route
           key={tab.path}
           path={tab.path}
-          render={() => (
-            <ViewWrapper
-              tab={tab}
-              data={result ? result.data : null}
-              location={location}
-              props={props}
-              withoutPadding={withoutPadding}
-            />
-          )}
+          render={() => <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />}
         />
       ))}
     </Switch>
   );
 }
 
-function ViewWrapper({ tab, data, location, props, withoutPadding }) {
-  let content = <tab.component data={data} location={location} {...props} />;
+function ViewWrapper({ tab, data, location, props }) {
+  let content = (
+    <div
+      className={evaluateClassNames({
+        [locals.content]: true,
+        [locals.stickToHeader]: tab.stickToHeader,
+        [locals.stickToBottom]: tab.stickToBottom
+      })}
+    >
+      <tab.component data={data} location={location} {...props} />
+    </div>
+  );
 
   if (!tab.isFullWidth) {
     content = <MaxWidthFullscreenContainer>{content}</MaxWidthFullscreenContainer>;
-  }
-
-  if (!tab.stickToHeader) {
-    content = (
-      <Fragment>
-        {!withoutPadding && <div style={{ height: 24 }} />}
-        {content}
-      </Fragment>
-    );
   }
 
   return (

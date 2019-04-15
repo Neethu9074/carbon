@@ -17,6 +17,7 @@ export default [
     path: `${endpointDashboard}/flowMap`,
     component: FlowMap,
     stickToHeader: true,
+    stickToBottom: true,
     isFullWidth: true
   },
   {

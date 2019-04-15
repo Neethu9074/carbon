@@ -54,7 +54,6 @@ export default class extends React.Component {
       this.header.style.left = `${this.headerCoords.left}px`;
       this.header.style.width = `${this.headerWidth}px`;
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
-      this.wrapper.style.paddingBottom = `1rem`;
 
       if (this.order >= 0) {
         this.header.style.zIndex = theme.zIndex.stickyHeader - this.order;

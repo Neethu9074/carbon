@@ -18,6 +18,7 @@ export default [
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap,
     stickToHeader: true,
+    stickToBottom: true,
     isFullWidth: true
   },
   {

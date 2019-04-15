@@ -2,8 +2,8 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
-import TabList from 'in-new-components/TabView/sharedComponents/TabList';
-import Tab from 'in-new-components/TabView/sharedComponents/Tab';
+import TabList from 'in-new-components/LocationAwareTabView/components/TabList';
+import Tab from 'in-new-components/LocationAwareTabView/components/Tab';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
