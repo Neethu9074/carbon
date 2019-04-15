@@ -172,6 +172,7 @@ const allColumnDefinitions = [
   {
     id: 'ready',
     label: 'Ready',
+    sortable: false,
     getContent(item) {
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
