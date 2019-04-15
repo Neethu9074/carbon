@@ -9,6 +9,6 @@ registerSnapshotDefinition({
   iconSvgPath,
   pluginName: {
     singular: 'Jenkins',
-    plural: 'Jenkinses'
+    plural: 'Jenkins'
   }
 });
