@@ -56,6 +56,7 @@ const blacklists = {
       'host.snapshotId': true,
       'docker.snapshotId': true,
       'process.snapshotId': true,
+      'cluster.snapshotId': true,
       'call.span_type': !isInstanaEngineer,
       'call.processing_errors': !isInstanaEngineer
     };
