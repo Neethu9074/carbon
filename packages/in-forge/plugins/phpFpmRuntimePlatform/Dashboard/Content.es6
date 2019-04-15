@@ -9,7 +9,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 export default function PhpFpmDashboard({ snapshot, timeConfig }) {
   const pools = snapshot.getIn(['data', 'worker_pools'], emptyList);
   if (pools.size === 0) {
-    return <span>No Worker Pools found</span>;
+    return <DashboardNotification type="info">No Worker Pools found.</DashboardNotification>;
   }
 
   return (

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.es6';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { formatDateTime } from 'in-services/formatters/date';
 
@@ -59,6 +59,7 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
           </Collapsible>
         </div>
       ))}
+
       <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
