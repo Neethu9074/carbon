@@ -3,7 +3,7 @@ import React from 'react';
 import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  zeroDecimalPlaces,
+  number,
   twoDecimalPlaces,
   msZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
@@ -70,7 +70,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Throughput">
-          <MetricValue snapshotId={snapshotId} metric="throughput" formatter={zeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="throughput" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Hit Rate">
           <MetricValue snapshotId={snapshotId} metric="hit_rate" formatter={hitRateZeroDecimalPlaces} />
@@ -106,7 +106,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['throughput'],
             labels: ['Throughput (ops/sec)'],
-            formatter: zeroDecimalPlaces,
+            formatter: number.detailed,
             type: 'line'
           }}
         />
@@ -140,6 +140,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['expired_keys', 'evicted_keys'],
             labels: ['Keys Expired', 'Keys Evicted'],
+            formatter: number.detailed,
             type: 'line'
           }}
         />
