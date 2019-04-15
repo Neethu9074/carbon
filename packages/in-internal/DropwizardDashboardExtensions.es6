@@ -81,6 +81,14 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
           </Fragment>
         )}
 
+        {container.get('label').includes('appdata-legacy-converter') && (
+          <Fragment>
+            <Button href={`${adminUrl}/admin/appdata-entity-explosions`} target="_blank">
+              Appdata Entity Explosions
+            </Button>
+          </Fragment>
+        )}
+
         {container.get('label').includes('appdata-processor') && (
           <Select
             id="tag-selection"
