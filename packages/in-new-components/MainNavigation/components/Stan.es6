@@ -13,9 +13,9 @@ export default function Stan({ isExpanded }) {
         [locals.expandedWrapper]: isExpanded
       })}
     >
-      <div className={locals.content} style={{ left: isExpanded ? -29 : 0 }}>
-        {!isExpanded ? <div className={locals.stan} /> : <div className={locals.stanPlaceHolder} />}
-        {isExpanded && <Lettering />}
+      <div className={locals.content} style={{ left: isExpanded ? -45 : 0 }}>
+        <div className={locals.stan} />
+        <Lettering />
       </div>
     </div>
   );
