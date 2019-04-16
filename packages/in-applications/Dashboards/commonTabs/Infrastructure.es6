@@ -8,7 +8,6 @@ import {
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -101,20 +100,18 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
   const Table = tablesByType[selectedType];
 
   return (
-    <MaxWidthFullscreenContainer>
-      <Table
-        get={getTableData}
-        type={selectedType}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        timeConfig={timeConfig}
-        size="compact"
-        isSearchable={false}
-        rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
-        cardTitle="Infrastructure"
-      />
-    </MaxWidthFullscreenContainer>
+    <Table
+      get={getTableData}
+      type={selectedType}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      timeConfig={timeConfig}
+      size="compact"
+      isSearchable={false}
+      rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
+      cardTitle="Infrastructure"
+    />
   );
 }
 

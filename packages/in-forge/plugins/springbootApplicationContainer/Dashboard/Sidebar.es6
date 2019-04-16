@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { ClickableKeyValuePopupListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
+import { ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import Info from '../Info';
@@ -26,13 +27,7 @@ export default function SpringbootSidebar({ snapshot }) {
             <ClickableList>
               {applicationConfig
                 .map((applicationConfigData, applicationConfigPath) => (
-                  <ClickableKeyValuePopupListItem
-                    title={applicationConfigPath}
-                    key={applicationConfigPath}
-                    data={applicationConfigData}
-                  >
-                    {applicationConfigPath}
-                  </ClickableKeyValuePopupListItem>
+                  <KeyValueOverlay header={applicationConfigPath} data={applicationConfigData} />
                 ))
                 .valueSeq()
                 .toArray()}
