@@ -59,7 +59,7 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
           Hystrix
         </Button>
 
-        {container.get('label').includes('filler') && (
+        {containerLabelIncludes(container, 'filler') && (
           <Fragment>
             <Button href={`${adminUrl}/admin/entity-creation-rate-limiter/physical`} target="_blank">
               Physical Circuit Breaker
@@ -81,7 +81,13 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
           </Fragment>
         )}
 
-        {container.get('label').includes('appdata-processor') && (
+        {containerLabelIncludes(container, 'ap-legacy-converter') && (
+          <Button href={`${adminUrl}/admin/appdata-entity-explosions`} target="_blank">
+            Appdata Entity Explosions
+          </Button>
+        )}
+
+        {containerLabelIncludes(container, 'appdata-processor') && (
           <Select
             id="tag-selection"
             value=""
@@ -96,7 +102,7 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
           </Select>
         )}
 
-        {container.get('label').includes('appdata-processor') && (
+        {containerLabelIncludes(container, 'appdata-processor') && (
           <Select
             id="resilient-selection"
             value=""
@@ -117,3 +123,7 @@ ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/l
     </Fragment>
   );
 });
+
+function containerLabelIncludes(container, includedString) {
+  return container.get('label').indexOf(includedString) !== -1;
+}
