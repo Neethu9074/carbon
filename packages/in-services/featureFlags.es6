@@ -90,7 +90,7 @@ export function getBlackListedSearchFieldKeywords(searchContext) {
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
-  'event.type': ['objectiveViolation', 'event', 'changeDetected'],
+  'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
   'entity.type': ['agent']
 };
 
