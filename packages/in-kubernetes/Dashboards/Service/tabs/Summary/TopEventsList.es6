@@ -83,6 +83,11 @@ const columnDefinitions = [
 ];
 
 function Footer(props) {
+  const resultData = props.result.data;
+  if (!resultData || !resultData.items || resultData.items.length === 0) {
+    return null;
+  }
+
   return (
     <div className={locals.footer}>
       <ViewAllWrapper renderViewAll={ViewAll} {...props} />

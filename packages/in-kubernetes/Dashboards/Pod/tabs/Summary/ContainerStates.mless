@@ -5,7 +5,7 @@
     margin-top: 0.5rem;
   }
 
-  .wrapper {
+  .viewAllWrapper {
     display: flex;
     justify-content: center;
   }

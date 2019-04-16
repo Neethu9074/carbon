@@ -11,6 +11,7 @@ import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComp
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
+import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import Link from 'in-components/Link';
@@ -77,11 +78,21 @@ export default function ContainerStates({ podId, states, timeConfig }) {
           ))}
         </Tbody>
       </Table>
-      <div className={locals.wrapper}>
-        <Link className={locals.viewAllLink} href$={getPodDashboard(podId, { tab: '/containers' })}>
-          View all Containers
-        </Link>
+      <div className={locals.viewAllWrapper}>
+        <ViewAllWrapper
+          renderViewAll={ViewAll}
+          viewAllHref$={getPodDashboard(podId, { tab: '/containers' })}
+          className={locals.viewAllLink}
+        />
       </div>
     </Fragment>
+  );
+}
+
+function ViewAll({ viewAllHref$ }, className) {
+  return (
+    <Link className={className} href$={viewAllHref$}>
+      View all containers
+    </Link>
   );
 }

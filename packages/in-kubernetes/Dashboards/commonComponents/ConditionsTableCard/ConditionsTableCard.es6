@@ -2,6 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
+import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
@@ -25,7 +26,6 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
   }
   const maxPresentedConditions = 5;
   const presentedConditions = conditions.slice(0, maxPresentedConditions);
-
   return (
     <Card
       title="Conditions"
@@ -34,10 +34,16 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
       <TablePresenter conditions={presentedConditions} />
 
       <div className={locals.viewAllWrapper}>
-        <Link className={locals.viewAllLink} href$={viewAllHref$}>
-          View all Conditions
-        </Link>
+        <ViewAllWrapper renderViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />
       </div>
     </Card>
   );
 });
+
+function ViewAll({ viewAllHref$ }, className) {
+  return (
+    <Link className={className} href$={viewAllHref$}>
+      View all conditions
+    </Link>
+  );
+}
