@@ -7,7 +7,7 @@ import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { isInstanaEngineer } from 'in-stores/user';
 import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 
 import './ButtonSection.less';
@@ -54,9 +54,9 @@ export default function ButtonSection({ snapshot }) {
 
 function ImageButton({ className, children, iconType, onClick }) {
   return (
-    <Button className={`${block}__button` + (className ? ` ${className}` : '')} onClick={onClick} size="lg">
+    <Button kind="secondary" className={`${block}__button` + (className ? ` ${className}` : '')} onClick={onClick}>
       <div className={`${block}__icon-wrapper`}>
-        <SvgIcon type={iconType} width={14} height={14} color="#9fffff" />
+        <SvgIcon type={iconType} width={14} height={14} color="#fafbfc" />
       </div>
       {children}
     </Button>

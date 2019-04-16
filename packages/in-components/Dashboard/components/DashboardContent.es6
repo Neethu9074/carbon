@@ -11,7 +11,7 @@ import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
-import LegacyView from 'in-components/LegacyView';
+import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { getSingular } from 'in-sdk/pluginName';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -22,7 +22,7 @@ import locals from './DashboardContent.mless';
 
 export default connectTo(
   {
-    snapshotId: selectedSnapshotId$,
+    snapshotId: selectedSnapshotId$.tap(scrollToTopSmoothly),
     // hide temporary unavailability due to loading lag
     snapshot: selectedSnapshot$,
     timeConfig: timeConfig$,
@@ -51,14 +51,12 @@ export default connectTo(
     if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
       return (
         <div className="in-dashboard">
-          <LegacyView />
           <LoadingIndicator type="dark" />
         </div>
       );
     } else if (!snapshot && showVersionSelector) {
       return (
         <div className="in-dashboard">
-          <LegacyView />
           <div className={locals.notFoundDialog}>
             <NotFoundDialog
               snapshotId={snapshotId}
@@ -85,7 +83,6 @@ export default connectTo(
 
       return (
         <div className="in-dashboard">
-          <LegacyView />
           <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
           <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
         </div>

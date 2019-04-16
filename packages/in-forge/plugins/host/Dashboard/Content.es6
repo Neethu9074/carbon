@@ -180,9 +180,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 
-      {role.canConfigureAgents ? (
-        <div className={locals.agentManagementContainer}>
-          <h1 className={locals.agentManagementHeader}>Agent Management</h1>
+      {role.canConfigureAgents && (
+        <DashboardSection title="Agent Management">
           <div className={locals.agentManagementContent}>
             <div className={locals.agentManagementDescription}>
               <p>
@@ -192,12 +191,12 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               </p>
             </div>
 
-            <div className={locals.agentManagementControls}>
+            <div>
               <AgentManagementButton snapshot={snapshot} />
             </div>
           </div>
-        </div>
-      ) : null}
+        </DashboardSection>
+      )}
     </div>
   );
 }

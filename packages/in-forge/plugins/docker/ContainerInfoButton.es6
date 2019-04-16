@@ -4,7 +4,7 @@ import ContainerInfoDialog from 'in-forge/plugins/docker/ContainerInfoDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { isEntityOnline } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -12,7 +12,7 @@ export default connectTo(
 
   function ContainerInfoButton({ snapshot, className, isOnline }) {
     const button = (
-      <Button onClick={onClick} className={className} disabled={!isOnline}>
+      <Button kind="primary" onClick={onClick} className={className} disabled={!isOnline}>
         Get Container Info
       </Button>
     );

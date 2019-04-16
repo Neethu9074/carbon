@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {
@@ -17,7 +17,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title="Reporting Agents">
+      <DashboardSection title="Reporting Agents">
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}
@@ -33,7 +33,7 @@ export default connectTo(
             minPixelPerBlock: 2
           }}
         />
-      </DashboardTile>
+      </DashboardSection>
     );
   }
 );

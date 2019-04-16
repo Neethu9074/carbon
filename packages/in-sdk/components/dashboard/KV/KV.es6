@@ -1,24 +1,15 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import locals from './KV.mless';
 
-import './KV.less';
-
-const block = 'in-dashboard-kv';
-
-export default function KV({ k, v, size }) {
+export default function KV({ k, v }) {
   if (v == undefined) {
     return null;
   }
 
   return (
-    <div
-      className={evaluateClassNames({
-        [block]: true,
-        [`${block}--${size}`]: size
-      })}
-    >
-      <div className={`${block}__key`}>{k}</div>
+    <div className={locals.kv}>
+      <div className={locals.kvKey}>{k}</div>
       {v}
     </div>
   );

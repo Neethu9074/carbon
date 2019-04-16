@@ -7,7 +7,6 @@ import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { compare as compareBoolean } from 'in-services/util/boolean';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
@@ -20,8 +19,8 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Button from 'in-components/Button';
-import Table from 'in-components/SearchableTable';
+import Button from 'in-new-components/Button';
+import Table from 'in-sdk/components/dashboard/Table';
 import Link from 'in-components/Link';
 
 import './AgentsTable.less';
@@ -157,10 +156,10 @@ export default connectTo(
     if (__DEV__) {
       adminButtonBar = (
         <div className={block}>
-          <Button className={`${block}__button`} onClick={() => updateAllAgents({ agentSnapshots })} size="lg">
+          <Button kind="primary" className={`${block}__button`} onClick={() => updateAllAgents({ agentSnapshots })}>
             Update All Agents
           </Button>
-          <Button className={`${block}__button`} onClick={() => resetAllAgents({ agentSnapshots })} size="lg">
+          <Button kind="secondary" className={`${block}__button`} onClick={() => resetAllAgents({ agentSnapshots })}>
             Reset All Agents
           </Button>
         </div>
@@ -168,10 +167,14 @@ export default connectTo(
     }
 
     return (
-      <DashboardTile title="Agent Details">
-        {adminButtonBar}
-        <Table maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
-      </DashboardTile>
+      <Table
+        explanation={adminButtonBar}
+        cardTitle="Agent Details"
+        maxItemsPerPage={16}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={0}
+      />
     );
   }
 );

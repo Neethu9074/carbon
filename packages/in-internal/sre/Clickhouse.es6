@@ -51,29 +51,24 @@ export default connectTo(
           </DashboardSection>
 
           <DashboardSection title={`# Query threads`}>
-          <Chart
-            snapshotIds={chNodes.map(r => r.clickhouse.get('id'))}
-            timeConfig={timeConfig}
-            minRollup={5000}
-            y1={{
-              min: 0,
-              formatter: number.perSecond.compact,
-              metrics: chNodes.map(() => `QueryThread`),
-              labels: chNodeLabels,
-              type: 'stackedArea'
-            }}
-          />
-        </DashboardSection>
+            <Chart
+              snapshotIds={chNodes.map(r => r.clickhouse.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: chNodes.map(() => `QueryThread`),
+                labels: chNodeLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
         </Columize>
 
         <Columize>
           <DashboardSection title={`CPU Usage`}>
-            <Table 
-              cols={hostTableCols}
-              rows={chNodes}
-              getRowDetails={getHostDetails} 
-              maxItemsPerPage={15} 
-            />
+            <Table cols={hostTableCols} rows={chNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
           </DashboardSection>
 
           <DashboardSection title="Data mounts">

@@ -1,9 +1,7 @@
 import React from 'react';
 
-import './Columize.less';
-
-const block = 'in-dashboard-columize';
+import locals from './Columize.mless';
 
 export default function Columize({ children }) {
-  return <div className={block}>{children}</div>;
+  return <div className={locals.columize}>{children}</div>;
 }

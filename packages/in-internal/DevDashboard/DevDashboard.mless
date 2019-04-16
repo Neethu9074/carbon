@@ -1,16 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .stickyHeader {
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    height: 3.5rem;
-  }
-
-  .wrapper {
-    margin: 0 1rem 1rem;
-  }
-
   .header {
     display: flex;
     align-items: center;

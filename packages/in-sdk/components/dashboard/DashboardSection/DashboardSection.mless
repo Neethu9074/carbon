@@ -1,6 +1,6 @@
 :local {
   .dashboardSection {
-    padding: 1rem;
     position: relative;
+    margin: 0 0 1rem 0;
   }
 }

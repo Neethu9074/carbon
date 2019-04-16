@@ -9,6 +9,7 @@
   }
   .scrollWrapper {
     overflow-y: auto;
+    overflow-x: hidden;
 
     & > div {
       width: 328px;

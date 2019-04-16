@@ -2,6 +2,7 @@ import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import InternalViewWrapper from 'in-internal/InternalViewWrapper';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -45,7 +46,7 @@ export default connectTo(
     const rows = Object.keys(plugins).map(key => ({ key: plugins[key], plugin: plugins[key], timeConfig }));
 
     return (
-      <div>
+      <InternalViewWrapper>
         <h1>Cockpit</h1>
 
         <DashboardSection title={`Entity Count`}>
@@ -72,7 +73,7 @@ export default connectTo(
             initialSortDirection="desc"
           />
         </DashboardSection>
-      </div>
+      </InternalViewWrapper>
     );
   }
 );

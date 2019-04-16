@@ -9,6 +9,10 @@
     width: fit-content;
   }
 
+  .canvas {
+    width: 100%;
+  }
+
   .canvas,
   .timeAxisCanvas {
     display: block;

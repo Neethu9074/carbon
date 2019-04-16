@@ -4,13 +4,13 @@ import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces, millis } from 'i
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
-import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import KV from 'in-sdk/components/dashboard/KV';
 import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 
 export default function Summary({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -35,7 +35,7 @@ export default function Summary({ snapshot, timeConfig }) {
 
       <Columize>
         {snapshot.getIn(['data', 'hasCpuLoad']) ? (
-          <DashboardTile title="CPU Load">
+          <DashboardSection title="CPU Load">
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
@@ -46,9 +46,9 @@ export default function Summary({ snapshot, timeConfig }) {
                 type: 'stackedArea'
               }}
             />
-          </DashboardTile>
+          </DashboardSection>
         ) : null}
-        <DashboardTile title="Memory">
+        <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -71,10 +71,10 @@ export default function Summary({ snapshot, timeConfig }) {
               type: 'line'
             }}
           />
-        </DashboardTile>
+        </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardTile title="Network">
+        <DashboardSection title="Network">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -87,8 +87,8 @@ export default function Summary({ snapshot, timeConfig }) {
               type: 'line'
             }}
           />
-        </DashboardTile>
-        <DashboardTile title="Sensors">
+        </DashboardSection>
+        <DashboardSection title="Sensors">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -106,7 +106,7 @@ export default function Summary({ snapshot, timeConfig }) {
               type: 'line'
             }}
           />
-        </DashboardTile>
+        </DashboardSection>
       </Columize>
     </MaxWidthFullscreenContainer>
   );

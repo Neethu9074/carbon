@@ -10,6 +10,7 @@ import SelfserviceWorkerStats from 'in-internal/sre/SelfserviceWorkerStats';
 import GraphExplorer from 'in-internal/GraphExplorer/GraphExplorer';
 import SloViolations from 'in-internal/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/Appdata/ResilientMapping';
+import InternalViewWrapper from 'in-internal/InternalViewWrapper';
 import CallExtraction from 'in-internal/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/eum/AppDataWriter';
 import EumProcessor from 'in-internal/eum/EumProcessor';
@@ -28,31 +29,40 @@ import Elastic from 'in-internal/sre/Elastic';
 export default function Internal() {
   return (
     <Switch>
-      <Route path="/internal/graphExplorer" component={GraphExplorer} />
-      <Route path="/internal/snapshotVersions" component={SnapshotVersions} />
-      <Route path="/internal/tuStatistics" component={TuStatistics} />
-      <Route path="/internal/sloViolations" component={SloViolations} />
-      <Route path="/internal/eum/eum-acceptor" component={EumAcceptor} />
-      <Route path="/internal/eum/eum-processor" component={EumProcessor} />
-      <Route path="/internal/eum/appdata-writer" component={AppDataWriterForEum} />
-      <Route path="/internal/eum" component={EumOverview} />
-      <Route path="/internal/fillerStats" component={FillerStats} />
-      <Route path="/internal/appdata" component={Appdata} />
-      <Route path="/internal/appdataProcessing" component={AppDataProcessorStatistics} />
-      <Route path="/internal/callExtraction" component={CallExtraction} />
-      <Route path="/internal/fillerSpanProcessingStats" component={FillerSpanProcessingStats} />
-      <Route path="/internal/appDataQueryPerformance" component={AppDataQueryPerformance} />
-      <Route path="/internal/resilientMapping" component={ResilientMapping} />
-      <Route path="/internal/tracesSubscriptionStats" component={TracesSubscriptionStats} />
-      <Route path="/internal/sre/workerStats" component={WorkerStats} />
-      <Route path="/internal/sre/selfserviceWorkerStats" component={SelfserviceWorkerStats} />
-      <Route path="/internal/sre/cassandra" component={Cassandra} />
-      <Route path="/internal/sre/acceptors" component={Acceptors} />
-      <Route path="/internal/sre/elastic" component={Elastic} />
-      <Route path="/internal/sre/clickhouse" component={Clickhouse} />
+      <Route path="/internal/graphExplorer" component={wrapIninternalView(GraphExplorer)} />
+      <Route path="/internal/snapshotVersions" component={wrapIninternalView(SnapshotVersions)} />
+      <Route path="/internal/tuStatistics" component={wrapIninternalView(TuStatistics)} />
+      <Route path="/internal/sloViolations" component={wrapIninternalView(SloViolations)} />
+      <Route path="/internal/eum/eum-acceptor" component={wrapIninternalView(EumAcceptor)} />
+      <Route path="/internal/eum/eum-processor" component={wrapIninternalView(EumProcessor)} />
+      <Route path="/internal/eum/appdata-writer" component={wrapIninternalView(AppDataWriterForEum)} />
+      <Route path="/internal/eum" component={wrapIninternalView(EumOverview)} />
+      <Route path="/internal/fillerStats" component={wrapIninternalView(FillerStats)} />
+      <Route path="/internal/appdata" component={wrapIninternalView(Appdata)} />
+      <Route path="/internal/appdataProcessing" component={wrapIninternalView(AppDataProcessorStatistics)} />
+      <Route path="/internal/callExtraction" component={wrapIninternalView(CallExtraction)} />
+      <Route path="/internal/fillerSpanProcessingStats" component={wrapIninternalView(FillerSpanProcessingStats)} />
+      <Route path="/internal/appDataQueryPerformance" component={wrapIninternalView(AppDataQueryPerformance)} />
+      <Route path="/internal/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
+      <Route path="/internal/tracesSubscriptionStats" component={wrapIninternalView(TracesSubscriptionStats)} />
+      <Route path="/internal/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
+      <Route path="/internal/sre/selfserviceWorkerStats" component={wrapIninternalView(SelfserviceWorkerStats)} />
+      <Route path="/internal/sre/cassandra" component={wrapIninternalView(Cassandra)} />
+      <Route path="/internal/sre/acceptors" component={wrapIninternalView(Acceptors)} />
+      <Route path="/internal/sre/elastic" component={wrapIninternalView(Elastic)} />
+      <Route path="/internal/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
 
-      <Route path="/internal/devDashboard" component={DevDashboard} />
+      <Route path="/internal/devDashboard" component={wrapIninternalView(DevDashboard)} />
       <Redirect from="/internal" to="/internal/devDashboard" />
     </Switch>
+  );
+}
+
+const wrapIninternalView = Component => ininternalView.bind(null, Component);
+function ininternalView(Component, props) {
+  return (
+    <InternalViewWrapper>
+      <Component {...props} />
+    </InternalViewWrapper>
   );
 }

@@ -12,15 +12,10 @@
     border-bottom: 1px solid @lib__colors__N300;
     cursor: pointer;
     font-size: 0.75rem;
-    padding: .75rem 1rem;
+    padding: 0;
     margin: 0;
     color: @lib__colors__blue800;
     .breakWord();
-
-    &:hover {
-      color: lighten(@lib__colors__blue800, 20%);
-      text-decoration: underline;
-    }
 
     &:last-child {
       border-bottom: 0px;
@@ -31,6 +26,8 @@
     display: block;
     text-decoration: none;
     color: inherit;
+
+    padding: 0.75rem 1rem;
 
     &:hover,
     &:focus {

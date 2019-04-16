@@ -3,9 +3,8 @@
 :local {
   .kpiSection {
     display: flex;
-
-    background: #fff;
-    padding: 1rem;
+    align-items: center;
+    margin: 0 0 1rem 0;
 
     .in-dashboard__content-heading {
       display: none;

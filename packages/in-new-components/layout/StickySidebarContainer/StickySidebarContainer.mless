@@ -1,7 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .static {
     position: static;
   }
@@ -52,7 +51,6 @@
   }
 
   .minHeight {
-    min-height: 100vh;
+    min-height: ~'calc(100vh - 8.75rem)';
   }
-
 }

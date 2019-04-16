@@ -50,7 +50,7 @@ export function ClickableListItem({ onClick, href$, children }) {
   if (href$) {
     return (
       <li className={locals.item}>
-        <Link href$={href$} onClick={onClick} className={locals.link}>
+        <Link className={locals.link} href$={href$} onClick={onClick}>
           {children}
         </Link>
       </li>
