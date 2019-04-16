@@ -20,6 +20,12 @@
     }
   }
 
+  .collapsedActive {
+    .link {
+      margin: 0 0.5rem 0 0.3125rem;
+    }
+  }
+
   .collapsed,
   .collapsedActive {
     .link {
@@ -29,9 +35,6 @@
 
   .collapsedActive,
   .activeSidebarExpanded {
-    .link {
-      margin: 0 0.5rem 0 0.3125rem;
-    }
     .icon {
       fill: white;
     }
