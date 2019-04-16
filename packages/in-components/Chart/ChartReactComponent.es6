@@ -2,7 +2,6 @@
 import { withState, compose } from 'recompose';
 import React from 'react';
 
-import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Chart/components/Tooltip';
@@ -93,7 +92,6 @@ const ChartReactWrapper = compose(
                   align="right"
                 />
               )}
-            {chart && !chart.config.y2 && <VerticalAxisPlaceholder />}
           </div>
         </div>
       );
