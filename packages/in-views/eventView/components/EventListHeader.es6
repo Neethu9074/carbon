@@ -26,7 +26,7 @@ export default connectTo(
           <EventFilter activeFilter={activeFilter} filter="issue">
             Issues
           </EventFilter>
-          <EventFilter activeFilter={activeFilter} filter="change">
+          <EventFilter activeFilter={activeFilter} filter="changeAndPresence">
             Changes
           </EventFilter>
         </div>
@@ -48,7 +48,6 @@ function EventFilter({ activeFilter, children, filter }) {
   if ((filter && activeFilter === filter) || (!activeFilter && !filter)) {
     className += ` ${className}--selected`;
   }
-
   return (
     <div className={className} onClick={() => setEventTypeFilter(filter)}>
       {children}
