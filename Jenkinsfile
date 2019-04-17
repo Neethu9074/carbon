@@ -100,7 +100,7 @@ stage('Deployment') {
   }
   def deployments = [:]
   deployments['deploy-test'] = {
-    if ( env.BRANCH_NAME == 'disabled' ) {
+    if ( env.BRANCH_NAME == 'develop' ) {
       node {
         echo "Deploying develop:${instanaVersion} to test.instana.io ..."
 
