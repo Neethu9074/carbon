@@ -1,7 +1,7 @@
 :local {
   .mapSidebar {
     position: absolute;
-    top: 6.6rem;
+    top: 8.6rem;
     left: 2.6rem;
     width: 328px;
     background: #fff;
