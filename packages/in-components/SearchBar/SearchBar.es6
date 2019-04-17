@@ -32,7 +32,7 @@ export default connectTo(
     }
 
     render() {
-      const { query, presetsVisible, keywordsVisible } = this.props;
+      const { query, presetsVisible, keywordsVisible, withTimeSelection } = this.props;
       const hasContent = query.length > 0;
       const collapseClass = `${block}__expand-collapse-wrapper`;
 
@@ -40,7 +40,12 @@ export default connectTo(
         <div>
           {presetsVisible ? <FilterPresets /> : null}
 
-          <div className={block}>
+          <div
+            className={evaluateClassNames({
+              [block]: true,
+              [`${block}__with-time-selection`]: withTimeSelection
+            })}
+          >
             <div
               className={evaluateClassNames({
                 [`${collapseClass}`]: true,
@@ -80,12 +85,12 @@ export default connectTo(
               <SvgIcon
                 className={`${block}__icon`}
                 type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-                width={8}
-                height={8}
+                width={20}
+                height={20}
               />
             </div>
             <ErrorIndicator />
-            <TimeSelection theme="dark" />
+            {withTimeSelection && <TimeSelection />}
           </div>
         </div>
       );

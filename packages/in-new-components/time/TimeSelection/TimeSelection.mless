@@ -11,7 +11,7 @@
     height: @header__height * 1px;
     width: 17.5rem;
 
-    border-left: 1px solid #2d4048;
+    border-left: 1px solid @lib__colors__N800Dark;
     align-items: center;
     padding: 0 2rem 0 2rem;
   }

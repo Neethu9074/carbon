@@ -1,16 +1,10 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import {
-  eventsPath,
-  physicalTablePath,
-  physicalPath,
-  containerPath,
-  isTableView
-} from 'in-stores/navigation/paths/mainPaths';
 import isInternalVisible$ from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
+import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { instanaInternalFeaturesEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
@@ -54,20 +48,8 @@ export default function ViewSwitcher({
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
         onMouseLeave={onMouseLeave}
-      >
-        <SubViewItem
-          label="Map"
-          href$={getView(physicalPath)}
-          isActive$={any(isView(physicalPath), isView(containerPath))}
-          onClick={onViewSwitched}
-        />
-        <SubViewItem
-          label="Comparison Table"
-          href$={getView(physicalTablePath)}
-          isActive$={isTableView('physical')}
-          onClick={onViewSwitched}
-        />
-      </View>
+        href$={getView(physicalPath)}
+      />
 
       {kubernetesEnabled && (
         <View

@@ -3,29 +3,33 @@
 .in-searchbar {
   display: flex;
   align-items: center;
-  padding: 0.313rem 18.5rem 0.313rem 0.9rem;
-  background: @lib__colors__N900Primary;
-  height: @header__height * 1px;
-  border-left: 1px solid @lib__colors__N700Medium;
+  padding: 0.313rem 1rem;
+  background: @lib__colors__N300;
+  height: 3rem;
+
+  &__with-time-selection {
+    padding: 0.313rem 18.5rem 0.313rem 1rem;
+    height: @header__height * 1px;
+  }
 
   &__expand-collapse-wrapper,
   &__delete-query-button,
   &__filter-menu-button,
   &__save-button {
     height: 1.875rem;
-    border: 1px solid #2d4048;
+    border: 1px solid @lib__colors__N600Light;
     padding: 0 0.625rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0e1619;
+    background: @lib__colors__N050;
+    color: @lib__colors__N500;
     cursor: pointer;
-    color: #6b8088;
 
     &--menu-visible,
     &:hover {
-      background: #2d4048;
+      background: @lib__colors__N300;
 
       .in-searchbar__expand-collapse {
         fill: #fff;
@@ -37,12 +41,11 @@
   &__delete-query-button,
   &__save-button {
     border: 0;
-    border-top: 1px solid #2d4048;
-    border-bottom: 1px solid #2d4048;
+    border-top: 1px solid @lib__colors__N600Light;
+    border-bottom: 1px solid @lib__colors__N600Light;
   }
 
   &__icon {
-    margin-left: 5px;
     fill: @lib__colors__N500;
   }
 
@@ -51,9 +54,9 @@
     align-items: center;
     width: 100%;
 
-    border: 1px solid #2d4048;
+    border: 1px solid @lib__colors__N600Light;
     border-left: 0;
     border-right: 0;
-    background: #0e1619;
+    background: @lib__colors__N800Dark;
   }
 }

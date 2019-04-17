@@ -1,6 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .fullWithWraper {
+    padding: 0 2rem;
+  }
+
   .nav {
     background: @lib__colors__N050;
     font-size: 1.375rem;

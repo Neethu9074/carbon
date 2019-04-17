@@ -1,7 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
 import Table from 'in-views/tableView/components/Table';
 import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
@@ -16,7 +17,14 @@ export default function TableView() {
       <Route
         path="/*"
         render={() => (
-          <Sticky header={<SearchBar />}>
+          <Sticky
+            header={
+              <Fragment>
+                <ViewSwitcher />
+                <SearchBar />
+              </Fragment>
+            }
+          >
             <LegacyView />
             <Title title="Comparison Table" />
             <Table />

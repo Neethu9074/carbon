@@ -1,7 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
+import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import Controls from 'in-components/MapOverlayControls';
 import EventSidebar from 'in-components/EventSidebar';
@@ -20,7 +21,14 @@ export default function MapHandler(props) {
       <Route
         path="/*"
         render={() => (
-          <Sticky header={<SearchBar />}>
+          <Sticky
+            header={
+              <Fragment>
+                <ViewSwitcher />
+                <SearchBar />
+              </Fragment>
+            }
+          >
             <section>
               <LegacyView />
               <DisabledBodyScroll />
