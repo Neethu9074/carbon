@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-components/Chart';
 
 export default connectTo(
   {
@@ -30,7 +30,7 @@ export default connectTo(
             formatter: n => number.compact(Math.ceil(n)),
             type: 'bar',
             aggregation: 'mean',
-            minPixelPerBlock: 2
+            minPixelsPerBlock: 5
           }}
         />
       </DashboardSection>
