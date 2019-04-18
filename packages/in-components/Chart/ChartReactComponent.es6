@@ -17,9 +17,11 @@ export default getElementDimensions(function ChartReactComponent(props) {
   let { width, customHeight } = props;
   const height = customHeight || 160;
 
+  const overlayWidth = width - (props.y2 ? 2 : 1) * WIDTH;
+
   return (
     <div className={locals.wrapper}>
-      <ChartReactWrapper {...props} width={width - 2 * WIDTH} height={height} />
+      <ChartReactWrapper {...props} width={overlayWidth} height={height} />
     </div>
   );
 });

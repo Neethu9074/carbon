@@ -46,7 +46,12 @@ export default connectTo(
       this.updateScale();
 
       return (
-        <div className={locals.tooltip}>
+        <div
+          className={evaluateClassNames({
+            [locals.tooltip]: true,
+            [locals.hasY2Axis]: this.props.chart.config.y2
+          })}
+        >
           <HighlightedTimeframe
             xScale={this.xScale}
             glassPane={this.glassPane}
@@ -61,7 +66,9 @@ export default connectTo(
             />
           ) : null}
           <div ref={glassPane => (this.glassPane = glassPane)} className={locals.glassPane} />
-          {this.state.shouldRenderButtons && <ApplyTimeframeButtons xScale={this.xScale} metrics={this.props.metrics} />}
+          {this.state.shouldRenderButtons && (
+            <ApplyTimeframeButtons xScale={this.xScale} metrics={this.props.metrics} />
+          )}
         </div>
       );
     }

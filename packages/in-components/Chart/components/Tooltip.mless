@@ -6,12 +6,16 @@
     top: 0;
     bottom: 1.875rem;
     left: 3.125rem;
-    right: 3.125rem;
+    right: 0;
 
     // position above remaining chart content.
     z-index: 1;
 
     font-size: 0.875rem;
+  }
+
+  .hasY2Axis {
+    right: 3.125rem;
   }
 
   .glassPane {
@@ -28,7 +32,7 @@
     bottom: 0;
 
     margin-left: -1px;
-    border-left: 1px solid rgba(0,0,0,0.24);
+    border-left: 1px solid rgba(0, 0, 0, 0.24);
   }
 
   .rightAlignedContent {
