@@ -21,32 +21,32 @@
   }
 
   &__save {
-    color: #90a3ab;
+    color: @lib__colors__N400;
     text-decoration: none;
     display: flex;
     align-items: center;
     font-size: 0.813rem;
 
     &:hover {
-      color: #fafbfb;
+      color: @lib__colors__N050;
 
       .in-search-presets__save-icon {
-        fill: #fafbfb;
+        fill: @lib__colors__N050;
       }
     }
 
     &--disabled,
     &--disabled:hover {
-      color: #586c74;
+      color: @lib__colors__N500;
 
       .in-search-presets__save-icon {
-        fill: #586c74;
+        fill: @lib__colors__N500;
       }
     }
   }
 
   &__save-icon {
-    fill: #90a3ab;
+    fill: @lib__colors__N400;
     margin: 0 0.3rem 0 0;
   }
 
@@ -63,7 +63,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #90a3ab;
+    color: @lib__colors__N400;
 
     &:hover {
       background: @lib__colors__N300;
@@ -73,17 +73,18 @@
   &__edit,
   &__remove {
     text-decoration: none;
-    color: #90a3ab;
-    margin: 0 0 0 0.6rem;
+    color: @lib__colors__N500;
+    margin-left: 0.6rem;
+    cursor: pointer;
 
     &:hover {
-      color: #fff;
+      color: @lib__colors__N600Light;
     }
   }
 
   &__no-filters-help-text {
     margin-left: 0.625rem;
     line-height: 1.875rem;
-    color: #6b8088;
+    color: @lib__colors__N500;
   }
 }
