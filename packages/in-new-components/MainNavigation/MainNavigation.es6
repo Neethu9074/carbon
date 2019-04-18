@@ -33,7 +33,7 @@ export default onClickOutside(
 
     delayedCollapse = () => {
       this.disposeHandle();
-      this.timeoutHandle = setTimeout(() => this.setExpandedState(false), 700);
+      this.timeoutHandle = setTimeout(() => this.setExpandedState(false), 125);
     };
 
     setExpandedState = newState => {
@@ -90,7 +90,6 @@ export default onClickOutside(
               [locals.navigation]: true,
               [locals.expandedNavigation]: isExpanded
             })}
-            onMouseEnter={this.delayedExpand}
             onMouseLeave={this.delayedCollapse}
             onClick={() => {
               this.setState({ isExpanded: true });
@@ -98,6 +97,7 @@ export default onClickOutside(
             }}
             ref={nav => (this.mainNavigation = nav)}
           >
+            <div className={locals.backPlane} onMouseEnter={this.disposeHandle} />
             <Stan isExpanded={isExpanded} />
             <ViewSwitcher
               isExpanded={isExpanded}

@@ -9,6 +9,14 @@
     left: 0;
   }
 
+  .backPlane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
   .navigation {
     width: 4.5rem;
     transition: width 0.2s ease-in-out;
