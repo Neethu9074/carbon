@@ -28,7 +28,7 @@ export default onClickOutside(
 
     delayedExpand = () => {
       this.disposeHandle();
-      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 350);
+      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 500);
     };
 
     delayedCollapse = () => {
