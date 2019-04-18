@@ -11,8 +11,6 @@ import KV from 'in-sdk/components/dashboard/KV';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './AgentViewKpis.mless';
-
 export default connectTo(
   {
     agentSnapshots: getSnapshotsInTimeframe('entity.selfType:agent'),
@@ -36,9 +34,14 @@ export default connectTo(
             <KV
               k="Total agents"
               v={
-                <div className={locals.value}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
                   {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
-                  <div className={locals.twoValueBar}>
+                  <div style={{ marginLeft: '1rem' }}>
                     <TwoValueBar
                       v1={agentSnapshots.get('online', emptyList).size}
                       v2={agentSnapshots.get('offline', emptyList).size}

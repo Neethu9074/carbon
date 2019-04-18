@@ -202,9 +202,11 @@ function mapAxis(axis) {
   }
 
   return {
-    ...axis,
     numberOfSeries: axis.metrics.length,
     min: axis.min || 0,
-    renderer: Renderer[axis.type] || Renderer.point
+    renderer: Renderer[axis.type] || Renderer.point,
+    labels: axis.labels,
+    formatter: axis.formatter,
+    tooltipFormatter: axis.tooltipFormatter
   };
 }

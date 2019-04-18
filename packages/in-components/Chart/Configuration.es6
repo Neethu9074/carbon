@@ -167,7 +167,7 @@ export default class Config {
   }
 
   addBlockSizeMillisForAxis(axis) {
-    if (!axis.aggregation) {
+    if (!axis.aggregations) {
       return;
     }
     axis.dynamicCalculatedBlockSizeMillis =
