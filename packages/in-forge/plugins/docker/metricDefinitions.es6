@@ -1,4 +1,4 @@
-import { percentage, number, micros, bytes } from 'in-services/formatters/number';
+import { percentage, number, nanos, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -9,11 +9,18 @@ export default [
     formatter: percentage
   },
   {
-    metrics: ['cpu.throttling_count', 'cpu.throttling_time'],
-    labels: ['Throttling count', 'Throttling time'],
+    metrics: ['cpu.throttling_count'],
+    labels: ['Throttling count'],
     category: ['CPU'],
     min: 0,
-    formatter: micros
+    formatter: number
+  },
+  {
+    metrics: ['cpu.throttling_time'],
+    labels: ['Throttling time'],
+    category: ['CPU'],
+    min: 0,
+    formatter: nanos
   },
   {
     metrics: [
