@@ -28,7 +28,7 @@ export default onClickOutside(
 
     delayedExpand = () => {
       this.disposeHandle();
-      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 250);
+      this.timeoutHandle = setTimeout(() => this.setExpandedState(true), 350);
     };
 
     delayedCollapse = () => {
@@ -104,6 +104,7 @@ export default onClickOutside(
               expandedSubMenu={expandedSubMenu}
               setExpandedSubMenu={view => this.setState({ expandedSubMenu: view })}
               onViewSwitched={this.onViewSwitched}
+              onMouseEnter={this.delayedExpand}
               onMouseLeave={this.onMouseLeave}
             />
           </div>

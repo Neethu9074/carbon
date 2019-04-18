@@ -36,19 +36,25 @@ export default function ViewSwitcher({
   expandedSubMenu,
   setExpandedSubMenu,
   onViewSwitched,
+  onMouseEnter,
   onMouseLeave
 }) {
+  const commonProps = {
+    sidebarIsExpanded: isExpanded,
+    onClick: onViewSwitched,
+    onMouseEnter: onMouseEnter,
+    onMouseLeave: onMouseLeave
+  };
+
   return (
     <ul className={locals.list}>
       <View
         label="Infrastructure"
         icon="lib_infrastructure_inverted"
         isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-        sidebarIsExpanded={isExpanded}
-        expandedSubMenu={expandedSubMenu}
-        setExpandedSubMenu={setExpandedSubMenu}
-        onMouseLeave={onMouseLeave}
         href$={getView(physicalPath)}
+        expandedSubMenu={expandedSubMenu}
+        {...commonProps}
       />
 
       {kubernetesEnabled && (
@@ -57,9 +63,7 @@ export default function ViewSwitcher({
           icon="lib_kubernetes_inverted"
           href$={getView(kubernetesClusterList)}
           isActive$={isView(kubernetes)}
-          sidebarIsExpanded={isExpanded}
-          onClick={onViewSwitched}
-          onMouseLeave={onMouseLeave}
+          {...commonProps}
         />
       )}
 
@@ -70,9 +74,7 @@ export default function ViewSwitcher({
         icon="lib_application_invert"
         isActive$={isView(isApplicationsView)}
         href$={getView(applicationsList)}
-        sidebarIsExpanded={isExpanded}
-        onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
+        {...commonProps}
       />
 
       <View
@@ -80,9 +82,7 @@ export default function ViewSwitcher({
         icon="lib_website_inverted"
         href$={getView(websiteMonitoringPath)}
         isActive$={all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v))}
-        sidebarIsExpanded={isExpanded}
-        onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
+        {...commonProps}
       />
 
       <View
@@ -93,14 +93,12 @@ export default function ViewSwitcher({
           dataSource: 'traces',
           groupByTag: getConfigByDataSource('traces').defaultGrouping
         })}
-        sidebarIsExpanded={isExpanded}
-        onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
+        {...commonProps}
       />
 
       <Spacer />
 
-      <IncidentsMenuPoint isExpanded={isExpanded} onViewSwitched={onViewSwitched} onMouseLeave={onMouseLeave} />
+      <IncidentsMenuPoint {...commonProps} />
 
       <Spacer />
 
@@ -109,9 +107,7 @@ export default function ViewSwitcher({
         icon="lib_actions_settings_inverted"
         isActive$={isView(settingsPath)}
         href$={getView(settingsPath)}
-        sidebarIsExpanded={isExpanded}
-        onClick={onViewSwitched}
-        onMouseLeave={onMouseLeave}
+        {...commonProps}
       />
 
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
@@ -121,10 +117,11 @@ export default function ViewSwitcher({
       <View
         label="Additional Resources"
         icon="lib_menu_additional_resources"
-        sidebarIsExpanded={isExpanded}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
         isActive$={any(isView(agentsPath))}
+        sidebarIsExpanded={isExpanded}
+        onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
@@ -193,7 +190,7 @@ const IncidentsMenuPoint = connectTo(
     events: openEventsAtServerTime$,
     isActive: isView(eventsPath)
   },
-  function IncidentsMenuPoint({ events, isActive, isExpanded, onViewSwitched, onMouseLeave }) {
+  function IncidentsMenuPoint({ events, isActive, sidebarIsExpanded, onClick, onMouseLeave }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
@@ -209,8 +206,8 @@ const IncidentsMenuPoint = connectTo(
           icon="lib_events_inverted"
           href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
           isActive={isActive}
-          sidebarIsExpanded={isExpanded}
-          onClick={onViewSwitched}
+          sidebarIsExpanded={sidebarIsExpanded}
+          onClick={onClick}
           onMouseLeave={onMouseLeave}
         />
         {numIncidents > 0 && (

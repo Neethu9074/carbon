@@ -29,6 +29,7 @@ export default connectTo(
     sidebarIsExpanded,
     expandedSubMenu,
     onClick,
+    onMouseEnter,
     onMouseLeave,
     setExpandedSubMenu
   }) {
@@ -62,6 +63,7 @@ export default connectTo(
               onClick(e, label);
             }
           }}
+          onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
           <Link className={locals.link} href$={href$}>
