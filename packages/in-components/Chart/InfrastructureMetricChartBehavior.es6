@@ -225,6 +225,7 @@ function mapAxis(axis) {
     ...axis,
     numberOfSeries: axis.metrics.length,
     min: axis.min || 0,
+    metricIds: axis.metrics,
     renderer: Renderer[axis.type] || Renderer.point
   };
 }

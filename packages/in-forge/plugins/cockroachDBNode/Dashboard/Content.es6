@@ -66,7 +66,6 @@ export default function CockroachDBDashboard({ snapshot, timeConfig }) {
               'sql.exec.latency-p99',
               'sql.exec.latency-max'
             ],
-            defaultDisabledMetrics: [snapshot.get('id') + '__sql.exec.latency-max'],
             labels: ['50th', '75th', '90th', '99th', 'Max'],
             type: 'integral'
           }}
