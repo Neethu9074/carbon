@@ -15,11 +15,12 @@
   }
 
   .entityLabel {
+    word-break: break-all;
     font-size: 0.875rem;
     font-weight: normal;
     color: @lib__colors__N900Primary;
     margin: 0 0 0.4rem;
-    .breakWord();
+    // word-break: break-all;
   }
 
   .entityType {
@@ -29,7 +30,7 @@
   }
 
   .typeIdWrapper {
-    .breakWord();
+    word-break: break-all;
     line-height: 1.8;
   }
 }
