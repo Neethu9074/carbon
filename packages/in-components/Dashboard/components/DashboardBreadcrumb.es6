@@ -88,30 +88,26 @@ export default connectTo(
         <Button href$={getCloseDashboardLink()} kind="primary">
           Close
         </Button>
-        <div>
-          <SvgIcon
-            className={locals.crumbSeperator}
-            type="lib_arrow_expand_right"
-            width={24}
-            height={24}
-            color={theme.lib.colors.N600Light}
-          />
-        </div>
+        <SvgIcon
+          className={locals.crumbSeperator}
+          type="lib_arrow_expand_right"
+          width={24}
+          height={24}
+          color={theme.lib.colors.N400}
+        />
         <ul className={locals.dashboardBreadcrumb}>
           {physicalHierarchy.map((id, i) => (
             <div key={id} className={locals.crumbWrapper}>
               <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
 
               {i !== physicalHierarchy.length - 1 ? (
-                <div>
-                  <SvgIcon
-                    className={locals.crumbSeperator}
-                    type="lib_arrow_expand_right"
-                    width={24}
-                    height={24}
-                    color={theme.lib.colors.N600Light}
-                  />
-                </div>
+                <SvgIcon
+                  className={locals.crumbSeperator}
+                  type="lib_arrow_expand_right"
+                  width={24}
+                  height={24}
+                  color={theme.lib.colors.N400}
+                />
               ) : null}
             </div>
           ))}

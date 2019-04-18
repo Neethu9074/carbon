@@ -23,7 +23,7 @@ export default connectTo(
       <Fragment>
         <div className={locals.header}>
           <DashboardBreadcrumb snapshotId={snapshotId} />
-          <TimeSelection theme="dark" />
+          <TimeSelection theme="light" />
         </div>
         <div className={locals.dashboardHeader}>
           <BasicDashboardHeader

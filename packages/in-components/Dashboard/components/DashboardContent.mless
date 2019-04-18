@@ -9,7 +9,7 @@
 
   .wrapper {
     width: 100%;
-    height: ~'calc(100% - 36px)';
+    min-height: calc(100vh - 128px);
     display: flex;
 
     overflow-x: hidden;
@@ -21,7 +21,7 @@
 
   .sidebar {
     background: @lib__colors__N050;
-    height: 100%;
+    min-height: 100%;
   }
 
   .content {

@@ -6,6 +6,7 @@ import { always } from 'in-services/fixedStreams';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 export default connectTo(
   props => {
@@ -25,7 +26,7 @@ export default connectTo(
   function HealthyEntityIcon({
     health,
     className,
-    fallbackColor = '#fff',
+    fallbackColor = theme.lib.colors.N700Medium,
     dimension = 16,
     snapshot,
     plugin,

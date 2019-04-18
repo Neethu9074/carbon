@@ -28,9 +28,11 @@
     align-items: center;
   }
   .crumbElementLink {
+    font-size: 0.875rem;
+    font-weight: lighter;
     display: flex;
     align-items: center;
-    color: @lib__colors__N400;
+    color: @lib__colors__N500;
     text-decoration: none;
   }
   .crumbElementIcon {
@@ -38,23 +40,21 @@
   }
   .crumElementIconSelected {
     > a {
-      color: #fff;
-      text-decoration: underline;
+      color: @lib__colors__N700Medium;
     }
   }
 
   .crumbElement {
     &:hover {
       > a {
-        color: #fff;
-        text-decoration: underline;
+        color: @lib__colors__N700Medium;
+        text-decoration: none;
       }
     }
   }
   .crumbElementSelected {
     > a {
-      color: #fff;
-      text-decoration: underline;
+      color: @lib__colors__N700Medium;
     }
   }
 }
