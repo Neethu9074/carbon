@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {

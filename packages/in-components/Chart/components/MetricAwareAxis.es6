@@ -11,7 +11,7 @@ export default connectTo(
     const scale = { from: axis.minValue, to: axis.maxValue, allDataSeriesIgnored: axis.allDataSeriesIgnored };
 
     if (scale && scale.allDataSeriesIgnored) {
-      return <div style={{ width: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
+      return <div style={{ minWidth: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
     }
 
     return (

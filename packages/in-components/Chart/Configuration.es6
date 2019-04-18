@@ -167,20 +167,15 @@ export default class Config {
   }
 
   addBlockSizeMillisForAxis(axis) {
-    if (!axis.aggregation) {
-      return;
-    }
-    axis.dynamicCalculatedBlockSizeMillis =
-      this.granularity ||
-      getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: this.timeConfig.windowSize,
-          maxDataPoints: axis.maxDataPoints,
-          minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-          width: this.frontBufferWidth,
-          rollup: this.rollup
-        })
-      );
+    axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+      getBlockSizeMillis({
+        windowSize: this.timeConfig.windowSize,
+        maxDataPoints: axis.maxDataPoints,
+        minPixelsPerBlock: axis.minPixelsPerBlock || 1,
+        width: this.frontBufferWidth,
+        rollup: this.granularity
+      })
+    );
   }
 
   determineSeriesColors() {
