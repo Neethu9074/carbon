@@ -4,13 +4,13 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

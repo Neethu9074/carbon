@@ -16,13 +16,11 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
 
   if (sensorConnectionProblems.size > 0) {
-    return (
-      <DashboardNotification type="info">
-        {sensorConnectionProblems.map(problem => (
-          <div>{problem}</div>
-        ))}
+    return sensorConnectionProblems.map(problem => (
+      <DashboardNotification key={problem} type="info">
+        {problem}
       </DashboardNotification>
-    );
+    ));
   }
 
   return (

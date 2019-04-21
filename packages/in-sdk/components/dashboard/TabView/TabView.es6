@@ -38,7 +38,7 @@ export default connectTo(
         header={
           <div>
             {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-            <BreadcrumbHeader theme="dark" useFullAvailableWidth />
+            <BreadcrumbHeader useFullAvailableWidth />
           </div>
         }
       >

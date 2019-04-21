@@ -1,21 +1,14 @@
+@import '~in-themes/active.less';
+
 .in-snapshot-breadcrumb {
   display: flex;
   align-items: center;
 
   text-decoration: none;
-  color: #e2e9ec;
+  color: @lib__colors__N500;
 
   &__icon {
     margin: 0 0.3rem;
-    fill: #e2e9ec;
-  }
-
-  &:last-child,
-  &:hover {
-    color: #fff;
-
-    .in-snapshot-breadcrumb__icon {
-      fill: #fff;
-    }
+    fill: @lib__colors__N500;
   }
 }
