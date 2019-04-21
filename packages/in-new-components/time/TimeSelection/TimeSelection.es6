@@ -8,7 +8,6 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import ToggleButton from 'in-new-components/ToggleButton';
@@ -24,33 +23,23 @@ export default connect({
   timeConfig: timeConfig$
 })(TimeSelection);
 
-function TimeSelection({ timeConfig, isHidden, theme }) {
+function TimeSelection({ timeConfig, isHidden }) {
   if (isHidden) {
     return null;
   }
 
   return (
     <ErrorBoundary name="time-selection">
-      <Overlay
-        props={{ timeConfig, useLightTheme: theme !== 'dark' }}
-        content={TimeSelectionDialogPresenterWrapper}
-        withoutWrapper
-        withoutArrow
-      >
+      <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
         {TimePresenterWrapper}
       </Overlay>
     </ErrorBoundary>
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, useLightTheme, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.timePresenter]: true,
-        [locals.light]: useLightTheme
-      })}
-    >
+    <div className={locals.timePresenter}>
       <TimePresenter
         className={locals.time}
         expanded={isOpen}

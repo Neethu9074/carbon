@@ -9,10 +9,6 @@
     font-weight: lighter;
   }
 
-  .dark {
-    background: @lib__colors__N900Primary;
-  }
-
   .container {
     display: flex;
     align-items: center;
