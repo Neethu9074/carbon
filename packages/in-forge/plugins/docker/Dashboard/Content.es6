@@ -11,6 +11,7 @@ import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/uti
 import ContainerInfoButton from 'in-forge/plugins/docker/ContainerInfoButton';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { containerInfoEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
 import { getLabel } from 'in-sdk/snapshot';
 import Chart from 'in-components/Chart';
@@ -36,7 +37,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        <ContainerInfoButton snapshot={snapshot} />
+        {containerInfoEnabled && <ContainerInfoButton snapshot={snapshot} />}
       </KpiSection>
 
       <DashboardSection title="CPU">

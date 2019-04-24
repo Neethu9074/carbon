@@ -34,6 +34,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
     getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
   ]).then(([
     oneZeroAppDataEnabled,
@@ -49,6 +50,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     customEventsInWebsiteMonitoringEnabled,
     unifiedAlerting,
     ruleDeprecationValidationChecksEnabled,
+    containerInfoEnabled,
     trackUrlPathChanges
   ]) => ({
     oneZeroAppDataEnabled,
@@ -69,6 +71,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     customEventsInWebsiteMonitoringEnabled,
     unifiedAlerting,
     ruleDeprecationValidationChecksEnabled,
+    containerInfoEnabled,
     trackUrlPathChanges
   }));
 });

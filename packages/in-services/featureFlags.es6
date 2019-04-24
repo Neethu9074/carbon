@@ -35,6 +35,7 @@ export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('cust
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges');
+export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 
 // ########################################################################################
 // 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
