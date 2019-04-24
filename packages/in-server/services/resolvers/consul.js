@@ -21,9 +21,9 @@ exports.getButlerDomain = (tenant, unit) =>
 
 exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
   return Promise.all([
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}/ONE_ZERO_SUPPORTED_UNTIL_MESSAGE_ENABLED`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_PRESENTATION_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}/ONE_ZERO_SUPPORTED_UNTIL_MESSAGE_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
     getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
