@@ -37,8 +37,10 @@ app.use((req, res, next) => {
 
 app.use(unitCoordinates);
 app.use(errorPagesRoutes);
-app.use(configEnrichment);
 app.use(assetRoutes);
+// Do not execute configEnrichment before the asset routes. This would otherwise break
+// CSS retrieval for cases in which the ui-backend cannot be located in consul.
+app.use(configEnrichment);
 app.use(pingRoutes);
 app.use(indexRoutes);
 

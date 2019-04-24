@@ -1,5 +1,6 @@
 const express = require('express');
 
+const configEnrichment = require('../middleware/configEnrichment');
 const checkSumMod = require('../services/checksum');
 const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
@@ -15,7 +16,8 @@ const sendFilesConfig = {
   }
 };
 
-// do not permit access to our internal chunk
+// Do not permit access to our internal chunk.
+router.use('/bundle/internal.*.js', configEnrichment);
 router.use('/bundle/internal.*.js', (req, res, next) => {
   getCurrentUser(req)
     .then(([statusCode, userStr]) => {
