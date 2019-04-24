@@ -81,7 +81,7 @@ export default function Summary({ timeConfig, data: node }) {
               y1={{
                 formatter: twoDecimalPlaces,
                 metrics: ['required_cpu', 'limit_cpu', 'cap_cpu'],
-                labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
+                labels: ['Requests', 'Limits', 'Capacity'],
                 type: 'line'
               }}
             />
@@ -95,7 +95,7 @@ export default function Summary({ timeConfig, data: node }) {
               y1={{
                 formatter: bytesTwoDecimalPlaces,
                 metrics: ['required_mem', 'limit_mem', 'cap_mem'],
-                labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
+                labels: ['Requests', 'Limits', 'Capacity'],
                 type: 'line'
               }}
             />
@@ -109,7 +109,7 @@ export default function Summary({ timeConfig, data: node }) {
               y1={{
                 formatter: zeroDecimalPlaces,
                 metrics: ['allocatedPods', 'cap_pods'],
-                labels: ['Allocated Pods', 'Pods Capacity'],
+                labels: ['Allocated', 'Capacity'],
                 type: 'line'
               }}
             />

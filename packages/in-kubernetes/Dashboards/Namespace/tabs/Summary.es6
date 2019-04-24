@@ -108,7 +108,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                   y1={{
                     formatter: resourceQuotaZeroDecimalPlaces,
                     metrics: ['used_pods', 'cap_pods'],
-                    labels: ['Used Pods', 'Pods Capacity'],
+                    labels: ['Used', 'Capacity'],
                     type: 'line',
                     min: 0
                   }}

@@ -99,7 +99,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               y1={{
                 formatter: twoDecimalPlaces,
                 metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-                labels: ['CPU Requests', 'CPU Limits'],
+                labels: ['Requests', 'Limits'],
                 type: 'line'
               }}
             />
@@ -113,7 +113,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               y1={{
                 formatter: bytesTwoDecimalPlaces,
                 metrics: ['pods.required_mem', 'pods.limit_mem'],
-                labels: ['Memory Requests', 'Memory Limits'],
+                labels: ['Requests', 'Limits'],
                 type: 'line'
               }}
             />
@@ -128,7 +128,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 min: 0,
                 formatter: zeroDecimalPlaces,
                 metrics: ['pods.count'],
-                labels: ['Pods'],
+                labels: ['Allocated'],
                 type: 'line'
               }}
             />

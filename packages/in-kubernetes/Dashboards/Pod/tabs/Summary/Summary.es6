@@ -112,7 +112,7 @@ export default function Summary({ data: pod, timeConfig }) {
                   y1={{
                     formatter: resourceQuotaTwoDecimalPlaces,
                     metrics: [`cpuRequests`, `cpuLimits`],
-                    labels: ['CPU Requests', 'CPU Limits'],
+                    labels: ['Requests', 'Limits'],
                     type: 'line',
                     min: 0
                   }}
@@ -134,7 +134,7 @@ export default function Summary({ data: pod, timeConfig }) {
                   y1={{
                     formatter: resourceQuotaBytes,
                     metrics: [`memoryRequests`, `memoryLimits`],
-                    labels: ['Memory Requests', 'Memory Limits'],
+                    labels: ['Requests', 'Limits'],
                     type: 'line',
                     min: 0
                   }}
