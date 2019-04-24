@@ -421,7 +421,7 @@ function MetaEntityLink({ icon, getDashboard, entity, children }) {
 
 function UnmonitoredEntity() {
   return (
-    <Tooltip content={'Unmonitored infrastructure due to information outside of our running agent'}>
+    <Tooltip content={'Unmonitored infrastructure due to information outside the purview of running agents'}>
       <div className={locals.cell}>
         <PluginIcon className={locals.simplePluginIcon} dimension={18} />
         Unmonitored
