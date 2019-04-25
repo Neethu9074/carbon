@@ -6,9 +6,8 @@ import { close } from 'in-components/DialogPresenter/store';
 import Table from 'in-sdk/components/dashboard/Table';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
-import './SensorsInfo.less';
 
-const block = 'in-agent-sensors-info-selector';
+import locals from './SensorsInfo.mless';
 
 const cols = [
   {
@@ -50,32 +49,19 @@ export function getRows(sensors) {
   });
 }
 
-export default connectTo(
-  props => ({ sensors: listSensors(props.snapshot) }),
-  class extends React.Component {
-    static displayName = 'Sensors';
-
-    render() {
-      if (!this.props.sensors) {
-        return null;
-      }
-      let rows = getRows(this.props.sensors);
-      return (
-        <Dialog header="Sensors Info" onClose={close} contentClassName={block}>
-          <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
-
-          {this.props.sensors ? (
-            <DownloadView
-              data={this.props.sensors}
-              fileName={`sensors`}
-              getJsonData={() => getJsonData(this.props.sensors)}
-            />
-          ) : null}
-        </Dialog>
-      );
-    }
+export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), function SensorsInfo({ sensors }) {
+  if (!sensors) {
+    return null;
   }
-);
+  let rows = getRows(sensors);
+  return (
+    <Dialog header="Sensors Info" onClose={close} contentClassName={locals.dialog}>
+      <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
+
+      {sensors ? <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} /> : null}
+    </Dialog>
+  );
+});
 
 function getJsonData(data) {
   return JSON.stringify(data, null, 4);

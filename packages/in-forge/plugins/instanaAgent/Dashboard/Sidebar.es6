@@ -1,18 +1,15 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
-import Info from '../Info';
+import Info from 'in-forge/plugins/instanaAgent/Info';
 
 export default function InstanaAgentSidebar({ snapshot }) {
   return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>Instana Agent</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
-    </div>
+    <Collapsible initiallyOpen>
+      <Collapsible.Header>Configuration</Collapsible.Header>
+      <Collapsible.Content>
+        <Info snapshot={snapshot} />
+      </Collapsible.Content>
+    </Collapsible>
   );
 }

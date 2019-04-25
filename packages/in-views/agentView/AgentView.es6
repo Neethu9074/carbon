@@ -3,11 +3,9 @@ import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
-import AgentNotificationsTable from 'in-views/agentView/components/AgentNotificationsTable';
 import AgentsPresenceChart from 'in-views/agentView/components/AgentsPresenceChart';
 import SnapshotLabel from 'in-sdk/components/dashboard/summary/SnapshotLabel';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
-import { agentNotificationsEnabled } from 'in-services/featureFlags';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
@@ -32,7 +30,6 @@ export default function AgentView() {
                 <AgentViewKpis />
                 <AgentsPresenceChart />
                 <AgentsTable />
-                {agentNotificationsEnabled ? <AgentNotificationsTable /> : null}
               </div>
             </MaxWidthFullscreenContainer>
           </Sticky>

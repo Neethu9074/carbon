@@ -9,9 +9,7 @@ import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
-import './Mode.less';
-
-const block = 'in-agent-mode-selector';
+import locals from './Mode.mless';
 
 export default class extends React.Component {
   static displayName = 'Mode';
@@ -31,7 +29,7 @@ export default class extends React.Component {
     const currentMode = this.props.snapshot.getIn(['data', 'mode']);
 
     return (
-      <Dialog header="Change Agent Mode" onClose={close} contentClassName={block}>
+      <Dialog header="Change Agent Mode" onClose={close} contentClassName={locals.dialog}>
         <p>
           Change the monitoring detail level of this agent. Currently, this agent is running in the{' '}
           <strong>{modes[currentMode]}</strong> mode. Mode changes become active within a few seconds.

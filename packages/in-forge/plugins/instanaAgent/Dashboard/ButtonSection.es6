@@ -1,29 +1,26 @@
 import React from 'react';
 
 import { resetAgent, resetSensors, updateAgent, rebootAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/new/components/SensorsInfo';
-import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogLevel';
-import Mode from 'in-forge/plugins/instanaAgent/Dashboard/new/components/Mode';
+import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/SensorsInfo';
+import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import { isInstanaEngineer } from 'in-stores/user';
-import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 
-import './ButtonSection.less';
-
-const block = 'in-agent-button-section';
+import locals from './ButtonSection.mless';
 
 export default function ButtonSection({ snapshot }) {
   return (
-    <div className={block}>
+    <div className={locals.wrapper}>
       {role.canConfigureAgentRunMode ? (
-        <ImageButton iconType="gear" onClick={() => changeMode(snapshot)}>
+        <ImageButton iconType="gear" onClick={() => setActiveDialog(<Mode snapshot={snapshot} />)}>
           Change Agent Mode
         </ImageButton>
       ) : null}
 
-      <ImageButton iconType="gear" onClick={() => changeLogLevel(snapshot)}>
+      <ImageButton iconType="gear" onClick={() => setActiveDialog(<LogLevel snapshot={snapshot} />)}>
         Change Log Level
       </ImageButton>
 
@@ -45,32 +42,17 @@ export default function ButtonSection({ snapshot }) {
         Reboot Agent
       </ImageButton>
 
-      <ImageButton iconType="popup" onClick={() => sensorsInfo(snapshot)}>
+      <ImageButton iconType="popup" onClick={() => setActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
         Sensors Info
       </ImageButton>
     </div>
   );
 }
 
-function ImageButton({ className, children, iconType, onClick }) {
+function ImageButton({ children, iconType, onClick }) {
   return (
-    <Button kind="secondary" className={`${block}__button` + (className ? ` ${className}` : '')} onClick={onClick}>
-      <div className={`${block}__icon-wrapper`}>
-        <SvgIcon type={iconType} width={14} height={14} color="#fafbfc" />
-      </div>
+    <Button icon={iconType} kind="secondary" onClick={onClick} iconHeight={18}>
       {children}
     </Button>
   );
-}
-
-function changeMode(snapshot) {
-  setActiveDialog(<Mode snapshot={snapshot} />);
-}
-
-function changeLogLevel(snapshot) {
-  setActiveDialog(<LogLevel snapshot={snapshot} />);
-}
-
-function sensorsInfo(snapshot) {
-  setActiveDialog(<SensorsInfo snapshot={snapshot} />);
 }

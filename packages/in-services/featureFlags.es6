@@ -21,7 +21,6 @@ const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
 export const cockpitEnabled = false;
-export const agentNotificationsEnabled = false;
 export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const tenantSwitcherEnabled = isFeatureFlagEnabled('tenantSwitcherEnabled');

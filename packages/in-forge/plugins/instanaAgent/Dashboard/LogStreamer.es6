@@ -1,16 +1,14 @@
 /* eslint-disable react/no-danger */
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import Toggle from 'in-components/form/Toggle';
 
-import './LogStreamer.less';
-
-const block = 'in-agent-log-streamer';
+import locals from './LogStreamer.mless';
 
 const maxDisplayedChars = 100000;
 
@@ -125,32 +123,32 @@ export default class extends React.PureComponent {
   render() {
     const logStreamTargetId = 'logStreamId';
     return (
-      <div className={block}>
+      <Fragment>
         {this.state.error != null ? (
           <DashboardNotification type="danger">Error: {this.state.error}</DashboardNotification>
         ) : null}
 
         <CopyToClipboardButton targetId={logStreamTargetId} />
 
-        <label htmlFor="set-auto-scroll" className={`${block}__auto-scroll`}>
+        <label htmlFor="set-auto-scroll" className={locals.autoScroll}>
           Automatically scroll to bottom on log change:
           <Toggle
             onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
             checked={this.state.scrollToBottomOnChange}
             id="set-auto-scroll"
-            className={`${block}__auto-scroll-toggle`}
+            className={locals.toggle}
           />
         </label>
 
         <pre>
           <code
-            className={`${block}__log`}
+            className={locals.log}
             id={logStreamTargetId}
             dangerouslySetInnerHTML={{ __html: this.state.log }}
             ref={ele => (this.code = ele)}
           />
         </pre>
-      </div>
+      </Fragment>
     );
   }
 }

@@ -38,6 +38,7 @@ export default connectTo(props => {
 function Button({
   icon,
   iconSpinning,
+  iconHeight,
   className,
   kind = 'primary',
   size = 'normal',
@@ -65,9 +66,11 @@ function Button({
     onClick = stopPropagationAndPreventDefault;
   }
 
-  const iconElement = icon && (
-    <SvgIcon type={icon} spinning={iconSpinning} maxHeight={iconDimensions[size]} className={locals.icon} />
-  );
+  let iconElement;
+  if (icon) {
+    iconHeight = iconHeight || iconDimensions[size];
+    iconElement = <SvgIcon type={icon} spinning={iconSpinning} maxHeight={iconHeight} className={locals.icon} />;
+  }
 
   if (!href) {
     return (
@@ -95,6 +98,7 @@ function Button({
 Button.propTypes = {
   icon: rpt.string,
   iconSpinning: rpt.bool,
+  iconHeight: rpt.number,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

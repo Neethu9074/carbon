@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { bytesTwoDecimalPlaces, bytesPerSecondTwoDecimalPlaces, millis } from 'in-services/formatters/number';
-import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/new/components/ButtonSection';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/new/components/LogStreamer';
-import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
+import {
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces,
+  bytesPerSecondTwoDecimalPlaces,
+  millis,
+  number
+} from 'in-services/formatters/number';
+import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
-    <div>
-      <KpiSection>
-        <KpiHeading>Instana Agent on {snapshot.getIn(['data', 'hostname'])}</KpiHeading>
-      </KpiSection>
-
-      <DashboardSection>
+    <Fragment>
+      <DashboardSection title="Management">
         <ButtonSection snapshot={snapshot} />
       </DashboardSection>
 
@@ -30,7 +32,8 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
                 min: 0,
                 metrics: ['cpu.load'],
                 labels: ['Load'],
-                type: 'stackedArea'
+                type: 'stackedArea',
+                formatter: number.detailed
               }}
             />
           </DashboardSection>
@@ -42,7 +45,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.total']),
-              formatter: bytesTwoDecimalPlaces,
+              formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: ['memory.used'],
               labels: ['Used'],
@@ -51,7 +54,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
             y2={{
               min: 0,
               max: snapshot.getIn(['data', 'memory.nativeTotal']),
-              formatter: bytesTwoDecimalPlaces,
+              formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: ['memory.nativeUsed'],
               labels: ['Native Used'],
@@ -67,7 +70,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytesPerSecondTwoDecimalPlaces,
+              formatter: bytesPerSecondZeroDecimalPlaces,
               tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
               metrics: ['net.rx', 'net.tx'],
               labels: ['Received', 'Sent'],
@@ -99,6 +102,6 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Log Output">
         <LogStreamer snapshot={snapshot} />
       </DashboardSection>
-    </div>
+    </Fragment>
   );
 }

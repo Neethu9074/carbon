@@ -1,5 +1,5 @@
-.in-agent-log-streamer {
-  &__log {
+:local {
+  .log {
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     line-height: 1.4;
     font-size: 0.688rem;
@@ -23,13 +23,13 @@
     }
   }
 
-  &__auto-scroll {
+  .autoScroll {
     display: inline-flex;
     align-items: center;
     margin: 0 0 1rem 2rem;
   }
 
-  &__auto-scroll-toggle {
+  .toggle {
     margin-left: 8px;
   }
 }

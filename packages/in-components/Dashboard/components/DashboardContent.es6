@@ -10,9 +10,9 @@ import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import getForgeComponent from 'in-services/getForgeComponent';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { getLabel, isNewDashboard } from 'in-sdk/snapshot';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { getSingular } from 'in-sdk/pluginName';
+import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -77,18 +77,6 @@ export default connectTo(
     const plugin = snapshot.get('plugin');
 
     const dashboardTitle = `${getSingular(plugin)} Dashboard`;
-
-    if (isNewDashboard(plugin)) {
-      const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Dashboard.es6`);
-
-      return (
-        <div className="in-dashboard">
-          <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
-          <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
-        </div>
-      );
-    }
-
     const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 

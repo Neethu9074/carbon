@@ -9,9 +9,7 @@ import Label from 'in-components/form/Label';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
-import './LogLevel.less';
-
-const block = 'in-agent-log-level-selector';
+import locals from './LogLevel.mless';
 
 export default class extends React.Component {
   static displayName = 'Log Level';
@@ -31,7 +29,7 @@ export default class extends React.Component {
     const currentLevel = this.props.snapshot.getIn(['data', 'loglevel']);
 
     return (
-      <Dialog header="Change Agent Log Level" onClose={close} contentClassName={block}>
+      <Dialog header="Change Agent Log Level" onClose={close} contentClassName={locals.dialog}>
         <p>
           Change the logging level of this agent. Currently, this agent is running the log level{' '}
           <strong>{currentLevel}</strong>. Log level changes become active within a few seconds.
