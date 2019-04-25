@@ -35,7 +35,7 @@ function createKeyValueHtmlContent(items, query) {
     <dl>
       {items
         .toArray()
-        .filter(item => containsIgnoreCase(item.key, query) || containsIgnoreCase(item.value, query))
+        .filter(item => containsIgnoreCase(String(item.key), query) || containsIgnoreCase(String(item.value), query))
         .sort((a, b) => compareIgnoreCase(a.key, b.key))
         .map(item => (
           <div className={locals.keyValueItem} key={item.key}>
@@ -52,7 +52,7 @@ function createSeqHtmlContent(items, query) {
     <ul className={locals.list}>
       {items
         .toArray()
-        .filter(item => item.value != null && containsIgnoreCase(item.value, query))
+        .filter(item => item.value != null && containsIgnoreCase(String(item.value), query))
         .sort((a, b) => compareIgnoreCase(a.value, b.value))
         .map(item => (
           <li className={locals.listItem} key={item.key}>
