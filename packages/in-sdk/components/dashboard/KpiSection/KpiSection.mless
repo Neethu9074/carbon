@@ -28,7 +28,7 @@
   }
 
   .value {
-    font-size: 1.5rem;
+    font-size: 2.375rem;
     color: @lib__colors__N900Primary;
   }
 }
