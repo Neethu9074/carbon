@@ -77,7 +77,12 @@ export default function createHighlightedTimeframeRenderer(config) {
     for (let i = 0; i < varLength; i++) {
       const values = [];
       for (let j = 0; j < data.length; j++) {
-        if (data[j][i].time >= highlightedTimeframe[0] && data[j][i].time <= highlightedTimeframe[1]) {
+        if (
+          // data sets can be sparse, e.g. missing values in one time series
+          data[j][i] != null &&
+          data[j][i].time >= highlightedTimeframe[0] &&
+          data[j][i].time <= highlightedTimeframe[1]
+        ) {
           values.push(data[j][i]);
         }
       }
