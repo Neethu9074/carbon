@@ -2,6 +2,7 @@ import invariant from 'invariant';
 
 export const endpointNameTranslations = {
   BATCH: 'Batch',
+  SHELL: 'Shell',
   DATABASE: 'Database',
   HTTP: 'Http',
   MESSAGING: 'Messaging',
@@ -13,6 +14,7 @@ export const endpointNameTranslations = {
 
 export const colorTranslation = {
   BATCH: '#4fd3f8',
+  SHELL: '#4fd3f8',
   DATABASE: '#ef914d',
   HTTP: '#549ef8',
   MESSAGING: '#69b116',
