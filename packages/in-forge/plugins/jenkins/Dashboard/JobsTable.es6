@@ -2,10 +2,10 @@ import React from 'react';
 
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {
@@ -148,9 +148,7 @@ export default function JobsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <DashboardSection title={`Jobs (${rows.length})`}>
-      <Table cols={cols} rows={rows} getRowDetails={getDetails} />
-    </DashboardSection>
+    <Table withoutPadding cardTitle={`Jobs (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
   );
 }
 
