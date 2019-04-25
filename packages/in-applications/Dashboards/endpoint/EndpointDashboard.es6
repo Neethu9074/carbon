@@ -94,11 +94,12 @@ function Header(props) {
         <MessageBar
           title="Too many endpoints"
           message={
-            'Too many endpoints are detected on this service. To keep the number of endpoints at a reasonable level, calls are grouped under this endpoint' +
-              isHttpEndpoint &&
-            (role.canConfigureServiceMapping
-              ? 'Modify the endpoint extraction rules to extract fewer but more meaningful endpoint names.'
-              : 'Contact the administrator to modify the endpoint extraction rules to extract fewer but more meaningful endpoint names.')
+            'Too many endpoints are detected on this service. To keep the number of endpoints at a reasonable level, calls are grouped under this endpoint. ' +
+            (isHttpEndpoint
+              ? role.canConfigureServiceMapping
+                ? 'Modify the endpoint extraction rules to extract fewer but more meaningful endpoint names.'
+                : 'Contact the administrator to modify the endpoint extraction rules to extract fewer but more meaningful endpoint names.'
+              : '')
           }
           link={
             isHttpEndpoint &&
