@@ -40,6 +40,7 @@ function TimeSelection({ timeConfig, isHidden }) {
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
   return (
     <div className={locals.timePresenter}>
+      <LiveModeToggle isLive={timeConfig.autoRefresh} />
       <TimePresenter
         className={locals.time}
         expanded={isOpen}
@@ -47,7 +48,6 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
         onClick={toggle}
         refSetter={refSetter}
       />
-      <LiveModeToggle isLive={timeConfig.autoRefresh} />
     </div>
   );
 }
@@ -55,16 +55,18 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
 function LiveModeToggle({ isLive }) {
   const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
   return (
-    <ToggleButton
-      checked={isLive}
-      href$={href$}
-      iconOff="lib_actions_play"
-      iconOn="lib_actions_loading"
-      iconOnSpinning="clockwise"
-      iconOnHover="lib_actions_stop"
-    >
-      LIVE
-    </ToggleButton>
+    <div className={locals.liveModeToggle}>
+      <ToggleButton
+        checked={isLive}
+        href$={href$}
+        iconOff="lib_actions_play"
+        iconOn="lib_actions_loading"
+        iconOnSpinning="clockwise"
+        iconOnHover="lib_actions_stop"
+      >
+        Live
+      </ToggleButton>
+    </div>
   );
 }
 

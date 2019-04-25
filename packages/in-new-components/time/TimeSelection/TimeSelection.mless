@@ -9,14 +9,11 @@
     display: flex;
 
     height: @header__height * 1px;
-    width: 17.5rem;
 
     border-left: 1px solid @lib__colors__N400;
     align-items: center;
-    padding: 0 2rem 0 2rem;
   }
-
-  .time {
-    margin: 0 0.5rem 0 0;
+  .liveModeToggle {
+    padding: 0 1rem;
   }
 }

@@ -1,6 +1,14 @@
 @import '~in-themes/active.less';
 
 :local {
+  .timePresenter {
+    height: 100%;
+    border-left: 1px solid @lib__colors__N400;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
   .wrapper {
     display: flex;
     align-items: center;
@@ -19,24 +27,41 @@
     }
   }
 
+  .timeWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
   .timeIcon {
-    fill: @lib__colors__N500;
+    fill: @lib__colors__N800Dark;
+    margin-right: 0.5rem;
   }
 
   .toggleIcon {
-    fill: @lib__colors__N500;
+    margin-left: 1rem;
+    fill: @lib__colors__N800Dark;
   }
 
   .toggleIconExpanded {
     fill: @lib__colors__N600Light;
   }
 
-  .timeSetting {
+  .timeSettingTop {
     color: @lib__colors__N600Light;
-    margin-left: 0.25rem;
-    font-size: 0.6875rem;
-    line-height: 0.8125rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: normal;
+  }
+
+  .timeSetting {
+    color: @lib__colors__N800Dark;
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 600;
+  }
+
+  .timeSettingTopExpanded {
+    color: @lib__colors__N600Light;
   }
 
   .timeSettingExpanded {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
-import formatTime from 'in-new-components/time/timeframeFormatter';
+import { format } from 'in-new-components/time/timeframeFormatter';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -29,7 +29,7 @@ export default connectTo(
           onChange(newTimeframe);
         }}
       >
-        {newTimeframe.label || formatTime(newTimeframe)}
+        {newTimeframe.label || format(newTimeframe)}
         {containsPastLiveData && <TimeIcon theme="light" className={locals.timeIcon} containsPastLiveData />}
       </a>
     );
