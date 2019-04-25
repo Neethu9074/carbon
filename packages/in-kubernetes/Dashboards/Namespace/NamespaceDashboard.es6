@@ -5,6 +5,7 @@ import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponent
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
@@ -73,9 +74,15 @@ function Header(props) {
   );
 }
 
-function Actions({ namespaceId, timeConfig }) {
+function Actions({ namespaceId, timeConfig, result }) {
   return (
     <Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'clusterName'])}
+        namespaceName={get(result, ['data', 'label'])}
+        groupByTag={{ name: 'kubernetes.service.name' }}
+        timeConfig={timeConfig}
+      />
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
