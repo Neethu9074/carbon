@@ -57,4 +57,15 @@
       color: @lib__colors__N700Medium;
     }
   }
+
+  .homeCrumb {
+    white-space: nowrap;
+    font-size: 0.875rem;
+    font-weight: lighter;
+    display: flex;
+    align-items: center;
+    color: @lib__colors__N500;
+    text-decoration: none;
+    margin-left: .5rem;
+  }
 }

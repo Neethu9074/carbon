@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
@@ -22,17 +23,21 @@ export default connectTo(
     return (
       <Fragment>
         <div className={locals.header}>
-          <DashboardBreadcrumb snapshotId={snapshotId} />
-          <TimeSelection />
+          <MaxWidthFullscreenContainer>
+            <DashboardBreadcrumb snapshotId={snapshotId} />
+            <TimeSelection />
+          </MaxWidthFullscreenContainer>
         </div>
         <div className={locals.dashboardHeader}>
-          <BasicDashboardHeader
-            title={title}
-            pluginIcon={snapshot}
-            renderActions={Actions}
-            renderSubTypes={SubTypes}
-            {...props}
-          />
+          <MaxWidthFullscreenContainer>
+            <BasicDashboardHeader
+              title={title}
+              pluginIcon={snapshot}
+              renderActions={Actions}
+              renderSubTypes={SubTypes}
+              {...props}
+            />
+          </MaxWidthFullscreenContainer>
         </div>
       </Fragment>
     );

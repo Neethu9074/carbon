@@ -8,7 +8,6 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
@@ -68,10 +67,11 @@ const Crumb = connectTo(
 export default connectTo(
   props => {
     return {
-      physicalHierarchy: getPhysicalHierarchy(props.snapshotId).startWith(emptyList)
+      physicalHierarchy: getPhysicalHierarchy(props.snapshotId).startWith(emptyList),
+      closeDashboardLink: getCloseDashboardLink()
     };
   },
-  function DashboardBreadcrumb({ physicalHierarchy, snapshotId }) {
+  function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink }) {
     if (!physicalHierarchy) {
       return null;
     }
@@ -83,11 +83,21 @@ export default connectTo(
 
     physicalHierarchy.reverse();
 
+    function homeBreadcrumb() {
+      if (closeDashboardLink.includes('#/table')) {
+        return 'Comparison Table';
+      } else if (closeDashboardLink.includes('#/agents')) {
+        return 'Agents';
+      } else {
+        return 'Map';
+      }
+    }
+
     return (
       <div className={locals.breadcrumbContainer}>
-        <Button href$={getCloseDashboardLink()} kind="primary">
-          Close
-        </Button>
+        <a className={locals.homeCrumb} href={closeDashboardLink}>
+          {homeBreadcrumb()}
+        </a>
         <SvgIcon
           className={locals.crumbSeperator}
           type="lib_arrow_expand_right"

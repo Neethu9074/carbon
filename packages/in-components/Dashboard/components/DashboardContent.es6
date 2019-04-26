@@ -3,6 +3,7 @@ import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -96,14 +97,16 @@ export default connectTo(
               />
             }
           >
-            <div className={locals.wrapper}>
-              <div className={locals.sidebar}>
-                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+            <MaxWidthFullscreenContainer>
+              <div className={locals.wrapper}>
+                <div className={locals.sidebar}>
+                  <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
+                </div>
+                <div className={locals.content}>
+                  <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
+                </div>
               </div>
-              <div className={locals.content}>
-                <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
-              </div>
-            </div>
+            </MaxWidthFullscreenContainer>
           </Sticky>
         </div>
       </div>
