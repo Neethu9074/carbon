@@ -3,7 +3,8 @@
 
 .in-search-presets {
   position: absolute;
-  top: 100%;
+  top: 3.8rem;
+  right: 7.7rem;
   right: 0.7rem;
   width: 25rem;
   border-bottom-left-radius: 3px;
@@ -21,32 +22,32 @@
   }
 
   &__save {
-    color: @lib__colors__N400;
+    color: #90a3ab;
     text-decoration: none;
     display: flex;
     align-items: center;
     font-size: 0.813rem;
 
     &:hover {
-      color: @lib__colors__N050;
+      color: #fafbfb;
 
       .in-search-presets__save-icon {
-        fill: @lib__colors__N050;
+        fill: #fafbfb;
       }
     }
 
     &--disabled,
     &--disabled:hover {
-      color: @lib__colors__N500;
+      color: #586c74;
 
       .in-search-presets__save-icon {
-        fill: @lib__colors__N500;
+        fill: #586c74;
       }
     }
   }
 
   &__save-icon {
-    fill: @lib__colors__N400;
+    fill: #90a3ab;
     margin: 0 0.3rem 0 0;
   }
 
@@ -63,7 +64,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: @lib__colors__N400;
+    color: #90a3ab;
 
     &:hover {
       background: @lib__colors__N300;
@@ -73,18 +74,17 @@
   &__edit,
   &__remove {
     text-decoration: none;
-    color: @lib__colors__N500;
-    margin-left: 0.6rem;
-    cursor: pointer;
+    color: #90a3ab;
+    margin: 0 0 0 0.6rem;
 
     &:hover {
-      color: @lib__colors__N600Light;
+      color: #fff;
     }
   }
 
   &__no-filters-help-text {
     margin-left: 0.625rem;
     line-height: 1.875rem;
-    color: @lib__colors__N500;
+    color: #6b8088;
   }
 }
