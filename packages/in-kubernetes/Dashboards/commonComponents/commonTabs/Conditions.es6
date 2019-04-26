@@ -25,8 +25,8 @@ export default function Conditions({ data }) {
             <Td>{condition.type}</Td>
             <Td>{condition.status}</Td>
             <Td>{condition.lastTransitionTime}</Td>
-            <Td>{condition.reason || '_'}</Td>
-            <Td>{condition.message || '_'}</Td>
+            <Td>{condition.reason || '-'}</Td>
+            <Td>{condition.message || '-'}</Td>
           </Tr>
         ))}
       </Tbody>

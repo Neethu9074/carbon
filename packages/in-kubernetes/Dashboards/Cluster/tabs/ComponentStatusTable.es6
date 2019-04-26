@@ -9,13 +9,13 @@ import Card from 'in-new-components/Card';
 export default function ComponentStatusTable({ cluster }) {
   const componentStatuses = cluster.componentStatuses || [];
   return (
-    <Card title="Component Statuses">
+    <Card title="Component Status">
       <Table tableInCard>
         <Thead>
           <Tr>
-            <Th>Health</Th>
             <Th>Component</Th>
             <Th>Message</Th>
+            <Th>Health</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -24,10 +24,10 @@ export default function ComponentStatusTable({ cluster }) {
             .sort((a, b) => compare(a.healthy, b.healthy))
             .map((componentStatus, i) => (
               <Tr key={i} size="compact">
-                <Td>{componentStatus.healthy ? <Checkmark /> : <ErrorTriangle />}</Td>
                 <Td>{componentStatus.name}</Td>
                 {!componentStatus.healthy && <Td>{componentStatus.message}</Td>}
-                {componentStatus.healthy && <Td />}
+                {componentStatus.healthy && <Td>-</Td>}
+                <Td>{componentStatus.healthy ? <Checkmark /> : <ErrorTriangle />}</Td>
               </Tr>
             ))}
           {componentStatuses.length === 0 && (

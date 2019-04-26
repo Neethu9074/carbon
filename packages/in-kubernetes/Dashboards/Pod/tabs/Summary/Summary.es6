@@ -31,11 +31,7 @@ export default function Summary({ data: pod, timeConfig }) {
     <Fragment>
       <Row>
         <Col lg={3}>
-          <KpiCard
-            title="Status Summary"
-            value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>}
-            raw
-          />
+          <KpiCard title="Status" value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>} raw />
         </Col>
         <Col lg={3}>
           <KpiCard title="Phase" value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>} raw />

@@ -31,7 +31,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="application_requests_5xx" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Statuses">
+      <DashboardSection title="Status">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

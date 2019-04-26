@@ -21,7 +21,7 @@ export default function NodeConditionsPresenter({ conditions }) {
             <Td>{condition.status}</Td>
             <Td>{condition.lastTransitionTime}</Td>
             <Td>{condition.reason}</Td>
-            <Td>{condition.message || '_'}</Td>
+            <Td>{condition.message || '-'}</Td>
           </Tr>
         ))}
       </Tbody>

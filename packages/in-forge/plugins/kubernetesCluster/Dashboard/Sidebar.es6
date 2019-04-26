@@ -55,7 +55,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
 
       {!isOpenshift && (
         <Collapsible initiallyOpen>
-          <Collapsible.Header>Component Statuses</Collapsible.Header>
+          <Collapsible.Header>Component Status</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               <DescriptionItem title="Scheduler">{componentStatusToText(schedulerHealthy)}</DescriptionItem>

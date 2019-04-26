@@ -160,7 +160,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Status Summary',
+    label: 'Status',
     getContent(item) {
       return (
         <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>

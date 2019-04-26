@@ -7,7 +7,7 @@ export default function ToggleStatusButtonGroup({ setSelectedStatus, selectedSta
     <ButtonGroup
       buttonPropsList={[
         {
-          text: 'All Statuses',
+          text: 'All Status',
           key: null,
           onClick: () => setSelectedStatus(null)
         },
