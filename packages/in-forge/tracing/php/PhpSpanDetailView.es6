@@ -12,6 +12,7 @@ export default function HttpSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="SAPI Type">{span.getIn(['data', 'php', 'sapi'])}</DescriptionItem>
         <DescriptionItem title="PHP Version">{span.getIn(['data', 'php', 'version'])}</DescriptionItem>
+        <DescriptionItem title="Script Arguments">{span.getIn(['data', 'php', 'argv'])}</DescriptionItem>
         <DescriptionItem title="Host Header">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
         <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
         <DescriptionItem title="Request URI">{span.getIn(['data', 'http', 'url'])}</DescriptionItem>
