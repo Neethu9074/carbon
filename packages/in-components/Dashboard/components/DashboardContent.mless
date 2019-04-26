@@ -12,6 +12,8 @@
     min-height: ~'calc(100vh - 128px)';
     display: flex;
 
+    overflow-x: hidden;
+
     // establish this element as an offset wrapper so that offset calculations work for
     // dashboard navigation.
     position: relative;
