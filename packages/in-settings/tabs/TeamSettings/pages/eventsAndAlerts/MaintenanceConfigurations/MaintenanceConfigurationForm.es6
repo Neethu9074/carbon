@@ -129,10 +129,10 @@ export default function MaintenanceConfigurationForm(props) {
 
         <Row>
           <Col cols={6}>
-            <DateWithTime label="Start time (UTC)" path="start" {...props} />
+            <DateWithTime label="Start time" path="start" {...props} />
           </Col>
           <Col cols={6}>
-            <DateWithTime label="End time (UTC)" path="end" {...props} />
+            <DateWithTime label="End time" path="end" {...props} />
           </Col>
         </Row>
         <TouchedMessages field={form.get('window')} />

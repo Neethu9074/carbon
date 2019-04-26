@@ -67,7 +67,7 @@ const columnDefinitions = [
   },
   {
     id: 'starts',
-    label: 'Start time (UTC)',
+    label: 'Start time',
     width: 17,
     ellipsis: true,
     getContent(entity) {
@@ -76,7 +76,7 @@ const columnDefinitions = [
   },
   {
     id: 'ends',
-    label: 'End time (UTC)',
+    label: 'End time',
     width: 17,
     ellipsis: true,
     getContent(entity) {
