@@ -3,7 +3,6 @@ import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -16,7 +15,6 @@ import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
-import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
 
 import locals from './DashboardContent.mless';
@@ -77,13 +75,11 @@ export default connectTo(
     //check if new dashboard implementation is needed
     const plugin = snapshot.get('plugin');
 
-    const dashboardTitle = `${getSingular(plugin)} Dashboard`;
     const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.es6`);
     const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.es6`);
 
     return (
       <div className="in-dashboard">
-        <Title title={dashboardTitle} dynamic={getLabel(snapshot)} />
         <div className={locals.mainContent}>
           <DetailPopupPresenter />
           <Sticky
@@ -93,20 +89,19 @@ export default connectTo(
                 snapshot={snapshot}
                 timeConfig={timeConfig}
                 plugin={plugin}
-                title={getLabel(snapshot)}
+                title={getSingular(plugin)}
+                getLabel={() => getLabel(snapshot)}
               />
             }
           >
-            <MaxWidthFullscreenContainer>
-              <div className={locals.wrapper}>
-                <div className={locals.sidebar}>
-                  <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
-                </div>
-                <div className={locals.content}>
-                  <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
-                </div>
+            <div className={locals.wrapper}>
+              <div className={locals.sidebar}>
+                <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
               </div>
-            </MaxWidthFullscreenContainer>
+              <div className={locals.content}>
+                <Jail component={DashboardImpl} props={{ snapshot, timeConfig }} />
+              </div>
+            </div>
           </Sticky>
         </div>
       </div>
