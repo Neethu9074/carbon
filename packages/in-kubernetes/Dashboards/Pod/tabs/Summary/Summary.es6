@@ -150,7 +150,7 @@ export default function Summary({ data: pod, timeConfig }) {
           />
         </Col>
         <Col lg={8}>
-          <Card title="Container States" useMaxAvailableHeight>
+          <Card title="Container Status" useMaxAvailableHeight>
             <ContainerStates podId={snapshotId} states={allContainerStatuses} timeConfig={timeConfig} />
           </Card>
         </Col>
