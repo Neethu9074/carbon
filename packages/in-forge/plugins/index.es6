@@ -27,6 +27,7 @@ import './azureSqlDb';
 import './azureSqlElasticPool';
 import './azureSqlServer';
 import './batchServiceInstance';
+import './bizTalk';
 import './cassandraCluster';
 import './cassandraKeyspaceServiceInstance';
 import './cassandraNode';
