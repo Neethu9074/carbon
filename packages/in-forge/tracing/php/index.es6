@@ -15,6 +15,7 @@ registerSpanDefinition({
     const url = span.getIn(['data', 'http', 'url']);
     const method = span.getIn(['data', 'http', 'method']);
     const script = span.getIn(['data', 'php', 'script']);
+    const args = span.getIn(['data', 'php', 'argv']);
 
     if (url && method) {
       return method + ' ' + url;
@@ -22,6 +23,8 @@ registerSpanDefinition({
       return url;
     } else if (method) {
       return method;
+    } else if (script && args) {
+      return script + ' ' + args;
     } else if (script) {
       return script;
     }
