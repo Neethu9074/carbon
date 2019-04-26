@@ -4,11 +4,12 @@
   display: flex;
   align-items: center;
   padding: 0.313rem 1rem;
-  background: @lib__colors__N300;
-  height: 3rem;
+  background: @lib__colors__navy900;	  background: @lib__colors__N900Primary;
+  height: @header__height * 1px;
+  border-left: 1px solid @lib__colors__N700Medium;
 
   &__with-time-selection {
-    padding: 0.313rem 18.5rem 0.313rem 1rem;
+    padding: 0.313rem 23.3rem 0.313rem 1rem;
     height: @header__height * 1px;
   }
 
@@ -23,13 +24,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: @lib__colors__N050;
-    color: @lib__colors__N500;
+    background: @lib__colors__N900Primary;
+    color: #fff;
     cursor: pointer;
 
     &--menu-visible,
     &:hover {
-      background: @lib__colors__N300;
+      background: @lib__colors__N800Dark;
 
       .in-searchbar__expand-collapse {
         fill: #fff;
@@ -46,7 +47,7 @@
   }
 
   &__icon {
-    fill: @lib__colors__N500;
+    fill: #fff;
   }
 
   &__input-wrapper {
@@ -57,6 +58,6 @@
     border: 1px solid @lib__colors__N600Light;
     border-left: 0;
     border-right: 0;
-    background: @lib__colors__N050;
+    background: @lib__colors__N900Primary;
   }
 }

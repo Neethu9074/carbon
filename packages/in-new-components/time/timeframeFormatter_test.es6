@@ -48,11 +48,11 @@ describe('in-new-components/time/timeframeFormatter', () => {
     });
 
     it('must format time with no "to" value on same day', () => {
-      expect(timeDisplayTopFormat({ to: null, windowSize: 8500000 })).to.equal('2h 21m - Feb 22');
+      expect(timeDisplayTopFormat({ to: null, windowSize: 8500000 })).to.equal('Feb 22');
     });
 
     it('must format time with no "to" value on different days', () => {
-      expect(timeDisplayTopFormat({ to: null, windowSize: 123400000 })).to.equal('1 day 10 hours 16 minutes');
+      expect(timeDisplayTopFormat({ to: null, windowSize: 123400000 })).to.equal('1d 10h 16m');
     });
 
     it('must format custom time modes on same day', () => {
@@ -60,7 +60,7 @@ describe('in-new-components/time/timeframeFormatter', () => {
     });
 
     it('must format custom time modes on different days', () => {
-      expect(timeDisplayTopFormat({ to: 1519297047052, windowSize: 123400000 })).to.equal('1 day 10 hours 16 minutes');
+      expect(timeDisplayTopFormat({ to: 1519297047052, windowSize: 123400000 })).to.equal('1d 10h 16m');
     });
   });
 
@@ -76,7 +76,7 @@ describe('in-new-components/time/timeframeFormatter', () => {
     });
 
     it('must format time with no "to" value on same day', () => {
-      expect(timeDisplayBottomFormat({ to: null, windowSize: 8500000 })).to.equal('09:35:47 - 11:57:27');
+      expect(timeDisplayBottomFormat({ to: null, windowSize: 8500000 })).to.equal('Last 2 hours 21 minutes');
     });
 
     it('must format time with no "to" value on different days', () => {

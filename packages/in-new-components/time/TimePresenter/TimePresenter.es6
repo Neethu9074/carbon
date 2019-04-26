@@ -6,10 +6,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimePresenter.mless';
 
-export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter }) {
+export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter, darkTheme }) {
   return (
-    <div className={locals.timePresenter}>
-      <SvgIcon className={locals.timeIcon} width={24} type="lib_datetime_time" />
+    <div
+      className={evaluateClassNames({
+        [locals.outerWrapper]: true,
+        [locals.dark]: darkTheme
+      })}
+    >
       <a
         className={joinClassNames(locals.wrapper, className)}
         href="#"
@@ -20,7 +24,8 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
         }}
         ref={refSetter}
       >
-        <div className={locals.timeWrapper}>
+        <SvgIcon className={locals.timeIcon} width={24} type="lib_datetime_time" />
+        <div className={locals.displayTimeWrapper}>
           <div
             className={evaluateClassNames({
               [locals.timeSettingTop]: true,

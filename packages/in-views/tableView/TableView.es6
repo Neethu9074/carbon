@@ -20,8 +20,8 @@ export default function TableView() {
           <Sticky
             header={
               <Fragment>
-                <ViewSwitcher />
-                <SearchBar />
+                <SearchBar withTimeSelection darkTheme />
+                <ViewSwitcher darkTheme />
               </Fragment>
             }
           >

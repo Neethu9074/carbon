@@ -7,14 +7,32 @@ import Link from 'in-components/Link';
 
 import locals from './SecondLevelNavigation.mless';
 
-export function SecondLevelNavigation({ children, useFullAvailableWidth = false }) {
-  let content = <div className={locals.tabList}>{children}</div>;
+export function SecondLevelNavigation({ children, useFullAvailableWidth = false, darkTheme = false }) {
+  let content = (
+    <div
+      className={evaluateClassNames({
+        [locals.tabList]: true,
+        [locals.tabListLight]: darkTheme
+      })}
+    >
+      {children}
+    </div>
+  );
   if (!useFullAvailableWidth) {
     content = <MaxWidthFullscreenContainer>{content}</MaxWidthFullscreenContainer>;
   } else {
     content = <div className={locals.fullWithWraper}>{content}</div>;
   }
-  return <div className={locals.nav}>{content}</div>;
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals.nav]: true,
+        [locals.navLight]: darkTheme
+      })}
+    >
+      {content}
+    </div>
+  );
 }
 
 export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon, label, addSeparator }) {

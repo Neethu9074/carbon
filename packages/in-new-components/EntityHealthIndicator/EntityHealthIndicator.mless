@@ -1,0 +1,5 @@
+:local {
+  .entityHealthIndicator {
+    max-width: 37.5rem;
+  }
+}

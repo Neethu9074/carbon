@@ -3,11 +3,13 @@
 :local {
   .mouseEventsWrapper {
     display: inline-block;
+    height: 100%;
   }
 
   .toggleButton {
+    height: 100%;
     line-height: 1rem;
-    padding: 1px 0.25rem;
+    padding: 0 1.4rem 0 1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -30,10 +32,15 @@
     }
   }
 
+
   .icon {
     margin-left: 0;
     margin-right: 0.25rem;
     fill: @lib__colors__N800Dark;
+  }
+
+  .iconLight {
+    fill: #fff;
   }
 
   .on {
@@ -47,6 +54,14 @@
 
   .off {
     color: @lib__colors__N800Dark;
+
+    &.hover:not(.disabled) {
+      color: @lib__colors__N600Light;
+    }
+  }
+
+  .offLight {
+    color: #fff;
 
     &.hover:not(.disabled) {
       color: @lib__colors__N600Light;

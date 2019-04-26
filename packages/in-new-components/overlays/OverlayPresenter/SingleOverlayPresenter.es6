@@ -26,7 +26,6 @@ export default class SingleOverlayPresenter extends React.PureComponent {
     if (this.props.inContentArea) {
       tooltipElement.classList.add(locals.inContentArea);
     }
-
     const focusedElementBox = this.props.relativeTo.getBoundingClientRect();
     const tooltipElementBox = tooltipElement.getBoundingClientRect();
 

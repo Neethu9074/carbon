@@ -3,6 +3,8 @@ import React from 'react';
 import EntityOpenIssuesList from 'in-new-components/EntityHealthIndicator/EntityOpenIssuesList';
 import Overlay from 'in-new-components/overlays/Overlay';
 
+import locals from './EntityHealthIndicator.mless';
+
 export default function EntityHealthIndicator(props) {
   const { openIssues, showOkayOnNoIssues = true } = props;
   if (openIssues == null || openIssues < 0) {
@@ -27,5 +29,9 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
 }
 
 function Content(props) {
-  return <EntityOpenIssuesList {...props} />;
+  return (
+    <div className={locals.entityHealthIndicator}>
+      <EntityOpenIssuesList {...props} />
+    </div>
+  );
 }

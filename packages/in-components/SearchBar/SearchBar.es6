@@ -90,7 +90,7 @@ export default connectTo(
               />
             </div>
             <ErrorIndicator />
-            {withTimeSelection && <TimeSelection />}
+            {withTimeSelection && <TimeSelection darkTheme />}
           </div>
         </div>
       );

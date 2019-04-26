@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .timePresenter {
+  .timePresenterWrapper {
     position: absolute;
     top: 0;
     right: 0;
@@ -10,10 +10,6 @@
 
     height: @header__height * 1px;
 
-    border-left: 1px solid @lib__colors__N400;
     align-items: center;
-  }
-  .liveModeToggle {
-    padding: 0 1rem;
   }
 }

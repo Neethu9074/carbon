@@ -23,50 +23,55 @@ export default connect({
   timeConfig: timeConfig$
 })(TimeSelection);
 
-function TimeSelection({ timeConfig, isHidden }) {
+function TimeSelection({ timeConfig, isHidden, darkTheme }) {
   if (isHidden) {
     return null;
   }
 
   return (
     <ErrorBoundary name="time-selection">
-      <Overlay props={{ timeConfig }} content={TimeSelectionDialogPresenterWrapper} withoutWrapper withoutArrow>
+      <Overlay
+        props={{ timeConfig, darkTheme }}
+        content={TimeSelectionDialogPresenterWrapper}
+        withoutWrapper
+        withoutArrow
+      >
         {TimePresenterWrapper}
       </Overlay>
     </ErrorBoundary>
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter }) {
   return (
-    <div className={locals.timePresenter}>
-      <LiveModeToggle isLive={timeConfig.autoRefresh} />
+    <div className={locals.timePresenterWrapper}>
       <TimePresenter
         className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
         onClick={toggle}
         refSetter={refSetter}
+        darkTheme={darkTheme}
       />
+      <LiveModeToggle isLive={timeConfig.autoRefresh} darkTheme={darkTheme} />
     </div>
   );
 }
 
-function LiveModeToggle({ isLive }) {
+function LiveModeToggle({ isLive, darkTheme }) {
   const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
   return (
-    <div className={locals.liveModeToggle}>
-      <ToggleButton
-        checked={isLive}
-        href$={href$}
-        iconOff="lib_actions_play"
-        iconOn="lib_actions_loading"
-        iconOnSpinning="clockwise"
-        iconOnHover="lib_actions_stop"
-      >
-        Live
-      </ToggleButton>
-    </div>
+    <ToggleButton
+      checked={isLive}
+      href$={href$}
+      iconOff="lib_actions_play"
+      iconOn="lib_actions_loading"
+      iconOnSpinning="clockwise"
+      iconOnHover="lib_actions_stop"
+      darkTheme={darkTheme}
+    >
+      Live
+    </ToggleButton>
   );
 }
 

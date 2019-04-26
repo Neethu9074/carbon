@@ -4,6 +4,7 @@ import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import hover from 'in-new-components/ToggleButton/hover';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -42,9 +43,16 @@ function ToggleButton({
   iconOn,
   iconOnSpinning,
   iconOnHover,
-  iconOnHoverSpinning
+  iconOnHoverSpinning,
+  darkTheme
 }) {
-  let classes = `${locals.toggleButton} ${checked ? locals.on : locals.off}`;
+  let classes;
+
+  if (darkTheme) {
+    classes = `${locals.toggleButton} ${checked ? locals.on : locals.offLight}`;
+  } else {
+    classes = `${locals.toggleButton} ${checked ? locals.on : locals.off}`;
+  }
   if (className) {
     classes = `${classes} ${className}`;
   }
@@ -68,7 +76,10 @@ function ToggleButton({
         color={theme.lib.colors.black}
         spinning={iconOffSpinning}
         maxHeight={iconHeight}
-        className={locals.icon}
+        className={evaluateClassNames({
+          [locals.icon]: true,
+          [locals.iconLight]: darkTheme
+        })}
       />
     );
   } else if (!checked && hovered && (iconOffHover || iconOff)) {

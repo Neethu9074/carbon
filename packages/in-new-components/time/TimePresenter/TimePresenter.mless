@@ -1,33 +1,70 @@
 @import '~in-themes/active.less';
 
 :local {
-  .timePresenter {
+  .outerWrapper {
+    display: flex;
+    align-items: center;
     height: 100%;
-    border-left: 1px solid @lib__colors__N400;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-  }
-
-  .wrapper {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+    border-left: 1px solid @lib__colors__N300;
+    border-right: 1px solid @lib__colors__N300;
 
     &:hover {
-      text-decoration: none;
+      .timeSettingTop {
+        color: @lib__colors__N500;
+      }
 
       .timeSetting {
         color: @lib__colors__N500;
       }
 
       .timeIcon {
-        fill: @lib__colors__N600Light;
+        fill: @lib__colors__N500;
+      }
+
+      .toggleIconExpanded {
+        fill: @lib__colors__N500;
+      }
+
+      .toggleIcon {
+        fill: @lib__colors__N500;
       }
     }
   }
 
-  .timeWrapper {
+  .dark {
+    border-left: 1px solid @lib__colors__N500;
+    border-right: 1px solid @lib__colors__N500;
+
+    .timeIcon {
+      fill: #fff;
+    }
+
+    .toggleIcon {
+      fill: #fff;
+    }
+
+    .timeSettingTop {
+      color: @lib__colors__N300;
+    }
+
+    .timeSetting {
+      color: #fff;
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+    padding: 0 1rem;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .displayTimeWrapper {
     display: flex;
     flex-direction: column;
   }

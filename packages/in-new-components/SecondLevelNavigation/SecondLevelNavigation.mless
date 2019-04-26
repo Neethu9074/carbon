@@ -13,11 +13,31 @@
     border-bottom: 1px solid @lib__colors__N300;
   }
 
+  .navLight {
+    background: @lib__colors__N800Dark;
+    border-bottom: 0px;
+  }
+
   .tabList {
     display: flex;
     align-items: flex-end;
 
     height: @header__height * 1px;
+  }
+
+  .tabListLight {
+    .tab {
+      color: @lib__colors__N300;
+      line-height: 1.5rem;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+    .tabSelected {
+      color: #fff;
+      border-bottom: 3px solid @lib__colors__primary1
+    }
   }
 
   .tab {

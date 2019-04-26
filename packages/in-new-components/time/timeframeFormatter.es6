@@ -45,9 +45,9 @@ export function timeDisplayTopFormat(timeConfig) {
   if (timeConfig.to == null) {
     const fromTime = currentTime - timeConfig.windowSize;
     if (isOnSameDay(fromTime, currentTime)) {
-      return `${formatDurationAccurately(timeConfig.windowSize)} - ${formatDateShort(fromTime)}`;
+      return `${formatDateShort(fromTime)}`;
     } else {
-      return formatDurationAccurately(timeConfig.windowSize, 60000, false);
+      return formatDurationAccurately(timeConfig.windowSize, 60000, true);
     }
   }
 
@@ -56,12 +56,13 @@ export function timeDisplayTopFormat(timeConfig) {
   if (isOnSameDay(fromTime, toTime)) {
     return `${formatDurationAccurately(timeConfig.windowSize)} - ${formatDateShort(fromTime)}`;
   } else {
-    return formatDurationAccurately(timeConfig.windowSize, 60000, false);
+    return formatDurationAccurately(timeConfig.windowSize, 60000, true);
   }
 }
 
 export function timeDisplayBottomFormat(timeConfig) {
   const currentTime = Date.now();
+
   if (timeConfig.autoRefresh == true) {
     const result = `Last ${formatDurationAccurately(timeConfig.windowSize, 60000, false)}`;
     const match = result.match(/^Last 1 ([a-z]+)$/i);
@@ -76,9 +77,17 @@ export function timeDisplayBottomFormat(timeConfig) {
 
   if (timeConfig.to == null) {
     const fromTime = currentTime - timeConfig.windowSize;
+    const result = `Last ${formatDurationAccurately(timeConfig.windowSize, 60000, false)}`;
+    const match = result.match(/^Last 1 ([a-z]+)$/i);
     if (isOnSameDay(fromTime, currentTime)) {
-      return `${formatTime(fromTime)} - ${formatTime(currentTime)}`;
+      if (match) {
+        return `Last ${match[1]}`;
+      }
+      return result;
     } else {
+      if (match && match[1] === 'day') {
+        return 'Last 24 hours';
+      }
       return `${formatDateShort(fromTime)} - ${formatDateShort(currentTime)}`;
     }
   }
