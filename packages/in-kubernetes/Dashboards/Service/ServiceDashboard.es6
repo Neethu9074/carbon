@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
@@ -80,5 +82,16 @@ function SubTypes({ result }) {
 }
 
 function Actions(props) {
-  return <KubernetesServiceToInstanaServiceButton {...props} />;
+  return (
+    <Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(props.result, ['data', 'clusterName'])}
+        namespaceName={get(props.result, ['data', 'namespace'])}
+        serviceName={get(props.result, ['data', 'name'])}
+        groupByTag={{ name: 'kubernetes.pod.name' }}
+        timeConfig={props.timeConfig}
+      />
+      <KubernetesServiceToInstanaServiceButton {...props} />
+    </Fragment>
+  );
 }

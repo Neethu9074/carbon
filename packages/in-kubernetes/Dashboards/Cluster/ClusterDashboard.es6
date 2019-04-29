@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
@@ -70,9 +71,14 @@ function Header(props) {
   );
 }
 
-function Actions({ clusterId, timeConfig }) {
+function Actions({ clusterId, timeConfig, result }) {
   return (
     <Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'label'])}
+        groupByTag={{ name: 'kubernetes.namespace' }}
+        timeConfig={timeConfig}
+      />
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}

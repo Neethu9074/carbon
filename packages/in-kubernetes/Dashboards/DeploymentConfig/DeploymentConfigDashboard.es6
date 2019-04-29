@@ -7,6 +7,7 @@ import getOpenShiftDeploymentConfig$ from 'in-subscription/kubernetes/getOpenShi
 import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -77,14 +78,23 @@ function Header(props) {
   );
 }
 
-function Actions({ deploymentConfigId, timeConfig }) {
+function Actions({ deploymentConfigId, timeConfig, result }) {
   return (
-    <EntityHealthIndicator
-      showOkayOnNoIssues={false}
-      IndicatorPresenter={HealthIndicatorButtonPresenter}
-      snapshotId={deploymentConfigId}
-      timeConfig={timeConfig}
-    />
+    <Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'clusterId'])}
+        namespaceName={get(result, ['data', 'namespace'])}
+        deploymentName={get(result, ['data', 'name'])}
+        groupByTag={{ name: 'kubernetes.pod.name' }}
+        timeConfig={timeConfig}
+      />
+      <EntityHealthIndicator
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        snapshotId={deploymentConfigId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
   );
 }
 

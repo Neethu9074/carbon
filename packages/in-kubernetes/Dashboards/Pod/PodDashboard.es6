@@ -5,6 +5,7 @@ import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponent
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -74,9 +75,15 @@ function Header(props) {
   );
 }
 
-function Actions({ podId, timeConfig }) {
+function Actions({ podId, timeConfig, result }) {
   return (
     <Fragment>
+      <AnalyzeCallsButton
+        clusterName={get(result, ['data', 'clusterId'])}
+        namespaceName={get(result, ['data', 'namespace'])}
+        podName={get(result, ['data', 'label'])}
+        timeConfig={timeConfig}
+      />
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}
