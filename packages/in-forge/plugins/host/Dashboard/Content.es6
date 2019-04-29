@@ -5,7 +5,8 @@ import {
   twoDecimalPlaces,
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces,
-  number
+  number,
+  siPrefix
 } from 'in-services/formatters/number';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
@@ -115,7 +116,8 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               max: snapshot.getIn(['data', 'openFiles.max']),
-              formatter: number.compact,
+              formatter: siPrefix.compact,
+              tooltipFormatter: number.compact,
               metrics: ['openFiles.current'],
               labels: ['Current'],
               type: 'line'
