@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
@@ -22,8 +21,7 @@ export default connectTo(
     return (
       <Fragment>
         <div className={locals.header}>
-          <DashboardBreadcrumb snapshotId={snapshotId} />
-          <TimeSelection />
+          <DashboardBreadcrumb snapshotId={snapshotId} title={title} />
         </div>
         <div className={locals.dashboardHeader}>
           <BasicDashboardHeader
