@@ -1,5 +1,5 @@
 import { createMapForm } from 'formalistic';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { fromJS } from 'immutable';
 
 import {
@@ -23,7 +23,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import Notification from 'in-components/form/Notification';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { toTitleCase } from 'in-services/util/string';
-import { intersperse } from 'in-services/arrayUtils';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import List from 'in-settings/components/List';
@@ -213,22 +212,13 @@ function Icon() {
   );
 }
 
-function getSubscript(/* entity */) {
+function getSubscript(entity) {
   return (
-    <Fragment>
-      {intersperse(
-        [
-          // TODO Waiting for back end to provide invalid/deprecated flag
-          // !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
-          // !entity.valid ? (
-          //   <span key="invalid" className={locals.invalidOrDeprecated}>
-          //     Invalid Query
-          //   </span>
-          // ) : null
-        ].filter(elem => elem),
-        <span>, </span>
-      )}
-    </Fragment>
+    entity.invalid && (
+      <span key="invalid" className={locals.invalid}>
+        Invalid Query
+      </span>
+    )
   );
 }
 

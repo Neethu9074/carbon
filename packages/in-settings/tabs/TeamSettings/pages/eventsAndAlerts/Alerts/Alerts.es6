@@ -119,7 +119,7 @@ function getSubscript(entity) {
           !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
           typesOrNumberOfEvents ? <span key="events">{renderTypesOrNumberOfEvents(entity)}</span> : null,
           entity.invalid ? (
-            <span key="invalid" className={locals.invalidOrDeprecated}>
+            <span key="invalid" className={locals.invalid}>
               Invalid Query
             </span>
           ) : null

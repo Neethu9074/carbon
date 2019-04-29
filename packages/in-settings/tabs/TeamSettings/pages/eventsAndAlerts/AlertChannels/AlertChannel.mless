@@ -20,4 +20,8 @@
     padding: 0.5rem;
   }
 
+  .invalid {
+    color: @lib__colors__red800
+  }
+
 }

@@ -228,13 +228,8 @@ function getSubscript(entity) {
           isBuiltInRule(entity) ? <span key="built-in">Built-in</span> : null,
           entity.enabled === false ? <span key="disabled">Disabled</span> : null,
           entity.invalid ? (
-            <span key="invalid" className={locals.invalidOrDeprecated}>
+            <span key="invalid" className={locals.invalid}>
               Invalid Query
-            </span>
-          ) : null,
-          entity.deprecated ? (
-            <span key="deprecated" className={locals.invalidOrDeprecated}>
-              Deprecated Entity
             </span>
           ) : null
         ].filter(elem => elem),

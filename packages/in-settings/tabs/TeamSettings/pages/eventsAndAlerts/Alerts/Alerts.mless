@@ -2,7 +2,7 @@
 
 :local {
 
-  .invalidOrDeprecated {
+  .invalid {
     color: @lib__colors__red800
   }
 }
