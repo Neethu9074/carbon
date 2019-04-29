@@ -1,0 +1,14 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .list {
+    margin: 0.6rem;
+    padding: 0 0 0 1rem;
+  }
+
+  .item {
+    list-style: none;
+    .breakWord();
+    padding: 0.1rem 0;
+  }
+}
