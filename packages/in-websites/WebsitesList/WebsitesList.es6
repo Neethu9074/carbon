@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getLinkToWebsite, newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
+import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
+import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
@@ -60,9 +60,7 @@ export default connectTo(
     const leftHeader = <ListTitle>Websites</ListTitle>;
 
     return (
-      <Fragment>
-        <SecondLevelNavigation />
-        <TimeSelection />
+      <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
           <Title title="Websites" />
 
@@ -79,7 +77,7 @@ export default connectTo(
             defaultOrderDirection="DESC"
           />
         </MaxWidthFullscreenContainer>
-      </Fragment>
+      </Sticky>
     );
   }
 );
