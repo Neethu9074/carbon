@@ -22,6 +22,7 @@ const cols = [
   {
     title: 'Version',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
         return row.version;
@@ -31,6 +32,7 @@ const cols = [
   {
     title: 'State',
     type: 'string',
+    width: 100,
     typeArgs: {
       getValue(row) {
         return row.state;
