@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -14,7 +14,7 @@ export default function MongoDBSidebar({ snapshot }) {
     .sort();
 
   return (
-    <div>
+    <Fragment>
       <Collapsible initiallyOpen>
         <Collapsible.Header>MongoDB</Collapsible.Header>
         <Collapsible.Content>
@@ -36,6 +36,6 @@ export default function MongoDBSidebar({ snapshot }) {
       ) : null}
 
       <ServiceInstancesList snapshot={snapshot} />
-    </div>
+    </Fragment>
   );
 }
