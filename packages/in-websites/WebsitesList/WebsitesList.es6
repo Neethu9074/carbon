@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import { websitesPath, websitesPathFullyQualified, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import { getLinkToWebsite, newWebsitePathFullyQualified } from 'in-websites/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { SecondLevelNavigation } from 'in-new-components/SecondLevelNavigation';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
-import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -61,7 +62,14 @@ export default connectTo(
 
     return (
       <Fragment>
-        <SecondLevelNavigation />
+        <SecondLevelNavigation>
+          <SecondLevelNavigationItem
+            href$={getModifiedUrlStream(p => (p.pathname = websitesPathFullyQualified))}
+            icon="lib_website"
+            label="Websites"
+            isActive
+          />
+        </SecondLevelNavigation>
         <TimeSelection />
         <MaxWidthFullscreenContainer>
           <Title title="Websites" />
