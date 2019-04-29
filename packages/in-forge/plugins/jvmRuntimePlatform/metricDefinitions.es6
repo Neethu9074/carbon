@@ -17,8 +17,8 @@ export default [
     formatter: micros
   },
   {
-    metric: 'memory.used',
-    label: 'Used',
+    metrics: ['memory.used', 'memory.free'],
+    labels: ['Used', 'Free'],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.max']);
