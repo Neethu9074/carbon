@@ -82,6 +82,7 @@ export default function ContainerStates({ podId, states, timeConfig }) {
         <ViewAllWrapper
           renderViewAll={ViewAll}
           viewAllHref$={getPodDashboard(podId, { tab: '/containers' })}
+          presentedStates={presentedStates}
           className={locals.viewAllLink}
         />
       </div>
@@ -89,10 +90,10 @@ export default function ContainerStates({ podId, states, timeConfig }) {
   );
 }
 
-function ViewAll({ viewAllHref$ }, className) {
+function ViewAll({ viewAllHref$, presentedStates }, className) {
   return (
     <Link className={className} href$={viewAllHref$}>
-      View all containers
+      {presentedStates.length > 1 ? 'View all containers' : 'View container'}
     </Link>
   );
 }
