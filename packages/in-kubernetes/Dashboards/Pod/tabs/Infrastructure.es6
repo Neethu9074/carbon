@@ -17,6 +17,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
+import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
@@ -109,7 +110,11 @@ function UnmonitoredContainers({ containerStatuses }) {
         <Tbody>
           {containerStatuses.map((status, i) => (
             <Tr key={i}>
-              <Td>{status.name}</Td>
+              <Td>
+                <Tooltip content="The hosts where these containers run, don't have an an Instana Agent installed. See our documentation for more Information">
+                  <span>{status.name}</span>
+                </Tooltip>
+              </Td>
               <Td>
                 <ReadyIcon isReady={status.ready} />
               </Td>
