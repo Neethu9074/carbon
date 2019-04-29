@@ -26,14 +26,7 @@ export default connectTo(
         value: formatAnnotation(value)
       }));
 
-    return (
-      <KeyValueList
-        title="Annotations"
-        icon="lib_kubernetes_annotation"
-        items={formattedAnnotations}
-        onEmptyText={onEmptyText}
-      />
-    );
+    return <KeyValueList title="Annotations" items={formattedAnnotations} onEmptyText={onEmptyText} />;
   }
 );
 

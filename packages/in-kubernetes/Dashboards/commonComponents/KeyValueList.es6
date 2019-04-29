@@ -29,7 +29,7 @@ export default function KeyValueList({ title, items, icon, onEmptyText }) {
             .sort((a, b) => a.key.localeCompare(b.key))
             .map(({ key, value }, i) => (
               <Tr key={i} size="compact">
-                <Td>
+                <Td className={locals.td}>
                   <EntityWithTypeAndIcon label={value} type={key} iconType={icon} />
                 </Td>
               </Tr>

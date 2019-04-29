@@ -14,9 +14,7 @@ export function labelsNavigationItem(path) {
     path,
     icon: 'lib_kubernetes_label',
     renderLabel: ({ resource }) => `Labels (${resource.labels.length})`,
-    component: ({ resource }) => (
-      <KeyValueList title="Labels" icon="lib_kubernetes_label" items={resource.labels} onEmptyText="No Labels" />
-    )
+    component: ({ resource }) => <KeyValueList title="Labels" items={resource.labels} onEmptyText="No Labels" />
   };
 }
 
