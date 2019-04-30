@@ -52,6 +52,7 @@
     })(window,document,'script','//{{eumRetrievalDomain}}/eum.min.js','ineum');
     ineum('key', '{{eumTrackingApiKey}}');
     ineum('reportingUrl', '//{{eumTrackingDomain}}');
+    ineum('beaconBatchingTime', 3000);
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api\.mixpanel\.com\/track.*/i]);
     ineum('user', instana.user.id, instana.user.fullName, instana.user.email);
