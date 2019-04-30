@@ -1,10 +1,7 @@
 export const SERVICE_POSITION_STORAGE_TTL = 1000 * 60 * 60 * 24 * 7; // 1 week
-export const PERSIST_LOGICAL_SERVICE_POSITIONS = 1000;
 export const CONNECTED_HIGHLIGHTING_CHECK = 50;
-export const LOGICAL_CONNECTION_REACTION = 100;
 export const METRIC_PILLAR_REFRESH = 1000;
 export const PHYSICAL_LAYOUTING = 50;
-export const LOGICAL_LAYOUTING = 50;
 export const LAYER_LAYOUTING = 50;
 export const POWER_CHECKING = 200;
 export const OCTREE_UPDATES = 250;

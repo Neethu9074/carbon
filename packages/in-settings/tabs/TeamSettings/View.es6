@@ -41,23 +41,8 @@ import {
   teamSettingsAlertingIntegrations,
   teamSettingsAlertingIntegrationEdit,
   teamSettingsAlertingIntegrationNew,
-  teamSettingsAuditLog,
-  newServiceExtractionPath,
-  serviceExtractionPath,
-  generalServiceExtractionPath,
-  httpServiceExtractionPath,
-  batchServiceExtractionPath,
-  ejbServiceExtractionPath,
-  elasticsearchServiceExtractionPath,
-  messageBrokerServiceExtractionPath
+  teamSettingsAuditLog
 } from 'in-settings/navigation/paths';
-import MessageBrokerServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/MessageBrokerServiceExtractionConfiguration';
-import ElasticServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/ElasticServiceExtractionConfiguration';
-import GeneralServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/GeneralServiceExtractionConfiguration';
-import BatchServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/BatchServiceExtractionConfiguration';
-import HttpServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/HttpServiceExtractionConfiguration';
-import EjbServiceExtractionConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtraction/configs/EjbServiceExtractionConfiguration';
-import ServiceExtractionRuleConfiguration from 'in-settings/tabs/TeamSettings/pages/legacyServiceExtraction/ServiceExtractionRuleConfig/ServiceExtractionRuleConfig';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import CustomDynamicRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRules';
@@ -78,7 +63,6 @@ import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
-import { forecastsEnabled, twoZeroModeEnabled, unifiedAlerting } from 'in-services/featureFlags';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
@@ -90,60 +74,13 @@ import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/U
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
+import { forecastsEnabled, unifiedAlerting } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
 function navigationTreeForRole(role): NavigationTree {
   const navigationTree: NavigationTree = [];
-
-  if (role.canConfigureServiceMapping && !twoZeroModeEnabled) {
-    navigationTree.push({
-      title: 'Service Extraction',
-      pages: [
-        {
-          path: generalServiceExtractionPath,
-          label: 'General Rules',
-          component: GeneralServiceExtractionConfiguration,
-          subPages: [
-            {
-              path: newServiceExtractionPath,
-              component: ServiceExtractionRuleConfiguration
-            },
-            {
-              path: serviceExtractionPath,
-              component: ServiceExtractionRuleConfiguration
-            }
-          ]
-        },
-        {
-          path: httpServiceExtractionPath,
-          label: 'HTTP Rules',
-          component: HttpServiceExtractionConfiguration
-        },
-        {
-          path: batchServiceExtractionPath,
-          label: 'Batch Rules',
-          component: BatchServiceExtractionConfiguration
-        },
-        {
-          path: ejbServiceExtractionPath,
-          label: 'EJB Rules',
-          component: EjbServiceExtractionConfiguration
-        },
-        {
-          path: elasticsearchServiceExtractionPath,
-          label: 'Elasticsearch Rules',
-          component: ElasticServiceExtractionConfiguration
-        },
-        {
-          path: messageBrokerServiceExtractionPath,
-          label: 'Message Broker Rules',
-          component: MessageBrokerServiceExtractionConfiguration
-        }
-      ]
-    });
-  }
 
   if (role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens) {
     const accessControlPages: Array<Page> = [];

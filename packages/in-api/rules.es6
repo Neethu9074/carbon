@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -15,7 +14,7 @@ export function getRulesMutable() {
     maxRetries: 3,
     url: `/api/rules`,
     queryParams: {
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => response.body);
 }
@@ -40,7 +39,7 @@ export function getRuleMutable(id, treat400AsError = true) {
     treat400AsError: treat400AsError,
     url: `/api/rules/${encodeURIComponent(id)}`,
     queryParams: {
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => response.body);
 }
@@ -105,7 +104,7 @@ export function isRuleDeprecatedMutable(rule) {
 export function getRuleLabelWithDeprecationFlag(rule) {
   const flag = rule.get('deprecated');
   const name = rule.get('name');
-  return twoZeroModeEnabled && flag ? name + ' (deprecated)' : name;
+  return flag ? name + ' (deprecated)' : name;
 }
 
 export function getBuiltInRules() {

@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { agentNotificationsEnabled } from 'in-services/featureFlags';
-import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Kpis from 'in-sdk/components/dashboard/summary/Kpis';
+import { emptyList } from 'in-services/fixedImmutables';
 import TwoValueBar from 'in-new-components/TwoValueBar';
 import { timeConfig$ } from 'in-stores/time/config';
 import KV from 'in-sdk/components/dashboard/KV';
@@ -19,7 +18,6 @@ export default connectTo(
     timeConfig: timeConfig$
   },
   function AgentViewKpis({ agentSnapshots, timeConfig }) {
-    const agentNotifications = emptyMap;
     if (!agentSnapshots) {
       return null;
     }
@@ -52,7 +50,6 @@ export default connectTo(
             />
           </Tooltip>
         ) : null}
-        {agentNotificationsEnabled ? <KV k="Notifications" v={agentNotifications.size} /> : null}
       </Kpis>
     );
   }

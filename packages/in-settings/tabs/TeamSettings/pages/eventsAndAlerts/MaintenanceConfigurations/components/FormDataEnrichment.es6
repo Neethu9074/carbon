@@ -1,8 +1,8 @@
+import { create } from 'reactive-observables';
 import React from 'react';
 
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { create, combineLatest } from 'reactive-observables';
 import { validate } from 'in-api/search';
 
 export default class FormDataEnrichment extends React.Component {
@@ -14,20 +14,10 @@ export default class FormDataEnrichment extends React.Component {
   componentWillMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
     this.emitQueryIfNotBlank(getValueOrNull(this.props.form, 'query'));
-    this.validationResultSubscription = debouncedQuery
-      .flatMap(query => {
-        return combineLatest([
-          validate({ query, newApplicationModelEnabled: false }),
-          validate({ query, newApplicationModelEnabled: true })
-        ]);
-      })
-      .subscribe(([validationResponse10, validationResponse20]) => {
-        this.props.onChange(
-          'validationResult',
-          combinedValidationResults(validationResponse10.body, validationResponse20.body)
-        );
-        this.props.onChange('queryValidationInProgress', false);
-      });
+    this.validationResultSubscription = debouncedQuery.flatMap(validate).subscribe(validationResponse20 => {
+      this.props.onChange('validationResult', combinedValidationResults(validationResponse20.body));
+      this.props.onChange('queryValidationInProgress', false);
+    });
   }
 
   componentWillUpdate(nextProps) {

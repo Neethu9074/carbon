@@ -1,6 +1,0 @@
-{
-  "name": "Connection",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./Connection.es6"
-}

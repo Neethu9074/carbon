@@ -4,13 +4,11 @@ import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import MainNavigation from 'in-new-components/MainNavigation';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import MessageDialog from 'in-components/MessageDialog';
-import Timeline from 'in-components/timeline/Timeline';
 
 import routes from 'in-client/js/routes/mainRoutes';
 
@@ -26,12 +24,6 @@ export default function App() {
 
       <div className={locals.content}>
         <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-
-        {!twoZeroModeEnabled && (
-          <ErrorBoundary name="timeline">
-            <Timeline />
-          </ErrorBoundary>
-        )}
       </div>
 
       <ErrorBoundary name="dialogs">

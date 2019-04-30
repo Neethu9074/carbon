@@ -22,7 +22,6 @@ export default connectTo(
       if (view === views.physical) {
         return <Connections entity={entities} canvas={canvas} />;
       }
-      // don't show connection tooltip on logical view
       return null;
     }
 

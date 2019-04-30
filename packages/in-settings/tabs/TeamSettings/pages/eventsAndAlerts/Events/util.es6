@@ -1,5 +1,4 @@
-import { plugins10, plugins20, customIssuesDisabledForPlugins } from 'in-forge/constants';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getCategories } from 'in-sdk/metrics';
 import { getSingular } from 'in-sdk/pluginName';
@@ -47,7 +46,6 @@ export function getDescription(entity) {
 }
 
 export function getEntityTypeOptions() {
-  const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
   return Object.keys(plugins)
     .map(k => plugins[k])
     .filter(plugin => getCategories(plugin).length > 0)

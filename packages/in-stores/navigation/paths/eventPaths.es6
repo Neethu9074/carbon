@@ -1,7 +1,6 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 export function focusEvent(eventId) {
   mutateUrl(params => {
@@ -37,16 +36,7 @@ export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
   return getModifiedUrlStream(params => {
     const query = `entity.id:"${entityId}"`;
     params.pathname = eventsPath;
-
-    if (
-      params.query.q &&
-      // in 2.0 mode we don't want to retain the existing DF query
-      !twoZeroModeEnabled
-    ) {
-      params.query.q += ` ${query}`;
-    } else {
-      params.query.q = query;
-    }
+    params.query.q = query;
 
     if (eventTypeFilter) {
       setOrDeleteMatrixKey(params, eventsPath, 'view', eventTypeFilter);

@@ -14,7 +14,7 @@ import {
 import { SIGNALS } from 'in-new-components/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import calculate from 'in-new-components/ApplicationMap/misc/ParticleEmitter/callsToParticlesCalculator';
 import { getServiceLocators } from 'in-new-components/ApplicationMap/serviceLocator/serviceLocator';
-import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
+import pointShape from 'in-components/FlowMap/misc/ParticleEmitter/pointShape.png';
 import { loadImage } from 'in-map/services/imageLoader';
 import { timeConfig$ } from 'in-stores/time/config';
 import Subscriber from 'in-map/misc/Subscriber';

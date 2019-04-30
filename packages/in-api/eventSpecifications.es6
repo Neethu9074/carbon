@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
@@ -20,7 +19,7 @@ export function getEventSpecifications(eventIds) {
     url: '/api/events/settings/event-specifications/infos',
     queryParams: {
       ids: eventIds ? eventIds : [],
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => response.body);
 }
@@ -33,7 +32,7 @@ export function getEventSpecificationByIds(eventIds) {
     url: '/api/events/settings/event-specifications/infos',
     data: eventIds ? eventIds : [],
     queryParams: {
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => response.body);
 }
@@ -146,7 +145,7 @@ export function saveCustomEventSpecification(event) {
     headers: getCsrfHeader(),
     data: event,
     queryParams: {
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => fromJS(response.body));
 }

@@ -1,6 +1,5 @@
 import ContainerMapNode from 'in-map/SceneGraph/container/MapNode';
 import PhysicalMapNode from 'in-map/SceneGraph/physical/MapNode';
-import LogicalMapNode from 'in-map/SceneGraph/logical/MapNode';
 import { view$, types as views } from 'in-stores/view';
 import Node from 'in-map/SceneGraph/Node';
 
@@ -15,8 +14,6 @@ export default class SceneNode extends Node {
 
         if (view === views.physical) {
           this.addChild(PhysicalMapNode, { id: 'physicalMap' });
-        } else if (view === views.logical) {
-          this.addChild(LogicalMapNode, { id: 'logicalMap' });
         } else if (view === views.container) {
           this.addChild(ContainerMapNode, { id: 'containerMap' });
         }

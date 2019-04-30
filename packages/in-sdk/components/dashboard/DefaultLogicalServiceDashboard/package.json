@@ -1,6 +1,0 @@
-{
-  "name": "DefaultLogicalServiceDashboard",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./DefaultLogicalServiceDashboard.es6"
-}

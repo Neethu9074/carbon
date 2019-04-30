@@ -2,7 +2,6 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { createTrackingStore } from 'in-stores/store';
 import { isBlank } from 'in-services/util/string';
 
@@ -29,8 +28,7 @@ export const timeConfigShape = rpt.shape({
 
 const minimumWindowSize = 1000 * 60;
 const maximumWindowSize = 1000 * 60 * 60 * 24 * 31;
-// if we are in the app 2.0 world, we want to see the last hour instead of the last 10 minutes
-const defaultWindowSize = twoZeroModeEnabled ? 1000 * 60 * 60 : 1000 * 60 * 10;
+const defaultWindowSize = 1000 * 60 * 60;
 
 export const timeConfig$ = createTrackingStore({
   name: 'time/config',
@@ -46,7 +44,7 @@ export function getTimeConfig(params) {
       Math.max(minimumWindowSize, getInt(params.query, urlQueryKeys.windowSize, defaultWindowSize))
     ),
     focusedMoment: to == null ? null : getInt(params.query, urlQueryKeys.focusedMoment, to),
-    autoRefresh: to == null && (!twoZeroModeEnabled || params.query[urlQueryKeys.autoRefresh] === 'true')
+    autoRefresh: to == null && params.query[urlQueryKeys.autoRefresh] === 'true'
   };
 }
 

@@ -6,10 +6,9 @@ import {
   disposeSubscription as disposeEventsInTimeframeSubscription
 } from 'in-stores/eventsInTimeframe';
 import TimelineCanvasReactWrapper from 'in-views/eventView/components/timeline/components/TimelineCanvasReactWrapper';
+import { init as initTimelineStore, isCollapsed$ } from 'in-components/timeline/timelineStore';
 import TimelineMenu from 'in-views/eventView/components/timeline/components/TimelineMenu';
 import EventTooltip from 'in-views/eventView/components/timeline/components/EventTooltip';
-import { init as initTimelineStore } from 'in-components/timeline/timelineStore';
-import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { init as initEvents } from 'in-stores/events';
 import { getSetting$ } from 'in-services/settings';

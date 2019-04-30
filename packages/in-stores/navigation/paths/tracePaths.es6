@@ -1,10 +1,8 @@
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { tracesPath } from 'in-stores/navigation/paths/mainPaths';
 import { urlQueryKeys } from 'in-stores/time/config';
 
 export function getTraceViewLinkWithQuery(query) {
   return getModifiedUrlStream(params => {
-    params.pathname = tracesPath;
     params.query.q = query;
     params.query.ss = '1';
   });
@@ -12,7 +10,6 @@ export function getTraceViewLinkWithQuery(query) {
 
 export function getTraceViewLinkShowingTrace(traceId) {
   return getModifiedUrlStream(params => {
-    params.pathname = tracesPath;
     params.query.traceId = traceId;
   });
 }
@@ -35,7 +32,6 @@ export function getTraceViewFilteredByServiceInstanceStartingAtLink(snapshotId) 
 
 export function getTraceViewFilteredBySnapshotIdAndTimeframe({ snapshotId, from, to }) {
   return getModifiedUrlStream(params => {
-    params.pathname = tracesPath;
     params.query.q = ` trace.touching:"${snapshotId}"`;
     params.query.ss = '1';
     params.query[urlQueryKeys.to] = to;

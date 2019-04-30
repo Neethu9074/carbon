@@ -1,7 +1,6 @@
 import { create, combineLatest } from 'reactive-observables';
 
 import getEventsInTimeframeSubscription from 'in-subscription/eventsInTimeframe';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import { getEvent } from 'in-stores/events';
@@ -11,7 +10,7 @@ export const data$ = create().emit(data);
 export const eventsInTimeframe$ = data$.throttle(1000).map(categorize);
 let subscription;
 
-export function init(timelineShown = !twoZeroModeEnabled) {
+export function init(timelineShown = false) {
   if (!timelineShown) {
     return;
   }

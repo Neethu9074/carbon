@@ -31,13 +31,10 @@ describe('in-stores/eventsInTimeframe', () => {
       },
       'in-stores/events': {
         getEvent: () => create()
-      },
-      'in-services/featureFlags': {
-        twoZeroModeEnabled: false
       }
     });
 
-    mod.init();
+    mod.init(true);
 
     dataCallback = sinon.stub();
     dataSubscription = mod.data$.subscribe(dataCallback);

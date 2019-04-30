@@ -18,7 +18,6 @@ const entityTypeToFullyQualifiedPlugin = {
   docker: fullyQualifiedPlugins.docker,
   jvm: fullyQualifiedPlugins.jvmRuntimePlatform,
   nodejs: fullyQualifiedPlugins.nodeJsRuntimePlatform,
-  service: fullyQualifiedPlugins.defaultLogicalService,
   dropwizard: fullyQualifiedPlugins.dropwizardApplicationContainer,
   agent: fullyQualifiedPlugins.instanaAgent,
   process: fullyQualifiedPlugins.process,
@@ -32,19 +31,8 @@ export const selectedType$ = createTrackingStore({
   name: 'tableView/stores/selectedType',
   observable: navigationParameters$
     .map(location => {
-      const isPhysicalView = getMatrixParameter(location, tablePath, 'view') === 'physical';
-      const defaultType = isPhysicalView ? 'host' : 'service';
-      const type = getMatrixParameter(location, tablePath, 'plugin') || defaultType;
-
-      let view;
-      if (pluginsRequiringTableViewInSearch.indexOf(type) !== -1) {
-        view = 'TABLE';
-      } else if (isPhysicalView) {
-        view = 'PHYSICAL';
-      } else {
-        view = 'LOGICAL';
-      }
-
+      const type = getMatrixParameter(location, tablePath, 'plugin') || 'host';
+      const view = pluginsRequiringTableViewInSearch.indexOf(type) !== -1 ? 'TABLE' : 'PHYSICAL';
       return {
         type,
         view

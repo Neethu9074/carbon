@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 
 import http from 'in-services/http';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 
 export function getRules() {
   return http({
@@ -9,7 +8,7 @@ export function getRules() {
     maxRetries: 3,
     url: `/api/rules`,
     queryParams: {
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => fromJS(response.body));
 }

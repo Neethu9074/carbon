@@ -6,10 +6,9 @@ import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecif
 import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
-import { pluginsDeprecatedIn20 } from 'in-forge/constants';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
+import { plugins } from 'in-forge/constants';
 
 export const dataSourceCustom = 'custom';
 export const dataSourceBuiltIn = 'built-in';
@@ -300,7 +299,7 @@ function notBlankOrDeprecatedValidator(entityType) {
     ];
   }
 
-  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+  if (isDeprecatedEntityType(entityType)) {
     return [
       {
         severity: 'error',
@@ -343,7 +342,7 @@ export function getDataSourceFromEventSpecification(ruleType, entityType, metric
 }
 
 export function isDeprecatedEntityType(entityType) {
-  return Boolean(pluginsDeprecatedIn20[entityType]);
+  return Boolean(!plugins[entityType]);
 }
 
 function getMutableEvent(event) {

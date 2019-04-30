@@ -1,7 +1,6 @@
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import http from 'in-services/http';
 
-export function validate({ query, context, newApplicationModelEnabled = twoZeroModeEnabled }) {
+export function validate(query, context) {
   return http({
     method: 'GET',
     url: `/api/search/validate`,
@@ -9,7 +8,7 @@ export function validate({ query, context, newApplicationModelEnabled = twoZeroM
     queryParams: {
       q: query,
       searchContext: context,
-      newApplicationModelEnabled
+      newApplicationModelEnabled: true
     }
   });
 }

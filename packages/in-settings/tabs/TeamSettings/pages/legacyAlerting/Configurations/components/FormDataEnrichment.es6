@@ -1,8 +1,8 @@
+import { create } from 'reactive-observables';
 import React from 'react';
 
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { create, combineLatest } from 'reactive-observables';
 import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
 
@@ -33,24 +33,14 @@ export default class FormDataEnrichment extends React.Component {
       .subscribe(events => {
         this.props.onChange('matchingEntities', events ? events.length : events);
       });
-    this.validationResultSubscription = debouncedQuery
-      .flatMap(query => {
-        return combineLatest([
-          validate({ query, newApplicationModelEnabled: false }),
-          validate({ query, newApplicationModelEnabled: true })
-        ]);
-      })
-      .subscribe(([validationResponse10, validationResponse20]) => {
-        // we need to ensure here whether the field are available before we update,
-        // because in call Apply on 'all' is selected, we still query to get the
-        // number of matching entities, but e.g. the validation result field is only
-        // available when Apply on 'dfq'.
-        this.tryOnChange(
-          'validationResult',
-          combinedValidationResults(validationResponse10.body, validationResponse20.body)
-        );
-        this.tryOnChange('queryValidationInProgress', false);
-      });
+    this.validationResultSubscription = debouncedQuery.flatMap(validate).subscribe(validationResponse20 => {
+      // we need to ensure here whether the field are available before we update,
+      // because in call Apply on 'all' is selected, we still query to get the
+      // number of matching entities, but e.g. the validation result field is only
+      // available when Apply on 'dfq'.
+      this.tryOnChange('validationResult', combinedValidationResults(validationResponse20.body));
+      this.tryOnChange('queryValidationInProgress', false);
+    });
   }
 
   tryOnChange = (field, value) => {

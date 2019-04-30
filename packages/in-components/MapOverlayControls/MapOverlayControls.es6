@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { controls$ } from 'in-components/MapOverlayControls/stores/controlsStore';
+import PhysicalContent from 'in-components/MapOverlayControls/components/physicalContent';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import Menu from 'in-components/MapOverlayControls/components/Menu';
 import toPx from 'in-services/formatters/toPx';
@@ -12,13 +12,9 @@ const block = 'in-map-overlaycontrols';
 
 export default connectTo(
   {
-    timelineHeight: timelineHeight$,
-    controls: controls$
+    timelineHeight: timelineHeight$
   },
-  function MapOverlayControls({ controls, timelineHeight }) {
-    if (!controls) {
-      return null;
-    }
+  function MapOverlayControls({ timelineHeight }) {
     return (
       <div
         className={block}
@@ -26,7 +22,7 @@ export default connectTo(
           bottom: toPx(timelineHeight + 20)
         }}
       >
-        {controls}
+        <PhysicalContent />
         <Menu />
       </div>
     );

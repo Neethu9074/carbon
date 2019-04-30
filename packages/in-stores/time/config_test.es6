@@ -65,26 +65,6 @@ describe('time config', () => {
       ).to.equal(60000);
     });
 
-    describe('in 1.0', () => {
-      it('should fall back to default window size', () => {
-        expect(
-          getTimeConfig({
-            query: {}
-          }).windowSize
-        ).to.equal(1000 * 60 * 10);
-      });
-
-      it('should auto refresh in 1.0 if to is null', () => {
-        expect(
-          getTimeConfig({
-            query: {}
-          }).autoRefresh
-        ).to.be.true;
-      });
-    });
-
-    // These tests can be enabled permanently after 2.0 GA.
-    // For now they can only be enabled locally while setting the twoZeroModeEnabled feature flag to true manually.
     describe.skip('in 2.0', () => {
       it('should fall back to default window size', () => {
         expect(

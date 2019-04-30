@@ -14,10 +14,8 @@ import Marker, { hasServiceImpact } from 'in-views/eventView/components/Marker';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
-import EventTraces from 'in-views/eventView/components/EventTraces';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { formatTime } from 'in-services/formatters/date';
 import EventIcon from 'in-components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
@@ -104,8 +102,7 @@ export default connectTo(
                   <Spacer />
                   <EventDependecyGraph event={event} />
                   <Spacer />
-                  {!twoZeroModeEnabled && <EventTraces event={event} />}
-                  {twoZeroModeEnabled && <AnalyzeIssueCallsButton event={event} />}
+                  <AnalyzeIssueCallsButton event={event} />
                 </div>
               ) : null}
             </div>

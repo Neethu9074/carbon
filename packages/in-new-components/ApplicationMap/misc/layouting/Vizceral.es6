@@ -1,4 +1,4 @@
-import LTRTreeLayouter from 'in-map/misc/logical/layoutingStrategies/vizceralResources/FlowLayouter';
+import LTRTreeLayouter from 'in-new-components/ApplicationMap/misc/layouting/vizceralResources/FlowLayouter';
 import {
   translateNodesY,
   transformNodes,

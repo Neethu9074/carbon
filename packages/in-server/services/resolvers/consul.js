@@ -5,13 +5,15 @@ const cache = require('../loadingCache').createLoadingCache({ ttl: serverConfig.
 
 console.log('Initializing Consul resolver with config', serverConfig.consul);
 
-exports.getUiBackendBaseUrl = (tenant, unit) => cache(`getUiBackendBaseUrl:${tenant}:${unit}`, () => {
-  return lookupServiceBaseUrl(`${tenant}-${unit}-ui-backend`);
-});
+exports.getUiBackendBaseUrl = (tenant, unit) =>
+  cache(`getUiBackendBaseUrl:${tenant}:${unit}`, () => {
+    return lookupServiceBaseUrl(`${tenant}-${unit}-ui-backend`);
+  });
 
-exports.getGroundskeeperBaseUrl = () => cache(`groundskeeper`, () => {
-  return lookupServiceBaseUrl(`groundskeeper`);
-});
+exports.getGroundskeeperBaseUrl = () =>
+  cache(`groundskeeper`, () => {
+    return lookupServiceBaseUrl(`groundskeeper`);
+  });
 
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
@@ -19,62 +21,44 @@ exports.getBaseUrl = (tenant, unit) =>
 exports.getButlerDomain = (tenant, unit) =>
   Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
-  return Promise.all([
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/ONE_ZERO_APP_DATA_PRESENTATION_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}/ONE_ZERO_SUPPORTED_UNTIL_MESSAGE_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/TWO_ZERO_APP_DATA_PRESENTATION_ENABLED`, true),
-    getBooleanSetting(`settings/ui-client/TWO_ZERO_LEARN_MORE_BUTTON_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
-    getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
-    getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
-  ]).then(([
-    oneZeroAppDataEnabled,
-    oneZeroAppDataPresentationEnabled,
-    oneZeroSupportedUntilMessageEnabled,
-    twoZeroAppDataEnabled,
-    twoZeroAppDataPresentationEnabled,
-    twoZeroLearnMoreButtonEnabled,
-    pingComparisonEnabled,
-    isSelfService,
-    isKubernetesV2Enabled,
-    lastSevenDaysTimePresetEnabled,
-    customEventsInWebsiteMonitoringEnabled,
-    unifiedAlerting,
-    ruleDeprecationValidationChecksEnabled,
-    containerInfoEnabled,
-    trackUrlPathChanges
-  ]) => ({
-    oneZeroAppDataEnabled,
-    oneZeroAppDataPresentationEnabled,
-    oneZeroSupportedUntilMessageEnabled,
-    twoZeroAppDataEnabled,
-    twoZeroAppDataPresentationEnabled,
-    twoZeroLearnMoreButtonEnabled,
-    pingComparisonEnabled,
-    isSelfService,
-    isKubernetesV2Enabled,
-    lastSevenDaysTimePresetEnabled,
-    releaseNotesEnabled: true,
-    maintenanceNotesEnabled: true,
-    useInstanaSaasEumTrackingUrlEnabled: true,
-    tenantSwitcherEnabled: true,
-    onPremLicenseInformationEnabled: false,
-    customEventsInWebsiteMonitoringEnabled,
-    unifiedAlerting,
-    ruleDeprecationValidationChecksEnabled,
-    containerInfoEnabled,
-    trackUrlPathChanges
-  }));
-});
+exports.getFeatureFlags = (tenant, unit) =>
+  cache(`getFeatureFlags:${tenant}:${unit}`, () => {
+    return Promise.all([
+      getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
+      getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
+    ]).then(
+      ([
+        pingComparisonEnabled,
+        isSelfService,
+        isKubernetesV2Enabled,
+        lastSevenDaysTimePresetEnabled,
+        customEventsInWebsiteMonitoringEnabled,
+        unifiedAlerting,
+        ruleDeprecationValidationChecksEnabled,
+        trackUrlPathChanges
+      ]) => ({
+        pingComparisonEnabled,
+        isSelfService,
+        isKubernetesV2Enabled,
+        lastSevenDaysTimePresetEnabled,
+        releaseNotesEnabled: true,
+        maintenanceNotesEnabled: true,
+        useInstanaSaasEumTrackingUrlEnabled: true,
+        tenantSwitcherEnabled: true,
+        onPremLicenseInformationEnabled: false,
+        customEventsInWebsiteMonitoringEnabled,
+        unifiedAlerting,
+        ruleDeprecationValidationChecksEnabled,
+        trackUrlPathChanges
+      })
+    );
+  });
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
@@ -93,8 +77,7 @@ function lookupServiceBaseUrl(serviceName) {
     simple: true,
     timeout: 5000,
     resolveWithFullResponse: false
-  })
-  .then(services => {
+  }).then(services => {
     if (services.length === 0) {
       const error = new Error(`Consul lookup returned zero results for service name: ${serviceName}`);
       error.ignoreStackTrace = true;

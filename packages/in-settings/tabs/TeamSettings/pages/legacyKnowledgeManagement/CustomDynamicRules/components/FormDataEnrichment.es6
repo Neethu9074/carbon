@@ -2,7 +2,6 @@ import { create, combineLatest } from 'reactive-observables';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/timeline';
 import http from 'in-services/http';
@@ -75,7 +74,7 @@ function searchSnapshots(query, timeConfig, maxResults) {
       to: timeConfig.to,
       q: query,
       size: maxResults,
-      newApplicationModelEnabled: twoZeroModeEnabled
+      newApplicationModelEnabled: true
     }
   }).map(response => fromJS(response.body));
 }

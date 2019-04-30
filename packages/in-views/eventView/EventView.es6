@@ -13,7 +13,6 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import EventDetails from 'in-views/eventView/components/EventDetails';
 import EventTable from 'in-views/eventView/components/EventTable';
 import LifecycleObserver from 'in-components/LifecycleObserver';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import LegacyView from 'in-components/LegacyView';
 import SearchBar from 'in-components/SearchBar';
@@ -66,11 +65,9 @@ function EventViewInternal() {
           </div>
         </Sticky>
       </Sticky>
-      {twoZeroModeEnabled && (
-        <ErrorBoundary name="events-timeline">
-          <Timeline />
-        </ErrorBoundary>
-      )}
+      <ErrorBoundary name="events-timeline">
+        <Timeline />
+      </ErrorBoundary>
     </Fragment>
   );
 }

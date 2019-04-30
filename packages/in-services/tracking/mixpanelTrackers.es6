@@ -2,7 +2,6 @@ import { get } from 'lodash';
 
 import { createDurationTracker, createTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { applicationDashboard, endpointDashboard, serviceDashboard } from 'in-applications/navigation/paths';
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
@@ -50,18 +49,11 @@ function initUsageDurationTrackers() {
 }
 
 function trackV2UsageDuration() {
-  if (!isTwoZeroBetaPhase) {
-    return;
-  }
   // will be stopped in VersionSwitcher immediately before page reload to switch v2 mode
   v2UsageDurationTracker.start();
 }
 
 function trackLiveModeUsageDuration() {
-  if (!twoZeroModeEnabled) {
-    // only track live mode in 2.0
-    return;
-  }
   let first = true;
   const liveModeUsageDurationTracker = createDurationTracker('time.liveMode');
   navigationParameters$
@@ -80,10 +72,6 @@ function trackLiveModeUsageDuration() {
 }
 
 function trackWindowSizeUsageDuration() {
-  if (!twoZeroModeEnabled) {
-    // only track window size in 2.0
-    return;
-  }
   let lastWindowSize = null;
   const windowSizeUsageDurationTracker = createDurationTracker('time.windowSize');
   navigationParameters$
@@ -97,9 +85,6 @@ function trackWindowSizeUsageDuration() {
 }
 
 function trackApplicationUsageDuration() {
-  if (!twoZeroModeEnabled) {
-    return;
-  }
   let currentApplicationContext = null;
   const applicationUsageDurationTracker = createDurationTracker('application.context');
   navigationParameters$
@@ -144,9 +129,6 @@ function trackApplicationUsageDuration() {
 }
 
 function trackServiceAndEndpointDashboardsVsServiceUsageDuration() {
-  if (!twoZeroModeEnabled) {
-    return;
-  }
   let isCurrentlyInApplicationContext = null;
   let timerIsActive = false;
   const serviceOrEndpointInContextOfApplicationDurationTracker = createDurationTracker(
@@ -195,9 +177,6 @@ function trackServiceAndEndpointDashboardsVsServiceUsageDuration() {
 }
 
 function trackDashboardAndTabUsageDuration() {
-  if (!twoZeroModeEnabled) {
-    return;
-  }
   let currentDashboard = null;
   let currentTab = null;
   const dashboardTabUsageDurationTracker = createDurationTracker('dashboard.tab');

@@ -4,10 +4,9 @@ import MatchingEntityTable from 'in-settings/tabs/TeamSettings/pages/legacyKnowl
 import TooltipIcon from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/components/TooltipIcon';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomRules/components/MetricSelector';
 import Spacer from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/components/Spacer';
-import { applicationPlugins, defaultAndUnknownPluginNames, oneZeroLogicalPlugins } from 'in-forge/constants';
-import FormGroup from 'in-settings/components/FormGroup';
+import { applicationPlugins, defaultAndUnknownPluginNames } from 'in-forge/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import FormGroup from 'in-settings/components/FormGroup';
 import RuleControl from 'in-components/form/RuleControl';
 import { getSingular } from 'in-sdk/pluginName';
 import { getCategories } from 'in-sdk/metrics';
@@ -21,7 +20,7 @@ import './Step1.less';
 
 const block = 'in-dynamic-rule-dialog-step-1';
 
-const plugins = twoZeroModeEnabled ? applicationPlugins : oneZeroLogicalPlugins;
+const plugins = applicationPlugins;
 const pluginsWithMetricDefinitions = Object.keys(plugins)
   .map(key => plugins[key])
   .filter(plugin => defaultAndUnknownPluginNames.indexOf(plugin) < 0)

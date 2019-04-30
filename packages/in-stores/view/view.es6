@@ -1,6 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
-import { containerPath, logicalPath } from 'in-stores/navigation/paths/mainPaths';
+import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createViewStructureObservable from 'in-subscription/view';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
@@ -8,7 +8,6 @@ import { createTrackingStore } from 'in-stores/store';
 import { timeConfig$ } from 'in-stores/time/config';
 
 export const types = {
-  logical: 'LOGICAL',
   physical: 'PHYSICAL',
   container: 'CONTAINER'
 };
@@ -18,9 +17,7 @@ const store = createTrackingStore({
   observable: navigationParameters$
     .map(params => {
       const pathname = params.pathname;
-      if (pathname.indexOf(logicalPath) >= 0) {
-        return types.logical;
-      } else if (pathname.indexOf(containerPath) >= 0) {
+      if (pathname.indexOf(containerPath) >= 0) {
         return types.container;
       }
       return types.physical;
@@ -39,8 +36,4 @@ export const viewStructure = createTrackingStore({
 
 export const physicalViewStructure$ = timeConfig$.flatMap(timeConfig =>
   createViewStructureObservable({ viewType: types.physical, timeConfig })
-);
-
-export const logicalViewStructure$ = timeConfig$.flatMap(timeConfig =>
-  createViewStructureObservable({ viewType: types.logical, timeConfig })
 );

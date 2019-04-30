@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 
 import { metricDefinitions as allMetricDefinitions } from 'in-sdk/metrics/metricDefinitions';
-import { pluginsDeprecatedIn20, applicationPlugins } from 'in-forge/constants';
+import { plugins as allPlugins, applicationPlugins } from 'in-forge/constants';
 import { getPlural } from 'in-sdk/pluginName';
 
 const oneZeroEntitiesDeprecationReason =
@@ -32,7 +32,7 @@ function doGenerate() {
 
       str += `**${getPlural(plugin)}** *(${plugin})*\n\n`;
 
-      if (pluginsDeprecatedIn20[plugin]) {
+      if (!allPlugins[plugin]) {
         str += `${oneZeroEntitiesDeprecationReason}\n\n`;
       }
 
@@ -63,10 +63,10 @@ function doGenerate() {
           agg[metric.metric] = metric.label;
           return agg;
         }, {});
-      const deprecated = Boolean(pluginsDeprecatedIn20[pluginName]);
+      const deprecated = Boolean(!allPlugins[pluginName]);
       plugins[pluginName.toLowerCase()] = {
         label: getPlural(pluginName),
-        deprecated: Boolean(pluginsDeprecatedIn20[pluginName]),
+        deprecated: Boolean(!allPlugins[pluginName]),
         deprecationReason: deprecated ? oneZeroEntitiesDeprecationReason : undefined,
         metrics
       };

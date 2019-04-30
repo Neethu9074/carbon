@@ -1,5 +1,26 @@
-import App10ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList/App10ServiceInstancesList';
-import App20ServiceList from 'in-sdk/components/sidebar/ServiceInstancesList/App20ServiceList';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
+import ServiceListPresenter from 'in-sdk/components/sidebar/ServiceInstancesList/ServiceListPresenter';
+import getServicePreviews from 'in-subscription/application/getServicePreviews';
+import { timeConfig$ } from 'in-stores/timeline';
+import connectTo from 'in-hoc/connectTo';
 
-export default (twoZeroModeEnabled ? App20ServiceList : App10ServiceInstancesList);
+export default connectTo(
+  ({ snapshot }) => ({
+    result: timeConfig$.flatMap(timeConfig =>
+      getServicePreviews({
+        pagination: {
+          page: 1,
+          pageSize: 100
+        },
+        order: {
+          by: 'serviceLabel',
+          direction: 'ASC'
+        },
+        filter: {
+          timeConfig,
+          processReference: snapshot.get('entityId')
+        }
+      })
+    )
+  }),
+  ServiceListPresenter
+);

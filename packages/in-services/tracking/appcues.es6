@@ -1,4 +1,3 @@
-import { isTwoZeroBetaPhase, twoZeroModeEnabled } from 'in-services/featureFlags';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
 
@@ -58,8 +57,7 @@ function identify() {
     // know whether the respective feature is enabled.
     // We are using a subset of all available feature flags, because a bunch of feature flags
     // only make sense internally.
-    [`${featureFlagPrefix}isTwoZeroBetaPhase`]: isTwoZeroBetaPhase,
-    [`${featureFlagPrefix}twoZeroModeEnabled`]: twoZeroModeEnabled
+    [`${featureFlagPrefix}twoZeroModeEnabled`]: true
   };
 
   // In order to target users, we need to know about the permissions that a user has.

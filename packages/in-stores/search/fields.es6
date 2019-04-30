@@ -1,7 +1,6 @@
 import { blackListedSearchFieldValues, getBlackListedSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { find } from 'in-services/arrayUtils';
 
@@ -236,6 +235,6 @@ export function getValueSuggestions(keyword, currentValue, searchContext) {
 }
 
 function getGlobalFields(searchContext) {
-  const fieldsKey = twoZeroModeEnabled ? (searchContext == 'traces' ? 'v2-traceList' : 'v2') : 'v1';
+  const fieldsKey = searchContext == 'traces' ? 'v2-traceList' : 'v2';
   return window.instana.searchFields[fieldsKey];
 }

@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { groups } from 'in-map/stores/physical/groupsStore';
-import services from 'in-map/stores/logical/servicesStore';
 import { nodes } from 'in-map/stores/physical/nodesStore';
 import { getBigBangTime, getFPS } from 'in-map/misc/time';
-import connections from 'in-map/stores/connectionsStore';
 import { eventBus } from 'in-map/services/eventBus';
 import { scene$ } from 'in-map/stores/sceneStore';
 
@@ -19,15 +17,12 @@ if (__DEV__) {
   let framesRendered = 0;
   let numGroups = -1;
   let numNodes = -1;
-  let numServices = -1;
-  let numConnections = -1;
   let numLayer = -1;
 
   let updateSubscription;
   let renderSubscription;
 
   groups.stream.debounce(1000).subscribe(_groups => (numGroups = _groups.size));
-  services.stream.debounce(1000).subscribe(_services => (numServices = _services.size));
   nodes.stream.debounce(1000).subscribe(_nodes => {
     numNodes = _nodes.size;
     numLayer = 0;
@@ -36,7 +31,6 @@ if (__DEV__) {
       numLayer += node.layer.objects.size;
     });
   });
-  connections.stream.debounce(1000).subscribe(_connections => (numConnections = _connections.size));
 
   scene$.subscribe(s => {
     scene = s;
@@ -93,11 +87,7 @@ if (__DEV__) {
 
     statistics.add(
       'scene objects',
-      new Map([
-        ['numConnections', numConnections],
-        ['physical', new Map([['numGroups', numGroups], ['numNodes', numNodes], ['numLayer', numLayer]])],
-        ['logical', new Map([['numServices', numServices]])]
-      ])
+      new Map([['physical', new Map([['numGroups', numGroups], ['numNodes', numNodes], ['numLayer', numLayer]])]])
     );
 
     statisticsCollected = true;

@@ -20,28 +20,21 @@ const physicalDomains = {
   ping: 'Ping'
 };
 
-// This list exists because we have the special type
-// "service" which is an aggregation of multiple types.
-const logicalDomains = {
-  service: 'Services'
-};
-
 export default connectTo(
   {
     selectedType: selectedType$.map(selectedType => selectedType.type),
-    matchedSnapshotCount: matchedSnapshotCount$,
-    domains: selectedType$.map(selectedType => (physicalDomains[selectedType.type] ? physicalDomains : logicalDomains))
+    matchedSnapshotCount: matchedSnapshotCount$
   },
-  function TypeSelector({ selectedType, matchedSnapshotCount, domains }) {
+  function TypeSelector({ selectedType, matchedSnapshotCount }) {
     return (
       <label className={block} htmlFor={id}>
         Table content:
         <select id={id} className={`${block}__selection`} value={selectedType} onChange={setType}>
-          {Object.keys(domains)
+          {Object.keys(physicalDomains)
             .sort()
             .map(val => (
               <option value={val} key={val}>
-                {domains[val]}
+                {physicalDomains[val]}
               </option>
             ))}
         </select>

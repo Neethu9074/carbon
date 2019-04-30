@@ -99,22 +99,12 @@ export default class FormDataEnrichment extends React.Component {
   }
 
   setUpQueryValidationSubscription(debouncedQuery) {
-    this.validationResultSubscription = debouncedQuery
-      .flatMap(query => {
-        return combineLatest([
-          validate({ query, newApplicationModelEnabled: false }),
-          validate({ query, newApplicationModelEnabled: true })
-        ]);
-      })
-      .subscribe(([validationResponse10, validationResponse20]) => {
-        // We need to ensure whether the field is available before we update. If the current selected scope is not
-        // 'dfq', the validation result field is not available.
-        this.tryOnChange(
-          'validationResult',
-          combinedValidationResults(validationResponse10.body, validationResponse20.body)
-        );
-        this.tryOnChange('queryValidationInProgress', false);
-      });
+    this.validationResultSubscription = debouncedQuery.flatMap(validate).subscribe(validationResponse20 => {
+      // We need to ensure whether the field is available before we update. If the current selected scope is not
+      // 'dfq', the validation result field is not available.
+      this.tryOnChange('validationResult', combinedValidationResults(validationResponse20.body));
+      this.tryOnChange('queryValidationInProgress', false);
+    });
   }
 
   tryOnChange = (field, value) => {

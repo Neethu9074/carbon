@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
 import MapButtonGroup from 'in-new-components/MapControls/ButtonGroup';
-import { particlesInFlowMapEnabled } from 'in-services/featureFlags';
 import Button from 'in-new-components/MapControls/Button';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
@@ -31,9 +30,7 @@ export default function Controls({ serviceLocatorUid }) {
         <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
       </div>
       <div className={locals.bottomRightControls}>
-        {particlesInFlowMapEnabled && (
-          <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
-        )}
+        <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         <MapButtonGroup vertical>
           <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />

@@ -1,6 +1,0 @@
-{
-  "name": "PageLoadAndBackendTraceButtons",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./PageLoadAndBackendTraceButtons.es6"
-}

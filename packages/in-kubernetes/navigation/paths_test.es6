@@ -24,10 +24,7 @@ describe('in-kubernetes/navigation/paths', () => {
 
     expect(subscriber.callCount).to.equal(1);
 
-    pathShouldStartWith(
-      subscriber.getCall(0).args[0],
-      '/#/kubernetes/pod;podId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
-    );
+    pathShouldStartWith(subscriber.getCall(0).args[0], '/#/kubernetes/pod;podId=47_wi4IoJojdvsh1f3ebmi7DHII/summary');
   });
 
   it('should return the correct link for an event on a service', () => {
@@ -40,7 +37,7 @@ describe('in-kubernetes/navigation/paths', () => {
     expect(subscriber.callCount).to.equal(1);
     pathShouldStartWith(
       subscriber.getCall(0).args[0],
-      '/#/kubernetes/service;serviceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
+      '/#/kubernetes/service;serviceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary'
     );
   });
 
@@ -54,7 +51,7 @@ describe('in-kubernetes/navigation/paths', () => {
     expect(subscriber.callCount).to.equal(1);
     pathShouldStartWith(
       subscriber.getCall(0).args[0],
-      '/#/kubernetes/deployment;deploymentId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
+      '/#/kubernetes/deployment;deploymentId=47_wi4IoJojdvsh1f3ebmi7DHII/summary'
     );
   });
 
@@ -68,7 +65,7 @@ describe('in-kubernetes/navigation/paths', () => {
     expect(subscriber.callCount).to.equal(1);
     pathShouldStartWith(
       subscriber.getCall(0).args[0],
-      '/#/kubernetes/namespace;namespaceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
+      '/#/kubernetes/namespace;namespaceId=47_wi4IoJojdvsh1f3ebmi7DHII/summary'
     );
   });
 
@@ -82,7 +79,7 @@ describe('in-kubernetes/navigation/paths', () => {
     expect(subscriber.callCount).to.equal(1);
     pathShouldStartWith(
       subscriber.getCall(0).args[0],
-      '/#/kubernetes/cluster;clusterId=47_wi4IoJojdvsh1f3ebmi7DHII/summary?timeline.to&timeline.ws=600000'
+      '/#/kubernetes/cluster;clusterId=47_wi4IoJojdvsh1f3ebmi7DHII/summary'
     );
   });
 });

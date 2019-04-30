@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { twoZeroModeEnabled, roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -61,27 +61,23 @@ export default function RoleForm({ form, onChange, roleId }) {
 
       <SectionHeading>Permissions</SectionHeading>
       <FormGroup noFlex>
-        {twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureServiceMapping"
-            label="Service & Endpoint Mapping"
-            helpText="Permits configuration of services and endpoints."
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureServiceMapping"
+          label="Service & Endpoint Mapping"
+          helpText="Permits configuration of services and endpoints."
+        />
 
-        {!twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureServiceMapping"
-            label="Service Mapper"
-            helpText="Permits configuration of services."
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureServiceMapping"
+          label="Service Mapper"
+          helpText="Permits configuration of services."
+        />
 
         <Permission
           form={form}
@@ -202,16 +198,14 @@ export default function RoleForm({ form, onChange, roleId }) {
           helpText="Permits configuration of team authentication methods (eg. 2FA/SSO)."
         />
 
-        {twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureApplications"
-            label="Configuration of applications"
-            helpText="Permits creation and configuration of applications."
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureApplications"
+          label="Configuration of applications"
+          helpText="Permits creation and configuration of applications."
+        />
       </FormGroup>
     </fieldset>
   );

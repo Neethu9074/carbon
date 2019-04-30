@@ -1,5 +1,5 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { app_application } from 'in-components/SvgIcon/registry';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 

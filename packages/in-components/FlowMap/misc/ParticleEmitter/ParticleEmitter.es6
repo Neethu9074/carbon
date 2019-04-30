@@ -13,8 +13,8 @@ import {
 } from 'in-map/3DLibProvider';
 import calculate from 'in-components/FlowMap/misc/ParticleEmitter/callsToParticlesCalculator';
 import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/serviceLocator';
+import pointShape from 'in-components/FlowMap/misc/ParticleEmitter/pointShape.png';
 import { SIGNALS } from 'in-components/FlowMap/components/Controls/Controls';
-import pointShape from 'in-map/misc/ParticleEmitter/pointShape.png';
 import { loadImage } from 'in-map/services/imageLoader';
 import Subscriber from 'in-map/misc/Subscriber';
 

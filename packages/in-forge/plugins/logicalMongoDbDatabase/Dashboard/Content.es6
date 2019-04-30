@@ -1,3 +1,0 @@
-import DefaultLogicalDashboard from 'in-sdk/components/dashboard/DefaultLogicalServiceDashboard/DefaultLogicalServiceDashboard';
-
-export default DefaultLogicalDashboard;

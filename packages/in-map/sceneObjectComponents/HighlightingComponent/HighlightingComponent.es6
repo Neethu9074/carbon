@@ -1,7 +1,6 @@
 import { combineLatest } from 'reactive-observables';
 
 import { selectedSnapshotIdForHighlightingInMap$ } from 'in-map/stores/selectedMapSceneObjectStore';
-import { connectedHighlightedIds$ } from 'in-map/stores/logical/connectedHighlightingStore';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { highlightedEntityIds$ } from 'in-stores/highlightedEntityIds';
@@ -15,14 +14,11 @@ export default class HighlightingComponent extends SceneObjectComponent {
     super.initEvents();
 
     const highlightingChangedCallback = this.highlightingChanged.bind(this);
-    const connectedhighlightingChangedCallback = this.connectedHighlightingChanged.bind(this);
 
     this.addSubscriptions([
       combineLatest([selectedSnapshotIdForHighlightingInMap$, highlightedEntityId$, highlightedEntityIds$]).subscribe(
         highlightingChangedCallback
-      ),
-
-      connectedHighlightedIds$.subscribe(connectedhighlightingChangedCallback)
+      )
     ]);
   }
 

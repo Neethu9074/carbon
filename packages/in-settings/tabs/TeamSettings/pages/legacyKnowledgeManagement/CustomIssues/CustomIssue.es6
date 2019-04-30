@@ -44,20 +44,10 @@ export default class extends React.Component {
     this.loadCustomIssue(this.props.match.params.id);
 
     const debouncedQuery = this.queryInput.debounce(1000);
-    this.matchingEntitesSubscription = debouncedQuery
-      .flatMap(query => {
-        return combineLatest([
-          validate({ query, newApplicationModelEnabled: false }),
-          validate({ query, newApplicationModelEnabled: true })
-        ]);
-      })
-      .subscribe(([validationResponse10, validationResponse20]) => {
-        this.onChange(
-          'validationResult',
-          combinedValidationResults(validationResponse10.body, validationResponse20.body)
-        );
-        this.onChange('queryValidationInProgress', false);
-      });
+    this.matchingEntitesSubscription = debouncedQuery.flatMap(validate).subscribe(([validationResponse20]) => {
+      this.onChange('validationResult', combinedValidationResults(validationResponse20.body));
+      this.onChange('queryValidationInProgress', false);
+    });
   }
 
   componentWillReceiveProps(nextProps) {

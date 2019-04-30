@@ -1,12 +1,12 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
+import { releaseNotesEnabled, kubernetesEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import isInternalVisible$ from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
+import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { instanaInternalFeaturesEnabled, releaseNotesEnabled } from 'in-services/featureFlags';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -17,7 +17,6 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { getColorBySeverity } from 'in-stores/events';

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { twoZeroModeEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -40,25 +40,21 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
 
       <SectionHeading>Permissions</SectionHeading>
       <FormGroup>
-        {twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureServiceMapping"
-            label="Service & Endpoint Mapping"
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureServiceMapping"
+          label="Service & Endpoint Mapping"
+        />
 
-        {!twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureServiceMapping"
-            label="Service Mapper"
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureServiceMapping"
+          label="Service Mapper"
+        />
 
         <Permission
           form={form}
@@ -158,15 +154,13 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           label="Configuration of agents"
         />
 
-        {twoZeroModeEnabled && (
-          <Permission
-            form={form}
-            disabled={disabled}
-            onChange={onChange}
-            name="canConfigureApplications"
-            label="Configuration of applications"
-          />
-        )}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureApplications"
+          label="Configuration of applications"
+        />
       </FormGroup>
     </fieldset>
   );

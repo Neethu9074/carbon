@@ -6,10 +6,9 @@ import {
   teamSettingsAlertingEvents,
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingIntegrations,
-  teamSettingsAuditLog,
-  generalServiceExtractionPath
+  teamSettingsAuditLog
 } from 'in-settings/navigation/paths';
-import { twoZeroModeEnabled, unifiedAlerting } from 'in-services/featureFlags';
+import { unifiedAlerting } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyTeamPermissions() {
@@ -19,8 +18,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureApiTokens ||
     role.canConfigureCustomAlerts ||
     role.canConfigureIntegrations ||
-    role.canViewAuditLog ||
-    (!twoZeroModeEnabled && role.canConfigureServiceMapping)
+    role.canViewAuditLog
   );
 }
 
@@ -48,8 +46,5 @@ export function findFirstPermittedTeamPage() {
   }
   if (role.canViewAuditLog) {
     return teamSettingsAuditLog;
-  }
-  if (!twoZeroModeEnabled && role.canConfigureServiceMapping) {
-    return generalServiceExtractionPath;
   }
 }

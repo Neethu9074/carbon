@@ -1,2 +1,0 @@
-import DefaultServiceInstanceDashboard from 'in-sdk/components/dashboard/DefaultServiceInstanceDashboard';
-export default DefaultServiceInstanceDashboard;

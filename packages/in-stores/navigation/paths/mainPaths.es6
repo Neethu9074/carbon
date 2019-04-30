@@ -8,13 +8,10 @@ export const settingsPath = '/config';
 export const containerPath = '/container';
 export const eventsPath = '/events';
 export const graphPath = '/graph';
-export const logicalPath = '/logical';
 export const physicalPath = '/physical';
 export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
-export const logicalTablePath = '/table;view=logical;plugin=service';
-export const tracesPath = '/traces';
 
 export function getLinkToCurrentViewWithViewGrouping(view, vg) {
   return getModifiedUrlStream(params => (params.query[view] = vg));

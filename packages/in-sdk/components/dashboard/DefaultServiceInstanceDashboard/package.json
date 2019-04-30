@@ -1,6 +1,0 @@
-{
-  "name": "DefaultServiceInstanceDashboard",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./DefaultServiceInstanceDashboard.es6"
-}

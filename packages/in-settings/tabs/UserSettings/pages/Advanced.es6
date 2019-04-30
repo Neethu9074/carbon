@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -87,17 +86,6 @@ export default class extends React.Component {
               onChange={e => this.saveSetting('map_excludeUnmonitoredHosts', !e.target.checked)}
             />
           </HorizontalFormGroup>
-
-          {!twoZeroModeEnabled && (
-            <HorizontalFormGroup helpText="Instana automatically detects communication with external services. These services are visualized as external clouds on the map.">
-              <Heading text="Show external services" htmlFor="external-services" />
-              <Toggle
-                id="external-services"
-                checked={!settings['map_excludeExternalServices']}
-                onChange={e => this.saveSetting('map_excludeExternalServices', !e.target.checked)}
-              />
-            </HorizontalFormGroup>
-          )}
 
           <HorizontalFormGroup>
             <Heading text="Show host/container labels" htmlFor="showHostLabels" />
@@ -200,30 +188,6 @@ export default class extends React.Component {
               onChange={e => this.saveSetting('map_packingYSpace', Number(e.target.value))}
             />
           </HorizontalFormGroup>
-
-          {!twoZeroModeEnabled && (
-            <Fragment>
-              <SectionHeading>Application</SectionHeading>
-              <HorizontalFormGroup>
-                <Heading
-                  text={`Number of shown hops when filtering services on the map (${
-                    settings['map_logical_numServiceHops']
-                  })`}
-                  htmlFor="num_service_hops"
-                />
-                <input
-                  type="range"
-                  id="num_service_hops"
-                  min={0}
-                  max={1}
-                  step={1}
-                  className={`${block}__slider`}
-                  value={settings['map_logical_numServiceHops']}
-                  onChange={e => this.saveSetting('map_logical_numServiceHops', Number(e.target.value))}
-                />
-              </HorizontalFormGroup>
-            </Fragment>
-          )}
         </div>
       </SettingsDetailPage>
     );

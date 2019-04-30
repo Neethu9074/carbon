@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
 import { compose, lifecycle, withState } from 'recompose';
+import { create, just } from 'reactive-observables';
+import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
@@ -30,14 +31,11 @@ import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/Applicat
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { plugins20, oneZeroServicePlugins } from 'in-forge/constants';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { create, combineLatest, just } from 'reactive-observables';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventDescription from 'in-components/EventDescription';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -94,15 +92,12 @@ export default compose(
   connectTo({
     // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
     // Otherwise the observable will be recreated all the time leading to continuuos validation requests.
-    queryValidationResults: queryInput
+    queryValidationResult: queryInput
       .distinct()
       .debounce(1000)
       .flatMap(query => {
         if (isNotBlank(query)) {
-          return combineLatest([
-            validate({ query, newApplicationModelEnabled: false }),
-            validate({ query, newApplicationModelEnabled: true })
-          ]);
+          return validate(query);
         } else {
           return queryIsValid;
         }
@@ -135,12 +130,12 @@ function EventForm({
   onChange,
   customMetrics,
   systemRules,
-  queryValidationResults,
+  queryValidationResult,
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled
 }) {
-  applyQueryValidationResult(queryValidationResults, form, onChange);
+  applyQueryValidationResult(queryValidationResult, form, onChange);
 
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
@@ -636,16 +631,10 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
   const entityType = form.get('entityType').value;
 
-  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+  if (isDeprecatedEntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
       label: getSingular(entityType) + ' (deprecated)'
-    });
-  }
-  if ((twoZeroModeEnabled && is10ServiceType(entityType)) || (!twoZeroModeEnabled && is20EntityType(entityType))) {
-    pluginsWithMetricDefinitions.push({
-      value: entityType,
-      label: getSingular(entityType)
     });
   }
 
@@ -705,10 +694,9 @@ function setQueryValidationProgressState(queryValidationInProgress, setQueryVali
   setSaveEnabled(!queryValidationInProgress);
 }
 
-function applyQueryValidationResult(queryValidationResults, form, onChange) {
-  if (queryValidationResults && queryValidationResults.length === 2 && form.containsKey('validationResult')) {
-    const [validationResponse10, validationResponse20] = queryValidationResults;
-    const combined = combinedValidationResults(validationResponse10.body, validationResponse20.body);
+function applyQueryValidationResult(queryValidationResult, form, onChange) {
+  if (queryValidationResult && form.containsKey('validationResult')) {
+    const combined = combinedValidationResults(queryValidationResult.body);
     if (!isEqual(combined, form.get('validationResult').value)) {
       // A little dirty trick to circumvents React's warning to not call setState during render. Sorry, not sorry.
       setTimeout(() => onChange('validationResult', combined), 0);
@@ -750,14 +738,6 @@ function isPercentile(form) {
   const metricName = form.get('metricName').value;
   const entityType = form.get('entityType').value;
   return isMetricPercentile(entityType, metricName);
-}
-
-function is20EntityType(entityType) {
-  return Boolean(plugins20[entityType]);
-}
-
-function is10ServiceType(entityType) {
-  return Boolean(oneZeroServicePlugins[entityType]);
 }
 
 const severityWarning = '5';

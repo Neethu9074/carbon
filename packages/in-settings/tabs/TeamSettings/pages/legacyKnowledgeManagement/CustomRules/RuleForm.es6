@@ -3,22 +3,15 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import {
-  plugins10,
-  plugins20,
-  pluginsDeprecatedIn20,
-  oneZeroServicePlugins,
-  customIssuesDisabledForPlugins
-} from 'in-forge/constants';
-import {
   formatterTypeToLabel,
   mapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomRules/components/RuleDetails';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomRules/components/MetricSelector';
 import { containsMetricInList, createMetricListItem, getPlainMetricList, isBuiltInMetric } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
+import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { getCategories, isMetricPercentile } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-settings/components/FormGroup';
 import { getCustom } from 'in-api/metricsCatalog';
@@ -77,7 +70,6 @@ function isPercentile(form) {
 }
 
 function getPluginsWithMetricDefinitions() {
-  const plugins = twoZeroModeEnabled ? plugins20 : plugins10;
   return Object.keys(plugins)
     .map(k => plugins[k])
     .filter(plugin => getCategories(plugin).length > 0)
@@ -92,15 +84,11 @@ function getPluginsWithMetricDefinitions() {
 }
 
 function isDeprecatedEntityType(entityType) {
-  return Boolean(pluginsDeprecatedIn20[entityType]);
+  return Boolean(!plugins[entityType]);
 }
 
 function is20EntityType(entityType) {
-  return Boolean(plugins20[entityType]);
-}
-
-function is10ServiceType(entityType) {
-  return Boolean(oneZeroServicePlugins[entityType]);
+  return Boolean(plugins[entityType]);
 }
 
 function notBlankOrDeprecatedValidator(entityType) {
@@ -113,7 +101,7 @@ function notBlankOrDeprecatedValidator(entityType) {
     ];
   }
 
-  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+  if (isDeprecatedEntityType(entityType)) {
     return [
       {
         severity: 'error',
@@ -232,13 +220,13 @@ export function ruleFormDefinition(rule) {
 function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
   const entityType = form.get('entityType').value;
 
-  if (twoZeroModeEnabled && isDeprecatedEntityType(entityType)) {
+  if (isDeprecatedEntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
       label: getSingular(entityType) + ' (deprecated)'
     });
   }
-  if ((twoZeroModeEnabled && is10ServiceType(entityType)) || (!twoZeroModeEnabled && is20EntityType(entityType))) {
+  if (!is20EntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
       label: getSingular(entityType)

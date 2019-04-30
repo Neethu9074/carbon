@@ -56,8 +56,6 @@ export default connectTo(
       switch (this.props.view) {
         case views.container:
           return 'Infrastructure Container Map';
-        case views.logical:
-          return 'Application Map';
         case views.physical:
           return 'Infrastructure Host Map';
         default:

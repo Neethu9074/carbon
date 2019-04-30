@@ -6,9 +6,6 @@ import { config, isFeatureFlagEnabled } from 'in-services/config';
 // ########################################################################################
 const stagingTu = config.tenant === 'instana' && config.tenantUnit === 'staging';
 const currentTu = config.tenant === 'instana' && config.tenantUnit === 'current';
-// const monitoringTu = config.tenant === 'instana' && config.tenantUnit === 'monitoring';
-// const testTu = config.tenant === 'instana' && config.tenantUnit === 'test';
-// const loadTu = config.tenant === 'instana' && config.tenantUnit === 'load';
 const trainingTu = config.tenant === 'training';
 
 const onlyInternally =
@@ -20,8 +17,6 @@ const betaInstanaTus = onlyInternally || config.tenant === 'instana';
 // ########################################################################################
 export const instanaInternalFeaturesEnabled = onlyInternally;
 export const roleViewFilterEnabled = onlyInternally;
-export const cockpitEnabled = false;
-export const newServiceDashboardsEnabled = false;
 export const forecastsEnabled = config.tenant === 'edmunds' || config.tenant === 'tipico' || betaInstanaTus;
 export const tenantSwitcherEnabled = isFeatureFlagEnabled('tenantSwitcherEnabled');
 export const releaseNotesEnabled = isFeatureFlagEnabled('releaseNotesEnabled');
@@ -34,54 +29,13 @@ export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('cust
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges');
-export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
-
-// ########################################################################################
-// 2.0 versus 1.0 feature flags (plus hybrid mode/beta phase)
-// ########################################################################################
-
-// oneZeroAppDataEnabled is the deployment time feature flag that controls whether or not Instana 1.0 could possibly be
-// shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
-// the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
-// v2 query param and/or the v2Enabled ui setting  of the current user.
-export const oneZeroAppDataEnabled = isFeatureFlagEnabled('oneZeroAppDataPresentationEnabled');
-export const oneZeroSupportedUntilMessageEnabled = isFeatureFlagEnabled('oneZeroSupportedUntilMessageEnabled', true);
-
-// twoZeroAppDataPresentationEnabled is the deployment time feature flag that controls whether or not Instana 2.0 could possibly be
-// shown. During the beta phase (when both oneZeroAppDataEnabled and twoZeroAppDataEnabled are true at the same time),
-// the actual presentation of the Instana UI (1.0 or 2.0) depends on the the current mode that in turn depends on the
-// v2 query param and/or the v2Enabled ui setting of the current user.
-export const twoZeroAppDataEnabled =
-  isFeatureFlagEnabled('twoZeroAppDataPresentationEnabled') ||
-  (isFeatureFlagEnabled('twoZeroAppDataEnabled') && isInstanaEngineer);
-
-export const twoZeroLearnMoreButtonEnabled = isFeatureFlagEnabled('twoZeroLearnMoreButtonEnabled');
-export const particlesInFlowMapEnabled = isFeatureFlagEnabled('particlesInFlowMapEnabled');
-
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
-
-export const isTwoZeroBetaPhase = oneZeroAppDataEnabled && twoZeroAppDataEnabled;
-
-const v2EnabledUserPreference =
-  window.instana.settings && window.instana.settings.v2Enabled != null ? window.instana.settings.v2Enabled : false;
-const v2EnabledViaQueryParam = window.location.hash && window.location.hash.indexOf('v2=true') >= 0;
-const v2DisabledViaQueryParam = window.location.hash && window.location.hash.indexOf('v2=false') >= 0;
-
-// twoZeroModeEnabled controls the actual Instana mode (1.0 or 2.0) for the user given the value of the v2 query
-// parameter and user's v2Enabled ui setting.
-export const twoZeroModeEnabled =
-  // tenant not in beta phase, only 2.0 available
-  (!oneZeroAppDataEnabled && twoZeroAppDataEnabled) ||
-  // tenant in beta phase and 2.0 specified via URL query param
-  (oneZeroAppDataEnabled && twoZeroAppDataEnabled && v2EnabledViaQueryParam) ||
-  // tenant in beta phase, 1.0/2.0 not specified via URL query param, 2.0 enabled in user's ui settings.
-  (oneZeroAppDataEnabled && twoZeroAppDataEnabled && !v2DisabledViaQueryParam && v2EnabledUserPreference);
 
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
 export function getBlackListedSearchFieldKeywords(searchContext) {
-  if (twoZeroModeEnabled && searchContext !== 'traces') {
+  if (searchContext !== 'traces') {
     return ['log', 'span', 'trace'];
   } else {
     return ['log'];

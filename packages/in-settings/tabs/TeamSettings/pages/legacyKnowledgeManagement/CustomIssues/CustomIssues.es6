@@ -7,8 +7,8 @@ import {
   teamSettingsKnowledgeManagementCustomIssues,
   teamSettingsKnowledgeManagementCustomIssueNew
 } from 'in-settings/navigation/paths';
-import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import { getRuleBindingsMutable, deleteRuleBinding, setEnabled } from 'in-api/ruleBindings';
+import { ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import { getRuleMutable, isRuleDeprecatedMutable } from 'in-api/rules';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { combineLatest, just } from 'reactive-observables';
@@ -118,7 +118,7 @@ function checkRuleDeprecation(customIssue) {
 }
 
 function getRuleDeprecationBadgeText(ruleDeprecatedFlag) {
-  if (twoZeroModeEnabled && ruleDeprecatedFlag) {
+  if (ruleDeprecatedFlag) {
     return 'Rule is deprecated';
   } else {
     return '';
@@ -126,7 +126,7 @@ function getRuleDeprecationBadgeText(ruleDeprecatedFlag) {
 }
 
 function getDfqValidationBadgeText(dfqValidFlag) {
-  if (twoZeroModeEnabled && !dfqValidFlag) {
+  if (!dfqValidFlag) {
     return 'Dynamic Focus query is deprecated';
   } else {
     return '';
@@ -134,11 +134,10 @@ function getDfqValidationBadgeText(dfqValidFlag) {
 }
 
 function validateDfq(customIssue) {
-  if (twoZeroModeEnabled && customIssue.query) {
-    return validate({
-      query: customIssue.query,
-      newApplicationModelEnabled: true
-    }).map(response => extendBadgeMessage(customIssue, getDfqValidationBadgeText(response.body.valid)));
+  if (customIssue.query) {
+    return validate(customIssue.query).map(response =>
+      extendBadgeMessage(customIssue, getDfqValidationBadgeText(response.body.valid))
+    );
   } else {
     return just(customIssue);
   }

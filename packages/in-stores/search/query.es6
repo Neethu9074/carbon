@@ -102,7 +102,7 @@ unvalidatedQuery$
     } else if (previousResult.query.length === 0) {
       return always(previousResult);
     }
-    return validate({ query: previousResult.query, context: previousResult.searchContext }).map(validationResult => {
+    return validate(previousResult.query, previousResult.searchContext).map(validationResult => {
       return {
         query: previousResult.query,
         parsedQuery: previousResult.parsedQuery,

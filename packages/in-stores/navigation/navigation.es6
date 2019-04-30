@@ -3,7 +3,6 @@ import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/pat
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
 import { createStore } from 'in-stores/store';
@@ -91,7 +90,6 @@ export function goToPath(path) {
 export function getView(path) {
   return getModifiedUrlStream(params => {
     if (
-      twoZeroModeEnabled &&
       params.query.q != undefined &&
       // delete the DF query when navigation from an infrastructure view (map, table) to another,
       // non-infrastructure view, or the other way around

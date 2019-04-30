@@ -4,7 +4,6 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -57,16 +56,6 @@ export default class extends React.Component {
         <Title title="User Interface Settings" />
         <SubViewHeader>User Interface Settings</SubViewHeader>
 
-        {!twoZeroModeEnabled && (
-          <HorizontalFormGroup>
-            <Heading text="Automatically collapse timeline" htmlFor="toggle-timeline-expand" />
-            <Toggle
-              id="toggle-timeline-expand"
-              checked={settings['autoCollapseTimeline']}
-              onChange={e => this.saveSetting('autoCollapseTimeline', e.target.checked)}
-            />
-          </HorizontalFormGroup>
-        )}
         <HorizontalFormGroup
           helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right
           corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide

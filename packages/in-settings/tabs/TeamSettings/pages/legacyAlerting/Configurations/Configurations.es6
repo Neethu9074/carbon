@@ -9,7 +9,7 @@ import {
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
-import { twoZeroModeEnabled, ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
+import { ruleDeprecationValidationChecksEnabled } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import List from 'in-settings/components/List';
 import { validate } from 'in-api/search';
@@ -89,11 +89,8 @@ function loadEntities() {
 }
 
 function validateConfig(config) {
-  if (twoZeroModeEnabled && config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
-    return validate({
-      query: config.eventFilteringConfiguration.query,
-      newApplicationModelEnabled: true
-    }).map(response => {
+  if (config.eventFilteringConfiguration && config.eventFilteringConfiguration.query) {
+    return validate(config.eventFilteringConfiguration.query).map(response => {
       config.valid = response.body.valid;
       return config;
     });

@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { twoZeroModeEnabled } from 'in-services/featureFlags';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
 import locals from './BackendTraceButton.mless';
 
 export default function BackendTraceButton({ backendTraceIdResult }) {
-  if (!twoZeroModeEnabled || !backendTraceIdResult) {
+  if (!backendTraceIdResult) {
     return null;
   } else if (backendTraceIdResult.progress.loading) {
     return (
