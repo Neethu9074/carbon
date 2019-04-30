@@ -1,3 +1,4 @@
+@import '~in-themes/mixins.less';
 :local {
   .labelColumn {
     width: 43vw;

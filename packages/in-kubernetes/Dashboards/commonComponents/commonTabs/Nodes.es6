@@ -10,6 +10,8 @@ import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 
+import locals from './Nodes.mless';
+
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
 
@@ -74,7 +76,7 @@ const columnDefinitions = [
     id: 'roles',
     label: 'Roles',
     getContent(item) {
-      return item.node.roles || '-';
+      return <div className={locals.rolesColumn}>{item.node.roles || '-'}</div>;
     }
   },
   {
