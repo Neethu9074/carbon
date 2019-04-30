@@ -3,6 +3,7 @@
 // define global vars for use in later stages
 def gitCommitId     = null
 def gitCommitAuthor = null
+def gitMessage      = null
 def instanaVersion  = null
 def archiveName     = null
 
@@ -30,6 +31,7 @@ stage('Checkout') {
     instanaVersion  = getVersion('ui-client', env.BRANCH_NAME)
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
+    gitMessage      = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (%h): %s'").trim()
 
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
@@ -95,7 +97,8 @@ stage('Deployment') {
 
   if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release') ) {
     build job: '/deployment/k8s-deploy', parameters: [
-      string(name: 'BRANCH', value: env.BRANCH_NAME)
+      string(name: 'BRANCH', value: env.BRANCH_NAME),
+      string(name: 'MESSAGE', value: gitMessage)   
     ]
   }
   def deployments = [:]
