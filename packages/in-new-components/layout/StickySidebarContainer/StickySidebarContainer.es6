@@ -63,11 +63,12 @@ export default class extends React.Component {
     // some layout modes (like, position: absolute) it would take 100vw width. The - 24 is for 12 px padding on both
     // sides.
     const sidebarWidth = this.sidebarInnerDomNode.parentNode.getBoundingClientRect().width;
+    const parentRowWidth = this.sidebarInnerDomNode.parentNode.parentNode.getBoundingClientRect().width;
     this.setState({
       width: `${sidebarWidth - 24}px`,
       // If the windows is too narrow, the "display: flex; flex-wrap: wrap;" of the grid row kicks in, pushing the
-      // content below the left sidebar. When this happens, we need to stop all sticky sidebar shenanigans.
-      flexWrapIsActive: sidebarWidth >= document.body.clientWidth * 0.9
+      // content area _below_ the left sidebar. When this happens, we need to stop all sticky sidebar shenanigans.
+      flexWrapIsActive: sidebarWidth >= parentRowWidth * 0.9
     });
   };
 
