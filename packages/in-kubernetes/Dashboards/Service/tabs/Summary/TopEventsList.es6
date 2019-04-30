@@ -4,8 +4,8 @@ import React from 'react';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
+import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import Link from 'in-components/Link';
 
@@ -77,7 +77,7 @@ const columnDefinitions = [
     id: 'time',
     label: 'Time',
     getContent(item) {
-      return formatDateTime(get(item, 'time'));
+      return <DateTime>{get(item, 'time')}</DateTime>;
     }
   }
 ];

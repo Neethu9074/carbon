@@ -1,0 +1,5 @@
+:local {
+  .value {
+    white-space: nowrap;
+  }
+}

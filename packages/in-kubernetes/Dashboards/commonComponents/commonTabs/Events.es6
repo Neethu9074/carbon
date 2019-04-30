@@ -5,10 +5,10 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
-import EntityLink from 'in-new-components/EntityLink';
-import { formatDateTime } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
+import DateTime from 'in-components/tables/sharedComponents/DateTime';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import EntityLink from 'in-new-components/EntityLink';
 
 const iconsByPlugin = {
   'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod': 'lib_kubernetes_pod',
@@ -45,7 +45,7 @@ const columnDefinitions = [
     id: 'time',
     label: 'Time',
     getContent(item) {
-      return formatDateTime(get(item, 'time'));
+      return <DateTime>{get(item, 'time')}</DateTime>;
     }
   }
 ];
