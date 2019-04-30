@@ -31,7 +31,7 @@ stage('Checkout') {
     instanaVersion  = getVersion('ui-client', env.BRANCH_NAME)
     gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-    gitMessage      = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (%h): %s'").trim()
+    gitMessage      = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
 
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
