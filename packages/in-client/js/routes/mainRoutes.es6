@@ -1,9 +1,8 @@
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
 import {
   agentsPath,
-  cockpitPath,
   containerPath,
   eventsPath,
   graphPath,
@@ -24,13 +23,11 @@ import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import analyzeRoutes from 'in-analyze/navigation/routes';
-import Cockpit from 'in-views/cockpit/Cockpit';
-import { role } from 'in-stores/user';
+import { role, isInstanaEmail } from 'in-stores/user';
 import Map from 'in-map/index';
 
 export default (
   <FragmentSupportingSwitch>
-    <Route path={cockpitPath} component={Cockpit} />
     <Route path={physicalPath} component={Map} />
     <Route path={containerPath} component={Map} />
 
@@ -44,7 +41,9 @@ export default (
       <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
     )}
 
-    <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
+    {isInstanaEmail && (
+      <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
+    )}
 
     {applicationRoutes}
     {analyzeRoutes}
@@ -52,6 +51,7 @@ export default (
     {websiteMonitoringRoutes}
 
     {/* landing page */}
+    <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
     <RedirectWithHash from="/" to={physicalPath} />
   </FragmentSupportingSwitch>
 );

@@ -13,5 +13,6 @@ module.exports = {
   unifiedAlerting: true,
   ruleDeprecationValidationChecksEnabled: true,
   trackUrlPathChanges: true,
-  containerInfoEnabled: true
+  containerInfoEnabled: true,
+  internalMonitoringUnit: true
 };

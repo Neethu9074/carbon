@@ -1,11 +1,13 @@
+import { internalMonitoringUnit } from 'in-services/featureFlags';
+import { isInstanaEmail } from 'in-stores/user';
 import { createStore } from 'in-stores/store';
 
 const isInternalVisibleStore = createStore({
   name: 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore',
-  initialValue: false
+  // Either the view is deliberately enabled or the user opened the internal views directly
+  initialValue: isInstanaEmail && (internalMonitoringUnit || window.location.href.indexOf('/#/internal') != -1)
 });
-const isInternalVisible$ = isInternalVisibleStore.observable;
-export default isInternalVisible$;
+export const isInternalVisible$ = isInternalVisibleStore.observable;
 
 let setAutoInvisibleHandle;
 function setVisible() {

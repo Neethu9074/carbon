@@ -21,44 +21,47 @@ exports.getBaseUrl = (tenant, unit) =>
 exports.getButlerDomain = (tenant, unit) =>
   Promise.resolve(`${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
-exports.getFeatureFlags = (tenant, unit) =>
-  cache(`getFeatureFlags:${tenant}:${unit}`, () => {
-    return Promise.all([
-      getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
-      getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
-    ]).then(
-      ([
-        pingComparisonEnabled,
-        isSelfService,
-        isKubernetesV2Enabled,
-        lastSevenDaysTimePresetEnabled,
-        customEventsInWebsiteMonitoringEnabled,
-        unifiedAlerting,
-        ruleDeprecationValidationChecksEnabled,
-        trackUrlPathChanges
-      ]) => ({
-        pingComparisonEnabled,
-        isSelfService,
-        isKubernetesV2Enabled,
-        lastSevenDaysTimePresetEnabled,
-        releaseNotesEnabled: true,
-        maintenanceNotesEnabled: true,
-        useInstanaSaasEumTrackingUrlEnabled: true,
-        tenantSwitcherEnabled: true,
-        onPremLicenseInformationEnabled: false,
-        customEventsInWebsiteMonitoringEnabled,
-        unifiedAlerting,
-        ruleDeprecationValidationChecksEnabled,
-        trackUrlPathChanges
-      })
-    );
-  });
+exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
+  return Promise.all([
+    getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
+    getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
+    getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false)
+  ]).then(([
+    pingComparisonEnabled,
+    isSelfService,
+    isKubernetesV2Enabled,
+    lastSevenDaysTimePresetEnabled,
+    customEventsInWebsiteMonitoringEnabled,
+    unifiedAlerting,
+    ruleDeprecationValidationChecksEnabled,
+    containerInfoEnabled,
+    trackUrlPathChanges,
+    internalMonitoringUnit
+  ]) => ({
+    pingComparisonEnabled,
+    isSelfService,
+    isKubernetesV2Enabled,
+    lastSevenDaysTimePresetEnabled,
+    releaseNotesEnabled: true,
+    maintenanceNotesEnabled: true,
+    useInstanaSaasEumTrackingUrlEnabled: true,
+    tenantSwitcherEnabled: true,
+    onPremLicenseInformationEnabled: false,
+    customEventsInWebsiteMonitoringEnabled,
+    unifiedAlerting,
+    ruleDeprecationValidationChecksEnabled,
+    containerInfoEnabled,
+    trackUrlPathChanges,
+    internalMonitoringUnit
+  }));
+});
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {

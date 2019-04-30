@@ -1,13 +1,13 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import { releaseNotesEnabled, kubernetesEnabled, instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
-import isInternalVisible$ from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$}  from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { releaseNotesEnabled, kubernetesEnabled, } from 'in-services/featureFlags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -21,7 +21,7 @@ import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { getColorBySeverity } from 'in-stores/events';
 import { all, any } from 'in-services/fixedStreams';
-import { isInstanaEngineer } from 'in-stores/user';
+import { isInstanaEmail } from 'in-stores/user';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
@@ -164,7 +164,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
   onMouseLeave
 }) {
   // should always be visible when instanaInternalFeaturesEnabled is set. if not, then only when instana engineer AND isVisible
-  if (!instanaInternalFeaturesEnabled && (!isInternalVisible || !isInstanaEngineer)) {
+  if (!isInternalVisible || !isInstanaEmail) {
     return null;
   }
 

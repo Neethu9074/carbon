@@ -29,6 +29,9 @@ export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('cust
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
 export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges');
+export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
+export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
+
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
 // ########################################################################################

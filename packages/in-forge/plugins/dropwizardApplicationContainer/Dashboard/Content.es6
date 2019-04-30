@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DropwizardDashboardExtensions from 'promise-loader?global,internal!in-internal/DropwizardDashboardExtensions';
+import DropwizardDashboardExtensions from 'promise-loader?global,internal!in-internal/monitoringUnit/DropwizardDashboardExtensions';
 import { createAsyncComponentWithLoadingIndicatorPlaceholder } from 'in-components/routing/createAsyncComponent';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
