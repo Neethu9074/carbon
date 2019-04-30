@@ -4,7 +4,6 @@ import { createLogger } from 'instalog';
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -164,7 +163,7 @@ function List({
   }
 
   return (
-    <MaxWidthFullscreenContainer>
+    <div>
       {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
@@ -214,7 +213,7 @@ function List({
           pageSize
         )}
       />
-    </MaxWidthFullscreenContainer>
+    </div>
   );
 }
 
