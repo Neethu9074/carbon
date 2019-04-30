@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
-import HealthIconListing from 'in-components/health/HealthIconListing';
+import EntityHealthIndicator from 'in-components/health/EntityHealthIndicator';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { compare } from 'in-services/util/number';
 import { noop } from 'in-services/fixedObjects';
@@ -28,7 +28,7 @@ export function initialize(row, columnDefinition, columnIndex, emitRawDataChange
   };
 
   const getHealthComponentForSnapshotId = snapshotId => {
-    column.content = <HealthIconListing snapshotId={snapshotId} />;
+    column.content = <EntityHealthIndicator snapshotId={snapshotId} />;
     column.subscription = getHealthInfoAtFocusedMoment(snapshotId).subscribe(healthInfo => {
       column.value = healthInfo.get('maxSeverity');
       row.mutationCount++;
