@@ -44,5 +44,10 @@
 
   .value1 {
     margin-right: 2rem;
+    text-align: left;
+  }
+
+  .value2 {
+    text-align: right;
   }
 }
