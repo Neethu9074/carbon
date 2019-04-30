@@ -1,0 +1,5 @@
+:local {
+  .labelColumn {
+    width: 43vw;
+  }
+}

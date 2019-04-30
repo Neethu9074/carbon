@@ -10,6 +10,8 @@ import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
 
+import locals from './Events.mless';
+
 const iconsByPlugin = {
   'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod': 'lib_kubernetes_pod',
   'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.service.KubernetesService': 'lib_kubernetes_service',
@@ -25,7 +27,11 @@ const columnDefinitions = [
     id: 'title',
     label: 'Event',
     getContent(item) {
-      return <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />;
+      return (
+        <div className={locals.labelColumn}>
+          <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />
+        </div>
+      );
     }
   },
   {
