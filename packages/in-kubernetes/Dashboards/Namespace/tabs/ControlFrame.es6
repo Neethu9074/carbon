@@ -33,7 +33,11 @@ const groupings = {
 export default compose(
   withState('grouping', 'setGrouping', groupings.service),
   withState('showHealth', 'setShowHealth', false),
-  withState('sizeMetricConfig', 'setSizeMetricConfig', null)
+  withState('sizeMetricConfig', 'setSizeMetricConfig', {
+    metricName: 'memory',
+    format: bytesZeroDecimalPlaces,
+    metricType: 'Limits'
+  })
 )(ControlFrame);
 
 function ControlFrame(props) {
