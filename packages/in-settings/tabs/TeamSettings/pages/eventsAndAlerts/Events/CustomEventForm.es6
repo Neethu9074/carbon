@@ -23,7 +23,7 @@ import {
   scopeEverything,
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { formatterTypeToLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
+import { formatterTypeToDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
 import { getEntityTypeOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
@@ -601,11 +601,11 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={formatterTypeToLabel(form.get('formatter').value) ? 2 : 3}>
+        <Col cols={3}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-                Value
+                {formatterTypeToDefinition(form.get('formatter').value)}
               </Label>
               <Input
                 id="event-conditionValue"
@@ -617,11 +617,6 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
-        </Col>
-        <Col cols={1}>
-          <span id="event-conditionValue-formatter" className={locals.valueFormatText}>
-            {formatterTypeToLabel(form.get('formatter').value)}
-          </span>
         </Col>
       </Row>
     </FormGroup>
