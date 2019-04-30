@@ -7,6 +7,7 @@
     overflow: hidden;
     font-size: 0.875rem;
     font-weight: lighter;
+    width: 100%;
   }
 
   .container {
@@ -21,7 +22,7 @@
   }
 
   .useFullAvailableWidth {
-    max-width: 100%;
+    width: ~'calc(100% - 23.3rem)';
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }

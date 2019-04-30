@@ -24,7 +24,8 @@ export default function SvgIcon({
   role,
   'aria-label': ariaLabel,
   refSetter,
-  id
+  id,
+  iconPath
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
@@ -44,28 +45,29 @@ export default function SvgIcon({
 
   let iconWidth;
   let iconHeight;
+  const iconRatio = iconPath ? 1 : icon.ratio;
 
   if (!maxWidth && !maxHeight) {
     if (width) {
       iconWidth = width;
     } else if (height) {
-      iconWidth = height * icon.ratio;
+      iconWidth = height * iconRatio;
     } else {
       iconWidth = 1;
     }
-    iconHeight = height ? height : iconWidth / icon.ratio;
+    iconHeight = height ? height : iconWidth / iconRatio;
   } else if (maxHeight != null) {
     if (!maxWidth) {
       maxWidth = width || height || maxHeight;
     }
     iconHeight = maxHeight;
-    iconWidth = maxWidth * icon.ratio;
+    iconWidth = maxWidth * iconRatio;
   } else {
     if (!maxWidth) {
       maxWidth = width || height || maxHeight;
     }
     iconWidth = maxWidth;
-    iconHeight = maxWidth / icon.ratio;
+    iconHeight = maxWidth / iconRatio;
   }
 
   style = style || {};
@@ -107,7 +109,7 @@ export default function SvgIcon({
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
       <rect width="100%" height="100%" fill="rgba(0, 0, 0, 0)" />
-      <path d={icon.path} />
+      <path d={iconPath ? iconPath : icon.path} />
     </svg>
   );
 }

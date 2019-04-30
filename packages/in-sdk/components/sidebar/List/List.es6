@@ -1,12 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 
-import './List.less';
-
-const block = 'in-list';
+import locals from './List.mless';
 
 export default function List({ children }) {
-  return <ul className={block}>{children}</ul>;
+  return <ul className={locals.list}>{children}</ul>;
 }
 
 List.Item = function ListItem({ children, onClick }) {
@@ -17,5 +15,5 @@ List.Item = function ListItem({ children, onClick }) {
     );
   }
 
-  return <li className={`${block}__item`}>{children}</li>;
+  return <li className={locals.item}>{children}</li>;
 };

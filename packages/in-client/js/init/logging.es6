@@ -1,6 +1,5 @@
 import { ConsoleAppender, addAppender } from 'instalog';
 
-import UiTrackerLogAppender from 'in-client/js/UiTrackerLogAppender';
 import WeaselLogAppender from 'in-client/js/WeaselLogAppender';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
@@ -12,10 +11,6 @@ if (ConsoleAppender.isPossible()) {
 }
 
 if (!__DEV__) {
-  const uiTrackerAppender = new UiTrackerLogAppender();
-  uiTrackerAppender.setActivePriority(31); // warn
-  addAppender(uiTrackerAppender);
-
   const weaselLogAppender = new WeaselLogAppender();
   weaselLogAppender.setActivePriority(30); // info
   addAppender(weaselLogAppender);

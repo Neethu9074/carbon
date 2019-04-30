@@ -115,7 +115,7 @@ export default function ViewSwitcher({
       <Spacer />
 
       <View
-        label="Additional Resources"
+        label="More"
         icon="lib_menu_additional_resources"
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}

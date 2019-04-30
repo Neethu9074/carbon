@@ -3,7 +3,7 @@
     position: absolute;
     top: 8.6rem;
     left: 2.6rem;
-    width: 328px;
+    width: 20.5rem;
     background: #fff;
     border-radius: 0.125rem;
   }

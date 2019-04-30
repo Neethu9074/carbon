@@ -9,7 +9,7 @@ export default metricDefinitions.filter(definition => definition.metric !== 'ins
     formatter: number
   },
   {
-    metric: 'error_rate',
+    metric: 'synthetic_error_rate',
     label: 'Synthetic error rate',
     category: [],
     min: 0,
