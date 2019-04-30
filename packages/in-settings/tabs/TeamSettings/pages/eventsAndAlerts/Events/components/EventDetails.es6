@@ -127,6 +127,33 @@ export function formatterTypeToLabel(formatterType) {
   }
 }
 
+export function formatterTypeToDefinition(formatterType) {
+  switch (formatterType) {
+    case 'MILLIS':
+      return 'Milliseconds';
+    case 'MICROS':
+      return 'Microseconds';
+    case 'SECONDS':
+      return 'Seconds';
+    case 'MINUTES':
+      return 'Minutes';
+    case 'PERCENTAGE':
+      return 'Percentage';
+    case 'RATE':
+      return 'Rate per second';
+    case 'BYTE_RATE':
+      return 'Bytes per second';
+    case 'BYTES':
+      return 'Bytes';
+    case 'NUMBER':
+      return 'Count';
+    case 'UNDEFINED':
+      return 'Value';
+    default:
+      return 'Value';
+  }
+}
+
 export function mapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
