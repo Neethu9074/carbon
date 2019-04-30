@@ -9,15 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      }
-    }
-  },
-  {
     title: 'Name',
     type: 'snapshotLink',
     typeArgs: {
@@ -50,6 +41,15 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return yesOrNo(row.snapshot.getIn(['data', 'isLocalMemberSafe']));
+      }
+    }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
       }
     }
   }

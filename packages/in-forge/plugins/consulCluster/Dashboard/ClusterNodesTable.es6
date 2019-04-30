@@ -8,24 +8,6 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
-    title: 'Name',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
     title: 'Version',
     type: 'string',
     typeArgs: {
@@ -40,6 +22,24 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.node.getIn(['data', 'raft.state'], 'Client');
+      }
+    }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   }

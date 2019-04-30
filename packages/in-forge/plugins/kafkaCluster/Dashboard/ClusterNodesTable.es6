@@ -9,15 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
     title: 'Name',
     type: 'snapshotLink',
     typeArgs: {
@@ -64,6 +55,15 @@ const cols = [
       getContent: ms.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   }

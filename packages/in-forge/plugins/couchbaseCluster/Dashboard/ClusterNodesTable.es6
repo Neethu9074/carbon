@@ -9,24 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
-    title: 'Name',
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
     title: 'Used memory',
     type: 'metric',
     typeArgs: {
@@ -71,6 +53,24 @@ const cols = [
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: 'Name',
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   }

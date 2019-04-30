@@ -11,15 +11,6 @@ const electedMaster = 'elected Master';
 
 const cols = [
   {
-    title: 'Health',
-    type: 'health',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      }
-    }
-  },
-  {
     title: 'Name',
     type: 'snapshotLink',
     typeArgs: {
@@ -68,7 +59,7 @@ const cols = [
   },
   {
     title: 'Indices',
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -84,7 +75,7 @@ const cols = [
   },
   {
     title: 'Active Shards',
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -100,7 +91,7 @@ const cols = [
   },
   {
     title: 'Documents',
-    type: 'sparkChart',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -127,6 +118,15 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Health',
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
       }
     }
   }
