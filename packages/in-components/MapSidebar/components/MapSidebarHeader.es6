@@ -4,7 +4,6 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import ViewDashboardButton from 'in-components/MapSidebar/components/ViewDashboardButton';
 import SidebarHeader from 'in-components/MapSidebar/components/SidebarHeader';
-import FocusButton from 'in-components/MapSidebar/components/FocusButton';
 
 import locals from './MapSidebarHeader.mless';
 
@@ -15,7 +14,6 @@ export default function MapSidebarHeader({ snapshot, timeConfig }) {
       <SidebarHeader snapshot={snapshot} />
       <div className={locals.buttonContainer}>
         <ViewDashboardButton snapshotId={snapshotId} />
-        <FocusButton snapshot={snapshot} />
         <EntityHealthIndicator
           showOkayOnNoIssues={false}
           IndicatorPresenter={HealthIndicatorButtonPresenter}
