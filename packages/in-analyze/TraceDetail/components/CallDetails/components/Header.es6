@@ -71,12 +71,13 @@ export default function Header({ call, onClose, getColor }) {
 }
 
 const Infrastructure = connectTo(({ call }) => {
-  let snapshotId = get(call, ['destination', 'physicalContext', 'process', 'id']);
+  let snapshotId =
+    get(call, ['destination', 'physicalContext', 'process', 'id']) ||
+    get(call, ['destination', 'physicalContext', 'cluster', 'id']) ||
+    get(call, ['destination', 'physicalContext', 'container', 'id']) ||
+    get(call, ['destination', 'physicalContext', 'host', 'id']);
   if (!snapshotId) {
-    snapshotId = get(call, ['destination', 'physicalContext', 'cluster', 'id']);
-    if (!snapshotId) {
-      return {};
-    }
+    return {};
   }
 
   return {

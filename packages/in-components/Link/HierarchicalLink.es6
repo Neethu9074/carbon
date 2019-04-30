@@ -88,7 +88,7 @@ function HierarchicalLink({
     </Link>
   );
 
-  if (!hierarchy || hierarchy.size === 0) {
+  if (!hierarchy || hierarchy.size < 2) {
     return link;
   }
 
