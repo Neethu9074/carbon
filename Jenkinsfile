@@ -98,7 +98,7 @@ stage('Deployment') {
   if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release') ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
-      string(name: 'MESSAGE', value: gitMessage)   
+      string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)   
     ]
   }
   def deployments = [:]
