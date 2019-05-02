@@ -100,7 +100,7 @@ export function getSnapshot(snapshotId, timeConfig) {
   return createSnapshotObservable({ snapshotId, timeConfig });
 }
 
-export function getSnapshots(snapshotIds) {
+export function getSnapshots(snapshotIds, { waitForCompletion = false } = {}) {
   // support immutable data structures as well
   if (snapshotIds.toArray) {
     snapshotIds = snapshotIds.toArray();
@@ -111,7 +111,7 @@ export function getSnapshots(snapshotIds) {
   }
 
   return (
-    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId)), false)
+    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId)), waitForCompletion)
       .nextFrame()
       // Do not show snapshots which are still loading
       .map(snapshots => snapshots.filter(Boolean))

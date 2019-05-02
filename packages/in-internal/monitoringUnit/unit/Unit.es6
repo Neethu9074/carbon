@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
@@ -45,6 +46,10 @@ export default function Unit(props) {
               path="/internal/monitoringUnit/unit/entityStatistics"
               render={() => <EntityStatistics tenant={tenant} unit={unit} />}
             />
+            <Route
+              path="/internal/monitoringUnit/unit/applicationDataStatistics"
+              render={() => <ApplicationDataStatistics tenant={tenant} unit={unit} />}
+            />
           </Switch>
         </div>
       </div>
@@ -58,6 +63,13 @@ function Navigation() {
       <li>
         <Link href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}>
           Entity Statistics
+        </Link>
+      </li>
+      <li>
+        <Link
+          href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+        >
+          Application Data Statistics
         </Link>
       </li>
     </ul>
