@@ -14,6 +14,7 @@ import Landing from 'in-internal/components/Landing';
 import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
+import Agents from 'in-internal/thisUnit/Agents';
 
 // features for monitoring units
 import FillerSpanProcessingStats from 'in-internal/monitoringUnit/FillerSpanProcessingStats/FillerSpanProcessingStats';
@@ -96,6 +97,7 @@ export default function Internal() {
           <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />
           <Route path="/internal/thisUnit/graphExplorer" component={wrapIninternalView(GraphExplorer)} />
           <Route path="/internal/thisUnit/snapshotVersions" component={wrapIninternalView(SnapshotVersions)} />
+          <Route path="/internal/thisUnit/agents" component={Agents} />
         </Fragment>
 
         <Route path="/internal" component={wrapIninternalView(Landing)} />

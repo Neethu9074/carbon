@@ -117,10 +117,13 @@ export default function Landing() {
         )}
 
         <Col lg={6}>
-          <h2>Data About This Unit</h2>
+          <h3>Data About This Unit</h3>
           <ul className={locals.links}>
             <li>
               <a href="/#/internal/thisUnit/entityStatistics">Entity Statistics (Cockpit)</a>
+            </li>
+            <li>
+              <a href="/#/internal/thisUnit/agents">Agents</a>
             </li>
             <li>
               <a href="/#/internal/thisUnit/graphExplorer">Graph Explorer</a>
