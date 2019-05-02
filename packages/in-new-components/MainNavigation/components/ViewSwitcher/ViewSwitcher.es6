@@ -29,7 +29,7 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ViewSwitcher.mless';
 
 const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
-const tenantSwitcherLink = `https://${config.butlerDomain}/tenantSwitcher`;
+const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
 export default function ViewSwitcher({
   isExpanded,
