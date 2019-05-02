@@ -3,14 +3,13 @@ import React from 'react';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
-
-import locals from './Nodes.mless';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -76,7 +75,7 @@ const columnDefinitions = [
     id: 'roles',
     label: 'Roles',
     getContent(item) {
-      return <div className={locals.rolesColumn}>{item.node.roles || '-'}</div>;
+      return <ViewWidthRestrictedColumn width={15}>{item.node.roles || '-'}</ViewWidthRestrictedColumn>;
     }
   },
   {

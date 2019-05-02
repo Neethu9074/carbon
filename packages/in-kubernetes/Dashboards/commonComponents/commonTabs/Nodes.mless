@@ -1,8 +1,0 @@
-@import '~in-themes/mixins.less';
-
-:local {
-  .rolesColumn {
-    width: 15vw;
-    .ellipsis();
-  }
-}

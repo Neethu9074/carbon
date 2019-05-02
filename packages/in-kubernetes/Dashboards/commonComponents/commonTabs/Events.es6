@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
@@ -9,8 +10,6 @@ import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
-
-import locals from './Events.mless';
 
 const iconsByPlugin = {
   'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod': 'lib_kubernetes_pod',
@@ -28,9 +27,9 @@ const columnDefinitions = [
     label: 'Event',
     getContent(item) {
       return (
-        <div className={locals.labelColumn}>
+        <ViewWidthRestrictedColumn width={43}>
           <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />
-        </div>
+        </ViewWidthRestrictedColumn>
       );
     }
   },
