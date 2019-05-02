@@ -9,8 +9,8 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
@@ -25,7 +25,7 @@ export default function Summary({ timeConfig, data: namespace }) {
           <KpiCard title="Status" value={namespace.status} raw />
         </Col>
         <Col lg={6}>
-          <DateTimeKpiCard title="Creation Time" time={namespace.created} raw />
+          <KpiCard title="Age" value={namespace.age ? formatDuration(namespace.age) : '-'} raw />
         </Col>
       </Row>
 
