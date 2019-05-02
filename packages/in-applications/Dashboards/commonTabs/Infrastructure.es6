@@ -70,31 +70,33 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
   const buttonPropsList = [];
 
   // in the application infra view, show all tabs, because we do not know the type of all entities
-  const showAllTabs = entity.entityType == 'APPLICATION';
-
-  /*
-  TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
-
-  One service may have the 'kafkaCluster' technology assigned, not because it's a kafka cluster
-  but because it's a service that reads or writes from/to to a Kafka topic.
-
-  And application don't have technologies anyway.
-  */
-  if (hasSomeClusterTechnologies(entity) || showAllTabs) {
+  if (entity.entityType == 'APPLICATION') {
+    selectedType = selectedType || 'PROCESS';
     buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
-  }
-
-  // refine it by entity type
-  const onlyShowCluster = isDatabase(entity) && hasSomeClusterTechnologies(entity) && !showAllTabs;
-
-  if (hasSomeNonClusterTechnologies(entity) && onlyShowCluster == false) {
     buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
     buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
-  }
 
-  if (selectedType == null) {
-    selectedType = onlyShowCluster ? 'CLUSTER' : 'PROCESS';
+    // TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
+    // One service may have the 'kafkaCluster' technology assigned, not because it's a kafka cluster
+    // but because it's a service that reads or writes from/to to a Kafka topic.
+  } else if (hasSomeClusterTechnologies(entity)) {
+    selectedType = selectedType || 'CLUSTER';
+    buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
+
+    if (!isDatabase(entity) && hasSomeNonClusterTechnologies(entity)) {
+      buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
+      buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
+      buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+    }
+  } else if (hasSomeNonClusterTechnologies(entity)) {
+    selectedType = selectedType || 'PROCESS';
+    buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
+    buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
+    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+  } else {
+    selectedType = selectedType || 'HOST';
+    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
   const Table = tablesByType[selectedType];
