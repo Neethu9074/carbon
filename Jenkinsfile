@@ -1,11 +1,11 @@
 #!groovy
 
 // define global vars for use in later stages
-def gitCommitId     = null
-def gitCommitAuthor = null
-def gitMessage      = null
-def instanaVersion  = null
-def archiveName     = null
+def gitCommitId         = null
+def gitCommitAuthor     = null
+def gitMessage          = null
+def instanaVersion      = null
+def archiveName         = null
 def latestReleaseBranch = null
 
 void setBuildStatus(String message, String state) {
