@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import { percentage, number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -14,26 +15,35 @@ import Link from 'in-components/Link';
 
 const cols = [
   {
-    title: 'Agent',
+    title: 'Unit',
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.snapshot.get('label');
       },
       getContent(val, row) {
-        return <Link href$={getDashboardLink(row.snapshot.get('id'), { pathname: '/physical/dashboard' })}>{val}</Link>;
+        return (
+          <Link
+            external
+            href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
+              linkToTenantUnit(href, row.snapshot.getIn(['data', 'tenant']), row.snapshot.getIn(['data', 'unit']))
+            )}
+          >
+            {val}
+          </Link>
+        );
       }
     }
   },
   {
-    title: 'Sensor Time Consumed',
+    title: 'Max Sensor Time Consumed',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
       },
       getMetricName() {
-        return `sensors.scheduler.consumed`;
+        return `sensors.scheduler.consumed.max`;
       },
       getContent: percentage.compact,
       getTimeWindowAggregation() {
@@ -42,14 +52,14 @@ const cols = [
     }
   },
   {
-    title: 'CPU Load',
+    title: 'Max CPU Load',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshot.get('id');
       },
       getMetricName() {
-        return `cpu.load`;
+        return `cpu.load.max`;
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -65,10 +75,10 @@ export default connectTo(
     agents: timeConfig$
       .flatMap(timeConfig =>
         search({
-          query: 'entity.selfType:agent',
+          query: 'entity.selfType:agentStatistics',
           view: 'TABLE',
           timeConfig,
-          restrictResultEntityType: 'instanaAgent'
+          restrictResultEntityType: 'agentStatistics'
         })
       )
       .flatMap(getSnapshots)
@@ -111,20 +121,19 @@ function getRowDetails(row) {
           min: 0,
           max: 1,
           formatter: percentage.compact,
-          metrics: [`sensors.scheduler.consumed`],
-          labels: ['Sensor Time Consumed'],
+          metrics: [`sensors.scheduler.consumed.max`],
+          labels: ['Max Sensor Time Consumed'],
           type: 'stackedArea'
         }}
       />
-
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
           max: 1,
-          formatter: percentage.detailed,
-          metrics: [`cpu.load`],
+          formatter: number.detailed,
+          metrics: [`cpu.load.max`],
           labels: ['CPU Load'],
           type: 'stackedArea'
         }}

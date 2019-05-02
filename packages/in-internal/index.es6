@@ -32,6 +32,7 @@ import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import TuStatistics from 'in-internal/monitoringUnit/TuStatistics';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
+import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
@@ -51,6 +52,7 @@ export default function Internal() {
           <Fragment>
             <Route path="/internal/monitoringUnit/units" component={UnitList} />
             <Route path="/internal/monitoringUnit/unit" component={Unit} />
+            <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />
 
             <Route path="/internal/monitoringUnit/tuStatistics" component={wrapIninternalView(TuStatistics)} />
             <Route path="/internal/monitoringUnit/sloViolations" component={wrapIninternalView(SloViolations)} />

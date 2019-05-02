@@ -16,10 +16,13 @@ export default function Landing() {
       <Row>
         {internalMonitoringUnit && (
           <Col lg={6}>
-            <h3>Unit Insights</h3>
+            <h3>Deployed Unit Insights</h3>
             <ul className={locals.links}>
               <li>
-                <a href="/#/internal/monitoringUnit/units">Units</a>
+                <a href="/#/internal/monitoringUnit/units">Unit Details</a>
+              </li>
+              <li>
+                <a href="/#/internal/monitoringUnit/agents">Agent Statistics</a>
               </li>
             </ul>
 
