@@ -7,10 +7,7 @@ import DetailsNavigation, {
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { namespaceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ data: namespace }) => ({ annotations: getAnnotations(namespace.id) }), function Details({
@@ -20,14 +17,6 @@ export default connectTo(({ data: namespace }) => ({ annotations: getAnnotations
 }) {
   return (
     <Fragment>
-      <Row>
-        <Col lg={6}>
-          <KpiCard title="Status" value={namespace.status} raw />
-        </Col>
-        <Col lg={6}>
-          <DateTimeKpiCard title="Creation Time" time={namespace.created} raw />
-        </Col>
-      </Row>
       <DetailsNavigation
         navigationTree={navigationTree}
         resource={namespace}
