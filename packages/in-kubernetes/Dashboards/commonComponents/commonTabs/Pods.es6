@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { get, filter } from 'lodash';
+import { get, filter, some } from 'lodash';
 import { compose } from 'recompose';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -204,6 +204,7 @@ const allColumnDefinitions = [
       return (
         <KubernetesResources
           snapshotId={item.pod.id}
+          quotasPresent={quotasPresentForPod(item.pod)}
           cpuReqMetric="cpuRequests"
           cpuLimitsMetric="cpuLimits"
           memReqMetric="memoryRequests"
@@ -230,5 +231,17 @@ const allColumnDefinitions = [
 ];
 
 const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
+
+function quotasPresentForPod(pod) {
+  return [podHasMemoryQuotas(pod) && 'memory', podHasCpuQuotas(pod) && 'cpu'].filter(Boolean).join(', ');
+}
+
+function podHasMemoryQuotas(pod) {
+  return pod.resources && some(pod.resources, c => c.memoryLimits >= 0 || c.memoryRequests >= 0);
+}
+
+function podHasCpuQuotas(pod) {
+  return pod.resources && some(pod.resources, c => c.cpuLimits >= 0 || c.cpuRequests >= 0);
+}
 
 export default Pods;
