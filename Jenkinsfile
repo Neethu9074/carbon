@@ -1,11 +1,12 @@
 #!groovy
 
 // define global vars for use in later stages
-def gitCommitId     = null
-def gitCommitAuthor = null
-def gitMessage      = null
-def instanaVersion  = null
-def archiveName     = null
+def gitCommitId         = null
+def gitCommitAuthor     = null
+def gitMessage          = null
+def instanaVersion      = null
+def archiveName         = null
+def latestReleaseBranch = null
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -28,10 +29,11 @@ stage('Checkout') {
     checkout scm
     setBuildStatus('Build started', 'PENDING')
 
-    instanaVersion  = getVersion('ui-client', env.BRANCH_NAME)
-    gitCommitId     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-    gitCommitAuthor = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-    gitMessage      = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+    instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
+    gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+    gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
+    gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+    latestReleaseBranch = sh(returnStdout: true, script: 'source /mnt/efs/data/instana-version/major.number && latestReleaseBranch="release-${value}" && echo $latestReleaseBranch')
 
     currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId} -> ${instanaVersion}"
 
@@ -95,7 +97,7 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release') ) {
+  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == latestReleaseBranch ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
       string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)   
@@ -131,7 +133,7 @@ stage('Deployment') {
     }
   }
   deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME.startsWith('release-') ) {
+    if ( env.BRANCH_NAME == latestReleaseBranch ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 
