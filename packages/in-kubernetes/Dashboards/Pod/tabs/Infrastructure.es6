@@ -111,7 +111,7 @@ function UnmonitoredContainers({ containerStatuses }) {
           {containerStatuses.map((status, i) => (
             <Tr key={i}>
               <Td>
-                <Tooltip content="The hosts where these containers run, don't have an an Instana Agent installed. See our documentation for more Information">
+                <Tooltip content="The host of the container doesn't have an Instana Agent installed. See our documentation for more Information">
                   <span>{status.name}</span>
                 </Tooltip>
               </Td>
