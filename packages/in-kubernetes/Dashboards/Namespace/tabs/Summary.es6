@@ -17,7 +17,6 @@ import Card from 'in-new-components/Card';
 
 export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
-
   return (
     <Fragment>
       <Row>
