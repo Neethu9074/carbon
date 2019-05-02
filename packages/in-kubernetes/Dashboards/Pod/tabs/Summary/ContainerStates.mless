@@ -1,6 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .labelColumn {
+    max-width: 12vw;
+  }
+
   .viewAllLink {
     margin-top: 0.5rem;
   }

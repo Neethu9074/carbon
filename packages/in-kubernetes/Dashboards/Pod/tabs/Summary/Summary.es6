@@ -25,7 +25,6 @@ export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
-  const allContainerStatuses = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
 
   return (
     <Fragment>
@@ -151,7 +150,7 @@ export default function Summary({ data: pod, timeConfig }) {
         </Col>
         <Col lg={8}>
           <Card title="Container Status" useMaxAvailableHeight>
-            <ContainerStates podId={snapshotId} states={allContainerStatuses} timeConfig={timeConfig} />
+            <ContainerStates pod={pod} timeConfig={timeConfig} />
           </Card>
         </Col>
       </Row>

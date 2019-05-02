@@ -9,6 +9,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -16,7 +17,6 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
-import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import getServices from 'in-subscription/application/getServices';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';

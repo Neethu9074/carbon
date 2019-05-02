@@ -9,6 +9,9 @@ import {
 } from 'in-services/formatters/number';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
+import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
@@ -16,7 +19,6 @@ import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import EntityLink from 'in-new-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -166,7 +168,7 @@ function getColumnDefinitions(pod) {
       label: 'Name',
       getContent(item, { timeConfig }) {
         return (
-          <EntityLink
+          <SeverityAwareEntityLink
             icon="lib_container"
             label={get(item, ['container', 'label'])}
             href$={getDashboardLink(get(item, ['container', 'id']), {
@@ -174,6 +176,7 @@ function getColumnDefinitions(pod) {
               to: timeConfig.to,
               focusedMoment: timeConfig.to
             })}
+            severity={item.entityHealthInfo.maxSeverity}
           />
         );
       }
@@ -233,6 +236,21 @@ function getColumnDefinitions(pod) {
             formatter={bytesZeroDecimalPlaces}
             tooltipFormatter={bytesTwoDecimalPlaces}
             metric="memory.usage"
+          />
+        );
+      }
+    },
+    {
+      id: 'health',
+      label: 'Health',
+      getContent(item, { timeConfig }) {
+        return (
+          <EntityHealthIndicator
+            openIssues={item.entityHealthInfo.openIssues.length}
+            maxSeverity={item.entityHealthInfo.maxSeverity}
+            IndicatorPresenter={HealthIndicatorPresenter}
+            timeConfig={timeConfig}
+            snapshotId={item.container.id}
           />
         );
       }
