@@ -1,13 +1,13 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import { isInternalVisible$}  from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
-import { releaseNotesEnabled, kubernetesEnabled, } from 'in-services/featureFlags';
+import { releaseNotesEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -29,6 +29,7 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ViewSwitcher.mless';
 
 const umpLink = `https://${config.butlerDomain}/ump/${config.tenant}/${config.tenantUnit}`;
+const tenantSwitcherLink = `https://${config.butlerDomain}/tenantSwitcher`;
 
 export default function ViewSwitcher({
   isExpanded,
@@ -124,7 +125,7 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
-        <SubViewItem label="Tenants" href="https://instana.io/tenantSwitcher" external />
+        <SubViewItem label="Tenants" href={tenantSwitcherLink} external />
         {role.canConfigureAgents && (
           <SubViewItem
             label="Agents"
