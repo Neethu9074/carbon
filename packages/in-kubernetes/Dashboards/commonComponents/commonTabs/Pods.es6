@@ -3,7 +3,6 @@ import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import PodStatusTooltipContent from 'in-kubernetes/Dashboards/commonComponents/PodStatusTooltipContent';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
@@ -18,8 +17,6 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
-import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -162,11 +159,7 @@ const allColumnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return (
-        <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
-          <span>{get(item, ['pod', 'status', 'statusSummary'], '-')}</span>
-        </Tooltip>
-      );
+      return <span>{get(item, ['pod', 'status', 'statusSummary'], '-')}</span>;
     }
   },
   {
@@ -176,17 +169,15 @@ const allColumnDefinitions = [
     getContent(item) {
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
-        <Tooltip themeStyle="light" content={<PodStatusTooltipContent pod={item.pod} />}>
-          <TwoValueBar
-            rightToLeft
-            v1={containerStatuses.filter(c => c.ready).length}
-            v2={containerStatuses.length}
-            v2Color={theme.lib.colors.N300}
-            v1Color={theme.lib.colors.success}
-            fullDomain={containerStatuses.length}
-            renderLabels={false}
-          />
-        </Tooltip>
+        <TwoValueBar
+          rightToLeft
+          v1={containerStatuses.filter(c => c.ready).length}
+          v2={containerStatuses.length}
+          v1Label="Ready"
+          v2Label="Total"
+          fullDomain={containerStatuses.length}
+          formatter={v => v}
+        />
       );
     }
   },
