@@ -16,7 +16,6 @@ import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComp
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
@@ -69,9 +68,7 @@ export default connectTo(
                         severity={get(containerSnapshot, ['entityHealthInfo', 'maxSeverity'])}
                       />
                     </Td>
-                    <Td>
-                      <ReadyIcon isReady={status.ready} />
-                    </Td>
+                    <Td>{status.ready ? 'Yes' : 'No'}</Td>
                     <Td>
                       <Capitalize>{status.state.status}</Capitalize>
                     </Td>
@@ -115,9 +112,7 @@ export default connectTo(
               return (
                 <Tr key={i}>
                   <Td className={locals.labelColumn}>{status.name}</Td>
-                  <Td>
-                    <ReadyIcon isReady={status.ready} />
-                  </Td>
+                  <Td>{status.ready ? 'Yes' : 'No'}</Td>
                   <Td>
                     <Capitalize>{status.state.status}</Capitalize>
                   </Td>

@@ -17,7 +17,6 @@ import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComp
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import ReadyIcon from 'in-kubernetes/Dashboards/commonComponents/ReadyIcon';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
@@ -117,9 +116,7 @@ function UnmonitoredContainers({ containerStatuses }) {
                   <span>{status.name}</span>
                 </Tooltip>
               </Td>
-              <Td>
-                <ReadyIcon isReady={status.ready} />
-              </Td>
+              <Td>{status.ready ? 'Yes' : 'No'}</Td>
               <Td>
                 <Capitalize>{status.state.status}</Capitalize>
               </Td>
@@ -187,7 +184,7 @@ function getColumnDefinitions(pod) {
       sortable: false,
       getContent(item) {
         const id = get(item, ['container', 'id']);
-        return statesMap[id] ? <ReadyIcon isReady={statesMap[id].ready} /> : '-';
+        return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : '-';
       }
     },
     {
