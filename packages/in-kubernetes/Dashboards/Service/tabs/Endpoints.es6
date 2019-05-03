@@ -3,7 +3,6 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
-import { Checkmark } from 'in-kubernetes/Dashboards/commonComponents/icons';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
@@ -88,9 +87,9 @@ const columnDefinitions = [
   },
   {
     id: 'ready',
-    label: 'Ready',
+    label: 'Status',
     getContent(item) {
-      return get(item, 'ready') && <Checkmark />;
+      return get(item, 'ready') ? 'Ready' : 'Not Ready';
     }
   },
   {
