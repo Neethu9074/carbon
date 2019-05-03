@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Checkmark, ErrorTriangle } from 'in-kubernetes/Dashboards/commonComponents/icons';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/boolean';
@@ -15,7 +14,7 @@ export default function ComponentStatusTable({ cluster }) {
           <Tr>
             <Th>Component</Th>
             <Th>Message</Th>
-            <Th>Health</Th>
+            <Th>Condition Status</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -25,9 +24,8 @@ export default function ComponentStatusTable({ cluster }) {
             .map((componentStatus, i) => (
               <Tr key={i} size="compact">
                 <Td>{componentStatus.name}</Td>
-                {!componentStatus.healthy && <Td>{componentStatus.message}</Td>}
-                {componentStatus.healthy && <Td>-</Td>}
-                <Td>{componentStatus.healthy ? <Checkmark /> : <ErrorTriangle />}</Td>
+                <Td>{componentStatus.conditionMessage}</Td>
+                <Td>{componentStatus.conditionStatus}</Td>
               </Tr>
             ))}
           {componentStatuses.length === 0 && (
