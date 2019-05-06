@@ -56,7 +56,6 @@ global.window.instana.user = {
       role: {
         id: '-1',
         name: 'Owner',
-        implicitViewFilter: '',
         canConfigureServiceMapping: true,
         canConfigureEumApplications: true,
         canConfigureUsers: true,

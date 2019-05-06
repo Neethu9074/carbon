@@ -8,6 +8,12 @@ import {
   teamSettingsAccessControlRoles,
   teamSettingsAccessControlRoleEdit,
   teamSettingsAccessControlRoleNew,
+  teamSettingsAccessControlTeams,
+  teamSettingsAccessControlTeamEdit,
+  teamSettingsAccessControlTeamNew,
+  teamSettingsAccessControlPermissionSets,
+  teamSettingsAccessControlPermissionSetEdit,
+  teamSettingsAccessControlPermissionSetNew,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenEdit,
   teamSettingsKnowledgeManagementBuiltInRules,
@@ -57,6 +63,8 @@ import CustomRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeM
 import ConfigurationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Configurations/Configurations';
 import ConfigurationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Configurations/Configuration';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
+import PermissionSetPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSet';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integrations';
 import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integration';
@@ -65,6 +73,7 @@ import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
+import { forecastsEnabled, unifiedAlerting, isRbacEnabled } from 'in-services/featureFlags';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
@@ -73,8 +82,9 @@ import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAnd
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
+import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Teams';
+import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
-import { forecastsEnabled, unifiedAlerting } from 'in-services/featureFlags';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
@@ -82,7 +92,7 @@ import { role } from 'in-stores/user';
 function navigationTreeForRole(role): NavigationTree {
   const navigationTree: NavigationTree = [];
 
-  if (role.canConfigureUsers || role.canConfigureRoles || role.canConfigureApiTokens) {
+  if (role.canConfigureUsers || role.canConfigureRoles || role.canConfigureTeams || role.canConfigureApiTokens) {
     const accessControlPages: Array<Page> = [];
 
     if (role.canConfigureUsers) {
@@ -111,6 +121,40 @@ function navigationTreeForRole(role): NavigationTree {
           {
             path: teamSettingsAccessControlRoleEdit,
             component: RolePage
+          }
+        ]
+      });
+    }
+
+    if (isRbacEnabled && role.canConfigureTeams) {
+      accessControlPages.push({
+        path: teamSettingsAccessControlPermissionSets,
+        label: 'Access Scopes',
+        component: PermissionSetsPage,
+        subPages: [
+          {
+            path: teamSettingsAccessControlPermissionSetNew,
+            component: PermissionSetPage
+          },
+          {
+            path: teamSettingsAccessControlPermissionSetEdit,
+            component: PermissionSetPage
+          }
+        ]
+      });
+
+      accessControlPages.push({
+        path: teamSettingsAccessControlTeams,
+        label: 'Teams',
+        component: TeamsPage,
+        subPages: [
+          {
+            path: teamSettingsAccessControlTeamNew,
+            component: TeamPage
+          },
+          {
+            path: teamSettingsAccessControlTeamEdit,
+            component: TeamPage
           }
         ]
       });

@@ -1,20 +1,18 @@
 import React from 'react';
 
-import { roleViewFilterEnabled, onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { ownerRoleId, fallbackRoleId, defaultRoleId } from 'in-stores/user';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
-import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 import './RoleForm.less';
 
-const block = 'in-role-form';
-
+/*eslint-disable no-console*/
 export default function RoleForm({ form, onChange, roleId }) {
   const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
 
@@ -39,25 +37,19 @@ export default function RoleForm({ form, onChange, roleId }) {
         </FormGroup>
       ))}
 
-      {roleViewFilterEnabled &&
-        form.get('implicitViewFilter').map(field => (
-          <FormGroup>
-            <Label htmlFor="role-implicit-view-filter" hasError={!field.valid && field.touched}>
-              View Filter
-            </Label>
-            <Helpify helpText="Define a filter which will be applied to all the views and integrations. Only entities, events and traces {' '} matching this filter will be visible to the user.">
-              <Input
-                id="role-implicit-view-filter"
-                value={field.value}
-                className={`${block}__helpfified_input`}
-                onChange={e => onChange('implicitViewFilter', e.target.value)}
-                hasError={!field.valid && field.touched}
-                disabled={disabled}
-              />
-              <TouchedMessages field={field} />
-            </Helpify>
-          </FormGroup>
-        ))}
+      {isRbacEnabled && <SectionHeading>Restrictions</SectionHeading>}
+      {isRbacEnabled && (
+        <FormGroup noFlex>
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="restrictedAccess"
+            label="Limit access by team access scopes"
+            helpText="When enabled, this option restricts access to the scope defined by the teams the user is a member of. A user with a limited access role who is not member of any team will not have access to monitoring data at all."
+          />
+        </FormGroup>
+      )}
 
       <SectionHeading>Permissions</SectionHeading>
       <FormGroup noFlex>
@@ -105,6 +97,17 @@ export default function RoleForm({ form, onChange, roleId }) {
           label="Access role configuration"
           helpText="Permits configuration of access roles and permissions for all users."
         />
+
+        {isRbacEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureTeams"
+            label="Access team configuration"
+            helpText="Permits configuration of access scopes and permissions for all teams."
+          />
+        )}
 
         <Permission
           form={form}

@@ -17,6 +17,12 @@ export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
 export const teamSettingsAccessControlRoleEdit = `${accessControl}/roles/:id`;
 export const teamSettingsAccessControlRoleNew = `${accessControl}/roles/new`;
 export const teamSettingsAccessControlRoles = `${accessControl}/roles`;
+export const teamSettingsAccessControlTeamEdit = `${accessControl}/teams/:id`;
+export const teamSettingsAccessControlTeamNew = `${accessControl}/teams/new`;
+export const teamSettingsAccessControlTeams = `${accessControl}/teams`;
+export const teamSettingsAccessControlPermissionSetEdit = `${accessControl}/permissionSets/:id`;
+export const teamSettingsAccessControlPermissionSetNew = `${accessControl}/permissionSets/new`;
+export const teamSettingsAccessControlPermissionSets = `${accessControl}/permissionSets`;
 export const teamSettingsAccessControlApiTokenEdit = `${accessControl}/apiTokens/:id`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 

@@ -31,8 +31,9 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/UNIFIED_ALERTING`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
+    getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
     getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false)
+    getBooleanSetting(`settings/IS_RBAC_ENABLED`, false)
   ]).then(([
     pingComparisonEnabled,
     isSelfService,
@@ -43,7 +44,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     ruleDeprecationValidationChecksEnabled,
     containerInfoEnabled,
     trackUrlPathChanges,
-    internalMonitoringUnit
+    internalMonitoringUnit,
+    isRbacEnabled
   ]) => ({
     pingComparisonEnabled,
     isSelfService,
@@ -59,7 +61,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     ruleDeprecationValidationChecksEnabled,
     containerInfoEnabled,
     trackUrlPathChanges,
-    internalMonitoringUnit
+    internalMonitoringUnit,
+    isRbacEnabled
   }));
 });
 

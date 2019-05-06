@@ -1,0 +1,13 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .allProperties {
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+  }
+
+  .ellipsis {
+    .ellipsis();
+  }
+}

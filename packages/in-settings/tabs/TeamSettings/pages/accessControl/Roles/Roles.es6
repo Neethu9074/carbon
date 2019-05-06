@@ -6,6 +6,7 @@ import {
   teamSettingsAccessControlRoleNew,
   teamSettingsAccessControlRoles
 } from 'in-settings/navigation/paths';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { getRolesMutable, deleteRole } from 'in-api/roles';
 import List from 'in-settings/components/List';
 import Link from 'in-components/Link';
@@ -35,9 +36,11 @@ const columnDefinitions = [
     width: 100,
     getContent(entity) {
       return (
-        <Link href$={getEntityIdView(teamSettingsAccessControlRoles, entity.id)} ellipsis>
-          {entity.name}
-        </Link>
+        <WithSubscript subscript={entity.restrictedAccess ? 'Limited Access' : ''}>
+          <Link href$={getEntityIdView(teamSettingsAccessControlRoles, entity.id)} ellipsis>
+            <span>{entity.name}</span>
+          </Link>
+        </WithSubscript>
       );
     }
   }
@@ -59,6 +62,6 @@ function getEntityName(entity) {
 }
 
 function isProtectedRole(role) {
-  // some roles are protected, which is signaled by having a numerical ID < 16
+  // some roles are protected, which is signaled by having a numerical ID < 0
   return role && role.id < 0;
 }

@@ -7,7 +7,6 @@ import { teamSettingsAccessControlRoles } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SaveCancel from 'in-settings/components/SaveCancel';
-import { queryValidator } from 'in-stores/search/validations';
 import { getRole, saveRole, createRole } from 'in-api/roles';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -75,13 +74,7 @@ function createForm(role) {
         validator: notBlankValidator
       })
     )
-    .put(
-      'implicitViewFilter',
-      createField({
-        value: role.get('implicitViewFilter'),
-        validator: queryValidator
-      })
-    )
+    .put('restrictedAccess', createField({ value: role.get('restrictedAccess') }))
     .put('canConfigureServiceMapping', createField({ value: role.get('canConfigureServiceMapping') }))
     .put('canConfigureEumApplications', createField({ value: role.get('canConfigureEumApplications') }))
     .put('canConfigureUsers', createField({ value: role.get('canConfigureUsers') }))
@@ -90,6 +83,7 @@ function createForm(role) {
     .put('canConfigureIntegrations', createField({ value: role.get('canConfigureIntegrations') }))
     .put('canSeeOnPremLicenseInformation', createField({ value: role.get('canSeeOnPremLicenseInformation') }))
     .put('canConfigureRoles', createField({ value: role.get('canConfigureRoles') }))
+    .put('canConfigureTeams', createField({ value: role.get('canConfigureTeams') }))
     .put('canConfigureCustomAlerts', createField({ value: role.get('canConfigureCustomAlerts') }))
     .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))

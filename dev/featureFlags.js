@@ -12,7 +12,8 @@ module.exports = {
   lastSevenDaysTimePresetEnabled: true,
   unifiedAlerting: true,
   ruleDeprecationValidationChecksEnabled: true,
-  trackUrlPathChanges: true,
   containerInfoEnabled: true,
-  internalMonitoringUnit: true
+  trackUrlPathChanges: true,
+  internalMonitoringUnit: true,
+  isRbacEnabled: true
 };

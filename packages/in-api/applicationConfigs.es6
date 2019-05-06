@@ -7,6 +7,14 @@ import http from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/application';
 
+export function getApplicationConfigs() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${basePath}`
+  }).map(response => response.body.map(mapFromServerResponse));
+}
+
 export function getApplicationConfig(id) {
   return http({
     method: 'GET',
@@ -86,7 +94,6 @@ function mapFromServerResponse(config) {
       matchSpecification.key = name;
     }
   }
-
   return config;
 }
 

@@ -1,7 +1,12 @@
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
+  .allProperties {
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+  }
+
   .avatar {
     width: 3rem;
     height: 3rem;

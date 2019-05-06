@@ -46,7 +46,7 @@ export function deleteRole(roleId) {
 export function createRole(
   id,
   name = 'New Role',
-  implicitViewFilter = '',
+  restrictedAccess = false,
   canConfigureServiceMapping = true,
   canConfigureEumApplications = true,
   canConfigureUsers = true,
@@ -55,6 +55,7 @@ export function createRole(
   canConfigureIntegrations = true,
   canSeeOnPremLicenseInformation = true,
   canConfigureRoles = true,
+  canConfigureTeams = true,
   canConfigureCustomAlerts = true,
   canConfigureApiTokens = true,
   canConfigureAgentRunMode = true,
@@ -67,7 +68,7 @@ export function createRole(
   return {
     id: id || generateUniqueShortId(),
     name,
-    implicitViewFilter,
+    restrictedAccess,
     canConfigureServiceMapping,
     canConfigureEumApplications,
     canConfigureUsers,
@@ -76,6 +77,7 @@ export function createRole(
     canConfigureIntegrations,
     canSeeOnPremLicenseInformation,
     canConfigureRoles,
+    canConfigureTeams,
     canConfigureCustomAlerts,
     canConfigureApiTokens,
     canConfigureAgentRunMode,

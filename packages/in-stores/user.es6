@@ -11,6 +11,7 @@ export const defaultRoleId = '-3';
 export const user = window.instana.user;
 export const tenant = find(user.tenants, tenant => tenant.tenantKey === config.tenant);
 export const role = tenant.role;
+export const permissions = window.instana.permissions;
 
 export const isInstanaEngineer = user.email === 'stan@instana.com';
 
@@ -20,3 +21,7 @@ export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
 }).observable;
+
+export function hasPermission(permission) {
+  return permissions.indexOf(permission) > -1;
+}

@@ -4,13 +4,13 @@ import { createLogger } from 'instalog';
 
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import { getUsers, setRole, removeUserFromTenant } from 'in-api/users';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { fallbackRoleId } from 'in-stores/user';
 import List from 'in-settings/components/List';
 import { getRolesMutable } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
 import ComboBox from 'in-components/ComboBox';
-import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Users.mless';
@@ -63,33 +63,20 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'fullName',
       label: 'Name',
-      width: 30,
+      width: 70,
       ellipsis: true,
-      getContent(entity) {
+      getContent(user) {
         return (
-          <Tooltip content={entity.fullName} delay={500}>
-            <span>{entity.fullName}</span>
-          </Tooltip>
-        );
-      }
-    },
-    {
-      id: 'email',
-      label: 'E-Mail',
-      width: 40,
-      ellipsis: true,
-      getContent(entity) {
-        return (
-          <Tooltip content={entity.email} delay={500}>
-            <span>{entity.email}</span>
-          </Tooltip>
+          <WithSubscript subscript={user.email}>
+            <span className={locals.ellipsis}>{user.fullName}</span>
+          </WithSubscript>
         );
       }
     },
     {
       id: 'role',
       label: 'Role',
-      width: 20,
+      width: 30,
       getContent(user) {
         return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;
       }
