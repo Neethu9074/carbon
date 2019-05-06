@@ -51,7 +51,7 @@ export function createPermissionSet(name = 'New Scope', permissions = [], applic
   };
 }
 
-export function getProductAreas() {
+export function getProductAreaPermissions() {
   let areas = [{ value: 'ACCESS_WEBSITES', label: 'Websites' }];
   if (kubernetesEnabled) {
     areas.push({ value: 'ACCESS_KUBERNETES', label: 'Kubernetes' });

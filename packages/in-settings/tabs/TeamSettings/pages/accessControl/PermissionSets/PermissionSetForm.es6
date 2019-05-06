@@ -8,10 +8,10 @@ import Applications, {
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import { getProductAreaPermissions } from 'in-api/permissionSets';
 import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
-import { getProductAreas } from 'in-api/permissionSets';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -38,7 +38,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
       ))}
 
       <SectionHeading>Product Areas</SectionHeading>
-      {getProductAreas().map(area => (
+      {getProductAreaPermissions().map(area => (
         <Permission
           key={area.value}
           form={form}
