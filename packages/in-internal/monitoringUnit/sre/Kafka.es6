@@ -5,15 +5,19 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import {
+  millis,
   zeroDecimalPlaces,
   twoDecimalPlaces,
   bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  bytesTwoDecimalPlaces,
+  percentageZeroDecimalPlaces,
+  timeByMicroTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import {
   hostTableCols,
@@ -32,14 +36,24 @@ export default connectTo(
         timeConfig,
         restrictResultEntityType: 'kafka'
       })
+    ),
+    jvmNodes: timeConfig$.flatMap(timeConfig =>
+      getPhysicalStack({
+        searchQuery: 'entity.host.name:"kafka-*"',
+        timeConfig,
+        restrictResultEntityType: 'jvmRuntimePlatform'
+      })
     )
   },
-  function Overview({ kafkaNodes, timeConfig }) {
-    if (!kafkaNodes) {
+  function Overview({ kafkaNodes, jvmNodes, timeConfig }) {
+    if (!kafkaNodes || !jvmNodes) {
       return <LoadingIndicator type="dark" />;
     }
 
     if (kafkaNodes.length < 1) {
+      return <div>Statistics provider not found.</div>;
+    }
+    if (jvmNodes.length < 1) {
       return <div>Statistics provider not found.</div>;
     }
 
@@ -64,7 +78,6 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-
           <DashboardSection title={`Broker Traffic Bytes Out`}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
@@ -78,7 +91,6 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-
           <DashboardSection title={`Broker Traffic Bytes Rejected`}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
@@ -108,7 +120,6 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-
           <DashboardSection title={`Produce Requests`}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
@@ -125,6 +136,69 @@ export default connectTo(
         </Columize>
 
         <Columize>
+          <DashboardSection title="Network Processor Idle">
+            <Chart
+              snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: percentageZeroDecimalPlaces,
+                tooltipFormatter: percentageZeroDecimalPlaces,
+                metrics: kafkaNodes.map(() => `broker.networkProcessorIdle`),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Request Handler Idle">
+            <Chart
+              snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: percentageZeroDecimalPlaces,
+                tooltipFormatter: percentageZeroDecimalPlaces,
+                metrics: kafkaNodes.map(() => `broker.requestHandlerIdle`),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`G1 Young Generation`}>
+            <Chart
+              snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: millis.compact,
+                metrics: jvmNodes.map(() => 'gc.G1 Young Generation.time'),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title="Suspension">
+            <ChartExplanation>
+              Suspension is an indication of how much application execution might have been delayed by the JVM, OS or
+              CPU during the last second. This is predominantly caused by GC activations.
+            </ChartExplanation>
+            <Chart
+              snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMicroTwoDecimalPlaces,
+                metrics: jvmNodes.map(() => 'suspension.time'),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
           <DashboardSection title={`CPU Usage`}>
             <Table
               cols={hostTableCols}
@@ -133,7 +207,6 @@ export default connectTo(
               maxItemsPerPage={15}
             />
           </DashboardSection>
-
           <DashboardSection title="Data mounts">
             <Table
               cols={volumeTableCols}
