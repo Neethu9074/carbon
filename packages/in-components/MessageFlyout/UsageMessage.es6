@@ -3,8 +3,10 @@ import React from 'react';
 
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { trackPageType } from 'in-services/tracking/mixpanelTrackers';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import { createTracker } from 'in-services/tracking/mixpanel';
+import history from 'in-stores/navigation/history';
 
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -43,7 +45,7 @@ export default function UsageMessage({ message }) {
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    buttonClickedMixpanelTracker();
+                    buttonClickedMixpanelTracker(trackPageType(history.location.pathname));
                     setActiveDialog(<RequestQuoteDialog />);
                   }}
                 >

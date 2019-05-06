@@ -345,3 +345,20 @@ function trackOpenDashboardClassic() {
       openDashboardClassicTracker({ context: contextPath, entityType: snapshot.get('plugin') });
     });
 }
+
+export function trackPageType(pathname = '/') {
+  const pageName = pathname.split('/')[1];
+
+  switch (pageName) {
+    case 'physical':
+      return { pageName: 'Infrastructure' };
+    case 'websiteMonitoring':
+      return { pageName: 'EUM' };
+    case 'config':
+      return { pageName: 'Settings' };
+    case '':
+      return { pageName: '--' };
+    default:
+      return { pageName: pageName.charAt(0).toUpperCase() + pageName.slice(1) };
+  }
+}
