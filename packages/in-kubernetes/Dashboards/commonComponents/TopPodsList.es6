@@ -9,7 +9,7 @@ export default function TopPodsList(props) {
   return (
     <KubernetesTopList
       title="Top Pods"
-      viewAllEntityName="pods"
+      viewAllEntityName="pod"
       {...props}
       metrics={['status']}
       metricOrderDirection="ASC"

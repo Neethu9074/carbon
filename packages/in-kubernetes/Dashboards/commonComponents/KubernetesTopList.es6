@@ -63,10 +63,12 @@ function getList({
   });
 }
 
-function ViewAll({ viewAllEntityName, allItemsHref$ }, className) {
+function ViewAll({ viewAllEntityName, allItemsHref$, items }, className) {
+  const entityName = viewAllEntityName || '';
   return (
     <Link className={className} href$={allItemsHref$}>
-      View all {viewAllEntityName ? `${viewAllEntityName}` : ''}
+      {items.length > 1 && `View all ${entityName}s`}
+      {items.length === 1 && ` View ${entityName}`}
     </Link>
   );
 }

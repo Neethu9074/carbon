@@ -54,7 +54,7 @@ export default function TopListPresenter(props) {
         })}
       </ol>
 
-      {renderViewAll && <ViewAllWrapper {...props} />}
+      {renderViewAll && <ViewAllWrapper {...props} items={items} />}
     </div>
   );
 }

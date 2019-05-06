@@ -8,7 +8,7 @@ export default function TopDeploymentsList(props) {
   return (
     <KubernetesTopList
       title="Top Deployments"
-      viewAllEntityName="deployments"
+      viewAllEntityName="deployment"
       {...props}
       getItems={getKubernetesDeployments}
       getItemHref$={item =>
