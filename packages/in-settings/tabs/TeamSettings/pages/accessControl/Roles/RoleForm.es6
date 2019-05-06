@@ -12,7 +12,6 @@ import Input from 'in-components/form/Input';
 
 import './RoleForm.less';
 
-/*eslint-disable no-console*/
 export default function RoleForm({ form, onChange, roleId }) {
   const disabled = roleId == null || roleId === ownerRoleId || roleId === fallbackRoleId;
 

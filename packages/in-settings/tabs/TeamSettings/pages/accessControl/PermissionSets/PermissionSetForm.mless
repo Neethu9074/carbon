@@ -1,5 +1,0 @@
-.in-permission-set-form {
-  &__helpfified_input {
-    width: 100%;
-  }
-}

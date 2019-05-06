@@ -16,8 +16,6 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
-import './PermissionSetForm.mless';
-
 export default function PermissionSetForm({ form, setForm, onChange }) {
   const selectedApplications = form.get('applicationIds') ? form.get('applicationIds').value.toJS() : [];
 

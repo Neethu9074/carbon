@@ -75,10 +75,11 @@ router.get('/', (req, res) => {
         getUserSettings(req),
         getSearchFields(req),
         getFilterTags(req),
-        getCsrfToken(req)
+        getCsrfToken(req),
+        getUserPermissions(req)
       ])
-      .then(([userSettings, searchFieldsStr, filterTags, csrf]) =>
-        sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf)
+      .then(([userSettings, searchFieldsStr, filterTags, csrf, permissions]) =>
+        sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf, permissions)
       );
     })
     .catch(err => {
@@ -86,6 +87,27 @@ router.get('/', (req, res) => {
       errorPages.send500(req, res);
     });
 });
+
+function getUserPermissions(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/api/permissions',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 15000
+      },
+      (error, response, userSettings) => {
+        if (error) {
+          reject(new Error('Failed to retrieve user permissions from ui-backend: ' + String(error)));
+        } else {
+          resolve(userSettings);
+        }
+      }
+    );
+  });
+}
 
 function getUserSettings(req) {
   return new Promise((resolve, reject) => {
@@ -173,7 +195,7 @@ function getCsrfToken(req) {
   });
 }
 
-function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf) {
+function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf, permissions) {
   const nonces = Array(maxNonces)
     .fill(maxNonces)
     .map(() => uuid.v4());
@@ -199,6 +221,7 @@ function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags,
       backendTraceId: req.get('x-instana-t') || '',
       prefetchItems,
       user: userStr,
+      permissions: permissions,
       config: JSON.stringify(req.clientConfig, 0, 2),
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,

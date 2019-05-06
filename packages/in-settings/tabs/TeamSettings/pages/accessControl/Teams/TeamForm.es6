@@ -15,8 +15,6 @@ import Input from 'in-components/form/Input';
 import { getPermissionSets } from 'in-api/permissionSets';
 import { getUsers } from 'in-api/users';
 
-import './TeamForm.mless';
-
 export default function TeamForm({ form, setForm, onChange }) {
   const permissions = form.get('permissions') ? form.get('permissions').value.toJS() : [];
   const selectedPermissionIds = permissions.map(permission => permission.id);
