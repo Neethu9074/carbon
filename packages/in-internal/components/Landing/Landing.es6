@@ -98,22 +98,25 @@ export default function Landing() {
             <h3>SRE</h3>
             <ul className={locals.links}>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/workerStats">Worker Allocation / Load</a>
+                <a href="/#/internal/monitoringUnit/sre/workerStats">Worker Allocation/Load</a>
               </li>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/selfserviceWorkerStats">Selfservice Worker Allocation / Load</a>
+                <a href="/#/internal/monitoringUnit/sre/selfserviceWorkerStats">Selfservice Worker Allocation/Load</a>
+              </li>
+              <li>
+                <a href="/#/internal/monitoringUnit/sre/acceptors">Acceptors</a>
               </li>
               <li>
                 <a href="/#/internal/monitoringUnit/sre/cassandra">Cassandra Clusters</a>
               </li>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/elastic">Metadata Elastic Cluster</a>
+                <a href="/#/internal/monitoringUnit/sre/clickhouse">Clickhouse Clusters</a>
               </li>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/clickhouse">Clickhouse Cluster</a>
+                <a href="/#/internal/monitoringUnit/sre/elastic">Elastic Clusters</a>
               </li>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/acceptors">Acceptors</a>
+                <a href="/#/internal/monitoringUnit/sre/kafka">Kafka Clusters</a>
               </li>
             </ul>
           </Col>

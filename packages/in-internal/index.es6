@@ -36,9 +36,10 @@ import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
-import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
+import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
+import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 
 export default function Internal() {
@@ -88,10 +89,11 @@ export default function Internal() {
               path="/internal/monitoringUnit/sre/selfserviceWorkerStats"
               component={wrapIninternalView(SelfserviceWorkerStats)}
             />
-            <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
             <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
-            <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
+            <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
             <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
+            <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
+            <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
           </Fragment>
         )}
 
