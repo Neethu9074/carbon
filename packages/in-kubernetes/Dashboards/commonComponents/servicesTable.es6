@@ -1,5 +1,7 @@
 import React from 'react';
 
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
@@ -7,7 +9,11 @@ import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
 
 export default function servicesTable(TableComponent) {
-  return props => (
+  return ServiceTable.bind(null, TableComponent);
+}
+
+function ServiceTable(TableComponent, props) {
+  return (
     <TableComponent
       get={getTableData}
       columnDefinitions={columnDefinitions}
@@ -59,6 +65,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'namespace',
+    label: 'Namespace',
+    getContent(item) {
+      return item.namespace;
+    }
+  },
+  {
     id: 'type',
     label: 'Type',
     getContent(item) {
@@ -98,6 +111,21 @@ const columnDefinitions = [
     label: 'Age',
     getContent(item) {
       return formatDuration(item.age);
+    }
+  },
+  {
+    id: 'health',
+    label: 'Health',
+    getContent(item, { timeConfig }) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.id}
+        />
+      );
     }
   }
 ];
