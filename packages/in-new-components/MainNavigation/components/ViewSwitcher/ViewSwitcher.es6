@@ -57,7 +57,7 @@ export default function ViewSwitcher({
       />
 
       {kubernetesEnabled &&
-        (!isRbacEnabled || hasPermission('ACCESS_KUBERNETES')) && (
+        (!isRbacEnabled || !role.restrictedAccess || hasPermission('ACCESS_KUBERNETES')) && (
           <View
             label="Kubernetes"
             icon="lib_kubernetes_inverted"
@@ -77,7 +77,7 @@ export default function ViewSwitcher({
         {...commonProps}
       />
 
-      {(!isRbacEnabled || hasPermission('ACCESS_WEBSITES')) && (
+      {(!isRbacEnabled || !role.restrictedAccess || hasPermission('ACCESS_WEBSITES')) && (
         <View
           label="Websites"
           icon="lib_website_inverted"
