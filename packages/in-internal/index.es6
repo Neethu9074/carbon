@@ -38,7 +38,7 @@ import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
-import Elastic from 'in-internal/monitoringUnit/sre/Elastic';
+import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 
 export default function Internal() {
@@ -90,7 +90,7 @@ export default function Internal() {
             />
             <Route path="/internal/monitoringUnit/sre/cassandra" component={wrapIninternalView(Cassandra)} />
             <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
-            <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(Elastic)} />
+            <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
             <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
           </Fragment>
         )}

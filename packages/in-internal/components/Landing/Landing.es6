@@ -107,7 +107,7 @@ export default function Landing() {
                 <a href="/#/internal/monitoringUnit/sre/cassandra">Cassandra Clusters</a>
               </li>
               <li>
-                <a href="/#/internal/monitoringUnit/sre/elastic">Elastic Clusters</a>
+                <a href="/#/internal/monitoringUnit/sre/elastic">Metadata Elastic Cluster</a>
               </li>
               <li>
                 <a href="/#/internal/monitoringUnit/sre/clickhouse">Clickhouse Cluster</a>
