@@ -54,10 +54,7 @@ function columnDefinitions() {
       getContent(entity) {
         return (
           <WithSubscript
-            subscript={
-              (entity.scope === 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' ? 'All ' : 'No ') +
-              'Downstream Services'
-            }
+            subscript={(entity.scope === 'INCLUDE_ALL_DOWNSTREAM' ? 'All ' : 'Immediate ') + 'Downstream Services'}
           >
             <span className={locals.ellipsis}>{entity.label}</span>
           </WithSubscript>
