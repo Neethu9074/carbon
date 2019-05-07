@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -165,23 +165,36 @@ export default function IndicesTable({ snapshot, timeConfig }) {
 
 function getDetails(row) {
   return (
-    <Chart
-      snapshotId={row.snapshotId}
-      timeConfig={row.timeConfig}
-      y1={{
-        metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
-        labels: ['Documents', 'Deletions'],
-        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-        tooltipFormatter: zeroDecimalPlaces,
-        type: 'line'
-      }}
-      y2={{
-        metrics: ['index.' + row.name + '.size', 'clusterState.indices.' + row.name + '.indexMetadataSize'],
-        labels: ['Size', 'Metadata Size'],
-        formatter: bytesZeroDecimalPlaces,
-        tooltipFormatter: bytesTwoDecimalPlaces,
-        type: 'line'
-      }}
-    />
+    <Fragment>
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
+          labels: ['Documents', 'Deletions'],
+          formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+          tooltipFormatter: zeroDecimalPlaces,
+          type: 'line'
+        }}
+        y2={{
+          metrics: ['index.' + row.name + '.size', 'clusterState.indices.' + row.name + '.indexMetadataSize'],
+          labels: ['Size', 'Metadata Size'],
+          formatter: bytesZeroDecimalPlaces,
+          tooltipFormatter: bytesTwoDecimalPlaces,
+          type: 'line'
+        }}
+      />
+
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          metrics: ['index.' + row.name + '.query_total'],
+          labels: ['Queries'],
+          formatter: number.compact,
+          type: 'line'
+        }}
+      />
+    </Fragment>
   );
 }
