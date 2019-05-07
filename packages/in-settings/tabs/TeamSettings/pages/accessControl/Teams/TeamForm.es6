@@ -120,7 +120,7 @@ function permissionSetSelectionTableActions(form, setForm) {
           setForm(
             form.updateIn(['permissions'], field => {
               return field
-                .setValue(field.value.filterNot(reference => reference.id === deselectedEntity.id))
+                .setValue(field.value.filterNot(reference => reference.get('id') === deselectedEntity.id))
                 .setTouched(true);
             })
           );
@@ -138,7 +138,7 @@ function userSelectionTableActions(form, setForm) {
           setForm(
             form.updateIn(['members'], field => {
               return field
-                .setValue(field.value.filterNot(reference => reference.userId === deselectedEntity.id))
+                .setValue(field.value.filterNot(reference => reference.get('userId') === deselectedEntity.id))
                 .setTouched(true);
             })
           );
