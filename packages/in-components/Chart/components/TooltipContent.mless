@@ -3,14 +3,14 @@
 
 :local {
   .tooltipContent {
-    width: 18rem;
+    max-width: 18rem;
     padding: 1rem 1rem 0.5rem;
     background: @lib__colors__white;
     color: @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_large;
 
     box-shadow: @lib__shadows__subtle;
-    border: 1px solid rgba(0,0,0,0.16);
+    border: 1px solid rgba(0, 0, 0, 0.16);
   }
 
   .heading {
@@ -18,6 +18,9 @@
 
     width: 100%;
     margin-bottom: 1rem;
+
+    font-size: 0.75rem;
+    .ellipsis();
   }
 
   .rollupLabel {
