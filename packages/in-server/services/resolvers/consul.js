@@ -33,7 +33,7 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
     getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
-    getBooleanSetting(`settings/IS_RBAC_ENABLED`, false)
+    getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false)
   ]).then(([
     pingComparisonEnabled,
     isSelfService,
