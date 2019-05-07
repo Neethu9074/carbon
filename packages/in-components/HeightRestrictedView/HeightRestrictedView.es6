@@ -3,6 +3,7 @@ import React from 'react';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { joinClassNames } from 'in-services/util/classnames';
 import { debouncedResize$ } from 'in-services/browser';
+import { scrollToTop } from 'in-services/util/dom';
 import { getCoords } from 'in-services/util/dom';
 
 import locals from './HeightRestrictedView.mless';
@@ -56,6 +57,19 @@ export default class HeightRestrictedView extends React.Component {
     if (this.footerHeightSubscription) {
       this.footerHeightSubscription.dispose();
       this.footerHeightSubscription = null;
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { scrollResetProps } = this.props;
+    if (!scrollResetProps) {
+      return;
+    }
+
+    for (let i = 0; i < scrollResetProps.length; i++) {
+      if (this.props[scrollResetProps[i]] !== prevProps[scrollResetProps[i]]) {
+        return scrollToTop(this.element);
+      }
     }
   }
 

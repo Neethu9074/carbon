@@ -205,7 +205,9 @@ class Summary extends React.Component {
     );
 
     const leftContent = <HeightRestrictedView render={() => traceDetails} />;
-    const rightContent = <HeightRestrictedView render={() => callDetails} />;
+    const rightContent = (
+      <HeightRestrictedView render={() => callDetails} scrollResetProps={['callId']} callId={callId} />
+    );
 
     return (
       <TwoColumnView
