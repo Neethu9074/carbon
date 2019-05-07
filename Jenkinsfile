@@ -23,7 +23,6 @@ void setBuildStatus(String message, String state) {
 
 stage('Checkout') {
   node {
-
     deleteDir()
 
     checkout scm
@@ -42,41 +41,53 @@ stage('Checkout') {
   }
 }
 
-stage('Node Build') {
-  def buildSteps = [:]
-
-  buildSteps['test'] = {
-    node {
+stage('Unit Test') {
+  node {
+    try {
       runNodeBuild(gitCommitId, 'yarn && yarn run test:unit')
+    } catch (e) {
+      setBuildStatus('Unit test failure', 'FAILURE')
+      slackNotification('Unit test failure', 'ui-client', gitCommitId, 'FAILURE')
+      throw e
     }
   }
-  buildSteps['lint'] = {
-    node {
+}
+
+stage('Linting') {
+  node {
+    try {
       runNodeBuild(gitCommitId, 'yarn && yarn run test:lint')
+    } catch (e) {
+      setBuildStatus('Linting failure', 'FAILURE')
+      slackNotification('Linting failure', 'ui-client', gitCommitId, 'FAILURE')
+      throw e
     }
   }
-  buildSteps['build'] = {
-    node {
+}
+
+stage('Build') {
+  node {
+    try {
       runNodeBuild(gitCommitId, 'COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn && COM_INSTANA_IMAGE_TAG=' + instanaVersion + ' yarn run build')
-      if ( currentBuild.currentResult == 'SUCCESS' ) {
-        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-          runNodeScriptInCurrentWorkDir('yarn run test:compression')
-        }
-        if ( isDeliveryBranch(env.BRANCH_NAME) ) {
-          uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
-        }
-        markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
-        setBuildStatus('Build successful', 'SUCCESS')
-        stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
-      } else {
-        setBuildStatus('Build failed', 'FAILURE')
+    } catch (e) {
+      setBuildStatus('Build failure', 'FAILURE')
+      slackNotification('Build failure', 'ui-client', gitCommitId, 'FAILURE')
+      throw e
+    }
+
+    if ( currentBuild.currentResult == 'SUCCESS' ) {
+      if ( isDeliveryBranch(env.BRANCH_NAME) ) {
+        runNodeScriptInCurrentWorkDir('yarn run test:compression')
       }
+      if ( isDeliveryBranch(env.BRANCH_NAME) ) {
+        uploadReleaseArtifact(archiveName, 'target/*', 'ui-client', env.BRANCH_NAME, instanaVersion)
+      }
+      markStableVersion('ui-client', env.BRANCH_NAME, instanaVersion)
+      stash includes: "${archiveName}, deployment/**/*", name: "ui-client-build-${gitCommitId}"
+      slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
+      setBuildStatus('Build successful', 'SUCCESS')
     }
   }
-
-  parallel buildSteps
-
-  slackNotification('Node Build', 'ui-client', gitCommitId, currentBuild.currentResult)
 }
 
 stage ('Container Build') {
@@ -99,7 +110,7 @@ stage('Deployment') {
   if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == latestReleaseBranch ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
-      string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)   
+      string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)
     ]
   }
   def deployments = [:]

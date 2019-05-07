@@ -4,7 +4,7 @@ import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './Row.less';
+import locals from './Row.mless';
 
 const allowedKeyCodesForKeydown = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
 
