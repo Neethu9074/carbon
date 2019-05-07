@@ -2,12 +2,15 @@ import { combineLatest } from 'reactive-observables';
 
 import createViewStructureObservable from 'in-subscription/view';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
+import createScopeObservable from 'in-subscription/getScope';
 import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSetting$ } from 'in-services/settings';
 import { view$ } from 'in-stores/view';
+import { role } from 'in-stores/user';
+import { fromJS } from 'immutable';
 
 const excludeUnmonitoredHosts$ = getSetting$('map_excludeUnmonitoredHosts');
 
@@ -30,8 +33,13 @@ export function getViewStructure() {
     searchMatches$,
     excludeUnmonitoredHosts$,
     debouncedQuery$,
-    viewGrouping$
-  ]).flatMap(([viewType, timeConfig, _searchMatches, excludeUnmonitoredHosts, query, grouping]) => {
+    viewGrouping$,
+    timeConfig$.flatMap(timeConfig => createScopeObservable({ timeConfig }))
+  ]).flatMap(([viewType, timeConfig, _searchMatches, excludeUnmonitoredHosts, query, grouping, scope]) => {
+    // solves limitation by scope without search
+    if (scope && role.restrictedAccess && !_searchMatches) {
+      _searchMatches = fromJS(scope);
+    }
     if (!_searchMatches || _searchMatches.size === 0) {
       if (query.trim().length === 0) {
         _searchMatches = everythingMatches;
