@@ -5,6 +5,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 
@@ -87,7 +88,7 @@ export default class extends React.PureComponent {
     if (this.props.initialValue) {
       this.node.textContent = this.props.initialValue;
     } else {
-      this.node.textContent = 'No Data Available';
+      this.node.textContent = valueMissingPlaceholder;
     }
 
     this.stream = stream;

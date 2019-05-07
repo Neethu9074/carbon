@@ -1,6 +1,7 @@
 import { chain, get } from 'lodash';
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import Row from 'in-new-components/TopListCard/Row';
 
@@ -33,7 +34,7 @@ export default function TopListPresenter(props) {
             formattedMetricValue = selectedMetricFormatter(metricValue);
           } else {
             metricValue = 0;
-            formattedMetricValue = '––';
+            formattedMetricValue = valueMissingPlaceholder;
           }
           const renderProps = {
             ...props,

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './TwoValueBar.mless';
@@ -38,10 +39,10 @@ export default function TwoValueBar({
       {renderLabels && (
         <div className={locals.values}>
           <span className={locals.value1}>
-            {v1 != null ? formatter(v1) : '––'} {v1Label}
+            {v1 != null ? formatter(v1) : valueMissingPlaceholder} {v1Label}
           </span>
           <span className={locals.value2}>
-            {v2Label} {v1 != null ? formatter(v2) : '––'}
+            {v2Label} {v1 != null ? formatter(v2) : valueMissingPlaceholder}
           </span>
         </div>
       )}

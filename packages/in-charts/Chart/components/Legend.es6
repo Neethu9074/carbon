@@ -1,6 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { hexToRGB } from 'in-services/formatters/color';
 import { alwaysNull } from 'in-services/fixedStreams';
 import classnames from 'in-services/util/classnames';
@@ -84,7 +85,7 @@ export default connectTo(
                     metric={metric}
                     time={props.time}
                     formatter={axis.formatter[i]}
-                    initialValue="––"
+                    initialValue={valueMissingPlaceholder}
                     timeWindowAggregation={axis.aggregation ? axis.aggregation[i] : null}
                   />
                 </dd>

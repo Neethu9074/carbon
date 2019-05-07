@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import ErrorBar from 'in-sdk/components/dashboard/summary/ErrorBar';
 import TwoValueBar from 'in-new-components/TwoValueBar';
@@ -50,7 +51,7 @@ export default function Kpi({
             timeWindowAggregation={timeWindowAggregation}
             formatter={formatter}
             className={`${block}__value`}
-            initialValue="––"
+            initialValue={valueMissingPlaceholder}
           />
         ) : null}
         {!children && renderedPercentages}

@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Checkmark } from 'in-kubernetes/Dashboards/commonComponents/icons';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -76,7 +77,7 @@ const columnDefinitions = [
     id: 'portName',
     label: 'Port Name',
     getContent(item) {
-      return get(item, 'portName') || '--';
+      return get(item, 'portName') || valueMissingPlaceholder;
     }
   },
   {
@@ -104,7 +105,7 @@ const columnDefinitions = [
           href$={getPodDashboard(item.podSnapshotId, { namespaceId, clusterId })}
         />
       ) : (
-        '--'
+        valueMissingPlaceholder
       );
     }
   }
