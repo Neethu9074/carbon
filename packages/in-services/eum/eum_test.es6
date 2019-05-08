@@ -11,7 +11,7 @@ describe('in-services/eum', () => {
   });
 
   function loadWithFeatureFlags(useInstanaSaasEumTrackingUrlEnabled) {
-    mod = proxyquire('in-services/eum', {
+    mod = proxyquire('in-services/eum/eum', {
       'in-services/featureFlags': {
         useInstanaSaasEumTrackingUrlEnabled: useInstanaSaasEumTrackingUrlEnabled
       }
@@ -24,10 +24,11 @@ describe('in-services/eum', () => {
       expect(mod.getEumSnippet({ key: '123' })).to.equal(
         `
 <script>
-  (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
+  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
+  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
+  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
+  d.parentNode.insertBefore(a,d))})(window,document,"script",
+  "//eum.instana.io/eum.min.js","InstanaEumObject","ineum");
   ineum('key', '123');
 </script>
 `.trim()
@@ -39,10 +40,11 @@ describe('in-services/eum', () => {
       expect(mod.getEumSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
         `
 <script>
-  (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//eum.instana.io/eum.min.js','ineum');
+  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
+  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
+  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
+  d.parentNode.insertBefore(a,d))})(window,document,"script",
+  "//eum.instana.io/eum.min.js","InstanaEumObject","ineum");
   ineum('key', '123');
   ineum(true);
   ineum(false);
@@ -60,10 +62,11 @@ describe('in-services/eum', () => {
   // which you proxy the Instana eum-acceptor (note that this
   // needs to be replaced two times in this snippet).
 
-  (function(i,s,o,g,r,a,m){i['InstanaEumObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','<trackingBaseUrl>/eum.min.js','ineum');
+  (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
+  b.q.push(arguments)},b.q=[],b.l=1*new Date,a=e.createElement(f),a.async=1,
+  a.src=k,a.setAttribute("crossorigin", "anonymous"),d=e.getElementsByTagName(f)[0],
+  d.parentNode.insertBefore(a,d))})(window,document,"script",
+  "<trackingBaseUrl>/eum.min.js","InstanaEumObject","ineum");
   ineum('reportingUrl', '<trackingBaseUrl>');
   ineum('key', '123');
 </script>
