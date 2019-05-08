@@ -3,7 +3,6 @@ import React from 'react';
 
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { trackPageType } from 'in-services/tracking/mixpanelTrackers';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import { createTracker } from 'in-services/tracking/mixpanel';
 import history from 'in-stores/navigation/history';
@@ -13,6 +12,23 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './UsageMessage.mless';
 const buttonClickedMixpanelTracker = createTracker('requestQuote.buttonClicked');
+
+function getPageType(pathname = '/') {
+  const pageName = pathname.split('/')[1];
+
+  switch (pageName) {
+    case 'physical':
+      return { pageName: 'Infrastructure' };
+    case 'websiteMonitoring':
+      return { pageName: 'EUM' };
+    case 'config':
+      return { pageName: 'Settings' };
+    case '':
+      return { pageName: '--' };
+    default:
+      return { pageName: pageName.charAt(0).toUpperCase() + pageName.slice(1) };
+  }
+}
 
 export default function UsageMessage({ message }) {
   let classes = `${locals.flyout} ${locals[message.type]}`;
@@ -45,7 +61,7 @@ export default function UsageMessage({ message }) {
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    buttonClickedMixpanelTracker(trackPageType(history.location.pathname));
+                    buttonClickedMixpanelTracker(getPageType(history.location.pathname));
                     setActiveDialog(<RequestQuoteDialog />);
                   }}
                 >
