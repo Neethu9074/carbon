@@ -210,7 +210,7 @@ const cols = [
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:appdata-processor*')
-})(function FillerSpanProcessingStats({ rows }) {
+})(function AppDataProcessorStatistics({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
   }

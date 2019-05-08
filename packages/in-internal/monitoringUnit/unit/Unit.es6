@@ -3,6 +3,7 @@ import React from 'react';
 
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
@@ -10,7 +11,6 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import Link from 'in-components/Link';
 
 import locals from './Unit.mless';
 
@@ -59,19 +59,15 @@ export default function Unit(props) {
 
 function Navigation() {
   return (
-    <ul>
-      <li>
-        <Link href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}>
-          Entity Statistics
-        </Link>
-      </li>
-      <li>
-        <Link
-          href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
-        >
-          Application Data Statistics
-        </Link>
-      </li>
-    </ul>
+    <LinkList>
+      <LinkListItem
+        label="Entity Statistics"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
+      />
+      <LinkListItem
+        label="Application Data Statistics"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+      />
+    </LinkList>
   );
 }

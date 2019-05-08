@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardTile from 'in-sdk/components/dashboard/DashboardTile';
 import { ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import { number } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function TuStatistics() {
   return (

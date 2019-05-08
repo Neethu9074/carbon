@@ -17,8 +17,6 @@ import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import Agents from 'in-internal/thisUnit/Agents';
 
 // features for monitoring units
-import FillerSpanProcessingStats from 'in-internal/monitoringUnit/FillerSpanProcessingStats/FillerSpanProcessingStats';
-import TracesSubscriptionStats from 'in-internal/monitoringUnit/TracesSubscriptionStats/TracesSubscriptionStats';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
@@ -72,18 +70,10 @@ export default function Internal() {
             />
             <Route path="/internal/monitoringUnit/callExtraction" component={wrapIninternalView(CallExtraction)} />
             <Route
-              path="/internal/monitoringUnit/fillerSpanProcessingStats"
-              component={wrapIninternalView(FillerSpanProcessingStats)}
-            />
-            <Route
               path="/internal/monitoringUnit/appDataQueryPerformance"
               component={wrapIninternalView(AppDataQueryPerformance)}
             />
             <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
-            <Route
-              path="/internal/monitoringUnit/tracesSubscriptionStats"
-              component={wrapIninternalView(TracesSubscriptionStats)}
-            />
             <Route path="/internal/monitoringUnit/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
             <Route
               path="/internal/monitoringUnit/sre/selfserviceWorkerStats"

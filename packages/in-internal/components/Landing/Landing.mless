@@ -1,20 +1,8 @@
-@import '~in-themes/active.less';
-
 :local {
   .header {
     display: flex;
     align-items: center;
     justify-content: center;
-
     margin: 1rem 0 3rem;
-  }
-
-  .links {
-    font-size: 1rem;
-  }
-
-  .subTitle {
-    font-weight: bold;
-    margin: 0.313rem 0;
   }
 }

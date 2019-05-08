@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import connectTo from 'in-hoc/connectTo';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { timeConfig$ } from 'in-stores/time/config';

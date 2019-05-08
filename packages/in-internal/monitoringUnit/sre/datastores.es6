@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { getMaxValue } from 'in-sdk/metrics';

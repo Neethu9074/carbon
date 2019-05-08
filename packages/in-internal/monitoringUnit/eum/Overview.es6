@@ -11,7 +11,7 @@ import { number, time } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {
@@ -91,9 +91,13 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`CPU Usage`}>
-            <Table cols={hostTableCols} rows={eumLoadbalancers} getRowDetails={getHostDetails} maxItemsPerPage={5} />
-          </DashboardSection>
+          <Table
+            cardTitle="CPU Usage"
+            cols={hostTableCols}
+            rows={eumLoadbalancers}
+            getRowDetails={getHostDetails}
+            maxItemsPerPage={5}
+          />
         </Columize>
 
         <h1>eum-acceptor (data collection)</h1>

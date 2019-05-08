@@ -3,7 +3,7 @@ import React from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
