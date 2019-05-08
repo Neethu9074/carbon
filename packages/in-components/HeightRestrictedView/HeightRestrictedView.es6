@@ -95,8 +95,8 @@ export default class HeightRestrictedView extends React.Component {
 
   onScroll = () => {
     this.scrollableIndicator.style.bottom = `${-1 * this.scrollContainer.scrollTop}px`;
-    const indicatorHeight =
-      100 - Math.min(100, (100 / this.scrollContainer.scrollHeight) * (this.scrollContainer.scrollTop * 2));
+    const maxPxTillInvisiable = 150;
+    const indicatorHeight = 100 - 100 * Math.min(1, this.scrollContainer.scrollTop / maxPxTillInvisiable);
     this.scrollableIndicator.style.height = `${indicatorHeight}px`;
   };
 
