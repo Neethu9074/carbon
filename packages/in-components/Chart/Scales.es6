@@ -80,57 +80,50 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
     return;
   }
 
-  let minValue = Number.MAX_VALUE;
-  let maxValue = 0;
+  axis.minValue = 0;
+  axis.allDataSeriesIgnored = filteredDataSeries.size === axis.labels.length;
+  if (axis.max != null) {
+    return (axis.maxValue = axis.max);
+  }
 
   const metrics = axis.metrics || [];
-  let allDataSeriesIgnored = true;
+  const maxValue = (axis.valuesNeedToBeStacked
+    ? calculateMaxValueForStackedMetrics
+    : calculateMaxValueIndependetMetrics)(axis, metrics, filteredDataSeries);
+
+  if (maxValue === 0) {
+    return (axis.maxValue = 1);
+  }
+
+  axis.maxValue = maxValue;
+}
+
+function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
+  let maxValue = 0;
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
     if (isIgnoredIndex) {
       continue;
     }
-    allDataSeriesIgnored = false;
+
     const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+    maxValue = Math.max(maxValue, minMax.maxValue);
+  }
+  return maxValue;
+}
 
-    if (axis.valuesNeedToBeStacked) {
-      if (axis.calculateStackDifferences) {
-        maxValue += Math.max(0, minMax.maxValue - maxValue);
-      } else {
-        maxValue += minMax.maxValue;
-      }
-    } else {
-      maxValue = Math.max(maxValue, minMax.maxValue);
+function calculateMaxValueIndependetMetrics(axis, metrics, filteredDataSeries) {
+  let maxValue = 0;
+  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+    const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+    if (isIgnoredIndex) {
+      continue;
     }
-    minValue = Math.min(minValue, minMax.minValue);
-  }
 
-  if (minValue == Number.MAX_VALUE) {
-    // use scale [0, 1] for empty data
-    minValue = 0;
-    maxValue = 1;
+    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+    maxValue = Math.max(maxValue, minMax.maxValue);
   }
-
-  if (minValue == maxValue) {
-    if (maxValue <= 0) {
-      maxValue = 1;
-    } else {
-      minValue = 0;
-    }
-  }
-
-  if (axis.min != null) {
-    minValue = axis.min;
-  }
-
-  if (axis.max != null) {
-    maxValue = axis.max;
-  }
-
-  axis.minValue = 0;
-  axis.maxValue = maxValue;
-  axis.allDataSeriesIgnored = allDataSeriesIgnored;
-  return { minValue, maxValue, allDataSeriesIgnored };
+  return maxValue;
 }
 
 function getMinMaxValueForDataSeries(dataSeries) {

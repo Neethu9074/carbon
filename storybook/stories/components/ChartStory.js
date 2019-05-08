@@ -334,6 +334,36 @@ function Integral() {
           }
         }}
       />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.integral,
+            labels: ['min', '25th', '50th'],
+            metrics: (() => {
+              let s1 = generateMetrics(40, 10, oneMinute);
+              let s2 = generateMetrics(40, 10, oneMinute);
+              let s3 = generateMetrics(40, 10, oneMinute);
+
+              s1 = s1
+                .slice(0, 5)
+                .concat(s1.slice(10, 15))
+                .concat(s1.slice(23, 25))
+                .concat(s1.slice(27, 30));
+
+              s2 = s2
+                .slice(3, 7)
+                .concat(s2.slice(17, 20))
+                .concat(s2.slice(29, 38));
+
+              s3 = s3.slice(12, 30);
+
+              return [s1, s2, s3];
+            })()
+          }
+        }}
+      />
     </Root>
   );
 }
