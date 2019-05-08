@@ -234,7 +234,7 @@ export default function Landing() {
 
           <Row>
             <Col lg={12}>
-              <Card title="Available Internal Units">
+              <Card title="Available Instana Units">
                 <LinkList>
                   <LinkListItem
                     label="SaaS Monitoring Units"
