@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { formatTime, formatDateTime } from 'in-services/formatters/date';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 
@@ -57,7 +58,7 @@ function MetricBlock({ time, dataColumn, config, axisName }) {
               ) : null}
             </dt>
             <dd className={`${block}__metric-value`}>
-              {dataPoint && dataPoint[1] != null ? formatter(dataPoint[1]) : '––'}
+              {dataPoint && dataPoint[1] != null ? formatter(dataPoint[1]) : valueMissingPlaceholder}
             </dd>
           </div>
         );

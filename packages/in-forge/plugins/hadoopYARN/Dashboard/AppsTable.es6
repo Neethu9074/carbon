@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TimeOfLastUpdateDescriptionItem from 'in-sdk/components/sidebar/TimeOfLastUpdateDescriptionItem';
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -130,13 +130,12 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle="Most Recent Apps"
+        cardTitle={<TimeOfLastUpdateCardTitle title="Most Recent Apps" timestamp={data.get('timestamp')} />}
         cols={cols}
         rows={rows}
         initialSortColumn={7}
         initialSortDirection={'asc'}
         getRowDetails={getDetails}
-        bottomContent={<TimeOfLastUpdateDescriptionItem data={data} />}
       />
     );
   }

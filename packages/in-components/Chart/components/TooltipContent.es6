@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
 
@@ -67,7 +68,7 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder 
               ? axis.tooltipFormatter
                 ? axis.tooltipFormatter(dataPoint[1])
                 : axis.formatter[i].detailed(dataPoint[1])
-              : '--'}
+              : valueMissingPlaceholder}
           </span>
         </li>
       );

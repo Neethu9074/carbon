@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { joinClassNames } from 'in-services/util/classnames';
 
 import locals from './KpiCard.mless';
@@ -16,11 +17,11 @@ export default function KpiCard({ title, value, raw = false, renderValue, values
     );
   }
 
-  let major = '––';
+  let major = valueMissingPlaceholder;
   let minor = null;
 
   if (value != null) {
-    const match = String(value).match(/^([0-9\,.]+)(.*)$/);
+    const match = String(value).match(/^([0-9,.]+)(.*)$/);
     if (!match) {
       major = value;
     } else {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import WithIcon from 'in-new-components/WithIcon';
 import Card from 'in-new-components/Card';
 
@@ -29,7 +30,7 @@ export default function PortsList({ ports }) {
               <Td>
                 <WithIcon icon="lib_kubernetes_port">{portConfig.port}</WithIcon>
               </Td>
-              <Td>{portConfig.name || '--'}</Td>
+              <Td>{portConfig.name || valueMissingPlaceholder}</Td>
               <Td>{portConfig.protocol}</Td>
               <Td>{portConfig.nodePort || <span className={locals.fadedLabel}>Auto</span>}</Td>
               <Td>{portConfig.targetPort}</Td>
