@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -55,7 +56,10 @@ const Crumb = connectTo(
 export default connectTo(
   props => {
     return {
-      physicalHierarchy: getPhysicalHierarchy(props.snapshotId).startWith(emptyList)
+      physicalHierarchy: getPhysicalHierarchy({
+        snapshotId: props.snapshotId,
+        includeKubernetes: kubernetesEnabled ? false : true
+      }).startWith(emptyList)
     };
   },
   function SidebarBreadcrumb({ physicalHierarchy, snapshotId }) {

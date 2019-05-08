@@ -23,7 +23,7 @@ export function getClickhouseWithContext(query) {
 }
 
 export function getContextForClickhouse(clickhouse, timeConfig) {
-  return getPhysicalHierarchy(clickhouse.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: clickhouse.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {
@@ -54,7 +54,7 @@ export function getElasticWithContext(query) {
 }
 
 export function getContextForElastic(elastic, timeConfig) {
-  return getPhysicalHierarchy(elastic.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: elastic.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {
@@ -85,7 +85,7 @@ export function getCassandraWithContext(query) {
 }
 
 export function getContextForCassandra(cassandra, timeConfig) {
-  return getPhysicalHierarchy(cassandra.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: cassandra.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {
@@ -114,7 +114,7 @@ export function getNginxWithContext(query) {
 }
 
 export function getContextForNginx(nginx, timeConfig) {
-  return getPhysicalHierarchy(nginx.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: nginx.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {
@@ -145,7 +145,7 @@ export function getDropwizardWithContext(query) {
 }
 
 export function getContextForDropwizard(dropwizard, timeConfig) {
-  return getPhysicalHierarchy(dropwizard.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: dropwizard.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {
@@ -176,7 +176,7 @@ export function getHostsWithNomadContext(query) {
 }
 
 export function getContextForNomad(nomad, timeConfig) {
-  return getPhysicalHierarchy(nomad.get('id'), false)
+  return getPhysicalHierarchy({ snapshotId: nomad.get('id'), includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots => {
       return {

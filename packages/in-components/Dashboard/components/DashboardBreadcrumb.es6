@@ -5,6 +5,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
@@ -15,7 +16,10 @@ import locals from './DashboardBreadcrumb.mless';
 
 export default connectTo(
   props => ({
-    physicalHierarchy: getPhysicalHierarchy(props.snapshotId).map(_physicalHierarchy => {
+    physicalHierarchy: getPhysicalHierarchy({
+      snapshotId: props.snapshotId,
+      includeKubernetes: kubernetesEnabled ? false : true
+    }).map(_physicalHierarchy => {
       _physicalHierarchy = _physicalHierarchy.toArray();
       _physicalHierarchy.reverse();
       return _physicalHierarchy;

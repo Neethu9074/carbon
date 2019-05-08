@@ -76,7 +76,7 @@ function SloViolations({ events }) {
 }
 
 const ViolationsForEntity = connect(({ snapshotId }) => ({
-  context: getPhysicalHierarchy(snapshotId, false)
+  context: getPhysicalHierarchy({ snapshotId, includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots =>
       snapshots.reduce((agg, snapshot, i) => {

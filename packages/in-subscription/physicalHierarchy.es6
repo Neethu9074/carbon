@@ -7,16 +7,17 @@ import { generateStableHash } from 'in-services/util/id';
 export default createSubscription({
   eventId: 'subscribe-physical-hierarchy',
 
-  getId({ snapshotId, timeConfig, includeCluster }) {
-    return snapshotId + generateStableHash(roundToNearestTimeBlock(timeConfig)) + includeCluster;
+  getId({ snapshotId, timeConfig, includeCluster, includeKubernetes }) {
+    return snapshotId + generateStableHash(roundToNearestTimeBlock(timeConfig)) + includeCluster + includeKubernetes;
   },
 
-  getData(subscriptionId, { snapshotId, timeConfig, includeCluster }) {
+  getData(subscriptionId, { snapshotId, timeConfig, includeCluster, includeKubernetes }) {
     return {
       subscriptionId,
       snapshotId,
       timeConfig: roundToNearestTimeBlock(timeConfig),
-      clusterIncluded: includeCluster
+      clusterIncluded: includeCluster,
+      kubernetesIncluded: includeKubernetes
     };
   },
 
