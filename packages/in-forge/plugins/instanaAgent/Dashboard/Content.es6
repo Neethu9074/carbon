@@ -12,12 +12,13 @@ import {
   time
 } from 'in-services/formatters/number';
 import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { isInstanaEngineer } from 'in-stores/user';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
+import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -121,31 +122,34 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {isInstanaEngineer && (
-        <DashboardSection title="Sensor Scheduler">
-          <ChartExplanation>
-            Sense count is the number of sensor tasks the scheduler managed to perform during the given period period.
-            Time consumed is the percentage of available time to the scheduler consumed by all operations during the
-            given time period.
-          </ChartExplanation>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['sensors.scheduler.tasks'],
-              labels: ['Sense count'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            y2={{
-              min: 0,
-              metrics: ['sensors.scheduler.consumed'],
-              labels: ['Time Consumed'],
-              type: 'line',
-              formatter: percentage.compact
-            }}
-          />
-        </DashboardSection>
+        <Fragment>
+          <DashboardSection title="Sensor Scheduler">
+            <ChartExplanation>
+              Sense count is the number of sensor tasks the scheduler managed to perform during the given period period.
+              Time consumed is the percentage of available time to the scheduler consumed by all operations during the
+              given time period.
+            </ChartExplanation>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['sensors.scheduler.tasks'],
+                labels: ['Sense count'],
+                type: 'line',
+                formatter: number.compact
+              }}
+              y2={{
+                min: 0,
+                metrics: ['sensors.scheduler.consumed'],
+                labels: ['Time Consumed'],
+                type: 'line',
+                formatter: percentage.compact
+              }}
+            />
+          </DashboardSection>
+          <SensorTimingList snapshot={snapshot} />
+        </Fragment>
       )}
       <DashboardSection title="Discovery">
         <Chart
