@@ -7,12 +7,10 @@ import Label from 'in-components/form/Label';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 
-import locals from './Step2.mless';
-
-const EventTypesSwitcher = ({ form, types, onChange }) => (
+const EventTypesSwitcher = ({ form, types, onChange, formGroupStyles }) => (
   <Fragment>
     <h3>Event Types</h3>
-    <FormGroup noFlex className={locals.eventTypes}>
+    <FormGroup noFlex className={formGroupStyles}>
       <EventType onChange={onChange} types={types} type="incident" label="Incidents" />
       <EventType onChange={onChange} types={types} type="critical" label="Critical Issues" />
       <EventType onChange={onChange} types={types} type="warning" label="Warning Issues" />
@@ -49,7 +47,8 @@ function onSelectChanged(types, onChange, type) {
 EventTypesSwitcher.propTypes = {
   form: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired,
-  types: PropTypes.object.isRequired
+  types: PropTypes.object.isRequired,
+  formGroupStyles: PropTypes.string
 };
 
 export default EventTypesSwitcher;

@@ -5,7 +5,6 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -13,9 +12,8 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
-import Toggle from 'in-components/form/Toggle';
 import ComboBox from 'in-components/ComboBox';
-import Label from 'in-components/form/Label';
+import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 
 import locals from './Step2.mless';
 
@@ -59,22 +57,13 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
             </FormGroup>
           ))}
         </Col>
-        {eventSelectionMode === modeEventTypes &&
-          types && (
-            <Col cols={6}>
-              <h3>Event Types</h3>
-              <FormGroup noFlex className={locals.eventTypes}>
-                <EventType form={form} onChange={onChange} types={types} type="incident" label="Incidents" />
-                <EventType form={form} onChange={onChange} types={types} type="critical" label="Critical Issues" />
-                <EventType form={form} onChange={onChange} types={types} type="warning" label="Warning Issues" />
-                <EventType form={form} onChange={onChange} types={types} type="change" label="Changes" />
-                <EventType form={form} onChange={onChange} types={types} type="online" label="Online" />
-                <EventType form={form} onChange={onChange} types={types} type="offline" label="Offline" />
-              </FormGroup>
-              <TouchedMessages field={form.get('eventTypes')} />
-            </Col>
-          )}
       </Row>
+      {eventSelectionMode === modeEventTypes &&
+        types && (
+          <div className={locals.eventTypeSwitcher}>
+            <EventTypesSwitcher form={form} onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
+          </div>
+        )}
       {eventSelectionMode === modeSelectedEvents &&
         form.get('selectedEvents') && (
           <Fragment>
@@ -107,28 +96,6 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
         )}
     </Fragment>
   );
-}
-
-function EventType({ onChange, types, type, label }) {
-  return (
-    <HorizontalFormGroup noHelpTextSpacer>
-      <Label htmlFor={`event-type-${type}`}>{label}</Label>
-      <Toggle
-        id={`event-type-${type}`}
-        checked={types.includes(type)}
-        onChange={() => onSelectChanged(types, onChange, type)}
-      />
-    </HorizontalFormGroup>
-  );
-}
-
-function onSelectChanged(types, onChange, type) {
-  if (types.includes(type)) {
-    types = types.delete(types.indexOf(type));
-  } else {
-    types = types.push(type);
-  }
-  onChange('eventTypes', types);
 }
 
 const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function(selectedEvents) {
