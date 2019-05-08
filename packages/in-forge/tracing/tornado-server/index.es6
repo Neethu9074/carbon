@@ -1,0 +1,16 @@
+import { getLabel } from 'in-forge/tracing/http/spanDefinition';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+
+registerSpanDefinition({
+  type: 'tornado-server',
+  category: 'http',
+
+  typeName: {
+    singular: 'Tornado Server Call',
+    plural: 'Tornado Server Calls'
+  },
+
+  detailView: 'TornadoServerSpanDetailView',
+
+  getLabel
+});
