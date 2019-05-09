@@ -4,27 +4,16 @@ import createViewStructureObservable from 'in-subscription/view';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSetting$ } from 'in-services/settings';
+import { isBlank } from 'in-services/util/string';
 import getScope from 'in-subscription/getScope';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
-import { fromJS } from 'immutable';
 
 const excludeUnmonitoredHosts$ = getSetting$('map_excludeUnmonitoredHosts');
-
-const nothingMatches = {
-  contains() {
-    return false;
-  }
-};
-
-const everythingMatches = {
-  contains() {
-    return true;
-  }
-};
 
 export function getViewStructure() {
   return combineLatest([
@@ -36,23 +25,14 @@ export function getViewStructure() {
     viewGrouping$,
     timeConfig$.flatMap(timeConfig => getScope({ timeConfig }))
   ]).flatMap(([viewType, timeConfig, _searchMatches, excludeUnmonitoredHosts, query, grouping, scope]) => {
-    // solves limitation by scope without search
-    if (scope && role.restrictedAccess && !_searchMatches) {
-      _searchMatches = fromJS(scope);
-    }
-    if (!_searchMatches || _searchMatches.size === 0) {
-      if (query.trim().length === 0) {
-        _searchMatches = everythingMatches;
-      } else {
-        _searchMatches = nothingMatches;
-      }
-    }
+    const permittedIds = getPermittedIds(_searchMatches ? _searchMatches.toArray() : null, scope, query);
     return createViewStructureObservable({ viewType, timeConfig, grouping }).map(_viewStructure => {
       const groupIds = {};
       const hostIds = {};
       const layerIds = {};
 
       _viewStructure.children.forEach(group => {
+        // just used for physical, without having influence on container view
         const groupId = group.id;
         if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
           groupIds[groupId] = false;
@@ -61,14 +41,14 @@ export function getViewStructure() {
 
         group.children.forEach(host => {
           const hostId = host.id;
-          if (_searchMatches.contains(hostId)) {
+          if (permittedIds == null || permittedIds.indexOf(hostId) !== -1) {
             hostIds[hostId] = true;
             groupIds[groupId] = true;
           }
 
           host.children.forEach(layer => {
             const layerId = layer.id;
-            if (_searchMatches.contains(layerId)) {
+            if (permittedIds == null || permittedIds.indexOf(layerId) !== -1) {
               layerIds[layerId] = true;
               hostIds[hostId] = true;
               groupIds[groupId] = true;
@@ -87,4 +67,22 @@ export function getViewStructure() {
       };
     });
   });
+}
+
+export function getPermittedIds(searchMatches, scope, query) {
+  let hasSearchMatches = searchMatches && searchMatches.length > 0;
+  let hasPermittedScope = scope && scope.length > 0;
+  let isRestricted = isRbacEnabled && role.restrictedAccess;
+
+  if (hasPermittedScope && isRestricted && !hasSearchMatches) {
+    return scope;
+  }
+  if (!hasSearchMatches) {
+    if (isBlank(query) && !isRestricted) {
+      return null; //  everything matches
+    } else {
+      return []; // nothing matches
+    }
+  }
+  return searchMatches;
 }

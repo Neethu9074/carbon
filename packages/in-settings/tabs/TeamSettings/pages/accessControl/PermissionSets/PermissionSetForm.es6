@@ -6,10 +6,9 @@ import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Applications';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { getApplications, getProductAreaPermissions } from 'in-api/permissionSets';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { getProductAreaPermissions } from 'in-api/permissionSets';
-import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
@@ -80,8 +79,8 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
 }
 
 function getSelectedApplicationConfigs(selectedApplications = []) {
-  return getApplicationConfigs().map(configs =>
-    filter(configs, function(app) {
+  return getApplications().map(application =>
+    filter(application, function(app) {
       return selectedApplications.indexOf(app.id) >= 0;
     })
   );

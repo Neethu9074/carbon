@@ -1,8 +1,8 @@
 import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { getApplications } from 'in-api/permissionSets';
 
 import locals from './Applications.mless';
 
@@ -29,7 +29,7 @@ export default function Applications({
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getApplicationConfigs}
+      loadEntities={loadEntities ? loadEntities : getApplications}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="label"
@@ -54,7 +54,13 @@ function columnDefinitions() {
       getContent(entity) {
         return (
           <WithSubscript
-            subscript={(entity.scope === 'INCLUDE_ALL_DOWNSTREAM' ? 'All ' : 'Immediate ') + 'Downstream Services'}
+            subscript={
+              entity.scope === 'INCLUDE_ALL_DOWNSTREAM'
+                ? 'All Downstream Services'
+                : entity.scope === 'INCLUDE_NO_DOWNSTREAM'
+                  ? 'No Downstream Services'
+                  : 'Immediate Database And Messaging Services'
+            }
           >
             <span className={locals.ellipsis}>{entity.label}</span>
           </WithSubscript>
