@@ -8,15 +8,6 @@ const matrixPrefix = 'deployment.';
 
 const Table = deploymentsTable(ServerTableWithUrlBoundState);
 
-export default function Deployments({ timeConfig, namespaceId, clusterId }) {
-  return (
-    <Table
-      cardTitle="Deployments"
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      timeConfig={timeConfig}
-      clusterId={clusterId}
-      namespaceId={namespaceId}
-    />
-  );
+export default function Deployments(props) {
+  return <Table cardTitle="Deployments" pathSegment={pathSegment} matrixPrefix={matrixPrefix} {...props} />;
 }

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
@@ -70,21 +70,19 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Events({ serviceId, namespaceId, clusterId, podId, ...props }) {
   return (
-    <Fragment>
-      <Row>
-        <Col lg={12}>
-          <ServerTableWithUrlState
-            cardTitle="Events"
-            serviceId={serviceId}
-            namespaceId={namespaceId}
-            clusterId={clusterId}
-            podId={podId}
-            get={getTableData}
-            {...props}
-          />
-        </Col>
-      </Row>
-    </Fragment>
+    <Row>
+      <Col lg={12}>
+        <ServerTableWithUrlState
+          cardTitle="Events"
+          serviceId={serviceId}
+          namespaceId={namespaceId}
+          clusterId={clusterId}
+          podId={podId}
+          get={getTableData}
+          {...props}
+        />
+      </Col>
+    </Row>
   );
 }
 

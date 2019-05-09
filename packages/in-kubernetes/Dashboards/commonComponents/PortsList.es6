@@ -7,7 +7,8 @@ import Card from 'in-new-components/Card';
 
 import locals from './PortsList.mless';
 
-export default function PortsList({ ports }) {
+export default function PortsList({ resource }) {
+  const ports = resource.ports;
   if (!ports || ports.length === 0) {
     return null;
   }

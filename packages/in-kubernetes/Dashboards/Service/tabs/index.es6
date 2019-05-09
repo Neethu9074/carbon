@@ -2,6 +2,7 @@ import React from 'react';
 
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
@@ -20,15 +21,21 @@ export default [
     component: Details
   },
   {
+    label: 'Events',
+    path: `${serviceDashboardFullyQualified}/events`,
+    component: Events
+  },
+  {
+    label: 'Deployments',
+    path: `${serviceDashboardFullyQualified}/deployments`,
+    component: Deployments,
+    header: props => getCounterComponent(props, 'deployments')
+  },
+  {
     label: 'Pods',
     path: `${serviceDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, 'pods')
-  },
-  {
-    label: 'Events',
-    path: `${serviceDashboardFullyQualified}/events`,
-    component: Events
   }
 ].filter(Boolean);
 

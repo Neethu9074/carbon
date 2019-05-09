@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react';
 import { isEmpty } from 'lodash';
 
-import MatchingDeploymentsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingDeploymentsList';
-import MatchingPodsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/MatchingPodsList';
-import TopEventsList from 'in-kubernetes/Dashboards/Service/tabs/Summary/TopEventsList';
 import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -26,13 +24,10 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
       </Row>
 
-      <Row verticallyStretchColumns>
-        <Col lg={4}>
-          <MatchingPodsList serviceId={service.id} timeConfig={timeConfig} />
-        </Col>
-        {!isEmpty(service.deploymentIds) && (
+      {!isEmpty(service.deploymentIds) && (
+        <Row verticallyStretchColumns>
           <Col lg={4}>
-            <Card title="CPU Resources (Deployment)" useMaxAvailableHeight>
+            <Card title="CPU Resources (Deployments)" useMaxAvailableHeight>
               <Chart
                 snapshotId={service.deploymentIds[0]}
                 timeConfig={timeConfig}
@@ -45,10 +40,8 @@ export default function Summary({ timeConfig, data: service }) {
               />
             </Card>
           </Col>
-        )}
-        {!isEmpty(service.deploymentIds) && (
           <Col lg={4}>
-            <Card title="Memory Resources (Deployment)" useMaxAvailableHeight>
+            <Card title="Memory Resources (Deployments)" useMaxAvailableHeight>
               <Chart
                 snapshotId={service.deploymentIds[0]}
                 timeConfig={timeConfig}
@@ -61,18 +54,12 @@ export default function Summary({ timeConfig, data: service }) {
               />
             </Card>
           </Col>
-        )}
-      </Row>
+        </Row>
+      )}
 
       <Row>
         <Col lg={12}>
-          <TopEventsList serviceId={service.id} timeConfig={timeConfig} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12}>
-          <MatchingDeploymentsList serviceId={service.id} timeConfig={timeConfig} />
+          <Endpoints timeConfig={timeConfig} service={service} />
         </Col>
       </Row>
     </Fragment>
