@@ -1,35 +1,93 @@
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesConditions';
 
-export default function Conditions({ data }) {
-  if (!data.conditions || data.conditions.length === 0) {
-    return <NoDataAvailable height={160} />;
-  }
+const pathSegment = '/conditions';
+const matrixPrefix = 'condition.';
 
+export default function Conditions(props) {
   return (
-    <Table tableInCard>
-      <Thead>
-        <Tr size="compact">
-          <Th>Condition</Th>
-          <Th>Status</Th>
-          <Th>Last Transition Time</Th>
-          <Th>Reason</Th>
-          <Th>Message</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data.conditions.map(condition => (
-          <Tr key={condition.type} size="compact">
-            <Td>{condition.type}</Td>
-            <Td>{condition.status}</Td>
-            <Td>{condition.lastTransitionTime}</Td>
-            <Td>{condition.reason || '-'}</Td>
-            <Td>{condition.message || '-'}</Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
+    <ServerTableWithUrlBoundState
+      cardTitle="Conditions"
+      pathSegment={pathSegment}
+      matrixPrefix={matrixPrefix}
+      get={getTableData}
+      columnDefinitions={columnDefinitions}
+      paginationResettingProps={['podId', 'nodeId', 'deploymentId', 'deploymentConfigId', 'timeConfig']}
+      defaultOrderBy="type"
+      defaultOrderDirection="ASC"
+      {...props}
+    />
   );
 }
+
+function getTableData({
+  query,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection,
+  timeConfig,
+  podId,
+  nodeId,
+  deploymentId,
+  deploymentConfigId
+}) {
+  return getKubernetesConditions({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      podId,
+      nodeId,
+      deploymentId,
+      deploymentConfigId,
+      timeConfig
+    }
+  });
+}
+
+const columnDefinitions = [
+  {
+    id: 'type',
+    label: 'Name',
+    getContent(item) {
+      return item.type;
+    }
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    getContent(item) {
+      return item.status;
+    }
+  },
+  {
+    id: 'lastTransitionTime',
+    label: 'Last Transition Time',
+    getContent(item) {
+      return item.lastTransitionTime;
+    }
+  },
+  {
+    id: 'reason',
+    label: 'Reason',
+    getContent(item) {
+      return item.reason;
+    }
+  },
+  {
+    id: 'message',
+    label: 'Message',
+    getContent(item) {
+      return item.message;
+    }
+  }
+];
