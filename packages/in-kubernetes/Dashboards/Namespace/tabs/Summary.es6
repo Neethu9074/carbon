@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react';
 
-import {
-  resourceQuotaBytes,
-  resourceQuotaZeroDecimalPlaces,
-  resourceQuotaTwoDecimalPlaces
-} from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
@@ -61,7 +57,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: resourceQuotaTwoDecimalPlaces,
+                    formatter: twoDecimalPlaces,
                     metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
                     labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
                     type: 'line',
@@ -83,7 +79,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: resourceQuotaBytes,
+                    formatter: bytesTwoDecimalPlaces,
                     metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
                     labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
                     type: 'line',
@@ -105,7 +101,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: resourceQuotaZeroDecimalPlaces,
+                    formatter: zeroDecimalPlaces,
                     metrics: ['used_pods', 'cap_pods'],
                     labels: ['Used', 'Capacity'],
                     type: 'line',

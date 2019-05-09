@@ -1,14 +1,12 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import {
-  resourceQuotaBytes,
-  resourceQuotaTwoDecimalPlaces
-} from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
 import PodConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/PodConditionsPresenter';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
+import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -66,14 +64,14 @@ export default function Summary({ data: pod, timeConfig }) {
         <Col lg={3}>
           <KpiCard
             title="CPU Requests"
-            value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaTwoDecimalPlaces} />}
+            value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
         <Col lg={3}>
           <KpiCard
             title="CPU Limits"
-            value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaTwoDecimalPlaces} />}
+            value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
@@ -105,7 +103,7 @@ export default function Summary({ data: pod, timeConfig }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: resourceQuotaTwoDecimalPlaces,
+                    formatter: twoDecimalPlaces,
                     metrics: [`cpuRequests`, `cpuLimits`],
                     labels: ['Requests', 'Limits'],
                     type: 'line',
@@ -127,7 +125,7 @@ export default function Summary({ data: pod, timeConfig }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: resourceQuotaBytes,
+                    formatter: bytesTwoDecimalPlaces,
                     metrics: [`memoryRequests`, `memoryLimits`],
                     labels: ['Requests', 'Limits'],
                     type: 'line',
