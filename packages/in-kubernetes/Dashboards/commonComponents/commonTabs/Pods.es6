@@ -17,6 +17,7 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
+import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -170,9 +171,10 @@ const allColumnDefinitions = [
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
         <TwoValueBar
-          rightToLeft
           v1={containerStatuses.filter(c => c.ready).length}
           v2={containerStatuses.length}
+          v1Color={theme.lib.colors.lightBlue800}
+          v2Color={theme.lib.colors.red800}
           v1Label="Ready"
           v2Label="Total"
           fullDomain={containerStatuses.length}
