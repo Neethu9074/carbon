@@ -7,6 +7,7 @@ import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSetting$ } from 'in-services/settings';
+import { isBlank } from 'in-services/util/string';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
@@ -34,7 +35,7 @@ export function getViewStructure() {
     viewGrouping$
   ]).flatMap(([viewType, timeConfig, _searchMatches, excludeUnmonitoredHosts, query, grouping]) => {
     if (!_searchMatches || _searchMatches.size === 0) {
-      if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
+      if (isBlank(query) && isBlank(role.implicitViewFilter)) {
         _searchMatches = everythingMatches;
       } else {
         _searchMatches = nothingMatches;

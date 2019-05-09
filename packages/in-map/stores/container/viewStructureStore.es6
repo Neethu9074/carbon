@@ -5,6 +5,7 @@ import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
+import { isBlank } from 'in-services/util/string';
 import { view$ } from 'in-stores/view';
 import { role } from 'in-stores/user';
 
@@ -24,7 +25,7 @@ export function getViewStructure() {
   return combineLatest([view$, timeConfig$, searchMatches$, debouncedQuery$, viewGrouping$]).flatMap(
     ([viewType, timeConfig, _searchMatches, query, grouping]) => {
       if (!_searchMatches || _searchMatches.size === 0) {
-        if (query.trim().length === 0 && role.implicitViewFilter.trim().length === 0) {
+        if (isBlank(query) && isBlank(role.implicitViewFilter)) {
           _searchMatches = everythingMatches;
         } else {
           _searchMatches = nothingMatches;
