@@ -5,6 +5,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
@@ -26,7 +27,7 @@ const columnDefinitions = [
     id: 'type',
     label: 'Type',
     getContent(item) {
-      return get(item, 'type');
+      return get(item, 'type') || valueMissingPlaceholder;
     }
   },
   {
@@ -51,7 +52,7 @@ const columnDefinitions = [
     id: 'namespace',
     label: 'Namespace',
     getContent(item) {
-      return get(item, 'namespace');
+      return item.namespace || valueMissingPlaceholder;
     }
   },
   {
@@ -68,7 +69,7 @@ const columnDefinitions = [
     id: 'kind',
     label: 'Kind',
     getContent(item) {
-      return get(item, 'kind');
+      return item.kind || valueMissingPlaceholder;
     }
   },
   {
