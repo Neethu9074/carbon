@@ -5,10 +5,10 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
-import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardBreadcrumb.mless';
@@ -58,7 +58,7 @@ const PhysicalHierarchyBreadCrumb = connectTo(
 
     const plugin = snapshot.get('plugin');
     return (
-      <Breadcrumb href$={getDashboardLink(snapshotId)} label={getSingular(plugin)} snapshot={snapshot} plugin={plugin}>
+      <Breadcrumb href$={getDashboardLink(snapshotId)} label={getSingular(plugin)} iconPath={getIconSvgPath(snapshot)}>
         {getLabel(snapshot)}
       </Breadcrumb>
     );
