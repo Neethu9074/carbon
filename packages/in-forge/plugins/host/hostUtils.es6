@@ -8,3 +8,11 @@ export function isZos(snapshot) {
 export function isLinux(snapshot) {
   return snapshot.getIn(['data', 'os.name'], '').match(/linux/i);
 }
+
+export function isMacOs(snapshot) {
+  return snapshot.getIn(['data', 'os.name'], '').match(/Mac OS/i);
+}
+
+export function supportsOpenFiles(snapshot) {
+  return !isWindows(snapshot) && !isZos(snapshot);
+}
