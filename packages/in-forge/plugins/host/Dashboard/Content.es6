@@ -8,6 +8,7 @@ import {
   number,
   siPrefix
 } from 'in-services/formatters/number';
+import { isWindows, isZos, isLinux, supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -15,7 +16,6 @@ import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { isWindows, isZos, isLinux } from 'in-forge/plugins/host/hostUtils';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
@@ -108,7 +108,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      {!(isWindows(snapshot) || isZos(snapshot)) ? (
+      {supportsOpenFiles(snapshot) ? (
         <DashboardSection title="Open Files">
           <Chart
             snapshotId={snapshot.get('id')}

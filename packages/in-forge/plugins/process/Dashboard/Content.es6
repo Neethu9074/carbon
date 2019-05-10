@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number, siPrefix } from 'in-services/formatters/number';
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { isWindows, isZos } from 'in-forge/plugins/process/hostUtils';
+import { supportsOpenFiles } from 'in-forge/plugins/process/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -44,30 +44,32 @@ export default connectTo(
           />
         </DashboardSection>
 
-        {hostSnapshot && !(isWindows(hostSnapshot) || isZos(hostSnapshot)) ? (
-          <DashboardSection title="Open Files">
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                max: snapshot.getIn(['data', 'openFiles.max']),
-                formatter: number.compact,
-                metrics: ['openFiles.current'],
-                labels: ['Current'],
-                type: 'line'
-              }}
-              y2={{
-                min: 0,
-                max: 1,
-                metrics: ['openFiles.used'],
-                labels: ['Used'],
-                formatter: percentageZeroDecimalPlaces,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        ) : null}
+        {hostSnapshot &&
+          supportsOpenFiles(hostSnapshot) && (
+            <DashboardSection title="Open Files">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  max: snapshot.getIn(['data', 'openFiles.max']),
+                  formatter: siPrefix.compact,
+                  tooltipFormatter: number.compact,
+                  metrics: ['openFiles.current'],
+                  labels: ['Current'],
+                  type: 'line'
+                }}
+                y2={{
+                  min: 0,
+                  max: 1,
+                  metrics: ['openFiles.used'],
+                  labels: ['Used'],
+                  formatter: percentageZeroDecimalPlaces,
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          )}
 
         {data.get('ctx_switches_enabled') ? (
           <DashboardSection title="Number of context switches">
