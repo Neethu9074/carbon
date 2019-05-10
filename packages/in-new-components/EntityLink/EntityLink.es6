@@ -8,8 +8,10 @@ import theme from 'in-themes';
 import locals from './EntityLink.mless';
 
 export default function EntityLink({ label, plugin, snapshot, icon, tooltip, href$, specialIndicator }) {
-  let content = (
-    <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={theme.lib.colors.blue800}>
+  const iconColor = href$ && theme.lib.colors.blue800;
+
+  const innerContent = (
+    <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
       {tooltip ? (
         <Tooltip content={tooltip}>
           <Link href$={href$}>{label}</Link>
@@ -22,14 +24,14 @@ export default function EntityLink({ label, plugin, snapshot, icon, tooltip, hre
     </WithIcon>
   );
 
-  if (specialIndicator) {
-    content = (
-      <div>
-        <span className={locals.specialIndicator} />
-        {content}
-      </div>
-    );
+  if (!specialIndicator) {
+    return innerContent;
   }
 
-  return content;
+  return (
+    <div>
+      <span className={locals.specialIndicator} />
+      {innerContent}
+    </div>
+  );
 }
