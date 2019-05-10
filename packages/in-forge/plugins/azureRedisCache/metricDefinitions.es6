@@ -6,7 +6,7 @@ export default [
     label: 'Connected Clients',
     category: ['Performance'],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metric: 'totalcommandsprocessed',
