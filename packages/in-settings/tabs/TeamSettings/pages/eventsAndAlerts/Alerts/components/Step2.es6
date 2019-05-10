@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
@@ -13,7 +14,6 @@ import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
 import ComboBox from 'in-components/ComboBox';
-import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 
 import locals from './Step2.mless';
 

@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
-import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 
 const EventTypesSwitcher = ({ form, types, onChange, formGroupStyles }) => (
   <Fragment>
