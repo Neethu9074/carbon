@@ -33,7 +33,7 @@ const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create Team' : `${entity.get('name')}`}</SubViewHeader>
+      <SubViewHeader>{isCreate ? 'Create Team' : `Configure Team: ${entity.get('name')}`}</SubViewHeader>
 
       {message ? (
         <Section>

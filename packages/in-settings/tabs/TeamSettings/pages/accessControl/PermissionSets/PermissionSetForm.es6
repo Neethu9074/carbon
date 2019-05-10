@@ -20,6 +20,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
 
   return (
     <fieldset>
+      <SectionHeading>General</SectionHeading>
       {form.get('name').map(field => (
         <FormGroup>
           <Label htmlFor="permission-set-name" hasError={!field.valid && field.touched}>
@@ -44,32 +45,31 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
           setForm={setForm}
           permission={area.value}
           label={`Access '${area.label}' monitoring`}
-          helpText={`Permits '${area.label}' monitoring functionality.`}
+          helpText={`Permits access to '${area.label}' monitoring functionality.`}
           disabled={false}
         />
       ))}
 
-      <SectionHeading>Whitelist</SectionHeading>
       <Applications
         setTitle={false}
         loadEntities={() => getSelectedApplicationConfigs(selectedApplications)}
         hasRowNavigation={false}
-        noDataMessage="No Applications Selected"
+        noDataMessage="No Application Perspectives Selected"
         tableActions={applicationSelectionTableActions(form, setForm)}
         rightHeader={
           <SelectListDialogButton
             form={form}
             onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
-            title="Add Applications"
-            label={'Add Applications'}
+            title="Add Application Perspectives"
+            label={'Add Application Perspectives'}
             listComponent={Applications}
             listComponentRightHeader={noRightHeader}
             hiddenIds={selectedApplications}
-            limit={20} // some limit
+            limit={999} // some high limit, as it is mandatory
             createSubmitLabel={numberOfItems =>
-              numberOfItems > 0 ? `Add ${numberOfItems} Application${numberOfItems > 1 ? 's' : ''}` : 'Add'
+              numberOfItems > 0 ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}` : 'Add'
             }
-            requiresAtLeastOneMessage="Please select at least one application."
+            requiresAtLeastOneMessage="Please select at least one application Perspectives."
           />
         }
       />

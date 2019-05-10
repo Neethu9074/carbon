@@ -7,16 +7,17 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
+import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
-import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
+import { hasPermission } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
@@ -71,7 +72,10 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
         endpointId={endpointId}
         timeConfig={timeConfig}
       />
-      {kubernetesEnabled && <InstanaServiceToKubernetesServiceButton serviceId={serviceId} timeConfig={timeConfig} />}
+      {kubernetesEnabled &&
+        hasPermission('ACCESS_KUBERNETES') && (
+          <InstanaServiceToKubernetesServiceButton serviceId={serviceId} timeConfig={timeConfig} />
+        )}
       <ApplicationEntityHealthIndicatorBehavior
         showOkayOnNoIssues={false}
         IndicatorPresenter={HealthIndicatorButtonPresenter}

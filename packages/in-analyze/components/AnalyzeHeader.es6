@@ -19,6 +19,7 @@ import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
+import { hasPermission } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
@@ -53,54 +54,63 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           label="Calls"
           isActive={dataSource === 'calls'}
         />
-        <SecondLevelNavigationItem
-          href$={getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
-            beaconType: 'pageLoad'
-          })}
-          icon="lib_website_page_load"
-          label={`${websiteDataSourceTitles.pageLoad}s`}
-          isActive={dataSource === 'pageLoad'}
-          addSeparator
-        />
-        <SecondLevelNavigationItem
-          href$={getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
-            beaconType: 'resourceLoad'
-          })}
-          icon="lib_website_resource"
-          label={`${websiteDataSourceTitles.resourceLoad}s`}
-          isActive={dataSource === 'resourceLoad'}
-        />
-        <SecondLevelNavigationItem
-          href$={getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
-            beaconType: 'httpRequest'
-          })}
-          icon="lib_website_ajax"
-          label={`${websiteDataSourceTitles.httpRequest}s`}
-          isActive={dataSource === 'httpRequest'}
-        />
-        <SecondLevelNavigationItem
-          href$={getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
-            beaconType: 'error'
-          })}
-          icon="lib_website_error"
-          label={`${websiteDataSourceTitles.error}s`}
-          isActive={dataSource === 'error'}
-        />
-        {customEventsInWebsiteMonitoringEnabled && (
+        {hasPermission('ACCESS_WEBSITES') && (
           <SecondLevelNavigationItem
             href$={getLinkToWebsiteAnalyze({
-              group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
-              beaconType: 'custom'
+              group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+              beaconType: 'pageLoad'
             })}
-            icon="lib_website_error"
-            label={`${websiteDataSourceTitles.custom}s`}
-            isActive={dataSource === 'custom'}
+            icon="lib_website_page_load"
+            label={`${websiteDataSourceTitles.pageLoad}s`}
+            isActive={dataSource === 'pageLoad'}
+            addSeparator
           />
         )}
+        {hasPermission('ACCESS_WEBSITES') && (
+          <SecondLevelNavigationItem
+            href$={getLinkToWebsiteAnalyze({
+              group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+              beaconType: 'resourceLoad'
+            })}
+            icon="lib_website_resource"
+            label={`${websiteDataSourceTitles.resourceLoad}s`}
+            isActive={dataSource === 'resourceLoad'}
+          />
+        )}
+        {hasPermission('ACCESS_WEBSITES') && (
+          <SecondLevelNavigationItem
+            href$={getLinkToWebsiteAnalyze({
+              group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+              beaconType: 'httpRequest'
+            })}
+            icon="lib_website_ajax"
+            label={`${websiteDataSourceTitles.httpRequest}s`}
+            isActive={dataSource === 'httpRequest'}
+          />
+        )}
+        {hasPermission('ACCESS_WEBSITES') && (
+          <SecondLevelNavigationItem
+            href$={getLinkToWebsiteAnalyze({
+              group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+              beaconType: 'error'
+            })}
+            icon="lib_website_error"
+            label={`${websiteDataSourceTitles.error}s`}
+            isActive={dataSource === 'error'}
+          />
+        )}
+        {customEventsInWebsiteMonitoringEnabled &&
+          hasPermission('ACCESS_WEBSITES') && (
+            <SecondLevelNavigationItem
+              href$={getLinkToWebsiteAnalyze({
+                group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+                beaconType: 'custom'
+              })}
+              icon="lib_website_error"
+              label={`${websiteDataSourceTitles.custom}s`}
+              isActive={dataSource === 'custom'}
+            />
+          )}
       </SecondLevelNavigation>
 
       <TimeSelection />

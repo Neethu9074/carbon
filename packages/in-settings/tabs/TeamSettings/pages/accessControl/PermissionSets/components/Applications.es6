@@ -23,7 +23,7 @@ export default function Applications({
 }) {
   return (
     <List
-      title={setTitle ? ' Permitted Applications' : null}
+      title={setTitle ? ' Permitted Application Perspectives' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
@@ -76,11 +76,11 @@ function columnDefinitions() {
 const defaultTableActions = {};
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
-  return leftHeaderWithSelectAll('Applications', inSelectListDialog, tableActions);
+  return leftHeaderWithSelectAll('Access Application Perspectives', inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {
-  return `Application "${entity.label}"`;
+  return `Application Perspective "${entity.label}"`;
 }
 
 export function noRightHeader() {

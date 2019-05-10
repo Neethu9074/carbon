@@ -33,7 +33,9 @@ const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create Access Scope' : `${entity.get('name')}`}</SubViewHeader>
+      <SubViewHeader>
+        {isCreate ? 'Create Access Scope' : `Configure Access Scope: ${entity.get('name')}`}
+      </SubViewHeader>
 
       {message ? (
         <Section>

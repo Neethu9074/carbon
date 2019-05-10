@@ -128,22 +128,6 @@ function navigationTreeForRole(role): NavigationTree {
 
     if (isRbacEnabled && role.canConfigureTeams) {
       accessControlPages.push({
-        path: teamSettingsAccessControlPermissionSets,
-        label: 'Access Scopes',
-        component: PermissionSetsPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlPermissionSetNew,
-            component: PermissionSetPage
-          },
-          {
-            path: teamSettingsAccessControlPermissionSetEdit,
-            component: PermissionSetPage
-          }
-        ]
-      });
-
-      accessControlPages.push({
         path: teamSettingsAccessControlTeams,
         label: 'Teams',
         component: TeamsPage,
@@ -155,6 +139,22 @@ function navigationTreeForRole(role): NavigationTree {
           {
             path: teamSettingsAccessControlTeamEdit,
             component: TeamPage
+          }
+        ]
+      });
+
+      accessControlPages.push({
+        path: teamSettingsAccessControlPermissionSets,
+        label: 'Access Scopes',
+        component: PermissionSetsPage,
+        subPages: [
+          {
+            path: teamSettingsAccessControlPermissionSetNew,
+            component: PermissionSetPage
+          },
+          {
+            path: teamSettingsAccessControlPermissionSetEdit,
+            component: PermissionSetPage
           }
         ]
       });
