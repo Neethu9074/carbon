@@ -1,11 +1,11 @@
 import React from 'react';
 
 import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import PodMapTab from 'in-kubernetes/Dashboards/Namespace/tabs/PodMapTab';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
@@ -30,7 +30,7 @@ export default [
   {
     label: 'Events',
     path: `${namespaceDashboardFullyQualified}/events`,
-    component: Events
+    component: EventsWithoutNamespace
   },
   {
     label: 'Deployments',
