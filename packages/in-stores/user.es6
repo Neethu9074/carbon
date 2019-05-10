@@ -1,5 +1,6 @@
 import { find } from 'lodash';
 
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { createTrackingStore } from 'in-stores/store';
 import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
@@ -23,5 +24,5 @@ export const tenantUnitStructure$ = createTrackingStore({
 }).observable;
 
 export function hasPermission(permission) {
-  return permissions.indexOf(permission) > -1;
+  return !isRbacEnabled || !role.restrictedAccess || permissions.indexOf(permission) > -1;
 }

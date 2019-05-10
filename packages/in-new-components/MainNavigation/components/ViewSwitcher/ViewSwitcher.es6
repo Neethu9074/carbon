@@ -1,13 +1,13 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import { releaseNotesEnabled, kubernetesEnabled, isRbacEnabled } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { releaseNotesEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -57,7 +57,7 @@ export default function ViewSwitcher({
       />
 
       {kubernetesEnabled &&
-        (!isRbacEnabled || !role.restrictedAccess || hasPermission('ACCESS_KUBERNETES')) && (
+        hasPermission('ACCESS_KUBERNETES') && (
           <View
             label="Kubernetes"
             icon="lib_kubernetes_inverted"
@@ -77,7 +77,7 @@ export default function ViewSwitcher({
         {...commonProps}
       />
 
-      {(!isRbacEnabled || !role.restrictedAccess || hasPermission('ACCESS_WEBSITES')) && (
+      {hasPermission('ACCESS_WEBSITES') && (
         <View
           label="Websites"
           icon="lib_website_inverted"

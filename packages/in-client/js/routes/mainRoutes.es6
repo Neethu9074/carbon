@@ -17,13 +17,13 @@ import AgentView from 'promise-loader?global!in-views/agentView/AgentView';
 import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
+import { role, isInstanaEmail, hasPermission } from 'in-stores/user';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import analyzeRoutes from 'in-analyze/navigation/routes';
-import { role, isInstanaEmail } from 'in-stores/user';
 import Map from 'in-map/index';
 
 export default (
@@ -47,8 +47,8 @@ export default (
 
     {applicationRoutes}
     {analyzeRoutes}
-    {kubernetesEnabled && kubernetesRoutes}
-    {websiteMonitoringRoutes}
+    {kubernetesEnabled && hasPermission('ACCESS_KUBERNETES') && kubernetesRoutes}
+    {hasPermission('ACCESS_WEBSITES') && websiteMonitoringRoutes}
 
     {/* landing page */}
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
