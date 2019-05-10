@@ -8,8 +8,8 @@ import {
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 'in-stores/snapshot';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
@@ -24,6 +24,7 @@ import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Infrastructure.mless';
@@ -51,6 +52,62 @@ function getTable(type) {
     matrixPrefix: ''
   });
 }
+
+const InfrastructureEntityLink = connectTo(({ entity }) => ({
+  snapshot: entity && entity.id && getSnapshot(entity.id)
+}))(function InfrastructureEntityLink({
+  entity,
+  snapshot,
+  plugin,
+  inEntity,
+  onEntity,
+  inIcon,
+  onIcon,
+  getInEntityDashboard,
+  getOnEntityDashboard
+}) {
+  if (!entity.id) {
+    return null;
+  }
+  const link = (
+    <EntityLink
+      plugin={plugin}
+      snapshot={snapshot}
+      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
+        stay =>
+          stay
+            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+            : getDashboardLink(entity.id, {
+                pathname: '/physical/dashboard',
+                to: entity.time,
+                focusedMoment: entity.time,
+                autoRefresh: false
+              })
+      )}
+    />
+  );
+  if ((inEntity || onEntity) && kubernetesEnabled) {
+    return (
+      <div className={locals.linkWithMetaEntities}>
+        {link}
+        <div className={locals.metaRow}>
+          {inEntity && (
+            <MetaEntityLink entity={inEntity} icon={inIcon} getDashboard={getInEntityDashboard}>
+              in
+            </MetaEntityLink>
+          )}
+          {onEntity && (
+            <MetaEntityLink entity={onEntity} icon={onIcon} getDashboard={getOnEntityDashboard}>
+              of
+            </MetaEntityLink>
+          )}
+        </div>
+      </div>
+    );
+  }
+  return link;
+});
 
 export default compose(
   withUrlDependingState({
@@ -355,58 +412,6 @@ function getColumnDefinitions(type) {
       }
     }
   ];
-}
-
-function InfrastructureEntityLink({
-  entity,
-  plugin,
-  inEntity,
-  onEntity,
-  inIcon,
-  onIcon,
-  getInEntityDashboard,
-  getOnEntityDashboard
-}) {
-  if (!entity.id) {
-    return null;
-  }
-  const link = (
-    <EntityLink
-      plugin={plugin}
-      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-        stay =>
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
-      )}
-    />
-  );
-  if ((inEntity || onEntity) && kubernetesEnabled) {
-    return (
-      <div className={locals.linkWithMetaEntities}>
-        {link}
-        <div className={locals.metaRow}>
-          {inEntity && (
-            <MetaEntityLink entity={inEntity} icon={inIcon} getDashboard={getInEntityDashboard}>
-              in
-            </MetaEntityLink>
-          )}
-          {onEntity && (
-            <MetaEntityLink entity={onEntity} icon={onIcon} getDashboard={getOnEntityDashboard}>
-              of
-            </MetaEntityLink>
-          )}
-        </div>
-      </div>
-    );
-  }
-  return link;
 }
 
 function MetaEntityLink({ icon, getDashboard, entity, children }) {
