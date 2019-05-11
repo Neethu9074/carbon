@@ -1,49 +1,75 @@
-import { get } from 'lodash';
+import { get, includes } from 'lodash';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
-import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
+import Tooltip from 'in-components/Tooltip';
 
-const iconsByPlugin = {
-  'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod': 'lib_kubernetes_pod',
-  'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.service.KubernetesService': 'lib_kubernetes_service',
-  'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment':
-    'lib_kubernetes_workload',
-  'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace':
-    'lib_kuberetes_namespace',
-  'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster': 'lib_kubernetes_cluster'
+const pluginIcons = {
+  [fullyQualifiedPlugins.kubernetesPod]: 'lib_kubernetes_pod',
+  [fullyQualifiedPlugins.kubernetesService]: 'lib_kubernetes_service',
+  [fullyQualifiedPlugins.kubernetesDeployment]: 'lib_kubernetes_workload',
+  [fullyQualifiedPlugins.kubernetesNamespace]: 'lib_kuberetes_namespace',
+  [fullyQualifiedPlugins.kubernetesReplicaSet]: 'lib_kubernetes_workload',
+  [fullyQualifiedPlugins.kubernetesCluster]: 'lib_kubernetes_cluster'
 };
 
 const columnDefinitions = [
   {
+    id: 'type',
+    label: 'Type',
+    getContent(item) {
+      return get(item, 'type') || valueMissingPlaceholder;
+    }
+  },
+  {
     id: 'title',
-    label: 'Event',
+    label: 'Reason',
+    getContent(item) {
+      return get(item, 'title');
+    }
+  },
+  {
+    id: 'detailText',
+    label: 'Message',
     getContent(item) {
       return (
-        <ViewWidthRestrictedColumn width={43}>
-          <EntityWithTypeAndIcon label={get(item, 'detailText')} type={get(item, 'title')} />
-        </ViewWidthRestrictedColumn>
+        <Tooltip themeStyle="light" content={get(item, 'detailText')} align="topMiddle">
+          <ViewWidthRestrictedColumn width={20}>{get(item, 'detailText')}</ViewWidthRestrictedColumn>
+        </Tooltip>
       );
     }
   },
   {
-    id: 'entityLabel',
-    label: 'Source',
+    id: 'namespace',
+    label: 'Namespace',
     getContent(item) {
-      return (
-        <EntityLink
-          icon={iconsByPlugin[item.sourcePlugin]}
-          label={item.entityLabel}
-          href$={getDashboardForEntity(item.sourceId, item.sourcePlugin)}
-        />
-      );
+      return item.namespace || valueMissingPlaceholder;
+    }
+  },
+  {
+    id: 'name',
+    label: 'Involved Object',
+    getContent(item, { serviceId, namespaceId, clusterId, podId }) {
+      const href$ = includes([serviceId, namespaceId, clusterId, podId], item.sourceId)
+        ? null
+        : getDashboardForEntity(item.sourceId, item.sourcePlugin);
+      return <EntityLink icon={pluginIcons[item.sourcePlugin]} label={item.name} href$={href$} />;
+    }
+  },
+  {
+    id: 'kind',
+    label: 'Kind',
+    getContent(item) {
+      return item.kind || valueMissingPlaceholder;
     }
   },
   {
@@ -58,17 +84,19 @@ const columnDefinitions = [
 const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
-  columnDefinitions,
-  defaultOrderBy: 'time',
-  defaultOrderDirection: 'DESC',
-  defaultPageSize: 10,
-  pathSegment,
-  matrixPrefix
-});
+const serverTableWithUrlState = columnDefinitions =>
+  createServerTableWithUrlState({
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
+    columnDefinitions,
+    defaultOrderBy: 'time',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment,
+    matrixPrefix
+  });
 
-export default function Events({ serviceId, namespaceId, clusterId, podId, ...props }) {
+export default function Events({ serviceId, namespaceId, clusterId, podId, columnFilter = () => true, ...props }) {
+  const ServerTableWithUrlState = serverTableWithUrlState(columnDefinitions.filter(columnFilter));
   return (
     <Row>
       <Col lg={12}>
@@ -84,6 +112,10 @@ export default function Events({ serviceId, namespaceId, clusterId, podId, ...pr
       </Col>
     </Row>
   );
+}
+
+export function EventsWithoutNamespace({ ...props }) {
+  return Events({ columnFilter: c => c.id !== 'namespace', ...props });
 }
 
 function getTableData({

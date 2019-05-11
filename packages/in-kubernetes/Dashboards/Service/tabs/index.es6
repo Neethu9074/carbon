@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
-import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
@@ -23,7 +23,7 @@ export default [
   {
     label: 'Events',
     path: `${serviceDashboardFullyQualified}/events`,
-    component: Events
+    component: EventsWithoutNamespace
   },
   {
     label: 'Deployments',
