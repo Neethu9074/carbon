@@ -44,7 +44,7 @@ sudo apt-get install build-essential
 xcode-select --install
 
 # download and install NVM
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 
 # reload bash
 bash
