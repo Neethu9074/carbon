@@ -77,7 +77,6 @@ export function createAlertingConfig(
   integrationIds = [],
   ruleIds = [],
   query = '',
-  eventQuery = '',
   eventTypes = []
 ) {
   return {
@@ -87,7 +86,6 @@ export function createAlertingConfig(
     integrationIds,
     eventFilteringConfiguration: {
       query,
-      eventQuery,
       ruleIds,
       eventTypes
     }
