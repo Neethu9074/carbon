@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Card from 'in-new-components/Card';
 
@@ -7,8 +8,8 @@ export default function IPs({ resource: node }) {
   return (
     <Card title="IPs">
       <Dl>
-        <Di title="Internal IP">{node.internalIp || '-'}</Di>
-        <Di title="Exnternal IP">{node.externalIp || '-'}</Di>
+        <Di title="Internal IP">{node.internalIp || valueMissingPlaceholder}</Di>
+        <Di title="Exnternal IP">{node.externalIp || valueMissingPlaceholder}</Di>
       </Dl>
     </Card>
   );

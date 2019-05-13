@@ -23,11 +23,6 @@ export default [
     component: Details
   },
   {
-    label: 'Pod Map',
-    path: `${namespaceDashboardFullyQualified}/podMap`,
-    component: PodMapTab
-  },
-  {
     label: 'Events',
     path: `${namespaceDashboardFullyQualified}/events`,
     component: EventsWithoutNamespace
@@ -43,6 +38,11 @@ export default [
     path: `${namespaceDashboardFullyQualified}/services`,
     component: Services,
     header: props => getCounterComponent(props, 'services')
+  },
+  {
+    label: 'Pod Map',
+    path: `${namespaceDashboardFullyQualified}/podMap`,
+    component: PodMapTab
   },
   {
     label: 'Pods',

@@ -14,6 +14,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -184,7 +185,7 @@ function getColumnDefinitions(pod) {
       sortable: false,
       getContent(item) {
         const id = get(item, ['container', 'id']);
-        return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : '-';
+        return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : valueMissingPlaceholder;
       }
     },
     {
@@ -193,7 +194,7 @@ function getColumnDefinitions(pod) {
       sortable: false,
       getContent(item) {
         const id = get(item, ['container', 'id']);
-        return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : '-';
+        return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : valueMissingPlaceholder;
       }
     },
     {
@@ -202,7 +203,7 @@ function getColumnDefinitions(pod) {
       sortable: false,
       getContent(item) {
         const id = get(item, ['container', 'id']);
-        return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : '-';
+        return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : valueMissingPlaceholder;
       }
     },
     {

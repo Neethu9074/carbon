@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get, filter, some } from 'lodash';
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -7,6 +7,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -160,7 +161,7 @@ const allColumnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return <span>{get(item, ['pod', 'status', 'statusSummary'], '-')}</span>;
+      return <span>{get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder)}</span>;
     }
   },
   {
