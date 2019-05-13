@@ -9,6 +9,7 @@ import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
+import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -18,14 +19,15 @@ export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
   return (
     <Fragment>
-      <Row>
-        <Col lg={6}>
-          <KpiCard title="Status" value={namespace.status} raw />
-        </Col>
-        <Col lg={6}>
-          <KpiCard title="Age" value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder} raw />
-        </Col>
-      </Row>
+      <KpiGridRow sizes={[6, 6]}>
+        <KpiCard title="Status" value={namespace.status} raw borderless />
+        <KpiCard
+          title="Age"
+          value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder}
+          raw
+          borderless
+        />
+      </KpiGridRow>
 
       <Row>
         <Col lg={2}>

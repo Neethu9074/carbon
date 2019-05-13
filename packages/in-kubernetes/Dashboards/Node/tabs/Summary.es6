@@ -7,6 +7,7 @@ import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -17,21 +18,26 @@ export default function Summary({ timeConfig, data: node }) {
 
   return (
     <Fragment>
-      <Row>
-        <Col lg={3}>
-          <KpiCard title="Status" value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>} raw />
-        </Col>
-        <Col lg={3}>
-          <KpiCard title="Roles" value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>} raw />
-        </Col>
-        <Col lg={3}>
-          <KpiCard
-            title="Age"
-            value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
-            raw
-          />
-        </Col>
-      </Row>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard
+          title="Status"
+          value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>}
+          raw
+          borderless
+        />
+        <KpiCard
+          title="Roles"
+          value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>}
+          raw
+          borderless
+        />
+        <KpiCard
+          title="Age"
+          value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
+          raw
+          borderless
+        />
+      </KpiGridRow>
 
       <Row>
         <Col lg={2}>

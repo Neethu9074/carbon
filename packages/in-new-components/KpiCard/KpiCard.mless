@@ -8,6 +8,10 @@
     .ellipsis();
   }
 
+  .borderless {
+    border-left: 0;
+  }
+
   .title {
     color: @lib__colors__N700Medium;
     font-size: 1rem;
