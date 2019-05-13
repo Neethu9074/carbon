@@ -8,7 +8,7 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { getIntegrationsByIdsMutable } from 'in-api/integrations';
+import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
@@ -52,7 +52,7 @@ const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(f
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getIntegrationsByIdsMutable(selectedChannels).startWith(null);
+  return getAlertChannelsByIdsMutable(selectedChannels).startWith(null);
 });
 
 function alertChannelSelectionTableActions(form, setForm) {
