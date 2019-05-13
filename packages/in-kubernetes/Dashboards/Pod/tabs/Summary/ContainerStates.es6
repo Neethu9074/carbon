@@ -52,7 +52,7 @@ export default connectTo(
           </Thead>
           <Tbody>
             {presentedStates.map((status, i) => {
-              if (status.containerSnapshotId && snapshotEnrichedContainerStates[status.containerSnapshotId]) {
+              if (get(snapshotEnrichedContainerStates, [status.containerSnapshotId, 'snapshot'])) {
                 const containerSnapshot = snapshotEnrichedContainerStates[status.containerSnapshotId].snapshot;
                 return (
                   <Tr key={i}>
@@ -120,26 +120,22 @@ export default connectTo(
                     <PodMessage message={status.message} />
                   </Td>
                   <Td>
-                    {status.containerSnapshotId && (
-                      <InfrastructureMetricSparkChart
-                        snapshotId={status.containerSnapshotId}
-                        timeConfig={timeConfig}
-                        formatter={percentageZeroDecimalPlaces}
-                        tooltipFormatter={percentageTwoDecimalPlaces}
-                        metric="cpu.total_usage"
-                      />
-                    )}
+                    <InfrastructureMetricSparkChart
+                      snapshotId={status.containerSnapshotId}
+                      timeConfig={timeConfig}
+                      formatter={percentageZeroDecimalPlaces}
+                      tooltipFormatter={percentageTwoDecimalPlaces}
+                      metric="cpu.total_usage"
+                    />
                   </Td>
                   <Td>
-                    {status.containerSnapshotId && (
-                      <InfrastructureMetricSparkChart
-                        snapshotId={status.containerSnapshotId}
-                        timeConfig={timeConfig}
-                        formatter={bytesZeroDecimalPlaces}
-                        tooltipFormatter={bytesTwoDecimalPlaces}
-                        metric="memory.usage"
-                      />
-                    )}
+                    <InfrastructureMetricSparkChart
+                      snapshotId={status.containerSnapshotId}
+                      timeConfig={timeConfig}
+                      formatter={bytesZeroDecimalPlaces}
+                      tooltipFormatter={bytesTwoDecimalPlaces}
+                      metric="memory.usage"
+                    />
                   </Td>
                 </Tr>
               );
