@@ -14,7 +14,8 @@ describe('CSS modules', () => {
       .then(files => Promise.all(files.map(getContent)))
       .then(files => files.filter(f => !isDefiningLocalWrapper(f)))
       .then(files => {
-        const msg = `The following files do not contain a :local {…} wrapper. This must be defined in order to ` +
+        const msg =
+          `The following files do not contain a :local {…} wrapper. This must be defined in order to ` +
           `avoid CSS class name clashes.\n\n${files.map(extractPath).join('\n')}\n\n`;
         expect(files).to.have.lengthOf(0, msg);
       });
@@ -25,7 +26,8 @@ describe('CSS modules', () => {
       .then(files => Promise.all(files.map(getContent)))
       .then(files => files.filter(isDefiningLocalWrapper))
       .then(files => {
-        const msg = `The following files contain a :local {…} wrapper. The file name extension must be .mless.` +
+        const msg =
+          `The following files contain a :local {…} wrapper. The file name extension must be .mless.` +
           `Please rename the files to mless.\n\n${files.map(extractPath).join('\n')}\n\n`;
         expect(files).to.have.lengthOf(0, msg);
       });
@@ -33,11 +35,10 @@ describe('CSS modules', () => {
 });
 
 function getContent(path) {
-  return fs.readFileAsync(path, {encoding: 'utf8'})
-    .then(content => ({
-      content,
-      path
-    }));
+  return fs.readFileAsync(path, { encoding: 'utf8' }).then(content => ({
+    content,
+    path
+  }));
 }
 
 function isDefiningLocalWrapper(file) {

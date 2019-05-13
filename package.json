@@ -10,9 +10,9 @@
     "build": "export BUILD_DEV='false' && gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "test": "yarn run test:unit && yarn run test:lint && yarn run test:flow",
-    "test:lint": "eslint --ext .es6 gulpfile.js packages",
-    "test:lint:quiet": "eslint --quiet --ext .es6 gulpfile.js packages",
-    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.es6')",
+    "test:lint": "eslint gulpfile.js packages",
+    "test:lint:quiet": "eslint --quiet gulpfile.js packages",
+    "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && mocha --timeout 6000 --max-old-space-size=4096 --require ./packages/in-test/testHarness --reporter dot $(find packages -name '*_test.js' -not -path '*/node_modules/*')",
     "test:flow": "flow check",
     "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ uglifyjs ./target/assets/bundle/_ -o /dev/null",
     "check:licenses": "license-checker --production > licenses.txt",
@@ -23,16 +23,18 @@
     "storybookBuild": "gulp prepareTestExecution && build-storybook -c storybook/config -o storybookTarget",
     "translateIconRegistry": "node packages/in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
-    "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{es6,less}\"",
+    "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{js,less}\"",
     "postinstall": "./build/postInstall",
-    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && markdown-toc -i README.md && git add README.md && lint-staged"
+    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && markdown-toc -i README.md && git add README.md && lint-staged",
+    "rename-es6-file-ext": "node \"replace-es6.js\" && find . -type f -name '*.es6'  -not -path \"*/node_modules/*\" | renamer --find es6 --replace js --dry-run"
   },
   "lint-staged": {
-    "*.es6": [
-      "eslint --ext .es6",
+    "*.js": [
+      "eslint",
       "prettier --single-quote --print-width 120 --write",
       "git add"
-    ]
+    ],
+    "subTaskConcurrency": 1
   },
   "repository": {
     "type": "git",
@@ -191,6 +193,8 @@
     "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
     "react-dev-utils": "^0.5.2",
+    "renamer": "^1.1.1",
+    "replace-in-file": "^4.0.0",
     "rimraf": "^2.6.2",
     "run-sequence": "^1.1.2",
     "sinon": "^2.2.0",

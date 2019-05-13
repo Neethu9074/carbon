@@ -16,7 +16,6 @@
 [lints]
 
 [options]
-module.file_ext=.es6
 module.file_ext=.js
 
 [strict]
