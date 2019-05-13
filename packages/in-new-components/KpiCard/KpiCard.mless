@@ -1,9 +1,11 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
     padding: 0.625rem 1rem;
     border-left: 3px solid @lib__colors__N200;
+    .ellipsis();
   }
 
   .title {

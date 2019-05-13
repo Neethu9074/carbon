@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 
 export default function NodeConditionsPresenter({ conditions }) {
   return (
@@ -21,7 +22,7 @@ export default function NodeConditionsPresenter({ conditions }) {
             <Td>{condition.status}</Td>
             <Td>{condition.lastTransitionTime}</Td>
             <Td>{condition.reason}</Td>
-            <Td>{condition.message || '-'}</Td>
+            <Td>{condition.message || valueMissingPlaceholder}</Td>
           </Tr>
         ))}
       </Tbody>

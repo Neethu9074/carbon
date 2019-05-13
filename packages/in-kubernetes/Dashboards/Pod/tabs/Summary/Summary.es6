@@ -6,6 +6,7 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -28,7 +29,11 @@ export default function Summary({ data: pod, timeConfig }) {
     <Fragment>
       <Row>
         <Col lg={3}>
-          <KpiCard title="Status" value={<Capitalize>{get(pod, ['status', 'statusSummary'], '-')}</Capitalize>} raw />
+          <KpiCard
+            title="Status"
+            value={<Capitalize>{get(pod, ['status', 'statusSummary'], valueMissingPlaceholder)}</Capitalize>}
+            raw
+          />
         </Col>
         <Col lg={3}>
           <KpiCard title="Phase" value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>} raw />
@@ -48,7 +53,7 @@ export default function Summary({ data: pod, timeConfig }) {
           />
         </Col>
         <Col lg={2}>
-          <KpiCard title="Age" value={pod.age ? formatDuration(pod.age) : '-'} raw />
+          <KpiCard title="Age" value={pod.age ? formatDuration(pod.age) : valueMissingPlaceholder} raw />
         </Col>
       </Row>
 

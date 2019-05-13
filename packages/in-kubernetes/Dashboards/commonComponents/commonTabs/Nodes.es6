@@ -6,6 +6,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
@@ -75,7 +76,9 @@ const columnDefinitions = [
     id: 'roles',
     label: 'Roles',
     getContent(item) {
-      return <ViewWidthRestrictedColumn width={15}>{item.node.roles || '-'}</ViewWidthRestrictedColumn>;
+      return (
+        <ViewWidthRestrictedColumn width={15}>{item.node.roles || valueMissingPlaceholder}</ViewWidthRestrictedColumn>
+      );
     }
   },
   {

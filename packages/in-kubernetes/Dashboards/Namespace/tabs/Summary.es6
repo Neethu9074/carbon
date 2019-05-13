@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -22,7 +23,7 @@ export default function Summary({ timeConfig, data: namespace }) {
           <KpiCard title="Status" value={namespace.status} raw />
         </Col>
         <Col lg={6}>
-          <KpiCard title="Age" value={namespace.age ? formatDuration(namespace.age) : '-'} raw />
+          <KpiCard title="Age" value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder} raw />
         </Col>
       </Row>
 

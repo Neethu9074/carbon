@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -19,13 +20,17 @@ export default function Summary({ timeConfig, data: node }) {
     <Fragment>
       <Row>
         <Col lg={3}>
-          <KpiCard title="Status" value={<Capitalize>{node.status || '-'}</Capitalize>} raw />
+          <KpiCard title="Status" value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>} raw />
         </Col>
         <Col lg={3}>
-          <KpiCard title="Roles" value={<Capitalize>{node.roles || '-'}</Capitalize>} raw />
+          <KpiCard title="Roles" value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>} raw />
         </Col>
         <Col lg={3}>
-          <KpiCard title="Age" value={<Capitalize>{node.age ? formatDuration(node.age) : '-'}</Capitalize>} raw />
+          <KpiCard
+            title="Age"
+            value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
+            raw
+          />
         </Col>
       </Row>
 
