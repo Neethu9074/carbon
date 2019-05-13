@@ -174,6 +174,7 @@ function createForm(apiToken) {
     .put('canConfigureIntegrations', createField({ value: apiToken.get('canConfigureIntegrations') }))
     .put('canSeeOnPremLicenseInformation', createField({ value: apiToken.get('canSeeOnPremLicenseInformation') }))
     .put('canConfigureRoles', createField({ value: apiToken.get('canConfigureRoles') }))
+    .put('canConfigureTeams', createField({ value: apiToken.get('canConfigureTeams') }))
     .put('canConfigureCustomAlerts', createField({ value: apiToken.get('canConfigureCustomAlerts') }))
     .put('canConfigureApiTokens', createField({ value: apiToken.get('canConfigureApiTokens') }))
     .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))

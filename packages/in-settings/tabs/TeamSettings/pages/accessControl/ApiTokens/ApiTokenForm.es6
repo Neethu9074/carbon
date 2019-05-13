@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/featureFlags';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -79,6 +79,16 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           name="canConfigureRoles"
           label="Access role configuration"
         />
+
+        {isRbacEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureTeams"
+            label="Access team configuration"
+          />
+        )}
 
         <Permission
           form={form}
