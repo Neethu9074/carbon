@@ -1,13 +1,16 @@
 import React, { Fragment } from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
@@ -18,15 +21,18 @@ export default connectTo(
   props => ({
     physicalHierarchy: getPhysicalHierarchy({
       snapshotId: props.snapshotId,
-      includeKubernetes: kubernetesEnabled ? false : true
+      // When Kuberentes is enabled, then our story is a bit different. We deliberately
+      // do not want to include it within the breadcrumb
+      includeKubernetes: !kubernetesEnabled
     }).map(_physicalHierarchy => {
       _physicalHierarchy = _physicalHierarchy.toArray();
       _physicalHierarchy.reverse();
       return _physicalHierarchy;
     }),
-    closeDashboardLink: getCloseDashboardLink()
+    closeDashboardLink: getCloseDashboardLink(),
+    agent: isInternalVisible$.flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
   }),
-  function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink }) {
+  function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink, agent }) {
     if (!physicalHierarchy) {
       return null;
     }
@@ -36,6 +42,9 @@ export default connectTo(
     }
 
     const items = physicalHierarchy.map(id => <PhysicalHierarchyBreadCrumb key={id} snapshotId={id} />);
+    if (agent) {
+      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent} />);
+    }
     items.unshift(
       <Breadcrumb className={locals.homeBreadcrumb} href={closeDashboardLink}>
         {getHomeBreadcrumb(closeDashboardLink)}

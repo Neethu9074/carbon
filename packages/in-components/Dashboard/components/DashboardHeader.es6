@@ -21,7 +21,7 @@ export default connectTo(
     return (
       <Fragment>
         <div className={locals.header}>
-          <DashboardBreadcrumb snapshotId={snapshotId} title={title} />
+          <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
         </div>
         <div className={locals.dashboardHeader}>
           <BasicDashboardHeader
