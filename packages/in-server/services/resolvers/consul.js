@@ -32,8 +32,8 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
     getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
-    getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
-    getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false)
+    getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false),
+    getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
   ]).then(([
     pingComparisonEnabled,
     isSelfService,
@@ -43,9 +43,9 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     unifiedAlerting,
     ruleDeprecationValidationChecksEnabled,
     containerInfoEnabled,
-    trackUrlPathChanges,
     internalMonitoringUnit,
-    isRbacEnabled
+    isRbacEnabled,
+    trackUrlPathChanges
   ]) => ({
     pingComparisonEnabled,
     isSelfService,
@@ -60,9 +60,9 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     unifiedAlerting,
     ruleDeprecationValidationChecksEnabled,
     containerInfoEnabled,
-    trackUrlPathChanges,
     internalMonitoringUnit,
-    isRbacEnabled
+    isRbacEnabled,
+    trackUrlPathChanges
   }));
 });
 
