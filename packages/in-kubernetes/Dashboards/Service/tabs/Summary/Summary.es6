@@ -4,6 +4,7 @@ import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
+import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -14,17 +15,11 @@ export default function Summary({ timeConfig, data: service }) {
 
   return (
     <Fragment>
-      <Row>
-        <Col lg={4}>
-          <KpiCard title="Type" value={service.type} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Location" value={service.location} raw />
-        </Col>
-        <Col lg={4}>
-          <KpiCard title="Age" value={formatDuration(service.age)} raw />
-        </Col>
-      </Row>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard title="Type" value={service.type} raw borderless />
+        <KpiCard title="Location" value={service.location} raw borderless />
+        <KpiCard title="Age" value={formatDuration(service.age)} raw borderless />
+      </KpiGridRow>
 
       {deploymentId && (
         <Row>
