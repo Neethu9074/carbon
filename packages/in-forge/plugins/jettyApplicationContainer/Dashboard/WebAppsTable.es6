@@ -1,9 +1,9 @@
 import React from 'react';
 
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {

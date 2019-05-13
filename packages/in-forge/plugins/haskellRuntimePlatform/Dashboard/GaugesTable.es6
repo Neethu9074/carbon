@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
 
 const cols = [
   {

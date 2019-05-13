@@ -2,6 +2,7 @@ import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import {
@@ -11,7 +12,6 @@ import {
   bytesPerSecondZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import Chart from 'in-components/Chart';
 
 export default function CephDashboard({ snapshot, timeConfig }) {
   const sensorStatusCode = snapshot.getIn(['data', 'sensorStatusCode'], 1);
