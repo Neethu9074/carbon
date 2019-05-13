@@ -8,6 +8,8 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 
+export const MINIMUM_ROLLUP = 1000;
+
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 export const aggregationLabels = {
@@ -182,7 +184,7 @@ export function getDynamicAggregatedMetricsForTimeframe(opts) {
   return createDynamicAggregatedMetricObservable(opts);
 }
 
-export function getDefaultMetricRollupDuration(timeConfig, minRollup = 1000) {
+export function getDefaultMetricRollupDuration(timeConfig, minRollup = MINIMUM_ROLLUP) {
   if (!timeConfig) {
     return rollupDurationThresholds[0];
   }
@@ -196,7 +198,7 @@ export function getDefaultMetricRollupDuration(timeConfig, minRollup = 1000) {
   let availableRollupDefinitions = rollupDurationThresholds.filter(
     rollupDefinition => from >= now - rollupDefinition.availableFor
   );
-  if (minRollup > 1000) {
+  if (minRollup > MINIMUM_ROLLUP) {
     availableRollupDefinitions = availableRollupDefinitions.filter(
       rollupDefinition => rollupDefinition.rollup != null && rollupDefinition.rollup >= minRollup
     );
@@ -206,7 +208,7 @@ export function getDefaultMetricRollupDuration(timeConfig, minRollup = 1000) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
+    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : MINIMUM_ROLLUP;
     if (timeConfig.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
       return rollupDefinition;
     }
@@ -257,7 +259,7 @@ export function getPixelAwareRollupSize(timeConfig, pixels) {
     // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
     const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : 1000;
+    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : MINIMUM_ROLLUP;
     if (timeConfig.windowSize / rollup <= maxNumberOfDataPoints) {
       return rollupDefinition.rollup;
     }
