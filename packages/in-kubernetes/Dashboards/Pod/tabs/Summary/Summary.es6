@@ -1,15 +1,11 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import PodConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/PodConditionsPresenter';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
-import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
@@ -96,65 +92,20 @@ export default function Summary({ data: pod, timeConfig }) {
         </Col>
       </Row>
 
-      <Row verticallyStretchColumns>
-        <Col lg={6}>
-          <Card title="CPU Resources" useMaxAvailableHeight>
-            <ResourceQuotaChart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              metrics={[`cpuRequests`, `cpuLimits`]}
-              renderChart={() => (
-                <Chart
-                  snapshotId={snapshotId}
-                  timeConfig={timeConfig}
-                  y1={{
-                    formatter: twoDecimalPlaces,
-                    metrics: [`cpuRequests`, `cpuLimits`],
-                    labels: ['Requests', 'Limits'],
-                    type: 'line',
-                    min: 0
-                  }}
-                />
-              )}
-            />
-          </Card>
-        </Col>
-        <Col lg={6}>
-          <Card title="Memory Resources" useMaxAvailableHeight>
-            <ResourceQuotaChart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              metrics={[`memoryRequests`, `memoryLimits`]}
-              renderChart={() => (
-                <Chart
-                  snapshotId={snapshotId}
-                  timeConfig={timeConfig}
-                  y1={{
-                    formatter: bytesTwoDecimalPlaces,
-                    metrics: [`memoryRequests`, `memoryLimits`],
-                    labels: ['Requests', 'Limits'],
-                    type: 'line',
-                    min: 0
-                  }}
-                />
-              )}
-            />
+      <Row>
+        <Col lg={12}>
+          <Card title="Container Status" useMaxAvailableHeight>
+            <ContainerStates pod={pod} timeConfig={timeConfig} />
           </Card>
         </Col>
       </Row>
 
       <Row>
-        <Col lg={4}>
+        <Col lg={12}>
           <ConditionsTableCard
             conditions={pod.conditions}
             viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
-            TablePresenter={PodConditionsPresenter}
           />
-        </Col>
-        <Col lg={8}>
-          <Card title="Container Status" useMaxAvailableHeight>
-            <ContainerStates pod={pod} timeConfig={timeConfig} />
-          </Card>
         </Col>
       </Row>
     </Fragment>

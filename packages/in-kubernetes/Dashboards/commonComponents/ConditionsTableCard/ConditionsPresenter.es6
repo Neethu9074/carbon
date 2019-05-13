@@ -20,8 +20,8 @@ export default function NodeConditionsPresenter({ conditions }) {
           <Tr key={condition.type} size="compact">
             <Td>{condition.type}</Td>
             <Td>{condition.status}</Td>
-            <Td>{condition.lastTransitionTime}</Td>
-            <Td>{condition.reason}</Td>
+            <Td>{condition.lastTransitionTime || valueMissingPlaceholder}</Td>
+            <Td>{condition.reason || valueMissingPlaceholder}</Td>
             <Td>{condition.message || valueMissingPlaceholder}</Td>
           </Tr>
         ))}

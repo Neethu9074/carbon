@@ -2,6 +2,7 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
+import ConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ConditionsPresenter';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -14,8 +15,7 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
   setSelectedStatus,
   selectedStatus,
   viewAllHref$,
-  conditions,
-  TablePresenter
+  conditions
 }) {
   if (!conditions || conditions.length === 0) {
     return <NoDataAvailable text="No Conditions found" />;
@@ -31,7 +31,7 @@ export default withState('selectedStatus', 'setSelectedStatus', null)(function C
       title="Conditions"
       header={<ToggleStatusButtonGroup selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />}
     >
-      <TablePresenter conditions={presentedConditions} />
+      <ConditionsPresenter conditions={presentedConditions} />
 
       <div className={locals.viewAllWrapper}>
         <ViewAllWrapper renderViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />

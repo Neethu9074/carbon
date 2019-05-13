@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import NodeConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/NodeConditionsPresenter';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -127,7 +126,6 @@ export default function Summary({ timeConfig, data: node }) {
           <ConditionsTableCard
             conditions={node.conditions}
             viewAllHref$={getNodeDashboard(snapshotId, { tab: '/conditions' })}
-            TablePresenter={NodeConditionsPresenter}
           />
         </Col>
       </Row>
