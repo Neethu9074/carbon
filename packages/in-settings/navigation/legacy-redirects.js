@@ -1,5 +1,4 @@
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
-import { unifiedAlerting } from 'in-services/featureFlags';
 import * as paths from 'in-settings/navigation/paths';
 
 // The routes of the settings pages changed due to the rework in January 2019. This array contains redirects for all old
@@ -23,56 +22,56 @@ const redirects = [
   },
   {
     from: `${settingsPath}/dynamicRule/:ruleId`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomDynamicRuleEdit,
+    to: paths.teamSettingsAlertingEvents,
     params: { ruleId: 'id' }
   },
   {
     from: `${settingsPath}/dynamicRules`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomDynamicRules
+    to: paths.teamSettingsAlertingEvents
   },
   {
     from: `${settingsPath}/builtInRules`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementBuiltInRules
+    to: paths.teamSettingsAlertingEvents
   },
   {
     from: `${settingsPath}/builtInRule/:ruleId`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementBuiltInRuleEdit,
+    to: paths.teamSettingsAlertingEvents,
     params: { ruleId: 'id' }
   },
   {
     from: `${settingsPath}/rules`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomRules
+    to: paths.teamSettingsAlertingEvents
   },
   {
     from: `${settingsPath}/rule/:ruleId`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomRuleEdit,
+    to: paths.teamSettingsAlertingEvents,
     params: { ruleId: 'id' }
   },
   {
     from: `${settingsPath}/bindings`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomIssues
+    to: paths.teamSettingsAlertingEvents
   },
   {
     from: `${settingsPath}/binding/:ruleBindingId`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingEvents : paths.teamSettingsKnowledgeManagementCustomIssueEdit,
+    to: paths.teamSettingsAlertingEvents,
     params: { ruleBindingId: 'id' }
   },
   {
     from: `${settingsPath}/alertingConfigurations`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingAlerts : paths.teamSettingsAlertingConfigurations
+    to: paths.teamSettingsAlertingAlerts
   },
   {
     from: `${settingsPath}/alertingConfiguration/:id`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingAlertEdit : paths.teamSettingsAlertingConfigurationEdit,
+    to: paths.teamSettingsAlertingAlertEdit,
     params: { id: 'id' }
   },
   {
     from: `${settingsPath}/integrations`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingAlertChannels : paths.teamSettingsAlertingIntegrations
+    to: paths.teamSettingsAlertingAlertChannels
   },
   {
     from: `${settingsPath}/integration/:id`,
-    to: unifiedAlerting ? paths.teamSettingsAlertingAlertChannelEdit : paths.teamSettingsAlertingIntegrationEdit,
+    to: paths.teamSettingsAlertingAlertChannelEdit,
     params: { id: 'id' }
   },
   { from: `${settingsPath}/maintenanceConfigurations`, to: paths.teamSettingsAlertingMaintenanceConfigurations },
@@ -85,21 +84,20 @@ const redirects = [
 ];
 
 // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
-if (unifiedAlerting) {
-  redirects.push(
-    { from: paths.teamSettingsKnowledgeManagementBuiltInRules, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementBuiltInRuleEdit, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomRules, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomRuleEdit, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomIssues, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomIssueEdit, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomDynamicRules, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsKnowledgeManagementCustomDynamicRuleEdit, to: paths.teamSettingsAlertingEvents },
-    { from: paths.teamSettingsAlertingConfigurations, to: paths.teamSettingsAlertingAlerts },
-    { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingAlertEdit },
-    { from: paths.teamSettingsAlertingIntegrations, to: paths.teamSettingsAlertingAlertChannels },
-    { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit }
-  );
-}
+// we keep this re-directs for a while, so that e.g. existing bookmarks are still working
+redirects.push(
+  { from: paths.teamSettingsKnowledgeManagementBuiltInRules, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementBuiltInRuleEdit, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomRules, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomRuleEdit, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomIssues, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomIssueEdit, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomDynamicRules, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsKnowledgeManagementCustomDynamicRuleEdit, to: paths.teamSettingsAlertingEvents },
+  { from: paths.teamSettingsAlertingConfigurations, to: paths.teamSettingsAlertingAlerts },
+  { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingAlertEdit },
+  { from: paths.teamSettingsAlertingIntegrations, to: paths.teamSettingsAlertingAlertChannels },
+  { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit }
+);
 
 export default redirects;
