@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function EtcdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

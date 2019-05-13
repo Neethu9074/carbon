@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, millis, time, twoDecimalPlaces } from 'in-services/formatters/number';
-import { KpiSection, KpiHeading, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { gaugeMetricNames } from '../metricDefinitions';
 import MetricValue from 'in-components/MetricValue';
-import { getLabel } from 'in-sdk/snapshot';
-import Chart from 'in-components/Chart';
 import GaugesTable from './GaugesTable';
 
 export default function HaskellDashboard({ snapshot, timeConfig }) {
@@ -15,7 +14,6 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiHeading>{getLabel(snapshot)}</KpiHeading>
         <KpiKeyValue label="CPU Time/second">
           <MetricValue snapshotId={snapshotId} metric="rts.gc.cpu_ms_delta" formatter={millis.compact} />
         </KpiKeyValue>

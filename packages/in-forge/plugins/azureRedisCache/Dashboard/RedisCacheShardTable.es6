@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces,
