@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/configs';
+import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import DeleteButton from 'in-settings/components/DeleteButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Button from 'in-components/Button';

@@ -5,11 +5,11 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getIntegrations() {
-  return getIntegrationsMutable().map(fromJS);
+export function getAlertChannels() {
+  return getAlertChannelsMutable().map(fromJS);
 }
 
-export function getIntegrationsMutable() {
+export function getAlertChannelsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -17,7 +17,7 @@ export function getIntegrationsMutable() {
   }).map(response => response.body);
 }
 
-export function getIntegrationsByIdsMutable(ids) {
+export function getAlertChannelsByIdsMutable(ids) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -28,7 +28,7 @@ export function getIntegrationsByIdsMutable(ids) {
   }).map(response => response.body);
 }
 
-export function getIntegration(id) {
+export function getAlertChannel(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -37,7 +37,7 @@ export function getIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveIntegration(integration) {
+export function saveAlertChannel(integration) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -47,7 +47,7 @@ export function saveIntegration(integration) {
   }).map(response => fromJS(response.body));
 }
 
-export function deleteIntegration(id) {
+export function deleteAlertChannel(id) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
@@ -56,17 +56,17 @@ export function deleteIntegration(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function integrationTest(integration) {
+export function alertChannelTest(integration) {
   return http({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/events/settings/alertingChannels/test`,
+    url: `/api/events/settings/alertingChannels/test/${encodeURIComponent(integration.get('id'))}`,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
 }
 
-export function createIntegration(id, kind, name = '') {
+export function createAlertChannel(id, kind, name = '') {
   if (!kind) {
     return {
       id: id || generateUniqueShortId(),
