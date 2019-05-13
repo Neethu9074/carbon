@@ -4,7 +4,7 @@ import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number, siPrefix } 
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { supportsOpenFiles } from 'in-forge/plugins/process/hostUtils';
+import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
