@@ -5,6 +5,7 @@ import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commo
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
+import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
@@ -26,6 +27,12 @@ export default [
     path: `${deploymentDashboardFullyQualified}/conditions`,
     component: Conditions,
     header: ConditionsHeader
+  },
+  {
+    label: 'K8s Services',
+    path: `${deploymentDashboardFullyQualified}/services`,
+    component: Services,
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',
