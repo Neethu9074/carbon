@@ -23,6 +23,10 @@ export const tenantUnitStructure$ = createTrackingStore({
   observable: getTenantsWithUnits()
 }).observable;
 
+export function hasRestrictedAccess() {
+  return isRbacEnabled && role.restrictedAccess;
+}
+
 export function hasPermission(permission) {
-  return !isRbacEnabled || !role.restrictedAccess || permissions.indexOf(permission) > -1;
+  return !hasRestrictedAccess() || permissions.indexOf(permission) > -1;
 }
