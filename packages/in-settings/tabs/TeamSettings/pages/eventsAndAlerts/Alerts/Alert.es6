@@ -20,7 +20,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { queryValidator } from 'in-stores/search/validations';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -135,13 +134,6 @@ function createForm(alertEntity, isCreate) {
       createField({
         value: alertEntity.get('integrationIds', List()),
         validator: selectedAlertChannelsValidator
-      })
-    )
-    .put(
-      'eventQuery',
-      createField({
-        value: alertEntity.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
-        validator: queryValidator
       })
     )
     .put(
@@ -351,7 +343,6 @@ function save(alertEntity, form) {
           ? form.get('selectedEvents').value.toJS()
           : null,
         query,
-        form.get('eventQuery').value,
         eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null
       )
     )
