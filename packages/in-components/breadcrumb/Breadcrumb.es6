@@ -10,30 +10,36 @@ import locals from './Breadcrumb.mless';
 const trackBreadcrumb = createTracker('navigation.breadcrumb');
 
 export default function Breadcrumb({ className, children, href, href$, label, refSetter, icon, iconPath }) {
-  return (
-    <Link
-      href={href}
-      href$={href$}
-      className={joinClassNames(locals.breadcrumb, className)}
-      onClick={() => trackBreadcrumb()}
-    >
-      <div className={locals.twoRowWrapper} ref={refSetter}>
-        {(icon || iconPath) && (
-          <SvgIcon
-            className={locals.icon}
-            type={icon}
-            iconPath={iconPath}
-            width={iconPath ? 18 : 24}
-            height={iconPath ? 18 : 24}
-          />
-        )}
+  let crumbContent = (
+    <div className={locals.twoRowWrapper} ref={refSetter}>
+      {(icon || iconPath) && (
+        <SvgIcon
+          className={locals.icon}
+          type={icon}
+          iconPath={iconPath}
+          width={iconPath ? 18 : 24}
+          height={iconPath ? 18 : 24}
+        />
+      )}
 
-        <div className={locals.breadcrumbContent}>
-          {label && <div className={locals.label}>{label}</div>}
+      <div className={locals.breadcrumbContent}>
+        {label && <div className={locals.label}>{label}</div>}
 
-          {children}
-        </div>
+        {children}
       </div>
-    </Link>
+    </div>
   );
+  if (href || href$) {
+    return (
+      <Link
+        href={href}
+        href$={href$}
+        className={joinClassNames(locals.breadcrumb, className)}
+        onClick={() => trackBreadcrumb()}
+      >
+        {crumbContent}
+      </Link>
+    );
+  }
+  return <div className={joinClassNames(locals.breadcrumb, className)}>{crumbContent}</div>;
 }
