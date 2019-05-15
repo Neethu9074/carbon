@@ -47,6 +47,7 @@
 
  - Feature flags added?
    - [ ] To the server side: `/packages/in-server/services/resolvers/consul.js`
+   - [ ] To the server side (for Kubernetes based deployments): `{{backendRepository}}/instanactl/config/components/ui-client.yaml.tpl`
    - [ ] For the development mode: `/dev/featureFlags.js`
    - [ ] For the in-browser code (this is what you would import): `/packages/in-services/featureFlags.es6`
    - [ ] A tracker item (Pivotal or similar) has been added to remove all feature flags introduced in this PR in a later release, once the feature has been rolled out.
