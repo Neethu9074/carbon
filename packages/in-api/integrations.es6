@@ -61,7 +61,7 @@ export function integrationTest(integration) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/events/settings/alertingChannels/test/${encodeURIComponent(integration.get('id'))}`,
+    url: `/api/events/settings/alertingChannels/test`,
     data: integration.toJS()
   }).map(response => fromJS(response.body));
 }
