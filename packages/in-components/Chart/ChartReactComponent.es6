@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import { withState, compose } from 'recompose';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -66,7 +66,7 @@ const ChartReactWrapper = compose(
                   align="left"
                 />
               )}
-            <div>
+            <Fragment>
               {chart &&
                 width && (
                   <Tooltip
@@ -83,7 +83,7 @@ const ChartReactWrapper = compose(
                   this.canvas = canvas;
                 }}
               />
-            </div>
+            </Fragment>
             {chart &&
               chart.config.y2 && (
                 <MetricAwareAxis

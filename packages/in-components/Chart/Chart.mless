@@ -6,10 +6,6 @@
 
   .chart {
     position: relative;
-    width: fit-content;
-  }
-
-  .canvas {
     width: 100%;
   }
 
