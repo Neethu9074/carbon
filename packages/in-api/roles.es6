@@ -43,48 +43,9 @@ export function deleteRole(roleId) {
   }).map(response => fromJS(response.body));
 }
 
-export function createRole(
-  id,
-  name = 'New Role',
-  restrictedAccess = false,
-  canConfigureServiceMapping = true,
-  canConfigureEumApplications = true,
-  canConfigureUsers = true,
-  canInstallNewAgents = true,
-  canSeeUsageInformation = true,
-  canConfigureIntegrations = true,
-  canSeeOnPremLicenseInformation = true,
-  canConfigureRoles = true,
-  canConfigureTeams = true,
-  canConfigureCustomAlerts = true,
-  canConfigureApiTokens = true,
-  canConfigureAgentRunMode = true,
-  canViewAuditLog = true,
-  canConfigureObjectives = true,
-  canConfigureAgents = true,
-  canConfigureAuthenticationMethods = true,
-  canConfigureApplications = true
-) {
+export function createRole(id, name = 'New Role') {
   return {
     id: id || generateUniqueShortId(),
-    name,
-    restrictedAccess,
-    canConfigureServiceMapping,
-    canConfigureEumApplications,
-    canConfigureUsers,
-    canInstallNewAgents,
-    canSeeUsageInformation,
-    canConfigureIntegrations,
-    canSeeOnPremLicenseInformation,
-    canConfigureRoles,
-    canConfigureTeams,
-    canConfigureCustomAlerts,
-    canConfigureApiTokens,
-    canConfigureAgentRunMode,
-    canViewAuditLog,
-    canConfigureObjectives,
-    canConfigureAgents,
-    canConfigureAuthenticationMethods,
-    canConfigureApplications
+    name
   };
 }
