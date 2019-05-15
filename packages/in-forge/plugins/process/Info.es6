@@ -2,8 +2,9 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -24,7 +25,7 @@ export default connectTo(
         <DescriptionItem title="Job">{data.get('job')}</DescriptionItem>
 
         {hostSnapshot && !(isWindows(hostSnapshot) || isZos(hostSnapshot)) ? (
-          <DescriptionItem title="Max Open Files">{data.get('openFiles.max')}</DescriptionItem>
+          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(data.get('openFiles.max'))}</DescriptionItem>
         ) : null}
       </DescriptionList>
     );
