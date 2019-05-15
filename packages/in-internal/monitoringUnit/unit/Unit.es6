@@ -7,6 +7,7 @@ import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
+import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
@@ -57,7 +58,7 @@ export default function Unit(props) {
   );
 }
 
-function Navigation() {
+function Navigation({ tenant, unit }) {
   return (
     <LinkList>
       <LinkListItem
@@ -67,6 +68,13 @@ function Navigation() {
       <LinkListItem
         label="Application Data Statistics"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+      />
+      <LinkListItem
+        label="Agents"
+        external
+        href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
+          linkToTenantUnit(href, tenant, unit)
+        )}
       />
     </LinkList>
   );
