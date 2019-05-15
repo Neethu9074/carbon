@@ -13,6 +13,8 @@ export default connectTo(
 
   function ProcessInfo({ snapshot, hostSnapshot }) {
     const data = snapshot.get('data');
+    const openFilesMax = data.get('openFiles.max');
+
     return (
       <DescriptionList>
         <DescriptionItem title="Executable">{data.get('exec')}</DescriptionItem>
@@ -24,9 +26,11 @@ export default connectTo(
         <DescriptionItem title="Group">{data.get('group')}</DescriptionItem>
         <DescriptionItem title="Job">{data.get('job')}</DescriptionItem>
 
-        {hostSnapshot && !(isWindows(hostSnapshot) || isZos(hostSnapshot)) ? (
-          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(data.get('openFiles.max'))}</DescriptionItem>
-        ) : null}
+        {hostSnapshot &&
+          !(isWindows(hostSnapshot) || isZos(hostSnapshot)) &&
+          openFilesMax != null && (
+            <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+          )}
       </DescriptionList>
     );
   }
