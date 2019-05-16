@@ -3,7 +3,6 @@ import { Bar } from '@nivo/bar';
 import { chain } from 'lodash';
 import React from 'react';
 
-import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import NivoChartTooltip from 'in-components/Chart/components/NivoChartTooltip';
 import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
@@ -33,7 +32,7 @@ function Histogram({ width, height, customWidth, customHeight, buckets, metricNa
     return <div style={{ width: customWidth || width, height: customHeight || height }} className={locals.histogram} />;
   }
 
-  width = (customWidth || width) - 2 * WIDTH;
+  width = (customWidth || width) - WIDTH;
   height = (customHeight || height) - HEIGHT;
 
   let data = buckets.map(({ from, to, value }) => ({
@@ -100,7 +99,6 @@ function Histogram({ width, height, customWidth, customHeight, buckets, metricNa
           width={width}
         />
       </div>
-      <VerticalAxisPlaceholder />
     </div>
   );
 }
