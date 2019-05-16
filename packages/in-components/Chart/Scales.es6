@@ -80,14 +80,15 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
     return;
   }
 
+  const numLabels = (axis.labels && axis.labels.length) || 0;
   axis.minValue = 0;
-  axis.allDataSeriesIgnored = filteredDataSeries.size === axis.labels.length;
+  axis.allDataSeriesIgnored = filteredDataSeries.size === numLabels;
   if (axis.max != null) {
     return (axis.maxValue = axis.max);
   }
 
   const metrics = axis.metrics || [];
-  const maxValue = (axis.valuesNeedToBeStacked
+  const maxValue = (axis.valuesDependOnEachOther
     ? calculateMaxValueForStackedMetrics
     : calculateMaxValueIndependetMetrics)(axis, metrics, filteredDataSeries);
 
@@ -112,7 +113,14 @@ function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
       const timestamp = dataPoint[0];
       const value = dataPoint[1];
       if (metricMapByTimestamp.has(timestamp)) {
-        metricMapByTimestamp.set(timestamp, metricMapByTimestamp.get(timestamp) + value);
+        const valueInMap = metricMapByTimestamp.get(timestamp);
+        if (axis.calculateStackDifferences) {
+          metricMapByTimestamp.set(timestamp, Math.max(valueInMap, value));
+        } else if (axis.valuesNeedToBeStacked) {
+          metricMapByTimestamp.set(timestamp, valueInMap + value);
+        } else {
+          metricMapByTimestamp.set(timestamp, Math.max(valueInMap, value));
+        }
       } else {
         metricMapByTimestamp.set(timestamp, value);
       }
@@ -124,6 +132,7 @@ function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
   for (const timestamp of timestamps) {
     maxValue = Math.max(maxValue, metricMapByTimestamp.get(timestamp));
   }
+
   return maxValue;
 }
 

@@ -102,7 +102,7 @@ describe('in-components/Chart/Scales', () => {
     });
   });
 
-  describe.only('calculateAxisMinMax', () => {
+  describe('calculateAxisMinMax', () => {
     it('should set allIgnoredFlag if all metrics are filtered', () => {
       const axis = {
         labels: ['Metric1', 'Metric2']
@@ -161,15 +161,53 @@ describe('in-components/Chart/Scales', () => {
       expect(axis.maxValue).to.equal(10);
     });
 
+    it('should find the local max value', () => {
+      const axis = {
+        metrics: [[[0, 1], [10, 9], [20, 10], [30, 3]], [[0, -1], [10, 12], [30, 0]]],
+        labels: ['M1', 'M2'],
+        valuesDependOnEachOther: true
+      };
+      calculateAxisMinMax(axis, new Map());
+      expect(axis.minValue).to.equal(0);
+      expect(axis.maxValue).to.equal(12);
+    });
+
     it('should find the local max value for stacked axis', () => {
       const axis = {
         metrics: [[[0, 1], [10, 9], [20, 10], [30, 3]], [[0, -1], [10, 12], [30, 0]]],
         labels: ['M1', 'M2'],
+        valuesDependOnEachOther: true,
         valuesNeedToBeStacked: true
       };
       calculateAxisMinMax(axis, new Map());
       expect(axis.minValue).to.equal(0);
       expect(axis.maxValue).to.equal(21);
+    });
+
+    describe('calculateStackDifferences', () => {
+      it('should calculate stack differences', () => {
+        const axis = {
+          metrics: [[[0, -1], [10, 9], [20, 10], [30, 0]], [[0, 1], [10, 17], [20, 11], [30, 2]]],
+          labels: ['M1', 'M2'],
+          valuesDependOnEachOther: true,
+          calculateStackDifferences: true
+        };
+        calculateAxisMinMax(axis, new Map());
+        expect(axis.minValue).to.equal(0);
+        expect(axis.maxValue).to.equal(17);
+      });
+
+      it('should take gaps into acount', () => {
+        const axis = {
+          metrics: [[[0, -1], [10, 9], [20, 101], [30, 0]], [[0, 1], [10, 10], [30, 3]]],
+          labels: ['M1', 'M2'],
+          valuesDependOnEachOther: true,
+          calculateStackDifferences: true
+        };
+        calculateAxisMinMax(axis, new Map());
+        expect(axis.minValue).to.equal(0);
+        expect(axis.maxValue).to.equal(101);
+      });
     });
   });
 });
