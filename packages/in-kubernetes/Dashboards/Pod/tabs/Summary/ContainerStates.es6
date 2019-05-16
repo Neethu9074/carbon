@@ -120,22 +120,26 @@ export default connectTo(
                     <PodMessage message={status.message} />
                   </Td>
                   <Td>
-                    <InfrastructureMetricSparkChart
-                      snapshotId={status.containerSnapshotId}
-                      timeConfig={timeConfig}
-                      formatter={percentageZeroDecimalPlaces}
-                      tooltipFormatter={percentageTwoDecimalPlaces}
-                      metric="cpu.total_usage"
-                    />
+                    {status.containerSnapshotId && (
+                      <InfrastructureMetricSparkChart
+                        snapshotId={status.containerSnapshotId}
+                        timeConfig={timeConfig}
+                        formatter={percentageZeroDecimalPlaces}
+                        tooltipFormatter={percentageTwoDecimalPlaces}
+                        metric="cpu.total_usage"
+                      />
+                    )}
                   </Td>
                   <Td>
-                    <InfrastructureMetricSparkChart
-                      snapshotId={status.containerSnapshotId}
-                      timeConfig={timeConfig}
-                      formatter={bytesZeroDecimalPlaces}
-                      tooltipFormatter={bytesTwoDecimalPlaces}
-                      metric="memory.usage"
-                    />
+                    {status.containerSnapshotId && (
+                      <InfrastructureMetricSparkChart
+                        snapshotId={status.containerSnapshotId}
+                        timeConfig={timeConfig}
+                        formatter={bytesZeroDecimalPlaces}
+                        tooltipFormatter={bytesTwoDecimalPlaces}
+                        metric="memory.usage"
+                      />
+                    )}
                   </Td>
                 </Tr>
               );
