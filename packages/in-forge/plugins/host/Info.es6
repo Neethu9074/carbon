@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
 
 export default function HardwareInfo({ snapshot }) {
@@ -26,7 +26,9 @@ export default function HardwareInfo({ snapshot }) {
       ) : null}
 
       {!(isWindows(snapshot) || isZos(snapshot)) &&
-        openFilesMax != null && <DescriptionItem title="Max Open Files">{openFilesMax}</DescriptionItem>}
+        openFilesMax != null && (
+          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+        )}
 
       <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
 

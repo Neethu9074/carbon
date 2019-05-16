@@ -1,8 +1,8 @@
 import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { getApplications } from 'in-api/permissionSets';
 
 import locals from './Applications.mless';
 
@@ -23,13 +23,13 @@ export default function Applications({
 }) {
   return (
     <List
-      title={setTitle ? ' Permitted Applications' : null}
+      title={setTitle ? ' Permitted Application Perspectives' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getApplicationConfigs}
+      loadEntities={loadEntities ? loadEntities : getApplications}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="label"
@@ -54,7 +54,13 @@ function columnDefinitions() {
       getContent(entity) {
         return (
           <WithSubscript
-            subscript={(entity.scope === 'INCLUDE_ALL_DOWNSTREAM' ? 'All ' : 'Immediate ') + 'Downstream Services'}
+            subscript={
+              entity.scope === 'INCLUDE_ALL_DOWNSTREAM'
+                ? 'All Downstream Services'
+                : entity.scope === 'INCLUDE_NO_DOWNSTREAM'
+                  ? 'No Downstream Services'
+                  : 'Immediate Database And Messaging Services'
+            }
           >
             <span className={locals.ellipsis}>{entity.label}</span>
           </WithSubscript>
@@ -70,11 +76,11 @@ function columnDefinitions() {
 const defaultTableActions = {};
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
-  return leftHeaderWithSelectAll('Applications', inSelectListDialog, tableActions);
+  return leftHeaderWithSelectAll('Access Application Perspectives', inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {
-  return `Application "${entity.label}"`;
+  return `Application Perspective "${entity.label}"`;
 }
 
 export function noRightHeader() {

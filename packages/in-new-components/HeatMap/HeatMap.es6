@@ -2,7 +2,6 @@ import { defaultProps, compose, renameProps } from 'recompose';
 import { HeatMapCanvas } from '@nivo/heatmap';
 import React from 'react';
 
-import VerticalAxisPlaceholder from 'in-new-components/Axis/VerticalAxisPlaceholder';
 import NivoChartTooltip from 'in-components/Chart/components/NivoChartTooltip';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
 import VerticalAxis, { WIDTH } from 'in-new-components/Axis/VerticalAxis';
@@ -29,7 +28,7 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
     return <div style={{ height: customHeight || height }} className={locals.heatMap} />;
   }
 
-  width = (customWidth || width) - 2 * WIDTH;
+  width = (customWidth || width) - WIDTH;
   height = (customHeight || height) - HEIGHT;
 
   return (
@@ -70,7 +69,6 @@ function HeatMapImpl({ width, height, customWidth, customHeight, data, keys, tim
           width={width}
         />
       </div>
-      <VerticalAxisPlaceholder />
     </div>
   );
 }

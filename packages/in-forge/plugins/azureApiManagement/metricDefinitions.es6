@@ -1,4 +1,4 @@
-import { number, percentage, bytesZeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import { number, percentagePlain, bytesZeroDecimalPlaces, millis } from 'in-services/formatters/number';
 
 export default [
   {
@@ -6,7 +6,7 @@ export default [
     labels: ['Capacity'],
     category: ['Capacity'],
     min: 0,
-    formatter: percentage
+    formatter: percentagePlain.detailed
   },
   {
     metrics: [

@@ -20,7 +20,7 @@ export default function PermissionSets() {
       tableActions={tableActions}
       loadEntities={getPermissionSets}
       initialOrderBy="name"
-      labelNew="New Scope"
+      labelNew="New Access Scope"
       pathNew={teamSettingsAccessControlPermissionSetNew}
       searchAttributes={['name']}
       getDetailsHref={entity => getEntityHref(teamSettingsAccessControlPermissionSets, entity.id)}
@@ -32,7 +32,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 100,
+    width: 70,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAccessControlPermissionSets, entity.id)} ellipsis>
@@ -43,10 +43,10 @@ const columnDefinitions = [
   },
   {
     id: 'appCount',
-    label: 'Applications',
+    label: 'Application Perspectives',
     width: 30,
     getContent(entity) {
-      return <em>{entity.applicationIds.length}</em>;
+      return <span>{entity.applicationIds.length}</span>;
     }
   }
 ];

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get, filter, some } from 'lodash';
+import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -7,6 +7,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -17,6 +18,7 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
+import theme from 'in-themes';
 
 import locals from './Pods.mless';
 
@@ -55,7 +57,7 @@ const Pods = compose(
   const rightHeader = (
     <Fragment>
       <ComboBox
-        placeholder="Status…"
+        placeholder="Phase…"
         value={phase}
         onChange={t => setPhase({ phase: t ? t.value : null })}
         options={podPhases}
@@ -159,7 +161,7 @@ const allColumnDefinitions = [
     id: 'status',
     label: 'Status',
     getContent(item) {
-      return <span>{get(item, ['pod', 'status', 'statusSummary'], '-')}</span>;
+      return <span>{get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder)}</span>;
     }
   },
   {
@@ -170,9 +172,10 @@ const allColumnDefinitions = [
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return (
         <TwoValueBar
-          rightToLeft
           v1={containerStatuses.filter(c => c.ready).length}
           v2={containerStatuses.length}
+          v1Color={theme.lib.colors.lightBlue800}
+          v2Color={theme.lib.colors.red800}
           v1Label="Ready"
           v2Label="Total"
           fullDomain={containerStatuses.length}

@@ -5,7 +5,7 @@
     position: absolute;
     top: 0;
     bottom: 1.875rem;
-    left: 3.125rem;
+    left: 3.75rem;
     right: 0;
 
     // position above remaining chart content.
@@ -15,7 +15,7 @@
   }
 
   .hasY2Axis {
-    right: 3.125rem;
+    right: 3.75rem;
   }
 
   .glassPane {

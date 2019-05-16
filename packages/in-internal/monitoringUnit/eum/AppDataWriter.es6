@@ -8,7 +8,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 export default connectTo(
   {
     timeConfig: timeConfig$,

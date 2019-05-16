@@ -1,6 +1,8 @@
 import React from 'react';
 
 import getOpenShiftDeploymentConfigItemCounters$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigItemCounters';
+import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
+import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { deploymentConfigDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -22,7 +24,8 @@ export default [
   {
     label: 'Conditions',
     path: `${deploymentConfigDashboardFullyQualified}/conditions`,
-    component: Conditions
+    component: Conditions,
+    header: ConditionsHeader
   },
   {
     label: 'Pods',
@@ -43,6 +46,19 @@ function getCounterComponent(props, resultPropName) {
         })
       }
       resultPropName={resultPropName}
+    />
+  );
+}
+
+function ConditionsHeader({ deploymentConfigId, timeConfig }) {
+  return (
+    <ConditionsTabHeader
+      getCounter={() =>
+        getOpenShiftDeploymentConfig({
+          id: deploymentConfigId,
+          timeConfig
+        }).map(result => (result.data ? { data: result.data.conditions } : null))
+      }
     />
   );
 }

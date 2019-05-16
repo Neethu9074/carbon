@@ -1,8 +1,13 @@
 import React, { Fragment } from 'react';
 
+import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { config } from 'in-services/config';
+import Card from 'in-new-components/Card';
 
 import locals from './Landing.mless';
 
@@ -16,128 +21,360 @@ export default function Landing() {
       <Row>
         {internalMonitoringUnit && (
           <Col lg={6}>
-            <h3>Deployed Unit Insights</h3>
-            <ul className={locals.links}>
-              <li>
-                <a href="/#/internal/monitoringUnit/units">Unit Details</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/agents">Agent Statistics</a>
-              </li>
-            </ul>
+            <Card title={`SaaS Monitoring (${config.tenantUnit.toUpperCase()})`}>
+              <LinkList>
+                <LinkListItem
+                  label="Units"
+                  description="Gather insights how the various units are performing and identify which unit is having problems."
+                >
+                  <LinkList>
+                    <LinkListItem
+                      label="Unit List"
+                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/units'))}
+                      description="Allows unit-level insights, e.g. infrastructure and application monitoring stability."
+                    />
+                    <LinkListItem
+                      label="Agents"
+                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/agents'))}
+                      description="Learn which unit has agents that are experiencing problems."
+                    />
+                  </LinkList>
+                </LinkListItem>
 
-            <h3>SLO</h3>
-            <ul className={locals.links}>
-              <li>
-                <a href="/#/events;view=issue?timeline.to&timeline.ws=900000&_k=0p6luz&q=(event.text%3A&quot;%5BSLO%5D&quot;%20OR%20event.text%3A&quot;%5Bexperimental%20SLO%5D&quot;)%20AND%20event.state%3Aopen%20&v2=true">
-                  Violations (event view)
-                </a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sloViolations">Violations (grouped view)</a>
-              </li>
-              <li>
-                <a href="https://github.com/instana/internal-tools/tree/master/objectives">Definitions</a>
-              </li>
-            </ul>
+                <LinkListItem
+                  label="Service-Level Objectives (SLOs)"
+                  description="SLOs are used to check whether our components and data-stores are operating within expected bounds."
+                >
+                  <LinkList>
+                    <LinkListItem label="Violations" description="Inspect which SLOs we are breaking/violating.">
+                      <LinkList>
+                        <LinkListItem
+                          label="Event View"
+                          href$={getModifiedUrlStream(params => {
+                            params.pathname = '/events';
+                            params.query.q =
+                              '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
+                            setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
+                          })}
+                        />
+                        <LinkListItem
+                          label="Grouped View"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/sloViolations')
+                          )}
+                        />
+                      </LinkList>
+                    </LinkListItem>
+                    <LinkListItem
+                      label="Definition"
+                      external
+                      href="https://github.com/instana/backend/tree/develop/objectives"
+                      description="Learn about & evolve our SLOs."
+                    />
+                  </LinkList>
+                </LinkListItem>
 
-            <h3>Processing</h3>
-            <ul className={locals.links}>
-              <li>
-                <span className={locals.subTitle}>App 1.0</span>
-                <ul className={locals.links}>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/fillerSpanProcessingStats">App 1.0 Data Processing</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/tracesSubscriptionStats">App 1.0 Traces Subscriptions Report</a>
-                  </li>
-                </ul>
-              </li>
+                <LinkListItem label="Pipelines">
+                  <LinkList>
+                    <LinkListItem
+                      label="Acceptor"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/sre/acceptors')
+                      )}
+                      description="Agents transmit data to acceptors. Acceptors are therefore the first-mile for most of the data transmitted to Instana."
+                    />
 
-              <li>
-                <span className={locals.subTitle}>App 2.0</span>
-                <ul className={locals.links}>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/appdataProcessing">App 2.0 Data Processing</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/appdata">App 2.0 Data Reading & Writing</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/appDataQueryPerformance">App 2.0 Query Performance</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/callExtraction">Call Extraction</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/resilientMapping">Resilient Mapping</a>
-                  </li>
-                </ul>
-              </li>
+                    <LinkListItem
+                      label="Application Monitoring"
+                      description="Dashboards showing how application data, i.e. traces and spans, are written and read."
+                    >
+                      <LinkList>
+                        <LinkListItem
+                          label="Processing"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/appdataProcessing')
+                          )}
+                        />
+                        <LinkListItem
+                          label="Writing & Reading"
+                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdata'))}
+                        />
+                        <LinkListItem
+                          label="Query Performance"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/appDataQueryPerformance')
+                          )}
+                        />
+                        <LinkListItem
+                          label="Call Extraction"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/callExtraction')
+                          )}
+                        />
+                        <LinkListItem
+                          label="Resilient Mapping"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/resilientMapping')
+                          )}
+                        />
+                      </LinkList>
+                    </LinkListItem>
 
-              <li>
-                <span className={locals.subTitle}>EUM</span>
-                <ul className={locals.links}>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/eum">Overview</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/eum/eum-acceptor">eum-acceptor (data collection)</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/eum/eum-processor">eum-processor (data processing)</a>
-                  </li>
-                  <li>
-                    <a href="/#/internal/monitoringUnit/eum/appdata-writer">appdata-writer (data ingestion)</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                    <LinkListItem
+                      label="End-User Monitoring (EUM)"
+                      description="Information about our website monitoring processing pipeline. This includes acceptance of end-user requests as well as processing and writing of the received beacons."
+                    >
+                      <LinkList>
+                        <LinkListItem
+                          label="Overview"
+                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/eum'))}
+                          description="Gain an overview across the whole EUM pipeline. This dashboard is a combination and subset of the eum-acceptor, eum-processor and appdata-writer dashboards."
+                        />
+                        <LinkListItem
+                          label="eum-acceptor (beacon acceptance)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/eum-acceptor')
+                          )}
+                          description="eum-acceptor accepts end-user requests, validates, maps and transmits them via Kafka for processing."
+                        />
+                        <LinkListItem
+                          label="eum-processor (beacon processing)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/eum-processor')
+                          )}
+                          description="eum-processor enriches received beacons and forwards them to Kafka for persistence."
+                        />
+                        <LinkListItem
+                          label="appdata-writer (beacon ingestion)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/appdata-writer')
+                          )}
+                          description="appdata-writer persists enriched beacons to ClickHouse."
+                        />
+                      </LinkList>
+                    </LinkListItem>
+                  </LinkList>
+                </LinkListItem>
 
-            <h3>SRE</h3>
-            <ul className={locals.links}>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/workerStats">Worker Allocation/Load</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/selfserviceWorkerStats">Selfservice Worker Allocation/Load</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/acceptors">Acceptors</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/cassandra">Cassandra Clusters</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/clickhouse">Clickhouse Clusters</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/elastic">Elastic Clusters</a>
-              </li>
-              <li>
-                <a href="/#/internal/monitoringUnit/sre/kafka">Kafka Clusters</a>
-              </li>
-            </ul>
+                <LinkListItem label="Data Stores">
+                  <LinkList>
+                    <LinkListItem
+                      label="Cassandra"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/sre/cassandra')
+                      )}
+                    />
+                    <LinkListItem
+                      label="Clickhouse"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
+                      )}
+                    />
+                    <LinkListItem
+                      label="Elasticsearch"
+                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/elastic'))}
+                    />
+                    <LinkListItem
+                      label="Kafka"
+                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
+                    />
+                  </LinkList>
+                </LinkListItem>
+
+                <LinkListItem label="Workers">
+                  <LinkList>
+                    <LinkListItem
+                      label="Worker Allocation/Load"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/sre/workerStats')
+                      )}
+                    />
+                    <LinkListItem
+                      label="Selfservice Worker Allocation/Load"
+                      href$={getModifiedUrlStream(
+                        params => (params.pathname = '/internal/monitoringUnit/sre/selfserviceWorkerStats')
+                      )}
+                    />
+                  </LinkList>
+                </LinkListItem>
+              </LinkList>
+            </Card>
           </Col>
         )}
 
         <Col lg={6}>
-          <h3>Data About This Unit</h3>
-          <ul className={locals.links}>
-            <li>
-              <a href="/#/internal/thisUnit/entityStatistics">Entity Statistics (Cockpit)</a>
-            </li>
-            <li>
-              <a href="/#/internal/thisUnit/agents">Agents</a>
-            </li>
-            <li>
-              <a href="/#/internal/thisUnit/graphExplorer">Graph Explorer</a>
-            </li>
-            <li>
-              <a href="/#/internal/thisUnit/snapshotVersions">Snapshot Versions</a>
-            </li>
-          </ul>
+          {internalMonitoringUnit && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Tip">
+                  <p className={locals.tip}>
+                    Did you know that these features are also available on customer tenant units? They are hidden by
+                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on
+                    the non-interactive part of our main navigation!
+                  </p>
+                </Card>
+              </Col>
+            </Row>
+          )}
+
+          <Row>
+            <Col lg={12}>
+              <Card title={`This Unit (${config.tenant}-${config.tenantUnit})`}>
+                <LinkList>
+                  <LinkListItem
+                    label="Entity Statistics"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/entityStatistics'))}
+                    description="Shows how many infrastructure entities are monitored within this unit, broken down by plugin. This was formerly called 'Cockpit'."
+                  />
+                  <LinkListItem
+                    label="Agents"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents'))}
+                    description="Metrics for all agents reporting to this unit."
+                  />
+                  <LinkListItem
+                    label="Graph Explorer"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/graphExplorer'))}
+                    description="Use this to analyze graph relations between infrastructure entities existing within this unit."
+                  />
+                  <LinkListItem
+                    label="Infrastructure Entity Versions"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/snapshotVersions'))}
+                    description="Inspect versions for a single infrastructure entity and visualize when they were created and for how long they were valid/"
+                  />
+                </LinkList>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg={12}>
+              <Card title="Available Instana Units">
+                <LinkList>
+                  <LinkListItem
+                    label="SaaS Monitoring Units"
+                    description="These two units exist to monitor our own SaaS installations. They themselves are SaaS units."
+                  >
+                    <LinkList>
+                      <LinkListItem
+                        label="EU"
+                        href="https://eu-instanaops.instana.io"
+                        external
+                        description="Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
+                      />
+                      <LinkListItem
+                        label="US"
+                        href="https://us-instanaops.instana.io"
+                        external
+                        description="Unit monitoring the US SaaS installation."
+                      />
+                    </LinkList>
+                  </LinkListItem>
+
+                  <LinkListItem
+                    label="Development Units"
+                    description="These units are designed to be used mainly by the product organization of Instana to continue to evolve Instana itself."
+                  >
+                    <LinkList>
+                      <LinkListItem
+                        label="Test"
+                        href="https://test-instana.instana.io"
+                        external
+                        description="Auto-deployed on every commit to the develop branches. This is the unit on which most of the engineering work is integrated first. Notoriously unstable due to the deployment frequency. Choose a different unit if possible."
+                      />
+                      <LinkListItem
+                        label="Release"
+                        href="https://release-instana.instana.io"
+                        external
+                        description="Auto-deployed from the release-XYZ branch on every commit. Mainly used as part of the release preparation, but also for hot-fixes."
+                      />
+                      <LinkListItem
+                        label="Load"
+                        href="https://load-instana.instana.io"
+                        external
+                        description="Used to execute load tests and other experiments. Typically used as part of the release preparation."
+                      />
+                    </LinkList>
+                  </LinkListItem>
+
+                  <LinkListItem
+                    label="Demo Units"
+                    description="These units are frequently used by the whole company for demo / presentation purposes."
+                  >
+                    <LinkList>
+                      <LinkListItem
+                        label="current"
+                        href="https://current-instana.instana.io"
+                        external
+                        description="A SaaS demo unit running within the US."
+                      />
+                      <LinkListItem
+                        label="current2"
+                        href="https://current2-instana.instana.io"
+                        external
+                        description="A SaaS demo unit running within EU. This one is typically only used when 'current' is unavailable."
+                      />
+                      <LinkListItem
+                        label="demo"
+                        href="https://demo-demo.instana.io"
+                        external
+                        description="This unit will replace the 'current' and 'current2' unit once the demo setup is finished. The RobotShop is deployed here."
+                      />
+                    </LinkList>
+                  </LinkListItem>
+
+                  <LinkListItem
+                    label="Kubernetes Based Units"
+                    description="Kubernetes based environments are currently being build. They aren't yet ready to replace our day-to-day environments, but will be in the near future. Once they are ready they will replace the similarly named non-Kubernetes based units."
+                  >
+                    <LinkList>
+                      <LinkListItem
+                        label="Test"
+                        href="https://test-instana.pink.instana.rocks"
+                        external
+                        description="Auto-deployed from the develop branches every hour."
+                      />
+                      <LinkListItem
+                        label="Nightly"
+                        href="https://nightly-instana.pink.instana.rocks"
+                        external
+                        description="Auto-deployed from the develop branches every night."
+                      />
+                      <LinkListItem
+                        label="Staging"
+                        href="https://staging-instana.peach.instana.rocks"
+                        external
+                        description="Auto-deployed from the release-XYZ branch on every commit."
+                      />
+                      <LinkListItem
+                        label="Preview"
+                        href="https://preview-instana.peach.instana.rocks"
+                        external
+                        description="Manually deployed latest release-XYZ branch 1 week before the SaaS release. Sales / CS / SE / PM has access to this unit."
+                      />
+                      <LinkListItem
+                        label="Release"
+                        href="https://release-instana.magenta.instana.rocks"
+                        external
+                        description="Manually deployed latest release-XYZ on demand."
+                      />
+                      <LinkListItem
+                        label="Load"
+                        href="https://load-instana.rose.instana.rocks"
+                        external
+                        description="Manually deployed from any branch on demand."
+                      />
+                      <LinkListItem
+                        label="SRE"
+                        href="https://sre-instana.melon.instana.rocks"
+                        external
+                        description="Manually deployed from any branch on demand. Used by SRE to develop instanactl."
+                      />
+                    </LinkList>
+                  </LinkListItem>
+                </LinkList>
+              </Card>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Fragment>

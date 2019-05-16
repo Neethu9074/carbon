@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  resourceQuotaTwoDecimalPlaces,
-  resourceQuotaBytes
-} from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import MetricValue from 'in-components/MetricValue';
@@ -14,8 +11,8 @@ export default function ResourceTooltipContent({
   cpuLimitsMetric,
   memReqMetric,
   memLimitsMetric,
-  cpuReqMetricFormatter = resourceQuotaTwoDecimalPlaces,
-  cpuLimitsMetricFormatter = resourceQuotaTwoDecimalPlaces,
+  cpuReqMetricFormatter = resourceQuotaNumber,
+  cpuLimitsMetricFormatter = resourceQuotaNumber,
   memReqMetricFormatter = resourceQuotaBytes,
   memLimitsMetricFormatter = resourceQuotaBytes
 }) {

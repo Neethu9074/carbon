@@ -9,7 +9,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import { region } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {

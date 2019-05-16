@@ -7,11 +7,9 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import MetricValue from 'in-components/MetricValue';
-
-export const resourceQuotaPercentage = d => (d < 0 ? '-' : percentageTwoDecimalPlaces(d));
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';

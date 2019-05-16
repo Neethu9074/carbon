@@ -167,7 +167,7 @@ export function search({ customQuery = null, view = 'TABLE', restrictResultEntit
 // should move this logic to the backend.
 export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
-    return getPhysicalHierarchy(snapshotId)
+    return getPhysicalHierarchy({ snapshotId })
       .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id)), false))
       .debounce(300)
       .map(snapshots => {
@@ -188,13 +188,13 @@ export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   3000
 );
 
-export function getPhysicalHierarchy(snapshotId, includeCluster = true, timeConfig) {
+export function getPhysicalHierarchy({ snapshotId, timeConfig, includeCluster = true, includeKubernetes = true }) {
   if (timeConfig) {
-    return createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster });
+    return createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster, includeKubernetes });
   }
 
   return timeConfig$.flatMap(timeConfig =>
-    createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster })
+    createPhysicalHierarchyObservable({ snapshotId, timeConfig, includeCluster, includeKubernetes })
   );
 }
 

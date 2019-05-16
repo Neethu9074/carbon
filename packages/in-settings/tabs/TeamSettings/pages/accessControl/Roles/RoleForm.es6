@@ -45,7 +45,7 @@ export default function RoleForm({ form, onChange, roleId }) {
             onChange={onChange}
             name="restrictedAccess"
             label="Limit access by team access scopes"
-            helpText="When enabled, this option restricts access to the scope defined by the teams the user is a member of. A user with a limited access role who is not member of any team will not have access to monitoring data at all."
+            helpText="Enable role based access control."
           />
         </FormGroup>
       )}

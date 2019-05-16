@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+
+:local {
+  .row {
+    margin: 0;
+    border: 1px solid @lib__colors__N200;
+    border-top: 0.5rem solid @lib__colors__N200;
+  }
+
+  .col {
+    padding: 0.375rem 0 0.375rem 0.375rem;
+  }
+
+  @media (min-width: 1280px) {
+    .col {
+      border-left: 1px solid @lib__colors__N200;
+
+      &:first-child {
+        border-left: 0;
+      }
+    }
+  }
+}

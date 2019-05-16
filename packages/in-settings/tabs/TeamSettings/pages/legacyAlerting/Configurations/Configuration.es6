@@ -8,7 +8,6 @@ import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-
 import { teamSettingsAlertingConfigurations } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { queryValidator } from 'in-stores/search/validations';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
@@ -74,7 +73,6 @@ function save(config, form) {
         form.get('integrationIds').value.toJS(),
         form.get('ruleIds').value.toJS(),
         query,
-        form.get('eventQuery').value,
         form.get('eventTypes').value
       )
     )
@@ -118,13 +116,6 @@ function createForm(config, isCreate) {
       'integrationIds',
       createField({
         value: config.get('integrationIds', List()) || List()
-      })
-    )
-    .put(
-      'eventQuery',
-      createField({
-        value: config.getIn(['eventFilteringConfiguration', 'eventQuery'], ''),
-        validator: queryValidator
       })
     )
     .put(

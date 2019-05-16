@@ -3,7 +3,8 @@ import React from 'react';
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
 import Card from 'in-new-components/Card';
 
-export default function SelectorsList({ selectors, defaultOperator }) {
+export default function SelectorsList({ resource, defaultOperator = '=' }) {
+  const selectors = resource.selectors;
   if (!selectors || selectors.length === 0) {
     return null;
   }

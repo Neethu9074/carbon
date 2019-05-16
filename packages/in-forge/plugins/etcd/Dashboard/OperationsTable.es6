@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Columize from 'in-sdk/components/dashboard/Columize';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import theme from 'in-themes';
 
 const cols = [
   {
@@ -76,28 +76,16 @@ function getRowDetails(row) {
   const timeConfig = row.timeConfig;
 
   return (
-    <Columize>
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: zeroDecimalPlaces,
-          metrics: ['storage.' + row.key + '_success'],
-          labels: ['Success'],
-          type: 'line'
-        }}
-      />
-
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          formatter: zeroDecimalPlaces,
-          metrics: ['storage.' + row.key + '_fail'],
-          labels: ['Fail'],
-          type: 'line'
-        }}
-      />
-    </Columize>
+    <Chart
+      snapshotId={snapshotId}
+      timeConfig={timeConfig}
+      y1={{
+        formatter: zeroDecimalPlaces,
+        metrics: ['storage.' + row.key + '_success', 'storage.' + row.key + '_fail'],
+        labels: ['Success', 'Fail'],
+        type: 'line',
+        colors: [theme.lib.colors.green800, theme.lib.colors.red800]
+      }}
+    />
   );
 }

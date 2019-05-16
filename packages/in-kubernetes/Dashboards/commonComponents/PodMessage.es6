@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 export default function PodMessage({ message }) {
   if (!message) {
-    return '-';
+    return valueMissingPlaceholder;
   }
 
   return (

@@ -1,10 +1,9 @@
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 
 import { getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import TwoValueBar from 'in-new-components/TwoValueBar';
-
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 export default connectTo(
   ({ snapshotId, metrics, timeWindowAggregation = 'mean' }) => {
@@ -36,6 +35,8 @@ export default connectTo(
       <TwoValueBar
         v1={value1}
         v2={value2}
+        v1Color={theme.lib.colors.lightBlue800}
+        v2Color={theme.lib.colors.red800}
         fullDomain={value2}
         formatter={formatter || identity}
         v1Label={labels && labels[0]}

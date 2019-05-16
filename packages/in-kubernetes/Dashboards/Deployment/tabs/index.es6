@@ -1,8 +1,11 @@
 import React from 'react';
 
 import getKubernetesDeploymentItemCounters from 'in-subscription/kubernetes/getKubernetesDeploymentItemCounters';
+import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
+import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
@@ -22,7 +25,14 @@ export default [
   {
     label: 'Conditions',
     path: `${deploymentDashboardFullyQualified}/conditions`,
-    component: Conditions
+    component: Conditions,
+    header: ConditionsHeader
+  },
+  {
+    label: 'K8s Services',
+    path: `${deploymentDashboardFullyQualified}/services`,
+    component: Services,
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',
@@ -40,6 +50,19 @@ function getCounterComponent(props, resultPropName) {
         getKubernetesDeploymentItemCounters({ deploymentId: props.deploymentId, timeConfig: props.timeConfig })
       }
       resultPropName={resultPropName}
+    />
+  );
+}
+
+function ConditionsHeader({ deploymentId, timeConfig }) {
+  return (
+    <ConditionsTabHeader
+      getCounter={() =>
+        getKubernetesDeployment({
+          id: deploymentId,
+          timeConfig
+        }).map(result => (result.data ? { data: result.data.conditions } : null))
+      }
     />
   );
 }

@@ -57,7 +57,16 @@ export default getElementDimensions(
     mapProps = props => {
       let { timeConfig, y1, y2, minRollup } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
-      this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
+      const rollup = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
+      this.granularity = getPredefinedBlockSizeMillisForBlockSize(
+        getBlockSizeMillis({
+          windowSize: this.props.timeConfig.windowSize,
+          maxDataPoints: y1.maxDataPoints,
+          minPixelsPerBlock: y1.minPixelsPerBlock || 1,
+          width: getChartCanvasWidth(this.props),
+          rollup
+        })
+      );
       this.y1 = mapAxis(y1);
       this.y2 = mapAxis(y2);
     };

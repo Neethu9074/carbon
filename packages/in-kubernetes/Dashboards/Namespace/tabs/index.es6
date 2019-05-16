@@ -1,11 +1,11 @@
 import React from 'react';
 
 import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import PodMapTab from 'in-kubernetes/Dashboards/Namespace/tabs/PodMapTab';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
@@ -23,14 +23,9 @@ export default [
     component: Details
   },
   {
-    label: 'Pod Map',
-    path: `${namespaceDashboardFullyQualified}/podMap`,
-    component: PodMapTab
-  },
-  {
     label: 'Events',
     path: `${namespaceDashboardFullyQualified}/events`,
-    component: Events
+    component: EventsWithoutNamespace
   },
   {
     label: 'Deployments',
@@ -43,6 +38,11 @@ export default [
     path: `${namespaceDashboardFullyQualified}/services`,
     component: Services,
     header: props => getCounterComponent(props, 'services')
+  },
+  {
+    label: 'Pod Map',
+    path: `${namespaceDashboardFullyQualified}/podMap`,
+    component: PodMapTab
   },
   {
     label: 'Pods',

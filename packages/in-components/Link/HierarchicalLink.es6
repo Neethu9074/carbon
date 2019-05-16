@@ -35,7 +35,9 @@ export default compose(
               pathname: pathname,
               timeConfig: timeConfig
             }),
-        hierarchy: calculateHierarchy ? getPhysicalHierarchy(snapshotId, false, timeConfig) : alwaysNull
+        hierarchy: calculateHierarchy
+          ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig })
+          : alwaysNull
       };
       if (useSnapshotFromHierarchyCallback) {
         observables.hierarchySnapshots = observables.hierarchy.flatMap(hierarchy =>

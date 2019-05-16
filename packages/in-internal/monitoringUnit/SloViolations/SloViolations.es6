@@ -2,18 +2,21 @@ import { interval } from 'reactive-observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 
+import { MINIMUM_ROLLUP, getTimeWindowBasedMetricAggregation, getDefaultMetricRollupDuration } from 'in-stores/metric';
+import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
-import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { siPrefix, number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { siPrefix } from 'in-services/formatters/number';
 import { getColorBySeverity } from 'in-stores/events';
 import getRawEvents from 'in-subscription/rawEvents';
+import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
 import { getSingular } from 'in-sdk/pluginName';
 import getEvent from 'in-subscription/event';
@@ -24,29 +27,30 @@ import Link from 'in-components/Link';
 
 import locals from './SloViolations.mless';
 
-const timeConfig = { to: null, focusedMoment: null, autoRefresh: true, windowSize: 1000 * 60 };
-
 const onlySlosQuery =
   '((event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open) AND (event.type:issue)';
 
 export default connect({
-  events: interval(1000 * 60)
-    .startWith(null)
-    .flatMap(() =>
-      getRawEvents({
-        timeConfig,
-        maxTimestamp: timeConfig.to || Date.now(),
-        minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
-        sortByField: 'start',
-        sortMode: 'desc',
-        query: onlySlosQuery,
-        offset: 0,
-        size: 200
-      }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
-    )
+  timeConfig: timeConfig$,
+  events: timeConfig$.flatMap(timeConfig =>
+    interval(1000 * 60)
+      .startWith(null)
+      .flatMap(() =>
+        getRawEvents({
+          timeConfig,
+          maxTimestamp: timeConfig.to || Date.now(),
+          minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
+          sortByField: 'start',
+          sortMode: 'desc',
+          query: onlySlosQuery,
+          offset: 0,
+          size: 200
+        }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
+      )
+  )
 })(SloViolations);
 
-function SloViolations({ events }) {
+function SloViolations({ events, timeConfig }) {
   if (!events) {
     return (
       <div className={locals.wrapper}>
@@ -57,10 +61,39 @@ function SloViolations({ events }) {
 
   const grouped = groupBy(events, e => e.entityId);
   const chunks = chunk(Object.keys(grouped).sort(), 2);
+  const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
 
   return (
     <div className={locals.wrapper}>
       <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
+
+      <Row>
+        <Col lg={12}>
+          <OpenEventsCountChartWrapper
+            cardTitle="Violations over time"
+            timeConfig={timeConfig}
+            y1={{
+              renderer: Renderer.stackedArea,
+              formatter: number.forcedCompact,
+              labels: ['SLO Violations', 'Experimental SLO Violations'],
+              metricIds: ['slo', 'experimentalSlo']
+            }}
+            metricsConfiguration={{
+              timeConfig,
+              metrics: {
+                slo: {
+                  query: 'event.text:"[SLO]"',
+                  granularity
+                },
+                experimentalSlo: {
+                  query: 'event.text:"[experimental SLO]"',
+                  granularity
+                }
+              }
+            }}
+          />
+        </Col>
+      </Row>
 
       {chunks.map((itemsInChunk, i) => (
         <Row key={i} verticallyStretchColumns>
@@ -76,7 +109,7 @@ function SloViolations({ events }) {
 }
 
 const ViolationsForEntity = connect(({ snapshotId }) => ({
-  context: getPhysicalHierarchy(snapshotId, false)
+  context: getPhysicalHierarchy({ snapshotId, includeCluster: false })
     .flatMap(getSnapshots)
     .map(snapshots =>
       snapshots.reduce((agg, snapshot, i) => {

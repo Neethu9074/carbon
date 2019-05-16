@@ -53,7 +53,13 @@ function columnDefinitions() {
       ellipsis: true,
       getContent(entity) {
         return (
-          <WithSubscript subscript={entity.applicationIds.length + ' Applications'}>
+          <WithSubscript
+            subscript={
+              entity.applicationIds.length +
+              ' Application Perspective' +
+              (entity.applicationIds.length === 1 ? '' : 's')
+            }
+          >
             <span className={locals.ellipsis}>{entity.name}</span>
           </WithSubscript>
         );

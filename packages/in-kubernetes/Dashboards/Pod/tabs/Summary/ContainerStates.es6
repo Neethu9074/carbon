@@ -52,7 +52,7 @@ export default connectTo(
           </Thead>
           <Tbody>
             {presentedStates.map((status, i) => {
-              if (status.containerSnapshotId && snapshotEnrichedContainerStates[status.containerSnapshotId]) {
+              if (get(snapshotEnrichedContainerStates, [status.containerSnapshotId, 'snapshot'])) {
                 const containerSnapshot = snapshotEnrichedContainerStates[status.containerSnapshotId].snapshot;
                 return (
                   <Tr key={i}>

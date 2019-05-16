@@ -220,7 +220,6 @@ export default function Speed({ timeConfig, tagFilters }) {
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 y1={{
-                  calculateStackDifferences: true,
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
                   labels: ['First Paint', 'First-Contentful Paint'],

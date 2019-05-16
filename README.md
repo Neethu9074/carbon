@@ -44,7 +44,7 @@ sudo apt-get install build-essential
 xcode-select --install
 
 # download and install NVM
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 
 # reload bash
 bash
@@ -107,7 +107,7 @@ alias uil="cd /Users/name/path/to/ui-client && TARGET=local yarn run dev"
 ```
 
 ## Branching Model
-We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
+We are using the [a variation of the Git flow branching model](https://miro.com/app/board/o9J_kx-xBuY=/) in ui-client.
 
 ## Code Style
 Most code style rules are checked by linters, also, code formatting is applied by prettier. Linters and prettier are run automatically by a pre-commit hook on all files which have staged changes. If possible, you should [configure your IDE/Editor](#running-prettier-on-save) to run prettier on all files when saving the file.
@@ -242,4 +242,3 @@ error, no objects specified in config file,
 ```
 
 this might be due to an incompatibility between Proxrox and MacOS' default openssl executable. Check `openssl version`, if it says something like `LibreSsl 2.xx`, consider doing `brew install openssl`/`brew upgrade openssl` and (important!) adding its path to your shell's init scripts (`export PATH="/usr/local/opt/openssl/bin:$PATH"`). After that, `openssl version` should say something like `OpenSSL 1.0.2o  27 Mar 2018`.
-

@@ -12,6 +12,14 @@ export function getPermissionSets() {
   }).map(response => response.body);
 }
 
+export function getApplications() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/permission-sets/applications'
+  }).map(response => response.body);
+}
+
 export function getPermissionSet(permissionSetId) {
   return http({
     method: 'GET',

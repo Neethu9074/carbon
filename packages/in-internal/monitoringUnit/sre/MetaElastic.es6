@@ -4,7 +4,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';

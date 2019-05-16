@@ -8,7 +8,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 function getCols(fqn) {
   return [
@@ -88,7 +88,7 @@ function getCols(fqn) {
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:appdata-processor*')
-})(function FillerSpanProcessingStats({ rows }) {
+})(function ResilientMapping({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator type="dark" />;
   }

@@ -1,13 +1,24 @@
+import { compose } from 'recompose';
 import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { isRbacEnabled } from 'in-services/featureFlags';
+import { getRolesMutable } from 'in-api/roles';
 import Gravatar from 'in-components/Gravatar';
 import { getUsers } from 'in-api/users';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './Users.mless';
 
-export default function Users({
+export default compose(
+  connectTo({
+    roles: getRolesMutable()
+  })
+)(Users);
+
+function Users({
+  roles,
   setTitle = true,
   scrollWrapperClassName,
   tableActions = defaultTableActions,
@@ -27,7 +38,7 @@ export default function Users({
       title={setTitle ? 'Users' : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      columnDefinitions={columnDefinitions(roles, hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getUsers}
@@ -45,7 +56,7 @@ export default function Users({
   );
 }
 
-function columnDefinitions() {
+function columnDefinitions(roles) {
   return [
     {
       id: 'gravatar',
@@ -60,7 +71,7 @@ function columnDefinitions() {
     {
       id: 'fullName',
       label: 'Name',
-      width: 100,
+      width: 70,
       ellipsis: true,
       getContent(user) {
         return (
@@ -71,6 +82,19 @@ function columnDefinitions() {
       },
       getValue(user) {
         return user.email;
+      }
+    },
+    {
+      id: 'role',
+      label: 'Role',
+      width: 30,
+      getContent(user) {
+        const role = roles.find(role => role.id === user.roleId);
+        return role ? (
+          <WithSubscript subscript={isRbacEnabled && role.restrictedAccess ? 'Limited Access' : ''}>
+            <span>{role.name}</span>
+          </WithSubscript>
+        ) : null;
       }
     }
   ];

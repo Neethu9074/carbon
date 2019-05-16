@@ -7,12 +7,13 @@ import PermissionSets, {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/components/PermissionSets';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/components/Users';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getPermissionSets } from 'in-api/permissionSets';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { getPermissionSets } from 'in-api/permissionSets';
 import { getUsers } from 'in-api/users';
 
 export default function TeamForm({ form, setForm, onChange }) {
@@ -23,6 +24,7 @@ export default function TeamForm({ form, setForm, onChange }) {
 
   return (
     <fieldset>
+      <SectionHeading>General</SectionHeading>
       {form.get('name').map(field => (
         <FormGroup>
           <Label htmlFor="team-name" hasError={!field.valid && field.touched}>
@@ -44,22 +46,22 @@ export default function TeamForm({ form, setForm, onChange }) {
             setTitle={false}
             loadEntities={() => getSelectedPermissionSets(selectedPermissionIds)}
             hasRowNavigation={false}
-            noDataMessage="No Scopes Selected"
+            noDataMessage="No Access Scopes Selected"
             tableActions={permissionSetSelectionTableActions(form, setForm)}
             rightHeader={
               <SelectListDialogButton
                 form={form}
                 onSubmit={selectedIds => submitPermissionSetSelection(form, setForm, selectedIds)}
-                title="Add Scopes"
-                label={'Add Scopes'}
+                title="Add Access Scopes"
+                label={'Add Access Scopes'}
                 listComponent={PermissionSets}
                 listComponentRightHeader={noRightHeader}
                 hiddenIds={selectedPermissionIds}
-                limit={20} // some limit
+                limit={999} // some high limit, as it is mandatory
                 createSubmitLabel={numberOfItems =>
-                  numberOfItems > 0 ? `Add ${numberOfItems} Scope${numberOfItems > 1 ? 's' : ''}` : 'Add'
+                  numberOfItems > 0 ? `Add ${numberOfItems} Access Scope${numberOfItems > 1 ? 's' : ''}` : 'Add'
                 }
-                requiresAtLeastOneMessage="Please select at least one scope."
+                requiresAtLeastOneMessage="Please select at least one access scope."
               />
             }
           />

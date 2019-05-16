@@ -2,13 +2,19 @@ import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './KpiCard.mless';
 
-export default function KpiCard({ title, value, raw = false, renderValue, valuesClassName }) {
+export default function KpiCard({ title, value, raw = false, renderValue, valuesClassName, borderless = false }) {
   if (raw || renderValue) {
     return (
-      <div className={locals.wrapper}>
+      <div
+        className={evaluateClassNames({
+          [locals.wrapper]: true,
+          [locals.borderless]: borderless
+        })}
+      >
         <div className={locals.title}>{title}</div>
         <span className={joinClassNames(locals.minor, valuesClassName)}>
           {renderValue ? renderValue(value) : value}

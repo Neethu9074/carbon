@@ -32,7 +32,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <DashboardSection title={`Dropped Spans`}>
+        <DashboardSection title={`Backend Dropped Spans`}>
           <Chart
             snapshotId={dropwizard.get('id')}
             timeConfig={timeConfig}
@@ -40,7 +40,7 @@ export default connectTo(
               min: 0,
               formatter: percentage.detailed,
               metrics: [`metrics.gauges.KPI.incoming.span_messages.error_rate`],
-              labels: ['Dropped Spans'],
+              labels: ['Backend Dropped Spans'],
               type: 'stackedArea'
             }}
           />
