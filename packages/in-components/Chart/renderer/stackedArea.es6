@@ -1,3 +1,5 @@
+import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
+
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {
     let metricMap = {};
@@ -14,22 +16,6 @@ export default {
     axis.valuesDependOnEachOther = true;
   }
 };
-
-function calculateMetricMap(metrics) {
-  const metricMap = {};
-
-  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-    const dataSeries = metrics[iMetric];
-
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      const previousValue = iMetric > 0 && metricMap[dataPoint[0]] != null ? metricMap[dataPoint[0]] : 0;
-      const value = dataPoint[1] + previousValue;
-      metricMap[dataPoint[0]] = value;
-    }
-  }
-  return metricMap;
-}
 
 function renderDataSeries(config, color, borderColor, dataSeries, metricMap, scale) {
   config.backBufferCtx.beginPath();

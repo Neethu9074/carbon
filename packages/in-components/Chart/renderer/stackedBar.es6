@@ -1,4 +1,5 @@
 import { MARGIN_BETWEEN_BARS, MIN_HEIGHT_IN_PX } from 'in-components/Chart/renderer/bar';
+import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 
 export default {
   render: ({ metrics, scale, config, colors100, axis }) => {
@@ -12,7 +13,7 @@ export default {
       config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors100[iMetric], metrics[iMetric], metricMap, scale, barWidth);
+      renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric]);
     }
   },
 
@@ -23,23 +24,7 @@ export default {
   }
 };
 
-function calculateMetricMap(metrics) {
-  const metricMap = {};
-
-  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
-    const dataSeries = metrics[iMetric];
-
-    for (let i = 0; i < dataSeries.length; i++) {
-      const dataPoint = dataSeries[i];
-      const previousValue = iMetric > 0 && metricMap[dataPoint[0]] != null ? metricMap[dataPoint[0]] : 0;
-      const value = dataPoint[1] + previousValue;
-      metricMap[dataPoint[0]] = value;
-    }
-  }
-  return metricMap;
-}
-
-function renderDataSeries(config, color, dataSeries, metricMap, scale, barWidth) {
+export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
     drawBlock(metricMap, config, scale, blocks[i], i, barWidth, color);
