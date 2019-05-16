@@ -68,7 +68,7 @@ export default function Landing() {
                     <LinkListItem
                       label="Definition"
                       external
-                      href="https://github.com/instana/internal-tools/tree/master/objectives"
+                      href="https://github.com/instana/backend/tree/develop/objectives"
                       description="Learn about & evolve our SLOs."
                     />
                   </LinkList>
