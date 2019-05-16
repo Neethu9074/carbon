@@ -99,15 +99,30 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
 }
 
 function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
-  let maxValue = 0;
+  const metricMapByTimestamp = new Map();
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
     if (isIgnoredIndex) {
       continue;
     }
 
-    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
-    maxValue = Math.max(maxValue, minMax.maxValue);
+    const series = metrics[iMetric];
+    for (let i = 0; i < series.length; i++) {
+      const dataPoint = series[i];
+      const timestamp = dataPoint[0];
+      const value = dataPoint[1];
+      if (metricMapByTimestamp.has(timestamp)) {
+        metricMapByTimestamp.set(timestamp, metricMapByTimestamp.get(timestamp) + value);
+      } else {
+        metricMapByTimestamp.set(timestamp, value);
+      }
+    }
+  }
+
+  let maxValue = 0;
+  const timestamps = metricMapByTimestamp.keys();
+  for (const timestamp of timestamps) {
+    maxValue = Math.max(maxValue, metricMapByTimestamp.get(timestamp));
   }
   return maxValue;
 }
