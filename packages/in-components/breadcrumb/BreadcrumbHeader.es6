@@ -1,6 +1,5 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -46,15 +45,29 @@ export default connectTo(
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 
-    return (
-      <div className={locals.breadcrumbHeader}>
-        {useFullAvailableWidth ? (
-          crumbsElement
-        ) : (
-          <MaxWidthFullscreenContainer>{crumbsElement}</MaxWidthFullscreenContainer>
-        )}
-        <TimeSelection />
-      </div>
-    );
+    if (useFullAvailableWidth) {
+      return <FullWidthHeader>{crumbsElement}</FullWidthHeader>;
+    }
+
+    return <MaxViewRestrictedHeader>{crumbsElement}</MaxViewRestrictedHeader>;
   }
 );
+
+function MaxViewRestrictedHeader({ children }) {
+  return (
+    <div className={locals.restrictredBreadcrumbHeader}>
+      <div />
+      {children || <div />}
+      <TimeSelection />
+    </div>
+  );
+}
+
+function FullWidthHeader({ children }) {
+  return (
+    <div className={locals.fullWidthBreadcrumbHeader}>
+      <TimeSelection />
+      {children}
+    </div>
+  );
+}
