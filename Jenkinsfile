@@ -6,7 +6,7 @@ def gitCommitAuthor     = null
 def gitMessage          = null
 def instanaVersion      = null
 def archiveName         = null
-def latestReleaseBranch = 'release-153'
+def latestReleaseBranch = null
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -99,7 +99,7 @@ stage('Deployment') {
   if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == latestReleaseBranch ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
-      string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)   
+      string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)
     ]
   }
   def deployments = [:]
