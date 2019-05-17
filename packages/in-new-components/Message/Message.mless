@@ -1,12 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .message {
-    height: 2.5rem;
+    min-height: 2.5rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 0.625rem;
     background: @lib__colors__N200;
     border-top-left-radius: 0.125rem;
@@ -15,14 +13,29 @@
     box-sizing: border-box;
   }
 
+  .icon {
+    align-self: baseline;
+    margin-right: 0.5rem;
+  }
+
+  .topPaddingIcons {
+    padding-top: 0.25rem;
+  }
+
   .content {
+    .topPaddingIcons;
     width: 100%;
   }
 
+  .dismissContainer {
+    .topPaddingIcons;
+  }
+
   .dismiss {
-    fill: @lib__colors__N500;;
+    fill: @lib__colors__N500;
     cursor: pointer;
     margin: 0 0 0 1rem;
+    align-self: baseline;
 
     &:hover {
       fill: darken(@lib__colors__N500, 20%);

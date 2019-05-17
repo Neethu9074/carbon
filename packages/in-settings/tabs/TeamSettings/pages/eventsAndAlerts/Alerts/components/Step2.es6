@@ -61,7 +61,7 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
       {eventSelectionMode === modeEventTypes &&
         types && (
           <div className={locals.eventTypeSwitcher}>
-            <EventTypesSwitcher form={form} onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
+            <EventTypesSwitcher onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
           </div>
         )}
       {eventSelectionMode === modeSelectedEvents &&

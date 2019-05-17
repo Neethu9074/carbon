@@ -65,15 +65,6 @@ export default function RoleForm({ form, onChange, roleId }) {
           form={form}
           disabled={disabled}
           onChange={onChange}
-          name="canConfigureServiceMapping"
-          label="Service Mapper"
-          helpText="Permits configuration of services."
-        />
-
-        <Permission
-          form={form}
-          disabled={disabled}
-          onChange={onChange}
           name="canConfigureEumApplications"
           label="Website Monitoring configuration"
           helpText="Permits configuration of website monitoring functionality."

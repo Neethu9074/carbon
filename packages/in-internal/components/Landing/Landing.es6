@@ -68,7 +68,7 @@ export default function Landing() {
                     <LinkListItem
                       label="Definition"
                       external
-                      href="https://github.com/instana/internal-tools/tree/master/objectives"
+                      href="https://github.com/instana/backend/tree/develop/objectives"
                       description="Learn about & evolve our SLOs."
                     />
                   </LinkList>
@@ -203,6 +203,20 @@ export default function Landing() {
         )}
 
         <Col lg={6}>
+          {internalMonitoringUnit && (
+            <Row>
+              <Col lg={12}>
+                <Card title="Tip">
+                  <p className={locals.tip}>
+                    Did you know that these features are also available on customer tenant units? They are hidden by
+                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on
+                    the non-interactive part of our main navigation!
+                  </p>
+                </Card>
+              </Col>
+            </Row>
+          )}
+
           <Row>
             <Col lg={12}>
               <Card title={`This Unit (${config.tenant}-${config.tenantUnit})`}>

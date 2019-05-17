@@ -57,7 +57,7 @@ const Pods = compose(
   const rightHeader = (
     <Fragment>
       <ComboBox
-        placeholder="Status…"
+        placeholder="Phase…"
         value={phase}
         onChange={t => setPhase({ phase: t ? t.value : null })}
         options={podPhases}

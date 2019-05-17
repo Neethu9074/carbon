@@ -9,7 +9,6 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
-import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -56,7 +55,6 @@ export default function DeploymentDashboard({ location }) {
           <ErroneousEntityVersionList snapshotId={props.deploymentId} timeConfig={props.timeConfig} errors={errors} />
         )}
       />
-      <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>
   );
 }

@@ -247,23 +247,10 @@ export function putApplicationField(form, applicationName) {
 }
 
 function onChangeEventSelectionMode(form, eventSelectionMode) {
-  if (!eventSelectionMode) {
-    return;
-  }
-  let updatedForm = form.updateIn(['eventSelectionMode'], field => field.setValue(eventSelectionMode).setTouched(true));
-
-  if (eventSelectionMode === modeEventTypes) {
-    updatedForm = updatedForm.remove('selectedEvents');
-    updatedForm = putEventTypesField(updatedForm);
-  } else if (eventSelectionMode === modeSelectedEvents) {
-    updatedForm = updatedForm.remove('eventTypes');
-    updatedForm = putSelectedEventsField(updatedForm);
-  } else {
-    updatedForm = updatedForm.remove('selectedEvents');
-    updatedForm = updatedForm.remove('eventTypes');
-  }
-
-  return updatedForm;
+  return (
+    eventSelectionMode &&
+    form.updateIn(['eventSelectionMode'], field => field.setValue(eventSelectionMode).setTouched(true))
+  );
 }
 
 function onChangeApplyOn(form, applyOn) {
@@ -331,6 +318,23 @@ function selectedAlertChannelsValidator(selectedAlertChannels) {
 function save(alertEntity, form) {
   const query = serializeQuery(form);
   const eventSelectionMode = form.get('eventSelectionMode').value;
+
+  const stripOffUnsetFieldsToProvideIntegrityForBackend = form => {
+    let updatedForm;
+    if (eventSelectionMode === modeEventTypes) {
+      updatedForm = form.remove('selectedEvents');
+      updatedForm = putEventTypesField(form);
+    } else if (eventSelectionMode === modeSelectedEvents) {
+      updatedForm = form.remove('eventTypes');
+      updatedForm = putSelectedEventsField(form);
+    } else {
+      updatedForm = form.remove('selectedEvents');
+      updatedForm = form.remove('eventTypes');
+    }
+    return updatedForm;
+  };
+
+  form = stripOffUnsetFieldsToProvideIntegrityForBackend(form);
 
   return saveAlertingConfig(
     fromJS(

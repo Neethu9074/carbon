@@ -45,7 +45,6 @@
       "permission.canViewAuditLog": "true",
       "permission.canConfigureApplications": "true",
       "config.maxAllowedAlertingConfigurations": "50",
-      "featureFlag.pingComparisonEnabled": "true",
       "permission.canSeeUsageInformation": "true",
       "region": "test-us-west-2"
     },

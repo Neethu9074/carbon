@@ -23,7 +23,6 @@ exports.getButlerDomain = (tenant, unit) =>
 
 exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${unit}`, () => {
   return Promise.all([
-    getBooleanSetting(`settings/${tenant}-${unit}/PING_COMPARISON_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
     getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
@@ -35,7 +34,6 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false),
     getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true)
   ]).then(([
-    pingComparisonEnabled,
     isSelfService,
     isKubernetesV2Enabled,
     lastSevenDaysTimePresetEnabled,
@@ -47,7 +45,6 @@ exports.getFeatureFlags = (tenant, unit) => cache(`getFeatureFlags:${tenant}:${u
     isRbacEnabled,
     trackUrlPathChanges
   ]) => ({
-    pingComparisonEnabled,
     isSelfService,
     isKubernetesV2Enabled,
     lastSevenDaysTimePresetEnabled,

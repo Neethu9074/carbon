@@ -1,7 +1,6 @@
 import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BetaMarker.mless';
@@ -28,17 +27,3 @@ function BetaMarker({ title, children, expanded, setExpanded }) {
     </div>
   );
 }
-
-export const KubernetesBetaMarker = (
-  <Fragment>
-    <p>
-      You are looking at the new Kubernetes support from Instana, which is currently in a Tech Preview. Please get in
-      touch with us for any questions and feedback
-    </p>
-    <div className={locals.buttonWrapper}>
-      <Button kind="primaryv2" href="https://support.instana.com/hc/en-us/requests/new" target="_blank">
-        Provide Feedback
-      </Button>
-    </div>
-  </Fragment>
-);
