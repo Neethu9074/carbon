@@ -7,7 +7,7 @@ import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 
-const EventTypesSwitcher = ({ form, types, onChange, formGroupStyles }) => (
+const EventTypesSwitcher = ({ types, onChange, formGroupStyles }) => (
   <Fragment>
     <h3>Event Types</h3>
     <FormGroup noFlex className={formGroupStyles}>
@@ -18,7 +18,7 @@ const EventTypesSwitcher = ({ form, types, onChange, formGroupStyles }) => (
       <EventType onChange={onChange} types={types} type="online" label="Online" />
       <EventType onChange={onChange} types={types} type="offline" label="Offline" />
     </FormGroup>
-    <TouchedMessages field={form.get('eventTypes')} />
+    <TouchedMessages field={types} />
   </Fragment>
 );
 
