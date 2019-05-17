@@ -17,7 +17,7 @@ export default class Message extends React.Component {
   }
 
   render() {
-    const { children, className, dismissible } = this.props;
+    const { children, className, dismissible, icon } = this.props;
     const { dismiss } = this.state;
 
     if (dismiss) {
@@ -26,8 +26,13 @@ export default class Message extends React.Component {
 
     return (
       <div className={joinClassNames(locals.message, className)}>
-        <div className={locals.content}>{children}</div>
-        {dismissible && <SvgIcon type="x" width={12} className={locals.dismiss} onClick={() => this.onDismiss()} />}
+        {icon && <span className={locals.icon}>{icon}</span>}
+        <span className={locals.content}>{children}</span>
+        {dismissible && (
+          <span className={locals.dismissContainer}>
+            <SvgIcon type="x" width={12} className={locals.dismiss} onClick={this.onDismiss} />
+          </span>
+        )}
       </div>
     );
   }

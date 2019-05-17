@@ -24,6 +24,8 @@ import Link from 'in-components/Link';
 
 import locals from './MaintenanceConfigurationForm.mless';
 
+const IconErrorOutline = <SvgIcon type={'lib_help_error_error_outline'} height={20} width={20} color="#40535b" />;
+
 export default function MaintenanceConfigurationForm(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;
 
@@ -169,7 +171,7 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
     const texts = {
       timezone: `Your current timezone is "${getTimezone()}"`,
       utcTimezone: `All dates and times are in "UTC".`,
-      utcOffset: `(UTC${getUtcOffset(moment())}${isDST(moment()) ? ', DST is in effect' : ''}).`,
+      utcOffset: `UTC${getUtcOffset(moment())}${isDST(moment()) ? ', DST is in effect' : ''}.`,
       changeToUtc: 'You can change this to UTC in the',
       changeToLocalTime: 'You can change this to local time in the'
     };
@@ -180,19 +182,10 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
         : texts.timezone + ' ' + texts.utcOffset + ' ' + texts.changeToUtc) + ' ';
 
     return (
-      <Message className={locals.messageWrapper}>
-        <div className={locals.contentWrapper}>
-          <SvgIcon
-            className={locals.icon}
-            type={'lib_help_error_error_outline'}
-            height={20}
-            width={20}
-            color="#40535b"
-          />
-          <div className={locals.messages}>
-            {message}
-            <Link href={href}>User Settings &gt; General User Interface Settings</Link>
-          </div>
+      <Message className={locals.messageWrapper} icon={IconErrorOutline}>
+        <div>
+          {message}
+          <Link href={href}>User Settings &gt; General User Interface Settings</Link>
         </div>
       </Message>
     );
@@ -223,13 +216,13 @@ const DateWithTime = connectTo(
 
         let dstMsg = '';
         if (currentDateIsDst && !selectedDateIsDst) {
-          dstMsg = ', DST is not in effect';
+          dstMsg = 'DST not in effect';
         }
         if (!currentDateIsDst && selectedDateIsDst) {
-          dstMsg = ', DST is in effect';
+          dstMsg = 'DST in effect';
         }
 
-        return dstMsg && `${label} is "${currentTimeZone}" (UTC${selectedUtcOffset}${dstMsg})`;
+        return dstMsg && `${dstMsg}. ${label} is "${currentTimeZone}" (UTC${selectedUtcOffset})`;
       } else {
         return null;
       }
@@ -267,17 +260,8 @@ const DateWithTime = connectTo(
           </Col>
           {message && (
             <Col cols={10}>
-              <Message className={locals.submessageWrapper}>
-                <div className={locals.contentWrapper}>
-                  <SvgIcon
-                    className={locals.icon}
-                    type={'lib_help_error_error_outline'}
-                    height={20}
-                    width={20}
-                    color="#40535b"
-                  />
-                  <div className={locals.messages}>{message}</div>
-                </div>
+              <Message className={locals.submessageWrapper} icon={IconErrorOutline}>
+                <div>{message}</div>
               </Message>
             </Col>
           )}

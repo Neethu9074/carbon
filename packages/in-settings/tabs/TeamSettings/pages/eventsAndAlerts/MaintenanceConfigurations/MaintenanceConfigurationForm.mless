@@ -11,21 +11,6 @@
 
   .submessageWrapper {
     margin-top: 0.5rem;
-    height: 2rem;
-  }
-
-  .contentWrapper {
-    margin: 1rem 0 1rem 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .messages {
-    margin-left: 0.5rem;
-  }
-
-  .settings {
-    margin-left: 0.5rem;
   }
 
   .unscheduleButton {
