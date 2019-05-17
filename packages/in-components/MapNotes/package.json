@@ -2,5 +2,5 @@
   "name": "MapNotes",
   "version": "0.0.0",
   "private": true,
-  "main": "./MapNotes.es6"
+  "main": "./MapNotes.js"
 }

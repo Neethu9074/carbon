@@ -2,5 +2,5 @@
   "name": "ScreenPositionComponent",
   "version": "0.0.0",
   "private": true,
-  "main": "./ScreenPositionComponent.es6"
+  "main": "./ScreenPositionComponent.js"
 }

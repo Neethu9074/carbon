@@ -7,7 +7,7 @@ const options = {
   from: /\.es6/g,
   to: '.js',
   ignore: './**/*/node_modules/*',
-  dry: true,
+  // dry: true,
   countMatches: true
 };
 

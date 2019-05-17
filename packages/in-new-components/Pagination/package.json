@@ -2,5 +2,5 @@
   "name": "Pagination",
   "version": "0.0.0",
   "private": true,
-  "main": "./Pagination.es6"
+  "main": "./Pagination.js"
 }

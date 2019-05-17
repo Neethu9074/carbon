@@ -2,5 +2,5 @@
   "name": "HorizontalIndicator",
   "version": "0.0.0",
   "private": true,
-  "main": "./HorizontalIndicator.es6"
+  "main": "./HorizontalIndicator.js"
 }

@@ -2,5 +2,5 @@
   "name": "ButtonGroup",
   "version": "0.0.0",
   "private": true,
-  "main": "./ButtonGroup.es6"
+  "main": "./ButtonGroup.js"
 }

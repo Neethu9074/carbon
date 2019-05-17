@@ -2,5 +2,5 @@
   "name": "SavingToggle",
   "version": "0.0.0",
   "private": true,
-  "main": "./SavingToggle.es6"
+  "main": "./SavingToggle.js"
 }

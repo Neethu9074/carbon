@@ -2,5 +2,5 @@
   "name": "MaxWidthFullscreenContainer",
   "version": "0.0.0",
   "private": true,
-  "main": "./MaxWidthFullscreenContainer.es6"
+  "main": "./MaxWidthFullscreenContainer.js"
 }

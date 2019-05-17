@@ -2,5 +2,5 @@
   "name": "TimestampCell",
   "version": "0.0.0",
   "private": true,
-  "main": "./TimestampCell.es6"
+  "main": "./TimestampCell.js"
 }

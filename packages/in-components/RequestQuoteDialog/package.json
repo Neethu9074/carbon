@@ -2,5 +2,5 @@
   "name": "RequestQuoteDialog",
   "version": "0.0.0",
   "private": true,
-  "main": "./RequestQuoteDialog.es6"
+  "main": "./RequestQuoteDialog.js"
 }

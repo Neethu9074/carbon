@@ -2,5 +2,5 @@
   "name": "Toggle",
   "version": "0.0.0",
   "private": true,
-  "main": "./Toggle.es6"
+  "main": "./Toggle.js"
 }

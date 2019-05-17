@@ -2,5 +2,5 @@
   "name": "MapSidebar",
   "version": "0.0.0",
   "private": true,
-  "main": "./MapSidebar.es6"
+  "main": "./MapSidebar.js"
 }

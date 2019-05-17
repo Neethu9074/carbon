@@ -2,5 +2,5 @@
   "name": "SpanForgeDetails",
   "version": "0.0.0",
   "private": true,
-  "main": "./SpanForgeDetails.es6"
+  "main": "./SpanForgeDetails.js"
 }

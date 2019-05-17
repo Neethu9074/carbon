@@ -2,5 +2,5 @@
   "name": "HighlightingComponent",
   "version": "0.0.0",
   "private": true,
-  "main": "./HighlightingComponent.es6"
+  "main": "./HighlightingComponent.js"
 }

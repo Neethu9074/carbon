@@ -2,5 +2,5 @@
   "name": "BackendTraceButton",
   "version": "0.0.0",
   "private": true,
-  "main": "./BackendTraceButton.es6"
+  "main": "./BackendTraceButton.js"
 }

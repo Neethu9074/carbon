@@ -2,5 +2,5 @@
   "name": "Group",
   "version": "0.0.0",
   "private": true,
-  "main": "./Group.es6"
+  "main": "./Group.js"
 }

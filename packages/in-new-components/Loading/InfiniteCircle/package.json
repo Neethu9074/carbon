@@ -2,5 +2,5 @@
   "name": "InfiniteCircle",
   "version": "0.0.0",
   "private": true,
-  "main": "./InfiniteCircle.es6"
+  "main": "./InfiniteCircle.js"
 }

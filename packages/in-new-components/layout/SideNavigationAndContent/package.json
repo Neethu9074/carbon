@@ -2,5 +2,5 @@
   "name": "SideNavigationAndContent",
   "version": "0.0.0",
   "private": true,
-  "main": "./SideNavigationAndContent.es6"
+  "main": "./SideNavigationAndContent.js"
 }

@@ -2,5 +2,5 @@
   "name": "CpuProfiler",
   "version": "0.0.0",
   "private": true,
-  "main": "./CpuProfiler.es6"
+  "main": "./CpuProfiler.js"
 }

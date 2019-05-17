@@ -2,5 +2,5 @@
   "name": "settings",
   "version": "0.0.0",
   "private": true,
-  "main": "./settings.es6"
+  "main": "./settings.js"
 }

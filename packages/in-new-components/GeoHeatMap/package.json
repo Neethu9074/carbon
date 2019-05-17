@@ -2,5 +2,5 @@
   "name": "GeoHeatMap",
   "version": "0.0.0",
   "private": true,
-  "main": "./GeoHeatMap.es6"
+  "main": "./GeoHeatMap.js"
 }

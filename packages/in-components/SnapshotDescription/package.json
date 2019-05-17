@@ -2,5 +2,5 @@
   "name": "SnapshotDescription",
   "version": "0.0.0",
   "private": true,
-  "main": "./SnapshotDescription.es6"
+  "main": "./SnapshotDescription.js"
 }

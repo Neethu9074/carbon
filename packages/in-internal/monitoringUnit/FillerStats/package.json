@@ -2,5 +2,5 @@
   "name": "FillerStats",
   "version": "0.0.0",
   "private": true,
-  "main": "./FillerStats.es6"
+  "main": "./FillerStats.js"
 }

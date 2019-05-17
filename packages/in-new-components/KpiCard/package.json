@@ -2,5 +2,5 @@
   "name": "KpiCard",
   "version": "0.0.0",
   "private": true,
-  "main": "./KpiCard.es6"
+  "main": "./KpiCard.js"
 }

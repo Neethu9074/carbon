@@ -2,5 +2,5 @@
   "name": "LoadingIndicator",
   "version": "0.0.0",
   "private": true,
-  "main": "./LoadingIndicator.es6"
+  "main": "./LoadingIndicator.js"
 }

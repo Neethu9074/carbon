@@ -2,5 +2,5 @@
   "name": "Layer",
   "version": "0.0.0",
   "private": true,
-  "main": "./Layer.es6"
+  "main": "./Layer.js"
 }

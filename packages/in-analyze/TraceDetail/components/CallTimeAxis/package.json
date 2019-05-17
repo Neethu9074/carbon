@@ -2,5 +2,5 @@
   "name": "CallTimeAxis",
   "version": "0.0.0",
   "private": true,
-  "main": "./CallTimeAxis.es6"
+  "main": "./CallTimeAxis.js"
 }
