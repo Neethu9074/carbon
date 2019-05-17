@@ -1,6 +1,11 @@
 import React, { Fragment } from 'react';
 
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  resourceQuotaPercentage,
+  resourceQuotaNumber,
+  resourceQuotaBytes,
+  resourceQuotaZeroDecimalPlaces
+} from 'in-kubernetes/formatters';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/ResourceQuotaChart';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -8,7 +13,6 @@ import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -84,9 +88,9 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: twoDecimalPlaces,
+                    formatter: resourceQuotaNumber,
                     metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
-                    labels: ['Capacity Requests', 'Requests', 'Capacity Limits', 'Limits'],
+                    labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits'],
                     type: 'line',
                     min: 0
                   }}
@@ -106,9 +110,9 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: bytesTwoDecimalPlaces,
+                    formatter: resourceQuotaBytes,
                     metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
-                    labels: ['Capacity Requests', 'Requests', 'Capacity Limits ', 'Limits'],
+                    labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits'],
                     type: 'line',
                     min: 0
                   }}
@@ -128,9 +132,9 @@ export default function Summary({ timeConfig, data: namespace }) {
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
-                    formatter: zeroDecimalPlaces,
+                    formatter: resourceQuotaZeroDecimalPlaces,
                     metrics: ['used_pods', 'cap_pods'],
-                    labels: ['Used', 'Capacity'],
+                    labels: ['Used', 'Hard'],
                     type: 'line',
                     min: 0
                   }}
