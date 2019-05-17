@@ -6,7 +6,6 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
-import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
@@ -50,7 +49,6 @@ export default function ClusterDashboard({ location }) {
           <ErroneousEntityVersionList snapshotId={props.clusterId} timeConfig={props.timeConfig} errors={errors} />
         )}
       />
-      <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>
   );
 }

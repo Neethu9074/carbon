@@ -6,7 +6,6 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import BetaMarker, { KubernetesBetaMarker } from 'in-new-components/BetaMarker';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
@@ -56,7 +55,6 @@ export default function NodeDashboard({ location }) {
           <ErroneousEntityVersionList snapshotId={props.nodeId} timeConfig={props.timeConfig} errors={errors} />
         )}
       />
-      <BetaMarker title="Tech Preview">{KubernetesBetaMarker}</BetaMarker>
     </Fragment>
   );
 }
