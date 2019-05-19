@@ -37,12 +37,8 @@ export const isSelfService = isFeatureFlagEnabled('isSelfService');
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
-export function getBlackListedSearchFieldKeywords(searchContext) {
-  if (searchContext !== 'traces') {
-    return ['log', 'span', 'trace'];
-  } else {
-    return ['log'];
-  }
+export function getBlackListedSearchFieldKeywords() {
+  return ['selfMonitoring'];
 }
 export const blackListedSearchFieldValues = {
   'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
