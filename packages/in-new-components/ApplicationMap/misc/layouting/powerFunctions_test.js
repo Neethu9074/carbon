@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import getPowerFunctions from 'in-new-components/ApplicationMap/misc/layouting/powerFunctions';
 
-describe('in-views/traceView', () => {
+describe('in-new-components/ApplicationMap/misc/layouting/powerFunctions', () => {
   const currentPowerFunctions = getPowerFunctions(getMap());
 
   it('should return 0 on unknown entities or unconnected services', () => {
