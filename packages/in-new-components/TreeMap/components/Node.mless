@@ -13,6 +13,8 @@
 
     background: @lib__colors__N400;
 
+    overflow: hidden;
+    white-space: normal;
     cursor: pointer;
   }
 
@@ -22,8 +24,6 @@
     max-width: 100%;
 
     text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: normal;
   }
 
   .value {

@@ -151,8 +151,9 @@ function mapTreeMapData({ data, sizeMetricConfig, metricType, metricValues, enti
   const minValue = metricValues ? metricValues.minValue : 0;
   const maxValue = metricValues ? metricValues.maxValue : 0;
   const fullDomain = maxValue - minValue || 1; // avoid devide by zero
+  const valueForSmallNodes = Math.max(0.2 * minValue, 0.1);
 
-  return {
+  const root = {
     root: {
       id: data.root.id,
       children: data.root.children.map(({ id, label, children }) => {
@@ -174,7 +175,7 @@ function mapTreeMapData({ data, sizeMetricConfig, metricType, metricValues, enti
               label = pod.label;
             }
 
-            const power = Math.max(0.1, (value - minValue) / fullDomain);
+            const power = Math.max(valueForSmallNodes, (value - minValue) / fullDomain);
             return {
               groupId: id,
               id: pod.id,
@@ -194,6 +195,7 @@ function mapTreeMapData({ data, sizeMetricConfig, metricType, metricValues, enti
       })
     }
   };
+  return root;
 }
 
 function getGroupValueLabel(pods, metricValues) {
