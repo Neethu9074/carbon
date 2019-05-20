@@ -42,7 +42,9 @@ function dataSeriesAsDiscreteTimeValueMap(dataSeries) {
   const timeValueMap = {};
   for (let i = 0; i < dataSeries.length; i++) {
     const dataPoint = dataSeries[i];
-    timeValueMap[dataPoint[0]] = dataPoint[1];
+    if (dataPoint) {
+      timeValueMap[dataPoint[0]] = dataPoint[1];
+    }
   }
   return timeValueMap;
 }

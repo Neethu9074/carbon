@@ -5,6 +5,9 @@ export default {
     let lastXPos = config.scales.xBackBuffer.getRange(dataSeries[0][0]);
 
     for (let i = 0; i < dataSeries.length; i++) {
+      if (!dataPoint) {
+        continue;
+      }
       const dataPoint = dataSeries[i];
       const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
