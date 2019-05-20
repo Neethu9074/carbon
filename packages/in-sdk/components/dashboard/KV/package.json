@@ -2,5 +2,5 @@
   "name": "KV",
   "version": "0.0.0",
   "private": true,
-  "main": "./KV.es6"
+  "main": "./KV.js"
 }

@@ -2,5 +2,5 @@
   "name": "HistoricMetricSparkChart",
   "version": "0.0.0",
   "private": true,
-  "main": "./HistoricMetricSparkChart.es6"
+  "main": "./HistoricMetricSparkChart.js"
 }

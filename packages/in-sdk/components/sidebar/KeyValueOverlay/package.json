@@ -3,5 +3,5 @@
   "name": "KeyValueOverlay",
   "version": "0.0.0",
   "private": true,
-  "main": "./KeyValueOverlay.es6"
+  "main": "./KeyValueOverlay.js"
 }

@@ -2,5 +2,5 @@
   "name": "KPIList",
   "version": "0.0.0",
   "private": true,
-  "main": "./KPIList.es6"
+  "main": "./KPIList.js"
 }

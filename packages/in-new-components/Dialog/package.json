@@ -2,5 +2,5 @@
   "name": "Dialog",
   "version": "0.0.0",
   "private": true,
-  "main": "./Dialog.es6"
+  "main": "./Dialog.js"
 }

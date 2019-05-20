@@ -2,5 +2,5 @@
   "name": "SearchInput",
   "version": "0.0.0",
   "private": true,
-  "main": "./SearchInput.es6"
+  "main": "./SearchInput.js"
 }

@@ -2,5 +2,5 @@
   "name": "TwoColumnMultiSelect",
   "version": "0.0.0",
   "private": true,
-  "main": "./TwoColumnMultiSelect.es6"
+  "main": "./TwoColumnMultiSelect.js"
 }

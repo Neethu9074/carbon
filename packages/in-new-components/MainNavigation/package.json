@@ -2,5 +2,5 @@
   "name": "MainNavigation",
   "version": "0.0.0",
   "private": true,
-  "main": "./MainNavigation.es6"
+  "main": "./MainNavigation.js"
 }

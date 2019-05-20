@@ -2,5 +2,5 @@
   "name": "Badge",
   "version": "0.0.0",
   "private": true,
-  "main": "./Badge.es6"
+  "main": "./Badge.js"
 }

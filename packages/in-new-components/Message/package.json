@@ -2,5 +2,5 @@
   "name": "Message",
   "version": "0.0.0",
   "private": true,
-  "main": "./Message.es6"
+  "main": "./Message.js"
 }

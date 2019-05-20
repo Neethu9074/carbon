@@ -2,5 +2,5 @@
   "name": "SeverityAwareEntityLink",
   "version": "0.0.0",
   "private": true,
-  "main": "./SeverityAwareEntityLink.es6"
+  "main": "./SeverityAwareEntityLink.js"
 }

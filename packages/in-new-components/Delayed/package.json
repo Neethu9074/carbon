@@ -2,5 +2,5 @@
   "name": "Delayed",
   "version": "0.0.0",
   "private": true,
-  "main": "./Delayed.es6"
+  "main": "./Delayed.js"
 }

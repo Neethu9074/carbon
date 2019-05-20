@@ -2,7 +2,7 @@
   "name": "in-forge",
   "version": "1.0.0",
   "description": "plugin specific logic",
-  "main": "index.es6",
+  "main": "index.js",
   "license": "UNLICENSED",
   "private": true
 }

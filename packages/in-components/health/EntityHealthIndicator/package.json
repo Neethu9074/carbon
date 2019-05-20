@@ -2,5 +2,5 @@
   "name": "EntityHealthIndicator",
   "version": "0.0.0",
   "private": true,
-  "main": "./EntityHealthIndicator.es6"
+  "main": "./EntityHealthIndicator.js"
 }

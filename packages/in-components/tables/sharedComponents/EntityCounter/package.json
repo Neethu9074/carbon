@@ -2,5 +2,5 @@
   "name": "EntityCounter",
   "version": "0.0.0",
   "private": true,
-  "main": "./EntityCounter.es6"
+  "main": "./EntityCounter.js"
 }

@@ -2,5 +2,5 @@
   "name": "BarItem",
   "version": "0.0.0",
   "private": true,
-  "main": "./BarItem.es6"
+  "main": "./BarItem.js"
 }

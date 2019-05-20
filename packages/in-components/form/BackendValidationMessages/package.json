@@ -2,5 +2,5 @@
   "name": "BackendValidationMessages",
   "version": "0.0.0",
   "private": true,
-  "main": "./BackendValidationMessages.es6"
+  "main": "./BackendValidationMessages.js"
 }

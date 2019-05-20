@@ -2,5 +2,5 @@
   "name": "Sticky",
   "version": "0.0.0",
   "private": true,
-  "main": "./Sticky.es6"
+  "main": "./Sticky.js"
 }

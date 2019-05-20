@@ -2,7 +2,7 @@
   "name": "in-services",
   "version": "1.58.1",
   "description": "In-browser, pluggable-independent, service layer",
-  "main": "index.es6",
+  "main": "index.js",
   "license": "UNLICENSED",
   "private": true
 }

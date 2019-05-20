@@ -2,5 +2,5 @@
   "name": "NodeMetric",
   "version": "0.0.0",
   "private": true,
-  "main": "./NodeMetric.es6"
+  "main": "./NodeMetric.js"
 }

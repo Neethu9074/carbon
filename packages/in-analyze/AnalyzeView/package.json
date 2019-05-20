@@ -2,5 +2,5 @@
   "name": "AnalyzeView",
   "version": "0.0.0",
   "private": true,
-  "main": "./AnalyzeView.es6"
+  "main": "./AnalyzeView.js"
 }

@@ -2,5 +2,5 @@
   "name": "SnapshotLink",
   "version": "0.0.0",
   "private": true,
-  "main": "./SnapshotLink.es6"
+  "main": "./SnapshotLink.js"
 }

@@ -2,5 +2,5 @@
   "name": "ServerTable",
   "version": "0.0.0",
   "private": true,
-  "main": "./ServerTable.es6"
+  "main": "./ServerTable.js"
 }

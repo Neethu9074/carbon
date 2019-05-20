@@ -2,5 +2,5 @@
   "name": "GlobeView",
   "version": "0.0.0",
   "private": true,
-  "main": "./GlobeViewReactComponent.es6"
+  "main": "./GlobeViewReactComponent.js"
 }

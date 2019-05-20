@@ -2,5 +2,5 @@
   "name": "ComboBox",
   "version": "0.0.0",
   "private": true,
-  "main": "./ComboBox.es6"
+  "main": "./ComboBox.js"
 }

@@ -2,5 +2,5 @@
   "name": "Infrastructure",
   "version": "0.0.0",
   "private": true,
-  "main": "./Infrastructure.es6"
+  "main": "./Infrastructure.js"
 }

@@ -2,5 +2,5 @@
   "name": "LoadingSkeletonRows",
   "version": "0.0.0",
   "private": true,
-  "main": "./LoadingSkeletonRows.es6"
+  "main": "./LoadingSkeletonRows.js"
 }

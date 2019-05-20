@@ -2,5 +2,5 @@
   "name": "Select",
   "version": "0.0.0",
   "private": true,
-  "main": "./Select.es6"
+  "main": "./Select.js"
 }

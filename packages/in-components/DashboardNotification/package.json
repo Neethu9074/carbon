@@ -2,5 +2,5 @@
   "name": "DashboardNotification",
   "version": "0.0.0",
   "private": true,
-  "main": "./DashboardNotification.es6"
+  "main": "./DashboardNotification.js"
 }
