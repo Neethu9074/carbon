@@ -84,6 +84,11 @@
     fill: @lib__colors__N600Light;
   }
 
+  .timeSetting,
+  .timeSettingTop {
+    white-space: nowrap;
+  }
+
   .timeSettingTop {
     color: @lib__colors__N600Light;
     font-size: 0.75rem;
