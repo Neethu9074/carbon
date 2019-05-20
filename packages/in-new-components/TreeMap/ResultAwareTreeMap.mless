@@ -3,7 +3,7 @@
     display: block;
 
     width: ~'calc(100% - 28px)';
-    height: 31.25rem;
+    height: 18.75rem;
 
     margin: 0 0.875rem;
   }

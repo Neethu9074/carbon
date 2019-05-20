@@ -1,0 +1,34 @@
+@import '~in-themes/active.less';
+
+:local {
+  .node {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.5rem;
+
+    background: @lib__colors__N400;
+
+    cursor: pointer;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
+    max-width: 100%;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+  }
+
+  .value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: @lib__colors__N600Light;
+  }
+}

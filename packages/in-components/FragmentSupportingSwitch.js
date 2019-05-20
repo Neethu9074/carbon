@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 // repository:
 //
 // https://github.com/ReactTraining/react-router/issues/5785
-export default function FragmentSupportingSwitch({children}) {
+export default function FragmentSupportingSwitch({ children }) {
   const flattenedChildren = [];
   flatten(flattenedChildren, children);
   return React.createElement.apply(React, [Switch, null].concat(flattenedChildren));

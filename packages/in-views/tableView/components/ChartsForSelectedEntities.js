@@ -120,7 +120,9 @@ export default connectTo(
 
     return (
       <div className={block}>
-        {metrics.map(metric => <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} />)}
+        {metrics.map(metric => (
+          <SelectedChart snapshots={snapshots} metric={metric} key={metric} labels={labels} />
+        ))}
       </div>
     );
   }

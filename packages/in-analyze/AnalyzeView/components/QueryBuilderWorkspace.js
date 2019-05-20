@@ -1,8 +1,8 @@
 import React from 'react';
 
 import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import AnalyzeGroupingInfo from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupingInfo';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';

@@ -9,5 +9,11 @@ export default function AppPoolList({ snapshot }) {
     return null;
   }
 
-  return <List>{pools.map((pool, i) => <List.Item key={i}>{pool}</List.Item>)}</List>;
+  return (
+    <List>
+      {pools.map((pool, i) => (
+        <List.Item key={i}>{pool}</List.Item>
+      ))}
+    </List>
+  );
 }
