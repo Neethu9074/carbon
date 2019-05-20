@@ -2,5 +2,5 @@
   "name": "BreakAll",
   "version": "0.0.0",
   "private": true,
-  "main": "./BreakAll.es6"
+  "main": "./BreakAll.js"
 }

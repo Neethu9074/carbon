@@ -2,5 +2,5 @@
   "name": "Beacon",
   "version": "0.0.0",
   "private": true,
-  "main": "./Beacon.es6"
+  "main": "./Beacon.js"
 }

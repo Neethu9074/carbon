@@ -2,5 +2,5 @@
   "name": "in-client",
   "version": "0.0.0",
   "private": true,
-  "main": "./js/index.es6"
+  "main": "./js/index.js"
 }

@@ -2,7 +2,7 @@
   "name": "in-components",
   "version": "1.0.0",
   "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all in-*-charts repos and parts of in-client",
-  "main": "index.es6",
+  "main": "index.js",
   "license": "UNLICENSED",
   "private": true
 }

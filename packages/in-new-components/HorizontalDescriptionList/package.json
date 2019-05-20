@@ -2,5 +2,5 @@
   "name": "HorizontalDescriptionList",
   "version": "0.0.0",
   "private": true,
-  "main": "./HorizontalDescriptionList.es6"
+  "main": "./HorizontalDescriptionList.js"
 }

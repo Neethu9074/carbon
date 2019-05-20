@@ -2,5 +2,5 @@
   "name": "RuleControl",
   "version": "0.0.0",
   "private": true,
-  "main": "./RuleControl.es6"
+  "main": "./RuleControl.js"
 }

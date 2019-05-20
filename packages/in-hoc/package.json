@@ -2,7 +2,7 @@
   "name": "in-stores",
   "version": "1.0.0",
   "description": "Higher-order components",
-  "main": "index.es6",
+  "main": "index.js",
   "author": "Ben Ripkens <ben@instana.com>",
   "license": "UNLICENSED",
   "private": true

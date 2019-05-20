@@ -2,5 +2,5 @@
   "name": "List",
   "version": "0.0.0",
   "private": true,
-  "main": "./List.es6"
+  "main": "./List.js"
 }

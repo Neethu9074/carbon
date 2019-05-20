@@ -2,5 +2,5 @@
   "name": "Label",
   "version": "0.0.0",
   "private": true,
-  "main": "./Label.es6"
+  "main": "./Label.js"
 }

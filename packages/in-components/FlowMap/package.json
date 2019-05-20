@@ -2,5 +2,5 @@
   "name": "FlowMap",
   "version": "0.0.0",
   "private": true,
-  "main": "./FlowMapReactComponent.es6"
+  "main": "./FlowMapReactComponent.js"
 }

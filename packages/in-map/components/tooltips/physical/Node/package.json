@@ -2,5 +2,5 @@
   "name": "Node",
   "version": "0.0.0",
   "private": true,
-  "main": "./Node.es6"
+  "main": "./Node.js"
 }

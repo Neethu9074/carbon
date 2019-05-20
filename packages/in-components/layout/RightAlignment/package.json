@@ -2,5 +2,5 @@
   "name": "RightAlignment",
   "version": "0.0.0",
   "private": true,
-  "main": "./RightAlignment.es6"
+  "main": "./RightAlignment.js"
 }

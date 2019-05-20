@@ -2,5 +2,5 @@
   "name": "metrics",
   "version": "0.0.0",
   "private": true,
-  "main": "./metrics.es6"
+  "main": "./metrics.js"
 }

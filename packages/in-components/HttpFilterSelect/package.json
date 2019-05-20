@@ -2,5 +2,5 @@
   "name": "HttpFilterSelect",
   "version": "0.0.0",
   "private": true,
-  "main": "./HttpFilterSelect.es6"
+  "main": "./HttpFilterSelect.js"
 }

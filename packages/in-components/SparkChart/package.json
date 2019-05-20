@@ -2,5 +2,5 @@
   "name": "SparkChart",
   "version": "0.0.0",
   "private": true,
-  "main": "./SparkChartReactComponent.es6"
+  "main": "./SparkChartReactComponent.js"
 }

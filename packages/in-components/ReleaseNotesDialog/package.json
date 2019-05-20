@@ -2,5 +2,5 @@
   "name": "ReleaseNotesDialog",
   "version": "0.0.0",
   "private": true,
-  "main": "./ReleaseNotesDialog.es6"
+  "main": "./ReleaseNotesDialog.js"
 }

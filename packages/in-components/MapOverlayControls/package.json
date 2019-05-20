@@ -2,5 +2,5 @@
   "name": "MapOverlayControls",
   "version": "0.0.0",
   "private": true,
-  "main": "./MapOverlayControls.es6"
+  "main": "./MapOverlayControls.js"
 }

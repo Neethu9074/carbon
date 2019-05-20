@@ -2,5 +2,5 @@
   "name": "DateTime",
   "version": "0.0.0",
   "private": true,
-  "main": "./DateTime.es6"
+  "main": "./DateTime.js"
 }

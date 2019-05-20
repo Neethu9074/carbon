@@ -2,5 +2,5 @@
   "name": "TreeMap",
   "version": "0.0.0",
   "private": true,
-  "main": "./TreeMap.es6"
+  "main": "./TreeMap.js"
 }

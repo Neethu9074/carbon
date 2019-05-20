@@ -2,5 +2,5 @@
   "name": "BasicDashboardHeader",
   "version": "0.0.0",
   "private": true,
-  "main": "./BasicDashboardHeader.es6"
+  "main": "./BasicDashboardHeader.js"
 }

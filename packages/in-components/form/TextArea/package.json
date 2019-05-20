@@ -2,5 +2,5 @@
   "name": "TextArea",
   "version": "0.0.0",
   "private": true,
-  "main": "./TextArea.es6"
+  "main": "./TextArea.js"
 }

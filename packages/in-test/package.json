@@ -2,7 +2,7 @@
   "name": "in-test",
   "version": "1.58.1",
   "description": "Testing utilities",
-  "main": "index.es6",
+  "main": "index.js",
   "license": "UNLICENSED",
   "private": true
 }

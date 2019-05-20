@@ -2,5 +2,5 @@
   "name": "Axis",
   "version": "0.0.0",
   "private": true,
-  "main": "./Axis.es6"
+  "main": "./Axis.js"
 }

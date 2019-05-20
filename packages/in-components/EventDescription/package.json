@@ -2,5 +2,5 @@
   "name": "EventDescription",
   "version": "0.0.0",
   "private": true,
-  "main": "./EventDescription.es6"
+  "main": "./EventDescription.js"
 }

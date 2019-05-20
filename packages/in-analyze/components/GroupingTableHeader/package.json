@@ -2,5 +2,5 @@
   "name": "GroupingTableHeader",
   "version": "0.0.0",
   "private": true,
-  "main": "./GroupingTableHeader.es6"
+  "main": "./GroupingTableHeader.js"
 }

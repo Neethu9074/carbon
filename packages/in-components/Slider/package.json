@@ -2,5 +2,5 @@
   "name": "Slider",
   "version": "0.0.0",
   "private": true,
-  "main": "./Slider.es6"
+  "main": "./Slider.js"
 }

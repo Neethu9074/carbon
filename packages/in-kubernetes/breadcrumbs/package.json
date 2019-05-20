@@ -2,5 +2,5 @@
   "name": "breadcrumbs",
   "version": "0.0.0",
   "private": true,
-  "main": "./index.es6"
+  "main": "./index.js"
 }

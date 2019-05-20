@@ -8,7 +8,7 @@ process.env.TZ = 'Europe/Berlin';
 
 const Adapter = require('enzyme-adapter-react-16');
 const Enzyme = require('enzyme');
-const {JSDOM} = require('jsdom');
+const { JSDOM } = require('jsdom');
 const path = require('path');
 const chai = require('chai');
 const fs = require('fs');
@@ -24,10 +24,7 @@ chai.use(require('sinon-chai'));
   };
 });
 
-// support ES6
 const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '.babelrc'), { encoding: 'utf8' }));
-babelConfig.only = /es6/;
-babelConfig.ignore = '^$';
 require('babel-core/register')(babelConfig);
 
 // Ensuring a browser environment is simulated before React is loaded to avoid

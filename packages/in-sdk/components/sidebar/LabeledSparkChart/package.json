@@ -2,5 +2,5 @@
   "name": "LabeledSparkChart",
   "version": "0.0.0",
   "private": true,
-  "main": "./LabeledSparkChart.es6"
+  "main": "./LabeledSparkChart.js"
 }

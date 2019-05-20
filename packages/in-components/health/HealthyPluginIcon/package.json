@@ -2,5 +2,5 @@
   "name": "HealthyPluginIcon",
   "version": "0.0.0",
   "private": true,
-  "main": "./HealthyPluginIcon.es6"
+  "main": "./HealthyPluginIcon.js"
 }

@@ -2,5 +2,5 @@
   "name": "TraceDetail",
   "version": "0.0.0",
   "private": true,
-  "main": "./TraceDetail.es6"
+  "main": "./TraceDetail.js"
 }

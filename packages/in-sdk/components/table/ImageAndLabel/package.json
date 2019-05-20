@@ -2,5 +2,5 @@
   "name": "ImageAndLabel",
   "version": "0.0.0",
   "private": true,
-  "main": "./ImageAndLabel.es6"
+  "main": "./ImageAndLabel.js"
 }

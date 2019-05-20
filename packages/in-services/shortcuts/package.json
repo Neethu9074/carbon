@@ -2,5 +2,5 @@
   "name": "shortcuts",
   "version": "0.0.0",
   "private": true,
-  "main": "./shortcuts.es6"
+  "main": "./shortcuts.js"
 }
