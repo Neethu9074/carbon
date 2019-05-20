@@ -81,9 +81,13 @@ export default getElementDimensions(
         return null;
       }
 
+      const renderer = Renderer[axis.type];
       return createQueue({
         numberOfSeries: this[axisName].numberOfSeries,
-        requireExistenceInAllSeries: true
+        requireExistenceInAllSeries:
+          renderer === Renderer.integral || renderer === Renderer.stackedArea || renderer === Renderer.stackedBar
+            ? true
+            : false
       });
     };
 

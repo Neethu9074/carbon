@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { millis, latencyFixed, meanLatencyFixed } from 'in-services/formatters/number';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { millis, latencyFixed, meanLatencyFixed } from 'in-services/formatters/number';
 
 export default function Latency({
   timeConfig,
