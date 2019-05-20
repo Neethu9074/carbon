@@ -80,12 +80,9 @@ const redirects = [
     to: paths.teamSettingsAlertingMaintenanceConfigurationEdit,
     params: { id: 'id' }
   },
-  { from: `${settingsPath}/auditlog`, to: paths.teamSettingsAuditLog }
-];
-
-// additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
-// we keep this re-directs for a while, so that e.g. existing bookmarks are still working
-redirects.push(
+  // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
+  // we keep this re-directs for a while, so that e.g. existing bookmarks are still working
+  { from: `${settingsPath}/auditlog`, to: paths.teamSettingsAuditLog },
   { from: paths.teamSettingsKnowledgeManagementBuiltInRules, to: paths.teamSettingsAlertingEvents },
   { from: paths.teamSettingsKnowledgeManagementBuiltInRuleEdit, to: paths.teamSettingsAlertingEvents },
   { from: paths.teamSettingsKnowledgeManagementCustomRules, to: paths.teamSettingsAlertingEvents },
@@ -98,6 +95,6 @@ redirects.push(
   { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.teamSettingsAlertingAlertEdit },
   { from: paths.teamSettingsAlertingIntegrations, to: paths.teamSettingsAlertingAlertChannels },
   { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.teamSettingsAlertingAlertChannelEdit }
-);
+];
 
 export default redirects;
