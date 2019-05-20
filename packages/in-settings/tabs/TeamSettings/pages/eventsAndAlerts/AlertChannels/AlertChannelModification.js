@@ -4,7 +4,7 @@ import React from 'react';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
+import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
 import { teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -26,9 +26,9 @@ export default function AlertChannelModification(props) {
     <AlertChannelModificationForm
       title="Alert Channel"
       entityId={entityId}
-      createDefaultEntity={() => createIntegration(null, kind)}
+      createDefaultEntity={() => createAlertChannel(null, kind)}
       createForm={createForm}
-      getEntityFromApi={getIntegration}
+      getEntityFromApi={getAlertChannel}
       openEntities={() => goToPath(teamSettingsAlertingAlertChannels)}
       saveEntity={save}
     />
@@ -36,7 +36,7 @@ export default function AlertChannelModification(props) {
 }
 
 function save(alertChannel, form) {
-  return saveIntegration(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
+  return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 
 function createForm(alertChannel) {

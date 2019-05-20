@@ -11,7 +11,7 @@ import {
 } from 'in-settings/navigation/paths';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { getIntegration, saveIntegration, createIntegration } from 'in-api/integrations';
+import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -44,9 +44,9 @@ export default function AlertChannel(props) {
     <AlertChannelForm
       title="Alert Channel"
       entityId={entityId}
-      createDefaultEntity={() => createIntegration(null, kind)}
+      createDefaultEntity={() => createAlertChannel(null, kind)}
       createForm={createForm}
-      getEntityFromApi={getIntegration}
+      getEntityFromApi={getAlertChannel}
       openEntities={() => goToPath(teamSettingsAlertingAlertChannels)}
       saveEntity={save}
     />
@@ -54,7 +54,7 @@ export default function AlertChannel(props) {
 }
 
 function save(alertChannel, form) {
-  return saveIntegration(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
+  return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 
 function createForm(alertChannel) {
