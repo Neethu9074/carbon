@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .fullWidthBreadcrumbHeader,
+  .restrictredBreadcrumbHeader {
+    width: 100%;
+    height: @header__height * 1px;
+
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    font-size: 0.875rem;
+    font-weight: lighter;
+  }
+
+  .fullWidthBreadcrumbHeader {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .maxWidthWrapper {
+    margin-left: ~'calc(50% - 703px)';
+  }
+
+  @media (max-width: 1575px) {
+    .maxWidthWrapper {
+      margin-left: 3rem;
+    }
+  }
+
+  .right {
+    float: right;
+  }
+
+  .left {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

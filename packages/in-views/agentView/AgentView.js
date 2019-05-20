@@ -22,7 +22,7 @@ export default function AgentView() {
       <Route
         path="/agents"
         render={() => (
-          <Sticky header={<SearchBar withTimeSelection />}>
+          <Sticky header={<SearchBar />}>
             <MaxWidthFullscreenContainer>
               <div className={block}>
                 <SnapshotLabel actions={[]}>Agents</SnapshotLabel>

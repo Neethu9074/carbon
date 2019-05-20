@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
@@ -12,6 +11,7 @@ import {
   dataSourceTitles as websiteDataSourceTitles
 } from 'in-websites/tags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -34,7 +34,7 @@ export default connectTo({
 
 function AnalyzeHeader({ dataSource, isGrouped }) {
   return (
-    <Fragment>
+    <HeaderWithTimeSelection>
       <SecondLevelNavigation>
         <SecondLevelNavigationItem
           href$={getLinkToAnalyze({
@@ -112,8 +112,6 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             />
           )}
       </SecondLevelNavigation>
-
-      <TimeSelection />
-    </Fragment>
+    </HeaderWithTimeSelection>
   );
 }

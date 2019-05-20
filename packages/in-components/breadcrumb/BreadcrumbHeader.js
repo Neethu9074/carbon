@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -45,29 +45,8 @@ export default connectTo(
     crumbs.unshift('div');
     const crumbsElement = React.createElement.apply(React, crumbs);
 
-    if (useFullAvailableWidth) {
-      return <FullWidthHeader>{crumbsElement}</FullWidthHeader>;
-    }
-
-    return <MaxViewRestrictedHeader>{crumbsElement}</MaxViewRestrictedHeader>;
+    return (
+      <HeaderWithTimeSelection useFullAvailableWidth={useFullAvailableWidth}>{crumbsElement}</HeaderWithTimeSelection>
+    );
   }
 );
-
-function MaxViewRestrictedHeader({ children }) {
-  return (
-    <div className={locals.restrictredBreadcrumbHeader}>
-      <div />
-      {children || <div />}
-      <TimeSelection />
-    </div>
-  );
-}
-
-function FullWidthHeader({ children }) {
-  return (
-    <div className={locals.fullWidthBreadcrumbHeader}>
-      <TimeSelection />
-      {children}
-    </div>
-  );
-}

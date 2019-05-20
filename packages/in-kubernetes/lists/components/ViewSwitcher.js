@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import connectTo from 'in-hoc/connectTo';
 
@@ -13,7 +13,7 @@ export default connectTo(
   },
   function KubernetesViewSwitcher({ isClusterViewActive, isNamespaceViewActive }) {
     return (
-      <Fragment>
+      <HeaderWithTimeSelection>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = clusterListFullyQualified))}
@@ -28,8 +28,7 @@ export default connectTo(
             isActive={isNamespaceViewActive}
           />
         </SecondLevelNavigation>
-        <TimeSelection />
-      </Fragment>
+      </HeaderWithTimeSelection>
     );
   }
 );

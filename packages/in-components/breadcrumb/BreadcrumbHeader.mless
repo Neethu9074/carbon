@@ -1,40 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .fullWidthBreadcrumbHeader,
-  .restrictredBreadcrumbHeader {
-    width: 100%;
-
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    font-size: 0.875rem;
-    font-weight: lighter;
-  }
-
-  .fullWidthBreadcrumbHeader {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
-
-  .restrictredBreadcrumbHeader {
-    display: grid;
-    grid-template-columns: 1fr minmax(1px, 1404px) 1fr;
-  }
-
-  .flexWrapper {
-    display: flex;
-  }
-
-  .breadcrumbHeader {
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    overflow: hidden;
-    font-size: 0.875rem;
-    font-weight: lighter;
-    width: 100%;
-  }
-
   .container {
     display: flex;
     align-items: center;
