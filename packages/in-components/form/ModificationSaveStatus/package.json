@@ -2,5 +2,5 @@
   "name": "ModificationSaveStatus",
   "version": "0.0.0",
   "private": true,
-  "main": "./ModificationSaveStatus.es6"
+  "main": "./ModificationSaveStatus.js"
 }

@@ -2,5 +2,5 @@
   "name": "DashboardSection",
   "version": "0.0.0",
   "private": true,
-  "main": "./DashboardSection.es6"
+  "main": "./DashboardSection.js"
 }

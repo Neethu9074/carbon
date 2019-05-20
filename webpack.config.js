@@ -44,9 +44,9 @@ const entry = hotReload
   ? [
       'webpack-dev-server/client?https://local-instana.instana.io:4000', // WebpackDevServer host and port
       'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-      './packages/in-client/js/index.es6'
+      './packages/in-client/js/index.js'
     ]
-  : './packages/in-client/js/index.es6';
+  : './packages/in-client/js/index.js';
 
 module.exports = {
   entry,
@@ -141,7 +141,8 @@ module.exports = {
         ]
       },
       {
-        test: /\.es6$/i,
+        test: /\.js$/i,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader'
@@ -195,6 +196,6 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.es6']
+    extensions: ['.js']
   }
 };

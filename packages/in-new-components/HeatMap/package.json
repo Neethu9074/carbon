@@ -2,5 +2,5 @@
   "name": "HeatMap",
   "version": "0.0.0",
   "private": true,
-  "main": "./HeatMap.es6"
+  "main": "./HeatMap.js"
 }

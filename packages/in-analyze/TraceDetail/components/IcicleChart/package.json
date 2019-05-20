@@ -2,5 +2,5 @@
   "name": "IcicleChart",
   "version": "0.0.0",
   "private": true,
-  "main": "./IcicleChart.es6"
+  "main": "./IcicleChart.js"
 }

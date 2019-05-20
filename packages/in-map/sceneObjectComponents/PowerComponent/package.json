@@ -2,5 +2,5 @@
   "name": "PowerComponent",
   "version": "0.0.0",
   "private": true,
-  "main": "./PowerComponent.es6"
+  "main": "./PowerComponent.js"
 }

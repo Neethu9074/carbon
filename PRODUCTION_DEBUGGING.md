@@ -15,11 +15,11 @@ curl -X POST <ui-backend>:<admin-port>/admin/get-ui-debug-data -v --header "Cont
 
 This will do the following:
 
- 1. Enable debug logging for a specific logger within this ui-backend for three minutes.
- 2. Forward the debugging instructions to connected clients.
- 3. Connected clients will receive these instructions (see `in-services/debuggingBackchannel.es6`), gather
+1.  Enable debug logging for a specific logger within this ui-backend for three minutes.
+2.  Forward the debugging instructions to connected clients.
+3.  Connected clients will receive these instructions (see `in-services/debuggingBackchannel.js`), gather
     debugging data and transmit this back to ui-backend.
- 4. ui-backend will enrich this debugging data and debug log this.
+4.  ui-backend will enrich this debugging data and debug log this.
 
 The debugging data will be available in the ui-backend's debug log. Note that this is not forwarded to papertrail!
 
@@ -72,7 +72,6 @@ Which will result in log output like this:
 
 ```
 2018-09-05 06:41:16,068 [vert.x-eventloop-thread-1] DEBUG c.i.ui.service.UiDebuggingService - Debugging data from stan@instana.com (role: Owner): {"visibilityState":"visible","role":{"id":"-1","name":"Owner","canConfigureServiceMapping":true,"canConfigureEumApplications":true,"canConfigureUsers":true,"canInstallNewAgents":true,"canSeeUsageInformation":true,"canConfigureIntegrations":true,"canSeeOnPremLicenseInformation":true,"canConfigureRoles":true,"canConfigureCustomAlerts":true,"canConfigureApiTokens":true,"canConfigureAgentRunMode":true,"canViewAuditLog":true,"canConfigureObjectives":true,"canConfigureAgents":true,"canConfigureAuthenticationMethods":true,"canConfigureApplications":true},"windowOpenTime":"9s","perSubscriptionCounts":{"subscribe-view":1,"subscribe-snapshot":157,"subscribe-ui-debugging-instructions":1,"subscribe-usage-info":1,"subscribe-health-info":138,"subscribe-is-monitoring":1,"subscribe-raw-events-count":1,"subscribe-message":1,"timestamp":1},"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36","href":"https://local-instana.instana.io:4000/#/physical?timeline.to&timeline.ws=3600000&v2=true","transport":{"metrics":{"maxSubscriptionId":303,"connectionAttempts":1,"received":222,"transmitted":303},"type":"websocket","url":"wss://local-instana.instana.io:4000/api/data/076/soyqvymm/websocket"},"user":"stan@instana.com"}
-
 ```
 
 ## Signing out all users
@@ -81,8 +80,8 @@ In case of backend problems caused by a flood of UI requests, a good second step
 to stop these requests from hitting our backend. To do so, we need to force clients to attempt a reconnect that we are
 rejecting on the server side. This can be achieved by:
 
- 1. Signing out users which access to a specific tenant unit.
- 2. Restarting the ui-backend of that tenant unit.
+1.  Signing out users which access to a specific tenant unit.
+2.  Restarting the ui-backend of that tenant unit.
 
 To sign out users, the following request can be used:
 

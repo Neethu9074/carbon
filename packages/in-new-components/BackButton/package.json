@@ -2,5 +2,5 @@
   "name": "BackButton",
   "version": "0.0.0",
   "private": true,
-  "main": "./BackButton.es6"
+  "main": "./BackButton.js"
 }

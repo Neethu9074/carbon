@@ -2,5 +2,5 @@
   "name": "BetaMarker",
   "version": "0.0.0",
   "private": true,
-  "main": "./BetaMarker.es6"
+  "main": "./BetaMarker.js"
 }

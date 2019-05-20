@@ -2,5 +2,5 @@
   "name": "tracing",
   "version": "0.0.0",
   "private": true,
-  "main": "./tracing.es6"
+  "main": "./tracing.js"
 }

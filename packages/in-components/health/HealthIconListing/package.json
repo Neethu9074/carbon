@@ -2,5 +2,5 @@
   "name": "HealthIconListing",
   "version": "0.0.0",
   "private": true,
-  "main": "./HealthIconListing.es6"
+  "main": "./HealthIconListing.js"
 }

@@ -2,5 +2,5 @@
   "name": "EntityWithTypeAndIcon",
   "version": "0.0.0",
   "private": true,
-  "main": "./EntityWithTypeAndIcon.es6"
+  "main": "./EntityWithTypeAndIcon.js"
 }

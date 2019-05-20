@@ -2,5 +2,5 @@
   "name": "TechnologyLabelWithIcon",
   "version": "0.0.0",
   "private": true,
-  "main": "./TechnologyLabelWithIcon.es6"
+  "main": "./TechnologyLabelWithIcon.js"
 }

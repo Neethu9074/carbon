@@ -2,5 +2,5 @@
   "name": "TwoColumnView",
   "version": "0.0.0",
   "private": true,
-  "main": "./TwoColumnView.es6"
+  "main": "./TwoColumnView.js"
 }

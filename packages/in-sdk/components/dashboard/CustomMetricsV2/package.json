@@ -1,6 +1,6 @@
 {
-  "name": "CustomMetricsV2.es6",
+  "name": "CustomMetricsV2.js",
   "version": "0.0.0",
   "private": true,
-  "main": "./CustomMetricsV2.es6"
+  "main": "./CustomMetricsV2.js"
 }

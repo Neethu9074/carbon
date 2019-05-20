@@ -2,5 +2,5 @@
   "name": "AggregationSelector",
   "version": "0.0.0",
   "private": true,
-  "main": "./AggregationSelector.es6"
+  "main": "./AggregationSelector.js"
 }

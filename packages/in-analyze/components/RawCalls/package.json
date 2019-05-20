@@ -2,5 +2,5 @@
   "name": "RawCalls",
   "version": "0.0.0",
   "private": true,
-  "main": "./RawCalls.es6"
+  "main": "./RawCalls.js"
 }

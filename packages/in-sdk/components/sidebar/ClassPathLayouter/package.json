@@ -2,5 +2,5 @@
   "name": "ClasspathLayouter",
   "version": "0.0.0",
   "private": true,
-  "main": "./ClasspathLayouter.es6"
+  "main": "./ClasspathLayouter.js"
 }

@@ -2,5 +2,5 @@
   "name": "ServerFlowMap",
   "version": "0.0.0",
   "private": true,
-  "main": "./ServerFlowMap.es6"
+  "main": "./ServerFlowMap.js"
 }

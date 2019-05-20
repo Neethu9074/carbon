@@ -2,5 +2,5 @@
   "name": "SearchableTable",
   "version": "0.0.0",
   "private": true,
-  "main": "./SearchableTable.es6"
+  "main": "./SearchableTable.js"
 }

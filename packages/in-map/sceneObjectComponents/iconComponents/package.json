@@ -2,5 +2,5 @@
   "name": "IconComponent",
   "version": "0.0.0",
   "private": true,
-  "main": "./IconComponent.es6"
+  "main": "./IconComponent.js"
 }
