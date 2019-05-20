@@ -57,16 +57,7 @@ export default getElementDimensions(
     mapProps = props => {
       let { timeConfig, y1, y2, minRollup } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
-      const rollup = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
-      this.granularity = getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: this.props.timeConfig.windowSize,
-          maxDataPoints: y1.maxDataPoints,
-          minPixelsPerBlock: y1.minPixelsPerBlock || 1,
-          width: getChartCanvasWidth(this.props),
-          rollup
-        })
-      );
+      this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
       this.y1 = mapAxis(y1);
       this.y2 = mapAxis(y2);
     };
@@ -90,14 +81,9 @@ export default getElementDimensions(
         return null;
       }
 
-      const renderer = Renderer[axis.type];
-
       return createQueue({
         numberOfSeries: this[axisName].numberOfSeries,
-        requireExistenceInAllSeries:
-          renderer === Renderer.integral || renderer === Renderer.stackedArea || renderer === Renderer.stackedBar
-            ? true
-            : false
+        requireExistenceInAllSeries: false
       });
     };
 
@@ -196,7 +182,9 @@ export default getElementDimensions(
       for (let i = 0; i < dataColumnsMetrics.length; i++) {
         const series = dataColumnsMetrics[i];
         for (let i2 = 0; i2 < series.length; i2++) {
-          metrics[i2][i] = series[i2];
+          if (series[i2]) {
+            metrics[i2][i] = series[i2];
+          }
         }
       }
 
