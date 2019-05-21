@@ -22,6 +22,10 @@ describe('in-forge/plugins', () => {
     expect(Object.keys(plugins).length).to.equal(Object.keys(fullyQualifiedPlugins).length);
   });
 
+  it('must define the same keys for short plugin IDs as long plugin IDs', () => {
+    expect(plugins).to.have.deep.keys(fullyQualifiedPlugins);
+  });
+
   Object.keys(plugins).forEach(shortName => {
     const plugin = plugins[shortName];
 

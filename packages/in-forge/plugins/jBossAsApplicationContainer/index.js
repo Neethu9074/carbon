@@ -7,7 +7,7 @@ import iconSvgPath from 'in-forge/plugins/jbossDataGrid/iconPath';
 import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
-  plugin: plugins.jbossas,
+  plugin: plugins.jBossAsApplicationContainer,
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,

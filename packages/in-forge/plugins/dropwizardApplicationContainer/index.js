@@ -7,7 +7,7 @@ import tableDefinition from './tableDefinition';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.dropwizard,
+  plugin: plugins.dropwizardApplicationContainer,
   iconSvgPath,
   metricDefinitions,
   tableDefinition,
