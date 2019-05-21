@@ -16,9 +16,6 @@ export default {
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
-      if (!dataPoint) {
-        continue;
-      }
 
       const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
 

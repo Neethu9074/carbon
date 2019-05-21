@@ -192,11 +192,10 @@ export default getElementDimensions(
         const series = dataColumnsMetrics[i];
         for (let i2 = 0; i2 < series.length; i2++) {
           if (series[i2]) {
-            metrics[i2][i] = series[i2];
+            metrics[i2].push(series[i2]);
           }
         }
       }
-
       return metrics;
     };
 

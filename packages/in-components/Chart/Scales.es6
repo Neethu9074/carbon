@@ -138,10 +138,8 @@ function getMinMaxValueForDataSeries(dataSeries) {
   let maxValue = 0;
   for (let i = 0; i < dataSeries.length; i++) {
     const dataPoint = dataSeries[i];
-    if (dataPoint) {
-      maxValue = Math.max(maxValue, dataPoint[1]);
-      minValue = Math.min(minValue, dataPoint[1]);
-    }
+    maxValue = Math.max(maxValue, dataPoint[1]);
+    minValue = Math.min(minValue, dataPoint[1]);
   }
   return { minValue, maxValue };
 }
