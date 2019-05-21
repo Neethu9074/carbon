@@ -242,6 +242,20 @@ yarn run cleanup-flow
 
 If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
 
+### Problem with pngquant on Ubuntu?
+
+In case you are using e.g. Ubuntu and installing `pngquant` is making troubles like `npm ERR! Failed at the pngquant-bin@4.0.0 postinstall script.`, try to do the following:
+1. Ensure libpng-dev is installed:
+```
+$ apt-get install libpng-dev`
+```
+2. On Ubuntu, you even might need to install `libpng12`:
+```
+$ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
+    && sudo dpkg -i /tmp/libpng12.deb \
+    && rm /tmp/libpng12.deb
+```
+
 ## The Node.js Front End Server
 
 During development you will mostly work with `yarn run dev`, but in production the assets are served by a small Node.js app which you can find in `packages/in-server`. This component also makes a few preliminary requests, for example to `/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these requests will be injected into the Handlebars template for index.html (`packages/in-server/templates/index.hbs`, which is also only used in production while `packages/in-client/index.html` is used during development).
