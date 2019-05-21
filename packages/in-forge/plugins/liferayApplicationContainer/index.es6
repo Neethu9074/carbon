@@ -5,7 +5,7 @@ import { plugins } from 'in-forge/constants';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.liferay,
+  plugin: plugins.liferayApplicationContainer,
   iconSvgPath,
   supportsCodeView,
   getCodeView,

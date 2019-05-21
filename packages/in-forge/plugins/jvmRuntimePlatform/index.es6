@@ -9,7 +9,7 @@ import iconSvgPath from './iconPath';
 import './metrics.es6';
 
 registerSnapshotDefinition({
-  plugin: plugins.jvm,
+  plugin: plugins.jvmRuntimePlatform,
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
