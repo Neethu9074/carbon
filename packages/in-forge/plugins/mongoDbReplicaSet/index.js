@@ -5,7 +5,7 @@ import { plugins } from 'in-forge/constants';
 import metricDefinitions from './metricDefinitions';
 
 registerSnapshotDefinition({
-  plugin: plugins.mongodbReplicaSet,
+  plugin: plugins.mongoDbReplicaSet,
   iconSvgPath,
   metricDefinitions,
   pluginName: {

@@ -5,7 +5,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.haproxy,
+  plugin: plugins.hAProxy,
   iconSvgPath,
   metricDefinitions,
   pluginName: {

@@ -5,7 +5,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.jbossdatagrid,
+  plugin: plugins.jbossDataGrid,
   iconSvgPath,
   metricDefinitions,
   pluginName: {
