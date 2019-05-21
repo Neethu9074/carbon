@@ -5,7 +5,7 @@ import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
-import { deleteIntegration, getIntegrationsMutable } from 'in-api/integrations';
+import { deleteAlertChannel, getAlertChannelsMutable } from 'in-api/alertChannels';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip';
@@ -36,7 +36,7 @@ export default function AlertChannels({
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getIntegrationsMutable}
+      loadEntities={loadEntities ? loadEntities : getAlertChannelsMutable}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="name"
@@ -104,7 +104,7 @@ function columnDefinitions(hasRowNavigation) {
 
 const defaultTableActions = {
   delete: {
-    deleteEntity: entity => deleteIntegration(entity.id)
+    deleteEntity: entity => deleteAlertChannel(entity.id)
   }
 };
 

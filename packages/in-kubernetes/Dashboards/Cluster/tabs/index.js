@@ -13,6 +13,7 @@ import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
+import PodMap from 'in-kubernetes/Dashboards/Cluster/tabs/PodMap';
 
 export default [
   {
@@ -59,6 +60,13 @@ export default [
     path: `${clusterDashboardFullyQualified}/services`,
     component: Services,
     header: props => getCounterComponent(props, 'services')
+  },
+  {
+    label: 'Pod Map',
+    path: `${clusterDashboardFullyQualified}/podMap`,
+    component: PodMap,
+    stickToHeader: true,
+    stickToBottom: true
   },
   {
     label: 'Pods',

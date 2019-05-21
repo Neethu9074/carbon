@@ -61,7 +61,7 @@ export default function createDomController(config) {
   function resize() {
     const width = (config.width = dom.wrapper.clientWidth | 0);
     // * 2 to account for animation duration
-    const bufferWidth = (config.bufferWidth = config.width + Math.ceil(config.width / highestZoomLevel * 2));
+    const bufferWidth = (config.bufferWidth = config.width + Math.ceil((config.width / highestZoomLevel) * 2));
     config.bounds = {
       top: config.margins.top,
       bottom: height - config.margins.bottom,

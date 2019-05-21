@@ -7,9 +7,9 @@ import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/De
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
-import PodMapTab from 'in-kubernetes/Dashboards/Namespace/tabs/PodMapTab';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
+import PodMap from 'in-kubernetes/Dashboards/Namespace/tabs/PodMap';
 
 export default [
   {
@@ -42,7 +42,9 @@ export default [
   {
     label: 'Pod Map',
     path: `${namespaceDashboardFullyQualified}/podMap`,
-    component: PodMapTab
+    component: PodMap,
+    stickToHeader: true,
+    stickToBottom: true
   },
   {
     label: 'Pods',

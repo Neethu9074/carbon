@@ -79,7 +79,7 @@ export function setHighlightedMoment(t) {
     // discard all decimal places
     let moment = parseInt(t, 10);
     // floor to second
-    moment = moment - moment % 1000;
+    moment = moment - (moment % 1000);
     return moment;
   });
 }

@@ -2,13 +2,10 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlRoles,
   teamSettingsAccessControlApiTokens,
-  teamSettingsKnowledgeManagementBuiltInRules,
   teamSettingsAlertingEvents,
   teamSettingsAlertingAlertChannels,
-  teamSettingsAlertingIntegrations,
   teamSettingsAuditLog
 } from 'in-settings/navigation/paths';
-import { unifiedAlerting } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyTeamPermissions() {
@@ -32,17 +29,11 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureApiTokens) {
     return teamSettingsAccessControlApiTokens;
   }
-  if (unifiedAlerting && role.canConfigureCustomAlerts) {
+  if (role.canConfigureCustomAlerts) {
     return teamSettingsAlertingEvents;
   }
-  if (unifiedAlerting && role.canConfigureIntegrations) {
+  if (role.canConfigureIntegrations) {
     return teamSettingsAlertingAlertChannels;
-  }
-  if (!unifiedAlerting && role.canConfigureCustomAlerts) {
-    return teamSettingsKnowledgeManagementBuiltInRules;
-  }
-  if (!unifiedAlerting && role.canConfigureIntegrations) {
-    return teamSettingsAlertingIntegrations;
   }
   if (role.canViewAuditLog) {
     return teamSettingsAuditLog;

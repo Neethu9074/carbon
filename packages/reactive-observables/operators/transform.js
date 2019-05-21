@@ -24,38 +24,40 @@ export default function transform<Source, Target>(transformer: Transformer<Sourc
   return targetObservable;
 
   function start() {
-    sourceObservableSubscription = sourceObservable.subscribe((value: ?Source): void => {
-      // Reset last emitted value on every source observable change to avoid
-      // sending stable data to subscribers on emit on subscribe.
-      targetObservable._lastEmittedValue = undefined;
+    sourceObservableSubscription = sourceObservable.subscribe(
+      (value: ?Source): void => {
+        // Reset last emitted value on every source observable change to avoid
+        // sending stable data to subscribers on emit on subscribe.
+        targetObservable._lastEmittedValue = undefined;
 
-      // it should be possible to avoid retransforms
-      if (
-        previousSourceValue !== undefined &&
-        transformer.shouldRetransform &&
-        !transformer.shouldRetransform(previousSourceValue, value)
-      ) {
-        return;
+        // it should be possible to avoid retransforms
+        if (
+          previousSourceValue !== undefined &&
+          transformer.shouldRetransform &&
+          !transformer.shouldRetransform(previousSourceValue, value)
+        ) {
+          return;
+        }
+
+        previousSourceValue = value;
+
+        // dispose previous intermediate observable subscription because we are
+        // gettering a new observable from the transformer function.
+        //
+        // Only do this once the new subscription has been established to allow
+        // observable reference counting. If we would dispose the old subscription
+        // beforehand, we would run the risk of stopping the intermediate
+        // observable. Restarting it can be a potentially expensive operation.
+        const previousIntermediateObservableSubscription = intermediateObservableSubscription;
+
+        const intermediateObservable: Observable<Target> = transformer.transform(value);
+        intermediateObservableSubscription = intermediateObservable.subscribe(v => targetObservable.emit(v));
+
+        if (previousIntermediateObservableSubscription) {
+          previousIntermediateObservableSubscription.dispose();
+        }
       }
-
-      previousSourceValue = value;
-
-      // dispose previous intermediate observable subscription because we are
-      // gettering a new observable from the transformer function.
-      //
-      // Only do this once the new subscription has been established to allow
-      // observable reference counting. If we would dispose the old subscription
-      // beforehand, we would run the risk of stopping the intermediate
-      // observable. Restarting it can be a potentially expensive operation.
-      const previousIntermediateObservableSubscription = intermediateObservableSubscription;
-
-      const intermediateObservable: Observable<Target> = transformer.transform(value);
-      intermediateObservableSubscription = intermediateObservable.subscribe(v => targetObservable.emit(v));
-
-      if (previousIntermediateObservableSubscription) {
-        previousIntermediateObservableSubscription.dispose();
-      }
-    });
+    );
   }
 
   function stop() {

@@ -131,7 +131,7 @@ export default class TouchControlsDecorator extends Decorator {
     const max = this.cameraController.maxZoomLevel;
 
     // [0, 1] => [1, 11]
-    const nZoomLevel = this.cameraController.zoomLevel / (max - min) * 10 + 1;
+    const nZoomLevel = (this.cameraController.zoomLevel / (max - min)) * 10 + 1;
     dx *= nZoomLevel;
     dy *= nZoomLevel;
 

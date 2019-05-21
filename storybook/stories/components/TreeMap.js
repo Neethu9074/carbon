@@ -39,26 +39,36 @@ function SimpleTreeMap() {
               children: [
                 {
                   id: 'group 1',
+                  label: 'group',
                   children: [
                     {
                       id: 'child 1',
+                      label: 'child',
+                      valueLabel: '1',
                       value: 1
                     },
                     {
                       id: 'child 2',
+                      label: 'child',
+                      valueLabel: '2',
                       value: 2
                     }
                   ]
                 },
                 {
                   id: 'group 2',
+                  label: 'group',
                   children: [
                     {
                       id: 'child 3',
+                      label: 'child',
+                      valueLabel: '3',
                       value: 3
                     },
                     {
                       id: 'child 4',
+                      label: 'child',
+                      valueLabel: '4',
                       value: 4
                     }
                   ]

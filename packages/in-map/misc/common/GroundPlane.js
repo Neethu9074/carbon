@@ -14,7 +14,7 @@ export default class GroundPlane {
     const ground = (this.ground = new Mesh(geo, mat));
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
-    ground.rotation.x = -90 * Math.PI / 180;
+    ground.rotation.x = (-90 * Math.PI) / 180;
     ground.position.y = -0.02;
 
     // set static

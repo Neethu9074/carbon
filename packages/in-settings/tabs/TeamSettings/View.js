@@ -16,17 +16,6 @@ import {
   teamSettingsAccessControlPermissionSetNew,
   teamSettingsAccessControlApiTokens,
   teamSettingsAccessControlApiTokenEdit,
-  teamSettingsKnowledgeManagementBuiltInRules,
-  teamSettingsKnowledgeManagementBuiltInRuleEdit,
-  teamSettingsKnowledgeManagementCustomRules,
-  teamSettingsKnowledgeManagementCustomRuleEdit,
-  teamSettingsKnowledgeManagementCustomRuleNew,
-  teamSettingsKnowledgeManagementCustomIssues,
-  teamSettingsKnowledgeManagementCustomIssueEdit,
-  teamSettingsKnowledgeManagementCustomIssueNew,
-  teamSettingsKnowledgeManagementCustomDynamicRules,
-  teamSettingsKnowledgeManagementCustomDynamicRuleEdit,
-  teamSettingsKnowledgeManagementCustomDynamicRuleNew,
   teamSettingsAlertingEventCustomNew,
   teamSettingsAlertingEventCustomEdit,
   teamSettingsAlertingEventBuiltInEdit,
@@ -41,39 +30,21 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAlertingConfigurations,
-  teamSettingsAlertingConfigurationEdit,
-  teamSettingsAlertingConfigurationNew,
-  teamSettingsAlertingIntegrations,
-  teamSettingsAlertingIntegrationEdit,
-  teamSettingsAlertingIntegrationNew,
   teamSettingsAuditLog
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
-import CustomDynamicRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRules';
-import CustomDynamicRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomDynamicRules/CustomDynamicRule';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
-import BuiltInRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/BuiltInRules/BuiltInRules';
-import CustomIssuesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssues';
-import CustomIssuePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomIssues/CustomIssue';
-import BuiltInRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/BuiltInRules/BuiltInRule';
-import CustomRulesPage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomRules/CustomRules';
-import CustomRulePage from 'in-settings/tabs/TeamSettings/pages/legacyKnowledgeManagement/CustomRules/CustomRule';
-import ConfigurationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Configurations/Configurations';
-import ConfigurationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Configurations/Configuration';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import PermissionSetsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSets';
 import PermissionSetPage from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/PermissionSet';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
-import IntegrationsPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integrations';
-import IntegrationPage from 'in-settings/tabs/TeamSettings/pages/legacyAlerting/Integrations/Integration';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
-import { forecastsEnabled, unifiedAlerting, isRbacEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
@@ -180,7 +151,7 @@ function navigationTreeForRole(role): NavigationTree {
     });
   }
 
-  if (unifiedAlerting && (role.canConfigureCustomAlerts || role.canConfigureIntegrations)) {
+  if (role.canConfigureCustomAlerts || role.canConfigureIntegrations) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureCustomAlerts) {
@@ -264,138 +235,6 @@ function navigationTreeForRole(role): NavigationTree {
     navigationTree.push({
       title: 'Events & Alerts',
       pages: eventsAndAlertsPages
-    });
-  }
-
-  if (!unifiedAlerting && role.canConfigureCustomAlerts) {
-    const legacyKnowledgeManagementPages = [
-      {
-        path: teamSettingsKnowledgeManagementBuiltInRules,
-        label: 'Built-in Rules',
-        component: BuiltInRulesPage,
-        subPages: [
-          {
-            path: teamSettingsKnowledgeManagementBuiltInRuleEdit,
-            component: BuiltInRulePage
-          }
-        ]
-      },
-      {
-        path: teamSettingsKnowledgeManagementCustomRules,
-        label: 'Custom Rules',
-        component: CustomRulesPage,
-        subPages: [
-          {
-            path: teamSettingsKnowledgeManagementCustomRuleNew,
-            component: CustomRulePage
-          },
-          {
-            path: teamSettingsKnowledgeManagementCustomRuleEdit,
-            component: CustomRulePage
-          }
-        ]
-      },
-      {
-        path: teamSettingsKnowledgeManagementCustomIssues,
-        label: 'Custom Issues',
-        component: CustomIssuesPage,
-        subPages: [
-          {
-            path: teamSettingsKnowledgeManagementCustomIssueNew,
-            component: CustomIssuePage
-          },
-          {
-            path: teamSettingsKnowledgeManagementCustomIssueEdit,
-            component: CustomIssuePage
-          }
-        ]
-      }
-    ];
-
-    if (forecastsEnabled) {
-      legacyKnowledgeManagementPages.push({
-        path: teamSettingsKnowledgeManagementCustomDynamicRules,
-        label: 'Custom Dynamic Rules',
-        component: CustomDynamicRulesPage,
-        subPages: [
-          {
-            path: teamSettingsKnowledgeManagementCustomDynamicRuleNew,
-            component: CustomDynamicRulePage
-          },
-          {
-            path: teamSettingsKnowledgeManagementCustomDynamicRuleEdit,
-            component: CustomDynamicRulePage
-          }
-        ]
-      });
-    }
-
-    navigationTree.push({
-      title: 'Knowledge',
-      pages: legacyKnowledgeManagementPages
-    });
-  }
-
-  if (!unifiedAlerting && (role.canConfigureIntegrations || role.canConfigureCustomAlerts)) {
-    const legacyAlertingPages: Array<Page> = [];
-
-    if (role.canConfigureCustomAlerts) {
-      legacyAlertingPages.push({
-        path: teamSettingsAlertingConfigurations,
-        label: 'Configurations',
-        component: ConfigurationsPage,
-        subPages: [
-          {
-            path: teamSettingsAlertingConfigurationNew,
-            component: ConfigurationPage
-          },
-          {
-            path: teamSettingsAlertingConfigurationEdit,
-            component: ConfigurationPage
-          }
-        ]
-      });
-    }
-
-    if (role.canConfigureIntegrations) {
-      legacyAlertingPages.push({
-        path: teamSettingsAlertingIntegrations,
-        label: 'Integrations',
-        component: IntegrationsPage,
-        subPages: [
-          {
-            path: teamSettingsAlertingIntegrationNew,
-            component: IntegrationPage
-          },
-          {
-            path: teamSettingsAlertingIntegrationEdit,
-            component: IntegrationPage
-          }
-        ]
-      });
-    }
-
-    if (role.canConfigureCustomAlerts) {
-      legacyAlertingPages.push({
-        path: teamSettingsAlertingMaintenanceConfigurations,
-        label: 'Maintenance Windows',
-        component: MaintenanceWindowsPage,
-        subPages: [
-          {
-            path: teamSettingsAlertingMaintenanceConfigurationNew,
-            component: MaintenanceWindowPage
-          },
-          {
-            path: teamSettingsAlertingMaintenanceConfigurationEdit,
-            component: MaintenanceWindowPage
-          }
-        ]
-      });
-    }
-
-    navigationTree.push({
-      title: 'Alerting',
-      pages: legacyAlertingPages
     });
   }
 

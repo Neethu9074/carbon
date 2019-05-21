@@ -68,8 +68,8 @@ export default class ScreenPositionComponent extends SceneObjectComponent {
 
     const screenPosition = this.screenPositionAnchor.clone().applyMatrix4(renderableCamera.projection);
 
-    screenPosition.x = ((screenPosition.x + 1) / 2 * width) | 0;
-    screenPosition.y = (-(screenPosition.y - 1) / 2 * height) | 0;
+    screenPosition.x = (((screenPosition.x + 1) / 2) * width) | 0;
+    screenPosition.y = ((-(screenPosition.y - 1) / 2) * height) | 0;
 
     if (this.screenPosition.x !== screenPosition.x || this.screenPosition.y !== screenPosition.y) {
       this.screenPosition.x = screenPosition.x;

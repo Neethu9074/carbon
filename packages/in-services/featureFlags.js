@@ -27,7 +27,6 @@ export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEna
 export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
-export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');

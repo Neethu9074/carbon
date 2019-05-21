@@ -9,5 +9,5 @@ registerSpanDefinition({
     plural: 'Hazelcast Java Client calls'
   },
 
-  detailView: 'HzSpanDetailView',
+  detailView: 'HzSpanDetailView'
 });

@@ -32,7 +32,11 @@ export default connectTo(
     events = isExpanded ? events : events.slice(0, maxEventsOnCollapsed);
 
     return (
-      <div className={block}>{events.map(event => <Event key={event.get('id')} event={event} scale={scale} />)}</div>
+      <div className={block}>
+        {events.map(event => (
+          <Event key={event.get('id')} event={event} scale={scale} />
+        ))}
+      </div>
     );
   }
 );

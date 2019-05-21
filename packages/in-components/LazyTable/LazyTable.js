@@ -23,7 +23,9 @@ export default class extends React.Component {
         <Columns {...props} />
 
         <div className={`${block}__content`}>
-          {rows.map(row => <Row key={row.key} row={row} {...props} />)}
+          {rows.map(row => (
+            <Row key={row.key} row={row} {...props} />
+          ))}
 
           <div className={`${block}__button-wrapper`}>
             <LoadMoreButton {...props} />

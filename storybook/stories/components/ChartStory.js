@@ -32,6 +32,7 @@ storiesOf('Components/Chart', module)
   .add('Integral', () => <Integral />)
   .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
+  .add('MissingMetrics', () => <MissingMetrics />)
   .add('SharedAxis', () => <SharedAxis />)
   .add('Resize', () => <Resize />);
 
@@ -350,6 +351,46 @@ function CountErrorBar() {
             labels: ['Count', 'Error'],
             metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 0.7, oneMinute)],
             aggregation: 'awesomeAggregation'
+          }
+        }}
+      />
+    </Root>
+  );
+}
+
+function MissingMetrics() {
+  return (
+    <Root>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.line,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [generateMetrics(60, 20, oneMinute)]
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: ['Metric A', 'Metric B', 'Metric C'],
+            metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 20, oneMinute)]
+          }
+        }}
+      />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.integral,
+            labels: ['Metric A', 'Metric B', 'Metric C'],
+            metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 20, oneMinute)]
           }
         }}
       />

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import Notification from 'in-components/form/Notification';
-import { integrationTest } from 'in-api/integrations';
+import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import Button from 'in-new-components/Button';
 
@@ -30,7 +30,9 @@ export default class extends React.Component {
       error: false,
       message: 'Loading...'
     });
-    return integrationTest(fromJS(fullyQualified[alertChannel.get('kind')].createEntity(alertChannel, form))).subscribe(
+    return alertChannelTest(
+      fromJS(fullyQualified[alertChannel.get('kind')].createEntity(alertChannel, form))
+    ).subscribe(
       response => {
         this.setState({
           loading: false,
