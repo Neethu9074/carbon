@@ -19,7 +19,7 @@ export default connectTo(
     }
     return (
       <div className={locals.wrapper}>
-        <InfiniteCircle customText="Layouting" />;
+        <InfiniteCircle customText="Rendering" />;
       </div>
     );
   }
