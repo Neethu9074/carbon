@@ -26,8 +26,6 @@ import { role } from 'in-stores/user';
 import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
-  const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
-
   return (
     <div>
       <KpiSection>
@@ -129,22 +127,6 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               tooltipFormatter: percentageTwoDecimalPlaces,
               metrics: ['openFiles.used'],
               labels: ['Used'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      ) : null}
-
-      {swapTotal > 0 ? (
-        <DashboardSection title="Swap Activity">
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: twoDecimalPlaces,
-              metrics: ['swap.pgin', 'swap.pgout'],
-              labels: ['Page-In', 'Page-Out'],
               type: 'line'
             }}
           />

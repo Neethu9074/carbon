@@ -91,13 +91,6 @@ export default [
     }
   },
   {
-    metrics: ['swap.pgin', 'swap.pgout'],
-    labels: ['Page-In', 'Page-Out'],
-    category: ['Memory'],
-    min: 0,
-    formatter: number
-  },
-  {
     metrics: ['tcp.established', 'tcp.opens', 'tcp.inSegs', 'tcp.outSegs'],
     labels: ['Established', 'Open/s', 'In Segments/s', 'Out Segments/s'],
     category: ['Network'],
