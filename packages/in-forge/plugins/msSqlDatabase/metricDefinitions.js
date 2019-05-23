@@ -1,4 +1,4 @@
-import { bytes, number, millis } from 'in-services/formatters/number';
+import { bytes, number, millis, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
@@ -43,5 +43,17 @@ export default [
     min: 0,
     category: ['Errors'],
     formatter: number
+  },
+  {
+    metrics: ['perfcounters.locks._total.lock_requests_sec'],
+    labels: ['Lock Requests'],
+    category: ['Locks'],
+    formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['perfcounters.locks._total.number_of_deadlocks_sec'],
+    labels: ['Number of Deadlocks'],
+    category: ['Locks'],
+    formatter: zeroDecimalPlaces
   }
 ];

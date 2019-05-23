@@ -9,10 +9,10 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'MsSQL Instance',
-    plural: 'MsSQL Instances'
+    singular: 'MS SQL Instance',
+    plural: 'MS SQL Instances'
   },
   technologyDescriptor: {
-    label: 'MsSQL'
+    label: 'MS SQL'
   }
 });
