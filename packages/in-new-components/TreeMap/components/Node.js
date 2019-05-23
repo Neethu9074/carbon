@@ -36,7 +36,7 @@ export default function Node({ node, nodeProps = {} }) {
 
   if (nodeProps.renderTooltip) {
     content = (
-      <Tooltip themeStyle="light" content={nodeProps.renderTooltip(node, showMetricValue)} align="leftMiddle">
+      <Tooltip themeStyle="light" content={nodeProps.renderTooltip(node, showMetricValue)} align="mousePosition">
         {content}
       </Tooltip>
     );

@@ -29,7 +29,7 @@ export default function Group({ group, groupProps = {}, nodeProps }) {
 
   if (groupProps.renderTooltip) {
     headerContent = (
-      <Tooltip themeStyle="light" content={groupProps.renderTooltip(group, showMetricValue)} align="topMiddle">
+      <Tooltip themeStyle="light" content={groupProps.renderTooltip(group, showMetricValue)} align="mousePosition">
         {headerContent}
       </Tooltip>
     );

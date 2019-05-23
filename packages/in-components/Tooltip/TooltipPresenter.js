@@ -28,7 +28,18 @@ export default connectTo(
       domElement.addEventListener('mousemove', this.onMouseMove, false);
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+      const isBoundToMousePosition =
+        (this.props._activeTooltip && this.props._activeTooltip.align === 'mousePosition') ||
+        (prevProps._activeTooltip && prevProps._activeTooltip.align === 'mousePosition');
+      if (isBoundToMousePosition) {
+        if (this.props._activeTooltip) {
+          this.removeListeners(this.props._activeTooltip.focusedElement);
+          this.addListeners(this.props._activeTooltip.focusedElement);
+        } else if (prevProps._activeTooltip) {
+          this.removeListeners(prevProps._activeTooltip.focusedElement);
+        }
+      }
       const _activeTooltip = this.props._activeTooltip;
 
       // nothing to do if there is no active tooltip
@@ -101,6 +112,27 @@ export default connectTo(
       } else {
         ele.style[prop] = toPx(value);
       }
+    };
+
+    onMouseMove = e => {
+      const tooltipElement = this.tooltipElement;
+      if (!tooltipElement) {
+        return;
+      }
+
+      const tooltipOffset = 5; // px;
+      const x = e.clientX;
+      const y = e.clientY;
+      const _activeTooltip = this.props._activeTooltip;
+      const tooltipElementBox = tooltipElement.getBoundingClientRect();
+      const tooltipHeight = tooltipElementBox.top + tooltipElementBox.height - tooltipElementBox.top;
+
+      this.set(tooltipElement, 'left', x + tooltipOffset);
+      this.set(tooltipElement, 'top', y - tooltipHeight - tooltipOffset);
+
+      const block =
+        _activeTooltip.themeStyle === 'light' ? `in-tooltip-presenter__light` : `in-tooltip-presenter__dark`;
+      tooltipElement.classList.add(`${block}`);
     };
 
     render() {
