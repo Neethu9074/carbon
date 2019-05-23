@@ -1,0 +1,11 @@
+:local {
+  .modeSwitch {
+    margin: 0 1rem 0 0.4rem;
+    min-width: 10rem;
+  }
+
+  .aggregationSwitch {
+    margin: 0 1rem 0 0.4rem;
+    min-width: 3rem;
+  }
+}
