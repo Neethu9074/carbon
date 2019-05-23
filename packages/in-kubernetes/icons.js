@@ -16,3 +16,10 @@ export function getIconByPlugin(plugin) {
       return 'lib_kubernetes_service';
   }
 }
+
+export function getContainerIconByPlugin(plugin) {
+  if (plugin === plugins.containerd) {
+    return 'lib_container_containerd';
+  }
+  return 'lib_container_docker';
+}

@@ -18,6 +18,7 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
@@ -167,7 +168,7 @@ function getColumnDefinitions(pod) {
       getContent(item, { timeConfig }) {
         return (
           <SeverityAwareEntityLink
-            icon="lib_container"
+            icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
             label={get(item, ['container', 'label'])}
             href$={getDashboardLink(get(item, ['container', 'id']), {
               pathname: '/physical/dashboard',
