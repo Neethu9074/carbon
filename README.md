@@ -23,6 +23,7 @@
   * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
   * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
+  * [Problem with pngquant on Ubuntu?](#problem-with-pngquant-on-ubuntu)
 - [The Node.js Front End Server](#the-nodejs-front-end-server)
 
 <!-- tocstop -->
