@@ -11,7 +11,7 @@ export default function Node({ node, nodeProps = {} }) {
   const width = node.x1 - node.x0;
   const height = node.y1 - node.y0;
   const showLabel = width > 100 && height > 48;
-  const showMetricValue = width > 50 && height > 16;
+  const showMetricValue = width > 50 && height > (node.data.label ? 48 : 36);
 
   let content = (
     <div

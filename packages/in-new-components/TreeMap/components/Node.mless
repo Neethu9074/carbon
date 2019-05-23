@@ -19,13 +19,17 @@
     cursor: pointer;
   }
 
-  .label {
-    font-size: 0.75rem;
-    color: @lib__colors__N600Light;
+  .label,
+  .value {
     max-width: 100%;
 
     text-align: center;
     .ellipsis();
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
   }
 
   .value {
