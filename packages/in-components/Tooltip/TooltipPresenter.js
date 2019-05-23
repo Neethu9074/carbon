@@ -127,7 +127,14 @@ export default connectTo(
       const tooltipElementBox = tooltipElement.getBoundingClientRect();
       const tooltipHeight = tooltipElementBox.top + tooltipElementBox.height - tooltipElementBox.top;
 
-      this.set(tooltipElement, 'left', x + tooltipOffset);
+      const fullWidth = document.body.clientWidth;
+      const enoughSpaceOnTheRight = x + tooltipElementBox.width <= fullWidth;
+
+      if (enoughSpaceOnTheRight) {
+        this.set(tooltipElement, 'left', x + tooltipOffset);
+      } else {
+        this.set(tooltipElement, 'left', x - tooltipElementBox.width - tooltipOffset);
+      }
       this.set(tooltipElement, 'top', y - tooltipHeight - tooltipOffset);
 
       const block =
