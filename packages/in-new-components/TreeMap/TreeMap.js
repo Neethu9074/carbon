@@ -27,7 +27,10 @@ function TreeMap({ width, height, customWidth, customHeight, data, groupProps, n
   width = customWidth || width;
   height = customHeight || height;
 
-  const root = hierarchy(data).sum(d => d.value);
+  const root = hierarchy(data)
+    .sum(d => d.value)
+    .sort((a, b) => b.height - a.height || b.value - a.value);
+
   treemap()
     .size([width, height - 16])
     .paddingTop(node => (node.depth === 1 ? 32 : 0)) // add a top padding to groups for the header

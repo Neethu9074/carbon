@@ -8,6 +8,7 @@ import locals from './Group.mless';
 
 export default function Group({ group, groupProps = {}, nodeProps }) {
   const width = group.x1 - group.x0;
+  const height = group.y1 - group.y0;
   const showLabel = width > 100;
   const showMetricValue = width > 50;
 
@@ -36,7 +37,7 @@ export default function Group({ group, groupProps = {}, nodeProps }) {
   }
 
   return (
-    <div style={{ top: group.y0, left: group.x0, width, height: group.y1 - group.y0 }} className={locals.group}>
+    <div style={{ top: group.y0, left: group.x0, width, height }} className={locals.group}>
       {group.children.map(node => (
         <Node key={node.data.id} node={node} nodeProps={nodeProps} />
       ))}
