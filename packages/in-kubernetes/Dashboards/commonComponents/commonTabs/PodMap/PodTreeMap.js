@@ -16,6 +16,7 @@ import getEntitiesHealthInfo from 'in-subscription/kubernetes/getEntitiesHealthI
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { settings$ } from 'in-services/settings/settings';
 import { lighten } from 'in-services/formatters/color';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
@@ -58,7 +59,9 @@ function PodTreeMap(props) {
 
 function getObservables({ showHealth, timeConfig, data, sizeMetricConfig }) {
   const podIds = data.ids[1]; // level 0 = groups, level 1 = pods, level 2 = container
-  const observables = {};
+  const observables = {
+    showUngroupedPods: settings$.map(settings => get(settings, ['kubernetes_ungrouped_pods_enabled'], true))
+  };
 
   if (podIds.length === 0) {
     return observables;
@@ -144,7 +147,7 @@ function renderGroupTooltip(timeConfig, group, isMetricValuePresented) {
   return <DeplayedGroupTooltip timeConfig={timeConfig} isMetricValuePresented={isMetricValuePresented} group={group} />;
 }
 
-function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthInfo }) {
+function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthInfo, showUngroupedPods }) {
   entitiesHealthInfo = entitiesHealthInfo || {};
 
   const minValue = metricValues ? metricValues.minValue : 0;
@@ -155,40 +158,42 @@ function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthIn
   const root = {
     root: {
       id: data.root.id,
-      children: data.root.children.map(({ id, label, children }) => {
-        const mappedGroup = {
-          id,
-          label,
-          children: children.map(pod => {
-            const value = get(metricValues, [pod.id, 'value'], 1);
-            let label = 'Loading';
-            let valueLabel = null;
-            if (metricValues && metricValues.metricName !== sizeMetricConfig.value) {
-              label = 'Loading';
-            } else if (metricValues && metricValues[pod.id]) {
-              const metricValue = metricValues[pod.id];
-              valueLabel = metricValue.format(value);
-              label = pod.label;
-            }
+      children: data.root.children
+        .filter(group => showUngroupedPods || group.id !== 'unknown')
+        .map(({ id, label, children }) => {
+          const mappedGroup = {
+            id,
+            label,
+            children: children.map(pod => {
+              const value = get(metricValues, [pod.id, 'value'], 1);
+              let label = 'Loading';
+              let valueLabel = null;
+              if (metricValues && metricValues.metricName !== sizeMetricConfig.value) {
+                label = 'Loading';
+              } else if (metricValues && metricValues[pod.id]) {
+                const metricValue = metricValues[pod.id];
+                valueLabel = metricValue.format(value);
+                label = pod.label;
+              }
 
-            const power = Math.max(valueForSmallNodes, (value - minValue) / fullDomain);
-            return {
-              groupId: id,
-              id: pod.id,
-              value: power,
-              rawValue: value,
-              label,
-              valueLabel,
-              health: entitiesHealthInfo[pod.id]
-            };
-          })
-        };
-        mappedGroup.valueLabel = getGroupValueLabel(mappedGroup.children, metricValues);
-        const powers = mappedGroup.children.map(node => node.value);
-        mappedGroup.minPower = powers.reduce((a, b) => Math.min(a, b), 0);
-        mappedGroup.maxPower = powers.reduce((a, b) => Math.max(a, b), 0);
-        return mappedGroup;
-      })
+              const power = Math.max(valueForSmallNodes, (value - minValue) / fullDomain);
+              return {
+                groupId: id,
+                id: pod.id,
+                value: power,
+                rawValue: value,
+                label,
+                valueLabel,
+                health: entitiesHealthInfo[pod.id]
+              };
+            })
+          };
+          mappedGroup.valueLabel = getGroupValueLabel(mappedGroup.children, metricValues);
+          const powers = mappedGroup.children.map(node => node.value);
+          mappedGroup.minPower = powers.reduce((a, b) => Math.min(a, b), 0);
+          mappedGroup.maxPower = powers.reduce((a, b) => Math.max(a, b), 0);
+          return mappedGroup;
+        })
     }
   };
   return root;
