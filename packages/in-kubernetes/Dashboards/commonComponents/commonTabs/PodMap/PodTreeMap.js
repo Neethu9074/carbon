@@ -153,7 +153,6 @@ function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthIn
   const minValue = metricValues ? metricValues.minValue : 0;
   const maxValue = metricValues ? metricValues.maxValue : 0;
   const fullDomain = maxValue - minValue || 1; // avoid devide by zero
-  const valueForSmallNodes = Math.max(0.2 * minValue, 0.1);
 
   const root = {
     root: {
@@ -176,7 +175,7 @@ function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthIn
                 label = pod.label;
               }
 
-              const power = Math.max(valueForSmallNodes, (value - minValue) / fullDomain);
+              const power = 0.1 + ((value - minValue) / fullDomain) * 0.9;
               return {
                 groupId: id,
                 id: pod.id,
