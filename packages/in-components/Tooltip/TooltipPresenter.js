@@ -1,3 +1,4 @@
+import { on } from 'reactive-observables';
 import React from 'react';
 
 import { activeTooltip, TooltipShape } from 'in-services/stores/tooltip';
@@ -18,14 +19,20 @@ export default connectTo(
       _activeTooltip: TooltipShape
     };
 
-    removeListeners = domElement => {
-      if (domElement) {
-        domElement.removeEventListener('mousemove', this.onMouseMove, false);
+    subscription = null;
+
+    removeListeners = () => {
+      if (this.subscription) {
+        this.subscription.dispose();
+        this.subscription = null;
       }
     };
 
     addListeners = domElement => {
-      domElement.addEventListener('mousemove', this.onMouseMove, false);
+      this.removeListeners();
+      this.subscription = on(domElement, 'mousemove')
+        .throttle(1000 / 60)
+        .subscribe(this.onMouseMove);
     };
 
     componentDidUpdate(prevProps) {
@@ -34,10 +41,9 @@ export default connectTo(
         (prevProps._activeTooltip && prevProps._activeTooltip.align === 'mousePosition');
       if (isBoundToMousePosition) {
         if (this.props._activeTooltip) {
-          this.removeListeners(this.props._activeTooltip.focusedElement);
           this.addListeners(this.props._activeTooltip.focusedElement);
         } else if (prevProps._activeTooltip) {
-          this.removeListeners(prevProps._activeTooltip.focusedElement);
+          this.removeListeners();
         }
       }
       const _activeTooltip = this.props._activeTooltip;
