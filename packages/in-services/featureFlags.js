@@ -40,10 +40,9 @@ export function getBlackListedSearchFieldKeywords() {
   return ['selfMonitoring'];
 }
 export const blackListedSearchFieldValues = {
-  'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
-  'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
-  'entity.type': ['agent']
+  'entity.type': ['agent'],
+  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics']
 };
 
 // ########################################################################################
