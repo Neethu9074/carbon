@@ -3,8 +3,8 @@ import React, { Fragment } from 'react';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
+import { number, percentage } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -43,6 +43,23 @@ export default connectTo(
                 `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count`
               ],
               labels: ['Number of Entities'],
+              type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={`Number of Entities`}>
+          <Chart
+            snapshotId={dropwizard.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: 1,
+              formatter: percentage.detailed,
+              metrics: [
+                `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-usage`
+              ],
+              labels: ['Entity Usage'],
               type: 'stackedArea'
             }}
           />

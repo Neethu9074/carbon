@@ -4,6 +4,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { percentage, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -77,36 +78,39 @@ export const analysisTypes = {
                 timeConfig={timeConfig}
                 y1={{
                   min: 0,
+                  max: 1,
                   formatter: percentage.detailed,
                   metrics: [`metrics.gauges.KPI.incoming.span_messages.error_rate`],
                   labels: ['Backend Dropped Spans'],
                   type: 'stackedArea'
                 }}
               />
-              <Chart
-                snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: number.compact,
-                  metrics: [`metrics.meters.KPI.processing.spans.calls`],
-                  labels: ['Processed Spans'],
-                  type: 'stackedArea'
-                }}
-              />
-              <Chart
-                snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: number.compact,
-                  metrics: [
-                    `metrics.meters.com.instana.spanprocessing.stream.source.RawSpansSource.dropped-due-to-span-rate-throttler`
-                  ],
-                  labels: ['Dropped Spans due to Configuration'],
-                  type: 'stackedArea'
-                }}
-              />
+              <Columize>
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.compact,
+                    metrics: [`metrics.meters.KPI.processing.spans.calls`],
+                    labels: ['Processed Spans'],
+                    type: 'stackedArea'
+                  }}
+                />
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.compact,
+                    metrics: [
+                      `metrics.meters.com.instana.spanprocessing.stream.source.RawSpansSource.dropped-due-to-span-rate-throttler`
+                    ],
+                    labels: ['Dropped Spans due to Configuration'],
+                    type: 'stackedArea'
+                  }}
+                />
+              </Columize>
             </Fragment>
           )}
         </WithPhysicalStack>
@@ -125,6 +129,13 @@ export const analysisTypes = {
         component: 'filler',
         metric: 'metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count',
         formatter: number.compact,
+        forceTimeWindowAggregation: true
+      }),
+      getDropwizardMetricColumn({
+        title: 'Entity Usage',
+        component: 'filler',
+        metric: 'metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-usage',
+        formatter: percentage.detailed,
         forceTimeWindowAggregation: true
       }),
       getDropwizardMetricColumn({
@@ -147,41 +158,60 @@ export const analysisTypes = {
         <WithPhysicalStack tenant={tenant} unit={unit} component="filler" timeConfig={timeConfig}>
           {physicalStack => (
             <Fragment>
-              <Chart
-                snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: number.compact,
-                  metrics: [
-                    `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count`
-                  ],
-                  labels: ['Number of Entities'],
-                  type: 'stackedArea'
-                }}
-              />
-              <Chart
-                snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: number.compact,
-                  metrics: [`metrics.meters.com.instana.filler.raw-entity.processed`],
-                  labels: ['Processed Agent Messages'],
-                  type: 'stackedArea'
-                }}
-              />
-              <Chart
-                snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: number.compact,
-                  metrics: [`metrics.meters.com.instana.filler.raw-entity.dropped`],
-                  labels: ['Dropped Agent Messages'],
-                  type: 'stackedArea'
-                }}
-              />
+              <Columize>
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.compact,
+                    metrics: [
+                      `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count`
+                    ],
+                    labels: ['Number of Entities'],
+                    type: 'stackedArea'
+                  }}
+                />
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    max: 1,
+                    formatter: percentage.detailed,
+                    metrics: [
+                      `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-usage`
+                    ],
+                    labels: ['Entity Usage'],
+                    type: 'stackedArea'
+                  }}
+                />
+              </Columize>
+
+              <Columize>
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.compact,
+                    metrics: [`metrics.meters.com.instana.filler.raw-entity.processed`],
+                    labels: ['Processed Agent Messages'],
+                    type: 'stackedArea'
+                  }}
+                />
+                <Chart
+                  snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.compact,
+                    metrics: [`metrics.meters.com.instana.filler.raw-entity.dropped`],
+                    labels: ['Dropped Agent Messages'],
+                    type: 'stackedArea'
+                  }}
+                />
+              </Columize>
             </Fragment>
           )}
         </WithPhysicalStack>

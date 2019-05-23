@@ -38,6 +38,7 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
+              max: 1,
               formatter: percentage.detailed,
               metrics: [`metrics.gauges.KPI.incoming.span_messages.error_rate`],
               labels: ['Backend Dropped Spans'],
