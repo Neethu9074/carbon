@@ -8,6 +8,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import './TooltipPresenter.less';
 
+const mouseMoveProperty = 'mousePosition';
+
 export default connectTo(
   {
     _activeTooltip: activeTooltip.nextFrame()
@@ -37,12 +39,13 @@ export default connectTo(
 
     componentDidUpdate(prevProps) {
       const isBoundToMousePosition =
-        (this.props._activeTooltip && this.props._activeTooltip.align === 'mousePosition') ||
-        (prevProps._activeTooltip && prevProps._activeTooltip.align === 'mousePosition');
+        (this.props._activeTooltip && this.props._activeTooltip.align === mouseMoveProperty) ||
+        (prevProps._activeTooltip && prevProps._activeTooltip.align === mouseMoveProperty);
       if (isBoundToMousePosition) {
-        if (this.props._activeTooltip) {
+        if (this.props._activeTooltip && !prevProps._activeTooltip) {
           this.addListeners(this.props._activeTooltip.focusedElement);
-        } else if (prevProps._activeTooltip) {
+          this.setInitialStyleForMouseMove();
+        } else if (prevProps._activeTooltip && !this.props._activeTooltip) {
           this.removeListeners();
         }
       }
@@ -54,7 +57,7 @@ export default connectTo(
       }
 
       const align = this.props._activeTooltip.align;
-      if (align === 'mousePosition') {
+      if (align === mouseMoveProperty) {
         return;
       }
 
@@ -129,23 +132,33 @@ export default connectTo(
       const tooltipOffset = 5; // px;
       const x = e.clientX;
       const y = e.clientY;
-      const _activeTooltip = this.props._activeTooltip;
       const tooltipElementBox = tooltipElement.getBoundingClientRect();
       const tooltipHeight = tooltipElementBox.top + tooltipElementBox.height - tooltipElementBox.top;
 
       const fullWidth = document.body.clientWidth;
       const enoughSpaceOnTheRight = x + tooltipElementBox.width <= fullWidth;
 
-      if (enoughSpaceOnTheRight) {
+      if (enoughSpaceOnTheRight || tooltipElementBox.width === fullWidth) {
         this.set(tooltipElement, 'left', x + tooltipOffset);
       } else {
         this.set(tooltipElement, 'left', x - tooltipElementBox.width - tooltipOffset);
       }
       this.set(tooltipElement, 'top', y - tooltipHeight - tooltipOffset);
+    };
 
-      const block =
-        _activeTooltip.themeStyle === 'light' ? `in-tooltip-presenter__light` : `in-tooltip-presenter__dark`;
-      tooltipElement.classList.add(`${block}`);
+    setInitialStyleForMouseMove = () => {
+      if (this.tooltipElement) {
+        const block =
+          this.props._activeTooltip.themeStyle === 'light'
+            ? `in-tooltip-presenter__light`
+            : `in-tooltip-presenter__dark`;
+        this.tooltipElement.classList.add(block);
+
+        // because first time rendering already happenend, the tooltip would stick in the top left corner until the first mousemove is fired
+        const initialPosition = 1000000; // Number.MAX_VALUE does not apply
+        this.set(this.tooltipElement, 'left', initialPosition);
+        this.set(this.tooltipElement, 'top', initialPosition);
+      }
     };
 
     render() {
