@@ -106,7 +106,7 @@ export function mapMatchSpecificationListToTree(matchSpecificationList) {
   return tree;
 }
 
-function split(list) {
+export function split(list) {
   if (!list || list.length === 0) {
     return emptyArray;
   }
@@ -139,7 +139,7 @@ export function splitBy(subList, operator) {
     return subList;
   }
 
-  for (let i = 0; i < subList.length; i++) {
+  for (let i = 0; i < subList.length - 1; i++) {
     const item = subList[i];
     if (item.conjunction === operator) {
       delete item.conjunction;
