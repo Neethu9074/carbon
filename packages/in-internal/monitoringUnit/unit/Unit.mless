@@ -4,7 +4,7 @@
   }
 
   .left {
-    width: 15rem;
+    width: 17rem;
     border-right: 1px solid #ccc;
     margin: 0 2rem 0 0;
     flex-grow: 0;

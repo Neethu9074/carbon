@@ -83,7 +83,6 @@ export const analysisTypes = {
                   type: 'stackedArea'
                 }}
               />
-
               <Chart
                 snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
                 timeConfig={timeConfig}
@@ -95,7 +94,6 @@ export const analysisTypes = {
                   type: 'stackedArea'
                 }}
               />
-
               <Chart
                 snapshotId={physicalStack.dropwizardApplicationContainer.get('id')}
                 timeConfig={timeConfig}
@@ -123,21 +121,21 @@ export const analysisTypes = {
     cols: [
       unitColumn,
       getDropwizardMetricColumn({
-        title: 'Online Entities',
+        title: 'Number of Entities',
         component: 'filler',
         metric: 'metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count',
         formatter: number.compact,
         forceTimeWindowAggregation: true
       }),
       getDropwizardMetricColumn({
-        title: 'Processed Raw Entities',
+        title: 'Processed Agent Messages',
         component: 'filler',
         metric: 'metrics.meters.com.instana.filler.raw-entity.processed',
         formatter: number.compact,
         forceTimeWindowAggregation: true
       }),
       getDropwizardMetricColumn({
-        title: 'Dropped Raw Entities',
+        title: 'Dropped Agent Messages',
         component: 'filler',
         metric: 'metrics.meters.com.instana.filler.raw-entity.dropped',
         formatter: number.compact,
@@ -158,7 +156,7 @@ export const analysisTypes = {
                   metrics: [
                     `metrics.gauges.com.instana.filler.service.snapshot.OnlineSnapshotsLimit.online-snapshots-count`
                   ],
-                  labels: ['Online Entities'],
+                  labels: ['Number of Entities'],
                   type: 'stackedArea'
                 }}
               />
@@ -169,7 +167,7 @@ export const analysisTypes = {
                   min: 0,
                   formatter: number.compact,
                   metrics: [`metrics.meters.com.instana.filler.raw-entity.processed`],
-                  labels: ['Processed Raw Entities'],
+                  labels: ['Processed Agent Messages'],
                   type: 'stackedArea'
                 }}
               />
@@ -180,7 +178,7 @@ export const analysisTypes = {
                   min: 0,
                   formatter: number.compact,
                   metrics: [`metrics.meters.com.instana.filler.raw-entity.dropped`],
-                  labels: ['Dropped Raw Entities'],
+                  labels: ['Dropped Agent Messages'],
                   type: 'stackedArea'
                 }}
               />
