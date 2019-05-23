@@ -29,7 +29,7 @@ function TreeMap({ width, height, customWidth, customHeight, data, groupProps, n
 
   const root = hierarchy(data).sum(d => d.value);
   treemap()
-    .size([width, height - 48]) // remove height for the tech preview marker
+    .size([width, height - 16])
     .paddingTop(node => (node.depth === 1 ? 32 : 0)) // add a top padding to groups for the header
     .paddingInner(node => (node.depth === 0 ? 8 : 4))(root);
 

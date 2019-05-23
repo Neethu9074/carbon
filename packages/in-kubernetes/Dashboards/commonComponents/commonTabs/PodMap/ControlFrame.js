@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { find } from 'lodash';
+import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
+import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
@@ -16,21 +18,28 @@ import locals from './ControlFrame.mless';
 
 const sizeByConfigs = [
   {
-    value: 'cpu',
+    value: 'cpuLimits',
     format: twoDecimalPlaces,
-    metricType: 'Limits',
-    label: 'CPU'
+    label: 'CPU Limits'
   },
   {
-    value: 'memory',
+    value: 'cpuRequests',
+    format: twoDecimalPlaces,
+    label: 'CPU Requests'
+  },
+  {
+    value: 'memoryLimits',
     format: bytesZeroDecimalPlaces,
-    metricType: 'Limits',
-    label: 'Memory'
+    label: 'Memory Limits'
+  },
+  {
+    value: 'memoryRequests',
+    format: bytesZeroDecimalPlaces,
+    label: 'Memory Requests'
   },
   {
     value: 'containers',
     format: zeroDecimalPlaces,
-    metricType: 'Limits',
     label: 'Containers'
   }
 ];
@@ -62,46 +71,26 @@ export const clusterGroupings = [
   }
 ];
 
-const metricTypes = ['Limits', 'Requests'];
-
 export default compose(
   withUrlDependingState({
     replaceHistory: false,
-    getPathSegment: () => '/podMap',
-    getMatrixPrefix: () => 'treemap.',
+    getPathSegment: () => '/pods',
+    getMatrixPrefix: () => 'podMap.',
     boundKeys: ['showHealth', 'grouping', 'metricType', 'sizeMetricConfig'],
-    getInitialState: () => ({
-      showHealth: false,
-      grouping: namespaceGroupings[1],
-      metricType: metricTypes[0],
-      sizeMetricConfig: sizeByConfigs[1]
-    }),
     reducerName: 'setConfig',
-    getSerializedUrlValues: props => {
-      return {
-        showHealth: props.showHealth,
-        grouping: props.grouping.value,
-        metricType: props.metricType,
-        sizeMetricConfig: props.sizeMetricConfig.value
-      };
-    },
-    getParsedUrlValues: values => {
-      return {
-        showHealth: values.showHealth === 'true',
-        grouping: find(clusterGroupings, g => g.value === values.grouping),
-        metricType: values.metricType,
-        sizeMetricConfig: find(sizeByConfigs, c => c.value === values.sizeMetricConfig)
-      };
-    }
+    getInitialState,
+    getSerializedUrlValues,
+    getParsedUrlValues
   })
 )(ControlFrame);
 
 function ControlFrame(props) {
-  const { grouping, sizeMetricConfig, metricType, showHealth, setConfig, groupingOptions, render } = props;
+  const { grouping, showHealth, sizeMetricConfig, setConfig, groupingOptions, view, setView, render } = props;
   return (
-    <MaxWidthFullscreenContainer>
-      <div className={locals.frame}>
-        <div className={locals.left}>
+    <div>
+      <div className={locals.header}>
+        <MapListToggle view={view} setView={setView} />
+        <div className={locals.right}>
           <span className={locals.label}>Group by</span>
           <ComboBox
             className={locals.input}
@@ -112,34 +101,51 @@ function ControlFrame(props) {
             clearable={false}
             openOnFocus
           />
-          <span className={locals.label}>Size by</span>
-          <ComboBox
-            className={locals.input}
-            id="size-by"
-            value={sizeMetricConfig}
-            options={sizeByConfigs}
-            onChange={_config => setConfig({ sizeMetricConfig: _config })}
-            clearable={false}
-            openOnFocus
-          />
-          {sizeMetricConfig.value !== 'containers' && (
-            <Fragment>
-              <span className={locals.label}>Metric</span>
-              <ComboBox
-                className={locals.input}
-                id="size-by"
-                value={{ label: metricType }}
-                options={metricTypes.map(label => ({ label }))}
-                onChange={_type => setConfig({ metricType: _type.label })}
-                clearable={false}
-                openOnFocus
-              />
-            </Fragment>
-          )}
+          <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setConfig({ showHealth: _b })} />
         </div>
-        <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setConfig({ showHealth: _b })} />
       </div>
-      {render(props)}
-    </MaxWidthFullscreenContainer>
+
+      <StickySidebarContainer
+        sidebar={
+          <SideNavigation>
+            {sizeByConfigs.map(config => (
+              <SideNavigationItem
+                key={config.value}
+                label={config.label}
+                isActive={sizeMetricConfig.value === config.value}
+                omitEmptyIcon
+                onClick={() => setConfig({ sizeMetricConfig: config })}
+              />
+            ))}
+          </SideNavigation>
+        }
+      >
+        {render(props)}
+      </StickySidebarContainer>
+    </div>
   );
+}
+
+function getInitialState() {
+  return {
+    showHealth: false,
+    grouping: namespaceGroupings[1],
+    sizeMetricConfig: sizeByConfigs[sizeByConfigs.length - 1]
+  };
+}
+
+function getSerializedUrlValues(props) {
+  return {
+    showHealth: props.showHealth,
+    grouping: props.grouping.value,
+    sizeMetricConfig: props.sizeMetricConfig.value
+  };
+}
+
+function getParsedUrlValues(values) {
+  return {
+    showHealth: values.showHealth === 'true',
+    grouping: find(clusterGroupings, g => g.value === values.grouping),
+    sizeMetricConfig: find(sizeByConfigs, c => c.value === values.sizeMetricConfig)
+  };
 }

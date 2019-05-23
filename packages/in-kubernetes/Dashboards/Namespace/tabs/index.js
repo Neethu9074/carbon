@@ -6,10 +6,9 @@ import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLa
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
-import PodMap from 'in-kubernetes/Dashboards/Namespace/tabs/PodMap';
+import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
 
 export default [
   {
@@ -40,17 +39,11 @@ export default [
     header: props => getCounterComponent(props, 'services')
   },
   {
-    label: 'Pod Map',
-    path: `${namespaceDashboardFullyQualified}/podMap`,
-    component: PodMap,
-    stickToHeader: true,
-    stickToBottom: true
-  },
-  {
     label: 'Pods',
     path: `${namespaceDashboardFullyQualified}/pods`,
     component: Pods,
-    header: props => getCounterComponent(props, 'pods')
+    header: props => getCounterComponent(props, 'pods'),
+    stickToBottom: true
   }
 ].filter(Boolean);
 

@@ -56,7 +56,7 @@ function PodTreeMap(props) {
   );
 }
 
-function getObservables({ showHealth, timeConfig, data, sizeMetricConfig, metricType }) {
+function getObservables({ showHealth, timeConfig, data, sizeMetricConfig }) {
   const podIds = data.ids[1]; // level 0 = groups, level 1 = pods, level 2 = container
   const observables = {};
 
@@ -77,18 +77,18 @@ function getObservables({ showHealth, timeConfig, data, sizeMetricConfig, metric
       podIds.map(id =>
         getTimeWindowBasedMetricAggregation({
           snapshotId: id,
-          metric: `${sizeMetricConfig.value}${metricType}`,
+          metric: sizeMetricConfig.value,
           timeWindowAggregation: 'mean',
           timeConfig
         }).map(data => ({ id, value: data }))
       )
     )
       .debounce(250) // if metrics arrive during multiple frames in live mode, we want to avoid a lot of updates. Therefore we batch the results in 250ms bunches
-      .map(metrics => mapMetricResult(metrics, sizeMetricConfig, metricType));
+      .map(metrics => mapMetricResult(metrics, sizeMetricConfig));
   } else {
     // transform the already available information into a metric result so we don't have a special handling for this case when consuming the data
     observables.metricValues = just(
-      mapMetricResult(gatherContainersAsMetricValues(data.root.children), sizeMetricConfig, metricType)
+      mapMetricResult(gatherContainersAsMetricValues(data.root.children), sizeMetricConfig)
     );
   }
 
@@ -107,10 +107,9 @@ function gatherContainersAsMetricValues(groups) {
   return metrics;
 }
 
-function mapMetricResult(metrics, sizeMetricConfig, metricType) {
+function mapMetricResult(metrics, sizeMetricConfig) {
   const metricsAsMap = {
-    metricName: sizeMetricConfig.value,
-    metricType
+    metricName: sizeMetricConfig.value
   };
   let minValue = Number.MAX_VALUE;
   let maxValue = 0;
@@ -145,7 +144,7 @@ function renderGroupTooltip(timeConfig, group, isMetricValuePresented) {
   return <DeplayedGroupTooltip timeConfig={timeConfig} isMetricValuePresented={isMetricValuePresented} group={group} />;
 }
 
-function mapTreeMapData({ data, sizeMetricConfig, metricType, metricValues, entitiesHealthInfo }) {
+function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthInfo }) {
   entitiesHealthInfo = entitiesHealthInfo || {};
 
   const minValue = metricValues ? metricValues.minValue : 0;
@@ -164,10 +163,7 @@ function mapTreeMapData({ data, sizeMetricConfig, metricType, metricValues, enti
             const value = get(metricValues, [pod.id, 'value'], 1);
             let label = 'Loading';
             let valueLabel = null;
-            if (
-              metricValues &&
-              (metricValues.metricName !== sizeMetricConfig.value || metricValues.metricType !== metricType)
-            ) {
+            if (metricValues && metricValues.metricName !== sizeMetricConfig.value) {
               label = 'Loading';
             } else if (metricValues && metricValues[pod.id]) {
               const metricValue = metricValues[pod.id];

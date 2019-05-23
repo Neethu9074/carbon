@@ -1,6 +1,6 @@
 import { get, filter, some } from 'lodash';
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -51,24 +51,23 @@ const Pods = compose(
   deploymentId,
   deploymentConfigId,
   serviceId,
+  leftHeader,
   nodeId,
   columnDefinitions = columnDefinitionsWithoutNamespace
 }) {
   const rightHeader = (
-    <Fragment>
-      <ComboBox
-        placeholder="Phase…"
-        value={phase}
-        onChange={t => setPhase({ phase: t ? t.value : null })}
-        options={podPhases}
-        className={locals.filter}
-      />
-    </Fragment>
+    <ComboBox
+      placeholder="Phase…"
+      value={phase}
+      onChange={t => setPhase({ phase: t ? t.value : null })}
+      options={podPhases}
+      className={locals.filter}
+    />
   );
 
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Pods"
+      cardTitle={leftHeader ? undefined : 'Pods'}
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}
@@ -81,6 +80,7 @@ const Pods = compose(
       serviceId={serviceId}
       nodeId={nodeId}
       rightHeader={rightHeader}
+      leftHeader={leftHeader}
       phase={phase}
       paginationResettingProps={[
         'namespaceId',

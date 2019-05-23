@@ -1,28 +1,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  .switch,
-  .optionSwitch {
+  .wrapper {
     display: flex;
     align-items: center;
   }
 
   .label {
-    margin-right: 0.25rem;
     color: @lib__colors__N500;
-  }
-
-  .expandIcon {
-    fill: @lib__colors__light-blue800;
-  }
-
-  .contextMenu {
-    margin: 1rem;
-  }
-
-  .option {
-    font-weight: 400;
-    color: @lib__colors__light-blue800;
-    cursor: pointer;
   }
 }
