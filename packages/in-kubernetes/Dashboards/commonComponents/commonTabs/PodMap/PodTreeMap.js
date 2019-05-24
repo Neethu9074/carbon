@@ -43,7 +43,7 @@ function PodTreeMap(props) {
           data={mapTreeMapData(props)}
           customHeight={height}
           groupProps={{
-            renderTooltip: renderGroupTooltip.bind(null, timeConfig),
+            renderTooltip: renderGroupTooltip.bind(null, timeConfig, grouping),
             getHref$: group => getHref$ByGrouping(grouping, group.data.id)
           }}
           nodeProps={{
@@ -143,8 +143,15 @@ function renderNodeTooltip(grouping, timeConfig, node, isMetricValuePresented) {
   );
 }
 
-function renderGroupTooltip(timeConfig, group, isMetricValuePresented) {
-  return <DeplayedGroupTooltip timeConfig={timeConfig} isMetricValuePresented={isMetricValuePresented} group={group} />;
+function renderGroupTooltip(timeConfig, grouping, group, isMetricValuePresented) {
+  return (
+    <DeplayedGroupTooltip
+      timeConfig={timeConfig}
+      grouping={grouping}
+      isMetricValuePresented={isMetricValuePresented}
+      group={group}
+    />
+  );
 }
 
 function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthInfo, showUngroupedPods }) {
