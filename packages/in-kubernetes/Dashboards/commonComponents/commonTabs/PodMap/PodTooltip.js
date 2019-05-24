@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes } from 'in-kubernetes/formatters';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import MetricValue from 'in-components/MetricValue';
@@ -84,7 +84,7 @@ function getMetricValue(node, metricName) {
       <MetricValue
         snapshotId={node.data.id}
         metric={metricName}
-        formatter={bytesTwoDecimalPlaces}
+        formatter={resourceQuotaBytes}
         timeWindowAggregation="mean"
       />
     );
