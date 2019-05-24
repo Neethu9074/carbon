@@ -59,6 +59,7 @@ const Pods = compose(
     <ComboBox
       placeholder="Phase…"
       value={phase}
+      searchable={false}
       onChange={t => setPhase({ phase: t ? t.value : null })}
       options={podPhases}
       className={locals.filter}
