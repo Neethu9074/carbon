@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .approximateIcon {
+    fill: @lib__colors__warning
+  }
+}
