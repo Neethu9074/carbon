@@ -1,28 +1,29 @@
 import React from 'react';
 
-import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
+import HistoricAndLargeDataIndicator, {
+  historicOrLargeDataResult$
+} from 'in-applications/components/HistoricAndLargeDataIndicator';
+import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
-import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ResultHeader.mless';
 
 export default connectTo(
-  props => ({
-    containsPastLiveData: timeConfig$.flatMap(timeConfig =>
-      containsPastLiveData$(timeConfig, props.containsPastLiveData)
-    )
-  }),
+  {
+    historicOrLargeDataResult: historicOrLargeDataResult$
+  },
 
-  function ResultHeader({ itemType, nbRows, nbItems, containsPastLiveData, withoutMargin = false, withMaxWidth }) {
+  function ResultHeader({ itemType, nbRows, nbItems, historicOrLargeDataResult, withoutMargin = false, withMaxWidth }) {
     let counter = '';
+    const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
 
     if (itemType == 'Group') {
       counter = formatCounter(nbRows, 'Group');
     } else {
-      if (containsPastLiveData) {
+      if (containsPastLiveData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
         counter = formatCounter(nbRows, 'Row');
       } else {
         counter = formatCounter(nbItems, itemType);
@@ -45,7 +46,8 @@ export default connectTo(
         >
           {counter}
         </span>
-        {containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
+        {!samplingIndicatorEnabled && containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
+        <HistoricAndLargeDataIndicator />
       </div>
     );
   }

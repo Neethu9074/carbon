@@ -14,5 +14,6 @@ module.exports = {
   containerInfoEnabled: true,
   trackUrlPathChanges: true,
   internalMonitoringUnit: true,
-  isRbacEnabled: true
+  isRbacEnabled: true,
+  samplingIndicatorEnabled: true
 };

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import HistoricAndLargeDataIndicator from 'in-applications/components/HistoricAndLargeDataIndicator';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import { ApplicationBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
@@ -41,7 +42,15 @@ export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashbo
 });
 
 function Header(props) {
-  return <BasicDashboardHeader title="Application" icon="lib_application" renderActions={Actions} {...props} />;
+  return (
+    <BasicDashboardHeader
+      title="Application"
+      icon="lib_application"
+      renderActions={Actions}
+      renderSubTypes={SubTypes}
+      {...props}
+    />
+  );
 }
 
 function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
@@ -63,4 +72,8 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
       />
     </Fragment>
   );
+}
+
+function SubTypes() {
+  return <HistoricAndLargeDataIndicator />;
 }
