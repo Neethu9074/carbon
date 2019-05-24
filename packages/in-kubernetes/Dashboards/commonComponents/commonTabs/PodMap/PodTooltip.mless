@@ -24,7 +24,6 @@
 
   .item {
     display: flex;
-    align-items: center;
     justify-content: space-between;
 
     list-style-type: none;
@@ -37,6 +36,7 @@
   .key {
     color: @lib__colors__N500;
     margin-right: 1rem;
+    white-space: nowrap;
   }
 
   .value {

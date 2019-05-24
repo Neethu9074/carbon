@@ -44,7 +44,7 @@ export function PodTooltipComponent({ grouping, pod, node, groupEntity }) {
       <ul className={locals.list}>
         <li className={locals.item}>
           <span className={locals.key}>{grouping.label}</span>
-          <span className={locals.value}>{getGroupLabel(groupEntity, node)}</span>
+          {getGroupLabel(groupEntity, node)}
         </li>
 
         <li className={locals.item}>
