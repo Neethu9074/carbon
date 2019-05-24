@@ -6,7 +6,7 @@ def gitCommitAuthor     = null
 def gitMessage          = null
 def instanaVersion      = null
 def archiveName         = null
-def latestReleaseBranch = 'release-155'
+def latestReleaseBranch = null 
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
