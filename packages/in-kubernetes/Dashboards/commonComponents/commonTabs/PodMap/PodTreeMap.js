@@ -132,15 +132,8 @@ function mapMetricResult(metrics, sizeMetricConfig) {
   return metricsAsMap;
 }
 
-function renderNodeTooltip(grouping, timeConfig, node, isMetricValuePresented) {
-  return (
-    <DeplayedPodTooltip
-      grouping={grouping}
-      timeConfig={timeConfig}
-      node={node}
-      isMetricValuePresented={isMetricValuePresented}
-    />
-  );
+function renderNodeTooltip(grouping, timeConfig, node) {
+  return <DeplayedPodTooltip grouping={grouping} timeConfig={timeConfig} node={node} />;
 }
 
 function renderGroupTooltip(timeConfig, grouping, group, isMetricValuePresented) {
@@ -190,6 +183,7 @@ function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthIn
                 rawValue: value,
                 label,
                 valueLabel,
+                numberOfContainer: get(pod, ['children', 'length'], 0),
                 health: entitiesHealthInfo[pod.id]
               };
             })

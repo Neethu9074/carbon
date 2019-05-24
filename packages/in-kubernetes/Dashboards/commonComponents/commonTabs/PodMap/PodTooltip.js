@@ -11,20 +11,10 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './PodTooltip.mless';
 
-export default function DeplayedPodTooltip({ grouping, timeConfig, node, isMetricValuePresented }) {
+export default function DeplayedPodTooltip({ grouping, timeConfig, node }) {
   return (
-    <Delayed
-      waitingComponent={PodTooltipComponent}
-      grouping={grouping}
-      node={node}
-      isMetricValuePresented={isMetricValuePresented}
-    >
-      <PodToolTip
-        node={node}
-        timeConfig={timeConfig}
-        grouping={grouping}
-        isMetricValuePresented={isMetricValuePresented}
-      />
+    <Delayed waitingComponent={PodTooltipComponent} grouping={grouping} node={node}>
+      <PodToolTip node={node} timeConfig={timeConfig} grouping={grouping} />
     </Delayed>
   );
 }
@@ -45,23 +35,21 @@ const PodToolTip = connectTo(
   PodTooltipComponent
 );
 
-export function PodTooltipComponent({ grouping, pod, node, isMetricValuePresented, groupEntity }) {
+export function PodTooltipComponent({ grouping, pod, node, groupEntity }) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>
         <WithIcon icon="lib_kubernetes_pod">{getPodLabel(pod, node)}</WithIcon>
       </div>
       <ul className={locals.list}>
-        {!isMetricValuePresented && (
-          <li className={locals.item}>
-            <span className={locals.key}>Value</span>
-            <span className={locals.value}>{node.data.valueLabel}</span>
-          </li>
-        )}
-
         <li className={locals.item}>
           <span className={locals.key}>{grouping.label}</span>
           <span className={locals.value}>{getGroupLabel(groupEntity, node)}</span>
+        </li>
+
+        <li className={locals.item}>
+          <span className={locals.key}>Memory Requests</span>
+          {getMetricValue(node, 'memoryRequests')}
         </li>
 
         <li className={locals.item}>
@@ -70,8 +58,18 @@ export function PodTooltipComponent({ grouping, pod, node, isMetricValuePresente
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>Memory Requests</span>
-          {getMetricValue(node, 'memoryRequests')}
+          <span className={locals.key}>CPU Requests</span>
+          {getMetricValue(node, 'cpuRequests')}
+        </li>
+
+        <li className={locals.item}>
+          <span className={locals.key}>CPU Limits</span>
+          {getMetricValue(node, 'cpuLimits')}
+        </li>
+
+        <li className={locals.item}>
+          <span className={locals.key}>Container</span>
+          {node.data.numberOfContainer}
         </li>
       </ul>
     </div>

@@ -4,6 +4,7 @@
 :local {
   .wrapper {
     padding: 0.5rem 0.5rem 1rem;
+    min-width: 16rem;
     max-width: 20rem;
     overflow: hidden;
   }
