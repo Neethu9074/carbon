@@ -10,15 +10,37 @@ import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import Stan from 'in-internal/monitoringUnit/unit/Stan';
+import { timeConfig$ } from 'in-stores/time/config';
+import search from 'in-subscription/search';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './Unit.mless';
 
-export default function Unit(props) {
-  const tenant = getMatrixParameter(props.location, '/unit', 'tenant');
-  const unit = getMatrixParameter(props.location, '/unit', 'unit');
+export default connectTo(({ location }) => {
+  const tenant = getMatrixParameter(location, '/unit', 'tenant');
+  const unit = getMatrixParameter(location, '/unit', 'unit');
+
+  return {
+    timeConfig: timeConfig$,
+    tenantUnitId: timeConfig$
+      .flatMap(timeConfig =>
+        search({
+          query: `entity.selfType:tenantUnit AND selfMonitoring.tenant:${tenant} AND selfMonitoring.unit:${unit}`,
+          view: 'TABLE',
+          timeConfig
+        })
+      )
+      .map(results => results && results.first())
+      .filter(Boolean)
+  };
+})(function Unit({ location, tenantUnitId, timeConfig }) {
+  const tenant = getMatrixParameter(location, '/unit', 'tenant');
+  const unit = getMatrixParameter(location, '/unit', 'unit');
 
   return (
     <InternalViewWrapper>
@@ -43,47 +65,75 @@ export default function Unit(props) {
           <Navigation tenant={tenant} unit={unit} />
         </div>
         <div className={locals.right}>
-          <Switch>
-            <Route
-              path="/internal/monitoringUnit/unit/entityStatistics"
-              render={() => <EntityStatistics tenant={tenant} unit={unit} />}
-            />
-            <Route
-              path="/internal/monitoringUnit/unit/applicationDataStatistics"
-              render={() => <ApplicationDataStatistics tenant={tenant} unit={unit} />}
-            />
-            <Route
-              path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
-              render={() => <InfrastructureDataStatistics tenant={tenant} unit={unit} />}
-            />
-          </Switch>
+          {!tenantUnitId && <LoadingIndicator type="dark" />}
+
+          {tenantUnitId && (
+            <Switch>
+              <Route
+                path="/internal/monitoringUnit/unit/entityStatistics"
+                render={() => (
+                  <EntityStatistics timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+                )}
+              />
+              <Route
+                path="/internal/monitoringUnit/unit/applicationDataStatistics"
+                render={() => (
+                  <ApplicationDataStatistics
+                    timeConfig={timeConfig}
+                    tenantUnitId={tenantUnitId}
+                    tenant={tenant}
+                    unit={unit}
+                  />
+                )}
+              />
+              <Route
+                path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
+                render={() => (
+                  <InfrastructureDataStatistics
+                    timeConfig={timeConfig}
+                    tenantUnitId={tenantUnitId}
+                    tenant={tenant}
+                    unit={unit}
+                  />
+                )}
+              />
+              <Route
+                path="/internal/monitoringUnit/unit/stan"
+                render={() => <Stan timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
+              />
+            </Switch>
+          )}
         </div>
       </div>
     </InternalViewWrapper>
   );
-}
+});
 
 function Navigation({ tenant, unit }) {
   return (
     <LinkList>
-      <LinkListItem
-        label="Entity Statistics"
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
-      />
-      <LinkListItem
-        label="Application Data Statistics"
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
-      />
-      <LinkListItem
-        label="Infrastructure Data Statistics"
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
-      />
       <LinkListItem
         label="Agents"
         external
         href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
           linkToTenantUnit(href, tenant, unit)
         )}
+      />
+      <LinkListItem
+        label="Application"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+      />
+      <LinkListItem
+        label="Entity Statistics"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
+      />
+      <LinkListItem
+        label="Infrastructure"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
+      />
+      <LinkListItem
+        label="Stan"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
       />
     </LinkList>
   );
