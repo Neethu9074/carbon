@@ -30,6 +30,7 @@ export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDay
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
+export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
