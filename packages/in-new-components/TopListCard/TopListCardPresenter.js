@@ -1,13 +1,11 @@
 import React from 'react';
 
+import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
 import Card from 'in-new-components/Card';
-
-const trackTopListMetricChanged = createTracker('toplist.metricChanged');
 
 export default function TopListCard(props) {
   const {
@@ -32,7 +30,7 @@ export default function TopListCard(props) {
         kind: shouldRenderOnItem ? 'primaryv2' : null,
         disabled: shouldRenderOnItem,
         onClick: () => {
-          trackTopListMetricChanged({ title, metric: labels[i] });
+          track(TOPLIST_METRIC_CHANGED, { title, metric: labels[i] });
           onChangeMetric(metric);
         }
       }))}

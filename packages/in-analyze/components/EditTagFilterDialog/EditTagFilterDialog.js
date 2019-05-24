@@ -38,8 +38,8 @@ export default compose(
       selectedTagType,
       setForm,
       form,
-      filterChangedTracker,
-      filterRemovedTracker,
+      trackFilterChanged,
+      trackFilterRemoved,
       forAnalyzeCalls
     }) => ({
       onClose: close,
@@ -59,12 +59,12 @@ export default compose(
         }
         close();
 
-        if (filterRemovedTracker) {
+        if (trackFilterRemoved) {
           const before = tagFilters.filter(f => isSameFilter(f, tagFilter));
           if (before.length > 0) {
-            filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
+            trackFilterRemoved({ name: tagFilter.name, filter: before[0] });
           } else {
-            filterRemovedTracker({ name: tagFilter.name });
+            trackFilterRemoved({ name: tagFilter.name });
           }
         }
       },
@@ -141,10 +141,10 @@ export default compose(
         close();
 
         const before = tagFilters.filter(f => isSameFilter(f, tagFilter));
-        if (filterChangedTracker && before.length > 0) {
-          filterChangedTracker({ before: before[0], after: newTagFilter });
-        } else if (filterChangedTracker) {
-          filterChangedTracker({ filter: newTagFilter });
+        if (trackFilterChanged && before.length > 0) {
+          trackFilterChanged({ before: before[0], after: newTagFilter });
+        } else if (trackFilterChanged) {
+          trackFilterChanged({ filter: newTagFilter });
         }
       }
     })

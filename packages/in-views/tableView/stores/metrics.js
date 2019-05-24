@@ -1,12 +1,8 @@
+import { track, TABLE_METRIC_ADDED, TABLE_METRIC_CLEARED, TABLE_METRIC_REMOVED } from 'in-services/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { createTrackingStore } from 'in-stores/store';
-
-const tableMetricAddedTracker = createTracker('table.metric.added');
-const tableMetricRemovedTracker = createTracker('table.metric.removed');
-const tableMetricClearedTracker = createTracker('table.metric.cleared');
 
 export const metrics$ = createTrackingStore({
   name: 'tableView/stores/metrics',
@@ -23,7 +19,7 @@ export const metrics$ = createTrackingStore({
 }).observable;
 
 export function addMetric(metric) {
-  tableMetricAddedTracker({ metric });
+  track(TABLE_METRIC_ADDED, { metric });
   metrics$.once(metrics => {
     metrics = metrics.slice();
     metrics.push(metric);
@@ -32,7 +28,7 @@ export function addMetric(metric) {
 }
 
 export function removeMetric(metric) {
-  tableMetricRemovedTracker({ metric });
+  track(TABLE_METRIC_REMOVED, { metric });
   metrics$.once(metrics => {
     const i = metrics.indexOf(metric);
     if (i === -1) {
@@ -45,6 +41,6 @@ export function removeMetric(metric) {
 }
 
 export function clearMetrics() {
-  tableMetricClearedTracker();
+  track(TABLE_METRIC_CLEARED);
   mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'metrics'));
 }

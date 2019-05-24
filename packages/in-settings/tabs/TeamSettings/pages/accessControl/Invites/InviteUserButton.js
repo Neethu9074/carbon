@@ -3,14 +3,13 @@ import { createLogger } from 'instalog';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { createTracker } from 'in-services/tracking/mixpanel';
+import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
 import Button from 'in-new-components/Button';
 
 import locals from './InviteUserButton.mless';
 
 const logger = createLogger('InviteUserButton');
-const trackUserInviteDialogOpen = createTracker('user.invite');
 
 export default function InviteUserButton({ setMessage }) {
   return (
@@ -18,7 +17,7 @@ export default function InviteUserButton({ setMessage }) {
       className={locals.createNewButton}
       kind="action"
       onClick={() => {
-        trackUserInviteDialogOpen();
+        track(USER_INVITE);
         setActiveDialog(<InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId)} />);
       }}
       icon="lib_openclose_add_circle_outline"

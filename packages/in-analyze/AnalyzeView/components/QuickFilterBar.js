@@ -16,27 +16,14 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const {
-    filters,
-    clearTagFilters,
-    filterAddedTracker,
-    filterChangedTracker,
-    filterRemovedTracker,
-    onMoreClick
-  } = props;
+  const { filters, clearTagFilters, onMoreClick } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
   const tagFilters = filters.tagFilter;
   const timeConfig = filters.timeConfig;
 
   return (
-    <Bar
-      showClearFilters={tagFilters.length > 0}
-      onClearFilters={clearTagFilters}
-      filterAddedTracker={filterAddedTracker}
-      filterChangedTracker={filterChangedTracker}
-      filterRemovedTracker={filterRemovedTracker}
-    >
+    <Bar showClearFilters={tagFilters.length > 0} onClearFilters={clearTagFilters}>
       <AnalyzeSelectBarItem
         {...props}
         timeConfig={timeConfig}

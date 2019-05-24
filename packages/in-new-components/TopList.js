@@ -1,7 +1,7 @@
 import { compose } from 'recompose';
 
+import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import connect from 'in-hoc/connectTo';
 
 // Sample Usage
@@ -12,7 +12,7 @@ import connect from 'in-hoc/connectTo';
 //          getList={()}
 //          render={({result, selectedMetric, selectedMetricFormatter}) => <span />}/>
 
-export const trackTopListNavigation = createTracker('toplist.rowNavigation');
+export const trackTopListNavigation = () => track(TOPLIST_ROW_NAVIGATION);
 
 export default compose(
   withPropDependingState({
