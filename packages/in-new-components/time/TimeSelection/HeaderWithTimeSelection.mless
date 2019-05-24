@@ -19,10 +19,13 @@
   }
 
   .maxWidthWrapper {
-    margin-left: ~'calc(50% - 703px)';
+    // max-width is 1500px. The content has 6rem padding (left 3 and right 3) which results in 1404px of content
+    // to align this header to the content we need to substract half of it which is 702px
+    margin-left: ~'calc(50% - 702px)';
   }
 
-  @media (max-width: 1575px) {
+  // 1572px is 1500px max-width + 72px for the side navigation. at this width, the content does not move anymore to the left and so the header needs to be fixed, too
+  @media (max-width: 1572px) {
     .maxWidthWrapper {
       margin-left: 3rem;
     }
