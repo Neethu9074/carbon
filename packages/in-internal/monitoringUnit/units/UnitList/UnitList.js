@@ -21,14 +21,14 @@ export default compose(
     timeConfig: timeConfig$,
     units: timeConfig$.flatMap(timeConfig =>
       search({
-        query: 'entity.selfType:entityStatistics',
+        query: 'entity.selfType:tenantUnit',
         view: 'TABLE',
-        timeConfig,
-        restrictResultEntityType: 'entityStatistics'
+        timeConfig
       })
         .flatMap(getSnapshots)
         .map(snapshots =>
           snapshots.map(snapshot => ({
+            id: snapshot.get('id'),
             tenant: snapshot.getIn(['data', 'tenant']),
             unit: snapshot.getIn(['data', 'unit'])
           }))
@@ -68,8 +68,9 @@ export default compose(
           cardTitle="Units"
           withoutPadding
           cols={cols}
-          rows={units.map(({ tenant, unit }) => ({
-            key: `${tenant}-${unit}`,
+          rows={units.map(({ id, tenant, unit }) => ({
+            key: id,
+            id,
             tenant,
             unit,
             timeConfig,
