@@ -1,0 +1,45 @@
+@import '~in-themes/active.less';
+
+:local {
+  .button {
+    background: @lib__colors__N050;
+    color: @lib__colors__N800Dark;
+    border: 1px solid @lib__colors__N400;
+
+    svg {
+      fill: @lib__colors__N800Dark;
+    }
+
+    &:hover {
+      border: 1px solid @lib__colors__N500;
+      background: @lib__colors__N100;
+
+      svg {
+        fill: @lib__colors__N800Dark;
+      }
+    }
+
+    & + .button {
+      margin-left: 0;
+    }
+  }
+
+  .activeButton {
+    background: @lib__colors__light-blue800;
+    border: 1px solid @lib__colors__light-blue800;
+    color: #fff;
+
+    svg {
+      fill: #fff;
+    }
+
+    &:hover {
+      border: 1px solid @lib__colors__light-blue800;
+      background: #148cc8;
+
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+}

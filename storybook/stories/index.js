@@ -37,6 +37,7 @@ import './website/PageLoadView/PageLoadViewStory';
 import './components/Axis';
 import './components/BadgeStory';
 import './components/ButtonGroupStory';
+import './components/ButtonSegmentedControlStory';
 import './components/ButtonStory';
 import './components/CardStory';
 import './components/ChartStory';
