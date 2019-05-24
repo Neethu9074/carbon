@@ -42,10 +42,10 @@ export default connectTo(
         (this.props._activeTooltip && this.props._activeTooltip.align === mouseMoveProperty) ||
         (prevProps._activeTooltip && prevProps._activeTooltip.align === mouseMoveProperty);
       if (isBoundToMousePosition) {
-        if (this.props._activeTooltip && !prevProps._activeTooltip) {
+        if (this.props._activeTooltip) {
           this.addListeners(this.props._activeTooltip.focusedElement);
           this.setInitialStyleForMouseMove();
-        } else if (prevProps._activeTooltip && !this.props._activeTooltip) {
+        } else if (prevProps._activeTooltip) {
           this.removeListeners();
         }
       }
