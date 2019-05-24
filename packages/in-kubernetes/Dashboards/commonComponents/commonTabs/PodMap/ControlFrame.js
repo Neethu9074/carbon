@@ -100,6 +100,7 @@ function ControlFrame(props) {
             onChange={_grouping => setConfig({ grouping: _grouping })}
             clearable={false}
             openOnFocus
+            searchable={false}
           />
           <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setConfig({ showHealth: _b })} />
         </div>

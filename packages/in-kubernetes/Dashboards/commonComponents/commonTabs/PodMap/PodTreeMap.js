@@ -44,7 +44,7 @@ function PodTreeMap(props) {
           customHeight={height}
           groupProps={{
             renderTooltip: renderGroupTooltip.bind(null, timeConfig, grouping),
-            getHref$: group => getHref$ByGrouping(grouping, group.data.id)
+            getHref$: group => (group.data.id === 'unknown' ? null : getHref$ByGrouping(grouping, group.data.id))
           }}
           nodeProps={{
             getColor: n => getColorForTreeNode(n, showHealth, colorPool),

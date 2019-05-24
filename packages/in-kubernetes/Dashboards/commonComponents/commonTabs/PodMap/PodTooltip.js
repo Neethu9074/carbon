@@ -48,16 +48,6 @@ export function PodTooltipComponent({ grouping, pod, node, groupEntity }) {
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>Memory Requests</span>
-          {getMetricValue(node, 'memoryRequests')}
-        </li>
-
-        <li className={locals.item}>
-          <span className={locals.key}>Memory Limits</span>
-          {getMetricValue(node, 'memoryLimits')}
-        </li>
-
-        <li className={locals.item}>
           <span className={locals.key}>CPU Requests</span>
           {getMetricValue(node, 'cpuRequests')}
         </li>
@@ -65,6 +55,16 @@ export function PodTooltipComponent({ grouping, pod, node, groupEntity }) {
         <li className={locals.item}>
           <span className={locals.key}>CPU Limits</span>
           {getMetricValue(node, 'cpuLimits')}
+        </li>
+
+        <li className={locals.item}>
+          <span className={locals.key}>Memory Requests</span>
+          {getMetricValue(node, 'memoryRequests')}
+        </li>
+
+        <li className={locals.item}>
+          <span className={locals.key}>Memory Limits</span>
+          {getMetricValue(node, 'memoryLimits')}
         </li>
 
         <li className={locals.item}>
