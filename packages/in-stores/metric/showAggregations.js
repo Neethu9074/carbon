@@ -1,8 +1,6 @@
+import { track, MAP_METRICS_AGGREGATION } from 'in-services/tracking/tracking';
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { createTrackingStore } from 'in-stores/store';
-
-const mapMetricsAggregationTracker = createTracker('map.metrics.aggregation');
 
 export const showAggregations$ = createTrackingStore({
   name: 'metric/showAggregations',
@@ -15,10 +13,10 @@ export const showAggregations$ = createTrackingStore({
 export function toggle() {
   mutateUrl(params => {
     if (params.query.sa === '1') {
-      mapMetricsAggregationTracker({ enabled: false });
+      track(MAP_METRICS_AGGREGATION, { enabled: false });
       delete params.query.sa;
     } else {
-      mapMetricsAggregationTracker({ enabled: true });
+      track(MAP_METRICS_AGGREGATION, { enabled: true });
       params.query.sa = '1';
     }
   });

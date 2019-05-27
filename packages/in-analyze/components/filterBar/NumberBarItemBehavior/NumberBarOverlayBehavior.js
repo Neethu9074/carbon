@@ -30,9 +30,9 @@ export default compose(
       showRange,
       showEquality,
       tag,
-      filterAddedTracker,
-      filterChangedTracker,
-      filterRemovedTracker
+      trackFilterAdded,
+      trackFilterChanged,
+      trackFilterRemoved
     }) => {
       const rangeFilter = f => f.name === tag && (f.operator === 'LESS_THAN' || f.operator === 'GREATER_THAN');
       const equalityFilter = f => f.name === tag && (f.operator === 'EQUALS' || f.operator === 'NOT_EQUAL');
@@ -57,11 +57,11 @@ export default compose(
           setTagFilters(tagFilterChange);
           close();
 
-          if (filterRemovedTracker) {
+          if (trackFilterRemoved) {
             if (filterBeforeChange && filterBeforeChange.length > 0) {
-              filterRemovedTracker({ name: tag, filter: filterBeforeChange[0] });
+              trackFilterRemoved({ name: tag, filter: filterBeforeChange[0] });
             } else {
-              filterRemovedTracker({ name: tag });
+              trackFilterRemoved({ name: tag });
             }
           }
         },
@@ -126,10 +126,10 @@ export default compose(
           setTagFilters(tagFilterChange);
           close();
 
-          if (filterChangedTracker && filterBeforeChange.length > 0) {
-            filterChangedTracker({ before: filterBeforeChange[0], after: tagFilterChange });
-          } else if (filterAddedTracker && filterBeforeChange.length === 0) {
-            filterAddedTracker({ filter: tagFilterChange });
+          if (trackFilterChanged && filterBeforeChange.length > 0) {
+            trackFilterChanged({ before: filterBeforeChange[0], after: tagFilterChange });
+          } else if (trackFilterAdded && filterBeforeChange.length === 0) {
+            trackFilterAdded({ filter: tagFilterChange });
           }
         }
       };

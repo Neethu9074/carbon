@@ -1,39 +1,67 @@
-import { createTracker } from 'in-services/tracking/mixpanel';
+import {
+  track,
+  WEBSITES_ADD_WEBSITE,
+  WEBSITES_ANALYZE_CHANGE_METRICS,
+  WEBSITES_ANALYZE_FILTER_ADD,
+  WEBSITES_ANALYZE_FILTER_CHANGE,
+  WEBSITES_ANALYZE_FILTER_CLEAR,
+  WEBSITES_ANALYZE_FILTER_REMOVE,
+  WEBSITES_ANALYZE_FILTER_SET,
+  WEBSITES_ANALYZE_GROUP_REMOVE,
+  WEBSITES_ANALYZE_GROUP_SET,
+  WEBSITES_ANALYZE_HIDE_WEBSITE_DETAILS_IN_TRACE_VIEW,
+  WEBSITES_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD,
+  WEBSITES_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE,
+  WEBSITES_ANALYZE_OPEN_PAGE_LOAD,
+  WEBSITES_ANALYZE_SHOW_WEBSITE_DETAILS_IN_TRACE_VIEW,
+  WEBSITES_DASHBOARD_FILTER_ADD,
+  WEBSITES_DASHBOARD_FILTER_CHANGE,
+  WEBSITES_DASHBOARD_FILTER_CLEAR,
+  WEBSITES_DASHBOARD_FILTER_REMOVE,
+  WEBSITES_DASHBOARD_FILTER_SET,
+  WEBSITES_DASHBOARD_REMOVE_WEBSITE,
+  WEBSITES_DASHBOARD_RENAME_WEBSITE,
+  WEBSITES_DASHBOARD_TAB_CHANGE,
+  WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS,
+  WEBSITES_RETURN_TO_CLASSIC
+} from 'in-services/tracking/tracking';
 
 // website entry point
-export const addWebsite = createTracker('websites.addWebsite');
-export const returnToClassicTracker = createTracker('websites.returnToClassic');
+export const addWebsite = e => track(WEBSITES_ADD_WEBSITE, e);
+export const returnToClassicTracker = e => track(WEBSITES_RETURN_TO_CLASSIC, e);
 
 // democratisation dashboard
-export const renameWebsite = createTracker('websites.dashboard.renameWebsite');
-export const removeWebsite = createTracker('websites.dashboard.removeWebsite');
-export const viewDeprecationDetails = createTracker('websites.dashboard.viewDeprecationDetails');
-export const tabChange = createTracker('websites.dashboard.tabChange');
+export const renameWebsite = e => track(WEBSITES_DASHBOARD_RENAME_WEBSITE, e);
+export const removeWebsite = e => track(WEBSITES_DASHBOARD_REMOVE_WEBSITE, e);
+export const viewDeprecationDetails = e => track(WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS, e);
+export const tabChange = e => track(WEBSITES_DASHBOARD_TAB_CHANGE, e);
 export const dashboardTagFilters = {
-  add: createTracker('websites.dashboard.filter.add'),
-  change: createTracker('websites.dashboard.filter.change'),
-  remove: createTracker('websites.dashboard.filter.remove'),
-  clear: createTracker('websites.dashboard.filter.clear'),
-  set: createTracker('websites.dashboard.filter.set')
+  add: e => track(WEBSITES_DASHBOARD_FILTER_ADD, e),
+  change: e => track(WEBSITES_DASHBOARD_FILTER_CHANGE, e),
+  remove: e => track(WEBSITES_DASHBOARD_FILTER_REMOVE, e),
+  clear: e => track(WEBSITES_DASHBOARD_FILTER_CLEAR, e),
+  set: e => track(WEBSITES_DASHBOARD_FILTER_SET, e)
 };
 
 // analyze
-export const changeAnalyzeMetrics = createTracker('websites.analyze.changeMetrics');
-export const showWebsiteDetailsInTraceView = createTracker('websites.analyze.showWebsiteDetailsInTraceView');
-export const hideWebsiteDetailsInTraceView = createTracker('websites.analyze.hideWebsiteDetailsInTraceView');
+export const changeAnalyzeMetrics = e => track(WEBSITES_ANALYZE_CHANGE_METRICS, e);
+export const showWebsiteDetailsInTraceView = e => track(WEBSITES_ANALYZE_SHOW_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
+export const hideWebsiteDetailsInTraceView = e => track(WEBSITES_ANALYZE_HIDE_WEBSITE_DETAILS_IN_TRACE_VIEW, e);
 export const analyzeTagFilters = {
-  add: createTracker('websites.analyze.filter.add'),
-  change: createTracker('websites.analyze.filter.change'),
-  remove: createTracker('websites.analyze.filter.remove'),
-  clear: createTracker('websites.analyze.filter.clear'),
-  set: createTracker('websites.analyze.filter.set')
+  add: e => track(WEBSITES_ANALYZE_FILTER_ADD, e),
+  change: e => track(WEBSITES_ANALYZE_FILTER_CHANGE, e),
+  remove: e => track(WEBSITES_ANALYZE_FILTER_REMOVE, e),
+  clear: e => track(WEBSITES_ANALYZE_FILTER_CLEAR, e),
+  set: e => track(WEBSITES_ANALYZE_FILTER_SET, e)
 };
 export const analyzeGrouping = {
-  remove: createTracker('websites.analyze.group.remove'),
-  set: createTracker('websites.analyze.group.set')
+  remove: e => track(WEBSITES_ANALYZE_GROUP_REMOVE, e),
+  set: e => track(WEBSITES_ANALYZE_GROUP_SET, e)
 };
 
 // page load view
-export const openPageLoad = createTracker('websites.analyze.openPageLoad');
-export const navigateToBackendTraceFromPageLoad = createTracker('websites.analyze.navigateToBackendTraceFromPageLoad');
-export const navigateToPageLoadFromBackendTrace = createTracker('websites.analyze.navigateToPageLoadFromBackendTrace');
+export const openPageLoad = e => track(WEBSITES_ANALYZE_OPEN_PAGE_LOAD, e);
+export const navigateToBackendTraceFromPageLoad = e =>
+  track(WEBSITES_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD, e);
+export const navigateToPageLoadFromBackendTrace = e =>
+  track(WEBSITES_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE, e);

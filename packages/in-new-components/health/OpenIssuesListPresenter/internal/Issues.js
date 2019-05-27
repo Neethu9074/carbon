@@ -26,9 +26,9 @@ export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink
 
   return (
     <ol className={locals.issues}>
-      {openIssues
-        .slice(0, maxIssuesToShow)
-        .map(issue => <Issue key={issue.id} getIssueLink={getIssueLink} issue={issue} />)}
+      {openIssues.slice(0, maxIssuesToShow).map(issue => (
+        <Issue key={issue.id} getIssueLink={getIssueLink} issue={issue} />
+      ))}
     </ol>
   );
 }

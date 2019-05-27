@@ -1,0 +1,40 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .node {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.5rem;
+
+    background: @lib__colors__N400;
+
+    overflow: hidden;
+    white-space: normal;
+    cursor: pointer;
+  }
+
+  .label,
+  .value {
+    max-width: 100%;
+
+    text-align: center;
+    .ellipsis();
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: @lib__colors__N600Light;
+  }
+}

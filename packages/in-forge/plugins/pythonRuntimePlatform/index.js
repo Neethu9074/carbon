@@ -6,7 +6,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.python,
+  plugin: plugins.pythonRuntimePlatform,
 
   iconSvgPath,
   metricDefinitions,

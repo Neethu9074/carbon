@@ -16,6 +16,7 @@ import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function ServiceDashboard({ location }) {
@@ -49,6 +50,7 @@ export default function ServiceDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        tabChangeTracker={serviceTabChange}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.serviceId} timeConfig={props.timeConfig} errors={errors} />

@@ -15,15 +15,15 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
-import SortableColumn from 'in-analyze/components/SortableColumn';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { clickTraceTracker } from 'in-analyze/components/tracker';
+import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import { Th } from 'in-components/tables/sharedComponents';
 import { latencyFixed } from 'in-services/formatters/number';
+import { Th } from 'in-components/tables/sharedComponents';
+import { traceClickedTracker } from 'in-analyze/tracker';
 
 import locals from './RawTracesPresenter.mless';
 
@@ -75,7 +75,7 @@ export default function RawTracesPresenter(props) {
             <Tr key={item.trace.id} size="compact">
               <ErroneousRowTd isErroneous={item.trace.erroneous} />
               <Td>
-                <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => clickTraceTracker()}>
+                <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={traceClickedTracker}>
                   {item.trace.label}
                 </Link>
               </Td>

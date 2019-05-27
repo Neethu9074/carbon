@@ -1,12 +1,10 @@
 import { parse } from 'lucene';
 
+import { track, DYNAMIC_FOCUS_QUERY } from 'in-services/tracking/tracking';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 import { validate } from 'in-api/search';
-
-const dynamicFocusQueryTracker = createTracker('dynamic.focus.query');
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
@@ -112,7 +110,7 @@ unvalidatedQuery$
   })
   .subscribe(result => {
     if (result.query && lastQuery !== result.query) {
-      dynamicFocusQueryTracker({ query: result.query, error: !!result.error });
+      track(DYNAMIC_FOCUS_QUERY, { query: result.query, error: !!result.error });
       lastQuery = result.query;
     }
     if (result.error) {

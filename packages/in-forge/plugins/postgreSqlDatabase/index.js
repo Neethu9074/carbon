@@ -5,7 +5,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.postgresql,
+  plugin: plugins.postgreSqlDatabase,
   iconSvgPath,
   metricDefinitions,
   pluginName: {

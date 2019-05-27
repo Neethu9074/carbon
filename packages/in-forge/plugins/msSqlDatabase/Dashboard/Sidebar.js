@@ -10,7 +10,7 @@ export default function MsSqlSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MS SQL-Server</Collapsible.Header>
+        <Collapsible.Header>MS SQL Server</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

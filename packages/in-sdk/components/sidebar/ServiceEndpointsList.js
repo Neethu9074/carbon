@@ -18,7 +18,9 @@ export default function ServiceEndpointsList({ snapshot }) {
         <Collapsible.Header>Endpoints ({endpoints.size})</Collapsible.Header>
         <Collapsible.Content>
           <List>
-            {endpoints.toArray().map(endpointName => <List.Item key={endpointName}>{endpointName}</List.Item>)}
+            {endpoints.toArray().map(endpointName => (
+              <List.Item key={endpointName}>{endpointName}</List.Item>
+            ))}
           </List>
         </Collapsible.Content>
       </Collapsible>

@@ -23,6 +23,7 @@
   * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
   * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
+  * [Problem with pngquant on Ubuntu?](#problem-with-pngquant-on-ubuntu)
 - [The Node.js Front End Server](#the-nodejs-front-end-server)
 
 <!-- tocstop -->
@@ -241,6 +242,20 @@ yarn run cleanup-flow
 ```
 
 If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
+
+### Problem with pngquant on Ubuntu?
+
+In case you are using e.g. Ubuntu and installing `pngquant` is making troubles like `npm ERR! Failed at the pngquant-bin@4.0.0 postinstall script.`, try to do the following:
+1. Ensure libpng-dev is installed:
+```
+$ apt-get install libpng-dev`
+```
+2. On Ubuntu, you even might need to install `libpng12`:
+```
+$ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
+    && sudo dpkg -i /tmp/libpng12.deb \
+    && rm /tmp/libpng12.deb
+```
 
 ## The Node.js Front End Server
 

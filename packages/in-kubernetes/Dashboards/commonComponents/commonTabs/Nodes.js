@@ -103,6 +103,7 @@ const columnDefinitions = [
       return (
         <KubernetesResources
           snapshotId={item.node.id}
+          quotasPresent="memory, cpu"
           cpuReqMetric="required_cpu_percentage"
           cpuLimitsMetric="limit_cpu_percentage"
           memReqMetric="required_mem_percentage"

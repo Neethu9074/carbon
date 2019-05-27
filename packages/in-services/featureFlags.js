@@ -27,28 +27,23 @@ export const isUsageInfoPopupEnabled = isFeatureFlagEnabled('isUsageInfoPopupEna
 export const kubernetesEnabled = isInstanaEngineer || isFeatureFlagEnabled('isKubernetesV2Enabled');
 export const customEventsInWebsiteMonitoringEnabled = isFeatureFlagEnabled('customEventsInWebsiteMonitoringEnabled');
 export const lastSevenDaysTimePresetEnabled = isFeatureFlagEnabled('lastSevenDaysTimePresetEnabled', true);
-export const unifiedAlerting = isFeatureFlagEnabled('unifiedAlerting');
 export const containerInfoEnabled = isFeatureFlagEnabled('containerInfoEnabled');
 export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUnit');
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
+export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
-export function getBlackListedSearchFieldKeywords(searchContext) {
-  if (searchContext !== 'traces') {
-    return ['log', 'span', 'trace'];
-  } else {
-    return ['log'];
-  }
+export function getBlackListedSearchFieldKeywords() {
+  return ['selfMonitoring'];
 }
 export const blackListedSearchFieldValues = {
-  'trace.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
-  'span.type': ['ios', 'iosError', 'android', 'androidError', 'xRay', 'python'],
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
-  'entity.type': ['agent']
+  'entity.type': ['agent'],
+  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics']
 };
 
 // ########################################################################################

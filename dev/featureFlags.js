@@ -10,10 +10,10 @@ module.exports = {
   isKubernetesV2Enabled: false,
   customEventsInWebsiteMonitoringEnabled: true,
   lastSevenDaysTimePresetEnabled: true,
-  unifiedAlerting: true,
   ruleDeprecationValidationChecksEnabled: true,
   containerInfoEnabled: true,
   trackUrlPathChanges: true,
   internalMonitoringUnit: true,
-  isRbacEnabled: true
+  isRbacEnabled: true,
+  samplingIndicatorEnabled: true
 };

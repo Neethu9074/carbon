@@ -1,12 +1,19 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import TreeMap from 'in-new-components/TreeMap';
 
 import locals from './ResultAwareTreeMap.mless';
 
-export default function ResultAwareTreeMap({ result, customHeigt, TreeMapRenderer = TreeMap, treeMapRendererProps }) {
+export default function ResultAwareTreeMap({
+  result,
+  customHeigt = 300,
+  TreeMapRenderer = TreeMap,
+  treeMapRendererProps
+}) {
   const isLoading = result.progress.loading;
   if (isLoading) {
     return <Skeleton style={{ height: customHeigt }} className={locals.skeletonTreeMap} />;
@@ -17,21 +24,20 @@ export default function ResultAwareTreeMap({ result, customHeigt, TreeMapRendere
     return <ErroneousResultPresenter errors={result.errors} />;
   }
 
-  const enrichedData = mapData(result.data);
-  if (enrichedData.ids.length === 0) {
-    return null;
+  if (get(result.data, ['root', 'children', 'length']) === 0) {
+    return <NoDataAvailable height={customHeigt} />;
   }
 
-  return <TreeMapRenderer {...treeMapRendererProps} data={enrichedData} />;
+  return <TreeMapRenderer {...treeMapRendererProps} data={addIds(result.data)} />;
 }
 
-function mapData(data) {
+function addIds(data) {
   const ids = [];
   addLevel(ids, 0, data.root.children);
 
   return {
     ids,
-    treeMapData: data
+    root: data.root
   };
 }
 

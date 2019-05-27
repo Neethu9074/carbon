@@ -1,13 +1,11 @@
 import React from 'react';
 
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
+import { applicationCreateClickedTracker } from 'in-applications/tracker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-
-export const trackApplicationSwitcher = createTracker('application.applicationSwitcherUsed');
 
 import locals from './ApplicationSwitcher.mless';
 
@@ -16,13 +14,15 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
     <div onMouseEnter={delayedOpen} onMouseLeave={delayedClose}>
       <div className={locals.header}>
         <SvgIcon className={locals.headingIcon} type="lib_application_invert" width={40} height={40} />
-        You are viewing this service in the<br />context of an application perspective
+        You are viewing this service in the
+        <br />
+        context of an application perspective
       </div>
 
       <div className={locals.content}>
-        {applications.data.items
-          .filter(item => item.application.id === applicationId)
-          .map(item => <SelectedItem key={item.application.id} item={item} />)}
+        {applications.data.items.filter(item => item.application.id === applicationId).map(item => (
+          <SelectedItem key={item.application.id} item={item} />
+        ))}
         <p className={locals.subSectionHeading}>Change application perspective:</p>
         <ul className={locals.menu}>
           {applications.data.items.filter(item => item.application.id !== applicationId).map(item => {
@@ -34,7 +34,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
                   href$={getModifiedUrlStream(params =>
                     setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
                   )}
-                  onClick={() => trackApplicationSwitcher()}
+                  onClick={applicationCreateClickedTracker}
                   icon="lib_application"
                 >
                   {item.application.label}

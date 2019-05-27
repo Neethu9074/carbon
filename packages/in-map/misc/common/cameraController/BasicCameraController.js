@@ -5,9 +5,9 @@ import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { goToDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { requestRendering } from 'in-map/stores/renderingStore';
-import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
+import { entitySelectedTracker } from 'in-map/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import Camera from 'in-map/misc/OrthographicCamera';
 import { height } from 'in-map/stores/indexStore';
@@ -60,7 +60,7 @@ export default class BasicCameraController extends Subscriber {
         if (object) {
           if (object.dashboardId) {
             getSnapshot(object.dashboardId).once(snapshot => {
-              mapSelectEntityTracker({ origin: 'map', entityType: snapshot.get('plugin') });
+              entitySelectedTracker({ origin: 'map', entityType: snapshot.get('plugin') });
             });
           }
           setSelectedSnapshotId(object.dashboardId);

@@ -32,8 +32,9 @@ function BackendDi({ result }) {
     <Di title="Backend">
       <Tooltip content="Open backend trace" align="topMiddle">
         <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
-          {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call{summary.callCount === 1 ? '' : 's'} with{' '}
-          {number.compact(summary.totalErrorCount)} error{summary.totalErrorCount === 1 ? '' : 's'}.
+          {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call
+          {summary.callCount === 1 ? '' : 's'} with {number.compact(summary.totalErrorCount)} error
+          {summary.totalErrorCount === 1 ? '' : 's'}.
         </Link>
       </Tooltip>
     </Di>

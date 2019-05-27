@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    padding: 0.5rem 0.5rem 1rem;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .label {
+    margin-right: 0.5rem;
+  }
+
+  .input {
+    margin-right: 2rem;
+  }
+}

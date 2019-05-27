@@ -18,6 +18,7 @@ import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
+import { nodeTabChange } from 'in-kubernetes/tracker';
 import theme from 'in-themes';
 
 export default function NodeDashboard({ location }) {
@@ -50,6 +51,7 @@ export default function NodeDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        tabChangeTracker={nodeTabChange}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.nodeId} timeConfig={props.timeConfig} errors={errors} />

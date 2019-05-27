@@ -18,6 +18,7 @@ import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
+import { podTabChange } from 'in-kubernetes/tracker';
 
 export default function PodDashboard({ location }) {
   const props = {
@@ -51,6 +52,7 @@ export default function PodDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.podId} timeConfig={props.timeConfig} errors={errors} />

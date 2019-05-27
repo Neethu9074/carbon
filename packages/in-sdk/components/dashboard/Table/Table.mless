@@ -64,7 +64,11 @@
   }
 
   .expansionSwitch {
-    height: 24px;
+    height: 2rem;
+
+    &:last-child {
+      margin-right: 1rem;
+    }
   }
 
   .paginationWrapper {
@@ -75,5 +79,11 @@
 
   .bottomContent {
     padding: 1rem;
+  }
+
+  .headerExtensions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }

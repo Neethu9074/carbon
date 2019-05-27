@@ -6,7 +6,9 @@ def gitCommitAuthor     = null
 def gitMessage          = null
 def instanaVersion      = null
 def archiveName         = null
-def latestReleaseBranch = 'release-154'
+
+def autoDeployReleaseFullstack = true
+def latestReleaseBranch  = null 
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -107,7 +109,7 @@ stage ('Container Build') {
 stage('Deployment') {
   milestone label: "deployment"
 
-  if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == latestReleaseBranch ) {
+  if ( env.BRANCH_NAME == 'develop' ) {
     build job: '/deployment/k8s-deploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
       string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)
@@ -129,21 +131,9 @@ stage('Deployment') {
       }
     }
   }
-  deployments['deploy-staging'] = {
-    if ( env.BRANCH_NAME == 'master' ) {
-      node {
-        echo "Deploying master:${instanaVersion} to staging.instana.io ..."
 
-        build job: '/deployment/staging/deploy-ui-client', parameters: [
-          string(name: 'VERSION', value: instanaVersion)
-        ]
-
-        slackNotification('Deploy Staging', 'ui-client', gitCommitId, currentBuild.currentResult)
-      }
-    }
-  }
   deployments['deploy-release'] = {
-    if ( env.BRANCH_NAME == latestReleaseBranch ) {
+    if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployReleaseFullstack ) {
       node {
         echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
 

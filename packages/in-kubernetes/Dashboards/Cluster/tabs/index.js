@@ -3,7 +3,6 @@ import React from 'react';
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
 import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
-import { PodsWithNamespaces } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
@@ -13,6 +12,7 @@ import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
+import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 
 export default [
   {
@@ -63,8 +63,9 @@ export default [
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
-    component: PodsWithNamespaces,
-    header: props => getCounterComponent(props, 'pods')
+    component: Pods,
+    header: props => getCounterComponent(props, 'pods'),
+    stickToBottom: true
   },
   {
     label: 'Infrastructure',

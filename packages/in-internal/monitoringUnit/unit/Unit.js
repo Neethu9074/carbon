@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/InfrastructureDataStatistics';
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
@@ -51,6 +52,10 @@ export default function Unit(props) {
               path="/internal/monitoringUnit/unit/applicationDataStatistics"
               render={() => <ApplicationDataStatistics tenant={tenant} unit={unit} />}
             />
+            <Route
+              path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
+              render={() => <InfrastructureDataStatistics tenant={tenant} unit={unit} />}
+            />
           </Switch>
         </div>
       </div>
@@ -68,6 +73,10 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label="Application Data Statistics"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+      />
+      <LinkListItem
+        label="Infrastructure Data Statistics"
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
       />
       <LinkListItem
         label="Agents"

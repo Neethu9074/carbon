@@ -6,7 +6,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.webSphereLiberty,
+  plugin: plugins.webSphereLibertyApplicationContainer,
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,

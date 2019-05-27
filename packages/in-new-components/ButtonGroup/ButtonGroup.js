@@ -13,14 +13,15 @@ export default function ButtonGroup(props) {
       {buttonPropsList.map((buttonProps, i) => (
         <Button
           key={buttonProps.key}
+          {...props}
+          {...buttonProps}
           className={evaluateClassNames({
             [locals.button]: true,
             [locals.first]: i === 0,
             [locals.last]: i === buttonPropsList.length - 1,
-            [locals.active]: activeKey === buttonProps.key
+            [locals.active]: activeKey === buttonProps.key,
+            [buttonProps.className]: buttonProps.className
           })}
-          {...props}
-          {...buttonProps}
         >
           {buttonProps.text}
         </Button>

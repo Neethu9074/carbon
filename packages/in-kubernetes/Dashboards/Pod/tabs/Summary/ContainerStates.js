@@ -19,6 +19,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -54,11 +55,12 @@ export default connectTo(
             {presentedStates.map((status, i) => {
               if (get(snapshotEnrichedContainerStates, [status.containerSnapshotId, 'snapshot'])) {
                 const containerSnapshot = snapshotEnrichedContainerStates[status.containerSnapshotId].snapshot;
+
                 return (
                   <Tr key={i}>
                     <Td className={locals.labelColumn}>
                       <SeverityAwareEntityLink
-                        icon="lib_container"
+                        icon={getContainerIconByPlugin(get(containerSnapshot, ['container', 'plugin']))}
                         label={get(containerSnapshot, ['containerLabel'])}
                         href$={getDashboardLink(status.containerSnapshotId, {
                           pathname: '/physical/dashboard',

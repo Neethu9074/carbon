@@ -7,7 +7,7 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.nodejs,
+  plugin: plugins.nodeJsRuntimePlatform,
 
   iconSvgPath,
   metricDefinitions,

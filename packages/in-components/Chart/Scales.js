@@ -80,57 +80,74 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
     return;
   }
 
-  let minValue = Number.MAX_VALUE;
-  let maxValue = 0;
+  const numLabels = (axis.labels && axis.labels.length) || 0;
+  axis.minValue = 0;
+  axis.allDataSeriesIgnored = filteredDataSeries.size === numLabels;
+  if (axis.max != null) {
+    return (axis.maxValue = axis.max);
+  }
 
   const metrics = axis.metrics || [];
-  let allDataSeriesIgnored = true;
+  const maxValue = (axis.valuesDependOnEachOther
+    ? calculateMaxValueForStackedMetrics
+    : calculateMaxValueIndependetMetrics)(axis, metrics, filteredDataSeries);
+
+  if (maxValue === 0) {
+    return (axis.maxValue = 1);
+  }
+
+  axis.maxValue = maxValue;
+}
+
+function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
+  const metricMapByTimestamp = new Map();
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
     if (isIgnoredIndex) {
       continue;
     }
-    allDataSeriesIgnored = false;
-    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
 
-    if (axis.valuesNeedToBeStacked) {
-      if (axis.calculateStackDifferences) {
-        maxValue += Math.max(0, minMax.maxValue - maxValue);
+    const series = metrics[iMetric];
+    for (let i = 0; i < series.length; i++) {
+      const dataPoint = series[i];
+      const timestamp = dataPoint[0];
+      const value = dataPoint[1];
+      if (metricMapByTimestamp.has(timestamp)) {
+        const valueInMap = metricMapByTimestamp.get(timestamp);
+        if (axis.calculateStackDifferences) {
+          metricMapByTimestamp.set(timestamp, Math.max(valueInMap, value));
+        } else if (axis.valuesNeedToBeStacked) {
+          metricMapByTimestamp.set(timestamp, valueInMap + value);
+        } else {
+          metricMapByTimestamp.set(timestamp, Math.max(valueInMap, value));
+        }
       } else {
-        maxValue += minMax.maxValue;
+        metricMapByTimestamp.set(timestamp, value);
       }
-    } else {
-      maxValue = Math.max(maxValue, minMax.maxValue);
-    }
-    minValue = Math.min(minValue, minMax.minValue);
-  }
-
-  if (minValue == Number.MAX_VALUE) {
-    // use scale [0, 1] for empty data
-    minValue = 0;
-    maxValue = 1;
-  }
-
-  if (minValue == maxValue) {
-    if (maxValue <= 0) {
-      maxValue = 1;
-    } else {
-      minValue = 0;
     }
   }
 
-  if (axis.min != null) {
-    minValue = axis.min;
+  let maxValue = 0;
+  const timestamps = metricMapByTimestamp.keys();
+  for (const timestamp of timestamps) {
+    maxValue = Math.max(maxValue, metricMapByTimestamp.get(timestamp));
   }
 
-  if (axis.max != null) {
-    maxValue = axis.max;
-  }
+  return maxValue;
+}
 
-  axis.minValue = 0;
-  axis.maxValue = maxValue;
-  axis.allDataSeriesIgnored = allDataSeriesIgnored;
-  return { minValue, maxValue, allDataSeriesIgnored };
+function calculateMaxValueIndependetMetrics(axis, metrics, filteredDataSeries) {
+  let maxValue = 0;
+  for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
+    const isIgnoredIndex = filteredDataSeries.has(axis.labels[iMetric]);
+    if (isIgnoredIndex) {
+      continue;
+    }
+
+    const minMax = getMinMaxValueForDataSeries(metrics[iMetric]);
+    maxValue = Math.max(maxValue, minMax.maxValue);
+  }
+  return maxValue;
 }
 
 function getMinMaxValueForDataSeries(dataSeries) {

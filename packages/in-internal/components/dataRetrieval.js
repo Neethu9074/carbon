@@ -1,10 +1,14 @@
 import { combineLatest } from 'reactive-observables';
 
 import getPhysicalHierarchy from 'in-subscription/physicalHierarchy';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { generateStableHash } from 'in-services/util/id';
 import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 
-export function getPhysicalStack({ searchQuery, timeConfig, restrictResultEntityType }) {
+export const getPhysicalStack = memoize(getPhysicalStackInternal, generateStableHash, 1000);
+
+function getPhysicalStackInternal({ searchQuery, timeConfig, restrictResultEntityType }) {
   // search for snapshot IDs
   return (
     search({
@@ -25,12 +29,14 @@ export function getPhysicalStack({ searchQuery, timeConfig, restrictResultEntity
       )
       // retrieve physical hierarchy for every result
       .flatMap(hierarchies => combineLatest(hierarchies, false))
+      .throttle(500)
       // drop all incomplete results
       .map(hierarchies => hierarchies.filter(Boolean))
       // retrieve snapshots for every hierarchy. We need to wait for completion of an individual hierarchy
       // to make internal dashboard development easier
       .map(hierarchies => hierarchies.map(hierarchy => getSnapshots(hierarchy, { waitForCompletion: true })))
       .flatMap(hierarchies => combineLatest(hierarchies, false))
+      .throttle(500)
       // drop all incomplete results
       .map(hierarchies => hierarchies.filter(Boolean))
       // change the structure of the hierarchy objects to make it easier to build internal dashboards.

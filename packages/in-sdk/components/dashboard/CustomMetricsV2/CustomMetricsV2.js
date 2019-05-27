@@ -13,7 +13,7 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './CustomMetricsV2.mless';
 
-const rateFormatter = d => withSiMultiplyPrefixThreeDecimalPlaces(d) + ' / sec';
+const rateFormatter = d => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
 
 const cols = [
   {

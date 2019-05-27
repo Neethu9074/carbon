@@ -144,7 +144,7 @@ export default class MouseControlDecorator extends Decorator {
 
     // transform into screen space
     const screenSpaceCursorPosition = this.cameraController.screenSpaceCursorPosition;
-    screenSpaceCursorPosition.x = x / width * 2 - 1;
+    screenSpaceCursorPosition.x = (x / width) * 2 - 1;
     screenSpaceCursorPosition.y = -(y / height) * 2 + 1;
 
     this.eventEmitter.emit('onMouseMoved', cursorPosition);

@@ -12,15 +12,15 @@ import {
 import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
-} from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog.js';
-import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+} from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
-import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';

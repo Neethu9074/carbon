@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .label {
+    color: @lib__colors__N500;
+  }
+}

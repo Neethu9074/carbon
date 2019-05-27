@@ -20,7 +20,7 @@ import withPropDependingState from 'in-hoc/withPropDependingState';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
-import { createTracker } from 'in-services/tracking/mixpanel';
+import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -33,8 +33,6 @@ import Link from 'in-components/Link';
 import locals from './Summary.mless';
 
 const maximumNumberOfCallsForLargeTraceConsideration = 1000;
-
-const clickCallTracker = createTracker('analyze.detail.call.click');
 
 function getInitialLargeTraceState({ data }) {
   return {
@@ -227,12 +225,12 @@ class Summary extends React.Component {
       domElement.focus();
       scrollIntoViewIfNeeded(domElement);
     }
-    clickCallTracker();
+    callDetailClickedTracker();
   };
 
   onCallClicked = call => {
     this.props.setCall({ callId: call.id });
-    clickCallTracker();
+    callDetailClickedTracker();
   };
 
   clearSelectedCall = () => {

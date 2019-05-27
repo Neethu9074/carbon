@@ -17,6 +17,7 @@ import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
+import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function NamespaceDashboard({ location }) {
@@ -50,6 +51,13 @@ export default function NamespaceDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        filterTabByResult={result => {
+          return tab => {
+            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            else return tab.label !== 'Deployment Configs';
+          };
+        }}
+        tabChangeTracker={namespaceTabChange}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.namespaceId} timeConfig={props.timeConfig} errors={errors} />

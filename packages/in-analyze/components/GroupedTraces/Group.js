@@ -3,10 +3,10 @@ import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
-import { clickGroupTracker } from 'in-analyze/components/tracker';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
+import { groupClickedTracker } from 'in-analyze/tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
@@ -130,7 +130,7 @@ function getGroupingChange(filters, selectedGroupValue) {
 function trackSetGrouping(filters, selectedGroupValue) {
   const group = filters.group;
 
-  clickGroupTracker({
+  groupClickedTracker({
     context: filters.dataSource,
     type: group.name,
     value: group.value,

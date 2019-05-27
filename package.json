@@ -61,6 +61,7 @@
     "clipboard": "^1.7.1",
     "codemirror": "5.20.2",
     "d3-format": "^1.0.2",
+    "d3-hierarchy": "^1.1.8",
     "deep-diff": "^1.0.2",
     "deep-freeze-strict": "^1.1.1",
     "dompurify": "^0.8.3",

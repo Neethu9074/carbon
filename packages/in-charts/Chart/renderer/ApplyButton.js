@@ -2,9 +2,9 @@ import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { track, TIME_WINDOW_SIZE_VIA_ZOOM } from 'in-services/tracking/tracking';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -13,8 +13,6 @@ import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApplyButton.mless';
-
-const trackWindowSizeChartZoom = createTracker('time.windowSize.viaZoom');
 
 export default connectTo(
   {
@@ -101,7 +99,7 @@ function getJsonData(data) {
 
 function onZoomApplied(e) {
   onButtonClicked(e);
-  trackWindowSizeChartZoom();
+  track(TIME_WINDOW_SIZE_VIA_ZOOM);
 }
 
 function onButtonClicked(e) {

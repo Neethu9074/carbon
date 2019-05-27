@@ -3,7 +3,7 @@ import { plugins } from 'in-forge/constants';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.php,
+  plugin: plugins.phpRuntimePlatform,
   iconSvgPath,
   pluginName: {
     singular: 'PHP Runtime',

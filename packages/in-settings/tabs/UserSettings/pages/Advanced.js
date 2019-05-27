@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
+import { kubernetesEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -144,7 +146,7 @@ export default class extends React.Component {
             />
           </HorizontalFormGroup>
 
-          <HorizontalFormGroup helpText="Anti-aliasing is used to improve the look of the 3D maps. While nice on the eye, it is requiring additional compute resources. Disable anti-aliasing to improve the performance of the 3D maps on slower systems.">
+          <HorizontalFormGroup>
             <Heading text="Anti-aliasing" htmlFor="antialiasing" />
             <Toggle
               id="antialiasing"
@@ -153,6 +155,23 @@ export default class extends React.Component {
             />
           </HorizontalFormGroup>
         </div>
+
+        {kubernetesEnabled && (
+          <Fragment>
+            <SectionHeading>Pod Map</SectionHeading>
+
+            <div style={{ marginBottom: '1rem' }}>
+              <HorizontalFormGroup>
+                <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
+                <Toggle
+                  id="kubernetes_ungrouped-pods"
+                  checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
+                  onChange={e => this.saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
+                />
+              </HorizontalFormGroup>
+            </div>
+          </Fragment>
+        )}
 
         <SectionHeading>Infrastructure</SectionHeading>
         <div>

@@ -10,7 +10,9 @@ export default connect({
 })(function OverlayPresenter({ overlays }) {
   return (
     <CloseWrapper overlays={overlays}>
-      {overlays.map(overlay => <SingleOverlayPresenter key={overlay.id} {...overlay} />)}
+      {overlays.map(overlay => (
+        <SingleOverlayPresenter key={overlay.id} {...overlay} />
+      ))}
     </CloseWrapper>
   );
 });

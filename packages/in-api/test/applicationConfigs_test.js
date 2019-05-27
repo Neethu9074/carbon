@@ -5,7 +5,8 @@ import {
   mapMatchSpecificationListToTree,
   mapMatchSpecificationTreeToList,
   annotateWithTypes,
-  splitBy
+  splitBy,
+  split
 } from 'in-api/applicationConfigs';
 
 describe('in-api/applicationConfigs', () => {
@@ -159,6 +160,7 @@ describe('in-api/applicationConfigs', () => {
 
     it('should split by first OR', () => {
       expect(splitBy([{ key: 'A', conjunction: 'OR' }], 'OR')).to.deep.equal([{ key: 'A', conjunction: 'OR' }]);
+
       expect(splitBy([{ key: 'A', conjunction: 'OR' }, { key: 'B' }], 'OR')).to.deep.equal({
         conjunction: 'OR',
         left: [{ key: 'A' }],
@@ -172,10 +174,19 @@ describe('in-api/applicationConfigs', () => {
         left: [{ key: 'A' }],
         right: [{ key: 'B', conjunction: 'OR' }, { key: 'C' }]
       });
+
+      expect(
+        splitBy([{ key: 'A', conjunction: 'AND' }, { key: 'B', conjunction: 'OR' }, { key: 'C' }], 'OR')
+      ).to.deep.equal({
+        conjunction: 'OR',
+        left: [{ key: 'A', conjunction: 'AND' }, { key: 'B' }],
+        right: [{ key: 'C' }]
+      });
     });
 
     it('should split by first AND', () => {
       expect(splitBy([{ key: 'A', conjunction: 'AND' }], 'AND')).to.deep.equal([{ key: 'A', conjunction: 'AND' }]);
+
       expect(splitBy([{ key: 'A', conjunction: 'AND' }, { key: 'B' }], 'AND')).to.deep.equal({
         conjunction: 'AND',
         left: [{ key: 'A' }],
@@ -183,20 +194,54 @@ describe('in-api/applicationConfigs', () => {
       });
 
       expect(
-        splitBy(
-          [
-            { key: 'A', conjunction: 'AND' },
-            { key: 'B', conjunction: 'AND' },
-            {
-              key: 'C'
-            }
-          ],
-          'AND'
-        )
+        splitBy([{ key: 'A', conjunction: 'AND' }, { key: 'B', conjunction: 'AND' }, { key: 'C' }], 'AND')
       ).to.deep.equal({
         conjunction: 'AND',
         left: [{ key: 'A' }],
         right: [{ key: 'B', conjunction: 'AND' }, { key: 'C' }]
+      });
+
+      expect(
+        splitBy([{ key: 'A', conjunction: 'OR' }, { key: 'B', conjunction: 'AND' }, { key: 'C' }], 'AND')
+      ).to.deep.equal({
+        conjunction: 'AND',
+        left: [{ key: 'A', conjunction: 'OR' }, { key: 'B' }],
+        right: [{ key: 'C' }]
+      });
+    });
+
+    it('if the conjunction hit is the last element, ignore it', () => {
+      const input = [{ key: 'A', conjunction: 'OR' }, { key: 'B', conjunction: 'AND' }];
+      expect(splitBy(input, 'AND')).to.deep.equal(input);
+    });
+  });
+
+  describe('split', () => {
+    it('should return an empty array on undefined or empty array', () => {
+      expect(split([])).to.deep.equal([]);
+      expect(split(undefined)).to.deep.equal([]);
+    });
+
+    it('should split the list into a tree structure', () => {
+      expect(
+        split([
+          { key: 'A', conjunction: 'AND' },
+          { key: 'B', conjunction: 'OR' },
+          { key: 'C', conjunction: 'AND' },
+          { key: 'D', conjunction: 'OR' }
+        ])
+      ).to.deep.equal({
+        conjunction: 'OR',
+        left: {
+          conjunction: 'AND',
+          left: { key: 'A' },
+          right: { key: 'B' }
+        },
+        right: {
+          conjunction: 'AND',
+          left: { key: 'C' },
+          right: { key: 'D' }
+        }
       });
     });
   });

@@ -202,7 +202,7 @@ export default connectTo(
           <DashboardSection title={`CPU Usage`}>
             <Table
               cols={hostTableCols}
-              rows={kafkaNodes.map(node => ({ key: node.kafka.get('id'), ...node }))}
+              rows={kafkaNodes.map(node => ({ key: node.kafka.get('id'), timeConfig, ...node }))}
               getRowDetails={getHostDetails}
               maxItemsPerPage={15}
             />

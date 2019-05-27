@@ -2,15 +2,13 @@ import { assign } from 'lodash';
 
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { clearSelectedSnapshots } from 'in-views/tableView/stores/selectedSnapshots';
+import { track, TABLE_TYPE_CHANGED } from 'in-services/tracking/tracking';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';
-
-const tableTypeChangedTracker = createTracker('table.type.changed');
 
 // TODO: Read this mapping from backend
 const entityTypeToFullyQualifiedPlugin = {
@@ -44,7 +42,7 @@ export const selectedType$ = createTrackingStore({
 export function setSelectedType(type) {
   mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'plugin', type));
 
-  tableTypeChangedTracker({ type });
+  track(TABLE_TYPE_CHANGED, { type });
   clearMetrics();
   clearSelectedSnapshots();
 }

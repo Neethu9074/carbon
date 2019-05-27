@@ -1,3 +1,4 @@
+import { on } from 'reactive-observables';
 import React from 'react';
 
 import { activeTooltip, TooltipShape } from 'in-services/stores/tooltip';
@@ -6,6 +7,8 @@ import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import './TooltipPresenter.less';
+
+const mouseMoveProperty = 'mousePosition';
 
 export default connectTo(
   {
@@ -18,17 +21,34 @@ export default connectTo(
       _activeTooltip: TooltipShape
     };
 
-    removeListeners = domElement => {
-      if (domElement) {
-        domElement.removeEventListener('mousemove', this.onMouseMove, false);
+    subscription = null;
+
+    removeListeners = () => {
+      if (this.subscription) {
+        this.subscription.dispose();
+        this.subscription = null;
       }
     };
 
     addListeners = domElement => {
-      domElement.addEventListener('mousemove', this.onMouseMove, false);
+      this.removeListeners();
+      this.subscription = on(domElement, 'mousemove')
+        .throttle(1000 / 60)
+        .subscribe(this.onMouseMove);
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+      const isBoundToMousePosition =
+        (this.props._activeTooltip && this.props._activeTooltip.align === mouseMoveProperty) ||
+        (prevProps._activeTooltip && prevProps._activeTooltip.align === mouseMoveProperty);
+      if (isBoundToMousePosition) {
+        if (this.props._activeTooltip) {
+          this.addListeners(this.props._activeTooltip.focusedElement);
+          this.setInitialStyleForMouseMove();
+        } else if (prevProps._activeTooltip) {
+          this.removeListeners();
+        }
+      }
       const _activeTooltip = this.props._activeTooltip;
 
       // nothing to do if there is no active tooltip
@@ -37,7 +57,7 @@ export default connectTo(
       }
 
       const align = this.props._activeTooltip.align;
-      if (align === 'mousePosition') {
+      if (align === mouseMoveProperty) {
         return;
       }
 
@@ -100,6 +120,44 @@ export default connectTo(
         ele.style[prop] = null;
       } else {
         ele.style[prop] = toPx(value);
+      }
+    };
+
+    onMouseMove = e => {
+      const tooltipElement = this.tooltipElement;
+      if (!tooltipElement) {
+        return;
+      }
+
+      const tooltipOffset = 5; // px;
+      const x = e.clientX;
+      const y = e.clientY;
+      const tooltipElementBox = tooltipElement.getBoundingClientRect();
+      const tooltipHeight = tooltipElementBox.top + tooltipElementBox.height - tooltipElementBox.top;
+
+      const fullWidth = document.body.clientWidth;
+      const enoughSpaceOnTheRight = x + tooltipElementBox.width <= fullWidth;
+
+      if (enoughSpaceOnTheRight || tooltipElementBox.width === fullWidth) {
+        this.set(tooltipElement, 'left', x + tooltipOffset);
+      } else {
+        this.set(tooltipElement, 'left', x - tooltipElementBox.width - tooltipOffset);
+      }
+      this.set(tooltipElement, 'top', y - tooltipHeight - tooltipOffset);
+    };
+
+    setInitialStyleForMouseMove = () => {
+      if (this.tooltipElement) {
+        const block =
+          this.props._activeTooltip.themeStyle === 'light'
+            ? `in-tooltip-presenter__light`
+            : `in-tooltip-presenter__dark`;
+        this.tooltipElement.classList.add(block);
+
+        // because first time rendering already happenend, the tooltip would stick in the top left corner until the first mousemove is fired
+        const initialPosition = 1000000; // Number.MAX_VALUE does not apply
+        this.set(this.tooltipElement, 'left', initialPosition);
+        this.set(this.tooltipElement, 'top', initialPosition);
       }
     };
 
