@@ -101,7 +101,7 @@ function Header(props) {
             label={getConfigByDataSource(props.filters.dataSource).breadcrumbLabel}
             href$={getLinkToAnalyze()}
           />,
-          <TraceDetailBreadcrumb traceId={props.traceId} />
+          <TraceDetailBreadcrumb traceId={props.traceId} isActive />
         ]}
       />
       <BasicDashboardHeader

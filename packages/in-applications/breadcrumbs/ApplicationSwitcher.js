@@ -34,7 +34,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
                   href$={getModifiedUrlStream(params =>
                     setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
                   )}
-                  onClick={applicationCreateClickedTracker}
+                  onClick={() => applicationCreateClickedTracker()}
                   icon="lib_application"
                 >
                   {item.application.label}

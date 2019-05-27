@@ -80,7 +80,7 @@ export default function RawCallsPresenter(props) {
               <Td>
                 <Link
                   href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
-                  onClick={callClickedTracker}
+                  onClick={() => callClickedTracker()}
                 >
                   {item.call.label}
                   <BatchingIndicator
