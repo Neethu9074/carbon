@@ -15,14 +15,11 @@ import locals from './Chart.mless';
 
 export default getElementDimensions(function ChartReactComponent(props) {
   let { width, customHeight } = props;
+
   const height = customHeight || 160;
   const overlayWidth = width - (props.y2 ? 2 : 1) * WIDTH;
 
-  return (
-    <div className={locals.wrapper}>
-      <ChartReactWrapper {...props} width={overlayWidth} height={height} />
-    </div>
-  );
+  return <ChartReactWrapper {...props} width={overlayWidth} height={height} />;
 });
 
 const ChartReactWrapper = compose(
