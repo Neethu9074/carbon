@@ -11,6 +11,7 @@ export default function Pods(props) {
   return (
     <PodsListWithMap
       {...props}
+      initialGrouping="namespace"
       PodListRenderer={PodsWithNamespaces}
       groupingOptions={clusterGroupings}
       getTreeMap={grouping =>
