@@ -48,8 +48,8 @@ export const tagFilterManipulators = withProps(props => {
     onMoreClick() {
       setActiveDialog(<EditTagFilterDialog {...props} tagFilter={null} forAnalyzeCalls />);
     },
-    filterAddedTracker,
-    filterChangedTracker,
-    filterRemovedTracker
+    trackFilterAdded: filterAddedTracker,
+    trackFilterChanged: filterChangedTracker,
+    trackFilterRemoved: filterRemovedTracker
   };
 });

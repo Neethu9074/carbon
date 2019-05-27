@@ -11,7 +11,7 @@ import { TAG_TYPES } from 'in-analyze/applicationFilter';
 const mapResultData = mapDataHO(data => data.suggestions);
 
 export default withProps(props => {
-  const { filters, addTagFilter, setTagFilters, filterChangedTracker, filterRemovedTracker } = props;
+  const { filters, addTagFilter, setTagFilters, trackFilterChanged, trackFilterRemoved } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
   const tagFilters = filters.tagFilter;
   const timeConfig = filters.timeConfig;
@@ -26,8 +26,8 @@ export default withProps(props => {
     getValueSuggestions: getValueSuggestions,
     addTagFilter: addTagFilter,
     setTagFilters: setTagFilters,
-    filterChangedTracker: filterChangedTracker,
-    filterRemovedTracker: filterRemovedTracker
+    trackFilterChanged,
+    trackFilterRemoved
   };
 })(EditTagFilterDialog);
 

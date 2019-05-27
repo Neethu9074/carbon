@@ -17,6 +17,7 @@ import { deploymentDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Deployment/tabs/index';
 import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { deploymentTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function DeploymentDashboard({ location }) {
@@ -50,6 +51,7 @@ export default function DeploymentDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        tabChangeTracker={deploymentTabChange}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.deploymentId} timeConfig={props.timeConfig} errors={errors} />

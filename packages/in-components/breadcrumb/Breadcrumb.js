@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { createTracker } from 'in-services/tracking/mixpanel';
+import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
 import { joinClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Breadcrumb.mless';
-
-const trackBreadcrumb = createTracker('navigation.breadcrumb');
 
 export default function Breadcrumb({ className, children, href, href$, label, refSetter, icon, iconPath }) {
   return (
@@ -15,7 +13,7 @@ export default function Breadcrumb({ className, children, href, href$, label, re
       href={href}
       href$={href$}
       className={joinClassNames(locals.breadcrumb, className)}
-      onClick={() => trackBreadcrumb()}
+      onClick={() => track(NAVIGATION_BREADCRUMB)}
     >
       <div className={locals.twoRowWrapper} ref={refSetter}>
         {(icon || iconPath) && (
@@ -30,7 +28,6 @@ export default function Breadcrumb({ className, children, href, href$, label, re
 
         <div className={locals.breadcrumbContent}>
           {label && <div className={locals.label}>{label}</div>}
-
           {children}
         </div>
       </div>

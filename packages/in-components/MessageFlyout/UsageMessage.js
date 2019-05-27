@@ -1,17 +1,16 @@
 import { Motion, spring } from 'react-motion';
 import React from 'react';
 
+import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import history from 'in-stores/navigation/history';
 
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './UsageMessage.mless';
-const buttonClickedMixpanelTracker = createTracker('requestQuote.buttonClicked');
 
 function getPageType(pathname = '/') {
   const pageName = pathname.split('/')[1];
@@ -61,7 +60,7 @@ export default function UsageMessage({ message }) {
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    buttonClickedMixpanelTracker(getPageType(history.location.pathname));
+                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
                     setActiveDialog(<RequestQuoteDialog />);
                   }}
                 >

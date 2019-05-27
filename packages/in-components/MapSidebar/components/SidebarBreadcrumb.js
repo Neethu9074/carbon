@@ -3,9 +3,9 @@ import React from 'react';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { kubernetesEnabled } from 'in-services/featureFlags';
-import { mapSelectEntityTracker } from 'in-map/misc/tracker';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
+import { entitySelectedTracker } from 'in-map/tracker';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
@@ -42,7 +42,7 @@ const Crumb = connectTo(
             title="Select this entity."
             className={locals.crumbLink}
             onClick={() => {
-              mapSelectEntityTracker({ origin: 'elevator', type: snapshot.get('plugin') });
+              entitySelectedTracker({ origin: 'elevator', type: snapshot.get('plugin') });
             }}
           >
             <HealthyPluginIcon className={imgClasses} snapshot={snapshot} />

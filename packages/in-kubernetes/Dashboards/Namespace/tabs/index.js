@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
+import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
@@ -31,6 +32,12 @@ export default [
     path: `${namespaceDashboardFullyQualified}/deployments`,
     component: Deployments,
     header: props => getCounterComponent(props, 'deployments')
+  },
+  {
+    label: 'Deployment Configs',
+    path: `${namespaceDashboardFullyQualified}/deploymentconfigs`,
+    component: DeploymentConfigs,
+    header: props => getCounterComponent(props, 'deploymentConfigs')
   },
   {
     label: 'K8s Services',

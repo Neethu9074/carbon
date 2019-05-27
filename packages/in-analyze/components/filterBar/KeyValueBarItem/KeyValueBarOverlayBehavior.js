@@ -12,17 +12,7 @@ import connect from 'in-hoc/connectTo';
 export default compose(
   withState('form', 'setForm', getEmptyForm()),
   withProps(
-    ({
-      form,
-      setForm,
-      addTagFilter,
-      tag,
-      close,
-      tagFilters,
-      setTagFilters,
-      serializeFilter,
-      filterRemovedTracker
-    }) => ({
+    ({ form, setForm, addTagFilter, tag, close, tagFilters, setTagFilters, serializeFilter, trackFilterRemoved }) => ({
       onKeyChange: key => {
         let updatedForm = form.updateIn(['key'], f => f.setValue(key).setTouched(true));
         if (requiresSecondLevelName(key)) {
@@ -91,12 +81,12 @@ export default compose(
       onRemoveTagFilter(tagFilter) {
         setTagFilters(tagFilters.filter(f => f !== tagFilter));
 
-        if (filterRemovedTracker) {
+        if (trackFilterRemoved) {
           const before = tagFilters.filter(f => f === tagFilter);
           if (before.length > 0) {
-            filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
+            trackFilterRemoved({ name: tagFilter.name, filter: before[0] });
           } else {
-            filterRemovedTracker({ name: tagFilter.name });
+            trackFilterRemoved({ name: tagFilter.name });
           }
         }
       }

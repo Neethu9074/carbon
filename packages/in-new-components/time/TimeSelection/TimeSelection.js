@@ -8,16 +8,14 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
+import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import TimePresenter from 'in-new-components/time/TimePresenter';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import connect from 'in-hoc/connectTo';
 
 import locals from './TimeSelection.mless';
-
-export const trackWindowSizeViaPicker = createTracker('time.windowSize.viaPicker');
 
 export default connect({
   timeConfig: timeConfig$
@@ -82,6 +80,6 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close }) {
     close();
     setTimeframe(timeConfig.windowSize, timeConfig.to);
     setFocusedMoment(timeConfig.to);
-    trackWindowSizeViaPicker();
+    track(TIME_WINDOW_SIZE_VIA_PICKER);
   }
 }

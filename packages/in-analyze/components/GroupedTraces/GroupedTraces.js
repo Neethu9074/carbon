@@ -66,10 +66,7 @@ export default compose(
               (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
               false
             );
-            metricChangedTracker({
-              dataSource,
-              metrics: JSON.stringify(metrics)
-            });
+            metricChangedTracker({ dataSource, metrics: JSON.stringify(metrics) });
             onChange({
               [metricsMatrixParameter]: metrics,
               orderBy: orderByMetricStillExists ? orderBy : defaultOrder,

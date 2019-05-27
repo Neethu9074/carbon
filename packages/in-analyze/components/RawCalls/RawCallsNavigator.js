@@ -25,9 +25,9 @@ import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedE
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { clickCallTracker } from 'in-analyze/components/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
+import { callClickedTracker } from 'in-analyze/tracker';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
@@ -98,7 +98,7 @@ function RawCallsNavigator({
                 >
                   <Link
                     href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
-                    onClick={() => clickCallTracker()}
+                    onClick={callClickedTracker}
                   >
                     {item.call.label}
                     {item.call.batchCount > 1 && (

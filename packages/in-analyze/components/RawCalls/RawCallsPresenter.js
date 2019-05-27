@@ -21,10 +21,10 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
-import { clickCallTracker } from 'in-analyze/components/tracker';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { latencyFixed } from 'in-services/formatters/number';
+import { callClickedTracker } from 'in-analyze/tracker';
 
 import locals from './RawCallsPresenter.mless';
 
@@ -80,7 +80,7 @@ export default function RawCallsPresenter(props) {
               <Td>
                 <Link
                   href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
-                  onClick={() => clickCallTracker()}
+                  onClick={callClickedTracker}
                 >
                   {item.call.label}
                   <BatchingIndicator

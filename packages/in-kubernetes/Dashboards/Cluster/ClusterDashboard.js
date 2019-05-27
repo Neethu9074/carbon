@@ -16,6 +16,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
+import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import theme from 'in-themes';
 
@@ -38,6 +39,7 @@ export default function ClusterDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        tabChangeTracker={clusterTabChange}
         filterTabByResult={result => {
           return tab => {
             if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;

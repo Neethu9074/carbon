@@ -2,16 +2,16 @@ import { withProps } from 'recompose';
 
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 
-export default withProps(({ tagFilters, setTagFilters, filterRemovedTracker }) => ({
+export default withProps(({ tagFilters, setTagFilters, trackFilterRemoved }) => ({
   onRemoveTagFilter: tagFilter => {
     setTagFilters(tagFilters.filter(f => f !== tagFilter));
 
-    if (filterRemovedTracker) {
+    if (trackFilterRemoved) {
       const before = tagFilters.filter(f => f === tagFilter);
       if (before.length > 0) {
-        filterRemovedTracker({ name: tagFilter.name, filter: before[0] });
+        trackFilterRemoved({ name: tagFilter.name, filter: before[0] });
       } else {
-        filterRemovedTracker({ name: tagFilter.name });
+        trackFilterRemoved({ name: tagFilter.name });
       }
     }
   }
