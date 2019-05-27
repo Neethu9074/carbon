@@ -20,7 +20,10 @@ describe('in-components/Chart/Chart', () => {
     const Chart = proxyquire('in-components/Chart/Chart.js', {
       'in-components/Chart/Configuration': Config
     }).default;
-    chart = new Chart(getCanvasMock(), { y1: { metrics: [] }, timeConfig: { windowSize: 60000, to: null } });
+    chart = new Chart(getCanvasMock(), {
+      y1: { metrics: [] },
+      timeConfig: { windowSize: 60000, to: null }
+    });
   });
 
   describe('getNearestDataPointDomainForTimestamp', () => {
