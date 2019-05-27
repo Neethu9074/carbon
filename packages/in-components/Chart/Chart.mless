@@ -1,26 +1,19 @@
 :local {
-  .wrapper {
-    width: 100%;
-    margin: 0 0 1rem 0;
-  }
-
   .chart {
     position: relative;
     width: 100%;
-  }
 
-  .canvas,
-  .timeAxisCanvas {
-    display: block;
-  }
-
-  .timeAxisCanvas {
-    height: 3.125rem;
+    margin: 0 0 1rem 0;
   }
 
   .chartAxisWrapper {
     position: relative;
     display: flex;
     align-items: flex-start;
+  }
+
+  .canvas {
+    display: block;
+    max-width: 100%;
   }
 }
