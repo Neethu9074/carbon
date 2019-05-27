@@ -34,6 +34,7 @@
   .dark {
     border-left: 1px solid @lib__colors__N500;
     border-right: 1px solid @lib__colors__N500;
+    background: @lib__colors__N900Primary;
 
     .timeIcon {
       fill: #fff;
@@ -81,6 +82,11 @@
 
   .toggleIconExpanded {
     fill: @lib__colors__N600Light;
+  }
+
+  .timeSetting,
+  .timeSettingTop {
+    white-space: nowrap;
   }
 
   .timeSettingTop {

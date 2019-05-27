@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { applicationsList, servicesList } from 'in-applications/navigation/paths';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import connectTo from 'in-hoc/connectTo';
 
@@ -12,7 +12,7 @@ export default connectTo(
   },
   function AppViewSwitcher({ isServiceViewActive }) {
     return (
-      <Fragment>
+      <HeaderWithTimeSelection>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
@@ -27,8 +27,7 @@ export default connectTo(
             isActive={isServiceViewActive}
           />
         </SecondLevelNavigation>
-        <TimeSelection />
-      </Fragment>
+      </HeaderWithTimeSelection>
     );
   }
 );

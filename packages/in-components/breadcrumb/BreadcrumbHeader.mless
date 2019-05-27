@@ -1,28 +1,16 @@
 @import '~in-themes/active.less';
 
 :local {
-  .breadcrumbHeader {
-    background: @lib__colors__N050;
-    border-bottom: 1px solid @lib__colors__N300;
-    overflow: hidden;
-    font-size: 0.875rem;
-    font-weight: lighter;
-    width: 100%;
-  }
-
   .container {
     display: flex;
     align-items: center;
 
     height: @header__height * 1px;
-
     max-width: @max-width * 1px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .useFullAvailableWidth {
-    width: ~'calc(100% - 23.3rem)';
+    width: 100%;
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }

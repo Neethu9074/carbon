@@ -1,15 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 
 export default function KubernetesViewSwitcher() {
   return (
-    <Fragment>
+    <HeaderWithTimeSelection>
       <SecondLevelNavigation>
         <SecondLevelNavigationItem icon="lib_website" label="Websites" isActive />
       </SecondLevelNavigation>
-      <TimeSelection />
-    </Fragment>
+    </HeaderWithTimeSelection>
   );
 }

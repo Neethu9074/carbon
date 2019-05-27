@@ -1,13 +1,12 @@
 import React from 'react';
 
-import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './SecondLevelNavigation.mless';
 
-export function SecondLevelNavigation({ children, useFullAvailableWidth = false, darkTheme = false }) {
+export function SecondLevelNavigation({ children, darkTheme = false }) {
   let content = (
     <div
       className={evaluateClassNames({
@@ -18,11 +17,6 @@ export function SecondLevelNavigation({ children, useFullAvailableWidth = false,
       {children}
     </div>
   );
-  if (!useFullAvailableWidth) {
-    content = <MaxWidthFullscreenContainer>{content}</MaxWidthFullscreenContainer>;
-  } else {
-    content = <div className={locals.fullWithWraper}>{content}</div>;
-  }
   return (
     <div
       className={evaluateClassNames({

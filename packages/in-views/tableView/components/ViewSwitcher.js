@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './ViewSwitcher.mless';
 
 export default connectTo(
   {
@@ -13,8 +15,8 @@ export default connectTo(
   },
   function InfrastructureViewSwitcher({ isMapActive, isTableActive, darkTheme }) {
     return (
-      <Fragment>
-        <SecondLevelNavigation useFullAvailableWidth darkTheme={darkTheme}>
+      <div className={locals.wrapper}>
+        <SecondLevelNavigation darkTheme={darkTheme}>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = physicalPath))}
             label="Map"
@@ -28,7 +30,7 @@ export default connectTo(
             darkTheme={darkTheme}
           />
         </SecondLevelNavigation>
-      </Fragment>
+      </div>
     );
   }
 );

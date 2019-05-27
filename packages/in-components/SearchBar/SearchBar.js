@@ -1,8 +1,8 @@
 import React from 'react';
 
+import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
-import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
@@ -32,67 +32,63 @@ export default connectTo(
     }
 
     render() {
-      const { query, presetsVisible, keywordsVisible, withTimeSelection } = this.props;
+      const { query, presetsVisible, keywordsVisible } = this.props;
       const hasContent = query.length > 0;
       const collapseClass = `${block}__expand-collapse-wrapper`;
 
       return (
-        <div>
-          {presetsVisible ? <FilterPresets /> : null}
+        <HeaderWithTimeSelection useFullAvailableWidth darkTheme>
+          <div className={`${block}__wrapper`}>
+            {presetsVisible ? <FilterPresets /> : null}
 
-          <div
-            className={evaluateClassNames({
-              [block]: true,
-              [`${block}__with-time-selection`]: withTimeSelection
-            })}
-          >
-            <div
-              className={evaluateClassNames({
-                [`${collapseClass}`]: true,
-                [`${collapseClass}--menu-visible`]: keywordsVisible
-              })}
-              onClick={onShowKeywordHelp}
-            >
-              ?
-            </div>
-
-            <div className={`${block}__input-wrapper`}>
-              <Input />
-            </div>
-
-            <ClearQueryButton />
-
-            {hasContent ? (
+            <div className={block}>
               <div
-                className={`${block}__save-button`}
-                onClick={e => {
-                  e.preventDefault();
-                  save(query);
-                }}
+                className={evaluateClassNames({
+                  [`${collapseClass}`]: true,
+                  [`${collapseClass}--menu-visible`]: keywordsVisible
+                })}
+                onClick={onShowKeywordHelp}
               >
-                Save
+                ?
               </div>
-            ) : null}
 
-            <div
-              className={evaluateClassNames({
-                [`${block}__filter-menu-button`]: true,
-                [`${collapseClass}--menu-visible`]: presetsVisible
-              })}
-              onClick={togglePresets}
-            >
-              Filters
-              <SvgIcon
-                className={`${block}__icon`}
-                type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-                width={20}
-                height={20}
-              />
+              <div className={`${block}__input-wrapper`}>
+                <Input />
+              </div>
+
+              <ClearQueryButton />
+
+              {hasContent ? (
+                <div
+                  className={`${block}__save-button`}
+                  onClick={e => {
+                    e.preventDefault();
+                    save(query);
+                  }}
+                >
+                  Save
+                </div>
+              ) : null}
+
+              <div
+                className={evaluateClassNames({
+                  [`${block}__filter-menu-button`]: true,
+                  [`${collapseClass}--menu-visible`]: presetsVisible
+                })}
+                onClick={togglePresets}
+              >
+                Filters
+                <SvgIcon
+                  className={`${block}__icon`}
+                  type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+                  width={20}
+                  height={20}
+                />
+              </div>
+              <ErrorIndicator />
             </div>
-            <ErrorIndicator />
-            {withTimeSelection && <TimeSelection darkTheme />}
           </div>
-        </div>
+        </HeaderWithTimeSelection>
       );
     }
   }

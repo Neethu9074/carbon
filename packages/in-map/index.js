@@ -24,7 +24,7 @@ export default function MapHandler(props) {
           <Sticky
             header={
               <Fragment>
-                <SearchBar withTimeSelection />
+                <SearchBar />
                 <ViewSwitcher darkTheme />
               </Fragment>
             }

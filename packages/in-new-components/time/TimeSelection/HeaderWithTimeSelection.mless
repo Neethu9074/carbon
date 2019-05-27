@@ -1,0 +1,42 @@
+@import '~in-themes/active.less';
+
+:local {
+  .fullWidthBreadcrumbHeader,
+  .restrictredBreadcrumbHeader {
+    width: 100%;
+    height: @header__height * 1px;
+
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    font-size: 0.875rem;
+    font-weight: lighter;
+  }
+
+  .fullWidthBreadcrumbHeader {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .maxWidthWrapper {
+    // max-width is 1500px. The content has 6rem padding (left 3 and right 3) which results in 1404px of content
+    // to align this header to the content we need to substract half of it which is 702px
+    margin-left: ~'calc(50% - 702px)';
+  }
+
+  // 1572px is 1500px max-width + 72px for the side navigation. at this width, the content does not move anymore to the left and so the header needs to be fixed, too
+  @media (max-width: 1572px) {
+    .maxWidthWrapper {
+      margin-left: 3rem;
+    }
+  }
+
+  .right {
+    float: right;
+  }
+
+  .left {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

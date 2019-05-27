@@ -39,7 +39,7 @@ export default function EventView() {
 function EventViewInternal() {
   return (
     <Fragment>
-      <Sticky header={<SearchBar withTimeSelection />}>
+      <Sticky header={<SearchBar />}>
         <LegacyView />
         <Title title="Events" />
         <LifecycleObserver onWillMount={enable} onWillUnmount={disable} />
