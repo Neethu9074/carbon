@@ -22,7 +22,7 @@ export default function EmptyAppList() {
         <Button
           kind="create"
           href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-          onClick={applicationCreateClickedTracker}
+          onClick={() => applicationCreateClickedTracker()}
         >
           Create Application Perspective
         </Button>

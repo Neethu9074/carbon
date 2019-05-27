@@ -75,7 +75,7 @@ export default function RawTracesPresenter(props) {
             <Tr key={item.trace.id} size="compact">
               <ErroneousRowTd isErroneous={item.trace.erroneous} />
               <Td>
-                <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={traceClickedTracker}>
+                <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => traceClickedTracker()}>
                   {item.trace.label}
                 </Link>
               </Td>

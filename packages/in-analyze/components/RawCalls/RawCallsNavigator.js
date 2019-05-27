@@ -98,7 +98,7 @@ function RawCallsNavigator({
                 >
                   <Link
                     href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
-                    onClick={callClickedTracker}
+                    onClick={() => callClickedTracker()}
                   >
                     {item.call.label}
                     {item.call.batchCount > 1 && (

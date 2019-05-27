@@ -32,7 +32,7 @@ const rightHeader = role.canConfigureApplications && (
     className={locals.button}
     kind="action"
     href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-    onClick={applicationCreateClickedTracker}
+    onClick={() => applicationCreateClickedTracker()}
     icon="lib_openclose_add_circle_outline"
   >
     Create Application Perspective
