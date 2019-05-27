@@ -12,6 +12,7 @@ import StickySidebarContainer from 'in-new-components/layout/StickySidebarContai
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { compareIgnoreCase } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
 
 import locals from './ControlFrame.mless';
@@ -127,10 +128,11 @@ function ControlFrame(props) {
   );
 }
 
-function getInitialState() {
+function getInitialState(props) {
+  const initialGrouping = props.initialGrouping && getGroupingByValue(props.initialGrouping);
   return {
     showHealth: false,
-    grouping: namespaceGroupings[1],
+    grouping: initialGrouping || namespaceGroupings[1],
     sizeMetricConfig: sizeByConfigs[sizeByConfigs.length - 1]
   };
 }
@@ -149,4 +151,12 @@ function getParsedUrlValues(values) {
     grouping: find(clusterGroupings, g => g.value === values.grouping),
     sizeMetricConfig: find(sizeByConfigs, c => c.value === values.sizeMetricConfig)
   };
+}
+
+function getGroupingByValue(value) {
+  for (let i = 0; i < clusterGroupings.length; i++) {
+    if (compareIgnoreCase(clusterGroupings[i].value, value) === 0) {
+      return clusterGroupings[i];
+    }
+  }
 }
