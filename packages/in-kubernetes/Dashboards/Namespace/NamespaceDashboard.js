@@ -51,6 +51,12 @@ export default function NamespaceDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
+        filterTabByResult={result => {
+          return tab => {
+            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            else return tab.label !== 'Deployment Configs';
+          };
+        }}
         tabChangeTracker={namespaceTabChange}
         props={props}
         renderErrors={errors => (
