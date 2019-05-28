@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import { get } from 'lodash';
+import { get, find } from 'lodash';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -31,6 +31,17 @@ function ClusterList(props) {
         pathSegment={clusterList}
         matrixPrefix={matrixPrefix}
         columnDefinitions={columnDefinitions}
+        filterColumnDefinitionsByResult={result => {
+          return columnDefinition => {
+            if (
+              result.data &&
+              result.data.items &&
+              find(result.data.items, item => get(item, ['cluster', 'distributionType'], 'Kubernetes') === 'OpenShift')
+            )
+              return true;
+            else return columnDefinition.id !== 'deploymentConfigs';
+          };
+        }}
         timeConfig={timeConfig}
         paginationResettingProps={['timeConfig']}
         leftHeader={leftHeader}
@@ -109,6 +120,13 @@ const columnDefinitions = [
     label: 'Deployments',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
+    }
+  },
+  {
+    id: 'deploymentConfigs',
+    label: 'Deployment Configs',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.deploymentConfigs} />;
     }
   },
   {

@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, find } from 'lodash';
 import React from 'react';
 
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
@@ -22,6 +22,17 @@ export default function Namespaces({ timeConfig, clusterId }) {
       matrixPrefix={matrixPrefix}
       get={getTableData}
       columnDefinitions={columnDefinitions}
+      filterColumnDefinitionsByResult={result => {
+        return columnDefinition => {
+          if (
+            result.data &&
+            result.data.items &&
+            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
+          )
+            return true;
+          else return columnDefinition.id !== 'deploymentConfigs';
+        };
+      }}
       timeConfig={timeConfig}
       clusterId={clusterId}
       paginationResettingProps={['clusterId', 'timeConfig']}
@@ -69,6 +80,13 @@ const columnDefinitions = [
     label: 'Deployments',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
+    }
+  },
+  {
+    id: 'deploymentConfigs',
+    label: 'Deployment Configs',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.deploymentConfigs} />;
     }
   },
   {
