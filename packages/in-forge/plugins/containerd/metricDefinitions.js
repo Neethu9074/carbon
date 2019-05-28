@@ -1,4 +1,4 @@
-import { number, timeByNanoTwoDecimalPlaces, bytes } from 'in-services/formatters/number';
+import { number, percentage, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -6,7 +6,7 @@ export default [
     labels: ['Total time', 'Kernel time', 'User time', 'Throttling time'],
     min: 0,
     category: ['CPU'],
-    formatter: timeByNanoTwoDecimalPlaces
+    formatter: percentage
   },
   {
     metrics: ['cpu.throttling_count'],
