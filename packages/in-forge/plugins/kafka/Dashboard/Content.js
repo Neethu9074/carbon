@@ -56,7 +56,7 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
               formatter: zeroDecimalPlaces,
               tooltipFormatter: twoDecimalPlaces,
               metrics: ['broker.messagesIn'],
-              labels: ['#'],
+              labels: ['Count'],
               type: 'line'
             }}
           />
