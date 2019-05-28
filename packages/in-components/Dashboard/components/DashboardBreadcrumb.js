@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { selectedSnapshotId$, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
@@ -9,7 +10,6 @@ import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
-import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
@@ -53,7 +53,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <BreadcrumbHeader useFullAvailableWidth />
+        <BreadcrumbHeader useFullAvailableWidth automaticActiveState={false} />
         <Breadcrumbs items={items} />
       </Fragment>
     );
@@ -62,16 +62,22 @@ export default connectTo(
 
 const PhysicalHierarchyBreadCrumb = connectTo(
   props => ({
-    snapshot: getSnapshot(props.snapshotId)
+    snapshot: getSnapshot(props.snapshotId),
+    isActive: selectedSnapshotId$.map(id => id === props.snapshotId)
   }),
-  function PhysicalHierarchyBreadCrumb({ snapshot, snapshotId }) {
+  function PhysicalHierarchyBreadCrumb({ snapshot, snapshotId, isActive }) {
     if (!snapshot) {
       return null;
     }
 
     const plugin = snapshot.get('plugin');
     return (
-      <Breadcrumb href$={getDashboardLink(snapshotId)} label={getSingular(plugin)} iconPath={getIconSvgPath(snapshot)}>
+      <Breadcrumb
+        href$={getDashboardLink(snapshotId)}
+        label={getSingular(plugin)}
+        iconPath={getIconSvgPath(snapshot)}
+        isActive={isActive}
+      >
         {getLabel(snapshot)}
       </Breadcrumb>
     );

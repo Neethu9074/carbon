@@ -1,13 +1,18 @@
 import React from 'react';
 
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './Breadcrumb.mless';
 
-export default function Breadcrumb({ className, children, href, href$, label, refSetter, icon, iconPath }) {
+export default function Breadcrumb({ className, children, href, href$, label, refSetter, icon, iconPath, isActive }) {
+  const breadcrumbClassName = (className = evaluateClassNames({
+    [locals.breadcrumb]: true,
+    [locals.activeBreadcrumb]: isActive,
+    [className]: className
+  }));
   let crumbContent = (
     <div className={locals.twoRowWrapper} ref={refSetter}>
       {(icon || iconPath) && (
@@ -29,15 +34,10 @@ export default function Breadcrumb({ className, children, href, href$, label, re
   );
   if (href || href$) {
     return (
-      <Link
-        href={href}
-        href$={href$}
-        className={joinClassNames(locals.breadcrumb, className)}
-        onClick={() => track(NAVIGATION_BREADCRUMB)}
-      >
+      <Link href={href} href$={href$} className={breadcrumbClassName} onClick={() => track(NAVIGATION_BREADCRUMB)}>
         {crumbContent}
       </Link>
     );
   }
-  return <div className={joinClassNames(locals.breadcrumb, className)}>{crumbContent}</div>;
+  return <div className={breadcrumbClassName}>{crumbContent}</div>;
 }

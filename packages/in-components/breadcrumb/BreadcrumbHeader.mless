@@ -11,13 +11,21 @@
 
   .useFullAvailableWidth {
     width: 100%;
+    max-width: 100%;
+
     margin-left: 1.5rem;
     margin-right: 1.5rem;
     overflow: hidden;
   }
 
+  .highlightLastChild {
+    & > *:last-child {
+      font-weight: 500;
+    }
+  }
+
   .chevron {
-    margin: 0.75rem;
+    margin: 0.5rem;
   }
 
   .chevronIcon {
