@@ -18,7 +18,7 @@ export default connectTo(
   {
     breadcrumbs: breadcrumbs$
   },
-  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth }) {
+  function BreadcrumbHeader({ breadcrumbs, useFullAvailableWidth, automaticActiveState = true }) {
     if (breadcrumbs == null || breadcrumbs.length === 0) {
       return null;
     }
@@ -39,7 +39,8 @@ export default connectTo(
     crumbs.unshift({
       className: evaluateClassNames({
         [locals.container]: true,
-        [locals.useFullAvailableWidth]: useFullAvailableWidth
+        [locals.useFullAvailableWidth]: useFullAvailableWidth,
+        [locals.highlightLastChild]: automaticActiveState
       })
     });
     crumbs.unshift('div');
