@@ -3,7 +3,7 @@ import React from 'react';
 export default class extends React.Component {
   static displayName = 'LifecycleObserver';
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.call('onWillMount');
   }
 
@@ -15,7 +15,7 @@ export default class extends React.Component {
     this.call('onWillUnmount');
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     this.call('onWillUpdate');
   }
 

@@ -12,7 +12,7 @@ export default class ErrorBoundary extends React.Component {
     this.state = { error: false };
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     // try again
     this.setState({ error: false });
   }

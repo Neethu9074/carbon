@@ -10,7 +10,7 @@ export default class TemporaryPresenter extends React.PureComponent {
     this.onPropChange(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.onPropChange(nextProps);
   }
 

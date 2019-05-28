@@ -21,11 +21,11 @@ export default function entityForm(ComposedComponent) {
       saveEnabled: true
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.load(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.props.entityId !== nextProps.entityId) {
         this.load(nextProps);
       }

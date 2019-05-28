@@ -41,7 +41,7 @@ class Nodes extends React.Component {
 
   preventRendering = false;
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     this.preventRendering = this.props.applicationId !== nextProps.applicationId;
   }
 

@@ -28,7 +28,7 @@ export default class extends React.Component {
     time: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.startTimeoutForStatusRemoval(this.props);
   }
 
@@ -46,7 +46,7 @@ export default class extends React.Component {
     this.setState({ time: Date.now() });
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.startTimeoutForStatusRemoval(nextProps);
   }
 

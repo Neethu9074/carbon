@@ -18,7 +18,7 @@ export default class extends React.Component {
     editMode: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.text !== nextProps.text) {
       this.setState({ text: nextProps.text });
     }

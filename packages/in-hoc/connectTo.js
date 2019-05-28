@@ -24,7 +24,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
     static displayName = getDisplayName('connect', ComposedComponent);
     state = {};
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.subscriptions = new Map();
       this.observables = new Map();
 
@@ -37,7 +37,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
       this.subscribe(observables);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       if (needsToCreateObservables && (!opts.pure || !shallowEquals(this.props, nextProps))) {
         this.subscribe(createObservables(nextProps, this.props));
       }

@@ -38,7 +38,7 @@ export default class extends React.Component {
     }, {});
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const chartProps = processChartProps(nextProps);
 
     this.setState({ chartProps });

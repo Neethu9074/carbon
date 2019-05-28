@@ -13,7 +13,7 @@ export default getElementDimensions(
       showTechnologyLabel: true
     };
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
       if (!nextProps.width) {
         return;
       }

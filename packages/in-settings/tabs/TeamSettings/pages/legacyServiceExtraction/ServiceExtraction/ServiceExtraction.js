@@ -111,7 +111,7 @@ export default class extends React.Component {
     status: {}
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.refresServices();
   }
 

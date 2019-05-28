@@ -37,7 +37,7 @@ export default class ScrollHints extends React.Component {
     this.subscription = combineLatest([debouncedResize$, debouncedScroll$], false).subscribe(this.calculate);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // force a recalculation if the content (and thus its height) changes.
     if (nextProps.contentChangeMarker !== this.state.contentChangeMarker) {
       setTimeout(this.calculate, 0);

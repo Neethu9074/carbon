@@ -276,7 +276,7 @@ export default getElementDimensions(
         this.state.eventEmitter.dispose();
       }
 
-      componentWillUpdate(nextProps) {
+      UNSAFE_componentWillUpdate(nextProps) {
         // update the editor state if the query gets manipulated from outside
         if (
           this.props.contextQuery.query !== nextProps.contextQuery.query &&

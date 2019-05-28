@@ -27,11 +27,11 @@ export default class extends React.Component {
     form: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadApiToken(this.props.match.params.id);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id !== nextProps.match.params.id) {
       this.loadApiToken(nextProps.match.params.id);
     }

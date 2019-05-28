@@ -39,7 +39,7 @@ const ChartReactWrapper = compose(
       this.props.setChart(chart);
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
       nextProps.chart.update(nextProps);
     }
 

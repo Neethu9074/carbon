@@ -41,7 +41,7 @@ export default class extends React.Component {
     this.checkHandle = setTimeout(this.checkForNewElements, 500);
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (this.props.snapshotId !== nextProps.snapshotId) {
       clearTimeout(this.checkHandle);
       this.checkHandle = setTimeout(this.checkForNewElements, 500);

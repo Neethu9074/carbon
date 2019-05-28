@@ -19,7 +19,7 @@ export default propsConfig => ComposedComponent => {
       this.debounceHandles = new Map();
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       const immediateStateTransition = {};
 
       debouncedKeys.forEach(key => {

@@ -31,7 +31,7 @@ export default class extends React.Component {
     this.setupSubscriptions();
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     // jump to first entry if the list changes
     if (this.props.config !== nextProps.config) {
       this.setState({

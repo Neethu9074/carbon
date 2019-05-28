@@ -53,7 +53,7 @@ export default ({
       };
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       let resetExecuted = false;
       const resultingState = resets.reduce((newState, { getResettingProps, onReset }) => {
         const pickResettingProps = curryRight(pick, 2)(getResettingProps(nextProps));
