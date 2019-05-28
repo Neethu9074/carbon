@@ -36,6 +36,12 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
+
+        {!(isWindows(snapshot) || isZos(snapshot)) ? (
+          <KpiKeyValue label="CPU Load">
+            <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
+          </KpiKeyValue>
+        ) : null}
       </KpiSection>
 
       <Columize>
