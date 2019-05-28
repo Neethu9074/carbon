@@ -10,6 +10,7 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
+import { websitesOpenAddForm } from 'in-websites/tracker';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -22,7 +23,13 @@ import { role } from 'in-stores/user';
 import locals from './WebsitesList.mless';
 
 const rightHeader = role.canConfigureEumApplications && (
-  <Button kind="action" className={locals.button} icon="lib_openclose_add_circle_outline" href$={linkToNewWebsite$}>
+  <Button
+    kind="action"
+    onClick={() => websitesOpenAddForm()}
+    className={locals.button}
+    icon="lib_openclose_add_circle_outline"
+    href$={linkToNewWebsite$}
+  >
     Add Website
   </Button>
 );

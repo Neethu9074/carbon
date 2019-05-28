@@ -7,6 +7,7 @@ import {
   teamSettingsAccessControlRoles
 } from 'in-settings/navigation/paths';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { openRoleSubmitFormTracker } from 'in-settings/tracker';
 import { getRolesMutable, deleteRole } from 'in-api/roles';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
@@ -26,6 +27,7 @@ export default function Roles() {
       pathNew={teamSettingsAccessControlRoleNew}
       searchAttributes={['name']}
       getDetailsHref={entity => getEntityHref(teamSettingsAccessControlRoles, entity.id)}
+      trackEvent={openRoleSubmitFormTracker}
     />
   );
 }

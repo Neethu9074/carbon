@@ -21,6 +21,7 @@ import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import OptionBox from 'in-applications/Forms/NewApplication/OptionBox';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
+import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -50,6 +51,11 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
             : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
         }
         updateEntity={applicationConfig => {
+          applicationSubmitTracker({
+            name: applicationConfig.label,
+            downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
+            tags: applicationConfig.matchSpecification.map(spec => spec.key)
+          });
           const isNewConfig = !applicationConfig.id ? true : false;
           if (isNewConfig) {
             return addApplicationConfig(applicationConfig);

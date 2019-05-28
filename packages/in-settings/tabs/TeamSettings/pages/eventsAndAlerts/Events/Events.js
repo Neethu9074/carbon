@@ -21,6 +21,8 @@ import {
   isBuiltInRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { openEventSubmitFormTracker, viewCustomEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { intersperse } from 'in-services/arrayUtils';
@@ -115,7 +117,18 @@ function columnDefinitions(hasRowNavigation) {
             <Tooltip content={entity.name} align="topLeft" delay={500}>
               <WithSubscript subscript={getSubscript(entity)}>
                 {hasRowNavigation ? (
-                  <Link href$={getEntityIdView(getDetailsPath(entity), entity.id)} ellipsis>
+                  <Link
+                    href$={getEntityIdView(getDetailsPath(entity), entity.id)}
+                    ellipsis
+                    onClick={() =>
+                      viewCustomEventTracker({
+                        eventDefinitionType: entity.type,
+                        entityType: entity.entityType,
+                        type: entity.triggering ? 'Incident' : 'None',
+                        severity: getSeverityText(entity.severity)
+                      })
+                    }
+                  >
                     {entity.name}
                   </Link>
                 ) : (
@@ -244,7 +257,11 @@ function getSubscript(entity) {
 function defaultRightHeader(type, setType, severity, setSeverity) {
   return (
     <Fragment>
-      {createNewEntityButton('New Event', teamSettingsAlertingEventCustomNew)}
+      {createNewEntityButton({
+        labelNew: 'New Event',
+        pathNew: teamSettingsAlertingEventCustomNew,
+        trackEvent: openEventSubmitFormTracker
+      })}
       <ComboBox
         name="filter-type"
         value={type}

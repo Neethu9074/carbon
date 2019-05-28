@@ -88,7 +88,7 @@ function RawTracesNavigator({
                 <ErroneousRowTd isErroneous={item.trace.erroneous} />
 
                 <Td className={locals.labelColumn} active={item.trace.id === selectedTraceId}>
-                  <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => traceClickedTracker()}>
+                  <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => traceClickedTracker({ erroneous: item.trace.erroneous, latecy: item.trace.duration })}>
                     {item.trace.label}
                   </Link>
                   {!showAllColumns && (

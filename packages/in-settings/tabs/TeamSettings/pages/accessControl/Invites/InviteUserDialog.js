@@ -4,6 +4,7 @@ import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
+import { submitInviteUserTracker } from 'in-settings/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { combineDataAndError } from 'in-services/util/ro';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -122,6 +123,9 @@ export default connectTo(
     };
 
     onSubmit = canSelectRole => {
+      const {
+        roles: { data: userRoles }
+      } = this.props;
       return event => {
         event.preventDefault();
 
@@ -135,6 +139,9 @@ export default connectTo(
         // use default role when user is not allowed to choose a role
         const roleId = canSelectRole ? this.state.form.get('roleId').value : defaultRoleId;
 
+        const role = userRoles.length ? userRoles.find(role => role.get('id') === roleId) : null;
+        const roleName = role && role.get('name');
+        submitInviteUserTracker({ role: roleName });
         this.props.onSubmit(this.state.form.get('email').value, roleId);
       };
     };

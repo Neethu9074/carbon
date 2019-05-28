@@ -10,6 +10,7 @@ import {
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { deleteAlertingConfig, getAlertingConfigsMutable, setEnabled } from 'in-api/alertingConfiguration';
 import PropertyInTable from 'in-settings/tabs/TeamSettings/components/PropertyInTable';
+import { toggleAlertTracker, openAlertSubmitFormTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import List from 'in-settings/components/List';
@@ -40,6 +41,7 @@ export default function Alerts() {
       }
       searchAttributes={['alertName', renderTypesOrNumberOfEvents, scopeToString, concatChannelNames]}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
+      trackEvent={openAlertSubmitFormTracker}
     />
   );
 }
@@ -93,6 +95,13 @@ const tableActions = {
   toggleEnabled: {
     get: isEnabled,
     toggle: entity => {
+      toggleAlertTracker({
+        alertName: entity.alertName,
+        alertChannelNames: entity.alertChannelNames,
+        numOfSelectedEvents: entity.eventFilteringConfiguration.ruleIds
+          ? entity.eventFilteringConfiguration.ruleIds.length
+          : 0
+      });
       return setEnabled(entity, !isEnabled(entity));
     }
   }

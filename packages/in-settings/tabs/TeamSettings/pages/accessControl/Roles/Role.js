@@ -6,9 +6,10 @@ import RoleForm from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Ro
 import { teamSettingsAccessControlRoles } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import SaveCancel from 'in-settings/components/SaveCancel';
 import { getRole, saveRole, createRole } from 'in-api/roles';
+import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { submitRoleTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -61,6 +62,8 @@ const Form = entityForm(function DetailsForm(props) {
 
 function save(entity, form) {
   const role = Map(form.toJS());
+
+  submitRoleTracker({ name: entity.get('name') });
   return saveRole(role);
 }
 

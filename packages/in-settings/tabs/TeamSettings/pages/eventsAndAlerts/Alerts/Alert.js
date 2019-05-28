@@ -22,6 +22,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -332,16 +333,26 @@ function save(alertEntity, form) {
   const query = serializeQuery(form);
   const eventSelectionMode = form.get('eventSelectionMode').value;
 
+  const selectedAlertChannels = form.get('selectedAlertChannels').value.toJS();
+  const selectedEvents =
+    modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
+  const scopeType = form.get('applyOn').value;
+
+  submitAlertTracker({
+    numOfAlertChannels: selectedAlertChannels.length,
+    numOfEvents: selectedEvents ? selectedEvents.length : 0,
+    selectionMode: eventSelectionMode === 'selected-events' ? 'Specific events' : 'Event types',
+    scopeType
+  });
+
   return saveAlertingConfig(
     fromJS(
       createAlertingConfig(
         alertEntity ? alertEntity.get('id') : null,
         form.get('name').value,
         form.get('muteUntil').value,
-        form.get('selectedAlertChannels').value.toJS(),
-        eventSelectionMode === modeSelectedEvents && form.get('selectedEvents')
-          ? form.get('selectedEvents').value.toJS()
-          : null,
+        selectedAlertChannels,
+        selectedEvents,
         query,
         eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null
       )
