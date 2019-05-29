@@ -1,4 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
@@ -47,7 +48,7 @@ export default function Alert(props) {
   );
 }
 
-const Form = entityForm(function DetailsForm(props) {
+function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   if (!entity || !form) {
@@ -73,15 +74,15 @@ const Form = entityForm(function DetailsForm(props) {
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
 
-      {message ? (
+      {message && (
         <Section>
           <Notification failure={error} loading={loading}>
             {message}
           </Notification>
         </Section>
-      ) : null}
+      )}
 
-      <AlertForm onChangeApplyOn={onChangeApplyOn} onChangeEventSelectionMode={onChangeEventSelectionMode} {...props} />
+      <AlertForm onChangeApplyOn={onChangeApplyOn} {...props} />
 
       <SaveCancel
         form={form}
@@ -92,7 +93,34 @@ const Form = entityForm(function DetailsForm(props) {
       />
     </SettingsDetailPage>
   );
-});
+}
+
+const Form = entityForm(
+  compose(
+    withState('eventTypes', 'setEventTypes', null),
+    withState('selectedEvents', 'setSelectedEvents', null),
+    withHandlers({
+      onChangeEventSelectionMode: ({ eventTypes, setEventTypes, selectedEvents, setSelectedEvents }) => (
+        form,
+        eventSelectionMode
+      ) => {
+        let updatedForm = onChangeEventSelectionMode(form, eventSelectionMode);
+
+        if (eventSelectionMode === modeSelectedEvents) {
+          const eventTypes = form.get('eventTypes') ? form.get('eventTypes').value : null;
+          setEventTypes(eventTypes);
+          updatedForm = putSelectedEventsField(updatedForm, selectedEvents);
+        }
+        if (eventSelectionMode === modeEventTypes) {
+          const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : [];
+          setSelectedEvents(selectedEvents);
+          updatedForm = putEventTypesField(updatedForm, eventTypes);
+        }
+        return updatedForm;
+      }
+    })
+  )(DetailsForm)
+);
 
 function createForm(alertEntity, isCreate) {
   let eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([]));
