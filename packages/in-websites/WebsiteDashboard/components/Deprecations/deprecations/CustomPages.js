@@ -29,7 +29,7 @@ export default function CustomPages() {
     </Fragment>
   );
   return (
-    <Deprecation title="Deprecated Page Definition" preview={firstParagraph} supportedUntil="2019-06-01">
+    <Deprecation title="Deprecated Page Definition" preview={firstParagraph}>
       <p>{firstParagraph}</p>
       <Code code={newCodeToUse} lang="javascript" showLineNumbers={false} />
       <p style={{ margin: '1.3rem 0 1rem' }}>For your reference, the deprecated fallback logic looks like this:</p>
