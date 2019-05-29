@@ -62,9 +62,9 @@ function getConnectedEntities(snapshotId, graph) {
   for (let i = 0; i < graph.length; i++) {
     const item = graph[i];
     if (item.from === snapshotId) {
-      incoming.push({ id: item.to, relation: item.relation });
+      outgoing.push({ id: item.to, relation: item.relation });
     } else if (item.to === snapshotId) {
-      outgoing.push({ id: item.from, relation: item.relation });
+      incoming.push({ id: item.from, relation: item.relation });
     }
   }
 
