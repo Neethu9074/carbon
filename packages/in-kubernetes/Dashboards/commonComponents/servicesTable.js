@@ -35,6 +35,7 @@ function getTableData({
   namespaceId,
   clusterId,
   deploymentId,
+  deploymentConfigId,
   resultTransformer = result => result
 }) {
   return getKubernetesServices({
@@ -51,6 +52,7 @@ function getTableData({
       namespaceId,
       clusterId,
       deploymentId,
+      deploymentConfigId,
       timeConfig
     }
   }).map(resultTransformer);

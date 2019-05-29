@@ -6,6 +6,7 @@ import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShif
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { deploymentConfigDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/Details';
@@ -26,6 +27,12 @@ export default [
     path: `${deploymentConfigDashboardFullyQualified}/conditions`,
     component: Conditions,
     header: ConditionsHeader
+  },
+  {
+    label: 'K8s Services',
+    path: `${deploymentConfigDashboardFullyQualified}/services`,
+    component: Services,
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',
