@@ -76,6 +76,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
                   nbRows={totalHits}
                   nbItems={totalRepresentedItemCount}
                   withoutMargin
+                  hasSamplingIndicator
                 />
 
                 <div className={locals.actions}>

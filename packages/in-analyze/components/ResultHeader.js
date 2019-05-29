@@ -16,7 +16,15 @@ export default connectTo(
     historicOrLargeDataResult: historicOrLargeDataResult$
   },
 
-  function ResultHeader({ itemType, nbRows, nbItems, historicOrLargeDataResult, withoutMargin = false, withMaxWidth }) {
+  function ResultHeader({
+    itemType,
+    nbRows,
+    nbItems,
+    historicOrLargeDataResult,
+    withoutMargin = false,
+    withMaxWidth,
+    hasSamplingIndicator
+  }) {
     let counter = '';
     const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
 
@@ -47,7 +55,7 @@ export default connectTo(
           {counter}
         </span>
         {!samplingIndicatorEnabled && containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
-        <HistoricAndLargeDataIndicator />
+        {hasSamplingIndicator && <HistoricAndLargeDataIndicator />}
       </div>
     );
   }
