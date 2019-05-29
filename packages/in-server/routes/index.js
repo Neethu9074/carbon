@@ -17,7 +17,9 @@ const router = (module.exports = express.Router());
 const indexHtmlTemplate = fs.readFileSync(paths.indexHtmlTemplate, { encoding: 'utf8' });
 const maxNonces = findMaxNonces(indexHtmlTemplate);
 const compiledTemplate = Handlebars.compile(indexHtmlTemplate);
-const compiledRedirectTemplate = Handlebars.compile(fs.readFileSync(paths.redirectToSignInTemplate, { encoding: 'utf8' }));
+const compiledRedirectTemplate = Handlebars.compile(
+  fs.readFileSync(paths.redirectToSignInTemplate, { encoding: 'utf8' })
+);
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
 const indexCssChecksum = checkSumMod.getChecksumForFile(paths.indexCss);
@@ -77,8 +79,7 @@ router.get('/', (req, res) => {
         getFilterTags(req),
         getCsrfToken(req),
         getUserPermissions(req)
-      ])
-      .then(([userSettings, searchFieldsStr, filterTags, csrf, permissions]) =>
+      ]).then(([userSettings, searchFieldsStr, filterTags, csrf, permissions]) =>
         sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf, permissions)
       );
     })
@@ -186,9 +187,11 @@ function getCsrfToken(req) {
         if (error) {
           reject(new Error('Failed to retrieve csrf token from ui-backend: ' + String(error)));
         } else {
-          resolve(JSON.stringify({
-            token: response.headers['x-csrf-token']
-          }));
+          resolve(
+            JSON.stringify({
+              token: response.headers['x-csrf-token']
+            })
+          );
         }
       }
     );
@@ -204,7 +207,7 @@ function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags,
     'Content-Security-Policy',
     "script-src 'self' " +
       nonces.map(n => "'nonce-" + n + "'").join(' ') +
-      ' https://www.google-analytics.com https://cdn.mxpnl.com https://fast.appcues.com *.instana.io'
+      ' https://www.google-analytics.com https://cdn.mxpnl.com https://static.zdassets.com https://ekr.zdassets.com https://instana.zendesk.com wss://instana.zendesk.com https://fast.appcues.com *.instana.io'
   );
 
   res.send(

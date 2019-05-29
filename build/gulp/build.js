@@ -118,6 +118,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
       apiKey: '',
       domain: ''
     },
+    zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     clientConfig: buildUtil.getDevModeConfig({
       uiBackendUrl: 'https://test-instana.instana.io',
       butlerUrl: 'https://test-instana.instana.io',
@@ -138,14 +139,14 @@ gulp.task('startTryBuildServer', () => {
 
 gulp.task('startTryBuildProxy', () => {
   buildUtil.startProxrox({
-    'serverName': 'local-instana.instana.io',
-    'port': 4000,
-    'root': false,
-    'ssi': true,
-    'tls': true,
-    'tlsCertificateFile': path.join(__dirname, '..', 'cert', 'server.crt'),
-    'tlsCertificateKeyFile': path.join(__dirname, '..', 'cert', 'server.key'),
-    'proxy': {
+    serverName: 'local-instana.instana.io',
+    port: 4000,
+    root: false,
+    ssi: true,
+    tls: true,
+    tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
+    tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
+    proxy: {
       '/': 'http://127.0.0.1:3131',
       '/api/': 'https://test-instana.instana.io/api/',
       '/auth/': 'https://test-instana.instana.io/auth/',
@@ -153,7 +154,7 @@ gulp.task('startTryBuildProxy', () => {
       '/assets/': 'https://test-instana.instana.io/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/'
     },
-    'websocketProxy': {
+    websocketProxy: {
       '/api/data/': 'https://test-instana.instana.io'
     }
   });
