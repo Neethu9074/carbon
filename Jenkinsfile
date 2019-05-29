@@ -8,7 +8,7 @@ def instanaVersion      = null
 def archiveName         = null
 
 def autoDeployReleaseFullstack = true
-def latestReleaseBranch  = null 
+def latestReleaseBranch  = 'release-155' 
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
