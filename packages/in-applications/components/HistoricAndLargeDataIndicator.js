@@ -3,6 +3,7 @@ import React from 'react';
 import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
 import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { percentage } from 'in-services/formatters/number';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -44,7 +45,7 @@ export default connectTo(
     historicOrLargeDataResult: historicOrLargeDataResult$
   },
 
-  function HistoricAndLargeDataIndicator({ historicOrLargeDataResult }) {
+  function HistoricAndLargeDataIndicator({ historicOrLargeDataResult, className }) {
     if (!samplingIndicatorEnabled) return null;
 
     const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
@@ -53,11 +54,11 @@ export default connectTo(
     let tooltipMessage;
     if (containsPastLiveData) {
       tooltipMessage = HISTORIC_DATA_MESSAGE;
-      icon = <TimeIcon theme="light" containsPastLiveData />;
+      icon = <TimeIcon theme="light" className={className} containsPastLiveData />;
     } else {
       if (samplingLevel && samplingLevel.samplingRatio < 1) {
         tooltipMessage = LARGE_DATA_MESSAGE;
-        icon = <ApproximateIcon />;
+        icon = <ApproximateIcon className={className} />;
       } else {
         return null;
       }
@@ -75,15 +76,24 @@ export default connectTo(
   }
 );
 
-function ApproximateIcon() {
-  return <SvgIcon className={locals.approximateIcon} type="lib_approximately_equal" width={24} />;
+function ApproximateIcon({ className }) {
+  return (
+    <SvgIcon
+      className={evaluateClassNames({
+        [locals.approximateIcon]: true,
+        [className]: className
+      })}
+      type="lib_approximately_equal"
+      width={24}
+    />
+  );
 }
 
 function TooltipContent({ message, samplingLevel }) {
   return (
     <div>
       {message}
-      {isInstanaEngineer && ` (sampling ratio = ${percentage.detailed(samplingLevel.samplingRatio)})`}
+      {isInstanaEngineer && samplingLevel && ` (sampling ratio = ${percentage.detailed(samplingLevel.samplingRatio)})`}
     </div>
   );
 }

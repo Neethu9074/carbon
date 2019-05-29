@@ -2,4 +2,8 @@
   .button {
     margin-right: 0.5rem;
   }
+
+  .indicator {
+    margin-left: 0.5rem;
+  }
 }
