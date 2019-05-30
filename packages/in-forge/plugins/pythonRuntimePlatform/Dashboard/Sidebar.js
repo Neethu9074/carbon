@@ -16,7 +16,7 @@ export default function PythonDashboardSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      <KeyValueOverlay header="Loaded Modules" data={snapshot.getIn(['data', 'snapshot.versions'])} />
+      <KeyValueOverlay header="Loaded Packages" data={snapshot.getIn(['data', 'snapshot.versions'])} />
       <KeyValueOverlay header="Django Middleware" data={snapshot.getIn(['data', 'snapshot.djmw'])} />
 
       <ServiceInstancesList snapshot={snapshot} />
