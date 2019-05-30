@@ -84,7 +84,7 @@ function Actions({ deploymentConfigId, timeConfig, result }) {
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterId'])}
         namespaceName={get(result, ['data', 'namespace'])}
-        deploymentName={get(result, ['data', 'name'])}
+        deploymentConfigName={get(result, ['data', 'name'])}
         groupByTag={{ name: 'kubernetes.pod.name' }}
         timeConfig={timeConfig}
       />
