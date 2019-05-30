@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { positiveNumber } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function SpringbootInfo({ snapshot }) {
@@ -16,7 +17,7 @@ export default function SpringbootInfo({ snapshot }) {
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
       <DescriptionItem title="Port">{ports ? ports.valueSeq().join(', ') : null}</DescriptionItem>
-      <DescriptionItem title="HTTP Sessions Max">{data.get('httpsessionsMax')}</DescriptionItem>
+      <DescriptionItem title="HTTP Sessions Max">{positiveNumber(data.get('httpsessionsMax'))}</DescriptionItem>
     </DescriptionList>
   );
 }
