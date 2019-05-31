@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
@@ -126,9 +127,15 @@ export default function Summary({ timeConfig, data: cluster }) {
           <TopDeploymentsList
             clusterId={cluster.id}
             timeConfig={timeConfig}
-            allItemsHref$={getClusterDashboard(cluster.id, {
-              tab: '/deployments'
-            })}
+            allItemsHrefs$={{
+              deployments: getClusterDashboard(cluster.id, {
+                tab: '/deployments'
+              }),
+              deploymentConfigs: getClusterDashboard(cluster.id, {
+                tab: '/deploymentconfigs'
+              })
+            }}
+            showDeploymentConfigs={get(cluster, ['distributionType'], 'Kubernetes') === 'OpenShift'}
           />
         </Col>
       </Row>

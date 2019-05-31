@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import {
   resourceQuotaPercentage,
@@ -150,9 +151,15 @@ export default function Summary({ timeConfig, data: namespace }) {
           <TopDeploymentsList
             namespaceId={namespace.id}
             timeConfig={timeConfig}
-            allItemsHref$={getNamespaceDashboard(namespace.id, {
-              tab: '/deployments'
-            })}
+            allItemsHrefs$={{
+              deployments: getNamespaceDashboard(namespace.id, {
+                tab: '/deployments'
+              }),
+              deploymentConfigs: getNamespaceDashboard(namespace.id, {
+                tab: '/deploymentconfigs'
+              })
+            }}
+            showDeploymentConfigs={get(namespace, ['distributionType'], 'Kubernetes') === 'OpenShift'}
           />
         </Col>
         <Col lg={6}>
