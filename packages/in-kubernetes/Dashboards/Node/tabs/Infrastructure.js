@@ -2,11 +2,13 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
 
-import { LoadingSkeletonRows, ErrorRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
+import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import getKubernetesHostByNode from 'in-subscription/kubernetes/getKubernetesHostByNode';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import Card from 'in-new-components/Card';
@@ -26,16 +28,28 @@ export default connectTo(
   }),
   function Infrastructure({ hostResult, timeConfig }) {
     const isLoading = hostResult && get(hostResult, ['progress', 'loading']);
-    const hasErrors = hostResult && hostResult.errors.length > 0;
-    if (isLoading || hasErrors) {
+    const hostIsUnmonitored = hostResult && hostResult.errors.length > 0;
+    if (isLoading) {
       return (
         <Table>
           <Thead />
           <Tbody>
-            {isLoading && <LoadingSkeletonRows cols={3} />}
-            {hasErrors && <ErrorRows cols={5} errors={hostResult.errors} size="compact" />}
+            <LoadingSkeletonRows cols={3} />
           </Tbody>
         </Table>
+      );
+    }
+
+    if (hostIsUnmonitored) {
+      return (
+        <MaxWidthFullscreenContainer>
+          <NoDataAvailable
+            icon="lib_infrastructure"
+            title="Unmonitored Host"
+            text="The host is unmonitored on a Kubernetes master node"
+            height={140}
+          />
+        </MaxWidthFullscreenContainer>
       );
     }
 
