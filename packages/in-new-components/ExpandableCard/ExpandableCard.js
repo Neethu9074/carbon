@@ -7,9 +7,20 @@ import Card from 'in-new-components/Card';
 
 import locals from './ExpandableCard.mless';
 
-export default compose(withState('expanded', 'setExpanded', false))(ExpandableCard);
+export default compose(withState('expanded', 'setExpanded', null))(ExpandableCard);
 
-function ExpandableCard({ title, preview, children, header, expanded, setExpanded, expansionTracker }) {
+function ExpandableCard({
+  title,
+  preview,
+  children,
+  header,
+  expanded,
+  setExpanded,
+  expansionTracker,
+  openByDefault = false
+}) {
+  expanded = expanded != null ? expanded : openByDefault;
+
   const rightSide = (
     <div className={locals.rightSide}>
       {header}

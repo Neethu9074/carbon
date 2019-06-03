@@ -12,7 +12,8 @@ export default function Deprecation({ title, preview, children, supportedUntil }
       title={title}
       preview={preview}
       expansionTracker={viewDeprecationDetails}
-      header={<Pill color="#fa0">Support ends {supportedUntil}</Pill>}
+      header={supportedUntil && <Pill color="#fa0">Support ends {supportedUntil}</Pill>}
+      openByDefault={!supportedUntil}
     >
       <div className={locals.content}>{children}</div>
     </ExpandableCard>
