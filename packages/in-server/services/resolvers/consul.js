@@ -32,6 +32,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/ENTITY_VERIFICATION_RULE_ENABLED`, false),
       getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false)
     ]).then(
@@ -44,6 +45,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         containerInfoEnabled,
         internalMonitoringUnit,
         isRbacEnabled,
+        entityVerificationRuleEnabled,
         trackUrlPathChanges,
         samplingIndicatorEnabled
       ]) => ({
@@ -60,6 +62,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         containerInfoEnabled,
         internalMonitoringUnit,
         isRbacEnabled,
+        entityVerificationRuleEnabled,
         trackUrlPathChanges,
         samplingIndicatorEnabled
       })

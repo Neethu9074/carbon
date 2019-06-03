@@ -15,5 +15,6 @@ module.exports = {
   trackUrlPathChanges: true,
   internalMonitoringUnit: true,
   isRbacEnabled: true,
-  samplingIndicatorEnabled: true
+  samplingIndicatorEnabled: true,
+  entityVerificationRuleEnabled: true
 };
