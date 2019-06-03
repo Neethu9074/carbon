@@ -8,8 +8,9 @@ export function init() {
     return;
   }
 
-  getUsageInfo().once(({ activeLicenseType }) => {
-    if (activeLicenseType === 'selfService') {
+  getUsageInfo().once(usageInfo => {
+    // usageInfo can be null when there is no active license.
+    if (usageInfo && usageInfo.activeLicenseType === 'selfService') {
       addZendeskStyles();
       addZendeskSnippet();
     }
