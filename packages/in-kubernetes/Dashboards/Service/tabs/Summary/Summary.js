@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -9,6 +10,8 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+
+const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: service }) {
   const deploymentId = service.deploymentIds && service.deploymentIds[0];
@@ -67,8 +70,8 @@ export default function Summary({ timeConfig, data: service }) {
                 timeConfig={timeConfig}
                 y1={{
                   formatter: twoDecimalPlaces,
-                  metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-                  labels: ['Requests', 'Limits'],
+                  metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
+                  labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
                   type: 'line'
                 }}
               />
@@ -81,8 +84,8 @@ export default function Summary({ timeConfig, data: service }) {
                 timeConfig={timeConfig}
                 y1={{
                   formatter: bytesTwoDecimalPlaces,
-                  metrics: ['pods.required_mem', 'pods.limit_mem'],
-                  labels: ['Requests', 'Limits'],
+                  metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'cpu.user_usage'].filter(Boolean),
+                  labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
                   type: 'line'
                 }}
               />

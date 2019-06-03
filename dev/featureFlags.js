@@ -16,5 +16,6 @@ module.exports = {
   internalMonitoringUnit: true,
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
-  entityVerificationRuleEnabled: true
+  entityVerificationRuleEnabled: true,
+  isAdhocMetricAggregationEnabled: true
 };

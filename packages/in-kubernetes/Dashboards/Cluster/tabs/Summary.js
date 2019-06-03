@@ -6,10 +6,13 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+
+const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
@@ -67,8 +70,10 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu'],
-                labels: ['Requests', 'Limits', 'Capacity'],
+                metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu', showUsage && 'cpu.user_usage'].filter(
+                  Boolean
+                ),
+                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
                 type: 'line'
               }}
             />
@@ -81,8 +86,10 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
-                metrics: ['requiredMemory', 'limitMemory', 'nodes.capacity_mem'],
-                labels: ['Requests', 'Limits', 'Capacity'],
+                metrics: ['requiredMemory', 'limitMemory', 'nodes.capacity_mem', showUsage && 'memory.usage'].filter(
+                  Boolean
+                ),
+                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
                 type: 'line'
               }}
             />

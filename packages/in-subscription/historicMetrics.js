@@ -1,7 +1,10 @@
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import createSubscription from 'in-subscription/subscription';
 
+const eventId = isAdhocMetricAggregationEnabled ? 'subscribe-historic-metrics-v2' : 'subscribe-historic-metric';
+
 export default createSubscription({
-  eventId: 'subscribe-historic-metric',
+  eventId,
 
   transform(observable) {
     return observable.map(dataPoints => {

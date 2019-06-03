@@ -12,6 +12,7 @@ import ResourceQuotaChart from 'in-kubernetes/Dashboards/commonComponents/Resour
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -19,6 +20,8 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+
+const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
@@ -83,15 +86,27 @@ export default function Summary({ timeConfig, data: namespace }) {
             <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-              metrics={[`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`]}
+              metrics={['cap_requests_cpu', 'used_requests_cpu', 'cap_limits_cpu', 'used_limits_cpu']}
               renderChart={() => (
                 <Chart
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
                     formatter: resourceQuotaNumber,
-                    metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
-                    labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits'],
+                    metrics: [
+                      `cap_requests_cpu`,
+                      `used_requests_cpu`,
+                      `cap_limits_cpu`,
+                      `used_limits_cpu`,
+                      showUsage && 'cpu.user_usage'
+                    ].filter(Boolean),
+                    labels: [
+                      'Hard Requests',
+                      'Used Requests',
+                      'Hard Limits',
+                      'Used Limits',
+                      showUsage && 'Usage'
+                    ].filter(Boolean),
                     type: 'line',
                     min: 0
                   }}
@@ -105,15 +120,27 @@ export default function Summary({ timeConfig, data: namespace }) {
             <ResourceQuotaChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-              metrics={[`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`]}
+              metrics={['cap_requests_memory', 'used_requests_memory', 'cap_limits_memory', 'used_limits_memory']}
               renderChart={() => (
                 <Chart
                   snapshotId={snapshotId}
                   timeConfig={timeConfig}
                   y1={{
                     formatter: resourceQuotaBytes,
-                    metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
-                    labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits'],
+                    metrics: [
+                      'cap_requests_memory',
+                      'used_requests_memory',
+                      'cap_limits_memory',
+                      'used_limits_memory',
+                      showUsage && 'memory.usage'
+                    ].filter(Boolean),
+                    labels: [
+                      'Hard Requests',
+                      'Used Requests',
+                      'Hard Limits ',
+                      'Used Limits',
+                      showUsage && 'Usage'
+                    ].filter(Boolean),
                     type: 'line',
                     min: 0
                   }}
