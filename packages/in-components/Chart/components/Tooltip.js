@@ -12,6 +12,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Tooltip.mless';
 
+const userInteractionThrottlingMillis = 50;
+
 export default connectTo(
   props => {
     const observables = { highlightedMoment: highlightedMoment$ };
@@ -74,8 +76,17 @@ export default connectTo(
     }
 
     setupSubsriptions = () => {
-      this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove.bind(this));
-      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
+      this.onMouseMoveSubscription = on(this.glassPane, 'mousemove')
+        .throttle(userInteractionThrottlingMillis)
+        .subscribe(this.onMouseMove.bind(this));
+      this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave')
+        // Needs to be greater than the timeout we have defined in the mousemove handler.
+        // Just to be safe we use two times the userInteractionThrottlingMillis. Theoretically
+        // userInteractionThrottlingMillis should be sufficient though.
+        // We must deactivate leading emit as a leading emit will circumvent the
+        // userInteractionThrottlingMillis.
+        .throttle(userInteractionThrottlingMillis * 2, { leading: false })
+        .subscribe(this.onMouseLeave.bind(this));
     };
 
     disposeSubscriptions = () => {
