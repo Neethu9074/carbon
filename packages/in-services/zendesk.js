@@ -1,5 +1,5 @@
 import { navigationParameters$ } from 'in-stores/navigation';
-// import getUsageInfo from 'in-subscription/getUsageInfo';
+import getUsageInfo from 'in-subscription/getUsageInfo';
 import { config } from 'in-services/config';
 
 export function init() {
@@ -8,12 +8,12 @@ export function init() {
     return;
   }
 
-  // getUsageInfo().once(({ activeLicenseType }) => {
-  //   if (activeLicenseType === 'selfService') {
-  addZendeskStyles();
-  addZendeskSnippet();
-  //   }
-  // });
+  getUsageInfo().once(({ activeLicenseType }) => {
+    if (activeLicenseType === 'selfService') {
+      addZendeskStyles();
+      addZendeskSnippet();
+    }
+  });
 }
 
 function addZendeskStyles() {
