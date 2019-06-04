@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { shorten } from 'in-services/util/string';
 import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
 import PluginIcon from 'in-components/PluginIcon';
@@ -16,7 +17,7 @@ export default function SidebarHeader({ snapshot }) {
       <div className={locals.entity}>
         <PluginIcon className={locals.entityIcon} dimension={25} color="#000" snapshot={snapshot} />
         <div>
-          <h1 className={locals.entityLabel}>{getLabel(snapshot)}</h1>
+          <h1 className={locals.entityLabel}>{shorten(getLabel(snapshot) || '', 128)}</h1>
           <div className={locals.typeIdWrapper}>
             <span className={locals.entityType}>{entityType}</span>
 
