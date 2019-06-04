@@ -2,11 +2,22 @@ import React from 'react';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import TimeIcon from 'in-new-components/time/TimeIcon';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimePresenter.mless';
 
-export default function TimePresenter({ onClick, timeConfig, className, expanded, refSetter, darkTheme }) {
+export default function TimePresenter({
+  onClick,
+  timeConfig,
+  historicData,
+  largeData,
+  samplingLevel,
+  className,
+  expanded,
+  refSetter,
+  darkTheme
+}) {
   return (
     <div
       className={evaluateClassNames({
@@ -24,7 +35,13 @@ export default function TimePresenter({ onClick, timeConfig, className, expanded
         }}
         ref={refSetter}
       >
-        <SvgIcon className={locals.timeIcon} width={24} type="lib_datetime_time" />
+        <TimeIcon
+          className={locals.timeIcon}
+          containsPastLiveData={historicData}
+          largeData={largeData}
+          samplingLevel={samplingLevel}
+          theme={darkTheme ? 'dark' : 'light'}
+        />
         <div className={locals.displayTimeWrapper}>
           <div
             className={evaluateClassNames({

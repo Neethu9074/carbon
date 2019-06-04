@@ -16,11 +16,12 @@ export default connectTo(
     )
   }),
   function SelectableItem({ timeConfig, newTimeframe, onChange, containsPastLiveData }) {
+    const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
     return (
       <a
         className={evaluateClassNames({
           [locals.item]: true,
-          [locals.activeItem]: timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize
+          [locals.activeItem]: isActive
         })}
         href="#"
         onClick={e => {
@@ -30,7 +31,9 @@ export default connectTo(
         }}
       >
         {newTimeframe.label || format(newTimeframe)}
-        {containsPastLiveData && <TimeIcon theme="light" className={locals.timeIcon} containsPastLiveData />}
+        {containsPastLiveData && (
+          <TimeIcon theme={isActive ? 'dark' : 'light'} className={locals.timeIcon} containsPastLiveData />
+        )}
       </a>
     );
   }
