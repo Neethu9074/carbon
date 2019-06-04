@@ -49,9 +49,9 @@ function ToggleButton({
   let classes;
 
   if (darkTheme) {
-    classes = `${locals.toggleButton} ${checked ? locals.on : locals.offLight}`;
+    classes = `${locals.toggleButton} ${checked ? locals.onDark : locals.offDark}`;
   } else {
-    classes = `${locals.toggleButton} ${checked ? locals.on : locals.off}`;
+    classes = `${locals.toggleButton} ${checked ? locals.onLight : locals.offLight}`;
   }
   if (className) {
     classes = `${classes} ${className}`;
