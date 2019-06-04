@@ -33,6 +33,7 @@ storiesOf('Components/Chart', module)
   .add('Points', () => <Points />)
   .add('CountErrorBar', () => <CountErrorBar />)
   .add('MissingMetrics', () => <MissingMetrics />)
+  .add('MissingDataPoint', () => <MissingDataPoint />)
   .add('SharedAxis', () => <SharedAxis />)
   .add('Resize', () => <Resize />);
 
@@ -391,6 +392,117 @@ function MissingMetrics() {
             renderer: Renderer.integral,
             labels: ['Metric A', 'Metric B', 'Metric C'],
             metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 20, oneMinute)]
+          }
+        }}
+      />
+    </Root>
+  );
+}
+
+function MissingDataPoint() {
+  const dataSeries1 = generateMetrics(60, 20, oneMinute);
+  dataSeries1[0] = undefined;
+  dataSeries1[10] = undefined;
+
+  const dataSeries2 = generateMetrics(60, 20, oneMinute);
+  dataSeries2[10] = undefined;
+  dataSeries2[21] = undefined;
+  dataSeries2[dataSeries2.length - 1] = undefined;
+
+  return (
+    <Root>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.line,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.area,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.bar,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.countErrorBar,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.integral,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.point,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedArea,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
+          }
+        }}
+      />
+
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.stackedBar,
+            labels: ['Metric A', 'Metric B'],
+            metrics: [dataSeries1, dataSeries2]
           }
         }}
       />
