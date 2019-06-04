@@ -8,20 +8,58 @@ import {
   timeConfig$
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
+import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
+import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
+import { isApplicationsView } from 'in-applications/navigation/paths';
+import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import TimePresenter from 'in-new-components/time/TimePresenter';
+import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import ToggleButton from 'in-new-components/ToggleButton';
+import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { just } from 'reactive-observables';
 import connect from 'in-hoc/connectTo';
 
 import locals from './TimeSelection.mless';
 
+const largeDataSupportedViews = [isApplicationsView, isAnalyzeView];
+
+export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
+  containsPastLiveData$(timeConfig)
+    .flatMap(
+      containsPastLiveData =>
+        containsPastLiveData
+          ? // if the selected timeframe contains historic data,
+            // there's no need to query for the sampling level
+            just({
+              containsPastLiveData: true
+            })
+          : // if not, query the sampling level on large data supported views
+            isView.apply(this, largeDataSupportedViews).flatMap(
+              supportLargeData =>
+                supportLargeData
+                  ? getSamplingLevel$(timeConfig).flatMap(samplingLevel =>
+                      just({
+                        containsPastLiveData: false,
+                        samplingLevel
+                      })
+                    )
+                  : just({
+                      containsPastLiveData: false
+                    })
+            )
+    )
+    .startWith(false)
+);
+
 export default connect({
-  timeConfig: timeConfig$
+  timeConfig: timeConfig$,
+  historicOrLargeDataResult: samplingIndicatorEnabled ? historicOrLargeDataResult$ : just({})
 })(TimeSelection);
 
-function TimeSelection({ timeConfig, isHidden, darkTheme }) {
+function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTheme }) {
   if (isHidden) {
     return null;
   }
@@ -29,7 +67,7 @@ function TimeSelection({ timeConfig, isHidden, darkTheme }) {
   return (
     <ErrorBoundary name="time-selection">
       <Overlay
-        props={{ timeConfig, darkTheme }}
+        props={{ timeConfig, historicOrLargeDataResult, darkTheme }}
         content={TimeSelectionDialogPresenterWrapper}
         withoutWrapper
         withoutArrow
@@ -40,13 +78,18 @@ function TimeSelection({ timeConfig, isHidden, darkTheme }) {
   );
 }
 
-function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter }) {
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataResult, darkTheme, refSetter }) {
+  const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
+  const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
     <div className={locals.timePresenterWrapper}>
       <TimePresenter
         className={locals.time}
         expanded={isOpen}
         timeConfig={timeConfig}
+        historicData={containsPastLiveData}
+        samplingLevel={samplingLevel}
+        largeData={largeData}
         onClick={toggle}
         refSetter={refSetter}
         darkTheme={darkTheme}
