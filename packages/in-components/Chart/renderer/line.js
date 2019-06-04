@@ -2,9 +2,12 @@ export default {
   render: ({ dataSeries, color, scale, config }) => {
     config.backBufferCtx.beginPath();
 
-    let previousDataPoint = dataSeries[0];
+    let previousDataPoint;
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
+      if (!dataPoint) {
+        continue;
+      }
       const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
 
@@ -22,7 +25,7 @@ export default {
     config.backBufferCtx.stroke();
 
     function distanceToPreviousDataPointIsToBig(dataPoint, previousDataPoint) {
-      return dataPoint[0] - previousDataPoint[0] > config.maxDistanceBetweenDatapointsInMillis;
+      return !previousDataPoint || dataPoint[0] - previousDataPoint[0] > config.maxDistanceBetweenDatapointsInMillis;
     }
   }
 };

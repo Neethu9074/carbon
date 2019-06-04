@@ -61,6 +61,10 @@ function drawBlock(metricMap, config, scale, block, cutArea) {
 
   for (let i = 1; i < block.length; i++) {
     const dataPoint = block[i];
+    if (!dataPoint) {
+      continue;
+    }
+
     const time = dataPoint[0];
 
     let value = dataPoint[1];

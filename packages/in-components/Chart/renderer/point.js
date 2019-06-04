@@ -2,10 +2,14 @@ const CIRCLE_ARC = 2 * Math.PI;
 
 export default {
   render: ({ dataSeries, color, scale, config, minSpaceBetweenPoints = 0 }) => {
-    let lastXPos = config.scales.xBackBuffer.getRange(dataSeries[0][0]);
+    let lastXPos;
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
+      if (!dataPoint) {
+        continue;
+      }
+
       const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
       const yPos = scale.getRange(dataPoint[1]);
 
@@ -20,7 +24,7 @@ export default {
       lastXPos = xPos;
     }
     function pointsAreTooCloseTogether(x1, x2) {
-      return x2 - x1 < minSpaceBetweenPoints;
+      return x1 == null || x2 == null || x2 - x1 < minSpaceBetweenPoints;
     }
   }
 };

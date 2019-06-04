@@ -17,6 +17,10 @@ export default {
 
       for (let i = 1; i < block.length; i++) {
         const dataPoint = block[i];
+        if (!dataPoint) {
+          continue;
+        }
+
         const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]);
         const yPos = scale.getRange(dataPoint[1]);
         config.backBufferCtx.lineTo(xPos, yPos);
