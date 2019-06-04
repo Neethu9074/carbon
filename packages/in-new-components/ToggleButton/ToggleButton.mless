@@ -61,7 +61,6 @@
 
   .offLight {
     color: #fff;
-    background: @lib__colors__N900Primary;
 
     &.hover:not(.disabled) {
       color: @lib__colors__N600Light;
