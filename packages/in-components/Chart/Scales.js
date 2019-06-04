@@ -110,6 +110,10 @@ function calculateMaxValueForStackedMetrics(axis, metrics, filteredDataSeries) {
     const series = metrics[iMetric];
     for (let i = 0; i < series.length; i++) {
       const dataPoint = series[i];
+      if (!dataPoint) {
+        continue;
+      }
+
       const timestamp = dataPoint[0];
       const value = dataPoint[1];
       if (metricMapByTimestamp.has(timestamp)) {
@@ -155,8 +159,10 @@ function getMinMaxValueForDataSeries(dataSeries) {
   let maxValue = 0;
   for (let i = 0; i < dataSeries.length; i++) {
     const dataPoint = dataSeries[i];
-    maxValue = Math.max(maxValue, dataPoint[1]);
-    minValue = Math.min(minValue, dataPoint[1]);
+    if (dataPoint) {
+      maxValue = Math.max(maxValue, dataPoint[1]);
+      minValue = Math.min(minValue, dataPoint[1]);
+    }
   }
   return { minValue, maxValue };
 }

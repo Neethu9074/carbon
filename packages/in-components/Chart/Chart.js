@@ -84,7 +84,7 @@ export default class Chart {
   getDataPointAtTimeForDataSeries(timestamp, dataSeries) {
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
-      if (dataPoint[0] === timestamp) {
+      if (dataPoint && dataPoint[0] === timestamp) {
         return dataPoint;
       }
     }

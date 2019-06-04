@@ -43,6 +43,9 @@ function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color)
   const startIndex = blockIndex === 0 ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
+    if (!dataPoint) {
+      continue;
+    }
     const time = dataPoint[0];
 
     let value = dataPoint[1];

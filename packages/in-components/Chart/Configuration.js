@@ -254,7 +254,10 @@ export default class Config {
     for (let iM = 0; iM < axis.metrics.length; iM++) {
       const dataSeries = axis.metrics[iM];
       for (let i = 0; i < dataSeries.length; i++) {
-        this.allDomainValues[dataSeries[i][0]] = true;
+        const dataPoint = dataSeries[i];
+        if (dataPoint) {
+          this.allDomainValues[dataPoint[0]] = true;
+        }
       }
     }
   }
@@ -270,10 +273,17 @@ export default class Config {
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
+      if (!dataPoint) {
+        continue;
+      }
       currentBlock.push(dataPoint);
 
       const nextDataPoint = i + 1 < dataSeries.length ? dataSeries[i + 1] : dataPoint;
-      const isEndOfBlock = nextDataPoint[0] - dataPoint[0] > this.maxDistanceBetweenDatapointsInMillis;
+      let isEndOfBlock = true;
+      if (nextDataPoint) {
+        isEndOfBlock = nextDataPoint[0] - dataPoint[0] > this.maxDistanceBetweenDatapointsInMillis;
+      }
+
       if (isEndOfBlock) {
         currentBlock = [];
         blocks.push(currentBlock);
