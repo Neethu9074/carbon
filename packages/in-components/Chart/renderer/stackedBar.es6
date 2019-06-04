@@ -31,6 +31,9 @@ function calculateMetricMap(metrics) {
 
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
+      if (!dataPoint) {
+        continue;
+      }
       const previousValue = iMetric > 0 && metricMap[dataPoint[0]] != null ? metricMap[dataPoint[0]] : 0;
       const value = dataPoint[1] + previousValue;
       metricMap[dataPoint[0]] = value;
@@ -58,6 +61,10 @@ function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color)
   const startIndex = blockIndex === 0 ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
+    if (!dataPoint) {
+      continue;
+    }
+
     const time = dataPoint[0];
 
     let value = dataPoint[1];
