@@ -9,6 +9,7 @@ import {
 } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import ToggleButton from 'in-new-components/ToggleButton';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -42,7 +43,12 @@ function TimeSelection({ timeConfig, isHidden, darkTheme }) {
 
 function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter }) {
   return (
-    <div className={locals.timePresenterWrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.timePresenterWrapper]: true,
+        [locals.darkTheme]: darkTheme
+      })}
+    >
       <TimePresenter
         className={locals.time}
         expanded={isOpen}
