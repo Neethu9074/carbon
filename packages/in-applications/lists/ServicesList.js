@@ -6,7 +6,6 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import HistoricAndLargeDataIndicator from 'in-applications/components/HistoricAndLargeDataIndicator';
 import { getServiceDashboard, servicesList, newServiceView } from 'in-applications/navigation/paths';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -74,12 +73,7 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
     </Fragment>
   );
 
-  const leftHeader = (
-    <ListTitle>
-      Services
-      <HistoricAndLargeDataIndicator className={locals.indicator} />
-    </ListTitle>
-  );
+  const leftHeader = <ListTitle>Services</ListTitle>;
 
   return (
     <Sticky header={<ViewSwitcher />}>
