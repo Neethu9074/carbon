@@ -1,8 +1,6 @@
 import React from 'react';
 
-import HistoricAndLargeDataIndicator, {
-  historicOrLargeDataResult$
-} from 'in-applications/components/HistoricAndLargeDataIndicator';
+import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
@@ -16,15 +14,7 @@ export default connectTo(
     historicOrLargeDataResult: historicOrLargeDataResult$
   },
 
-  function ResultHeader({
-    itemType,
-    nbRows,
-    nbItems,
-    historicOrLargeDataResult,
-    withoutMargin = false,
-    withMaxWidth,
-    hasSamplingIndicator
-  }) {
+  function ResultHeader({ itemType, nbRows, nbItems, historicOrLargeDataResult, withoutMargin = false, withMaxWidth }) {
     let counter = '';
     const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
 
@@ -55,7 +45,6 @@ export default connectTo(
           {counter}
         </span>
         {!samplingIndicatorEnabled && containsPastLiveData && <TimeIcon theme="light" containsPastLiveData />}
-        {hasSamplingIndicator && <HistoricAndLargeDataIndicator />}
       </div>
     );
   }

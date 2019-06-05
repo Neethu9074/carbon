@@ -4,7 +4,6 @@ import React from 'react';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
-import HistoricAndLargeDataIndicator from 'in-applications/components/HistoricAndLargeDataIndicator';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -48,12 +47,7 @@ export default connectTo(
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
-    const leftHeader = (
-      <ListTitle>
-        Application Perspectives
-        <HistoricAndLargeDataIndicator className={locals.indicator} />
-      </ListTitle>
-    );
+    const leftHeader = <ListTitle>Application Perspectives</ListTitle>;
 
     return (
       <Sticky header={<ViewSwitcher />}>

@@ -43,7 +43,7 @@ export default function RawTracesPresenter(props) {
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} hasSamplingIndicator />
+      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
