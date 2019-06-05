@@ -5,7 +5,7 @@ import {
   lightColor,
   midColor
 } from 'in-views/eventView/components/timeline/timelineConfig';
-import { getTickPositions } from 'in-charts/ticks/timeAxis';
+import getTickPositions from 'in-services/ticks/horizontal';
 
 const edgeWidth = 260;
 
@@ -29,11 +29,11 @@ export default function createTimeAxisRenderer(ctx, scale) {
     axisConfig = Object.create(axisConfig);
     axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
-    const tickPositions = getTickPositions(scale, axisConfig);
+    const tickPositions = getTickPositions(scale, axisConfig, true);
 
     for (let i = 0, length = tickPositions.length; i < length; i++) {
-      const position = tickPositions[i];
-      const x = Math.ceil(position.range);
+      const tick = Math.ceil(tickPositions[i]);
+      const x = scale.getRange(tick);
 
       // draw line
       ctx.fillStyle = midColor;
@@ -42,7 +42,7 @@ export default function createTimeAxisRenderer(ctx, scale) {
       // draw time text
       ctx.fillStyle = lightColor;
       ctx.font = font;
-      ctx.fillText(axisConfig.formatter(position.domain), x + 3, 32);
+      ctx.fillText(axisConfig.formatter(tick), x + 3, 32);
     }
 
     ctx.fillStyle = leftGradient;

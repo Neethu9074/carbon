@@ -10,7 +10,7 @@ import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import { deepFreeze } from 'in-services/util/object';
 import Tooltip from 'in-components/Tooltip';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import theme from 'in-themes';
 
 import locals from './OverviewChart.mless';

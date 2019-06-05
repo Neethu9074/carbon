@@ -10,7 +10,7 @@ import Events from 'in-views/eventView/components/Incident/PopulationChart/Event
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { serverTime$ } from 'in-stores/serverTime';
 import { getEvent } from 'in-stores/events';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 import 'in-views/eventView/components/Incident/PopulationChart/Chart.less';
 

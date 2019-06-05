@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 
-import createScale from 'in-charts/scale';
+import createScale from './scale';
 
 describe('scale', () => {
   let scale;

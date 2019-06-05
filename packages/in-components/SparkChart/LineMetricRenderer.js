@@ -1,4 +1,4 @@
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution

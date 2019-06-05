@@ -1,44 +1,13 @@
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
-import getTickPositionsPercentage from 'in-charts/ticks/percentage';
-import getTickPositionsDefault from 'in-charts/ticks/default';
-import getTickPositionsNumber from 'in-charts/ticks/number';
-
-export function getTickPositions(scale, { stepSize, ceilToNearestStep }, leftAligned = false) {
-  // special case: Trace with 0 time.
-  if (scale.getDomainFrom() >= scale.getDomainTo()) {
-    return [
-      {
-        range: scale.getRangeFrom(),
-        domain: scale.getDomainFrom()
-      }
-    ];
-  }
-
-  const ticks = [];
-  const width = Math.abs(scale.getRangeTo() - scale.getRangeFrom());
-  const start = leftAligned ? scale.getDomainFrom() : ceilToNearestStep(scale.getDomainFrom());
-
-  let lastTickDomain = 0;
-  let lastTickRange = scale.getRange(lastTickDomain + start);
-
-  while (lastTickRange <= width) {
-    ticks.push({
-      range: lastTickRange,
-      domain: lastTickDomain + start
-    });
-
-    lastTickDomain += stepSize;
-    lastTickRange = scale.getRange(lastTickDomain + start);
-  }
-
-  return ticks;
-}
+import getTickPositionsPercentage from 'in-services/ticks/percentage';
+import getTickPositionsDefault from 'in-services/ticks/default';
+import getTickPositionsNumber from 'in-services/ticks/number';
 
 const tickPositionStrategies = {};
 tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
 tickPositionStrategies[percentageZeroDecimalPlaces] = getTickPositionsPercentage;
 
-export function getAxisTickPositions(scale, formatter) {
+export default function getTickPositions(scale, formatter) {
   const rangeFrom = scale.getRangeFrom();
   const rangeTo = scale.getRangeTo();
   const domainFrom = scale.getDomainFrom();

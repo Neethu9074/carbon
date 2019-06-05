@@ -6,7 +6,7 @@ import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAnd
 import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 import locals from './CallTree.mless';
 

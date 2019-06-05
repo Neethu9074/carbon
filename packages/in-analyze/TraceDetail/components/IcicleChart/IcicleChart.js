@@ -6,7 +6,7 @@ import CallTimeAxis from 'in-analyze/TraceDetail/components/CallTimeAxis/CallTim
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import Tooltip from 'in-components/Tooltip';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 import locals from './IcicleChart.mless';
 

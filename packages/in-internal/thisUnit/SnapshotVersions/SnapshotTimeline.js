@@ -7,7 +7,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import Code from 'in-components/Code';
 import theme from 'in-themes';
 

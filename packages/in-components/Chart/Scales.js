@@ -1,6 +1,5 @@
-import { getAxisTickPositions } from 'in-charts/ticks/timeAxis';
-import { getAxisConfig } from 'in-charts/timeFormatting';
-import createScale from 'in-charts/scale';
+import getTickPositions from 'in-services/ticks/vertical';
+import createScale from 'in-services/scale';
 
 export default class Scales {
   constructor(config, filteredDataSeries) {
@@ -18,8 +17,6 @@ export default class Scales {
 
   update() {
     this.xBackBuffer.setRangeTo(this.config.backBufferWidth);
-
-    this.xBackBuffer.tickPositions = this.calculateTickPositionsForXAxis();
 
     calculateAxisMinMax(this.config.y1, this.filteredDataSeries);
     calculateAxisMinMax(this.config.y2, this.filteredDataSeries);
@@ -45,33 +42,7 @@ export default class Scales {
     scale.setDomainFrom(axis.minValue);
     scale.setDomainTo(axis.maxValue);
 
-    scale.tickPositions = getAxisTickPositions(scale, axis.formatter[0].detailed);
-  }
-
-  calculateTickPositionsForXAxis() {
-    const timeConfig = this.config.timeConfig;
-    const formatting = getAxisConfig(timeConfig.windowSize);
-    const ticks = [];
-    const width = this.config.frontBufferWidth;
-
-    let previousTickRange = Number.NEGATIVE_INFINITY;
-    let lastTickDomain = formatting.ceilToNearestStep(timeConfig.to - timeConfig.windowSize);
-    let lastTickRange = this.xBackBuffer.getRange(lastTickDomain);
-
-    while (lastTickRange <= width) {
-      if (previousTickRange + formatting.expectLabelWidth < lastTickRange) {
-        ticks.push({
-          range: lastTickRange,
-          domain: lastTickDomain
-        });
-        previousTickRange = lastTickRange;
-      }
-
-      lastTickDomain += formatting.stepSize;
-      lastTickRange = this.xBackBuffer.getRange(lastTickDomain);
-    }
-
-    return ticks;
+    scale.tickPositions = getTickPositions(scale, axis.formatter[0].detailed);
   }
 }
 

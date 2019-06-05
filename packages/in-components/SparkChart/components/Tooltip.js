@@ -1,7 +1,7 @@
 import { on } from 'reactive-observables';
 import React from 'react';
 
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 import locals from './Tooltip.mless';
 

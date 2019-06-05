@@ -58,7 +58,7 @@ const ChartReactWrapper = compose(
               chart.config.y1 && (
                 <MetricAwareAxis
                   chart={chart}
-                  axis={chart.config.y1}
+                  axisName="y1"
                   height={height - chart.config.timeAxisHeight}
                   align="left"
                 />
@@ -85,7 +85,7 @@ const ChartReactWrapper = compose(
               chart.config.y2 && (
                 <MetricAwareAxis
                   chart={chart}
-                  axis={chart.config.y2}
+                  axisName="y2"
                   height={height - chart.config.timeAxisHeight}
                   align="right"
                 />

@@ -1,6 +1,7 @@
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
 import { twoDecimalPlaces } from 'in-services/formatters/number';
-import { getAxisTickPositions } from 'in-charts/ticks/timeAxis';
+import getTickPositions from 'in-services/ticks/vertical';
+
 import theme from 'in-themes';
 
 const axisFontColor = '#2d4048';
@@ -276,7 +277,7 @@ export default function createAnimatableContentRenderer(config) {
     const scale = config.scales[axisName];
     const formatter = (config[axisName].formatter && config[axisName].formatter[0]) || twoDecimalPlaces;
 
-    const ticks = getAxisTickPositions(scale, formatter);
+    const ticks = getTickPositions(scale, formatter);
 
     const isLeftAxis = axisName === 'y1';
     const tickX = isLeftAxis ? config.bounds.left - 5 : config.bounds.right;

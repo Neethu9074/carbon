@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import { formatDateShort } from 'in-services/formatters/date';
+import getTickPositions from 'in-services/ticks/horizontal';
 import { getAxisConfig } from 'in-charts/timeFormatting';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 import locals from 'in-new-components/Axis/components/Ticks.mless';
 
@@ -27,7 +28,7 @@ export default function HorizontalTimeAxis(props) {
   return (
     <HorizontalAxis
       {...props}
-      fixedTickPositions={getXTickPositions(formattingConfig, width, scale)}
+      fixedTickPositions={getAxisTickPositions(formattingConfig, width, scale)}
       formatter={{
         compact: format,
         detailed: format
@@ -36,28 +37,12 @@ export default function HorizontalTimeAxis(props) {
   );
 }
 
-export function getXTickPositions(formatting, width, scale) {
-  const ticks = [];
-
+export function getAxisTickPositions(formatting, width, scale) {
   const x = createScale();
   x.setDomainFrom(scale.from);
   x.setDomainTo(scale.to);
   x.setRangeFrom(0);
   x.setRangeTo(width);
 
-  let previousTickRange = Number.NEGATIVE_INFINITY;
-  let lastTickDomain = scale.from;
-  let lastTickRange = 0;
-
-  while (lastTickRange <= width) {
-    if (previousTickRange + formatting.expectLabelWidth < lastTickRange) {
-      ticks.push(lastTickRange / width);
-      previousTickRange = lastTickRange;
-    }
-
-    lastTickDomain += formatting.stepSize;
-    lastTickRange = x.getRange(lastTickDomain);
-  }
-
-  return ticks;
+  return getTickPositions(x, formatting);
 }

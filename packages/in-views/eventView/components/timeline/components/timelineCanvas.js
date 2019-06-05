@@ -18,7 +18,7 @@ import { updateCanvasDimensions } from 'in-charts/canvas';
 import { getAxisConfig } from 'in-charts/timeFormatting';
 import { debouncedResize$ } from 'in-services/browser';
 import { highlightedEvent$ } from 'in-stores/events';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 
 export default function createTimelineRenderer({ container, canvas, glassPane }) {
   const changeSignal = true;

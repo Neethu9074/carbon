@@ -7,14 +7,9 @@ import { number } from 'in-services/formatters/number';
 
 describe('in-components/Chart/Scales', () => {
   let Scales;
-  const tickMock = [1, 2, 3];
 
   beforeEach(() => {
-    Scales = proxyquire('in-components/Chart/Scales', {
-      'in-charts/ticks/timeAxis': {
-        getAxisTickPositions: () => tickMock
-      }
-    }).default;
+    Scales = proxyquire('in-components/Chart/Scales', {}).default;
   });
 
   describe('constuctor', () => {
@@ -97,8 +92,16 @@ describe('in-components/Chart/Scales', () => {
 
       expect(scales.y1.tickPositions).to.be.undefined;
       scales.update();
-      expect(scales.y1.tickPositions).not.to.be.undefined;
-      expect(scales.y1.tickPositions).to.deep.equal(tickMock);
+      expect(scales.y1.tickPositions).to.deep.equal([
+        {
+          domain: 0,
+          range: 50
+        },
+        {
+          domain: 1,
+          range: 0
+        }
+      ]);
     });
   });
 

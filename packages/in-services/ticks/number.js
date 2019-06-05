@@ -1,4 +1,4 @@
-import getTickPositionsDefault from 'in-charts/ticks/default';
+import getTickPositionsDefault from 'in-services/ticks/default';
 
 export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale, formatter) {
   const domainRange = domainTo - domainFrom;

@@ -1,9 +1,9 @@
 /* eslint-env mocha */
 
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import { expect } from 'chai';
 
-import { getAxisTickPositions } from './timeAxis';
+import getTickPositions from './vertical';
 
 describe('timeAxis', () => {
   let scale;
@@ -18,13 +18,13 @@ describe('timeAxis', () => {
     scale.setDomainFrom(0);
     scale.setDomainTo(0);
 
-    const ticks = getAxisTickPositions(scale);
+    const ticks = getTickPositions(scale);
     expect(ticks).to.have.length(1);
     expect(ticks[0].range).to.equal(0);
   });
 
   it('should always contain the min and max domains', () => {
-    let ticks = getAxisTickPositions(scale);
+    let ticks = getTickPositions(scale);
     expect(ticks.length).to.be.above(1);
     expect(ticks[0].range).to.equal(0);
     expect(ticks[ticks.length - 1].range).to.equal(1);
@@ -35,7 +35,7 @@ describe('timeAxis', () => {
     scale.setRangeTo(10);
     scale.setDomainFrom(2);
     scale.setDomainTo(-2);
-    ticks = getAxisTickPositions(scale);
+    ticks = getTickPositions(scale);
     expect(ticks.length).to.be.above(1);
     expect(ticks[0].range).to.equal(-10);
     expect(ticks[ticks.length - 1].range).to.equal(10);

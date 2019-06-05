@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import VerticalAxis, { WIDTH, HEIGHT } from 'in-new-components/Axis/VerticalAxis';
@@ -7,7 +8,8 @@ export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.filteredDataSeries$
   }),
-  function MetricAwareAxis({ axis, height, align }) {
+  function MetricAwareAxis({ chart, axisName, height, align }) {
+    const axis = chart.config[axisName];
     const scale = { from: axis.minValue, to: axis.maxValue, allDataSeriesIgnored: axis.allDataSeriesIgnored };
 
     if (scale && scale.allDataSeriesIgnored) {
@@ -19,6 +21,7 @@ export default connectTo(
         formatter={axis.formatter[0]}
         detailedFormatting={axis.detailedFormatting}
         scale={scale}
+        tickPositions={get(chart, ['config', 'scales', axisName, 'tickPositions'])}
         align={align}
         height={height}
       />

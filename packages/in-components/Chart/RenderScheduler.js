@@ -1,7 +1,7 @@
 import { create } from 'reactive-observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
-import { getXTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
+import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
@@ -171,7 +171,7 @@ export default class RenderScheduler {
     const formattingConfig = getAxisConfig(scale.to - scale.from);
     const xBackBuffer = this.config.scales.xBackBuffer;
     const fullDomain = xBackBuffer.getDomainTo() - xBackBuffer.getDomainFrom();
-    this.tickPositions = getXTickPositions(formattingConfig, backBufferWidth, scale).map(
+    this.tickPositions = getAxisTickPositions(formattingConfig, backBufferWidth, scale).map(
       tickPositionInPercent => xBackBuffer.getDomainFrom() + tickPositionInPercent * fullDomain
     );
   }

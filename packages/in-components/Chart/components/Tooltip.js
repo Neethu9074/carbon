@@ -7,7 +7,7 @@ import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframe
 import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Tooltip.mless';

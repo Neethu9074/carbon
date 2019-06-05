@@ -17,7 +17,7 @@ import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import createQueue from 'in-charts/data/queue';
 import { offset$ } from 'in-stores/timeOffset';
-import createScale from 'in-charts/scale';
+import createScale from 'in-services/scale';
 import theme from 'in-themes';
 
 const contentRendererCreators = {
