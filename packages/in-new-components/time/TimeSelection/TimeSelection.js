@@ -94,7 +94,6 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
         expanded={isOpen}
         timeConfig={timeConfig}
         historicData={containsPastLiveData}
-        samplingLevel={samplingLevel}
         largeData={largeData}
         onClick={toggle}
         refSetter={refSetter}
