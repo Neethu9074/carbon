@@ -21,11 +21,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
         <TimeZones />
       </div>
 
-      <Row>
-        <Col lg={12}>
-          <SloViolationsChart timeConfig={timeConfig} />
-        </Col>
-      </Row>
+      {internalMonitoringUnit && (
+        <Row>
+          <Col lg={12}>
+            <SloViolationsChart timeConfig={timeConfig} />
+          </Col>
+        </Row>
+      )}
 
       <Row>
         {internalMonitoringUnit && (
