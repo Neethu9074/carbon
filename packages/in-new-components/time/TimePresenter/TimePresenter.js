@@ -12,7 +12,6 @@ export default function TimePresenter({
   timeConfig,
   historicData,
   largeData,
-  samplingLevel,
   className,
   expanded,
   refSetter,
@@ -39,7 +38,6 @@ export default function TimePresenter({
           className={locals.timeIcon}
           containsPastLiveData={historicData}
           largeData={largeData}
-          samplingLevel={samplingLevel}
           theme={darkTheme ? 'dark' : 'light'}
         />
         <div className={locals.displayTimeWrapper}>
