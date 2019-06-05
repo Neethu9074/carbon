@@ -13,6 +13,7 @@ import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/trackin
 import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import ToggleButton from 'in-new-components/ToggleButton';
@@ -82,7 +83,12 @@ function TimePresenterWrapper({ isOpen, toggle, timeConfig, historicOrLargeDataR
   const { containsPastLiveData, samplingLevel } = historicOrLargeDataResult;
   const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   return (
-    <div className={locals.timePresenterWrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.timePresenterWrapper]: true,
+        [locals.darkTheme]: darkTheme
+      })}
+    >
       <TimePresenter
         className={locals.time}
         expanded={isOpen}

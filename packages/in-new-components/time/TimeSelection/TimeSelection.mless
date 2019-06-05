@@ -8,4 +8,8 @@
     height: @header__height * 1px;
     margin-left: auto;
   }
+
+  .darkTheme {
+    background: @lib__colors__N900Primary;
+  }
 }
