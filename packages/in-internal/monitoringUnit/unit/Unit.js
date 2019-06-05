@@ -140,6 +140,13 @@ function Navigation({ tenant, unit }) {
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
       />
       <LinkListItem
+        label="SLO Violations"
+        href$={getModifiedUrlStream(p => {
+          p.pathname = '/events';
+          p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
+        })}
+      />
+      <LinkListItem
         label="Stan"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
       />
