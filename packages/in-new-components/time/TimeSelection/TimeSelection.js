@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -20,7 +21,6 @@ import ToggleButton from 'in-new-components/ToggleButton';
 import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { just } from 'reactive-observables';
 import connect from 'in-hoc/connectTo';
 
 import locals from './TimeSelection.mless';
