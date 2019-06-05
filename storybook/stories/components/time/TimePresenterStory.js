@@ -21,7 +21,13 @@ function Example({ to }) {
   });
   return (
     <Root style={{ background: '#0C2227', padding: '1rem' }}>
-      <TimePresenter expanded={boolean('Expanded', false)} timeConfig={{ windowSize, to }} onClick={action('click')} />
+      <TimePresenter
+        expanded={boolean('Expanded', false)}
+        timeConfig={{ windowSize, to }}
+        historicData={boolean('Historic Data', false)}
+        largeData={boolean('Large Data', false)}
+        onClick={action('click')}
+      />
     </Root>
   );
 }

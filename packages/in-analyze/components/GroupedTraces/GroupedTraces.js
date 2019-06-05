@@ -144,7 +144,7 @@ function GroupedTraces(props) {
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <GroupingTableHeader itemType="Group" hasSamplingIndicator {...props} />
+      <GroupingTableHeader itemType="Group" {...props} />
       {isChartSectionExpanded && <ApplicationGroupMetricsChart {...props} groupColors={groupColors} />}
       <TraceGroupsTable {...props} groupColors={groupColors} />
     </AnalyzeTracesWorkspace>

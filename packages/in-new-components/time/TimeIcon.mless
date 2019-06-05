@@ -7,10 +7,10 @@
 
   .dark {
     .timeIcon {
-      fill: @lib__colors__N600Light;
+      fill: #fff;
     }
 
-    .pastLiveDataIndicator {
+    .indicator {
       background: @lib__colors__navy900;
       border: 1px solid @lib__colors__navy900;
     }
@@ -18,10 +18,10 @@
 
   .light {
     .timeIcon {
-      fill: @lib__colors__N400;
+      fill: @lib__colors__N800Dark;
     }
 
-    .pastLiveDataIndicator {
+    .indicator {
       background: #fff;
       border: 1px solid #fff;
     }
@@ -35,7 +35,7 @@
     fill: #fff;
   }
 
-  .pastLiveDataIndicator {
+  .indicator {
     position: absolute;
     top: -0.25rem;
     left: -0.5rem;

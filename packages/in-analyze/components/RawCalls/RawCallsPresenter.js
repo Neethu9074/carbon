@@ -44,7 +44,7 @@ export default function RawCallsPresenter(props) {
 
   return (
     <AnalyzeCallsWorkspace {...props}>
-      <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} hasSamplingIndicator />
+      <ResultHeader itemType="Call" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">

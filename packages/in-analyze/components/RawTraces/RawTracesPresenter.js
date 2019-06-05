@@ -43,7 +43,7 @@ export default function RawTracesPresenter(props) {
 
   return (
     <AnalyzeTracesWorkspace {...props}>
-      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} hasSamplingIndicator />
+      <ResultHeader itemType="Trace" nbRows={totalHits} nbItems={totalRepresentedItemCount} />
       <Table className={locals.table} tableInCard>
         <Thead>
           <Tr size="compact">
@@ -75,7 +75,10 @@ export default function RawTracesPresenter(props) {
             <Tr key={item.trace.id} size="compact">
               <ErroneousRowTd isErroneous={item.trace.erroneous} />
               <Td>
-                <Link href$={getLinkToTraceDetail(item.trace.id)} onClick={() => traceClickedTracker({ erroneous: item.trace.erroneous, latecy: item.trace.duration })}>
+                <Link
+                  href$={getLinkToTraceDetail(item.trace.id)}
+                  onClick={() => traceClickedTracker({ erroneous: item.trace.erroneous, latecy: item.trace.duration })}
+                >
                   {item.trace.label}
                 </Link>
               </Td>

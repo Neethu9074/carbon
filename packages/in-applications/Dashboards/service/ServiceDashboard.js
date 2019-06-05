@@ -5,7 +5,6 @@ import InstanaServiceToKubernetesServiceButton from 'in-kubernetes/components/In
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import HistoricAndLargeDataIndicator from 'in-applications/components/HistoricAndLargeDataIndicator';
 import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 import { ServiceBreadcrumbs } from 'in-applications/breadcrumbs/applicationBreadcrumbs';
 import AnalyzeTracesButton from 'in-applications/components/AnalyzeTracesButton';
@@ -94,7 +93,6 @@ function SubTypes({ result }) {
     <Fragment>
       <EndpointTypeBadgeList types={result.data.types} />
       <TechnologyIndicatorList technologies={result.data.technologies} responsive={false} />
-      <HistoricAndLargeDataIndicator />
     </Fragment>
   );
 }

@@ -71,7 +71,6 @@
   }
 
   .timeIcon {
-    fill: @lib__colors__N800Dark;
     margin-right: 0.5rem;
   }
 
