@@ -17,7 +17,7 @@ export const SubViewItem = connectTo(
     }
     return {};
   },
-  function SubMenuItem({ isActive, label, href$, href, onClick, external, renderLabel }) {
+  function SubMenuItem({ id, isActive, label, href$, href, onClick, external, renderLabel }) {
     if (renderLabel) {
       return renderLabel(locals.link);
     }
@@ -32,6 +32,7 @@ export const SubViewItem = connectTo(
         href={href}
         onClick={onClick}
         external={external}
+        id={id}
       >
         {label}
       </Link>

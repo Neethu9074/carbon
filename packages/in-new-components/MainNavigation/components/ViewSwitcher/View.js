@@ -31,7 +31,8 @@ export default connectTo(
     onClick,
     onMouseEnter,
     onMouseLeave,
-    setExpandedSubMenu
+    setExpandedSubMenu,
+    id
   }) {
     const isExpanded = expandedSubMenu === label;
     href$ = href$ || alwaysNull;
@@ -66,7 +67,7 @@ export default connectTo(
           onMouseEnter={onMouseEnter}
           onMouseLeave={() => onMouseLeave()} // don't parse the event
         >
-          <Link className={locals.link} href$={href$}>
+          <Link id={id} className={locals.link} href$={href$}>
             <SvgIcon className={locals.icon} style={{ fill: color }} type={icon} width={32} height={32} />
             {sidebarIsExpanded && <span className={locals.label}>{label}</span>}
           </Link>

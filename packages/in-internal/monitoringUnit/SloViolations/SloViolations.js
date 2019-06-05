@@ -2,18 +2,17 @@ import { interval } from 'reactive-observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 
-import { MINIMUM_ROLLUP, getTimeWindowBasedMetricAggregation, getDefaultMetricRollupDuration } from 'in-stores/metric';
-import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import { siPrefix, number } from 'in-services/formatters/number';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { siPrefix } from 'in-services/formatters/number';
 import { getColorBySeverity } from 'in-stores/events';
 import getRawEvents from 'in-subscription/rawEvents';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -61,7 +60,6 @@ function SloViolations({ events, timeConfig }) {
 
   const grouped = groupBy(events, e => e.entityId);
   const chunks = chunk(Object.keys(grouped).sort(), 2);
-  const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
 
   return (
     <div className={locals.wrapper}>
@@ -69,29 +67,7 @@ function SloViolations({ events, timeConfig }) {
 
       <Row>
         <Col lg={12}>
-          <OpenEventsCountChartWrapper
-            cardTitle="Violations over time"
-            timeConfig={timeConfig}
-            y1={{
-              renderer: Renderer.stackedArea,
-              formatter: number.forcedCompact,
-              labels: ['SLO Violations', 'Experimental SLO Violations'],
-              metricIds: ['slo', 'experimentalSlo']
-            }}
-            metricsConfiguration={{
-              timeConfig,
-              metrics: {
-                slo: {
-                  query: 'event.text:"[SLO]"',
-                  granularity
-                },
-                experimentalSlo: {
-                  query: 'event.text:"[experimental SLO]"',
-                  granularity
-                }
-              }
-            }}
-          />
+          <SloViolationsChart timeConfig={timeConfig} />
         </Col>
       </Row>
 

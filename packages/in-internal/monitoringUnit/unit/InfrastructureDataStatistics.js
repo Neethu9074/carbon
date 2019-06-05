@@ -42,7 +42,7 @@ export default function InfrastructureDataStatistics({ timeConfig, tenantUnitId 
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            formatter: number.compact,
+            formatter: percentage.detailed,
             metrics: [`filler.rawEntityDropRate`],
             labels: ['Entity Message Drop Rate'],
             type: 'stackedArea'

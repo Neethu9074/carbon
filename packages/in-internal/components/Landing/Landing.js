@@ -1,22 +1,33 @@
 import React, { Fragment } from 'react';
 
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
+import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { timeConfig$ } from 'in-stores/time/config';
 import { config } from 'in-services/config';
 import Card from 'in-new-components/Card';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './Landing.mless';
 
-export default function Landing() {
+export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeConfig }) {
   return (
     <Fragment>
       <div className={locals.header}>
         <TimeZones />
       </div>
+
+      {internalMonitoringUnit && (
+        <Row>
+          <Col lg={12}>
+            <SloViolationsChart timeConfig={timeConfig} />
+          </Col>
+        </Row>
+      )}
 
       <Row>
         {internalMonitoringUnit && (
@@ -379,4 +390,4 @@ export default function Landing() {
       </Row>
     </Fragment>
   );
-}
+});

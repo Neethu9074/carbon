@@ -48,6 +48,7 @@ export default function ViewSwitcher({
   return (
     <ul className={locals.list}>
       <View
+        id="main-nav-infrastructure"
         label="Infrastructure"
         icon="lib_infrastructure_inverted"
         isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
@@ -59,6 +60,7 @@ export default function ViewSwitcher({
       {kubernetesEnabled &&
         hasPermission('ACCESS_KUBERNETES') && (
           <View
+            id="main-nav-kubernetes"
             label="Kubernetes"
             icon="lib_kubernetes_inverted"
             href$={getView(kubernetesClusterList)}
@@ -70,6 +72,7 @@ export default function ViewSwitcher({
       <Spacer />
 
       <View
+        id="main-nav-application"
         label="Application"
         icon="lib_application_invert"
         isActive$={isView(isApplicationsView)}
@@ -79,6 +82,7 @@ export default function ViewSwitcher({
 
       {hasPermission('ACCESS_WEBSITES') && (
         <View
+          id="main-nav-websites"
           label="Websites"
           icon="lib_website_inverted"
           href$={getView(websiteMonitoringPath)}
@@ -88,6 +92,7 @@ export default function ViewSwitcher({
       )}
 
       <View
+        id="main-nav-analyze"
         label="Analyze"
         icon="lib_analyze_inverted"
         isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
@@ -105,6 +110,7 @@ export default function ViewSwitcher({
       <Spacer />
 
       <View
+        id="main-nav-settings"
         label="Settings"
         icon="lib_actions_settings_inverted"
         isActive$={isView(settingsPath)}
@@ -125,15 +131,17 @@ export default function ViewSwitcher({
         sidebarIsExpanded={isExpanded}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        id="main-nav-more"
       >
-        <SubViewItem label="Management Portal" href={umpLink} external />
-        <SubViewItem label="Tenants" href={tenantSwitcherLink} external />
+        <SubViewItem label="Management Portal" href={umpLink} external id="main-nav-management-portal" />
+        <SubViewItem label="Tenants" href={tenantSwitcherLink} external id="main-nav-tenants" />
         {role.canConfigureAgents && (
           <SubViewItem
             label="Agents"
             href$={getView(agentsPath)}
             isActive$={isView(agentsPath)}
             onClick={onViewSwitched}
+            id="main-nav-agents"
           />
         )}
         {releaseNotesEnabled && (
@@ -143,16 +151,24 @@ export default function ViewSwitcher({
               showReleaseNotes();
               onViewSwitched(e, 'Release Notes');
             }}
+            id="main-nav-release-notes"
           />
         )}
-        <SubViewItem label="Documentation" href="https://docs.instana.com" external />
-        <SubViewItem label="Support" className={locals.linkElement} href="https://support.instana.com" external />
+        <SubViewItem label="Documentation" href="https://docs.instana.com" external id="main-nav-documentation" />
+        <SubViewItem
+          label="Support"
+          className={locals.linkElement}
+          href="https://support.instana.com"
+          external
+          id="main-nav-support"
+        />
         <SubViewItem
           label="About Instana"
           onClick={e => {
             setActiveDialog(<AboutInstanaDialog />);
             onViewSwitched(e, 'About Instana');
           }}
+          id="main-nav-about"
         />
         <SignOut />
       </View>
@@ -204,6 +220,7 @@ const IncidentsMenuPoint = connectTo(
     return (
       <div className={locals.incidentMenu}>
         <View
+          id="main-nav-events"
           label="Events"
           icon="lib_events_inverted"
           href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}

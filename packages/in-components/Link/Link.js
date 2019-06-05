@@ -14,7 +14,7 @@ export default connectTo(
       href: props.href$
     };
   },
-  function Link({ href, onClick, children, title, target, className, style, external, ellipsis }) {
+  function Link({ href, onClick, children, title, target, className, style, external, ellipsis, id }) {
     if (external) {
       return (
         <a
@@ -25,6 +25,7 @@ export default connectTo(
           style={style}
           target="_blank"
           rel="noopener noreferrer"
+          id={id}
         >
           {children}
         </a>
@@ -38,6 +39,7 @@ export default connectTo(
         target={target}
         className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
         style={style}
+        id={id}
       >
         {children}
       </a>

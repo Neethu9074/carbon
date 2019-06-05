@@ -11,6 +11,7 @@ import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import Landing from 'in-internal/monitoringUnit/unit/Landing';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -101,6 +102,12 @@ export default connectTo(({ location }) => {
                 path="/internal/monitoringUnit/unit/stan"
                 render={() => <Stan timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
               />
+              <Route
+                path="/internal/monitoringUnit/unit"
+                render={() => (
+                  <Landing timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+                )}
+              />
             </Switch>
           )}
         </div>
@@ -112,6 +119,7 @@ export default connectTo(({ location }) => {
 function Navigation({ tenant, unit }) {
   return (
     <LinkList>
+      <LinkListItem label="Home" href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))} />
       <LinkListItem
         label="Agents"
         external
@@ -130,6 +138,13 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label="Infrastructure"
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
+      />
+      <LinkListItem
+        label="SLO Violations"
+        href$={getModifiedUrlStream(p => {
+          p.pathname = '/events';
+          p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
+        })}
       />
       <LinkListItem
         label="Stan"
