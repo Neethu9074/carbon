@@ -58,8 +58,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Involved Object',
-    getContent(item, { serviceId, namespaceId, clusterId, podId }) {
-      const href$ = includes([serviceId, namespaceId, clusterId, podId], item.sourceId)
+    getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
+      const href$ = includes(
+        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId],
+        item.sourceId
+      )
         ? null
         : getDashboardForEntity(item.sourceId, item.sourcePlugin);
       return <EntityLink icon={pluginIcons[item.sourcePlugin]} label={item.name} href$={href$} />;
@@ -95,17 +98,28 @@ const serverTableWithUrlState = columnDefinitions =>
     matrixPrefix
   });
 
-export default function Events({ serviceId, namespaceId, clusterId, podId, columnFilter = () => true, ...props }) {
+export default function Events({
+  clusterId,
+  deploymentId,
+  deploymentConfigId,
+  namespaceId,
+  podId,
+  serviceId,
+  columnFilter = () => true,
+  ...props
+}) {
   const ServerTableWithUrlState = serverTableWithUrlState(columnDefinitions.filter(columnFilter));
   return (
     <Row>
       <Col lg={12}>
         <ServerTableWithUrlState
           cardTitle="Events"
-          serviceId={serviceId}
-          namespaceId={namespaceId}
           clusterId={clusterId}
+          deploymentId={deploymentId}
+          deploymentConfigId={deploymentConfigId}
+          namespaceId={namespaceId}
           podId={podId}
+          serviceId={serviceId}
           get={getTableData}
           {...props}
         />
@@ -119,9 +133,11 @@ export function EventsWithoutNamespace({ ...props }) {
 }
 
 function getTableData({
-  serviceId,
-  namespaceId,
   clusterId,
+  deploymentId,
+  deploymentConfigId,
+  namespaceId,
+  serviceId,
   podId,
   page,
   pageSize,
@@ -133,10 +149,12 @@ function getTableData({
 }) {
   return getKubernetesEvents({
     filter: {
-      serviceId,
-      namespaceId,
       clusterId,
+      deploymentId,
+      deploymentConfigId,
+      namespaceId,
       podId,
+      serviceId,
       timeConfig
     },
     query,

@@ -2,6 +2,7 @@ import React from 'react';
 
 import getKubernetesDeploymentItemCounters from 'in-subscription/kubernetes/getKubernetesDeploymentItemCounters';
 import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
@@ -21,6 +22,11 @@ export default [
     label: 'Details',
     path: `${deploymentDashboardFullyQualified}/details`,
     component: Details
+  },
+  {
+    label: 'Events',
+    path: `${deploymentDashboardFullyQualified}/events`,
+    component: EventsWithoutNamespace
   },
   {
     label: 'Conditions',

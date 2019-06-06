@@ -2,6 +2,7 @@ import React from 'react';
 
 import getOpenShiftDeploymentConfigItemCounters$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigItemCounters';
 import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
@@ -21,6 +22,11 @@ export default [
     label: 'Details',
     path: `${deploymentConfigDashboardFullyQualified}/details`,
     component: Details
+  },
+  {
+    label: 'Events',
+    path: `${deploymentConfigDashboardFullyQualified}/events`,
+    component: EventsWithoutNamespace
   },
   {
     label: 'Conditions',
