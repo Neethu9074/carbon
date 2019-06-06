@@ -1,21 +1,25 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import CpuProfiler from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/CpuProfiler';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { time, bytes, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MetricValue from 'in-components/MetricValue';
 import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
-export default function NodejsDashboard({ snapshot, timeConfig }) {
+export default connectTo({
+  isInternalVisible: isInternalVisible$
+})(function NodejsDashboard({ snapshot, timeConfig, isInternalVisible }) {
   const snapshotId = snapshot.get('id');
   const gcStatsSupported = snapshot.getIn(['data', 'gc.statsSupported']);
   return (
@@ -42,12 +46,12 @@ export default function NodejsDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Event loop lag">
           <MetricValue snapshotId={snapshotId} metric="libuv.lag" formatter={time} />
         </KpiKeyValue>
-        {__DEV__ && (
+        {isInternalVisible && (
           <Button onClick={() => getSource(snapshot)} kind="secondary">
             Get source for arbitrary file
           </Button>
         )}
-        {__DEV__ && (
+        {isInternalVisible && (
           <Button onClick={() => getModuleAnalysis(snapshot)} kind="secondary">
             Analyse Modules
           </Button>
@@ -95,7 +99,7 @@ export default function NodejsDashboard({ snapshot, timeConfig }) {
       <HttpServersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
-}
+});
 
 function renderGcMetrics(snapshot, timeConfig) {
   if (snapshot.getIn(['data', 'gc.statsSupported'])) {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -14,8 +15,11 @@ import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
 import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
+import connectTo from 'in-hoc/connectTo';
 
-export default function JVMDashboard({ snapshot, timeConfig }) {
+export default connectTo({
+  isInternalVisible: isInternalVisible$
+})(function JVMDashboard({ snapshot, timeConfig, isInternalVisible }) {
   const collectors = snapshot.getIn(['data', 'jvm.collectors']);
   const snapshotId = snapshot.get('id');
 
@@ -26,11 +30,11 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytes.detailed} />
         </KpiKeyValue>
 
-        {__DEV__ ? (
+        {isInternalVisible && (
           <Button onClick={() => getSource(snapshot)} kind="secondary">
             Get source for arbitrary class
           </Button>
-        ) : null}
+        )}
       </KpiSection>
 
       <DashboardSection
@@ -127,7 +131,7 @@ export default function JVMDashboard({ snapshot, timeConfig }) {
       <MicrometerMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Micrometer" />
     </div>
   );
-}
+});
 
 function getSource(snapshot) {
   const classname = prompt('Please provide the fully qualified class name');
