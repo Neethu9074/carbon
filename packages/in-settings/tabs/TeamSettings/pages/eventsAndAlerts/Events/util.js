@@ -58,3 +58,75 @@ export function getEntityTypeOptions() {
       };
     });
 }
+
+export function formatterTypeToLabel(formatterType) {
+  switch (formatterType) {
+    case 'MILLIS':
+      return 'ms';
+    case 'MICROS':
+      return 'µs';
+    case 'SECONDS':
+      return 's';
+    case 'MINUTES':
+      return 'min';
+    case 'PERCENTAGE':
+      return '%';
+    case 'RATE':
+      return '/s';
+    case 'BYTE_RATE':
+      return 'Bytes/s';
+    case 'BYTES':
+      return 'Bytes';
+    case 'UNDEFINED':
+    case 'NUMBER':
+    default:
+      return '';
+  }
+}
+
+export function formatterTypeToDefinition(formatterType) {
+  switch (formatterType) {
+    case 'MILLIS':
+      return 'Milliseconds';
+    case 'MICROS':
+      return 'Microseconds';
+    case 'SECONDS':
+      return 'Seconds';
+    case 'MINUTES':
+      return 'Minutes';
+    case 'PERCENTAGE':
+      return 'Percentage';
+    case 'RATE':
+      return 'Rate per second';
+    case 'BYTE_RATE':
+      return 'Bytes per second';
+    case 'BYTES':
+      return 'Bytes';
+    case 'NUMBER':
+      return 'Count';
+    case 'UNDEFINED':
+      return 'Value';
+    default:
+      return 'Value';
+  }
+}
+
+export function mapConditionValue(value, formatterType) {
+  if (formatterType === 'PERCENTAGE') {
+    // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
+    value *= 100;
+  } else if (formatterType === 'MICROS') {
+    // convert to millis
+    value /= 1000;
+  }
+  return value;
+}
+
+export function unmapConditionValue(value, formatterType) {
+  if (formatterType === 'PERCENTAGE') {
+    value /= 100;
+  } else if (formatterType === 'MICROS') {
+    value *= 1000;
+  }
+  return value;
+}

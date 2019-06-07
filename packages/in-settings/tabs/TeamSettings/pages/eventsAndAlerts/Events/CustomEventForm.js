@@ -23,9 +23,11 @@ import {
   scopeEverything,
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { formatterTypeToDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
+import {
+  getEntityTypeOptions,
+  formatterTypeToDefinition
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
-import { getEntityTypeOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
 import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
@@ -38,6 +40,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventDescription from 'in-components/EventDescription';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { getSystemRules } from 'in-api/eventSpecifications';
 import FormGroup from 'in-settings/components/FormGroup';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
@@ -45,7 +48,6 @@ import { getCustom } from 'in-api/metricsCatalog';
 import Helpify from 'in-components/form/Helpify';
 import { getSingular } from 'in-sdk/pluginName';
 import Toggle from 'in-components/form/Toggle';
-import { getSystemRules } from 'in-api/rules';
 import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
 import { Row, Col } from 'in-components/Grid';
