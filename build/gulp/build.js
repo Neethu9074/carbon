@@ -152,7 +152,8 @@ gulp.task('startTryBuildProxy', () => {
       '/auth/': 'https://test-instana.instana.io/auth/',
       '/ump': 'https://test-instana.instana.io/ump',
       '/assets/': 'https://test-instana.instana.io/assets/',
-      '/notifications/': 'https://instana.github.io/ui-notifications/content/'
+      '/notifications/': 'https://instana.github.io/ui-notifications/content/',
+      '/integrations/': 'https://test-instana.instana.io/integrations/'
     },
     websocketProxy: {
       '/api/data/': 'https://test-instana.instana.io'

@@ -210,7 +210,8 @@ gulp.task('startDevProxy', function startDevProxy() {
     '/assets/': butlerUrl + '/assets/',
     '/secured/': butlerUrl + '/secured/',
     '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
-    '/notifications/': 'https://instana.github.io/ui-notifications/content/'
+    '/notifications/': 'https://instana.github.io/ui-notifications/content/',
+    '/integrations/': butlerUrl + '/integrations/'
   };
 
   if (hotReload) {
