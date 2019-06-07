@@ -1,7 +1,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
-import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EventDetails';
 import { parseQuery, scopeApplication, scopeDfq } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
 import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';

@@ -180,3 +180,12 @@ export function deleteCustomEventSpecification(id) {
     headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }
+
+export function getSystemRules() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/systemRules`
+    // no need to make it immutable since it would be converted directly
+  }).map(response => response.body);
+}
