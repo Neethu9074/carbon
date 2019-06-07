@@ -6,9 +6,10 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './TimeIcon.mless';
 
-const HISTORIC_DATA_MESSAGE = 'Historic Data - Showing approximate data due to the data retention settings. ';
+const HISTORIC_DATA_MESSAGE =
+  'You are viewing approximate data due to the data retention settings. Precise data is available within the last 7 days.';
 const LARGE_DATA_MESSAGE =
-  'Large Dataset - Showing approximate data, reduce the selected time range for precise data. ';
+  'You are viewing approximate data due to a large data set. Please reduce the time range for precise data.';
 
 export default function TimeIcon({ selected, containsPastLiveData, largeData, theme = 'dark', className }) {
   const content = (
