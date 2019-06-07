@@ -17,6 +17,7 @@ const pluginIcons = {
   [fullyQualifiedPlugins.kubernetesPod]: 'lib_kubernetes_pod',
   [fullyQualifiedPlugins.kubernetesService]: 'lib_kubernetes_service',
   [fullyQualifiedPlugins.kubernetesDeployment]: 'lib_kubernetes_workload',
+  [fullyQualifiedPlugins.openshiftDeploymentConfig]: 'lib_kubernetes_workload',
   [fullyQualifiedPlugins.kubernetesNamespace]: 'lib_kuberetes_namespace',
   [fullyQualifiedPlugins.kubernetesReplicaSet]: 'lib_kubernetes_workload',
   [fullyQualifiedPlugins.kubernetesCluster]: 'lib_kubernetes_cluster'
