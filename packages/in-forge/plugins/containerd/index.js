@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 
+import tableDefinition from 'in-forge/plugins/containerd/tableDefinition';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,6 +11,7 @@ registerSnapshotDefinition({
   plugin: plugins.containerd,
   iconSvgPath,
   metricDefinitions,
+  tableDefinition,
 
   pluginName: {
     singular: 'Containerd Container',

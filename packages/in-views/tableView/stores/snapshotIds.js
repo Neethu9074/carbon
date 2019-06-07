@@ -20,7 +20,9 @@ const entityTypeToFullyQualifiedPlugin = {
   agent: fullyQualifiedPlugins.instanaAgent,
   process: fullyQualifiedPlugins.process,
   ping: fullyQualifiedPlugins.ping,
-  clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase
+  clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase,
+  containerd: fullyQualifiedPlugins.containerd,
+  garden: fullyQualifiedPlugins.garden
 };
 
 const pluginsRequiringTableViewInSearch = ['ping'];
