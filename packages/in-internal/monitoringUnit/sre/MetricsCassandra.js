@@ -8,7 +8,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
-import { number } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import {
   hostTableCols,
   volumeTableCols,
@@ -72,6 +72,34 @@ export default connectTo(
             y1={{
               min: 0,
               metrics: metricsNodes.map(() => `compaction.pending`),
+              labels: metricsNodeLabels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data received`}>
+          <Chart
+            snapshotIds={metricsNodes.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: metricsNodes.map(() => `ifs.eth0.rx.bytes`),
+              labels: metricsNodeLabels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data transmitted`}>
+          <Chart
+            snapshotIds={metricsNodes.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: metricsNodes.map(() => `ifs.eth0.tx.bytes`),
               labels: metricsNodeLabels,
               type: 'line'
             }}

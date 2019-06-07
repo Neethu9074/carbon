@@ -11,7 +11,7 @@ import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
-import { number, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
+import { number, timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import {
   hostTableCols,
   volumeTableCols,
@@ -76,6 +76,36 @@ export default connectTo(
                 metrics: metaEsNodes.map(() => `indices.index_count`),
                 labels: metaEsNodeLabels,
                 type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Network - data received`}>
+            <Chart
+              snapshotIds={metaEsNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: metaEsNodes.map(() => `ifs.eth0.rx.bytes`),
+                labels: metaEsNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Network - data transmitted`}>
+            <Chart
+              snapshotIds={metaEsNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: metaEsNodes.map(() => `ifs.eth0.tx.bytes`),
+                labels: metaEsNodeLabels,
+                type: 'line'
               }}
             />
           </DashboardSection>
