@@ -2,7 +2,8 @@ import React from 'react';
 
 import DetailsNavigation, {
   labelsNavigationItem,
-  annotationsNavigationItem
+  annotationsNavigationItem,
+  specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import { deploymentConfigDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
@@ -25,7 +26,8 @@ export default connectTo(
 
 const navigationItems = [
   labelsNavigationItem(deploymentConfigDashboardDetailsFullyQualified),
-  annotationsNavigationItem(`${deploymentConfigDashboardDetailsFullyQualified}/annotations`)
+  annotationsNavigationItem(`${deploymentConfigDashboardDetailsFullyQualified}/annotations`),
+  specNavigationItem(`${deploymentConfigDashboardDetailsFullyQualified}/spec`)
 ].filter(Boolean);
 
 const navigationTree = singletonNavigationTree(navigationItems);
