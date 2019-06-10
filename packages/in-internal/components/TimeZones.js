@@ -16,6 +16,7 @@ export default function TimeZones() {
       <TimeZone timeZone="Europe/Berlin" label="Solingen" />
       <TimeZone timeZone="Europe/Belgrade" label="Novi Sad" />
       <TimeZone timeZone="Asia/Tokyo" label="Tokyo" />
+      <TimeZone timeZone="Australia/Sydney" label="Sydney" />
     </dl>
   );
 }
