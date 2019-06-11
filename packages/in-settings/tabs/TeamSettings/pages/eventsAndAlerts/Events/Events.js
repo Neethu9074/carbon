@@ -22,7 +22,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { openEventSubmitFormTracker, viewCustomEventTracker } from 'in-settings/tracker';
+import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { joinClassNames } from 'in-services/util/classnames';
 import { intersperse } from 'in-services/arrayUtils';
@@ -121,7 +121,7 @@ function columnDefinitions(hasRowNavigation) {
                     href$={getEntityIdView(getDetailsPath(entity), entity.id)}
                     ellipsis
                     onClick={() =>
-                      viewCustomEventTracker({
+                      viewEventTracker({
                         eventDefinitionType: entity.type,
                         entityType: entity.entityType,
                         type: entity.triggering ? 'Incident' : 'None',
