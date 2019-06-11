@@ -6,10 +6,7 @@ export function getRules() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/rules`,
-    queryParams: {
-      newApplicationModelEnabled: true
-    }
+    url: `/api/rules`
   }).map(response => fromJS(response.body));
 }
 

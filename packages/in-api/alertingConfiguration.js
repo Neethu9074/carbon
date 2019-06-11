@@ -13,10 +13,7 @@ export function getAlertingConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/alerts`,
-    queryParams: {
-      newApplicationModelEnabled: true
-    }
+    url: `/api/events/settings/alerts`
   }).map(response => response.body);
 }
 
@@ -35,8 +32,7 @@ export function getAlertsForAlertChannelId(alertChannelId) {
     maxRetries: 3,
     url: `/api/events/settings/alerts/infos`,
     queryParams: {
-      integrationId: alertChannelId,
-      newApplicationModelEnabled: true
+      integrationId: alertChannelId
     }
   }).map(response => response.body);
 }

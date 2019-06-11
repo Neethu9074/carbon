@@ -18,8 +18,7 @@ export function getEventSpecifications(eventIds) {
     maxRetries: 3,
     url: '/api/events/settings/event-specifications/infos',
     queryParams: {
-      ids: eventIds ? eventIds : [],
-      newApplicationModelEnabled: true
+      ids: eventIds ? eventIds : []
     }
   }).map(response => response.body);
 }
@@ -30,10 +29,7 @@ export function getEventSpecificationByIds(eventIds) {
     headers: getCsrfHeader(),
     maxRetries: 3,
     url: '/api/events/settings/event-specifications/infos',
-    data: eventIds ? eventIds : [],
-    queryParams: {
-      newApplicationModelEnabled: true
-    }
+    data: eventIds ? eventIds : []
   }).map(response => response.body);
 }
 
@@ -143,10 +139,7 @@ export function saveCustomEventSpecification(event) {
     maxRetries: 3,
     url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.id)}`,
     headers: getCsrfHeader(),
-    data: event,
-    queryParams: {
-      newApplicationModelEnabled: true
-    }
+    data: event
   }).map(response => fromJS(response.body));
 }
 

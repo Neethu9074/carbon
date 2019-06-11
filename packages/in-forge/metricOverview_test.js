@@ -37,10 +37,7 @@ function doGenerate() {
       }
 
       if (applicationPlugins[plugin]) {
-        str +=
-          `These entities are part of Instana's Application Perspectives capabilities. Add the query ` +
-          `parameter \`newApplicationModelEnabled=true\` to your API calls when searching for / working ` +
-          `with these types of entities.\n\n`;
+        str += `These entities are part of Instana's Application Perspectives capabilities.\n\n`;
       }
 
       metrics.forEach(metric => {

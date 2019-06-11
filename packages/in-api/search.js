@@ -7,8 +7,7 @@ export function validate(query, context) {
     maxRetries: 3,
     queryParams: {
       q: query,
-      searchContext: context,
-      newApplicationModelEnabled: true
+      searchContext: context
     }
   });
 }

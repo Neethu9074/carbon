@@ -12,10 +12,7 @@ export function getMaintenanceConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/maintenanceConfigs`,
-    queryParams: {
-      newApplicationModelEnabled: true
-    }
+    url: `/api/maintenanceConfigs`
   }).map(response => response.body);
 }
 
