@@ -23,7 +23,7 @@ const pluginIcons = {
   [fullyQualifiedPlugins.kubernetesCluster]: 'lib_kubernetes_cluster'
 };
 
-const columnDefinitions = [
+const allColumns = [
   {
     id: 'type',
     label: 'Type',
@@ -85,11 +85,13 @@ const columnDefinitions = [
   }
 ];
 
+const columnsWithoutNamespace = allColumns.filter(c => c.id !== 'namespace');
+
 const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
-const serverTableWithUrlState = columnDefinitions =>
-  createServerTableWithUrlState({
+function eventsTable(columnDefinitions) {
+  const ServerTableWithUrlState = createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions,
     defaultOrderBy: 'time',
@@ -99,39 +101,30 @@ const serverTableWithUrlState = columnDefinitions =>
     matrixPrefix
   });
 
-export default function Events({
-  clusterId,
-  deploymentId,
-  deploymentConfigId,
-  namespaceId,
-  podId,
-  serviceId,
-  columnFilter = () => true,
-  ...props
-}) {
-  const ServerTableWithUrlState = serverTableWithUrlState(columnDefinitions.filter(columnFilter));
-  return (
-    <Row>
-      <Col lg={12}>
-        <ServerTableWithUrlState
-          cardTitle="Events"
-          clusterId={clusterId}
-          deploymentId={deploymentId}
-          deploymentConfigId={deploymentConfigId}
-          namespaceId={namespaceId}
-          podId={podId}
-          serviceId={serviceId}
-          get={getTableData}
-          {...props}
-        />
-      </Col>
-    </Row>
-  );
+  return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {
+    return (
+      <Row>
+        <Col lg={12}>
+          <ServerTableWithUrlState
+            cardTitle="Events"
+            clusterId={clusterId}
+            deploymentId={deploymentId}
+            deploymentConfigId={deploymentConfigId}
+            namespaceId={namespaceId}
+            podId={podId}
+            serviceId={serviceId}
+            get={getTableData}
+            {...props}
+          />
+        </Col>
+      </Row>
+    );
+  };
 }
 
-export function EventsWithoutNamespace({ ...props }) {
-  return Events({ columnFilter: c => c.id !== 'namespace', ...props });
-}
+export default eventsTable(allColumns);
+
+export const EventsWithoutNamespace = eventsTable(columnsWithoutNamespace);
 
 function getTableData({
   clusterId,
