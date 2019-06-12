@@ -25,7 +25,7 @@ exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
     return Promise.all([
       getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
