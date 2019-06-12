@@ -26,26 +26,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-(function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(function () {
-            return (root.returnExportsGlobal = factory());
-        });
-    } else if (typeof exports === 'object') {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like enviroments that support module.exports,
-        // like Node.
-        module.exports = factory();
-    } else {
-        // Browser globals
-        root.Springy = factory();
-    }
-}(this, function() {
-
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(function() {
+      return (root.returnExportsGlobal = factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like enviroments that support module.exports,
+    // like Node.
+    module.exports = factory();
+  } else {
+    // Browser globals
+    root.Springy = factory();
+  }
+})(window, function() {
   var Springy = {};
 
-  var Graph = Springy.Graph = function() {
+  var Graph = (Springy.Graph = function() {
     this.nodeSet = {};
     this.nodes = [];
     this.edges = [];
@@ -54,29 +53,29 @@
     this.nextNodeId = 0;
     this.nextEdgeId = 0;
     this.eventListeners = [];
-  };
+  });
 
-  var Node = Springy.Node = function(id, data) {
+  var Node = (Springy.Node = function(id, data) {
     this.id = id;
-    this.data = (data !== undefined) ? data : {};
+    this.data = data !== undefined ? data : {};
     this.position = Vector.random();
 
-  // Data fields used by layout algorithm in this file:
-  // this.data.mass
-  // Data used by default renderer in springyui.js
-  // this.data.label
-  };
+    // Data fields used by layout algorithm in this file:
+    // this.data.mass
+    // Data used by default renderer in springyui.js
+    // this.data.label
+  });
 
-  var Edge = Springy.Edge = function(id, source, target, data) {
+  var Edge = (Springy.Edge = function(id, source, target, data) {
     this.id = id;
     this.source = source;
     this.target = target;
-    this.data = (data !== undefined) ? data : {};
+    this.data = data !== undefined ? data : {};
 
-  // Edge data field used by layout alorithm
-  // this.data.length
-  // this.data.type
-  };
+    // Edge data field used by layout alorithm
+    // this.data.length
+    // this.data.type
+  });
 
   Graph.prototype.addNode = function(node) {
     if (!(node.id in this.nodeSet)) {
@@ -94,7 +93,7 @@
     // is a string that becomes both node identifier and label
     for (var i = 0; i < arguments.length; i++) {
       var name = arguments[i];
-      var node = new Node(name, {label:name});
+      var node = new Node(name, { label: name });
       this.addNode(node);
     }
   };
@@ -102,7 +101,9 @@
   Graph.prototype.addEdge = function(edge) {
     var exists = false;
     this.edges.forEach(function(e) {
-      if (edge.id === e.id) { exists = true; }
+      if (edge.id === e.id) {
+        exists = true;
+      }
     });
 
     if (!exists) {
@@ -118,7 +119,9 @@
 
     exists = false;
     this.adjacency[edge.source.id][edge.target.id].forEach(function(e) {
-        if (edge.id === e.id) { exists = true; }
+      if (edge.id === e.id) {
+        exists = true;
+      }
     });
 
     if (!exists) {
@@ -136,11 +139,11 @@
       var e = arguments[i];
       var node1 = this.nodeSet[e[0]];
       if (node1 == undefined) {
-        throw new TypeError("invalid node name: " + e[0]);
+        throw new TypeError('invalid node name: ' + e[0]);
       }
       var node2 = this.nodeSet[e[1]];
       if (node2 == undefined) {
-        throw new TypeError("invalid node name: " + e[1]);
+        throw new TypeError('invalid node name: ' + e[1]);
       }
       var attr = e[2];
 
@@ -160,10 +163,9 @@
     return edge;
   };
 
-
   // add nodes and edges from JSON object
   Graph.prototype.loadJSON = function(json) {
-  /**
+    /**
   Springy's simple JSON format for graphs.
 
   historically, Springy uses separate lists
@@ -187,20 +189,18 @@
   **/
     // parse if a string is passed (EC5+ browsers)
     if (typeof json == 'string' || json instanceof String) {
-      json = JSON.parse( json );
+      json = JSON.parse(json);
     }
 
     if ('nodes' in json || 'edges' in json) {
       this.addNodes.apply(this, json['nodes']);
       this.addEdges.apply(this, json['edges']);
     }
-  }
-
+  };
 
   // find the edges from node1 to node2
   Graph.prototype.getEdges = function(node1, node2) {
-    if (node1.id in this.adjacency
-      && node2.id in this.adjacency[node1.id]) {
+    if (node1.id in this.adjacency && node2.id in this.adjacency[node1.id]) {
       return this.adjacency[node1.id][node2.id];
     }
 
@@ -246,7 +246,7 @@
       for (var y in this.adjacency[x]) {
         var edges = this.adjacency[x][y];
 
-        for (var j=edges.length - 1; j>=0; j--) {
+        for (var j = edges.length - 1; j >= 0; j--) {
           if (this.adjacency[x][y][j].id === edge.id) {
             this.adjacency[x][y].splice(j, 1);
           }
@@ -288,11 +288,11 @@
       var from = nodes[e.from];
       var to = nodes[e.to];
 
-      var id = (e.directed)
-        ? (id = e.type + "-" + from.id + "-" + to.id)
-        : (from.id < to.id) // normalise id for non-directed edges
-          ? e.type + "-" + from.id + "-" + to.id
-          : e.type + "-" + to.id + "-" + from.id;
+      var id = e.directed
+        ? (id = e.type + '-' + from.id + '-' + to.id)
+        : from.id < to.id // normalise id for non-directed edges
+          ? e.type + '-' + from.id + '-' + to.id
+          : e.type + '-' + to.id + '-' + from.id;
 
       var edge = this.addEdge(new Edge(id, from, to, e.data));
       edge.data.type = e.type;
@@ -317,19 +317,18 @@
     }, this);
   };
 
-
   Graph.prototype.addGraphListener = function(obj) {
     this.eventListeners.push(obj);
   };
 
   Graph.prototype.notify = function() {
-    this.eventListeners.forEach(function(obj){
+    this.eventListeners.forEach(function(obj) {
       obj.graphChanged();
     });
   };
 
   // -----------
-  var Layout = Springy.Layout = {};
+  var Layout = (Springy.Layout = {});
   Layout.ForceDirected = function(graph, stiffness, repulsion, damping, minEnergyThreshold) {
     this.graph = graph;
     this.stiffness = stiffness; // spring stiffness constant
@@ -343,7 +342,7 @@
 
   Layout.ForceDirected.prototype.point = function(node) {
     if (!(node.id in this.nodePoints)) {
-      var mass = (node.data.mass !== undefined) ? node.data.mass : 1.0;
+      var mass = node.data.mass !== undefined ? node.data.mass : 1.0;
       this.nodePoints[node.id] = new Layout.ForceDirected.Point(Vector.random(), mass);
     }
 
@@ -352,7 +351,7 @@
 
   Layout.ForceDirected.prototype.spring = function(edge) {
     if (!(edge.id in this.edgeSprings)) {
-      var length = (edge.data.length !== undefined) ? edge.data.length : 1.0;
+      var length = edge.data.length !== undefined ? edge.data.length : 1.0;
 
       var existingSpring = false;
 
@@ -368,7 +367,7 @@
       }
 
       var to = this.graph.getEdges(edge.target, edge.source);
-      from.forEach(function(e){
+      from.forEach(function(e) {
         if (existingSpring === false && e.id in this.edgeSprings) {
           existingSpring = this.edgeSprings[e.id];
         }
@@ -379,7 +378,10 @@
       }
 
       this.edgeSprings[edge.id] = new Layout.ForceDirected.Spring(
-        this.point(edge.source), this.point(edge.target), length, this.stiffness
+        this.point(edge.source),
+        this.point(edge.target),
+        length,
+        this.stiffness
       );
     }
 
@@ -389,7 +391,7 @@
   // callback should accept two arguments: Node, Point
   Layout.ForceDirected.prototype.eachNode = function(callback) {
     var t = this;
-    this.graph.nodes.forEach(function(n){
+    this.graph.nodes.forEach(function(n) {
       callback.call(t, n, t.point(n));
     });
   };
@@ -397,7 +399,7 @@
   // callback should accept two arguments: Edge, Spring
   Layout.ForceDirected.prototype.eachEdge = function(callback) {
     var t = this;
-    this.graph.edges.forEach(function(e){
+    this.graph.edges.forEach(function(e) {
       callback.call(t, e, t.spring(e));
     });
   };
@@ -405,18 +407,16 @@
   // callback should accept one argument: Spring
   Layout.ForceDirected.prototype.eachSpring = function(callback) {
     var t = this;
-    this.graph.edges.forEach(function(e){
+    this.graph.edges.forEach(function(e) {
       callback.call(t, t.spring(e));
     });
   };
-
 
   // Physics stuff
   Layout.ForceDirected.prototype.applyCoulombsLaw = function() {
     this.eachNode(function(n1, point1) {
       this.eachNode(function(n2, point2) {
-        if (point1 !== point2)
-        {
+        if (point1 !== point2) {
           var d = point1.p.subtract(point2.p);
           var distance = d.magnitude() + 0.1; // avoid massive forces at small distances (and divide by zero)
           var direction = d.normalise();
@@ -430,7 +430,7 @@
   };
 
   Layout.ForceDirected.prototype.applyHookesLaw = function() {
-    this.eachSpring(function(spring){
+    this.eachSpring(function(spring) {
       var d = spring.point2.p.subtract(spring.point1.p); // the direction of the spring
       var displacement = spring.length - d.magnitude();
       var direction = d.normalise();
@@ -448,13 +448,12 @@
     });
   };
 
-
   Layout.ForceDirected.prototype.updateVelocity = function(timestep) {
     this.eachNode(function(node, point) {
       // Is this, along with updatePosition below, the only places that your
       // integration code exist?
       point.v = point.v.add(point.a.multiply(timestep)).multiply(this.damping);
-      point.a = new Vector(0,0,0);
+      point.a = new Vector(0, 0, 0);
     });
   };
 
@@ -478,17 +477,23 @@
     return energy;
   };
 
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }; // stolen from coffeescript, thanks jashkenas! ;-)
+  var __bind = function(fn, me) {
+    return function() {
+      return fn.apply(me, arguments);
+    };
+  }; // stolen from coffeescript, thanks jashkenas! ;-)
 
-  Springy.requestAnimationFrame = __bind(this.requestAnimationFrame ||
-    this.webkitRequestAnimationFrame ||
-    this.mozRequestAnimationFrame ||
-    this.oRequestAnimationFrame ||
-    this.msRequestAnimationFrame ||
-    (function(callback, element) {
-      this.setTimeout(callback, 10);
-    }), this);
-
+  Springy.requestAnimationFrame = __bind(
+    window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function(callback, element) {
+        this.setTimeout(callback, 10);
+      },
+    this
+  );
 
   /**
    * Start simulation if it's not running already.
@@ -502,7 +507,9 @@
     this._stop = false;
     var iterationCount = 0;
 
-    if (onRenderStart !== undefined) { onRenderStart(); }
+    if (onRenderStart !== undefined) {
+      onRenderStart();
+    }
 
     Springy.requestAnimationFrame(function step() {
       iterationCount++;
@@ -519,7 +526,9 @@
       // stop simulation when energy of the system goes below a threshold
       if (t._stop || t.totalEnergy() < t.minEnergyThreshold || iterationCount >= maxIterationCount) {
         t._started = false;
-        if (onRenderStop !== undefined) { onRenderStop(); }
+        if (onRenderStop !== undefined) {
+          onRenderStop();
+        }
       } else {
         Springy.requestAnimationFrame(step);
       }
@@ -528,7 +537,7 @@
 
   Layout.ForceDirected.prototype.stop = function() {
     this._stop = true;
-  }
+  };
 
   Layout.ForceDirected.prototype.tick = function(timestep) {
     this.applyCoulombsLaw();
@@ -540,14 +549,14 @@
 
   // Find the nearest point to a particular position
   Layout.ForceDirected.prototype.nearest = function(pos) {
-    var min = {node: null, point: null, distance: null};
+    var min = { node: null, point: null, distance: null };
     var t = this;
-    this.graph.nodes.forEach(function(n){
+    this.graph.nodes.forEach(function(n) {
       var point = t.point(n);
       var distance = point.p.subtract(pos).magnitude();
 
       if (min.distance === null || distance < min.distance) {
-        min = {node: n, point: point, distance: distance};
+        min = { node: n, point: point, distance: distance };
       }
     });
 
@@ -556,8 +565,8 @@
 
   // returns [bottomleft, topright]
   Layout.ForceDirected.prototype.getBoundingBox = function() {
-    var bottomleft = new Vector(-2,-2,-2);
-    var topright = new Vector(2,2,2);
+    var bottomleft = new Vector(-2, -2, -2);
+    var topright = new Vector(2, 2, 2);
 
     this.eachNode(function(n, point) {
       if (point.p.x < bottomleft.x) {
@@ -582,16 +591,15 @@
 
     var padding = topright.subtract(bottomleft).multiply(0.07); // ~5% padding
 
-    return {bottomleft: bottomleft.subtract(padding), topright: topright.add(padding)};
+    return { bottomleft: bottomleft.subtract(padding), topright: topright.add(padding) };
   };
 
-
   // Vector
-  var Vector = Springy.Vector = function(x, y, z) {
+  var Vector = (Springy.Vector = function(x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
-  };
+  });
 
   Vector.random = function() {
     return new Vector(10.0 * (Math.random() - 0.5), 10.0 * (Math.random() - 0.5), 10.0 * (Math.random() - 0.5));
@@ -610,11 +618,11 @@
   };
 
   Vector.prototype.divide = function(n) {
-    return new Vector((this.x / n) || 0, (this.y / n) || 0, (this.z / n) || 0); // Avoid divide by zero errors..
+    return new Vector(this.x / n || 0, this.y / n || 0, this.z / n || 0); // Avoid divide by zero errors..
   };
 
   Vector.prototype.magnitude = function() {
-    return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   };
 
   Vector.prototype.normalise = function() {
@@ -655,7 +663,7 @@
    * @param onRenderStop optional callback function that gets executed whenever rendering stops.
    * @param onRenderStart optional callback function that gets executed whenever rendering starts.
    */
-  var Renderer = Springy.Renderer = function(layout, clear, drawEdge, drawNode, onRenderStop, onRenderStart) {
+  var Renderer = (Springy.Renderer = function(layout, clear, drawEdge, drawNode, onRenderStop, onRenderStart) {
     this.layout = layout;
     this.clear = clear;
     this.drawEdge = drawEdge;
@@ -664,7 +672,7 @@
     this.onRenderStart = onRenderStart;
 
     this.layout.graph.addGraphListener(this);
-  }
+  });
 
   Renderer.prototype.graphChanged = function(e) {
     this.start();
@@ -682,17 +690,21 @@
    */
   Renderer.prototype.start = function(done) {
     var t = this;
-    this.layout.start(function render() {
-      t.clear();
+    this.layout.start(
+      function render() {
+        t.clear();
 
-      t.layout.eachEdge(function(edge, spring) {
-        t.drawEdge(edge, spring.point1.p, spring.point2.p);
-      });
+        t.layout.eachEdge(function(edge, spring) {
+          t.drawEdge(edge, spring.point1.p, spring.point2.p);
+        });
 
-      t.layout.eachNode(function(node, point) {
-        t.drawNode(node, point.p);
-      });
-    }, this.onRenderStop, this.onRenderStart);
+        t.layout.eachNode(function(node, point) {
+          t.drawNode(node, point.p);
+        });
+      },
+      this.onRenderStop,
+      this.onRenderStart
+    );
   };
 
   Renderer.prototype.stop = function() {
@@ -701,26 +713,26 @@
 
   // Array.forEach implementation for IE support..
   //https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/forEach
-  if ( !Array.prototype.forEach ) {
-    Array.prototype.forEach = function( callback, thisArg ) {
+  if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function(callback, thisArg) {
       var T, k;
-      if ( this == null ) {
-        throw new TypeError( " this is null or not defined" );
+      if (this == null) {
+        throw new TypeError(' this is null or not defined');
       }
       var O = Object(this);
       var len = O.length >>> 0; // Hack to convert O.length to a UInt32
-      if ( {}.toString.call(callback) != "[object Function]" ) {
-        throw new TypeError( callback + " is not a function" );
+      if ({}.toString.call(callback) != '[object Function]') {
+        throw new TypeError(callback + ' is not a function');
       }
-      if ( thisArg ) {
+      if (thisArg) {
         T = thisArg;
       }
       k = 0;
-      while( k < len ) {
+      while (k < len) {
         var kValue;
-        if ( k in O ) {
-          kValue = O[ k ];
-          callback.call( T, kValue, k, O );
+        if (k in O) {
+          kValue = O[k];
+          callback.call(T, kValue, k, O);
         }
         k++;
       }
@@ -737,4 +749,4 @@
   };
 
   return Springy;
-}));
+});
