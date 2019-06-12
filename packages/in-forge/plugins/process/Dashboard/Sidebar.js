@@ -20,7 +20,7 @@ export default function ProcessSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {args && args.size > 0 ? <KeyValueOverlay header="Arguments" data={args} /> : null}
+      {args && args.size > 0 ? <KeyValueOverlay header="Arguments" data={args} sort={false} /> : null}
 
       <KeyValueOverlay header="Environment Variables" data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
