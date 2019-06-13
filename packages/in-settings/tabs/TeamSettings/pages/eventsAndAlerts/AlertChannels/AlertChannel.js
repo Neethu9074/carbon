@@ -118,7 +118,11 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                   ddClassName={locals.rowInnerPadding}
                   dtClassName={locals.titleRow}
                 >
-                  {key === 'kind' ? getConfig(entity).label : entity.get(key)}
+                  {key === 'kind'
+                    ? getConfig(entity).label
+                    : entity.get(key).join
+                      ? entity.get(key).join(', ')
+                      : entity.get(key)}
                 </Di>
               ))}
             </Dl>

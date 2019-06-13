@@ -7,7 +7,7 @@ export default function PropertyInTable({ label, value }) {
     return (
       <div className={locals.propertyContainer}>
         <span className={locals.propertyLabel}>{label}</span>
-        <span className={locals.propertyValue}>{value}</span>
+        <span className={locals.propertyValue}>{value.join ? value.join(', ') : value}</span>
       </div>
     );
   }
