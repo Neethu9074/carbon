@@ -73,7 +73,7 @@ export default function ViewSwitcher({
 
       <View
         id="main-nav-application"
-        label="Application"
+        label="Applications"
         icon="lib_application_invert"
         isActive$={isView(isApplicationsView)}
         href$={getView(applicationsList)}
