@@ -29,6 +29,7 @@ export default compose(
 function TabView({
   result,
   renderErrors,
+  renderHeaderOnErrors = false,
   tabs,
   filterTabByResult = () => () => true,
   HeaderComponent,
@@ -39,25 +40,36 @@ function TabView({
   tabChangeTracker
 }) {
   const filteredTabs = tabs.filter(filterTabByResult(result));
+  const hasErrors = result && result.errors.length > 0;
+
   return (
     <section>
       <Sticky
         header={
           <div>
             {!withoutBreadcrumb && <BreadcrumbHeader useFullAvailableWidth={useFullAvailableWidth} />}
-            <Header
-              location={location}
-              tabs={filteredTabs}
-              result={result}
-              props={props}
-              HeaderComponent={HeaderComponent}
-              useFullAvailableWidth={useFullAvailableWidth}
-              tabChangeTracker={tabChangeTracker}
-            />
+            {(!hasErrors || renderHeaderOnErrors) && (
+              <Header
+                location={location}
+                tabs={filteredTabs}
+                result={result}
+                props={props}
+                HeaderComponent={HeaderComponent}
+                useFullAvailableWidth={useFullAvailableWidth}
+                tabChangeTracker={tabChangeTracker}
+              />
+            )}
           </div>
         }
       >
-        <Switch tabs={filteredTabs} result={result} location={location} props={props} renderErrors={renderErrors} />
+        <Switch
+          tabs={filteredTabs}
+          result={result}
+          hasErrors={hasErrors}
+          location={location}
+          props={props}
+          renderErrors={renderErrors}
+        />
       </Sticky>
     </section>
   );

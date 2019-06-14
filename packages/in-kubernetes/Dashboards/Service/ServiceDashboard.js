@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
-import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -12,12 +11,14 @@ import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import { plugins } from 'in-forge/constants';
 
 export default function ServiceDashboard({ location }) {
   const props = {
@@ -59,7 +60,12 @@ export default function ServiceDashboard({ location }) {
         }}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList snapshotId={props.serviceId} timeConfig={props.timeConfig} errors={errors} />
+          <EntityVersionList
+            plugin={plugins.kubernetesService}
+            snapshotId={props.serviceId}
+            timeConfig={props.timeConfig}
+            errors={errors}
+          />
         )}
       />
     </Fragment>

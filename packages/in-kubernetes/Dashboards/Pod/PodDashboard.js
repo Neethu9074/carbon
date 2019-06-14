@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -13,12 +12,14 @@ import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { podTabChange } from 'in-kubernetes/tracker';
+import { plugins } from 'in-forge/constants';
 
 export default function PodDashboard({ location }) {
   const props = {
@@ -55,7 +56,12 @@ export default function PodDashboard({ location }) {
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList snapshotId={props.podId} timeConfig={props.timeConfig} errors={errors} />
+          <EntityVersionList
+            plugin={plugins.kubernetesPod}
+            snapshotId={props.podId}
+            timeConfig={props.timeConfig}
+            errors={errors}
+          />
         )}
       />
     </Fragment>

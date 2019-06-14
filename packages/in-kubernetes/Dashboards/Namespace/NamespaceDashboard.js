@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -13,12 +12,14 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import { plugins } from 'in-forge/constants';
 
 export default function NamespaceDashboard({ location }) {
   const props = {
@@ -60,7 +61,12 @@ export default function NamespaceDashboard({ location }) {
         tabChangeTracker={namespaceTabChange}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList snapshotId={props.namespaceId} timeConfig={props.timeConfig} errors={errors} />
+          <EntityVersionList
+            plugin={plugins.kubernetesNamespace}
+            snapshotId={props.namespaceId}
+            timeConfig={props.timeConfig}
+            errors={errors}
+          />
         )}
       />
     </Fragment>

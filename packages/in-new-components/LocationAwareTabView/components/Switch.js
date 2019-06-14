@@ -10,9 +10,8 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Switch.mless';
 
-export default function TabSwitch({ tabs, result, location, props, renderErrors }) {
+export default function TabSwitch({ tabs, result, hasErrors, location, props, renderErrors }) {
   const isLoading = result && result.progress.loading;
-  const hasErrors = result && result.errors.length > 0;
 
   if (hasErrors) {
     return (

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -12,6 +11,7 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -19,6 +19,7 @@ import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
+import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 
 export default function NodeDashboard({ location }) {
@@ -54,7 +55,12 @@ export default function NodeDashboard({ location }) {
         tabChangeTracker={nodeTabChange}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList snapshotId={props.nodeId} timeConfig={props.timeConfig} errors={errors} />
+          <EntityVersionList
+            plugin={plugins.kubernetesNode}
+            snapshotId={props.nodeId}
+            timeConfig={props.timeConfig}
+            errors={errors}
+          />
         )}
       />
     </Fragment>

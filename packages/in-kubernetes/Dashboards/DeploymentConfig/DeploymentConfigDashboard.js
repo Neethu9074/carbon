@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ErroneousEntityVersionList from 'in-kubernetes/Dashboards/commonComponents/ErroneousEntityVersionList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import getOpenShiftDeploymentConfig$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/navigation/matrix';
@@ -16,8 +15,10 @@ import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
 import { DeploymentConfigBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import EntityVersionList from 'in-new-components/EntityVersionList';
 import { deploymentConfigTabChange } from 'in-kubernetes/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { plugins } from 'in-forge/constants';
 import { getTimeConfig } from 'in-stores/time/config';
 
 export default function DeploymentConfigDashboard({ location }) {
@@ -54,7 +55,8 @@ export default function DeploymentConfigDashboard({ location }) {
         tabChangeTracker={deploymentConfigTabChange}
         props={props}
         renderErrors={errors => (
-          <ErroneousEntityVersionList
+          <EntityVersionList
+            plugin={plugins.openshiftDeploymentConfig}
             snapshotId={props.deploymentConfigId}
             timeConfig={props.timeConfig}
             errors={errors}
