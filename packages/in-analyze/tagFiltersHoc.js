@@ -15,13 +15,21 @@ export const tagFilterManipulators = withProps(props => {
   const { filters, setTagFilters } = props;
   const tagFilters = filters.tagFilter;
   return {
-    removeTagFilter(name, operator) {
-      setTagFilters(tagFilters.filter(f => f.name !== name || (operator != null && f.operator !== operator)));
-      const before = tagFilters.filter(f => f.name === name && (operator == null || f.operator === operator));
+    removeTagFilter(name, operator, secondLevelName, value) {
+      const before = tagFilters.slice();
+      const newTagFilter = tagFilters.filter(
+        f =>
+          f.name !== name ||
+          (operator != null && f.operator !== operator) ||
+          (secondLevelName != null && f.secondLevelName !== secondLevelName) ||
+          (value != null && f.value !== value)
+      );
+      setTagFilters(newTagFilter);
+
       if (before.length > 0) {
-        filterRemovedTracker({ name, filter: before[0] });
+        filterRemovedTracker({ name, filter: before[0], secondLevelName, value });
       } else {
-        filterRemovedTracker({ name });
+        filterRemovedTracker({ name, secondLevelName, value });
       }
     },
     addTagFilter(newTagFilter) {
