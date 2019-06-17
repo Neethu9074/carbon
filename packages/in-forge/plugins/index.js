@@ -115,6 +115,7 @@ import './rabbitMq';
 import './redis';
 import './rubyRuntimePlatform';
 import './sapHana';
+import './sapSqlAnywhere';
 import './service';
 import './solr';
 import './sparkApplication';

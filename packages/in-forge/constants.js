@@ -117,6 +117,7 @@ export const nonServicePlugins = {
   redis: 'redis',
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
+  sapSqlAnywhere: 'sapSqlAnywhere',
   solr: 'solr',
   sparkApplication: 'sparkApplication',
   sparkStandalone: 'sparkStandalone',
@@ -270,6 +271,7 @@ export const fullyQualifiedPlugins = {
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   rubyRuntimePlatform: 'com.instana.forge.infrastructure.runtime.ruby.RubyRuntimePlatform',
   sapHana: 'com.instana.forge.infrastructure.database.saphana.SapHana',
+  sapSqlAnywhere: 'com.instana.forge.infrastructure.database.sapsqlanywhere.SapSqlAnywhere',
   service: 'com.instana.forge.application.Service',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
   springbootApplicationContainer:
