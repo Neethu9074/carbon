@@ -27,6 +27,7 @@ import {
   getEntityTypeOptions,
   formatterTypeToDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
 import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
@@ -314,17 +315,15 @@ function EventForm({
                 <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
                   Dynamic Focus Query
                 </Label>
-                <Input
-                  id="event-query"
-                  type="text"
+                <InputWithDFQSelectionList
+                  id={'event-query'}
                   placeholder={'e.g. entity.zone:"prod" AND entity.service.name:"Shop"'}
-                  className={locals.helpified}
                   value={field.value || ''}
-                  maxLength={2048}
-                  onChange={e => {
-                    onChange('query', e.target.value, updatedForm => {
+                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+                  onChange={value => {
+                    onChange('query', value, updatedForm => {
                       return startQueryValidation(
-                        e.target.value,
+                        value,
                         updatedForm,
                         onChange,
                         setQueryValidationInProgress,
@@ -332,7 +331,7 @@ function EventForm({
                       );
                     });
                   }}
-                  hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
+                  positionAbove
                 />
                 {queryValidationInProgress && <LoadingIndicator type="dark" className={locals.queryLoading} inline />}
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
