@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
 import locals from './Pagination.mless';
 
-export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPage, onPrevPage }) {
+export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPage, onPrevPage, className }) {
   const prevDisabled = currentPage === 0;
   const prev = prevDisabled
     ? preventDefault
@@ -20,7 +21,7 @@ export default function Pagination({ ariaLabel, currentPage, pageCount, onNextPa
       };
 
   return (
-    <nav aria-label={ariaLabel} className={locals.pagination}>
+    <nav aria-label={ariaLabel} className={joinClassNames(locals.pagination, className)}>
       <a href="" aria-label="Previous" onClick={prev} className={prevDisabled ? locals.disabledAction : locals.action}>
         Prev
       </a>

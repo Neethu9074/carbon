@@ -19,6 +19,7 @@ const expandedCellElement = `${cellElement} ${locals.expanded}`;
 const headerCellElement = locals.headerCell;
 const headerToggleCellElement = locals.headerToggleCell;
 const columnHeader = locals.columnHeader;
+const paginationElement = locals.pagination;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -167,6 +168,7 @@ export default class Table extends React.Component {
 
               {showPagination ? (
                 <Pagination
+                  className={paginationElement}
                   onPrevPage={this.store.onPrevPage}
                   onNextPage={this.store.onNextPage}
                   currentPage={data.page || 0}
