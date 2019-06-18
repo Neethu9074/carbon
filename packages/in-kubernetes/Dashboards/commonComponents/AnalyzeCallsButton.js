@@ -7,6 +7,7 @@ export default function AnalyzeCallsButton({
   clusterName,
   namespaceName,
   deploymentName,
+  deploymentConfigName,
   serviceName,
   podName,
   groupByTag
@@ -17,7 +18,7 @@ export default function AnalyzeCallsButton({
       icon="lib_application_call"
       href$={getLinkToAnalyze({
         dataSource: 'calls',
-        filters: getFilters(clusterName, namespaceName, deploymentName, serviceName, podName),
+        filters: getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName),
         groupByTag: groupByTag ? groupByTag : {}
       })}
     >
@@ -26,7 +27,7 @@ export default function AnalyzeCallsButton({
   );
 }
 
-function getFilters(clusterName, namespaceName, deploymentName, serviceName, podName) {
+function getFilters(clusterName, namespaceName, deploymentName, deploymentConfigName, serviceName, podName) {
   const filters = [];
 
   if (clusterName) {
@@ -43,6 +44,10 @@ function getFilters(clusterName, namespaceName, deploymentName, serviceName, pod
 
   if (deploymentName) {
     filters.push({ name: 'kubernetes.deployment.name', value: deploymentName, operator: 'EQUALS' });
+  }
+
+  if (deploymentConfigName) {
+    filters.push({ name: 'openshift.deploymentconfig.name', value: deploymentConfigName, operator: 'EQUALS' });
   }
 
   if (serviceName) {

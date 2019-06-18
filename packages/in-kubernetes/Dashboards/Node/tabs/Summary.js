@@ -5,6 +5,7 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -12,6 +13,8 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+
+const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: node }) {
   const snapshotId = node.id;
@@ -90,8 +93,8 @@ export default function Summary({ timeConfig, data: node }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['required_cpu', 'limit_cpu', 'cap_cpu'],
-                labels: ['Requests', 'Limits', 'Capacity'],
+                metrics: ['required_cpu', 'limit_cpu', 'cap_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
                 type: 'line'
               }}
             />
@@ -104,8 +107,8 @@ export default function Summary({ timeConfig, data: node }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
-                metrics: ['required_mem', 'limit_mem', 'cap_mem'],
-                labels: ['Requests', 'Limits', 'Capacity'],
+                metrics: ['required_mem', 'limit_mem', 'cap_mem', showUsage && 'memory.usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
                 type: 'line'
               }}
             />

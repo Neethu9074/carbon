@@ -1,3 +1,4 @@
-import { track, APPLICATION_CLICK_CREATE } from 'in-services/tracking/tracking';
+import { track, APPLICATION_CLICK_CREATE, APPLICATION_CLICK_SUBMIT } from 'in-services/tracking/tracking';
 
-export const applicationCreateClickedTracker = e => track(APPLICATION_CLICK_CREATE, e);
+export const applicationOpenSubmitFormTracker = e => track(APPLICATION_CLICK_CREATE, e);
+export const applicationSubmitTracker = e => track(APPLICATION_CLICK_SUBMIT, e);

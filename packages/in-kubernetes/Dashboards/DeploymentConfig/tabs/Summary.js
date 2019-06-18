@@ -9,11 +9,13 @@ import {
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 
 const noActivity = 'No activity';
+const showUsage = isAdhocMetricAggregationEnabled;
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deploymentConfig }) {
@@ -72,8 +74,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-                labels: ['Requests', 'Limits'],
+                metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
                 type: 'line'
               }}
             />
@@ -86,8 +88,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
-                metrics: ['pods.required_mem', 'pods.limit_mem'],
-                labels: ['Requests', 'Limits'],
+                metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'memory.usage'].filter(Boolean),
+                labels: ['Requests', 'Limits', showUsage && 'Usage'],
                 type: 'line'
               }}
             />

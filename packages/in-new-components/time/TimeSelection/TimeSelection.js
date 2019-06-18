@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -10,17 +11,16 @@ import {
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import { containsPastLiveData$ } from 'in-subscription/application/containsPastLiveData';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { getSamplingLevel$ } from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import ToggleButton from 'in-new-components/ToggleButton';
 import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { just } from 'reactive-observables';
 import connect from 'in-hoc/connectTo';
 
 import locals from './TimeSelection.mless';

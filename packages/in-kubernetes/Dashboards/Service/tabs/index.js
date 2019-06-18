@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
+import DeploymentConfigs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/DeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Deployments from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Deployments';
@@ -30,6 +31,12 @@ export default [
     path: `${serviceDashboardFullyQualified}/deployments`,
     component: Deployments,
     header: props => getCounterComponent(props, 'deployments')
+  },
+  {
+    label: 'Deployment Configs',
+    path: `${serviceDashboardFullyQualified}/deploymentconfigs`,
+    component: DeploymentConfigs,
+    header: props => getCounterComponent(props, 'deploymentConfigs')
   },
   {
     label: 'Pods',

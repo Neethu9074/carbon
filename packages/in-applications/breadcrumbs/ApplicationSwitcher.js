@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
-import { applicationCreateClickedTracker } from 'in-applications/tracker';
+import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import Button from 'in-new-components/Button';
@@ -34,7 +34,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
                   href$={getModifiedUrlStream(params =>
                     setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
                   )}
-                  onClick={() => applicationCreateClickedTracker()}
+                  onClick={() => applicationOpenSubmitFormTracker()}
                   icon="lib_application"
                 >
                   {item.application.label}

@@ -17,12 +17,13 @@ const pluginIcons = {
   [fullyQualifiedPlugins.kubernetesPod]: 'lib_kubernetes_pod',
   [fullyQualifiedPlugins.kubernetesService]: 'lib_kubernetes_service',
   [fullyQualifiedPlugins.kubernetesDeployment]: 'lib_kubernetes_workload',
+  [fullyQualifiedPlugins.openshiftDeploymentConfig]: 'lib_kubernetes_workload',
   [fullyQualifiedPlugins.kubernetesNamespace]: 'lib_kuberetes_namespace',
   [fullyQualifiedPlugins.kubernetesReplicaSet]: 'lib_kubernetes_workload',
   [fullyQualifiedPlugins.kubernetesCluster]: 'lib_kubernetes_cluster'
 };
 
-const columnDefinitions = [
+const allColumns = [
   {
     id: 'type',
     label: 'Type',
@@ -58,8 +59,11 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Involved Object',
-    getContent(item, { serviceId, namespaceId, clusterId, podId }) {
-      const href$ = includes([serviceId, namespaceId, clusterId, podId], item.sourceId)
+    getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
+      const href$ = includes(
+        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId],
+        item.sourceId
+      )
         ? null
         : getDashboardForEntity(item.sourceId, item.sourcePlugin);
       return <EntityLink icon={pluginIcons[item.sourcePlugin]} label={item.name} href$={href$} />;
@@ -81,11 +85,13 @@ const columnDefinitions = [
   }
 ];
 
+const columnsWithoutNamespace = allColumns.filter(c => c.id !== 'namespace');
+
 const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
-const serverTableWithUrlState = columnDefinitions =>
-  createServerTableWithUrlState({
+function eventsTable(columnDefinitions) {
+  const ServerTableWithUrlState = createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions,
     defaultOrderBy: 'time',
@@ -95,33 +101,37 @@ const serverTableWithUrlState = columnDefinitions =>
     matrixPrefix
   });
 
-export default function Events({ serviceId, namespaceId, clusterId, podId, columnFilter = () => true, ...props }) {
-  const ServerTableWithUrlState = serverTableWithUrlState(columnDefinitions.filter(columnFilter));
-  return (
-    <Row>
-      <Col lg={12}>
-        <ServerTableWithUrlState
-          cardTitle="Events"
-          serviceId={serviceId}
-          namespaceId={namespaceId}
-          clusterId={clusterId}
-          podId={podId}
-          get={getTableData}
-          {...props}
-        />
-      </Col>
-    </Row>
-  );
+  return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {
+    return (
+      <Row>
+        <Col lg={12}>
+          <ServerTableWithUrlState
+            cardTitle="Events"
+            clusterId={clusterId}
+            deploymentId={deploymentId}
+            deploymentConfigId={deploymentConfigId}
+            namespaceId={namespaceId}
+            podId={podId}
+            serviceId={serviceId}
+            get={getTableData}
+            {...props}
+          />
+        </Col>
+      </Row>
+    );
+  };
 }
 
-export function EventsWithoutNamespace({ ...props }) {
-  return Events({ columnFilter: c => c.id !== 'namespace', ...props });
-}
+export default eventsTable(allColumns);
+
+export const EventsWithoutNamespace = eventsTable(columnsWithoutNamespace);
 
 function getTableData({
-  serviceId,
-  namespaceId,
   clusterId,
+  deploymentId,
+  deploymentConfigId,
+  namespaceId,
+  serviceId,
   podId,
   page,
   pageSize,
@@ -133,10 +143,12 @@ function getTableData({
 }) {
   return getKubernetesEvents({
     filter: {
-      serviceId,
-      namespaceId,
       clusterId,
+      deploymentId,
+      deploymentConfigId,
+      namespaceId,
       podId,
+      serviceId,
       timeConfig
     },
     query,

@@ -2,10 +2,12 @@ import React from 'react';
 
 import getOpenShiftDeploymentConfigItemCounters$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigItemCounters';
 import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getOpenShiftDeploymentConfig from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { deploymentConfigDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/Details';
@@ -22,10 +24,21 @@ export default [
     component: Details
   },
   {
+    label: 'Events',
+    path: `${deploymentConfigDashboardFullyQualified}/events`,
+    component: EventsWithoutNamespace
+  },
+  {
     label: 'Conditions',
     path: `${deploymentConfigDashboardFullyQualified}/conditions`,
     component: Conditions,
     header: ConditionsHeader
+  },
+  {
+    label: 'K8s Services',
+    path: `${deploymentConfigDashboardFullyQualified}/services`,
+    component: Services,
+    header: props => getCounterComponent(props, 'services')
   },
   {
     label: 'Pods',

@@ -52,6 +52,22 @@ const cols = [
     }
   },
   {
+    title: 'Max Slow Sensors Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `sensors.scheduler.slow.max`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'Max CPU Load',
     type: 'metric',
     typeArgs: {
@@ -123,6 +139,17 @@ function getRowDetails(row) {
           formatter: percentage.compact,
           metrics: [`sensors.scheduler.consumed.max`],
           labels: ['Max Sensor Time Consumed'],
+          type: 'stackedArea'
+        }}
+      />
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.detailed,
+          metrics: [`sensors.scheduler.slow.max`],
+          labels: ['Max Slow Sensors Count'],
           type: 'stackedArea'
         }}
       />

@@ -10,9 +10,10 @@ import {
   dataSourceSystem,
   createEventFormDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { submitEventTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -92,7 +93,17 @@ const Form = entityForm(function DetailsForm(props) {
 function save(event, form) {
   const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
   const query = serializeQuery(form);
+  const isTriggering = form.get('triggering').value;
+  const severity = form.get('severity') ? Number(form.get('severity').value) : 0;
+  const entityType = form.get('entityType') ? form.get('entityType').value : null;
+  const scopeType = form.get('applyOn').value;
 
+  submitEventTracker({
+    scopeType,
+    entityType,
+    type: isTriggering ? 'Incident' : 'None',
+    severity: getSeverityText(severity)
+  });
   if (ruleType === 'system') {
     return saveCustomEventSpecification(
       createCustomSytemRuleBasedEventSpecification(

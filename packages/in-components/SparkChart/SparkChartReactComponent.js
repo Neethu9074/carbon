@@ -55,7 +55,7 @@ class SparkChartReactWrapper extends React.Component {
     this.sparkChart.update(this.props);
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     this.sparkChart.update(nextProps);
   }
 

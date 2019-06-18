@@ -19,7 +19,7 @@ export default getElementDimensions(
       }
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
       if (this.props.flowMapState && !nextProps.flowMapState) {
         this.flowMap.dispose();
         this.flowMap = null;

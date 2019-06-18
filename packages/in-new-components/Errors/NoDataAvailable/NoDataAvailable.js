@@ -5,15 +5,17 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './NoDataAvailable.mless';
 
-export default function NoDataAvailable({ width, height, text, className }) {
+export default function NoDataAvailable({ width, height, title, text, className, icon }) {
   return (
     <BasicWrapper
       className={className}
       width={width}
       height={height}
+      title={title}
       text={text || 'No data available'}
-      icon="lib_help_error_crossed_circle"
-      renderIcon={size => <SvgIcon className={locals.icon} type="lib_help_error_crossed_circle" height={size} />}
+      renderIcon={size => (
+        <SvgIcon className={locals.icon} type={icon || 'lib_help_error_crossed_circle'} height={size} />
+      )}
     />
   );
 }

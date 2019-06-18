@@ -6,7 +6,7 @@ import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
-import { number } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import {
@@ -72,6 +72,34 @@ export default connectTo(
             y1={{
               min: 0,
               metrics: spansNodes.map(() => `compaction.pending`),
+              labels: spansNodeLabels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data received`}>
+          <Chart
+            snapshotIds={spansNodes.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: spansNodes.map(() => `ifs.eth0.rx.bytes`),
+              labels: spansNodeLabels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={`Network - data transmitted`}>
+          <Chart
+            snapshotIds={spansNodes.map(r => r.host.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesZeroDecimalPlaces,
+              metrics: spansNodes.map(() => `ifs.eth0.tx.bytes`),
               labels: spansNodeLabels,
               type: 'line'
             }}

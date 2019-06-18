@@ -35,3 +35,11 @@ addFormattedValueLocator(
   /^cpu\.(user|sys|wait|nice|steal|idle)/,
   (max, value) => ((value * 10000) | 0) / 100 + '%' // 0.301 => 30%
 );
+
+addMinValueLocator(/^fs\.(.*)\.inodeUsage/, zero);
+addMaxValueLocator(/^fs\.(.*)\.inodeUsage/, () => 1);
+
+addMinValueLocator(/^fs\.(.*)\.ifree/, zero);
+addMaxValueLocator(/^fs\.(.*)\.ifree/, (snapshot, matches) =>
+  snapshot.getIn(['data', 'filesystems', matches[1], 'icapacity'])
+);

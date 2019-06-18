@@ -1,4 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
@@ -22,6 +23,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -46,7 +48,7 @@ export default function Alert(props) {
   );
 }
 
-const Form = entityForm(function DetailsForm(props) {
+function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
 
   if (!entity || !form) {
@@ -72,15 +74,15 @@ const Form = entityForm(function DetailsForm(props) {
     <SettingsDetailPage>
       <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
 
-      {message ? (
+      {message && (
         <Section>
           <Notification failure={error} loading={loading}>
             {message}
           </Notification>
         </Section>
-      ) : null}
+      )}
 
-      <AlertForm onChangeApplyOn={onChangeApplyOn} onChangeEventSelectionMode={onChangeEventSelectionMode} {...props} />
+      <AlertForm onChangeApplyOn={onChangeApplyOn} {...props} />
 
       <SaveCancel
         form={form}
@@ -91,7 +93,34 @@ const Form = entityForm(function DetailsForm(props) {
       />
     </SettingsDetailPage>
   );
-});
+}
+
+const Form = entityForm(
+  compose(
+    withState('eventTypes', 'setEventTypes', null),
+    withState('selectedEvents', 'setSelectedEvents', null),
+    withHandlers({
+      onChangeEventSelectionMode: ({ eventTypes, setEventTypes, selectedEvents, setSelectedEvents }) => (
+        form,
+        eventSelectionMode
+      ) => {
+        let updatedForm = onChangeEventSelectionMode(form, eventSelectionMode);
+
+        if (eventSelectionMode === modeSelectedEvents) {
+          const eventTypes = form.get('eventTypes') ? form.get('eventTypes').value : null;
+          setEventTypes(eventTypes);
+          updatedForm = putSelectedEventsField(updatedForm, selectedEvents);
+        }
+        if (eventSelectionMode === modeEventTypes) {
+          const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : [];
+          setSelectedEvents(selectedEvents);
+          updatedForm = putEventTypesField(updatedForm, eventTypes);
+        }
+        return updatedForm;
+      }
+    })
+  )(DetailsForm)
+);
 
 function createForm(alertEntity, isCreate) {
   let eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([]));
@@ -332,16 +361,26 @@ function save(alertEntity, form) {
   const query = serializeQuery(form);
   const eventSelectionMode = form.get('eventSelectionMode').value;
 
+  const selectedAlertChannels = form.get('selectedAlertChannels').value.toJS();
+  const selectedEvents =
+    modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
+  const scopeType = form.get('applyOn').value;
+
+  submitAlertTracker({
+    numOfAlertChannels: selectedAlertChannels.length,
+    numOfEvents: selectedEvents ? selectedEvents.length : 0,
+    selectionMode: eventSelectionMode === 'selected-events' ? 'Specific events' : 'Event types',
+    scopeType
+  });
+
   return saveAlertingConfig(
     fromJS(
       createAlertingConfig(
         alertEntity ? alertEntity.get('id') : null,
         form.get('name').value,
         form.get('muteUntil').value,
-        form.get('selectedAlertChannels').value.toJS(),
-        eventSelectionMode === modeSelectedEvents && form.get('selectedEvents')
-          ? form.get('selectedEvents').value.toJS()
-          : null,
+        selectedAlertChannels,
+        selectedEvents,
         query,
         eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null
       )

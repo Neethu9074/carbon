@@ -1,5 +1,6 @@
 import {
   track,
+  WEBSITES_OPEN_ADD_FORM,
   WEBSITES_ADD_WEBSITE,
   WEBSITES_ANALYZE_CHANGE_METRICS,
   WEBSITES_ANALYZE_FILTER_ADD,
@@ -27,6 +28,7 @@ import {
 } from 'in-services/tracking/tracking';
 
 // website entry point
+export const websitesOpenAddForm = e => track(WEBSITES_OPEN_ADD_FORM, e);
 export const addWebsite = e => track(WEBSITES_ADD_WEBSITE, e);
 export const returnToClassicTracker = e => track(WEBSITES_RETURN_TO_CLASSIC, e);
 

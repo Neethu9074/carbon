@@ -44,17 +44,11 @@ function KeyValueButtonWrapper(props) {
   );
 }
 
-function KeyValueDialogWrapper({ header, data, query, setQuery }) {
+function KeyValueDialogWrapper({ header, data, query, setQuery, sort }) {
   let items = data.map((v, k) => ({
     value: v,
     key: k
   }));
 
-  return (
-    <KeyValueDialogPresenter header={header} items={items} onChange={onChange} query={query} onQueryChange={setQuery} />
-  );
-
-  function onChange() {
-    close();
-  }
+  return <KeyValueDialogPresenter header={header} items={items} sort={sort} query={query} onQueryChange={setQuery} />;
 }

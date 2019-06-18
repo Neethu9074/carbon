@@ -1,19 +1,26 @@
-import { number, timeByNanoTwoDecimalPlaces, bytes } from 'in-services/formatters/number';
+import { number, percentage, bytes, nanos } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage', 'cpu.throttling_time'],
-    labels: ['Total time', 'Kernel time', 'User time', 'Throttling time'],
+    metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
+    labels: ['Total time', 'Kernel time', 'User time'],
     min: 0,
     category: ['CPU'],
-    formatter: timeByNanoTwoDecimalPlaces
+    formatter: percentage
   },
   {
     metrics: ['cpu.throttling_count'],
     labels: ['Throttling count'],
     category: ['CPU'],
     min: 0,
-    formatter: number.compact
+    formatter: number
+  },
+  {
+    metrics: ['cpu.throttling_time'],
+    labels: ['Throttling time'],
+    category: ['CPU'],
+    min: 0,
+    formatter: nanos
   },
   {
     metrics: [

@@ -16,6 +16,7 @@ exports.getClientConfig = (tenant, unit) => {
     tenant: tenant,
     tenantUnit: unit,
     featureFlags: featureFlags,
-    configuration: configuration
+    configuration: configuration,
+    zendeskKey: serverConfig.zendeskKey
   }));
 };

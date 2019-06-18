@@ -85,7 +85,7 @@ export const ApplicationMapReactComponent = getElementDimensions(
       this.initMap(this.props);
     }
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
       if (!this.map || this.props.applicationId !== nextProps.applicationId) {
         return this.initMap(nextProps);
       }

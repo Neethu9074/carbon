@@ -26,7 +26,7 @@ export default compose(
     ],
 
     reducerName: 'onChangeMetric',
-    reducer: (prevState, newSelectedMetric, { metrics, formatters, aggregations }) => {
+    reducer: (prevSelectedMetric, newSelectedMetric, { metrics, formatters, aggregations }) => {
       let i = metrics.indexOf(newSelectedMetric);
       if (i === -1) {
         i = 0;

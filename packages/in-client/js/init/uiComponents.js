@@ -23,3 +23,4 @@ require('in-services/tracking/appcues').init();
 require('in-stores/isMonitoring').init();
 require('in-new-components/SelectedElementHighlighter').init();
 require('in-services/uiClientVersion').init();
+require('in-services/zendesk').init();

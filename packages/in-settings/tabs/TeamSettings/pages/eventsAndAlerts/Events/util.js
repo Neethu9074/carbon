@@ -27,6 +27,17 @@ export function isTriggering(entity) {
   return false;
 }
 
+export function getSeverityText(severity) {
+  switch (severity) {
+    case 10:
+      return 'Critical';
+    case 5:
+      return 'Warning';
+    default:
+      return 'None';
+  }
+}
+
 export function getSeverity(entity) {
   if (isBuiltInRule(entity)) {
     return entity.severity;

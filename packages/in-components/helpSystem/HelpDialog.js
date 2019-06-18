@@ -20,7 +20,7 @@ class HelpDialog extends React.PureComponent {
     article: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadArticle();
   }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';

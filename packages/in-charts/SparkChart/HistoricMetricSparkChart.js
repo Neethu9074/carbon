@@ -33,11 +33,11 @@ export default connectTo(
       datasource: null
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.updateDatasource(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       if (!shallowEquals(this.props, nextProps)) {
         this.updateDatasource(nextProps);
       }

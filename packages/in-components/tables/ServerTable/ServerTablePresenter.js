@@ -35,6 +35,7 @@ export default function ServerTablePresenter(props) {
 
     // values that define the content
     columnDefinitions,
+    filterColumnDefinitionsByResult = () => () => true,
     getRowProps,
     onRowClick,
     result = pendingResult,
@@ -64,21 +65,22 @@ export default function ServerTablePresenter(props) {
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
   let lastPage = null;
+  const filteredColumnDefinitions = columnDefinitions.filter(filterColumnDefinitionsByResult(result));
 
   let body = null;
   if (isLoading) {
     body = (
       <Fragment>
-        <HorizontalIndicatorRow cols={columnDefinitions.length} progress={result.progress} />
-        <LoadingSkeletonRows cols={columnDefinitions.length} />
+        <HorizontalIndicatorRow cols={filteredColumnDefinitions.length} progress={result.progress} />
+        <LoadingSkeletonRows cols={filteredColumnDefinitions.length} />
       </Fragment>
     );
   } else if (hasErrors) {
-    body = <ErrorRows cols={columnDefinitions.length} errors={result.errors} size={size} />;
+    body = <ErrorRows cols={filteredColumnDefinitions.length} errors={result.errors} size={size} />;
   } else if (result.data.items.length === 0) {
     body = (
       <tr size={size}>
-        <td colSpan={columnDefinitions.length}>
+        <td colSpan={filteredColumnDefinitions.length}>
           <NoDataAvailable text={noDataMessage} height={80} />
         </td>
       </tr>
@@ -89,7 +91,7 @@ export default function ServerTablePresenter(props) {
         key={item.id || i}
         item={item}
         size={size}
-        columnDefinitions={columnDefinitions}
+        columnDefinitions={filteredColumnDefinitions}
         cellOpts={props}
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
@@ -119,7 +121,7 @@ export default function ServerTablePresenter(props) {
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-          columnDefinitions={columnDefinitions}
+          columnDefinitions={filteredColumnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
           allRowsAreSelected={allRowsAreSelected}

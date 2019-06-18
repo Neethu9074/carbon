@@ -13,6 +13,10 @@
     background: @lib__colors__N050;
   }
 
+  .title {
+    margin-bottom: 1rem;
+  }
+
   .text {
     margin-top: 0.25rem;
 

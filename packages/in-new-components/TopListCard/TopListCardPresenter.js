@@ -15,6 +15,7 @@ export default function TopListCard(props) {
     labels,
     onChangeMetric,
     selectedMetric,
+    header,
     List: ListRenderer = List,
     showMetricSelectorsForSingleMetrics,
     useMaxAvailableHeight
@@ -22,21 +23,23 @@ export default function TopListCard(props) {
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
-  const header = (metrics.length > 1 || shouldRenderOnItem) && (
-    <ButtonGroup
-      buttonPropsList={metrics.map((metric, i) => ({
-        text: labels[i],
-        key: metrics[i],
-        kind: shouldRenderOnItem ? 'primaryv2' : null,
-        disabled: shouldRenderOnItem,
-        onClick: () => {
-          track(TOPLIST_METRIC_CHANGED, { title, metric: labels[i] });
-          onChangeMetric(metric);
-        }
-      }))}
-      activeKey={selectedMetric}
-    />
-  );
+  const headerComponent =
+    header ||
+    ((metrics.length > 1 || shouldRenderOnItem) && (
+      <ButtonGroup
+        buttonPropsList={metrics.map((metric, i) => ({
+          text: labels[i],
+          key: metrics[i],
+          kind: shouldRenderOnItem ? 'primaryv2' : null,
+          disabled: shouldRenderOnItem,
+          onClick: () => {
+            track(TOPLIST_METRIC_CHANGED, { title, metric: labels[i] });
+            onChangeMetric(metric);
+          }
+        }))}
+        activeKey={selectedMetric}
+      />
+    ));
 
   let content;
   let withoutPadding = false;
@@ -56,7 +59,12 @@ export default function TopListCard(props) {
   }
 
   return (
-    <Card title={title} header={header} withoutPadding={withoutPadding} useMaxAvailableHeight={useMaxAvailableHeight}>
+    <Card
+      title={title}
+      header={headerComponent}
+      withoutPadding={withoutPadding}
+      useMaxAvailableHeight={useMaxAvailableHeight}
+    >
       {content}
     </Card>
   );

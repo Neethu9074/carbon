@@ -1,10 +1,10 @@
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
+import tableDefinition from 'in-forge/plugins/garden/tableDefinition';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 import metricDefinitions from './metricDefinitions';
-import tableDefinition from './tableDefinition';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({

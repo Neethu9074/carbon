@@ -27,7 +27,7 @@ export default function JvmRuntimeSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
 
-      {args ? <KeyValueOverlay header="JVM Arguments" data={args} /> : null}
+      {args ? <KeyValueOverlay header="JVM Arguments" data={args} sort={false} /> : null}
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />

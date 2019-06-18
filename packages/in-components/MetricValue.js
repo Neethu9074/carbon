@@ -97,7 +97,7 @@ export default class extends React.PureComponent {
     });
   };
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     const nextStream = this.getStream(nextProps);
     if (this.stream !== nextStream) {
       this.disposeSubscription();

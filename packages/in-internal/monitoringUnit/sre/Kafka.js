@@ -199,6 +199,36 @@ export default connectTo(
         </Columize>
 
         <Columize>
+          <DashboardSection title={`Network - data received`}>
+            <Chart
+              snapshotIds={kafkaNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: kafkaNodes.map(() => `ifs.eth0.rx.bytes`),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Network - data transmitted`}>
+            <Chart
+              snapshotIds={kafkaNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: kafkaNodes.map(() => `ifs.eth0.tx.bytes`),
+                labels: kafkaNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
           <DashboardSection title={`CPU Usage`}>
             <Table
               cols={hostTableCols}

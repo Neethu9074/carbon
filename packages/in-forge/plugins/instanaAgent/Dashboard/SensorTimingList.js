@@ -2,7 +2,7 @@ import React from 'react';
 
 import connectTo from 'in-hoc/connectTo';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { nanos } from 'in-services/formatters/number';
+import { nanos, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 
@@ -17,6 +17,26 @@ const cols = [
       getContent(value) {
         return value;
       }
+    }
+  },
+  {
+    title: 'Count',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.count;
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: 'Slow',
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.slow;
+      },
+      getContent: number.compact
     }
   },
   {
@@ -70,20 +90,23 @@ export default connectTo(
     const timingsJS = timings.toJS();
     const rows = Object.keys(timingsJS).map(key => {
       var value = timingsJS[key];
-      var min, avg, max;
-      if (typeof value === 'number') {
-        min = value;
+
+      var min, avg, max, slow, count;
+      slow = value.slow;
+      count = value.count;
+      min = value.min;
+      if (value.hasOwnProperty('max')) {
+        max = value.max;
+        avg = value.avg;
+      } else {
         max = min;
         avg = min;
-      } else {
-        var values = value.split(':');
-        min = Number(values[0]);
-        avg = Number(values[1]);
-        max = Number(values[2]);
       }
 
       return {
         key,
+        count,
+        slow,
         min,
         avg,
         max
@@ -92,7 +115,7 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle={<TimeOfLastUpdateCardTitle title="Sensor timings" timestamp={data.get('timestamp')} />}
+        cardTitle={<TimeOfLastUpdateCardTitle title="Sensor timings (30s window)" timestamp={data.get('timestamp')} />}
         withoutPadding
         cols={cols}
         rows={rows}

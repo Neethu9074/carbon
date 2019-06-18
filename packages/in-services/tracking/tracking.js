@@ -27,6 +27,7 @@ export const ANALYZE_METRIC_CHANGED = 'analyze.metric.changed';
 export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
+export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
@@ -55,6 +56,7 @@ export const TABLE_METRIC_REMOVED = 'table.metric.removed';
 export const TABLE_TYPE_CHANGED = 'table.type.changed';
 
 export const WEBSITES_ADD_WEBSITE = 'websites.addWebsite';
+export const WEBSITES_OPEN_ADD_FORM = 'websites.website.add';
 export const WEBSITES_ANALYZE_CHANGE_METRICS = 'websites.analyze.changeMetrics';
 export const WEBSITES_ANALYZE_FILTER_ADD = 'websites.analyze.filter.add';
 export const WEBSITES_ANALYZE_FILTER_CHANGE = 'websites.analyze.filter.change';
@@ -80,3 +82,15 @@ export const WEBSITES_DASHBOARD_RENAME_WEBSITE = 'websites.dashboard.renameWebsi
 export const WEBSITES_DASHBOARD_TAB_CHANGE = 'websites.dashboard.tabChange';
 export const WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'websites.dashboard.viewDeprecationDetails';
 export const WEBSITES_RETURN_TO_CLASSIC = 'websites.returnToClassic';
+
+export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
+export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
+export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+export const SETTINGS_ALERT_CHANNEL_SUBMIT = 'settings.alertChannel.submit';
+export const SETTINGS_ALERT_CHANNEL_OPEN_SUBMIT_FORM = 'settings.alertChannel.new';
+export const SETTINGS_ALERT_SUBMIT = 'settings.alert.submit';
+export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
+export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
+export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
+export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
+export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';

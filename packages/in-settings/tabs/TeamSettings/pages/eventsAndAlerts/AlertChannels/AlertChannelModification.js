@@ -13,6 +13,7 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { submitAlertChannelTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -36,6 +37,9 @@ export default function AlertChannelModification(props) {
 }
 
 function save(alertChannel, form) {
+  const alertChannelType = form.get('kind').value;
+
+  submitAlertChannelTracker({ type: alertChannelType });
   return saveAlertChannel(fromJS(getConfig(alertChannel).createEntity(alertChannel, form)));
 }
 

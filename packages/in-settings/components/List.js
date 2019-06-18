@@ -116,7 +116,8 @@ function List({
   errorMessage,
   setErrorMessage,
   perCellLoadingIndicator,
-  scrollWrapperClassName
+  scrollWrapperClassName,
+  trackEvent
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -196,7 +197,9 @@ function List({
         scrollWrapperClassName={scrollWrapperClassName}
         fixedLayout
         rightHeader={
-          rightHeader ? rightHeader : createNewEntityButton(labelNew, pathNew, onCreateNew, newDisabledMessage)
+          rightHeader
+            ? rightHeader
+            : createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage: newDisabledMessage, trackEvent })
         }
         getRowProps={getRowProps(tableActions)}
         onRowClick={onRowClick}
@@ -257,7 +260,17 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
   return sorted;
 }
 
-export function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMessage) {
+function handleClickCreateNewEntity(onCreateNew, trackEvent) {
+  if (onCreateNew) {
+    onCreateNew;
+  }
+
+  if (trackEvent) {
+    trackEvent();
+  }
+}
+
+export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabledMessage, trackEvent }) {
   if (!pathNew && !onCreateNew) {
     return null;
   }
@@ -265,22 +278,22 @@ export function createNewEntityButton(labelNew, pathNew, onCreateNew, disabledMe
   if (disabledMessage) {
     return (
       <Tooltip content={disabledMessage} align="bottomMiddle">
-        <NewEntityButton label={labelNew} disabled />
+        <NewEntityButton label={labelNew} disabled trackEvent={trackEvent} />
       </Tooltip>
     );
   } else {
-    return <NewEntityButton label={labelNew} href$={href$} onCreateNew={onCreateNew} />;
+    return <NewEntityButton label={labelNew} href$={href$} onCreateNew={onCreateNew} trackEvent={trackEvent} />;
   }
 }
 
-function NewEntityButton({ label = 'Create New', href$, onCreateNew, disabled }) {
+function NewEntityButton({ label = 'Create New', href$, onCreateNew, disabled, trackEvent }) {
   return (
     <Button
       className={locals.createNewButton}
       kind="action"
       disabled={disabled}
       href$={href$}
-      onClick={onCreateNew ? () => onCreateNew() : null}
+      onClick={() => handleClickCreateNewEntity(onCreateNew, trackEvent)}
       icon="lib_openclose_add_circle_outline"
     >
       {label}

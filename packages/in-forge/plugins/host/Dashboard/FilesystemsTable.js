@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
@@ -7,10 +7,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
 import {
   percentage,
-  bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  percentageZeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
@@ -95,6 +96,26 @@ const leakedColumn = {
   }
 };
 
+const iNodeUsageColumn = {
+  title: 'Inode usage',
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return `fs.${row.key}.inodeUsage`;
+    },
+    getContent: percentage.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    },
+    getFallbackContent() {
+      return 'N/A';
+    }
+  }
+};
+
 export default function FilesystemsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const windows = isWindows(snapshot);
@@ -121,6 +142,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
   if (!windows) {
     cols.splice(1, 0, mountColumn);
+    cols.push(iNodeUsageColumn);
   }
 
   return (
@@ -138,41 +160,68 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
 function getDetails(row) {
   return (
-    <Columize>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
-          formatter: kiloBytesZeroDecimalPlaces,
-          tooltipFormatter: kiloBytesTwoDecimalPlaces,
-          metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
-          labels: ['Free', 'Leaked'],
-          type: 'line'
-        }}
-      />
+    <Fragment>
+      <Columize>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.free', row.snapshot),
+            formatter: kiloBytesZeroDecimalPlaces,
+            tooltipFormatter: kiloBytesTwoDecimalPlaces,
+            metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
+            labels: ['Free', 'Leaked'],
+            type: 'line'
+          }}
+        />
 
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-          tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
-          metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
-          labels: ['Reads/s', 'Writes/s'],
-          type: 'line'
-        }}
-        y2={{
-          min: 0,
-          formatter: bytesZeroDecimalPlaces,
-          tooltipFormatter: bytesTwoDecimalPlaces,
-          metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
-          labels: ['Bytes Read/s', 'Bytes Write/s'],
-          type: 'line'
-        }}
-      />
-    </Columize>
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+            tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
+            metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
+            labels: ['Reads/s', 'Writes/s'],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            formatter: bytesZeroDecimalPlaces,
+            tooltipFormatter: bytesTwoDecimalPlaces,
+            metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
+            labels: ['Bytes Read/s', 'Bytes Write/s'],
+            type: 'line'
+          }}
+        />
+      </Columize>
+      {!row.windows &&
+        row.filesystem.get('icapacity') && (
+          <Chart
+            snapshotId={row.snapshotId}
+            timeConfig={row.timeConfig}
+            y1={{
+              min: 0,
+              max: getMaxValue('fs.' + row.key + '.inodeUsage', row.snapshot),
+              metrics: ['fs.' + row.key + '.inodeUsage'],
+              labels: ['Inode Usage'],
+              type: 'line',
+              formatter: percentage,
+              tooltipFormatter: percentageZeroDecimalPlaces
+            }}
+            y2={{
+              min: 0,
+              max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
+              metrics: ['fs.' + row.key + '.ifree'],
+              labels: ['Inode Free'],
+              type: 'line',
+              formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
+            }}
+          />
+        )}
+    </Fragment>
   );
 }

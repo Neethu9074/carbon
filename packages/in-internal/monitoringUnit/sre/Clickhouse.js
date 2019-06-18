@@ -9,7 +9,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { getClickhouseWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
-import { number } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import {
   hostTableCols,
   volumeTableCols,
@@ -61,6 +61,36 @@ export default connectTo(
                 metrics: chNodes.map(() => `QueryThread`),
                 labels: chNodeLabels,
                 type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Network - data received`}>
+            <Chart
+              snapshotIds={chNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: chNodes.map(() => `ifs.eth0.rx.bytes`),
+                labels: chNodeLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Network - data transmitted`}>
+            <Chart
+              snapshotIds={chNodes.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesZeroDecimalPlaces,
+                metrics: chNodes.map(() => `ifs.eth0.tx.bytes`),
+                labels: chNodeLabels,
+                type: 'line'
               }}
             />
           </DashboardSection>

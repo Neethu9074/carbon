@@ -54,7 +54,6 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 15.625rem;
     padding: 0.25rem 0.5rem;
     margin: 0.125rem;
 

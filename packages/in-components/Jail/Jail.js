@@ -18,7 +18,7 @@ class Jail extends React.Component {
     error: null
   };
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     // TODO check for difference?
     this.setState({ error: null });
   }

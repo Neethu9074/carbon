@@ -42,7 +42,28 @@
     fill: #fff;
   }
 
-  .on {
+  .onDark,
+  .offDark {
+    background: @lib__colors__N900Primary;
+  }
+
+  .onDark {
+    color: @lib__colors__green800;
+
+    .icon {
+      fill: @lib__colors__green800;
+    }
+  }
+
+  .offDark {
+    color: #fff;
+
+    &.hover:not(.disabled) {
+      color: @lib__colors__N600Light;
+    }
+  }
+
+  .onLight {
     opacity: 1;
     color: @lib__colors__green800;
 
@@ -51,16 +72,8 @@
     }
   }
 
-  .off {
-    color: @lib__colors__N800Dark;
-
-    &.hover:not(.disabled) {
-      color: @lib__colors__N600Light;
-    }
-  }
-
   .offLight {
-    color: #fff;
+    color: @lib__colors__N800Dark;
 
     &.hover:not(.disabled) {
       color: @lib__colors__N600Light;

@@ -6,7 +6,7 @@ import SearchInput from 'in-new-components/SearchInput/SearchInput';
 
 import locals from './KeyValueDialogPresenter.mless';
 
-export default function KeyValueDialogPresenter({ header, items, query, onQueryChange }) {
+export default function KeyValueDialogPresenter({ header, items, query, sort = true, onQueryChange }) {
   return (
     <Fragment>
       <div className={locals.header}>
@@ -15,50 +15,56 @@ export default function KeyValueDialogPresenter({ header, items, query, onQueryC
           <SearchInput onChange={onQueryChange} query={query} />
         </div>
       </div>
-      <div className={locals.body}>{createHtmlContent(items, query)}</div>
+      <div className={locals.body}>{createHtmlContent(items, query, sort)}</div>
     </Fragment>
   );
 }
 
-function createHtmlContent(data, query) {
+function createHtmlContent(data, query, sort) {
   if (Map.isMap(data)) {
-    return createKeyValueHtmlContent(data, query);
+    return createKeyValueHtmlContent(data, query, sort);
   } else if (Iterable.isIterable(data)) {
-    return createSeqHtmlContent(data, query);
+    return createSeqHtmlContent(data, query, sort);
   }
 
   return null;
 }
 
-function createKeyValueHtmlContent(items, query) {
+function createKeyValueHtmlContent(items, query, sort) {
+  items = items
+    .toArray()
+    .filter(item => containsIgnoreCase(String(item.key), query) || containsIgnoreCase(String(item.value), query));
+
+  if (sort) {
+    items = items.sort((a, b) => compareIgnoreCase(a.key, b.key));
+  }
+
   return (
     <dl>
-      {items
-        .toArray()
-        .filter(item => containsIgnoreCase(String(item.key), query) || containsIgnoreCase(String(item.value), query))
-        .sort((a, b) => compareIgnoreCase(a.key, b.key))
-        .map(item => (
-          <div className={locals.keyValueItem} key={item.key}>
-            <dt className={locals.key}>{item.key}</dt>
-            <dd className={locals.value}>{item.value}</dd>
-          </div>
-        ))}
+      {items.map(item => (
+        <div className={locals.keyValueItem} key={item.key}>
+          <dt className={locals.key}>{item.key}</dt>
+          <dd className={locals.value}>{item.value}</dd>
+        </div>
+      ))}
     </dl>
   );
 }
 
-function createSeqHtmlContent(items, query) {
+function createSeqHtmlContent(items, query, sort) {
+  items = items.toArray().filter(item => item.value != null && containsIgnoreCase(String(item.value), query));
+
+  if (sort) {
+    items = items.sort((a, b) => compareIgnoreCase(a.value, b.value));
+  }
+
   return (
     <ul className={locals.list}>
-      {items
-        .toArray()
-        .filter(item => item.value != null && containsIgnoreCase(String(item.value), query))
-        .sort((a, b) => compareIgnoreCase(a.value, b.value))
-        .map(item => (
-          <li className={locals.listItem} key={item.key}>
-            {item.value}
-          </li>
-        ))}
+      {items.map(item => (
+        <li className={locals.listItem} key={item.key}>
+          {item.value}
+        </li>
+      ))}
     </ul>
   );
 }

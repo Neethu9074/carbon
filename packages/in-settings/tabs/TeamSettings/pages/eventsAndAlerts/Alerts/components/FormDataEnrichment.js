@@ -36,7 +36,7 @@ export default class FormDataEnrichment extends React.Component {
   matchingEntitesSubscription = null;
   validationResultSubscription = null;
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
     this.emitAllInputs(this.props.form);
     this.setUpMatchingEntitesSubscription(debouncedQuery);
@@ -137,7 +137,7 @@ export default class FormDataEnrichment extends React.Component {
     );
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     startValidationInProgress(nextProps.setForm, nextProps.form);
     this.emitAllInputs(nextProps.form);
   }

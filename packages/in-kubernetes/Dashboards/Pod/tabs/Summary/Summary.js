@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { resourceQuotaBytes, twoDecimalPlaces, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
@@ -16,6 +18,8 @@ import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
 
 import locals from './Summary.mless';
+
+const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
@@ -90,6 +94,39 @@ export default function Summary({ data: pod, timeConfig }) {
           />
         </Col>
       </Row>
+
+      {showUsage && (
+        <Row>
+          <Col lg={6}>
+            <Card title="CPU Resources">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: twoDecimalPlaces,
+                  metrics: ['cpuRequests', 'cpuLimits', 'cpu.user_usage'],
+                  labels: ['Requests', 'Limits', 'Usage'],
+                  type: 'line'
+                }}
+              />
+            </Card>
+          </Col>
+          <Col lg={6}>
+            <Card title="Memory Resources">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: resourceQuotaBytes,
+                  metrics: ['memoryRequests', 'memoryLimits', 'memory.usage'],
+                  labels: ['Requests', 'Limits', 'Usage'],
+                  type: 'line'
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col lg={12}>

@@ -22,6 +22,8 @@ export const number = {
   }
 };
 
+export const positiveNumber = v => (v > 0 ? v : '-');
+
 export const activityZeroDecimalPlaces = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
 export const activityTwoDecimalPlaces = d => (d < 0 ? 'No activity' : twoDecimalPlaces(d));
 export const activity = {
@@ -103,6 +105,7 @@ function latencyFormatterWrapper(formatter) {
     detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))
   };
 }
+
 export const latency = latencyFormatterWrapper(millis.forcedCompactOnMs);
 export const latencyFixed = latencyFormatterWrapper(millis.forcedFixedCompact);
 
@@ -114,6 +117,7 @@ export function meanLatencyFormatterWrapper(formatter) {
     detailed: t => (t > 0 && t < 1 ? '< 1ms' : formatter.detailed(t))
   };
 }
+
 export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs);
 export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCompact);
 

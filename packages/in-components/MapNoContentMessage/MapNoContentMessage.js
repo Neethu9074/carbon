@@ -25,7 +25,7 @@ export default connectTo(
       isContentAvailable: true
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.subscription = searchMatches$
         .debounce(500)
         .map(searchMatches => {
@@ -43,7 +43,7 @@ export default connectTo(
       this.subscription = null;
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    UNSAFE_componentWillUpdate(nextProps, nextState) {
       let message = `No data found for the query \`${nextProps.query}\``;
       if (nextProps.timeConfig.focusedMoment) {
         message += ` at the selected moment: *${formatDateTime(nextProps.timeConfig.focusedMoment)}*.`;

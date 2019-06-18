@@ -51,6 +51,12 @@ export default function ServiceDashboard({ location }) {
         location={location}
         tabs={tabs}
         tabChangeTracker={serviceTabChange}
+        filterTabByResult={result => {
+          return tab => {
+            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            else return tab.label !== 'Deployment Configs';
+          };
+        }}
         props={props}
         renderErrors={errors => (
           <ErroneousEntityVersionList snapshotId={props.serviceId} timeConfig={props.timeConfig} errors={errors} />

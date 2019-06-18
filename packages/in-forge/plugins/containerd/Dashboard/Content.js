@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { bytesTwoDecimalPlaces, timeByNanoTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import {
+  bytesTwoDecimalPlaces,
+  timeByNanoTwoDecimalPlaces,
+  number,
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -13,7 +19,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="CPU Total">
-          <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={timeByNanoTwoDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
@@ -28,7 +34,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
             labels: ['Total', 'Kernel', 'User'],
-            formatter: timeByNanoTwoDecimalPlaces,
+            formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
         />

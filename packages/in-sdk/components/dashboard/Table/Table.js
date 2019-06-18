@@ -30,7 +30,7 @@ export default class Table extends React.Component {
     this.newStore(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!shallowEquals(this.props.cols, nextProps.cols) || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
       this.dispose();
       this.newStore(nextProps);

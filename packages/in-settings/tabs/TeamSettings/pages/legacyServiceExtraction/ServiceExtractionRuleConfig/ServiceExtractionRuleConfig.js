@@ -44,11 +44,11 @@ export default class extends React.Component {
     rule: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadServiceExtractionRule(this.props.match.params.ruleId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.match.params.ruleId !== nextProps.match.params.ruleId) {
       this.loadServiceExtractionRule(nextProps.match.params.ruleId);
     }

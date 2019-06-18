@@ -14,7 +14,7 @@ export default class Tooltip extends React.Component {
     highlightedMoment: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.updateScaleFromProps(this.props);
   }
 
@@ -23,7 +23,7 @@ export default class Tooltip extends React.Component {
     this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     this.updateScaleFromProps(nextProps);
   }
 

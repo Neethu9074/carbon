@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { applicationCreateClickedTracker } from 'in-applications/tracker';
+import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { newApplicationView } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
@@ -22,7 +22,7 @@ export default function EmptyAppList() {
         <Button
           kind="create"
           href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-          onClick={() => applicationCreateClickedTracker()}
+          onClick={() => applicationOpenSubmitFormTracker()}
         >
           Create Application Perspective
         </Button>
