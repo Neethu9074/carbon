@@ -8,6 +8,7 @@ import Details from 'in-analyze/TraceDetail/components/CallDetails/components/De
 import IsSynthetic from 'in-analyze/TraceDetail/components/CallDetails/components/IsSynthetic';
 import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/components/CallStatus';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
+import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -48,6 +49,7 @@ function CallDetails(props) {
       <Seperator />
       <IsSynthetic call={call} />
       <CallStatus call={call} />
+      <CallLogs call={call} />
       <Details call={call} />
       <StackTrace call={call} />
     </aside>

@@ -4,6 +4,7 @@ import React from 'react';
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
 import { isFakeRootCall, isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -49,14 +50,15 @@ function Row(props) {
   return (
     <div className={locals.wrapper}>
       <VerticalLine {...props} marginLeft={marginLeft} />
-
       <div
         id={`call-${call.id}`}
         className={evaluateClassNames({
           [locals.rootRow]: depth === 0,
           [locals.row]: true,
           [locals.selectedRow]: isSelected,
-          [locals.openedRow]: isOpened
+          [locals.openedRow]: isOpened,
+          // hasErrors is for the background color of a row. If the row is isOpened and contains errors, the background color will be red.
+          [locals.hasErrors]: call.errorCount > 0 && isOpened
         })}
       >
         <CallInformation
@@ -83,22 +85,24 @@ function Row(props) {
       </div>
 
       {isExpanded &&
-        call.children.map((subCall, i) => (
-          <EnhancedRow
-            key={i}
-            scale={scale}
-            getColor={getColor}
-            call={subCall}
-            nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
-            isLargeTrace={isLargeTrace}
-            depth={depth + 1}
-            intermediateRow={i !== call.children.length - 1}
-            onCallClicked={onCallClicked}
-            onSubCallClicked={onSubCallClicked}
-            selectedCall$={selectedCall$}
-            openedCall$={openedCall$}
-          />
-        ))}
+        call.children
+          .filter(subCall => subCall.model !== 'LOG')
+          .map((subCall, i) => (
+            <EnhancedRow
+              key={subCall.id}
+              scale={scale}
+              getColor={getColor}
+              call={subCall}
+              nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
+              isLargeTrace={isLargeTrace}
+              depth={depth + 1}
+              intermediateRow={i !== call.children.filter(subCall => subCall.model !== 'LOG').length - 1}
+              onCallClicked={onCallClicked}
+              onSubCallClicked={onSubCallClicked}
+              selectedCall$={selectedCall$}
+              openedCall$={openedCall$}
+            />
+          ))}
     </div>
   );
 }
@@ -115,7 +119,8 @@ function CallInformation(props) {
     setIsExpanded,
     onCallClicked,
     onSubCallClicked,
-    isLargeTrace
+    isLargeTrace,
+    isOpened
   } = props;
 
   return (
@@ -133,10 +138,12 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
+        <ErrorIndicator errorCount={call.errorCount} />
         <Tooltip themeStyle="light" content={call.label}>
           <span
             className={evaluateClassNames({
               [locals.label]: true,
+              [locals.labelSelected]: isOpened,
               [locals.clickable]: onCallClicked != null
             })}
             onClick={onCallClicked ? () => onCallClicked(call) : () => {}}

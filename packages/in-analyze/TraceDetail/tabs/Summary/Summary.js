@@ -3,32 +3,36 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
+import ErroneousTraceIndicator from 'in-analyze/TraceDetail/components/ErroneousTraceIndicator';
 import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
 import TraceValidationResult from 'in-analyze/TraceDetail/tabs/Summary/TraceValidationResult';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
-import ServerCallTree from 'in-analyze/TraceDetail/components/CallTree/ServerCallTree';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
+import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import CallTree from 'in-analyze/TraceDetail/components/CallTree';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Button from 'in-new-components/Button';
 import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -97,25 +101,56 @@ class Summary extends React.Component {
   }
 
   render() {
-    const { data: trace, getColor, callId, traceId, isLargeTrace, showLargeTrace, setShowLargeTrace } = this.props;
+    const {
+      data: trace,
+      getColor,
+      callId,
+      traceId,
+      isLargeTrace,
+      showLargeTrace,
+      setShowLargeTrace,
+      callTreeResult
+    } = this.props;
+    const rootCall = callTreeResult.data;
+
     const traceDetails = (
       <ContentWrapper>
         <SideEffectOnPropertyChange callId={!callId} sideEffect={refreshWindowSizeDependingState} />
         <TraceValidationResult issues={trace.issues} />
         <div className={locals.left}>
-          <Row>
-            {trace.startTime != null && (
-              <Col lg={3}>
-                <DateTimeKpiCard title="Trace Start Time" time={trace.startTime} />
+          {rootCall && rootCall.errorCount ? (
+            <Row>
+              <Col lg={12}>
+                <ErroneousTraceIndicator errorCount={trace.totalErrorCount} />
               </Col>
-            )}
-            <Col lg={3}>
+            </Row>
+          ) : null}
+          <Row>
+            <Col lg={2}>
               <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
             </Col>
-            <Col lg={3}>
-              <KpiCard title="Errors in Calls" value={number.compact(trace.totalErrorCount)} />
+            <Col lg={2}>
+              <KpiCard
+                title="Erroneous Calls"
+                color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
+                value={number.compact(trace.totalErrorCount)}
+              />
             </Col>
-            <Col lg={3}>
+            <Col lg={2}>
+              <KpiCard
+                title="Error Logs"
+                color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
+                value={number.compact(trace.totalErrorLogCount)}
+              />
+            </Col>
+            <Col lg={2}>
+              <KpiCard
+                title="Warn Logs"
+                color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
+                value={number.compact(trace.totalWarnLogCount)}
+              />
+            </Col>
+            <Col lg={2}>
               <KpiCard
                 title="Latency"
                 value={
@@ -179,7 +214,8 @@ class Summary extends React.Component {
             <Row>
               <Col lg={12}>
                 <Card title="Calls" header={<ColorCodingToggleButtons {...this.props} />}>
-                  <ServerCallTree
+                  <CallTree
+                    callTreeResult={callTreeResult}
                     traceId={traceId}
                     getColor={getColor}
                     selectedCall$={this.selectedCall$}
@@ -267,5 +303,8 @@ export default compose(
       ...prevState,
       showLargeTrace
     })
-  })
+  }),
+  connect(props => ({
+    callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
+  }))
 )(Summary);

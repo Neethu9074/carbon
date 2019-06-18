@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .indicatorWrapper {
+    background-color: #fdf4f9;
+    padding: 0.5rem 1rem;
+    border-radius: @lib__shapes__radius_small;
+    display: flex;
+    align-items: center;
+  }
+  .label {
+    color: @lib__colors__failure;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}

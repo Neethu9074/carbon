@@ -47,7 +47,6 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
       });
 
       const callFrames = applyLayout(rootCall);
-
       expect(callFrames).to.deep.include({
         id: '1',
         label: 'call',
@@ -56,7 +55,10 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
         parent: null,
         depth: 0,
         x: 0,
-        dx: 1
+        dx: 1,
+        totalDuration: 10,
+        traceStart: 0,
+        children: []
       });
     });
 

@@ -20,8 +20,10 @@ import './analyse/FilterBarStory';
 import './analyse/GroupingInfoStory';
 import './analyse/IcicleChart';
 import './analyse/MetricSelectorStory';
+import './analyse/StackTraceStory';
 import './analyse/TagFilterListStory';
 import './analyse/TraceConverter';
+import './analyse/TraceDetail/ErroneousTraceIndicatorStory';
 
 import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
@@ -47,6 +49,7 @@ import './components/DialogStory';
 import './components/EntityVersionListStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/ExpandableCardStory';
 import './components/flyouts/UsageStory';
 import './components/GeoHeatMapStory';
 import './components/Globe';

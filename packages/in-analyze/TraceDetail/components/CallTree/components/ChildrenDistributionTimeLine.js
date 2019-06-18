@@ -2,7 +2,7 @@ import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
+import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
@@ -29,6 +29,9 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
           getColor={getColor}
           className={locals.subCallIndicator}
         />
+      ))}
+      {call.children.filter(subCall => subCall.model === 'LOG').map((subCall, i) => (
+        <LogIndicators key={i} parentCall={call} log={subCall} scale={scale} onCallClicked={onCallClicked} />
       ))}
     </div>
   );
@@ -57,7 +60,6 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
         <div className={locals.networkTimeBar} style={{ background: getColor(call) }} />
         <ProcessingTime call={call} getColor={getColor} />
         <CallDurationLabel call={call} scale={scale} />
-        <ErrorIndicator className={locals.errorIndicator} errorCount={call.errorCount} />
       </div>
     </Tooltip>
   );
@@ -125,6 +127,16 @@ function CallIndicator({ call, scale, getColor, onClick }) {
         className={joinClassNames(locals.subCallIndicator, locals.clickable)}
         onClick={() => onClick(call)}
       />
+    </Tooltip>
+  );
+}
+
+function LogIndicators({ parentCall, log, scale, onCallClicked }) {
+  const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(log.start);
+
+  return (
+    <Tooltip themeStyle="light" content={<CallTooltipContent call={log} />} align="topMiddle">
+      <LogIndicator inTimeline left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
     </Tooltip>
   );
 }

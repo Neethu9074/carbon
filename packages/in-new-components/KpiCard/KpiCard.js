@@ -6,7 +6,15 @@ import { joinClassNames } from 'in-services/util/classnames';
 
 import locals from './KpiCard.mless';
 
-export default function KpiCard({ title, value, raw = false, renderValue, valuesClassName, borderless = false }) {
+export default function KpiCard({
+  title,
+  value,
+  raw = false,
+  renderValue,
+  valuesClassName,
+  borderless = false,
+  color = false
+}) {
   if (raw || renderValue) {
     return (
       <div
@@ -39,7 +47,9 @@ export default function KpiCard({ title, value, raw = false, renderValue, values
   return (
     <div className={locals.wrapper}>
       <div className={locals.title}>{title}</div>
-      <span className={locals.major}>{major}</span>
+      <span className={locals.major} style={{ color: color }}>
+        {major}
+      </span>
       {minor && <span className={locals.minor}>{minor}</span>}
     </div>
   );

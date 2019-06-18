@@ -1,0 +1,81 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    background-color: @lib__colors__N050;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem;
+  }
+
+  .headerContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .headerLabels {
+    display: flex;
+    align-items: center;
+    margin-left: .75rem;
+  }
+
+  .headerLabelsExpanded {
+    display: flex;
+    flex-direction: column;
+    margin-left: .75rem;
+  }
+
+  .severityLabelFailure {
+    font-size: .75rem;
+    font-weight: 600;
+    margin-right: .5rem;
+    color: @lib__colors__failure;
+  }
+  .severityLabelWarning {
+    font-size: .75rem;
+    font-weight: 600;
+    margin-right: .5rem;
+    color: @lib__colors__warning;
+  }
+
+  .severityLabelExpanded {
+    font-weight: normal;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: .75rem;
+  }
+
+  .labelExpanded {
+    font-size: 1rem;
+    margin-top: .25rem;
+  }
+
+  .expandIcon {
+    border-radius: @lib__shapes__radius_small;
+    min-width: .75rem;
+    min-height: .75rem;
+    margin-right: .5rem;
+    fill: @lib__colors__N500;
+    cursor: pointer;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .stackTraceWrapper {
+    padding: .75rem
+  }
+
+  .stackTraceWrapperHeader {
+    font-size: .75rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+}

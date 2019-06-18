@@ -42,7 +42,10 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
       parent: parentCall ? parentCall.id : null,
       depth: depthWithoutOverlapping,
       x: totalDuration ? (start - traceStart) / totalDuration : 0,
-      dx: totalDuration ? duration / totalDuration : 1 // if totalDuration=0, the call should take the whole width (dx=1)
+      dx: totalDuration ? duration / totalDuration : 1, // if totalDuration=0, the call should take the whole width (dx=1)
+      totalDuration: totalDuration,
+      traceStart: traceStart,
+      children: children || []
     };
 
     callFrames.push(callFrame);

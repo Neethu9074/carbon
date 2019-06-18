@@ -1,17 +1,12 @@
 import React from 'react';
 
-import Badge from 'in-new-components/Badge';
-import theme from 'in-themes';
+import locals from './ErrorIndicator.mless';
 
-export default function ErrorIndicator({ className, errorCount, allowZero }) {
+export default function ErrorIndicator({ errorCount, allowZero }) {
   // also on 0
   if (!errorCount && !allowZero) {
     return null;
   }
 
-  return (
-    <Badge className={className} color={errorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N400}>
-      {errorCount}
-    </Badge>
-  );
+  return <div className={locals.errorIcon}>!</div>;
 }
