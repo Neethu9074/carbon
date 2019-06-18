@@ -25,6 +25,7 @@
   * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
   * [Problem with pngquant on Ubuntu?](#problem-with-pngquant-on-ubuntu)
 - [The Node.js Front End Server](#the-nodejs-front-end-server)
+- [VSCode Debugger](#vscode-debugger)
 
 <!-- tocstop -->
 
@@ -273,3 +274,36 @@ error, no objects specified in config file,
 ```
 
 This might be due to an incompatibility between Proxrox and MacOS' default openssl executable. Check `openssl version`, if it says something like `LibreSsl 2.xx`, consider doing `brew install openssl`/`brew upgrade openssl` and (important!) adding its path to your shell's init scripts (`export PATH="/usr/local/opt/openssl/bin:$PATH"`). After that, `openssl version` should say something like `OpenSSL 1.0.2o 27 Mar 2018`.
+
+## VSCode Debugger
+
+In case of difficult debugging tasks, like debugging tests etc. It can be useful to set up the debugger in VSCode to help.
+Getting the deubgger running requires a little bit of setup.
+
+- Open the VSCode `Debug` menu and select `Add Configuration`, then select `Node.js`
+
+- This creates a `launch.json` and where you should paste in the following code.
+
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "6000",
+                "--require",
+                "./packages/in-test/testHarness",
+                "${workspaceFolder}/packages/FILE_TO_DEBUG"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
+```
+
+Update the argument to target whatever files you want to run the debugger on. You can now use breakpoints to help debug your code in the debugging panel.
