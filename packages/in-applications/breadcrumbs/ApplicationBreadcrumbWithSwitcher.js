@@ -64,23 +64,29 @@ function ApplicationBreadcrumbWithSwitcher(props) {
   const hasOnlyOneApplication = applications.data.items.length == 1;
 
   return (
-    <Breadcrumb
-      className={locals.wrapper}
-      href$={getApplicationDashboard(applicationId)}
-      label={`Application (${applications.data.items.length})`}
-      icon="lib_application"
-    >
-      {hasOnlyOneApplication && <span className={locals.appName}>{application.data.label}</span>}
-      {!hasOnlyOneApplication && (
-        <Overlay content={ApplicationSwitcher} props={props} autoOpen>
-          {() => (
-            <div>
-              <span className={locals.appName}>{application.data.label}</span>
-              <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
-            </div>
+    <WithApplicationHealthIndicationBehaviour
+      applicationId={applicationId}
+      render={healthInfo => (
+        <Breadcrumb
+          className={locals.wrapper}
+          href$={getApplicationDashboard(applicationId)}
+          label={`Application (${applications.data.items.length})`}
+          icon="lib_application"
+          healthInfo={healthInfo}
+        >
+          {hasOnlyOneApplication && <span className={locals.appName}>{application.data.label}</span>}
+          {!hasOnlyOneApplication && (
+            <Overlay content={ApplicationSwitcher} props={props} autoOpen>
+              {() => (
+                <div>
+                  <span className={locals.appName}>{application.data.label}</span>
+                  <SvgIcon type="triangle_down" width={8} height={8} className={locals.toggleIcon} />
+                </div>
+              )}
+            </Overlay>
           )}
-        </Overlay>
+        </Breadcrumb>
       )}
-    </Breadcrumb>
+    />
   );
 }
