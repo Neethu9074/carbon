@@ -1,6 +1,7 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationSwitcher from 'in-applications/breadcrumbs/ApplicationSwitcher';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
@@ -45,7 +46,19 @@ function ApplicationBreadcrumbWithSwitcher(props) {
     application.errors.length > 0 ||
     (applications.progress.loading || applications.errors.length > 0)
   ) {
-    return <Breadcrumb href$={getApplicationDashboard(applicationId)} label="Application" icon="lib_application" />;
+    return (
+      <WithApplicationHealthIndicationBehaviour
+        applicationId={applicationId}
+        render={healthInfo => (
+          <Breadcrumb
+            href$={getApplicationDashboard(applicationId)}
+            label="Application"
+            icon="lib_application"
+            healthInfo={healthInfo}
+          />
+        )}
+      />
+    );
   }
 
   const hasOnlyOneApplication = applications.data.items.length == 1;

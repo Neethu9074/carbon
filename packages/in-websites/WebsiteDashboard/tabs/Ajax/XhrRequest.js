@@ -9,11 +9,11 @@ import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTo
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import AjaxBreadcrumb from 'in-websites/breadcrumbs/AjaxBreadcrumb';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { millis, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -260,7 +260,7 @@ export default function ResourceTab({ location, websiteId, websiteLabel, pageId,
 
   return (
     <Fragment>
-      <Breadcrumbs items={[<Breadcrumb label="AJAX Details">{xhrId}</Breadcrumb>]} />
+      <Breadcrumbs items={[<AjaxBreadcrumb xhrId={xhrId} />]} />
       <Title title="HTTP Request Details" dynamic={xhrId} />
 
       <div className={locals.actions}>

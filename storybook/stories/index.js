@@ -55,6 +55,7 @@ import './components/GeoHeatMapStory';
 import './components/Globe';
 import './components/health/HealthIndicatorStory';
 import './components/health/OpenIssuesListPresenterStory';
+import './components/health/WithHealthIndicationStory';
 import './components/HeatMap';
 import './components/KpiCardStory';
 import './components/Loading';

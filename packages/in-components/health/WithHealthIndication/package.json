@@ -1,0 +1,6 @@
+{
+  "name": "WithHealthIndication",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WithHealthIndication.js"
+}

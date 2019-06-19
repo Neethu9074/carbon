@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -12,11 +13,16 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function DeploymentBreadcrumb({ deployment, href$ }) {
+  function DeploymentBreadcrumb({ deploymentId, deployment, href$ }) {
     return (
-      <Breadcrumb label="Deployment" icon="lib_kubernetes_workload" href$={href$}>
-        {deployment && deployment.name}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={deploymentId}
+        render={healthInfo => (
+          <Breadcrumb label="Deployment" icon="lib_kubernetes_workload" href$={href$} healthInfo={healthInfo}>
+            {deployment && deployment.name}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

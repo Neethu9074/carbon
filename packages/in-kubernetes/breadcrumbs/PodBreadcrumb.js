@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -12,11 +13,16 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function NodeBreadPodBreadcrumbcrumb({ pod, href$ }) {
+  function NodeBreadPodBreadcrumbcrumb({ podId, pod, href$ }) {
     return (
-      <Breadcrumb label="Pod" icon="lib_kubernetes_pod" href$={href$}>
-        {pod && pod.label}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={podId}
+        render={healthInfo => (
+          <Breadcrumb label="Pod" icon="lib_kubernetes_pod" href$={href$} healthInfo={healthInfo}>
+            {pod && pod.label}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

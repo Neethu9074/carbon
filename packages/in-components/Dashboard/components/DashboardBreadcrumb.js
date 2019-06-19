@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { selectedSnapshotId$, getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -72,14 +73,20 @@ const PhysicalHierarchyBreadCrumb = connectTo(
 
     const plugin = snapshot.get('plugin');
     return (
-      <Breadcrumb
-        href$={getDashboardLink(snapshotId)}
-        label={getSingular(plugin)}
-        iconPath={getIconSvgPath(snapshot)}
-        isActive={isActive}
-      >
-        {getLabel(snapshot)}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={snapshotId}
+        render={healthInfo => (
+          <Breadcrumb
+            href$={getDashboardLink(snapshotId)}
+            label={getSingular(plugin)}
+            iconPath={getIconSvgPath(snapshot)}
+            isActive={isActive}
+            healthInfo={healthInfo}
+          >
+            {getLabel(snapshot)}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

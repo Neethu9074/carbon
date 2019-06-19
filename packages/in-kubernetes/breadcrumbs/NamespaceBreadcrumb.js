@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -12,11 +13,16 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function NamespaceBreadcrumb({ namespace, href$ }) {
+  function NamespaceBreadcrumb({ namespaceId, namespace, href$ }) {
     return (
-      <Breadcrumb label="Namespace" icon="lib_kubernetes_namespace" href$={href$}>
-        {namespace && namespace.label}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={namespaceId}
+        render={healthInfo => (
+          <Breadcrumb label="Namespace" icon="lib_kubernetes_namespace" href$={href$} healthInfo={healthInfo}>
+            {namespace && namespace.label}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

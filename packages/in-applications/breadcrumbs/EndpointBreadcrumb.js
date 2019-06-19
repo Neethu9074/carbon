@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import { getEndpointDashboard } from 'in-applications/navigation/paths';
 import getEndpoint from 'in-subscription/application/getEndpoint';
@@ -21,12 +22,21 @@ export default connectTo(
     }
 
     return (
-      <Breadcrumb
-        href$={getEndpointDashboard(endpoint.data.id, { applicationId, serviceId, endpointId })}
-        label="Endpoint"
-      >
-        {endpoint.data.label}
-      </Breadcrumb>
+      <WithApplicationHealthIndicationBehaviour
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        render={healthInfo => (
+          <Breadcrumb
+            href$={getEndpointDashboard(endpoint.data.id, { applicationId, serviceId, endpointId })}
+            label="Endpoint"
+            icon="lib_application_endpoint"
+            healthInfo={healthInfo}
+          >
+            {endpoint.data.label}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

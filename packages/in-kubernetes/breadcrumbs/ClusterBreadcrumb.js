@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -13,14 +14,19 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function ClusterBreadcrumb({ cluster, href$ }) {
+  function ClusterBreadcrumb({ clusterId, cluster, href$ }) {
     const distributionType = get(cluster, ['distributionType'], 'Kubernetes');
     const clusterIcon = `lib_${distributionType.toLowerCase()}`;
 
     return (
-      <Breadcrumb label="Cluster" icon={clusterIcon} href$={href$}>
-        {cluster && cluster.label}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={clusterId}
+        render={healthInfo => (
+          <Breadcrumb label="Cluster" icon={clusterIcon} href$={href$} healthInfo={healthInfo}>
+            {cluster && cluster.label}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );
