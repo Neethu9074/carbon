@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -18,6 +19,8 @@ export default function MongoSpanDetailView({ span }) {
             <Code code={query} lang="json" />
           </DescriptionItem>
         ) : null}
+        <ErrorDescriptionItem error={span.getIn(['data', 'mongo', 'error'])} />
+        <DescriptionItem title="Error Code">{span.getIn(['data', 'mongo', 'error_code'])}</DescriptionItem>
       </DescriptionList>
     </div>
   );
