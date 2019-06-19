@@ -13,7 +13,7 @@ export default connectTo(
               endpointId,
               timeConfig
             })
-              .filter(result => result.data)
+              .map(result => result.data)
               .filter(Boolean)
           )
         }
