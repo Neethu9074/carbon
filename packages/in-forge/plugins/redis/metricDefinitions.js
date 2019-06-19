@@ -17,6 +17,16 @@ export default [
     formatter: number
   },
   {
+    metric: 'connected_clients',
+    label: 'Number of connections',
+    formatter: number
+  },
+  {
+    metric: 'blocked_clients',
+    label: 'Number of blocked connections',
+    formatter: number
+  },
+  {
     metric: 'hit_rate',
     label: 'Cache Hit rate',
     formatter: number.perSecond
