@@ -1,10 +1,10 @@
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
 import Info from '../Info';
+import DatabasesPopup from './DatabasesPopup';
 
 export default function SapSqlAnywhereSidebar({ snapshot }) {
   return (
@@ -15,7 +15,9 @@ export default function SapSqlAnywhereSidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <DeployedUnitList snapshotId={snapshot.get('id')} />
+
+      <DatabasesPopup snapshot={snapshot} />
+
       <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
