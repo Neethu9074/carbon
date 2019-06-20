@@ -30,7 +30,10 @@ export default connectTo(
       return _physicalHierarchy;
     }),
     closeDashboardLink: getCloseDashboardLink(),
-    agent: isInternalVisible$.flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
+    agent: isInternalVisible$
+      .flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
+      // get snapshot to ensure that the agent snapshot can be found
+      .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
   }),
   function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink, agent }) {
     if (!physicalHierarchy) {
@@ -43,7 +46,7 @@ export default connectTo(
 
     const items = physicalHierarchy.map(id => <PhysicalHierarchyBreadCrumb key={id} snapshotId={id} />);
     if (agent) {
-      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent} />);
+      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent.get('id')} />);
     }
     items.unshift(
       <Breadcrumb className={locals.homeBreadcrumb} href={closeDashboardLink}>
