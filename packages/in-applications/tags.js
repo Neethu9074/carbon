@@ -55,6 +55,7 @@ const blacklists = {
       'docker.container.id': true,
       'host.snapshotId': true,
       'docker.snapshotId': true,
+      'garden.snapshotId': true,
       'process.snapshotId': true,
       'cluster.snapshotId': true,
       'call.span_type': !isInstanaEngineer,
@@ -107,7 +108,8 @@ export function getApplicationCreationTagKeys() {
     'trace.name': true,
     'log.level': true,
     'log.message': true,
-    'call.error.message': true
+    'call.error.message': true,
+    'cf.container.garden.id': true
   };
   getTagTree();
   let tagKeys = [];
