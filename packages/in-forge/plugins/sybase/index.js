@@ -5,14 +5,12 @@ import metricDefinitions from './metricDefinitions';
 import iconSvgPath from './iconPath';
 
 registerSnapshotDefinition({
-  plugin: plugins.sapSqlAnywhere,
+  plugin: plugins.sybase,
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'SAP SQL Anywhere Sever',
-    plural: 'SAP SQL Anywhere Servers'
+    singular: 'Sybase Server',
+    plural: 'Sybase Servers'
   },
-  technologyDescriptor: {
-    label: 'SAP SQL Anywhere'
-  }
+  technologyDescriptor: {}
 });

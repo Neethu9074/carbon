@@ -3,14 +3,14 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
-import Info from '../Info';
 import DatabasesPopup from './DatabasesPopup';
+import Info from '../Info';
 
-export default function SapSqlAnywhereSidebar({ snapshot }) {
+export default function SybaseSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>SAP SQL Anywhere</Collapsible.Header>
+        <Collapsible.Header>Sybase</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

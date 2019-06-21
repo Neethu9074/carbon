@@ -1,12 +1,13 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
 import Chart from '../../../../in-components/Chart/InfrastructureMetricChartBehavior';
-import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import DatabasesTable from '../../sapSqlAnywhere/Dashboard/DatabasesTable';
+import DashboardNotification from 'in-components/DashboardNotification';
 
-export default function SapSqlAnywhereDashboard({ snapshot, timeConfig }) {
+import DatabasesTable from '../Dashboard/DatabasesTable';
+
+export default function SybaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -21,7 +22,7 @@ export default function SapSqlAnywhereDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['connCount'],
+            metrics: ['stats.connCount'],
             labels: ['User Connections'],
             type: 'line',
             formatter: zeroDecimalPlaces,
@@ -35,7 +36,7 @@ export default function SapSqlAnywhereDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['diskRead', 'diskWrite'],
+            metrics: ['stats.diskRead', 'stats.diskWrite'],
             labels: ['Reads', 'Writes'],
             type: 'line',
             formatter: zeroDecimalPlaces,
@@ -49,7 +50,7 @@ export default function SapSqlAnywhereDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['bytesReceived', 'bytesSent'],
+            metrics: ['stats.bytesReceived', 'stats.bytesSent'],
             labels: ['Received', 'Sent'],
             type: 'line',
             formatter: bytesTwoDecimalPlaces,
@@ -63,7 +64,7 @@ export default function SapSqlAnywhereDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['threadDeadLocksAvoided', 'threadDeadLocksReported'],
+            metrics: ['stats.threadDeadlocksAvoided', 'stats.threadDeadlocksReported'],
             labels: ['Avoided', 'Reported'],
             type: 'line',
             formatter: zeroDecimalPlaces,

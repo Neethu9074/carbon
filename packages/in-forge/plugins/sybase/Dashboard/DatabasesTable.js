@@ -9,7 +9,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Schema',
+    title: 'Database',
     type: 'string',
     typeArgs: {
       getValue(row) {
