@@ -1,6 +1,5 @@
 import { find } from 'lodash';
 
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { createTrackingStore } from 'in-stores/store';
 import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
@@ -12,7 +11,6 @@ export const defaultRoleId = '-3';
 export const user = window.instana.user;
 export const tenant = find(user.tenants, tenant => tenant.tenantKey === config.tenant);
 export const role = tenant.role;
-const permissions = window.instana.permissions;
 
 export const isInstanaEngineer = user.email === 'stan@instana.com';
 
@@ -22,11 +20,3 @@ export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
 }).observable;
-
-export function hasRestrictedAccess() {
-  return isRbacEnabled && role.restrictedAccess;
-}
-
-export function hasPermission(permission) {
-  return !hasRestrictedAccess() || permissions.indexOf(permission) > -1;
-}

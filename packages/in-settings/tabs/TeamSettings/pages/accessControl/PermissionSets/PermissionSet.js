@@ -84,5 +84,17 @@ function createForm(permissionSet) {
       createField({
         value: permissionSet.get('applicationIds', List())
       })
+    )
+    .put(
+      'kubernetesClusterUUIDs',
+      createField({
+        value: permissionSet.get('kubernetesClusterUUIDs', List())
+      })
+    )
+    .put(
+      'kubernetesNamespaceUIDs',
+      createField({
+        value: permissionSet.get('kubernetesNamespaceUIDs', List())
+      })
     );
 }

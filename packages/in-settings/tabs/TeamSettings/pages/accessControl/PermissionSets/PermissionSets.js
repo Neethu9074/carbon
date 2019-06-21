@@ -44,9 +44,25 @@ const columnDefinitions = [
   {
     id: 'appCount',
     label: 'Application Perspectives',
-    width: 30,
+    width: 10,
     getContent(entity) {
       return <span>{entity.applicationIds.length}</span>;
+    }
+  },
+  {
+    id: 'clusterCount',
+    label: 'Kubernetes Clusters',
+    width: 10,
+    getContent(entity) {
+      return <span>{entity.kubernetesClusterUUIDs ? entity.kubernetesClusterUUIDs.length : 0}</span>;
+    }
+  },
+  {
+    id: 'namespaceCount',
+    label: 'Kubernetes Namespaces',
+    width: 10,
+    getContent(entity) {
+      return <span>{entity.kubernetesNamespaceUIDs ? entity.kubernetesNamespaceUIDs.length : 0}</span>;
     }
   }
 ];

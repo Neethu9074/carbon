@@ -8,4 +8,8 @@
 
     padding: 5rem 0 2rem;
   }
+
+  .error {
+    margin-top: 1.5rem;
+  }
 }

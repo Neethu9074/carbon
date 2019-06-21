@@ -5,11 +5,14 @@ import React from 'react';
 import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Applications';
+import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sNamespaces';
+import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sClusters';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { getApplications, getProductAreaPermissions } from 'in-api/permissionSets';
+import { getK8sNamespaces, getApplications, getK8sClusters } from 'in-api/permissionSets';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { productAreaPermissions } from 'in-stores/permission';
 import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -17,6 +20,10 @@ import Input from 'in-components/form/Input';
 
 export default function PermissionSetForm({ form, setForm, onChange }) {
   const selectedApplications = form.get('applicationIds') ? form.get('applicationIds').value.toJS() : [];
+  const selectedK8sClusters = form.get('kubernetesClusterUUIDs') ? form.get('kubernetesClusterUUIDs').value.toJS() : [];
+  const selectedK8sNamespaces = form.get('kubernetesNamespaceUIDs')
+    ? form.get('kubernetesNamespaceUIDs').value.toJS()
+    : [];
 
   return (
     <fieldset>
@@ -38,7 +45,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
       ))}
 
       <SectionHeading>Product Areas</SectionHeading>
-      {getProductAreaPermissions().map(area => (
+      {productAreaPermissions.map(area => (
         <Permission
           key={area.value}
           form={form}
@@ -61,19 +68,66 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
             form={form}
             onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
             title="Add Application Perspectives"
-            label={'Add Application Perspectives'}
+            label="Add Application Perspectives"
             listComponent={Applications}
             listComponentRightHeader={noRightHeader}
             hiddenIds={selectedApplications}
-            limit={999} // some high limit, as it is mandatory
             createSubmitLabel={numberOfItems =>
               numberOfItems > 0 ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}` : 'Add'
             }
-            requiresAtLeastOneMessage="Please select at least one application Perspectives."
+            requiresAtLeastOneMessage="Please select at least one application perspectives."
           />
         }
       />
       <TouchedMessages field={form.get('applicationIds')} />
+
+      <K8sClusters
+        setTitle={false}
+        loadEntities={() => getSelectedK8sClusters(selectedK8sClusters)}
+        hasRowNavigation={false}
+        noDataMessage="No Kubernetes Cluster Selected"
+        tableActions={k8sClusterSelectionTableActions(form, setForm)}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitK8sClusterSelection(form, setForm, selectedIds)}
+            title="Add Kubernets Clusters"
+            label="Add Kubernets Clusters"
+            listComponent={K8sClusters}
+            listComponentRightHeader={noRightHeader}
+            hiddenIds={selectedK8sClusters}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Kubernetes Cluster${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
+            requiresAtLeastOneMessage="Please select at least one Kubernetes cluster."
+          />
+        }
+      />
+      <TouchedMessages field={form.get('kubernetesClusterUUIDs')} />
+
+      <K8sNamespaces
+        setTitle={false}
+        loadEntities={() => getSelectedK8sNamespaces(selectedK8sNamespaces)}
+        hasRowNavigation={false}
+        noDataMessage="No Kubernetes Namespace Selected"
+        tableActions={k8sNamespaceSelectionTableActions(form, setForm)}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitK8sNamespaceSelection(form, setForm, selectedIds)}
+            title="Add Kubernets Namespaces"
+            label="Add Kubernets Namespaces"
+            listComponent={K8sNamespaces}
+            listComponentRightHeader={noRightHeader}
+            hiddenIds={selectedK8sNamespaces}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Kubernetes Namespace${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
+            requiresAtLeastOneMessage="Please select at least one Kubernetes namespace."
+          />
+        }
+      />
+      <TouchedMessages field={form.get('kubernetesNamespaceUIDs')} />
     </fieldset>
   );
 }
@@ -82,6 +136,22 @@ function getSelectedApplicationConfigs(selectedApplications = []) {
   return getApplications().map(application =>
     filter(application, function(app) {
       return selectedApplications.indexOf(app.id) >= 0;
+    })
+  );
+}
+
+function getSelectedK8sClusters(selectedK8sClusters = []) {
+  return getK8sClusters().map(k8sCluster =>
+    filter(k8sCluster, function(cluster) {
+      return selectedK8sClusters.indexOf(cluster.id) >= 0;
+    })
+  );
+}
+
+function getSelectedK8sNamespaces(selectedK8sNamespaces = []) {
+  return getK8sNamespaces().map(k8sNamespace =>
+    filter(k8sNamespace, function(namespace) {
+      return selectedK8sNamespaces.indexOf(namespace.id) >= 0;
     })
   );
 }
@@ -104,9 +174,61 @@ function applicationSelectionTableActions(form, setForm) {
   };
 }
 
+function k8sClusterSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          setForm(
+            form.updateIn(['kubernetesClusterUUIDs'], field => {
+              return field
+                .setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id))
+                .setTouched(true);
+            })
+          );
+        }
+      }
+    }
+  };
+}
+
+function k8sNamespaceSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          setForm(
+            form.updateIn(['kubernetesNamespaceUIDs'], field => {
+              return field
+                .setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id))
+                .setTouched(true);
+            })
+          );
+        }
+      }
+    }
+  };
+}
+
 function submitApplicationSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['applicationIds'], field => {
+      return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
+    })
+  );
+}
+
+function submitK8sClusterSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['kubernetesClusterUUIDs'], field => {
+      return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
+    })
+  );
+}
+
+function submitK8sNamespaceSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['kubernetesNamespaceUIDs'], field => {
       return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
     })
   );

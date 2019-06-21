@@ -14,12 +14,12 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-compone
 import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
+import { hasApplicationsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
-import { hasPermission } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
@@ -36,25 +36,29 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
   return (
     <HeaderWithTimeSelection>
       <SecondLevelNavigation>
-        <SecondLevelNavigationItem
-          href$={getLinkToAnalyze({
-            dataSource: 'traces',
-            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-          })}
-          icon="lib_application_trace"
-          label="Traces"
-          isActive={dataSource === 'traces'}
-        />
-        <SecondLevelNavigationItem
-          href$={getLinkToAnalyze({
-            dataSource: 'calls',
-            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
-          })}
-          icon="lib_application_call"
-          label="Calls"
-          isActive={dataSource === 'calls'}
-        />
-        {hasPermission('ACCESS_WEBSITES') && (
+        {hasApplicationsAccess && (
+          <SecondLevelNavigationItem
+            href$={getLinkToAnalyze({
+              dataSource: 'traces',
+              groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+            })}
+            icon="lib_application_trace"
+            label="Traces"
+            isActive={dataSource === 'traces'}
+          />
+        )}
+        {hasApplicationsAccess && (
+          <SecondLevelNavigationItem
+            href$={getLinkToAnalyze({
+              dataSource: 'calls',
+              groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
+            })}
+            icon="lib_application_call"
+            label="Calls"
+            isActive={dataSource === 'calls'}
+          />
+        )}
+        {hasWebsitesAccess && (
           <SecondLevelNavigationItem
             href$={getLinkToWebsiteAnalyze({
               group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
@@ -63,10 +67,10 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             icon="lib_website_page_load"
             label={`${websiteDataSourceTitles.pageLoad}s`}
             isActive={dataSource === 'pageLoad'}
-            addSeparator
+            addSeparator={hasApplicationsAccess}
           />
         )}
-        {hasPermission('ACCESS_WEBSITES') && (
+        {hasWebsitesAccess && (
           <SecondLevelNavigationItem
             href$={getLinkToWebsiteAnalyze({
               group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
@@ -77,7 +81,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             isActive={dataSource === 'resourceLoad'}
           />
         )}
-        {hasPermission('ACCESS_WEBSITES') && (
+        {hasWebsitesAccess && (
           <SecondLevelNavigationItem
             href$={getLinkToWebsiteAnalyze({
               group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
@@ -88,7 +92,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
             isActive={dataSource === 'httpRequest'}
           />
         )}
-        {hasPermission('ACCESS_WEBSITES') && (
+        {hasWebsitesAccess && (
           <SecondLevelNavigationItem
             href$={getLinkToWebsiteAnalyze({
               group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
@@ -100,7 +104,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
           />
         )}
         {customEventsInWebsiteMonitoringEnabled &&
-          hasPermission('ACCESS_WEBSITES') && (
+          hasWebsitesAccess && (
             <SecondLevelNavigationItem
               href$={getLinkToWebsiteAnalyze({
                 group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
