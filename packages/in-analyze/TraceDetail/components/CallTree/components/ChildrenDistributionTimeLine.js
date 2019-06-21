@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
+import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
@@ -135,7 +136,7 @@ function LogIndicators({ parentCall, log, scale, onCallClicked }) {
   const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(log.start);
 
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={log} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<LogTooltipContent log={log} />} align="topMiddle">
       <LogIndicator inTimeline left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
     </Tooltip>
   );

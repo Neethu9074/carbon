@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .content {
+    width: 18rem;
+    padding: 0.5rem;
+  }
+
+  .severityLabelFailure {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 0.5rem 0.5rem 0;
+    color: @lib__colors__failure;
+  }
+
+  .severityLabelWarning {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 0.5rem 0.5rem 0;
+    color: @lib__colors__warning;
+  }
+
+  .headingLabel {
+    font-weight: 600;
+  }
+}

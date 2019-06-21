@@ -3,6 +3,7 @@ import React from 'react';
 
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
+import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -23,7 +24,9 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
             <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
               {log.errorCount > 0 ? 'Error' : 'Warning'}
             </div>
-            <div className={isExpanded ? locals.labelExpanded : locals.label}>{log.data.log.message}</div>
+            <div className={isExpanded ? locals.labelExpanded : locals.label}>
+              {isExpanded ? log.data.log.message : shorten(log.data.log.message, 32)}
+            </div>
           </div>
         </div>
         <div className={locals.headerActions}>

@@ -1,7 +1,7 @@
 import connect from 'in-hoc/connectTo';
 import React, { Fragment } from 'react';
 
-import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
+import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -85,7 +85,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
 function LogIndicators({ parentCall, log, xScale, x, top, onCallClicked }) {
   const left = xScale.getRange(x);
   return (
-    <Tooltip themeStyle="light" content={<CallTooltipContent call={log} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={<LogTooltipContent log={log} />} align="topMiddle">
       <LogIndicator inTimeline top={top} left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
     </Tooltip>
   );
