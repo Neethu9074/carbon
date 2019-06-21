@@ -34,6 +34,20 @@
     color: @lib__colors__N700Medium;
   }
 
+  .listHeading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: 0.75rem;
+
+    font-size: 0.8125rem;
+    color: @lib__colors__N700Medium;
+    border: 1px solid @lib__colors__N400;
+    border-bottom: 0;
+  }
+
   .list {
     width: 100%;
     margin: 0;

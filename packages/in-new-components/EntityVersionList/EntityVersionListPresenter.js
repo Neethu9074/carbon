@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
@@ -9,26 +9,18 @@ import Link from 'in-components/Link';
 import locals from './EntityVersionListPresenter.mless';
 
 export default function EntityVersionListPresenter({ plugin, snapshotVersions }) {
-  const heading = (
-    <Fragment>
-      <PluginIcon className={locals.icon} plugin={plugin} dimension={48} />
-      <h2 className={locals.title}>{`${getSingular(plugin)} not found`}</h2>
-    </Fragment>
-  );
-
-  if (!snapshotVersions || snapshotVersions.length === 0) {
-    return <div className={locals.frame}>{heading}</div>;
-  }
-
   snapshotVersions.sort(sortByTo);
 
   return (
     <div className={locals.frame}>
-      {heading}
+      <PluginIcon className={locals.icon} plugin={plugin} dimension={48} />
+      <h2 className={locals.title}>{`${getSingular(plugin)} not found`}</h2>
       <p className={locals.explanation}>
         We could not find a version of this pod in the selected time range. We found other versions in different time
         ranges:
       </p>
+
+      <div className={locals.listHeading}>Available time ranges</div>
       <ul className={locals.list}>
         {snapshotVersions.map(({ from, to }, i) => {
           const windowSize = (to || Date.now()) - from;
