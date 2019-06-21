@@ -1,6 +1,7 @@
 import { just } from 'reactive-observables';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getApplication from 'in-subscription/application/getApplication';
 import { mapDataHO, successObservable } from 'in-services/util/result';
 import getEndpoint from 'in-subscription/application/getEndpoint';
@@ -75,13 +76,13 @@ export function is20Endpoint(entityType) {
   return entityType === 'Endpoint20';
 }
 
-export function create20EntityConnectToMapFromEvent(entityType, entityId, metadata, timeConfig) {
+export function create20EntityConnectToMapFromEvent(entityType, entityId, metadata) {
   if (is20Application(entityType)) {
     return create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata);
   } else if (is20Service(entityType)) {
-    return create20ServiceConnectToMapFromEvent(entityType, entityId, metadata, timeConfig);
+    return create20ServiceConnectToMapFromEvent(entityType, entityId, metadata);
   } else if (is20Endpoint(entityType)) {
-    return create20EndpointConnectToMapFromEvent(entityType, entityId, metadata, timeConfig);
+    return create20EndpointConnectToMapFromEvent(entityType, entityId, metadata);
   }
 }
 
@@ -99,26 +100,41 @@ function create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata
   }
 }
 
-function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata, timeConfig) {
+function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata) {
   if (metadata && metadata.get('entityLabel')) {
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
-  } else {
+  }
+
+  if (!entityId) {
     return wrapInConnectToMap(
-      getServiceLabel({
-        id: entityId,
-        filter: {
-          timeConfig
+      getEndpointInfo({
+        id: metadata.get('app20EndpointId')
+      }).flatMap(endpointInfo => {
+        if (!endpointInfo.data) {
+          return just(endpointInfo);
         }
-      }).map(
-        mapDataHO(serviceLabel => {
-          return createEntitySurrogate(entityType, entityId, serviceLabel.label);
-        })
-      )
+        return getServiceLabel({
+          id: endpointInfo.data.serviceId
+        }).map(
+          mapDataHO(serviceLabel => {
+            return createEntitySurrogate(entityType, endpointInfo.data.serviceId, serviceLabel.label);
+          })
+        );
+      })
     );
   }
+  return wrapInConnectToMap(
+    getServiceLabel({
+      id: entityId
+    }).map(
+      mapDataHO(serviceLabel => {
+        return createEntitySurrogate(entityType, entityId, serviceLabel.label);
+      })
+    )
+  );
 }
 
-function create20EndpointConnectToMapFromEvent(entityType, entityId, metadata, timeConfig) {
+function create20EndpointConnectToMapFromEvent(entityType, entityId, metadata) {
   if (
     metadata &&
     metadata.get('entityLabel') &&
@@ -145,26 +161,23 @@ function create20EndpointConnectToMapFromEvent(entityType, entityId, metadata, t
   } else {
     // more than the service label is missing - load endpoint and then the service label
     return wrapInConnectToMap(
-      getEndpoint({
-        id: entityId,
-        filter: {
-          timeConfig
-        }
-      }).flatMap(result => {
-        if (!result.data) {
-          return just(result);
-        } else if (!result.data.serviceId) {
+      getEndpointInfo({
+        id: entityId
+      }).flatMap(endpointInfo => {
+        if (!endpointInfo.data) {
+          return just(endpointInfo);
+        } else if (!endpointInfo.data.serviceId) {
           // getEndpoint has returned data, but no serviceId, so at least return the endpoint label
-          return successObservable(createEntitySurrogate(entityType, entityId, result.data.label));
+          return successObservable(createEntitySurrogate(entityType, entityId, endpointInfo.data.label));
         } else {
           // getEndpoint yielded a service ID, use that to load the service label
-          return getServiceLabel({ id: result.data.serviceId }).map(
+          return getServiceLabel({ id: endpointInfo.data.serviceId }).map(
             mapDataHO(serviceLabel => {
               return createEntitySurrogate(
                 entityType,
                 entityId,
-                result.data.label,
-                result.data.serviceId,
+                endpointInfo.data.label,
+                endpointInfo.data.serviceId,
                 serviceLabel.label
               );
             })

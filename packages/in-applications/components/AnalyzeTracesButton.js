@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -17,7 +17,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
   }
   if (endpointId) {
-    observables.endpointLabel = getEndpointLabel({ id: endpointId }).map(getLabel);
+    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
   }
   return observables;
 })(function AnalyzeTracesButton({ applicationLabel, serviceLabel, endpointLabel, isSynthetic }) {

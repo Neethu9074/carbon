@@ -5,7 +5,7 @@ import EntityInformation from './EntityInformation';
 import { is20Endpoint } from 'in-services/entityUtils';
 
 export default function EntityWithParentInformation(props) {
-  const { entityType, metadata, timeConfig } = props;
+  const { entityType, entityId, metadata, timeConfig } = props;
   return (
     <div>
       <EntityInformation {...props} />
@@ -17,7 +17,8 @@ export default function EntityWithParentInformation(props) {
             entityType="Service20"
             label="Of Service:"
             metadata={fromJS({
-              entityLabel: metadata.get('app20EndpointServiceLabel')
+              entityLabel: metadata.get('app20EndpointServiceLabel'),
+              app20EndpointId: entityId
             })}
             timeConfig={timeConfig}
           />

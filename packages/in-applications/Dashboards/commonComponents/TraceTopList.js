@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
-import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
@@ -26,7 +26,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
     observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
   }
   if (endpointId) {
-    observables.endpointName = getEndpointLabel({ id: endpointId }).map(getLabel);
+    observables.endpointName = getEndpointInfo({ id: endpointId }).map(getLabel);
   }
   return observables;
 })(function TraceTopList({

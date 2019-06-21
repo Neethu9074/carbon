@@ -88,13 +88,13 @@ export default addSection(
 const ChartWrapper = connectTo(
   props => {
     const { event, entityId, entityType } = props;
-    const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
     if (is10Type(entityType)) {
+      const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
       return {
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return create20EntityConnectToMapFromEvent(entityType, entityId, event.get('metadata'), timeConfig);
+      return create20EntityConnectToMapFromEvent(entityType, entityId, event.get('metadata'));
     }
   },
   function ChartWrapper({

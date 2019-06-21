@@ -5,7 +5,7 @@ import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-view
 import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { is20Application, is20Service, is20Endpoint, is20Type } from 'in-services/entityUtils';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
-import getEndpointLabel from 'in-subscription/application/getEndpointLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { sortDirection$ } from 'in-views/eventView/stores/sortDirection';
 import getApplication from 'in-subscription/application/getApplication';
@@ -154,7 +154,7 @@ const On = connectTo(
       };
     } else if (is20Endpoint(props.rawEvent.entityType)) {
       return {
-        entity: getEndpointLabel({
+        entity: getEndpointInfo({
           id: props.rawEvent.entityId
         }),
         app20IconType: just('app_endpoint')
