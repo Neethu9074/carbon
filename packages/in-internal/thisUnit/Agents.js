@@ -42,6 +42,22 @@ const cols = [
     }
   },
   {
+    title: 'Slow Sensors Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `sensors.scheduler.slow`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: 'CPU Load',
     type: 'metric',
     typeArgs: {
@@ -113,6 +129,18 @@ function getRowDetails(row) {
           formatter: percentage.compact,
           metrics: [`sensors.scheduler.consumed`],
           labels: ['Sensor Time Consumed'],
+          type: 'stackedArea'
+        }}
+      />
+
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.compact,
+          metrics: [`sensors.scheduler.slow`],
+          labels: ['Slow Sensors Count'],
           type: 'stackedArea'
         }}
       />
