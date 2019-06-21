@@ -4,7 +4,7 @@ import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessSt
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 
-export default function SapSqlAnywhereInfo({ snapshot }) {
+export default function SybaseInfo({ snapshot }) {
   const data = snapshot.get('data');
   const databases = data.get('databaseNames', emptyList);
   return (
@@ -17,7 +17,7 @@ export default function SapSqlAnywhereInfo({ snapshot }) {
       <DescriptionItem title="Version">{data.get('serverVersion')}</DescriptionItem>
       <DescriptionItem title="Name">{data.get('serverName')}</DescriptionItem>
       <DescriptionItem title="Max Connections">{data.get('maxConnections')}</DescriptionItem>
-      <DescriptionItem title="Databases">{databases.count}</DescriptionItem>
+      <DescriptionItem title="Databases">{databases.count()}</DescriptionItem>
     </DescriptionList>
   );
 }
