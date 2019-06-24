@@ -31,7 +31,8 @@ function InputWithSelectionList({
   onToggleFiltersList,
   onCloseList,
   onChange,
-  handleSelect
+  handleSelect,
+  setValue
 }) {
   return (
     <div className={locals.container}>
@@ -43,7 +44,10 @@ function InputWithSelectionList({
           placeholder={placeholder}
           value={value}
           maxLength={2048}
-          onChange={e => onChange(e)}
+          onChange={e => {
+            setValue(e.target.value);
+            onChange(e);
+          }}
           hasError={hasError}
         />
         <SvgIcon
