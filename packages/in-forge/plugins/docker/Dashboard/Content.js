@@ -36,7 +36,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Memory Usage">
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
-        {containerInfoEnabled && !hasRestrictedAccess() && <ContainerInfoButton snapshot={snapshot} />}
+        {containerInfoEnabled && !hasRestrictedAccess && <ContainerInfoButton snapshot={snapshot} />}
       </KpiSection>
 
       <DashboardSection title="CPU">
