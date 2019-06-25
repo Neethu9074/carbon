@@ -35,7 +35,7 @@ export default connectTo(
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return create20EntityConnectToMapFromEvent(entityType, entityId, metadata, timeConfig);
+      return create20EntityConnectToMapFromEvent(entityType, entityId, metadata);
     }
   },
   function EntityInformation(props) {
@@ -81,23 +81,23 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entityId, entity, entityType, label }) {
+function EntityInformation20({ entity, entityType, label }) {
+  const data = entity.data;
   let href$;
   if (is20Application(entityType)) {
-    href$ = getApplicationDashboard(entityId);
+    href$ = getApplicationDashboard(data.id);
   } else if (is20Service(entityType)) {
-    href$ = getServiceDashboard(entityId);
+    href$ = getServiceDashboard(data.id);
   } else if (is20Endpoint(entityType)) {
-    const endpoint = entity.data;
-    href$ = getEndpointDashboard(endpoint.id, {
-      serviceId: endpoint.serviceId
+    href$ = getEndpointDashboard(data.id, {
+      serviceId: data.serviceId
     });
   }
 
   return (
     <div className={block}>
       <span className={`${block}__label`}>{label != undefined ? label : 'On:'}</span>
-      <Link href$={href$}>{entity.data.label}</Link>
+      <Link href$={href$}>{data.label}</Link>
     </div>
   );
 }

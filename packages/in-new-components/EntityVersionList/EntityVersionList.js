@@ -14,11 +14,10 @@ export default connectTo(
     versionsForLive: getSnapshotVersions(snapshotId, getTimeConfigAtMoment(null)).startWith(null)
   }),
   function EntityVersionList({ errors, plugin, versionsForFocusedMoment, versionsForLive }) {
+    const hasRbacErrors = errors && errors[0].code === 'AUTH';
     if (
-      versionsForFocusedMoment &&
-      versionsForFocusedMoment.size === 0 &&
-      versionsForLive &&
-      versionsForLive.size === 0
+      hasRbacErrors ||
+      (versionsForFocusedMoment && versionsForFocusedMoment.size === 0 && versionsForLive && versionsForLive.size === 0)
     ) {
       return <ErroneousResultPresenter errors={errors} className={locals.error} />;
     }

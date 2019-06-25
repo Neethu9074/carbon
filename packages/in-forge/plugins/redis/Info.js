@@ -32,7 +32,7 @@ export default function RedisInfo({ snapshot }) {
       ) : null}
       {role === 'slave' ? <DescriptionItem title="Master Host">{data.get('master_host')}</DescriptionItem> : null}
       {role === 'slave' ? <DescriptionItem title="Master Port">{data.get('master_port')}</DescriptionItem> : null}
-      {role === 'slave' ? <DescriptionItem title="Master Link Status">{masterLinkStatus}</DescriptionItem> : null}
+      {role === 'slave' ? <DescriptionItem title="Replication Status">{masterLinkStatus}</DescriptionItem> : null}
       {masterLinkStatus === 'down' && role === 'slave' ? (
         <DescriptionItem title="Master Downtime">
           <MetricValue metric={'master_downtime_seconds'} snapshotId={snapshotId} formatter={secondsFormatter} />

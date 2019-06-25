@@ -1,3 +1,4 @@
+import { getTickPositionsAbsolute } from 'in-services/ticks/horizontal';
 import {
   font,
   darkColorTransparent,
@@ -5,7 +6,6 @@ import {
   lightColor,
   midColor
 } from 'in-views/eventView/components/timeline/timelineConfig';
-import getTickPositions from 'in-services/ticks/horizontal';
 
 const edgeWidth = 260;
 
@@ -29,7 +29,10 @@ export default function createTimeAxisRenderer(ctx, scale) {
     axisConfig = Object.create(axisConfig);
     axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
-    const tickPositions = getTickPositions(scale, axisConfig, true);
+    const tickPositions = getTickPositionsAbsolute({
+      scale,
+      formatter: axisConfig
+    });
 
     for (let i = 0, length = tickPositions.length; i < length; i++) {
       const tick = Math.ceil(tickPositions[i]);

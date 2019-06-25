@@ -1,4 +1,5 @@
 import invariant from 'invariant';
+import theme from 'in-themes';
 
 export const endpointNameTranslations = {
   BATCH: 'Batch',
@@ -7,6 +8,7 @@ export const endpointNameTranslations = {
   HTTP: 'Http',
   MESSAGING: 'Messaging',
   RPC: 'Rpc',
+  GRAPHQL: 'GraphQL',
   INTERNAL: 'Internal',
   UNDEFINED: 'Undefined',
   SELF: 'Self'
@@ -19,6 +21,7 @@ export const colorTranslation = {
   HTTP: '#549ef8',
   MESSAGING: '#69b116',
   RPC: '#93bedc',
+  GRAPHQL: theme.lib.colors.lime800,
   INTERNAL: '#D4D8DB',
   UNDEFINED: '#D4D8DB',
   SELF: '#D4D8DB'

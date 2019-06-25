@@ -1,23 +1,18 @@
 import React from 'react';
 
 import { getIconSvgPath } from 'in-sdk/snapshot';
+import theme from 'in-themes';
 
 export default function PluginIcon({
   className,
   onClick,
   style,
   dimension = 16,
-  color = '#fff',
+  color = theme.lib.colors.N700Medium,
   snapshot,
-  plugin,
-  overrideSnapshot
+  plugin
 }) {
-  let path;
-  if (snapshot && plugin && overrideSnapshot) {
-    path = getIconSvgPath(plugin);
-  } else {
-    path = getIconSvgPath(snapshot ? snapshot : plugin);
-  }
+  const path = getIconSvgPath(snapshot ? snapshot : plugin);
 
   style = style || {};
   style.minWidth = `${dimension}px`;

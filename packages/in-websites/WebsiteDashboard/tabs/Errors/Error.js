@@ -15,12 +15,12 @@ import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
@@ -259,11 +259,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
 
   return (
     <Fragment>
-      <Breadcrumbs
-        items={[
-          <Breadcrumb label="JS Error Details">{result && result.data && shorten(result.data.message, 32)}</Breadcrumb>
-        ]}
-      />
+      <Breadcrumbs items={[<ErrorBreadcrumb message={result && result.data && shorten(result.data.message, 32)} />]} />
       <Title title="Error Details" dynamic={result && result.data && result.data.message} />
 
       <div className={locals.actions}>

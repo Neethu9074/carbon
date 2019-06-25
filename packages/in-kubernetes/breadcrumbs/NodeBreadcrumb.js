@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -12,11 +13,16 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => result.data)
   }),
-  function NodeBreadcrumb({ node, href$ }) {
+  function NodeBreadcrumb({ nodeId, node, href$ }) {
     return (
-      <Breadcrumb label="Node" icon="lib_kubernetes_node" href$={href$}>
-        {node && node.name}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={nodeId}
+        render={healthInfo => (
+          <Breadcrumb label="Node" icon="lib_kubernetes_node" snapshotId={nodeId} href$={href$} healthInfo={healthInfo}>
+            {node && node.name}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

@@ -6,6 +6,10 @@
 
     width: 100%;
 
-    padding-top: 5rem;
+    padding: 5rem 0 2rem;
+  }
+
+  .error {
+    margin-top: 1.5rem;
   }
 }

@@ -1,9 +1,25 @@
-import { bytes, percentageZeroDecimalPlaces, number } from 'in-services/formatters/number';
+import {
+  bytes,
+  percentageZeroDecimalPlaces,
+  number,
+  kiloBytesZeroDecimalPlaces,
+  msZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'used_memory',
     label: 'Used memory',
+    formatter: bytes
+  },
+  {
+    metric: 'used_memory_rss',
+    label: 'Used memory rss',
+    formatter: bytes
+  },
+  {
+    metric: 'used_memory_lua',
+    label: 'Used memory lua',
     formatter: bytes
   },
   {
@@ -14,6 +30,16 @@ export default [
   {
     metric: 'rejected_connections',
     label: 'Number of Rejected connections',
+    formatter: number
+  },
+  {
+    metric: 'connected_clients',
+    label: 'Number of connections',
+    formatter: number
+  },
+  {
+    metric: 'blocked_clients',
+    label: 'Number of blocked connections',
     formatter: number
   },
   {
@@ -35,5 +61,30 @@ export default [
     metric: 'evicted_keys',
     label: 'Redis Evicted keys',
     formatter: number
+  },
+  {
+    metric: 'expired_keys',
+    label: 'Redis Expired keys',
+    formatter: number
+  },
+  {
+    metric: 'master_connected_slaves',
+    label: 'Number of Connected slaves',
+    formatter: number
+  },
+  {
+    metric: 'latency_max',
+    label: 'Latency',
+    formatter: msZeroDecimalPlaces
+  },
+  {
+    metric: 'throughput',
+    label: 'Throughput',
+    formatter: number.detailed
+  },
+  {
+    metric: 'master_sync_left_bytes',
+    label: 'Bytes left before syncing is complete',
+    formatter: kiloBytesZeroDecimalPlaces
   }
 ];

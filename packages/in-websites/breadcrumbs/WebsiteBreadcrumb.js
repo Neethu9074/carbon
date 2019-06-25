@@ -14,7 +14,7 @@ export default connectTo(
   }),
   function WebsiteBreadcrumb({ website, websiteId }) {
     return (
-      <Breadcrumb href$={getLinkToWebsite(websiteId, { pageId: null })} label="Website">
+      <Breadcrumb href$={getLinkToWebsite(websiteId, { pageId: null })} label="Website" icon="lib_website">
         {website.data && website.data.label}
       </Breadcrumb>
     );

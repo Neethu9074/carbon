@@ -81,10 +81,9 @@ function HierarchicalLink({
     >
       <HealthyPluginIcon
         className={locals.pluginIcon}
-        snapshot={snapshot}
-        fallbackColor={kind === 'dark' ? '#000' : '#fff'}
         dimension={12}
-        timeConfig={timeConfig}
+        snapshotId={snapshot.get('id')}
+        plugin={snapshot.get('plugin')}
       />
       {getLabel ? getLabel(label) : label}
     </Link>

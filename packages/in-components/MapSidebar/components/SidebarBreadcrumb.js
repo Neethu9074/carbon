@@ -26,7 +26,8 @@ const Crumb = connectTo(
       return null;
     }
 
-    const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
+    const plugin = snapshot.get('plugin');
+    const tooltip = `${getSingular(plugin)}: ${getLabel(snapshot)}`;
 
     let imgClasses = locals.crumbIcon;
     const isSelected = snapshot.get('id') === selectedSnapshotId;
@@ -42,10 +43,10 @@ const Crumb = connectTo(
             title="Select this entity."
             className={locals.crumbLink}
             onClick={() => {
-              entitySelectedTracker({ origin: 'elevator', type: snapshot.get('plugin') });
+              entitySelectedTracker({ origin: 'elevator', type: plugin });
             }}
           >
-            <HealthyPluginIcon className={imgClasses} snapshot={snapshot} />
+            <HealthyPluginIcon className={imgClasses} snapshotId={snapshotId} plugin={plugin} />
           </Link>
         </li>
       </Tooltip>

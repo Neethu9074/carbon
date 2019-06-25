@@ -2,10 +2,10 @@ import { create } from 'reactive-observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
+import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
 import clearRender from 'in-components/Chart/renderer/clear';
-import { getAxisConfig } from 'in-charts/timeFormatting';
 import { toServerTime } from 'in-stores/timeOffset';
 import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';

@@ -11,14 +11,15 @@ import {
   twoDecimalPlaces,
   time
 } from 'in-services/formatters/number';
+import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { isInstanaEngineer } from 'in-stores/user';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
-import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import theme from 'in-themes';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
@@ -162,6 +163,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
             />
           </DashboardSection>
           <SensorTimingList snapshot={snapshot} />
+          <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
         </Fragment>
       )}
       <DashboardSection title="Discovery">

@@ -1,8 +1,11 @@
 import connect from 'in-hoc/connectTo';
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
+import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
@@ -32,30 +35,61 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
 }
 
 function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot }) {
-  const { label, errorCount, depth, x, dx } = callFrame;
-
+  const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
 
   return (
-    <div
-      className={evaluateClassNames({
-        [locals.frame]: true,
-        [locals.unhighlightedFrame]: isUnhighlighted,
-        [locals.fakeRoot]: isFakeRoot
-      })}
-      style={{
-        top: `${top}px`,
-        left: `${left}%`,
-        width: `${width}%`,
-        height: `${FRAME_HEIGHT}px`,
-        background: isFakeRoot ? theme.lib.colors.N400 : getColor(callFrame)
-      }}
-      onClick={isFakeRoot ? () => {} : () => onCallClicked(callFrame)}
-    >
-      <ErrorIndicator className={locals.errorIndicator} errorCount={errorCount} />
-      <span className={locals.label}>{label}</span>
-    </div>
+    <Fragment>
+      <div
+        className={evaluateClassNames({
+          [locals.frame]: true,
+          [locals.unhighlightedFrame]: isUnhighlighted,
+          [locals.fakeRoot]: isFakeRoot
+        })}
+        style={{
+          top: `${top}px`,
+          left: `${left}%`,
+          width: `${width}%`,
+          height: `${FRAME_HEIGHT}px`,
+          background: isFakeRoot ? theme.lib.colors.N400 : getColor(callFrame)
+        }}
+        onClick={isFakeRoot ? null : () => onCallClicked(callFrame)}
+      >
+        <ErrorIndicator className={locals.errorIndicator} erroneous={errorCount} />
+        <span className={locals.label}>{label}</span>
+      </div>
+      <div
+        className={evaluateClassNames({
+          [locals.logIndicatorContainer]: true,
+          [locals.unhighlightedLogIndicator]: isUnhighlighted
+        })}
+      >
+        {children &&
+          children
+            .filter(subCall => subCall.model === 'LOG')
+            .map(subCall => (
+              <LogIndicators
+                parentCall={callFrame}
+                key={subCall.id}
+                top={top}
+                log={subCall}
+                xScale={xScale}
+                onCallClicked={onCallClicked}
+                x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}
+              />
+            ))}
+      </div>
+    </Fragment>
+  );
+}
+
+function LogIndicators({ parentCall, log, xScale, x, top, onCallClicked }) {
+  const left = xScale.getRange(x);
+  return (
+    <Tooltip themeStyle="light" content={<LogTooltipContent log={log} />} align="topMiddle">
+      <LogIndicator inTimeline top={top} left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
+    </Tooltip>
   );
 }

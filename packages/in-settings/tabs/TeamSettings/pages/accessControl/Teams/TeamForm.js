@@ -53,11 +53,10 @@ export default function TeamForm({ form, setForm, onChange }) {
                 form={form}
                 onSubmit={selectedIds => submitPermissionSetSelection(form, setForm, selectedIds)}
                 title="Add Access Scopes"
-                label={'Add Access Scopes'}
+                label="Add Access Scopes"
                 listComponent={PermissionSets}
                 listComponentRightHeader={noRightHeader}
                 hiddenIds={selectedPermissionIds}
-                limit={999} // some high limit, as it is mandatory
                 createSubmitLabel={numberOfItems =>
                   numberOfItems > 0 ? `Add ${numberOfItems} Access Scope${numberOfItems > 1 ? 's' : ''}` : 'Add'
                 }
@@ -79,11 +78,10 @@ export default function TeamForm({ form, setForm, onChange }) {
                 form={form}
                 onSubmit={selectedIds => submitUserSelection(form, setForm, selectedIds)}
                 title="Add Users"
-                label={'Add Users'}
+                label="Add Users"
                 listComponent={Users}
                 listComponentRightHeader={noRightHeader}
                 hiddenIds={selectedUserIds}
-                limit={999} // some high limit, as it is mandatory
                 createSubmitLabel={numberOfItems =>
                   numberOfItems > 0 ? `Add ${numberOfItems} User${numberOfItems > 1 ? 's' : ''}` : 'Add'
                 }

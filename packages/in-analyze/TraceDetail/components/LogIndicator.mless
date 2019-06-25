@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .logIndicator {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #000;
+  }
+
+  .logIndicatorTimeline {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #000;
+    cursor: pointer;
+
+    position: absolute;
+    z-index: 12;
+    top: -4px;
+
+    &:hover {
+      border-top: 15px solid #ff7575;
+    }
+  }
+}

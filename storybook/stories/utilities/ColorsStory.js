@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
-import spanCategories from 'in-stores/colorCoding/spanCategories';
 import theme from 'in-themes';
 
 import Section from '../_helpers/Section';
@@ -78,12 +77,6 @@ function Colors() {
         {Object.keys(colorTranslation)
           .map(type => [type, getColor(type)])
           .map(mapToRect)}
-      </Palette>
-
-      <Palette title="Span Category">
-        {Object.keys(spanCategories).map(name => (
-          <Rect key={name} config={[name, spanCategories[name]]} />
-        ))}
       </Palette>
     </Root>
   );

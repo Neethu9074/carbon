@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getOpenShiftDeploymentConfig$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfig';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 
@@ -12,11 +13,16 @@ export default connectTo(
       timeConfig: props.timeConfig
     }).map(result => (result.data ? result.data : null))
   }),
-  function DeploymentConfigBreadcrumb({ deploymentConfig, href$ }) {
+  function DeploymentConfigBreadcrumb({ deploymentConfigId, deploymentConfig, href$ }) {
     return (
-      <Breadcrumb label="Deployment Config" icon="lib_kubernetes_workload" href$={href$}>
-        {deploymentConfig && deploymentConfig.name}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={deploymentConfigId}
+        render={healthInfo => (
+          <Breadcrumb label="Deployment Config" icon="lib_kubernetes_workload" href$={href$} healthInfo={healthInfo}>
+            {deploymentConfig && deploymentConfig.name}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

@@ -4,7 +4,6 @@ import React from 'react';
 import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
 import { plugins } from 'in-forge/constants';
 
-import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
 
 storiesOf('Components/Entity Version List', module).add('Entity Version List', () => <DefaultStory />);
@@ -12,12 +11,7 @@ storiesOf('Components/Entity Version List', module).add('Entity Version List', (
 function DefaultStory() {
   return (
     <Root>
-      <Section title="No versions">
-        <EntityVersionListPresenter plugin={plugins.kubernetesCluster} snapshotVersions={getItems(0)} />
-      </Section>
-      <Section title="Default">
-        <EntityVersionListPresenter plugin={plugins.kubernetesCluster} snapshotVersions={getItems(6)} />
-      </Section>
+      <EntityVersionListPresenter plugin={plugins.kubernetesCluster} snapshotVersions={getItems(6)} />
     </Root>
   );
 }

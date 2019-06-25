@@ -29,7 +29,7 @@ export default function IcicleChart({ rootCall, getColor = () => '#1479ff', onCa
       <CallTimeAxis showStartLabel call={rootCall} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
-        {callFrames.map(callFrame => {
+        {callFrames.filter(callFrame => callFrame.model !== 'LOG').map(callFrame => {
           return (
             <Fragment key={callFrame.id}>
               <Tooltip

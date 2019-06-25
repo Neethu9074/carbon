@@ -1,0 +1,91 @@
+import React from 'react';
+
+import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { emptyList } from 'in-services/fixedImmutables';
+
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Table from 'in-sdk/components/dashboard/Table';
+
+const cols = [
+  {
+    title: 'Database',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      }
+    }
+  }
+];
+
+/**
+ * @return {null}
+ */
+export default function DatabasesTable({ snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'databaseNames'], emptyList)
+    .toArray()
+    .map(name => {
+      return {
+        key: name,
+        snapshotId,
+        timeConfig
+      };
+    });
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return (
+    <Table withoutPadding cardTitle={`Databases (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+  );
+}
+
+function getDetails(row) {
+  return (
+    <div>
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            metrics: ['databases.' + row.key + '.connCount'],
+            labels: ['User Connections'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Disk Reads &amp; Writes">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            metrics: ['databases.' + row.key + '.diskRead', 'databases.' + row.key + '.diskWrite'],
+            labels: ['Reads', 'Writes'],
+            type: 'line',
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Bytes Received &amp; Sent">
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            metrics: ['databases.' + row.key + '.bytesReceived', 'databases.' + row.key + '.bytesSent'],
+            labels: ['Received', 'Sent'],
+            type: 'line',
+            formatter: bytesTwoDecimalPlaces,
+            tooltipFormatter: bytesTwoDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+    </div>
+  );
+}

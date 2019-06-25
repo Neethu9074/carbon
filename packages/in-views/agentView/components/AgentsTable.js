@@ -49,12 +49,10 @@ const cols = [
                 <Link href={href} className={`${block}__link`}>
                   {hostSnapshot && (
                     <HealthyPluginIcon
-                      plugin={plugins.instanaAgent}
-                      overrideSnapshot
-                      snapshot={hostSnapshot}
-                      dimension={12}
-                      fallbackColor={'#000'}
                       className={`${block}__plugin-icon`}
+                      dimension={12}
+                      plugin={plugins.instanaAgent}
+                      snapshotId={hostSnapshot.get('id')}
                     />
                   )}
                   {label}

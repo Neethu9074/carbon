@@ -16,8 +16,8 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import { kubernetesEnabled } from 'in-services/featureFlags';
+import { hasKubernetesAccess } from 'in-stores/permission';
 import { timeConfig$ } from 'in-stores/time/config';
-import { hasPermission } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
@@ -73,7 +73,7 @@ function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
         timeConfig={timeConfig}
       />
       {kubernetesEnabled &&
-        hasPermission('ACCESS_KUBERNETES') && (
+        hasKubernetesAccess && (
           <InstanaServiceToKubernetesServiceButton serviceId={serviceId} timeConfig={timeConfig} />
         )}
       <ApplicationEntityHealthIndicatorBehavior

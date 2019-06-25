@@ -1,6 +1,7 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
+import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
@@ -12,12 +13,12 @@ import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View'
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
-import { isInstanaEmail, user, role, hasPermission } from 'in-stores/user';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
+import { isInstanaEmail, user, role } from 'in-stores/user';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { getColorBySeverity } from 'in-stores/events';
@@ -58,7 +59,7 @@ export default function ViewSwitcher({
       />
 
       {kubernetesEnabled &&
-        hasPermission('ACCESS_KUBERNETES') && (
+        hasKubernetesAccess && (
           <View
             id="main-nav-kubernetes"
             label="Kubernetes"
@@ -71,16 +72,18 @@ export default function ViewSwitcher({
 
       <Spacer />
 
-      <View
-        id="main-nav-application"
-        label="Applications"
-        icon="lib_application_invert"
-        isActive$={isView(isApplicationsView)}
-        href$={getView(applicationsList)}
-        {...commonProps}
-      />
+      {hasApplicationsAccess && (
+        <View
+          id="main-nav-application"
+          label="Applications"
+          icon="lib_application_invert"
+          isActive$={isView(isApplicationsView)}
+          href$={getView(applicationsList)}
+          {...commonProps}
+        />
+      )}
 
-      {hasPermission('ACCESS_WEBSITES') && (
+      {hasWebsitesAccess && (
         <View
           id="main-nav-websites"
           label="Websites"
@@ -91,17 +94,19 @@ export default function ViewSwitcher({
         />
       )}
 
-      <View
-        id="main-nav-analyze"
-        label="Analyze"
-        icon="lib_analyze_inverted"
-        isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
-        href$={getLinkToAnalyze({
-          dataSource: 'traces',
-          groupByTag: getConfigByDataSource('traces').defaultGrouping
-        })}
-        {...commonProps}
-      />
+      {hasAnalyzeAccess && (
+        <View
+          id="main-nav-analyze"
+          label="Analyze"
+          icon="lib_analyze_inverted"
+          isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
+          href$={getLinkToAnalyze({
+            dataSource: 'traces',
+            groupByTag: getConfigByDataSource('traces').defaultGrouping
+          })}
+          {...commonProps}
+        />
+      )}
 
       <Spacer />
 

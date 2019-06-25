@@ -1,7 +1,4 @@
 :local {
-  .callTree {
-    margin-right: 5rem;
-  }
 
   .skeleton {
     width: 100%;

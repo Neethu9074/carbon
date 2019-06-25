@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
+import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import { getTickPositions } from 'in-services/ticks/horizontal';
 import { formatDateShort } from 'in-services/formatters/date';
-import getTickPositions from 'in-services/ticks/horizontal';
-import { getAxisConfig } from 'in-charts/timeFormatting';
 import createScale from 'in-services/scale';
 
 import locals from 'in-new-components/Axis/components/Ticks.mless';
@@ -44,5 +44,8 @@ export function getAxisTickPositions(formatting, width, scale) {
   x.setRangeFrom(0);
   x.setRangeTo(width);
 
-  return getTickPositions(x, formatting);
+  return getTickPositions({
+    scale: x,
+    axisConfig: formatting
+  });
 }

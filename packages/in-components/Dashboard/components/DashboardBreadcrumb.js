@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { selectedSnapshotId$, getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -30,7 +31,10 @@ export default connectTo(
       return _physicalHierarchy;
     }),
     closeDashboardLink: getCloseDashboardLink(),
-    agent: isInternalVisible$.flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
+    agent: isInternalVisible$
+      .flatMap(enabled => (enabled ? getAgentSnapshotId(props.snapshot) : alwaysNull))
+      // get snapshot to ensure that the agent snapshot can be found
+      .flatMap(snapshotId => (snapshotId ? getSnapshot(snapshotId) : alwaysNull))
   }),
   function DashboardBreadcrumb({ physicalHierarchy, snapshotId, closeDashboardLink, agent }) {
     if (!physicalHierarchy) {
@@ -43,7 +47,7 @@ export default connectTo(
 
     const items = physicalHierarchy.map(id => <PhysicalHierarchyBreadCrumb key={id} snapshotId={id} />);
     if (agent) {
-      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent} />);
+      items.unshift(<PhysicalHierarchyBreadCrumb snapshotId={agent.get('id')} />);
     }
     items.unshift(
       <Breadcrumb className={locals.homeBreadcrumb} href={closeDashboardLink}>
@@ -72,14 +76,20 @@ const PhysicalHierarchyBreadCrumb = connectTo(
 
     const plugin = snapshot.get('plugin');
     return (
-      <Breadcrumb
-        href$={getDashboardLink(snapshotId)}
-        label={getSingular(plugin)}
-        iconPath={getIconSvgPath(snapshot)}
-        isActive={isActive}
-      >
-        {getLabel(snapshot)}
-      </Breadcrumb>
+      <WithInfrastructureHealthIndicationBehaviour
+        snapshotId={snapshotId}
+        render={healthInfo => (
+          <Breadcrumb
+            href$={getDashboardLink(snapshotId)}
+            label={getSingular(plugin)}
+            iconPath={getIconSvgPath(snapshot)}
+            isActive={isActive}
+            healthInfo={healthInfo}
+          >
+            {getLabel(snapshot)}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

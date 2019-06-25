@@ -170,6 +170,13 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             labels: ['Used', 'Used rss', 'Used lua'],
             type: 'line'
           }}
+          y2={{
+            min: 0,
+            formatter: number,
+            metrics: ['mem_fragmentation_ratio'],
+            labels: ['Fragmentation ratio'],
+            type: 'line'
+          }}
         />
       </DashboardSection>
       <DashboardSection title="Connections">

@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment-timezone/builds/moment-timezone-with-data-10-year-range';
 
+import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
@@ -85,17 +86,16 @@ export default function MaintenanceConfigurationForm(props) {
 
       {form.get('applyOn').value === 'dfq' &&
         form.get('query').map(field => (
-          <FormGroup>
+          <FormGroup className={locals.dfqForm}>
             <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
               Dynamic Focus Query
             </Label>
-            <Input
+            <InputWithDFQSelectionList
               id="maintenance-query"
-              className={locals.input}
               type="text"
               placeholder={'e.g. entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'}
               value={field.value}
-              onChange={e => onChange('query', e.target.value)}
+              onChange={value => onChange('query', value)}
               hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
               maxLength={2048}
             />

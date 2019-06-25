@@ -18,6 +18,7 @@ import Link from 'in-components/Link';
 import locals from './Header.mless';
 
 export default function Header({ call, onClose, getColor }) {
+  const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
 
@@ -33,6 +34,8 @@ export default function Header({ call, onClose, getColor }) {
 
       {call && (
         <div className={locals.entityInformation}>
+          {service &&
+            endpoint && <div className={locals.rect} style={{ background: getColor({ service, endpoint }) }} />}
           <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
           {!isUnknownTypeSpan(call) &&
             endpoint &&
@@ -43,6 +46,7 @@ export default function Header({ call, onClose, getColor }) {
             )}
         </div>
       )}
+
       {service &&
         endpoint &&
         service.id !== 'ROOT' &&
@@ -50,8 +54,17 @@ export default function Header({ call, onClose, getColor }) {
           <Fragment>
             <span className={locals.serviceLabel}>Service</span>
 
+            {sourceService.id !== 'ROOT' && (
+              <div className={locals.serviceLine}>
+                <span className={locals.text}>From</span>
+                <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
+                <Link className={locals.link} href$={getServiceDashboard(sourceService.id)}>
+                  {sourceService.label}
+                </Link>
+              </div>
+            )}
+
             <div className={locals.serviceLine}>
-              <div className={locals.rect} style={{ background: getColor({ service, endpoint }) }} />
               <span className={locals.text}>{endpoint.type === 'INTERNAL' ? 'In' : 'To'}</span>
               <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
               <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>

@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
+import { getTickPositionsAbsolute } from 'in-services/ticks/horizontal';
 import { formatDateTime } from 'in-services/formatters/date';
-import getTickPositions from 'in-services/ticks/horizontal';
-import { getAxisConfig } from 'in-charts/timeFormatting';
 
 import './TimeAxis.less';
 
@@ -23,7 +23,10 @@ export default function TimeAxis({ scale }) {
   const axisConfig = Object.create(getAxisConfig(windowSize));
   axisConfig.stepSize = Math.max(axisConfig.stepSize, windowSize / maxSteps);
 
-  const tickPositions = getTickPositions(scale, axisConfig, true);
+  const tickPositions = getTickPositionsAbsolute({
+    scale,
+    axisConfig
+  });
 
   return (
     <div className={block}>

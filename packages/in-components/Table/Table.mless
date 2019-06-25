@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .header {
     height: 2.25rem;
@@ -59,5 +61,18 @@
 
   .expansionSwitch {
     height: 24px;
+  }
+
+  .pagination {
+    align-items: center;
+
+    > div {
+      margin: 0 1rem;
+      color: @lib__colors__N050;
+    }
+
+    > a {
+      color: @lib__colors__N050;
+    }
   }
 }

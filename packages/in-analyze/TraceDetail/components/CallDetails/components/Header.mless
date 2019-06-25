@@ -22,7 +22,7 @@
 
   .entityInformation {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 
     margin-bottom: 1rem;
     padding-right: 1.5rem;
@@ -80,7 +80,7 @@
   }
 
   .text {
-    margin: 0 0.5rem 0 0.5rem;
+    margin: 0 0.5rem;
     color: @lib__colors__N600Light;
   }
 }

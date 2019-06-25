@@ -2,8 +2,7 @@ import React from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import { latencyFixed, number } from 'in-services/formatters/number';
+import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
@@ -50,13 +49,6 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       }
     },
     {
-      id: 'callCount',
-      label: 'Calls',
-      getContent(item) {
-        return <span className={locals.metricValue}>{number.compact(item.callCount)}</span>;
-      }
-    },
-    {
       id: 'aggregatedTime',
       label: 'Aggregated Time',
       getContent(item) {
@@ -68,7 +60,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
       id: 'errorCount',
       label: 'Errors',
       getContent(item) {
-        return <ErrorIndicator errorCount={item.errorCount} allowZero />;
+        return <span>{item.errorCount ? item.errorCount : null}</span>;
       }
     }
   ];

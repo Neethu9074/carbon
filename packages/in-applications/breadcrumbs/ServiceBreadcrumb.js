@@ -1,5 +1,6 @@
 import React from 'react';
 
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -13,13 +14,20 @@ export default connectTo(
   }),
   function ServiceBreadcrumb({ service, serviceId, applicationId }) {
     return (
-      <Breadcrumb
-        href$={getServiceDashboard(serviceId, { applicationId })}
-        label="Service"
-        icon="lib_application_service"
-      >
-        {service.data && service.data.label}
-      </Breadcrumb>
+      <WithApplicationHealthIndicationBehaviour
+        applicationId={applicationId}
+        serviceId={serviceId}
+        render={healthInfo => (
+          <Breadcrumb
+            href$={getServiceDashboard(serviceId, { applicationId })}
+            label="Service"
+            icon="lib_application_service"
+            healthInfo={healthInfo}
+          >
+            {service.data && service.data.label}
+          </Breadcrumb>
+        )}
+      />
     );
   }
 );

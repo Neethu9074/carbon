@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import http from 'in-services/http';
 
 export function getPermissionSets() {
@@ -18,6 +17,34 @@ export function getApplications() {
     maxRetries: 3,
     url: '/api/settings/permission-sets/applications'
   }).map(response => response.body);
+}
+
+export function getK8sClusters() {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/kubernetes/clusters',
+    data: defaultQuery()
+  }).map(response => response.body.items);
+}
+
+export function getK8sNamespaces() {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/kubernetes/namespaces',
+    data: defaultQuery()
+  }).map(response => response.body.items);
+}
+
+function defaultQuery() {
+  return {
+    filter: { timeConfig: {} },
+    pagination: { page: 1, pageSize: 200 },
+    order: { by: 'name', direction: 'ASC' }
+  };
 }
 
 export function getPermissionSet(permissionSetId) {
@@ -50,19 +77,19 @@ export function deletePermissionSet(permissionSetId) {
   }).map(response => fromJS(response.body));
 }
 
-export function createPermissionSet(name = 'New Scope', permissions = [], applicationIds = []) {
+export function createPermissionSet(
+  name = 'New Scope',
+  permissions = [],
+  applicationIds = [],
+  kubernetesClusterUUIDs = [],
+  kubernetesNamespaceUIDs = []
+) {
   return {
     id: null,
     name,
     permissions,
-    applicationIds
+    applicationIds,
+    kubernetesClusterUUIDs,
+    kubernetesNamespaceUIDs
   };
-}
-
-export function getProductAreaPermissions() {
-  let areas = [{ value: 'ACCESS_WEBSITES', label: 'Websites' }];
-  if (kubernetesEnabled) {
-    areas.push({ value: 'ACCESS_KUBERNETES', label: 'Kubernetes' });
-  }
-  return areas;
 }

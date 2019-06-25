@@ -7,7 +7,18 @@ export default [
     parent: null,
     depth: 0,
     x: 0,
-    dx: 1
+    dx: 1,
+    totalDuration: 0,
+    traceStart: 100,
+    children: [
+      {
+        children: [],
+        id: '2',
+        label: 'call2',
+        duration: 0,
+        start: 100
+      }
+    ]
   },
   {
     id: '2',
@@ -17,6 +28,9 @@ export default [
     parent: '1',
     depth: 1,
     x: 0,
-    dx: 1
+    children: [],
+    dx: 1,
+    totalDuration: 0,
+    traceStart: 100
   }
 ];

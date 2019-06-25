@@ -1,6 +1,8 @@
 import React from 'react';
 
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
+import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -52,7 +54,14 @@ function SelectedItem({ item }) {
   return (
     <div className={locals.selectedItem}>
       <div className={locals.selectedItemLabelWrapper}>
-        <SvgIcon type="lib_application" className={locals.icon} width={24} height={24} />
+        <WithApplicationHealthIndicationBehaviour
+          applicationId={item.application.id}
+          render={healthInfo => (
+            <WithHealthIndication healthInfo={healthInfo} size={24}>
+              <SvgIcon type="lib_application" className={locals.icon} width={24} height={24} />
+            </WithHealthIndication>
+          )}
+        />
         {item.application.label}
       </div>
       <SvgIcon type="lib_uncheck" className={locals.checkIcon} width={24} height={24} />

@@ -6,6 +6,7 @@ import {
   scopeEverything,
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -15,7 +16,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
 import ComboBox from 'in-components/ComboBox';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Link from 'in-components/Link';
 
@@ -60,13 +60,11 @@ export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
                 <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
                   Dynamic Focus Query
                 </Label>
-                <Input
+                <InputWithDFQSelectionList
                   id="config-query"
-                  type="text"
                   placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
-                  className={locals.input}
                   value={field.value}
-                  onChange={e => onChange('query', e.target.value)}
+                  onChange={value => onChange('query', value)}
                   hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                 />
                 {form.get('queryValidationInProgress').value && (
