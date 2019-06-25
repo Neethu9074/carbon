@@ -138,7 +138,7 @@ function CallInformation(props) {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
-        <ErrorIndicator errorCount={call.errorCount} />
+        <ErrorIndicator erroneous={call.errorCount} />
         <Tooltip themeStyle="light" content={call.label}>
           <span
             className={evaluateClassNames({

@@ -20,7 +20,7 @@ export default function CallStatus({ call }) {
   return (
     <Group title="Error">
       <div className={locals.callStatus}>
-        <ErrorIndicator errorCount={call.errorCount} />
+        <ErrorIndicator erroneous={call.errorCount} />
         <div className={locals.callStatusInformation}>Status {statusCode}</div>
       </div>
     </Group>

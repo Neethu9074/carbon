@@ -9,9 +9,12 @@ export default function CallLogs({ call }) {
   if (logs.length > 0) {
     return (
       <Group title="Logs">
-        {logs.map((log, i) => (
-          <ExpandableStackTrace key={i} call={call} log={log} />
-        ))}
+        {logs
+          .slice()
+          .sort((a, b) => b.start - a.start)
+          .map((log, i) => (
+            <ExpandableStackTrace key={i} call={call} log={log} />
+          ))}
       </Group>
     );
   }

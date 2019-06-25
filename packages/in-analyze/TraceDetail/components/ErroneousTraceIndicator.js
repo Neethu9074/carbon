@@ -6,7 +6,7 @@ import locals from './ErroneousTraceIndicator.mless';
 export default function ErroneousTraceIndicator({ errorCount }) {
   return (
     <div className={locals.indicatorWrapper}>
-      <ErrorIndicator errorCount={errorCount} />
+      <ErrorIndicator erroneous={errorCount} />
       <span className={locals.label}>Erroneous Trace</span>
     </div>
   );

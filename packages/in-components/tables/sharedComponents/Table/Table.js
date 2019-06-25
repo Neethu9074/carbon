@@ -1,8 +1,10 @@
 import { assign, omit } from 'lodash';
 import React from 'react';
 
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { evaluateClassNames } from 'in-services/util/classnames';
+
 import theme from 'in-themes';
 
 import locals from './Table.mless';
@@ -94,7 +96,7 @@ export function ErroneousRowTh() {
 }
 
 export function ErroneousRowTd({ isErroneous = true }) {
-  return <Td className={locals.erroneousRowTd}>{isErroneous && <div className={locals.erroneousRowIcon}>!</div>}</Td>;
+  return <Td className={locals.erroneousRowTd}>{isErroneous && <ErrorIndicator erroneous={isErroneous} small />}</Td>;
 }
 
 export function SeverityIndicatorCellContentWrapper({ severity, children }) {
