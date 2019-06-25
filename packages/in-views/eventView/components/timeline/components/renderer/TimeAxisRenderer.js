@@ -31,7 +31,7 @@ export default function createTimeAxisRenderer(ctx, scale) {
 
     const tickPositions = getTickPositionsAbsolute({
       scale,
-      formatter: axisConfig
+      axisConfig
     });
 
     for (let i = 0, length = tickPositions.length; i < length; i++) {
