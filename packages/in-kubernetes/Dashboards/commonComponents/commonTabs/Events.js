@@ -1,27 +1,18 @@
-import { get, includes } from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
+import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
-import { fullyQualifiedPlugins } from 'in-forge/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EntityLink from 'in-new-components/EntityLink';
+import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
-
-const pluginIcons = {
-  [fullyQualifiedPlugins.kubernetesPod]: 'lib_kubernetes_pod',
-  [fullyQualifiedPlugins.kubernetesService]: 'lib_kubernetes_service',
-  [fullyQualifiedPlugins.kubernetesDeployment]: 'lib_kubernetes_workload',
-  [fullyQualifiedPlugins.openshiftDeploymentConfig]: 'lib_kubernetes_workload',
-  [fullyQualifiedPlugins.kubernetesNamespace]: 'lib_kuberetes_namespace',
-  [fullyQualifiedPlugins.kubernetesReplicaSet]: 'lib_kubernetes_workload',
-  [fullyQualifiedPlugins.kubernetesCluster]: 'lib_kubernetes_cluster'
-};
 
 const allColumns = [
   {
@@ -60,13 +51,19 @@ const allColumns = [
     id: 'name',
     label: 'Involved Object',
     getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
-      const href$ = includes(
-        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId],
-        item.sourceId
-      )
-        ? null
-        : getDashboardForEntity(item.sourceId, item.sourcePlugin);
-      return <EntityLink icon={pluginIcons[item.sourcePlugin]} label={item.name} href$={href$} />;
+      const isLinkableEntity =
+        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1;
+      if (isLinkableEntity) {
+        return (
+          <EntityLink
+            icon={getIconByPlugin(translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin))}
+            label={item.name}
+            href$={getDashboardForEntity(item.sourceId, item.sourcePlugin)}
+          />
+        );
+      }
+
+      return item.name;
     }
   },
   {

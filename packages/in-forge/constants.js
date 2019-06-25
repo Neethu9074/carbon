@@ -288,3 +288,14 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
+
+export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
+  const keys = Object.keys(fullyQualifiedPlugins);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (fullyQualifiedPlugins[key] === fullyQualifiedPlugin) {
+      return key;
+    }
+  }
+  return null;
+}

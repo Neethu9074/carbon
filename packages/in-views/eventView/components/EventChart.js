@@ -13,12 +13,12 @@ import {
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-views/eventView/services/timeframe';
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
+import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import addSection from 'in-views/eventView/hocs/addSection';
-import { fullyQualifiedPlugins } from 'in-forge/constants';
 import DownloadButton from 'in-components/DownloadButton';
 import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -172,17 +172,6 @@ const ChartWrapper = connectTo(
     );
   }
 );
-
-function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
-  const keys = Object.keys(fullyQualifiedPlugins);
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    if (fullyQualifiedPlugins[key] === fullyQualifiedPlugin) {
-      return key;
-    }
-  }
-  return null;
-}
 
 function isVisible(event) {
   return event && event.getIn(['metadata', 'metrics'], emptyList).size > 0;
