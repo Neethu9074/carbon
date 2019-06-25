@@ -262,7 +262,7 @@ function sortEntities(entities, columnDefinitions, orderByState, orderDirectionS
 
 function handleClickCreateNewEntity(onCreateNew, trackEvent) {
   if (onCreateNew) {
-    onCreateNew;
+    onCreateNew();
   }
 
   if (trackEvent) {
