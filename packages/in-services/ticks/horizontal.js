@@ -1,4 +1,6 @@
-export default function getTickPositions(scale, { stepSize, expectLabelWidth = 70 }, mapToAbsoluteValues = false) {
+export function getTickPositions({ scale, axisConfig }) {
+  const { stepSize, expectLabelWidth = 70 } = axisConfig;
+
   // special case: Trace with 0 time.
   if (scale.getDomainFrom() >= scale.getDomainTo()) {
     return [
@@ -25,10 +27,12 @@ export default function getTickPositions(scale, { stepSize, expectLabelWidth = 7
     lastTickRange = scale.getRange(lastTickDomain);
   }
 
-  if (mapToAbsoluteValues) {
-    const windowSize = scale.getDomainTo() - scale.getDomainFrom();
-    return ticks.map(relativeTickPosition => scale.getDomainFrom() + relativeTickPosition * windowSize);
-  }
-
   return ticks;
+}
+
+export function getTickPositionsAbsolute({ scale, axisConfig }) {
+  const ticks = getTickPositions({ scale, axisConfig });
+
+  const windowSize = scale.getDomainTo() - scale.getDomainFrom();
+  return ticks.map(relativeTickPosition => scale.getDomainFrom() + relativeTickPosition * windowSize);
 }

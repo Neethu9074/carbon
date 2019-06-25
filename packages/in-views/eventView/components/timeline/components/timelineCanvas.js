@@ -7,15 +7,15 @@ import createHoveredEventLineRenderer from 'in-views/eventView/components/timeli
 import createMarkedIncidentRenderer from 'in-views/eventView/components/timeline/components/renderer/MarkedIncidentRenderer';
 import createBackgroundRenderer from 'in-views/eventView/components/timeline/components/renderer/BackgroundRenderer';
 import createTimeAxisRenderer from 'in-views/eventView/components/timeline/components/renderer/TimeAxisRenderer';
-import { timeConfig$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
 import createApplyTimeButton from 'in-views/eventView/components/timeline/components/renderer/applyTimeButton';
 import createRealtimeUpateEvents from 'in-views/eventView/components/timeline/components/RealtimeUpdateEvents';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { timeConfig$, to$, from$, setTimelineScale } from 'in-components/timeline/timelineStore';
 import createMouseEvents from 'in-views/eventView/components/timeline/components/mouseEvents';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import { isCollapsed$ } from 'in-components/timeline/timelineStore';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
 import { updateCanvasDimensions } from 'in-charts/canvas';
-import { getAxisConfig } from 'in-charts/timeFormatting';
 import { debouncedResize$ } from 'in-services/browser';
 import { highlightedEvent$ } from 'in-stores/events';
 import createScale from 'in-services/scale';
