@@ -5,9 +5,9 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
+import { releaseNotesEnabled, kubernetesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
-import { releaseNotesEnabled, kubernetesEnabled } from 'in-services/featureFlags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -127,7 +127,7 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       >
         <SubViewItem label="Management Portal" href={umpLink} external />
-        <SubViewItem label="Tenants" href={tenantSwitcherLink} external />
+        {tenantSwitcherEnabled && <SubViewItem label="Tenants" href={tenantSwitcherLink} external />}
         {role.canConfigureAgents && (
           <SubViewItem
             label="Agents"
