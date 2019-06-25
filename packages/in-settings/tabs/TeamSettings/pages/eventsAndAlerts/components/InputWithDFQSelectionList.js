@@ -45,8 +45,9 @@ function InputWithSelectionList({
           value={value}
           maxLength={2048}
           onChange={e => {
-            setValue(e.target.value);
-            onChange(e);
+            const value = e.target.value;
+            setValue(value);
+            onChange(value);
           }}
           hasError={hasError}
         />
