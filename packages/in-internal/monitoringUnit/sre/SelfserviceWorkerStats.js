@@ -110,28 +110,24 @@ export default connectTo(
     rowsEuC: getHostsWithNomadContext('entity.zone:selfservice*worker* eu-west-1c'),
     rowsUsC: getHostsWithNomadContext('entity.zone:selfservice*worker* us-west-2c')
   },
-  class SelfserviceWorkerStats extends React.Component {
-    render() {
-      const { rowsEuA, rowsUsA, rowsEuB, rowsUsB, rowsEuC, rowsUsC } = this.props;
+  function SelfserviceWorkerStats({ rowsEuA, rowsUsA, rowsEuB, rowsUsB, rowsEuC, rowsUsC }) {
+    let rowsA = rowsEuA.concat(rowsUsA);
+    let rowsB = rowsEuB.concat(rowsUsB);
+    let rowsC = rowsEuC.concat(rowsUsC);
 
-      let rowsA = rowsEuA.concat(rowsUsA);
-      let rowsB = rowsEuB.concat(rowsUsB);
-      let rowsC = rowsEuC.concat(rowsUsC);
-
-      return (
-        <div>
-          <h1>Quality of Service - SelfService Fleet Worker</h1>
-          <DashboardSection title={`Availability Zone A (${rowsA.length})`}>
-            <Table cols={cols} rows={rowsA} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
-          </DashboardSection>
-          <DashboardSection title={`Availability Zone B (${rowsB.length})`}>
-            <Table cols={cols} rows={rowsB} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
-          </DashboardSection>
-          <DashboardSection title={`Availability Zone C (${rowsC.length})`}>
-            <Table cols={cols} rows={rowsC} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
-          </DashboardSection>
-        </div>
-      );
-    }
+    return (
+      <div>
+        <h1>Quality of Service - SelfService Fleet Worker</h1>
+        <DashboardSection title={`Availability Zone A (${rowsA.length})`}>
+          <Table cols={cols} rows={rowsA} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
+        </DashboardSection>
+        <DashboardSection title={`Availability Zone B (${rowsB.length})`}>
+          <Table cols={cols} rows={rowsB} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
+        </DashboardSection>
+        <DashboardSection title={`Availability Zone C (${rowsC.length})`}>
+          <Table cols={cols} rows={rowsC} maxItemsPerPage={200} initialSortColumn={3} initialSortDirection="desc" />
+        </DashboardSection>
+      </div>
+    );
   }
 );

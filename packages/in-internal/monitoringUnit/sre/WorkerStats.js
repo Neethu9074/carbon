@@ -127,71 +127,67 @@ export default connectTo(
       'entity.host.name:"fleet-worker-*" (entity.ec2.type:"m4.4xlarge" OR entity.ec2.type:"m5.4xlarge") entity.zone:"*c" entity.zone:"Fleet*Worker*"'
     )
   },
-  class WorkerStats extends React.Component {
-    render() {
-      const {
-        commonWorkersA,
-        highperfWorkersA,
-        commonWorkersB,
-        highperfWorkersB,
-        commonWorkersC,
-        highperfWorkersC
-      } = this.props;
+  function WorkerStats({
+    commonWorkersA,
+    highperfWorkersA,
+    commonWorkersB,
+    highperfWorkersB,
+    commonWorkersC,
+    highperfWorkersC
+  }) {
+    return (
+      <div>
+        <DashboardSection title={`AZ a - ${commonWorkersA.length} common, ${highperfWorkersA.length} highperf`}>
+          <Table
+            cols={cols}
+            rows={commonWorkersA}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+          <Table
+            cols={cols}
+            rows={highperfWorkersA}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+        </DashboardSection>
 
-      return (
-        <div>
-          <DashboardSection title={`AZ a - ${commonWorkersA.length} common, ${highperfWorkersA.length} highperf`}>
-            <Table
-              cols={cols}
-              rows={commonWorkersA}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-            <Table
-              cols={cols}
-              rows={highperfWorkersA}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-          </DashboardSection>
+        <DashboardSection title={`AZ b - ${commonWorkersB.length} common, ${highperfWorkersB.length} highperf`}>
+          <Table
+            cols={cols}
+            rows={commonWorkersB}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+          <Table
+            cols={cols}
+            rows={highperfWorkersB}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+        </DashboardSection>
 
-          <DashboardSection title={`AZ b - ${commonWorkersB.length} common, ${highperfWorkersB.length} highperf`}>
-            <Table
-              cols={cols}
-              rows={commonWorkersB}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-            <Table
-              cols={cols}
-              rows={highperfWorkersB}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-          </DashboardSection>
-
-          <DashboardSection title={`AZ c - ${commonWorkersC.length} common, ${highperfWorkersC.length} highperf`}>
-            <Table
-              cols={cols}
-              rows={commonWorkersC}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-            <Table
-              cols={cols}
-              rows={highperfWorkersC}
-              maxItemsPerPage={200}
-              initialSortColumn={1}
-              initialSortDirection="asc"
-            />
-          </DashboardSection>
-        </div>
-      );
-    }
+        <DashboardSection title={`AZ c - ${commonWorkersC.length} common, ${highperfWorkersC.length} highperf`}>
+          <Table
+            cols={cols}
+            rows={commonWorkersC}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+          <Table
+            cols={cols}
+            rows={highperfWorkersC}
+            maxItemsPerPage={200}
+            initialSortColumn={1}
+            initialSortDirection="asc"
+          />
+        </DashboardSection>
+      </div>
+    );
   }
 );

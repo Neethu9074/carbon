@@ -246,7 +246,7 @@ function rgbToHex(r, g, b) {
 }
 
 function hexToRGB(style) {
-  const color = /^\#([0-9a-f]{6})$/i.exec(style);
+  const color = /^#([0-9a-f]{6})$/i.exec(style);
   let hex = parseInt(color[1], 16);
 
   hex = Math.floor(hex);

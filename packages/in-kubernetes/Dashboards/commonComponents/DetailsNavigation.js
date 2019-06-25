@@ -14,7 +14,9 @@ export function labelsNavigationItem(path) {
     path,
     icon: 'lib_kubernetes_label',
     renderLabel: ({ resource }) => `Labels (${resource.labels.length})`,
-    component: ({ resource }) => <KeyValueList title="Labels" items={resource.labels} onEmptyText="No Labels" />
+    component: function LabelsNavigationItem({ resource }) {
+      return <KeyValueList title="Labels" items={resource.labels} onEmptyText="No Labels" />;
+    }
   };
 }
 
@@ -23,7 +25,9 @@ export function annotationsNavigationItem(path) {
     path,
     icon: 'lib_kubernetes_annotation',
     renderLabel: ({ annotations }) => `Annotations (${annotations ? annotations.length : 0})`,
-    component: ({ annotations }) => <Annotations annotations={annotations} onEmptyText="No Annotations" />
+    component: function AnnotationsNavigationItem({ annotations }) {
+      return <Annotations annotations={annotations} onEmptyText="No Annotations" />;
+    }
   };
 }
 
@@ -32,6 +36,8 @@ export function specNavigationItem(path) {
     path,
     icon: 'lib_kubernetes_spec',
     label: 'Spec',
-    component: ({ resource }) => <Spec snapshotId={resource.id} />
+    component: function SpecNavigationItem({ resource }) {
+      return <Spec snapshotId={resource.id} />;
+    }
   };
 }

@@ -44,12 +44,14 @@ const tableActions = {
   delete: {
     deleteEntity: entity => revokeInvitation(entity.email),
     confirmLabel: 'Revoke Invitation',
-    dialogMessage: invite => (
-      <span>
-        Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for{' '}
-        <strong>{invite.email}</strong>?
-      </span>
-    )
+    dialogMessage: function DialogMessage(invite) {
+      return (
+        <span>
+          Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for{' '}
+          <strong>{invite.email}</strong>?
+        </span>
+      );
+    }
   }
 };
 

@@ -80,7 +80,7 @@ function isInsertStatement(sql) {
 }
 
 function shortenSelectStatement(sql) {
-  const match = sql.match(/\s+from\s+(([a-z0-9\-\_\.]+)|(`([^`]+)`)|("([^"]+)"))/i);
+  const match = sql.match(/\s+from\s+(([a-z0-9\-_.]+)|(`([^`]+)`)|("([^"]+)"))/i);
   if (!match) {
     return sql;
   }
@@ -99,7 +99,7 @@ function shortenSelectStatement(sql) {
 }
 
 function shortenUpdateStatement(sql) {
-  const match = sql.match(/\s*update +(([a-z0-9\-\_]+)|(`([^`]+)`))/i);
+  const match = sql.match(/\s*update +(([a-z0-9\-_]+)|(`([^`]+)`))/i);
   if (!match) {
     return sql;
   }
@@ -109,7 +109,7 @@ function shortenUpdateStatement(sql) {
 }
 
 function shortenInsertStatement(sql) {
-  const match = sql.match(/\s*insert +into +(([a-z0-9\-\_]+)|(`([^`]+)`))/i);
+  const match = sql.match(/\s*insert +into +(([a-z0-9\-_]+)|(`([^`]+)`))/i);
   if (!match) {
     return sql;
   }

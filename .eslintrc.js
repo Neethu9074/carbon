@@ -56,7 +56,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: ['error', 'always'],
-    'no-useless-escape': 'warn',
+    'no-useless-escape': 'error',
     'no-unused-expressions': 'error',
 
     // editor integration for flow errors, see
@@ -77,7 +77,7 @@ module.exports = {
 
     // Prevent missing displayName in a React component definition
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
-    'react/display-name': ['warn'],
+    'react/display-name': ['error'],
 
     // Forbid certain propTypes (any, array, object)
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md
@@ -222,7 +222,7 @@ module.exports = {
 
     // Require stateless functions when not using lifecycle methods, setState or ref
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
-    'react/prefer-stateless-function': 'warn',
+    'react/prefer-stateless-function': 'error',
 
     // Prevent missing props validation in a React component definition
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prop-types.md

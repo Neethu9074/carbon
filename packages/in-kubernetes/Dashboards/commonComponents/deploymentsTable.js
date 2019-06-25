@@ -14,16 +14,18 @@ import MetricValue from 'in-components/MetricValue';
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
 export default function deploymentsTable(TableComponent) {
-  return props => (
-    <TableComponent
-      get={getTableData}
-      columnDefinitions={columnDefinitions}
-      paginationResettingProps={['namespaceId', 'clusterId', 'timeConfig']}
-      defaultOrderBy="name"
-      defaultOrderDirection="ASC"
-      {...props}
-    />
-  );
+  return function DeploymentsTable(props) {
+    return (
+      <TableComponent
+        get={getTableData}
+        columnDefinitions={columnDefinitions}
+        paginationResettingProps={['namespaceId', 'clusterId', 'timeConfig']}
+        defaultOrderBy="name"
+        defaultOrderDirection="ASC"
+        {...props}
+      />
+    );
+  };
 }
 
 function getTableData({
