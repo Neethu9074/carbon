@@ -82,6 +82,38 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Error Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `log.counts.byLevel.ERROR.total`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Warning Count',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `log.counts.byLevel.WARN.total`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -162,6 +194,28 @@ function getRowDetails(row) {
           formatter: number.detailed,
           metrics: [`cpu.load.max`],
           labels: ['CPU Load'],
+          type: 'stackedArea'
+        }}
+      />
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.detailed,
+          metrics: [`log.counts.byLevel.ERROR.total`],
+          labels: ['Error Count'],
+          type: 'stackedArea'
+        }}
+      />
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.detailed,
+          metrics: [`log.counts.byLevel.WARN.total`],
+          labels: ['Warning Count'],
           type: 'stackedArea'
         }}
       />

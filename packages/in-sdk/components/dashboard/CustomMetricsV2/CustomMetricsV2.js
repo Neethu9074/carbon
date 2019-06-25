@@ -214,7 +214,9 @@ function getDefaultRows({
   metersSnapshotLocation = ['data', 'metrics.meters'],
   metersMetricPrefix = 'metrics.meters.',
   timersSnapshotLocation = ['data', 'metrics.timers'],
-  timersMetricPrefix = 'metrics.timers.'
+  timersMetricPrefix = 'metrics.timers.',
+  metricIdExtractor = (key, value) => value,
+  metricNameExtractor = (key, value) => value
 }) {
   let rows = [];
   const snapshotId = snapshot.get('id');
@@ -222,11 +224,10 @@ function getDefaultRows({
   rows = rows.concat(
     snapshot
       .getIn(countersSnapshotLocation, emptyList)
-      .toArray()
-      .map(name => {
+      .map((value, key) => {
         return {
-          key: `counter${name}`,
-          name,
+          key: `counter${metricIdExtractor(key, value)}`,
+          name: metricNameExtractor(key, value),
           type: 'counter',
           snapshotId,
           timeConfig,
@@ -235,23 +236,23 @@ function getDefaultRows({
           pinnedMetrics,
           metrics: [
             {
-              name: `${countersMetricPrefix}${name}`,
+              name: `${countersMetricPrefix}${metricIdExtractor(key, value)}`,
               label: 'Count',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
       })
+      .toArray()
   );
 
   rows = rows.concat(
     snapshot
       .getIn(gaugesSnapshotLocation, emptyList)
-      .toArray()
-      .map(name => {
+      .map((value, key) => {
         return {
-          key: `gauge${name}`,
-          name,
+          key: `gauge${metricIdExtractor(key, value)}`,
+          name: metricNameExtractor(key, value),
           type: 'gauge',
           snapshotId,
           timeConfig,
@@ -260,23 +261,23 @@ function getDefaultRows({
           pinnedMetrics,
           metrics: [
             {
-              name: `${gaugesMetricPrefix}${name}`,
+              name: `${gaugesMetricPrefix}${metricIdExtractor(key, value)}`,
               label: 'Value',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
       })
+      .toArray()
   );
 
   rows = rows.concat(
     snapshot
       .getIn(histogramsSnapshotLocation, emptyList)
-      .toArray()
-      .map(name => {
+      .map((value, key) => {
         return {
-          key: `histogram${name}`,
-          name,
+          key: `histogram${metricIdExtractor(key, value)}`,
+          name: metricNameExtractor(key, value),
           type: 'histogram',
           snapshotId,
           timeConfig,
@@ -285,33 +286,33 @@ function getDefaultRows({
           pinnedMetrics,
           metrics: [
             {
-              name: `${histogramsMetricPrefix}${name}.mean`,
+              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.mean`,
               label: 'Mean',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces
             },
             {
-              name: `${histogramsMetricPrefix}${name}.50th`,
+              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.50th`,
               label: '50th',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces
             },
             {
-              name: `${histogramsMetricPrefix}${name}.99th`,
+              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.99th`,
               label: '99th',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces
             }
           ]
         };
       })
+      .toArray()
   );
 
   rows = rows.concat(
     snapshot
       .getIn(metersSnapshotLocation, emptyList)
-      .toArray()
-      .map(name => {
+      .map((value, key) => {
         return {
-          key: `meter${name}`,
-          name,
+          key: `meter${metricIdExtractor(key, value)}`,
+          name: metricNameExtractor(key, value),
           type: 'meter',
           snapshotId,
           timeConfig,
@@ -320,23 +321,23 @@ function getDefaultRows({
           pinnedMetrics,
           metrics: [
             {
-              name: `${metersMetricPrefix}${name}`,
+              name: `${metersMetricPrefix}${metricIdExtractor(key, value)}`,
               label: 'Rate',
               formatter: rateFormatter
             }
           ]
         };
       })
+      .toArray()
   );
 
   rows = rows.concat(
     snapshot
       .getIn(timersSnapshotLocation, emptyList)
-      .toArray()
-      .map(name => {
+      .map((value, key) => {
         return {
-          key: `timer${name}`,
-          name,
+          key: `timer${metricIdExtractor(key, value)}`,
+          name: metricNameExtractor(key, value),
           type: 'timer',
           snapshotId,
           timeConfig,
@@ -346,28 +347,29 @@ function getDefaultRows({
           tableMetric: 1,
           metrics: [
             {
-              name: `${timersMetricPrefix}${name}.rate`,
+              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.rate`,
               label: 'Rate',
               formatter: rateFormatter
             },
             {
-              name: `${timersMetricPrefix}${name}.mean`,
+              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.mean`,
               label: 'Mean',
               formatter: timeByMillisTwoDecimalPlaces
             },
             {
-              name: `${timersMetricPrefix}${name}.50th`,
+              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.50th`,
               label: '50th',
               formatter: timeByMillisTwoDecimalPlaces
             },
             {
-              name: `${timersMetricPrefix}${name}.99th`,
+              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.99th`,
               label: '99th',
               formatter: timeByMillisTwoDecimalPlaces
             }
           ]
         };
       })
+      .toArray()
   );
 
   return rows;
