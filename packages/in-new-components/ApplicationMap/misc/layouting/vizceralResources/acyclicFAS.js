@@ -29,7 +29,11 @@ export function dfsFas(graph) {
     const edges = graph.outgoingEdges(node.name);
     for (let i = 0, length = edges.length; i < length; i++) {
       const edge = edges[i];
-      stack.has(edge.target) ? fas.push(edge) : dfs(graph.getNode(edge.target));
+      if (stack.has(edge.target)) {
+        fas.push(edge);
+      } else {
+        dfs(graph.getNode(edge.target));
+      }
     }
     stack.delete(node.name);
   }

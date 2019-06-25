@@ -151,8 +151,9 @@ function registerTask(repeats, fn, ms, args) {
 // namespaces.
 function deregisterTask(repeats, id) {
   const task = tasks.get(id);
-  task.repeats === repeats;
-  tasks.delete(id);
+  if (task && task.repeats === repeats) {
+    tasks.delete(id);
+  }
 }
 
 // ## Public API

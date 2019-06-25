@@ -133,7 +133,11 @@ describe('shortcuts/dashboard', () => {
         }),
       setSnapshotId: id =>
         navigationParametersStore.applyStateMutation(oldParams => {
-          id ? (oldParams.query.snapshotId = id) : delete oldParams.query.snapshotId;
+          if (id) {
+            oldParams.query.snapshotId = id;
+          } else {
+            delete oldParams.query.snapshotId;
+          }
           return oldParams;
         }),
       navigationParameters$: navigationParametersStore.observable

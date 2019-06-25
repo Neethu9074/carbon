@@ -8,10 +8,6 @@ export const localTag = build.tag;
 
 const timer$ = interval(1000 * 60).flatMap(getServerVersionTag);
 
-export function init() {
-  uiNeedsRefresh$;
-}
-
 export function getServerVersionTag() {
   return http({
     method: 'GET',

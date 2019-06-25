@@ -3,34 +3,6 @@ import invariant from 'invariant';
 export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
 import { getSpanDefinition } from 'in-sdk/tracing';
 
-import messagingIcon from 'in-sdk/tracing/categoryIcons/messaging.svg';
-import databaseIcon from 'in-sdk/tracing/categoryIcons/database.svg';
-import missingIcon from 'in-sdk/tracing/categoryIcons/missing.svg';
-import genericIcon from 'in-sdk/tracing/categoryIcons/generic.svg';
-import remoteIcon from 'in-sdk/tracing/categoryIcons/remote.svg';
-import loggerIcon from 'in-sdk/tracing/categoryIcons/logger.svg';
-import httpIcon from 'in-sdk/tracing/categoryIcons/http.svg';
-import xrayIcon from 'in-sdk/tracing/categoryIcons/xray.svg';
-import rpcIcon from 'in-sdk/tracing/categoryIcons/rpc.svg';
-import eumIcon from 'in-sdk/tracing/categoryIcons/eum.svg';
-
-const categoryIcons = {
-  cache: databaseIcon,
-  batch: messagingIcon,
-  database: databaseIcon,
-  eum: eumIcon,
-  eumResource: eumIcon,
-  generic: genericIcon,
-  http: httpIcon,
-  rpc: rpcIcon,
-  io: remoteIcon,
-  logger: loggerIcon,
-  messaging: messagingIcon,
-  missing: missingIcon,
-  remote: remoteIcon,
-  xray: xrayIcon
-};
-
 export const SPAN_KINDS = {
   INTERMEDIATE: 'intermediate',
   ENTRY: 'entry',
@@ -86,10 +58,6 @@ export function getTypeLabelPluralByType(spanType) {
 
 export function getSpanDetailView(span) {
   return getSpanDefinition(span.get('name'), span).detailView;
-}
-
-export function getCategoryIcon(category) {
-  return categoryIcons[category];
 }
 
 export function isShowSelfTimeForCategory(category) {

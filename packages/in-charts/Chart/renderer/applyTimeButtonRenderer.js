@@ -36,7 +36,7 @@ export default function createHighlightedTimeframeRenderer(config) {
 
       const from = clamp(config.scales.x.getRange(highlightedTimeframe[0]));
       const to = clamp(config.scales.x.getRange(highlightedTimeframe[1]));
-      e.offsetX > from && e.offsetX < to ? eventEmitter.emit('isVisible', true) : eventEmitter.emit('isVisible', false);
+      eventEmitter.emit('isVisible', e.offsetX > from && e.offsetX < to);
     })
   );
 

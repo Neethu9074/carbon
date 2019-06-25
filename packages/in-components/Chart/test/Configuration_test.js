@@ -85,7 +85,7 @@ describe('in-components/Chart/Configuration', () => {
         const config = new Config(getCanvasMock(), defaultProps);
         expect(config.rollup).to.equal(1000);
         expect(config.rollupLabel).to.equal('1s');
-        expect(config.y1).to.be.defined;
+        expect(config.y1).not.to.equal(undefined);
 
         config.update({ y1: {}, timeConfig: { windowSize: 60000, to: 20000 } });
         expect(config.rollup).to.equal(3600000);
@@ -119,7 +119,7 @@ describe('in-components/Chart/Configuration', () => {
   describe('getAllDomainValues', () => {
     it('should create collected domains lazy', () => {
       const config = new Config(getCanvasMock(), defaultProps);
-      expect(config.allDomainValues).to.be.null;
+      expect(config.allDomainValues).to.equal(null);
       config.getAllDomainValues();
       expect(config.allDomainValues).to.deep.equal([]);
     });

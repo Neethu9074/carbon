@@ -69,10 +69,12 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
       pointSizes[i++] = fragment.additionalParams.iconSize;
 
       const xy = config.LUT[fragment.additionalParams.type];
-      xy
-        ? // use right bottom UV coords to show nothing but emptiness
-          uvCoords.push(xy.x / textureWidth, xy.y / textureWidth)
-        : uvCoords.push(0, 0);
+      if (xy) {
+        // use right bottom UV coords to show nothing but emptiness
+        uvCoords.push(xy.x / textureWidth, xy.y / textureWidth);
+      } else {
+        uvCoords.push(0, 0);
+      }
     });
 
     updateAttribute(geometry, 'pointSize', pointSizes, 1);

@@ -29,9 +29,11 @@ export default class HighlightingMeshComponent extends SceneObjectComponent {
   }
 
   highlightingChanged(isHighlighted) {
-    isHighlighted
-      ? this.factory.add(createFragment(this.id, this.sceneObject, this.contentProvider))
-      : this.factory.remove(this.id);
+    if (isHighlighted) {
+      this.factory.add(createFragment(this.id, this.sceneObject, this.contentProvider));
+    } else {
+      this.factory.remove(this.id);
+    }
     this.factory.needsUpdate();
   }
 

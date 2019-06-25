@@ -15,12 +15,12 @@ describe('in-components/Chart/Scales', () => {
   describe('constuctor', () => {
     it('should only create scale for y2 if y2 axis is defined', () => {
       let scales = new Scales({});
-      expect(scales.y1).not.to.be.undefined;
-      expect(scales.y2).to.be.undefined;
+      expect(scales.y1).not.to.equal(undefined);
+      expect(scales.y2).to.equal(undefined);
 
       scales = new Scales({ y2: {} });
-      expect(scales.y1).not.to.be.undefined;
-      expect(scales.y2).not.to.be.undefined;
+      expect(scales.y1).not.to.equal(undefined);
+      expect(scales.y2).not.to.equal(undefined);
     });
   });
 
@@ -90,7 +90,7 @@ describe('in-components/Chart/Scales', () => {
         timeAxisHeight: 0
       });
 
-      expect(scales.y1.tickPositions).to.be.undefined;
+      expect(scales.y1.tickPositions).to.equal(undefined);
       scales.update();
       expect(scales.y1.tickPositions).to.deep.equal([
         {

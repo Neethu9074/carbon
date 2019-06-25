@@ -32,7 +32,7 @@ describe('time config', () => {
         getTimeConfig({
           query: {}
         }).to
-      ).to.be.null;
+      ).to.equal(null);
     });
 
     it('should read window size from query params', () => {
@@ -81,7 +81,7 @@ describe('time config', () => {
               [urlQueryKeys.autoRefresh]: 'true'
             }
           }).autoRefresh
-        ).to.be.true;
+        ).to.equal(true);
       });
 
       it('should not auto refresh in 2.0 without explicit ar query param', () => {
@@ -90,7 +90,7 @@ describe('time config', () => {
           getTimeConfig({
             query: {}
           }).autoRefresh
-        ).to.be.false;
+        ).to.equal(false);
       });
     });
   });

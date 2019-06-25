@@ -38,7 +38,7 @@ export default function createHighlightedTimeframeRenderer(container, glassPane,
     let b = clamp(scale.getRange(highlightedTimeframe[1]));
     const from = Math.min(a, b);
     const to = Math.max(a, b);
-    e.offsetX > from && e.offsetX < to ? eventEmitter.emit('isVisible', true) : eventEmitter.emit('isVisible', false);
+    eventEmitter.emit('isVisible', e.offsetX > from && e.offsetX < to);
   });
 
   return {

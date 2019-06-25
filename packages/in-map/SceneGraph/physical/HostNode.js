@@ -47,7 +47,11 @@ export default class HostNode extends Node {
   }
 
   highlightingChanged([isHighlighted, _nodes]) {
-    isHighlighted ? this.connectionNode.createConnections(this.entity, _nodes) : this.connectionNode.clearConnections();
+    if (isHighlighted) {
+      this.connectionNode.createConnections(this.entity, _nodes);
+    } else {
+      this.connectionNode.clearConnections();
+    }
   }
 
   activeMetricAndVisibilityChanged([activeMetric, zoomLevel, isVisible, isHighlighted]) {
