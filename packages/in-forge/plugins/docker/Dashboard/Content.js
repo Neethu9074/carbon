@@ -13,7 +13,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { containerInfoEnabled } from 'in-services/featureFlags';
-import { hasRestrictedAccess } from 'in-stores/user';
+import { hasRestrictedAccess } from 'in-stores/permission';
 import MetricValue from 'in-components/MetricValue';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
