@@ -57,7 +57,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
         }}
         onClick={isFakeRoot ? null : () => onCallClicked(callFrame)}
       >
-        <ErrorIndicator className={locals.errorIndicator} errorCount={errorCount} />
+        <ErrorIndicator className={locals.errorIndicator} erroneous={errorCount} />
         <span className={locals.label}>{label}</span>
       </div>
       <div
@@ -66,17 +66,20 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
           [locals.unhighlightedLogIndicator]: isUnhighlighted
         })}
       >
-        {children.filter(subCall => subCall.model === 'LOG').map(subCall => (
-          <LogIndicators
-            parentCall={callFrame}
-            key={subCall.id}
-            top={top}
-            log={subCall}
-            xScale={xScale}
-            onCallClicked={onCallClicked}
-            x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}
-          />
-        ))}
+        {children &&
+          children
+            .filter(subCall => subCall.model === 'LOG')
+            .map(subCall => (
+              <LogIndicators
+                parentCall={callFrame}
+                key={subCall.id}
+                top={top}
+                log={subCall}
+                xScale={xScale}
+                onCallClicked={onCallClicked}
+                x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}
+              />
+            ))}
       </div>
     </Fragment>
   );
