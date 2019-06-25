@@ -1,13 +1,14 @@
-// needs to be kept in sync with
+// the keys (not the values) need to be kept in sync with
 // packages/in-server/services/resolvers/consul.js
 module.exports = {
+  isSelfService: false,
   releaseNotesEnabled: true,
   maintenanceNotesEnabled: false,
   useInstanaSaasEumTrackingUrlEnabled: true,
   tenantSwitcherEnabled: true,
   isUsageInfoPopupEnabled: false,
   onPremLicenseInformationEnabled: false,
-  isKubernetesV2Enabled: false,
+  isKubernetesV2Enabled: true,
   customEventsInWebsiteMonitoringEnabled: true,
   lastSevenDaysTimePresetEnabled: true,
   ruleDeprecationValidationChecksEnabled: true,
