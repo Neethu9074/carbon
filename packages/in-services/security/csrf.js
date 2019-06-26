@@ -1,7 +1,10 @@
 import { interval } from 'reactive-observables';
 import { get, set } from 'lodash';
 
+import { createLogger } from 'instalog';
 import http from 'in-services/http';
+
+const logger = createLogger('csrf');
 
 let token = get(window, ['instana', 'csrf', 'token']);
 // do not expose the CSRF token as a global
@@ -22,7 +25,15 @@ export function init() {
     .nextFrame()
     .flatMap(getCsrfToken)
     .merge(getCsrfToken())
-    .subscribe(_token => (token = _token));
+    .subscribe(
+      _token => (token = _token),
+      error => {
+        // Deliberately logged on debug level to avoid error logging of this. In production
+        // we gain insights into this via Instana's website monitoring. There is no need to
+        // additional log.error this (in the global unhandled error handler).
+        logger.debug('Failed to retrieve CSRF token', error);
+      }
+    );
 }
 
 function getCsrfToken() {
