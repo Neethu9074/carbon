@@ -9,7 +9,7 @@ export default function HighlightSwitch(props) {
 
   return (
     <div className={locals.wrapper}>
-      <span className={locals.label}>Highlight unhealty</span>
+      <span className={locals.label}>Highlight unhealthy</span>
       <Toggle checked={showHealth} onChange={e => setShowHealth(e.target.checked)} />
     </div>
   );
