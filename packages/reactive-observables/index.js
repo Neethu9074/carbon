@@ -34,6 +34,19 @@ export function just<T>(v: T): Observable<T> {
     .freeze();
 }
 
+export function range(n: number): Observable<number> {
+  const observable = create();
+
+  // Asynchronously emit so that subscribers have a chance to get values.
+  requestAnimationFrame(() => {
+    for (let i = 0; i < n; i++) {
+      observable.emit(i);
+    }
+  });
+
+  return observable.freeze();
+}
+
 export function interval(millis: number): Observable<number> {
   let localTimeIntervalHandle;
   return create({

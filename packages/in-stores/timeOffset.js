@@ -1,6 +1,8 @@
-import createTimestampObservable from 'in-subscription/timestamp';
-import { connection } from 'in-connection';
+import { interval, range } from 'reactive-observables';
+
+import synchronizeTime from 'in-subscription/timestamp';
 import { createStore } from 'in-stores/store';
+import { connection } from 'in-connection';
 
 // This is an attempt to "synchronize" the time between client (browser) and
 // server (backend). This needs to be done as we cannot expect that the user
@@ -27,7 +29,7 @@ const numberOfValuesForOffetMean = 5;
 // new connection is established.
 const numberOfSynchronizationAttemptOnceConnected = 3;
 
-let syncIntervalHandle;
+let subscription;
 
 // in the beginning we do not know the time offset. We will try to synchronize
 // regularly and we will use the mean of multiple attempts.
@@ -69,21 +71,20 @@ export function toServerTime(d, off) {
 function start() {
   stop();
 
-  for (let i = 0; i < numberOfSynchronizationAttemptOnceConnected; i++) {
-    synchronize();
-  }
-  syncIntervalHandle = setInterval(synchronize, syncInterval);
+  subscription = interval(syncInterval)
+    // Do not execute when window is hidden. The browser tab will be executed at
+    // lower priority and this will skew the time synchronization results.
+    .nextFrame()
+    .merge(range(numberOfSynchronizationAttemptOnceConnected))
+    .flatMap(() => synchronizeTime({ originate: Date.now() }))
+    .subscribe(processTimestampReply);
 }
 
 function stop() {
-  if (syncIntervalHandle) {
-    clearInterval(syncIntervalHandle);
-    syncIntervalHandle = null;
+  if (subscription) {
+    subscription.dispose();
+    subscription = null;
   }
-}
-
-function synchronize() {
-  createTimestampObservable({ originate: Date.now() }).once(processTimestampReply);
 }
 
 /**

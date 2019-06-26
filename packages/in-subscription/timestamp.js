@@ -7,6 +7,9 @@ export default createSubscription({
     return originate;
   },
 
+  // Disable memoization. This is actually a simple RPC call.
+  memoizeFor: 0,
+
   getData(subscriptionId, { originate }) {
     return {
       subscriptionId,

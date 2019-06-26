@@ -17,6 +17,7 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
   eventId: string,
   getId?: PARAM => string,
   getData: (subscriptionId: number, param: PARAM) => any,
+  // A value < 1 will indicate that memoization should be disabled.
   memoizeFor?: number | Function,
   disposeSubscriptionOnDocumentHidden?: boolean,
   transform?: (Observable<any>, PARAM) => Observable<RESULT>
@@ -37,14 +38,18 @@ export default function<PARAM, RESULT>({
   disposeSubscriptionOnDocumentHidden = true,
   transform
 }: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
-  if (memoizeFor == null) {
-    memoizeFor = 10000;
-  }
-  return memoize(
-    createObservable.bind(null, eventId, getData, disposeSubscriptionOnDocumentHidden, transform),
-    getId,
-    memoizeFor
+  const observableCreator = createObservable.bind(
+    null,
+    eventId,
+    getData,
+    disposeSubscriptionOnDocumentHidden,
+    transform
   );
+  if (memoizeFor != null && memoizeFor < 1) {
+    return observableCreator;
+  }
+
+  return memoize(observableCreator, getId, memoizeFor == null ? 10000 : memoizeFor);
 }
 
 function createObservable<PARAM, RESULT>(
