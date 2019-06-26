@@ -123,9 +123,7 @@ export default class ConnectionLostState extends AbstractState {
   };
 
   sendConnectionSettings() {
-    this.send('setConnectionSettings', {
-      twoZeroModeEnabled: true
-    });
+    this.send('setConnectionSettings', {});
   }
 
   onClose = () => {
