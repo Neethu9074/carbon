@@ -9,7 +9,6 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import getKubernetesClusters from 'in-subscription/kubernetes/getKubernetesClusters';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
@@ -20,7 +19,6 @@ export default compose(connect({ timeConfig: timeConfig$ }))(ClusterList);
 
 function ClusterList(props) {
   const { timeConfig } = props;
-  const leftHeader = <ListTitle>Clusters</ListTitle>;
 
   return (
     <Fragment>
@@ -44,7 +42,6 @@ function ClusterList(props) {
         }}
         timeConfig={timeConfig}
         paginationResettingProps={['timeConfig']}
-        leftHeader={leftHeader}
         defaultOrderBy="name"
         defaultOrderDirection="ASC"
         defaultPageSize={20}

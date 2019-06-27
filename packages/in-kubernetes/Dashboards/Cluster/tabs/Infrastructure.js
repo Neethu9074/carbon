@@ -15,7 +15,6 @@ const matrixPrefix = 'host.';
 export default function Infrastructure({ timeConfig, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Hosts"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

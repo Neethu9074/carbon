@@ -40,7 +40,6 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
             timeConfig={timeConfig}
             columnDefinitions={columnDefinitions}
             rightHeader={rightHeader}
-            cardTitle="HTTP Requests"
             paginationResettingProps={['timeConfig', 'tagFilters']}
             defaultOrderBy="beaconCountAgg"
             defaultOrderDirection="DESC"

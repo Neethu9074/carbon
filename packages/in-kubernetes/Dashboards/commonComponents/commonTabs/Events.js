@@ -105,7 +105,6 @@ function eventsTable(columnDefinitions) {
       <Row>
         <Col lg={12}>
           <ServerTableWithUrlState
-            cardTitle="Events"
             clusterId={clusterId}
             deploymentId={deploymentId}
             deploymentConfigId={deploymentConfigId}

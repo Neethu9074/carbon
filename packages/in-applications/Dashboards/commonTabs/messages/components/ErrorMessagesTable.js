@@ -42,7 +42,6 @@ export default function ErrorMessagesTable({
       defaultOrderBy="callsAgg"
       defaultOrderDirection="DESC"
       size="compact"
-      cardTitle="Error Messages"
       rightHeader={
         <AnalyzeMessagesButton
           groupByTagName="call.error.message"

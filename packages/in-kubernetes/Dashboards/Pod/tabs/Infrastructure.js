@@ -79,7 +79,6 @@ export default connectTo(
 function MonitoredContainers({ data: pod, timeConfig }) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Containers"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

@@ -9,5 +9,5 @@ const matrixPrefix = 'deployment.';
 const Table = deploymentsTable(ServerTableWithUrlBoundState);
 
 export default function Deployments(props) {
-  return <Table cardTitle="Deployments" pathSegment={pathSegment} matrixPrefix={matrixPrefix} {...props} />;
+  return <Table pathSegment={pathSegment} matrixPrefix={matrixPrefix} {...props} />;
 }

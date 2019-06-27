@@ -169,7 +169,6 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
       size="compact"
       isSearchable={false}
       rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
-      cardTitle="Infrastructure"
     />
   );
 }

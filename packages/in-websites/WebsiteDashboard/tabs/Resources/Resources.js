@@ -148,7 +148,6 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
             tagFilters={tagFiltersForResourceList}
             timeConfig={timeConfig}
             rightHeader={resourcesListRightHeader}
-            cardTitle="Resources"
           />
         </Col>
       </Row>

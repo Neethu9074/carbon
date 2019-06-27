@@ -9,7 +9,6 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
@@ -19,8 +18,6 @@ const matrixPrefix = 'k8Namespace.';
 export default compose(connect({ timeConfig: timeConfig$ }))(NamespaceList);
 
 function NamespaceList({ timeConfig }) {
-  const leftHeader = <ListTitle>Namespaces</ListTitle>;
-
   return (
     <Fragment>
       <Title title="Namespaces" />
@@ -46,7 +43,6 @@ function NamespaceList({ timeConfig }) {
         }}
         timeConfig={timeConfig}
         paginationResettingProps={['timeConfig']}
-        leftHeader={leftHeader}
         defaultOrderBy="label"
         defaultOrderDirection="ASC"
       />

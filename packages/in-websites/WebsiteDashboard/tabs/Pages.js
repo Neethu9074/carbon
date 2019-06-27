@@ -25,7 +25,6 @@ export default function Pages({ timeConfig, tagFilters, websiteId }) {
           paginationResettingProps={['timeConfig', 'tagFilters']}
           defaultOrderBy="pageViewsAgg"
           defaultOrderDirection="DESC"
-          cardTitle="Pages"
         />
       </Col>
     </Row>

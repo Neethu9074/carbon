@@ -17,7 +17,6 @@ const matrixPrefix = 'namespace.';
 export default function Namespaces({ timeConfig, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Namespaces"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

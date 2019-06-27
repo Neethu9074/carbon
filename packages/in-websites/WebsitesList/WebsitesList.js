@@ -11,7 +11,6 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
 import { websitesOpenAddForm } from 'in-websites/tracker';
-import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
@@ -64,8 +63,6 @@ export default connectTo(
       return <RedirectWithHash to={newWebsitePathFullyQualified} />;
     }
 
-    const leftHeader = <ListTitle>Websites</ListTitle>;
-
     return (
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
@@ -78,7 +75,6 @@ export default connectTo(
             columnDefinitions={columnDefinitions}
             timeConfig={timeConfig}
             rightHeader={rightHeader}
-            leftHeader={leftHeader}
             paginationResettingProps={{ timeConfig }}
             defaultOrderBy="pageViewsAgg"
             defaultOrderDirection="DESC"

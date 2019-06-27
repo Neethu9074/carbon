@@ -19,7 +19,6 @@ const matrixPrefix = 'node.';
 export default function Services({ timeConfig, clusterId }) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Nodes"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

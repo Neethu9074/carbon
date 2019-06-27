@@ -20,7 +20,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import getServices from 'in-subscription/application/getServices';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
-import ListTitle from 'in-new-components/lists/Title';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
@@ -73,8 +72,6 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
     </Fragment>
   );
 
-  const leftHeader = <ListTitle>Services</ListTitle>;
-
   return (
     <Sticky header={<ViewSwitcher />}>
       <MaxWidthFullscreenContainer>
@@ -90,7 +87,6 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
           technologies={technologies}
           paginationResettingProps={['timeConfig', 'endpointTypes', 'technologies']}
           rightHeader={rightHeader}
-          leftHeader={leftHeader}
           defaultOrderBy="callsAgg"
           defaultOrderDirection="DESC"
         />

@@ -69,7 +69,6 @@ const Pods = compose(
 
   return (
     <ServerTableWithUrlBoundState
-      cardTitle={leftHeader ? undefined : 'Pods'}
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

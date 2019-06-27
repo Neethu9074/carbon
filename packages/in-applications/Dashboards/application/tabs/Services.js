@@ -201,7 +201,6 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
       applicationId={applicationId}
       serviceId={serviceId}
       endpointId={endpointId}
-      cardTitle="Services"
       rightHeader={rightHeader}
       endpointTypes={endpointTypes}
       technologies={technologies}

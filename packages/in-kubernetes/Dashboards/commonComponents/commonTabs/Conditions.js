@@ -10,7 +10,6 @@ const matrixPrefix = 'condition.';
 export default function Conditions(props) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Conditions"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

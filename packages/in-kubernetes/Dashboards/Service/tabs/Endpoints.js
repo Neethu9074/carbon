@@ -14,7 +14,6 @@ const matrixPrefix = 'endpoints.';
 export default function Endpoints({ timeConfig, service }) {
   return (
     <ServerTableWithUrlBoundState
-      cardTitle="Endpoints"
       pathSegment={pathSegment}
       matrixPrefix={matrixPrefix}
       get={getTableData}

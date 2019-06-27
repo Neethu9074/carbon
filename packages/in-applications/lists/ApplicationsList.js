@@ -17,7 +17,6 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
@@ -47,8 +46,6 @@ export default connectTo(
       .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
-    const leftHeader = <ListTitle>Application Perspectives</ListTitle>;
-
     return (
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
@@ -62,7 +59,6 @@ export default connectTo(
               columnDefinitions={columnDefinitions}
               timeConfig={timeConfig}
               rightHeader={rightHeader}
-              leftHeader={leftHeader}
               paginationResettingProps={['timeConfig']}
               defaultOrderBy="callsAgg"
               defaultOrderDirection="DESC"
