@@ -2,7 +2,6 @@ import { combineLatest } from 'reactive-observables';
 
 import createViewStructureObservable from 'in-subscription/view';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
-import { ID_OF_UNMONITORED_ZONE } from 'in-forge/constants';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import { debouncedQuery$ } from 'in-stores/search/query';
@@ -20,13 +19,18 @@ export function getViewStructure() {
     view$,
     timeConfig$,
     searchMatches$,
-    excludeUnmonitoredHosts$,
     debouncedQuery$,
+    excludeUnmonitoredHosts$,
     viewGrouping$,
     timeConfig$.flatMap(timeConfig => getScope({ timeConfig }))
-  ]).flatMap(([viewType, timeConfig, _searchMatches, excludeUnmonitoredHosts, query, grouping, scope]) => {
+  ]).flatMap(([viewType, timeConfig, _searchMatches, query, excludeUnmonitoredHosts, grouping, scope]) => {
     const permittedIds = getPermittedIds(_searchMatches ? _searchMatches.toArray() : null, scope, query);
-    return createViewStructureObservable({ viewType, timeConfig, grouping }).map(_viewStructure => {
+    return createViewStructureObservable({
+      viewType,
+      timeConfig,
+      unmonitoredHostsExcluded: excludeUnmonitoredHosts,
+      grouping
+    }).map(_viewStructure => {
       const groupIds = {};
       const hostIds = {};
       const layerIds = {};
@@ -34,10 +38,6 @@ export function getViewStructure() {
       _viewStructure.children.forEach(group => {
         // just used for physical, without having influence on container view
         const groupId = group.id;
-        if (excludeUnmonitoredHosts && groupId === ID_OF_UNMONITORED_ZONE) {
-          groupIds[groupId] = false;
-          return;
-        }
 
         group.children.forEach(host => {
           const hostId = host.id;
