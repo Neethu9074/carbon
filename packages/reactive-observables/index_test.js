@@ -894,6 +894,19 @@ describe('reactive-observables', () => {
       expect(stopSubscriber.callCount).to.equal(0);
     });
 
+    it('should not break error handling', done => {
+      const error = new TypeError('Something went wrong');
+      const observable = create();
+      observable
+        .delayedStop(200, sinon.stub(), setTimeout, clearTimeout)
+        .errors()
+        .subscribe(e => {
+          expect(e).to.equal(error);
+          done();
+        });
+      observable.emitError(error);
+    });
+
     it('should call stop after the specified amount of millis', () => {
       const observable = create({
         stop: stopSubscriber

@@ -4,7 +4,11 @@ import TerminalObserver from '../TerminalObserver';
 import Observer from '../Observer';
 
 const dummyChild: any = {
-  _onNext() {}
+  dispose() {},
+  _onNext() {},
+  _emitError() {
+    return false;
+  }
 };
 
 export default function delayedStop<T>(
