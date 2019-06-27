@@ -6,6 +6,8 @@ export function getIconByPlugin(plugin) {
       return 'lib_kubernetes_cluster';
     case plugins.kubernetesPod:
       return 'lib_kubernetes_pod';
+    case plugins.kubernetesReplicaSet:
+      return 'lib_kubernetes_workload';
     case plugins.kubernetesNode:
       return 'lib_kubernetes_node';
     case plugins.kubernetesDeployment:

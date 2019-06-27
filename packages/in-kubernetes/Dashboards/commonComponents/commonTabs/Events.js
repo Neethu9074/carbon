@@ -3,7 +3,7 @@ import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
-import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
@@ -52,7 +52,9 @@ const allColumns = [
     label: 'Involved Object',
     getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
       const isLinkableEntity =
-        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1;
+        [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1 &&
+        translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin) !== plugins.kubernetesReplicaSet;
+
       if (isLinkableEntity) {
         return (
           <EntityLink
