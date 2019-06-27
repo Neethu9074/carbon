@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
+import { ruleTypeEntityVerification } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
@@ -57,6 +58,44 @@ export function getCustomEventSpecificationMutable(id) {
     url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
     treat400AsError: false
   }).map(response => response.body);
+}
+
+export function createCustomSytemRuleBasedEventSpecificationForEntityVerification(
+  id,
+  name = 'New Event',
+  entityType,
+  query = '',
+  triggering = false,
+  description = '',
+  expirationTime = null,
+  enabled = true,
+  severity = 5,
+  matchingEntityType,
+  matchingOperator,
+  matchingEntityLabel,
+  offlineDuration,
+  ruleType = ruleTypeEntityVerification
+) {
+  return {
+    id: id || generateUniqueShortId(),
+    name,
+    entityType,
+    query,
+    triggering,
+    description,
+    expirationTime,
+    enabled,
+    rules: [
+      {
+        ruleType,
+        severity,
+        matchingEntityType,
+        matchingOperator,
+        matchingEntityLabel,
+        offlineDuration
+      }
+    ]
+  };
 }
 
 export function createCustomSytemRuleBasedEventSpecification(

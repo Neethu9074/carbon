@@ -1,6 +1,6 @@
 import irpt from 'react-immutable-proptypes';
+import React, { Fragment } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
@@ -14,6 +14,7 @@ import Marker, { hasServiceImpact } from 'in-views/eventView/components/Marker';
 import EndedMarker from 'in-views/eventView/components/marker/EndedMarker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
+import OfflineEventDescription from '../Event/OfflineEventDescription';
 import Spacer from 'in-views/eventView/components/Incident/Spacer';
 import EventChart from 'in-views/eventView/components/EventChart';
 import { formatTime } from 'in-services/formatters/date';
@@ -66,6 +67,7 @@ export default connectTo(
       }
 
       const isTriggeringEvent = triggeringProblemId === event.getIn(['problem', 'id']);
+      const isOfflineEvent = event => event.hasIn(['metadata', 'entityVerificationSnapshotId']);
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
@@ -98,11 +100,17 @@ export default connectTo(
                   <ProblemDescription event={event} />
                   <EventSpecificationLink event={event} />
                   <Spacer />
-                  <EventChart event={event} />
-                  <Spacer />
-                  <EventDependecyGraph event={event} />
-                  <Spacer />
-                  <AnalyzeIssueCallsButton event={event} />
+                  {isOfflineEvent ? (
+                    <OfflineEventDescription event={event} />
+                  ) : (
+                    <Fragment>
+                      <EventChart event={event} />
+                      <Spacer />
+                      <EventDependecyGraph event={event} />
+                      <Spacer />
+                      <AnalyzeIssueCallsButton event={event} />
+                    </Fragment>
+                  )}
                 </div>
               ) : null}
             </div>

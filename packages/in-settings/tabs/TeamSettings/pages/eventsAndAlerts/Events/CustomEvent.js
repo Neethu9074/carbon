@@ -4,16 +4,17 @@ import {
   createCustomSytemRuleBasedEventSpecification,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification
+  saveCustomEventSpecification,
+  createCustomSytemRuleBasedEventSpecificationForEntityVerification
 } from 'in-api/eventSpecifications';
 import {
   dataSourceSystem,
-  createEventFormDefinition
+  createEventFormDefinition,
+  entityVerification
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { submitEventTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -21,6 +22,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
@@ -97,6 +99,7 @@ function save(event, form) {
   const severity = form.get('severity') ? Number(form.get('severity').value) : 0;
   const entityType = form.get('entityType') ? form.get('entityType').value : null;
   const scopeType = form.get('applyOn').value;
+  const systemRule = form.get('systemRule') && form.get('systemRule').value;
 
   submitEventTracker({
     scopeType,
@@ -104,7 +107,28 @@ function save(event, form) {
     type: isTriggering ? 'Incident' : 'None',
     severity: getSeverityText(severity)
   });
+
   if (ruleType === 'system') {
+    if (systemRule === entityVerification.id) {
+      return saveCustomEventSpecification(
+        createCustomSytemRuleBasedEventSpecificationForEntityVerification(
+          event ? event.get('id') : null,
+          form.get('name').value,
+          'host',
+          query,
+          form.get('triggering').value,
+          form.get('description').value,
+          form.get('gracePeriod').value,
+          event ? event.get('enabled') : true,
+          form.get('severity') ? Number(form.get('severity').value) : 0,
+          form.get('matchingEntityType') ? form.get('matchingEntityType').value : null,
+          form.get('matchingOperator') ? form.get('matchingOperator').value : null,
+          form.get('matchingEntityLabel') ? form.get('matchingEntityLabel').value : null,
+          form.get('offlineDuration') ? Number(form.get('offlineDuration').value) : null
+        )
+      );
+    }
+
     return saveCustomEventSpecification(
       createCustomSytemRuleBasedEventSpecification(
         event ? event.get('id') : null,

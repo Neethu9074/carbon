@@ -15,7 +15,10 @@ import {
   putQueryFields,
   putApplicationField,
   removeQueryFields,
-  updateFormDefinitionForDataSource
+  updateFormDefinitionForDataSource,
+  updateFormDefinitionForSystemRule,
+  entityVerification,
+  systemRules
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
   applyOnOptions,
@@ -34,6 +37,7 @@ import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/Applicat
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
+import { entityVerificationRuleEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -41,7 +45,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import EventDescription from 'in-components/EventDescription';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getSystemRules } from 'in-api/eventSpecifications';
+import HelpText from 'in-components/form/HelpText/HelpText';
 import FormGroup from 'in-settings/components/FormGroup';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
@@ -75,7 +79,6 @@ const queryValidationFinished = create();
 
 export default compose(
   connectTo({
-    systemRules: getSystemRules(),
     customMetrics: getCustom().map(metricInstances => {
       const customMetricsList = [];
       metricInstances.map(metricInstance => {
@@ -132,7 +135,6 @@ function EventForm({
   entity,
   onChange,
   customMetrics,
-  systemRules,
   queryValidationResult,
   queryValidationInProgress,
   setQueryValidationInProgress,
@@ -173,7 +175,10 @@ function EventForm({
                   maxLength={256}
                   autoFocus
                 />
-                <TouchedMessages field={field} />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+                <HelpText className={locals.subTextFormField}>
+                  Shows up in the list of events. This is also the name of issues. Should be unique and meaningful.
+                </HelpText>
               </FormGroup>
             ))}
             {form.get('description').map(field => (
@@ -189,7 +194,10 @@ function EventForm({
                   hasError={!field.valid && field.touched}
                   maxLength={65536}
                 />
-                <TouchedMessages field={field} />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+                <HelpText className={locals.subTextFormField}>
+                  Shows up in the issue description. Should be as descriptive as possible. Supports markdown.
+                </HelpText>
               </FormGroup>
             ))}
             <FormGroup noFlex>
@@ -280,6 +288,17 @@ function EventForm({
       ))}
 
       {form.get('dataSource').value === dataSourceSystem && ConditionsForSystemRuleSource(form, systemRules, onChange)}
+
+      {entityVerificationRuleEnabled &&
+        form.get('systemRule') &&
+        form.get('systemRule').value === entityVerification.id && (
+          <ObserveHostHasMatchingEntitiesRunningFormGroup
+            form={form}
+            entityTypes={getEntityTypeOptions()}
+            onChange={onChange}
+          />
+        )}
+
       {(form.get('dataSource').value === dataSourceBuiltIn || form.get('dataSource').value === dataSourceCustom) &&
         ConditionsForNonSystemSource(form, pluginsWithMetricDefinitions, onChange, customMetrics, isPercentileMetric)}
 
@@ -393,7 +412,9 @@ function ConditionsForSystemRuleSource(form, systemRules, onChange) {
         options={systemRuleOptions(systemRules)}
         onChange={e => {
           if (e && e.value != field.value) {
-            onChange('systemRule', e.value);
+            onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
+              return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+            });
           }
         }}
         clearable={false}
@@ -519,6 +540,97 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
       <TouchedMessages field={field} />
     </FormGroup>
   ));
+}
+
+function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
+  const entityTypesToExclude = ['Application', 'Service', 'Endpoint', 'Host'];
+  const entityTypeOptions = entityTypes.filter(({ label }) => entityTypesToExclude.indexOf(label) === -1);
+
+  const entityLabelOperatorOptions = Object.freeze([
+    { value: 'is', label: 'is' },
+    { value: 'contains', label: 'contains' },
+    { value: 'startsWith', label: 'starts with' },
+    { value: 'endsWith', label: 'ends with' }
+  ]);
+
+  const offlineDurationOptions = Object.freeze([
+    { value: '60000', label: '1 min' },
+    { value: '120000', label: '2 min' },
+    { value: '180000', label: '3 min' },
+    { value: '300000', label: '5 min' },
+    { value: '600000', label: '10 min' }
+  ]);
+
+  const matchingEntityType = form.get('matchingEntityType');
+  const matchingOperator = form.get('matchingOperator');
+  const matchingEntityLabel = form.get('matchingEntityLabel');
+  const offlineDuration = form.get('offlineDuration');
+
+  return (
+    <FormGroup noFlex>
+      <Row>
+        <Col cols={3}>
+          <FormGroup>
+            <Label htmlFor="-entity-matchingtype" hasError={!matchingEntityType.valid && matchingEntityType.touch}>
+              Entity Type
+            </Label>
+            <ComboBox
+              name="matching-entity-type"
+              value={matchingEntityType.value}
+              options={entityTypeOptions}
+              onChange={e => onChange('matchingEntityType', e ? e.value : '')}
+            />
+            <TouchedMessages field={matchingEntityType} />
+          </FormGroup>
+        </Col>
+        <Col cols={3}>
+          <FormGroup>
+            <Label htmlFor="matching-operator" hasError={!matchingOperator.valid && matchingOperator.touched}>
+              Entity Label Operator
+            </Label>
+            <ComboBox
+              name="matching-operator"
+              value={matchingOperator.value}
+              options={entityLabelOperatorOptions}
+              onChange={e => onChange('matchingOperator', e ? e.value : '')}
+            />
+            <TouchedMessages field={matchingOperator} />
+          </FormGroup>
+        </Col>
+        <Col cols={3}>
+          <FormGroup>
+            <Label htmlFor="matching-entity-label" hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}>
+              Entity Label
+            </Label>
+            <Input
+              id="matching-entity-label"
+              type="text"
+              value={matchingEntityLabel.value || ''}
+              onChange={e => onChange('matchingEntityLabel', e.target.value)}
+              hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}
+              maxLength={256}
+              autoFocus
+            />
+            <TouchedMessages field={matchingEntityLabel} />
+          </FormGroup>
+        </Col>
+        <Col cols={3}>
+          <FormGroup>
+            <Label htmlFor="offline-duration" hasError={!offlineDuration.valid && offlineDuration.touched}>
+              Offline for
+            </Label>
+            <ComboBox
+              name="offline-duration"
+              value={offlineDuration.value}
+              options={offlineDurationOptions}
+              onChange={e => onChange('offlineDuration', e ? e.value : '')}
+            />
+            <TouchedMessages field={offlineDuration} />
+          </FormGroup>
+        </Col>
+      </Row>
+    </FormGroup>
+  );
 }
 
 function shouldRenderThresholds(form) {

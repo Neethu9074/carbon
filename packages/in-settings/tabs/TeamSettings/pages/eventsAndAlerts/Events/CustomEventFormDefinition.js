@@ -6,13 +6,29 @@ import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecif
 import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
+import { entityVerificationRuleEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
 
+export const ruleTypeEntityVerification = 'entity_verification';
 export const dataSourceCustom = 'custom';
 export const dataSourceBuiltIn = 'built-in';
 export const dataSourceSystem = 'system';
+
+export const offlineEventDetection = Object.freeze({
+  id: 'entity.offline',
+  name: 'Offline event detection'
+});
+
+export const entityVerification = Object.freeze({
+  id: 'entity.on.host.verification', // this id is UI internal only, because we need to group it under systemRules
+  name: 'Hosts that do not have matching entities running on them'
+});
+
+export const systemRules = entityVerificationRuleEnabled
+  ? Object.freeze([offlineEventDetection, entityVerification])
+  : Object.freeze([offlineEventDetection]);
 
 export function createEventFormDefinition(event, isCreate) {
   const mutableEvent = getMutableEvent(event);
@@ -87,6 +103,9 @@ export function createEventFormDefinition(event, isCreate) {
     form = putAllDataSourceFields(form, event);
   } else {
     form = putSystemRuleSelection(form, ruleAttributes);
+    if (ruleType === ruleTypeEntityVerification) {
+      form = putAllEntityVerificationFields(form, event);
+    }
   }
 
   if (applyOn === scopeApplication) {
@@ -205,6 +224,42 @@ function putAllDataSourceFields(form, event) {
   return form;
 }
 
+function putAllEntityVerificationFields(form, event) {
+  const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(
+    getMutableEvent(event)
+  );
+
+  return form
+    .put(
+      'matchingEntityType',
+      createField({
+        value: matchingEntityType,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'matchingOperator',
+      createField({
+        value: matchingOperator,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'matchingEntityLabel',
+      createField({
+        value: matchingEntityLabel,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'offlineDuration',
+      createField({
+        value: String(offlineDuration),
+        validator: notBlankValidator
+      })
+    );
+}
+
 export function putWindowField(form, event) {
   return form.put(
     'window',
@@ -235,6 +290,14 @@ export function putAggregationField(form, event) {
   );
 }
 
+function removeAllEntityVerificationFields(form) {
+  return form
+    .remove('matchingEntityType')
+    .remove('matchingOperator')
+    .remove('matchingEntityLabel')
+    .remove('offlineDuration');
+}
+
 function removeAllDataSourceFields(form) {
   return form
     .remove('entityType')
@@ -254,6 +317,10 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
     systemRule = systemRules[0].id;
   }
 
+  if (!systemRule && ruleAttributes.ruleType === ruleTypeEntityVerification) {
+    systemRule = entityVerification.id;
+  }
+
   return form.put(
     'systemRule',
     createField({
@@ -263,14 +330,40 @@ function putSystemRuleSelection(form, ruleAttributes, systemRules) {
   );
 }
 
+export function updateFormDefinitionForSystemRule(form, previousDataSource, event) {
+  const nextDataSource = form.get('systemRule') ? form.get('systemRule').value : null;
+
+  if (nextDataSource === entityVerification.id) {
+    form = putAllEntityVerificationFields(form, event);
+  }
+
+  if (nextDataSource === offlineEventDetection.id) {
+    form = removeAllEntityVerificationFields(form);
+  }
+
+  if (previousDataSource !== nextDataSource) {
+    form = form.setTouched(false, { recurse: true });
+  }
+
+  return form;
+}
+
 export function updateFormDefinitionForDataSource(form, previousDataSource, event, systemRules) {
   const nextDataSource = form.get('dataSource') ? form.get('dataSource').value : null;
+
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
+    const { ruleType } = getRuleAttributes(getMutableEvent(event));
     form = removeAllDataSourceFields(form);
+
+    if (ruleType === ruleTypeEntityVerification) {
+      form = putAllEntityVerificationFields(form, event);
+    }
+
     form = putSystemRuleSelection(form, event, systemRules);
   } else if (previousDataSource === dataSourceSystem && nextDataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, event);
     form = form.remove('systemRule');
+    form = removeAllEntityVerificationFields(form);
   }
 
   if (previousDataSource !== nextDataSource) {
@@ -333,7 +426,7 @@ export function removeQueryFields(form) {
 }
 
 export function getDataSourceFromEventSpecification(ruleType, entityType, metricName) {
-  if (ruleType === 'system') {
+  if (ruleType === 'system' || ruleType === ruleTypeEntityVerification) {
     return dataSourceSystem;
   }
   if (entityType && metricName) {
@@ -351,6 +444,7 @@ function getMutableEvent(event) {
 
 function getRuleAttributes(event) {
   const { rules, rule } = event;
+
   let ruleType,
     metricName,
     rollup,
@@ -361,7 +455,11 @@ function getRuleAttributes(event) {
     severity,
     systemRuleId,
     metricLabel,
-    metricFormat;
+    metricFormat,
+    matchingEntityType,
+    matchingOperator,
+    matchingEntityLabel,
+    offlineDuration;
   if (rules && rules.length === 1) {
     ruleType = rules[0].ruleType;
     metricName = rules[0].metricName;
@@ -374,6 +472,10 @@ function getRuleAttributes(event) {
     systemRuleId = rules[0].systemRuleId;
     metricLabel = rules[0].metricLabel;
     metricFormat = rules[0].metricFormat;
+    matchingEntityType = rules[0].matchingEntityType;
+    matchingOperator = rules[0].matchingOperator;
+    matchingEntityLabel = rules[0].matchingEntityLabel;
+    offlineDuration = rules[0].offlineDuration;
   } else if (rules && rules.length > 1) {
     if (__DEV__) {
       throw new Error('Multiple rules per event are not supported yet.');
@@ -394,7 +496,11 @@ function getRuleAttributes(event) {
     severity,
     systemRuleId,
     metricLabel,
-    metricFormat
+    metricFormat,
+    matchingEntityType,
+    matchingOperator,
+    matchingEntityLabel,
+    offlineDuration
   };
 }
 
