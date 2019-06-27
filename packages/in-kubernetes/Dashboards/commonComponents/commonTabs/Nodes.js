@@ -1,12 +1,13 @@
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
-import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
@@ -46,7 +47,8 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       label: query,
       clusterId,
       timeConfig
-    }
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   });
 }
 
@@ -89,29 +91,57 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'version',
-    label: 'Version',
-    getContent(item) {
-      return item.node.version;
+    id: 'required_cpu_percentage',
+    label: 'CPU Requests',
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.node.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentageTwoDecimalPlaces}
+        />
+      );
     }
   },
   {
-    id: 'resources',
-    label: 'Resources',
-    sortable: false,
-    getContent(item) {
+    id: 'limit_cpu_percentage',
+    label: 'CPU Limits',
+    getContent(item, props, columnId) {
       return (
-        <KubernetesResources
+        <ServerSideSortedMetricValue
           snapshotId={item.node.id}
-          quotasPresent="memory, cpu"
-          cpuReqMetric="required_cpu_percentage"
-          cpuLimitsMetric="limit_cpu_percentage"
-          memReqMetric="required_mem_percentage"
-          memLimitsMetric="limit_mem_percentage"
-          cpuReqMetricFormatter={percentageTwoDecimalPlaces}
-          cpuLimitsMetricFormatter={percentageTwoDecimalPlaces}
-          memReqMetricFormatter={percentageTwoDecimalPlaces}
-          memLimitsMetricFormatter={percentageTwoDecimalPlaces}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentageTwoDecimalPlaces}
+        />
+      );
+    }
+  },
+  {
+    id: 'required_mem_percentage',
+    label: 'Memory Requests',
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.node.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentageTwoDecimalPlaces}
+        />
+      );
+    }
+  },
+  {
+    id: 'limit_mem_percentage',
+    label: 'Memory Limits',
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.node.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentageTwoDecimalPlaces}
         />
       );
     }

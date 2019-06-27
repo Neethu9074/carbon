@@ -146,12 +146,7 @@ export const getMetricForFocusedMoment = memoize(
 );
 
 export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
-  const now = Date.now();
-  const resolvedFocusedMoment = timeConfig.focusedMoment || now;
-  const availableRollupDefinitions = rollupDurationThresholds.filter(
-    rollupDefinition => resolvedFocusedMoment >= now - rollupDefinition.availableFor && rollupDefinition.rollup != null
-  );
-  const rollup = availableRollupDefinitions[0].rollup;
+  const rollup = getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP;
 
   return createHistoricMetricObservable({
     snapshotId,
@@ -228,7 +223,7 @@ export function getRollupForTimeframe(timeConfig) {
     }
   }
 
-  return 'Unknown rollup';
+  throw new Error(`Unknown rollup for ${timeConfig}`);
 }
 
 export const activeMetric = createStore({

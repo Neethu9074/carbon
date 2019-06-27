@@ -2,6 +2,7 @@ import { get, filter, some } from 'lodash';
 import { compose } from 'recompose';
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -9,12 +10,12 @@ import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import TwoValueBar from 'in-new-components/TwoValueBar';
-import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
@@ -132,7 +133,8 @@ function getTableData({
       nodeId,
       timeConfig,
       phase
-    }
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   });
 }
 
@@ -144,8 +146,8 @@ const allColumnDefinitions = [
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
-          label={get(item, ['pod', 'label'])}
-          href$={getPodDashboard(get(item, ['pod', 'id']), { deploymentId, serviceId, nodeId })}
+          label={item.pod.label}
+          href$={getPodDashboard(item.pod.id, { deploymentId, serviceId, nodeId })}
           severity={item.entityHealthInfo.maxSeverity}
         />
       );
@@ -155,7 +157,7 @@ const allColumnDefinitions = [
     id: 'namespace',
     label: 'Namespace',
     getContent(item) {
-      return get(item, ['pod', 'namespace']);
+      return item.pod.namespace;
     }
   },
   {
@@ -186,11 +188,17 @@ const allColumnDefinitions = [
     }
   },
   {
-    id: 'restarts',
+    id: 'restartCount',
     label: 'Restarts',
-    sortable: false,
-    getContent(item) {
-      return <MetricValue snapshotId={get(item, ['pod', 'id'])} metric="restartCount" formatter={zeroDecimalPlaces} />;
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.pod.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={zeroDecimalPlaces}
+        />
+      );
     }
   },
   {

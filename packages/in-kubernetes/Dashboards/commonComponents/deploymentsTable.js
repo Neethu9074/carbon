@@ -1,15 +1,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
-import MetricValue from 'in-components/MetricValue';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
@@ -55,7 +56,8 @@ function getTableData({
       clusterId,
       serviceId,
       timeConfig
-    }
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   }).map(resultTransformer);
 }
 
@@ -95,7 +97,7 @@ const columnDefinitions = [
     getContent(item) {
       return (
         <MetricBasedTwoValueBar
-          snapshotId={get(item, ['deployment', 'id'])}
+          snapshotId={item.deployment.id}
           metrics={['availableReplicas', 'desiredReplicas']}
           labels={['Available', 'Desired']}
           timeWindowAggregation={null}
@@ -106,14 +108,13 @@ const columnDefinitions = [
   {
     id: 'lastPendingPhaseDuration',
     label: 'Last Pending Phase Duration',
-    sortable: false,
-    getContent(item) {
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
-          snapshotId={get(item, ['deployment', 'id'])}
-          metric="lastDuration"
+        <ServerSideSortedMetricValue
+          snapshotId={item.deployment.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={msFormatter}
-          timeWindowAggregation="mean"
         />
       );
     }

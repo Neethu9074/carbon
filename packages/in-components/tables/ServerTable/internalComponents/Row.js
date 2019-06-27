@@ -26,16 +26,19 @@ export default function Row({
       {...rowClickHandler}
       {...rowProps}
     >
-      {keys.map(key => (
-        <Td
-          key={key}
-          noWrap={columnDefinitions[key].noWrap}
-          ellipsis={columnDefinitions[key].ellipsis}
-          className={joinClassNames(getCellClassName(columnDefinitions[key]), onRowClick ? locals.clickable : null)}
-        >
-          {columnDefinitions[key].getContent(item, cellOpts)}
-        </Td>
-      ))}
+      {keys.map(key => {
+        const columnDefinition = columnDefinitions[key];
+        return (
+          <Td
+            key={key}
+            noWrap={columnDefinition.noWrap}
+            ellipsis={columnDefinition.ellipsis}
+            className={joinClassNames(getCellClassName(columnDefinition), onRowClick ? locals.clickable : null)}
+          >
+            {columnDefinition.getContent(item, cellOpts, columnDefinition.id)}
+          </Td>
+        );
+      })}
     </Tr>
   );
 }

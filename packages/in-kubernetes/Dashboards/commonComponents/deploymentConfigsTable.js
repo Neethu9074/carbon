@@ -1,15 +1,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
+import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
-import MetricValue from 'in-components/MetricValue';
+import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
@@ -55,7 +56,8 @@ function getTableData({
       clusterId,
       serviceId,
       timeConfig
-    }
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   }).map(resultTransformer);
 }
 
@@ -106,14 +108,13 @@ const columnDefinitions = [
   {
     id: 'lastPendingPhaseDuration',
     label: 'Last Pending Phase Duration',
-    sortable: false,
-    getContent(item) {
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
-          snapshotId={get(item, ['deploymentConfig', 'id'])}
-          metric="lastDuration"
+        <ServerSideSortedMetricValue
+          snapshotId={item.deploymentConfig.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={msFormatter}
-          timeWindowAggregation="mean"
         />
       );
     }
