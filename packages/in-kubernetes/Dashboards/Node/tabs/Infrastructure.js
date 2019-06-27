@@ -6,7 +6,7 @@ import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-compone
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import getKubernetesHostByNode from 'in-subscription/kubernetes/getKubernetesHostByNode';
+import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import EntityLink from 'in-new-components/EntityLink';
@@ -16,7 +16,12 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({
-    hostResult: getKubernetesHostByNode({ nodeId, timeConfig }).map(hostResult => {
+    hostResult: getHostByKubernetesNode({
+      filter: {
+        nodeId,
+        timeConfig
+      }
+    }).map(hostResult => {
       if (!hostResult || !hostResult.data) {
         return hostResult;
       }

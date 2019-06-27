@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
 
-import getKubernetesHostByNode from 'in-subscription/kubernetes/getKubernetesHostByNode';
+import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -13,7 +13,12 @@ import locals from './KubernetesHost.mless';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({
-    hostResult: getKubernetesHostByNode({ nodeId, timeConfig }).map(hostResult => {
+    hostResult: getHostByKubernetesNode({
+      filter: {
+        nodeId,
+        timeConfig
+      }
+    }).map(hostResult => {
       if (!hostResult || !hostResult.data) {
         return hostResult;
       }
