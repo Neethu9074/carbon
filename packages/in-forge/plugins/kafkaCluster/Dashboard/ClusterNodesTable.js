@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, ms } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -27,7 +27,23 @@ const cols = [
     }
   },
   {
-    title: 'All Brokers Messages In',
+    title: 'Partitions',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'broker.partitionCount';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Messages In',
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,6 +53,38 @@ const cols = [
         return 'broker.messagesIn';
       },
       getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Bytes In',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'broker.bytesIn';
+      },
+      getContent: bytesZeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: 'Bytes Out',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'broker.bytesOut';
+      },
+      getContent: bytesZeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
