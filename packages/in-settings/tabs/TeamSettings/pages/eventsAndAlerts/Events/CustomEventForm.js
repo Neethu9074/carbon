@@ -37,7 +37,6 @@ import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/Applicat
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { entityVerificationRuleEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -289,8 +288,7 @@ function EventForm({
 
       {form.get('dataSource').value === dataSourceSystem && ConditionsForSystemRuleSource(form, systemRules, onChange)}
 
-      {entityVerificationRuleEnabled &&
-        form.get('systemRule') &&
+      {form.get('systemRule') &&
         form.get('systemRule').value === entityVerification.id && (
           <ObserveHostHasMatchingEntitiesRunningFormGroup
             form={form}

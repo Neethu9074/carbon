@@ -6,7 +6,6 @@ import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecif
 import { getPlainMetricList, isBuiltInMetric, isMetricPercentile } from 'in-sdk/metrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
-import { entityVerificationRuleEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
@@ -26,9 +25,7 @@ export const entityVerification = Object.freeze({
   name: 'Hosts that do not have matching entities running on them'
 });
 
-export const systemRules = entityVerificationRuleEnabled
-  ? Object.freeze([offlineEventDetection, entityVerification])
-  : Object.freeze([offlineEventDetection]);
+export const systemRules = Object.freeze([offlineEventDetection, entityVerification]);
 
 export function createEventFormDefinition(event, isCreate) {
   const mutableEvent = getMutableEvent(event);

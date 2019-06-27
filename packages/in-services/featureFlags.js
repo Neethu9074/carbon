@@ -32,7 +32,6 @@ export const internalMonitoringUnit = isFeatureFlagEnabled('internalMonitoringUn
 export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetricAggregationEnabled');
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
-export const entityVerificationRuleEnabled = isFeatureFlagEnabled('entityVerificationRuleEnabled');
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
