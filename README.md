@@ -15,6 +15,7 @@
   * [Simon Sort](#simon-sort)
   * [Running Prettier On Save](#running-prettier-on-save)
     + [VIM](#vim)
+    + [VS Code](#vs-code)
     + [IntelliJ & Co](#intellij--co)
 - [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
@@ -67,8 +68,8 @@ As alternative (especially for Linux), you might use the `nginx` script as provi
 
 So, you are a UI engineer? Then you will also need the following awesome software for your awesome work!
 
+- [Abstract](https://www.abstract.com/): This is our tool of choice for designs. The tool has a version control for sketch files and is used through the design team. It's free of charge, too.
 - [Chrome Extension](https://github.com/instana/internal-tools/tree/master/chrome-browser-extension): We have our own Chrome dev tools extension which allows insights into the state of our global stores.
-- [Sketch](https://www.sketchapp.com/): This is our tool of choice for mockups and designs. You have to hit the `Free Trial` button to download it. You can get a license from Michael Krumm (just ask via Slack).
 - [SFPro font](https://developer.apple.com/fonts/downloads/SFPro.zip): This is the default MacOS system font that we are using in our product. Unfortunately, this font can only be used in Sketch when installed separately.
 
 ### Setting up local domains
@@ -130,8 +131,8 @@ _CAUTION:_ If you use `git add --patch` to only commit a portion of a file's cha
 There is one style rule that is not automatically enforced or taken care of (yet): _Simon sort_. This is our rule on how to sort imports in ES6 files. We split all imports into three blocks (not all three blocks are present in each file):
 
 1. Third party imports (React, Lodash, ...) first, then
-1. Instana imports (everything from one of the packages in `ui-client/packages/`, and finally
-1. CSS/LESS imports (all `*.less` and `*.mless` files).
+2. Instana imports (everything from one of the packages in `ui-client/packages/`, and finally
+3. CSS/LESS imports (all `*.less` and `*.mless` files).
 
 These blocks are separated by a new line. The first import block usually starts at the first line of the file (that is, there is nothing else above the imports).
 
@@ -170,6 +171,10 @@ export default function CallTree({
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
 ```
+
+#### VS Code
+
+- Install the "Prettier - Code formatter" code extension.
 
 #### IntelliJ & Co
 
@@ -247,11 +252,15 @@ If the problem is still not resolved, try running `yarn run test:flow`. Should t
 ### Problem with pngquant on Ubuntu?
 
 In case you are using e.g. Ubuntu and installing `pngquant` is making troubles like `npm ERR! Failed at the pngquant-bin@4.0.0 postinstall script.`, try to do the following:
+
 1. Ensure libpng-dev is installed:
+
 ```
 $ apt-get install libpng-dev`
 ```
+
 2. On Ubuntu, you even might need to install `libpng12`:
+
 ```
 $ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
     && sudo dpkg -i /tmp/libpng12.deb \
