@@ -50,6 +50,7 @@ gulp.task('askForDevOptions', cb => {
   var testEnvironment = {
     uiBackendUrl: 'https://test-instana.instana.io',
     butlerUrl: 'https://test-instana.instana.io',
+    integrationUrl: 'https://test-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'test',
     environment: 'saas',
@@ -58,6 +59,7 @@ gulp.task('askForDevOptions', cb => {
   var sensorsEnvironment = {
     uiBackendUrl: 'https://sensors-instana.instana.io',
     butlerUrl: 'https://sensors-instana.instana.io',
+    integrationUrl: 'https://sensors-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'sensors',
     environment: 'saas',
@@ -67,6 +69,7 @@ gulp.task('askForDevOptions', cb => {
     uiBackendUrl: 'http://localhost:8080',
     websocketEndpoint: 'http://localhost:8082/',
     butlerUrl: 'http://localhost:8480',
+    integrationUrl: 'http://localhost:8182',
     local: true,
     tenant: 'instana',
     tenantUnit: 'local',
@@ -170,6 +173,7 @@ gulp.task('askForDevOptions', cb => {
       selectedOptions.target = {
         uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
         butlerUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
+        integrationUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
         tenant: selectedOptions.tenant,
         tenantUnit: selectedOptions.tenantUnit,
         butlerDomain: selectedOptions.environment.butlerDomain,
@@ -200,6 +204,7 @@ gulp.task('startDevProxy', function startDevProxy() {
   const envConfig = devModeOptions.target;
   const uiBackendUrl = envConfig.uiBackendUrl;
   const butlerUrl = envConfig.butlerUrl;
+  const integrationUrl = envConfig.integrationUrl;
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
   const httpProxy = {
@@ -211,7 +216,8 @@ gulp.task('startDevProxy', function startDevProxy() {
     '/secured/': butlerUrl + '/secured/',
     '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
     '/notifications/': 'https://instana.github.io/ui-notifications/content/',
-    '/integration/': butlerUrl + '/integration/'
+    '/registration/slack/': butlerUrl + '/registration/slack',
+    '/integration/': integrationUrl + '/integration/'
   };
 
   if (hotReload) {
