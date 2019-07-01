@@ -96,5 +96,11 @@ function createForm(permissionSet) {
       createField({
         value: permissionSet.get('kubernetesNamespaceUIDs', List())
       })
+    )
+    .put(
+      'websiteIds',
+      createField({
+        value: permissionSet.get('websiteIds', List())
+      })
     );
 }

@@ -39,6 +39,14 @@ export function getK8sNamespaces() {
   }).map(response => response.body.items);
 }
 
+export function getWebsites() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/website-monitoring/config'
+  }).map(response => response.body);
+}
+
 function defaultQuery() {
   return {
     filter: { timeConfig: {} },
@@ -82,7 +90,8 @@ export function createPermissionSet(
   permissions = [],
   applicationIds = [],
   kubernetesClusterUUIDs = [],
-  kubernetesNamespaceUIDs = []
+  kubernetesNamespaceUIDs = [],
+  websiteIds = []
 ) {
   return {
     id: null,
@@ -90,6 +99,7 @@ export function createPermissionSet(
     permissions,
     applicationIds,
     kubernetesClusterUUIDs,
-    kubernetesNamespaceUIDs
+    kubernetesNamespaceUIDs,
+    websiteIds
   };
 }

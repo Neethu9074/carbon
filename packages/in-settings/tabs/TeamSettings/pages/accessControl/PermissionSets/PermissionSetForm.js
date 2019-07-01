@@ -7,8 +7,9 @@ import Applications, {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Applications';
 import K8sNamespaces from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sNamespaces';
 import K8sClusters from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/K8sClusters';
+import Websites from 'in-settings/tabs/TeamSettings/pages/accessControl/PermissionSets/components/Websites';
+import { getK8sNamespaces, getApplications, getK8sClusters, getWebsites } from 'in-api/permissionSets';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { getK8sNamespaces, getApplications, getK8sClusters } from 'in-api/permissionSets';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -24,6 +25,7 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
   const selectedK8sNamespaces = form.get('kubernetesNamespaceUIDs')
     ? form.get('kubernetesNamespaceUIDs').value.toJS()
     : [];
+  const selectedWebsites = form.get('websiteIds') ? form.get('websiteIds').value.toJS() : [];
 
   return (
     <fieldset>
@@ -128,6 +130,30 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
         }
       />
       <TouchedMessages field={form.get('kubernetesNamespaceUIDs')} />
+
+      <Websites
+        setTitle={false}
+        loadEntities={() => getSelectedWebsites(selectedWebsites)}
+        hasRowNavigation={false}
+        noDataMessage="No Website Selected"
+        tableActions={websiteSelectionTableActions(form, setForm)}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitWebsiteSelection(form, setForm, selectedIds)}
+            title="Add Website"
+            label="Add Website"
+            listComponent={Websites}
+            listComponentRightHeader={noRightHeader}
+            hiddenIds={selectedWebsites}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0 ? `Add ${numberOfItems} Website${numberOfItems > 1 ? 's' : ''}` : 'Add'
+            }
+            requiresAtLeastOneMessage="Please select at least one website."
+          />
+        }
+      />
+      <TouchedMessages field={form.get('websiteIds')} />
     </fieldset>
   );
 }
@@ -152,6 +178,14 @@ function getSelectedK8sNamespaces(selectedK8sNamespaces = []) {
   return getK8sNamespaces().map(k8sNamespace =>
     filter(k8sNamespace, function(namespace) {
       return selectedK8sNamespaces.indexOf(namespace.id) >= 0;
+    })
+  );
+}
+
+function getSelectedWebsites(selectedWebsites = []) {
+  return getWebsites().map(website =>
+    filter(website, function(web) {
+      return selectedWebsites.indexOf(web.id) >= 0;
     })
   );
 }
@@ -210,6 +244,24 @@ function k8sNamespaceSelectionTableActions(form, setForm) {
   };
 }
 
+function websiteSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          setForm(
+            form.updateIn(['websiteIds'], field => {
+              return field
+                .setValue(field.value.filterNot(referencedId => referencedId === deselectedEntity.id))
+                .setTouched(true);
+            })
+          );
+        }
+      }
+    }
+  };
+}
+
 function submitApplicationSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['applicationIds'], field => {
@@ -229,6 +281,14 @@ function submitK8sClusterSelection(form, setForm, selectedIds) {
 function submitK8sNamespaceSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['kubernetesNamespaceUIDs'], field => {
+      return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
+    })
+  );
+}
+
+function submitWebsiteSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['websiteIds'], field => {
       return field.setValue(field.value.concat(fromJS(selectedIds))).setTouched(true);
     })
   );

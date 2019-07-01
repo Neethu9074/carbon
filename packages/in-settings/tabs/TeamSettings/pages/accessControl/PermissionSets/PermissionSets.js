@@ -64,6 +64,14 @@ const columnDefinitions = [
     getContent(entity) {
       return <span>{entity.kubernetesNamespaceUIDs ? entity.kubernetesNamespaceUIDs.length : 0}</span>;
     }
+  },
+  {
+    id: 'websiteCount',
+    label: 'Websites',
+    width: 10,
+    getContent(entity) {
+      return <span>{entity.websiteIds ? entity.websiteIds.length : 0}</span>;
+    }
   }
 ];
 
