@@ -19,6 +19,14 @@ export function getApplications() {
   }).map(response => response.body);
 }
 
+export function getWebsites() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/permission-sets/websites'
+  }).map(response => response.body);
+}
+
 export function getK8sClusters() {
   return http({
     method: 'POST',
@@ -37,14 +45,6 @@ export function getK8sNamespaces() {
     url: '/api/kubernetes/namespaces',
     data: defaultQuery()
   }).map(response => response.body.items);
-}
-
-export function getWebsites() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: '/api/website-monitoring/config'
-  }).map(response => response.body);
 }
 
 function defaultQuery() {
