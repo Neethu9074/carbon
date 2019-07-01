@@ -1,6 +1,7 @@
 import googleChatChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/googleChatChannelConfig';
 import office365ChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/office365ChannelConfig';
 import PagerdutyChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/pagerdutyChannelConfig';
+import victorOpsChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/victorOpsChannelConfig';
 import opsgenieChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/opsgenieChannelConfig';
 import webhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/webhookChannelConfig';
 import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/splunkChannelConfig';
@@ -15,7 +16,8 @@ export const configs = {
   office365: office365ChannelConfig,
   webhook: webhookChannelConfig,
   splunk: splunkChannelConfig,
-  googleChat: googleChatChannelConfig
+  googleChat: googleChatChannelConfig,
+  victorOps: victorOpsChannelConfig
 };
 
 export const fullyQualified = {};
@@ -27,5 +29,6 @@ fullyQualified[configs.slack.name] = configs.slack;
 fullyQualified[configs.webhook.name] = configs.webhook;
 fullyQualified[configs.splunk.name] = configs.splunk;
 fullyQualified[configs.googleChat.name] = configs.googleChat;
+fullyQualified[configs.victorOps.name] = configs.victorOps;
 
 export default configs;

@@ -22,6 +22,7 @@ export default function AlertChannelSwitch({ onClick, selectedType }) {
       <Row>
         <AlertChannelButton type="splunk" selectedType={selectedType} onClick={onClick} />
         <AlertChannelButton type="googleChat" selectedType={selectedType} onClick={onClick} />
+        <AlertChannelButton type="victorOps" selectedType={selectedType} onClick={onClick} />
       </Row>
     </div>
   );
