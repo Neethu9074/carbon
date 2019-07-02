@@ -25,6 +25,7 @@ import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMappin
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
+import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import TuStatistics from 'in-internal/monitoringUnit/TuStatistics';
@@ -36,7 +37,6 @@ import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
 import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
-import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 

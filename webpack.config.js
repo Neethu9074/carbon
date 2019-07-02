@@ -25,7 +25,7 @@ const definePlugin = new webpack.DefinePlugin({
 
 const plugins = [
   definePlugin,
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
+  new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
   new ExtractTextPlugin({
     filename: 'index.css',
     disable: false,

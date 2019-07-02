@@ -17,5 +17,6 @@ module.exports = {
   internalMonitoringUnit: true,
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
-  isAdhocMetricAggregationEnabled: true
+  isAdhocMetricAggregationEnabled: true,
+  customDashboardsEnabled: true
 };
