@@ -20,7 +20,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['throughput'],
             labels: ['Throughput (ops/sec)'],
-            formatter: number.detailed,
+            formatter: number,
             type: 'line'
           }}
         />
@@ -49,7 +49,7 @@ export default function RedisClusterDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['expired_keys', 'evicted_keys'],
             labels: ['Keys Expired', 'Keys Evicted'],
-            formatter: number.detailed,
+            formatter: number,
             type: 'line'
           }}
         />
