@@ -16,7 +16,7 @@ export default function EntityVersionListPresenter({ plugin, snapshotVersions })
       <PluginIcon className={locals.icon} plugin={plugin} dimension={48} />
       <h2 className={locals.title}>{`${getSingular(plugin)} not found`}</h2>
       <p className={locals.explanation}>
-        We could not find a version of this pod in the selected time range. We found other versions in different time
+        We could not find a version of this entity in the selected time range. We found other versions in different time
         ranges:
       </p>
 
