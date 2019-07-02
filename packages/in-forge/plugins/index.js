@@ -113,6 +113,7 @@ import './prometheus';
 import './pythonRuntimePlatform';
 import './rabbitMq';
 import './redis';
+import './redisCluster';
 import './rubyRuntimePlatform';
 import './sapHana';
 import './sybase';

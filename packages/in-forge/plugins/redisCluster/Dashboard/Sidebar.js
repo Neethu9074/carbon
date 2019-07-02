@@ -1,0 +1,21 @@
+import React, { Fragment } from 'react';
+
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+
+import Info from 'in-forge/plugins/redisCluster/Info.js';
+
+export default function RedisClusterSidebar({ snapshot }) {
+  return (
+    <Fragment>
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>Redis Cluster</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
+      <ServiceInstancesList snapshot={snapshot} />
+    </Fragment>
+  );
+}

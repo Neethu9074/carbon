@@ -207,7 +207,7 @@ function hasSomeNonClusterTechnologies(entity) {
   });
 }
 
-const clusterTechnologies = ['elasticsearchCluster', 'cassandraCluster', 'couchbaseCluster', 'kubernetesService'];
+const clusterTechnologies = ['elasticsearchCluster', 'cassandraCluster', 'couchbaseCluster', 'kubernetesService', 'redisCluster'];
 
 function isClusterTechnology(technology) {
   return clusterTechnologies.includes(technology);
