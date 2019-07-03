@@ -57,7 +57,18 @@ function columnDefinitions() {
             subscript={
               entity.applicationIds.length +
               ' Application Perspective' +
-              (entity.applicationIds.length === 1 ? '' : 's')
+              (entity.applicationIds.length === 1 ? '' : 's') +
+              ', ' +
+              entity.websiteIds.length +
+              ' Website' +
+              (entity.websiteIds.length === 1 ? '' : 's') +
+              ', ' +
+              entity.kubernetesClusterUUIDs.length +
+              ' Kubernetes Cluster' +
+              ', ' +
+              entity.kubernetesNamespaceUIDs.length +
+              ' Kubernetes Namespace' +
+              (entity.kubernetesNamespaceUIDs.length === 1 ? '' : 's')
             }
           >
             <span className={locals.ellipsis}>{entity.name}</span>
