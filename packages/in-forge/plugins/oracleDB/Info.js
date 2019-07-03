@@ -10,6 +10,7 @@ export default function OracleDBInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
       <DescriptionItem title="Oracle SID">{data.get('databaseSID')}</DescriptionItem>
+      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title="CPU Count">{data.get('cpuCount')}</DescriptionItem>
       <DescriptionItem title="Max Sessions">{data.get('maxSessions')}</DescriptionItem>
