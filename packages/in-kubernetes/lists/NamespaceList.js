@@ -11,6 +11,7 @@ import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/p
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import ListTitle from 'in-new-components/lists/Title';
 import { timeConfig$ } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import Title from 'in-components/Title';
 import connect from 'in-hoc/connectTo';
 
@@ -50,6 +51,7 @@ function NamespaceList({ timeConfig }) {
         defaultOrderBy="label"
         defaultOrderDirection="ASC"
       />
+      <Footer />
     </Fragment>
   );
 }
