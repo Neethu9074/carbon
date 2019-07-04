@@ -59,7 +59,9 @@ const blacklists = {
       'process.snapshotId': true,
       'cluster.snapshotId': true,
       'call.span_type': !isInstanaEngineer,
-      'call.processing_errors': !isInstanaEngineer
+      'call.processing_errors': !isInstanaEngineer,
+      'service.rule_id': !isInstanaEngineer,
+      'source.service.rule_id': !isInstanaEngineer
     };
     return tag => blacklist[tag];
   })(),
