@@ -23,9 +23,14 @@ function addZendeskStyles() {
       color: {
         theme: '#00B3B3',
         launcherText: '#fff'
-      }
+      },
+      zIndex: 100
     }
   };
+}
+
+export function shouldShowFloatingFooter() {
+  return getUsageInfo().map(usageInfo => usageInfo.activeLicenseType === 'selfService');
 }
 
 function addZendeskSnippet() {
