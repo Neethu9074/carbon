@@ -47,9 +47,9 @@ exports.getFeatureFlags = (tenant, unit) =>
         internalMonitoringUnit,
         isRbacEnabled,
         isAdhocMetricAggregationEnabled,
+        customDashboardsEnabled,
         trackUrlPathChanges,
-        samplingIndicatorEnabled,
-        customDashboardsEnabled
+        samplingIndicatorEnabled
       ]) => ({
         isSelfService,
         isKubernetesV2Enabled,
