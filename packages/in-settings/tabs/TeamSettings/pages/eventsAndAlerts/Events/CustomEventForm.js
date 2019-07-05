@@ -558,6 +558,9 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     'kubernetesNamespace',
     'kubernetesNode',
     'kubernetesPod',
+    'kubernetesReplicaSet',
+    'mongoDbReplicaSet',
+    'openshiftDeploymentConfig',
     'redisCluster',
     'service'
   ]);
