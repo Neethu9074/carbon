@@ -554,6 +554,10 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     'host',
     'kafkaCluster',
     'kubernetesCluster',
+    'kubernetesDeployment',
+    'kubernetesNamespace',
+    'kubernetesNode',
+    'kubernetesPod',
     'redisCluster',
     'service'
   ]);
