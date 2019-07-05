@@ -74,3 +74,5 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail && !currentTu;
 // See https://instana.slack.com/archives/GC1J42ZSR/p1550591400029100 or ask the Stan team for details.
 // #####################################################################################################################
 export const ruleDeprecationValidationChecksEnabled = isFeatureFlagEnabled('ruleDeprecationValidationChecksEnabled');
+
+export const addStaticJsonPayloadToEventsConfig = config.tenant === 'adptemp';
