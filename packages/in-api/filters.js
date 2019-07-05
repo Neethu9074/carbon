@@ -1,14 +1,13 @@
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import config from 'in-services/config';
 import http from 'in-services/http';
 
 export function getAllFilters() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/ump/${config.tenant}/${config.tenantUnit}/filters`
+    url: `/api/filters`
   }).map(response => {
     response.body.sort((a, b) => a.name.localeCompare(b.name));
     return fromJS(response.body);
@@ -18,7 +17,7 @@ export function getAllFilters() {
 export function saveNewFilter(name, definition) {
   return http({
     method: 'POST',
-    url: `/ump/${config.tenant}/${config.tenantUnit}/filters`,
+    url: `/api/filters`,
     headers: getCsrfHeader(),
     data: {
       name,
@@ -31,7 +30,7 @@ export function saveFilter(id, name, definition) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/ump/${config.tenant}/${config.tenantUnit}/filters/${encodeURIComponent(id)}`,
+    url: `/api/filters/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: {
       id,
@@ -46,6 +45,6 @@ export function removeFilter(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/ump/${config.tenant}/${config.tenantUnit}/filters/${encodeURIComponent(id)}`
+    url: `/api/filters/${encodeURIComponent(id)}`
   }).map(response => response.body);
 }
