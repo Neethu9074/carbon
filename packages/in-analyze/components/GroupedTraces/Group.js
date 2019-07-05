@@ -3,6 +3,7 @@ import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
+import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEntityLink';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -10,6 +11,7 @@ import { groupClickedTracker } from 'in-analyze/tracker';
 import { operators } from 'in-analyze/applicationFilter';
 import { createFilter } from 'in-analyze/filterBuilder';
 import { number } from 'in-services/formatters/number';
+import { isInstanaEngineer } from 'in-stores/user';
 import { isBlank } from 'in-services/util/string';
 import { getTagType } from 'in-applications/tags';
 import Link from 'in-components/Link';
@@ -52,6 +54,16 @@ export default function Group({
           >
             {getItemLabel(item)}
           </Link>
+
+          {// internal feature: link to infrastructure entity when group value is a snapshot id
+          isInstanaEngineer && (
+            <div className={locals.snapshotEntityLink}>
+              <SnapshotEntityLink
+                snapshotId={filters.group.name.indexOf('snapshotId') > 0 ? item.name : null}
+                time={item.timestamp}
+              />
+            </div>
+          )}
         </div>
       </Td>
 
