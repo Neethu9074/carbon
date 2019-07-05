@@ -541,8 +541,31 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
 }
 
 function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
-  const entityTypesToExclude = ['Application', 'Service', 'Endpoint', 'Host'];
-  const entityTypeOptions = entityTypes.filter(({ label }) => entityTypesToExclude.indexOf(label) === -1);
+  const entityTypesToExclude = Object.freeze([
+    'application',
+    'awsEbs',
+    'awsLambda',
+    'cassandraCluster',
+    'cockroachDBCluster',
+    'consulCluster',
+    'couchbaseCluster',
+    'elasticsearchCluster',
+    'endpoint',
+    'hazelcastCluster',
+    'host',
+    'kafkaCluster',
+    'kubernetesCluster',
+    'kubernetesDeployment',
+    'kubernetesNamespace',
+    'kubernetesNode',
+    'kubernetesPod',
+    'kubernetesReplicaSet',
+    'mongoDbReplicaSet',
+    'openshiftDeploymentConfig',
+    'ping',
+    'redisCluster',
+    'service'
+  ]);
 
   const entityLabelOperatorOptions = Object.freeze([
     { value: 'is', label: 'is' },
@@ -558,6 +581,8 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     { value: '300000', label: '5 min' },
     { value: '600000', label: '10 min' }
   ]);
+
+  const entityTypeOptions = entityTypes.filter(({ value }) => entityTypesToExclude.indexOf(value) === -1);
 
   const matchingEntityType = form.get('matchingEntityType');
   const matchingOperator = form.get('matchingOperator');
