@@ -543,6 +543,7 @@ function MetricSelectionFormGroup(form, customMetrics, onChange) {
 function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
   const entityTypesToExclude = Object.freeze([
     'application',
+    'awsEbs',
     'awsLambda',
     'cassandraCluster',
     'cockroachDBCluster',
@@ -561,6 +562,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     'kubernetesReplicaSet',
     'mongoDbReplicaSet',
     'openshiftDeploymentConfig',
+    'ping',
     'redisCluster',
     'service'
   ]);
