@@ -14,6 +14,7 @@ import { number, meanLatencyFixed, percentage } from 'in-services/formatters/num
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
@@ -54,7 +55,8 @@ function getTable(type) {
 }
 
 const InfrastructureEntityLink = connectTo(({ entity }) => ({
-  snapshot: entity && entity.id && getSnapshot(entity.id)
+  // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
+  snapshot: entity && entity.id && entity.time && getSnapshot(entity.id, getTimeConfigAtMoment(entity.time))
 }))(function InfrastructureEntityLink({
   entity,
   snapshot,
@@ -226,7 +228,7 @@ function getTableData({
   type
 }) {
   return getInfrastructure({
-    category: type === 'CONTAINER' ? 'DOCKER' : type,
+    category: type,
     pagination: {
       page,
       pageSize
@@ -302,7 +304,7 @@ function getColumnDefinitions(type) {
         return item.physicalContext.container ? (
           <InfrastructureEntityLink
             entity={item.physicalContext.container}
-            plugin={plugins.docker}
+            plugin={item.physicalContext.container.plugin}
             inEntity={kubernetesPhysicalContext.pod}
             onEntity={kubernetesPhysicalContext.namespace}
             inIcon="lib_kubernetes_pod"
