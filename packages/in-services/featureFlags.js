@@ -33,6 +33,7 @@ export const isAdhocMetricAggregationEnabled = isFeatureFlagEnabled('isAdhocMetr
 export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
+export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', false);
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 

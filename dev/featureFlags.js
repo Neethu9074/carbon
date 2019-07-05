@@ -18,5 +18,6 @@ module.exports = {
   isRbacEnabled: true,
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
-  customDashboardsEnabled: true
+  customDashboardsEnabled: true,
+  unmonitoredHostsEnabled: false
 };

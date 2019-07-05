@@ -1,9 +1,9 @@
 import { combineLatest } from 'reactive-observables';
 
+import { isRbacEnabled, unmonitoredHostsEnabled } from 'in-services/featureFlags';
 import createViewStructureObservable from 'in-subscription/view';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
 import { viewGrouping$ } from 'in-stores/view/viewGrouping';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSetting$ } from 'in-services/settings';
@@ -28,7 +28,7 @@ export function getViewStructure() {
     return createViewStructureObservable({
       viewType,
       timeConfig,
-      unmonitoredHostsExcluded: excludeUnmonitoredHosts,
+      unmonitoredHostsExcluded: !(unmonitoredHostsEnabled && !excludeUnmonitoredHosts),
       grouping
     }).map(_viewStructure => {
       const groupIds = {};
