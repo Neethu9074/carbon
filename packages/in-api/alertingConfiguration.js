@@ -73,7 +73,8 @@ export function createAlertingConfig(
   integrationIds = [],
   ruleIds = [],
   query = '',
-  eventTypes = []
+  eventTypes = [],
+  advancedJsonPayload
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -84,6 +85,7 @@ export function createAlertingConfig(
       query,
       ruleIds,
       eventTypes
-    }
+    },
+    advancedJsonPayload
   };
 }

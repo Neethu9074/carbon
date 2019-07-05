@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+
+:local {
+  .editor {
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_small;
+    margin-bottom: 12px;
+  }
+
+  .title {
+    color: @lib__colors__N700Medium;
+    padding-bottom: 8px;
+  }
+
+  .errorMsg {
+    display: flex;
+    align-items: center;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_small;
+    background-color: @lib__colors__N200;
+    color: @lib__colors__N700Medium;
+    margin: 0;
+    height: 50px;
+    padding: 8px;
+  }
+}

@@ -16,8 +16,10 @@ import {
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
+import { addStaticJsonPayloadToEventsConfig } from 'in-services/featureFlags';
 import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { staticJsonPayloadFieldName } from './components/Step5';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
@@ -144,6 +146,11 @@ function createForm(alertEntity, isCreate) {
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
   const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
 
+  let staticJsonPayload;
+  if (addStaticJsonPayloadToEventsConfig) {
+    staticJsonPayload = alertEntity.get(staticJsonPayloadFieldName);
+  }
+
   let form = createMapForm()
     .put(
       'name',
@@ -197,6 +204,17 @@ function createForm(alertEntity, isCreate) {
         validator: notBlankValidator
       })
     );
+
+  if (addStaticJsonPayloadToEventsConfig) {
+    if (staticJsonPayload) {
+      form = form.put(
+        staticJsonPayloadFieldName,
+        createField({
+          value: staticJsonPayload
+        })
+      );
+    }
+  }
 
   if (eventSelectionMode === modeEventTypes) {
     form = putEventTypesField(form, eventTypes);
@@ -366,6 +384,11 @@ function save(alertEntity, form) {
     modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
   const scopeType = form.get('applyOn').value;
 
+  let advancedJsonPayload;
+  if (addStaticJsonPayloadToEventsConfig) {
+    advancedJsonPayload = form.get(staticJsonPayloadFieldName) && form.get(staticJsonPayloadFieldName).value;
+  }
+
   submitAlertTracker({
     numOfAlertChannels: selectedAlertChannels.length,
     numOfEvents: selectedEvents ? selectedEvents.length : 0,
@@ -382,7 +405,8 @@ function save(alertEntity, form) {
         selectedAlertChannels,
         selectedEvents,
         query,
-        eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null
+        eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null,
+        advancedJsonPayload
       )
     )
   );

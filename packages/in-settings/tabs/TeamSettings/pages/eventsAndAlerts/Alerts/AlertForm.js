@@ -1,3 +1,4 @@
+/* eslint-disable no-console */ // TODO: remove later
 import React from 'react';
 
 import FormDataEnrichment from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/FormDataEnrichment';
@@ -5,6 +6,8 @@ import Step1 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/co
 import Step2 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import Step3 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step3';
 import Step4 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step4';
+import Step5 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step5';
+import { addStaticJsonPayloadToEventsConfig } from 'in-services/featureFlags';
 
 export default function AlertForm({ form, onChange, onChangeEventSelectionMode, onChangeApplyOn, setForm }) {
   return (
@@ -19,6 +22,7 @@ export default function AlertForm({ form, onChange, onChangeEventSelectionMode, 
       />
       <Step3 form={form} onChange={onChange} onChangeApplyOn={onChangeApplyOn} setForm={setForm} />
       <Step4 form={form} setForm={setForm} />
+      {addStaticJsonPayloadToEventsConfig && <Step5 form={form} onChange={onChange} setForm={setForm} />}
     </fieldset>
   );
 }
