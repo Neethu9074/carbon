@@ -8,7 +8,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -389,7 +388,6 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
           </Row>
         </Col>
       </Row>
-      <Footer />
     </Fragment>
   );
 });

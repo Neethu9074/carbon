@@ -14,7 +14,6 @@ module.exports = {
     overlaysInContentArea: zIndex++,
     // a select box can be within an overlay
     selectBoxFlyouts: zIndex++,
-    mapOverlayControls: zIndex++,
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
