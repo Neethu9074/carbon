@@ -1,6 +1,0 @@
-/* Footer height is set to 4rem in order to prevet Zendesk chat widget from overlapping content */
-:local {
-  .footer {
-    height: 4rem;
-  }
-}
