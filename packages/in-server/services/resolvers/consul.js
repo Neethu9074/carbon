@@ -36,7 +36,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`, false),
       getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true)
     ]).then(
       ([
         isSelfService,
