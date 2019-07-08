@@ -1,7 +1,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .callStatus {
+  .callErrorDetailsWrapper {
     display: flex;
     align-items: center;
 
@@ -12,7 +12,7 @@
   }
 
   .errorIndicator,
-  .callStatusInformation {
+  .callErrorDetails {
     display: flex;
     align-items: center;
 
