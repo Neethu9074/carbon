@@ -8,10 +8,12 @@ import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
 import { releaseNotesEnabled, kubernetesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
+import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
+import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -100,10 +102,17 @@ export default function ViewSwitcher({
           label="Analyze"
           icon="lib_analyze_inverted"
           isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView)}
-          href$={getLinkToAnalyze({
-            dataSource: 'traces',
-            groupByTag: getConfigByDataSource('traces').defaultGrouping
-          })}
+          href$={
+            hasApplicationsAccess
+              ? getLinkToAnalyze({
+                  dataSource: 'traces',
+                  groupByTag: getConfigByDataSource('traces').defaultGrouping
+                })
+              : getLinkToWebsiteAnalyze({
+                  beaconType: 'pageLoad',
+                  group: defaultWebsiteGroupings.pageLoad
+                })
+          }
           {...commonProps}
         />
       )}
