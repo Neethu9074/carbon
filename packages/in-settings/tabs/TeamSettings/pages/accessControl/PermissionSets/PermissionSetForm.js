@@ -93,8 +93,8 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
           <SelectListDialogButton
             form={form}
             onSubmit={selectedIds => submitK8sClusterSelection(form, setForm, selectedIds)}
-            title="Add Kubernets Clusters"
-            label="Add Kubernets Clusters"
+            title="Add Kubernetes Clusters"
+            label="Add Kubernetes Clusters"
             listComponent={K8sClusters}
             listComponentRightHeader={noRightHeader}
             hiddenIds={selectedK8sClusters}
@@ -117,8 +117,8 @@ export default function PermissionSetForm({ form, setForm, onChange }) {
           <SelectListDialogButton
             form={form}
             onSubmit={selectedIds => submitK8sNamespaceSelection(form, setForm, selectedIds)}
-            title="Add Kubernets Namespaces"
-            label="Add Kubernets Namespaces"
+            title="Add Kubernetes Namespaces"
+            label="Add Kubernetes Namespaces"
             listComponent={K8sNamespaces}
             listComponentRightHeader={noRightHeader}
             hiddenIds={selectedK8sNamespaces}
