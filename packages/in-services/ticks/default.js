@@ -1,4 +1,9 @@
-export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo) {
+export default function getTickPositions(scale) {
+  const rangeFrom = scale.getRangeFrom();
+  const rangeTo = scale.getRangeTo();
+  const domainFrom = scale.getDomainFrom();
+  const domainTo = scale.getDomainTo();
+
   return [
     {
       range: rangeFrom,

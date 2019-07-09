@@ -1,3 +1,4 @@
+import { withKnobs, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
@@ -9,6 +10,7 @@ import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import Root from '../_helpers/Root';
 
 storiesOf('Components/Axis', module)
+  .addDecorator(withKnobs)
   .add('horizontal', () => <Horizontal />)
   .add('vertical', () => <Vertical />);
 
@@ -46,13 +48,52 @@ function Vertical() {
               fixedTickPositions={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
             />
             <VerticalAxis align="right" scale={{ from: 0, to: 10 }} />
+            <VerticalAxis align="left" scale={{ from: 0, to: 0 }} />
+            <VerticalAxis align="left" scale={{ from: 0, to: 1 }} />
+            <VerticalAxis
+              align="left"
+              scale={{
+                from: 0,
+                to: number('scaleTo numbers', 10000, {
+                  range: true,
+                  min: 0,
+                  max: 25000,
+                  step: 2500
+                })
+              }}
+            />
           </div>
         </AxisType>
         <AxisType type="Percentage">
           <VerticalAxis formatter={percentage} scale={{ from: 0, to: 0.95 }} />
         </AxisType>
-        <AxisType type="Bytes">
-          <VerticalAxis formatter={bytes} scale={{ from: 0, to: 2384677236 }} />
+        <AxisType type="Bytes (MiB)">
+          <VerticalAxis
+            formatter={bytes}
+            scale={{
+              from: 0,
+              to: number('scaleTo MiB', 500677236, {
+                range: true,
+                min: 0,
+                max: 2000000000,
+                step: 100000000
+              })
+            }}
+          />
+        </AxisType>
+        <AxisType type="Bytes (GiB)">
+          <VerticalAxis
+            formatter={bytes}
+            scale={{
+              from: 0,
+              to: number('scaleTo GiB', 800000000000, {
+                range: true,
+                min: 0,
+                max: 2000000000000,
+                step: 200000000000
+              })
+            }}
+          />
         </AxisType>
         <AxisType type="Time">
           <VerticalAxis formatter={millis} scale={{ from: 0, to: 1234 }} />

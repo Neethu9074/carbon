@@ -1,11 +1,13 @@
 import getTickPositionsDefault from 'in-services/ticks/default';
 
-export default function getTickPositions(rangeFrom, rangeTo, domainFrom, domainTo, scale, formatter) {
+export default function getTickPositions({ scale, formatter }) {
+  const domainFrom = scale.getDomainFrom();
+  const domainTo = scale.getDomainTo();
   const domainRange = domainTo - domainFrom;
 
   // special case, the range is 1, happens on Calls and Instances frequently
   if (domainRange === 1) {
-    return getTickPositionsDefault(rangeFrom, rangeTo, domainFrom, domainTo);
+    return getTickPositionsDefault(scale);
   }
 
   const desiredNumberOfTicks = 4;
@@ -54,14 +56,14 @@ function getTicks(min, max, n, formatter) {
 }
 
 // this eliminates floating point errors otherwise accumulated by repeatedly adding the computed interval
-function precision(interval) {
+export function precision(interval) {
   const multiplier = Math.pow(10, Math.ceil(Math.log10(interval)) + 1);
   return function(value) {
     return Math.round(value * multiplier) / multiplier;
   };
 }
 
-function getNiceInterval(min, max, n, formatter) {
+export function getNiceInterval(min, max, n, formatter) {
   const rawInterval = (max - min) / n;
   const rawExponent = Math.log10(rawInterval);
 
@@ -97,6 +99,6 @@ function getNiceInterval(min, max, n, formatter) {
   return nicestInterval;
 }
 
-function getFirstTickValue(min, interval) {
+export function getFirstTickValue(min, interval) {
   return Math.floor(min / interval) * interval;
 }

@@ -1,15 +1,31 @@
-import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import {
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces,
+  bytes,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  kiloBytesTwoDecimalPlaces,
+  megaBytesZeroDecimalPlaces,
+  megaBytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import getTickPositionsPercentage from 'in-services/ticks/percentage';
 import getTickPositionsDefault from 'in-services/ticks/default';
 import getTickPositionsNumber from 'in-services/ticks/number';
+import getTickPositionsBytes from 'in-services/ticks/bytes';
 
 const tickPositionStrategies = {};
-tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
 tickPositionStrategies[percentageZeroDecimalPlaces] = getTickPositionsPercentage;
+tickPositionStrategies[percentageTwoDecimalPlaces] = getTickPositionsPercentage;
+tickPositionStrategies[megaBytesZeroDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[kiloBytesZeroDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[megaBytesTwoDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[kiloBytesTwoDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[bytesZeroDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[bytesTwoDecimalPlaces] = getTickPositionsBytes;
+tickPositionStrategies[bytes] = getTickPositionsBytes;
 
 export default function getTickPositions(scale, formatter) {
-  const rangeFrom = scale.getRangeFrom();
-  const rangeTo = scale.getRangeTo();
   const domainFrom = scale.getDomainFrom();
   const domainTo = scale.getDomainTo();
 
@@ -29,13 +45,13 @@ export default function getTickPositions(scale, formatter) {
   }
 
   const strategy = tickPositionStrategies[formatter] || getTickPositionsNumber;
-  let ticks = strategy(rangeFrom, rangeTo, domainFrom, domainTo, scale, formatter);
+  let ticks = strategy({ scale, formatter });
 
   // remove close data points, skip first and last
   ticks = removeCloseTicks(ticks);
 
   if (ticks.length < 2) {
-    return getTickPositionsDefault(rangeFrom, rangeTo, domainFrom, domainTo);
+    return getTickPositionsDefault(scale);
   }
 
   return ticks;

@@ -4,7 +4,7 @@ import { getSetting } from 'in-services/settings';
 
 const isLocaleAware = !getSetting('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;
-const byteBase = 1024;
+export const byteBase = 1024;
 const decimalSeparator = isLocaleAware ? window.instana.numberLocale.decimal : '.';
 
 export const zeroDecimalPlaces = format(',.0f');
