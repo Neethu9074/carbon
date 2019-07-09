@@ -20,6 +20,7 @@ import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { isInstanaEngineer } from 'in-stores/user';
+import Footer from 'in-new-components/Footer';
 import theme from 'in-themes';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
@@ -190,6 +191,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Log Output">
         <LogStreamer snapshot={snapshot} />
       </DashboardSection>
+      <Footer smallMargin />
     </Fragment>
   );
 }

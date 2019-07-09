@@ -18,6 +18,7 @@ import getService from 'in-subscription/application/getService';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { timeConfig$ } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard({ location, timeConfig }) {
@@ -47,6 +48,8 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
         })}
         props={props}
       />
+
+      <Footer />
     </Fragment>
   );
 });

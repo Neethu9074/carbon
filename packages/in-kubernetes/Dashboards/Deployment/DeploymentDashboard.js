@@ -19,6 +19,7 @@ import { DeploymentBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { deploymentTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 
 export default function DeploymentDashboard({ location }) {
@@ -63,6 +64,8 @@ export default function DeploymentDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

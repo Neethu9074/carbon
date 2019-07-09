@@ -18,8 +18,9 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { deploymentConfigTabChange } from 'in-kubernetes/tracker';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { plugins } from 'in-forge/constants';
 import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
+import { plugins } from 'in-forge/constants';
 
 export default function DeploymentConfigDashboard({ location }) {
   const props = {
@@ -63,6 +64,8 @@ export default function DeploymentConfigDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

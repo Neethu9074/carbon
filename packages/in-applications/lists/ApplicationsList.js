@@ -1,5 +1,5 @@
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
@@ -19,6 +19,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
+import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -47,27 +48,31 @@ export default connectTo(
   },
   function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
     return (
-      <Sticky header={<ViewSwitcher />}>
-        <MaxWidthFullscreenContainer>
-          <Title title="Applications" />
+      <Fragment>
+        <Sticky header={<ViewSwitcher />}>
+          <MaxWidthFullscreenContainer>
+            <Title title="Applications" />
 
-          {!showNoApplicationsDefinedIndicator && (
-            <ServerTableWithUrlBoundState
-              get={getTableData}
-              pathSegment={applicationsList}
-              matrixPrefix="app."
-              columnDefinitions={columnDefinitions}
-              timeConfig={timeConfig}
-              rightHeader={rightHeader}
-              paginationResettingProps={['timeConfig']}
-              defaultOrderBy="callsAgg"
-              defaultOrderDirection="DESC"
-            />
-          )}
+            {!showNoApplicationsDefinedIndicator && (
+              <ServerTableWithUrlBoundState
+                get={getTableData}
+                pathSegment={applicationsList}
+                matrixPrefix="app."
+                columnDefinitions={columnDefinitions}
+                timeConfig={timeConfig}
+                rightHeader={rightHeader}
+                paginationResettingProps={['timeConfig']}
+                defaultOrderBy="callsAgg"
+                defaultOrderDirection="DESC"
+              />
+            )}
 
-          {showNoApplicationsDefinedIndicator && <EmptyAppList />}
-        </MaxWidthFullscreenContainer>
-      </Sticky>
+            {showNoApplicationsDefinedIndicator && <EmptyAppList />}
+          </MaxWidthFullscreenContainer>
+        </Sticky>
+
+        <Footer />
+      </Fragment>
     );
   }
 );

@@ -3,6 +3,5 @@
 :local {
   .table {
     border-top: 1px solid @lib__colors__N400;
-    margin-bottom: 4rem;
   }
 }

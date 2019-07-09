@@ -21,6 +21,7 @@ import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
+import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
 
 import locals from './Content.mless';
@@ -187,6 +188,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           </div>
         </DashboardSection>
       )}
+      <Footer smallMargin />
     </div>
   );
 }

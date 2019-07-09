@@ -19,6 +19,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 
 export default function NamespaceDashboard({ location }) {
@@ -69,6 +70,8 @@ export default function NamespaceDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

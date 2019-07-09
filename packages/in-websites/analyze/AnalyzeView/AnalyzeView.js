@@ -1,6 +1,6 @@
 import { compose, withProps } from 'recompose';
+import React, { Fragment } from 'react';
 import { uniqBy } from 'lodash';
-import React from 'react';
 
 import {
   analyzeMetricsUrlParameter,
@@ -33,6 +33,7 @@ import { addGroupToTagFilter } from 'in-analyze/filterBuilder';
 import { getTag } from 'in-analyze/metricDefinitionHelpers';
 import { getTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
+import Footer from 'in-new-components/Footer';
 
 export default compose(
   withUrlState({
@@ -204,12 +205,13 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  if (props.group.groupbyTag) {
-    return <GroupedBeacons {...props} />;
-  }
-
-  // key defined to force a complete state reset
-  return <Beacons key={props.beaconType} {...props} />;
+  return (
+    <Fragment>
+      {props.group.groupbyTag ? <GroupedBeacons {...props} /> : <Beacons key={props.beaconType} {...props} /> // key defined to force a complete state reset
+      }
+      <Footer />
+    </Fragment>
+  );
 }
 
 function isOrderCriteriaSupportedForUngroupedView(orderBy, metrics) {

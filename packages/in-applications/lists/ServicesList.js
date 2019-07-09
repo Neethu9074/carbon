@@ -22,6 +22,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
 import { isNotBlank } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
@@ -73,25 +74,29 @@ function ServicesList({ timeConfig, setFilter, endpointTypes, technologies }) {
   );
 
   return (
-    <Sticky header={<ViewSwitcher />}>
-      <MaxWidthFullscreenContainer>
-        <Title title="Services" />
+    <Fragment>
+      <Sticky header={<ViewSwitcher />}>
+        <MaxWidthFullscreenContainer>
+          <Title title="Services" />
 
-        <ServerTableWithUrlBoundState
-          get={getTableData}
-          pathSegment={servicesList}
-          matrixPrefix={matrixPrefix}
-          columnDefinitions={columnDefinitions}
-          timeConfig={timeConfig}
-          endpointTypes={endpointTypes}
-          technologies={technologies}
-          paginationResettingProps={['timeConfig', 'endpointTypes', 'technologies']}
-          rightHeader={rightHeader}
-          defaultOrderBy="callsAgg"
-          defaultOrderDirection="DESC"
-        />
-      </MaxWidthFullscreenContainer>
-    </Sticky>
+          <ServerTableWithUrlBoundState
+            get={getTableData}
+            pathSegment={servicesList}
+            matrixPrefix={matrixPrefix}
+            columnDefinitions={columnDefinitions}
+            timeConfig={timeConfig}
+            endpointTypes={endpointTypes}
+            technologies={technologies}
+            paginationResettingProps={['timeConfig', 'endpointTypes', 'technologies']}
+            rightHeader={rightHeader}
+            defaultOrderBy="callsAgg"
+            defaultOrderDirection="DESC"
+          />
+        </MaxWidthFullscreenContainer>
+      </Sticky>
+
+      <Footer />
+    </Fragment>
   );
 }
 

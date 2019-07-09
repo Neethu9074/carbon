@@ -19,6 +19,7 @@ import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { podTabChange } from 'in-kubernetes/tracker';
+import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 
 export default function PodDashboard({ location }) {
@@ -64,6 +65,8 @@ export default function PodDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

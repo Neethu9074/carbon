@@ -6,6 +6,7 @@ import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreen
 import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
+import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function KubernetesMainView(props) {
@@ -19,6 +20,7 @@ export default function KubernetesMainView(props) {
           </Switch>
         </MaxWidthFullscreenContainer>
       </Sticky>
+      <Footer />
     </div>
   );
 }

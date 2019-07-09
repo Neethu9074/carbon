@@ -23,9 +23,14 @@ function addZendeskStyles() {
       color: {
         theme: '#00B3B3',
         launcherText: '#fff'
-      }
+      },
+      zIndex: 100
     }
   };
+}
+
+export function shouldShowFloatingFooter() {
+  return getUsageInfo().map(usageInfo => usageInfo.activeLicenseType === 'selfService');
 }
 
 function addZendeskSnippet() {
@@ -47,9 +52,18 @@ function onZendeskLoaded() {
 function updateZendeskPosition(navigationParameters) {
   window.zE('webWidget', 'updateSettings', {
     webWidget: {
-      offset: getZendeskOffset(navigationParameters.pathname)
+      offset: getZendeskOffset(navigationParameters.pathname),
+      contactForm: hideZEndeskChat(navigationParameters.pathname)
     }
   });
+}
+
+function hideZEndeskChat(pathname) {
+  if (pathname === '/events') {
+    return { suppress: true };
+  }
+
+  return { suppress: false };
 }
 
 function getZendeskOffset(pathname) {

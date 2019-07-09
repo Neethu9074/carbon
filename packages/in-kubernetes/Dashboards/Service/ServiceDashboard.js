@@ -18,6 +18,7 @@ import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 
 export default function ServiceDashboard({ location }) {
@@ -68,6 +69,8 @@ export default function ServiceDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

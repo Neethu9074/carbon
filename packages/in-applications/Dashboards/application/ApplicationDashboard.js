@@ -13,6 +13,7 @@ import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashboard({ location, timeConfig }) {
@@ -36,6 +37,8 @@ export default connectTo({ timeConfig: timeConfig$ }, function ApplicationDashbo
         tabs={tabs}
         props={props}
       />
+
+      <Footer />
     </Fragment>
   );
 });

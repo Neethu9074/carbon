@@ -9,6 +9,7 @@ import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/na
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { combineLatest } from 'reactive-observables';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export type NavigationTree = Array<NavigationTreeItem>;
@@ -138,18 +139,21 @@ function isActive(path, subPages) {
 function ContentPane({ pages, ...props }) {
   const { NotFoundPage } = props;
   return (
-    <Switch>
-      {pages.map(page => {
-        return (
-          <Route
-            key={page.path}
-            exact
-            path={page.path}
-            render={({ match }) => <page.component {...props} match={match} />}
-          />
-        );
-      })}
-      <Route path="*" render={() => (NotFoundPage ? <NotFoundPage /> : 'Not Found')} />
-    </Switch>
+    <Fragment>
+      <Switch>
+        {pages.map(page => {
+          return (
+            <Route
+              key={page.path}
+              exact
+              path={page.path}
+              render={({ match }) => <page.component {...props} match={match} />}
+            />
+          );
+        })}
+        <Route path="*" render={() => (NotFoundPage ? <NotFoundPage /> : 'Not Found')} />
+      </Switch>
+      <Footer />
+    </Fragment>
   );
 }

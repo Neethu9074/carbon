@@ -19,6 +19,7 @@ import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { timeConfig$ } from 'in-stores/time/config';
 import Message from 'in-new-components/Message';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
@@ -56,6 +57,8 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
         filterTabByResult={filterTabByResult}
         props={props}
       />
+
+      <Footer />
     </Fragment>
   );
 });

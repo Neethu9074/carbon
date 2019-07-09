@@ -4,9 +4,9 @@ import React, { Fragment } from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
-import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './Switch.mless';
 

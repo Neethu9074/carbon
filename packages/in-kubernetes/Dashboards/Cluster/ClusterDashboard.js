@@ -18,6 +18,7 @@ import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/Badge/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
+import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 
@@ -57,6 +58,8 @@ export default function ClusterDashboard({ location }) {
           />
         )}
       />
+
+      <Footer />
     </Fragment>
   );
 }

@@ -22,6 +22,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
+import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 
@@ -125,6 +126,7 @@ function WebsiteDashboard({
     <Fragment>
       <Breadcrumbs items={getBreadcrumbs(props)} />
       <Sticky header={<BreadcrumbHeader />}>{content}</Sticky>
+      <Footer />
     </Fragment>
   );
 }

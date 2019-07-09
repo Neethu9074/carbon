@@ -20,6 +20,7 @@ import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
+import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
@@ -87,6 +88,7 @@ function AnalyzeView(props) {
     <Fragment>
       {activeDialog && <DisabledBodyScroll />}
       {isRawView ? <dataSourceConfig.RawView {...props} /> : <dataSourceConfig.GroupedView {...props} />}
+      <Footer />
     </Fragment>
   );
 }

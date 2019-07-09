@@ -54,8 +54,9 @@ export default (
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
 
-    {/* landing page */}
     <Redirect path="/cockpit" to="/internal/thisUnit/entityStatistics" />
+
+    {/* landing page */}
     <RedirectWithHash from="/" to={physicalPath} />
   </FragmentSupportingSwitch>
 );
