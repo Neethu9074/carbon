@@ -33,7 +33,7 @@ export default [
       return metricMatch + 'Time';
     },
     min: 0,
-    formatter: millis
+    formatter: millis.forcedFixedCompact
   },
   {
     metric: getMetricMatch('gc', 'inv'),
