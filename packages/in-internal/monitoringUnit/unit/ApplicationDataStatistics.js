@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { percentage, number } from 'in-services/formatters/number';
+import { percentage, number, millis } from 'in-services/formatters/number';
 
 export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) {
   return (
@@ -46,6 +46,24 @@ export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) 
             metrics: [`appdata-processor.droppedSpansDueToConfiguration`],
             labels: ['Dropped Spans due to Configuration'],
             type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={`Span latency`}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: millis.compact,
+            metrics: [
+              `appdata-processor.spanLatency.mean`,
+              `appdata-processor.spanLatency.50th`,
+              `appdata-processor.spanLatency.99th`
+            ],
+            labels: ['Mean', '50th', '99th'],
+            type: 'line'
           }}
         />
       </DashboardSection>
