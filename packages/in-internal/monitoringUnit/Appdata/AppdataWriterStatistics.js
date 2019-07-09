@@ -6,7 +6,6 @@ import { number, percentage, millis } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -82,6 +81,7 @@ export default connectTo({
   }
 
   rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
+  const appdataWritersLabels = getLabels(rows, /^.*(writer-\d+).*$/i);
 
   return (
     <div>
@@ -97,7 +97,7 @@ export default connectTo({
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
             metrics: rows.map(() => 'load.1min'),
-            labels: rows.map(r => r.host.get('label')),
+            labels: appdataWritersLabels,
             type: 'line'
           }}
         />
@@ -111,42 +111,37 @@ export default connectTo({
             min: 0,
             formatter: number.perSecond.compact,
             metrics: rows.map(() => `metrics.meters.clickHouse.clustered.calls`),
-            labels: rows.map(r => r.host.get('label')),
+            labels: appdataWritersLabels,
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <Row>
-        <Col xs={6}>
-          <DashboardSection title="ClickHouse Query Latency (50th)">
-            <Chart
-              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: millis.fixedCompact,
-                metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.50th`),
-                labels: rows.map(r => r.host.get('label')),
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Col>
-        <Col xs={6}>
-          <DashboardSection title="ClickHouse Query Latency (99th)">
-            <Chart
-              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: millis.fixedCompact,
-                metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.99th`),
-                labels: rows.map(r => r.host.get('label')),
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Col>
-      </Row>
+      <DashboardSection title="ClickHouse Query Latency (50th)">
+        <Chart
+          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: millis.fixedCompact,
+            metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.50th`),
+            labels: appdataWritersLabels,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="ClickHouse Query Latency (99th)">
+        <Chart
+          snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: millis.fixedCompact,
+            metrics: rows.map(() => `metrics.timers.clickHouse.clustered.timer.99th`),
+            labels: appdataWritersLabels,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <DashboardSection title={`ClickHouse Error Rate`}>
         <Chart
@@ -156,7 +151,7 @@ export default connectTo({
             min: 0,
             formatter: percentage.detailed,
             metrics: rows.map(() => `metrics.gauges.clickHouse.clustered.error_rate`),
-            labels: rows.map(r => r.host.get('label')),
+            labels: appdataWritersLabels,
             type: 'line'
           }}
         />
@@ -170,7 +165,7 @@ export default connectTo({
             min: 0,
             formatter: percentage.detailed,
             metrics: rows.map(() => `metrics.gauges.KPI.incoming.calls.error_rate`),
-            labels: rows.map(r => r.host.get('label')),
+            labels: appdataWritersLabels,
             type: 'line'
           }}
         />
@@ -186,7 +181,7 @@ export default connectTo({
             metrics: rows.map(
               () => `metrics.meters.com.instana.backend.common.kafka.GenericReactorKafkaConsumer.calls.too-old`
             ),
-            labels: rows.map(r => r.host.get('label')),
+            labels: appdataWritersLabels,
             type: 'stackedArea'
           }}
         />
@@ -300,4 +295,8 @@ function getRowDetails(row) {
       ) : null}
     </Fragment>
   );
+}
+
+function getLabels(rows, regexp) {
+  return rows.map(r => r.host.get('label').replace(regexp, '$1'));
 }
