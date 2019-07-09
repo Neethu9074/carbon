@@ -1,16 +1,3 @@
-# Classification
-
-> Please help your reviewers classify this pull request by defining what kind
-> of PR this is.
-
-- [ ] Bug fix
-- [ ] User-facing feature
-- [ ] Internal feature
-- [ ] Automated tests
-- [ ] Refactoring
-- [ ] Technical improvement
-- [ ] Code documentation
-
 # Why
 
 > Please describe why you are proposing this code change. This should include
@@ -45,6 +32,7 @@
 > Please tick of these checklist items. When some of these aren't necessary for
 > this PR, then please describe why.
 
+- Pull request tagged with one of the `class:*` labels?
 - Feature flags added?
   - [ ] To the server side: `/packages/in-server/services/resolvers/consul.js`
   - [ ] To the server side (for Kubernetes based deployments): `{{backendRepository}}/instanactl/config/components/ui-client.yaml.tpl`
