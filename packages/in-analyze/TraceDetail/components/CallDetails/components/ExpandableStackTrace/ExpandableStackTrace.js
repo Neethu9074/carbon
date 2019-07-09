@@ -1,5 +1,5 @@
 import { withState } from 'recompose';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
@@ -15,6 +15,7 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
   isExpanded,
   setIsExpanded
 }) {
+  const logParameters = log.data.log.parameters;
   return (
     <div className={locals.wrapper}>
       <div className={locals.header}>
@@ -44,10 +45,19 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
         </div>
       </div>
       {isExpanded && (
-        <div className={locals.stackTraceWrapper}>
-          <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
-          <StackTraceBehavior stackTrace={log.stackTrace} relation={call.source} />
-        </div>
+        <Fragment>
+          {logParameters && (
+            <div className={locals.stackTraceWrapper}>
+              <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
+              <div className={locals.logParameters}>{logParameters}</div>
+            </div>
+          )}
+
+          <div className={locals.stackTraceWrapper}>
+            <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
+            <StackTraceBehavior stackTrace={log.stackTrace} relation={call.destination} />
+          </div>
+        </Fragment>
       )}
     </div>
   );
