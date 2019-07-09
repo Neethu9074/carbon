@@ -1,12 +1,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import CallErrorSummaries from 'in-analyze/TraceDetail/components/CallDetails/components/CallErrorSummaries';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import StackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTrace';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
 import Details from 'in-analyze/TraceDetail/components/CallDetails/components/Details/Details';
 import IsSynthetic from 'in-analyze/TraceDetail/components/CallDetails/components/IsSynthetic';
-import CallStatus from 'in-analyze/TraceDetail/components/CallDetails/components/CallStatus';
 import Seperator from 'in-analyze/TraceDetail/components/CallDetails/components/Seperator';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -48,7 +48,7 @@ function CallDetails(props) {
       <Header call={call} getColor={getColor} onClose={onClose} />
       <Seperator />
       <IsSynthetic call={call} />
-      <CallStatus call={call} />
+      <CallErrorSummaries call={call} />
       <CallLogs call={call} />
       <Details call={call} />
       <StackTrace call={call} />

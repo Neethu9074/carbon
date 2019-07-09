@@ -81,4 +81,8 @@
     font-weight: 600;
     margin-bottom: 0.25rem;
   }
+
+  .logParameters {
+    padding: 0.25rem 0.688rem;
+  }
 }
