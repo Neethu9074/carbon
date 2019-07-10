@@ -17,6 +17,19 @@ export default connectTo(
     const data = snapshot.get('data');
     return (
       <div>
+        <DashboardSection title="CPU Usage">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['cpu.user', 'cpu.sys'],
+              labels: ['User', 'System'],
+              formatter: percentageZeroDecimalPlaces,
+              type: 'stackedArea'
+            }}
+          />
+        </DashboardSection>
+
         <DashboardSection title="Memory">
           <Chart
             snapshotId={snapshotId}
@@ -27,19 +40,6 @@ export default connectTo(
               metrics: ['mem.virtual', 'mem.resident', 'mem.share'],
               labels: ['Virtual', 'Resident', 'Share'],
               type: 'line'
-            }}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="CPU Usage">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              metrics: ['cpu.user', 'cpu.sys'],
-              labels: ['User', 'System'],
-              formatter: percentageZeroDecimalPlaces,
-              type: 'stackedArea'
             }}
           />
         </DashboardSection>
