@@ -9,7 +9,7 @@ export function newTimeMetric({ metric, label, category }) {
     metric,
     label,
     formatter: latencyFixed,
-    supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
+    supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,
     preferredRenderer: Renderer.stackedArea
@@ -21,7 +21,7 @@ export function newSizeMetric({ metric, label, category }) {
     metric,
     label,
     formatter: wrapToDiscardNegativeValues(bytes),
-    supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX'],
+    supportedAggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM'],
     category,
     min: 0,
     preferredRenderer: Renderer.stackedArea
