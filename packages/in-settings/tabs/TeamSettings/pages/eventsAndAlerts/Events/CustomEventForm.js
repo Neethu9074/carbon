@@ -899,6 +899,7 @@ const gracePeriodOptions = [
 const windowOptions = [
   { value: '1000', label: '1 s' },
   { value: '5000', label: '5 s' },
+  { value: '10000', label: '10 s' },
   { value: '30000', label: '30 s' },
   { value: '60000', label: '60 s' },
   { value: '90000', label: '90 s' },
