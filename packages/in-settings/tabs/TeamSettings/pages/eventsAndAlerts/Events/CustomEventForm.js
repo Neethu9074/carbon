@@ -899,10 +899,15 @@ const gracePeriodOptions = [
 const windowOptions = [
   { value: '1000', label: '1 s' },
   { value: '5000', label: '5 s' },
-  { value: '10000', label: '10 s' },
-  { value: '60000', label: '1 min' },
+  { value: '30000', label: '30 s' },
+  { value: '60000', label: '60 s' },
+  { value: '90000', label: '90 s' },
   { value: '300000', label: '5 min' },
-  { value: '600000', label: '10 min' }
+  { value: '600000', label: '10 min' },
+  { value: '1800000', label: '30 min' },
+  { value: '3600000', label: '60 min' },
+  { value: '5400000', label: '90 min' },
+  { value: '7200000', label: '120 min' }
 ];
 
 const rollupOptions = [
