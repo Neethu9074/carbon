@@ -19,7 +19,6 @@ export default connectTo(
         <LinkList>
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="appdata-processor" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="ap-legacy-converter" />
-          <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="cashier" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="filler" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="issue-tracker" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="processor" />
