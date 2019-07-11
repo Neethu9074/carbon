@@ -12,6 +12,7 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
@@ -189,6 +190,7 @@ const allColumnDefinitions = [
   {
     id: 'restartCount',
     label: 'Restarts',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue

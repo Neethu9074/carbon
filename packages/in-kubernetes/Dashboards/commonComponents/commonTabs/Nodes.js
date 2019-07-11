@@ -10,6 +10,7 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 
@@ -92,6 +93,7 @@ const columnDefinitions = [
   {
     id: 'required_cpu_percentage',
     label: 'CPU Requests',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -106,6 +108,7 @@ const columnDefinitions = [
   {
     id: 'limit_cpu_percentage',
     label: 'CPU Limits',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -120,6 +123,7 @@ const columnDefinitions = [
   {
     id: 'required_mem_percentage',
     label: 'Memory Requests',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -134,6 +138,7 @@ const columnDefinitions = [
   {
     id: 'limit_mem_percentage',
     label: 'Memory Limits',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue

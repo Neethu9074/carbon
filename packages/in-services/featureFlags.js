@@ -34,6 +34,7 @@ export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
+export const canSortByMetricColumns = onlyInternally || isInstanaEngineer;
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 

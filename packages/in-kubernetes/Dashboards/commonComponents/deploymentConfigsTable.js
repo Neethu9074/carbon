@@ -11,6 +11,7 @@ import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { canSortByMetricColumns } from 'in-services/featureFlags';
 
 const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
 
@@ -108,6 +109,7 @@ const columnDefinitions = [
   {
     id: 'lastPendingPhaseDuration',
     label: 'Last Pending Phase Duration',
+    sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
