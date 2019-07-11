@@ -1,5 +1,6 @@
 :local {
   .content {
+    position: relative;
     margin-left: 4.5rem;
   }
 }
