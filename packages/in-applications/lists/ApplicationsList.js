@@ -1,20 +1,22 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import getApplications from 'in-subscription/application/getApplications';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import EmptyAppList from 'in-applications/lists/components/EmptyAppList';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -27,59 +29,8 @@ import { role } from 'in-stores/user';
 
 import locals from './ApplicationsList.mless';
 
-const rightHeader = role.canConfigureApplications && (
-  <Button
-    className={locals.button}
-    kind="action"
-    href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-    onClick={() => applicationOpenSubmitFormTracker()}
-    icon="lib_openclose_add_circle_outline"
-  >
-    Create Application Perspective
-  </Button>
-);
-
-export default connectTo(
-  {
-    timeConfig: timeConfig$,
-    showNoApplicationsDefinedIndicator: timeConfig$
-      .flatMap(timeConfig => getApplications(getApplicationListSubscribeEvent(timeConfig)))
-      .map(result => result.data != null && result.data.items != null && result.data.items.length === 0)
-  },
-  function ApplicationsList({ timeConfig, showNoApplicationsDefinedIndicator }) {
-    return (
-      <Fragment>
-        <Sticky header={<ViewSwitcher />}>
-          <MaxWidthFullscreenContainer>
-            <Title title="Applications" />
-
-            {!showNoApplicationsDefinedIndicator && (
-              <ServerTableWithUrlBoundState
-                get={getTableData}
-                pathSegment={applicationsList}
-                matrixPrefix="app."
-                columnDefinitions={columnDefinitions}
-                timeConfig={timeConfig}
-                rightHeader={rightHeader}
-                paginationResettingProps={['timeConfig']}
-                defaultOrderBy="callsAgg"
-                defaultOrderDirection="DESC"
-              />
-            )}
-
-            {showNoApplicationsDefinedIndicator && <EmptyAppList />}
-          </MaxWidthFullscreenContainer>
-        </Sticky>
-
-        <Footer />
-      </Fragment>
-    );
-  }
-);
-
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
-  return getApplications(getApplicationListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query));
-}
+const pathSegment = applicationsList;
+const matrixPrefix = 'app.';
 
 const columnDefinitions = [
   {
@@ -174,6 +125,61 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  columnDefinitions,
+  defaultOrderBy: 'callsAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment,
+  matrixPrefix
+});
+
+const rightHeader = role.canConfigureApplications && (
+  <Button
+    className={locals.button}
+    kind="action"
+    href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
+    onClick={() => applicationOpenSubmitFormTracker()}
+    icon="lib_openclose_add_circle_outline"
+  >
+    Create Application Perspective
+  </Button>
+);
+
+export default connectTo(
+  {
+    timeConfig: timeConfig$
+  },
+  function ApplicationsList({ timeConfig }) {
+    return (
+      <Sticky header={<ViewSwitcher />}>
+        <MaxWidthFullscreenContainer>
+          <Title title="Applications" />
+
+          <WithEmptyStateFallback
+            getHasDataToRender={getHasDataToRender}
+            FallbackComponent={ApplicationsNoDataNotification}
+          >
+            <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+          </WithEmptyStateFallback>
+        </MaxWidthFullscreenContainer>
+
+        <Footer />
+      </Sticky>
+    );
+  }
+);
+
+function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig }) {
+  return getApplications(getApplicationListSubscribeEvent(timeConfig, page, pageSize, orderBy, orderDirection, query));
+}
+
+function getHasDataToRender() {
+  return timeConfig$
+    .flatMap(timeConfig => getApplications(getApplicationListSubscribeEvent(timeConfig)))
+    .map(result => !result.data || result.data.totalHits > 0);
+}
 
 export function getApplicationListSubscribeEvent(
   timeConfig,

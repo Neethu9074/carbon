@@ -1,51 +1,18 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { serviceId } from 'in-kubernetes/navigation/matrix';
 import EntityLink from 'in-new-components/EntityLink';
 import WithIcon from 'in-new-components/WithIcon';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';
-
-export default function Endpoints({ timeConfig, service }) {
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      columnDefinitions={columnDefinitions}
-      timeConfig={timeConfig}
-      serviceId={service.id}
-      paginationResettingProps={['serviceId', 'timeConfig']}
-      defaultOrderBy="address"
-      defaultOrderDirection="ASC"
-      defaultPageSize={10}
-      withoutPadding={false}
-    />
-  );
-}
-
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, serviceId }) {
-  return getKubernetesEndpoints({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      serviceId,
-      timeConfig
-    }
-  });
-}
 
 const columnDefinitions = [
   {
@@ -95,3 +62,50 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceId],
+    columnDefinitions,
+    defaultOrderBy: 'address',
+    defaultOrderDirection: 'ASC',
+    defaultPageSize: 10,
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
+
+export default function Endpoints(props) {
+  const { timeConfig, service } = props;
+
+  return (
+    <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} serviceId={service.id} withoutPadding={false} />
+  );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'address',
+  orderDirection = 'DESC',
+  timeConfig,
+  serviceId
+}) {
+  return getKubernetesEndpoints({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      serviceId,
+      timeConfig
+    }
+  });
+}

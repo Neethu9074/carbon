@@ -24,6 +24,9 @@ import {
 } from 'in-websites/tracker';
 import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
+import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
+import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';
 import Beacons from 'in-websites/analyze/AnalyzeView/Beacons/Beacons';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
@@ -202,7 +205,15 @@ export default compose(
     })
   ),
   tagFilterManipulators({ tagFiltersTrackers })
-)(AnalyzeView);
+)(props => (
+  <WithEmptyStateFallback
+    center={false}
+    getHasDataToRender={() => getHasDataToRender(props)}
+    FallbackComponent={EmptyAnalyzeView}
+  >
+    <AnalyzeView {...props} />
+  </WithEmptyStateFallback>
+));
 
 function AnalyzeView(props) {
   return (
@@ -216,4 +227,19 @@ function AnalyzeView(props) {
 
 function isOrderCriteriaSupportedForUngroupedView(orderBy, metrics) {
   return metrics.reduce((agg, { metric }) => agg || orderBy.indexOf(metric) === 0, false);
+}
+
+function getHasDataToRender({ timeConfig }) {
+  return getWebsiteBeacons({
+    pagination: {
+      cursor: null,
+      retrievalSize: 1
+    },
+    order: {
+      by: 'beacon.timestamp',
+      direction: 'DESC'
+    },
+    timeConfig,
+    tagFilters: []
+  }).map(result => !result.data || result.data.totalHits > 0);
 }

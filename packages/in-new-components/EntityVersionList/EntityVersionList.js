@@ -6,8 +6,6 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getSnapshotVersions } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './EntityVersionList.mless';
-
 export default connectTo(
   ({ snapshotId, timeConfig }) => ({
     versionsForFocusedMoment: getSnapshotVersions(snapshotId, timeConfig).startWith(null),
@@ -19,16 +17,12 @@ export default connectTo(
       hasRbacErrors ||
       (versionsForFocusedMoment && versionsForFocusedMoment.size === 0 && versionsForLive && versionsForLive.size === 0)
     ) {
-      return <ErroneousResultPresenter errors={errors} className={locals.error} />;
+      return <ErroneousResultPresenter errors={errors} />;
     }
 
     const snapshotVersions = mergeVersionLists(versionsForFocusedMoment, versionsForLive);
 
-    return (
-      <div className={locals.wrapper}>
-        <EntityVersionListPresenter plugin={plugin} snapshotVersions={snapshotVersions} />
-      </div>
-    );
+    return <EntityVersionListPresenter plugin={plugin} snapshotVersions={snapshotVersions} />;
   }
 );
 

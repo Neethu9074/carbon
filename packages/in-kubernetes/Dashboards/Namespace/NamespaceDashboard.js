@@ -8,6 +8,7 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -62,12 +63,14 @@ export default function NamespaceDashboard({ location }) {
         tabChangeTracker={namespaceTabChange}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesNamespace}
-            snapshotId={props.namespaceId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesNamespace}
+              snapshotId={props.namespaceId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

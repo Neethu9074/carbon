@@ -6,7 +6,6 @@ require('in-stores/timeOffset').init();
 require('in-components/timeline/timelineStore').init();
 require('in-components/MessageDialog/MessageDialogStores').init();
 require('in-services/shortcuts').init();
-require('in-services/notMonitoringDialogPresenter').init();
 require('in-services/security/csrf').init();
 require('in-components/SearchBar/stores/highlightedSuggestion').init();
 require('in-stores/usageInfo').init();

@@ -5,6 +5,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
@@ -56,12 +57,14 @@ export default function NodeDashboard({ location }) {
         tabChangeTracker={nodeTabChange}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesNode}
-            snapshotId={props.nodeId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesNode}
+              snapshotId={props.nodeId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

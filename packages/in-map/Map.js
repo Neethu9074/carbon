@@ -1,12 +1,15 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
+import { getViewStructure } from 'in-map/stores/physical/viewStructureStore';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import MapNoContentMessage from 'in-components/MapNoContentMessage';
+import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { view$, types as views } from 'in-stores/view';
 import { getSetting$ } from 'in-services/settings';
@@ -19,7 +22,15 @@ import 'in-map/Map.less';
 
 const block = 'in-map';
 
-export default connectTo(
+export default function Wrapper(props) {
+  return (
+    <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={NotMonitoringMap}>
+      <MapReactComponent {...props} />
+    </WithEmptyStateFallback>
+  );
+}
+
+const MapReactComponent = connectTo(
   {
     antialias: getSetting$('map_antialias'),
     isContextLost: isContextLost$,
@@ -31,6 +42,7 @@ export default connectTo(
 
     static propTypes = {
       isContextLost: rpt.bool,
+      isDataAvailable: rpt.bool,
       antialias: rpt.string,
       canvas: rpt.object,
       view: rpt.string
@@ -104,3 +116,7 @@ export default connectTo(
     };
   }
 );
+
+function getHasDataToRender() {
+  return getViewStructure().map(structure => structure.viewStructure.children.length > 0);
+}

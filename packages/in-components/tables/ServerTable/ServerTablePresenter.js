@@ -55,6 +55,7 @@ export default function ServerTablePresenter(props) {
     withoutPadding = true,
     allRowsAreSelected = false,
     setSelectedStateForRows,
+    renderNoDataAvailable,
 
     // events
     onChange,
@@ -81,7 +82,11 @@ export default function ServerTablePresenter(props) {
     body = (
       <tr size={size}>
         <td colSpan={filteredColumnDefinitions.length}>
-          <NoDataAvailable text={noDataMessage} height={80} />
+          {renderNoDataAvailable ? (
+            renderNoDataAvailable(noDataMessage)
+          ) : (
+            <NoDataAvailable text={noDataMessage} height={80} />
+          )}
         </td>
       </tr>
     );

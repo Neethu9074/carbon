@@ -6,6 +6,7 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
@@ -57,12 +58,14 @@ export default function PodDashboard({ location }) {
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesPod}
-            snapshotId={props.podId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesPod}
+              snapshotId={props.podId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

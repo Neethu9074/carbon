@@ -4,12 +4,15 @@ import { get } from 'lodash';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
+import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -17,7 +20,6 @@ import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-subscription/application/getEndpoints';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import Filters from 'in-applications/components/Filters';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { getColor } from 'in-applications/endpointTypes';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -49,135 +51,6 @@ export default compose(
     })
   })
 )(Endpoints);
-
-function Endpoints({ timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
-  const hasHttpType = data.types.indexOf('HTTP') >= 0;
-  const rightHeader = (
-    <Fragment>
-      {hasHttpType &&
-        role.canConfigureServiceMapping && (
-          <Button
-            className={locals.button}
-            icon="lib_actions_settings"
-            kind="action"
-            href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
-          >
-            Configure Endpoints
-          </Button>
-        )}
-
-      <Filters
-        endpointTypes={endpointTypes}
-        restrictedEndpointTypes={data.types}
-        technologies={technologies}
-        restrictedTechnologies={data.technologies}
-        setFilter={setFilter}
-      />
-    </Fragment>
-  );
-
-  return (
-    <Row>
-      <Col xs={12}>
-        <ServerTableWithUrlBoundState
-          pathSegment={pathSegment}
-          matrixPrefix={matrixPrefix}
-          get={getTableData}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-          columnDefinitions={columnDefinitions}
-          rightHeader={rightHeader}
-          endpointTypes={endpointTypes}
-          technologies={technologies}
-          paginationResettingProps={[
-            'applicationId',
-            'serviceId',
-            'endpointId',
-            'timeConfig',
-            'endpointTypes',
-            'technologies'
-          ]}
-          defaultOrderBy="callsAgg"
-          defaultOrderDirection="DESC"
-        />
-      </Col>
-    </Row>
-  );
-}
-
-function getTableData({
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
-  applicationId,
-  serviceId,
-  endpointId,
-  endpointTypes,
-  technologies,
-  timeConfig,
-  query
-}) {
-  return getEndpoints({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      application: applicationId,
-      service: serviceId,
-      endpoint: endpointId,
-      includeSyntheticCalls: true,
-      endpointTypes,
-      technologies,
-      label: query,
-      timeConfig
-    },
-    metrics: {
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      latencyAgg: {
-        metric: 'latency',
-        aggregation: 'MEAN'
-      },
-      latency: {
-        metric: 'latency',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'MEAN'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      openIssues: {
-        metric: 'openIssues',
-        aggregation: 'DISTINCT_COUNT'
-      },
-      maxSeverity: {
-        metric: 'maxSeverity',
-        aggregation: 'DISTINCT_COUNT'
-      }
-    }
-  });
-}
 
 const columnDefinitions = [
   {
@@ -279,3 +152,136 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      applicationDashboardUrlParameters.applicationId,
+      applicationDashboardUrlParameters.serviceId,
+      applicationDashboardUrlParameters.endpointId,
+      'endpointTypes',
+      'technologies'
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
+
+function Endpoints(props) {
+  const { timeConfig, data, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter } = props;
+
+  const hasHttpType = data.types.indexOf('HTTP') >= 0;
+  const rightHeader = (
+    <Fragment>
+      {hasHttpType &&
+        role.canConfigureServiceMapping && (
+          <Button
+            className={locals.button}
+            icon="lib_actions_settings"
+            kind="action"
+            href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
+          >
+            Configure Endpoints
+          </Button>
+        )}
+
+      <Filters
+        endpointTypes={endpointTypes}
+        restrictedEndpointTypes={data.types}
+        technologies={technologies}
+        restrictedTechnologies={data.technologies}
+        setFilter={setFilter}
+      />
+    </Fragment>
+  );
+
+  return (
+    <ServerTableWithUrlState
+      get={getTableData}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      timeConfig={timeConfig}
+      rightHeader={rightHeader}
+      endpointTypes={endpointTypes}
+      technologies={technologies}
+    />
+  );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'callsAgg',
+  orderDirection = 'DESC',
+  applicationId,
+  serviceId,
+  endpointId,
+  endpointTypes = [],
+  technologies = [],
+  timeConfig
+}) {
+  return getEndpoints({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      application: applicationId,
+      service: serviceId,
+      endpoint: endpointId,
+      includeSyntheticCalls: true,
+      endpointTypes,
+      technologies,
+      label: query,
+      timeConfig
+    },
+    metrics: {
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      latencyAgg: {
+        metric: 'latency',
+        aggregation: 'MEAN'
+      },
+      latency: {
+        metric: 'latency',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'MEAN'
+      },
+      errors: {
+        metric: 'errors',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'DISTINCT_COUNT'
+      }
+    }
+  });
+}

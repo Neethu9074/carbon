@@ -6,6 +6,7 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -50,12 +51,14 @@ export default function ClusterDashboard({ location }) {
         }}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesCluster}
-            snapshotId={props.clusterId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesCluster}
+              snapshotId={props.clusterId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

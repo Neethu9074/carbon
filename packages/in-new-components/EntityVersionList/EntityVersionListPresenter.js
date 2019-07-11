@@ -1,9 +1,8 @@
 import React from 'react';
 
+import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
-import PluginIcon from 'in-components/PluginIcon';
-import { getSingular } from 'in-sdk/pluginName';
 import Link from 'in-components/Link';
 
 import locals from './EntityVersionListPresenter.mless';
@@ -12,14 +11,12 @@ export default function EntityVersionListPresenter({ plugin, snapshotVersions })
   snapshotVersions.sort(sortByTo);
 
   return (
-    <div className={locals.frame}>
-      <PluginIcon className={locals.icon} plugin={plugin} dimension={48} />
-      <h2 className={locals.title}>{`${getSingular(plugin)} not found`}</h2>
-      <p className={locals.explanation}>
-        We could not find a version of this entity in the selected time range. We found other versions in different time
-        ranges:
-      </p>
-
+    <EntityPageMainNotification
+      framed
+      plugin={plugin}
+      explanation="We could not find a version of this entity in the selected time range. We found other versions in different time
+    ranges:"
+    >
       <div className={locals.listHeading}>Available time ranges</div>
       <ul className={locals.list}>
         {snapshotVersions.map(({ from, to }, i) => {
@@ -43,7 +40,7 @@ export default function EntityVersionListPresenter({ plugin, snapshotVersions })
           );
         })}
       </ul>
-    </div>
+    </EntityPageMainNotification>
   );
 }
 

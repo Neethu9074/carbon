@@ -2,15 +2,19 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 
+import {
+  applicationDashboardUrlParameters,
+  createEndpointTypesUrlParameter,
+  createEndpointTechnologiesUrlParameter
+} from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -147,38 +151,26 @@ const columnDefinitions = [
   }
 ];
 
-const endpointTypesUrlParameter = {
-  path: pathSegment,
-  name: `${matrixPrefix}endpointTypes`,
-  as: 'endpointTypes',
-  initialState: [],
-  parser: buildJsonParser([]),
-  serializer: buildJsonSerializer()
-};
+const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
+const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
 
-const technologiesUrlParameter = {
-  path: pathSegment,
-  name: `${matrixPrefix}technologies`,
-  as: 'technologies',
-  initialState: [],
-  parser: buildJsonParser([]),
-  serializer: buildJsonSerializer()
-};
-
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [
-    ...timeConfigUrlParameters,
-    endpointTypesUrlParameter,
-    technologiesUrlParameter,
-    applicationDashboardUrlParameters.applicationId,
-    applicationDashboardUrlParameters.serviceId,
-    applicationDashboardUrlParameters.endpointId
-  ],
-  columnDefinitions,
-  defaultOrderBy: 'callsAgg',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      endpointTypesUrlParameter,
+      technologiesUrlParameter,
+      applicationDashboardUrlParameters.applicationId,
+      applicationDashboardUrlParameters.serviceId,
+      applicationDashboardUrlParameters.endpointId
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
 });
 
 export default compose(
@@ -192,8 +184,11 @@ export default compose(
   })
 )(ServiceList);
 
-function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter }) {
+function ServiceList(props) {
+  const { timeConfig, applicationId, serviceId, endpointId, endpointTypes, technologies, setFilter } = props;
+
   const rightHeader = <Filters endpointTypes={endpointTypes} technologies={technologies} setFilter={setFilter} />;
+
   return (
     <ServerTableWithUrlState
       get={getTableData}
@@ -209,16 +204,16 @@ function ServiceList({ timeConfig, applicationId, serviceId, endpointId, endpoin
 }
 
 function getTableData({
-  query,
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'callsAgg',
+  orderDirection = 'DESC',
   applicationId,
   serviceId,
   endpointId,
-  endpointTypes,
-  technologies,
+  endpointTypes = [],
+  technologies = [],
   timeConfig
 }) {
   const granularity = getSparkChartGranularity(timeConfig);

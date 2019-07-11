@@ -1,0 +1,14 @@
+@import '~in-themes/active.less';
+
+:local {
+  .content {
+    max-width: 30vw;
+
+    margin: 1rem 1.5rem;
+
+    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    text-align: center;
+    color: @lib__colors__N700Medium;
+  }
+}

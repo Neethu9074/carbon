@@ -1,55 +1,23 @@
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
+import { clusterId } from 'in-kubernetes/navigation/matrix';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
-
-export default function Services({ timeConfig, clusterId }) {
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      columnDefinitions={columnDefinitions}
-      timeConfig={timeConfig}
-      clusterId={clusterId}
-      paginationResettingProps={['clusterId', 'timeConfig']}
-      defaultOrderBy="name"
-      defaultOrderDirection="ASC"
-    />
-  );
-}
-
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, clusterId }) {
-  return getKubernetesNodes({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      clusterId,
-      timeConfig
-    },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
-  });
-}
 
 const columnDefinitions = [
   {
@@ -161,3 +129,46 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
+    columnDefinitions,
+    defaultOrderBy: 'name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
+
+export default function Nodes(props) {
+  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} clusterId={props.clusterId} />;
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'type',
+  orderDirection = 'ASC',
+  timeConfig,
+  clusterId
+}) {
+  return getKubernetesNodes({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      clusterId,
+      timeConfig
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+  });
+}

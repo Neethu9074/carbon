@@ -2,14 +2,25 @@ import { get, filter, some } from 'lodash';
 import { compose } from 'recompose';
 import React from 'react';
 
+import {
+  clusterId,
+  serviceId,
+  namespaceId,
+  podId,
+  nodeId,
+  deploymentId,
+  deploymentConfigId
+} from 'in-kubernetes/navigation/matrix';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -25,117 +36,6 @@ import locals from './Pods.mless';
 
 const pathSegment = '/pods';
 const matrixPrefix = 'pod.';
-
-export function PodsWithNamespaces({ columnDefinitions = allColumnDefinitions, ...props }) {
-  return <Pods columnDefinitions={columnDefinitions} {...props} />;
-}
-
-const Pods = compose(
-  withUrlState({
-    reducerName: 'setPhase',
-    bind: [
-      {
-        path: pathSegment,
-        name: 'phase',
-        initialState: null,
-        parser: buildJsonParser(null),
-        serializer: buildJsonSerializer()
-      }
-    ]
-  })
-)(function Pods({
-  phase,
-  setPhase,
-  timeConfig,
-  namespaceId,
-  clusterId,
-  deploymentId,
-  deploymentConfigId,
-  serviceId,
-  leftHeader,
-  nodeId,
-  columnDefinitions = columnDefinitionsWithoutNamespace
-}) {
-  const rightHeader = (
-    <ComboBox
-      placeholder="Phase…"
-      value={phase}
-      searchable={false}
-      onChange={t => setPhase({ phase: t ? t.value : null })}
-      options={podPhases}
-      className={locals.filter}
-    />
-  );
-
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      columnDefinitions={columnDefinitions}
-      timeConfig={timeConfig}
-      namespaceId={namespaceId}
-      deploymentId={deploymentId}
-      deploymentConfigId={deploymentConfigId}
-      clusterId={clusterId}
-      serviceId={serviceId}
-      nodeId={nodeId}
-      rightHeader={rightHeader}
-      leftHeader={leftHeader}
-      phase={phase}
-      paginationResettingProps={[
-        'namespaceId',
-        'clusterId',
-        'deploymentId',
-        'deploymentConfigId',
-        'serviceId',
-        'nodeId',
-        'timeConfig'
-      ]}
-      defaultOrderBy="name"
-      defaultOrderDirection="ASC"
-    />
-  );
-});
-
-function getTableData({
-  query,
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
-  timeConfig,
-  namespaceId,
-  clusterId,
-  serviceId,
-  deploymentId,
-  deploymentConfigId,
-  nodeId,
-  phase
-}) {
-  return getKubernetesPods({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      namespaceId,
-      deploymentId,
-      deploymentConfigId,
-      clusterId,
-      serviceId,
-      nodeId,
-      timeConfig,
-      phase
-    },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
-  });
-}
 
 const allColumnDefinitions = [
   {
@@ -242,6 +142,147 @@ const allColumnDefinitions = [
 ];
 
 const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
+
+const ServerTableWithUrlStateWithoutNamespace = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      clusterId,
+      serviceId,
+      namespaceId,
+      podId,
+      nodeId,
+      deploymentId,
+      deploymentConfigId
+    ],
+    columnDefinitions: columnDefinitionsWithoutNamespace,
+    defaultOrderBy: 'name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions: columnDefinitionsWithoutNamespace
+});
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      clusterId,
+      serviceId,
+      namespaceId,
+      podId,
+      nodeId,
+      deploymentId,
+      deploymentConfigId
+    ],
+    columnDefinitions: allColumnDefinitions,
+    defaultOrderBy: 'name',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions: allColumnDefinitions
+});
+
+export function PodsWithNamespaces({ ...props }) {
+  return <Pods columnDefinitions={allColumnDefinitions} Table={ServerTableWithUrlState} {...props} />;
+}
+
+const Pods = compose(
+  withUrlState({
+    reducerName: 'setPhase',
+    bind: [
+      {
+        path: pathSegment,
+        name: 'phase',
+        initialState: null,
+        parser: buildJsonParser(null),
+        serializer: buildJsonSerializer()
+      }
+    ]
+  })
+)(function Pods(props) {
+  const rightHeader = (
+    <ComboBox
+      placeholder="Phase…"
+      value={phase}
+      searchable={false}
+      onChange={t => setPhase({ phase: t ? t.value : null })}
+      options={podPhases}
+      className={locals.filter}
+    />
+  );
+
+  const {
+    phase,
+    setPhase,
+    timeConfig,
+    namespaceId,
+    clusterId,
+    deploymentId,
+    deploymentConfigId,
+    serviceId,
+    leftHeader,
+    nodeId,
+    Table = ServerTableWithUrlStateWithoutNamespace
+  } = props;
+
+  return (
+    <Table
+      get={getTableData}
+      timeConfig={timeConfig}
+      namespaceId={namespaceId}
+      deploymentId={deploymentId}
+      deploymentConfigId={deploymentConfigId}
+      clusterId={clusterId}
+      serviceId={serviceId}
+      nodeId={nodeId}
+      rightHeader={rightHeader}
+      leftHeader={leftHeader}
+      phase={phase}
+    />
+  );
+});
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'name',
+  orderDirection = 'ASC',
+  timeConfig,
+  namespaceId,
+  clusterId,
+  serviceId,
+  deploymentId,
+  deploymentConfigId,
+  nodeId,
+  phase
+}) {
+  return getKubernetesPods({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      namespaceId,
+      deploymentId,
+      deploymentConfigId,
+      clusterId,
+      serviceId,
+      nodeId,
+      timeConfig,
+      phase
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+  });
+}
 
 function quotasPresentForPod(pod) {
   return [podHasMemoryQuotas(pod) && 'memory', podHasCpuQuotas(pod) && 'cpu'].filter(Boolean).join(', ');

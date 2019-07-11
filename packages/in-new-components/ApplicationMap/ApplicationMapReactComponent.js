@@ -2,9 +2,11 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import { getTagFilterToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ApplicationMap from 'in-new-components/ApplicationMap/ApplicationMap';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -63,19 +65,28 @@ export default compose(
       return objectToStore;
     }
   }),
-  connect(props => ({
+  connect(({ traffic, applicationId }) => ({
     result: timeConfig$.flatMap(
       timeConfig =>
         getServiceMap({
           filter: {
             timeConfig,
             // when we want to see all services, remove the application filter
-            application: props.traffic ? null : props.applicationId
+            application: traffic ? null : applicationId
           }
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
   }))
-)(props => <ApplicationMapReactComponent {...props} />);
+)(props => {
+  return (
+    <WithEmptyStateFallback
+      getHasDataToRender={() => getHasDataToRender(props)}
+      FallbackComponent={ServicesNoDataNotification}
+    >
+      <ApplicationMapReactComponent {...props} />
+    </WithEmptyStateFallback>
+  );
+});
 
 export const ApplicationMapReactComponent = getElementDimensions(
   class extends React.Component {
@@ -120,7 +131,7 @@ export const ApplicationMapReactComponent = getElementDimensions(
       const { result } = this.props;
 
       const isLoading = get(result, ['progress', 'loading'], false);
-      const hasErrors = get(result, ['errors'], []).length > 0;
+      const hasErrors = get(result, ['errors', 'length'], 0) > 0;
 
       let errorOrLoadingOverlay = null;
       if (isLoading || hasErrors) {
@@ -166,3 +177,19 @@ export const ApplicationMapReactComponent = getElementDimensions(
     };
   }
 );
+
+function getHasDataToRender({ traffic, applicationId }) {
+  return timeConfig$
+    .flatMap(
+      timeConfig =>
+        getServiceMap({
+          filter: {
+            timeConfig,
+            // when we want to see all services, remove the application filter
+            application: traffic ? null : applicationId
+          }
+        }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
+    )
+    .map(result => !result.data || (result.data.services && result.data.services.length > 0))
+    .distinct();
+}

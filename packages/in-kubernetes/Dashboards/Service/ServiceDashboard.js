@@ -8,6 +8,7 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -61,12 +62,14 @@ export default function ServiceDashboard({ location }) {
         }}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesService}
-            snapshotId={props.serviceId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesService}
+              snapshotId={props.serviceId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

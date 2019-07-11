@@ -1,5 +1,5 @@
 import { compose, withProps, withPropsOnChange } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   dataSource as dataSourceMatrixParameter,
@@ -13,11 +13,14 @@ import {
   getGroupFromUrlString
 } from 'in-analyze/filterBuilder';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import getCalls from 'in-subscription/application/getCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import Footer from 'in-new-components/Footer';
@@ -70,7 +73,8 @@ export default compose(
       isRawView: !group || !group.name
     })
   ),
-  withProps(({ onChangeAnalyzeConfig }) => ({
+  withProps(({ onChangeAnalyzeConfig, location }) => ({
+    timeConfig: getTimeConfig(location),
     setTagFilters(tagFilters) {
       onChangeAnalyzeConfig({
         [tagFilterMatrixParameter]: tagFilters
@@ -83,13 +87,17 @@ export default compose(
 function AnalyzeView(props) {
   const { activeDialog, isRawView, filters } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
-
   return (
-    <Fragment>
+    <WithEmptyStateFallback
+      center={false}
+      getHasDataToRender={() => getHasDataToRender(props)}
+      FallbackComponent={EmptyAnalyzeView}
+    >
       {activeDialog && <DisabledBodyScroll />}
       {isRawView ? <dataSourceConfig.RawView {...props} /> : <dataSourceConfig.GroupedView {...props} />}
+
       <Footer />
-    </Fragment>
+    </WithEmptyStateFallback>
   );
 }
 
@@ -98,4 +106,21 @@ function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
     [groupByMatrixParameter]:
       getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping
   };
+}
+
+function getHasDataToRender({ timeConfig }) {
+  return getCalls({
+    pagination: {
+      cursor: null,
+      retrievalSize: 1
+    },
+    order: {
+      by: 'timestamp',
+      direction: 'DESC'
+    },
+    filter: {
+      timeConfig
+    },
+    tagFilters: []
+  }).map(result => !result.data || result.data.totalHits > 0);
 }

@@ -1,86 +1,20 @@
 import React from 'react';
 
+import {
+  websiteIdUrlParameter,
+  tagFiltersInDashboardUrlParameter,
+  pageIdUrlParameter
+} from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
 import Link from 'in-components/Link';
-
-export default function Pages({ timeConfig, tagFilters, websiteId }) {
-  return (
-    <Row>
-      <Col xs={12}>
-        <ServerTableWithUrlBoundState
-          pathSegment="/pages"
-          matrixPrefix=""
-          get={getTableData}
-          websiteId={websiteId}
-          tagFilters={tagFilters}
-          timeConfig={timeConfig}
-          columnDefinitions={columnDefinitions}
-          paginationResettingProps={['timeConfig', 'tagFilters']}
-          defaultOrderBy="pageViewsAgg"
-          defaultOrderDirection="DESC"
-        />
-      </Col>
-    </Row>
-  );
-}
-
-function getTableData({ page, pageSize, orderBy, orderDirection, timeConfig, query, tagFilters }) {
-  if (isNotBlank(query)) {
-    tagFilters = tagFilters.concat([{ name: 'beacon.page.name', stringValue: query, operator: 'CONTAINS' }]);
-  }
-
-  return getWebsitePaginatedBeaconGroups({
-    tagFilters,
-    timeConfig,
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    group: {
-      groupbyTag: 'beacon.page.name'
-    },
-    metrics: {
-      pageViewsAgg: {
-        metric: 'pageViews',
-        aggregation: 'SUM'
-      },
-      pageViews: {
-        metric: 'pageViews',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      errorsAgg: {
-        metric: 'errors',
-        aggregation: 'SUM'
-      },
-      errors: {
-        metric: 'errors',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      },
-      onLoadTimeAgg: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN'
-      },
-      onLoadTime: {
-        metric: 'onLoadTime',
-        aggregation: 'MEAN',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    }
-  });
-}
 
 const columnDefinitions = [
   {
@@ -158,3 +92,84 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      websiteIdUrlParameter,
+      tagFiltersInDashboardUrlParameter,
+      pageIdUrlParameter
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'pageViewsAgg',
+    defaultOrderDirection: 'DESC',
+    pathSegment: '/pages'
+  }),
+  columnDefinitions
+});
+
+export default function Pages({ timeConfig, tagFilters, websiteId }) {
+  return (
+    <ServerTableWithUrlState get={getTableData} websiteId={websiteId} tagFilters={tagFilters} timeConfig={timeConfig} />
+  );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'pageViewsAgg',
+  orderDirection = 'DESC',
+  timeConfig,
+  tagFilters
+}) {
+  if (isNotBlank(query)) {
+    tagFilters = tagFilters.concat([{ name: 'beacon.page.name', stringValue: query, operator: 'CONTAINS' }]);
+  }
+
+  return getWebsitePaginatedBeaconGroups({
+    tagFilters,
+    timeConfig,
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    group: {
+      groupbyTag: 'beacon.page.name'
+    },
+    metrics: {
+      pageViewsAgg: {
+        metric: 'pageViews',
+        aggregation: 'SUM'
+      },
+      pageViews: {
+        metric: 'pageViews',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      errorsAgg: {
+        metric: 'errors',
+        aggregation: 'SUM'
+      },
+      errors: {
+        metric: 'errors',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      },
+      onLoadTimeAgg: {
+        metric: 'onLoadTime',
+        aggregation: 'MEAN'
+      },
+      onLoadTime: {
+        metric: 'onLoadTime',
+        aggregation: 'MEAN',
+        granularity: getSparkChartGranularity(timeConfig)
+      }
+    }
+  });
+}

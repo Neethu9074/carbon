@@ -8,6 +8,7 @@ import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/Analyz
 import getKubernetesDeployment from 'in-subscription/kubernetes/getKubernetesDeployment';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { deploymentId as matrixDeploymentId } from 'in-kubernetes/navigation/matrix';
+import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -56,12 +57,14 @@ export default function DeploymentDashboard({ location }) {
         tabChangeTracker={deploymentTabChange}
         props={props}
         renderErrors={errors => (
-          <EntityVersionList
-            plugin={plugins.kubernetesDeployment}
-            snapshotId={props.deploymentId}
-            timeConfig={props.timeConfig}
-            errors={errors}
-          />
+          <CenterAlignmentColumn>
+            <EntityVersionList
+              plugin={plugins.kubernetesDeployment}
+              snapshotId={props.deploymentId}
+              timeConfig={props.timeConfig}
+              errors={errors}
+            />
+          </CenterAlignmentColumn>
         )}
       />
 

@@ -7,6 +7,7 @@ import {
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
@@ -15,7 +16,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
 import { ms, number } from 'in-services/formatters/number';
-import { Col, Row } from 'in-new-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
@@ -89,17 +89,20 @@ const filterUrlParameter = {
   initialState: null
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  paginationResettingUrlParameters: [
-    ...timeConfigUrlParameters,
-    websiteIdUrlParameter,
-    tagFiltersInDashboardUrlParameter,
-    pageIdUrlParameter
-  ],
-  columnDefinitions,
-  defaultOrderBy: 'beaconCountAgg',
-  defaultOrderDirection: 'DESC',
-  pathSegment: resourcesTab
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      websiteIdUrlParameter,
+      tagFiltersInDashboardUrlParameter,
+      pageIdUrlParameter
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'beaconCountAgg',
+    defaultOrderDirection: 'DESC',
+    pathSegment: resourcesTab
+  }),
+  columnDefinitions
 });
 
 export default compose(
@@ -139,23 +142,25 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
     : tagFilters;
 
   return (
-    <Fragment>
-      <Row>
-        <Col xs={12}>
-          <ServerTableWithUrlState
-            get={getTableData}
-            websiteId={websiteId}
-            tagFilters={tagFiltersForResourceList}
-            timeConfig={timeConfig}
-            rightHeader={resourcesListRightHeader}
-          />
-        </Col>
-      </Row>
-    </Fragment>
+    <ServerTableWithUrlState
+      get={getTableData}
+      websiteId={websiteId}
+      tagFilters={tagFiltersForResourceList}
+      timeConfig={timeConfig}
+      rightHeader={resourcesListRightHeader}
+    />
   );
 }
 
-function getTableData({ page, pageSize, orderBy, orderDirection, timeConfig, query, tagFilters }) {
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'beaconCountAgg',
+  orderDirection = 'DESC',
+  timeConfig,
+  tagFilters
+}) {
   if (isNotBlank(query)) {
     tagFilters = tagFilters.concat([{ name: 'beacon.http.origin', stringValue: query, operator: 'CONTAINS' }]);
   }

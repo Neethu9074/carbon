@@ -1,8 +1,11 @@
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-subscription/application/getErrorMessages';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -14,87 +17,6 @@ import locals from './MessagesTable.mless';
 
 const pathSegment = '/errorMessages';
 const matrixPrefix = 'error.';
-
-export default function ErrorMessagesTable({
-  applicationId,
-  serviceId,
-  endpointId,
-  timeConfig,
-  applicationName,
-  serviceName,
-  endpointName
-}) {
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      defaultPageSize={10}
-      columnDefinitions={columnDefinitions}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      applicationName={applicationName}
-      serviceName={serviceName}
-      endpointName={endpointName}
-      timeConfig={timeConfig}
-      paginationResettingProps={{ applicationId, serviceId, endpointId, timeConfig }}
-      defaultOrderBy="callsAgg"
-      defaultOrderDirection="DESC"
-      size="compact"
-      rightHeader={
-        <AnalyzeMessagesButton
-          groupByTagName="call.error.message"
-          applicationName={applicationName}
-          serviceName={serviceName}
-          endpointName={endpointName}
-          className={locals.analyzeButton}
-        />
-      }
-    />
-  );
-}
-
-function getTableData({
-  query,
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
-  applicationId,
-  serviceId,
-  endpointId,
-  timeConfig
-}) {
-  return getErrorMessages({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      timeConfig,
-      application: applicationId,
-      service: serviceId,
-      endpoint: endpointId
-    },
-    metrics: {
-      callsAgg: {
-        metric: 'calls',
-        aggregation: 'SUM'
-      },
-      calls: {
-        metric: 'calls',
-        aggregation: 'SUM',
-        granularity: getSparkChartGranularity(timeConfig)
-      }
-    }
-  });
-}
 
 const columnDefinitions = [
   {
@@ -130,6 +52,98 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      applicationDashboardUrlParameters.applicationId,
+      applicationDashboardUrlParameters.serviceId,
+      applicationDashboardUrlParameters.endpointId
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
+
+export default function ErrorMessagesTable({
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig,
+  applicationName,
+  serviceName,
+  endpointName
+}) {
+  return (
+    <ServerTableWithUrlState
+      size="compact"
+      get={getTableData}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      applicationName={applicationName}
+      serviceName={serviceName}
+      endpointName={endpointName}
+      timeConfig={timeConfig}
+      rightHeader={
+        <AnalyzeMessagesButton
+          groupByTagName="call.error.message"
+          applicationName={applicationName}
+          serviceName={serviceName}
+          endpointName={endpointName}
+          className={locals.analyzeButton}
+        />
+      }
+    />
+  );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 10,
+  orderBy = 'callsAgg',
+  orderDirection = 'DESC',
+  applicationId,
+  serviceId,
+  endpointId,
+  timeConfig
+}) {
+  return getErrorMessages({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      timeConfig,
+      application: applicationId,
+      service: serviceId,
+      endpoint: endpointId
+    },
+    metrics: {
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
+      },
+      calls: {
+        metric: 'calls',
+        aggregation: 'SUM',
+        granularity: getSparkChartGranularity(timeConfig)
+      }
+    }
+  });
+}
 
 function Message({ message, applicationName, serviceName, endpointName }) {
   let displayedMessage;

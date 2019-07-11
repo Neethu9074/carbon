@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .text {
+    line-height: 1.25rem;
+    font-size: 0.8125rem;
+    text-align: center;
+    color: @lib__colors__N700Medium;
+  }
+}

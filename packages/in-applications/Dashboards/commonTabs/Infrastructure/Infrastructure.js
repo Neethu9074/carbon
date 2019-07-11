@@ -7,6 +7,7 @@ import {
   getClusterDashboard,
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 'in-stores/snapshot';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -38,19 +39,23 @@ const tablesByType = {
 };
 
 function getTable(type) {
-  return createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      {
-        path: '/infrastructure',
-        name: `selectedType`
-      }
-    ],
-    columnDefinitions: getColumnDefinitions(type),
-    defaultOrderBy: 'callsAgg',
-    defaultOrderDirection: 'DESC',
-    defaultPageSize: 10,
-    pathSegment: '/infrastructure',
-    matrixPrefix: ''
+  const columnDefinitions = getColumnDefinitions(type);
+  return createServerTableWithEmptyState({
+    ServerTable: createServerTableWithUrlState({
+      paginationResettingUrlParameters: [
+        {
+          path: '/infrastructure',
+          name: `selectedType`
+        }
+      ],
+      columnDefinitions,
+      defaultOrderBy: 'callsAgg',
+      defaultOrderDirection: 'DESC',
+      defaultPageSize: 10,
+      pathSegment: '/infrastructure',
+      matrixPrefix: ''
+    }),
+    columnDefinitions
   });
 }
 
@@ -158,6 +163,7 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
+  const rightHeader = <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />;
   const Table = tablesByType[selectedType];
 
   return (
@@ -170,7 +176,8 @@ function Infrastructure({ data: entity, applicationId, serviceId, endpointId, ti
       timeConfig={timeConfig}
       size="compact"
       isSearchable={false}
-      rightHeader={<ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />}
+      rightHeader={rightHeader}
+      cardTitle="Infrastructure"
     />
   );
 }
@@ -209,18 +216,24 @@ function hasSomeNonClusterTechnologies(entity) {
   });
 }
 
-const clusterTechnologies = ['elasticsearchCluster', 'cassandraCluster', 'couchbaseCluster', 'kubernetesService', 'redisCluster'];
+const clusterTechnologies = [
+  'elasticsearchCluster',
+  'cassandraCluster',
+  'couchbaseCluster',
+  'kubernetesService',
+  'redisCluster'
+];
 
 function isClusterTechnology(technology) {
-  return clusterTechnologies.includes(technology);
+  return clusterTechnologies.indexOf(technology) >= 0;
 }
 
 function getTableData({
-  query,
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
+  query = '',
+  page = 1,
+  pageSize = 10,
+  orderBy = 'callsAgg',
+  orderDirection = 'DESC',
   applicationId,
   serviceId,
   endpointId,

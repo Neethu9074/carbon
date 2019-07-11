@@ -7,37 +7,139 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { podId } from 'in-kubernetes/navigation/matrix';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
-const pathSegment = '/summary';
+const pathSegment = '/containers';
 const matrixPrefix = 'container.';
+
+const columnDefinitions = [
+  {
+    id: 'label',
+    label: 'Name',
+    getContent(item, { timeConfig }) {
+      return (
+        <SeverityAwareEntityLink
+          icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
+          label={get(item, ['container', 'label'])}
+          href$={getDashboardLink(get(item, ['container', 'id']), {
+            pathname: '/physical/dashboard',
+            to: timeConfig.to,
+            focusedMoment: timeConfig.to
+          })}
+          severity={item.entityHealthInfo.maxSeverity}
+        />
+      );
+    }
+  },
+  {
+    id: 'ready',
+    label: 'Ready',
+    sortable: false,
+    getContent(item, { statesMap }) {
+      const id = get(item, ['container', 'id']);
+      return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : valueMissingPlaceholder;
+    }
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    sortable: false,
+    getContent(item, { statesMap }) {
+      const id = get(item, ['container', 'id']);
+      return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : valueMissingPlaceholder;
+    }
+  },
+  {
+    id: 'message',
+    label: 'Message',
+    sortable: false,
+    getContent(item, { statesMap }) {
+      const id = get(item, ['container', 'id']);
+      return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : valueMissingPlaceholder;
+    }
+  },
+  {
+    id: 'cpuTotal',
+    label: 'CPU Total %',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={get(item, ['container', 'id'])}
+          timeConfig={timeConfig}
+          formatter={percentageZeroDecimalPlaces}
+          tooltipFormatter={percentageTwoDecimalPlaces}
+          metric="cpu.total_usage"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryUsage',
+    label: 'Memory Usage',
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={get(item, ['container', 'id'])}
+          timeConfig={timeConfig}
+          formatter={bytesZeroDecimalPlaces}
+          tooltipFormatter={bytesTwoDecimalPlaces}
+          metric="memory.usage"
+        />
+      );
+    }
+  },
+  {
+    id: 'health',
+    label: 'Health',
+    getContent(item, { timeConfig }) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.container.id}
+        />
+      );
+    }
+  }
+];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, podId],
+    defaultOrderBy: 'label',
+    defaultOrderDirection: 'ASC',
+    columnDefinitions,
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
 
 export default connectTo(
   ({ data: pod, timeConfig }) => ({
-    monitoredContainersResult: getTableData({
-      query: '',
-      page: 1,
-      pageSize: 20,
-      orderBy: 'label',
-      orderDirection: 'ASC',
-      timeConfig,
-      podId: pod.id
-    })
+    monitoredContainersResult: getTableData({ timeConfig, podId: pod.id })
   }),
   function UnmonitoredInfrastructure(props) {
     const { data: pod, monitoredContainersResult } = props;
@@ -77,19 +179,16 @@ export default connectTo(
 );
 
 function MonitoredContainers({ data: pod, timeConfig }) {
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      columnDefinitions={getColumnDefinitions(pod)}
-      timeConfig={timeConfig}
-      podId={pod.id}
-      paginationResettingProps={['podId', 'timeConfig']}
-      defaultOrderBy="label"
-      defaultOrderDirection="ASC"
-    />
-  );
+  const allContainerStatuses = [
+    ...get(pod, ['status', 'initContainerStatuses'], []),
+    ...get(pod, ['status', 'containerStatuses'], [])
+  ];
+  const statesMap = {};
+  for (let i = 0; i < allContainerStatuses.length; i++) {
+    statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
+  }
+
+  return <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} podId={pod.id} statesMap={statesMap} />;
 }
 
 function UnmonitoredContainers({ containerStatuses }) {
@@ -132,7 +231,15 @@ function UnmonitoredContainers({ containerStatuses }) {
   );
 }
 
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, podId }) {
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  podId
+}) {
   return getKubernetesContainers({
     pagination: {
       page,
@@ -148,110 +255,4 @@ function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConf
       timeConfig
     }
   });
-}
-
-function getColumnDefinitions(pod) {
-  const allContainerStatuses = [
-    ...get(pod, ['status', 'initContainerStatuses'], []),
-    ...get(pod, ['status', 'containerStatuses'], [])
-  ];
-  const statesMap = {};
-  for (let i = 0; i < allContainerStatuses.length; i++) {
-    statesMap[allContainerStatuses[i].containerSnapshotId] = allContainerStatuses[i];
-  }
-
-  return [
-    {
-      id: 'label',
-      label: 'Name',
-      getContent(item, { timeConfig }) {
-        return (
-          <SeverityAwareEntityLink
-            icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
-            label={get(item, ['container', 'label'])}
-            href$={getDashboardLink(get(item, ['container', 'id']), {
-              pathname: '/physical/dashboard',
-              to: timeConfig.to,
-              focusedMoment: timeConfig.to
-            })}
-            severity={item.entityHealthInfo.maxSeverity}
-          />
-        );
-      }
-    },
-    {
-      id: 'ready',
-      label: 'Ready',
-      sortable: false,
-      getContent(item) {
-        const id = get(item, ['container', 'id']);
-        return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : valueMissingPlaceholder;
-      }
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      sortable: false,
-      getContent(item) {
-        const id = get(item, ['container', 'id']);
-        return statesMap[id] ? <Capitalize>{statesMap[id].state.status}</Capitalize> : valueMissingPlaceholder;
-      }
-    },
-    {
-      id: 'message',
-      label: 'Message',
-      sortable: false,
-      getContent(item) {
-        const id = get(item, ['container', 'id']);
-        return statesMap[id] ? <PodMessage message={statesMap[id].state.message} /> : valueMissingPlaceholder;
-      }
-    },
-    {
-      id: 'cpuTotal',
-      label: 'CPU Total %',
-      sortable: false,
-      getContent(item, { timeConfig }) {
-        return (
-          <InfrastructureMetricSparkChart
-            snapshotId={get(item, ['container', 'id'])}
-            timeConfig={timeConfig}
-            formatter={percentageZeroDecimalPlaces}
-            tooltipFormatter={percentageTwoDecimalPlaces}
-            metric="cpu.total_usage"
-          />
-        );
-      }
-    },
-    {
-      id: 'memoryUsage',
-      label: 'Memory Usage',
-      sortable: false,
-      getContent(item, { timeConfig }) {
-        return (
-          <InfrastructureMetricSparkChart
-            snapshotId={get(item, ['container', 'id'])}
-            timeConfig={timeConfig}
-            formatter={bytesZeroDecimalPlaces}
-            tooltipFormatter={bytesTwoDecimalPlaces}
-            metric="memory.usage"
-          />
-        );
-      }
-    },
-    {
-      id: 'health',
-      label: 'Health',
-      getContent(item, { timeConfig }) {
-        return (
-          <EntityHealthIndicator
-            openIssues={item.entityHealthInfo.openIssues.length}
-            maxSeverity={item.entityHealthInfo.maxSeverity}
-            IndicatorPresenter={HealthIndicatorPresenter}
-            timeConfig={timeConfig}
-            snapshotId={item.container.id}
-          />
-        );
-      }
-    }
-  ];
 }

@@ -1,63 +1,21 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import ServerTableWithUrlBoundState from 'in-components/tables/ServerTable/ServerTableWithUrlBoundState';
+import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
+import { clusterId } from 'in-kubernetes/navigation/matrix';
 import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
-
-export default function Namespaces({ timeConfig, clusterId }) {
-  return (
-    <ServerTableWithUrlBoundState
-      pathSegment={pathSegment}
-      matrixPrefix={matrixPrefix}
-      get={getTableData}
-      columnDefinitions={columnDefinitions}
-      filterColumnDefinitionsByResult={result => {
-        return columnDefinition => {
-          if (
-            result.data &&
-            result.data.items &&
-            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
-          )
-            return true;
-          else return columnDefinition.id !== 'deploymentConfigs';
-        };
-      }}
-      timeConfig={timeConfig}
-      clusterId={clusterId}
-      paginationResettingProps={['clusterId', 'timeConfig']}
-      defaultOrderBy="label"
-      defaultOrderDirection="ASC"
-    />
-  );
-}
-
-function getTableData({ query, page, pageSize, orderBy, orderDirection, timeConfig, clusterId }) {
-  return getKubernetesNamespaces({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    filter: {
-      label: query,
-      clusterId,
-      timeConfig
-    }
-  });
-}
 
 const columnDefinitions = [
   {
@@ -188,3 +146,62 @@ const columnDefinitions = [
     }
   }
 ];
+
+const ServerTableWithUrlState = createServerTableWithEmptyState({
+  ServerTable: createServerTableWithUrlState({
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
+    columnDefinitions,
+    defaultOrderBy: 'label',
+    defaultOrderDirection: 'ASC',
+    pathSegment,
+    matrixPrefix
+  }),
+  columnDefinitions
+});
+
+export default function Namespaces(props) {
+  return (
+    <ServerTableWithUrlState
+      get={getTableData}
+      filterColumnDefinitionsByResult={result => {
+        return columnDefinition => {
+          if (
+            result.data &&
+            result.data.items &&
+            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
+          )
+            return true;
+          else return columnDefinition.id !== 'deploymentConfigs';
+        };
+      }}
+      timeConfig={props.timeConfig}
+      clusterId={props.clusterId}
+    />
+  );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  clusterId
+}) {
+  return getKubernetesNamespaces({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      clusterId,
+      timeConfig
+    }
+  });
+}
