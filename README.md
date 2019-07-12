@@ -286,8 +286,8 @@ During development you will mostly work with `yarn run dev`, but in production t
 
 It is rather rare, but if need to start `in-server` locally, here's how:
 
-- `yarn run try-build`
-- `yarn run try-build-without-building` can also be used after the first successful Gulp/Webpack build
+- `yarn run build`
+- `yarn run try-build` can also be used after the first successful Gulp/Webpack build
 
 If the build fails while trying to start the Proxy (Proxrox) with something like:
 
