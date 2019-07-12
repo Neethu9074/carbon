@@ -9,6 +9,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
 import { kubernetesEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
+import Footer from 'in-new-components/Footer';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 
@@ -211,6 +212,7 @@ export default class extends React.Component {
             />
           </HorizontalFormGroup>
         </div>
+        <Footer />
       </SettingsDetailPage>
     );
   }

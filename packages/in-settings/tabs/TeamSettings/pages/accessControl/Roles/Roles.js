@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   getEntityHref,
@@ -11,24 +11,28 @@ import { openRoleSubmitFormTracker } from 'in-settings/tracker';
 import { getRolesMutable, deleteRole } from 'in-api/roles';
 import { isRbacEnabled } from 'in-services/featureFlags';
 import List from 'in-settings/components/List';
+import Footer from 'in-new-components/Footer';
 import Link from 'in-components/Link';
 
 export default function Roles() {
   return (
-    <List
-      title="Roles"
-      getHeader={getHeader}
-      getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
-      tableActions={tableActions}
-      loadEntities={getRolesMutable}
-      initialOrderBy="name"
-      labelNew="New Role"
-      pathNew={teamSettingsAccessControlRoleNew}
-      searchAttributes={['name']}
-      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlRoles, entity.id)}
-      trackEvent={openRoleSubmitFormTracker}
-    />
+    <Fragment>
+      <List
+        title="Roles"
+        getHeader={getHeader}
+        getEntityName={getEntityName}
+        columnDefinitions={columnDefinitions}
+        tableActions={tableActions}
+        loadEntities={getRolesMutable}
+        initialOrderBy="name"
+        labelNew="New Role"
+        pathNew={teamSettingsAccessControlRoleNew}
+        searchAttributes={['name']}
+        getDetailsHref={entity => getEntityHref(teamSettingsAccessControlRoles, entity.id)}
+        trackEvent={openRoleSubmitFormTracker}
+      />
+      <Footer />
+    </Fragment>
   );
 }
 

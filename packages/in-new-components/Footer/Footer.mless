@@ -3,7 +3,6 @@
   .footer {
     height: 4rem;
   }
-
   .smallMargin {
     height: 2rem;
   }
