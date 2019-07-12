@@ -7,13 +7,13 @@ const chalk = require('chalk');
 const gulp = require('gulp');
 const path = require('path');
 const runSequence = require('run-sequence');
-const inquirer = require('inquirer');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 
 const webpackConfig = require('../../webpack.config.js');
+const { askQuestions } = require('./devModeQuestions');
 const paths = require('./paths');
 const buildUtil = require('./util');
 
@@ -47,140 +47,8 @@ gulp.task('dev', cb => {
 });
 
 gulp.task('askForDevOptions', cb => {
-  var testEnvironment = {
-    uiBackendUrl: 'https://test-instana.instana.io',
-    butlerUrl: 'https://test-instana.instana.io',
-    integrationUrl: 'https://test-instana.instana.io',
-    tenant: 'instana',
-    tenantUnit: 'test',
-    environment: 'saas',
-    butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
-  };
-  var sensorsEnvironment = {
-    uiBackendUrl: 'https://sensors-instana.instana.io',
-    butlerUrl: 'https://sensors-instana.instana.io',
-    integrationUrl: 'https://sensors-instana.instana.io',
-    tenant: 'instana',
-    tenantUnit: 'sensors',
-    environment: 'saas',
-    butlerDomain: 'sensors-fullstack-0-us-west-2.instana.io'
-  };
-  var localBackendEnvironment = {
-    uiBackendUrl: 'http://localhost:8080',
-    websocketEndpoint: 'http://localhost:8082/',
-    butlerUrl: 'http://localhost:8480',
-    integrationUrl: 'http://localhost:8182',
-    local: true,
-    tenant: 'instana',
-    tenantUnit: 'local',
-    environment: 'local',
-    butlerDomain: 'local-instana.instana.io:4000'
-  };
-
-  var target = null;
-  if (/^test$/i.test(process.env.TARGET)) {
-    target = testEnvironment;
-  } else if (/^sensors/i.test(process.env.TARGET)) {
-    target = sensorsEnvironment;
-  } else if (/^local$/i.test(process.env.TARGET)) {
-    target = localBackendEnvironment;
-  }
-
-  var questions = [];
-  if (!target) {
-    questions.push({
-      type: 'list',
-      name: 'target',
-      message: 'Where would you like to get data from?',
-      choices: [
-        {
-          name: 'Test Environment',
-          value: testEnvironment
-        },
-        {
-          name: 'Sensors Environment',
-          value: sensorsEnvironment
-        },
-        {
-          name: 'Local Back End',
-          value: localBackendEnvironment
-        },
-        {
-          name: 'From a specific (SAAS) tenant unit',
-          value: {}
-        }
-      ]
-    });
-  }
-
-  questions = questions.concat([
-    {
-      type: 'list',
-      name: 'environment',
-      message: 'Environment?',
-      choices: [
-        {
-          name: 'saas',
-          value: {
-            butlerDomain: 'instana.io'
-          }
-        }
-      ],
-      when(answers) {
-        if (target) {
-          answers.target = target;
-        }
-        return answers.target.butlerUrl == null;
-      }
-    },
-    {
-      type: 'input',
-      name: 'tenant',
-      message: 'Tenant?',
-      when(answers) {
-        return answers.target.tenant == null;
-      }
-    },
-    {
-      type: 'input',
-      name: 'tenantUnit',
-      message: 'Tenant Unit?',
-      when(answers) {
-        return answers.target.tenantUnit == null;
-      }
-    }
-  ]);
-
-  var buildMode = null;
-  if (/^prod$/i.test(process.env.BUILD_MODE)) {
-    buildMode = 'production';
-  } else if (/^ask$/i.test(process.env.BUILD_MODE)) {
-    questions.push({
-      type: 'list',
-      name: 'buildMode',
-      message: 'In which mode would you like to compile the source code (you will almost always want development)?',
-      choices: ['development', 'production'],
-      default: 'development'
-    });
-  } else {
-    buildMode = 'development';
-  }
-
-  inquirer.prompt(questions, selectedOptions => {
-    selectedOptions.buildMode = buildMode || selectedOptions.buildMode;
-    // no premade target selected, we need to build it up!
-    if (selectedOptions.target.butlerUrl == null) {
-      selectedOptions.target = {
-        uiBackendUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
-        butlerUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
-        integrationUrl: `https://${selectedOptions.tenantUnit}-${selectedOptions.tenant}.instana.io`,
-        tenant: selectedOptions.tenant,
-        tenantUnit: selectedOptions.tenantUnit,
-        butlerDomain: selectedOptions.environment.butlerDomain,
-        buildMode: selectedOptions.buildMode
-      };
-    }
-    devModeOptions = selectedOptions;
+  askQuestions(_devModeOptions => {
+    devModeOptions = _devModeOptions;
     cb();
   });
 });
@@ -258,7 +126,7 @@ gulp.task('openDevUrlInBrowser', () => {
   // set environment variable DONT_OPEN_BROWSER to some non-empty string to
   // avoid having Gulp opening a browser every time you start the build.
   if (!process.env.DONT_OPEN_BROWSER) {
-    buildUtil.openBrowser('https://local-instana.instana.io:4000');
+    buildUtil.openBrowser(`https://local-instana.${devModeOptions.target.baseDomain}:4000`);
   }
 });
 

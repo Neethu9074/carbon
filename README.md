@@ -75,10 +75,15 @@ So, you are a UI engineer? Then you will also need the following awesome softwar
 
 ### Setting up local domains
 
-In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
+In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` and others to `127.0.0.1`. Only access the local development environment using one of these domains.
 
 ```
 sudo sh -c 'echo "127.0.0.1 local-instana.instana.io" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.pink.instana.rocks" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.peach.instana.rocks" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.magenta.instana.rocks" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.rose.instana.rocks" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.melon.instana.rocks" >> /etc/hosts'
 ```
 
 ### Executing tasks
