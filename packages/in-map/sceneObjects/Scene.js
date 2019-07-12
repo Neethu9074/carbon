@@ -133,7 +133,7 @@ export default class MainScene extends SceneObject {
 
   onResize() {
     const canvas = this.canvas;
-    const height = window.innerHeight - this.timelineHeight - theme.header.height;
+    const height = window.innerHeight - this.timelineHeight - theme.header.height * 2;
     const width = document.body.clientWidth - 72;
 
     this.renderer.setSize(width, height);
