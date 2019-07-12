@@ -26,7 +26,7 @@ export default function Tooltip(ComposedComponent) {
         const tooltip = this.tooltip;
         if (tooltip) {
           const x = event.clientX - OFFSET * 3;
-          const y = event.clientY - theme.header.height - OFFSET;
+          const y = event.clientY - theme.header.height * 2 - OFFSET;
           applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
         }
       });
