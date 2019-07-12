@@ -15,7 +15,6 @@ import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
-import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -104,8 +103,6 @@ export default connectTo(
             <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
           </WithEmptyStateFallback>
         </MaxWidthFullscreenContainer>
-
-        <Footer />
       </Sticky>
     );
   }

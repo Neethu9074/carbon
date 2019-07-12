@@ -1,0 +1,10 @@
+:local {
+  .link {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin: 0 0.313rem 0 0;
+  }
+}

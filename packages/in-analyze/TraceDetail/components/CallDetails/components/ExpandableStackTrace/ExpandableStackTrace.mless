@@ -73,12 +73,17 @@
   }
 
   .stackTraceWrapper {
-    padding: .75rem
+    padding: .75rem;
+    word-break: break-all;
   }
 
   .stackTraceWrapperHeader {
     font-size: .75rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
+  }
+
+  .logParameters {
+    padding: 0.25rem 0.688rem;
   }
 }

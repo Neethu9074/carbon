@@ -11,16 +11,18 @@ import {
   twoDecimalPlaces,
   time
 } from 'in-services/formatters/number';
-import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+
+import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
 import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { isInstanaEngineer } from 'in-stores/user';
-import Footer from 'in-new-components/Footer';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
+import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
+import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import theme from 'in-themes';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
@@ -126,6 +128,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       {isInstanaEngineer && (
         <Fragment>
+          <SensorList snapshot={snapshot} />
           <DashboardSection title="Sensor Scheduler Workload">
             <ChartExplanation>
               The percentage of available time consumed by all operations run by the sensors scheduler during the given
@@ -165,6 +168,7 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
           </DashboardSection>
           <SensorTimingList snapshot={snapshot} />
           <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
+          <BundleList snapshot={snapshot} />
         </Fragment>
       )}
       <DashboardSection title="Discovery">
@@ -191,7 +195,6 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
       <DashboardSection title="Log Output">
         <LogStreamer snapshot={snapshot} />
       </DashboardSection>
-      <Footer smallMargin />
     </Fragment>
   );
 }

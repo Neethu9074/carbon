@@ -36,6 +36,20 @@ export default function InfrastructureDataStatistics({ timeConfig, tenantUnitId 
         />
       </DashboardSection>
 
+      <DashboardSection title={`Raw Message Drop Rate (group of entity messages)`}>
+        <Chart
+          snapshotId={tenantUnitId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            formatter: percentage.detailed,
+            metrics: [`filler.rawMessageDropRate`],
+            labels: ['Raw Message Drop Rate'],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
       <DashboardSection title={`Entity Message Drop Rate`}>
         <Chart
           snapshotId={tenantUnitId}

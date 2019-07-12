@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import ReportingIndicator from 'in-views/agentView/components/ReportingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { getTimeConfigAtMoment, timeConfig$ } from 'in-stores/time/config';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
@@ -15,17 +17,15 @@ import { getSnapshotsInTimeframe } from 'in-stores/snapshot';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
+import Button from 'in-new-components/Button';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Button from 'in-new-components/Button';
-import Table from 'in-sdk/components/dashboard/Table';
 import Link from 'in-components/Link';
 
-import './AgentsTable.less';
-
-const block = 'in-agent-view-table';
+import locals from './AgentsTable.mless';
 
 const cols = [
   {
@@ -46,10 +46,10 @@ const cols = [
             return {
               value: label,
               content: (
-                <Link href={href} className={`${block}__link`}>
+                <Link href={href} className={locals.link}>
                   {hostSnapshot && (
                     <HealthyPluginIcon
-                      className={`${block}__plugin-icon`}
+                      className={locals.icon}
                       dimension={12}
                       plugin={plugins.instanaAgent}
                       snapshotId={hostSnapshot.get('id')}
@@ -121,13 +121,13 @@ const cols = [
 
 export default connectTo(
   props => {
-    const observables = { timeConfig: timeConfig$ };
+    const observables = { timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ };
     if (!props.agentSnapshots) {
       observables.agentSnapshots = getSnapshotsInTimeframe('entity.selfType:agent');
     }
     return observables;
   },
-  function AgentViewAgentsTable({ agentSnapshots, timeConfig }) {
+  function AgentViewAgentsTable({ agentSnapshots, timeConfig, isInternalVisible }) {
     if (!agentSnapshots) {
       return <LoadingIndicator type="dark" />;
     }
@@ -150,35 +150,27 @@ export default connectTo(
       });
     });
 
-    let adminButtonBar;
-    if (__DEV__) {
-      adminButtonBar = (
-        <div className={block}>
-          <Button kind="primary" className={`${block}__button`} onClick={() => updateAllAgents({ agentSnapshots })}>
-            Update All Agents
-          </Button>
-          <Button kind="secondary" className={`${block}__button`} onClick={() => resetAllAgents({ agentSnapshots })}>
-            Reset All Agents
-          </Button>
-        </div>
-      );
-    }
-
     return (
-      <Table
-        explanation={adminButtonBar}
-        cardTitle="Agent Details"
-        maxItemsPerPage={16}
-        cols={cols}
-        rows={rows}
-        initialSortColumn={0}
-      />
+      <Fragment>
+        {isInternalVisible && (
+          <DashboardSection title="Administration">
+            <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
+              Update All Agents
+            </Button>
+            <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
+              Reset All Agents
+            </Button>
+          </DashboardSection>
+        )}
+
+        <Table cardTitle="Agent Details" maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
+      </Fragment>
     );
   }
 );
 
 function onUpdateAllAgents({ agentSnapshots }) {
-  const sleep = 30000;
+  const sleep = 10000;
   const count = agentSnapshots.get('online', emptyList).forEach((snapshot, i) => {
     setTimeout(() => {
       // eslint-disable-next-line no-console
@@ -198,7 +190,7 @@ function updateAllAgents({ agentSnapshots }) {
       description={
         <span>
           Are you sure you want to <strong>update all reporting agents</strong>? This will take{' '}
-          {agentSnapshots.get('online', emptyList).count() / 2} minutes.
+          {agentSnapshots.get('online', emptyList).count() / 6} minutes.
         </span>
       }
       bButtonLabel="Update"

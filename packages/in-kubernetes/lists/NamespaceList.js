@@ -12,7 +12,6 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 
@@ -127,8 +126,6 @@ export default connectTo(
             timeConfig={timeConfig}
           />
         </WithEmptyStateFallback>
-
-        <Footer />
       </Fragment>
     );
   }

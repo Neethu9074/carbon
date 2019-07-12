@@ -48,6 +48,24 @@ export default {
       }
     },
     {
+      id: 'Raw Message Drop Rate',
+      title: 'Raw Message Drop Rate',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'filler.rawMessageDropRate';
+        },
+        getContent: percentage.detailed,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
       id: 'Entity Message Drop Rate',
       title: 'Entity Message Drop Rate',
       type: 'metric',
@@ -95,18 +113,33 @@ export default {
           />
         </Columize>
 
-        <Chart
-          snapshotId={id}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            max: 1,
-            formatter: percentage.compact,
-            metrics: [`filler.rawEntityDropRate`],
-            labels: ['Entity Message Drop Rate'],
-            type: 'stackedArea'
-          }}
-        />
+        <Columize>
+          <Chart
+            snapshotId={id}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: 1,
+              formatter: percentage.compact,
+              metrics: [`filler.rawMessageDropRate`],
+              labels: ['Raw Message Drop Rate (group of entity messages)'],
+              type: 'stackedArea'
+            }}
+          />
+
+          <Chart
+            snapshotId={id}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: 1,
+              formatter: percentage.compact,
+              metrics: [`filler.rawEntityDropRate`],
+              labels: ['Entity Message Drop Rate'],
+              type: 'stackedArea'
+            }}
+          />
+        </Columize>
       </Fragment>
     );
   }
