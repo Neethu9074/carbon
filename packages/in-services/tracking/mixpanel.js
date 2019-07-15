@@ -71,15 +71,14 @@ export function createTracker(event, defaultProperties = {}) {
     throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
   }
   registeredTrackers.push(event);
-  if (!mixpanel) {
-    return noop;
-  }
   return props => {
     const eventProps = assign({}, props, defaultProperties);
     ineum('reportEvent', event, {
       meta: eventProps
     });
-    mixpanel.track(event, eventProps);
+    if (mixpanel) {
+      mixpanel.track(event, eventProps);
+    }
   };
 }
 

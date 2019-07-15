@@ -9,6 +9,7 @@ import {
 } from 'in-stores/timeline';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { formatDateTime } from 'in-services/formatters/date';
 import { isView } from 'in-stores/navigation/navigation';
 import { serverTime$ } from 'in-stores/serverTime';
@@ -16,6 +17,7 @@ import { getSetting$ } from 'in-services/settings';
 import { createStore } from 'in-stores/store';
 import theme from 'in-themes';
 
+const toggleTimelineExpandedTracker = createTracker('timeline.toggle');
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30.38; // 30.38 days per average per month
 export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
 const timelineFooterHeights = theme.footerTimelineEvents20;
@@ -95,6 +97,7 @@ export const interactableTimelineHeight$ = isCollapsed$
   .distinct();
 
 export function toggleMenu() {
+  toggleTimelineExpandedTracker();
   isCollapsedStore.applyStateMutation(oldValue => !oldValue);
 }
 
