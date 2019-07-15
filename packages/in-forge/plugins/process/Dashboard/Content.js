@@ -5,6 +5,7 @@ import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanio
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
+import ProcessesList from 'in-forge/plugins/process/ProcessesList';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -88,6 +89,7 @@ export default connectTo(
         ) : null}
 
         <ProcessCompanionMetrics snapshotId={snapshotId} />
+        <ProcessesList snapshotId={snapshotId} />
       </div>
     );
   }

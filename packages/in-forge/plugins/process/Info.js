@@ -3,6 +3,7 @@ import React from 'react';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import ParentProcess from 'in-forge/plugins/process/ParentProcess';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -14,6 +15,7 @@ export default connectTo(
   function ProcessInfo({ snapshot, hostSnapshot }) {
     const data = snapshot.get('data');
     const openFilesMax = data.get('openFiles.max');
+    const snapshotId = snapshot.get('id');
 
     return (
       <DescriptionList>
@@ -21,10 +23,11 @@ export default connectTo(
         <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
         <DescriptionItem title="In-Container ID">{data.get('containerPid')}</DescriptionItem>
         <DescriptionItem title="Container ID">{data.get('container')}</DescriptionItem>
-        <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
+        <ProcessStartedAtDescriptionItem snapshotId={snapshotId} />
         <DescriptionItem title="User">{data.get('user')}</DescriptionItem>
         <DescriptionItem title="Group">{data.get('group')}</DescriptionItem>
         <DescriptionItem title="Job">{data.get('job')}</DescriptionItem>
+        <ParentProcess snapshotId={snapshotId} />
 
         {hostSnapshot &&
           !(isWindows(hostSnapshot) || isZos(hostSnapshot)) &&
