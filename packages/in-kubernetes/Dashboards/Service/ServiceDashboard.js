@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import KubernetesServiceToInstanaServicesButton from 'in-kubernetes/components/KubernetesServiceToInstanaServicesButton';
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
+import { nToMK8sServiceToInstanaServiceEnabled } from 'in-services/featureFlags';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -109,7 +111,11 @@ function Actions(props) {
         groupByTag={{ name: 'kubernetes.pod.name' }}
         timeConfig={props.timeConfig}
       />
-      <KubernetesServiceToInstanaServiceButton {...props} />
+      {nToMK8sServiceToInstanaServiceEnabled ? (
+        <KubernetesServiceToInstanaServicesButton {...props} />
+      ) : (
+        <KubernetesServiceToInstanaServiceButton {...props} />
+      )}
     </Fragment>
   );
 }

@@ -1,5 +1,4 @@
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
@@ -12,33 +11,5 @@
   .entityIcon {
     margin-right: 0.5rem;
     fill: @lib__colors__N600Light;
-  }
-
-  .type {
-    margin-bottom: 0.25rem;
-    color: @lib__colors__N600Light;
-    font-size: 0.75rem;
-    display: flex;
-    align-items: center;
-  }
-
-  .labelWrapper {
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-  }
-
-  .label {
-    color: @lib__colors__N900Primary;
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    .ellipsis();
-  }
-
-  .link {
-    font-size: 0.875rem;
-    .ellipsis();
   }
 }

@@ -1,0 +1,6 @@
+{
+  "name": "EntityWithType",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EntityWithType.js"
+}

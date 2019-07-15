@@ -28,6 +28,7 @@ import './analyse/TraceDetail/ErroneousTraceIndicatorStory';
 import './application/ApplicationMap';
 import './application/CreatingNewApplicationWaiterStory';
 import './application/EmptyAppListStory';
+import './application/ServiceListPopup';
 
 import './website/BeaconUserSummaryStory';
 import './website/BrowserIconsStory';

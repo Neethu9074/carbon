@@ -36,7 +36,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`, false),
       getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true)
+      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/N_TO_M_K8S_SERVICE_TO_INSTANA_SERVICE_ENABLED`, false)
     ]).then(
       ([
         isSelfService,
@@ -51,7 +52,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         customDashboardsEnabled,
         trackUrlPathChanges,
         samplingIndicatorEnabled,
-        unmonitoredHostsEnabled
+        unmonitoredHostsEnabled,
+        nToMK8sServiceToInstanaServiceEnabled
       ]) => ({
         isSelfService,
         isKubernetesV2Enabled,
@@ -70,7 +72,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         trackUrlPathChanges,
         samplingIndicatorEnabled,
         unmonitoredHostsEnabled,
-        customDashboardsEnabled
+        customDashboardsEnabled,
+        nToMK8sServiceToInstanaServiceEnabled
       })
     );
   });

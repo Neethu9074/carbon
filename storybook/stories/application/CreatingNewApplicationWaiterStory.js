@@ -5,9 +5,10 @@ import NewApplicationWaiter from 'in-applications/Forms/NewApplication/NewApplic
 
 import Root from '../_helpers/Root';
 
-storiesOf('Application/Creating New Application Waiter', module).add('Creating New Application Waiter', () => (
-  <CreatingNewApplicationWaiterStory />
-));
+storiesOf('Application/Application/Creating New Application Waiter', module).add(
+  'Creating New Application Waiter',
+  () => <CreatingNewApplicationWaiterStory />
+);
 
 function CreatingNewApplicationWaiterStory() {
   return (

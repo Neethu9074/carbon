@@ -12,7 +12,7 @@ import { deepCopy } from 'in-services/util/object';
 import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
 
-storiesOf('Application/Application Map', module)
+storiesOf('Application/Application/Application Map', module)
   .add('Loading', () => <LoadingMapStory />)
   .add('Erroneous', () => <ErrorMapStory />)
   .add('Application Map', () => <ApplicationMapStory />)
