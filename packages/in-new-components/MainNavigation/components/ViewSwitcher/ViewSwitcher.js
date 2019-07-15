@@ -1,4 +1,3 @@
-import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
@@ -10,6 +9,7 @@ import { releaseNotesEnabled, kubernetesEnabled, tenantSwitcherEnabled } from 'i
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
+import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -17,7 +17,6 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
-import { getView, isView } from 'in-stores/navigation/navigation';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import { joinClassNames } from 'in-services/util/classnames';
 import { isInstanaEmail, user, role } from 'in-stores/user';
@@ -210,7 +209,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
         label="Internal"
         icon="lib_actions_lock"
         isActive$={isView('/internal')}
-        href$={just('/#/internal')}
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
         sidebarIsExpanded={sidebarIsExpanded}
         onClick={onClick}
         onMouseLeave={onMouseLeave}
