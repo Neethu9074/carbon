@@ -22,7 +22,8 @@ const entityTypeToFullyQualifiedPlugin = {
   ping: fullyQualifiedPlugins.ping,
   clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase,
   containerd: fullyQualifiedPlugins.containerd,
-  garden: fullyQualifiedPlugins.garden
+  garden: fullyQualifiedPlugins.garden,
+  lxc: fullyQualifiedPlugins.lxc
 };
 
 const pluginsRequiringTableViewInSearch = ['ping'];

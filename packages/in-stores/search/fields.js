@@ -32,6 +32,7 @@ const helpTexts = {
   'entity.containerd': 'Containerd container',
   'entity.docker': 'Docker container',
   'entity.garden': 'Garden container',
+  'entity.lxc': 'LXC container',
   'entity.ruby': 'Ruby application',
   'entity.jvm': 'Java virtual machine',
   'entity.jvm.app': 'JVM based application',

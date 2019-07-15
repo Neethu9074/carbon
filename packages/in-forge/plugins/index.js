@@ -85,6 +85,7 @@ import './kubernetesReplicaSet';
 import './kubernetesService';
 import './openshiftDeploymentConfig';
 import './liferayApplicationContainer';
+import './lxc';
 import './mariaDbDatabase';
 import './memcached';
 import './mongoDb';

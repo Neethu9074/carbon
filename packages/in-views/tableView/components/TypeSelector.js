@@ -15,6 +15,7 @@ const physicalDomains = {
   containerd: 'Containerd Containers',
   docker: 'Docker Containers',
   garden: 'Garden Containers',
+  lxc: 'LXC Containers',
   process: 'Processes',
   clickHouseDatabase: 'ClickHouse',
   ping: 'Ping'
