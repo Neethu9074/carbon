@@ -13,8 +13,11 @@ import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiv
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
+import { createTracker } from 'in-services/tracking/mixpanel';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
+
+const clickOnEventTracker = createTracker('timeline.clickOnEvent');
 
 export default function createMouseEvents(domElement, scale, realtimeDrawStream) {
   const changeSignal = true;
@@ -114,7 +117,11 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
   function onClick(e) {
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
-      focusEvent(eventAtCursor.get('id'));
+      const eventId = eventAtCursor.get('id');
+      clickOnEventTracker({
+        eventId
+      });
+      focusEvent(eventId);
     }
   }
 
