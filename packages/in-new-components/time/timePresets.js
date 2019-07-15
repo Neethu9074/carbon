@@ -39,15 +39,17 @@ const livePresets = [
   {
     windowSize: hour * 24,
     to: null
-  }
-];
-
-if (lastSevenDaysTimePresetEnabled) {
-  livePresets.push({
+  },
+  lastSevenDaysTimePresetEnabled && {
     windowSize: sevenDays,
     to: null
-  });
-}
+  },
+  lastSevenDaysTimePresetEnabled && {
+    windowSize: hour * 24 * 31,
+    to: null,
+    label: 'Last 31 days'
+  }
+].filter(Boolean);
 
 export function getLivePresets() {
   return livePresets;
