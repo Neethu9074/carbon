@@ -26,7 +26,7 @@ Take a look at `in-custom-dashboards/proposed-config.js` to see valid configurat
   y1: {
     metrics: ['requests'] // one metric if the search query returs multiple snapshotIds, array of multiple if result is single snapshot
     labels: {
-      template: '{{ takeFirst($.host.label, 3, -) }}' // take a look below for explanation
+      template: '{{ takeFirst $.host.label 3 "-" }}' // take a look below for explanation
     }
     format: 'number.perSecond.compact', // format for the data in the chart
     type: 'stackedArea' // type of chart eg. stackedArea, line ...
@@ -49,8 +49,7 @@ There're 2 custom data formatting functions that could be used inside `{{ }}`:
 
 @param num Number of characters used to truncate the given string
 
-syntax: `{{ truncate(custom variable, num) }}`
-eg. `{{ truncate(Hello World, 4) }}` _resolves to Hell_
+eg. `{{ truncate Hello World 4}}` _resolves to Hell_
 
 **takeFirst:**
 
@@ -58,10 +57,9 @@ Takes first N partials separated by special character
 
 @param  num Number of partials taken from string
 
-@param separator Character used to separate the given string (must not be wrapped in quotation marks)
+@param separator Character used to separate the given string
 
-syntax: `{{ takeFirst(custom variable, num, separator) }}`
-eg. `{{ takeFirst(Instana-says-Hello-World, 3, -) }}` _resolves to Instana-says-Hello_
+eg. `{{ takeFirst Instana-says-Hello-World 3 '-'}}` _resolves to Instana-says-Hello_
 
 ### Table
 

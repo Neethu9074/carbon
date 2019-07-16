@@ -6,7 +6,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 // TODO requires in-internal data!
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
-import { compile, resolve } from 'in-services/templateEngines/micromustache';
+import Handlebars from 'in-services/templateEngines/handlebars';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import * as formatter from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -68,10 +68,12 @@ function generateChartLabels(searchResults, templateValue) {
     transformedData[index] = transformedSearchResult;
   });
 
+  const compiled = Handlebars.compile(templateValue);
+
   // bind each result to it's own label
   const chartLabels = [];
   for (let i = 0; i < transformedData.length; i++) {
-    chartLabels[i] = compile(templateValue, resolve, { $: transformedData[i] });
+    chartLabels[i] = compiled({ $: transformedData[i] });
   }
 
   const sortedLabels = chartLabels.sort((a, b) => a.localeCompare(b));

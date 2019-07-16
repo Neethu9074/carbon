@@ -18,7 +18,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['requests'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         type: 'stackedArea'
@@ -26,7 +26,7 @@ const customEumConfiguration = {
       y2: {
         metrics: ['connections.dropped'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         type: 'stackedArea'
@@ -43,7 +43,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['connections.dropped'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         type: 'line'
@@ -153,7 +153,7 @@ const customEumConfiguration = {
       pluginIdForMetrics: 'dropwizardApplicationContainer',
       y1: {
         labels: {
-          template: '{{ takeFirst($.host.label, 1, ".") }}'
+          template: '{{ takeFirst $.host.label 1 "." }}'
         },
         metrics: ['metrics.meters.instana.beaconRequests.total'],
         format: 'number.perSecond.compact',
@@ -171,7 +171,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['gc.G1 Young Generation.time'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'time',
         tooltipFormatter: 'number.detailed',
@@ -194,7 +194,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.incoming.website_monitoring_beacons.calls'],
         labels: {
-          template: '{{  takeFirst($.host.label, 3, -) }}'
+          template: '{{  takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -212,7 +212,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.incoming.website_monitoring_beacons.errors'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -230,7 +230,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.outgoing.processed_website_monitoring_beacons.calls'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -248,7 +248,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.outgoing.processed_website_monitoring_beacons.errors'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -271,7 +271,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.incoming.website_monitoring_processed_beacons.calls'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -289,7 +289,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.KPI.incoming.website_monitoring_processed_beacons.errors'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         type: 'stackedArea'
@@ -306,7 +306,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-written-shortterm-items'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
@@ -324,7 +324,7 @@ const customEumConfiguration = {
       y1: {
         metrics: ['metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-failed-shortterm-items'],
         labels: {
-          template: '{{ takeFirst($.host.label, 3, -) }}'
+          template: '{{ takeFirst $.host.label 3 "-" }}'
         },
         format: 'number.perSecond.compact',
         tooltipFormatter: '',
