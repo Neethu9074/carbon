@@ -13,7 +13,7 @@ let cachedAnsiConverter;
  * USE THE SANITIZE() FUNCTION FOR THESE CASES!
  *
  * Only use this function when you want to present XML like structures to the
- * user, e.g. Apache HTTPD configs. AND REMEMBER TO SANITIZE AFTERWARDS!
+ * user, e.g. Apache HTTPd configs. AND REMEMBER TO SANITIZE AFTERWARDS!
  */
 export function replaceHtmlChars(s) {
   return s

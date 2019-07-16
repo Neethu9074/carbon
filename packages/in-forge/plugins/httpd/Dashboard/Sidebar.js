@@ -11,7 +11,7 @@ export default function HttpdSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Apache Httpd</Collapsible.Header>
+        <Collapsible.Header>Apache HTTPd</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

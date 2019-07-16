@@ -161,7 +161,7 @@ function extendedStatusInfo(status, ver) {
     <DashboardNotification type="info">
       In order to display metrics such as: Traffic, Traffic per Request and CPU, &nbsp;
       <strong>ExtendedStatus</strong> flag should be&nbsp;
-      <strong>enabled</strong> in apache httpd configuration.&nbsp;
+      <strong>enabled</strong> in Apache HTTPd configuration.&nbsp;
       <Link href={getModStatusDoc(semver.coerce(ver))} external>
         Apache ExtendedStatus Directive
       </Link>
