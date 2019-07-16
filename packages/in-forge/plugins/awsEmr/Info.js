@@ -1,0 +1,19 @@
+import React from 'react';
+
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { formatDateTime } from 'in-services/formatters/date';
+
+export default function Info({ snapshot }) {
+  const data = snapshot.get('data');
+
+  return (
+    <DescriptionList>
+      <DescriptionItem title="Cluster ID">{data.get('emr_cluster_id')}</DescriptionItem>
+      <DescriptionItem title="Cluster Name">{data.get('emr_cluster_name')}</DescriptionItem>
+      <DescriptionItem title="Status">{data.get('emr_cluster_status')}</DescriptionItem>
+      <DescriptionItem title="Running AMI Version">{data.get('emr_ami_version')}</DescriptionItem>
+      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title="Creation time">{formatDateTime(data.get('emr_cluster_startTime'))}</DescriptionItem>
+    </DescriptionList>
+  );
+}

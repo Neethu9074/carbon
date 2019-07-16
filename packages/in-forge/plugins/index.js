@@ -9,6 +9,7 @@ import './awsDynamoDb';
 import './awsEc';
 import './awsEs';
 import './awsElb';
+import './awsEmr';
 import './awsKinesis';
 import './awsLambda';
 import './awsMq';
