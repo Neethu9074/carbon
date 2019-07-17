@@ -15,7 +15,7 @@ export default function Explanation() {
     <div className={block}>
       <Lettering className={block + '__lettering'} />
 
-      <h2>Dynamic Graph Showcase</h2>
+      <h2 className={block + '__heading'}>Dynamic Graph Showcase</h2>
 
       <p>
         The core technology powering Instana is what we call the Dynamic Graph. The Graph is a model of your application
