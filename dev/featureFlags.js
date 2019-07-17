@@ -19,6 +19,5 @@ module.exports = {
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
-  unmonitoredHostsEnabled: true,
-  nToMK8sServiceToInstanaServiceEnabled: true
+  unmonitoredHostsEnabled: true
 };

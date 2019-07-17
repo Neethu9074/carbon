@@ -34,7 +34,7 @@ export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
-export const nToMK8sServiceToInstanaServiceEnabled = isFeatureFlagEnabled('nToMK8sServiceToInstanaServiceEnabled');
+export const nToMK8sServiceToInstanaServiceEnabled = onlyInternally;
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
