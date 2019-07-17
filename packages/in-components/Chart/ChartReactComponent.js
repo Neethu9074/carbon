@@ -44,7 +44,9 @@ const ChartReactWrapper = compose(
     }
 
     componentWillUnmount() {
-      this.props.chart.dispose();
+      if (this.props.chart) {
+        this.props.chart.dispose();
+      }
     }
 
     render() {
