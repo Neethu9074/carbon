@@ -141,7 +141,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Row>
             <Col lg={12}>
               <Card title="Component Stack" withoutPadding>
-                <Code code={result.data.componentStack} lang="plain" />
+                <Code code={result.data.componentStack.trim()} lang="plain" />
               </Card>
             </Col>
           </Row>
