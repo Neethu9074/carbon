@@ -100,7 +100,7 @@ export default connectTo(
                   <ProblemDescription event={event} />
                   <EventSpecificationLink event={event} />
                   <Spacer />
-                  {isOfflineEvent ? (
+                  {isOfflineEvent(event) ? (
                     <OfflineEventDescription event={event} />
                   ) : (
                     <Fragment>
