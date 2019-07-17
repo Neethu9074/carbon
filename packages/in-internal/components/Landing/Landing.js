@@ -164,6 +164,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                           )}
                           description="appdata-writer persists enriched beacons to ClickHouse."
                         />
+                        <LinkListItem
+                          label="Error Simulator"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/errorSimulator')
+                          )}
+                          description="Trigger JavaScript errors to verify website monitoring behavior."
+                        />
                       </LinkList>
                     </LinkListItem>
                   </LinkList>

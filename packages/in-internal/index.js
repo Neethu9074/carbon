@@ -24,6 +24,7 @@ import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolation
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
+import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
@@ -61,6 +62,7 @@ export default function Internal() {
               path="/internal/monitoringUnit/eum/appdata-writer"
               component={wrapIninternalView(AppDataWriterForEum)}
             />
+            <Route path="/internal/monitoringUnit/eum/errorSimulator" component={wrapIninternalView(ErrorSimulator)} />
             <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
             <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />
             <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
