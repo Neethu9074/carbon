@@ -15,7 +15,15 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
   isExpanded,
   setIsExpanded
 }) {
-  const logParameters = log.data.log.parameters;
+  const logData = log.data.log;
+
+  function logLabel(log) {
+    if (!logData) {
+      return log.name;
+    }
+    return isExpanded ? logData.message : shorten(logData.message, 32);
+  }
+
   return (
     <div className={locals.wrapper}>
       <div className={locals.header}>
@@ -25,9 +33,7 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
             <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
               {log.errorCount > 0 ? 'Error' : 'Warning'}
             </div>
-            <div className={isExpanded ? locals.labelExpanded : locals.label}>
-              {isExpanded ? log.data.log.message : shorten(log.data.log.message, 32)}
-            </div>
+            <div className={isExpanded ? locals.labelExpanded : locals.label}>{logLabel(log)}</div>
           </div>
         </div>
         <div className={locals.headerActions}>
@@ -46,12 +52,13 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
       </div>
       {isExpanded && (
         <Fragment>
-          {logParameters && (
-            <div className={locals.stackTraceWrapper}>
-              <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
-              <div className={locals.logParameters}>{logParameters}</div>
-            </div>
-          )}
+          {logData &&
+            logData.parameters && (
+              <div className={locals.stackTraceWrapper}>
+                <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
+                <div className={locals.logParameters}>{logData.parameters}</div>
+              </div>
+            )}
 
           <div className={locals.stackTraceWrapper}>
             <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
