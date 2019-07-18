@@ -33,13 +33,8 @@
 > this PR, then please describe why.
 
 - Pull request tagged with one of the `class:*` labels?
-- Feature flags added?
-  - [ ] To the server side: `/packages/in-server/services/resolvers/consul.js`
-  - [ ] To the server side (for Kubernetes based deployments): `{{backendRepository}}/instanactl/config/components/ui-client.yaml.tpl`
-  - [ ] For the development mode: `/dev/featureFlags.js`
-  - [ ] For the in-browser code (this is what you would import): `/packages/in-services/featureFlags.js`
-  - [ ] A tracker item (Pivotal or similar) has been added to remove all feature flags introduced in this PR in a later release, once the feature has been rolled out.
-- [ ] Changes are visually consistent to current components?
-- [ ] New user facing components were discussed with our design community?
-- [ ] New user facing components are represented within Storybook?
-- [ ] Simon sort?
+- Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)?
+- Changes are visually consistent to current components?
+- New user facing components were discussed with our design community?
+- New user facing components are represented within Storybook?
+- Simon sort?
