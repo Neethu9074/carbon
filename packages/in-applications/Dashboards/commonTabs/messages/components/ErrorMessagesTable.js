@@ -68,7 +68,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'error messages'
 });
 
 export default function ErrorMessagesTable({

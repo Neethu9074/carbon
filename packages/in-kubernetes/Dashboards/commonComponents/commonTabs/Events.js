@@ -100,7 +100,8 @@ function eventsTable(columnDefinitions) {
       pathSegment,
       matrixPrefix
     }),
-    columnDefinitions
+    columnDefinitions,
+    entityName: 'events'
   });
 
   return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {

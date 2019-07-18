@@ -163,7 +163,8 @@ const ServerTableWithUrlStateWithoutNamespace = createServerTableWithEmptyState(
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions: columnDefinitionsWithoutNamespace
+  columnDefinitions: columnDefinitionsWithoutNamespace,
+  entityName: 'pods'
 });
 
 const ServerTableWithUrlState = createServerTableWithEmptyState({
@@ -184,7 +185,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions: allColumnDefinitions
+  columnDefinitions: allColumnDefinitions,
+  entityName: 'pods'
 });
 
 export function PodsWithNamespaces({ ...props }) {

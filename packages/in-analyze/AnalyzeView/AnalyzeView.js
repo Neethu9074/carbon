@@ -85,13 +85,14 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { activeDialog, isRawView, filters } = props;
+  const { activeDialog, isRawView, dataSource, filters } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
   return (
     <WithEmptyStateFallback
       center={false}
       getHasDataToRender={() => getHasDataToRender(props)}
       FallbackComponent={EmptyAnalyzeView}
+      type={dataSource}
     >
       {activeDialog && <DisabledBodyScroll />}
       {isRawView ? <dataSourceConfig.RawView {...props} /> : <dataSourceConfig.GroupedView {...props} />}

@@ -144,7 +144,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'nodes'
 });
 
 export default function Nodes(props) {

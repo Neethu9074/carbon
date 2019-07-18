@@ -8,16 +8,23 @@ export default connectTo(
   ({ getHasDataToRender }) => ({
     hasDataToRender: getHasDataToRender().distinct()
   }),
-  function WithEmptyStateFallback({ hasDataToRender = true, FallbackComponent, children, center = true }) {
+  function WithEmptyStateFallback(props) {
+    const { hasDataToRender = true, FallbackComponent, children, center = true, title, explanation } = props;
     if (hasDataToRender) {
       return children;
     }
 
-    const notFoundComponent = <EntityPageMainNotification icon="lib_missing_data" title="No data available" />;
+    const notFoundComponent = (
+      <EntityPageMainNotification
+        icon="lib_missing_data"
+        title={title || 'No data available'}
+        explanation={explanation}
+      />
+    );
 
     const content = FallbackComponent ? (
       typeof FallbackComponent === 'function' ? (
-        <FallbackComponent notFoundComponent={notFoundComponent} />
+        <FallbackComponent notFoundComponent={notFoundComponent} {...props} />
       ) : (
         FallbackComponent
       )

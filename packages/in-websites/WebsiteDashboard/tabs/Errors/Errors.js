@@ -86,7 +86,10 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     defaultOrderDirection: 'DESC',
     pathSegment: '/errors'
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'JavaScript errors',
+  changeExplanation: (explanation, props) =>
+    props.tagFilters && props.tagFilters.length > 2 ? `${explanation}  matching your filters` : explanation
 });
 
 export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel }) {

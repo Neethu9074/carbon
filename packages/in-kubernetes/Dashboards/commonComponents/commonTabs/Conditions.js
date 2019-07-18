@@ -57,7 +57,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'conditions'
 });
 
 export default function Conditions(props) {

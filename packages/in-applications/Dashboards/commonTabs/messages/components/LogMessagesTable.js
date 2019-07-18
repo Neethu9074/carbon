@@ -75,7 +75,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'log messages'
 });
 
 export default function LogMessagesTable({

@@ -102,7 +102,10 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     defaultOrderDirection: 'DESC',
     pathSegment: resourcesTab
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'resources',
+  changeExplanation: (explanation, props) =>
+    props.tagFilters && props.tagFilters.length > 2 ? `${explanation}  matching your filters` : explanation
 });
 
 export default compose(

@@ -73,7 +73,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'endpoints'
 });
 
 export default function Endpoints(props) {

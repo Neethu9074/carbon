@@ -156,7 +156,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'namespaces'
 });
 
 export default function Namespaces(props) {

@@ -106,7 +106,11 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     defaultOrderDirection: 'DESC',
     pathSegment: '/pages'
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'pages',
+  changeExplanation: (explanation, props) => {
+    return props.tagFilters && props.tagFilters.length > 1 ? `${explanation}  matching your filters` : explanation;
+  }
 });
 
 export default function Pages({ timeConfig, tagFilters, websiteId }) {

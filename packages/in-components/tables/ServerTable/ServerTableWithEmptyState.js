@@ -8,13 +8,8 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getPlural } from 'in-sdk/pluginName';
 
-export default function createServerTableWithEmptyState({ ServerTable, columnDefinitions }) {
-  return compose(
-    withProps({
-      ServerTable,
-      columnDefinitions
-    })
-  )(ServerTableWithEmptyState);
+export default function createServerTableWithEmptyState(props) {
+  return compose(withProps(props))(ServerTableWithEmptyState);
 }
 
 function ServerTableWithEmptyState(props) {
@@ -35,15 +30,17 @@ function ServerTableWithEmptyState(props) {
   );
 }
 
-function NoDataAvailable({ icon, entityName, plugin }) {
+function NoDataAvailable(props) {
+  const { icon, entityName, changeExplanation = identity, plugin } = props;
   const entitiesName = getPlural(plugin) || entityName || 'entities';
+
   return (
     <CenterAlignmentColumn>
       <EntityPageMainNotification
         title={`No ${entitiesName} available`}
         plugin={plugin}
         icon={icon}
-        explanation={`There were no ${entitiesName} retrieved for the selected time range`}
+        explanation={changeExplanation(`There were no ${entitiesName} retrieved for the selected time range`, props)}
       />
     </CenterAlignmentColumn>
   );
@@ -55,4 +52,8 @@ function isPaginatedResultEmpty(paginatedResult$) {
     .map(result => result.data)
     .filter(Boolean)
     .map(result => get(result, ['items', 'length'], 0) > 0);
+}
+
+function identity(e) {
+  return e;
 }

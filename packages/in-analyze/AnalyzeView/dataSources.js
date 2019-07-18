@@ -47,3 +47,35 @@ export default function getByDataSource(dataSource) {
   }
   return configs[dataSource] || {};
 }
+
+export function getIconByType(type) {
+  if (type === 'traces') {
+    return 'lib_application_trace';
+  } else if (type === 'calls') {
+    return 'lib_application_call';
+  } else if (type === 'pageLoad') {
+    return 'lib_website_page_load';
+  } else if (type === 'resourceLoad') {
+    return 'lib_website_resource';
+  } else if (type === 'httpRequest') {
+    return 'lib_website_ajax';
+  } else if (type === 'error' || type === 'custom') {
+    return 'lib_website_error';
+  }
+}
+
+export function getEntityNameByType(type) {
+  if (type === 'pageLoad') {
+    return 'page loads';
+  } else if (type === 'resourceLoad') {
+    return 'resources';
+  } else if (type === 'httpRequest') {
+    return 'HTTP requests';
+  } else if (type === 'error') {
+    return 'JavaScript errors';
+  } else if (type === 'custom') {
+    return 'custom events';
+  }
+
+  return type;
+}

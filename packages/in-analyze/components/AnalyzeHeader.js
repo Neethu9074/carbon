@@ -12,11 +12,11 @@ import {
 } from 'in-websites/tags';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import getConfigByDataSource, { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import { beaconType as beaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { customEventsInWebsiteMonitoringEnabled } from 'in-services/featureFlags';
 import { hasApplicationsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -42,7 +42,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               dataSource: 'traces',
               groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
             })}
-            icon="lib_application_trace"
+            icon={getIconByType('traces')}
             label="Traces"
             isActive={dataSource === 'traces'}
           />
@@ -53,7 +53,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               dataSource: 'calls',
               groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
             })}
-            icon="lib_application_call"
+            icon={getIconByType('calls')}
             label="Calls"
             isActive={dataSource === 'calls'}
           />
@@ -64,7 +64,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
               beaconType: 'pageLoad'
             })}
-            icon="lib_website_page_load"
+            icon={getIconByType('pageLoad')}
             label={`${websiteDataSourceTitles.pageLoad}s`}
             isActive={dataSource === 'pageLoad'}
             addSeparator={hasApplicationsAccess}
@@ -76,7 +76,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
               beaconType: 'resourceLoad'
             })}
-            icon="lib_website_resource"
+            icon={getIconByType('resourceLoad')}
             label={`${websiteDataSourceTitles.resourceLoad}s`}
             isActive={dataSource === 'resourceLoad'}
           />
@@ -87,7 +87,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
               beaconType: 'httpRequest'
             })}
-            icon="lib_website_ajax"
+            icon={getIconByType('httpRequest')}
             label={`${websiteDataSourceTitles.httpRequest}s`}
             isActive={dataSource === 'httpRequest'}
           />
@@ -98,7 +98,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
               group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
               beaconType: 'error'
             })}
-            icon="lib_website_error"
+            icon={getIconByType('error')}
             label={`${websiteDataSourceTitles.error}s`}
             isActive={dataSource === 'error'}
           />
@@ -110,7 +110,7 @@ function AnalyzeHeader({ dataSource, isGrouped }) {
                 group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
                 beaconType: 'custom'
               })}
-              icon="lib_website_error"
+              icon={getIconByType('custom')}
               label={`${websiteDataSourceTitles.custom}s`}
               isActive={dataSource === 'custom'}
             />

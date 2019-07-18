@@ -19,7 +19,13 @@ import locals from './Geography.mless';
 export default function Geography(props) {
   const { tagFilters, timeConfig } = props;
   return (
-    <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
+    <WithEmptyStateFallback
+      getHasDataToRender={() => getHasDataToRender(props)}
+      title="No page loads available"
+      explanation={`There were no page loads retrieved for the selected time range${
+        tagFilters && tagFilters.length > 1 ? ` matching your filters` : ''
+      }`}
+    >
       <div className={locals.wrapper}>
         <FullHeightWrapper
           render={height => (

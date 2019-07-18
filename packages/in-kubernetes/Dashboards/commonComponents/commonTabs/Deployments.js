@@ -104,7 +104,8 @@ const ServerTableWithUrlState = createServerTableWithEmptyState({
     pathSegment,
     matrixPrefix
   }),
-  columnDefinitions
+  columnDefinitions,
+  entityName: 'deployments'
 });
 
 export default function DeploymentsTable(props) {

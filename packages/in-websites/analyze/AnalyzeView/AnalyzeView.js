@@ -210,6 +210,7 @@ export default compose(
     center={false}
     getHasDataToRender={() => getHasDataToRender(props)}
     FallbackComponent={EmptyAnalyzeView}
+    type={props.beaconType}
   >
     <AnalyzeView {...props} />
   </WithEmptyStateFallback>
