@@ -1,4 +1,5 @@
 import { number, percentage, bytes } from 'in-services/formatters/number';
+import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -9,11 +10,16 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['memory.usedPercentage', 'memory.swapPercentage'],
+    labels: ['Used percentage', 'Swap percentage'],
+    min: 0,
+    max: 1,
+    category: ['Memory'],
+    formatter: percentage
+  },
+  {
     metrics: [
-      'memory.usedPercentage',
-      'memory.swapPercentage',
       'memory.usage',
-      'memory.max_usage',
       'memory.rss',
       'memory.cache',
       'memory.swap',
@@ -23,8 +29,6 @@ export default [
       'memory.inactive_file'
     ],
     labels: [
-      'User percentage',
-      'Swap percentage',
       'Usage',
       'Max usage',
       'RSS',
@@ -59,5 +63,20 @@ export default [
     min: 0,
     category: ['Network'],
     formatter: number
+  },
+  {
+    metric: getMetricMatch('filesystems', 'usedPercentage'),
+    label: 'Used percentage',
+    category: ['Filesystems'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metrics: [getMetricMatch('filesystems', 'used'), getMetricMatch('filesystems', 'free')],
+    labels: ['Used', 'Free'],
+    min: 0,
+    category: ['Filesystems'],
+    formatter: bytes
   }
 ];
