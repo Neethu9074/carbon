@@ -22,9 +22,9 @@ export default function Geography(props) {
     <WithEmptyStateFallback
       getHasDataToRender={() => getHasDataToRender(props)}
       title="No page loads available"
-      explanation={`There were no page loads retrieved for the selected time range${
+      explanation={`There were no page loads found in the selected time range${
         tagFilters && tagFilters.length > 1 ? ` matching your filters` : ''
-      }`}
+      }.`}
     >
       <div className={locals.wrapper}>
         <FullHeightWrapper

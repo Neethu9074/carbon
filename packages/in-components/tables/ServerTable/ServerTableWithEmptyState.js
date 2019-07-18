@@ -40,7 +40,10 @@ function NoDataAvailable(props) {
         title={`No ${entitiesName} available`}
         plugin={plugin}
         icon={icon}
-        explanation={changeExplanation(`There were no ${entitiesName} retrieved for the selected time range`, props)}
+        explanation={`${changeExplanation(
+          `There were no ${entitiesName} retrieved for the selected time range.`,
+          props
+        )}.`}
       />
     </CenterAlignmentColumn>
   );
