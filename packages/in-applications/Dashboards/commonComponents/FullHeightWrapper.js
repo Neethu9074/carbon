@@ -35,7 +35,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div style={{ height: this.state.height }} ref={r => (this.wrapper = r)}>
+      <div className={this.props.className} style={{ height: this.state.height }} ref={r => (this.wrapper = r)}>
         {this.props.render(this.state.height)}
       </div>
     );

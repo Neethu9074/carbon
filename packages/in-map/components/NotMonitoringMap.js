@@ -1,6 +1,7 @@
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
+import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import ArticleContent from 'in-new-components/ArticleContent';
 import { isMonitoring$ } from 'in-stores/isMonitoring';
@@ -23,9 +24,12 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.wrapper}>
-        <CenterAlignmentColumn>{content}</CenterAlignmentColumn>
-      </div>
+      <FullHeightWrapper
+        className={locals.wrapper}
+        render={() => {
+          return <CenterAlignmentColumn>{content}</CenterAlignmentColumn>;
+        }}
+      />
     );
   }
 );
