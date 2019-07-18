@@ -30,3 +30,14 @@ export function shorten(s, maxLength = 64) {
   }
   return s.substring(0, maxLength) + '…';
 }
+
+export function removeBlankLines(s) {
+  if (!s) {
+    return s;
+  }
+
+  return s
+    .split('\n')
+    .filter(isNotBlank)
+    .join('\n');
+}

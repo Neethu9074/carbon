@@ -12,6 +12,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
 import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
+import { shorten, isNotBlank, removeBlankLines } from 'in-services/util/string';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
@@ -19,7 +20,6 @@ import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { shorten, isNotBlank } from 'in-services/util/string';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -141,7 +141,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Row>
             <Col lg={12}>
               <Card title="Component Stack" withoutPadding>
-                <Code code={result.data.componentStack.trim()} lang="plain" />
+                <Code code={removeBlankLines(result.data.componentStack)} lang="plain" />
               </Card>
             </Col>
           </Row>
