@@ -11,7 +11,7 @@
 
     border: 1px solid @lib__colors__N500;
     border-top: 0;
-    background: @lib__colors__N100;
+    background: @lib__colors__N200;
     overflow-wrap: break-word;
 
     &:first-child {

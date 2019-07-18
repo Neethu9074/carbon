@@ -35,6 +35,10 @@ export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorE
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
 export const nToMK8sServiceToInstanaServiceEnabled = onlyInternally;
+export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled(
+  'javaScriptStackTraceTranslationEnabled',
+  false
+);
 
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 

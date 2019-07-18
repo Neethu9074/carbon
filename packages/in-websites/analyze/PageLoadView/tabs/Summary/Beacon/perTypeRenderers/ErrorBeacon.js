@@ -5,6 +5,7 @@ import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
+import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -73,15 +74,14 @@ export const Body = ({ beacon }) => {
         {!isScriptError(beacon.errorMessage) &&
           isNotBlank(beacon.stackTrace) && (
             <Col lg={6}>
-              <BodyHeader>Stack Trace</BodyHeader>
-              <Stack stack={beacon.stackTrace} />
+              <Stack beacon={beacon} />
             </Col>
           )}
 
         {isNotBlank(beacon.componentStack) && (
           <Col lg={6}>
             <BodyHeader>Component Stack</BodyHeader>
-            <Stack stack={beacon.componentStack} />
+            <RawStack stack={beacon.componentStack} />
           </Col>
         )}
       </Row>

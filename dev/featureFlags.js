@@ -19,5 +19,6 @@ module.exports = {
   samplingIndicatorEnabled: true,
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
-  unmonitoredHostsEnabled: true
+  unmonitoredHostsEnabled: true,
+  javaScriptStackTraceTranslationEnabled: true
 };
