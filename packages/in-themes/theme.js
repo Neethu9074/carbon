@@ -19,10 +19,9 @@ module.exports = {
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
     overlays: ++zIndex,
-    dialog: ++zIndex,
-    subMenu: ++zIndex,
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
+    dialog: ++zIndex,
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
   },
