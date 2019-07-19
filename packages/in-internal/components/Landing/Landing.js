@@ -23,11 +23,26 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
       </div>
 
       {internalMonitoringUnit && (
-        <Row>
-          <Col lg={12}>
-            <SloViolationsChart timeConfig={timeConfig} />
-          </Col>
-        </Row>
+        <div>
+          <Row>
+            <Col lg={12}>
+              <SloViolationsChart
+                timeConfig={timeConfig}
+                query="(entity.jvm.app.name:&quot;appdata-writer*&quot; OR entity.jvm.app.name:&quot;appdata-reader*&quot; OR entity.jvm.app.name:&quot;acceptor*&quot; OR entity.jvm.app.name:&quot;eum-acceptor*&quot; OR entity.jvm.app.name:&quot;eum-processor*&quot; OR entity.jvm.app.name:&quot;groundskeeper*&quot; OR entity.jvm.app.name:&quot;butler*&quot; OR entity.jvm.app.name:&quot;cashier*&quot;)"
+                cardTitle="Shared Component SLO Violations"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={12}>
+              <SloViolationsChart
+                timeConfig={timeConfig}
+                query="(entity.jvm.app.name:&quot;filler*&quot; OR entity.jvm.app.name:&quot;processor*&quot; OR entity.jvm.app.name:&quot;issue-tracker*&quot; OR entity.jvm.app.name:&quot;appdata-processor*&quot; OR entity.jvm.app.name:&quot;appdata-legacy-*&quot; OR entity.jvm.app.name:&quot;ui-backend*&quot;)"
+                cardTitle="TU SLO Violations"
+              />
+            </Col>
+          </Row>
+        </div>
       )}
 
       <Row>
@@ -35,6 +50,39 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
           <Col lg={6}>
             <Card title={`SaaS Monitoring (${config.tenantUnit.toUpperCase()})`}>
               <LinkList>
+                <LinkListItem
+                  label="Service-Level Objectives (SLOs)"
+                  description="SLOs are used to check whether our components and data-stores are operating within expected bounds."
+                >
+                  <LinkList>
+                    <LinkListItem label="Violations" description="Inspect which SLOs we are breaking/violating.">
+                      <LinkList>
+                        <LinkListItem
+                          label="Grouped View"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/sloViolations')
+                          )}
+                        />
+                        <LinkListItem
+                          label="Event View"
+                          href$={getModifiedUrlStream(params => {
+                            params.pathname = '/events';
+                            params.query.q =
+                              '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
+                            setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
+                          })}
+                        />
+                      </LinkList>
+                    </LinkListItem>
+                    <LinkListItem
+                      label="Definition"
+                      external
+                      href="https://github.com/instana/backend/tree/develop/objectives"
+                      description="Learn about & evolve our SLOs."
+                    />
+                  </LinkList>
+                </LinkListItem>
+
                 <LinkListItem
                   label="Units"
                   description="Gather insights how the various units are performing and identify which unit is having problems."
@@ -49,39 +97,6 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                       label="Agents"
                       href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/agents'))}
                       description="Learn which unit has agents that are experiencing problems."
-                    />
-                  </LinkList>
-                </LinkListItem>
-
-                <LinkListItem
-                  label="Service-Level Objectives (SLOs)"
-                  description="SLOs are used to check whether our components and data-stores are operating within expected bounds."
-                >
-                  <LinkList>
-                    <LinkListItem label="Violations" description="Inspect which SLOs we are breaking/violating.">
-                      <LinkList>
-                        <LinkListItem
-                          label="Event View"
-                          href$={getModifiedUrlStream(params => {
-                            params.pathname = '/events';
-                            params.query.q =
-                              '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
-                            setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
-                          })}
-                        />
-                        <LinkListItem
-                          label="Grouped View"
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sloViolations')
-                          )}
-                        />
-                      </LinkList>
-                    </LinkListItem>
-                    <LinkListItem
-                      label="Definition"
-                      external
-                      href="https://github.com/instana/backend/tree/develop/objectives"
-                      description="Learn about & evolve our SLOs."
                     />
                   </LinkList>
                 </LinkListItem>

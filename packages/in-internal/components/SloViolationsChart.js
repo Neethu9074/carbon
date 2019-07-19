@@ -15,7 +15,7 @@ export default function SloViolationsChart({ timeConfig, query, cardTitle = 'SLO
       y1={{
         renderer: Renderer.stackedArea,
         formatter: number.forcedCompact,
-        labels: ['SLO Violations', 'Experimental SLO Violations'],
+        labels: ['SLOs', 'Experimental SLOs'],
         metricIds: ['slo', 'experimentalSlo']
       }}
       metricsConfiguration={{
