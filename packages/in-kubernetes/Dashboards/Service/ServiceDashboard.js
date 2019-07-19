@@ -3,12 +3,12 @@ import { get } from 'lodash';
 
 import KubernetesServiceToInstanaServicesButton from 'in-kubernetes/components/KubernetesServiceToInstanaServicesButton';
 import KubernetesServiceToInstanaServiceButton from 'in-kubernetes/components/KubernetesServiceToInstanaServiceButton';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
-import { nToMK8sServiceToInstanaServiceEnabled } from 'in-services/featureFlags';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -23,6 +23,7 @@ import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import connectTo from 'in-hoc/connectTo';
 
 export default function ServiceDashboard({ location }) {
   const props = {
@@ -87,7 +88,7 @@ function Header(props) {
       icon="lib_kubernetes_service"
       {...props}
       renderSubTypes={SubTypes}
-      renderActions={Actions}
+      renderActions={Action}
     />
   );
 }
@@ -101,21 +102,30 @@ function SubTypes({ result }) {
   );
 }
 
-function Actions(props) {
-  return (
-    <Fragment>
-      <AnalyzeCallsButton
-        clusterName={get(props.result, ['data', 'clusterName'])}
-        namespaceName={get(props.result, ['data', 'namespace'])}
-        serviceName={get(props.result, ['data', 'name'])}
-        groupByTag={{ name: 'kubernetes.pod.name' }}
-        timeConfig={props.timeConfig}
-      />
-      {nToMK8sServiceToInstanaServiceEnabled ? (
-        <KubernetesServiceToInstanaServicesButton {...props} />
-      ) : (
-        <KubernetesServiceToInstanaServiceButton {...props} />
-      )}
-    </Fragment>
-  );
+function Action(props) {
+  return <Actions {...props} />;
 }
+
+const Actions = connectTo(
+  {
+    nToMK8sServiceToInstanaServiceEnabled: isInternalVisible$
+  },
+  function Actions(props) {
+    return (
+      <Fragment>
+        <AnalyzeCallsButton
+          clusterName={get(props.result, ['data', 'clusterName'])}
+          namespaceName={get(props.result, ['data', 'namespace'])}
+          serviceName={get(props.result, ['data', 'name'])}
+          groupByTag={{ name: 'kubernetes.pod.name' }}
+          timeConfig={props.timeConfig}
+        />
+        {props.nToMK8sServiceToInstanaServiceEnabled ? (
+          <KubernetesServiceToInstanaServicesButton {...props} />
+        ) : (
+          <KubernetesServiceToInstanaServiceButton {...props} />
+        )}
+      </Fragment>
+    );
+  }
+);
