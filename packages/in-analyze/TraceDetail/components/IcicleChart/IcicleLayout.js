@@ -32,7 +32,8 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
       isFakeRoot
     });
   } else {
-    const end = start + duration;
+    // If duration === 0 and two spans has the same start, they will overlap in the chart. We avoid this by setting the duration to 1 if that is the case
+    const end = start + (duration === 0 ? 1 : duration);
     depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
 
     const callFrame = {

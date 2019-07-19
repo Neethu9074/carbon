@@ -109,5 +109,13 @@ describe('in-analyze/TraceDetail/components/IcicleChart', () => {
       const expectedCallFrames = require('./testData/childCallsOutsideOfRootCall_expected.js').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
+
+    it('child calls with same start and 0 duration', () => {
+      let rootCall = deepFreeze(require('./testData/0durationCallsSameStart.js').default);
+      const callFrames = applyLayout(rootCall);
+
+      const expectedCallFrames = require('./testData/0durationCallsSameStart_expected.js').default;
+      expect(callFrames).to.deep.equal(expectedCallFrames);
+    });
   });
 });
