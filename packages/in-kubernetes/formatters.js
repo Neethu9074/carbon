@@ -5,3 +5,4 @@ export const resourceQuotaPercentage = d => (d < 0 ? valueMissingPlaceholder : p
 export const resourceQuotaBytes = d => (d < 0 ? valueMissingPlaceholder : bytes.detailed(d));
 export const resourceQuotaNumber = d => (d < 0 ? valueMissingPlaceholder : number.detailed(d));
 export const resourceQuotaZeroDecimalPlaces = d => (d < 0 ? valueMissingPlaceholder : number.compact(d));
+export const resourceQuotaTwoDecimalPlaces = d => (d < 0 ? valueMissingPlaceholder : number.detailed(d));

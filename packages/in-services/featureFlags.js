@@ -35,6 +35,7 @@ export const isRbacEnabled = isFeatureFlagEnabled('isRbacEnabled');
 export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorEnabled');
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
+export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
 export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled(
   'javaScriptStackTraceTranslationEnabled',
   false

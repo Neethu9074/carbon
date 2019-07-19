@@ -4,7 +4,7 @@ import {
   endpointDashboard as endpointDashboardPath
 } from 'in-applications/navigation/paths';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
-import { appId, serviceId, endpointId } from 'in-applications/navigation/matrix';
+import { applicationId, serviceId, endpointId } from 'in-applications/navigation/matrix';
 
 export const applicationDashboardUrlParameters = createApplicationServiceEndpointParameters(applicationDashboardPath);
 export const serviceDashboardUrlParameters = createApplicationServiceEndpointParameters(serviceDashboardPth);
@@ -36,7 +36,7 @@ function createApplicationServiceEndpointParameters(path) {
   return {
     applicationId: {
       path,
-      name: appId
+      name: applicationId
     },
     serviceId: {
       path,

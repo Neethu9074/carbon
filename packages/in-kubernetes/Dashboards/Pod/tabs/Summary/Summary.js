@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { resourceQuotaBytes, twoDecimalPlaces, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { resourceQuotaBytes, resourceQuotaTwoDecimalPlaces, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -103,7 +103,7 @@ export default function Summary({ data: pod, timeConfig }) {
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: twoDecimalPlaces,
+                  formatter: resourceQuotaTwoDecimalPlaces,
                   metrics: ['cpuRequests', 'cpuLimits', 'cpu.user_usage'],
                   labels: ['Requests', 'Limits', 'Usage'],
                   type: 'line'
