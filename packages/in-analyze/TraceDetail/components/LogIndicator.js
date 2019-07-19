@@ -13,7 +13,7 @@ export default function LogIndicator({ inTimeline, left, parentCall, top, onCall
         borderColor: `${log.errorCount ? theme.lib.colors.failure : theme.lib.colors.warning} transparent transparent`
       }}
       className={inTimeline ? locals.logIndicatorTimeline : locals.logIndicator}
-      onClick={() => onCallClicked(parentCall)}
+      onClick={onCallClicked != null ? () => onCallClicked(parentCall) : null}
     />
   );
 }
