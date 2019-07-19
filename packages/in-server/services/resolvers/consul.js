@@ -24,6 +24,7 @@ exports.getButlerDomain = (tenant, unit) =>
 exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
     return Promise.all([
+      getBooleanSetting(`settings/${tenant}-${unit}/JAVASCRIPT_STACK_TRACE_TRANSLATION_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
@@ -39,6 +40,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true)
     ]).then(
       ([
+        javaScriptStackTraceTranslationEnabled,
         isSelfService,
         isKubernetesV2Enabled,
         lastSevenDaysTimePresetEnabled,
@@ -53,6 +55,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         samplingIndicatorEnabled,
         unmonitoredHostsEnabled
       ]) => ({
+        javaScriptStackTraceTranslationEnabled,
         isSelfService,
         isKubernetesV2Enabled,
         lastSevenDaysTimePresetEnabled,

@@ -10,7 +10,10 @@ window.instana = {
   config: {
     tenant: 'instana',
     tenantUnit: 'test',
-    environment: 'internal'
+    environment: 'internal',
+    featureFlags: {
+      javaScriptStackTraceTranslationEnabled: true
+    }
   },
   build: {
     revision: '85373525d145604cda61cf7544d376436c5c49d5',
