@@ -96,7 +96,7 @@ const Infrastructure = connectTo(({ call }) => {
   return {
     snapshot: getSnapshot(snapshotId, getTimeConfigAtMoment(call.start))
   };
-})(function Infrastructure({ snapshot, call }) {
+})(function Infrastructure({ snapshot }) {
   if (!snapshot) {
     return null;
   }
@@ -111,7 +111,6 @@ const Infrastructure = connectTo(({ call }) => {
           pathname={physicalDashboardPath}
           linkClassName={locals.infraLink}
           kind="dark"
-          timeConfig={getTimeConfigAtMoment(call.start)}
         />
       </div>
     </Fragment>
