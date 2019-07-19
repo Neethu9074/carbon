@@ -135,7 +135,7 @@ export const getMetricForFocusedMoment = memoize(
   ({ snapshotId, metric }) => {
     return timeConfig$.flatMap(timeConfig => {
       if (timeConfig.autoRefresh) {
-        return getLiveMetrics({ snapshotId, metric });
+        return getLiveMetrics({ snapshotId, metric, rollup: getDefaultMetricRollupDuration(timeConfig).rollup });
       }
 
       return getHistoricMetric({ snapshotId, metric, timeConfig });
