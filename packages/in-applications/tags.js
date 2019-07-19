@@ -49,8 +49,13 @@ const blacklists = {
   generalBlacklist: (() => {
     const blacklist = {
       'application.id': true,
+      'source.application.id': true,
       'service.id': true,
+      'source.service.id': !isInstanaEngineer,
       'endpoint.id': true,
+      'source.endpoint.id': true,
+      'source.endpoint.name': !isInstanaEngineer,
+      'source.endpoint.type': true,
       'process.id': true,
       'docker.container.id': true,
       'host.snapshotId': !isInstanaEngineer,
