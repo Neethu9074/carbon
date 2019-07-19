@@ -384,9 +384,9 @@ function save(alertEntity, form) {
     modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
   const scopeType = form.get('applyOn').value;
 
-  let advancedJsonPayload;
+  let customPayload;
   if (addStaticJsonPayloadToEventsConfig) {
-    advancedJsonPayload = form.get(staticJsonPayloadFieldName) && form.get(staticJsonPayloadFieldName).value;
+    customPayload = form.get(staticJsonPayloadFieldName) && form.get(staticJsonPayloadFieldName).value;
   }
 
   submitAlertTracker({
@@ -406,7 +406,7 @@ function save(alertEntity, form) {
         selectedEvents,
         query,
         eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null,
-        advancedJsonPayload
+        customPayload
       )
     )
   );
