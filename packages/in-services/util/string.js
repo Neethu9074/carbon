@@ -24,7 +24,6 @@ export function shorten(s, maxLength = 64) {
   if (!s) {
     return s;
   }
-
   if (s.length <= maxLength) {
     return s;
   }

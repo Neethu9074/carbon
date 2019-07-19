@@ -67,6 +67,7 @@ import './components/PaginationStory';
 import './components/PillStory';
 import './components/SearchInputStory';
 import './components/SparkChart';
+import './components/StackTraceStory';
 import './components/TechnologyIndicator';
 import './components/time/TimePresenterStory';
 import './components/time/TimeSelectionDialogPresenterStory';
