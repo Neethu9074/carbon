@@ -60,10 +60,12 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
               </div>
             )}
 
-          <div className={locals.stackTraceWrapper}>
-            <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
-            <StackTraceBehavior stackTrace={log.stackTrace} relation={call.destination} />
-          </div>
+          {log.stackTrace.length > 0 && (
+            <div className={locals.stackTraceWrapper}>
+              <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
+              <StackTraceBehavior stackTrace={log.stackTrace} relation={call.destination} />
+            </div>
+          )}
         </Fragment>
       )}
     </div>

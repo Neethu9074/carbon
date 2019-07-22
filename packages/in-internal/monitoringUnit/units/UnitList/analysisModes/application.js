@@ -66,6 +66,24 @@ export default {
       }
     },
     {
+      id: 'droppedSpansDueToBackpressure',
+      title: 'Dropped Spans Due To Backpressure',
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'appdata-processor.droppedSpansDueToBackpressure';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
+    },
+    {
       id: 'spanLatencyMean',
       title: 'Span Latency (Mean)',
       type: 'metric',
