@@ -1,5 +1,6 @@
 import { get } from 'lodash';
 
+import { javaScriptStackTraceTranslationEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 export const tagDefinitions = get(window, ['instana', 'tags'], [])
@@ -136,6 +137,16 @@ const commonFilterTags = [
   'beacon.website.id'
 ];
 
+const translatedStackTraceFilterTags = [
+  'beacon.stackTrace.parsingStatus',
+  'beacon.stackTraceElement.file',
+  'beacon.stackTraceElement.name',
+  'beacon.stackTraceElement.line',
+  'beacon.stackTraceElement.column',
+  'beacon.stackTraceElement.translationStatus',
+  'beacon.stackTrace.readability'
+];
+
 export const availableFilterTags = {
   pageLoad: [
     ...availableGroupingTags.pageLoad,
@@ -172,6 +183,17 @@ export const availableFilterTags = {
     'beacon.backend.correlationAttempted',
     'beacon.backend.traceId'
   ].sort(),
-  error: [...availableGroupingTags.error, ...commonFilterTags, 'beacon.batchSize', 'beacon.error.id'].sort(),
-  custom: [...availableGroupingTags.custom, ...commonFilterTags, 'beacon.batchSize'].sort()
+  error: [
+    ...availableGroupingTags.error,
+    ...commonFilterTags,
+    'beacon.batchSize',
+    'beacon.error.id',
+    ...(javaScriptStackTraceTranslationEnabled ? translatedStackTraceFilterTags : [])
+  ].sort(),
+  custom: [
+    ...availableGroupingTags.custom,
+    ...commonFilterTags,
+    'beacon.batchSize',
+    ...(javaScriptStackTraceTranslationEnabled ? translatedStackTraceFilterTags : [])
+  ].sort()
 };

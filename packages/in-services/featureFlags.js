@@ -36,11 +36,7 @@ export const samplingIndicatorEnabled = isFeatureFlagEnabled('samplingIndicatorE
 export const customDashboardsEnabled = isFeatureFlagEnabled('customDashboardsEnabled');
 export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEnabled', true);
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
-export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled(
-  'javaScriptStackTraceTranslationEnabled',
-  false
-);
-
+export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 
 // ########################################################################################
