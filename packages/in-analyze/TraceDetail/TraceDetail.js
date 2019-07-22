@@ -68,6 +68,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
     colorCodeType:
       getColor === getColorByEndpoint ? byServiceEndpointCombinationUrlIdentifier : byEndpointTypeUrlIdentifier
   };
+
   return (
     <Fragment>
       <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
@@ -116,7 +117,7 @@ function Header(props) {
   );
 }
 
-function Actions({ traceId }) {
+function Actions({ traceId, filters }) {
   return (
     <Fragment>
       <Button
@@ -128,7 +129,7 @@ function Actions({ traceId }) {
         Download
       </Button>
 
-      <Link href$={getLinkToAnalyze()}>
+      <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
         <Tooltip content="Close trace detail">
           <SvgIcon
             className={locals.closeIcon}
