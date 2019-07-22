@@ -4,10 +4,12 @@ import React from 'react';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import SvgIcon from 'in-components/SvgIcon';
 
+import icons from 'in-components/SvgIcon/registry.json';
+
 import Root from '../../_helpers/Root';
 import Section from '../../_helpers/Section';
 
-storiesOf('Components/health/WithHealthIndicationStory', module).add('default', () => <WithHealthIndicationStory />);
+storiesOf('Components/health', module).add('Icon with Health Indication', () => <WithHealthIndicationStory />);
 
 function WithHealthIndicationStory() {
   const sizes = [];
@@ -37,6 +39,24 @@ function WithHealthIndicationStory() {
             </WithHealthIndication>
           ))}
         </div>
+      </Section>
+
+      <Section title="All icons">
+        <ul>
+          {Object.keys(icons)
+            .sort()
+            .map(icon => (
+              <li
+                key={icon}
+                style={{ display: 'inline-flex', alignItems: 'center', margin: '0.5rem 1rem', minWidth: '13rem' }}
+              >
+                <WithHealthIndication size={24} healthInfo={{ maxSeverity: 10 }}>
+                  <SvgIcon type={icon} width={24} height={24} color="#000" spinning={icon === 'lib_actions_loading'} />
+                </WithHealthIndication>
+                <span style={{ marginLeft: '0.8rem' }}>{icon}</span>
+              </li>
+            ))}
+        </ul>
       </Section>
     </Root>
   );
