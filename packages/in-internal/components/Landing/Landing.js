@@ -24,26 +24,26 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
       </div>
 
       {internalMonitoringUnit && (
-        <div>
-          <Row>
-            <Col lg={12}>
-              <SloViolationsChart
-                timeConfig={timeConfig}
-                query="(entity.jvm.app.name:&quot;appdata-writer*&quot; OR entity.jvm.app.name:&quot;appdata-reader*&quot; OR entity.jvm.app.name:&quot;acceptor*&quot; OR entity.jvm.app.name:&quot;eum-acceptor*&quot; OR entity.jvm.app.name:&quot;eum-processor*&quot; OR entity.jvm.app.name:&quot;groundskeeper*&quot; OR entity.jvm.app.name:&quot;butler*&quot; OR entity.jvm.app.name:&quot;cashier*&quot;)"
-                cardTitle="Shared Component SLO Violations"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12}>
-              <SloViolationsChart
-                timeConfig={timeConfig}
-                query="(entity.jvm.app.name:&quot;filler*&quot; OR entity.jvm.app.name:&quot;processor*&quot; OR entity.jvm.app.name:&quot;issue-tracker*&quot; OR entity.jvm.app.name:&quot;appdata-processor*&quot; OR entity.jvm.app.name:&quot;appdata-legacy-*&quot; OR entity.jvm.app.name:&quot;ui-backend*&quot;)"
-                cardTitle="TU SLO Violations"
-              />
-            </Col>
-          </Row>
-        </div>
+        <Row>
+          <Col lg={6}>
+            <SloViolationsChart
+              timeConfig={timeConfig}
+              cardTitle="Shared Component SLO Violations"
+              query={
+                'NOT (entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
+              }
+            />
+          </Col>
+          <Col lg={6}>
+            <SloViolationsChart
+              timeConfig={timeConfig}
+              cardTitle="TU SLO Violations"
+              query={
+                '(entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
+              }
+            />
+          </Col>
+        </Row>
       )}
 
       <Row>

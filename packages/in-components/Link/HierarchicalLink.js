@@ -79,12 +79,7 @@ function HierarchicalLink({
       onClick={stopPropagation}
       className={joinClassNames(linkClassName, className, customLinkClassName)}
     >
-      <HealthyPluginIcon
-        className={locals.pluginIcon}
-        dimension={12}
-        snapshotId={snapshot.get('id')}
-        plugin={snapshot.get('plugin')}
-      />
+      <HealthyPluginIcon className={locals.pluginIcon} dimension={12} snapshot={snapshot} />
       {getLabel ? getLabel(label) : label}
     </Link>
   );
