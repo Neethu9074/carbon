@@ -27,6 +27,7 @@ export const customServiceMappingTagKeys = [
   'mongodb.cluster.name',
   'kubernetes.container.name',
   'kubernetes.namespace',
+  'kubernetes.label',
   'kubernetes.pod.label',
   'marathon.app.id',
   'nodejs.app.name',
