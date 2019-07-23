@@ -56,7 +56,7 @@ module.exports = {
     filename: 'index.js',
     chunkFilename: '[name].[hash].js'
   },
-  devtool: 'source-map',
+  devtool: isDevModeBuild ? 'eval' : 'source-map',
   module: {
     rules: [
       {
