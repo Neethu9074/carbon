@@ -24,14 +24,17 @@ pipeline {
 
             currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId}"
 
-            sh '''
-              source $HOME/.nvm/nvm.sh
-              nvm use
-              npm install yarn@1.17.3
-              ./node_modules/.bin/yarn audit
-            '''
-
-            slackNotification('Security Audit', 'ui-client', gitCommitId, currentBuild.currentResult, 'develop')
+            try {
+              sh '''
+                source $HOME/.nvm/nvm.sh
+                nvm use
+                npm install yarn@1.17.3
+                ./node_modules/.bin/yarn audit
+              '''
+              slackNotification('Security Audit', 'ui-client', gitCommitId, 'SUCCESS', 'develop')
+            } catch (e) {
+              slackNotification('Security Audit', 'ui-client', gitCommitId, 'FAILURE', 'develop')
+            }
           }
         }
       }
