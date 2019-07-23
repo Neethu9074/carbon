@@ -40,7 +40,7 @@ export function getSetting(key, fallback) {
 }
 
 export function getSetting$(key) {
-  return settingsStore.map(set => set[key]).distinct();
+  return settingsStore.map(set => (set.hasOwnProperty(key) ? set[key] : null)).distinct();
 }
 
 function saveProperty(key, value) {
