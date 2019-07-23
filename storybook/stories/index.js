@@ -99,7 +99,6 @@ import './utilities/TypographyStory';
 
 import './x_old_components/BadgeStory';
 import './x_old_components/ButtonStory';
-import './x_old_components/CodeEditor';
 import './x_old_components/CodeStory';
 import './x_old_components/ComboBoxStory';
 import './x_old_components/form/DateInputStory';
@@ -107,6 +106,5 @@ import './x_old_components/form/InputStory';
 import './x_old_components/IconStory';
 import './x_old_components/KeyValuePopup';
 import './x_old_components/KpiStory';
-import './x_old_components/MultiSelectStory';
 import './x_old_components/sdk/CollapsibleStory';
 import './x_old_components/sdk/Descriptions';

@@ -72,16 +72,6 @@ export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 const audit = `${teamSettings}/audit`;
 export const teamSettingsAuditLog = `${audit}/log`;
 
-const legacyServiceExtraction = `${teamSettings}/legacyServiceExtraction`;
-export const newServiceExtractionPath = `${legacyServiceExtraction}/:ruleType/serviceExtraction/:ruleId`;
-export const serviceExtractionPath = `${legacyServiceExtraction}/:ruleType/serviceExtraction`;
-export const generalServiceExtractionPath = `${legacyServiceExtraction}/generalServiceExtraction`;
-export const httpServiceExtractionPath = `${legacyServiceExtraction}/httpServiceExtraction`;
-export const batchServiceExtractionPath = `${legacyServiceExtraction}/batchServiceExtraction`;
-export const ejbServiceExtractionPath = `${legacyServiceExtraction}/ejbServiceExtraction`;
-export const elasticsearchServiceExtractionPath = `${legacyServiceExtraction}/elasticsearchServiceExtraction`;
-export const messageBrokerServiceExtractionPath = `${legacyServiceExtraction}/messageBrokerServiceExtraction`;
-
 export function getEntityHref(path, id) {
   if (id) {
     return `${path}/${encodeURIComponent(id)}`;
@@ -112,10 +102,4 @@ export function goToAlertChannelView(kind) {
 
 export function getModifyAlertChannelUrl(kind, entityId) {
   return `#${alerting}${channels};kind=${kind}/detail/${encodeURIComponent(entityId)}`;
-}
-
-export function getServiceExtractionRuleConfigPath(ruleId, ruleType) {
-  return ruleId
-    ? `${legacyServiceExtraction}/${encodeURIComponent(ruleType)}/serviceExtraction/${encodeURIComponent(ruleId)}`
-    : `${legacyServiceExtraction}/${encodeURIComponent(ruleType)}/serviceExtraction`;
 }

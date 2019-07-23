@@ -1,6 +1,5 @@
 import { create, combineLatest } from 'reactive-observables';
 
-import { setLive } from 'in-components/timeline/components/DatePicker/stores/liveStore';
 import {
   timeConfig$ as globalTimeConfig$,
   setTimeframe as setGlobalTimeframe,
@@ -110,10 +109,6 @@ export function toggleShowTimeSelector() {
 
 export function openTimeSelector(view = true) {
   showTimeSelector.mutateTo(view);
-
-  if (view === 'fixed') {
-    setLive(false);
-  }
 }
 
 export function closeTimeSelector() {
