@@ -34,6 +34,7 @@ pipeline {
               slackNotification('Security Audit', 'ui-client', gitCommitId, 'SUCCESS', 'develop')
             } catch (e) {
               slackNotification('Security Audit', 'ui-client', gitCommitId, 'FAILURE', 'develop')
+              throw e
             }
           }
         }
