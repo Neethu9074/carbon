@@ -12,6 +12,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
   const isMysql = version.includes('MYSQL');
   const instanceType = snapshot.getIn(['data', 'instanceType'], '');
   const isReplica = instanceType.includes('REPLICA');
+
   return (
     <div>
       <Columize>
@@ -121,7 +122,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
       </Columize>
       {isMysql && (
         <Columize>
-          <DashboardSection title="Mysql">
+          <DashboardSection title="MySQL">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -142,7 +143,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
             />
           </DashboardSection>
           {isReplica && (
-            <DashboardSection title="Mysql replication">
+            <DashboardSection title="MySQL replication">
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -177,7 +178,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Innodb">
+          <DashboardSection title="InnoDB">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -199,7 +200,7 @@ export default function GoogleCLoudSQLDashboard({ snapshot, timeConfig }) {
       )}
       <Columize>
         {isPostgres && (
-          <DashboardSection title="Postgresql">
+          <DashboardSection title="PostgreSQL">
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

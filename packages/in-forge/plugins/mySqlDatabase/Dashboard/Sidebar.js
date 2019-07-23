@@ -10,7 +10,7 @@ export default function MySqlSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MySql</Collapsible.Header>
+        <Collapsible.Header>MySQL</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

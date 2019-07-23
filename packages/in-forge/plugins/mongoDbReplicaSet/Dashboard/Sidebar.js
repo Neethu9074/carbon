@@ -10,7 +10,7 @@ export default function ReplicaSetSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDb Replica Set</Collapsible.Header>
+        <Collapsible.Header>MongoDB Replica Set</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -8,13 +8,13 @@ import { number, millis } from 'in-services/formatters/number';
 
 import Info from '../Info';
 
-export default function MongoDbRelicaSetSidebar({ snapshot }) {
+export default function MongoDbReplicaSetSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDb Replica Set</Collapsible.Header>
+        <Collapsible.Header>MongoDB Replica Set</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
