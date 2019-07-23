@@ -1,0 +1,40 @@
+#!groovy
+
+pipeline {
+  agent any
+
+  options {
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    cron('H H/4 * * 1-5')
+  }
+
+  stages {
+    stage('Run Security Audit') {
+      steps {
+        deleteDir()
+
+        dir('ui-client') {
+          git url: 'git@github.com:instana/ui-client.git', branch: 'develop'
+
+          script {
+            def gitCommitId = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+
+            currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId}"
+
+            sh '''
+              source $HOME/.nvm/nvm.sh
+              nvm use
+              npm install yarn@1.17.3
+              ./node_modules/.bin/yarn audit
+            '''
+
+            slackNotification('Security Audit', 'ui-client', gitCommitId, currentBuild.currentResult, 'develop')
+          }
+        }
+      }
+    }
+  }
+}
