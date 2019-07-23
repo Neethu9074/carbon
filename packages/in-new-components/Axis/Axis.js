@@ -15,6 +15,7 @@ export default function Axis({
   scale,
   align,
   fixedTickPositions,
+  roundTickPositions = false,
   width,
   height,
   tickLength = 8,
@@ -35,7 +36,7 @@ export default function Axis({
 
   if (!tickPositions) {
     if (fixedTickPositions) {
-      tickPositions = mapNormalizedTicks(scale, fixedTickPositions, isVertical ? height : width);
+      tickPositions = mapNormalizedTicks(scale, fixedTickPositions, roundTickPositions, isVertical ? height : width);
     } else {
       tickPositions = calculateTickPositions(scale, formatter, height);
     }
@@ -83,9 +84,21 @@ function calculateTickPositions(_scale, formatter, height) {
   return getTickPositions(scale, formatter.detailed);
 }
 
-function mapNormalizedTicks(scale, tickPositions, length) {
-  return tickPositions.map(tick => ({
-    range: tick * length,
-    domain: scale.from + tick * (scale.to - scale.from)
-  }));
+function mapNormalizedTicks(scale, tickPositions, roundTickPositions, length) {
+  return tickPositions.map(tick => {
+    const domain = scale.from + tick * (scale.to - scale.from);
+    if (roundTickPositions) {
+      const roundedDomain = Math.round(domain);
+      const newTick = roundedDomain / scale.to;
+      return {
+        range: newTick * length,
+        domain: roundedDomain
+      };
+    } else {
+      return {
+        range: tick * length,
+        domain: domain
+      };
+    }
+  });
 }
