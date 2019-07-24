@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
@@ -84,6 +85,9 @@ function ServiceList({ instanaServices }) {
                   severity={get(service, ['metrics', 'maxSeverity', 0, 1], 0)}
                   href$={getServiceDashboard(service.id)}
                 />
+              </Td>
+              <Td>
+                <EndpointTypeBadgeList types={service.types} />
               </Td>
               <Td>
                 <EntityWithType

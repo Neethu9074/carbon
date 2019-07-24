@@ -19,6 +19,7 @@ function ServiceListPopupStory() {
               {
                 id: 42,
                 label: 'foobar',
+                types: ['HTTP'],
                 metrics: { maxSeverity: [[0, 0]], latencyAgg: [[0, 123]], errorsAgg: [[0, 0]], callsAgg: [[0, 1234]] }
               }
             ]}
@@ -34,11 +35,13 @@ function ServiceListPopupStory() {
               {
                 id: 42,
                 label: 'foobar',
+                types: ['HTTP'],
                 metrics: { maxSeverity: [[0, 0]], latencyAgg: [[0, 123]], errorsAgg: [[0, 0]], callsAgg: [[0, 1234]] }
               },
               {
                 id: 43,
                 label: 'very long label which is very long. seriously, this is a long label',
+                types: ['RPC'],
                 metrics: {
                   maxSeverity: [[0, 5]],
                   latencyAgg: [[0, 1230]],
@@ -49,6 +52,7 @@ function ServiceListPopupStory() {
               {
                 id: 44,
                 label: 'foobar',
+                types: ['DATABASE'],
                 metrics: {
                   maxSeverity: [[0, 10]],
                   latencyAgg: [[0, 12300]],
@@ -59,11 +63,13 @@ function ServiceListPopupStory() {
               {
                 id: 45,
                 label: 'foobar',
+                types: ['INTERNAL'],
                 metrics: { maxSeverity: [[0, 0]], latencyAgg: [[0, 123]], errorsAgg: [[0, 0]], callsAgg: [[0, 1234]] }
               },
               {
                 id: 46,
                 label: 'foobar',
+                types: ['UNDEFINED'],
                 metrics: {
                   maxSeverity: [[0, 5]],
                   latencyAgg: [[0, 7645]],
