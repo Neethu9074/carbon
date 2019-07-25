@@ -10,11 +10,13 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: service }) {
   const deploymentId = service.deploymentIds && service.deploymentIds[0];
+  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
   return (
     <Fragment>
@@ -72,7 +74,8 @@ export default function Summary({ timeConfig, data: service }) {
                   formatter: twoDecimalPlaces,
                   metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
                   labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
-                  type: 'line'
+                  type: 'line',
+                  colors: [requests, limits, usage]
                 }}
               />
             </Card>
@@ -86,7 +89,8 @@ export default function Summary({ timeConfig, data: service }) {
                   formatter: bytesTwoDecimalPlaces,
                   metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'cpu.user_usage'].filter(Boolean),
                   labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
-                  type: 'line'
+                  type: 'line',
+                  colors: [requests, limits, usage]
                 }}
               />
             </Card>

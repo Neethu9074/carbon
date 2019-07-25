@@ -11,11 +11,21 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
+  const {
+    green800: running,
+    teal800: capacity,
+    orange800: limits,
+    lime800: requests,
+    lightBlue800: usage,
+    orange800: pending,
+    lightBlue800: allocated
+  } = theme.lib.colors;
 
   return (
     <Fragment>
@@ -74,7 +84,8 @@ export default function Summary({ timeConfig, data: cluster }) {
                   Boolean
                 ),
                 labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
-                type: 'line'
+                type: 'line',
+                colors: [requests, limits, capacity, usage]
               }}
             />
           </Card>
@@ -90,7 +101,8 @@ export default function Summary({ timeConfig, data: cluster }) {
                   Boolean
                 ),
                 labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
-                type: 'line'
+                type: 'line',
+                colors: [requests, limits, capacity, usage]
               }}
             />
           </Card>
@@ -104,7 +116,8 @@ export default function Summary({ timeConfig, data: cluster }) {
                 formatter: zeroDecimalPlaces,
                 metrics: ['podsRunning', 'podsPending', 'pods.count', 'nodes.capacity_pods'],
                 labels: ['Running', 'Pending', 'Allocated', 'Capacity'],
-                type: 'line'
+                type: 'line',
+                colors: [running, pending, allocated, capacity]
               }}
             />
           </Card>

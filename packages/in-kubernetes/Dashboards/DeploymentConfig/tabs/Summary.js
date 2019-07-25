@@ -13,6 +13,7 @@ import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 const noActivity = 'No activity';
 const showUsage = isAdhocMetricAggregationEnabled;
@@ -20,6 +21,15 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deploymentConfig }) {
   const snapshotId = deploymentConfig.id;
+  const {
+    orange800: limits,
+    lime800: requests,
+    lightBlue800: usage,
+    orange800: pending,
+    lightBlue800: allocated,
+    deepPurple800: unscheduled,
+    pink800: unready
+  } = theme.lib.colors;
 
   return (
     <Fragment>
@@ -76,7 +86,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 formatter: twoDecimalPlaces,
                 metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
                 labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
-                type: 'line'
+                type: 'line',
+                colors: [requests, limits, usage]
               }}
             />
           </Card>
@@ -90,7 +101,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                 formatter: bytesTwoDecimalPlaces,
                 metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'memory.usage'].filter(Boolean),
                 labels: ['Requests', 'Limits', showUsage && 'Usage'],
-                type: 'line'
+                type: 'line',
+                colors: [requests, limits, usage]
               }}
             />
           </Card>
@@ -110,7 +122,8 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
                   'conditions.Ready.False'
                 ],
                 labels: ['Allocated', 'Pending', 'Unscheduled', 'Unready'],
-                type: 'line'
+                type: 'line',
+                colors: [allocated, pending, unscheduled, unready]
               }}
             />
           </Card>

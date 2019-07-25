@@ -20,11 +20,21 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 const showUsage = isAdhocMetricAggregationEnabled;
 
 export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
+  const {
+    indigo800: hardLimits,
+    purple800: hardRequests,
+    orange800: limits,
+    lime800: requests,
+    slushGreen800: pods,
+    lightBlue800: usage
+  } = theme.lib.colors;
+
   return (
     <Fragment>
       <KpiGridRow sizes={[6, 6]}>
@@ -108,7 +118,8 @@ export default function Summary({ timeConfig, data: namespace }) {
                       showUsage && 'Usage'
                     ].filter(Boolean),
                     type: 'line',
-                    min: 0
+                    min: 0,
+                    colors: [hardRequests, requests, hardLimits, limits, usage]
                   }}
                 />
               )}
@@ -142,7 +153,8 @@ export default function Summary({ timeConfig, data: namespace }) {
                       showUsage && 'Usage'
                     ].filter(Boolean),
                     type: 'line',
-                    min: 0
+                    min: 0,
+                    colors: [hardRequests, requests, hardLimits, limits, usage]
                   }}
                 />
               )}
@@ -164,7 +176,8 @@ export default function Summary({ timeConfig, data: namespace }) {
                     metrics: ['used_pods', 'cap_pods'],
                     labels: ['Used', 'Hard'],
                     type: 'line',
-                    min: 0
+                    min: 0,
+                    colors: [pods, hardLimits]
                   }}
                 />
               )}

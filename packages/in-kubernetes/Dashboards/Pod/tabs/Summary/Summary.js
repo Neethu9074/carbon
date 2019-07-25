@@ -16,6 +16,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -25,6 +26,7 @@ export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
+  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
   return (
     <Fragment>
@@ -106,7 +108,8 @@ export default function Summary({ data: pod, timeConfig }) {
                   formatter: resourceQuotaTwoDecimalPlaces,
                   metrics: ['cpuRequests', 'cpuLimits', 'cpu.user_usage'],
                   labels: ['Requests', 'Limits', 'Usage'],
-                  type: 'line'
+                  type: 'line',
+                  colors: [requests, limits, usage]
                 }}
               />
             </Card>
@@ -120,7 +123,8 @@ export default function Summary({ data: pod, timeConfig }) {
                   formatter: resourceQuotaBytes,
                   metrics: ['memoryRequests', 'memoryLimits', 'memory.usage'],
                   labels: ['Requests', 'Limits', 'Usage'],
-                  type: 'line'
+                  type: 'line',
+                  colors: [requests, limits, usage]
                 }}
               />
             </Card>
