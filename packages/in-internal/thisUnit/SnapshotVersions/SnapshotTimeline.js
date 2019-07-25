@@ -96,7 +96,7 @@ function EndingGap({ lastSnapshot, scale }) {
     return null;
   }
 
-  return <Gap from={lastSnapshot.from} to={scale.getDomainTo()} scale={scale} />;
+  return <Gap from={lastSnapshot.to} to={scale.getDomainTo()} scale={scale} />;
 }
 
 function Gap({ from, to, scale }) {
