@@ -15,6 +15,7 @@ const helpTexts = {
   'entity.aws.s3': 'Simple storage service',
   'entity.aws.ebs': 'Elastic block storage',
   'entity.aws.mq': 'Elastic MQ',
+  'entity.aws.emr': 'Elastic mapreduce',
   'entity.azure': 'Microsoft Azure',
   'entity.azure.service': 'Microsoft Azure services',
   'entity.azure.service.apim': 'Azure API Management',
