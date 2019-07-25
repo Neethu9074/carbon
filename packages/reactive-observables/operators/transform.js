@@ -51,12 +51,16 @@ export default function transform<Source, Target>(transformer: Transformer<Sourc
         const previousIntermediateObservableSubscription = intermediateObservableSubscription;
 
         const intermediateObservable: Observable<Target> = transformer.transform(value);
-        intermediateObservableSubscription = intermediateObservable.subscribe(v => targetObservable.emit(v));
+        intermediateObservableSubscription = intermediateObservable.subscribe(
+          v => targetObservable.emit(v),
+          e => targetObservable.emitError(e)
+        );
 
         if (previousIntermediateObservableSubscription) {
           previousIntermediateObservableSubscription.dispose();
         }
-      }
+      },
+      e => targetObservable.emitError(e)
     );
   }
 

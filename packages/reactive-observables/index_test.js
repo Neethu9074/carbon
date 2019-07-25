@@ -723,6 +723,31 @@ describe('reactive-observables', () => {
       expect(subscriber2.callCount).to.equal(1);
       expect(subscriber2.getCall(0).args[0]).to.equal(2);
     });
+
+    it('must pass errors through the transformed observable', () => {
+      const valueSubscriber = sinon.stub();
+      const errorSubscriber = sinon.stub();
+
+      const source = create();
+      const intermediate = create();
+
+      source.flatMap(() => intermediate).subscribe(valueSubscriber, errorSubscriber);
+
+      source.emitError('a');
+      expect(errorSubscriber.callCount).to.equal(1);
+      expect(errorSubscriber.getCall(0).args[0]).to.equal('a');
+
+      // set up the chain
+      source.emit(1);
+
+      source.emitError('b');
+      expect(errorSubscriber.callCount).to.equal(2);
+      expect(errorSubscriber.getCall(1).args[0]).to.equal('b');
+
+      intermediate.emitError('c');
+      expect(errorSubscriber.callCount).to.equal(3);
+      expect(errorSubscriber.getCall(2).args[0]).to.equal('c');
+    });
   });
 
   describe('nextFrame', () => {
@@ -1159,6 +1184,18 @@ describe('reactive-observables', () => {
       o.subscribe(() => {});
       o.subscribe(subscriber);
       expect(subscriber.getCall(0).args[0]).to.equal(2);
+    });
+
+    it('should pass through error messages', () => {
+      const errorSubscriber = sinon.stub();
+      observable1.merge(observable2).subscribe(subscriber, errorSubscriber);
+
+      observable1.emitError('1 error');
+      observable2.emitError('2 error');
+      expect(subscriber.callCount).to.equal(0);
+      expect(errorSubscriber.callCount).to.equal(2);
+      expect(errorSubscriber.getCall(0).args[0]).to.equal('1 error');
+      expect(errorSubscriber.getCall(1).args[0]).to.equal('2 error');
     });
   });
 

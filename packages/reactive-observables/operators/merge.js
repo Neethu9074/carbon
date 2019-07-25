@@ -15,13 +15,9 @@ export default function merge<E>(): Observable<E> {
   return targetObservable;
 
   function start() {
-    subscriptions.push(sourceObservable.subscribe(pushToTarget));
+    subscriptions.push(sourceObservable.subscribe(pushToTarget, pushErrorToTarget));
     for (let i = 0; i < args.length; i++) {
-      subscriptions.push(args[i].subscribe(pushToTarget));
-    }
-    subscriptions.push(sourceObservable.errors().subscribe(pushErrorToTarget));
-    for (let j = 0; j < args.length; j++) {
-      subscriptions.push(args[j].errors().subscribe(pushErrorToTarget));
+      subscriptions.push(args[i].subscribe(pushToTarget, pushErrorToTarget));
     }
 
     if (targetObservable._children.length === 0) {
