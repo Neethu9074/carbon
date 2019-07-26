@@ -22,10 +22,8 @@ export default class Chart {
       if (!isLive) {
         this.renderScheduler.atomicRender();
       }
-    } else if (!isLive) {
-      this.renderScheduler.atomicRender();
     } else {
-      this.renderScheduler.intermediateRenderDuringUpdate();
+      this.forceUpdateRendering();
     }
 
     this.isLive = isLive;
@@ -101,7 +99,15 @@ export default class Chart {
   }
 
   requestRender() {
-    this.renderScheduler.atomicRender();
+    this.forceUpdateRendering();
+  }
+
+  forceUpdateRendering() {
+    if (!this.isLive) {
+      this.renderScheduler.atomicRender();
+    } else {
+      this.renderScheduler.intermediateRenderDuringUpdate();
+    }
   }
 
   isLabelFilteredByUser(label) {
