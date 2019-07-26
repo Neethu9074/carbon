@@ -6,14 +6,30 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Dialog.mless';
 
-export default function Dialog({ title, onClose, children, className, withoutBodyPadding, showOverflow }) {
+export default function Dialog({
+  title,
+  onClose,
+  children,
+  className,
+  withoutBodyPadding,
+  showOverflow,
+  headless = false
+}) {
   return (
     <div className={locals.wrapper} onClick={onClose}>
       <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
-        <div className={locals.header}>
-          <h1 className={locals.title}>{title}</h1>
-          <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" width={32} height={32} onClick={onClose} />
-        </div>
+        {!headless && (
+          <div className={locals.header}>
+            <h1 className={locals.title}>{title}</h1>
+            <SvgIcon
+              className={locals.closeIcon}
+              type="lib_openclose_cancel"
+              width={32}
+              height={32}
+              onClick={onClose}
+            />
+          </div>
+        )}
         <div
           className={evaluateClassNames({
             [locals.body]: true,
