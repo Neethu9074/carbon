@@ -89,7 +89,7 @@ function mapNormalizedTicks(scale, tickPositions, roundTickPositions, length) {
     const domain = scale.from + tick * (scale.to - scale.from);
     if (roundTickPositions) {
       const roundedDomain = Math.round(domain);
-      const newTick = roundedDomain / scale.to;
+      const newTick = scale.to === 0 ? roundedDomain : roundedDomain / scale.to;
       return {
         range: newTick * length,
         domain: roundedDomain
