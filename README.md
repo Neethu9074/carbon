@@ -1,4 +1,4 @@
-# 🚀 ui-client 🏂 &nbsp; [![Component Catalog](https://img.shields.io/badge/component-catalog-brightgreen.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+# 🚀 ui-client 🏂 &nbsp; [![Contribution Guidelines](https://img.shields.io/badge/contribution-guidelines-important.svg)](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf) [![Component Catalog](https://img.shields.io/badge/component-catalog-informational.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
 
 <!-- toc -->
 
@@ -33,10 +33,13 @@
 
 ## Getting Started
 
-You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
-[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
+This document lists the technical steps necessary in order to get a UI development setup running.
+Our development practices are collected within [Notion](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf).
 
 ### Installation of required software
+
+You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
+[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
 
 #### Node.js and Yarn
 
