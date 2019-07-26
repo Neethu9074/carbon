@@ -6,6 +6,7 @@
 // type definitions via flow-typed. OTOH, we can also exclude problematic
 // npm packages one by one when we encounter issues. Not sure yet.
 .*/node_modules/npm/.*
+.*/node_modules/polished/.*
 
 .*/target/.*
 

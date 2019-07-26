@@ -15,6 +15,7 @@ function Default() {
     <Root>
       <DeprecationsPresenter
         websiteId="790jk_3dsaikhu90321"
+        tagFilters={[]}
         result={{
           data: [
             boolean('Cross Region Forwarding Deprecation?', true) && 'xrf',

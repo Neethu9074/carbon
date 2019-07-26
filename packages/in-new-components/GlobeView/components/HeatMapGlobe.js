@@ -2,8 +2,8 @@
 import { create } from 'reactive-observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
-import { findCountryConfigByLabel } from 'in-new-components/GlobeView/components/countryConfig';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
+import countryMap from 'in-new-components/GlobeView/components/countryConfig.json';
 import { rgbToHex } from 'in-services/formatters/color';
 import { copyCanvasIntoShort } from 'in-charts/canvas';
 
@@ -110,4 +110,15 @@ export default class HeatMapGlobe {
     this.globe.material.dispose();
     this.globe.geometry.dispose();
   }
+}
+
+function findCountryConfigByLabel(countryLabel) {
+  const configs = Object.keys(countryMap).map(key => countryMap[key]);
+  for (let i = 0; i < configs.length; i++) {
+    const config = configs[i];
+    if (config.label === countryLabel) {
+      return config;
+    }
+  }
+  return null;
 }

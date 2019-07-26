@@ -65,7 +65,7 @@ describe('time config', () => {
       ).to.equal(60000);
     });
 
-    describe.skip('in 2.0', () => {
+    describe('in 2.0', () => {
       it('should fall back to default window size', () => {
         expect(
           getTimeConfig({

@@ -3,18 +3,20 @@
 
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var gulp = require('gulp');
-var size = require('gulp-size');
-var webpack = require('webpack');
-var runSequence = require('run-sequence');
-var nano = require('gulp-cssnano');
-var execSync = require('child_process').execSync;
+const { clone } = require('lodash');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const fs = require('fs');
+const path = require('path');
+const gulp = require('gulp');
+const size = require('gulp-size');
+const webpack = require('webpack');
+const runSequence = require('run-sequence');
+const nano = require('gulp-cssnano');
+const execSync = require('child_process').execSync;
 
-var webpackConfig = require('../../webpack.config.js');
-var buildUtil = require('./util');
-var paths = require('./paths');
+const webpackConfig = require('../../webpack.config.js');
+const buildUtil = require('./util');
+const paths = require('./paths');
 
 gulp.task('build', cb => {
   runSequence(
@@ -63,13 +65,29 @@ gulp.task('printFileStatistics', () => {
 
 gulp.task('webpack:build', callback => {
   // modify some webpack config options
-  var config = Object.create(webpackConfig);
+  var config = clone(webpackConfig);
+
+  config.mode = 'production';
 
   // Report the first error as a hard error instead of tolerating it.
   config.bail = true;
-  config.stats = Object.create(config.stats || {});
+
   // Display scope hoisting fallback triggers (since webpack 3.0.0)
+  config.stats = clone(config.stats || {});
   config.stats.optimizationBailout = true;
+
+  config.optimization = clone(config.optimization || {});
+  config.optimization.concatenateModules = true;
+  config.optimization.minimizer = [
+    new UglifyJsPlugin({
+      sourceMap: true,
+      uglifyOptions: {
+        output: {
+          comments: /\/DONOTKEEPANYCOMMENTS/
+        }
+      }
+    })
+  ];
 
   config.plugins = config.plugins.concat(
     new webpack.DefinePlugin({
@@ -77,11 +95,6 @@ gulp.task('webpack:build', callback => {
         // This has effect on the react lib size
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      comments: /\/DONOTKEEPANYCOMMENTS/
     }),
     new webpack.BannerPlugin(buildUtil.getBanner())
   );

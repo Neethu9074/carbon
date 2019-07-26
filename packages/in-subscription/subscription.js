@@ -45,7 +45,7 @@ export default function<PARAM, RESULT>({
     disposeSubscriptionOnDocumentHidden,
     transform
   );
-  if (memoizeFor != null && memoizeFor < 1) {
+  if (memoizeFor != null && typeof memoizeFor === 'number' && memoizeFor < 1) {
     return observableCreator;
   }
 

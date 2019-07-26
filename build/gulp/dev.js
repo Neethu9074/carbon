@@ -3,6 +3,7 @@
 
 'use strict';
 
+const { clone } = require('lodash');
 const chalk = require('chalk');
 const gulp = require('gulp');
 const path = require('path');
@@ -132,7 +133,7 @@ gulp.task('openDevUrlInBrowser', () => {
 
 gulp.task('webpack:dev', () => {
   // modify some webpack config options
-  var config = Object.create(webpackConfig);
+  const config = clone(webpackConfig);
   config.devtool = 'eval';
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
@@ -140,20 +141,16 @@ gulp.task('webpack:dev', () => {
     })
   );
 
-  //TODO: Reactivate for dev mode if the problem with OOM has been fixed
-  //see https://github.com/webpack/webpack/issues/5089
-  if (devModeOptions.buildMode !== 'development') {
-    config.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
-  }
-
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {
     publicPath: '/bundle',
     contentBase: 'target/assets/',
-    inline: true,
     noInfo: true,
     quiet: true,
+    lazy: false,
+    inline: hotReload,
     hot: hotReload,
+    liveReload: hotReload,
     watchOptions: {
       ignored: /node_modules/
     },
@@ -210,7 +207,15 @@ function createWebpackCompiler(config, onReadyCallback) {
     // options so we are going to "massage" the warnings and errors and present
     // them in a readable focused way.
     const messages = formatWebpackMessages(stats.toJson({}, true));
-    const isSuccessful = !messages.errors.length && !messages.warnings.length;
+    const warnings = (messages.warnings || [])
+      .filter(warning => {
+        // We ensure via strict CSS coding guidelines that this is not a problem. Therefore do not log any errors.
+        const isWarningAboutConflictingStyleOrder = warning.indexOf('mini-css-extract-plugin') !== -1 &&
+          warning.indexOf('Conflicting order between:') !== -1;
+        return !isWarningAboutConflictingStyleOrder;
+      });
+
+    const isSuccessful = !messages.errors.length && !warnings.length;
     const showInstructions = isSuccessful && (process.stdout.isTTY || isFirstCompile);
 
     if (isSuccessful) {
@@ -234,10 +239,10 @@ function createWebpackCompiler(config, onReadyCallback) {
     }
 
     // Show warnings if no errors were found.
-    if (messages.warnings.length) {
+    if (warnings.length) {
       console.log(chalk.yellow('Compiled with warnings.'));
       console.log();
-      messages.warnings.forEach(message => {
+      warnings.forEach(message => {
         console.log(message);
         console.log();
       });

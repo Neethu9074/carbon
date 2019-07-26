@@ -31,7 +31,6 @@ export default connectTo(
 
     static propTypes = {
       isContextLost: rpt.bool,
-      isDataAvailable: rpt.bool,
       antialias: rpt.string,
       canvas: rpt.object,
       view: rpt.string

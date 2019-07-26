@@ -50,7 +50,7 @@ describe('in-stores/eventsInTimeframe', () => {
 
   it('should send empty data on initial state', () => {
     expect(dataCallback).to.have.callCount(1);
-    expect(dataCallback.getCall(0).args[0]).to.deep.equal({});
+    expect(Object.keys(dataCallback.getCall(0).args[0])).to.have.length(0);
 
     expect(eventsCallback).to.have.callCount(1);
     expect(eventsCallback.getCall(0).args[0].issues).to.have.length(0);

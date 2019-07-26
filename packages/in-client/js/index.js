@@ -1,6 +1,8 @@
 /* global require:false */
 /* eslint-disable no-console */
 
+import 'core-js/stable';
+
 import { build } from 'in-services/config';
 
 if (!__DEV__) {

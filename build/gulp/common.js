@@ -12,11 +12,9 @@ const translateThemeInternal = require('./translateTheme');
 var buildUtil = require('./util');
 var paths = require('./paths');
 
-
 gulp.task('clean', () => {
   return del(paths.targetDir);
 });
-
 
 gulp.task('ensureTargetDirStructureExists', () => {
   mkdirp.sync(paths.targetDir);
@@ -24,11 +22,9 @@ gulp.task('ensureTargetDirStructureExists', () => {
   mkdirp.sync(paths.bundleDir);
 });
 
-
 gulp.task('copyFavicon', () => {
   return gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
 });
-
 
 gulp.task('writeBuildInfo', cb => {
   var data = {
@@ -46,7 +42,6 @@ gulp.task('writeBuildInfo', cb => {
 
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
 });
-
 
 gulp.task('translateTheme', () => {
   translateThemeInternal('theme', paths.themeDir, paths.themeDir, 'active');

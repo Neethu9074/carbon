@@ -8,10 +8,6 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:flowtype/recommended', 'prettier', 'prettier/react'],
 
   parserOptions: {
-    ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-      jsx: true
-    },
     sourceType: 'module'
   },
 
@@ -22,7 +18,7 @@ module.exports = {
       onlyFilesWithFlowAnnotation: true
     },
     react: {
-      version: '16.3'
+      version: '16.4.2'
     }
   },
 
@@ -34,7 +30,6 @@ module.exports = {
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.__HOT_RELOAD__ = false;
-    globals.preval = false;
     return globals;
   })(),
 

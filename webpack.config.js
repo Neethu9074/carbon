@@ -1,14 +1,14 @@
 /* eslint-env node */
 
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
 const {
+  webpackPlugin: cssIdentWebpackPlugin,
   localIdentName,
-  getLocalIdent,
-  webpackPlugin: cssIdentWebpackPlugin
+  getLocalIdent
 } = require('./build/webpack/cssIdentifiers');
 const { isDevModeBuild } = require('./build/webpack/opts');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
@@ -26,10 +26,14 @@ const definePlugin = new webpack.DefinePlugin({
 const plugins = [
   definePlugin,
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
-  new ExtractTextPlugin({
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // all options are optional
     filename: 'index.css',
-    disable: false,
-    allChunks: true
+    chunkFilename: '[id].[contenthash].css',
+    // This is not completely sufficient. We also need to configure an ignore rule in
+    // our custom Webpack dev mode output build/gulp/dev.js
+    ignoreOrder: true
   }),
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin
@@ -48,13 +52,38 @@ const entry = hotReload
     ]
   : './packages/in-client/js/index.js';
 
+const miniCssLoader = {
+  loader: MiniCssExtractPlugin.loader,
+  options: {
+    publicPath: './',
+    hmr: hotReload
+  }
+};
+
+const postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    sourceMap: true,
+    ident: 'postcss',
+    plugins: () => {
+      return [
+        require('autoprefixer')({
+          browsers: ['last 2 versions']
+        })
+      ];
+    }
+  }
+};
+
 module.exports = {
   entry,
+  mode: process.env.NODE_ENV,
+  context: __dirname,
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',
     filename: 'index.js',
-    chunkFilename: '[name].[hash].js'
+    chunkFilename: '[name].[contenthash].js'
   },
   devtool: isDevModeBuild ? 'eval' : 'source-map',
   module: {
@@ -65,68 +94,23 @@ module.exports = {
       },
       {
         test: /\.mless$/i,
-        // assets will be located next to the CSS file. Thus no need to prefix the path with bundle/
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName,
-                getLocalIdent
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-                ident: 'postcss',
-                plugins: () => {
-                  return [
-                    require('autoprefixer')({
-                      browsers: ['last 2 versions']
-                    })
-                  ];
-                }
-              }
-            },
-            {
-              loader: 'less-loader'
+        use: [
+          miniCssLoader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName,
+              getLocalIdent
             }
-          ],
-          publicPath: './'
-        })
+          },
+          postCssLoader,
+          'less-loader'
+        ]
       },
       {
         test: /\.(css|less)$/i,
-        // assets will be located next to the CSS file. Thus no need to prefix the path with bundle/
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-                ident: 'postcss',
-                plugins: () => {
-                  return [
-                    require('autoprefixer')({
-                      browsers: ['last 2 versions']
-                    })
-                  ];
-                }
-              }
-            },
-            {
-              loader: 'less-loader'
-            }
-          ],
-          publicPath: './'
-        })
+        use: [miniCssLoader, 'css-loader', postCssLoader, 'less-loader']
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
@@ -154,14 +138,6 @@ module.exports = {
         use: [
           {
             loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.json$/i,
-        use: [
-          {
-            loader: 'json-loader'
           }
         ]
       },

@@ -6,26 +6,27 @@
 // Set our default time zone so that tests with date formatting are predictable.
 process.env.TZ = 'Europe/Berlin';
 
+require('core-js/stable');
+
 const Adapter = require('enzyme-adapter-react-16');
 const Enzyme = require('enzyme');
 const { JSDOM } = require('jsdom');
 const path = require('path');
 const chai = require('chai');
-const fs = require('fs');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
 chai.use(require('sinon-chai'));
 
 // support static file require statements
-['.png', '.obj', '.less', '.css', '.svg', '.glsl', '.mless'].forEach(extension => {
+['.png', '.less', '.css', '.svg', '.glsl', '.mless'].forEach(extension => {
   require.extensions[extension] = () => {
     return `a ${extension} module`;
   };
 });
 
-const babelConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', '.babelrc'), { encoding: 'utf8' }));
-require('babel-core/register')(babelConfig);
+const babelConfig = require(path.join(__dirname, '..', '..', 'babel.config.js'));
+require('@babel/register')(babelConfig);
 
 // Ensuring a browser environment is simulated before React is loaded to avoid
 // Error: Invariant Violation: Markup wrapping node not initialized
