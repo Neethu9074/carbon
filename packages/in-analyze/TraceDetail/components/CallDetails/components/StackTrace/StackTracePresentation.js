@@ -27,8 +27,8 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot 
           const fileLine = combine(st.file, st.line);
           return (
             <li key={i}>
-              <span className={locals.method}> {stripQuotes(st.method)} </span>
-              <span className={locals.in}>in</span>
+              <span className={locals.method}>{stripQuotes(st.method)} </span>
+              <span className={locals.in}>in </span>
               <span>
                 {isOnline && snapshot ? (
                   <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
