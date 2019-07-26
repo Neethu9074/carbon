@@ -15,7 +15,7 @@ export default connectTo(props => ({
   return (
     <EventMetricDownloadView
       fileName={`event-${event.get('id')}-fp-report`}
-      getJsonData={() => getJsonData(event, metric, metricValues)}
+      getJsonData={() => getJsonTextData(event, metric, metricValues)}
     />
   );
 });
@@ -61,22 +61,27 @@ function getMetricsRequest(props) {
   };
 }
 
-function getJsonData(event, metric, metricValues) {
-  const data = getMetricData(event, metric, metricValues['metrics']);
-  return JSON.stringify(data, null, 2);
-}
-
-function getMetricData(event, metric, metricValues) {
-  return {
+function getJsonTextData(event, metric, metricValues) {
+  const metricData = metricValues['metrics'][metric];
+  const content = {
     event,
-    metrics: mapMetricsToHumanReadableFormatIfPresent(metricValues[metric])
+    metrics: mapMetricsToSeparatedTimeAndValueListIfPresent(metricData)
   };
+  return JSON.stringify(content, null, 2);
 }
 
-function mapMetricsToHumanReadableFormatIfPresent(items) {
+function mapMetricsToSeparatedTimeAndValueListIfPresent(items) {
   if (!items) {
     return null;
   }
-
-  return items.map(v => ({ timestamp: v[0], value: v[1] }));
+  const timestamps = [];
+  const values = [];
+  items.forEach(v => {
+    timestamps.push(v[0]);
+    values.push(v[1]);
+  });
+  return {
+    timestamps: timestamps,
+    values: values
+  };
 }
