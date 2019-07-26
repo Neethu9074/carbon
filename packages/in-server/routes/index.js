@@ -37,7 +37,7 @@ const stringifiedBuildInformation = JSON.stringify(buildInformation);
 // ]
 const prefetchItems = fs
   .readdirSync(paths.bundleDir)
-  .filter(fileName => /^.*\.[a-z0-9]+\.js$/i.test(fileName))
+  .filter(fileName => /^.*\.[a-z0-9]+\.(js|css)$/i.test(fileName))
   // There are just way too many Ammap files. No need to prefetch all of them.
   .filter(fileName => fileName.indexOf('AmMap') === -1)
   // never attempt to preload the internal bundle
@@ -45,7 +45,7 @@ const prefetchItems = fs
   .map(fileName => {
     return {
       rel: 'prefetch',
-      as: 'script',
+      as: fileName.endsWith('css') ? 'style' : 'script',
       fileName
     };
   });
