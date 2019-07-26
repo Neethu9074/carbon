@@ -207,13 +207,12 @@ function createWebpackCompiler(config, onReadyCallback) {
     // options so we are going to "massage" the warnings and errors and present
     // them in a readable focused way.
     const messages = formatWebpackMessages(stats.toJson({}, true));
-    const warnings = (messages.warnings || [])
-      .filter(warning => {
-        // We ensure via strict CSS coding guidelines that this is not a problem. Therefore do not log any errors.
-        const isWarningAboutConflictingStyleOrder = warning.indexOf('mini-css-extract-plugin') !== -1 &&
-          warning.indexOf('Conflicting order between:') !== -1;
-        return !isWarningAboutConflictingStyleOrder;
-      });
+    const warnings = (messages.warnings || []).filter(warning => {
+      // We ensure via strict CSS coding guidelines that this is not a problem. Therefore do not log any errors.
+      const isWarningAboutConflictingStyleOrder =
+        warning.indexOf('mini-css-extract-plugin') !== -1 && warning.indexOf('Conflicting order between:') !== -1;
+      return !isWarningAboutConflictingStyleOrder;
+    });
 
     const isSuccessful = !messages.errors.length && !warnings.length;
     const showInstructions = isSuccessful && (process.stdout.isTTY || isFirstCompile);

@@ -46,7 +46,7 @@
       opacity: 0.5;
     }
 
-    &.selected:nth-child(even)  {
+    &.selected:nth-child(even) {
       background: @lib__colors__table-row-selected-even;
     }
 
@@ -56,7 +56,8 @@
   }
 
   .trClickable:hover {
-    background: @lib__colors__faded-blue800 ! important;
+    background: @lib__colors__faded-blue800 !important;
+    cursor: pointer;
   }
 
   .trRegular {

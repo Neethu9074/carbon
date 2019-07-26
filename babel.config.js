@@ -5,9 +5,12 @@ const path = require('path');
 module.exports = {
   plugins: [
     // Manually added to enforce throwIfClosureRequired
-    ['@babel/plugin-transform-block-scoping', {
-      'throwIfClosureRequired': true
-    }],
+    [
+      '@babel/plugin-transform-block-scoping',
+      {
+        throwIfClosureRequired: true
+      }
+    ],
     ['transform-class-properties', { spec: false }]
   ],
   presets: [
