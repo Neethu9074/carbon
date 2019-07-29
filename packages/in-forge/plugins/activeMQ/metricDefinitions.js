@@ -1,4 +1,4 @@
-import { number, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { getMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
@@ -54,7 +54,7 @@ export default [
     ],
     labels: ['Memory Usage', 'Store Usage'],
     min: 0,
-    max: 100,
-    formatter: percentagePlainZeroDecimalPlaces
+    max: 1,
+    formatter: percentage
   }
 ];
