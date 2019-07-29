@@ -106,14 +106,6 @@ describe('in-components/Chart/Scales', () => {
   });
 
   describe('calculateAxisMinMax', () => {
-    it('should set allIgnoredFlag if all metrics are filtered', () => {
-      const axis = {
-        labels: ['Metric1', 'Metric2']
-      };
-      calculateAxisMinMax(axis, new Map([['Metric1', true], ['Metric2', true]]));
-      expect(axis.allDataSeriesIgnored).to.equal(true);
-    });
-
     it('should use the axis max value if defined', () => {
       const axis = {
         metrics: [[[0, 0], [10, 1000]]],

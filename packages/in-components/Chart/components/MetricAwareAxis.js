@@ -10,11 +10,12 @@ export default connectTo(
   }),
   function MetricAwareAxis({ chart, axisName, height, align }) {
     const axis = chart.config[axisName];
-    const scale = { from: axis.minValue, to: axis.maxValue, allDataSeriesIgnored: axis.allDataSeriesIgnored };
 
-    if (scale && scale.allDataSeriesIgnored) {
+    if (!axis.labels || axis.labels.filter(v => !chart.config.filteredDataSeries.get(v)).length == 0) {
       return <div style={{ minWidth: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
     }
+
+    const scale = { from: axis.minValue, to: axis.maxValue };
 
     return (
       <VerticalAxis

@@ -51,8 +51,7 @@ describe('in-components/Chart/Configuration', () => {
         colors: [],
         colors100: [],
         minValue: 0,
-        maxValue: 1,
-        allDataSeriesIgnored: true
+        maxValue: 1
       });
       expect(config.timeConfig).to.deep.equal({ windowSize: 60000, to: null });
       expect(config.foo).to.equal('bar');
@@ -75,8 +74,7 @@ describe('in-components/Chart/Configuration', () => {
         valuesNeedToBeStacked: true,
         valuesDependOnEachOther: true,
         minValue: 0,
-        maxValue: 1,
-        allDataSeriesIgnored: true
+        maxValue: 1
       });
     });
 

@@ -51,9 +51,7 @@ export function calculateAxisMinMax(axis, filteredDataSeries) {
     return;
   }
 
-  const numLabels = (axis.labels && axis.labels.length) || 0;
   axis.minValue = 0;
-  axis.allDataSeriesIgnored = filteredDataSeries.size === numLabels;
   if (axis.max != null) {
     return (axis.maxValue = axis.max);
   }
