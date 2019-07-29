@@ -4,15 +4,13 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import DLQueuesTable from './DLQueuesTable';
 import TopicsTable from './TopicsTable';
 import QueuesTable from './QueuesTable';
-
-const percentage = d => d + '%';
 
 export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
@@ -52,7 +50,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
               labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
               type: 'line'
@@ -64,7 +62,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
               labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
               type: 'line'
@@ -79,7 +77,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
               labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
               type: 'line'
@@ -93,7 +91,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentage,
               min: 0,
-              max: 100,
+              max: 1,
               metrics: ['memoryPercentUsage', 'storePercentUsage'],
               labels: ['Memory Usage', 'Store Usage'],
               type: 'line'

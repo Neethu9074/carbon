@@ -3,8 +3,8 @@ import React from 'react';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { number, zeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -31,11 +31,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="totalMessageCount" />
         </KpiKeyValue>
         <KpiKeyValue label="Address Memory Usage">
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="addressMemoryUsagePercentage"
-            formatter={percentagePlainZeroDecimalPlaces}
-          />
+          <MetricValue snapshotId={snapshotId} metric="addressMemoryUsagePercentage" formatter={percentage.detailed} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -45,7 +41,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: [
                 'totalMessagesAdded',
                 'totalMessagesAcknowledged',
@@ -62,7 +58,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: ['totalMessageCount'],
               labels: ['Count'],
               type: 'line'
@@ -90,9 +86,9 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentagePlainZeroDecimalPlaces,
+              formatter: percentage,
               min: 0,
-              max: 100,
+              max: 1,
               metrics: ['addressMemoryUsagePercentage'],
               labels: ['Address Memory Usage'],
               type: 'line'

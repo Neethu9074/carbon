@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyMap } from 'in-services/fixedImmutables';
+import { number, percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { emptyMap } from 'in-services/fixedImmutables';
 
 const cols = [
   {
@@ -24,7 +24,7 @@ const cols = [
       getMetricName(row) {
         return 'dlqueues.' + row.key + '.queueSize';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -40,7 +40,7 @@ const cols = [
       getMetricName(row) {
         return 'dlqueues.' + row.key + '.enqueueCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -56,7 +56,7 @@ const cols = [
       getMetricName(row) {
         return 'dlqueues.' + row.key + '.dequeueCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -72,7 +72,7 @@ const cols = [
       getMetricName(row) {
         return 'dlqueues.' + row.key + '.memoryPercentUsage';
       },
-      getContent: percentagePlainZeroDecimalPlaces,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }

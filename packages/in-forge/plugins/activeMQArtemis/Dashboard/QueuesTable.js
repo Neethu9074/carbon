@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { number } from 'in-services/formatters/number';
 
 const cols = [
   {
@@ -24,7 +24,7 @@ const cols = [
       getMetricName(row) {
         return 'queues.' + row.key + '.messageCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -40,7 +40,7 @@ const cols = [
       getMetricName(row) {
         return 'queues.' + row.key + '.messagesAdded';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -56,7 +56,7 @@ const cols = [
       getMetricName(row) {
         return 'queues.' + row.key + '.messagesAcknowledged';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -72,7 +72,7 @@ const cols = [
       getMetricName(row) {
         return 'queues.' + row.key + '.messagesExpired';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -88,7 +88,7 @@ const cols = [
       getMetricName(row) {
         return 'queues.' + row.key + '.messagesKilled';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
