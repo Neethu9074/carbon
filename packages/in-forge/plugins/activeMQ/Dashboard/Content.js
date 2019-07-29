@@ -29,7 +29,6 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Topics">{snapshot.getIn(['data', 'topicNames'], emptyList).size}</KpiKeyValue>
         <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
         <KpiKeyValue label="DL Queues">{snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}</KpiKeyValue>
-
         <KpiKeyValue label="All Queues Messages Enqueue">
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>
@@ -37,10 +36,10 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="totalTopicsEnqueueCount" />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
-          <MetricValue snapshotId={snapshotId} metric="memoryPercentUsage" formatter={percentage} />
+          <MetricValue snapshotId={snapshotId} metric="memoryPercentUsage" formatter={percentage.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Storage Usage">
-          <MetricValue snapshotId={snapshotId} metric="storePercentUsage" formatter={percentage} />
+          <MetricValue snapshotId={snapshotId} metric="storePercentUsage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -89,7 +88,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentage,
+              formatter: percentage.compact,
               min: 0,
               max: 1,
               metrics: ['memoryPercentUsage', 'storePercentUsage'],

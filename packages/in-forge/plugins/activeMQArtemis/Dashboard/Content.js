@@ -26,12 +26,11 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
       <KpiSection>
         <KpiKeyValue label="Addresses">{snapshot.getIn(['data', 'addressNames'], emptyList).size}</KpiKeyValue>
         <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
-
         <KpiKeyValue label="All Queues Messages Count">
           <MetricValue snapshotId={snapshotId} metric="totalMessageCount" />
         </KpiKeyValue>
         <KpiKeyValue label="Address Memory Usage">
-          <MetricValue snapshotId={snapshotId} metric="addressMemoryUsagePercentage" formatter={percentage.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="addressMemoryUsagePercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -86,7 +85,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentage,
+              formatter: percentage.compact,
               min: 0,
               max: 1,
               metrics: ['addressMemoryUsagePercentage'],
