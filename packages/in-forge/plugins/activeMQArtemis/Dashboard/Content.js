@@ -30,7 +30,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="totalMessageCount" />
         </KpiKeyValue>
         <KpiKeyValue label="Address Memory Usage">
-          <MetricValue snapshotId={snapshotId} metric="addressMemoryUsagePercentage" formatter={percentage.compact} />
+          <MetricValue snapshotId={snapshotId} metric="addressMemoryPercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 

@@ -36,10 +36,10 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="totalTopicsEnqueueCount" />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Usage">
-          <MetricValue snapshotId={snapshotId} metric="memoryPercentUsage" formatter={percentage.compact} />
+          <MetricValue snapshotId={snapshotId} metric="memoryPercentage" formatter={percentage.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Storage Usage">
-          <MetricValue snapshotId={snapshotId} metric="storePercentUsage" formatter={percentage.compact} />
+          <MetricValue snapshotId={snapshotId} metric="storePercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
