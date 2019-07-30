@@ -91,7 +91,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               formatter: percentage.compact,
               min: 0,
               max: 1,
-              metrics: ['memoryPercentUsage', 'storePercentUsage'],
+              metrics: ['memoryPercentage', 'storePercentage'],
               labels: ['Memory Usage', 'Store Usage'],
               type: 'line'
             }}

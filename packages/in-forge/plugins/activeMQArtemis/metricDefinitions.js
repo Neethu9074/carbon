@@ -35,7 +35,7 @@ export default [
     formatter: number
   },
   {
-    metrics: ['addressMemoryUsagePercentage'],
+    metrics: ['addressMemoryPercentage'],
     labels: ['Address Memory Usage'],
     min: 0,
     max: 1,
