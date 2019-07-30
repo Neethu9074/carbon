@@ -86,7 +86,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'topics.' + row.key + '.memoryPercentUsage';
+        return 'topics.' + row.key + '.memoryPercentage';
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {

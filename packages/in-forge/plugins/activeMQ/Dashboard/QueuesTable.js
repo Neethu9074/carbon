@@ -70,7 +70,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'queues.' + row.key + '.memoryPercentUsage';
+        return 'queues.' + row.key + '.memoryPercentage';
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {

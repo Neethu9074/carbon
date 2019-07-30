@@ -46,11 +46,11 @@ export default [
   },
   {
     metrics: [
-      'memoryPercentUsage',
-      'storePercentUsage',
-      getMetricMatch('topics', 'memoryPercentUsage'),
-      getMetricMatch('queues', 'memoryPercentUsage'),
-      getMetricMatch('dlqueues', 'memoryPercentUsage')
+      'memoryPercentage',
+      'storePercentage',
+      getMetricMatch('topics', 'memoryPercentage'),
+      getMetricMatch('queues', 'memoryPercentage'),
+      getMetricMatch('dlqueues', 'memoryPercentage')
     ],
     labels: ['Memory Usage', 'Store Usage'],
     min: 0,
