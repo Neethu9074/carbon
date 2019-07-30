@@ -1,0 +1,12 @@
+
+:local {
+  .closeIcon {
+      display: flex;
+      cursor: pointer;
+      fill: @lib__colors__N500;
+      &:hover {
+        fill: @lib__colors__N700Medium;
+      }
+      justify-content: flex-end;
+    }
+}

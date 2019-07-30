@@ -1,7 +1,44 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     width: 24.75rem;
   }
+
+  .col {
+    padding: 0.25rem 0.25rem;
+    a {
+      margin: 0 0.5rem;
+      line-height: 1.5rem;
+    }
+    & + .row {
+      margin-top: 0.25rem;
+    }
+
+    &:last-child {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .header {
+      padding: 0.25rem 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      line-height: 2rem;
+      background: @lib__colors__N200;
+      color: @lib__colors__N700Medium;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0rem;
+    }
+
+  .button {
+      font-weight: normal;
+      margin-top: 0.25rem;
+      margin-left: 0.75rem;
+      margin-right: 2rem;
+    }
+
 
   .row {
     display: flex;
