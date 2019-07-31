@@ -15,6 +15,7 @@ export default function RedisSpanDetailView({ span }) {
         {subCommands.size > 0 ? (
           <DescriptionItem title="Commands in Transaction">{subCommands.join(', ')}</DescriptionItem>
         ) : null}
+        <DescriptionItem title="Key">{span.getIn(['data', 'redis', 'key'])}</DescriptionItem>
         <ErrorDescriptionItem error={span.getIn(['data', 'redis', 'error'])} />
       </DescriptionList>
     </div>
