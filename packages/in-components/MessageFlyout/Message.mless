@@ -1,0 +1,65 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .flyoutMessage {
+    background: #fff;
+    font-size: 0.8rem;
+    max-width: 21rem;
+    padding: 0rem 1.2rem;
+    margin: 0 0 1rem;
+    border-radius: @lib__shapes__radius_medium;
+
+    box-shadow: @lib__shadows__strong;
+
+    display: flex;
+
+    p {
+      margin: 0.75rem 0;
+    }
+  }
+
+  .info {
+    border-left: 6px solid @lib__colors__teal800;
+  }
+
+  .warning {
+    border-left: 6px solid rgb(255, 222, 0);
+  }
+
+  .danger {
+    border-left: 6px solid rgb(255, 66, 41);
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  .icon {
+    fill: @lib__colors__teal800;
+    margin-top: 0.5625rem;
+    margin-right: 0.75rem;
+    min-width: 1.125rem;
+  }
+
+  .msg {
+    color: @lib__colors__N700Medium;
+    font-weight: @lib__typography__body__font-size;
+    .breakWord();
+
+    em {
+      color: #fff;
+      font-style: normal;
+    }
+  }
+
+  .title {
+    font-size: @lib__typography__h200__font-size;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+
+  .content {
+    margin: 0.5rem 0;
+  }
+}

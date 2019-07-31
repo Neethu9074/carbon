@@ -20,5 +20,6 @@ module.exports = {
   isAdhocMetricAggregationEnabled: true,
   customDashboardsEnabled: true,
   unmonitoredHostsEnabled: true,
-  javaScriptStackTraceTranslationEnabled: true
+  javaScriptStackTraceTranslationEnabled: true,
+  releasesEnabled: true
 };

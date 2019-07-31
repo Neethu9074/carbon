@@ -38,6 +38,7 @@ export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEna
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
 export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
+export const releasesEnabled = isFeatureFlagEnabled('releasesEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

@@ -1,20 +1,14 @@
 import { Motion, spring } from 'react-motion';
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
-import './Message.less';
-
-const block = 'in-message-flyout-message';
+import locals from './Message.mless';
 
 export default function Message({ message }) {
   if (message.isLicenseUsageMsg) {
     return null;
-  }
-
-  let classes = `${block} ${block}--${message.type}`;
-  if (message.onClick) {
-    classes = `${classes} ${block}--clickable`;
   }
 
   return (
@@ -23,17 +17,19 @@ export default function Message({ message }) {
         return (
           <div
             style={interpolatedStyle}
-            className={classes}
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
+            className={evaluateClassNames({
+              [locals.flyoutMessage]: true,
+              [locals[message.type]]: message.type,
+              [locals.clickable]: message.onClick
+            })}
+            onClick={() => {
               if (message.onClick) {
                 message.onClick();
               }
             }}
           >
-            <SvgIcon type={message.icon} className={`${block}__icon`} width={18} />
-            <div className={`${block}__msg`}>
+            <SvgIcon type={message.icon} className={locals.icon} width={18} />
+            <div className={locals.msg}>
               <Title title={message.title} />
               {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}
             </div>
@@ -49,12 +45,12 @@ function Title({ title }) {
     return null;
   }
   return (
-    <div className={`${block}__title`}>
+    <div className={locals.title}>
       <strong>{title}</strong>
     </div>
   );
 }
 
 function Content({ content }) {
-  return <div className={`${block}__content`}>{content}</div>;
+  return <div className={locals.content}>{content}</div>;
 }
