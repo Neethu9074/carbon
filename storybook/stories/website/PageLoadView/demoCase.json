@@ -1099,7 +1099,6 @@
       "tenant": "instana",
       "featureFlag.isKubernetesV2Enabled": "true",
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
-      "featureFlag.nToMK8sServiceToInstanaServiceEnabled": "true",
       "featureFlag.trackUrlPathChanges": "true",
       "featureFlag.containerInfoEnabled": "true",
       "featureFlag.lastSevenDaysTimePresetEnabled": "false",

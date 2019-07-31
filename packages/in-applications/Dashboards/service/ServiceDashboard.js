@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import InstanaServiceToKubernetesServicesButton from 'in-kubernetes/components/InstanaServiceToKubernetesServicesButton';
-import InstanaServiceToKubernetesServiceButton from 'in-kubernetes/components/InstanaServiceToKubernetesServiceButton';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
@@ -60,53 +58,40 @@ function Header(props) {
     <BasicDashboardHeader
       title="Service"
       icon="lib_application_service"
-      renderActions={GetActions}
+      renderActions={Actions}
       renderSubTypes={SubTypes}
       {...props}
     />
   );
 }
 
-function GetActions(props) {
-  return <Actions {...props} />;
+function Actions({ applicationId, serviceId, endpointId, timeConfig }) {
+  return (
+    <Fragment>
+      <AnalyzeTracesButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+      />
+      {hasKubernetesAccess && (
+        <InstanaServiceToKubernetesServicesButton
+          applicationId={applicationId}
+          serviceId={serviceId}
+          timeConfig={timeConfig}
+        />
+      )}
+      <ApplicationEntityHealthIndicatorBehavior
+        showOkayOnNoIssues={false}
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        timeConfig={timeConfig}
+      />
+    </Fragment>
+  );
 }
-
-const Actions = connectTo(
-  {
-    nToMK8sServiceToInstanaServiceEnabled: isInternalVisible$
-  },
-  function Actions({ applicationId, serviceId, endpointId, timeConfig, nToMK8sServiceToInstanaServiceEnabled }) {
-    return (
-      <Fragment>
-        <AnalyzeTracesButton
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-        />
-        {nToMK8sServiceToInstanaServiceEnabled
-          ? hasKubernetesAccess && (
-              <InstanaServiceToKubernetesServicesButton
-                applicationId={applicationId}
-                serviceId={serviceId}
-                timeConfig={timeConfig}
-              />
-            )
-          : hasKubernetesAccess && (
-              <InstanaServiceToKubernetesServiceButton serviceId={serviceId} timeConfig={timeConfig} />
-            )}
-        <ApplicationEntityHealthIndicatorBehavior
-          showOkayOnNoIssues={false}
-          IndicatorPresenter={HealthIndicatorButtonPresenter}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          timeConfig={timeConfig}
-        />
-      </Fragment>
-    );
-  }
-);
 
 function SubTypes({ result }) {
   return (
