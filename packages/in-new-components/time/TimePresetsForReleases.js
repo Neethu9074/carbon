@@ -48,8 +48,17 @@ function getColumnDefinitions({ windowSize }) {
   ];
 }
 
+function getOneMonthTimeConfig({ autoRefresh, to }) {
+  const windowSize = 1000 * 60 * 60 * 24 * 31;
+  return {
+    autoRefresh: autoRefresh,
+    windowSize: windowSize,
+    to: to
+  };
+}
+
 export default connectTo(props => {
-  const timeConfig = props.timeConfig;
+  const timeConfig = props.pageSize === 2 ? getOneMonthTimeConfig(props.timeConfig) : props.timeConfig;
   const pageSize = props.pageSize;
 
   return {
@@ -136,7 +145,7 @@ function getReleasesPresets(result, timeConfig, onChange) {
 function getReleaseTimePreset(item, timeConfig, onChange) {
   let label = item.name;
   const suffix = fromNowAccurately(item.start);
-  label = label + '  (' + suffix + ') ago';
+  label = label + '  (' + suffix + ' ago)';
   const to = item.start + timeConfig.windowSize / 2;
 
   const newTimeConfig = {
