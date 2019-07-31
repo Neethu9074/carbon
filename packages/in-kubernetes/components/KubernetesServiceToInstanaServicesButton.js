@@ -4,6 +4,7 @@ import React from 'react';
 import getApplicationServicesForKubernetesService from 'in-subscription/kubernetes/getApplicationServicesForKubernetesService';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -76,39 +77,45 @@ function ServiceList({ instanaServices }) {
     <div className={locals.tableWrapper}>
       <Table>
         <Tbody>
-          {instanaServices.map(service => (
-            <Tr key={service.id} size="compact">
-              <Td className={locals.labelColumn}>
-                <SeverityAwareEntityLink
-                  icon="lib_application_service"
-                  label={service.label}
-                  severity={get(service, ['metrics', 'maxSeverity', 0, 1], 0)}
-                  href$={getServiceDashboard(service.id)}
-                />
-              </Td>
-              <Td>
-                <EndpointTypeBadgeList types={service.types} />
-              </Td>
-              <Td>
-                <EntityWithType
-                  label={number.compact(get(service, ['metrics', 'callsAgg', 0, 1], 0))}
-                  type="Inbound Calls"
-                />
-              </Td>
-              <Td>
-                <EntityWithType
-                  label={meanLatency.detailed(get(service, ['metrics', 'latencyAgg', 0, 1], 0))}
-                  type="Latency"
-                />
-              </Td>
-              <Td>
-                <EntityWithType
-                  label={percentage.detailed(get(service, ['metrics', 'errorsAgg', 0, 1], 0))}
-                  type="Errors"
-                />
-              </Td>
-            </Tr>
-          ))}
+          {instanaServices.map(service => {
+            const calls = get(service, ['metrics', 'callsAgg', 0, 1]);
+            const latency = get(service, ['metrics', 'latencyAgg', 0, 1]);
+            const errors = get(service, ['metrics', 'errorsAgg', 0, 1]);
+
+            return (
+              <Tr key={service.id} size="compact">
+                <Td className={locals.labelColumn}>
+                  <SeverityAwareEntityLink
+                    icon="lib_application_service"
+                    label={service.label}
+                    severity={get(service, ['metrics', 'maxSeverity', 0, 1], 0)}
+                    href$={getServiceDashboard(service.id)}
+                  />
+                </Td>
+                <Td>
+                  <EndpointTypeBadgeList types={service.types} />
+                </Td>
+                <Td>
+                  <EntityWithType
+                    label={calls >= 0 ? number.compact(calls) : valueMissingPlaceholder}
+                    type="Inbound Calls"
+                  />
+                </Td>
+                <Td>
+                  <EntityWithType
+                    label={latency >= 0 ? meanLatency.detailed(latency) : valueMissingPlaceholder}
+                    type="Latency"
+                  />
+                </Td>
+                <Td>
+                  <EntityWithType
+                    label={errors >= 0 ? percentage.detailed(errors) : valueMissingPlaceholder}
+                    type="Errors"
+                  />
+                </Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </div>
