@@ -22,7 +22,6 @@
 
   .header {
       padding: 0.25rem 0.5rem;
-      font-size: 1rem;
       font-weight: bold;
       line-height: 2rem;
       background: @lib__colors__N200;

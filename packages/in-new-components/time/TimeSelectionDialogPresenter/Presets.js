@@ -2,13 +2,13 @@ import React from 'react';
 
 import SelectableItem from 'in-new-components/time/TimeSelectionDialogPresenter/SelectableItem';
 import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/timePresets';
+import TimePresetsForReleases from 'in-new-components/time/TimePresetsForReleases';
 import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
-import { setActiveDialog } from '../../../in-components/DialogPresenter/store';
-import TimePresetsForReleases from '../TimePresetsForReleases';
+import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { Col, Row } from 'in-new-components/layout/Grid';
+import Button from 'in-new-components/Button';
+import Dialog from 'in-new-components/Dialog';
 import locals from './Presets.mless';
-import Button from '../../Button';
-import Dialog from '../../Dialog';
 
 export default function Presets({ timeConfig, onChange }) {
   return (
@@ -31,10 +31,8 @@ export default function Presets({ timeConfig, onChange }) {
             kind="secondary"
             onClick={() =>
               setActiveDialog(
-                <Dialog headless title="Search for a release" onClose={() => setActiveDialog(null)}>
-                  <div>
-                    <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={3} />
-                  </div>
+                <Dialog headless title="Search for a release" onClose={() => close()}>
+                  <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={3} />
                 </Dialog>
               )
             }

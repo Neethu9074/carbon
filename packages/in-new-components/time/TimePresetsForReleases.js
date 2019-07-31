@@ -1,18 +1,19 @@
 import React from 'react';
 
-import ServerTablePresenter from '../../in-components/tables/ServerTable/ServerTablePresenter';
-import SelectableItem from './TimeSelectionDialogPresenter/SelectableItem';
-import { setActiveDialog } from '../../in-components/DialogPresenter/store';
+import SelectableItem from 'in-new-components/time/TimeSelectionDialogPresenter/SelectableItem';
+import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
+import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { setTimeConfig, timeConfig$ } from 'in-stores/time/config';
-import { getModifiedUrlStream } from '../../in-stores/navigation';
-import WithEmptyStateFallback from '../WithEmptyStateFallback';
-import { formatDateTime } from 'in-services/formatters/date';
-import NoDataAvailable from '../Errors/NoDataAvailable';
+import { close } from 'in-components/DialogPresenter/store';
+import { getModifiedUrlStream } from 'in-stores/navigation';
+import ServerTable from 'in-components/tables/ServerTable';
 import { pendingResult } from 'in-services/fixedObjects';
 import getReleases from 'in-subscription/getReleases';
-import connectTo from '../../in-hoc/connectTo';
 import { timeout } from 'reactive-observables';
-import Link from '../../in-components/Link';
+import connectTo from 'in-hoc/connectTo';
+import Link from 'in-components/Link';
 
 function getColumnDefinitions({ windowSize }) {
   return [
@@ -22,7 +23,7 @@ function getColumnDefinitions({ windowSize }) {
       getContent(entity) {
         return (
           <Link
-            onClick={() => setActiveDialog(null)}
+            onClick={() => close()}
             href$={getModifiedUrlStream(params => {
               const to = entity.start + windowSize / 2;
               setTimeConfig(params, { to, windowSize });
@@ -50,6 +51,7 @@ function getColumnDefinitions({ windowSize }) {
 export default connectTo(props => {
   const timeConfig = props.timeConfig;
   const pageSize = props.pageSize;
+
   return {
     result: timeout(800)
       .flatMap(() => getReleasesSubscribeEvent({ pageSize, timeConfig }))
@@ -77,17 +79,16 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
           />
         )}
       >
-        <ServerTablePresenter
-          onChange={onChange}
-          result={result}
-          timeConfig={timeConfig}
+        <ServerTable
+          get={getReleasesSubscribeEvent}
+          getResettingProps={() => ['query']}
+          defaultPageSize={3}
           columnDefinitions={columnDefinitions}
+          paginationResettingProps={{}}
+          getRowProps={() => ({ size: 'compact' })}
           noDataMessage="No releases found"
           orderBy="start"
           orderDirection="DESC"
-          pageSize={3}
-          query=""
-          page={1}
           searchPlaceholder="Filter..."
           cardTitle="Releases"
         />
@@ -98,10 +99,11 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
   }
 }
 
-export function getHasDataToRender() {
+function getHasDataToRender() {
   const pageSize = 3;
+  const page = 1;
   return timeConfig$
-    .flatMap(timeConfig => getReleasesSubscribeEvent({ pageSize, timeConfig }))
+    .flatMap(timeConfig => getReleasesSubscribeEvent({ page, pageSize, timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
@@ -127,17 +129,20 @@ function getReleasesSubscribeEvent({
   });
 }
 
-export function getReleasesPresets(result, timeConfig, onChange) {
+function getReleasesPresets(result, timeConfig, onChange) {
   return result.data.items.map(item => getReleaseTimePreset(item, timeConfig, onChange));
 }
 
 function getReleaseTimePreset(item, timeConfig, onChange) {
-  const label = item.name;
+  let label = item.name;
+  const suffix = fromNowAccurately(item.start);
+  label = label + '  (' + suffix + ') ago';
   const to = item.start + timeConfig.windowSize / 2;
+
   const newTimeConfig = {
     label: label,
     windowSize: timeConfig.windowSize,
     to
   };
-  return <SelectableItem key={label} timeConfig={timeConfig} newTimeframe={newTimeConfig} onChange={onChange} />;
+  return <SelectableItem key={item.id} timeConfig={timeConfig} newTimeframe={newTimeConfig} onChange={onChange} />;
 }
