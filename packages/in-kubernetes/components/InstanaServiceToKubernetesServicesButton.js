@@ -21,10 +21,10 @@ export default connectTo(
       result => result.data
     )
   }),
-  InstanaServiceToKubernetesServiceButton
+  InstanaServiceToKubernetesServicesButton
 );
 
-export function InstanaServiceToKubernetesServiceButton({ kubernetesServices }) {
+export function InstanaServiceToKubernetesServicesButton({ kubernetesServices }) {
   if (!kubernetesServices || kubernetesServices.length === 0) {
     return null;
   }
