@@ -1,14 +1,18 @@
-import { on } from 'reactive-observables';
+import { on, empty } from 'reactive-observables';
 import React from 'react';
-
+import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment, timeConfig$ } from 'in-stores/timeline';
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
-import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
 import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import getReleases from 'in-events/subscriptions/getReleases';
+import { releasesEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
+
+import ReleasesTooltip from './ReleasesTooltip';
 
 import locals from './Tooltip.mless';
 
@@ -16,12 +20,30 @@ const userInteractionThrottlingMillis = 50;
 
 export default connectTo(
   props => {
-    const observables = { highlightedMoment: highlightedMoment$ };
+    let latestRelease$ = empty;
+    if (releasesEnabled) {
+      latestRelease$ = timeConfig$
+        .flatMap(timeConfig =>
+          getReleases({
+            timeConfig,
+            pagination: {
+              page: 1,
+              pageSize: 1
+            }
+          })
+        )
+        .startWith(pendingResult)
+        .map(({ data }) => (data && data.items && data.items.length > 0 ? data.items[0] : null));
+    }
+
+    const observables = { highlightedMoment: highlightedMoment$, latestRelease: latestRelease$ };
+
     if (props.timeConfig.autoRefresh) {
       observables['timeSinceLastAnimationDurationPassed'] = getAnimationFramesWithAnAnimationDurationOf(
         props.chart.config.animationDuration
       ).map(({ timeSinceLastAnimationDurationPassed }) => timeSinceLastAnimationDurationPassed);
     }
+
     return observables;
   },
   class extends React.Component {
@@ -42,10 +64,19 @@ export default connectTo(
     }
 
     render() {
-      const nearestTimeInMetrics = this.getNearestDomain();
+      const nearestTimeInMetrics = this.getNearestDomain(this.props.highlightedMoment);
       const cursorXPositionOnCanvas = this.getNearestDomainXPosition(nearestTimeInMetrics);
       const cursorHasCrossedHalfOfTheCanvas = this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas);
       this.updateScale();
+
+      let releaseMarkerXPositionOnCanvas;
+      if (releasesEnabled) {
+        if (this.props.latestRelease !== null) {
+          releaseMarkerXPositionOnCanvas = this.getNearestDomainXPosition(
+            this.getNearestDomain(this.props.latestRelease.start)
+          );
+        }
+      }
 
       return (
         <div
@@ -59,7 +90,15 @@ export default connectTo(
             glassPane={this.glassPane}
             shouldRenderButtons={this.shouldRenderButtons}
           />
-          {cursorXPositionOnCanvas ? (
+          {releasesEnabled &&
+            releaseMarkerXPositionOnCanvas && (
+              <ReleasesTooltip
+                markerHasCrossedHalfOfTheCanvas={this.cursorHasCrossedHalfOfTheCanvas(releaseMarkerXPositionOnCanvas)}
+                markerXPosition={releaseMarkerXPositionOnCanvas}
+                release={this.props.latestRelease}
+              />
+            )}
+          {cursorXPositionOnCanvas && cursorXPositionOnCanvas !== releaseMarkerXPositionOnCanvas ? (
             <TooltipLineAndContent
               {...this.props}
               cursorXPositionOnCanvas={cursorXPositionOnCanvas}
@@ -113,8 +152,7 @@ export default connectTo(
 
     onMouseLeave = () => clearHighlightedMoment();
 
-    getNearestDomain = () => {
-      const time = this.props.highlightedMoment;
+    getNearestDomain = time => {
       if (time < this.xScale.getDomainFrom() || time > this.xScale.getDomainTo()) {
         return null;
       }
