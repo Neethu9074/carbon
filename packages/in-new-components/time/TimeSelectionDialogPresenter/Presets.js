@@ -8,6 +8,7 @@ import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { releasesEnabled } from 'in-services/featureFlags';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
+
 import locals from './Presets.mless';
 
 export default function Presets({ timeConfig, onChange }) {
@@ -15,12 +16,12 @@ export default function Presets({ timeConfig, onChange }) {
     <div className={locals.wrapper}>
       <Header>Presets</Header>
       <div className={locals.container}>
-        <div className={locals.left}>
+        <div className={locals.leftColumn}>
           {getLivePresets().map((preset, i) => (
             <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
           ))}
         </div>
-        <div className={locals.right}>
+        <div className={locals.rightColumn}>
           {getFixedTimePresets().map((preset, i) => (
             <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
           ))}
@@ -47,7 +48,7 @@ function ReleasesPresets({ onChange, timeConfig }) {
           )
         }
         icon="lib_actions_search"
-        iconHeight={18}
+        iconHeight={16}
       >
         Search for a release
       </Button>
