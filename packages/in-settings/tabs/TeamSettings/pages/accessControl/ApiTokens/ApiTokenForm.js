@@ -4,6 +4,7 @@ import { onPremLicenseInformationEnabled, isRbacEnabled } from 'in-services/feat
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { releasesEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -171,6 +172,16 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           name="canConfigureApplications"
           label="Configuration of applications"
         />
+
+        {releasesEnabled && (
+          <Permission
+            form={form}
+            disabled={disabled}
+            onChange={onChange}
+            name="canConfigureReleases"
+            label="Configuration of releases"
+          />
+        )}
       </FormGroup>
     </fieldset>
   );

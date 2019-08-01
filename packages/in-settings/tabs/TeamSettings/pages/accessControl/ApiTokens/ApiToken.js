@@ -180,5 +180,6 @@ function createForm(apiToken) {
     .put('canConfigureAgentRunMode', createField({ value: apiToken.get('canConfigureAgentRunMode') }))
     .put('canViewAuditLog', createField({ value: apiToken.get('canViewAuditLog') }))
     .put('canConfigureAgents', createField({ value: apiToken.get('canConfigureAgents') }))
-    .put('canConfigureApplications', createField({ value: apiToken.get('canConfigureApplications') }));
+    .put('canConfigureApplications', createField({ value: apiToken.get('canConfigureApplications') }))
+    .put('canConfigureReleases', createField({ value: apiToken.get('canConfigureReleases') }));
 }
