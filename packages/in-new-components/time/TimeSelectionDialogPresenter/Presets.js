@@ -5,6 +5,7 @@ import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/time
 import TimePresetsForReleases from 'in-new-components/time/TimePresetsForReleases';
 import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { releasesEnabled } from 'in-services/featureFlags';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
 import locals from './Presets.mless';
@@ -23,7 +24,7 @@ export default function Presets({ timeConfig, onChange }) {
           {getFixedTimePresets().map((preset, i) => (
             <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
           ))}
-          <ReleasesPresets onChange={onChange} timeConfig={timeConfig} />
+          {releasesEnabled && <ReleasesPresets onChange={onChange} timeConfig={timeConfig} />}
         </div>
       </div>
     </div>
