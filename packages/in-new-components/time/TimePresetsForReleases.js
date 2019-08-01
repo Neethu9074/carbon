@@ -48,22 +48,12 @@ function getColumnDefinitions({ windowSize }) {
   ];
 }
 
-function getOneMonthTimeConfig({ autoRefresh, to }) {
-  const windowSize = 1000 * 60 * 60 * 24 * 31;
-  return {
-    autoRefresh: autoRefresh,
-    windowSize: windowSize,
-    to: to
-  };
-}
-
 export default connectTo(props => {
-  const timeConfig = props.pageSize === 2 ? getOneMonthTimeConfig(props.timeConfig) : props.timeConfig;
   const pageSize = props.pageSize;
 
   return {
     result: timeout(800)
-      .flatMap(() => getReleasesSubscribeEvent({ pageSize, timeConfig }))
+      .flatMap(() => getReleasesSubscribeEvent({ pageSize }))
       .startWith(pendingResult)
   };
 })(TimePresetsForReleases);
@@ -72,7 +62,7 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
 
   if (pageSize === 2 && result.data && result.data.totalHits > 0) {
     return getReleasesPresets(result, timeConfig, onChange);
-  } else if (pageSize === 3) {
+  } else if (pageSize === 5) {
     return (
       <WithEmptyStateFallback
         center={false}
@@ -80,7 +70,7 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
         FallbackComponent={() => (
           <ServerTablePresenter
             columnDefinitions={columnDefinitions}
-            pageSize={3}
+            pageSize={5}
             query=""
             page={1}
             result={{ errors: [], progress: { loading: false }, data: { items: [] } }}
@@ -91,15 +81,14 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
         <ServerTable
           get={getReleasesSubscribeEvent}
           getResettingProps={() => ['query']}
-          defaultPageSize={3}
+          defaultPageSize={5}
           columnDefinitions={columnDefinitions}
           paginationResettingProps={{}}
           getRowProps={() => ({ size: 'compact' })}
           noDataMessage="No releases found"
-          orderBy="start"
-          orderDirection="DESC"
+          defaultOrderBy="start"
+          defaultOrderDirection="DESC"
           searchPlaceholder="Filter..."
-          cardTitle="Releases"
         />
       </WithEmptyStateFallback>
     );
@@ -109,21 +98,14 @@ function TimePresetsForReleases({ timeConfig, onChange, result, pageSize }) {
 }
 
 function getHasDataToRender() {
-  const pageSize = 3;
+  const pageSize = 5;
   const page = 1;
   return timeConfig$
     .flatMap(timeConfig => getReleasesSubscribeEvent({ page, pageSize, timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getReleasesSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize,
-  orderBy = 'start',
-  orderDirection = 'DESC',
-  timeConfig
-}) {
+function getReleasesSubscribeEvent({ query = '', page = 1, pageSize = 5, orderBy = 'start', orderDirection = 'DESC' }) {
   return getReleases({
     pagination: {
       page,
@@ -134,7 +116,7 @@ function getReleasesSubscribeEvent({
       direction: orderDirection
     },
     filter: query,
-    timeConfig: timeConfig
+    timeConfig: null
   });
 }
 

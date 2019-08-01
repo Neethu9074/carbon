@@ -31,12 +31,13 @@ export default function Presets({ timeConfig, onChange }) {
             kind="secondary"
             onClick={() =>
               setActiveDialog(
-                <Dialog headless title="Search for a release" onClose={() => close()}>
-                  <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={3} />
+                <Dialog className={locals.dialog} title="Search for a release" onClose={() => close()}>
+                  <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={5} />
                 </Dialog>
               )
             }
             icon="lib_actions_search"
+            iconHeight={18}
           >
             Search for a release
           </Button>

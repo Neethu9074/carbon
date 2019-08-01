@@ -22,8 +22,9 @@
 
   .header {
       padding: 0.25rem 0.5rem;
-      font-weight: bold;
       line-height: 2rem;
+      font-weight: normal;
+      font-size: 1rem;
       background: @lib__colors__N200;
       color: @lib__colors__N700Medium;
       margin-left: 0.5rem;
@@ -32,12 +33,11 @@
     }
 
   .button {
-      font-weight: normal;
-      margin-top: 0.25rem;
-      margin-left: 0.75rem;
-      margin-right: 2rem;
+      margin: 0 1.5rem 1rem 0.5rem;
+      width: 10rem;
+      font-size: small;
+      justify-content: flex-left;
     }
-
 
   .row {
     display: flex;
@@ -57,4 +57,15 @@
       margin-bottom: 0.5rem;
     }
   }
+
+  .newRow {
+      .row();
+      justify-content: flex-end;
+
+    }
+
+  .dialog {
+      width: 50vw;
+      max-width: 100rem;
+    }
 }
