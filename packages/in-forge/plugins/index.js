@@ -121,6 +121,7 @@ import './sapHana';
 import './sybase';
 import './service';
 import './solr';
+import './solrCloudCluster';
 import './sparkApplication';
 import './sparkStandalone';
 import './springbootApplicationContainer';

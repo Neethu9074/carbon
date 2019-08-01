@@ -1,22 +1,17 @@
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import iconSvgPath from 'in-forge/plugins/solr/iconPath';
+import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
 
-import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
-
 registerSnapshotDefinition({
-  plugin: plugins.solr,
-
+  plugin: plugins.solrCloudCluster,
   iconSvgPath,
   metricDefinitions,
   supportsCodeView,
   getCodeView,
   pluginName: {
-    singular: 'Solr Node',
-    plural: 'Solr Nodes'
-  },
-  technologyDescriptor: {
-    label: 'Solr'
+    singular: 'Solr Cloud Cluster',
+    plural: 'Solr Cloud Clusters'
   }
 });

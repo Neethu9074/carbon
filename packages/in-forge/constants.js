@@ -121,6 +121,7 @@ export const nonServicePlugins = {
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
   solr: 'solr',
+  solrCloudCluster: 'solrCloudCluster',
   sparkApplication: 'sparkApplication',
   sparkStandalone: 'sparkStandalone',
   springbootApplicationContainer: 'springbootApplicationContainer',
@@ -279,6 +280,7 @@ export const fullyQualifiedPlugins = {
   sapHana: 'com.instana.forge.infrastructure.database.saphana.SapHana',
   service: 'com.instana.forge.application.Service',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
+  solrCloudCluster: 'com.instana.forge.infrastructure.database.solr.SolrCloudCluster',
   springbootApplicationContainer:
     'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
   sparkApplication: 'com.instana.forge.infrastructure.dataanalytics.sparkapplication.SparkApplication',
