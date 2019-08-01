@@ -1,24 +1,47 @@
+@import '~in-themes/active.less';
+
 :local {
   .wrapper {
     width: 24.75rem;
   }
 
-  .row {
+  .header {
+    padding: 0.25rem 0.5rem;
+    line-height: 2rem;
+    font-weight: normal;
+    font-size: 1rem;
+    background: @lib__colors__N200;
+    color: @lib__colors__N700Medium;
+    margin-bottom: 0rem;
+  }
+
+  .button {
+    padding: 0.25rem;
+    width: 10rem;
+    font-size: small;
+    justify-content: flex-left;
+  }
+
+  .dialog {
+    width: 50vw;
+    max-width: 100rem;
+  }
+
+  .container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 1rem;
+    align-content: stretch;
+    margin-top: 0.25rem;
+    padding: 0.25rem;
+    line-height: 1.5rem;
+  }
 
-    & + .row {
-      margin-top: 0.25rem;
-    }
+  .leftColumn {
+    flex-basis: 50%;
+    padding: 0.25rem;
+  }
 
-    &:first-child {
-      margin-top: 0.5rem;
-    }
-
-    &:last-child {
-      margin-bottom: 0.5rem;
-    }
+  .rightColumn {
+    flex-basis: 50%;
+    padding: 0.25rem;
   }
 }
