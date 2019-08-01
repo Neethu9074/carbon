@@ -53,14 +53,6 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
           form={form}
           disabled={disabled}
           onChange={onChange}
-          name="canConfigureServiceMapping"
-          label="Service Mapper"
-        />
-
-        <Permission
-          form={form}
-          disabled={disabled}
-          onChange={onChange}
           name="canConfigureEumApplications"
           label="Website Monitoring configuration"
         />
