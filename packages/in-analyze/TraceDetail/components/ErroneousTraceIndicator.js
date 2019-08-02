@@ -1,13 +1,7 @@
 import React from 'react';
 
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
-import locals from './ErroneousTraceIndicator.mless';
+import ProblemIndicator from 'in-new-components/ProblemIndicator';
 
-export default function ErroneousTraceIndicator({ errorCount }) {
-  return (
-    <div className={locals.indicatorWrapper}>
-      <ErrorIndicator erroneous={errorCount} />
-      <span className={locals.label}>Erroneous Trace</span>
-    </div>
-  );
+export default function ErroneousTraceIndicator() {
+  return <ProblemIndicator kind="danger" title="Erroneous Trace" />;
 }

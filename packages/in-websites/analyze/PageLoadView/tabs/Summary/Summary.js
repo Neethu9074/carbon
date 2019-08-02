@@ -1,12 +1,15 @@
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
+import memoizeOne from 'memoize-one';
 import React from 'react';
 
+import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { latencyFixed, number } from 'in-services/formatters/number';
+import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
@@ -16,9 +19,14 @@ import KpiCard from 'in-new-components/KpiCard';
 // views very quickly.
 const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
+// Fixing is expensive. Luckily it is easy to avoid this via memoization.
+const memoizedFixClockSkewProblems = memoizeOne(fixClockSkewProblems);
+
 export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
 function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
+  const fixResult = memoizedFixClockSkewProblems(beacons);
+  beacons = fixResult.beacons;
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
@@ -32,6 +40,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
           });
         }}
       />
+
       <Row>
         <Col lg={2}>
           <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />
@@ -51,6 +60,18 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
           <KpiCard title="HTTP Requests" value={number.compact(getBeaconCount(beacons, 'httpRequest'))} />
         </Col>
       </Row>
+
+      {fixResult.requiredFixes && (
+        <Row>
+          <Col lg={12}>
+            <ProblemIndicator kind="warning" title="Clock Skew Problems Detected">
+              Beacons sent to Instana from the end-user’s device arrived with significant delays, most likely due to a
+              poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore
+              a meaningful activity timeline.
+            </ProblemIndicator>
+          </Col>
+        </Row>
+      )}
 
       <BeaconUserSummary beacon={firstBeacon} beacons={beacons} />
 

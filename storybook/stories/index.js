@@ -65,6 +65,7 @@ import './components/MessageStory';
 import './components/overlays/OverlayStory';
 import './components/PaginationStory';
 import './components/PillStory';
+import './components/ProblemIndicatorStory';
 import './components/SearchInputStory';
 import './components/SparkChart';
 import './components/StackTraceStory';

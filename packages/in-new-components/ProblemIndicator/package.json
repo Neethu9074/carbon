@@ -1,0 +1,6 @@
+{
+  "name": "ProblemIndicator",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProblemIndicator.js"
+}
