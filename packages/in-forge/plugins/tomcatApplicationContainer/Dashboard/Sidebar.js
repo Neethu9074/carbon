@@ -4,6 +4,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { positiveNumber } from 'in-services/formatters/number';
 import { minutes } from 'in-services/formatters/number';
 
 import Info from '../Info';
@@ -56,8 +57,12 @@ export default function TomcatSidebar({ snapshot }) {
                     <DescriptionItem title="Executor">{data.get('executor')}</DescriptionItem>
                     <DescriptionItem title="Max Threads">{data.getIn(['threads', 'max'])}</DescriptionItem>
                     <DescriptionItem title="Max Connections">{data.getIn(['connections', 'max'])}</DescriptionItem>
-                    <DescriptionItem title="Connect Timeout">{data.get('connect-timeout')}</DescriptionItem>
-                    <DescriptionItem title="Keepalive Timeout">{data.get('keepalive-timeout')}</DescriptionItem>
+                    <DescriptionItem title="Connect Timeout">
+                      {positiveNumber(data.get('connect-timeout'))}
+                    </DescriptionItem>
+                    <DescriptionItem title="Keepalive Timeout">
+                      {positiveNumber(data.get('keepalive-timeout'))}
+                    </DescriptionItem>
                   </Fragment>
                 ))}
               </DescriptionList>
