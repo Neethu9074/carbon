@@ -43,13 +43,13 @@ export default connectTo(
       <FullHeightWrapper
         render={() => (
           <div className={locals.wrapper}>
-            <SvgIcon className={locals.icon} type="lib_application" width={56} height={56} />
+            <SvgIcon className={locals.icon} type="lib_application" size="xxl" />
             <h1 className={locals.title}>Application perspective is being created…</h1>
             <p className={locals.text}>
               We are preparing everything to monitor your application perspective{' '}
               <strong>{decodeURIComponent(label)}</strong>.
             </p>
-            <SvgIcon spinning type="lib_actions_loading" width={32} className={locals.loadingIcon} />
+            <SvgIcon spinning type="lib_actions_loading" size="l" className={locals.loadingIcon} />
           </div>
         )}
       />

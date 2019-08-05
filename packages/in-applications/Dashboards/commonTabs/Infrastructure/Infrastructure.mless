@@ -28,7 +28,7 @@
   }
 
   .entitiyIcon {
-    margin: 0 0.25rem 0 0.5rem;
+    margin-left: 0.25rem;
     fill: @lib__colors__N500;
   }
 

@@ -27,10 +27,9 @@ export default function Column({ col, onClick, isSelected, sortDirection }) {
         {isSelected ? (
           <SvgIcon
             className={`${block}__icon`}
-            type={sortDirection === 'desc' ? 'triangle_down' : 'triangle_up'}
-            width={5}
-            height={5}
+            type={sortDirection === 'desc' ? 'lib_arrow_drop_down' : 'lib_arrow_drop_up'}
             color="#6B8088"
+            size="xs"
           />
         ) : null}
       </div>

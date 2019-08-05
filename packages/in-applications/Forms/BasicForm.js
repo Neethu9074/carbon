@@ -149,7 +149,7 @@ class BasicForm extends React.Component {
           <h1 className={locals.heading}>{title}</h1>
           {generalHelpText && (
             <Tooltip themeStyle="light" content={generalHelpText}>
-              <SvgIcon className={locals.helpTextIcon} type="lib_help_error_help_outline" height={24} />
+              <SvgIcon className={locals.helpTextIcon} type="lib_help_error_help_outline" />
             </Tooltip>
           )}
         </div>

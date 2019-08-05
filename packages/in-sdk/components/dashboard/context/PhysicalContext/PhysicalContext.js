@@ -61,7 +61,7 @@ const Item = connectTo(
         {context.size > 0 ? (
           <SvgIcon
             type="tag"
-            width={12}
+            size="xxs"
             className={`${block}__tag`}
             onClick={() => setActiveDialog(<ContextPopup context={context} />)}
           />

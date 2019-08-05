@@ -131,13 +131,7 @@ function Actions({ traceId, filters }) {
 
       <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
         <Tooltip content="Close trace detail">
-          <SvgIcon
-            className={locals.closeIcon}
-            aria-label="Close trace detail"
-            type="lib_openclose_cancel"
-            width={24}
-            height={24}
-          />
+          <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
         </Tooltip>
       </Link>
     </Fragment>

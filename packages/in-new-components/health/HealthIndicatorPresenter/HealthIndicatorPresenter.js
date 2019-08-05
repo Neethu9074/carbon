@@ -7,7 +7,7 @@ import locals from './HealthIndicatorPresenter.mless';
 
 export default function HealthIndicatorPresenter({ openIssues, maxSeverity, active, refSetter, onClick }) {
   if (openIssues === 0) {
-    return <SvgIcon type="lib_check" width={24} className={locals.okayIcon} />;
+    return <SvgIcon type="lib_check" className={locals.okayIcon} />;
   }
 
   let color = getDesignLibraryColorBySeverity(maxSeverity);
@@ -25,7 +25,7 @@ export default function HealthIndicatorPresenter({ openIssues, maxSeverity, acti
       className={locals.badge}
       ref={refSetter}
     >
-      <SvgIcon type="lib_help_error_warning" width={24} color={color} className={locals.icon} />
+      <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
     </a>
   );
 }

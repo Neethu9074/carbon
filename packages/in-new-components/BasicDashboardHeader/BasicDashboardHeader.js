@@ -4,7 +4,6 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './BasicDashboardHeader.mless';
 
@@ -51,14 +50,9 @@ function SuccessState(props) {
     <Fragment>
       <div className={locals.labelAligned}>
         {pluginIcon ? (
-          <PluginIcon
-            className={locals.icon}
-            dimension={25}
-            color={theme.lib.colors.N700Medium}
-            snapshot={pluginIcon}
-          />
+          <PluginIcon className={locals.icon} snapshot={pluginIcon} size="s" />
         ) : (
-          <SvgIcon className={locals.icon} type={icon} width={32} height={32} />
+          <SvgIcon className={locals.icon} type={icon} size="l" />
         )}
         <h1 className={locals.label}>{getLabel(result, props)}</h1>
         {renderSubTypes && renderSubTypes(props)}

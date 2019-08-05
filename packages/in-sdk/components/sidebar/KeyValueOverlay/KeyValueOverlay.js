@@ -33,7 +33,7 @@ function KeyValueButtonWrapper(props) {
           <SvgIcon
             className={locals.icon}
             type="popup"
-            width={16}
+            size="xs"
             color="#4a91e4"
             expanded={isOpen}
             refSetter={refSetter}

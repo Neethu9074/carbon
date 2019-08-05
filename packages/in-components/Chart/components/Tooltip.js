@@ -4,6 +4,7 @@ import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment, timeC
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
 import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
+import ReleasesTooltip from 'in-components/Chart/components/ReleasesTooltip';
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getReleases from 'in-events/subscriptions/getReleases';
@@ -11,8 +12,6 @@ import { releasesEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
-
-import ReleasesTooltip from './ReleasesTooltip';
 
 import locals from './Tooltip.mless';
 

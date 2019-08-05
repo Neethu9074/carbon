@@ -8,8 +8,8 @@ import locals from './Row.mless';
 
 const allowedKeyCodesForKeydown = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
 
-const expand = <SvgIcon type="lib_arrow_expand_down" width={24} className={locals.toggle} />;
-const collapse = <SvgIcon type="lib_arrow_expand_up" width={24} className={locals.toggle} />;
+const expand = <SvgIcon type="lib_arrow_expand_down" className={locals.toggle} />;
+const collapse = <SvgIcon type="lib_arrow_expand_up" className={locals.toggle} />;
 
 export default class Row extends React.Component {
   constructor() {

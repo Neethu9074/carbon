@@ -57,8 +57,7 @@ export default connectTo(
         <SvgIcon
           className={evaluateClassNames({ [`${block}__icon`]: true, [`${block}__icon_in_preview`]: isPreview })}
           type={getIconTypeForEventType(eventType)}
-          width={16}
-          height={16}
+          size="xs"
           color={color}
         />
         <div className={`${block}__description`}>

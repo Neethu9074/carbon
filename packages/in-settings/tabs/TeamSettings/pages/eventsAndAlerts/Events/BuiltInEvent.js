@@ -74,7 +74,7 @@ export default connectTo(
         <FormGroup>
           <Label>Entity type</Label>
           <div className={locals.flexWrapper}>
-            <PluginIcon className={locals.entityIcon} dimension={16} color="#000" plugin={entityType} />
+            <PluginIcon className={locals.entityIcon} size="xs" color="#000" plugin={entityType} />
             {getSingular(entityType)}
           </div>
         </FormGroup>

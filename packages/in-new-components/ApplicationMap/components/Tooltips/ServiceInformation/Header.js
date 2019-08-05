@@ -11,7 +11,7 @@ export default function Header({ service }) {
   return (
     <Fragment>
       <div className={locals.labelRow}>
-        <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
+        <SvgIcon className={locals.serviceIcon} type="lib_application_service" />
         <span className={locals.label}>{service.label} </span>
       </div>
 

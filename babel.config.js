@@ -50,7 +50,7 @@ module.exports = {
     // Storybook
     path.join(__dirname, 'storybook', '**', '*.js'),
     // as well as Micromustache library that doesn't expose commonjs browser distribution
-    path.join(__dirname, 'node_modules', 'micromustache', '**', '*.js'),
+    path.join(__dirname, 'node_modules', 'micromustache', '**', '*.js')
     // Note that we deliberately do not transpile anything under node_modules. This is not
     // forbidden per se, but we should whitelist this on a case-by-case basis.
   ]

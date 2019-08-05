@@ -1,10 +1,5 @@
-import rpt from 'prop-types';
 import React from 'react';
 
-import {
-  toggleContent,
-  clearContent
-} from 'in-components/DetailPopupPresenter/stores/DetailPopupPresenterContentStore';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -70,31 +65,4 @@ export function ClickableList({ children }) {
 
 function stopPropagation(e) {
   e.stopPropagation();
-}
-
-export class ClickableKeyValuePopupListItem extends React.PureComponent {
-  static displayName = 'ClickableKeyValuePopupListItem';
-
-  static propTypes = {
-    title: rpt.string.isRequired,
-    data: rpt.object,
-    children: rpt.any
-  };
-
-  componentWillUnmount() {
-    clearContent();
-  }
-
-  render() {
-    const data = this.props.data;
-    if (data == null || data.size === 0) {
-      return null;
-    }
-
-    return (
-      <ClickableListItem onClick={() => toggleContent({ title: this.props.title, data })}>
-        {this.props.children}
-      </ClickableListItem>
-    );
-  }
 }

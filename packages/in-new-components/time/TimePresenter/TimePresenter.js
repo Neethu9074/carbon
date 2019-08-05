@@ -60,7 +60,6 @@ export default function TimePresenter({
         </div>
 
         <SvgIcon
-          width={24}
           className={evaluateClassNames({
             [locals.toggleIcon]: true,
             [locals.toggleIconExpanded]: expanded

@@ -49,15 +49,9 @@ function ReleaseTooltip({
       <SvgIcon
         className={joinClassNames(locals.markerIcon, locals.markerIconBackground)}
         type="lib_release_rocket"
-        width={28}
-        height={28}
+        size={28}
       />
-      <SvgIcon
-        className={joinClassNames(locals.markerIcon, locals.markerIconForeground)}
-        type="lib_release_rocket"
-        width={24}
-        height={24}
-      />
+      <SvgIcon className={joinClassNames(locals.markerIcon, locals.markerIconForeground)} type="lib_release_rocket" />
     </div>
   );
 }

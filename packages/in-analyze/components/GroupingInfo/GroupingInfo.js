@@ -40,8 +40,7 @@ export default function GroupingInfo({ group, disableGrouping, openEditGroupDial
               aria-label="Remove grouping"
               type="lib_openclose_cancel"
               onClick={disableGrouping}
-              width={18}
-              height={18}
+              size="s"
             />
           </Tooltip>
         </Fragment>

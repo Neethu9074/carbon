@@ -111,7 +111,7 @@ function renderApplicationServiceEndpointItem(icon) {
   return function ItemLabel(itemLabel) {
     return (
       <Fragment>
-        <SvgIcon className={locals.entityIcon} type={icon} width={24} height={24} />
+        <SvgIcon className={locals.entityIcon} type={icon} />
         <span className={locals.itemText}>{itemLabel}</span>
       </Fragment>
     );

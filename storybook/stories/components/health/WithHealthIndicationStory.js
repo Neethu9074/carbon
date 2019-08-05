@@ -12,32 +12,43 @@ import Section from '../../_helpers/Section';
 storiesOf('Components/health', module).add('Icon with Health Indication', () => <WithHealthIndicationStory />);
 
 function WithHealthIndicationStory() {
-  const sizes = [];
-  for (let i = 6; i < 48; i++) {
-    sizes[i] = i + 1;
-  }
-
   return (
     <Root>
       <Section title="Types">
-        <WithHealthIndication size={24} healthInfo={{ maxSeverity: 0 }}>
-          <SvgIcon type="lib_application" width={24} height={24} />
+        <WithHealthIndication healthInfo={{ maxSeverity: 0 }}>
+          <SvgIcon type="lib_application" />
         </WithHealthIndication>
-        <WithHealthIndication size={24} healthInfo={{ maxSeverity: 5 }}>
-          <SvgIcon type="lib_application" width={24} height={24} />
+        <WithHealthIndication healthInfo={{ maxSeverity: 5 }}>
+          <SvgIcon type="lib_application" />
         </WithHealthIndication>
-        <WithHealthIndication size={24} healthInfo={{ maxSeverity: 10 }}>
-          <SvgIcon type="lib_application" width={24} height={24} />
+        <WithHealthIndication healthInfo={{ maxSeverity: 10 }}>
+          <SvgIcon type="lib_application" />
         </WithHealthIndication>
       </Section>
 
       <Section title="Sizes">
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flexEnd', paddingRight: 16 }}>
-          {sizes.map(size => (
-            <WithHealthIndication healthInfo={{ maxSeverity: 10 }} size={size}>
-              <SvgIcon style={{ margin: '0 2rem 2rem 0' }} type="lib_application" width={size} height={size} />
-            </WithHealthIndication>
-          ))}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flexEnd' }}>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="xxs">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="xxs" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="xs">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="xs" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="s">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="s" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="regular">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="regular" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="l">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="l" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="xl">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="xl" />
+          </WithHealthIndication>
+          <WithHealthIndication healthInfo={{ maxSeverity: 10 }} iconSize="xxl">
+            <SvgIcon style={{ padding: '0 2rem 2rem 0' }} type="lib_application" size="xxl" />
+          </WithHealthIndication>
         </div>
       </Section>
 
@@ -48,12 +59,12 @@ function WithHealthIndicationStory() {
             .map(icon => (
               <li
                 key={icon}
-                style={{ display: 'inline-flex', alignItems: 'center', margin: '0.5rem 1rem', minWidth: '13rem' }}
+                style={{ display: 'inline-flex', alignItems: 'center', padding: '0.5rem 1rem', minWidth: '13rem' }}
               >
-                <WithHealthIndication size={24} healthInfo={{ maxSeverity: 10 }}>
-                  <SvgIcon type={icon} width={24} height={24} color="#000" spinning={icon === 'lib_actions_loading'} />
+                <WithHealthIndication healthInfo={{ maxSeverity: 10 }}>
+                  <SvgIcon type={icon} color="#000" spinning={icon === 'lib_actions_loading'} />
                 </WithHealthIndication>
-                <span style={{ marginLeft: '0.8rem' }}>{icon}</span>
+                <span style={{ paddingLeft: '0.8rem' }}>{icon}</span>
               </li>
             ))}
         </ul>

@@ -43,8 +43,6 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
               type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
               aria-label="Expand button for content"
               tabIndex={0}
-              width={24}
-              height={24}
               onClick={() => setIsExpanded(!isExpanded)}
             />
           </Tooltip>

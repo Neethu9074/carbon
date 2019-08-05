@@ -54,8 +54,7 @@ function InputWithSelectionList({
         <SvgIcon
           className={locals.icon}
           type="lib_actions_star"
-          width={18}
-          height={18}
+          size="s"
           onClick={() => onToggleFiltersList(listVisible)}
         />
       </div>

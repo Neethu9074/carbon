@@ -50,8 +50,7 @@ export default connectTo(
       );
     }
 
-    const iconSize = 10;
-    const barOffset = iconSize + 2;
+    const barOffset = 12;
     const end = event.get('end');
     const right =
       end || isOpen
@@ -73,7 +72,7 @@ export default connectTo(
         onClick={() => onEventClick(event)}
       >
         <div className={`${block}__icon`}>
-          <EventIcon event={event} useAlternativeChangeIcon={false} size={iconSize} />
+          <EventIcon event={event} useAlternativeChangeIcon={false} size="xxs" />
         </div>
 
         <div

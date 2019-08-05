@@ -69,7 +69,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   return (
     <SettingsDetailPage>
       <SubViewHeader>
-        <SvgIcon type="lib_actions_build_outline" width={32} height={32} className={locals.headerIcon} />
+        <SvgIcon type="lib_actions_build_outline" size="l" className={locals.headerIcon} />
         {isCreate ? 'Schedule' : 'Change'} Maintenance Window
       </SubViewHeader>
 

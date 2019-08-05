@@ -1,21 +1,22 @@
-.in-svg-icon {
-  // do not start text selection when clicking on an svg icon
-  user-select: none;
+:local {
+  .icon {
+    user-select: none;
+  }
 
-  &--spinning-counter-clockwise {
+  .spinningCounterClockwise {
     animation: svg-icon-spin-counter-clockwise 2s infinite linear;
   }
 
-  &--spinning-clockwise  {
+  .spinningClockwise {
     animation: svg-icon-spin-clockwise 2s infinite linear;
   }
 
-  &--clickable {
+  .clickable {
     cursor: pointer;
   }
 
-  &__icons {
-    .in-svg-icon {
+  .icons {
+    .icon {
       fill: #000;
     }
   }

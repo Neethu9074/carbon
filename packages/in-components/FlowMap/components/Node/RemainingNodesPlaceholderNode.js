@@ -66,12 +66,10 @@ export default connectTo(
               <span className={locals.totalReminaingNodesLabel}>(total: {numRemainingNodes})</span>
             )}
           </Button>
-          {isLoading && (
-            <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" width={24} height={24} spinning />
-          )}
+          {isLoading && <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />}
           {hasErrors && (
             <Tooltip content={<ErroneousResultPresenter errors={errors} />}>
-              <SvgIcon className={locals.errorIcon} type="lib_help_error_warning" width={24} height={24} />
+              <SvgIcon className={locals.errorIcon} type="lib_help_error_warning" />
             </Tooltip>
           )}
         </div>

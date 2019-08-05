@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: space-between;
 
-    padding: 1rem 0 0 .5rem;;
+    padding: 1rem 0 0 0.5rem;
     height: @header__height * 1px;
     position: relative;
     background: white;
@@ -58,6 +58,6 @@
 
   .icon {
     margin-right: 0.5rem;
-    fill: @lib__colors__N700Medium;
+    fill: @lib__colors__N900Primary;
   }
 }

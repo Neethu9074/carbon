@@ -3,16 +3,14 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import hover from 'in-new-components/ToggleButton/hover';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import hover from 'in-new-components/ToggleButton/hover';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
 import locals from './ToggleButton.mless';
-
-const iconHeight = 24;
 
 export default compose(
   connectTo(props => {
@@ -75,7 +73,6 @@ function ToggleButton({
         type={iconOff}
         color={theme.lib.colors.black}
         spinning={iconOffSpinning}
-        maxHeight={iconHeight}
         className={evaluateClassNames({
           [locals.icon]: true,
           [locals.iconLight]: darkTheme
@@ -88,19 +85,12 @@ function ToggleButton({
         type={iconOffHover ? iconOffHover : iconOff}
         color={theme.lib.colors.black}
         spinning={iconOffHoverSpinning}
-        maxHeight={iconHeight}
         className={locals.icon}
       />
     );
   } else if (checked && !hovered && iconOn) {
     iconElement = (
-      <SvgIcon
-        type={iconOn}
-        color={theme.lib.colors.black}
-        spinning={iconOnSpinning}
-        maxHeight={iconHeight}
-        className={locals.icon}
-      />
+      <SvgIcon type={iconOn} color={theme.lib.colors.black} spinning={iconOnSpinning} className={locals.icon} />
     );
   } else if (checked && hovered && (iconOnHover || iconOn)) {
     iconElement = (
@@ -108,7 +98,6 @@ function ToggleButton({
         type={iconOnHover ? iconOnHover : iconOn}
         color={theme.lib.colors.black}
         spinning={iconOnHoverSpinning}
-        maxHeight={iconHeight}
         className={locals.icon}
       />
     );

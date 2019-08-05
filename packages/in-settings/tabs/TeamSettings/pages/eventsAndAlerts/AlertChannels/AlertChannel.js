@@ -105,7 +105,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             title="Properties"
             header={
               <Link href={getModifyAlertChannelUrl(entity.get('kind'), entityId)}>
-                <SvgIcon type={'lib_actions_edit'} height={20} width={20} color="#40535b" />
+                <SvgIcon type={'lib_actions_edit'} size="s" color="#40535b" />
               </Link>
             }
           >
@@ -211,7 +211,7 @@ const columnDefinitions = [
 function Icon() {
   return (
     <div>
-      <SvgIcon type={'lib_events_inverted'} height={20} width={20} color="#40535b" />
+      <SvgIcon type={'lib_events_inverted'} size="s" color="#40535b" />
     </div>
   );
 }

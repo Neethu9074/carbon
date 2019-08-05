@@ -31,7 +31,7 @@ export default connectTo(
           </EventFilter>
         </div>
         <div className={`${block}__right-side`}>
-          <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} height={15} />
+          <SvgIcon className={`${block}__refresh`} type="refresh" onClick={refresh} size="xs" />
           <AutoUpdate
             checkboxId="event-view-auto-update"
             autoUpdate$={autoUpdate$}

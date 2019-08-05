@@ -37,8 +37,7 @@ function ExpandableCard({
             }
             setExpanded(!expanded);
           }}
-          width={20}
-          height={20}
+          size="s"
         />
       </Tooltip>
     </div>

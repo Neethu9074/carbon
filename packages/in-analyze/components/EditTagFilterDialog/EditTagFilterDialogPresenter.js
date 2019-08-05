@@ -197,7 +197,7 @@ function ensureCreatedOptionExists(items, value) {
 function Loading({ children }) {
   return (
     <span className={locals.loading}>
-      <SvgIcon type="spinner" width={10} spinning className={locals.loadingIcon} />
+      <SvgIcon type="spinner" size="xxs" spinning className={locals.loadingIcon} />
       {children}
     </span>
   );

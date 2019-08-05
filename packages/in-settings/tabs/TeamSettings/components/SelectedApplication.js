@@ -31,12 +31,7 @@ function Content({ applicationName, isOpen, toggle, refSetter }) {
       ref={refSetter}
     >
       <span className={locals.text}>{applicationName ? applicationName : 'Select an Application…'}</span>
-      <SvgIcon
-        className={locals.icon}
-        type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-        width={16}
-        height={16}
-      />
+      <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="xs" />
     </a>
   );
 }

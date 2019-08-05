@@ -32,7 +32,7 @@ export default connectTo(
         <BasicWrapper
           height={194}
           text="No resource quotas"
-          renderIcon={size => <SvgIcon className={locals.icon} type="lib_infinity" height={size} />}
+          renderIcon={size => <SvgIcon className={locals.icon} type="lib_infinity" size={size} />}
         />
       );
     }

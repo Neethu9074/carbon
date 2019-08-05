@@ -432,7 +432,7 @@ function MetaEntityLink({ icon, getDashboard, entity, children }) {
   return (
     <Fragment>
       {children}
-      <SvgIcon className={locals.entitiyIcon} type={icon} width={18} height={18} />
+      <SvgIcon className={locals.entitiyIcon} type={icon} />
       <Link className={locals.entityLink} href$={getDashboard(entity.id)}>
         {entity.label}
       </Link>
@@ -444,7 +444,7 @@ function UnmonitoredEntity() {
   return (
     <Tooltip content={'Unmonitored infrastructure due to information outside the purview of running agents'}>
       <div className={locals.cell}>
-        <PluginIcon className={locals.simplePluginIcon} dimension={18} />
+        <PluginIcon className={locals.simplePluginIcon} size="s" />
         Unmonitored
       </div>
     </Tooltip>

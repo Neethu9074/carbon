@@ -32,9 +32,7 @@ export default class extends React.Component {
       <div className={buttonClass}>
         <SvgIcon
           className={`${block}__icon`}
-          type="download"
-          width={14}
-          height={14}
+          type="lib_actions_download"
           color="#6b8088"
           onClick={() => this.setState({ isExpanded: !isExpanded })}
         />

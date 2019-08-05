@@ -46,7 +46,7 @@ export default function Geography(props) {
                         params => (params.pathname = `${websitePathFullyQualified}/geography`)
                       )}
                     >
-                      <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" width={24} height={24} />
+                      <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
                     </Link>
                   </div>
                 )}

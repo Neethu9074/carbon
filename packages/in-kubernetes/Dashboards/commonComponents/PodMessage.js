@@ -11,7 +11,7 @@ export default function PodMessage({ message }) {
 
   return (
     <Tooltip content={message}>
-      <SvgIcon type="lib_kubernetes_annotation" width={32} />
+      <SvgIcon type="lib_kubernetes_annotation" size="l" />
     </Tooltip>
   );
 }

@@ -25,7 +25,7 @@ export function addMessage(messageParam, id = null) {
   const message = {
     id,
     type: messageParam.type,
-    icon: messageParam.icon ? messageParam.icon : getIconByTyme(messageParam.type),
+    icon: messageParam.icon ? messageParam.icon : getIconByType(messageParam.type),
     title: messageParam.title,
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
@@ -70,11 +70,9 @@ function getIndexOfMessage(messages, id) {
   return -1;
 }
 
-function getIconByTyme(type) {
-  if (type === 'warning') {
-    return 'danger_sign';
-  } else if (type === 'danger') {
-    return 'danger_sign';
+function getIconByType(type) {
+  if (type === 'warning' || type === 'danger') {
+    return 'lib_events_inverted';
   }
-  return 'info';
+  return 'lib_help_error_info_outline';
 }

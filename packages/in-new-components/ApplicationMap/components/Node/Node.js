@@ -89,7 +89,7 @@ function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }
       onMouseLeave={() => getServiceLocators(serviceLocatorUid).hiddenEntitiesServiceLocator.setHoveredNodeId(null)}
       onClick={toggle}
     >
-      <SvgIcon className={locals.icon} type={getIconByType(node)} width={iconSize} height={iconSize} />
+      <SvgIcon className={locals.icon} type={getIconByType(node)} size={getIconSizeByPx(iconSize)} />
     </div>
   );
 }
@@ -103,4 +103,26 @@ function getIconByType(node) {
     return 'lib_application_endpoint_type_messaging';
   }
   return 'lib_application_service';
+}
+
+function getIconSizeByPx(pixels) {
+  if (pixels <= 14) {
+    return 'xxs';
+  }
+  if (pixels <= 18) {
+    return 'xs';
+  }
+  if (pixels <= 22) {
+    return 's';
+  }
+  if (pixels <= 28) {
+    return 'regular';
+  }
+  if (pixels <= 40) {
+    return 'l';
+  }
+  if (pixels <= 52) {
+    return 'xl';
+  }
+  return 'xxl';
 }

@@ -19,12 +19,17 @@
     }
   }
 
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+
   .appName {
     color: @lib__colors__N500;
+    margin-right: 0.25rem;
   }
 
   .toggleIcon {
     fill: @lib__colors__N500;
-    margin-left: 0.5rem;
   }
 }

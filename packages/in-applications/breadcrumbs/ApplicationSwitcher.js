@@ -15,7 +15,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
   return (
     <div onMouseEnter={delayedOpen} onMouseLeave={delayedClose}>
       <div className={locals.header}>
-        <SvgIcon className={locals.headingIcon} type="lib_application_invert" width={40} height={40} />
+        <SvgIcon className={locals.headingIcon} type="lib_application_invert" size="l" />
         You are viewing this service in the
         <br />
         context of an application perspective
@@ -57,14 +57,14 @@ function SelectedItem({ item }) {
         <WithApplicationHealthIndicationBehaviour
           applicationId={item.application.id}
           render={healthInfo => (
-            <WithHealthIndication healthInfo={healthInfo} size={24}>
-              <SvgIcon type="lib_application" className={locals.icon} width={24} height={24} />
+            <WithHealthIndication healthInfo={healthInfo}>
+              <SvgIcon type="lib_application" className={locals.icon} />
             </WithHealthIndication>
           )}
         />
         {item.application.label}
       </div>
-      <SvgIcon type="lib_uncheck" className={locals.checkIcon} width={24} height={24} />
+      <SvgIcon type="lib_uncheck" className={locals.checkIcon} />
     </div>
   );
 }

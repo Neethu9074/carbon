@@ -1,5 +1,5 @@
 import { just, combineLatest } from 'reactive-observables';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-views/tableView/stores/selectedSnapshots';
@@ -42,14 +42,15 @@ function SelectedChart({ metric, snapshots, labels }) {
   return (
     <div className={`${block}__chart`}>
       <h2 className={`${block}__chart-title`}>
-        {definition.category.map((part, i) => (
-          <span key={i}>
-            {part}
-
-            <SvgIcon height={9} type="chevron_right" className={`${block}__breadcrumb-separator`} />
-          </span>
-        ))}
-        {definition.label}
+        <div className={`${block}__breadcrumbs`}>
+          {definition.category.map((part, i) => (
+            <Fragment key={i}>
+              {part}
+              <SvgIcon className={`${block}__breadcrumb-separator`} type="lib_arrow_expand_right" size="xs" />
+            </Fragment>
+          ))}
+          {definition.label}
+        </div>
 
         <div className={`${block}__button-panel`}>
           <DownloadButton>

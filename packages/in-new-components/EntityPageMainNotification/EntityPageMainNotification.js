@@ -27,9 +27,9 @@ export default function EntityPageMainNotification({
       })}
     >
       {plugin ? (
-        <PluginIcon className={locals.icon} plugin={plugin} dimension={56} />
+        <PluginIcon className={locals.icon} plugin={plugin} size="xxl" />
       ) : (
-        <SvgIcon className={locals.icon} type={icon} width={56} height={56} />
+        <SvgIcon className={locals.icon} type={icon} size="xxl" />
       )}
       <h2 className={locals.title}>{title ? title : `${entitySingular} not found`}</h2>
       {renderExplanation ? renderExplanation() : <p className={locals.explanation}>{explanation}</p>}

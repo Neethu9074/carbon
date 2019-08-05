@@ -9,7 +9,7 @@ import locals from './TableLinkWithIcon.mless';
 export default function TableLinkWithIcon({ icon, href$, href, onClick, children, isPrimary }) {
   return (
     <div className={locals.wrapper}>
-      {icon && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
+      {icon && <SvgIcon className={locals.icon} type={icon} />}
       <Link
         className={evaluateClassNames({
           [locals.link]: true,

@@ -22,8 +22,8 @@ export const kinds = [
 export const sizes = ['normal', 'compact'];
 
 const iconDimensions = {
-  normal: 24,
-  compact: 16
+  normal: 'regular',
+  compact: 'xs'
 };
 
 export default connectTo(props => {
@@ -38,7 +38,7 @@ export default connectTo(props => {
 function Button({
   icon,
   iconSpinning,
-  iconHeight,
+  iconSize,
   className,
   kind = 'primary',
   size = 'normal',
@@ -68,8 +68,9 @@ function Button({
 
   let iconElement;
   if (icon) {
-    iconHeight = iconHeight || iconDimensions[size];
-    iconElement = <SvgIcon type={icon} spinning={iconSpinning} maxHeight={iconHeight} className={locals.icon} />;
+    iconElement = (
+      <SvgIcon type={icon} spinning={iconSpinning} size={iconSize || iconDimensions[size]} className={locals.icon} />
+    );
   }
 
   if (!href) {
@@ -98,7 +99,7 @@ function Button({
 Button.propTypes = {
   icon: rpt.string,
   iconSpinning: rpt.bool,
-  iconHeight: rpt.number,
+  iconSize: rpt.oneOf(['m', 'l']),
   className: rpt.string,
   style: rpt.object,
   children: rpt.node.isRequired,

@@ -84,7 +84,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
                       <SvgIcon
                         type="lib_arrow_drop_left"
                         aria-label={`View previous ${typeLabel.toLowerCase()} (shortcut: left arrow key)`}
-                        width={20}
+                        size="s"
                         className={locals.prev}
                         id={leftArrowId}
                         onClick={e =>
@@ -99,7 +99,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
                       <SvgIcon
                         type="lib_arrow_drop_right"
                         aria-label={`View next ${typeLabel.toLowerCase()} (shortcut: right arrow key)`}
-                        width={20}
+                        size="s"
                         className={locals.next}
                         id={rightArrowId}
                         onClick={e =>
@@ -113,7 +113,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
                     <SvgIcon
                       type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                       aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
-                      width={20}
+                      size="s"
                       className={locals.toggle}
                       onClick={() => setExpanded(!expanded)}
                     />
@@ -134,7 +134,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
               <SvgIcon
                 type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                 aria-label={expanded ? 'Close sidebar' : 'Open sidebar'}
-                width={20}
+                size="s"
                 className={`${locals.toggleInBar} ${locals.toggle}`}
                 onClick={() => setExpanded(!expanded)}
               />

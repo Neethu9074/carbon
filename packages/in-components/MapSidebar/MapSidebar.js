@@ -1,6 +1,5 @@
 import React from 'react';
 
-import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import SidebarBreadcrumb from 'in-components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -36,7 +35,6 @@ export default connectTo(
           maxHeight: toPx(windowHeight - timelineHeight - 120)
         }}
       >
-        <DetailPopupPresenter />
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
 

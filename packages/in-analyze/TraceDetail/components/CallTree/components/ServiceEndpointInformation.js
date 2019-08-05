@@ -31,7 +31,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
     >
       <span className={locals.text}>{isInternalCall(call) ? 'In' : 'To'}</span>
 
-      <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" width={16} height={16} />
+      <SvgIcon className={locals.endpointIcon} type="lib_application_endpoint" size="xs" />
       <Tooltip themeStyle="light" content={call.endpoint.label}>
         <Link className={locals.link} href$={getEndpointDashboard(call.endpoint.id, { serviceId: call.service.id })}>
           {call.endpoint.label}
@@ -40,7 +40,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
 
       <span className={locals.text}>of</span>
 
-      <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={16} height={16} />
+      <SvgIcon className={locals.serviceIcon} type="lib_application_service" size="xs" />
       <Tooltip themeStyle="light" content={call.service.label}>
         <Link className={locals.link} href$={getServiceDashboard(call.service.id)}>
           {call.service.label}

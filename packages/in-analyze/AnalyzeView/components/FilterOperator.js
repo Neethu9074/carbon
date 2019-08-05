@@ -23,12 +23,7 @@ export default function FilterOperator({ selectedOperator, operators, onOperator
           <Pill className={locals.operator} color={theme.lib.colors.N400}>
             {selectedOperator}
           </Pill>
-          <SvgIcon
-            className={locals.expandIcon}
-            type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            width={18}
-            height={18}
-          />
+          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
         </div>
       )}
     </Overlay>

@@ -4,8 +4,8 @@
   .tooltip {
     position: absolute;
     top: 0;
-    bottom: 1.875rem;
-    left: 3.75rem;
+    bottom: 30px;
+    left: 60px;
     right: 0;
 
     // position above remaining chart content.

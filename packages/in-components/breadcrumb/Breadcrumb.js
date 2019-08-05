@@ -25,15 +25,13 @@ export default function Breadcrumb({
     [locals.activeBreadcrumb]: isActive,
     [className]: className
   });
-  const iconSize = iconPath ? 18 : 24;
+  const iconSize = iconPath ? 's' : 'regular';
 
-  let iconCompontent = (
-    <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} width={iconSize} height={iconSize} />
-  );
+  let iconCompontent = <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} size={iconSize} />;
 
   if (healthInfo) {
     iconCompontent = (
-      <WithHealthIndication size={iconSize} healthInfo={healthInfo}>
+      <WithHealthIndication iconSize={iconSize} healthInfo={healthInfo}>
         {iconCompontent}
       </WithHealthIndication>
     );

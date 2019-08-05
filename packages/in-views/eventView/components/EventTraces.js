@@ -53,7 +53,7 @@ export default addSection(
             title={
               tracesAvailable ? (
                 <div className={`${block}__title-wrapper`}>
-                  <SvgIcon className={`${block}__icon`} type="traces" width={24} color={'#22d8d8'} />
+                  <SvgIcon className={`${block}__icon`} type="traces" color={'#22d8d8'} />
                   {tracesAvailable ? 'Traces Touching' : ''}
                 </div>
               ) : null

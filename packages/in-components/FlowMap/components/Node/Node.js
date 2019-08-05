@@ -55,7 +55,7 @@ function EndpointListNode(props) {
           [locals.serviceLabelHeatMapEnabled]: isHeatMapEnabled
         })}
       >
-        <SvgIcon className={locals.serviceIcon} type="lib_application_service" width={24} height={24} />
+        <SvgIcon className={locals.serviceIcon} type="lib_application_service" />
         {nodeData.label}
       </div>
       {childrenAsArray.map(child => (

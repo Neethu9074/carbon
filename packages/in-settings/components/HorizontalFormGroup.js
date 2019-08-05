@@ -18,7 +18,7 @@ export default function HorizontalFormGroupWithBackground({
     <div className={locals.helpTextWrapper}>
       {helpText ? (
         <Tooltip content={helpText} align="rightMiddle">
-          <SvgIcon type="info" width={16} height={16} color={isWarning ? '#64aade' : '#172429'} />
+          <SvgIcon type="info" size="xs" color={isWarning ? '#64aade' : '#172429'} />
         </Tooltip>
       ) : (
         helpTextSpacer

@@ -23,8 +23,7 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
       <SvgIcon
         className={active ? locals.icon : locals.iconHidden}
         type={sortDirection === 'asc' ? 'lib_arrow_short_up' : 'lib_arrow_short_down'}
-        width={16}
-        height={16}
+        size="xs"
       />
     </Link>
   );

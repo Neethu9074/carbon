@@ -2,20 +2,35 @@
 import React from 'react';
 
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
+import { evaluateClassNames } from 'in-services/util/classnames';
+
 import icons from 'in-components/SvgIcon/registry.json';
 
-import './SvgIcon.less';
+import locals from './SvgIcon.mless';
 
-const block = 'in-svg-icon';
+export const sizes = {
+  xxs: 12,
+  xs: 16,
+  s: 20,
+  regular: 24,
+  l: 32,
+  xl: 48,
+  xxl: 56
+};
+
+// lazy load this calculation because getComputedStyle is unknown under node environment (which is used for tests)
+let factor = null;
+function getFactor() {
+  if (!factor) {
+    factor = 16 / (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
+  }
+  return factor;
+}
 
 export default function SvgIcon({
+  className,
   type,
   customIcon,
-  width,
-  height,
-  maxWidth,
-  maxHeight,
-  className,
   color,
   onClick,
   style,
@@ -25,7 +40,8 @@ export default function SvgIcon({
   'aria-label': ariaLabel,
   refSetter,
   id,
-  iconPath
+  iconPath,
+  size = 'regular'
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
@@ -43,32 +59,8 @@ export default function SvgIcon({
     return null;
   }
 
-  let iconWidth;
-  let iconHeight;
-  const iconRatio = iconPath ? 1 : icon.ratio;
-
-  if (!maxWidth && !maxHeight) {
-    if (width) {
-      iconWidth = width;
-    } else if (height) {
-      iconWidth = height * iconRatio;
-    } else {
-      iconWidth = 1;
-    }
-    iconHeight = height ? height : iconWidth / iconRatio;
-  } else if (maxHeight != null) {
-    if (!maxWidth) {
-      maxWidth = width || height || maxHeight;
-    }
-    iconHeight = maxHeight;
-    iconWidth = maxWidth * iconRatio;
-  } else {
-    if (!maxWidth) {
-      maxWidth = width || height || maxHeight;
-    }
-    iconWidth = maxWidth;
-    iconHeight = maxWidth / iconRatio;
-  }
+  const sizeInPx = getPixelsBySize(size);
+  const { iconWidth, iconHeight } = getIconDimensions(sizeInPx, iconPath, icon);
 
   style = style || {};
   style.minHeight = `${iconHeight}px`;
@@ -76,26 +68,17 @@ export default function SvgIcon({
   style.minWidth = `${iconWidth}px`;
   style.maxWidth = style.minWidth;
 
-  let classNames = block;
-  if (className) {
-    classNames += ` ${className}`;
-  }
-
-  if (spinning && spinning === 'clockwise') {
-    classNames += ` ${block}--spinning-clockwise`;
-  } else if (spinning) {
-    classNames += ` ${block}--spinning-counter-clockwise`;
-  }
-
-  if (onClick) {
-    classNames += ` ${block}--clickable`;
-  }
-
   return (
     <svg
-      className={classNames}
-      width={width}
-      height={height}
+      className={evaluateClassNames({
+        [locals.icon]: true,
+        [locals.spinningClockwise]: spinning && spinning === 'clockwise',
+        [locals.spinningCounterClockwise]: spinning && spinning !== 'clockwise',
+        [locals.clickable]: onClick,
+        [className]: className
+      })}
+      width={sizeInPx}
+      height={sizeInPx}
       style={style}
       viewBox={'0 0 ' + icon.width + ' ' + icon.height}
       fill={color}
@@ -114,6 +97,26 @@ export default function SvgIcon({
   );
 }
 
+export function getPixelsBySize(size) {
+  if (typeof size === 'number') {
+    return size;
+  }
+  return (sizes[size] || sizes.regular) / getFactor();
+}
+
 export function getPath(type) {
   return icons[type].path;
+}
+
+function getIconDimensions(sizeInPx, iconPath, icon) {
+  if (iconPath) {
+    return { iconWidth: sizeInPx, iconHeight: sizeInPx };
+  }
+
+  const iconRatio = icon.ratio > 1 ? icon.ratio : 1 / icon.ratio;
+
+  if (icon.width > icon.height) {
+    return { iconWidth: sizeInPx, iconHeight: sizeInPx / iconRatio };
+  }
+  return { iconWidth: sizeInPx / iconRatio, iconHeight: sizeInPx };
 }

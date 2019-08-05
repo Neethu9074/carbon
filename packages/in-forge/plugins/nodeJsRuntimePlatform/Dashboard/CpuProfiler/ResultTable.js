@@ -73,10 +73,8 @@ function createRowForNode(node, level, expandedNodes, selectedNode, rootNode, sn
                 toggleExpandedNode(node.id);
                 track(NODEJS_CPU_PROFILING_TOGGLE_NODE);
               }}
-              type={isExpanded ? 'triangle_down' : 'triangle_right'}
+              type={isExpanded ? 'lib_arrow_drop_down' : 'lib_arrow_drop_right'}
               className={`${block}__expand`}
-              width={10}
-              height={10}
             />
           ) : null}
 

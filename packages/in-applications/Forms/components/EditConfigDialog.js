@@ -15,7 +15,7 @@ export default function EditConfigDialog({ title, content }) {
       customHeader={
         <Fragment>
           <h3 className={locals.title}>{title}</h3>
-          <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" width={32} height={32} onClick={close} />
+          <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" size="l" onClick={close} />
         </Fragment>
       }
       onClose={close}

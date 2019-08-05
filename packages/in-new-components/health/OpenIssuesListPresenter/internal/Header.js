@@ -25,7 +25,7 @@ export default function Header({ openIssuesResult, maxIssuesToShow, close }) {
   return (
     <h1 className={locals.header}>
       <div className={locals.title}>{title}</div>
-      <SvgIcon type="lib_openclose_cancel" width={32} className={locals.close} onClick={close} />
+      <SvgIcon type="lib_openclose_cancel" size="l" className={locals.close} onClick={close} />
     </h1>
   );
 }

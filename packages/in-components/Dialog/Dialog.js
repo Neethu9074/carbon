@@ -31,7 +31,7 @@ export default function Dialog({
           <header className={`${block}__header`}>
             {header}
 
-            {onClose ? <SvgIcon type="x" width={14} className={`${block}__close`} onClick={onClose} /> : null}
+            {onClose ? <SvgIcon className={`${block}__close`} type="lib_openclose_cancel" onClick={onClose} /> : null}
           </header>
         )}
 

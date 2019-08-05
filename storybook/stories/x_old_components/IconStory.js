@@ -37,7 +37,7 @@ function List({ icons }) {
           key={icon}
           style={{ display: 'inline-flex', alignItems: 'center', margin: '0.5rem 1rem', minWidth: '13rem' }}
         >
-          <SvgIcon type={icon} width={sizeGetter()} height={sizeGetter()} color="#000" spinning={icon === 'spinner'} />
+          <SvgIcon type={icon} color="#000" spinning={icon === 'spinner'} />
           <span style={{ marginLeft: '0.8rem' }}>{icon}</span>
         </li>
       ))}

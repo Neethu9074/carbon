@@ -64,8 +64,8 @@ const Entry = connectTo(props => ({ snapshot: getSnapshot(props.id) }), function
         <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} />
         {relation && <span className={locals.relation}>{relation.substr(0, 2)}</span>}
 
-        {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" width={18} height={18} />}
-        {isOut && <SvgIcon className={locals.outIcon} type="lib_arrow_right" width={18} height={18} />}
+        {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" size="s" />}
+        {isOut && <SvgIcon className={locals.outIcon} type="lib_arrow_right" size="s" />}
       </div>
     </Tooltip>
   );

@@ -24,7 +24,7 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitE
           [locals.tabSelected]: isActive
         })}
       >
-        {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
+        {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} />}
         {label}
       </div>
     </Link>

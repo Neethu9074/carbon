@@ -8,4 +8,8 @@
   .button {
     padding: 0.4rem 0.4rem 0.3rem;
   }
+
+  .downloadButton {
+    padding: 0.25rem 0.3125rem;
+  }
 }

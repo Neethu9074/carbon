@@ -26,12 +26,11 @@ export default function TimeIcon({ selected, containsPastLiveData, largeData, th
           [locals.timeIconExpanded]: selected
         })}
         type="lib_datetime_time"
-        width={24}
       />
 
-      {containsPastLiveData && <SvgIcon width={16} className={locals.indicator} type="lib_help_error_error_circle" />}
+      {containsPastLiveData && <SvgIcon size="xs" className={locals.indicator} type="lib_help_error_error_circle" />}
 
-      {largeData && <SvgIcon width={16} className={locals.indicator} type="lib_approximately_equal" />}
+      {largeData && <SvgIcon size="xs" className={locals.indicator} type="lib_approximately_equal" />}
     </div>
   );
 

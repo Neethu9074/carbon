@@ -177,7 +177,7 @@ export default function MetricSelectorPresenter({
                             {...provided.dragHandleProps}
                           >
                             <div className={locals.metricLeftSide}>
-                              <SvgIcon type="lib_menu" className={locals.draggableIndicator} width={12} />
+                              <SvgIcon type="lib_menu" className={locals.draggableIndicator} size="xxs" />
                               {definition.label}
                               {metric.aggregation &&
                                 definition.supportedAggregations.length > 1 &&
@@ -187,7 +187,7 @@ export default function MetricSelectorPresenter({
                                   <Tooltip content="Metric only available when analyzing groups.">
                                     <SvgIcon
                                       type="lib_help_error_help_outline"
-                                      width={14}
+                                      size="xs"
                                       className={locals.metricNotAvailable}
                                     />
                                   </Tooltip>
@@ -196,7 +196,7 @@ export default function MetricSelectorPresenter({
                             <Tooltip content="Remove metric">
                               <SvgIcon
                                 type="lib_openclose_cancel"
-                                width={16}
+                                size="xs"
                                 className={locals.removeIcon}
                                 onClick={() => onRemoveMetric(metric)}
                               />

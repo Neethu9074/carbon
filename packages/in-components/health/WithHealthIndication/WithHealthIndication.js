@@ -1,15 +1,17 @@
 import React from 'react';
 
+import { getPixelsBySize } from 'in-components/SvgIcon';
 import { getColorBySeverity } from 'in-stores/events';
 
 import locals from './WithHealthIndication.mless';
 
-export default function WithHealthIndication({ children, size = 24, healthInfo }) {
+export default function WithHealthIndication({ children, healthInfo, iconSize }) {
   if (!healthInfo || healthInfo.maxSeverity === 0) {
     return children;
   }
 
-  const iconSize = 2 + ((size / 8) | 1) * 2;
+  const size = getPixelsBySize(iconSize);
+  iconSize = 2 + ((size / 8) | 1) * 2;
 
   return (
     <div className={locals.wrapper}>

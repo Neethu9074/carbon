@@ -6,7 +6,7 @@ import React from 'react';
 
 import NumberBarOverlayPresenter from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayPresenter';
 import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
-import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarItem/SelectBarOverlayPresenter';
+import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import { numericValidator } from 'in-services/validators/number';

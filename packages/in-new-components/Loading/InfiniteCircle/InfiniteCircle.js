@@ -21,7 +21,7 @@ export default function InfiniteCircle({ width, height, percentage, customText, 
       width={width}
       height={height}
       text={customText || 'Loading data'}
-      renderIcon={size => <SvgIcon className={locals.icon} customIcon={customIcon} height={size} spinning />}
+      renderIcon={size => <SvgIcon className={locals.icon} customIcon={customIcon} size={size} spinning />}
     />
   );
 }

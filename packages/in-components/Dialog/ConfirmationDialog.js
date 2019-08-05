@@ -27,13 +27,7 @@ export default function ConfirmationDialog({
       customHeader={
         <Fragment>
           <h1 className={locals.title}>{header}</h1>
-          <SvgIcon
-            className={locals.cancelIcon}
-            type="lib_openclose_cancel"
-            width={32}
-            height={32}
-            onClick={() => close()}
-          />
+          <SvgIcon className={locals.cancelIcon} type="lib_openclose_cancel" size="l" onClick={() => close()} />
         </Fragment>
       }
       onClose={onClose}

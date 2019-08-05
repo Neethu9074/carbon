@@ -136,13 +136,7 @@ function Actions({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
 
       <Link href$={closePageLoadViewLink}>
         <Tooltip content="Close page load details">
-          <SvgIcon
-            className={locals.closeIcon}
-            aria-label="Close page load details"
-            type="lib_openclose_cancel"
-            width={24}
-            height={24}
-          />
+          <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
         </Tooltip>
       </Link>
     </Fragment>

@@ -25,7 +25,7 @@ import Link from 'in-components/Link';
 
 import locals from './MaintenanceConfigurationForm.mless';
 
-const IconErrorOutline = <SvgIcon type={'lib_help_error_error_outline'} height={20} width={20} color="#40535b" />;
+const IconErrorOutline = <SvgIcon type={'lib_help_error_error_outline'} size="s" color="#40535b" />;
 
 export default function MaintenanceConfigurationForm(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;

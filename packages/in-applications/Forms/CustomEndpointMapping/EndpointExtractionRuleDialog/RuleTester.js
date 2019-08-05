@@ -81,13 +81,12 @@ export default class RuleTester extends React.Component {
                   <SvgIcon
                     className={locals.removeTestCaseIcon}
                     type="lib_actions_delete"
-                    width={16}
-                    height={16}
+                    size="xs"
                     onClick={() => removeTestCase(i)}
                   />
                 </div>
                 {loading ? (
-                  <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+                  <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />
                 ) : (
                   this.getTestResultForRuleIndexAndTestCaseIndex(i)
                 )}

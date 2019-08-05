@@ -26,7 +26,7 @@ export default function TagFilter({
   return (
     <div className={locals.tagFilterWrapper}>
       <div className={locals.tagFilter} onClick={tagFilter.onClick}>
-        <SvgIcon className={locals.icon} type={getIconByName(name)} width={24} height={24} />
+        <SvgIcon className={locals.icon} type={getIconByName(name)} />
 
         <span className={locals.name}>{name}</span>
         {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
@@ -58,13 +58,7 @@ export default function TagFilter({
       {isLastOperator && !isOnlyFilter && <div className={locals.lastOperatorPlaceholder} />}
       {isOnlyFilter && <div className={locals.onlyOperatorPlaceholder} />}
 
-      <SvgIcon
-        className={locals.removeIcon}
-        type="lib_openclose_cancel"
-        width={24}
-        height={24}
-        onClick={tagFilter.onRemove}
-      />
+      <SvgIcon className={locals.removeIcon} type="lib_openclose_cancel" onClick={tagFilter.onRemove} />
     </div>
   );
 }

@@ -19,8 +19,6 @@ export default function TemporaryMessage({ type = 'success', duration = 5000, me
               [locals.notificationIconError]: type === 'error'
             })}
             type={type === 'success' ? 'lib_check' : 'lib_help_error_warning'}
-            width={24}
-            height={24}
           />
           <span
             className={evaluateClassNames({

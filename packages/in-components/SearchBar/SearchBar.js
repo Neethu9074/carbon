@@ -81,8 +81,7 @@ export default connectTo(
                 <SvgIcon
                   className={`${block}__icon`}
                   type={presetsVisible ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-                  width={20}
-                  height={20}
+                  size="s"
                 />
               </div>
               <ErrorIndicator />
@@ -114,7 +113,7 @@ const ClearQueryButton = connectTo(
     }
     return (
       <div className={`${block}__delete-query-button`} onClick={() => setQueryInput('', query.searchContext)}>
-        <SvgIcon type="x" height={10} color="#6b8088" />
+        <SvgIcon type="x" size="xxs" color="#6b8088" />
       </div>
     );
   }

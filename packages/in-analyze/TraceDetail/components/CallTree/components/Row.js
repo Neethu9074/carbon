@@ -133,8 +133,6 @@ function CallInformation(props) {
             type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
             aria-label="Expand button for row"
             tabIndex={0}
-            width={24}
-            height={24}
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}

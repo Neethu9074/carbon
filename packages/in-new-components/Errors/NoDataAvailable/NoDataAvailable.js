@@ -14,7 +14,7 @@ export default function NoDataAvailable({ width, height, title, text, className,
       title={title}
       text={text || 'No data available'}
       renderIcon={size => (
-        <SvgIcon className={locals.icon} type={icon || 'lib_help_error_crossed_circle'} height={size} />
+        <SvgIcon className={locals.icon} type={icon || 'lib_help_error_crossed_circle'} size={size} />
       )}
     />
   );

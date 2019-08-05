@@ -16,7 +16,7 @@ export default function BackButton({ label, href, href$, withoutMargin }) {
       href={href}
       href$={href$}
     >
-      <SvgIcon width={10} type="chevron_left" className={locals.icon} />
+      <SvgIcon type="lib_arrow_expand_left" className={locals.icon} />
       {label}
     </Link>
   );

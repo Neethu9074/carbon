@@ -21,13 +21,7 @@ export default function Dialog({
         {!headless && (
           <div className={locals.header}>
             <h1 className={locals.title}>{title}</h1>
-            <SvgIcon
-              className={locals.closeIcon}
-              type="lib_openclose_cancel"
-              width={32}
-              height={32}
-              onClick={onClose}
-            />
+            <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={onClose} />
           </div>
         )}
         <div

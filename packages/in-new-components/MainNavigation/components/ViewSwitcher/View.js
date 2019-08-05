@@ -68,7 +68,7 @@ export default connectTo(
           onMouseLeave={() => onMouseLeave()} // don't parse the event
         >
           <Link id={id} className={locals.link} href$={href$}>
-            <SvgIcon className={locals.icon} style={{ fill: color }} type={icon} width={32} height={32} />
+            <SvgIcon className={locals.icon} style={{ fill: color }} type={icon} size="l" />
             {sidebarIsExpanded && <span className={locals.label}>{label}</span>}
           </Link>
 
@@ -77,8 +77,7 @@ export default connectTo(
               <SvgIcon
                 className={locals.expandIcon}
                 type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                width={20}
-                height={20}
+                size="s"
               />
             )}
         </div>

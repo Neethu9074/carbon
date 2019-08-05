@@ -40,8 +40,6 @@ export default function Button({
             [locals.active]: isActive
           })}
           type={icon}
-          width={24}
-          height={24}
         />
       )}
       {renderContent && renderContent()}

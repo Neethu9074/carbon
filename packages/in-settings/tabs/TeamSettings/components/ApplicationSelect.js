@@ -48,7 +48,7 @@ function mapData(result) {
 function ApplicationItemLabel(itemLabel) {
   return (
     <Fragment>
-      <SvgIcon className={locals.entityIcon} type="lib_application" width={24} height={24} />
+      <SvgIcon className={locals.entityIcon} type="lib_application" />
       <span className={locals.itemText}>{itemLabel}</span>
     </Fragment>
   );

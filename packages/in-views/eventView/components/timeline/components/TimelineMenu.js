@@ -26,7 +26,7 @@ export default connectTo(
           <SvgIcon
             className={`${block}__toggle-auto-expand`}
             type={autoCollapseTimeline ? 'unpin' : 'pinned'}
-            width={12}
+            size="s"
             onClick={() => toggleIn('autoCollapseTimeline')}
           />
         </Tooltip>
@@ -41,8 +41,7 @@ export default connectTo(
               <SvgIcon
                 className={block + '__icon'}
                 type={'timeline_' + (isCollapsed ? 'open' : 'close')}
-                width={19}
-                height={19}
+                size="s"
                 color="#80939c"
                 onClick={toggleMenu}
               />

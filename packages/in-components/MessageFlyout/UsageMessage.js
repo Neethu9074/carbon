@@ -50,7 +50,7 @@ export default function UsageMessage({ message }) {
               }
             }}
           >
-            <SvgIcon type={message.icon} className={locals.icon} width={24} height={24} />
+            <SvgIcon type={message.icon} className={locals.icon} />
             <div className={locals.msg}>
               <Content content={message.content} />
               {!onPremLicenseInformationEnabled && (

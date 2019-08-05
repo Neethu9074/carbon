@@ -105,7 +105,7 @@ function Gap({ from, to, scale }) {
   return (
     <Tooltip themeStyle="light" content={<Header from={from} to={to} />}>
       <div className={locals.gap} style={{ left, width: scale.getRange(to) - left }}>
-        <SvgIcon className={locals.gapIcon} type="lib_kubernetes_status_failed" width={12} height={12} />
+        <SvgIcon className={locals.gapIcon} type="lib_kubernetes_status_failed" size="xxs" />
       </div>
     </Tooltip>
   );

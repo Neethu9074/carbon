@@ -37,7 +37,7 @@ function TestResult({ testResult, rule }) {
   }
 
   if (!testResult) {
-    return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />;
+    return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />;
   }
 
   let numSucceededTests = 0;

@@ -165,7 +165,6 @@ export default function CustomServiceMappingDialog() {
                               <SvgIcon
                                 className={locals.removeMatchRuleIcon}
                                 type="lib_openclose_cancel"
-                                width={24}
                                 onClick={() => removeMatchSpecification(i, form, updateForm)}
                                 tabIndex={0}
                                 aria-label="Remove this match condition"

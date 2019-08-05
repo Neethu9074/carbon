@@ -62,7 +62,7 @@ export default compose(
     <Fragment>
       <div className={locals.wrapper}>
         <span className={locals.leftSide}>
-          <SvgIcon type="lib_website" width={24} className={locals.icon} />
+          <SvgIcon type="lib_website" className={locals.icon} />
           <span className={locals.title}>Corresponding Website Activity</span>
           This trace is caused by activity on the&nbsp;
           <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>

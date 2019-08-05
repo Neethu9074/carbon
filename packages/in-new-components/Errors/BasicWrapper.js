@@ -5,10 +5,10 @@ import locals from './BasicWrapper.mless';
 
 export default function BasicWrapper({ width, height, title, text, renderIcon, className }) {
   let size = 'default';
-  let iconSize = 48;
+  let iconSize = 'xl';
   if (height < 80) {
     size = 'small';
-    iconSize = 24;
+    iconSize = 'regular';
   }
 
   return (

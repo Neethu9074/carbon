@@ -238,7 +238,7 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
           menuIsOpen
         />
         {get(tagSuggestionResult, ['progress', 'loading'], false) && (
-          <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning width={24} height={24} />
+          <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />
         )}
         {get(tagSuggestionResult, ['errors', 'length']) > 0 && (
           <Tooltip
@@ -246,7 +246,7 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
             align="bottomMiddle"
             content="Suggestions currently not available, please type in the value"
           >
-            <SvgIcon className={locals.errorIcon} type="lib_help_error_error_outline" width={24} height={24} />
+            <SvgIcon className={locals.errorIcon} type="lib_help_error_error_outline" />
           </Tooltip>
         )}
       </div>

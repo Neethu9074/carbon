@@ -7,8 +7,7 @@ export default function SolrCloudClusterInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Zookeeper Ensemble"> {data.get('clusterName')}
-      </DescriptionItem>
+      <DescriptionItem title="Zookeeper Ensemble"> {data.get('clusterName')}</DescriptionItem>
     </DescriptionList>
   );
 }

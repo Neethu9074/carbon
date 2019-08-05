@@ -70,7 +70,7 @@ function TabComponent({ tab, location, props, tabChangeTracker }) {
     >
       <Tab key={tab.label} isSelected={isActive}>
         <div className={locals.flexWrapper}>
-          {tab.icon && <SvgIcon className={locals.icon} type={tab.icon} width={24} height={24} />}
+          {tab.icon && <SvgIcon className={locals.icon} type={tab.icon} />}
           <Header tab={tab} {...props} />
         </div>
       </Tab>

@@ -143,7 +143,7 @@ export default class Rename extends React.PureComponent {
               </Button>
               {this.state.saveResult != null ? (
                 <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
-                  <SvgIcon type="ok" width={16} className={locals.successIcon} />{' '}
+                  <SvgIcon type="ok" size="xs" className={locals.successIcon} />{' '}
                   <span className={locals.sucessLabel}>Saved</span>
                 </TemporaryPresenter>
               ) : null}

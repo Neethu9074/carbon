@@ -27,8 +27,6 @@ export default connectTo(
                 <SvgIcon
                   className={locals.expandIcon}
                   type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                  width={24}
-                  height={24}
                 />
               </Fragment>
             )}

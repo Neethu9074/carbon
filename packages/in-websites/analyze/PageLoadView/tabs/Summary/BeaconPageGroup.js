@@ -15,7 +15,7 @@ function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded,
     <div className={locals.group}>
       <div className={locals.header}>
         <div className={locals.left}>
-          <SvgIcon type="lib_document" height={18} className={locals.pageIcon} />
+          <SvgIcon type="lib_document" size="s" className={locals.pageIcon} />
           <span className={locals.pageName}>{page || 'Page name not set'}</span>
 
           {!page && (

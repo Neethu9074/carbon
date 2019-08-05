@@ -9,7 +9,7 @@ export default function OptionBox({ checked, icon, title, description, onChange 
   return (
     <div className={locals.wrapper}>
       <Input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)} autoComplete="off" />
-      <SvgIcon type={icon} width={24} height={24} className={locals.icon} />
+      <SvgIcon type={icon} className={locals.icon} />
       <div className={locals.content}>
         <div className={locals.title}>{title}</div>
         <div className={locals.description}>{description}</div>

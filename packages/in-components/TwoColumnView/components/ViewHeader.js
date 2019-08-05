@@ -33,12 +33,12 @@ export default connectTo(
             }}
           >
             <div className={block}>
-              <SvgIcon type="x" onClick={onClear} height={8} className={`${block}__toggle-left`} />
+              <SvgIcon className={`${block}__toggle-left`} type="x" size="xxs" onClick={onClear} />
               <SvgIcon
                 type={expandedSide === 'right' ? 'minimize' : 'maximize'}
-                onClick={toggleRight}
-                height={14}
                 className={`${block}__toggle-right`}
+                onClick={toggleRight}
+                size="xs"
               />
             </div>
           </div>

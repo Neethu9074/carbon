@@ -54,8 +54,6 @@ function Header({ isOpen, toggle, style, children }) {
         type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
         className={locals.toggle}
         color={theme.lib.colors.N700Medium}
-        height={24}
-        width={24}
       />
     </div>
   );

@@ -79,7 +79,7 @@ function HierarchicalLink({
       onClick={stopPropagation}
       className={joinClassNames(linkClassName, className, customLinkClassName)}
     >
-      <HealthyPluginIcon className={locals.pluginIcon} dimension={12} snapshot={snapshot} />
+      <HealthyPluginIcon className={locals.pluginIcon} size="xxs" snapshot={snapshot} />
       {getLabel ? getLabel(label) : label}
     </Link>
   );
@@ -101,8 +101,7 @@ function HierarchicalLink({
           }
         }}
         type={isExpanded ? 'timeline_close' : 'timeline_open'}
-        width={12}
-        height={12}
+        size="xxs"
       />
       {isExpanded ? (
         <Hierarchy

@@ -57,7 +57,7 @@ export default function Header({ call, onClose, getColor }) {
             {sourceService.id !== 'ROOT' && (
               <div className={locals.serviceLine}>
                 <span className={locals.text}>From</span>
-                <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
+                <SvgIcon className={locals.entityIcon} type="lib_application_service" />
                 <Link className={locals.link} href$={getServiceDashboard(sourceService.id)}>
                   {sourceService.label}
                 </Link>
@@ -66,12 +66,12 @@ export default function Header({ call, onClose, getColor }) {
 
             <div className={locals.serviceLine}>
               <span className={locals.text}>{endpoint.type === 'INTERNAL' ? 'In' : 'To'}</span>
-              <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" width={24} height={24} />
+              <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" />
               <Link className={locals.link} href$={getEndpointDashboard(endpoint.id, { serviceId: service.id })}>
                 {endpoint.label}
               </Link>
               <span className={locals.text}>of</span>
-              <SvgIcon className={locals.entityIcon} type="lib_application_service" width={24} height={24} />
+              <SvgIcon className={locals.entityIcon} type="lib_application_service" />
               <Link className={locals.link} href$={getServiceDashboard(service.id)}>
                 {service.label}
               </Link>
@@ -125,8 +125,6 @@ function CloseButton({ onClick }) {
         onClick={onClick}
         aria-label="Close call details"
         type="lib_openclose_cancel"
-        width={24}
-        height={24}
       />
     </Tooltip>
   );

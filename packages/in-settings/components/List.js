@@ -342,8 +342,6 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
         <Tooltip content={`Click to ${enabled ? 'disable.' : 'enable.'}`}>
           <SvgIcon
             type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-            width={24}
-            height={24}
             color={theme.lib.colors.primary2}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
@@ -384,8 +382,6 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
       const icon = (
         <SvgIcon
           type="lib_actions_delete"
-          width={24}
-          height={24}
           color={theme.lib.colors.primary2}
           style={disabled ? { cursor: 'default', opacity: '0.6' } : null}
           onClick={
@@ -450,8 +446,6 @@ function addDeselectAction(columns, actionDefinition) {
         <Tooltip content="Click to deselect.">
           <SvgIcon
             type={'lib_openclose_remove_circle_outline'}
-            width={24}
-            height={24}
             color={theme.lib.colors.primary2}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
@@ -563,5 +557,5 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 }
 
 function TableActionLoadingIndicator() {
-  return <SvgIcon type={'lib_actions_loading'} width={24} height={24} color={theme.lib.colors.N600Light} spinning />;
+  return <SvgIcon type={'lib_actions_loading'} color={theme.lib.colors.N600Light} spinning />;
 }

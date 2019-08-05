@@ -61,7 +61,7 @@ export default function KeyValueBarOverlayPresenter({
                 <Tooltip content="Remove filter">
                   <SvgIcon
                     type="lib_openclose_cancel"
-                    width={16}
+                    size="xs"
                     className={locals.removeIcon}
                     onClick={() => onRemoveTagFilter(f)}
                   />
@@ -217,7 +217,7 @@ function Operator({ children }) {
 function Loading({ children }) {
   return (
     <span className={locals.loading}>
-      <SvgIcon type="spinner" width={10} spinning className={locals.loadingIcon} />
+      <SvgIcon type="spinner" size="xxs" spinning className={locals.loadingIcon} />
       {children}
     </span>
   );

@@ -19,11 +19,11 @@ export default function Issue({ issue, getIssueLink }) {
   let content = (
     <Fragment>
       <div className={locals.stripe} style={{ background: color }}>
-        <SvgIcon type="lib_arrow_right" width={24} color="#fff" className={locals.stripeIcon} />
+        <SvgIcon type="lib_arrow_right" color="#fff" className={locals.stripeIcon} />
       </div>
 
       <h2 className={locals.title}>
-        <SvgIcon type="lib_help_error_warning" width={24} color={color} className={locals.icon} />
+        <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
         {issue.problem.problemText}
       </h2>
 

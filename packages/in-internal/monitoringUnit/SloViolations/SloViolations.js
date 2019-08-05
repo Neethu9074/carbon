@@ -148,7 +148,7 @@ const Event = connect(({ event }) => ({
       <SvgIcon
         className={locals.icon}
         type={event.severity < 10 ? 'warning' : 'critical'}
-        height={12}
+        size="xxs"
         color={getColorBySeverity(event.severity)}
       />
 

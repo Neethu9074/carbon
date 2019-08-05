@@ -88,7 +88,7 @@ export default class extends React.Component {
 
     return (
       <Tooltip content={tooltip}>
-        <SvgIcon type={iconType} className={className} width={16} spinning={spinning} />
+        <SvgIcon type={iconType} className={className} size="xs" spinning={spinning} />
       </Tooltip>
     );
   }

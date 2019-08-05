@@ -21,7 +21,7 @@ export default function SearchInput({ onChange, query, maxWidth, autoFocus, plac
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}
       />
-      <SvgIcon className={locals.icon} type="lib_actions_search" width={24} height={24} />
+      <SvgIcon className={locals.icon} type="lib_actions_search" />
     </div>
   );
 }

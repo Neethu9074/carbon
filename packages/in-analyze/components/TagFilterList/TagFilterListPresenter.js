@@ -50,7 +50,7 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
         }}
         className={locals.itemBlock}
       >
-        <SvgIcon className={locals.icon} type={getIcon(tagFilter)} width={24} height={24} />
+        <SvgIcon className={locals.icon} type={getIcon(tagFilter)} />
         <Tag tagFilter={tagFilter} tagType={tagType} /> <Operator tagFilter={tagFilter} tagType={tagType} />{' '}
         <Value tagFilter={tagFilter} tagType={tagType} />
       </a>
@@ -65,8 +65,6 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
         <SvgIcon
           className={locals.removeIcon}
           type="lib_openclose_cancel"
-          width={24}
-          height={24}
           onClick={e => {
             stopPropagationAndPreventDefault(e);
             onRemoveTagFilter(tagFilter);

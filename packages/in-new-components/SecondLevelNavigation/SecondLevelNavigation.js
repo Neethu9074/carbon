@@ -46,7 +46,7 @@ export function SecondLevelNavigationItem({ isActive, href$, href, onClick, icon
           [locals.tabSelected]: isActive
         })}
       >
-        {icon && <SvgIcon className={locals.icon} type={icon} width={24} height={24} />}
+        {icon && <SvgIcon className={locals.icon} type={icon} />}
         {label}
       </div>
     </Link>

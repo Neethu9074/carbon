@@ -28,7 +28,7 @@ export default function TwoColumnMultiSelect({
       </div>
 
       <div className={`${block}__icon-wrapper`}>
-        <SvgIcon type="triangle_right" color="#40535b" height={16} width={16} />
+        <SvgIcon type="triangle_right" color="#40535b" size="xs" />
       </div>
 
       <div className={`${block}__item-box`}>

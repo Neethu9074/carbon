@@ -60,12 +60,7 @@ export function KubernetesServiceToInstanaServicesButton({ instanaServices }) {
       {({ toggle, isOpen }) => (
         <Button className={locals.button} kind="primaryv2" icon="lib_application_service" onClick={toggle}>
           Services ({instanaServices.length})
-          <SvgIcon
-            className={locals.icon}
-            type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-            width={24}
-            height={24}
-          />
+          <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}
     </Overlay>

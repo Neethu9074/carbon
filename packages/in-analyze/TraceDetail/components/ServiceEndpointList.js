@@ -18,7 +18,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
         return (
           <div className={locals.cell}>
             <div style={{ background: getColor(item) }} className={locals.colorIndicator} />
-            <SvgIcon type="lib_application_service" width={24} height={24} className={locals.serviceIcon} />
+            <SvgIcon type="lib_application_service" className={locals.serviceIcon} />
             <Link className={locals.link} href$={getServiceDashboard(item.service.id)}>
               {item.service.label}
             </Link>
@@ -37,7 +37,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
 
         return (
           <div className={locals.cell}>
-            <SvgIcon type="lib_application_endpoint" width={24} height={24} className={locals.endpointIcon} />
+            <SvgIcon type="lib_application_endpoint" className={locals.endpointIcon} />
             <Link
               className={locals.link}
               href$={getEndpointDashboard(item.endpoint.id, { serviceId: item.service.id })}

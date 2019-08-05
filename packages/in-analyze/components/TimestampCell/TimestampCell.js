@@ -8,7 +8,7 @@ import locals from './TimestampCell.mless';
 export default function TimestampCell({ time }) {
   return (
     <div className={locals.wrapper}>
-      <SvgIcon type="lib_datetime_time" className={locals.icon} width={16} height={16} />
+      <SvgIcon type="lib_datetime_time" className={locals.icon} size="xs" />
       {formatDateTime(time)}
     </div>
   );

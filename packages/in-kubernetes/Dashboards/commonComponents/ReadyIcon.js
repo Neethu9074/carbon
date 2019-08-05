@@ -13,8 +13,6 @@ export default function ReadyIcon({ isReady }) {
         [locals.isNotReady]: !isReady
       })}
       type={isReady ? 'lib_check' : 'lib_openclose_cancel'}
-      width={24}
-      height={24}
     />
   );
 }

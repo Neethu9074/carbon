@@ -145,7 +145,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
         <div className={`${block}__icon-wrapper`} style={{ background }}>
-          <EventIcon event={event} size={12} />
+          <EventIcon event={event} size="xxs" />
         </div>
 
         <div className={`${block}__entity`}>
@@ -163,7 +163,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
         </div>
       </div>
 
-      <SvgIcon className={`${block}__expand-icon`} type={iconType} height={12} width={12} color="#7b8e96" />
+      <SvgIcon className={`${block}__expand-icon`} type={iconType} size="xxs" color="#7b8e96" />
     </div>
   );
 }

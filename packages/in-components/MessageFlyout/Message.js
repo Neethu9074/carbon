@@ -28,7 +28,7 @@ export default function Message({ message }) {
               }
             }}
           >
-            <SvgIcon type={message.icon} className={locals.icon} width={18} />
+            <SvgIcon type={message.icon} className={locals.icon} />
             <div className={locals.msg}>
               <Title title={message.title} />
               {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}

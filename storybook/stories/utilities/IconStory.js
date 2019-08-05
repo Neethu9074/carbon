@@ -2,15 +2,17 @@ import { withKnobs, number } from '@storybook/addon-knobs/react';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import icons from 'in-components/SvgIcon/registry.json';
 import SvgIcon from 'in-components/SvgIcon';
+
+import icons from 'in-components/SvgIcon/registry.json';
+
 import Root from '../_helpers/Root';
 
 function sizeGetter() {
-  return number('Size', 16, {
+  return number('Size', 24, {
     range: true,
-    min: 8,
-    max: 64,
+    min: 1,
+    max: 56,
     step: 1
   });
 }
@@ -35,13 +37,7 @@ function List({ icons }) {
           key={icon}
           style={{ display: 'inline-flex', alignItems: 'center', margin: '0.5rem 1rem', minWidth: '13rem' }}
         >
-          <SvgIcon
-            type={icon}
-            width={sizeGetter()}
-            height={sizeGetter()}
-            color="#000"
-            spinning={icon === 'lib_actions_loading'}
-          />
+          <SvgIcon type={icon} size={sizeGetter()} color="#000" spinning={icon === 'lib_actions_loading'} />
           <span style={{ marginLeft: '0.8rem' }}>{icon}</span>
         </li>
       ))}

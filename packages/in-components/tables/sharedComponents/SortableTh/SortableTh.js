@@ -22,11 +22,11 @@ export default function SortableTh({ isSortedByThisColumn, sortDirection, onClic
           <SvgIcon
             className={locals.icon}
             type={sortDirection === 'ASC' ? 'lib_arrow_short_up' : 'lib_arrow_short_down'}
-            height={16}
+            size="xs"
           />
         )}
 
-        {!isSortedByThisColumn && <SvgIcon className={locals.test} type="lib_arrow_short_down" height={16} />}
+        {!isSortedByThisColumn && <SvgIcon className={locals.test} type="lib_arrow_short_down" size="xs" />}
       </a>
     </Th>
   );

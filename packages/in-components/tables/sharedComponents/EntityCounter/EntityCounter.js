@@ -8,7 +8,7 @@ import locals from './EntityCounter.mless';
 export default function EntityCounter({ icon, count }) {
   return (
     <div className={locals.flexWrapper}>
-      {icon && <SvgIcon className={locals.entityIcon} type={icon} width={24} height={24} />}
+      {icon && <SvgIcon className={locals.entityIcon} type={icon} />}
       {count >= 0 && <span>{number.compact(count)}</span>}
     </div>
   );

@@ -52,8 +52,6 @@ export default class Rule extends React.Component {
               <SvgIcon
                 className={locals.icon}
                 type="lib_actions_edit"
-                width={24}
-                height={24}
                 onClick={isInstanaDefaultRule ? null : () => onEdit()}
               />
             )}
@@ -62,8 +60,6 @@ export default class Rule extends React.Component {
               <SvgIcon
                 className={locals.icon}
                 type={expand ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                width={24}
-                height={24}
                 onClick={() => this.onExpandToggle()}
               />
             ) : (

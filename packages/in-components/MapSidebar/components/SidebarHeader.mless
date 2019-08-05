@@ -12,6 +12,7 @@
 
   .entityIcon {
     margin: 0.25rem 0.75rem 0 0;
+    fill: @lib__colors__N900Primary;
   }
 
   .entityLabel {

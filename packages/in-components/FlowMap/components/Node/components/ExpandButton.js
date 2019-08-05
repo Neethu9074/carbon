@@ -33,8 +33,6 @@ export default connectTo(
           <SvgIcon
             className={locals.expandIcon}
             type={isLoading ? 'lib_actions_loading' : 'lib_openclose_add'}
-            width={24}
-            height={24}
             spinning={isLoading}
           />
         </div>

@@ -2,7 +2,6 @@ import { timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
-import DetailPopupPresenter from 'in-components/DetailPopupPresenter/DetailPopupPresenter';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
@@ -81,7 +80,6 @@ export default connectTo(
     return (
       <div className="in-dashboard">
         <div className={locals.mainContent}>
-          <DetailPopupPresenter />
           <Sticky
             header={
               <DashboardHeader

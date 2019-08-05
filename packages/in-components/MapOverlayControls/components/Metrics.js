@@ -87,8 +87,8 @@ const DropDown = connectTo(
 
           <SvgIcon
             className={`${block}__icon`}
-            type={isOpen ? 'triangle_down' : 'triangle_up'}
-            height={5}
+            type={isOpen ? 'lib_arrow_drop_down' : 'lib_arrow_drop_up'}
+            size="s"
             color={'#7b8e96'}
           />
         </div>

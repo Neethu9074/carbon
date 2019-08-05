@@ -12,12 +12,12 @@ export default function WithIcon({ plugin, snapshot, icon, iconColor, children }
         <PluginIcon
           style={{ fill: iconColor }}
           className={locals.pluginIcon}
-          dimension={18}
+          size="xs"
           plugin={plugin}
           snapshot={snapshot}
         />
       ) : (
-        <SvgIcon style={{ fill: iconColor }} className={locals.linkEntityIcon} type={icon} width={24} height={24} />
+        <SvgIcon style={{ fill: iconColor }} className={locals.linkEntityIcon} type={icon} />
       )}
       <div className={locals.childWrapper}>{children}</div>
     </div>

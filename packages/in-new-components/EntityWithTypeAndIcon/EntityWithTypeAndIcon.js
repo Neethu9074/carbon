@@ -8,7 +8,7 @@ import locals from './EntityWithTypeAndIcon.mless';
 export default function EntityWithTypeAndIcon({ label, type, iconType, href$ }) {
   return (
     <div className={locals.wrapper}>
-      {iconType && <SvgIcon className={locals.entityIcon} type={iconType} width={24} height={24} />}
+      {iconType && <SvgIcon className={locals.entityIcon} type={iconType} />}
       <EntityWithType label={label} type={type} href$={href$} />
     </div>
   );

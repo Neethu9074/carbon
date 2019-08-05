@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import { ClickableList } from 'in-sdk/components/sidebar/ClickableList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 

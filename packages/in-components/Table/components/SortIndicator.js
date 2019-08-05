@@ -27,9 +27,8 @@ export default function SortIndicator({ title, index, sortIndex, sortDirection, 
 
       <SvgIcon
         className={active ? iconElement : invisibleIconElement}
-        type={sortDirection === 'asc' ? 'triangle_up' : 'triangle_down'}
-        width={5}
-        height={5}
+        type={sortDirection === 'asc' ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+        size="xs"
       />
     </Link>
   );

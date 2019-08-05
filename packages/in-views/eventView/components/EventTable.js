@@ -134,7 +134,7 @@ const Icon = connectTo(
         }}
         className={`${block}__icon-cell`}
       >
-        <SvgIcon className={`${block}__icon`} type={iconType} height={12} color="#40535b" />
+        <SvgIcon className={`${block}__icon`} type={iconType} size="xxs" color="#40535b" />
       </div>
     );
   }
@@ -182,9 +182,9 @@ const On = connectTo(
     return (
       <div className={`${block}__entity-wrapper`}>
         {app20IconType ? (
-          <SvgIcon className={`${block}__entity-icon`} type={app20IconType} height={14} color="#000" />
+          <SvgIcon className={`${block}__entity-icon`} type={app20IconType} size="xxs" />
         ) : (
-          <PluginIcon className={`${block}__entity-icon`} dimension={14} color="#000" snapshot={entity} />
+          <PluginIcon className={`${block}__entity-icon`} size="xxs" snapshot={entity} />
         )}
         <div className={`${block}__title`}>{label}</div>
       </div>

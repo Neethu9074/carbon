@@ -90,7 +90,7 @@ function Item({ item, selected, onClick, itemLabelRenderer }) {
     >
       <span className={locals.itemText}>{itemLabelRenderer ? itemLabelRenderer(item.label) : item.label}</span>
 
-      {selected && <SvgIcon className={locals.selectedIcon} type="lib_uncheck" width={18} height={18} />}
+      {selected && <SvgIcon className={locals.selectedIcon} type="lib_uncheck" size="s" />}
     </a>
   );
 }

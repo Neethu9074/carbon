@@ -51,7 +51,7 @@ export default function ButtonSection({ snapshot }) {
 
 function ImageButton({ children, iconType, onClick }) {
   return (
-    <Button icon={iconType} kind="secondary" onClick={onClick} iconHeight={18}>
+    <Button icon={iconType} kind="secondary" onClick={onClick}>
       {children}
     </Button>
   );
