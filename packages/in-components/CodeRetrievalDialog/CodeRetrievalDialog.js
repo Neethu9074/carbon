@@ -2,7 +2,6 @@ import React from 'react';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
-import CenterAlignment from 'in-components/layout/CenterAlignment';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
@@ -27,14 +26,14 @@ export default connectTo(
       header = `Failed to retrieve file: ${file}`;
     } else {
       header = (
-        <CenterAlignment>
+        <div>
           <span className={locals.title}>
             File: {file}
             {hasLine ? ` – Line: ${line}` : null}
           </span>
 
           <CopyToClipboardButton getText={() => response.data} />
-        </CenterAlignment>
+        </div>
       );
     }
 
