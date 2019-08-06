@@ -124,6 +124,10 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                           )}
                         />
                         <LinkListItem
+                          label="Batching & Writing"
+                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights'))}
+                        />
+                        <LinkListItem
                           label="Writing & Reading"
                           href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdata'))}
                         />
@@ -164,6 +168,13 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                             params => (params.pathname = '/internal/monitoringUnit/eum/eum-acceptor')
                           )}
                           description="eum-acceptor accepts end-user requests, validates, maps and transmits them via Kafka for processing."
+                        />
+                        <LinkListItem
+                          label="js-stack-trace-translator (beacon pre-processing)"
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/eum/jsStackTraceTranslator')
+                          )}
+                          description="Parses and attempts to make JavaScript stack traces more readable by means of JavaScript source maps."
                         />
                         <LinkListItem
                           label="eum-processor (beacon processing)"

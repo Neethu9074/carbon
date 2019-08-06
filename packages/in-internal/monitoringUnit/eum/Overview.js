@@ -1,9 +1,11 @@
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { getLabel as getJsStackTraceTranslatorLabel } from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import { hostTableCols, getHostDetails } from 'in-internal/monitoringUnit/sre/datastores';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import { getNginxWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -11,7 +13,6 @@ import { number, time } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default connectTo(
   {
@@ -19,9 +20,20 @@ export default connectTo(
     appdataWriters: getDropwizardWithContext('entity.label:"appdata-writer"'),
     eumAcceptors: getDropwizardWithContext('entity.label:"eum-acceptor"'),
     eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"'),
+    jsStackTraceTranslators: getDropwizardWithContext('entity.label:"js-stack-trace-translator"'),
     eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
-  function Overview({ appdataWriters, eumAcceptors, eumProcessors, eumLoadbalancers, timeConfig }) {
+  function Overview({
+    appdataWriters,
+    eumAcceptors,
+    eumProcessors,
+    eumLoadbalancers,
+    jsStackTraceTranslators,
+    timeConfig
+  }) {
+    // Not deployed everywhere as of 2019-08-06
+    jsStackTraceTranslators = jsStackTraceTranslators || [];
+
     if (
       appdataWriters.length === 0 ||
       eumAcceptors.length === 0 ||
@@ -39,6 +51,10 @@ export default connectTo(
     const eumProcessorLabels = getLabels(eumProcessors, /^(eum-processor-\d+).*$/i);
     eumLoadbalancers = sort(eumLoadbalancers);
     const eumLoadbalancerLabels = getLabels(eumLoadbalancers, /^(loadbalancer-eum-\d+).*$/i);
+    jsStackTraceTranslators = jsStackTraceTranslators
+      .slice()
+      .sort((a, b) => compareIgnoreCase(getJsStackTraceTranslatorLabel(a), getJsStackTraceTranslatorLabel(b)));
+    const jsStackTraceTranslatorsLabels = jsStackTraceTranslators.map(getJsStackTraceTranslatorLabel);
 
     return (
       <div>
@@ -129,6 +145,68 @@ export default connectTo(
                 metrics: eumAcceptors.map(() => 'gc.G1 Young Generation.time'),
                 labels: eumAcceptorLabels,
                 type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <h1>js-stack-trace-translator (data pre-processing)</h1>
+
+        <Columize>
+          <DashboardSection title={`Incoming Website Beacons`}>
+            <Chart
+              snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: jsStackTraceTranslators.map(() => `metrics.meters.KPI.incoming.beacons.calls`),
+                labels: jsStackTraceTranslatorsLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Failed Incoming Website Beacons`}>
+            <Chart
+              snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: jsStackTraceTranslators.map(() => `metrics.meters.KPI.incoming.beacons.errors`),
+                labels: jsStackTraceTranslatorsLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Outgoing Beacons`}>
+            <Chart
+              snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: jsStackTraceTranslators.map(() => `metrics.meters.KPI.outgoing.beacons.calls`),
+                labels: jsStackTraceTranslatorsLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Failed Outgoing Beacons`}>
+            <Chart
+              snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: jsStackTraceTranslators.map(() => `metrics.meters.KPI.outgoing.beacons.errors`),
+                labels: jsStackTraceTranslatorsLabels,
+                type: 'stackedArea'
               }}
             />
           </DashboardSection>
@@ -237,32 +315,58 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Successfully Written Shortterm Website Beacons`}>
+          <DashboardSection title={`Short Term Beacon Batch Writes`}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: appdataWriters.map(
-                  () => `metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-written-shortterm-items`
-                ),
+                metrics: appdataWriters.map(() => `metrics.meters.batching.beacons.shortTerm.transmissions.calls`),
                 labels: appdataWriterLabels,
                 type: 'stackedArea'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={`Unsuccessfully Written Shortterm Website Beacons`}>
+          <DashboardSection title={`Short Term Beacon Batch Write Failures`}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: appdataWriters.map(
-                  () => `metrics.meters.com.instana.appdata.writer.service.BeaconsWriter.num-failed-shortterm-items`
-                ),
+                metrics: appdataWriters.map(() => `metrics.meters.batching.beacons.shortTerm.transmissions.errors`),
+                labels: appdataWriterLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={`Long Term Beacon Batch Writes`}>
+            <Chart
+              snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: appdataWriters.map(() => `metrics.meters.batching.beacons.longTerm.transmissions.calls`),
+                labels: appdataWriterLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Long Term Beacon Batch Write Failures`}>
+            <Chart
+              snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: appdataWriters.map(() => `metrics.meters.batching.beacons.longTerm.transmissions.errors`),
                 labels: appdataWriterLabels,
                 type: 'stackedArea'
               }}

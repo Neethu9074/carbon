@@ -20,8 +20,10 @@ import Agents from 'in-internal/thisUnit/Agents';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import SelfserviceWorkerStats from 'in-internal/monitoringUnit/sre/SelfserviceWorkerStats';
+import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
+import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsights';
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
@@ -63,8 +65,13 @@ export default function Internal() {
               component={wrapIninternalView(AppDataWriterForEum)}
             />
             <Route path="/internal/monitoringUnit/eum/errorSimulator" component={wrapIninternalView(ErrorSimulator)} />
+            <Route
+              path="/internal/monitoringUnit/eum/jsStackTraceTranslator"
+              component={wrapIninternalView(JsStackTraceTranslator)}
+            />
             <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
             <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />
+            <Route path="/internal/monitoringUnit/appdataBatchingInsights" component={wrapIninternalView(BatchingInsights)} />
             <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
             <Route
               path="/internal/monitoringUnit/appdataProcessing"
