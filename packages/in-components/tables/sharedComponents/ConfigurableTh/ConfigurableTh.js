@@ -67,9 +67,9 @@ function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecke
               checked={isDisabled || isEnabled}
               disabled={isDisabled}
               onChange={() => onColumnChecked(columnDefinition.id, !isEnabled)}
+              label={columnDefinition.label}
               size="large"
             />
-            {columnDefinition.label}
           </li>
         );
       })}
