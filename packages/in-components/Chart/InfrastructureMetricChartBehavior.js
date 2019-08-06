@@ -55,9 +55,10 @@ export default getElementDimensions(
     }
 
     mapProps = props => {
-      let { timeConfig, y1, y2, minRollup } = props;
+      let { timeConfig, y1, y2, customHeight, minRollup } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
       this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
+      this.customHeight = customHeight;
       this.y1 = mapAxis(y1);
       this.y2 = mapAxis(y2);
     };
@@ -196,7 +197,7 @@ export default getElementDimensions(
     };
 
     render() {
-      let { timeConfig, granularity, y1, y2 } = this;
+      let { customHeight, timeConfig, granularity, y1, y2 } = this;
       const { y1Metrics = [], y2Metrics = [] } = this.state;
 
       y1.metrics = y1Metrics;
@@ -205,7 +206,7 @@ export default getElementDimensions(
       }
 
       const ChartComponent = this.props.chartRenderer || Chart;
-      return <ChartComponent timeConfig={timeConfig} granularity={granularity} y1={y1} y2={y2} />;
+      return <ChartComponent timeConfig={timeConfig} granularity={granularity} y1={y1} y2={y2} customHeight={customHeight} />;
     }
   }
 );
