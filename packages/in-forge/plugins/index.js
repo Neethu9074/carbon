@@ -95,6 +95,8 @@ import './msiis';
 import './msSqlDatabase';
 import './mule';
 import './mySqlDatabase';
+import './nats';
+import './natsStreaming';
 import './netCoreRuntimePlatform';
 import './neo4j';
 import './nginx';

@@ -79,6 +79,8 @@ import './mule.server';
 import './mysql';
 import './mysqli';
 import './nanohttpd';
+import './nats';
+import './nats.streaming';
 import './net-http';
 import './neo4j';
 import './ning';
