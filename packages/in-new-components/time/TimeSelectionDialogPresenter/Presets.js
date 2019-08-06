@@ -48,7 +48,6 @@ function ReleasesPresets({ onChange, timeConfig }) {
           )
         }
         icon="lib_actions_search"
-        iconHeight={16}
       >
         Search for a release
       </Button>

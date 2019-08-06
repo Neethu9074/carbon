@@ -40,12 +40,7 @@ export function InstanaServiceToKubernetesServicesButton({ kubernetesServices })
           refSetter={refSetter}
         >
           Services ({kubernetesServices.length})
-          <SvgIcon
-            className={locals.icon}
-            type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-            width={24}
-            height={24}
-          />
+          <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}
     </Overlay>

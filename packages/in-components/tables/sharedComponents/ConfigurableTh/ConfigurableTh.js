@@ -45,7 +45,7 @@ function ConfigureButton({ availableColumnDefinitions, columnDefinitions, childr
       >
         {({ toggle }) => (
           <Button className={locals.button} kind="secondary" onClick={toggle}>
-            <SvgIcon type="lib_actions_settings" width={24} height={24} />
+            <SvgIcon type="lib_actions_settings" />
           </Button>
         )}
       </Overlay>

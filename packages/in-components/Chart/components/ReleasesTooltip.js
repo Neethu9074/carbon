@@ -65,7 +65,7 @@ function ReleaseTooltipContent({ name, start }) {
       </h2>
       <h3 className={locals.subHeading}>Release Started</h3>
       <div className={locals.subContent}>
-        <SvgIcon className={locals.tooltipIcon} type="lib_release_rocket" width={24} height={24} />
+        <SvgIcon className={locals.tooltipIcon} type="lib_release_rocket" />
         <span>{name}</span>
       </div>
     </div>

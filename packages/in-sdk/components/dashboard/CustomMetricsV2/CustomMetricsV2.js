@@ -38,7 +38,7 @@ const cols = [
               <SvgIcon
                 type={isPinned ? 'pinned' : 'unpin'}
                 className={isPinned ? locals.pinned : locals.unpinned}
-                width={8}
+                size="xxs"
                 onClick={() => {
                   if (isPinned) {
                     row.setPinnedMetrics(row.pinnedMetrics.filter(v => v !== row.key));
