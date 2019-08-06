@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -63,8 +63,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceId],
     columnDefinitions,
     defaultOrderBy: 'address',

@@ -32,7 +32,6 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 60,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAccessControlTeams, entity.id)} ellipsis>
@@ -44,7 +43,6 @@ const columnDefinitions = [
   {
     id: 'scopeCount',
     label: 'Access Scopes',
-    width: 20,
     getContent(entity) {
       return <span>{entity.permissions.length}</span>;
     }
@@ -52,7 +50,6 @@ const columnDefinitions = [
   {
     id: 'memberCount',
     label: 'Users',
-    width: 20,
     getContent(entity) {
       return <span>{entity.members.length}</span>;
     }

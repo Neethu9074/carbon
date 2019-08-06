@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
@@ -90,8 +90,8 @@ const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
 function eventsTable(columnDefinitions) {
-  const ServerTableWithUrlState = createServerTableWithEmptyState({
-    ServerTable: createServerTableWithUrlState({
+  const ServerTableWithUrlState = withEmptyTableState({
+    Component: createServerTableWithUrlState({
       paginationResettingUrlParameters: [...timeConfigUrlParameters],
       columnDefinitions,
       defaultOrderBy: 'time',

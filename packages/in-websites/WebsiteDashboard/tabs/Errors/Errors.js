@@ -6,10 +6,10 @@ import {
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -73,8 +73,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       websiteIdUrlParameter,

@@ -6,9 +6,18 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SortableTh.mless';
 
-export default function SortableTh({ isSortedByThisColumn, sortDirection, onClick, children, noWrap, width }) {
+export default function SortableTh({
+  isSortedByThisColumn,
+  sortDirection,
+  onClick,
+  children,
+  className,
+  wrapContent,
+  noWrap,
+  width
+}) {
   return (
-    <Th noWrap={noWrap} width={width}>
+    <Th className={className} noWrap={noWrap} width={width} wrapContent={wrapContent}>
       <a
         href=""
         className={evaluateClassNames({

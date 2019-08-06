@@ -12,14 +12,15 @@ import {
   deploymentConfigId
 } from 'in-kubernetes/navigation/matrix';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
@@ -28,6 +29,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import TwoValueBar from 'in-new-components/TwoValueBar';
+import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
@@ -56,6 +58,7 @@ const allColumnDefinitions = [
   {
     id: 'namespace',
     label: 'Namespace',
+    optional: true,
     getContent(item) {
       return item.pod.namespace;
     }
@@ -63,13 +66,23 @@ const allColumnDefinitions = [
   {
     id: 'status',
     label: 'Status',
+    optional: true,
     getContent(item) {
       return <span>{get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder)}</span>;
     }
   },
   {
+    id: 'phase',
+    label: 'Phase',
+    optional: true,
+    getContent(item) {
+      return <span>{get(item, ['pod', 'status', 'phase'], valueMissingPlaceholder)}</span>;
+    }
+  },
+  {
     id: 'ready',
     label: 'Ready',
+    optional: true,
     sortable: false,
     getContent(item) {
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
@@ -90,6 +103,7 @@ const allColumnDefinitions = [
   {
     id: 'restartCount',
     label: 'Restarts',
+    optional: true,
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
@@ -105,6 +119,7 @@ const allColumnDefinitions = [
   {
     id: 'age',
     label: 'Age',
+    optional: true,
     getContent(item) {
       return item.pod.age && formatDuration(item.pod.age);
     }
@@ -112,6 +127,7 @@ const allColumnDefinitions = [
   {
     id: 'resources',
     label: 'Resources',
+    optional: true,
     sortable: false,
     getContent(item) {
       return (
@@ -126,6 +142,43 @@ const allColumnDefinitions = [
       );
     }
   },
+  {
+    id: 'cpuRequests',
+    label: 'CPU Requests',
+    optional: true,
+    sortable: false,
+    getContent(item) {
+      return <MetricValue snapshotId={item.pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />;
+    }
+  },
+  {
+    id: 'cpuLimits',
+    label: 'CPU Limits',
+    optional: true,
+    sortable: false,
+    getContent(item) {
+      return <MetricValue snapshotId={item.pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />;
+    }
+  },
+  {
+    id: 'memoryRequests',
+    label: 'Memory Requests',
+    optional: true,
+    sortable: false,
+    getContent(item) {
+      return <MetricValue snapshotId={item.pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />;
+    }
+  },
+  {
+    id: 'memoryLimits',
+    label: 'Memory Limits',
+    optional: true,
+    sortable: false,
+    getContent(item) {
+      return <MetricValue snapshotId={item.pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />;
+    }
+  },
+
   {
     id: 'health',
     label: 'Health',
@@ -145,49 +198,33 @@ const allColumnDefinitions = [
 
 const columnDefinitionsWithoutNamespace = filter(allColumnDefinitions, c => c.id != 'namespace');
 
-const ServerTableWithUrlStateWithoutNamespace = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      clusterId,
-      serviceId,
-      namespaceId,
-      podId,
-      nodeId,
-      deploymentId,
-      deploymentConfigId
-    ],
-    columnDefinitions: columnDefinitionsWithoutNamespace,
-    defaultOrderBy: 'name',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
-  }),
-  columnDefinitions: columnDefinitionsWithoutNamespace,
-  entityName: 'pods'
-});
+const ServerTableWithUrlStateWithoutNamespace = createTable(columnDefinitionsWithoutNamespace);
+const ServerTableWithUrlState = createTable(allColumnDefinitions);
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      clusterId,
-      serviceId,
-      namespaceId,
-      podId,
-      nodeId,
-      deploymentId,
-      deploymentConfigId
-    ],
-    columnDefinitions: allColumnDefinitions,
-    defaultOrderBy: 'name',
-    defaultOrderDirection: 'ASC',
-    pathSegment,
-    matrixPrefix
-  }),
-  columnDefinitions: allColumnDefinitions,
-  entityName: 'pods'
-});
+function createTable(columnDefinitions) {
+  return withEmptyTableState({
+    Component: createServerTableWithUrlState({
+      paginationResettingUrlParameters: [
+        ...timeConfigUrlParameters,
+        clusterId,
+        serviceId,
+        namespaceId,
+        podId,
+        nodeId,
+        deploymentId,
+        deploymentConfigId
+      ],
+      columnDefinitions,
+      defaultOrderBy: 'name',
+      defaultOrderDirection: 'ASC',
+      defaultDisabledColumns: ['phase', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits'],
+      settingsKey: 'table_disabled_columns_pods',
+      pathSegment,
+      matrixPrefix
+    }),
+    columnDefinitions
+  });
+}
 
 export function PodsWithNamespaces({ ...props }) {
   return <Pods columnDefinitions={allColumnDefinitions} Table={ServerTableWithUrlState} {...props} />;

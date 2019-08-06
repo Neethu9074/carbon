@@ -39,7 +39,6 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 26,
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
@@ -55,7 +54,6 @@ const columnDefinitions = [
   {
     id: 'query',
     label: 'Query',
-    width: 25,
     ellipsis: true,
     getContent(entity) {
       return (
@@ -68,7 +66,6 @@ const columnDefinitions = [
   {
     id: 'starts',
     label: 'Start time',
-    width: 17,
     ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('start', entity);
@@ -77,7 +74,6 @@ const columnDefinitions = [
   {
     id: 'ends',
     label: 'End time',
-    width: 17,
     ellipsis: true,
     getContent(entity) {
       return getFormattedDateTimeFromFirstWindow('end', entity);
@@ -86,7 +82,6 @@ const columnDefinitions = [
   {
     id: 'status',
     label: 'Status',
-    width: 15,
     ellipsis: true,
     getContent(entity) {
       return toTitleCase(entity.status);

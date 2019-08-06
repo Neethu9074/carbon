@@ -332,7 +332,9 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
 function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicator, setErrorMessage) {
   return columns.concat({
     id: 'toggleEnabledAction',
-    tableAction: true,
+    sortable: false,
+    width: '4rem',
+    widthInAbsoluteUnit: true,
     getContent(entity) {
       if (isCellLoading(perCellLoadingIndicator, entity, 'toggleEnabledAction')) {
         return <TableActionLoadingIndicator />;
@@ -372,7 +374,9 @@ function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
 function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
   return columns.concat({
     id: 'deleteAction',
-    tableAction: true,
+    sortable: false,
+    width: '4rem',
+    widthInAbsoluteUnit: true,
     getContent(entity) {
       if (isCellLoading(perCellLoadingIndicator, entity, 'deleteAction')) {
         return <TableActionLoadingIndicator />;
@@ -440,7 +444,9 @@ function doDelete(entity, deleteEntity, setErrorMessage) {
 function addDeselectAction(columns, actionDefinition) {
   return columns.concat({
     id: 'deselectAction',
-    tableAction: true,
+    sortable: false,
+    width: '4rem',
+    widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
         <Tooltip content="Click to deselect.">
@@ -467,6 +473,8 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     headCellProps: {
       className: locals.selectCheckboxHead
     },
+    width: '4rem',
+    widthInAbsoluteUnit: true,
     selectAllCheckbox: true,
     cellClassName: locals.selectCheckbox,
     getContent(entity) {

@@ -2,13 +2,13 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { clusterId, namespaceId, serviceId } from 'in-kubernetes/navigation/matrix';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
@@ -95,8 +95,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId, namespaceId, serviceId],
     columnDefinitions,
     defaultOrderBy: 'name',

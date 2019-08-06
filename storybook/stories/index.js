@@ -78,7 +78,7 @@ import './components/TreeMap';
 import './components/ViewSwitcherStory';
 
 import './content/table/ServerTableStory';
-import './content/table/SharedComponents';
+import './content/table/SharedComponentsStory';
 import './content/table/TableStory';
 import './content/TypographyStory';
 

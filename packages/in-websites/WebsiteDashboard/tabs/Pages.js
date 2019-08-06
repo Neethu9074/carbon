@@ -6,9 +6,9 @@ import {
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
@@ -93,8 +93,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       websiteIdUrlParameter,

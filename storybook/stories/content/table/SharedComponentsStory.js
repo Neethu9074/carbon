@@ -9,6 +9,7 @@ import {
   Th,
   Td,
   SortableTh,
+  ConfigurableTh,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
   ErrorRows,
@@ -22,13 +23,16 @@ import { Col, Row } from 'in-new-components/layout/Grid';
 
 import Root from '../../_helpers/Root';
 
-storiesOf('Content/Table/Shared Components', module).add('default', () => <Default />);
+storiesOf('Content/Table/Shared Components', module)
+  .add('Overview', () => <Overview />)
+  .add('Loading State', () => <LoadingState />)
+  .add('Tree Table With Load More', () => <TreeTableWithLoadMore />)
+  .add('Table With Large Cell Content', () => <TableWithLargeCellContent />)
+  .add('Table With Configurable Cell Content', () => <TableWithConfigurableCellContent />);
 
-function Default() {
+function Overview() {
   return (
     <Root>
-      <h1>Overview</h1>
-
       <Row>
         <Col xs={6}>
           <Table>
@@ -131,9 +135,13 @@ function Default() {
           </Table>
         </Col>
       </Row>
+    </Root>
+  );
+}
 
-      <h1>Loading State</h1>
-
+function LoadingState() {
+  return (
+    <Root>
       <Row>
         <Col xs={6}>
           <Table>
@@ -185,9 +193,13 @@ function Default() {
           </Table>
         </Col>
       </Row>
+    </Root>
+  );
+}
 
-      <h1>Tree Table with Load More</h1>
-
+function TreeTableWithLoadMore() {
+  return (
+    <Root>
       <Row>
         <Col xs={6}>
           <Table>
@@ -255,9 +267,13 @@ function Default() {
           </Table>
         </Col>
       </Row>
+    </Root>
+  );
+}
 
-      <h1>Table with large cell content</h1>
-
+function TableWithLargeCellContent() {
+  return (
+    <Root>
       <Table>
         <Thead>
           <Tr>
@@ -294,6 +310,47 @@ function Default() {
           </Tr>
           <Tr>
             <Td ellipsis="60vw">GET /:repository/search/:search</Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+        </Tbody>
+      </Table>
+    </Root>
+  );
+}
+
+function TableWithConfigurableCellContent() {
+  return (
+    <Root>
+      <Table>
+        <Thead>
+          <Tr size="minimal">
+            <Th>Label</Th>
+            <Th noWrap>Calls</Th>
+            <Th noWrap>Time</Th>
+            <Th noWrap>Latency</Th>
+            <ConfigurableTh>Error Rate</ConfigurableTh>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td>This is a label</Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+          <Tr>
+            <Td>This is a label</Td>
+            <Td noWrap>97,538</Td>
+            <Td noWrap>2018-08-06 10:44:28</Td>
+            <Td noWrap>12ms</Td>
+            <Td noWrap>0.00%</Td>
+          </Tr>
+          <Tr>
+            <Td>This is a label</Td>
             <Td noWrap>97,538</Td>
             <Td noWrap>2018-08-06 10:44:28</Td>
             <Td noWrap>12ms</Td>

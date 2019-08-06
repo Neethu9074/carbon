@@ -24,10 +24,6 @@
     font-size: 0.875rem;
     background: #fff;
 
-    &:first-child td {
-      border-top: 0;
-    }
-
     &:nth-child(even) {
       background: @lib__colors__N050;
     }
@@ -61,7 +57,7 @@
   }
 
   .trRegular {
-    @padding: 1.25rem;
+    @padding: 1.125rem;
 
     & > .td,
     & > .th {
@@ -90,15 +86,39 @@
     }
   }
 
+  .trMinimal {
+    @padding: 0;
+
+    & > .td,
+    & > .th {
+      padding: @padding;
+      padding-left: 0.75rem;
+    }
+
+    & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
+      top: @padding * -1px;
+      bottom: @padding * -1px;
+    }
+  }
+
   .th {
     color: @lib__colors__N700Medium;
     font-size: 0.75rem;
     font-weight: normal;
     padding: 0.8125rem 0;
     background: #fff;
-    border-bottom: 1px solid @lib__colors__N400;
     padding-left: 1rem;
     padding-right: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid @lib__colors__N400;
+
+    &:first-child {
+      border-left: 1px solid @lib__colors__N400;
+    }
+
+    &:last-child {
+      border-right: 1px solid @lib__colors__N400;
+    }
 
     &:hover {
       color: @lib__colors__N800Dark;
@@ -110,13 +130,16 @@
   }
 
   .td {
-    border-top: 1px solid @lib__colors__N200;
+    border-bottom: 1px solid @lib__colors__N300;
 
     padding-left: 1rem;
     padding-right: 1rem;
 
-    .tr:first-child > .tr {
-      border-top: 0;
+    &:first-child {
+      border-left: 1px solid @lib__colors__N300;
+    }
+    &:last-child {
+      border-right: 1px solid @lib__colors__N300;
     }
 
     &.noWrap {

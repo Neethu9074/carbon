@@ -47,9 +47,12 @@ import history from 'in-stores/navigation/history';
 //
 //   reducer: (prev, change) => ({...prev, foo: change}),
 //
-//  // whether or not the history should be replaced or not, i.e. whether new history entries
-//  // should be created for any call to the reducer.
-//  replaceHistory: true
+//    // an optional side effect method which is called when something will change on the state
+//    onUpdate: (prevState, newState) => (...),
+//
+//    // whether or not the history should be replaced or not, i.e. whether new history entries
+//    // should be created for any call to the reducer.
+//    replaceHistory: true
 // })
 
 export default ({
@@ -58,6 +61,7 @@ export default ({
   reducerName,
   reduceAndGetAsUrlName,
   reducer = defaultingReducer,
+  onUpdate,
   replaceHistory = true
 }) => BaseComponent => {
   const bindByAs = {};
@@ -118,13 +122,16 @@ export default ({
     onLocationChange = location => {
       const newState = this.determineStateChange(location, this.state);
       if (newState) {
+        if (onUpdate) {
+          onUpdate(this.state, newState);
+        }
         this.setState(newState);
       }
     };
 
     determineStateChange(location, currentState) {
       let newState = {};
-      bind.forEach(({ path, name, as, parser = identity, initialState }) => {
+      bind.forEach(({ path, name, as, parser = identity, initialState, getInitialState }) => {
         let value = undefined;
         if (path) {
           value = getMatrixParameter(location, path, name);
@@ -135,7 +142,7 @@ export default ({
         if (value != null) {
           newState[as] = parser(value);
         } else {
-          newState[as] = initialState;
+          newState[as] = getInitialState ? getInitialState() : initialState;
         }
       });
 

@@ -9,10 +9,6 @@
     margin-right: 1rem;
   }
 
-  .narrowColumn {
-    width: 4rem;
-  }
-
   .ellipsis {
     .ellipsis();
   }

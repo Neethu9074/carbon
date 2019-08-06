@@ -32,7 +32,6 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 70,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAccessControlPermissionSets, entity.id)} ellipsis>
@@ -44,7 +43,6 @@ const columnDefinitions = [
   {
     id: 'appCount',
     label: 'Application Perspectives',
-    width: 10,
     getContent(entity) {
       return <span>{entity.applicationIds.length}</span>;
     }
@@ -52,7 +50,6 @@ const columnDefinitions = [
   {
     id: 'clusterCount',
     label: 'Kubernetes Clusters',
-    width: 10,
     getContent(entity) {
       return <span>{entity.kubernetesClusterUUIDs ? entity.kubernetesClusterUUIDs.length : 0}</span>;
     }
@@ -60,7 +57,6 @@ const columnDefinitions = [
   {
     id: 'namespaceCount',
     label: 'Kubernetes Namespaces',
-    width: 10,
     getContent(entity) {
       return <span>{entity.kubernetesNamespaceUIDs ? entity.kubernetesNamespaceUIDs.length : 0}</span>;
     }
@@ -68,7 +64,6 @@ const columnDefinitions = [
   {
     id: 'websiteCount',
     label: 'Websites',
-    width: 10,
     getContent(entity) {
       return <span>{entity.websiteIds ? entity.websiteIds.length : 0}</span>;
     }

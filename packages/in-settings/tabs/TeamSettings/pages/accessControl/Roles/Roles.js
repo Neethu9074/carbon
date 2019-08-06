@@ -40,7 +40,6 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 100,
     getContent(entity) {
       return (
         <WithSubscript subscript={isRbacEnabled && entity.restrictedAccess ? 'Limited Access' : ''}>

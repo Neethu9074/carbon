@@ -1,9 +1,9 @@
 import React from 'react';
 
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import { clusterId, podId, deploymentId, deploymentConfigId } from 'in-kubernetes/navigation/matrix';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesConditions';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 
@@ -48,8 +48,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId, deploymentId, deploymentConfigId, podId],
     columnDefinitions,
     defaultOrderBy: 'type',

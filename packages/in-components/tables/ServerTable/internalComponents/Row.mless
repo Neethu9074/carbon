@@ -1,12 +1,4 @@
 :local {
-  .tableActionCell {
-    padding: 0;
-
-    &:last-child {
-      padding-right: 1rem;
-    }
-  }
-
   .clickable {
     cursor: pointer;
   }

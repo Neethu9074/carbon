@@ -1,12 +1,12 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -147,8 +147,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
     columnDefinitions,
     defaultOrderBy: 'label',

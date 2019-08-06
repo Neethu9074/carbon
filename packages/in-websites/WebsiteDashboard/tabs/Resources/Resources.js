@@ -7,11 +7,11 @@ import {
 } from 'in-websites/navigation/urlParameters';
 import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
@@ -89,8 +89,8 @@ const filterUrlParameter = {
   initialState: null
 };
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       websiteIdUrlParameter,

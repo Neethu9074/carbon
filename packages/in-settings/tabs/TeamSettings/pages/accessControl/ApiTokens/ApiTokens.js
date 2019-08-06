@@ -33,7 +33,7 @@ const columnDefinitions = [
   {
     id: 'name',
     label: 'Name',
-    width: 70,
+    width: 60,
     getContent(entity) {
       return (
         <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.id)} ellipsis>
@@ -45,7 +45,6 @@ const columnDefinitions = [
   {
     id: 'id',
     label: 'Token',
-    width: 30,
     ellipsis: true,
     getContent(entity) {
       return <em>{entity.id}</em>;

@@ -1,8 +1,8 @@
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 
-import { getSetting } from 'in-services/settings';
+import { getSingle } from 'in-services/settings';
 
-const isLocaleAware = !getSetting('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
+const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;
 export const byteBase = 1024;
 const decimalSeparator = isLocaleAware ? window.instana.numberLocale.decimal : '.';

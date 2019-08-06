@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 
 import SimpleLayouter from 'in-map/misc/physical/layoutingStrategies/SimpleLayouter';
 import PackedLayouter from 'in-map/misc/physical/layoutingStrategies/PackedLayouter';
-import { setIn, getSetting$, settings$ } from 'in-services/settings';
+import { setSingle, getSetting$, settings$ } from 'in-services/settings';
 import { always } from 'in-services/fixedStreams';
 
 export const simpleLayouting$ = always({
@@ -32,8 +32,8 @@ getSetting$('map_physical_layouter').once(storedLayouter => {
 export function setLayoutingStrategy(newLayouting$) {
   currentLayoutingStrategy$.emit(newLayouting$);
   if (newLayouting$ === simpleLayouting$) {
-    setIn('map_physical_layouter', 'simple');
+    setSingle('map_physical_layouter', 'simple');
   } else if (newLayouting$ === packedLayouting$) {
-    setIn('map_physical_layouter', 'packed');
+    setSingle('map_physical_layouter', 'packed');
   }
 }

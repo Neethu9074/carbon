@@ -32,7 +32,6 @@ const columnDefinitions = [
   {
     id: 'email',
     label: 'E-Mail',
-    width: 100,
     ellipsis: true,
     getContent(entity) {
       return entity.email;

@@ -1,8 +1,11 @@
+import { compose, withProps, withPropsOnChange } from 'recompose';
 import { pendingResult } from 'in-services/fixedObjects';
-import { compose, withProps } from 'recompose';
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import { timeout } from 'reactive-observables';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { getSingle, setSingle } from 'in-services/settings/settings';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { emptyArray } from 'in-services/fixedObjects';
 import withUrlState from 'in-hoc/withUrlState';
@@ -15,6 +18,8 @@ export default function createServerTableWithUrlState({
   defaultOrderDirection,
   defaultPageSize,
   defaultQuery,
+  defaultDisabledColumns,
+  settingsKey,
   pathSegment,
   matrixPrefix = ''
 }) {
@@ -52,6 +57,14 @@ export default function createServerTableWithUrlState({
           name: `${matrixPrefix}query`,
           as: 'query',
           initialState: defaultQuery || ''
+        },
+        {
+          path: pathSegment,
+          name: `${matrixPrefix}disabledColumns`,
+          as: 'disabledColumns',
+          getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
+          parser: buildJsonParser([]),
+          serializer: buildJsonSerializer()
         }
       ],
 
@@ -61,6 +74,14 @@ export default function createServerTableWithUrlState({
           reset: { page: 1 }
         }
       ],
+
+      onUpdate: (prevState, newState) => {
+        if (settingsKey) {
+          if (!shallowEquals(prevState.disabledColumns, newState.disabledColumns)) {
+            setSingle(settingsKey, { ids: newState.disabledColumns });
+          }
+        }
+      },
 
       // function to set the new page/order/query
       reducerName: 'onChange'
@@ -91,6 +112,20 @@ export default function createServerTableWithUrlState({
     }),
     withProps({
       columnDefinitions
-    })
+    }),
+    withPropsOnChange(['columnDefinitions'], ({ columnDefinitions }) => ({
+      optionalColumns: columnDefinitions.filter(columnDefinition => columnDefinition.optional)
+    }))
   )(ServerTablePresenter);
+}
+
+function getInitialDisabledColumns(settingsKey, defaultDisabledColumns) {
+  if (settingsKey) {
+    const columnsFromSettings = getSingle(settingsKey);
+    if (columnsFromSettings) {
+      return columnsFromSettings.ids;
+    }
+  }
+
+  return defaultDisabledColumns || [];
 }

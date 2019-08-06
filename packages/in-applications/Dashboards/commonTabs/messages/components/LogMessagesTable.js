@@ -1,10 +1,10 @@
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-subscription/application/getLogMessages';
@@ -60,8 +60,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       applicationDashboardUrlParameters.applicationId,

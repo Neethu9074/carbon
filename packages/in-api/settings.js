@@ -10,3 +10,13 @@ export function saveSettings(settings) {
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
+
+export function saveSetting(key, value) {
+  return http({
+    method: 'PUT',
+    url: `/api/ui/settings/${encodeURIComponent(key)}`,
+    data: value,
+    maxRetries: 3,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
-import { joinClassNames } from 'in-services/util/classnames';
 
 import locals from './Row.mless';
 
@@ -33,7 +33,11 @@ export default function Row({
             key={key}
             noWrap={columnDefinition.noWrap}
             ellipsis={columnDefinition.ellipsis}
-            className={joinClassNames(getCellClassName(columnDefinition), onRowClick ? locals.clickable : null)}
+            className={evaluateClassNames({
+              [columnDefinition.cellClassName]: columnDefinition.cellClassName,
+              [locals.tableActionCell]: columnDefinition.tableAction,
+              [locals.clickable]: onRowClick
+            })}
           >
             {columnDefinition.getContent(item, cellOpts, columnDefinition.id)}
           </Td>
@@ -41,13 +45,4 @@ export default function Row({
       })}
     </Tr>
   );
-}
-
-function getCellClassName(columnDefinition) {
-  if (columnDefinition.tableAction && columnDefinition.cellClassName) {
-    return joinClassNames(columnDefinition.cellClassName, locals.tableActionCell);
-  } else if (columnDefinition.tableAction) {
-    return locals.tableActionCell;
-  }
-  return columnDefinition.cellClassName;
 }

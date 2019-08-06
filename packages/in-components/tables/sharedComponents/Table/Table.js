@@ -40,7 +40,8 @@ export function Tr(props) {
         [locals.tr]: true,
         [locals[`depth-${props.depth || 1}`]]: true,
         [locals.trCompact]: props.size === 'compact',
-        [locals.trRegular]: props.size !== 'compact',
+        [locals.trRegular]: props.size !== 'compact' && props.size !== 'minimal',
+        [locals.trMinimal]: props.size === 'minimal',
         [locals.trClickable]: props.onClick,
         [locals.active]: props.active,
         [locals.dull]: props.dull,
@@ -53,21 +54,25 @@ export function Tr(props) {
 export function Th(props) {
   let additionalStyleProps = {};
   if (props.width != null && props.style) {
-    props.style.width = `${props.width}%`;
+    props.style.width = props.widthInAbsoluteUnit ? props.width : `${props.width}%`;
   } else if (props.width != null) {
     // can't add style to props directly as props are not extensible
-    additionalStyleProps = { style: { width: `${props.width}%` } };
+    additionalStyleProps = { style: { width: props.widthInAbsoluteUnit ? props.width : `${props.width}%` } };
   }
+  const children = props.wrapContent ? props.wrapContent(props.children) : props.children;
+
   return (
     <th
-      {...omit(props, ['noWrap', 'width'])}
+      {...omit(props, ['noWrap', 'width', 'wrapContent', 'widthInAbsoluteUnit'])}
       {...additionalStyleProps}
       className={evaluateClassNames({
-        [props.className]: true,
         [locals.th]: true,
-        [locals.noWrap]: props.noWrap
+        [locals.noWrap]: props.noWrap,
+        [props.className]: true
       })}
-    />
+    >
+      {children}
+    </th>
   );
 }
 

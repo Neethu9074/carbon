@@ -67,7 +67,6 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
 
   return (
     <ServerTable
-      tableInCard
       isSearchable={false}
       get={getTableData}
       defaultPageSize={5}

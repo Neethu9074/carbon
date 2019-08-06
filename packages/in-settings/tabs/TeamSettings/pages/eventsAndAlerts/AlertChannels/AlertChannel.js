@@ -159,9 +159,9 @@ function getEntityName(entity) {
 const columnDefinitions = [
   {
     id: 'icon',
-    label: '',
     sortable: false,
-    width: 5,
+    width: '2rem',
+    widthInAbsoluteUnit: true,
     getContent() {
       return Icon();
     },
@@ -172,7 +172,7 @@ const columnDefinitions = [
   {
     id: 'label',
     label: 'Name',
-    width: 55,
+    width: 50,
     getContent(entity) {
       return (
         <Tooltip content={entity.label} align="topLeft" delay={500}>
@@ -188,7 +188,6 @@ const columnDefinitions = [
   {
     id: 'kind',
     label: 'Type',
-    width: 20,
     ellipsis: true,
     getContent() {
       return 'Alert';
@@ -197,7 +196,6 @@ const columnDefinitions = [
   {
     id: 'enabled',
     label: 'Status',
-    width: 25,
     ellipsis: true,
     getContent(entity) {
       if (entity.enabled) {

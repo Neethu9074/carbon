@@ -7,10 +7,10 @@ import {
   getClusterDashboard,
   getNodeDashboard
 } from 'in-kubernetes/navigation/paths';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot, getSnapshot } from 'in-stores/snapshot';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
@@ -40,8 +40,8 @@ const tablesByType = {
 
 function getTable(type) {
   const columnDefinitions = getColumnDefinitions(type);
-  return createServerTableWithEmptyState({
-    ServerTable: createServerTableWithUrlState({
+  return withEmptyTableState({
+    Component: createServerTableWithUrlState({
       paginationResettingUrlParameters: [
         {
           path: '/infrastructure',

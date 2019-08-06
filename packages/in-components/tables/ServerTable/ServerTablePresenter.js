@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import invariant from 'invariant';
 
 import {
   ErrorRows,
@@ -7,6 +6,8 @@ import {
   LoadingSkeletonRows,
   Table,
   Tbody,
+  Tr,
+  Td,
   Thead
 } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
@@ -17,7 +18,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import ScrollHints from 'in-components/ScrollHints';
-import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
 
@@ -35,12 +35,12 @@ export default function ServerTablePresenter(props) {
 
     // values that define the content
     columnDefinitions,
-    filterColumnDefinitionsByResult = () => () => true,
+    optionalColumns,
+    disabledColumns = [],
+    filterColumnDefinitions = () => () => true,
     getRowProps,
     onRowClick,
     result = pendingResult,
-    cardTitle,
-    tableInCard,
     fixedLayout,
     scrollWrapperClassName,
     rightHeader,
@@ -50,9 +50,6 @@ export default function ServerTablePresenter(props) {
     searchMaxWidth,
     size = 'regular',
     noDataMessage,
-    showPagination = true,
-    renderFooter = () => null,
-    withoutPadding = true,
     allRowsAreSelected = false,
     setSelectedStateForRows,
     renderNoDataAvailable,
@@ -62,41 +59,33 @@ export default function ServerTablePresenter(props) {
     onRowMouseEnter = () => {},
     onRowMouseLeave = () => {}
   } = props;
+  const filteredColumnDefinitions = columnDefinitions.filter(filterColumnDefinitions(props));
 
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
-  let lastPage = null;
-  const filteredColumnDefinitions = columnDefinitions.filter(filterColumnDefinitionsByResult(result));
+
+  let filteredAndDisabledColumnDefinitions = filteredColumnDefinitions;
+  const containsOptionalColumns = optionalColumns && optionalColumns.length > 0;
+  if (containsOptionalColumns) {
+    filteredAndDisabledColumnDefinitions = filteredColumnDefinitions.filter(
+      def => disabledColumns.indexOf(def.id) === -1
+    );
+  }
 
   let body = null;
   if (isLoading) {
-    body = (
-      <Fragment>
-        <HorizontalIndicatorRow cols={filteredColumnDefinitions.length} progress={result.progress} />
-        <LoadingSkeletonRows cols={filteredColumnDefinitions.length} />
-      </Fragment>
-    );
+    body = getLoadingContent(filteredAndDisabledColumnDefinitions, result);
   } else if (hasErrors) {
-    body = <ErrorRows cols={filteredColumnDefinitions.length} errors={result.errors} size={size} />;
+    body = <ErrorRows cols={filteredAndDisabledColumnDefinitions.length} errors={result.errors} size={size} />;
   } else if (result.data.items.length === 0) {
-    body = (
-      <tr size={size}>
-        <td colSpan={filteredColumnDefinitions.length}>
-          {renderNoDataAvailable ? (
-            renderNoDataAvailable(noDataMessage)
-          ) : (
-            <NoDataAvailable text={noDataMessage} height={80} />
-          )}
-        </td>
-      </tr>
-    );
+    body = getEmptyContent(filteredAndDisabledColumnDefinitions, size, renderNoDataAvailable, noDataMessage);
   } else {
     body = result.data.items.map((item, i) => (
       <Row
         key={item.id || i}
         item={item}
         size={size}
-        columnDefinitions={filteredColumnDefinitions}
+        columnDefinitions={filteredAndDisabledColumnDefinitions}
         cellOpts={props}
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
@@ -104,33 +93,21 @@ export default function ServerTablePresenter(props) {
         onRowClick={onRowClick}
       />
     ));
-    lastPage = Math.ceil(result.data.totalHits / result.data.pageSize);
   }
 
-  let header = (
-    <div className={locals.rightHeader}>
-      {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
-      {isSearchable && (
-        <SearchInput
-          maxWidth={searchMaxWidth ? searchMaxWidth : 140}
-          query={query}
-          placeholder={searchPlaceholder}
-          onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-        />
-      )}
-    </div>
-  );
-
   const tableElement = (
-    <Table tableInCard={tableInCard || cardTitle != null} fixedLayout={fixedLayout}>
+    <Table fixedLayout={fixedLayout}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-          columnDefinitions={filteredColumnDefinitions}
+          columnDefinitions={filteredAndDisabledColumnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
           allRowsAreSelected={allRowsAreSelected}
           setSelectedStateForRows={setSelectedStateForRows}
+          optionalColumns={optionalColumns}
+          availableColumnDefinitions={filteredColumnDefinitions}
+          onColumnChecked={(id, c) => onColumnChecked(onChange, disabledColumns, id, c)}
         />
       </Thead>
       <Tbody>{body}</Tbody>
@@ -153,42 +130,69 @@ export default function ServerTablePresenter(props) {
     tableElement
   );
 
-  let pagination = showPagination &&
-    lastPage > 1 && (
-      <Pagination
-        current={page}
-        last={lastPage}
-        onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-        className={evaluateClassNames({
-          [locals.pagination]: true,
-          [locals.paginationInCard]: cardTitle != null
-        })}
-      />
-    );
-
-  if (cardTitle != null) {
-    if (__DEV__) {
-      invariant(
-        leftHeader == null,
-        'Specifying a left header is not compatible with presentation of a table as a card.'
-      );
-    }
-    return (
-      <Card title={cardTitle} header={header} withoutPadding={withoutPadding}>
-        {content}
-        {pagination}
-        {renderFooter(props)}
-      </Card>
-    );
-  }
   return (
     <Fragment>
       <div className={joinClassNames(locals.header, headerClassName)}>
         {leftHeader || <span>&nbsp;</span>}
-        {header}
+        <div className={locals.rightHeader}>
+          {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
+          {isSearchable && (
+            <SearchInput
+              maxWidth={searchMaxWidth ? searchMaxWidth : 140}
+              query={query}
+              placeholder={searchPlaceholder}
+              onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+            />
+          )}
+        </div>
       </div>
+
       {content}
-      <div className={locals.paginationWrapper}>{pagination}</div>
+
+      {result.data &&
+        result.data.totalHits > result.data.pageSize && (
+          <div className={locals.paginationWrapper}>
+            <Pagination
+              current={page}
+              last={Math.ceil(result.data.totalHits / result.data.pageSize)}
+              onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+              className={evaluateClassNames({
+                [locals.pagination]: true
+              })}
+            />
+          </div>
+        )}
     </Fragment>
+  );
+}
+
+function onColumnChecked(onChange, disabledColumns, columnId, checked) {
+  onChange({
+    disabledColumns: checked
+      ? disabledColumns.filter(_columnId => _columnId !== columnId)
+      : [...disabledColumns, columnId]
+  });
+}
+
+function getLoadingContent(filteredAndDisabledColumnDefinitions, result) {
+  return (
+    <Fragment>
+      <HorizontalIndicatorRow cols={filteredAndDisabledColumnDefinitions.length} progress={result.progress} />
+      <LoadingSkeletonRows cols={filteredAndDisabledColumnDefinitions.length} />
+    </Fragment>
+  );
+}
+
+function getEmptyContent(filteredAndDisabledColumnDefinitions, size, renderNoDataAvailable, noDataMessage) {
+  return (
+    <Tr size={size}>
+      <Td colSpan={filteredAndDisabledColumnDefinitions.length}>
+        {renderNoDataAvailable ? (
+          renderNoDataAvailable(noDataMessage)
+        ) : (
+          <NoDataAvailable text={noDataMessage} height={80} />
+        )}
+      </Td>
+    </Tr>
   );
 }

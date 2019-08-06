@@ -53,17 +53,16 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'gravatar',
       sortable: false,
+      width: '4rem',
+      widthInAbsoluteUnit: true,
       getContent(user) {
         return <Gravatar email={user.email} className={locals.avatar} />;
-      },
-      headCellProps: {
-        className: locals.narrowColumn
       }
     },
     {
       id: 'fullName',
       label: 'Name',
-      width: 70,
+      width: 50,
       ellipsis: true,
       getContent(user) {
         return (
@@ -76,7 +75,6 @@ function columnDefinitions(sortedRoles, setMessage) {
     {
       id: 'role',
       label: 'Role',
-      width: 30,
       getContent(user) {
         return <RoleComboBox user={user} roles={sortedRoles} setMessage={setMessage} />;
       }

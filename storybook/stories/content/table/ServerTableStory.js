@@ -17,7 +17,8 @@ storiesOf('Content/Table/Server Table', module)
   .add('Pending', () => <Pending />)
   .add('Error', () => <Error />)
   .add('Empty', () => <Empty />)
-  .add('With Data', () => <WithData />);
+  .add('With Data', () => <WithData />)
+  .add('Configurable Columns', () => <Configurable />);
 
 function Pending() {
   return (
@@ -39,7 +40,7 @@ function Pending() {
   );
 }
 
-function WrappedTable({ result }) {
+function WrappedTable(props) {
   return (
     <ServerTablePresenter
       onChange={onChange}
@@ -49,8 +50,8 @@ function WrappedTable({ result }) {
       orderBy="label"
       orderDirection="ASC"
       pageSize={10}
-      result={result}
       cardTitle={boolean('Render as card?', false) ? text('Card title?', 'Top Something') : null}
+      {...props}
     />
   );
 }
@@ -118,6 +119,32 @@ function WithData() {
             totalHits: 42
           }
         }}
+      />
+    </Root>
+  );
+}
+
+function Configurable() {
+  return (
+    <Root>
+      <h2>Configurable</h2>
+      <WrappedTable
+        result={{
+          progress: {
+            loading: false
+          },
+          errors: [],
+          data: {
+            items,
+            page: 1,
+            pageSize: 10,
+            totalHits: 42
+          }
+        }}
+        columnDefinitions={columnDefinitions.map(columnDefinition => {
+          columnDefinition.optional = true;
+          return columnDefinition;
+        })}
       />
     </Root>
   );

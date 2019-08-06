@@ -4,13 +4,13 @@ import { get } from 'lodash';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -153,8 +153,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       applicationDashboardUrlParameters.applicationId,

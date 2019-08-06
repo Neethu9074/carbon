@@ -66,7 +66,6 @@ const columnDefinitions = [
   {
     id: 'scope',
     label: 'Additional Scope',
-    width: 20,
     ellipsis: true,
     getContent: renderScope,
     getValue: scopeToString
@@ -74,7 +73,6 @@ const columnDefinitions = [
   {
     id: 'channels',
     label: 'Alert Channels',
-    width: 40,
     ellipsis: true,
     getContent(entity) {
       const allChannels = concatChannelNames(entity);

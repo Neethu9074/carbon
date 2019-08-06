@@ -1,12 +1,12 @@
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
@@ -135,8 +135,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
     columnDefinitions,
     defaultOrderBy: 'name',

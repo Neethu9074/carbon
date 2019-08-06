@@ -4,7 +4,7 @@ import TimelineLiveIndicator from 'in-views/eventView/components/timeline/compon
 import TimelineMenuEventLine from 'in-views/eventView/components/timeline/components/TimelineMenuEventLine';
 import { isCollapsed$, toggleMenu } from 'in-components/timeline/timelineStore';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
-import { getSetting$, toggleIn } from 'in-services/settings';
+import { getSetting$, toggle } from 'in-services/settings';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -27,7 +27,7 @@ export default connectTo(
             className={`${block}__toggle-auto-expand`}
             type={autoCollapseTimeline ? 'unpin' : 'pinned'}
             size="s"
-            onClick={() => toggleIn('autoCollapseTimeline')}
+            onClick={() => toggle('autoCollapseTimeline')}
           />
         </Tooltip>
 

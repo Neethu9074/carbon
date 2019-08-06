@@ -48,6 +48,8 @@ const columnDefinitions = [
     id: 'gravatar',
     label: 'User',
     sortable: false,
+    width: '4rem',
+    widthInAbsoluteUnit: true,
     getContent(logEntry) {
       if (!logEntry.actor || logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
         return 'API call';

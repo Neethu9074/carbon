@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { namespaceId, clusterId, deploymentId, deploymentConfigId } from 'in-kubernetes/navigation/matrix';
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -89,8 +89,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
       namespaceId,

@@ -1,11 +1,11 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import createServerTableWithEmptyState from 'in-components/tables/ServerTable/ServerTableWithEmptyState';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getKubernetesHostsByCluster from 'in-subscription/kubernetes/getKubernetesHostsByCluster';
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { clusterId } from 'in-kubernetes/navigation/matrix';
@@ -69,8 +69,8 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = createServerTableWithEmptyState({
-  ServerTable: createServerTableWithUrlState({
+const ServerTableWithUrlState = withEmptyTableState({
+  Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
     columnDefinitions,
     defaultOrderBy: 'label',
