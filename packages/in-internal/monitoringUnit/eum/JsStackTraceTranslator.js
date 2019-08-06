@@ -12,59 +12,44 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.label:"appdata-writer"')
+    rows: getDropwizardWithContext('entity.label:"js-stack-trace-translator"')
   },
   function EumProcessor({ rows, timeConfig }) {
     if (rows.length === 0) {
       return <LoadingIndicator type="dark" />;
     }
 
-    rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
+    rows = rows.slice().sort((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 
-    const labels = rows.map(r => r.host.get('label').replace(/^(appdata-writer-\d+).*$/i, '$1'));
+    const labels = rows.map(getLabel);
 
     return (
       <div>
-        <h1>EUM for appdata-writer</h1>
-
-        <DashboardSection title={`Host CPU load`}>
-          <Chart
-            snapshotIds={rows.map(r => r.host.get('id'))}
-            timeConfig={timeConfig}
-            minRollup={5000}
-            y1={{
-              min: 0,
-              formatter: number.detailed,
-              metrics: rows.map(() => 'load.1min'),
-              labels,
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <h1>js-stack-trace-translator</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Processed Website Beacons`}>
+          <DashboardSection title={`Incoming Beacons`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.KPI.incoming.website_monitoring_processed_beacons.calls`),
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.beacons.calls`),
                 labels,
                 type: 'stackedArea'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Processed Website Beacons`}>
+          <DashboardSection title={`Failed Incoming Beacons`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.KPI.incoming.website_monitoring_processed_beacons.errors`),
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -73,28 +58,28 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Short term Beacon Batch Writes`}>
+          <DashboardSection title={`Beacon Processing`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.batching.beacons.shortTerm.transmissions.calls`),
+                metrics: rows.map(() => `metrics.meters.KPI.processing.beacons.calls`),
                 labels,
                 type: 'stackedArea'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={`Short term Beacon Batch Write Failures`}>
+          <DashboardSection title={`Beacon Processing Failures`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.batching.beacons.shortTerm.transmissions.errors`),
+                metrics: rows.map(() => `metrics.meters.KPI.processing.beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -103,28 +88,28 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Long Term Beacon Batch Writes`}>
+          <DashboardSection title={`Outgoing Beacons`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.batching.beacons.longTerm.transmissions.calls`),
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.beacons.calls`),
                 labels,
                 type: 'stackedArea'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={`Long Term Beacon Batch Write Failures`}>
+          <DashboardSection title={`Failed Outgoing Beacons`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.batching.beacons.longTerm.transmissions.errors`),
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -135,3 +120,9 @@ export default connectTo(
     );
   }
 );
+
+export function getLabel(row) {
+  return row.container
+    .getIn(['data', 'Nomad', 'allocName'], row.host.get('label'))
+    .replace('js-stack-trace-translator.js-stack-trace-translator', 'allocation');
+}
