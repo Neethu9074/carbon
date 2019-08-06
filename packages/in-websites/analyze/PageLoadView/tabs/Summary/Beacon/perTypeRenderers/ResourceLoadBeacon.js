@@ -3,9 +3,10 @@ import React, { Fragment } from 'react';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
-import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
@@ -94,6 +95,7 @@ export const Body = ({ beacon }) => {
                 {beacon.httpCallUrl}
               </a>
             </Di>
+            <BackendDi beacon={beacon} />
             <Di title="Initiator">{beacon.initiator}</Di>
           </Dl>
         </Col>

@@ -35,7 +35,7 @@ import Title from 'in-components/Title';
 
 import locals from './Resource.mless';
 
-const cacheTypes = {
+export const cacheTypes = {
   fullLoad: {
     long: 'Full Load'
   },
@@ -58,7 +58,9 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
 
   if (resourceId) {
     observables.result = getWebsiteMetrics({
-      tagFilters: tagFilters.concat({ name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }),
+      tagFilters: tagFilters
+        .concat({ name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' })
+        .concat({ name: 'beacon.type', operator: 'EQUALS', stringValue: 'resourceLoad' }),
       timeConfig,
       metrics: {
         requestTime: {
@@ -82,7 +84,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
   tagFiltersForResource.push({ name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' });
 
   let content;
-  if (result.progress.loading) {
+  if (!result || result.progress.loading) {
     content = <DefaultLoadingDashboard />;
   } else if (result.errors && result.errors.length > 0) {
     content = <ErroneousResultPresenter errors={result.errors} />;
@@ -293,7 +295,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               />
             </Col>
 
-            <Col xs={6}>
+            <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
                 cardTitle="Resource Sizes"
                 timeConfig={timeConfig}

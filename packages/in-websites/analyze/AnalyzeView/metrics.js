@@ -149,6 +149,8 @@ export const availableMetrics = {
     }),
     errorRate,
     uniqueUsers,
+    ...resourceTimingMetrics,
+    ...resourceSizeMetrics,
 
     withRawDataField(newNumberMetric({ metric: 'http1xx', label: 'HTTP 1XX Count', category: 'HTTP' }), {
       rawDataField: 'httpCallStatus',
