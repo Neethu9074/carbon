@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import { create } from 'reactive-observables';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import React from 'react';
@@ -28,7 +28,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must start loading immediately', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     expect(getProps(wrapper)).to.deep.equal({
       canLoadMore: false,
       errors: [],
@@ -43,7 +43,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must set items that come in delayed', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     const result = getSuccessfulResult();
     getResult.emit(result);
     wrapper.update();
@@ -62,7 +62,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must ignore successive incoming messages from the same observable', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     const result = getSuccessfulResult();
     getResult.emit(result);
     wrapper.update();
@@ -71,7 +71,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must handle reloads', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     const result = getSuccessfulResult();
     getResult.emit(result);
     wrapper.update();
@@ -89,7 +89,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must support successive load more', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     getResult.emit({
       progress: {
         loading: false
@@ -155,7 +155,7 @@ describe('in-hoc/cursorPaginated', () => {
   });
 
   it('must automatically reload once one of the resetting props changes', () => {
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
     getResult.emit(getSuccessfulResult());
     wrapper.update();
 

@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
@@ -18,7 +18,7 @@ describe('in-websites/tagFiltersHoc', () => {
   });
 
   it('renders the NoopComponent as the root element', function() {
-    wrapper = mount(<Component />);
+    wrapper = shallow(<Component />);
     expect(wrapper.find(NoopComponent)).to.have.lengthOf(1);
   });
 

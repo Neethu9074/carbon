@@ -3,7 +3,7 @@
 import { create } from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import { cloneDeep } from 'lodash';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import React from 'react';
@@ -98,7 +98,7 @@ describe('in-hoc/withUrlState', () => {
         reducerName: 'onChange'
       })(NoopComponent);
 
-      wrapper = mount(<Component foo="bar" />);
+      wrapper = shallow(<Component foo="bar" />);
       expect(getProps(wrapper)).to.deep.equal({
         foo: 'bar',
         time: 123,
@@ -132,7 +132,7 @@ describe('in-hoc/withUrlState', () => {
         reducerName: 'onChange'
       })(NoopComponent);
 
-      wrapper = mount(<Component foo="bar" />);
+      wrapper = shallow(<Component foo="bar" />);
       expect(getProps(wrapper)).to.deep.equal({
         foo: 'bar',
         time: 0,
@@ -173,7 +173,7 @@ describe('in-hoc/withUrlState', () => {
         reducerName: 'onChange'
       })(NoopComponent);
 
-      wrapper = mount(<Component foo="bar" />);
+      wrapper = shallow(<Component foo="bar" />);
 
       getProps(wrapper, { omitFunctions: false }).onChange({
         page: 3,
@@ -245,7 +245,7 @@ describe('in-hoc/withUrlState', () => {
       reducerName: 'onChange'
     })(NoopComponent);
 
-    wrapper = mount(<Component foo="bar" />);
+    wrapper = shallow(<Component foo="bar" />);
 
     expect(addReset).to.have.callCount(1);
 

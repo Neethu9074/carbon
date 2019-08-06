@@ -1,7 +1,7 @@
 // /* eslint-env mocha */
 
 import proxyquire from 'proxyquire';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -22,7 +22,7 @@ describe('in-analyze/tagFiltersHoc', () => {
   });
 
   it('renders the NoopComponent as the root element', function() {
-    wrapper = mount(<Component filters={{ tagFilter: [] }} />);
+    wrapper = shallow(<Component filters={{ tagFilter: [] }} />);
     expect(wrapper.find(NoopComponent)).to.have.lengthOf(1);
   });
 
