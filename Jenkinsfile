@@ -6,9 +6,9 @@ def gitCommitAuthor     = null
 def gitMessage          = null
 def instanaVersion      = null
 def archiveName         = null
+def latestReleaseBranch = null
 
 def autoDeployReleaseFullstack = true
-def latestReleaseBranch  = 'release-160'
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -30,6 +30,7 @@ stage('Checkout') {
     checkout scm
     setBuildStatus('Build started', 'PENDING')
 
+    latestReleaseBranch = getLatestReleaseBranch()
     instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
     gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
@@ -93,7 +94,6 @@ stage('Build') {
 }
 
 stage ('Container Build') {
-
   if ( isDeliveryBranch(env.BRANCH_NAME) ) {
     containerBuild {
       component    = 'ui-client'
