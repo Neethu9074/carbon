@@ -3,8 +3,8 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { kinds, sizes } from 'in-new-components/Button';
-import Button from 'in-new-components/Button';
+import { kinds, sizes } from 'in-new-components/Button/ButtonPresenter';
+import ButtonPresenter from 'in-new-components/Button/ButtonPresenter';
 
 import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
@@ -25,9 +25,9 @@ function ButtonStory() {
       <Section title="Without Modifiers">
         <p>
           {kinds.map(kind => (
-            <Button kind={kind} size={size} key={kind} onClick={onClick} href={href} icon={icon}>
+            <ButtonPresenter kind={kind} size={size} key={kind} onClick={onClick} href={href} icon={icon}>
               {kind}
-            </Button>
+            </ButtonPresenter>
           ))}
         </p>
       </Section>
@@ -35,9 +35,9 @@ function ButtonStory() {
       <Section title="Disabled">
         <p>
           {kinds.map(kind => (
-            <Button kind={kind} size={size} disabled key={kind} href={href} icon={icon}>
+            <ButtonPresenter kind={kind} size={size} disabled key={kind} href={href} icon={icon}>
               {kind}
-            </Button>
+            </ButtonPresenter>
           ))}
         </p>
       </Section>
