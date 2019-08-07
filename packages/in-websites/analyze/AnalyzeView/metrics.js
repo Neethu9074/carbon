@@ -206,5 +206,11 @@ export const availableMetrics = {
       label: 'Affected Users'
     }
   ],
-  custom: [uniqueUsers]
+  custom: [
+    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Duration' }), {
+      rawDataField: 'duration',
+      tag: 'beacon.duration'
+    }),
+    uniqueUsers
+  ]
 };
