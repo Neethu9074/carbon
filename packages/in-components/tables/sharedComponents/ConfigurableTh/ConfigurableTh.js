@@ -39,17 +39,21 @@ function ConfigureButton({ availableColumnDefinitions, columnDefinitions, childr
     <div className={locals.wrapper}>
       {children}
       <Overlay
+        withoutWrapper
         align="bottomRight"
         content={Content}
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >
-        {({ toggle }) => (
-          <Button className={locals.button} kind="secondary" onClick={toggle}>
-            <SvgIcon type="lib_actions_settings" />
-          </Button>
-        )}
+        {Component}
       </Overlay>
     </div>
+  );
+}
+function Component({ toggle, refSetter }) {
+  return (
+    <Button className={locals.button} kind="secondary" onClick={toggle} refSetter={refSetter}>
+      <SvgIcon type="lib_actions_settings" />
+    </Button>
   );
 }
 
