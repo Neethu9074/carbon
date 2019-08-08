@@ -20,10 +20,5 @@ export default function Marker({ event, className, label }) {
 
 export function hasServiceImpact(event) {
   const entityType = event.get('entityType');
-
-  if (is20Type(entityType)) {
-    return true;
-  }
-
-  return event.get('affectedService') != null;
+  return is20Type(entityType);
 }
