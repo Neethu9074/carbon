@@ -1,0 +1,25 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .pageLoad {
+    padding: 1rem;
+    border-top: 1px solid @lib__colors__N400;
+    background: @lib__colors__N200;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .leftSide {
+    display: flex;
+
+    & > *:nth-child(1) {
+      max-width: 20rem;
+      width: 20rem;
+    }
+  }
+
+  .button {
+    margin: 0 1rem 0 0;
+  }
+}

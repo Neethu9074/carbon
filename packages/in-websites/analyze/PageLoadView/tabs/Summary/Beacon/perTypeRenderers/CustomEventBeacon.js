@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import ReferencedPageLoads from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/ReferencedPageLoads';
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -69,6 +70,8 @@ export const Body = ({ beacon }) => {
           </Col>
         )}
       </Row>
+
+      <ReferencedPageLoads beacon={beacon} />
 
       {hasError && (
         <Fragment>
