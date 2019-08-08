@@ -69,7 +69,7 @@ function ReleaseTooltipContent({ name, start }) {
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
         &nbsp; (<MinutesCount start={start} /> ago)
       </h2>
-      <h3 className={locals.subHeading}>Release Started</h3>
+      <h3 className={locals.subHeading}>Release Ended</h3>
       <div className={locals.subContent}>
         <SvgIcon className={locals.tooltipIcon} type="lib_release_rocket" width={24} height={24} />
         <span>{name}</span>
