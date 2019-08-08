@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import EntityInformation from './EntityInformation';
-import { is20Endpoint } from 'in-services/entityUtils';
+import { isEndpointEntity } from 'in-services/entityUtils';
 
 export default function EntityWithParentInformation(props) {
   const { entityType, entityId, metadata, timeConfig } = props;
@@ -10,7 +10,7 @@ export default function EntityWithParentInformation(props) {
     <div>
       <EntityInformation {...props} />
 
-      {is20Endpoint(entityType) &&
+      {isEndpointEntity(entityType) &&
         metadata && (
           <EntityInformation
             entityId={metadata.get('app20ServiceId')}

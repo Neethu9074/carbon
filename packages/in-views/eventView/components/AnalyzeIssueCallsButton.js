@@ -2,9 +2,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import {
-  is20Application,
-  is20Service,
-  is20Endpoint,
+  isApplicationEntity,
+  isServiceEntity,
+  isEndpointEntity,
   getEntityOfType,
   isLoading,
   hasErrors
@@ -25,7 +25,7 @@ export default connectTo(
   ({ event }) => {
     const observables = {};
     const entityType = event.get('entityType');
-    if (is20Endpoint(entityType)) {
+    if (isEndpointEntity(entityType)) {
       // We would not need to subscribe to any observable here if it weren't for the endpoint's `synthetic` flag, which
       // is not available from the event's meta data. We fetch the endpoint entity from the back end (possibly hitting
       // appdata-reader) just for this one boolean flag.
@@ -44,11 +44,11 @@ export default connectTo(
     let serviceLabel = null;
     let endpointLabel = null;
 
-    if (is20Application(entityType)) {
+    if (isApplicationEntity(entityType)) {
       applicationLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
-    } else if (is20Service(entityType)) {
+    } else if (isServiceEntity(entityType)) {
       serviceLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
-    } else if (is20Endpoint(entityType)) {
+    } else if (isEndpointEntity(entityType)) {
       endpointLabel = event.has('metadata') && event.get('metadata').get('entityLabel');
       serviceLabel = event.has('metadata') && event.get('metadata').get('app20EndpointServiceLabel');
     }
@@ -126,7 +126,7 @@ function getAnalyzeOrder(event) {
   const entityType = event.get('entityType');
   const problemText = getProblemTextOrEmpty(event);
   if (containsIgnoreCase(problemText, 'latency')) {
-    orderBy = is20Endpoint(entityType) ? 'latency' : 'latencyAgg';
+    orderBy = isEndpointEntity(entityType) ? 'latency' : 'latencyAgg';
     orderDirection = 'DESC';
   }
   return {

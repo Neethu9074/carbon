@@ -2,14 +2,14 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import {
-  is10Type,
-  is20Type,
-  is20Endpoint,
-  is20Application,
-  is20Service,
+  isInfraEntityType,
+  isAppDataEntityType,
+  isEndpointEntity,
+  isApplicationEntity,
+  isServiceEntity,
   isLoading,
   hasErrors,
-  create20EntityConnectToMapFromEvent
+  createAppDataEntityConnectToMapFromEvent
 } from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
@@ -29,13 +29,13 @@ export default connectTo(
       return {
         entity: just(snapshot)
       };
-    } else if (is10Type(entityType)) {
+    } else if (isInfraEntityType(entityType)) {
       // it is an 1.0 entity but the snapshot is not yet loaded, so load it now
       return {
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return create20EntityConnectToMapFromEvent(entityType, entityId, metadata);
+      return createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata);
     }
   },
   function EntityInformation(props) {
@@ -50,7 +50,7 @@ export default connectTo(
       return null;
     }
 
-    if (is20Type(entityType)) {
+    if (isAppDataEntityType(entityType)) {
       return <EntityInformation20 {...props} />;
     } else {
       // !entityType || entityType === 'Entity10'
@@ -84,11 +84,11 @@ function EntityInformation10({
 function EntityInformation20({ entity, entityType, label }) {
   const data = entity.data;
   let href$;
-  if (is20Application(entityType)) {
+  if (isApplicationEntity(entityType)) {
     href$ = getApplicationDashboard(data.id);
-  } else if (is20Service(entityType)) {
+  } else if (isServiceEntity(entityType)) {
     href$ = getServiceDashboard(data.id);
-  } else if (is20Endpoint(entityType)) {
+  } else if (isEndpointEntity(entityType)) {
     href$ = getEndpointDashboard(data.id, {
       serviceId: data.serviceId
     });
