@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EventMetricDownloadView from 'in-components/DownloadButton/components/EventMetricDownloadView';
-import { is20Type } from 'in-services/entityUtils';
+import { isAppDataEntityType } from 'in-services/entityUtils';
 import { getMetrics } from 'in-api/metrics';
 import connectTo from 'in-hoc/connectTo';
 
@@ -42,7 +42,7 @@ function getMetricsRequest(props) {
     timeFrame.from = to - tenHoursWindowSize;
     timeFrame.windowSize = tenHoursWindowSize;
   } else {
-    if (is20Type(entityType) && !customIssue) {
+    if (isAppDataEntityType(entityType) && !customIssue) {
       rollup = 5;
     } else {
       rollup = 1;

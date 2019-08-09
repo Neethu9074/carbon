@@ -3,7 +3,7 @@ import React from 'react';
 
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
-import { is20Application, is20Service, is20Endpoint, is20Type } from 'in-services/entityUtils';
+import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -142,17 +142,17 @@ const Icon = connectTo(
 
 const On = connectTo(
   props => {
-    if (is20Application(props.rawEvent.entityType)) {
+    if (isApplicationEntity(props.rawEvent.entityType)) {
       return {
         entity: getApplication({ id: props.rawEvent.entityId }),
         app20IconType: just('app_application')
       };
-    } else if (is20Service(props.rawEvent.entityType)) {
+    } else if (isServiceEntity(props.rawEvent.entityType)) {
       return {
         entity: getServiceLabel({ id: props.rawEvent.entityId }),
         app20IconType: just('app_service')
       };
-    } else if (is20Endpoint(props.rawEvent.entityType)) {
+    } else if (isEndpointEntity(props.rawEvent.entityType)) {
       return {
         entity: getEndpointInfo({
           id: props.rawEvent.entityId
@@ -174,7 +174,7 @@ const On = connectTo(
     }
 
     let label;
-    if (is20Type(rawEvent.entityType)) {
+    if (isAppDataEntityType(rawEvent.entityType)) {
       label = entity.data.label;
     } else {
       label = getLabel(entity);

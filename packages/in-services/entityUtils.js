@@ -13,11 +13,11 @@ export const loadingPlaceholder = {};
 export const alwaysLoadingPlaceholder$ = always(loadingPlaceholder);
 
 export function getEntityOfType(entityId, entityType, timeConfig) {
-  if (is20Application(entityType)) {
+  if (isApplicationEntity(entityType)) {
     return {
       entity: getApplication({ id: entityId }).startWith(null)
     };
-  } else if (is20Service(entityType)) {
+  } else if (isServiceEntity(entityType)) {
     if (!timeConfig) {
       //  Can't render 2.0 service information without a time config.
       return {
@@ -32,7 +32,7 @@ export function getEntityOfType(entityId, entityType, timeConfig) {
         }
       }).startWith(null)
     };
-  } else if (is20Endpoint(entityType)) {
+  } else if (isEndpointEntity(entityType)) {
     return {
       entity: getEndpoint({
         id: entityId,
@@ -56,37 +56,37 @@ export function hasErrors(entity) {
   return entity.errors && entity.errors.length > 0;
 }
 
-export function is10Type(entityType) {
-  return !is20Type(entityType);
+export function isInfraEntityType(entityType) {
+  return !isAppDataEntityType(entityType);
 }
 
-export function is20Type(entityType) {
-  return is20Endpoint(entityType) || is20Service(entityType) || is20Application(entityType);
+export function isAppDataEntityType(entityType) {
+  return isEndpointEntity(entityType) || isServiceEntity(entityType) || isApplicationEntity(entityType);
 }
 
-export function is20Application(entityType) {
+export function isApplicationEntity(entityType) {
   return entityType === 'App20';
 }
 
-export function is20Service(entityType) {
+export function isServiceEntity(entityType) {
   return entityType === 'Service20';
 }
 
-export function is20Endpoint(entityType) {
+export function isEndpointEntity(entityType) {
   return entityType === 'Endpoint20';
 }
 
-export function create20EntityConnectToMapFromEvent(entityType, entityId, metadata) {
-  if (is20Application(entityType)) {
-    return create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata);
-  } else if (is20Service(entityType)) {
-    return create20ServiceConnectToMapFromEvent(entityType, entityId, metadata);
-  } else if (is20Endpoint(entityType)) {
-    return create20EndpointConnectToMapFromEvent(entityType, entityId, metadata);
+export function createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata) {
+  if (isApplicationEntity(entityType)) {
+    return createApplicationConnectToMapFromEvent(entityType, entityId, metadata);
+  } else if (isServiceEntity(entityType)) {
+    return createServiceConnectToMapFromEvent(entityType, entityId, metadata);
+  } else if (isEndpointEntity(entityType)) {
+    return createEndpointConnectToMapFromEvent(entityType, entityId, metadata);
   }
 }
 
-function create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata) {
+function createApplicationConnectToMapFromEvent(entityType, entityId, metadata) {
   if (metadata && metadata.get('entityLabel')) {
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
   } else {
@@ -100,7 +100,7 @@ function create20ApplicationConnectToMapFromEvent(entityType, entityId, metadata
   }
 }
 
-function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata) {
+function createServiceConnectToMapFromEvent(entityType, entityId, metadata) {
   if (metadata && metadata.get('entityLabel')) {
     return createSurrogateConnectToMapFromMetadata(entityType, entityId, metadata);
   }
@@ -134,7 +134,7 @@ function create20ServiceConnectToMapFromEvent(entityType, entityId, metadata) {
   );
 }
 
-function create20EndpointConnectToMapFromEvent(entityType, entityId, metadata) {
+function createEndpointConnectToMapFromEvent(entityType, entityId, metadata) {
   if (
     metadata &&
     metadata.get('entityLabel') &&
@@ -210,7 +210,7 @@ function createEntitySurrogate(entityType, entityId, label, serviceIdForEndpoint
     label
   };
 
-  if (is20Endpoint(entityType)) {
+  if (isEndpointEntity(entityType)) {
     entitySurrogate.serviceId = serviceIdForEndpoint;
     entitySurrogate.serviceLabel = serviceLabelForEndpoint;
   }

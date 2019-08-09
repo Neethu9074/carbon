@@ -1,11 +1,11 @@
 import React from 'react';
 
 import {
-  is10Type,
-  is20Application,
-  is20Endpoint,
-  is20Service,
-  create20EntityConnectToMapFromEvent
+  isInfraEntityType,
+  isApplicationEntity,
+  isEndpointEntity,
+  isServiceEntity,
+  createAppDataEntityConnectToMapFromEvent
 } from 'in-services/entityUtils';
 import {
   getChartTimeConfigByEvent,
@@ -88,13 +88,13 @@ export default addSection(
 const ChartWrapper = connectTo(
   props => {
     const { event, entityId, entityType } = props;
-    if (is10Type(entityType)) {
+    if (isInfraEntityType(entityType)) {
       const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
       return {
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
     } else {
-      return create20EntityConnectToMapFromEvent(entityType, entityId, event.get('metadata'));
+      return createAppDataEntityConnectToMapFromEvent(entityType, entityId, event.get('metadata'));
     }
   },
   function ChartWrapper({
@@ -178,11 +178,11 @@ function isVisible(event) {
 }
 
 function getChartConfig(metric, entityType, entity) {
-  if (is20Application(entityType)) {
+  if (isApplicationEntity(entityType)) {
     return getMetricDefinition('application', metric);
-  } else if (is20Service(entityType)) {
+  } else if (isServiceEntity(entityType)) {
     return getMetricDefinition('service', metric);
-  } else if (is20Endpoint(entityType)) {
+  } else if (isEndpointEntity(entityType)) {
     return getMetricDefinition('endpoint', metric);
   }
   // else assume 'Entity10'
