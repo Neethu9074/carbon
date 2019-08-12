@@ -22,9 +22,9 @@ export default function Message({ message }) {
               [locals[message.type]]: message.type,
               [locals.clickable]: message.onClick
             })}
-            onClick={() => {
+            onClick={e => {
               if (message.onClick) {
-                message.onClick();
+                message.onClick(e);
               }
             }}
           >
