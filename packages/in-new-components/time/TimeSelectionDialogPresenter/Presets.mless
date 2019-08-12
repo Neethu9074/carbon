@@ -49,8 +49,7 @@
 
   .releases {
     a {
-        max-width: 100%;
-        min-width: 100%;
+        width: 100%;
         display: inline-block;
         .ellipsis();
         vertical-align:top;
