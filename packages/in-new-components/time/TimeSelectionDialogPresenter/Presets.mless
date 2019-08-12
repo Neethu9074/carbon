@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .wrapper {
@@ -16,10 +17,7 @@
   }
 
   .button {
-    padding: 0.25rem;
-    width: 10rem;
-    font-size: small;
-    justify-content: flex-left;
+    padding: 0.25rem 0.675rem;
   }
 
   .dialog {
@@ -29,19 +27,34 @@
 
   .container {
     display: flex;
+    flex-grow: 1;
+    min-width: 0;
+
     align-content: stretch;
     margin-top: 0.25rem;
     padding: 0.25rem;
     line-height: 1.5rem;
+
   }
 
   .leftColumn {
-    flex-basis: 50%;
     padding: 0.25rem;
+    min-width: 50%;
   }
 
   .rightColumn {
-    flex-basis: 50%;
+    min-width: 50%;
     padding: 0.25rem;
   }
+
+  .releases {
+    a {
+        width: 100%;
+        display: inline-block;
+        .ellipsis();
+        vertical-align:top;
+     }
+  }
+
+
 }
