@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
@@ -49,7 +48,14 @@ export function init() {
               type: 'info',
               icon: 'server',
               content: <DangerousHtmlPresenter html={toHtml(message)} />,
-              onClick: markAsRead
+              onClick(e) {
+                if (!e.target || e.target.tagName !== 'A') {
+                  // The maintenance info popup contains a clickable link.
+                  // In these cases we want the click to normally open the link
+                  // without any side-effects.
+                  markAsRead();
+                }
+              }
             },
             messageId
           );
@@ -67,17 +73,18 @@ function retrieveLatestMessage() {
     responseType: 'text'
   });
 
-  observable.once(response => {
-    const body = (response.body || '').trim();
-    if (body.length === 0) {
-      messageStore.mutateTo(null);
-    } else {
-      messageStore.mutateTo(body);
+  observable.once(
+    response => {
+      const body = (response.body || '').trim();
+      if (body.length === 0) {
+        messageStore.mutateTo(null);
+      } else {
+        messageStore.mutateTo(body);
+      }
+    },
+    () => {
+      // ignore HTTP errors as the system will self heal and there is no reason to notify
+      // us about these types of errors.
     }
-  });
-
-  observable.errors().once(() => {
-    // ignore HTTP errors as the system will self heal and there is no reason to notify
-    // us about these types of errors.
-  });
+  );
 }
