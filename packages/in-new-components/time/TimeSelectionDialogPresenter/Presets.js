@@ -8,7 +8,6 @@ import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { fromNowAccurately } from 'in-services/formatters/date';
 import { releasesEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
-import { timeout } from 'reactive-observables';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
 import Tooltip from 'in-components/Tooltip';
@@ -18,19 +17,17 @@ import locals from './Presets.mless';
 
 export default connectTo(props => {
   const releaseTimeConfig = {
-    to: Date.now(),
-    focusedMoment: Date.now(),
+    to: null,
+    focusedMoment: null,
     autoRefresh: props.timeConfig.autoRefresh,
     windowSize: 30 * 24 * 60 * 60 * 1000
   };
   return {
-    result: timeout(800)
-      .flatMap(() => getReleasesSubscribeEvent({ timeConfig: releaseTimeConfig, page: 1, pageSize: 3 }))
-      .startWith(pendingResult)
+    result: getReleasesSubscribeEvent({ timeConfig: releaseTimeConfig, page: 1, pageSize: 3 }).startWith(pendingResult)
   };
 })(Presets);
 
-function Presets({ timeConfig, onChange, result }) {
+function Presets({ timeConfig, onChange, result, closeOverlay }) {
   return (
     <div className={locals.wrapper}>
       <Header>Presets</Header>
@@ -47,7 +44,12 @@ function Presets({ timeConfig, onChange, result }) {
           {releasesEnabled &&
             result.data &&
             result.data.totalHits > 0 && (
-              <ReleasesPresets onChange={onChange} timeConfig={timeConfig} result={result} />
+              <ReleasesPresets
+                onChange={onChange}
+                timeConfig={timeConfig}
+                result={result}
+                closeOverlay={closeOverlay}
+              />
             )}
         </div>
       </div>
@@ -55,21 +57,24 @@ function Presets({ timeConfig, onChange, result }) {
   );
 }
 
-function ReleasesPresets({ onChange, timeConfig, result }) {
+function ReleasesPresets({ onChange, timeConfig, result, closeOverlay }) {
   return (
     <Fragment>
       <h1 className={locals.header}>Go to a Release</h1>
-      {getReleasesPresets(result, timeConfig, onChange)}
+      {result.data.items.map(item => (
+        <ReleaseTimePreset key={item.id} item={item} onChange={onChange} timeConfig={timeConfig} />
+      ))}
       <Button
         className={locals.button}
         kind="secondary"
-        onClick={() =>
+        onClick={() => {
+          closeOverlay();
           setActiveDialog(
             <Dialog className={locals.dialog} title="Search for a release" onClose={() => close()}>
               <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={5} />
             </Dialog>
-          )
-        }
+          );
+        }}
         icon="lib_actions_search"
       >
         Search for a release
@@ -78,11 +83,7 @@ function ReleasesPresets({ onChange, timeConfig, result }) {
   );
 }
 
-function getReleasesPresets(result, timeConfig, onChange) {
-  return result.data.items.map(item => getReleaseTimePreset(item, timeConfig, onChange));
-}
-
-function getReleaseTimePreset(item, timeConfig, onChange) {
+function ReleaseTimePreset({ item, timeConfig, onChange }) {
   const label = item.name;
   const suffix = fromNowAccurately(item.start) + ' ago';
   const to = item.start + timeConfig.windowSize / 2;

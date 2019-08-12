@@ -122,7 +122,7 @@ function LiveModeToggle({ isLive, darkTheme }) {
 }
 
 function TimeSelectionDialogPresenterWrapper({ timeConfig, close }) {
-  return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} />;
+  return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} closeOverlay={close} />;
 
   function onChange(timeConfig) {
     close();

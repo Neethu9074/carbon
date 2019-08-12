@@ -9,7 +9,6 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import ServerTable from 'in-components/tables/ServerTable';
 import { setTimeConfig } from 'in-stores/time/config';
-import { timeout } from 'reactive-observables';
 import Link from 'in-components/Link';
 
 function getColumnDefinitions({ windowSize }) {
@@ -72,16 +71,14 @@ export default function TimePresetsForReleases({ timeConfig }) {
         noDataMessage="No releases found"
         defaultOrderBy="start"
         defaultOrderDirection="DESC"
-        searchPlaceholder="Filter..."
+        searchPlaceholder="Filter…"
       />
     </WithEmptyStateFallback>
   );
 }
 
 function getHasDataToRender() {
-  return timeout(800)
-    .flatMap(() => getReleasesSubscribeEvent({}))
-    .map(result => !result.data || result.data.totalHits > 0);
+  return getReleasesSubscribeEvent({}).map(result => !result.data || result.data.totalHits > 0);
 }
 
 export function getReleasesSubscribeEvent({

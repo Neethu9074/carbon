@@ -28,7 +28,6 @@
   .container {
     display: flex;
     flex-grow: 1;
-    flex-shrink: 1;
     min-width: 0;
 
     align-content: stretch;
@@ -52,9 +51,9 @@
     a {
         max-width: 100%;
         min-width: 100%;
-        display: block;
+        display: inline-block;
         .ellipsis();
-        margin-bottom: 0;
+        vertical-align:top;
      }
   }
 
