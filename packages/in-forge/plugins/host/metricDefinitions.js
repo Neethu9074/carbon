@@ -129,6 +129,14 @@ export default [
     formatter: kiloBytes
   },
   {
+    metric: getMetricMatch('fs', 'used'),
+    label: getFilesystemLabel.bind(null, 'Free'),
+    category: ['Filesystem'],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
     metric: getMetricMatch('fs', 'leaked'),
     label: getFilesystemLabel.bind(null, 'Leaked'),
     category: ['Filesystem'],
