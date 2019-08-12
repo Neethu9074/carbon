@@ -130,7 +130,7 @@ export default [
   },
   {
     metric: getMetricMatch('fs', 'used'),
-    label: getFilesystemLabel.bind(null, 'Free'),
+    label: getFilesystemLabel.bind(null, 'Used'),
     category: ['Filesystem'],
     min: 0,
     max: 1,
