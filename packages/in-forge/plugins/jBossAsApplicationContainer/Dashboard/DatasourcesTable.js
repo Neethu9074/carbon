@@ -126,13 +126,7 @@ function getRowDetails(row) {
             'datasources.metrics.' + row.key + '.created',
             'datasources.metrics.' + row.key + '.timedOut'
           ],
-          labels: [
-            'Active Connections',
-            'Available Connections',
-            'Connections Currently In Use',
-            'Created Connections',
-            'Timed Out Connections'
-          ],
+          labels: ['Active', 'Available', 'In Use', 'Created', 'Timed Out'],
           type: 'line'
         }}
       />
