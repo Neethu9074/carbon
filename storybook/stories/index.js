@@ -77,6 +77,7 @@ import './components/TopListCardStory';
 import './components/TreeMap';
 import './components/ViewSwitcherStory';
 
+import './content/ListStory';
 import './content/table/ServerTableStory';
 import './content/table/SharedComponentsStory';
 import './content/table/TableStory';
