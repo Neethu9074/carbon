@@ -59,8 +59,10 @@ export function getIconByType(type) {
     return 'lib_website_resource';
   } else if (type === 'httpRequest') {
     return 'lib_website_ajax';
-  } else if (type === 'error' || type === 'custom') {
+  } else if (type === 'error') {
     return 'lib_website_error';
+  } else if (type === 'custom') {
+    return 'lib_website_custom';
   }
 }
 
@@ -74,7 +76,7 @@ export function getEntityNameByType(type) {
   } else if (type === 'error') {
     return 'JavaScript errors';
   } else if (type === 'custom') {
-    return 'custom events';
+    return 'Custom events';
   }
 
   return type;
