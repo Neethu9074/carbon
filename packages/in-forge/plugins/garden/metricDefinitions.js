@@ -18,7 +18,7 @@ export default [
       'memory.inactive_anon',
       'memory.inactive_file'
     ],
-    labels: ['Usage', 'RSS', 'Cache', 'active_anon', 'active_file', 'inactive_anon', 'inactive_file'],
+    labels: ['Usage', 'RSS', 'Cache', 'Active Anonymous', 'Active Cache', 'Inactive Anonymous', 'Inactive Cache'],
     min: 0,
     category: ['Memory'],
     formatter: bytes
