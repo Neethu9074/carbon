@@ -112,6 +112,8 @@ export const availableGroupingTags = {
     'beacon.error.message',
     'beacon.error.type',
     'beacon.stackTrace',
+    'beacon.stackTraceElement.file',
+    'beacon.stackTraceElement.name',
     'beacon.componentStack'
   ].sort(),
   custom: [
@@ -122,6 +124,8 @@ export const availableGroupingTags = {
     'beacon.error.message',
     'beacon.error.type',
     'beacon.stackTrace',
+    'beacon.stackTraceElement.file',
+    'beacon.stackTraceElement.name',
     'beacon.componentStack'
   ].sort()
 };
