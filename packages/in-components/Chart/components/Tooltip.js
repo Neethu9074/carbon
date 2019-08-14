@@ -28,7 +28,7 @@ export default connectTo(
             timeConfig,
             pagination: {
               page: 1,
-              pageSize: 1
+              pageSize: 100
             }
           })
         )
