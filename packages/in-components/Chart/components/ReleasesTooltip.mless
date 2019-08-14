@@ -4,26 +4,43 @@
 :local {
   .rightAlignedContent {
     position: absolute;
-    left: 1rem;
+    left: 1px;
   }
 
   .leftAlignedContent {
     position: absolute;
-    right: ~'calc(100% + 1rem)';
+    right: ~'calc(100% + 1px)';
   }
 
   .marker {
     width: 0;
     position: absolute;
-    height: 110%;
-    border-left: 2px dashed @lib__colors__N500;
+    height: 100%;
     transition: all 0.5s;
+  }
+
+  .markerLine {
+    width: 0;
+    position: absolute;
+    border-left: 2px dashed @lib__colors__N500;
+    top: -8px;
+    left: 0px;
+    bottom: 0;
     z-index: 1;
+  }
+
+  .markerOffsetLine {
+    width: 0;
+    position: absolute;
+    border-left: 2px dashed @lib__colors__white;
+    top: -7px;
+    left: 0.5px;
+    bottom: 0;
   }
 
   .markerIcon {
     position: absolute;
-    bottom: -24px;
+    top: -32px;
     left: -12px;
   }
 
@@ -36,7 +53,7 @@
   }
 
   .tooltipContent {
-    max-width: 18rem;
+    max-width: 300px;
     padding: 1rem 1rem 0.5rem;
     background: @lib__colors__white;
     color: @lib__colors__N800Dark;
@@ -62,6 +79,10 @@
     font-weight: normal;
   }
 
+  .timeCount {
+    color: @lib__colors__N600Light;
+  }
+
   .tooltipIcon {
     fill: @lib__colors__N500;
   }
@@ -73,13 +94,15 @@
     align-items: center;
   }
 
-  .headingReleaseTooltip {
-    display: flex;
-
-    width: 100%;
-    margin-bottom: 1rem;
-
-    font-size: 0.75rem;
+  .releaseName {
     .ellipsis();
+  }
+
+  .onForegroundLayer {
+    z-index: 1;
+  }
+
+  .onBaseLayer {
+    z-index: auto;
   }
 }
