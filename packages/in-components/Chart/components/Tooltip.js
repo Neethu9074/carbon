@@ -1,5 +1,6 @@
 import { on, empty } from 'reactive-observables';
-import React from 'react';
+import React, { Fragment } from 'react';
+
 import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment, timeConfig$ } from 'in-stores/timeline';
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
@@ -19,9 +20,9 @@ const userInteractionThrottlingMillis = 50;
 
 export default connectTo(
   props => {
-    let latestRelease$ = empty;
+    let releases$ = empty;
     if (releasesEnabled) {
-      latestRelease$ = timeConfig$
+      releases$ = timeConfig$
         .flatMap(timeConfig =>
           getReleases({
             timeConfig,
@@ -32,10 +33,13 @@ export default connectTo(
           })
         )
         .startWith(pendingResult)
-        .map(({ data }) => (data && data.items && data.items.length > 0 ? data.items[0] : null));
+        .map(({ data }) => (data && data.items && data.items.length > 0 ? data.items : []));
     }
 
-    const observables = { highlightedMoment: highlightedMoment$, latestRelease: latestRelease$ };
+    const observables = {
+      highlightedMoment: highlightedMoment$,
+      releases: releases$
+    };
 
     if (props.timeConfig.autoRefresh) {
       observables['timeSinceLastAnimationDurationPassed'] = getAnimationFramesWithAnAnimationDurationOf(
@@ -51,7 +55,8 @@ export default connectTo(
     xScale = createScale();
 
     state = {
-      shouldRenderButtons: false
+      shouldRenderButtons: false,
+      releaseTooltip: null
     };
 
     componentDidMount() {
@@ -68,13 +73,14 @@ export default connectTo(
       const cursorHasCrossedHalfOfTheCanvas = this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas);
       this.updateScale();
 
-      let releaseMarkerXPositionOnCanvas;
+      let releasesWithXmarkerPosition;
       if (releasesEnabled) {
-        if (this.props.latestRelease !== null) {
-          releaseMarkerXPositionOnCanvas = this.getNearestDomainXPosition(
-            this.getNearestDomain(this.props.latestRelease.start)
-          );
-        }
+        releasesWithXmarkerPosition = this.props.releases
+          .map(release => ({
+            xMarkerPositionOnCanvas: this.getNearestDomainXPosition(this.getNearestDomain(release.start)),
+            release
+          }))
+          .filter(({ xMarkerPositionOnCanvas }) => Boolean(xMarkerPositionOnCanvas));
       }
 
       return (
@@ -89,15 +95,8 @@ export default connectTo(
             glassPane={this.glassPane}
             shouldRenderButtons={this.shouldRenderButtons}
           />
-          {releasesEnabled &&
-            releaseMarkerXPositionOnCanvas && (
-              <ReleasesTooltip
-                markerHasCrossedHalfOfTheCanvas={this.cursorHasCrossedHalfOfTheCanvas(releaseMarkerXPositionOnCanvas)}
-                markerXPosition={releaseMarkerXPositionOnCanvas}
-                release={this.props.latestRelease}
-              />
-            )}
-          {cursorXPositionOnCanvas && cursorXPositionOnCanvas !== releaseMarkerXPositionOnCanvas ? (
+
+          {cursorXPositionOnCanvas ? (
             <TooltipLineAndContent
               {...this.props}
               cursorXPositionOnCanvas={cursorXPositionOnCanvas}
@@ -105,7 +104,23 @@ export default connectTo(
               nearestTimeInMetrics={nearestTimeInMetrics}
             />
           ) : null}
+
+          {releasesEnabled &&
+            releasesWithXmarkerPosition.length > 0 && (
+              <Fragment>
+                {releasesWithXmarkerPosition.map(({ xMarkerPositionOnCanvas, release }) => (
+                  <ReleasesTooltip
+                    markerHasCrossedHalfOfTheCanvas={this.cursorHasCrossedHalfOfTheCanvas(xMarkerPositionOnCanvas)}
+                    markerXPosition={xMarkerPositionOnCanvas}
+                    release={release}
+                    key={release.id}
+                  />
+                ))}
+              </Fragment>
+            )}
+
           <div ref={glassPane => (this.glassPane = glassPane)} className={locals.glassPane} />
+
           {this.state.shouldRenderButtons && (
             <ApplyTimeframeButtons xScale={this.xScale} metrics={this.props.metrics} />
           )}
