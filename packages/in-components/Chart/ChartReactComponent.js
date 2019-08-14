@@ -16,7 +16,7 @@ import locals from './Chart.mless';
 export default getElementDimensions(function ChartReactComponent(props) {
   let { width, customHeight } = props;
 
-  const height = customHeight || 160;
+  const height = customHeight || 182;
   const overlayWidth = width - (props.y2 ? 2 : 1) * WIDTH;
 
   return <ChartReactWrapper {...props} width={overlayWidth} height={height} />;
@@ -52,18 +52,15 @@ const ChartReactWrapper = compose(
     render() {
       const { chart, width, height, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
 
+      const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
+
       return (
         <div className={locals.chart}>
           {chart && renderLegend && <Legend chart={chart} />}
           <div className={locals.chartAxisWrapper}>
             {chart &&
               chart.config.y1 && (
-                <MetricAwareAxis
-                  chart={chart}
-                  axisName="y1"
-                  height={height - chart.config.timeAxisHeight}
-                  align="left"
-                />
+                <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
               )}
             <Fragment>
               {chart &&
@@ -85,12 +82,7 @@ const ChartReactWrapper = compose(
             </Fragment>
             {chart &&
               chart.config.y2 && (
-                <MetricAwareAxis
-                  chart={chart}
-                  axisName="y2"
-                  height={height - chart.config.timeAxisHeight}
-                  align="right"
-                />
+                <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
               )}
           </div>
         </div>

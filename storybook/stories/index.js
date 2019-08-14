@@ -72,6 +72,7 @@ import './components/SparkChart';
 import './components/StackTraceStory';
 import './components/TechnologyIndicator';
 import './components/time/TimePresenterStory';
+import './components/time/TimeCountStory';
 import './components/time/TimeSelectionDialogPresenterStory';
 import './components/ToggleStory';
 import './components/TopListCardStory';

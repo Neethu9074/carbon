@@ -1,20 +1,24 @@
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import EventSection from 'in-components/Chart/components/EventSection';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({ timestamp, chart, reverseTooltipOrder }) {
+export default function TooltipContent({ timestamp, chart, reverseTooltipOrder, hoveredEvent }) {
   const dataPointsAtTime = chart.collectAllDataPointsAtTime(timestamp);
 
   return (
     <div className={locals.tooltipContent}>
+      <EventSection event={hoveredEvent} />
+
       <div className={locals.heading}>
         {formatDateTime(timestamp)}
         <span className={locals.rollupLabel}> ({chart.config.rollupLabel})</span>
       </div>
+
       <MetricSeries
         config={chart.config}
         axisName="y1"

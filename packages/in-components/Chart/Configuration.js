@@ -21,6 +21,7 @@ export const wiggleRoom = 5000;
 export default class Config {
   constructor(frontBufferCanvas, props) {
     this.timeAxisHeight = 30;
+    this.markerPaneHeight = 22;
     this.frontBufferCanvas = frontBufferCanvas;
     this.frontBufferCtx = this.frontBufferCanvas.getContext('2d');
 

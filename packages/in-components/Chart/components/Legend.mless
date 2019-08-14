@@ -4,7 +4,6 @@
     justify-content: space-between;
 
     width: 100%;
-    margin-bottom: 0.75rem;
     height: 2rem;
     font-size: 0.875rem;
   }

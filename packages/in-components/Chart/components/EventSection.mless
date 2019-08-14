@@ -1,0 +1,40 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .section {
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .heading {
+    font-size: 0.875rem;
+    font-weight: normal;
+    white-space: nowrap;
+  }
+
+  .time {
+    font-size: 0.75rem;
+  }
+
+  .timeAgo {
+    font-size: 0.75rem;
+    color: @lib__colors__N600Light;
+  }
+
+  .content {
+    display: flex;
+    font-size: 0.75rem;
+    font-weight: normal;
+    align-items: center;
+  }
+
+  .tooltipIcon {
+    fill: @lib__colors__N500;
+  }
+
+  .releaseName {
+    .ellipsis();
+  }
+}

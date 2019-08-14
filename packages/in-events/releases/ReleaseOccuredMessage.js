@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
+import { compose, setPropTypes } from 'recompose';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import React from 'react';
 
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
-import { compose, setPropTypes, pure } from 'recompose';
+import { formatDateTime } from 'in-services/formatters/date';
+import TimeCount from 'in-new-components/time/TimeCount';
 import Button from 'in-new-components/Button/Button';
-import { interval } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ReleaseOccuredMessage.mless';
@@ -35,7 +35,7 @@ function ReleaseOccurredMessage({ release, windowSize }) {
       <div className={locals.content}>
         <p>Release: {release.name}</p>
         <p>
-          {formatDateTime(release.start)} (<MinutesCount start={release.start} /> ago)
+          {formatDateTime(release.start)} (<TimeCount start={release.start} /> ago)
         </p>
       </div>
       <nav className={locals.controls}>
@@ -48,7 +48,7 @@ function ReleaseOccurredMessage({ release, windowSize }) {
           kind="action"
           onClick={() => removeMessage(release.id)}
         >
-          Go to release
+          Focus time to release
         </Button>
         <Button
           href$={getModifiedUrlStream(params => {
@@ -63,11 +63,3 @@ function ReleaseOccurredMessage({ release, windowSize }) {
     </div>
   );
 }
-
-const MinutesCount = connectTo(({ start }) => ({
-  rangeInMinutes: interval(1000).map(() => fromNowAccurately(start))
-}))(
-  pure(function MinutesCount({ rangeInMinutes }) {
-    return <Fragment>{rangeInMinutes}</Fragment>;
-  })
-);

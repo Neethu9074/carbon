@@ -33,7 +33,8 @@ describe('in-components/Chart/Scales', () => {
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,
-        timeAxisHeight: 0
+        timeAxisHeight: 0,
+        markerPaneHeight: 0
       });
       scales.update();
 
@@ -69,7 +70,8 @@ describe('in-components/Chart/Scales', () => {
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,
-        timeAxisHeight: 0
+        timeAxisHeight: 0,
+        markerPaneHeight: 0
       });
       scales.update();
 
@@ -87,7 +89,8 @@ describe('in-components/Chart/Scales', () => {
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,
-        timeAxisHeight: 0
+        timeAxisHeight: 0,
+        markerPaneHeight: 0
       });
 
       expect(scales.y1.tickPositions).to.equal(undefined);

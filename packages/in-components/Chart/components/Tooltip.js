@@ -1,15 +1,13 @@
-import { on, empty } from 'reactive-observables';
+import { on } from 'reactive-observables';
 import React from 'react';
-import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment, timeConfig$ } from 'in-stores/timeline';
+
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
+import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import ApplyTimeframeButtons from 'in-components/Chart/components/ApplyTimeframeButtons';
 import HighlightedTimeframe from 'in-components/Chart/components/HighlightedTimeframe';
-import ReleasesTooltip from 'in-components/Chart/components/ReleasesTooltip';
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import getReleases from 'in-events/subscriptions/getReleases';
-import { releasesEnabled } from 'in-services/featureFlags';
-import { pendingResult } from 'in-services/fixedObjects';
+
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
@@ -19,23 +17,10 @@ const userInteractionThrottlingMillis = 50;
 
 export default connectTo(
   props => {
-    let latestRelease$ = empty;
-    if (releasesEnabled) {
-      latestRelease$ = timeConfig$
-        .flatMap(timeConfig =>
-          getReleases({
-            timeConfig,
-            pagination: {
-              page: 1,
-              pageSize: 1
-            }
-          })
-        )
-        .startWith(pendingResult)
-        .map(({ data }) => (data && data.items && data.items.length > 0 ? data.items[0] : null));
-    }
-
-    const observables = { highlightedMoment: highlightedMoment$, latestRelease: latestRelease$ };
+    const observables = {
+      highlightedMoment: highlightedMoment$,
+      events: props.chart.chartEventsManager.events$
+    };
 
     if (props.timeConfig.autoRefresh) {
       observables['timeSinceLastAnimationDurationPassed'] = getAnimationFramesWithAnAnimationDurationOf(
@@ -51,7 +36,8 @@ export default connectTo(
     xScale = createScale();
 
     state = {
-      shouldRenderButtons: false
+      shouldRenderButtons: false,
+      releaseTooltip: null
     };
 
     componentDidMount() {
@@ -68,15 +54,6 @@ export default connectTo(
       const cursorHasCrossedHalfOfTheCanvas = this.cursorHasCrossedHalfOfTheCanvas(cursorXPositionOnCanvas);
       this.updateScale();
 
-      let releaseMarkerXPositionOnCanvas;
-      if (releasesEnabled) {
-        if (this.props.latestRelease !== null) {
-          releaseMarkerXPositionOnCanvas = this.getNearestDomainXPosition(
-            this.getNearestDomain(this.props.latestRelease.start)
-          );
-        }
-      }
-
       return (
         <div
           className={evaluateClassNames({
@@ -89,23 +66,19 @@ export default connectTo(
             glassPane={this.glassPane}
             shouldRenderButtons={this.shouldRenderButtons}
           />
-          {releasesEnabled &&
-            releaseMarkerXPositionOnCanvas && (
-              <ReleasesTooltip
-                markerHasCrossedHalfOfTheCanvas={this.cursorHasCrossedHalfOfTheCanvas(releaseMarkerXPositionOnCanvas)}
-                markerXPosition={releaseMarkerXPositionOnCanvas}
-                release={this.props.latestRelease}
-              />
-            )}
-          {cursorXPositionOnCanvas && cursorXPositionOnCanvas !== releaseMarkerXPositionOnCanvas ? (
+
+          {cursorXPositionOnCanvas ? (
             <TooltipLineAndContent
               {...this.props}
+              hoveredEvent={this.hoveredEvent(this.props.highlightedMoment)}
               cursorXPositionOnCanvas={cursorXPositionOnCanvas}
               cursorHasCrossedHalfOfTheCanvas={cursorHasCrossedHalfOfTheCanvas}
               nearestTimeInMetrics={nearestTimeInMetrics}
             />
           ) : null}
+
           <div ref={glassPane => (this.glassPane = glassPane)} className={locals.glassPane} />
+
           {this.state.shouldRenderButtons && (
             <ApplyTimeframeButtons xScale={this.xScale} metrics={this.props.metrics} />
           )}
@@ -179,6 +152,18 @@ export default connectTo(
       return cursorXPosition > fullWidth / 2;
     }
 
+    hoveredEvent = highlightedMoment => {
+      const levelToHoverEvent = 20;
+      const highlightedMomentXPos = this.xScale.getRange(highlightedMoment);
+      for (let i = 0; i < this.props.events.length; i++) {
+        const event = this.props.events[i];
+        const xPos = this.xScale.getRange(event.start);
+        if (Math.abs(xPos - highlightedMomentXPos) < levelToHoverEvent) {
+          return event;
+        }
+      }
+    };
+
     shouldRenderButtons = b => {
       if (this.state.shouldRenderButtons !== b) {
         this.setState({ shouldRenderButtons: b });
@@ -191,6 +176,7 @@ function TooltipLineAndContent({
   cursorXPositionOnCanvas,
   cursorHasCrossedHalfOfTheCanvas,
   nearestTimeInMetrics,
+  hoveredEvent,
   ...props
 }) {
   return (
@@ -207,6 +193,7 @@ function TooltipLineAndContent({
         })}
       >
         <TooltipContent
+          hoveredEvent={hoveredEvent}
           timestamp={nearestTimeInMetrics}
           chart={props.chart}
           reverseTooltipOrder={props.reverseTooltipOrder}

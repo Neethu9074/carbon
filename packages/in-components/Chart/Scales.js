@@ -36,7 +36,7 @@ export default class Scales {
       return;
     }
 
-    scale.setRangeTo(0);
+    scale.setRangeTo(this.config.markerPaneHeight);
     scale.setRangeFrom(this.config.height - this.config.timeAxisHeight);
 
     scale.setDomainFrom(axis.minValue);

@@ -103,8 +103,8 @@ const times = [
   }
 ];
 
-export function fromNowAccurately(millis) {
-  return formatDurationAccurately(Math.abs(Date.now() - millis));
+export function fromNowAccurately(millis, ignoreTimesSmallerThan) {
+  return formatDurationAccurately(Math.abs(Date.now() - millis), ignoreTimesSmallerThan);
 }
 
 export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000, useShort = true) {

@@ -98,6 +98,8 @@ export default class RenderScheduler {
 
     this.clearOverdraw(config);
 
+    this.chart.renderEvents(config);
+
     timeLineRenderer(config, this.tickPositions);
   }
 

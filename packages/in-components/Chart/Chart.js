@@ -1,11 +1,19 @@
+import ChartEventsManager from 'in-components/Chart/ChartEventsManager';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import Config from 'in-components/Chart/Configuration';
 
 export default class Chart {
   constructor(canvas, props) {
     this.isLive = false;
+
+    this.chartEventsManager = new ChartEventsManager();
     this.config = new Config(canvas, props);
     this.renderScheduler = new RenderScheduler(this);
+
+    this.eventsSubscription = this.chartEventsManager.events$.subscribe(events => {
+      this.events = events;
+      this.requestRender();
+    });
   }
 
   update(props) {
@@ -102,6 +110,10 @@ export default class Chart {
     this.forceUpdateRendering();
   }
 
+  renderEvents(config) {
+    this.chartEventsManager.renderEvents(this.events, config);
+  }
+
   forceUpdateRendering() {
     if (!this.isLive) {
       this.renderScheduler.atomicRender();
@@ -120,5 +132,8 @@ export default class Chart {
 
   dispose() {
     this.renderScheduler.dispose();
+
+    this.eventsSubscription.dispose();
+    this.eventsSubscription = null;
   }
 }

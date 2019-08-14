@@ -5,7 +5,7 @@
   .flyoutMessage {
     background: #fff;
     font-size: 0.8rem;
-    max-width: 21rem;
+    max-width: 24rem;
     padding: 0rem 1.2rem;
     margin: 0 0 1rem;
     border-radius: @lib__shapes__radius_medium;
