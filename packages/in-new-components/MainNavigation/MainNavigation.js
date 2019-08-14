@@ -1,6 +1,7 @@
 import onClickOutside from 'react-onclickoutside';
 import React, { Fragment } from 'react';
 
+import NewUiClientVersionAvailable from 'in-new-components/MainNavigation/components/NewUiClientVersionAvailable';
 import { click } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
@@ -99,6 +100,7 @@ export default onClickOutside(
           >
             <div className={locals.backPlane} onMouseEnter={this.disposeHandle} />
             <Stan isExpanded={isExpanded} />
+            <NewUiClientVersionAvailable isExpanded={isExpanded} />
             <ViewSwitcher
               isExpanded={isExpanded}
               expandedSubMenu={expandedSubMenu}
