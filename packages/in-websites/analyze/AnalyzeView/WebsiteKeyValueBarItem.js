@@ -1,7 +1,7 @@
 import { withProps } from 'recompose';
 
 import KeyValueBarItemBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarItemBehavior';
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 
 export default withProps({
   serializeFilter: true,

@@ -567,3 +567,7 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 function TableActionLoadingIndicator() {
   return <SvgIcon type={'lib_actions_loading'} color={theme.lib.colors.N600Light} spinning />;
 }
+
+export function reload() {
+  reloadEntitiesSignal$.emit(true);
+}

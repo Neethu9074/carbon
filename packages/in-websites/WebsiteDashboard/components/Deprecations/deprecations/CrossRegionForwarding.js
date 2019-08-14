@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import Deprecation from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecation';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import getWebsiteMetrics from 'in-subscription/websiteMonitoring/getWebsiteMetrics';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, percentage } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getEumSnippet } from 'in-services/eum';

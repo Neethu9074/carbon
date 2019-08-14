@@ -36,6 +36,7 @@ import './website/DeprecationsStory';
 import './website/NewWebsiteStory';
 import './website/OverviewChart';
 import './website/PageLoadView/PageLoadViewStory';
+import './website/StackTraceTranslationConfigurationStory';
 
 import './components/Axis';
 import './components/BadgeStory';

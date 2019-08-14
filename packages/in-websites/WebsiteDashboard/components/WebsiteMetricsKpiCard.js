@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getWebsiteMetrics from 'in-subscription/websiteMonitoring/getWebsiteMetrics';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
-import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 

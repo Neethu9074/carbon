@@ -1,14 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/HelpParagraph';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
+import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
-import { removeWebsite } from 'in-websites/tracker';
 import Button from 'in-new-components/Button';
-import { removeKey } from 'in-api/eumKeys';
 import Card from 'in-new-components/Card';
 
 import locals from './Remove.mless';
@@ -78,11 +78,11 @@ export default class Remove extends React.PureComponent {
       removeError: null
     });
 
-    removeWebsite({
+    removeWebsiteTracker({
       websiteName: this.props.websiteLabel
     });
 
-    this.subscription = combineDataAndError(removeKey(this.props.websiteId)).once(({ error }) => {
+    this.subscription = combineDataAndError(removeWebsite(this.props.websiteId)).once(({ error }) => {
       if (error) {
         this.setState({
           loading: false,

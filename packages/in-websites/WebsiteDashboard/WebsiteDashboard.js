@@ -14,7 +14,7 @@ import WebsitesBreadcrumb from 'in-websites/breadcrumbs/WebsitesBreadcrumb';
 import WebsiteBreadcrumb from 'in-websites/breadcrumbs/WebsiteBreadcrumb';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import PageBreadcrumb from 'in-websites/breadcrumbs/PageBreadcrumb';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';

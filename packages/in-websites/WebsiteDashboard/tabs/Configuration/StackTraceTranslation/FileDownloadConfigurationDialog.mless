@@ -1,0 +1,19 @@
+:local {
+  .dialog {
+    width: 55rem;
+  }
+
+  .actions {
+    text-align: right;
+  }
+
+  .help {
+    font-size: 1rem;
+  }
+
+  .header {
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+  }
+}

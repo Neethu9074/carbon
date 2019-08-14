@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dialog {
+    width: 59rem;
+  }
+
+  .help {
+    font-size: 1rem;
+  }
+
+  .removableRow {
+    display: flex;
+    justify-content: space-between;
+
+    & > :first-child {
+      @grid__gutter__px: @grid__gutter / 2px;
+      width: ~"calc(100% - @{grid__gutter__px})";
+    }
+  }
+
+  .removeButton {
+    fill: @lib__colors__blue800;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 1.6rem;
+  }
+}

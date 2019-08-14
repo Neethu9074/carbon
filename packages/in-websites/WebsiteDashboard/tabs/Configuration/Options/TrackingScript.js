@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/HelpParagraph';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getEumSnippet } from 'in-services/eum';
 import Button from 'in-new-components/Button';

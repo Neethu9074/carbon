@@ -7,7 +7,7 @@ import {
   beaconTimestampUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import getWebsiteBeaconsForPageLoad from 'in-subscription/websiteMonitoring/getWebsiteBeaconsForPageLoad';
+import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';

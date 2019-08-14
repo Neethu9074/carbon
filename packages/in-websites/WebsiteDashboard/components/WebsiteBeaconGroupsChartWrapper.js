@@ -2,7 +2,7 @@ import { compose, withState, withProps } from 'recompose';
 import { find } from 'lodash';
 import React from 'react';
 
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import ButtonGroup from 'in-new-components/ButtonGroup';

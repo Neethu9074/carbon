@@ -1,5 +1,5 @@
 import DeprecationsPresenter from 'in-websites/WebsiteDashboard/components/Deprecations/DeprecationsPresenter';
-import getWebsiteDeprecations from 'in-subscription/websiteMonitoring/getWebsiteDeprecations';
+import getWebsiteDeprecations from 'in-websites/subscriptions/getWebsiteDeprecations';
 import connect from 'in-hoc/connectTo';
 
 export default connect(({ tagFilters }) => ({

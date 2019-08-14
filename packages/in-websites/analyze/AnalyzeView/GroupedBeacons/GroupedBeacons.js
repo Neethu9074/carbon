@@ -8,7 +8,7 @@ import {
 } from 'in-websites/analyze/AnalyzeView/metrics';
 import GroupedBeaconsTable from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeaconsTable';
 import WebsiteGroupMetricsChart from 'in-websites/analyze/AnalyzeView/WebsiteGroupMetricsChart';
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';

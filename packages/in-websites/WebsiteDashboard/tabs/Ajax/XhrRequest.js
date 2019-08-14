@@ -9,7 +9,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
-import getWebsiteMetrics from 'in-subscription/websiteMonitoring/getWebsiteMetrics';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';

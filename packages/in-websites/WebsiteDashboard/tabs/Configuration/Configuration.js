@@ -1,28 +1,49 @@
-import React, { Fragment } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import React from 'react';
 
-import TrackingScript from 'in-websites/WebsiteDashboard/tabs/Configuration/TrackingScript';
-import Rename from 'in-websites/WebsiteDashboard/tabs/Configuration/Rename';
-import Remove from 'in-websites/WebsiteDashboard/tabs/Configuration/Remove';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
+import {
+  configurationOptionsFullyQualified,
+  configurationJsStackTraceTranslationFullyQualified
+} from 'in-websites/navigation/paths';
+import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
+import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import { javaScriptStackTraceTranslationEnabled } from 'in-services/featureFlags';
+import connectTo from 'in-hoc/connectTo';
+
+const NavigationItem = connectTo(({ path }) => ({
+  href: getModifiedUrlStream(params => (params.pathname = path)),
+  isActive: navigationParameters$.map(params => params.pathname.startsWith(path))
+}))(function NavigationItem({ href, label, isActive }) {
+  return <SideNavigationItem omitEmptyIcon label={label} href={href} isActive={isActive} />;
+});
 
 export default function Configuration(props) {
+  if (!javaScriptStackTraceTranslationEnabled) {
+    return <Options {...props} lg={6} lgOffset={3} />;
+  }
+
+  const sidebar = (
+    <SideNavigation title="Configuration">
+      <NavigationItem label="Options" path={configurationOptionsFullyQualified} />
+      <NavigationItem label="JS Stack Trace Translation" path={configurationJsStackTraceTranslationFullyQualified} />
+    </SideNavigation>
+  );
   return (
-    <Fragment>
-      <Row>
-        <Col lg={6} lgOffset={3}>
-          <Rename {...props} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={6} lgOffset={3}>
-          <TrackingScript {...props} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={6} lgOffset={3}>
-          <Remove {...props} />
-        </Col>
-      </Row>
-    </Fragment>
+    <StickySidebarContainer sidebar={sidebar}>
+      <Switch>
+        <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} lg={7} lgOffset={1} />} />
+        <Route
+          path={configurationJsStackTraceTranslationFullyQualified}
+          render={() => <StackTraceTranslation {...props} />}
+        />
+        <RedirectWithHash
+          to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
+        />
+      </Switch>
+    </StickySidebarContainer>
   );
 }

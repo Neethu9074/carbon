@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getWebsiteCountryBreakdown from 'in-subscription/websiteMonitoring/getWebsiteCountryBreakdown';
-import getWebsiteSubdivisions from 'in-subscription/websiteMonitoring/getWebsiteSubdivisions';
+import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
+import getWebsiteSubdivisions from 'in-websites/subscriptions/getWebsiteSubdivisions';
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
 

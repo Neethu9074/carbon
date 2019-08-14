@@ -5,7 +5,7 @@ import React from 'react';
 
 import perBeaconTypeConfigs from 'in-websites/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
 import BeaconsPresenter from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsPresenter';
-import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
+import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import { timestampMetricName } from 'in-websites/analyze/AnalyzeView/metrics';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';

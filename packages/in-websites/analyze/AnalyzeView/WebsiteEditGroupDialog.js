@@ -1,6 +1,6 @@
 import { withProps } from 'recompose';
 
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
 
 export default withProps({

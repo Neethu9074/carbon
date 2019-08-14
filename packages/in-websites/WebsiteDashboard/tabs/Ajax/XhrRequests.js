@@ -5,7 +5,7 @@ import {
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
+import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';

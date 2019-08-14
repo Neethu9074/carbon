@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
-import getWebsiteMetrics from 'in-subscription/websiteMonitoring/getWebsiteMetrics';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './LearnMoreUserPointer.mless';

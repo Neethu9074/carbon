@@ -11,7 +11,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
-import getWebsiteError from 'in-subscription/websiteMonitoring/getWebsiteError';
+import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { shorten, isNotBlank, removeBlankLines } from 'in-services/util/string';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';

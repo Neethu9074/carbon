@@ -24,7 +24,7 @@ import {
 } from 'in-websites/tracker';
 import WebsiteEditGroupDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditGroupDialog';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView/GroupedBeacons/GroupedBeacons';
-import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
+import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { availableGroupingTags, availableFilterTags } from 'in-websites/tags';

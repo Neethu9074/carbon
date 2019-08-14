@@ -10,7 +10,7 @@ import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
-import getWebsites from 'in-subscription/websiteMonitoring/getWebsites';
+import getWebsites from 'in-websites/subscriptions/getWebsites';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';

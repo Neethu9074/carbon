@@ -4,14 +4,14 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
-import getWebsite from 'in-subscription/websiteMonitoring/getWebsite';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
 import ReadyStep from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 import { combineDataAndError } from 'in-services/util/ro';
-import { addWebsite } from 'in-websites/tracker';
-import { addKey } from 'in-api/eumKeys';
+import { addWebsite } from 'in-websites/api/websites';
 
 export default class NewWebsiteFlow extends React.PureComponent {
   constructor(props) {
@@ -46,11 +46,11 @@ export default class NewWebsiteFlow extends React.PureComponent {
       saveError: null
     });
 
-    addWebsite({
+    addWebsiteTracker({
       websiteName: field.value
     });
 
-    this.saveSubscription = combineDataAndError(addKey(field.value)).once(({ data, error }) => {
+    this.saveSubscription = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
       if (error) {
         this.setState({
           loading: false,

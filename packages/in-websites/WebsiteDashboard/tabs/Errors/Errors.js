@@ -10,7 +10,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';

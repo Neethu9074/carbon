@@ -2,14 +2,14 @@ import { createField, notBlankValidator } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/HelpParagraph';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracker';
+import { renameWebsite, getWebsites } from 'in-websites/api/websites';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
-import { renameKey, getAllEumKeys } from 'in-api/eumKeys';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
-import { renameWebsite } from 'in-websites/tracker';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -29,7 +29,7 @@ export default class Rename extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.loadSubscription = combineDataAndError(getAllEumKeys()).once(({ data, error }) => {
+    this.loadSubscription = combineDataAndError(getWebsites()).once(({ data, error }) => {
       if (error) {
         this.setState({
           loading: false
@@ -72,7 +72,7 @@ export default class Rename extends React.PureComponent {
       return;
     }
 
-    renameWebsite({
+    renameWebsiteTracker({
       newName: field.value,
       previousName: this.props.data.label
     });
@@ -83,7 +83,7 @@ export default class Rename extends React.PureComponent {
       saveResult: null
     });
 
-    this.saveSubscription = combineDataAndError(renameKey(this.props.websiteId, field.value)).once(({ error }) => {
+    this.saveSubscription = combineDataAndError(renameWebsite(this.props.websiteId, field.value)).once(({ error }) => {
       if (error) {
         this.setState({
           loading: false,

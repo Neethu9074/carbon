@@ -49,6 +49,13 @@ export const resourcesTabFullyQualified = `${websitePathFullyQualified}${resourc
 export const ajaxTab = '/ajax';
 export const ajaxTabFullyQualified = `${websitePathFullyQualified}${ajaxTab}`;
 
+export const configurationTab = '/configuration';
+export const configurationTabFullyQualified = `${websitePathFullyQualified}${configurationTab}`;
+export const configurationOptions = '/options';
+export const configurationOptionsFullyQualified = `${configurationTabFullyQualified}${configurationOptions}`;
+export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
+export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
+
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;
 });

@@ -16,6 +16,7 @@ export default function SaveCancel({
   isCreate,
   listPath,
   cancelButtonLabel = 'Cancel',
+  onClickCancelButton,
   hasSaveButton = true,
   hasCancelButton = true
 }) {
@@ -30,7 +31,7 @@ export default function SaveCancel({
       </Section>
       <Section className={locals.saveCancelRow}>
         {hasCancelButton && (
-          <Button kind="subtle" className={locals.button} onClick={() => goToPath(listPath)}>
+          <Button kind="subtle" className={locals.button} onClick={onClickCancelButton || (() => goToPath(listPath))}>
             {cancelButtonLabel}
           </Button>
         )}

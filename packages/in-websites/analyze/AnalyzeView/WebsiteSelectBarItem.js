@@ -1,6 +1,6 @@
 import { withProps } from 'recompose';
 
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import SelectBarItem from 'in-analyze/components/filterBar/SelectBarItem';
 
 export default withProps({

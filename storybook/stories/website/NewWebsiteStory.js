@@ -9,8 +9,6 @@ import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 
 import Root from '../_helpers/Root';
 
-
-
 storiesOf('Websites/New Website', module)
   .addDecorator(withKnobs)
   .add('Input Step', () => <InputStepStory />)

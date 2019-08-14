@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import getWebsiteCountryBreakdown from 'in-subscription/websiteMonitoring/getWebsiteCountryBreakdown';
+import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';

@@ -7,7 +7,7 @@ import {
   navigateToPageLoadFromBackendTrace
 } from 'in-websites/tracker';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
-import getWebsiteBeacons from 'in-subscription/websiteMonitoring/getWebsiteBeacons';
+import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';

@@ -1,7 +1,7 @@
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import getWebsiteBackendTraceId from 'in-subscription/websiteMonitoring/getWebsiteBackendTraceId';
+import getWebsiteBackendTraceId from 'in-websites/subscriptions/getWebsiteBackendTraceId';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';

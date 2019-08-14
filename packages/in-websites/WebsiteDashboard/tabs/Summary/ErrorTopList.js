@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import getWebsiteErrors from 'in-subscription/websiteMonitoring/getWebsiteErrors';
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { getLinkToWebsite, getLinkToError } from 'in-websites/navigation/paths';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { affectedUsers } from 'in-websites/formatters';

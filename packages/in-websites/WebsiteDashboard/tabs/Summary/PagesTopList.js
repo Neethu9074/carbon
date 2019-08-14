@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getWebsitePaginatedBeaconGroups from 'in-subscription/websiteMonitoring/getWebsitePaginatedBeaconGroups';
+import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';

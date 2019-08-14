@@ -16,7 +16,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
-import getWebsiteMetrics from 'in-subscription/websiteMonitoring/getWebsiteMetrics';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
 import ResourceBreadcrumb from 'in-websites/breadcrumbs/ResourceBreadcrumb';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';

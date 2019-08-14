@@ -1,7 +1,7 @@
 import { withProps } from 'recompose';
 
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
-import getWebsiteBeaconGroups from 'in-subscription/websiteMonitoring/getWebsiteBeaconGroups';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 
 export default withProps({
   getKeySuggestions: ({ timeConfig, tagFilters, tag }) => {
