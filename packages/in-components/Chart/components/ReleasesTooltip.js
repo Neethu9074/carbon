@@ -1,11 +1,11 @@
 import { withState, compose, setPropTypes, pure } from 'recompose';
+import { interval } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
-import { interval } from 'reactive-observables';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ReleasesTooltip.mless';
@@ -19,37 +19,24 @@ export default compose(
       start: PropTypes.number.isRequired
     })
   }),
-  withState('popupVisible', 'setPopupVisible', false),
-  withState('isOnForegroundLayer', 'setIsOnForegroundLayer', false)
+  withState('popupVisisible', 'setPopupVisible', false)
 )(ReleaseTooltip);
 
 function ReleaseTooltip({
-  isOnForegroundLayer,
   markerHasCrossedHalfOfTheCanvas,
   markerXPosition,
-  popupVisible,
+  popupVisisible,
   release,
-  setIsOnForegroundLayer,
   setPopupVisible
 }) {
   return (
     <div
-      className={evaluateClassNames({
-        [locals.marker]: true,
-        [locals.onForegroundLayer]: isOnForegroundLayer,
-        [locals.onBaseLayer]: !isOnForegroundLayer
-      })}
+      className={locals.marker}
       style={{
         transform: `translate(${markerXPosition}px)`
       }}
-      onMouseEnter={() => {
-        setIsOnForegroundLayer(true);
-        setPopupVisible(true);
-      }}
-      onMouseLeave={() => {
-        setIsOnForegroundLayer(false);
-        setPopupVisible(false);
-      }}
+      onMouseEnter={() => setPopupVisible(true)}
+      onMouseLeave={() => setPopupVisible(false)}
     >
       <div
         className={evaluateClassNames({
@@ -57,7 +44,7 @@ function ReleaseTooltip({
           [locals.leftAlignedContent]: markerHasCrossedHalfOfTheCanvas
         })}
       >
-        {popupVisible && <ReleaseTooltipContent start={release.start} name={release.name} />}
+        {popupVisisible && <ReleaseTooltipContent start={release.start} name={release.name} />}
       </div>
       <SvgIcon
         className={joinClassNames(locals.markerIcon, locals.markerIconBackground)}
@@ -65,8 +52,6 @@ function ReleaseTooltip({
         size={28}
       />
       <SvgIcon className={joinClassNames(locals.markerIcon, locals.markerIconForeground)} type="lib_release_rocket" />
-      <div className={locals.markerLine} />
-      <div className={locals.markerOffsetLine} />
     </div>
   );
 }
@@ -76,15 +61,12 @@ function ReleaseTooltipContent({ name, start }) {
     <div className={locals.tooltipContent}>
       <h2 className={locals.heading}>
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
-        &nbsp;
-        <span className={locals.timeCount}>
-          (<MinutesCount start={start} /> ago)
-        </span>
+        &nbsp; (<MinutesCount start={start} /> ago)
       </h2>
       <h3 className={locals.subHeading}>Release</h3>
       <div className={locals.subContent}>
         <SvgIcon className={locals.tooltipIcon} type="lib_release_rocket" />
-        <span className={locals.releaseName}>{name}</span>
+        <span>{name}</span>
       </div>
     </div>
   );
