@@ -39,6 +39,7 @@ export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', t
 export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const releasesEnabled = isFeatureFlagEnabled('releasesEnabled');
+export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords

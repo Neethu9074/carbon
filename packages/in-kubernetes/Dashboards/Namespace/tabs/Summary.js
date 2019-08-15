@@ -22,8 +22,6 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
-const showUsage = isAdhocMetricAggregationEnabled;
-
 export default function Summary({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
   const {
@@ -47,144 +45,240 @@ export default function Summary({ timeConfig, data: namespace }) {
         />
       </KpiGridRow>
 
-      <Row>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="CPU Req. Alloc."
-            snapshotId={snapshotId}
-            metric="required_cpu_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="CPU Limits Alloc."
-            snapshotId={snapshotId}
-            metric="limit_cpu_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Memory Req. Alloc."
-            snapshotId={snapshotId}
-            metric="required_mem_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Memory Limits Alloc."
-            snapshotId={snapshotId}
-            metric="limit_mem_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Pods Alloc."
-            snapshotId={snapshotId}
-            metric="used_pods_percentage"
-            formatter={resourceQuotaPercentage}
-          />
-        </Col>
-      </Row>
+      {!isAdhocMetricAggregationEnabled && (
+        <Row>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Req. Alloc"
+              snapshotId={snapshotId}
+              metric="required_cpu_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Limits Alloc."
+              snapshotId={snapshotId}
+              metric="limit_cpu_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Req. Alloc"
+              snapshotId={snapshotId}
+              metric="required_mem_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Limits Alloc."
+              snapshotId={snapshotId}
+              metric="limit_mem_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Pods Alloc."
+              snapshotId={snapshotId}
+              metric="used_pods_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+        </Row>
+      )}
 
-      <Row verticallyStretchColumns>
-        <Col lg={4}>
-          <Card title="CPU Resources" useMaxAvailableHeight>
-            <ResourceQuotaChart
+      {!isAdhocMetricAggregationEnabled && (
+        <Row verticallyStretchColumns>
+          <Col lg={4}>
+            <Card title="CPU Resources" useMaxAvailableHeight>
+              <ResourceQuotaChart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                metrics={['cap_requests_cpu', 'used_requests_cpu', 'cap_limits_cpu', 'used_limits_cpu']}
+                renderChart={() => (
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      formatter: resourceQuotaNumber,
+                      metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
+                      labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits'],
+                      type: 'line',
+                      min: 0,
+                      colors: [hardRequests, requests, hardLimits, limits]
+                    }}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+          <Col lg={4}>
+            <Card title="Memory Resources" useMaxAvailableHeight>
+              <ResourceQuotaChart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                metrics={['cap_requests_memory', 'used_requests_memory', 'cap_limits_memory', 'used_limits_memory']}
+                renderChart={() => (
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      formatter: resourceQuotaBytes,
+                      metrics: [
+                        'cap_requests_memory',
+                        'used_requests_memory',
+                        'cap_limits_memory',
+                        'used_limits_memory'
+                      ],
+                      labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits'],
+                      type: 'line',
+                      min: 0,
+                      colors: [hardRequests, requests, hardLimits, limits]
+                    }}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+          <Col lg={4}>
+            <Card title="Pods" useMaxAvailableHeight>
+              <ResourceQuotaChart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                metrics={['used_pods', 'cap_pods']}
+                renderChart={() => (
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      formatter: resourceQuotaZeroDecimalPlaces,
+                      metrics: ['used_pods', 'cap_pods'],
+                      labels: ['Used', 'Hard'],
+                      type: 'line',
+                      min: 0,
+                      colors: [pods, hardLimits]
+                    }}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+        </Row>
+      )}
+
+      {isAdhocMetricAggregationEnabled && (
+        <Row>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Usage"
               snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              metrics={['cap_requests_cpu', 'used_requests_cpu', 'cap_limits_cpu', 'used_limits_cpu']}
-              renderChart={() => (
-                <Chart
-                  snapshotId={snapshotId}
-                  timeConfig={timeConfig}
-                  y1={{
-                    formatter: resourceQuotaNumber,
-                    metrics: [
-                      `cap_requests_cpu`,
-                      `used_requests_cpu`,
-                      `cap_limits_cpu`,
-                      `used_limits_cpu`,
-                      showUsage && 'cpu.user_usage'
-                    ].filter(Boolean),
-                    labels: [
-                      'Hard Requests',
-                      'Used Requests',
-                      'Hard Limits',
-                      'Used Limits',
-                      showUsage && 'Usage'
-                    ].filter(Boolean),
-                    type: 'line',
-                    min: 0,
-                    colors: [hardRequests, requests, hardLimits, limits, usage]
-                  }}
-                />
-              )}
+              metric="cpu.user_usage"
+              formatter={resourceQuotaNumber}
             />
-          </Card>
-        </Col>
-        <Col lg={4}>
-          <Card title="Memory Resources" useMaxAvailableHeight>
-            <ResourceQuotaChart
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Limits"
               snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              metrics={['cap_requests_memory', 'used_requests_memory', 'cap_limits_memory', 'used_limits_memory']}
-              renderChart={() => (
-                <Chart
-                  snapshotId={snapshotId}
-                  timeConfig={timeConfig}
-                  y1={{
-                    formatter: resourceQuotaBytes,
-                    metrics: [
-                      'cap_requests_memory',
-                      'used_requests_memory',
-                      'cap_limits_memory',
-                      'used_limits_memory',
-                      showUsage && 'memory.usage'
-                    ].filter(Boolean),
-                    labels: [
-                      'Hard Requests',
-                      'Used Requests',
-                      'Hard Limits ',
-                      'Used Limits',
-                      showUsage && 'Usage'
-                    ].filter(Boolean),
-                    type: 'line',
-                    min: 0,
-                    colors: [hardRequests, requests, hardLimits, limits, usage]
-                  }}
-                />
-              )}
+              metric="cpuLimits"
+              formatter={resourceQuotaNumber}
             />
-          </Card>
-        </Col>
-        <Col lg={4}>
-          <Card title="Pods" useMaxAvailableHeight>
-            <ResourceQuotaChart
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Usage"
               snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              metrics={['used_pods', 'cap_pods']}
-              renderChart={() => (
-                <Chart
-                  snapshotId={snapshotId}
-                  timeConfig={timeConfig}
-                  y1={{
-                    formatter: resourceQuotaZeroDecimalPlaces,
-                    metrics: ['used_pods', 'cap_pods'],
-                    labels: ['Used', 'Hard'],
-                    type: 'line',
-                    min: 0,
-                    colors: [pods, hardLimits]
-                  }}
-                />
-              )}
+              metric="memory.usage"
+              formatter={resourceQuotaBytes}
             />
-          </Card>
-        </Col>
-      </Row>
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Limits"
+              snapshotId={snapshotId}
+              metric="memoryLimits"
+              formatter={resourceQuotaBytes}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Pods Alloc."
+              snapshotId={snapshotId}
+              metric="used_pods_percentage"
+              formatter={resourceQuotaPercentage}
+            />
+          </Col>
+        </Row>
+      )}
+
+      {isAdhocMetricAggregationEnabled && (
+        <Row verticallyStretchColumns>
+          <Col lg={4}>
+            <Card title="CPU Resources" useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: resourceQuotaNumber,
+                  metrics: ['cpu.user_usage', `cpuRequests`, `cap_requests_cpu`, `cpuLimits`, `cap_limits_cpu`],
+                  labels: ['Usage', 'Used Requests', 'Hard Requests', 'Used Limits', 'Hard Limits'],
+                  type: 'line',
+                  min: 0,
+                  colors: [usage, requests, hardRequests, limits, hardLimits]
+                }}
+              />
+            </Card>
+          </Col>
+          <Col lg={4}>
+            <Card title="Memory Resources" useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: resourceQuotaBytes,
+                  metrics: [
+                    'memory.usage',
+                    'memoryRequests',
+                    'cap_requests_memory',
+                    'memoryLimits',
+                    'cap_limits_memory'
+                  ],
+                  labels: ['Usage', 'Used Requests', 'Hard Requests', 'Used Limits', 'Hard Limits'],
+                  type: 'line',
+                  min: 0,
+                  colors: [usage, requests, hardRequests, limits, hardLimits]
+                }}
+              />
+            </Card>
+          </Col>
+          <Col lg={4}>
+            <Card title="Pods" useMaxAvailableHeight>
+              <ResourceQuotaChart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                metrics={['used_pods', 'cap_pods']}
+                renderChart={() => (
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      formatter: resourceQuotaZeroDecimalPlaces,
+                      metrics: ['used_pods', 'cap_pods'],
+                      labels: ['Used', 'Hard'],
+                      type: 'line',
+                      min: 0,
+                      colors: [pods, hardLimits]
+                    }}
+                  />
+                )}
+              />
+            </Card>
+          </Col>
+        </Row>
+      )}
 
       <Row verticallyStretchColumns>
         <Col lg={6}>

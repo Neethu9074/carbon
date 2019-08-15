@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { resourceQuotaBytes, resourceQuotaTwoDecimalPlaces, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
@@ -67,28 +67,42 @@ export default function Summary({ data: pod, timeConfig }) {
       )}
 
       <Row>
-        <Col lg={3}>
+        <Col lg={2}>
+          <KpiCard
+            title="CPU Usage"
+            value={<MetricValue snapshotId={pod.id} metric="cpu.user_usage" formatter={twoDecimalPlaces} />}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
           <KpiCard
             title="CPU Requests"
             value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <KpiCard
             title="CPU Limits"
             value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
+          <KpiCard
+            title="Memory Usage"
+            value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
           <KpiCard
             title="Memory Requests"
             value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
             raw
           />
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <KpiCard
             title="Memory Limits"
             value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
@@ -105,11 +119,11 @@ export default function Summary({ data: pod, timeConfig }) {
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: resourceQuotaTwoDecimalPlaces,
-                  metrics: ['cpuRequests', 'cpuLimits', 'cpu.user_usage'],
-                  labels: ['Requests', 'Limits', 'Usage'],
+                  formatter: resourceQuotaNumber,
+                  metrics: ['cpu.user_usage', 'cpuRequests', 'cpuLimits'],
+                  labels: ['Usage', 'Requests', 'Limits'],
                   type: 'line',
-                  colors: [requests, limits, usage]
+                  colors: [usage, requests, limits]
                 }}
               />
             </Card>
@@ -121,10 +135,10 @@ export default function Summary({ data: pod, timeConfig }) {
                 timeConfig={timeConfig}
                 y1={{
                   formatter: resourceQuotaBytes,
-                  metrics: ['memoryRequests', 'memoryLimits', 'memory.usage'],
-                  labels: ['Requests', 'Limits', 'Usage'],
+                  metrics: ['memory.usage', 'memoryRequests', 'memoryLimits'],
+                  labels: ['Usage', 'Requests', 'Limits'],
                   type: 'line',
-                  colors: [requests, limits, usage]
+                  colors: [usage, requests, limits]
                 }}
               />
             </Card>

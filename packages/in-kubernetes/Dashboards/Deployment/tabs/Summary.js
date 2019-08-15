@@ -2,11 +2,12 @@ import React, { Fragment } from 'react';
 
 import {
   zeroDecimalPlaces,
-  twoDecimalPlaces,
+  timeByMillisTwoDecimalPlaces,
   bytesTwoDecimalPlaces,
-  timeByMillisTwoDecimalPlaces
+  twoDecimalPlaces
 } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -36,9 +37,9 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Req."
+            title="CPU Usage"
             snapshotId={snapshotId}
-            metric="pods.required_cpu"
+            metric="cpu.user_usage"
             formatter={twoDecimalPlaces}
           />
         </Col>
@@ -47,14 +48,14 @@ export default function Summary({ timeConfig, data: deployment }) {
             title="CPU Limits"
             snapshotId={snapshotId}
             metric="pods.limit_cpu"
-            formatter={twoDecimalPlaces}
+            formatter={resourceQuotaNumber}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Req."
+            title="Memory Usage"
             snapshotId={snapshotId}
-            metric="pods.required_mem"
+            metric="memory.usage"
             formatter={bytesTwoDecimalPlaces}
           />
         </Col>
@@ -63,7 +64,7 @@ export default function Summary({ timeConfig, data: deployment }) {
             title="Memory Limits"
             snapshotId={snapshotId}
             metric="pods.limit_mem"
-            formatter={bytesTwoDecimalPlaces}
+            formatter={resourceQuotaBytes}
           />
         </Col>
         <Col lg={4}>
@@ -83,11 +84,11 @@ export default function Summary({ timeConfig, data: deployment }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: twoDecimalPlaces,
-                metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
+                formatter: resourceQuotaNumber,
+                metrics: [showUsage && 'cpu.user_usage', 'pods.required_cpu', 'pods.limit_cpu'].filter(Boolean),
+                labels: [showUsage && 'Usage', 'Requests', 'Limits'].filter(Boolean),
                 type: 'line',
-                colors: [requests, limits, usage]
+                colors: [showUsage && usage, requests, limits].filter(Boolean)
               }}
             />
           </Card>
@@ -98,11 +99,11 @@ export default function Summary({ timeConfig, data: deployment }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytesTwoDecimalPlaces,
-                metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'memory.usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
+                formatter: resourceQuotaBytes,
+                metrics: [showUsage && 'memory.usage', 'pods.required_mem', 'pods.limit_mem'].filter(Boolean),
+                labels: [showUsage && 'Usage', 'Requests', 'Limits'].filter(Boolean),
                 type: 'line',
-                colors: [requests, limits, usage]
+                colors: [showUsage && usage, requests, limits].filter(Boolean)
               }}
             />
           </Card>

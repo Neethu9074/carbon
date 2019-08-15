@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
@@ -47,42 +48,50 @@ export default function Summary({ timeConfig, data: node }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Requests Alloc."
+            title="CPU Usage"
             snapshotId={snapshotId}
-            metric="required_cpu_percentage"
-            formatter={percentage.detailed}
+            metric="cpu.user_usage"
+            formatter={twoDecimalPlaces}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits Alloc."
+            title="CPU Limits"
             snapshotId={snapshotId}
-            metric="limit_cpu_percentage"
-            formatter={percentage.detailed}
+            metric="limit_cpu"
+            formatter={resourceQuotaNumber}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Requests Alloc."
+            title="Memory Usage"
             snapshotId={snapshotId}
-            metric="required_mem_percentage"
-            formatter={percentage.detailed}
+            metric="memory.usage"
+            formatter={bytesTwoDecimalPlaces}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Limits Alloc."
+            title="Memory Limits"
             snapshotId={snapshotId}
-            metric="limit_mem_percentage"
-            formatter={percentage.detailed}
+            metric="limit_mem"
+            formatter={resourceQuotaBytes}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Pods Alloc."
+            title="Pods"
             snapshotId={snapshotId}
-            metric="alloc_pods_percentage"
-            formatter={percentage.detailed}
+            metric="allocatedPods"
+            formatter={zeroDecimalPlaces}
+          />
+        </Col>
+        <Col lg={2}>
+          <InfraMetricKpiCard
+            title="Pods Cap."
+            snapshotId={snapshotId}
+            metric="cap_pods"
+            formatter={zeroDecimalPlaces}
           />
         </Col>
       </Row>
@@ -94,11 +103,11 @@ export default function Summary({ timeConfig, data: node }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: twoDecimalPlaces,
-                metrics: ['required_cpu', 'limit_cpu', 'cap_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
+                formatter: resourceQuotaNumber,
+                metrics: [showUsage && 'cpu.user_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
+                labels: [showUsage && 'Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
                 type: 'line',
-                colors: [requests, limits, capacity, usage]
+                colors: [showUsage && usage, requests, limits, capacity].filter(Boolean)
               }}
             />
           </Card>
@@ -109,11 +118,11 @@ export default function Summary({ timeConfig, data: node }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytesTwoDecimalPlaces,
-                metrics: ['required_mem', 'limit_mem', 'cap_mem', showUsage && 'memory.usage'].filter(Boolean),
-                labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),
+                formatter: resourceQuotaBytes,
+                metrics: [showUsage && 'memory.usage', 'required_mem', 'limit_mem', 'cap_mem'].filter(Boolean),
+                labels: [showUsage && 'Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
                 type: 'line',
-                colors: [requests, limits, capacity, usage]
+                colors: [showUsage && usage, requests, limits, capacity].filter(Boolean)
               }}
             />
           </Card>

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
-import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -12,11 +13,12 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
-const showUsage = isAdhocMetricAggregationEnabled;
-
 export default function Summary({ timeConfig, data: service }) {
+  const snapshotId = service.id;
   const deploymentId = service.deploymentIds && service.deploymentIds[0];
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const showDeploymentMetrics = !isAdhocMetricAggregationEnabled && deploymentId;
 
   return (
     <Fragment>
@@ -26,14 +28,14 @@ export default function Summary({ timeConfig, data: service }) {
         <KpiCard title="Age" value={formatDuration(service.age)} raw borderless />
       </KpiGridRow>
 
-      {deploymentId && (
+      {showDeploymentMetrics && (
         <Row>
           <Col lg={3}>
             <InfraMetricKpiCard
               title="CPU Req."
               snapshotId={deploymentId}
               metric="pods.required_cpu"
-              formatter={twoDecimalPlaces}
+              formatter={resourceQuotaNumber}
             />
           </Col>
           <Col lg={3}>
@@ -41,7 +43,7 @@ export default function Summary({ timeConfig, data: service }) {
               title="CPU Limits"
               snapshotId={deploymentId}
               metric="pods.limit_cpu"
-              formatter={twoDecimalPlaces}
+              formatter={resourceQuotaNumber}
             />
           </Col>
           <Col lg={3}>
@@ -49,7 +51,7 @@ export default function Summary({ timeConfig, data: service }) {
               title="Memory Req."
               snapshotId={deploymentId}
               metric="pods.required_mem"
-              formatter={bytesTwoDecimalPlaces}
+              formatter={resourceQuotaBytes}
             />
           </Col>
           <Col lg={3}>
@@ -57,13 +59,13 @@ export default function Summary({ timeConfig, data: service }) {
               title="Memory Limits"
               snapshotId={deploymentId}
               metric="pods.limit_mem"
-              formatter={bytesTwoDecimalPlaces}
+              formatter={resourceQuotaBytes}
             />
           </Col>
         </Row>
       )}
 
-      {deploymentId && (
+      {showDeploymentMetrics && (
         <Row verticallyStretchColumns>
           <Col lg={6}>
             <Card title="CPU Resources (Deployment)" useMaxAvailableHeight>
@@ -71,11 +73,11 @@ export default function Summary({ timeConfig, data: service }) {
                 snapshotId={deploymentId}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: twoDecimalPlaces,
-                  metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
-                  labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
+                  formatter: resourceQuotaNumber,
+                  metrics: ['pods.required_cpu', 'pods.limit_cpu'],
+                  labels: ['Requests', 'Limits'],
                   type: 'line',
-                  colors: [requests, limits, usage]
+                  colors: [requests, limits]
                 }}
               />
             </Card>
@@ -86,11 +88,99 @@ export default function Summary({ timeConfig, data: service }) {
                 snapshotId={deploymentId}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: bytesTwoDecimalPlaces,
-                  metrics: ['pods.required_mem', 'pods.limit_mem', showUsage && 'cpu.user_usage'].filter(Boolean),
-                  labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
+                  formatter: resourceQuotaBytes,
+                  metrics: ['pods.required_mem', 'pods.limit_mem'],
+                  labels: ['Requests', 'Limits'],
                   type: 'line',
-                  colors: [requests, limits, usage]
+                  colors: [requests, limits]
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
+      )}
+
+      {isAdhocMetricAggregationEnabled && (
+        <Row>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Usage"
+              snapshotId={snapshotId}
+              metric="cpu.user_usage"
+              formatter={twoDecimalPlaces}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Req."
+              snapshotId={snapshotId}
+              metric="cpuRequests"
+              formatter={resourceQuotaNumber}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="CPU Limits"
+              snapshotId={snapshotId}
+              metric="cpuLimits"
+              formatter={resourceQuotaNumber}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Usage"
+              snapshotId={snapshotId}
+              metric="memory.usage"
+              formatter={bytesTwoDecimalPlaces}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Req."
+              snapshotId={snapshotId}
+              metric="memoryRequests"
+              formatter={resourceQuotaBytes}
+            />
+          </Col>
+          <Col lg={2}>
+            <InfraMetricKpiCard
+              title="Memory Limits"
+              snapshotId={snapshotId}
+              metric="memoryLimits"
+              formatter={resourceQuotaBytes}
+            />
+          </Col>
+        </Row>
+      )}
+
+      {isAdhocMetricAggregationEnabled && (
+        <Row verticallyStretchColumns>
+          <Col lg={6}>
+            <Card title="CPU Resources" useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: resourceQuotaNumber,
+                  metrics: ['cpu.user_usage', 'cpuRequests', 'cpuLimits'],
+                  labels: ['Usage', 'Requests', 'Limits'],
+                  type: 'line',
+                  colors: [usage, requests, limits]
+                }}
+              />
+            </Card>
+          </Col>
+          <Col lg={6}>
+            <Card title="Memory Resources" useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: resourceQuotaBytes,
+                  metrics: ['memory.usage', 'memoryRequests', 'memoryLimits'],
+                  labels: ['Usage', 'Requests', 'Limits'],
+                  type: 'line',
+                  colors: [usage, requests, limits]
                 }}
               />
             </Card>

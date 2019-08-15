@@ -1,7 +1,11 @@
+import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription({
-  eventId: 'subscribe-historic-metric-single',
+const eventId = isAdhocMetricAggregationEnabled
+  ? 'subscribe-historic-metric-single-v2'
+  : 'subscribe-historic-metric-single';
 
+export default createSubscription({
+  eventId,
   memoizeFor: 100
 });
