@@ -100,7 +100,6 @@ export default onClickOutside(
           >
             <div className={locals.backPlane} onMouseEnter={this.disposeHandle} />
             <Stan isExpanded={isExpanded} />
-            <NewUiClientVersionAvailable isExpanded={isExpanded} />
             <ViewSwitcher
               isExpanded={isExpanded}
               expandedSubMenu={expandedSubMenu}
@@ -109,6 +108,7 @@ export default onClickOutside(
               onMouseEnter={this.delayedExpand}
               onMouseLeave={this.onMouseLeave}
             />
+            <NewUiClientVersionAvailable isExpanded={isExpanded} />
           </div>
           {isExpanded && <div className={locals.background} />}
         </Fragment>
