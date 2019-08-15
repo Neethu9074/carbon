@@ -152,6 +152,7 @@ import './vertx.server';
 import './wcf';
 import './wcfclient';
 import './webapi';
+import './webmethods';
 import './wicket';
 import './wmglue';
 import './wordpress';
