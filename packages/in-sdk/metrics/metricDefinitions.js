@@ -57,6 +57,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
       getLabel: getLabel(label),
       test: getTestFunction(metric),
       category: metricDefinition.category || [],
+      hideInMetricSelector: !!metricDefinition.hideInMetricSelector,
       getMin: getMin(metricDefinition),
       getMax: getMax(metricDefinition),
       formatter: metricDefinition.formatter || number,
@@ -135,6 +136,7 @@ function getDefaultMetricDefinition(metric) {
     getLabel: () => metric,
     test: alwaysTrue,
     category: emptyArray,
+    hideInMetricSelector: false,
     getMin: alwaysUndefined,
     getMax: alwaysUndefined,
     formatter: number
@@ -180,7 +182,7 @@ function buildCategories(plugin) {
 
   metricDefinitionsForPlugin.forEach(metricDefinitionForPlugin => {
     // we cannot categorise metrics which are matched based on regex
-    if (typeof metricDefinitionForPlugin.metric === 'string') {
+    if (typeof metricDefinitionForPlugin.metric === 'string' && !metricDefinitionForPlugin.hideInMetricSelector) {
       insertMetric(root, metricDefinitionForPlugin);
     }
   });

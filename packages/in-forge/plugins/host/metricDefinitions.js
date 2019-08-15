@@ -87,6 +87,7 @@ export default [
     metrics: ['topPID'],
     labels: ['Top PID'],
     min: 0,
+    hideInMetricSelector: true,
     formatter: {
       // to handle the pid as a metric is a very special case in the backend and so it is in the UI
       // please don't even make things worse and try to format a PID.
