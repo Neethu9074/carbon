@@ -76,7 +76,7 @@ export function getEntityNameByType(type) {
   } else if (type === 'error') {
     return 'JavaScript errors';
   } else if (type === 'custom') {
-    return 'Custom events';
+    return 'custom events';
   }
 
   return type;
