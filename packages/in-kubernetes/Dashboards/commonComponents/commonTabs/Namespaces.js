@@ -1,6 +1,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -8,11 +9,12 @@ import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNam
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
+import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { clusterId } from 'in-kubernetes/navigation/matrix';
-import MetricValue from 'in-components/MetricValue';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -61,70 +63,75 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cpuRequestsAllocation',
+    id: 'required_cpu_percentage',
     label: 'CPU Requests Alloc.',
-    sortable: false,
-    getContent(item) {
+    sortable: canSortByMetricColumns,
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
+        <ServerSideSortedMetricValue
           snapshotId={get(item, ['namespace', 'id'])}
-          metric="required_cpu_percentage"
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
         />
       );
     }
   },
   {
-    id: 'cpuLimitsAllocation',
+    id: 'limit_cpu_percentage',
     label: 'CPU Limits Alloc.',
-    sortable: false,
-    getContent(item) {
+    sortable: canSortByMetricColumns,
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
+        <ServerSideSortedMetricValue
           snapshotId={get(item, ['namespace', 'id'])}
-          metric="limit_cpu_percentage"
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
         />
       );
     }
   },
   {
-    id: 'memRequestsAllocation',
+    id: 'required_mem_percentage',
     label: 'Memory Requests Alloc.',
-    sortable: false,
-    getContent(item) {
+    sortable: canSortByMetricColumns,
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
+        <ServerSideSortedMetricValue
           snapshotId={get(item, ['namespace', 'id'])}
-          metric="required_mem_percentage"
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
         />
       );
     }
   },
   {
-    id: 'memLimitsAllocation',
+    id: 'limit_mem_percentage',
     label: 'Memory Limits Alloc.',
-    sortable: false,
-    getContent(item) {
+    sortable: canSortByMetricColumns,
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
+        <ServerSideSortedMetricValue
           snapshotId={get(item, ['namespace', 'id'])}
-          metric="limit_mem_percentage"
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
         />
       );
     }
   },
   {
-    id: 'podsAllocation',
+    id: 'used_pods_percentage',
     label: 'Pods Alloc.',
-    sortable: false,
-    getContent(item) {
+    sortable: canSortByMetricColumns,
+    getContent(item, props, columnId) {
       return (
-        <MetricValue
+        <ServerSideSortedMetricValue
           snapshotId={get(item, ['namespace', 'id'])}
-          metric="used_pods_percentage"
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
         />
       );
@@ -203,6 +210,7 @@ function getTableData({
       label: query,
       clusterId,
       timeConfig
-    }
+    },
+    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   });
 }

@@ -65,7 +65,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'lastPendingPhaseDuration',
+    id: 'duration',
     label: 'Last Pending Phase Duration',
     getContent(item, props, columnId) {
       return (

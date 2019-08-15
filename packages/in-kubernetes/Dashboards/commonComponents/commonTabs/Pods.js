@@ -146,7 +146,7 @@ const allColumnDefinitions = [
     id: 'cpuRequests',
     label: 'CPU Requests',
     optional: true,
-    sortable: false,
+    sortable: canSortByMetricColumns,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />;
     }
@@ -155,7 +155,7 @@ const allColumnDefinitions = [
     id: 'cpuLimits',
     label: 'CPU Limits',
     optional: true,
-    sortable: false,
+    sortable: canSortByMetricColumns,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />;
     }
@@ -164,7 +164,7 @@ const allColumnDefinitions = [
     id: 'memoryRequests',
     label: 'Memory Requests',
     optional: true,
-    sortable: false,
+    sortable: canSortByMetricColumns,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />;
     }
@@ -173,7 +173,7 @@ const allColumnDefinitions = [
     id: 'memoryLimits',
     label: 'Memory Limits',
     optional: true,
-    sortable: false,
+    sortable: canSortByMetricColumns,
     getContent(item) {
       return <MetricValue snapshotId={item.pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />;
     }
