@@ -8,6 +8,8 @@ const viewGroupings = Object.freeze({
   ecs: 'ECS_TASK_DEFINITION_FAMILY',
   host: 'HOST',
   kube: 'KUBERNETES_NAMESPACE',
+  cfApp: 'CF_APP_NAME',
+  cfSpace: 'CF_SPACE_NAME',
   marathon: 'MARATHON_APP_ID',
   nomad: 'NOMAD_TASK_NAME',
 
@@ -28,6 +30,8 @@ export const humanReadableDescriptions = Object.freeze({
   ecs: 'Amazon ECS task definition family',
   host: 'Host',
   kube: 'Kubernetes namespace',
+  cfApp: 'Cloud Foundry Application',
+  cfSpace: 'Cloud Foundry Space',
   marathon: 'Marathon application ID',
   nomad: 'Nomad task name',
 
@@ -42,7 +46,18 @@ export const humanReadableDescriptions = Object.freeze({
 
 export const availableGroupings = Object.freeze({
   PHYSICAL: Object.freeze(['infraZone', 'cpuCount', 'cpuModel', 'osArc', 'osName', 'instanceType']),
-  CONTAINER: Object.freeze(['docker', 'marathon', 'ecs', 'nomad', 'kube', 'infraZone', 'compose', 'host']),
+  CONTAINER: Object.freeze([
+    'docker',
+    'marathon',
+    'ecs',
+    'nomad',
+    'kube',
+    'cfApp',
+    'cfSpace',
+    'infraZone',
+    'compose',
+    'host'
+  ]),
   LOGICAL: Object.freeze([])
 });
 
