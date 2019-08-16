@@ -26,11 +26,11 @@ const types = [
   },
   {
     type: 'chains',
-    incomingKpi: 'KPI.incoming.chains.calls'
+    incomingKpi: 'KPI.incoming.chains'
   },
   {
     type: 'logs',
-    incomingKpi: 'KPI.incoming.logs.calls'
+    incomingKpi: 'KPI.incoming.logs'
   }
 ];
 
