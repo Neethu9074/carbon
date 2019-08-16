@@ -112,8 +112,6 @@ export const availableGroupingTags = {
     'beacon.error.message',
     'beacon.error.type',
     'beacon.stackTrace',
-    'beacon.stackTraceElement.file',
-    'beacon.stackTraceElement.name',
     'beacon.componentStack'
   ].sort(),
   custom: [
@@ -124,8 +122,6 @@ export const availableGroupingTags = {
     'beacon.error.message',
     'beacon.error.type',
     'beacon.stackTrace',
-    'beacon.stackTraceElement.file',
-    'beacon.stackTraceElement.name',
     'beacon.componentStack'
   ].sort()
 };
@@ -143,11 +139,12 @@ const commonFilterTags = [
 
 const translatedStackTraceFilterTags = [
   'beacon.stackTrace.parsingStatus',
-  'beacon.stackTraceElement.file',
-  'beacon.stackTraceElement.name',
-  'beacon.stackTraceElement.line',
-  'beacon.stackTraceElement.column',
-  'beacon.stackTraceElement.translationStatus',
+  // Disabled because they are not properly supported in the backend
+  // 'beacon.stackTraceElement.file',
+  // 'beacon.stackTraceElement.name',
+  // 'beacon.stackTraceElement.line',
+  // 'beacon.stackTraceElement.column',
+  // 'beacon.stackTraceElement.translationStatus',
   'beacon.stackTrace.readability'
 ];
 
