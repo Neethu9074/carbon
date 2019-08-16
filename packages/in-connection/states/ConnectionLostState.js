@@ -1,6 +1,7 @@
 import { createLogger } from 'instalog';
 import SockJS from 'sockjs-client';
 
+import { track, CONNECTION_LOST, CONNECTION_ESTABLISHED } from 'in-services/tracking/tracking';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
 import { combineDataAndError } from 'in-services/util/ro';
@@ -18,6 +19,9 @@ const bestAvailableTransport = __DEV__ && isSafari() ? transports.widelySupporte
 
 export default class ConnectionLostState extends AbstractState {
   onEnter() {
+    track(CONNECTION_LOST, {
+      transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+    });
     // Assume that WS connection is not possible when quickly reentering
     // the connection lost step.
     if (this.lastEnterTime >= Date.now() - 3000) {
@@ -119,6 +123,9 @@ export default class ConnectionLostState extends AbstractState {
   onOpen = () => {
     removeMessage('connectionStatus');
     this.sendConnectionSettings();
+    track(CONNECTION_ESTABLISHED, {
+      transport: this.sharedState.socket ? this.sharedState.socket.transport : undefined
+    });
     this.transitionTo('connected');
   };
 

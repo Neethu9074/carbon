@@ -21,10 +21,8 @@ export default class WindowHiddenState extends AbstractState {
     clearTimeout(this.timerHandle);
   }
 
-  sendSubscribeWhenNecessary(subscriptionDescription) {
-    if (!subscriptionDescription.disposeSubscriptionOnDocumentHidden) {
-      super.sendSubscribeWhenNecessary(subscriptionDescription);
-    }
+  sendSubscribeWhenNecessary() {
+    // Never establish any new subscriptions when the document is hidden.
   }
 
   onClose = () => {

@@ -31,6 +31,9 @@ const initializationSteps = [
   // plugin system
   'forge',
 
+  // end-user monitoring for internal purposes
+  'ineum',
+
   // Persistent backend connection
   'connection',
 

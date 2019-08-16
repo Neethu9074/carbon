@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
-import { createDurationTracker, createTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { applicationDashboard, endpointDashboard, serviceDashboard } from 'in-applications/navigation/paths';
+import { createDurationTracker, init as initMixpanelCore } from 'in-services/tracking/mixpanel';
 import { classicDashboard } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationId } from 'in-applications/navigation/matrix';
@@ -9,6 +9,7 @@ import { trackUrlPathChanges } from 'in-services/featureFlags';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { combineLatest, just } from 'reactive-observables';
 import { analyze } from 'in-analyze/navigation/paths';
+import { track } from 'in-services/tracking/tracking';
 import { urlQueryKeys } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 
@@ -32,7 +33,7 @@ export const v2UsageDurationTracker = createDurationTracker('hybrid.v2');
 export function init() {
   initMixpanelCore(mixpanelIsActive => {
     if (mixpanelIsActive) {
-      createTracker('pageLoadOrPageReload')();
+      track('pageLoadOrPageReload');
       initUsageDurationTrackers();
       initViewTrackers();
     }
@@ -236,27 +237,17 @@ function trackPathChanges() {
     return;
   }
 
-  const pathChange = createTracker('url.path.change');
   let prevPath = null;
   navigationParameters$.subscribe(location => {
     // We deliberately only want to track path changes while ignoring query / matrix parameter changes
     if (location.pathname !== prevPath) {
       prevPath = location.pathname;
-      pathChange();
+      track('url.path.change');
     }
   });
 }
 
 function trackView() {
-  const viewOpenApplicationTracker = createTracker('view.open.applications');
-  const viewOpenAnalyzeTracker = createTracker('view.open.analyze');
-  const viewOpenComparisonTableTracker = createTracker('view.open.comparisontable');
-  const viewOpenEventsTracker = createTracker('view.open.events');
-  const viewOpenKubernetesTracker = createTracker('view.open.kubernetes');
-  const viewOpenMapTracker = createTracker('view.open.map');
-  const viewOpenWebsitesTracker = createTracker('view.open.websites');
-  const mapPerspectiveChangeTracker = createTracker('map.perspective.change');
-
   let lastView = null;
   navigationParameters$
     .map(location => {
@@ -274,7 +265,7 @@ function trackView() {
     .subscribe(view => {
       switch (view) {
         case 'analyze':
-          viewOpenAnalyzeTracker();
+          track('view.open.analyze');
           break;
         case 'application':
         // fall through
@@ -286,20 +277,20 @@ function trackView() {
         // fall through
         case 'services':
           if (['application', 'applications', 'endpoint', 'service', 'services'].indexOf(lastView) < 0) {
-            viewOpenApplicationTracker();
+            track('view.open.applications');
           }
           break;
         case 'events':
-          viewOpenEventsTracker();
+          track('view.open.events');
           break;
         case 'kubernetes':
-          viewOpenKubernetesTracker();
+          track('view.open.kubernetes');
           break;
         case 'website':
         // fall through ("website" is the legacy EUM view)
         case 'websiteMonitoring':
           if (lastView !== 'website' && lastView !== 'websiteMonitoring') {
-            viewOpenWebsitesTracker();
+            track('view.open.websites');
           }
           break;
         case 'container':
@@ -308,15 +299,15 @@ function trackView() {
           // eslint-disable-next-line no-case-declarations
           const typeForTracking = view === 'physical' ? 'host' : view;
           if (lastView !== 'physical' && lastView !== 'container') {
-            viewOpenMapTracker({ type: typeForTracking });
+            track('view.open.map', { type: typeForTracking });
           } else {
             // Do not create an "open infra map" even if the user simply switched between hosts and containers while
             // being on the map already.
-            mapPerspectiveChangeTracker({ type: typeForTracking });
+            track('map.perspective.change', { type: typeForTracking });
           }
           break;
         case 'table':
-          viewOpenComparisonTableTracker();
+          track('view.open.comparisontable');
           break;
       }
       lastView = view;
@@ -324,7 +315,6 @@ function trackView() {
 }
 
 function trackOpenDashboardClassic() {
-  const openDashboardClassicTracker = createTracker('dashboard.classic.open');
   navigationParameters$
     .map(location => {
       const matrix = location.matrix;
@@ -342,6 +332,6 @@ function trackOpenDashboardClassic() {
       return combineLatest([just(contextPath), getSnapshot(snapshotId)]);
     })
     .subscribe(([contextPath, snapshot]) => {
-      openDashboardClassicTracker({ context: contextPath, entityType: snapshot.get('plugin') });
+      track('dashboard.classic.open', { context: contextPath, entityType: snapshot.get('plugin') });
     });
 }

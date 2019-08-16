@@ -9,7 +9,6 @@ export default class WindowHiddenLongTimeState extends AbstractState {
 
     this.on('close', this.onClose);
     window.document.addEventListener('visibilitychange', this.onVisibilityChange, false);
-
     this.sharedState.subscriptions.forEach(subscriptionDescription => {
       if (subscriptionDescription.disposeSubscriptionOnDocumentHidden) {
         this.sendUnsubscribeWhenNecessary(subscriptionDescription);
@@ -22,10 +21,8 @@ export default class WindowHiddenLongTimeState extends AbstractState {
     window.document.removeEventListener('visibilitychange', this.onVisibilityChange, false);
   }
 
-  sendSubscribeWhenNecessary(subscriptionDescription) {
-    if (!subscriptionDescription.disposeSubscriptionOnDocumentHidden) {
-      super.sendSubscribeWhenNecessary(subscriptionDescription);
-    }
+  sendSubscribeWhenNecessary() {
+    // Never establish any new subscriptions when the document is hidden.
   }
 
   onClose = () => {

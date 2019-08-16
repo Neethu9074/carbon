@@ -2,14 +2,14 @@ import AbstractState from 'in-connection/states/AbstractState';
 
 export default class ConnectedState extends AbstractState {
   onEnter() {
-    this.on('close', this.onClose);
-    this.sharedState.subscriptions.forEach(this.sendSubscribeWhenNecessary, this);
-
     if (window.document.hidden) {
       this.transitionTo('windowHidden');
-    } else {
-      window.document.addEventListener('visibilitychange', this.onVisibilityChange, false);
+      return;
     }
+
+    this.on('close', this.onClose);
+    window.document.addEventListener('visibilitychange', this.onVisibilityChange, false);
+    this.sharedState.subscriptions.forEach(this.sendSubscribeWhenNecessary, this);
   }
 
   onLeave() {

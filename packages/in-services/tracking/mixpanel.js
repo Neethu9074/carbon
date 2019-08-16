@@ -3,15 +3,14 @@ import { combineLatest } from 'reactive-observables';
 import { assign } from 'lodash';
 
 import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
+import { registerTracker } from 'in-services/tracking/trackers';
 import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
-import { ineum } from 'in-services/eum';
 
 const mixpanel = window.mixpanel;
-const registeredTrackers = [];
 
 export function init(callback) {
   if (mixpanel) {
@@ -19,6 +18,7 @@ export function init(callback) {
   } else {
     callback(false);
   }
+  registerTracker(track);
 }
 
 function initMixpanel(callback) {
@@ -63,33 +63,13 @@ function initMixpanel(callback) {
   });
 }
 
-export function createTracker(event, defaultProperties = {}) {
-  const alreadyRegistered = registeredTrackers.indexOf(event) >= 0;
-  if (__HOT_RELOAD__ && alreadyRegistered) {
-    return noop;
-  } else if (alreadyRegistered) {
-    throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
+function track(event, props) {
+  if (mixpanel) {
+    mixpanel.track(event, props);
   }
-  registeredTrackers.push(event);
-  return props => {
-    const eventProps = assign({}, props, defaultProperties);
-    ineum('reportEvent', event, {
-      meta: eventProps
-    });
-    if (mixpanel) {
-      mixpanel.track(event, eventProps);
-    }
-  };
 }
 
 export function createDurationTracker(event, defaultProperties = {}) {
-  const alreadyRegistered = registeredTrackers.indexOf(event) >= 0;
-  if (__HOT_RELOAD__ && alreadyRegistered) {
-    return noop;
-  } else if (alreadyRegistered) {
-    throw new Error(`Tracker names must be unique, ${event} has already been registered.`);
-  }
-  registeredTrackers.push(event);
   if (!mixpanel) {
     return {
       start: noop,

@@ -1,16 +1,7 @@
-import { createTracker } from 'in-services/tracking/mixpanel';
-
-const registeredTrackers = new Map();
-
-function getTracker(name) {
-  if (!registeredTrackers.has(name)) {
-    registeredTrackers.set(name, createTracker(name));
-  }
-  return registeredTrackers.get(name);
-}
+import { track as trackInternal } from 'in-services/tracking/trackers';
 
 export function track(event, payload) {
-  getTracker(event)(payload);
+  trackInternal(event, payload);
 }
 
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -28,6 +19,9 @@ export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
+
+export const CONNECTION_LOST = 'connection.lost';
+export const CONNECTION_ESTABLISHED = 'connection.established';
 
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
@@ -54,6 +48,9 @@ export const TABLE_METRIC_ADDED = 'table.metric.added';
 export const TABLE_METRIC_CLEARED = 'table.metric.cleared';
 export const TABLE_METRIC_REMOVED = 'table.metric.removed';
 export const TABLE_TYPE_CHANGED = 'table.type.changed';
+
+export const TIMELINE_TOGGLE = 'timeline.toggle';
+export const TIMELINE_CLICK_ON_EVENT = 'timeline.clickOnEvent';
 
 export const WEBSITES_ADD_WEBSITE = 'websites.addWebsite';
 export const WEBSITES_OPEN_ADD_FORM = 'websites.website.add';

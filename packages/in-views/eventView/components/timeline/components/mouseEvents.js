@@ -10,14 +10,12 @@ import {
 } from 'in-components/timeline/timelineStore';
 import { setTo as setGlobalTo, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiveMouseEvents';
+import { track, TIMELINE_CLICK_ON_EVENT } from 'in-services/tracking/tracking';
 import { getNearestEvent, setHighlightedEvent } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { eventsInTimeframe$ } from 'in-stores/eventsInTimeframe';
-import { createTracker } from 'in-services/tracking/mixpanel';
 import { bigBangTimestamp$ } from 'in-stores/timeline';
 import { serverTime$ } from 'in-stores/serverTime';
-
-const clickOnEventTracker = createTracker('timeline.clickOnEvent');
 
 export default function createMouseEvents(domElement, scale, realtimeDrawStream) {
   const changeSignal = true;
@@ -118,7 +116,7 @@ export default function createMouseEvents(domElement, scale, realtimeDrawStream)
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
       const eventId = eventAtCursor.get('id');
-      clickOnEventTracker({
+      track(TIMELINE_CLICK_ON_EVENT, {
         eventId
       });
       focusEvent(eventId);
