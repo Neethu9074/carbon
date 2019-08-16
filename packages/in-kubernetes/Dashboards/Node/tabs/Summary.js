@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 
-import { zeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
@@ -48,50 +48,42 @@ export default function Summary({ timeConfig, data: node }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Usage"
+            title="CPU Requests Alloc."
             snapshotId={snapshotId}
-            metric="cpu.user_usage"
-            formatter={twoDecimalPlaces}
+            metric="required_cpu_percentage"
+            formatter={percentage.detailed}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits"
+            title="CPU Limits Alloc."
             snapshotId={snapshotId}
-            metric="limit_cpu"
-            formatter={resourceQuotaNumber}
+            metric="limit_cpu_percentage"
+            formatter={percentage.detailed}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Usage"
+            title="Memory Requests Alloc."
             snapshotId={snapshotId}
-            metric="memory.usage"
-            formatter={bytesTwoDecimalPlaces}
+            metric="required_mem_percentage"
+            formatter={percentage.detailed}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
             title="Memory Limits"
             snapshotId={snapshotId}
-            metric="limit_mem"
-            formatter={resourceQuotaBytes}
+            metric="limit_mem_percentage"
+            formatter={percentage.detailed}
           />
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Pods"
+            title="Pods Alloc."
             snapshotId={snapshotId}
-            metric="allocatedPods"
-            formatter={zeroDecimalPlaces}
-          />
-        </Col>
-        <Col lg={2}>
-          <InfraMetricKpiCard
-            title="Pods Cap."
-            snapshotId={snapshotId}
-            metric="cap_pods"
-            formatter={zeroDecimalPlaces}
+            metric="alloc_pods_percentage"
+            formatter={percentage.detailed}
           />
         </Col>
       </Row>

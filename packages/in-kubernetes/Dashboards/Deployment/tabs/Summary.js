@@ -1,11 +1,6 @@
 import React, { Fragment } from 'react';
 
-import {
-  zeroDecimalPlaces,
-  timeByMillisTwoDecimalPlaces,
-  bytesTwoDecimalPlaces,
-  twoDecimalPlaces
-} from 'in-services/formatters/number';
+import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
@@ -37,10 +32,10 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Usage"
+            title="CPU Req."
             snapshotId={snapshotId}
-            metric="cpu.user_usage"
-            formatter={twoDecimalPlaces}
+            metric="pods.required_cpu"
+            formatter={resourceQuotaNumber}
           />
         </Col>
         <Col lg={2}>
@@ -53,10 +48,10 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Usage"
+            title="Memory Req."
             snapshotId={snapshotId}
-            metric="memory.usage"
-            formatter={bytesTwoDecimalPlaces}
+            metric="pods.required_mem"
+            formatter={resourceQuotaBytes}
           />
         </Col>
         <Col lg={2}>

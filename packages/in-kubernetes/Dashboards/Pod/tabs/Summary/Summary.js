@@ -27,6 +27,7 @@ export default function Summary({ data: pod, timeConfig }) {
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+  const kpiWidth = showUsage ? 2 : 3;
 
   return (
     <Fragment>
@@ -67,42 +68,46 @@ export default function Summary({ data: pod, timeConfig }) {
       )}
 
       <Row>
-        <Col lg={2}>
-          <KpiCard
-            title="CPU Usage"
-            value={<MetricValue snapshotId={pod.id} metric="cpu.user_usage" formatter={twoDecimalPlaces} />}
-            raw
-          />
-        </Col>
-        <Col lg={2}>
+        {showUsage && (
+          <Col lg={kpiWidth}>
+            <KpiCard
+              title="CPU Usage"
+              value={<MetricValue snapshotId={pod.id} metric="cpu.user_usage" formatter={twoDecimalPlaces} />}
+              raw
+            />
+          </Col>
+        )}
+        <Col lg={kpiWidth}>
           <KpiCard
             title="CPU Requests"
             value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
-        <Col lg={2}>
+        <Col lg={kpiWidth}>
           <KpiCard
             title="CPU Limits"
             value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
-        <Col lg={2}>
-          <KpiCard
-            title="Memory Usage"
-            value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
-            raw
-          />
-        </Col>
-        <Col lg={2}>
+        {showUsage && (
+          <Col lg={kpiWidth}>
+            <KpiCard
+              title="Memory Usage"
+              value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
+              raw
+            />
+          </Col>
+        )}
+        <Col lg={kpiWidth}>
           <KpiCard
             title="Memory Requests"
             value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
             raw
           />
         </Col>
-        <Col lg={2}>
+        <Col lg={kpiWidth}>
           <KpiCard
             title="Memory Limits"
             value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
