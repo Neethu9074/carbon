@@ -1,0 +1,72 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #6b8088;
+    border: 1px solid #b5bdc1;
+
+    padding: 0.25rem 0.5rem;
+    color: @lib__colors__N050;
+  }
+
+  .releaseInfo {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 1rem;
+    line-height: 1.25rem;
+  }
+
+  .icon {
+    fill: @lib__colors__N050;
+    margin-right: 0.25rem;
+  }
+
+  .releaseName {
+    font-size: @lib__typography__body-bold__font-size;
+    font-weight: 600;
+  }
+
+  .releaseTime {
+    font-size: @lib__typography__h100__font-size;
+    font-weight: 600;
+  }
+
+  .releaseDateTime {
+    font-weight: normal;
+  }
+
+  .healthStatus {
+    display: flex;
+    align-items: center;
+  }
+
+  .numberOfIncidentsLabel {
+    white-space: nowrap;
+  }
+
+  .healthIndicator {
+    background-color: @lib__colors__N050;
+    border-radius: @lib__shapes__radius_small;
+    color: @lib__colors__teal800;
+    font-size: @lib__typography__h100__font-size;
+    font-weight: 600;
+    margin-left: 0.75rem;
+    padding: 1px 0.3125rem;
+    min-width: 100px;
+  }
+
+  .timespan {
+    font-style: italic;
+    margin-left: 28px;
+  }
+
+  .loading {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}

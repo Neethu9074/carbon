@@ -1,7 +1,9 @@
 import React from 'react';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
+import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import Column from 'in-components/LazyTable/components/Column';
+import LoadingIndicator from 'in-components/LoadingIndicator';
+import { releasesEnabled } from 'in-services/featureFlags';
 import Row from 'in-components/LazyTable/components/Row';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -23,9 +25,14 @@ export default class extends React.Component {
         <Columns {...props} />
 
         <div className={`${block}__content`}>
-          {rows.map(row => (
-            <Row key={row.key} row={row} {...props} />
-          ))}
+          {rows.map(
+            row =>
+              row.rawEvent.type === 'release' && releasesEnabled ? (
+                <ReleaseStatusRow key={row.key} row={row} {...props} />
+              ) : (
+                <Row key={row.key} row={row} {...props} />
+              )
+          )}
 
           <div className={`${block}__button-wrapper`}>
             <LoadMoreButton {...props} />

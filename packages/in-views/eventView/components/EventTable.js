@@ -1,9 +1,11 @@
+import { combineLatest } from 'reactive-observables';
 import { fromJS } from 'immutable';
 import React from 'react';
 
 import { furtherDataAvailable$, rawEventList$, loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
-import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
+import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import { focusEvent, clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -14,10 +16,13 @@ import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
+import { releasesEnabled } from 'in-services/featureFlags';
+import { timeConfig$ } from 'in-stores/time/config';
 import { selectedEventId$ } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import LazyTable from 'in-components/LazyTable';
+import { query$ } from 'in-stores/search/query';
 import { just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
@@ -106,20 +111,85 @@ export default connectTo(
     });
 
     return (
-      <LazyTable
-        cols={cols}
-        rows={rows}
-        loadMoreData={loadMoreRawEvents}
-        sortBy$={sortBy$}
-        sortDirection$={sortDirection$}
-        furtherDataAvailable$={furtherDataAvailable$}
-        isLoading$={isLoading$}
-        onSortingChanged={setSortBy}
-        onRowClicked={row => (row.eventId === selectedEventId ? clearSelectedEvent() : focusEvent(row.eventId))}
+      <LazyTableWithHealthData
+        {...{
+          cols,
+          rows,
+          loadMoreRawEvents,
+          sortBy$,
+          sortDirection$,
+          furtherDataAvailable$,
+          isLoading$,
+          setSortBy,
+          selectedEventId
+        }}
       />
     );
   }
 );
+
+const LazyTableWithHealthData = connectTo(props => {
+  const observables = {};
+  if (!releasesEnabled) {
+    return observables;
+  }
+
+  let startTimeStamps = [];
+  props.sortBy$.once(sortBy => {
+    if (sortBy === 'start' && props.rows && props.rows.length > 0) {
+      startTimeStamps = props.rows
+        .filter(({ rawEvent }) => rawEvent.type === 'release')
+        .map(({ rawEvent }) => rawEvent.start);
+    }
+  });
+
+  if (startTimeStamps.length > 0) {
+    observables.health = combineLatest([timeConfig$, query$])
+      .flatMap(([timeConfig, userQuery]) => {
+        const eventType = 'event.type:incident';
+        return getIncidentBasedHealthInTimeFrame({
+          timeConfig,
+          query: userQuery ? `(${userQuery}) AND (${eventType})` : eventType,
+          timestamps: startTimeStamps
+        });
+      })
+      .map(({ data }) => data || null);
+  }
+
+  return observables;
+})(function LazyTableWithHealthData(props) {
+  const {
+    health,
+    cols,
+    rows,
+    loadMoreRawEvents,
+    sortBy$,
+    sortDirection$,
+    furtherDataAvailable$,
+    isLoading$,
+    setSortBy,
+    selectedEventId
+  } = props;
+
+  const rowsWithHealthData =
+    releasesEnabled && health
+      ? rows.map(row => (row.rawEvent.type === 'release' ? { ...row, healthStatus: health[row.rawEvent.start] } : row))
+      : rows;
+
+  return (
+    <LazyTable
+      cols={cols}
+      rows={rowsWithHealthData}
+      loadMoreData={loadMoreRawEvents}
+      sortBy$={sortBy$}
+      sortDirection$={sortDirection$}
+      furtherDataAvailable$={furtherDataAvailable$}
+      isLoading$={isLoading$}
+      onSortingChanged={setSortBy}
+      onRowClicked={row => (row.eventId === selectedEventId ? clearSelectedEvent() : focusEvent(row.eventId))}
+    />
+  );
+});
 
 const Icon = connectTo(
   props => ({

@@ -111,3 +111,5 @@ import './x_old_components/IconStory';
 import './x_old_components/KpiStory';
 import './x_old_components/sdk/CollapsibleStory';
 import './x_old_components/sdk/Descriptions';
+
+import './releases/ReleaseStatusRowStory';
