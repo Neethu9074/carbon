@@ -90,7 +90,7 @@ function SubTypes({ result }) {
         </Tooltip>
       )}
       {organization && (
-        <Tooltip themeStyle="light" content={`Organizsation: ${organization}`}>
+        <Tooltip themeStyle="light" content={`Organization: ${organization}`}>
           <WithIcon className={locals.icon} icon="lib_cloudfoundry_organization">
             <span className={locals.label}>{organization}</span>
           </WithIcon>
