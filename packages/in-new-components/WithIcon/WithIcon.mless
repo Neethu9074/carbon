@@ -5,12 +5,19 @@
   .wrapper {
     display: flex;
     align-items: center;
+
+    & + .wrapper {
+      margin-left: 0.5rem;
+    }
   }
 
   .pluginIcon,
   .linkEntityIcon {
-    margin-right: 0.25rem;
     fill: @lib__colors__N900Primary;
+  }
+
+  .linkEntityIcon {
+    margin-right: 0.25rem;
   }
 
   .pluginIcon {

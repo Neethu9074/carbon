@@ -15,11 +15,12 @@ import { number, meanLatencyFixed, percentage } from 'in-services/formatters/num
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { kubernetesEnabled, pcfEnabled } from 'in-services/featureFlags';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { kubernetesEnabled } from 'in-services/featureFlags';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
@@ -62,21 +63,11 @@ function getTable(type) {
 const InfrastructureEntityLink = connectTo(({ entity }) => ({
   // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
   snapshot: entity && entity.id && entity.time && getSnapshot(entity.id, getTimeConfigAtMoment(entity.time))
-}))(function InfrastructureEntityLink({
-  entity,
-  snapshot,
-  plugin,
-  inEntity,
-  onEntity,
-  inIcon,
-  onIcon,
-  getInEntityDashboard,
-  getOnEntityDashboard
-}) {
+}))(function InfrastructureEntityLink({ entity, snapshot, plugin }) {
   if (!entity.id) {
     return null;
   }
-  const link = (
+  return (
     <EntityLink
       plugin={plugin}
       snapshot={snapshot}
@@ -94,18 +85,29 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       )}
     />
   );
-  if ((inEntity || onEntity) && kubernetesEnabled) {
+});
+
+function WithKubernetesPhysicalContext({
+  children,
+  inIcon,
+  onIcon,
+  inEntity,
+  ofEntity,
+  getInEntityDashboard,
+  getOfEntityDashboard
+}) {
+  if (inEntity || ofEntity) {
     return (
       <div className={locals.linkWithMetaEntities}>
-        {link}
+        {children}
         <div className={locals.metaRow}>
           {inEntity && (
             <MetaEntityLink entity={inEntity} icon={inIcon} getDashboard={getInEntityDashboard}>
               in
             </MetaEntityLink>
           )}
-          {onEntity && (
-            <MetaEntityLink entity={onEntity} icon={onIcon} getDashboard={getOnEntityDashboard}>
+          {ofEntity && (
+            <MetaEntityLink entity={ofEntity} icon={onIcon} getDashboard={getOfEntityDashboard}>
               of
             </MetaEntityLink>
           )}
@@ -113,8 +115,37 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       </div>
     );
   }
-  return link;
-});
+  return children;
+}
+
+function WithCloudfoundryPhysicalContext({ children, application, space, organization }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {application && (
+          <MetaEntityLink
+            entity={application}
+            icon="lib_cloudfoundry_application"
+            getDashboard={pcfEnabled && getApplicationDashboard}
+          >
+            instance of
+          </MetaEntityLink>
+        )}
+        {space && (
+          <MetaEntityLink entity={space} icon="lib_cloudfoundry_space">
+            in
+          </MetaEntityLink>
+        )}
+        {organization && (
+          <MetaEntityLink entity={organization} icon="lib_cloudfoundry_organization">
+            of
+          </MetaEntityLink>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default compose(
   withUrlDependingState({
@@ -313,21 +344,44 @@ function getColumnDefinitions(type) {
       label: 'Container',
       sortable: false,
       getContent(item) {
-        const kubernetesPhysicalContext = item.kubernetesPhysicalContext || {};
-        return item.physicalContext.container ? (
+        const link = item.physicalContext.container ? (
           <InfrastructureEntityLink
             entity={item.physicalContext.container}
             plugin={item.physicalContext.container.plugin}
-            inEntity={kubernetesPhysicalContext.pod}
-            onEntity={kubernetesPhysicalContext.namespace}
-            inIcon="lib_kubernetes_pod"
-            onIcon="lib_kubernetes_namespace"
-            getInEntityDashboard={getPodDashboard}
-            getOnEntityDashboard={getNamespaceDashboard}
           />
         ) : (
           <UnmonitoredEntity />
         );
+
+        if (
+          item.kubernetesPhysicalContext &&
+          item.kubernetesPhysicalContext.pod &&
+          item.kubernetesPhysicalContext.namespace &&
+          kubernetesEnabled
+        ) {
+          return (
+            <WithKubernetesPhysicalContext
+              inEntity={item.kubernetesPhysicalContext.pod}
+              ofEntity={item.kubernetesPhysicalContext.namespace}
+              inIcon="lib_kubernetes_pod"
+              onIcon="lib_kubernetes_namespace"
+              getInEntityDashboard={getPodDashboard}
+              getOfEntityDashboard={getNamespaceDashboard}
+            >
+              {link}
+            </WithKubernetesPhysicalContext>
+          );
+        }
+
+        if (item.cloudfoundryPhysicalContext) {
+          return (
+            <WithCloudfoundryPhysicalContext {...item.cloudfoundryPhysicalContext}>
+              {link}
+            </WithCloudfoundryPhysicalContext>
+          );
+        }
+
+        return link;
       }
     };
   } else if (type == 'HOST') {
@@ -336,21 +390,28 @@ function getColumnDefinitions(type) {
       label: 'Host',
       sortable: false,
       getContent(item) {
-        const kubernetesPhysicalContext = item.kubernetesPhysicalContext || {};
-        return item.physicalContext.host ? (
-          <InfrastructureEntityLink
-            entity={item.physicalContext.host}
-            plugin={plugins.host}
-            inEntity={kubernetesPhysicalContext.node}
-            onEntity={kubernetesPhysicalContext.cluster}
-            inIcon="lib_kubernetes_node"
-            onIcon="lib_kubernetes_cluster"
-            getInEntityDashboard={getNodeDashboard}
-            getOnEntityDashboard={getClusterDashboard}
-          />
+        const link = item.physicalContext.host ? (
+          <InfrastructureEntityLink entity={item.physicalContext.host} plugin={plugins.host} />
         ) : (
           <UnmonitoredEntity />
         );
+
+        if (item.kubernetesPhysicalContext && kubernetesEnabled) {
+          return (
+            <WithKubernetesPhysicalContext
+              inEntity={item.kubernetesPhysicalContext.node}
+              ofEntity={item.kubernetesPhysicalContext.cluster}
+              inIcon="lib_kubernetes_node"
+              onIcon="lib_kubernetes_cluster"
+              getInEntityDashboard={getNodeDashboard}
+              getOfEntityDashboard={getClusterDashboard}
+            >
+              {link}
+            </WithKubernetesPhysicalContext>
+          );
+        }
+
+        return link;
       }
     };
   } else if (type == 'CLUSTER') {
@@ -433,7 +494,7 @@ function MetaEntityLink({ icon, getDashboard, entity, children }) {
     <Fragment>
       {children}
       <SvgIcon className={locals.entitiyIcon} type={icon} />
-      <Link className={locals.entityLink} href$={getDashboard(entity.id)}>
+      <Link className={locals.entityLink} href$={getDashboard ? getDashboard(entity.id) : null}>
         {entity.label}
       </Link>
     </Fragment>

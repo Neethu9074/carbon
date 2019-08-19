@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .icon {
+    fill: @lib__colors__N500;
+    margin-right: 0;
+  }
+
+  .label {
+    color: @lib__colors__N500;
+    font-weight: bold;
+  }
+}

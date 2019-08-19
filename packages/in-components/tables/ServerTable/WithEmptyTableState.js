@@ -8,11 +8,12 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getPlural } from 'in-sdk/pluginName';
 
-export default function withEmptyTableState({ Component, columnDefinitions }) {
+export default function withEmptyTableState({ Component, entityName, columnDefinitions }) {
   return compose(
     withProps({
       Component,
-      columnDefinitions
+      columnDefinitions,
+      entityName
     })
   )(ServerTableWithEmptyState);
 }

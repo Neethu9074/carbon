@@ -1,0 +1,12 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .metricLabel {
+    white-space: nowrap;
+  }
+
+  .longLabel {
+    max-width: 12.5rem;
+    .ellipsis();
+  }
+}

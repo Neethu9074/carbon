@@ -28,12 +28,12 @@
   }
 
   .entitiyIcon {
-    margin-left: 0.25rem;
+    margin-left: 0.125rem;
     fill: @lib__colors__N500;
   }
 
   .entityLink {
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
     color: @lib__colors__N500;
   }
 }

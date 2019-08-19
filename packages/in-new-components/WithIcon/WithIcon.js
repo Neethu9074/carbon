@@ -2,22 +2,33 @@ import React from 'react';
 
 import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './WithIcon.mless';
 
-export default function WithIcon({ plugin, snapshot, icon, iconColor, children }) {
+export default function WithIcon({ plugin, snapshot, icon, iconColor, className, children }) {
   return (
     <div className={locals.wrapper}>
       {plugin || snapshot ? (
         <PluginIcon
           style={{ fill: iconColor }}
-          className={locals.pluginIcon}
+          className={evaluateClassNames({
+            [locals.pluginIcon]: true,
+            [className]: className
+          })}
           size="xs"
           plugin={plugin}
           snapshot={snapshot}
         />
       ) : (
-        <SvgIcon style={{ fill: iconColor }} className={locals.linkEntityIcon} type={icon} />
+        <SvgIcon
+          style={{ fill: iconColor }}
+          className={evaluateClassNames({
+            [locals.linkEntityIcon]: true,
+            [className]: className
+          })}
+          type={icon}
+        />
       )}
       <div className={locals.childWrapper}>{children}</div>
     </div>

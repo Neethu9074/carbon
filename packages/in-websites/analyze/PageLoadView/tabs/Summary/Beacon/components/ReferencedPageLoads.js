@@ -3,8 +3,8 @@ import { find } from 'lodash';
 import React from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
-import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';

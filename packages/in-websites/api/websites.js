@@ -72,12 +72,13 @@ export function updateSourceMapConfiguration(websiteId, config) {
   }).map(response => response.body);
 }
 
-
 export function removeSourceMapConfiguration(websiteId, sourceMapConfigId) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMap/${encodeURIComponent(sourceMapConfigId)}`,
-    headers: getCsrfHeader(),
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMap/${encodeURIComponent(
+      sourceMapConfigId
+    )}`,
+    headers: getCsrfHeader()
   }).map(response => response.body);
 }

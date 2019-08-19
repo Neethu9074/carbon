@@ -1,20 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { formatDate, formatTime } from 'in-services/formatters/date';
 import KpiCard from 'in-new-components/KpiCard';
 
 import locals from './DateTimeKpiCard.mless';
 
-export default function DateTimeKpiCard({ title, time }) {
+export default function DateTimeKpiCard({ title, time, borderless }) {
   return (
     <KpiCard
       title={title}
       value={
-        <Fragment>
+        <time dateTime={new Date(time).toISOString()}>
           <span className={locals.row}>{formatDate(time)}</span>
           <span className={locals.row}>{formatTime(time)}</span>
-        </Fragment>
+        </time>
       }
+      borderless={borderless}
+      raw
     />
   );
 }

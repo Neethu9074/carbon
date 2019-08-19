@@ -21,5 +21,6 @@ module.exports = {
   customDashboardsEnabled: true,
   unmonitoredHostsEnabled: true,
   javaScriptStackTraceTranslationEnabled: true,
-  releasesEnabled: true
+  releasesEnabled: true,
+  pcfEnabled: true
 };
