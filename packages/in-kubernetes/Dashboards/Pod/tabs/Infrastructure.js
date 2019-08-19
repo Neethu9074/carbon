@@ -18,11 +18,11 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { podId } from 'in-kubernetes/navigation/matrix';
+import Capitalize from 'in-new-components/Capitalize';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';

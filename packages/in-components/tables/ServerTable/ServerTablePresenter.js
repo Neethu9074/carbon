@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import invariant from 'invariant';
 
 import {
   ErrorRows,
@@ -18,6 +19,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import ScrollHints from 'in-components/ScrollHints';
+import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
 
@@ -49,6 +51,8 @@ export default function ServerTablePresenter(props) {
     searchPlaceholder = '',
     searchMaxWidth,
     size = 'regular',
+    cardTitle,
+    tableInCard = false,
     noDataMessage,
     allRowsAreSelected = false,
     setSelectedStateForRows,
@@ -96,7 +100,7 @@ export default function ServerTablePresenter(props) {
   }
 
   const tableElement = (
-    <Table fixedLayout={fixedLayout}>
+    <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null}>
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
@@ -130,38 +134,57 @@ export default function ServerTablePresenter(props) {
     tableElement
   );
 
+  const header = (
+    <div className={locals.rightHeader}>
+      {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
+      {isSearchable && (
+        <SearchInput
+          maxWidth={searchMaxWidth ? searchMaxWidth : 140}
+          query={query}
+          placeholder={searchPlaceholder}
+          onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+        />
+      )}
+    </div>
+  );
+
+  const pagination = result.data &&
+    result.data.totalHits > result.data.pageSize && (
+      <div className={locals.paginationWrapper}>
+        <Pagination
+          current={page}
+          last={Math.ceil(result.data.totalHits / result.data.pageSize)}
+          onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+          className={evaluateClassNames({
+            [locals.pagination]: true
+          })}
+        />
+      </div>
+    );
+
+  if (cardTitle != null) {
+    if (__DEV__) {
+      invariant(
+        leftHeader == null,
+        'Specifying a left header is not compatible with presentation of a table as a card.'
+      );
+    }
+    return (
+      <Card title={cardTitle} header={header} withoutPadding>
+        {content}
+        {pagination}
+      </Card>
+    );
+  }
+
   return (
     <Fragment>
       <div className={joinClassNames(locals.header, headerClassName)}>
         {leftHeader || <span>&nbsp;</span>}
-        <div className={locals.rightHeader}>
-          {typeof rightHeader === 'function' ? rightHeader(props) : rightHeader}
-          {isSearchable && (
-            <SearchInput
-              maxWidth={searchMaxWidth ? searchMaxWidth : 140}
-              query={query}
-              placeholder={searchPlaceholder}
-              onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-            />
-          )}
-        </div>
+        {header}
       </div>
-
       {content}
-
-      {result.data &&
-        result.data.totalHits > result.data.pageSize && (
-          <div className={locals.paginationWrapper}>
-            <Pagination
-              current={page}
-              last={Math.ceil(result.data.totalHits / result.data.pageSize)}
-              onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-              className={evaluateClassNames({
-                [locals.pagination]: true
-              })}
-            />
-          </div>
-        )}
+      {pagination}
     </Fragment>
   );
 }

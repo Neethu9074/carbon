@@ -5,7 +5,6 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
-import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
@@ -13,6 +12,7 @@ import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 

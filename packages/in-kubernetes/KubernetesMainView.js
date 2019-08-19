@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
@@ -11,7 +11,7 @@ import Sticky from 'in-components/Sticky';
 
 export default function KubernetesMainView(props) {
   return (
-    <div>
+    <Fragment>
       <Sticky header={<ViewSwitcher />}>
         <MaxWidthFullscreenContainer>
           <Switch>
@@ -21,6 +21,6 @@ export default function KubernetesMainView(props) {
         </MaxWidthFullscreenContainer>
       </Sticky>
       <Footer />
-    </div>
+    </Fragment>
   );
 }

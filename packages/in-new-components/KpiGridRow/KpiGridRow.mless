@@ -5,6 +5,11 @@
     margin: 0;
     border: 1px solid @lib__colors__N200;
     border-top: 0.5rem solid @lib__colors__N200;
+
+    & + .row {
+      margin-top: 0rem;
+      border-top: 0;
+    }
   }
 
   .col {

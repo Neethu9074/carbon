@@ -14,12 +14,12 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import Capitalize from 'in-kubernetes/Dashboards/commonComponents/Capitalize';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
+import Capitalize from 'in-new-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 

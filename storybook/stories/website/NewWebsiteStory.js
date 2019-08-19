@@ -45,7 +45,6 @@ function WaitStepStory() {
   );
 }
 
-
 function ReadyStepStory() {
   return (
     <Root>

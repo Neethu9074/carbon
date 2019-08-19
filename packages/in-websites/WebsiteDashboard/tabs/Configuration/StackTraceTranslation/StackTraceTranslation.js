@@ -1,5 +1,5 @@
-import {compose, withState} from 'recompose';
-import React, {Fragment} from 'react';
+import { compose, withState } from 'recompose';
+import React, { Fragment } from 'react';
 
 import {
   addSourceMapConfiguration,
@@ -10,7 +10,7 @@ import {
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import TemporaryMessage from 'in-components/TemporaryMessage';
-import List, {reload} from 'in-settings/components/List';
+import List, { reload } from 'in-settings/components/List';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 
@@ -27,9 +27,11 @@ const columnDefinitions = [
   }
 ];
 
-export default compose(
-  withState('message', 'setMessage', null),
-)(function StackTraceTranslationConfigurationPresenter({message, setMessage, websiteId}) {
+export default compose(withState('message', 'setMessage', null))(function StackTraceTranslationConfigurationPresenter({
+  message,
+  setMessage,
+  websiteId
+}) {
   return (
     <Fragment>
       {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
@@ -49,20 +51,27 @@ export default compose(
         loadEntities={() => getSourceMapConfigurations(websiteId)}
         pageSize={15}
         searchAttributes={['configuration']}
-        rightHeader={(
+        rightHeader={
           <Button
             className={locals.button}
             kind="action"
             onClick={() => {
-              setActiveDialog(<FileDownloadConfigurationDialog onSubmit={config => onSubmit(config, setMessage, websiteId)} />);
+              setActiveDialog(
+                <FileDownloadConfigurationDialog onSubmit={config => onSubmit(config, setMessage, websiteId)} />
+              );
             }}
             icon="lib_openclose_add_circle_outline"
           >
             Add Configuration
           </Button>
-        )}
+        }
         onRowClick={config => {
-          setActiveDialog(<FileDownloadConfigurationDialog config={config} onSubmit={config => onSubmit(config, setMessage, websiteId)} />);
+          setActiveDialog(
+            <FileDownloadConfigurationDialog
+              config={config}
+              onSubmit={config => onSubmit(config, setMessage, websiteId)}
+            />
+          );
         }}
       />
     </Fragment>
@@ -116,12 +125,15 @@ function onSubmit(config, setMessage, websiteId) {
     response$ = addSourceMapConfiguration(websiteId, config);
     successMessage = 'New configuration saved.';
   }
-  response$.once(() => {
-    setMessage({ message: successMessage, type: 'success' });
-    reload();
-  }, error => {
-    setMessage({ message: `Failed to save configuration: ${error.message}`, type: 'error' });
-    // TODO
-    // setActiveDialog(<FileDownloadConfigurationDialog config={config} onSubmit={config => onSubmit(config, setMessage, websiteId)} />);
-  });
+  response$.once(
+    () => {
+      setMessage({ message: successMessage, type: 'success' });
+      reload();
+    },
+    error => {
+      setMessage({ message: `Failed to save configuration: ${error.message}`, type: 'error' });
+      // TODO
+      // setActiveDialog(<FileDownloadConfigurationDialog config={config} onSubmit={config => onSubmit(config, setMessage, websiteId)} />);
+    }
+  );
 }

@@ -1,11 +1,15 @@
 import React, { Fragment } from 'react';
 
+import {
+  applicationListFullyQualified as cloudfoundryApplicationList,
+  cloudfoundry
+} from 'in-cloudfoundry/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
+import { pcfEnabled, releaseNotesEnabled, kubernetesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
-import { releaseNotesEnabled, kubernetesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
@@ -70,6 +74,17 @@ export default function ViewSwitcher({
             {...commonProps}
           />
         )}
+
+      {pcfEnabled && (
+        <View
+          id="main-nav-cloudfoundry"
+          label="Cloud Foundry"
+          icon="lib_cloudfoundry_inverted"
+          href$={getView(cloudfoundryApplicationList)}
+          isActive$={isView(cloudfoundry)}
+          {...commonProps}
+        />
+      )}
 
       <Spacer />
 

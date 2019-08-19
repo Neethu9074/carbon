@@ -38,7 +38,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/RELEASES_ENABLED`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/RELEASES_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -55,7 +56,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         trackUrlPathChanges,
         samplingIndicatorEnabled,
         unmonitoredHostsEnabled,
-        releasesEnabled
+        releasesEnabled,
+        pcfEnabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -76,7 +78,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         samplingIndicatorEnabled,
         unmonitoredHostsEnabled,
         customDashboardsEnabled,
-        releasesEnabled
+        releasesEnabled,
+        pcfEnabled
       })
     );
   });
