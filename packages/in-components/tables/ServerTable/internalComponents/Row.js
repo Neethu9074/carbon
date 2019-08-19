@@ -27,19 +27,19 @@ export default function Row({
       {...rowProps}
     >
       {keys.map(key => {
-        const columnDefinition = columnDefinitions[key];
+        const { id, noWrap, ellipsis, cellClassName, tableAction, getContent } = columnDefinitions[key];
         return (
           <Td
-            key={key}
-            noWrap={columnDefinition.noWrap}
-            ellipsis={columnDefinition.ellipsis}
+            key={id}
+            noWrap={noWrap}
+            ellipsis={ellipsis}
             className={evaluateClassNames({
-              [columnDefinition.cellClassName]: columnDefinition.cellClassName,
-              [locals.tableActionCell]: columnDefinition.tableAction,
+              [cellClassName]: cellClassName,
+              [locals.tableActionCell]: tableAction,
               [locals.clickable]: onRowClick
             })}
           >
-            {columnDefinition.getContent(item, cellOpts, columnDefinition.id)}
+            {getContent(item, cellOpts, id)}
           </Td>
         );
       })}
