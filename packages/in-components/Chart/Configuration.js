@@ -168,8 +168,8 @@ export default class Config {
   }
 
   addBlockSizeMillisForAxis(axis) {
-    axis.dynamicCalculatedBlockSizeMillis =
-      this.granularity ||
+    axis.dynamicCalculatedBlockSizeMillis = Math.max(
+      this.granularity,
       getPredefinedBlockSizeMillisForBlockSize(
         getBlockSizeMillis({
           windowSize: this.timeConfig.windowSize,
@@ -178,7 +178,8 @@ export default class Config {
           width: this.frontBufferWidth,
           rollup: this.granularity
         })
-      );
+      )
+    );
   }
 
   determineSeriesColors() {

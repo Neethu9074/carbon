@@ -3,11 +3,10 @@ export const MIN_HEIGHT_IN_PX = 2;
 
 export default {
   render: ({ axis, dataSeries, color, scale, config }) => {
+    const xScale = config.scales.xBackBuffer;
     const blockSizeMillis = axis.dynamicCalculatedBlockSizeMillis || 1000;
 
-    const barWidth =
-      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo()) -
-      config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
+    const barWidth = xScale.getRange(xScale.getDomainTo()) - xScale.getRange(xScale.getDomainTo() - blockSizeMillis);
 
     const chartHeight = scale.getRangeFrom();
 
@@ -20,7 +19,7 @@ export default {
         continue;
       }
 
-      const xPos = config.scales.xBackBuffer.getRange(dataPoint[0]) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
+      const xPos = xScale.getRange(dataPoint[0]) - barWidth + MARGIN_BETWEEN_BARS + barWidth / 2;
 
       // 2px minimum bar height so make them visible
       const yPos = scale.getRange(dataPoint[1]);
