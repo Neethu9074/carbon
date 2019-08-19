@@ -36,9 +36,6 @@ export default connectTo(({ beacon }) => {
     return {};
   }
 
-  // remove the current page load from the list of IDs
-  pageLoadIds = pageLoadIds.filter(id => id !== beacon.pageLoadId);
-
   if (pageLoadIds.length === 0) {
     return {};
   }
@@ -87,6 +84,7 @@ function ReferencedPageLoad({ beacons }) {
       <div className={locals.leftSide}>
         <KeyValueHeader label="Page Load" value={pageLoad.locationUrl} />
         <KeyValueHeader label="onLoad Time" value={latencyFixed.compact(pageLoad.duration)} />
+        <KeyValueHeader label="Page" value={pageLoad.page || 'N/A'} />
       </div>
 
       <Button
