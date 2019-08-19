@@ -19,4 +19,8 @@
   .headerWithSelectAllButton {
     margin-right: 0.5rem;
   }
+
+  .deleteWrapper {
+    text-align: right;
+  }
 }

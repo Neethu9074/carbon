@@ -20,31 +20,35 @@ import locals from './FileDownloadConfigurationDialogPresenter.mless';
 
 export default function FileDownloadConfigurationDialogPresenter(props) {
   const { form, message, onSubmit } = props;
+  const disabled = message && message.isSaving;
+
   return (
     <Dialog
       title={`${form.get('id').value ? 'Edit' : 'New'} File Download Configuration`}
       onClose={close}
       className={locals.dialog}
     >
-      {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
-
       <form onSubmit={onSubmit}>
-        <p className={locals.help}>
-          Define what kind of credentials (HTTP basic authentication) and/or HTTP headers we should include in HTTP
-          requests to download JavaScript and source map files.
-        </p>
+        <fieldset disabled={disabled}>
+          <p className={locals.help}>
+            Define what kind of credentials (HTTP basic authentication) and/or HTTP headers we should include in HTTP
+            requests to download JavaScript and source map files.
+          </p>
 
-        <MatchingRules {...props} />
-        <BasicAuth {...props} />
-        <HttpHeaders {...props} />
+          {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
-        <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
+          <MatchingRules {...props} disabled={disabled} />
+          <BasicAuth {...props} />
+          <HttpHeaders {...props} disabled={disabled} />
+
+          <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
+        </fieldset>
       </form>
     </Dialog>
   );
 }
 
-function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule }) {
+function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, disabled }) {
   return (
     <Fragment>
       <SectionHeading>Matching Rules</SectionHeading>
@@ -123,7 +127,11 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule }) 
                 ))}
               </Col>
             </Row>
-            <SvgIcon className={locals.removeButton} type="lib_actions_delete" onClick={() => removeMatchingRule(i)} />
+            <SvgIcon
+              className={locals.removeButton}
+              type="lib_actions_delete"
+              onClick={() => !disabled && removeMatchingRule(i)}
+            />
           </div>
         </Fragment>
       ))}
@@ -180,7 +188,7 @@ function BasicAuth({ form, onChange }) {
   );
 }
 
-function HttpHeaders({ form, onChange, addHeader, removeHeader }) {
+function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
   return (
     <Fragment>
       <SectionHeading>Custom HTTP Request Headers</SectionHeading>
@@ -226,7 +234,11 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader }) {
               </Col>
             </Row>
 
-            <SvgIcon className={locals.removeButton} type="lib_actions_delete" onClick={() => removeHeader(i)} />
+            <SvgIcon
+              className={locals.removeButton}
+              type="lib_actions_delete"
+              onClick={() => !disabled && removeHeader(i)}
+            />
           </div>
         </Fragment>
       ))}

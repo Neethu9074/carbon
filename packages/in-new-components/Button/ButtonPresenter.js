@@ -38,7 +38,8 @@ export default function ButtonPresenter({
   href,
   disabled,
   target,
-  refSetter
+  refSetter,
+  autoFocus
 }) {
   let classes = `${locals.button} ${locals[kind] || ''} ${locals[size] || ''}`;
   if (className) {
@@ -64,7 +65,7 @@ export default function ButtonPresenter({
 
   if (!href) {
     return (
-      <button className={classes} onClick={onClick} style={style} type={type} ref={refSetter}>
+      <button className={classes} onClick={onClick} style={style} type={type} ref={refSetter} autoFocus={autoFocus}>
         {iconElement} {children}
       </button>
     );
@@ -79,6 +80,7 @@ export default function ButtonPresenter({
       onClick={onClick ? onClick : stopPropagation}
       style={style}
       ref={refSetter}
+      autoFocus={autoFocus}
     >
       {iconElement} {children}
     </a>
@@ -101,5 +103,6 @@ ButtonPresenter.propTypes = {
   href$: rpt.object,
   target: rpt.string,
   disabled: rpt.bool,
-  refSetter: rpt.func
+  refSetter: rpt.func,
+  autoFocus: rpt.bool
 };

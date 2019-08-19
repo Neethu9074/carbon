@@ -383,7 +383,8 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
       }
       // some entities are protected and must not be deleted
       const disabled = actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity);
-      const icon = (
+
+      let element = (
         <SvgIcon
           type="lib_actions_delete"
           color={theme.lib.colors.primary2}
@@ -421,7 +422,11 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
         />
       );
 
-      return disabled ? icon : <Tooltip content={`Delete ${getEntityName(entity)}.`}>{icon}</Tooltip>;
+      if (!disabled) {
+        element = <Tooltip content={`Delete ${getEntityName(entity)}.`}>{element}</Tooltip>;
+      }
+
+      return <div className={locals.deleteWrapper}>{element}</div>;
     }
   });
 }

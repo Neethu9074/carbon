@@ -2,11 +2,14 @@ import { createMapForm, createField, createListForm, notBlankValidator, composeV
 import { compose, withProps, withState } from 'recompose';
 
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
+import { addSourceMapConfiguration, updateSourceMapConfiguration } from 'in-websites/api/websites';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { close } from 'in-components/DialogPresenter/store';
 
 export default compose(
   withState('form', 'setForm', ({ config }) => createForm(config)),
-  withProps(({ form, setForm, onSubmit: outsideOnSubmit }) => ({
+  withState('message', 'setMessage', null),
+  withProps(({ form, setForm, setMessage, websiteId, onFinished }) => ({
     onChange(path, value) {
       setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
     },
@@ -48,7 +51,26 @@ export default compose(
         rule.pathSuffix = path.suffix;
       });
 
-      outsideOnSubmit(config);
+      let response$;
+      let successMessage;
+      setMessage({ message: 'Saving configuration…', type: 'success', isSaving: true });
+      if (config.id) {
+        response$ = updateSourceMapConfiguration(websiteId, config);
+        successMessage = 'Configuration updated.';
+      } else {
+        response$ = addSourceMapConfiguration(websiteId, config);
+        successMessage = 'New configuration saved.';
+      }
+
+      response$.once(
+        () => {
+          onFinished({ message: successMessage, type: 'success' });
+          close();
+        },
+        error => {
+          setMessage({ message: `Failed to save configuration: ${error.message}`, type: 'error' });
+        }
+      );
     }
   }))
 )(FileDownloadConfigurationDialogPresenter);
@@ -109,8 +131,8 @@ function createMatchingRuleForm(rule = null) {
         validator: composeValidators(notBlankValidator, atMostOneWildcardValidator)
       }),
       path: createField({
-        value: rule ? serializePattern(rule.pathPrefix, rule.pathEquality, rule.pathSuffix) : '',
-        validator: atMostOneWildcardValidator
+        value: rule ? serializePathPattern(rule.pathPrefix, rule.pathEquality, rule.pathSuffix) : '/*',
+        validator: composeValidators(notBlankValidator, pathValidator, atMostOneWildcardValidator)
       })
     }
   });
@@ -132,6 +154,31 @@ function serializePattern(prefix, equality, suffix) {
     } else {
       value = `${value}${suffix}`;
     }
+  }
+
+  return value;
+}
+
+function serializePathPattern(prefix, equality, suffix) {
+  if (isNotBlank(equality)) {
+    return equality;
+  }
+
+  let value = '';
+  if (isNotBlank(prefix)) {
+    value = `${value}${prefix.startsWith('/') ? '' : '/'}${prefix}*`;
+  }
+
+  if (isNotBlank(suffix)) {
+    if (isBlank(value)) {
+      value = `*${suffix}`;
+    } else {
+      value = `${value}${suffix}`;
+    }
+  }
+
+  if (isBlank(value)) {
+    value = '/*';
   }
 
   return value;
@@ -190,6 +237,24 @@ function atMostOneWildcardValidator(value) {
   }
 
   return null;
+}
+
+function pathValidator(value) {
+  if (isBlank(value)) {
+    // validate via the not blank validator
+    return null;
+  }
+
+  if (value === '*' || value[0] === '/') {
+    return null;
+  }
+
+  return [
+    {
+      severity: 'error',
+      message: 'Path matching rules must start with a slash character: /'
+    }
+  ];
 }
 
 function deserializePattern(pattern) {

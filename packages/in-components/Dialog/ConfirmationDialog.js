@@ -35,11 +35,12 @@ export default function ConfirmationDialog({
       <p>{description}</p>
 
       <div className={locals.footer}>
+        <Button kind={aButtonKind} onClick={onA} autoFocus>
+          {aButtonLabel}
+        </Button>
+
         <Button kind={bButtonKind} onClick={onB} icon={bButtonIcon}>
           {bButtonLabel}
-        </Button>{' '}
-        <Button kind={aButtonKind} type="submit" onClick={onA} autoFocus>
-          {aButtonLabel}
         </Button>
       </div>
     </Dialog>

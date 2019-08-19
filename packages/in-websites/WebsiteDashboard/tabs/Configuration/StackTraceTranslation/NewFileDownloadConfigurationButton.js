@@ -35,7 +35,6 @@ function onSubmit(config, setMessage, websiteId) {
     },
     error => {
       setMessage({ message: `Failed to save configuration: ${error.message}`, type: 'error' });
-      // setActiveDialog(<FileDownloadConfigurationDialog config={config} onSubmit={config => onSubmit(config, setMessage, websiteId)} />);
     }
   );
 }

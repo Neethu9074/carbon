@@ -18,10 +18,10 @@ import locals from './Users.mless';
 const logger = createLogger('Users');
 
 export default compose(
-  withState('message', 'setMessage', null),
   connectTo({
     roles: getRolesMutable()
-  })
+  }),
+  withState('message', 'setMessage', null)
 )(Users);
 
 function Users({ roles, message, setMessage }) {
