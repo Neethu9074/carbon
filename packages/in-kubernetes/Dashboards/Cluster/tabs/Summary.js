@@ -80,7 +80,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu', showUsage && 'cpu.user_usage'].filter(
+                metrics: ['requiredCPU', 'limitCPU', 'nodes.capacity_cpu', showUsage && 'cpu.total_usage'].filter(
                   Boolean
                 ),
                 labels: ['Requests', 'Limits', 'Capacity', showUsage && 'Usage'].filter(Boolean),

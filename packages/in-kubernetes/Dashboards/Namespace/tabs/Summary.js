@@ -108,7 +108,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                       `used_requests_cpu`,
                       `cap_limits_cpu`,
                       `used_limits_cpu`,
-                      showUsage && 'cpu.user_usage'
+                      showUsage && 'cpu.total_usage'
                     ].filter(Boolean),
                     labels: [
                       'Hard Requests',

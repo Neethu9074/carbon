@@ -106,7 +106,7 @@ export default function Summary({ timeConfig, data: service }) {
             <InfraMetricKpiCard
               title="CPU Usage"
               snapshotId={snapshotId}
-              metric="cpu.user_usage"
+              metric="cpu.total_usage"
               formatter={twoDecimalPlaces}
             />
           </Col>
@@ -162,7 +162,7 @@ export default function Summary({ timeConfig, data: service }) {
                 timeConfig={timeConfig}
                 y1={{
                   formatter: resourceQuotaNumber,
-                  metrics: ['cpu.user_usage', 'cpuRequests', 'cpuLimits'],
+                  metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
                   labels: ['Usage', 'Requests', 'Limits'],
                   type: 'line',
                   colors: [usage, requests, limits]

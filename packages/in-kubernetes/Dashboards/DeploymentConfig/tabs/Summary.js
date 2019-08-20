@@ -84,7 +84,7 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.user_usage'].filter(Boolean),
+                metrics: ['pods.required_cpu', 'pods.limit_cpu', showUsage && 'cpu.total_usage'].filter(Boolean),
                 labels: ['Requests', 'Limits', showUsage && 'Usage'].filter(Boolean),
                 type: 'line',
                 colors: [requests, limits, usage]

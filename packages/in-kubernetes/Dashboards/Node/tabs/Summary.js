@@ -96,7 +96,7 @@ export default function Summary({ timeConfig, data: node }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
-                metrics: [showUsage && 'cpu.user_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
+                metrics: [showUsage && 'cpu.total_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
                 labels: [showUsage && 'Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
                 type: 'line',
                 colors: [showUsage && usage, requests, limits, capacity].filter(Boolean)

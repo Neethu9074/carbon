@@ -72,7 +72,7 @@ export default function Summary({ data: pod, timeConfig }) {
           <Col lg={kpiWidth}>
             <KpiCard
               title="CPU Usage"
-              value={<MetricValue snapshotId={pod.id} metric="cpu.user_usage" formatter={twoDecimalPlaces} />}
+              value={<MetricValue snapshotId={pod.id} metric="cpu.total_usage" formatter={twoDecimalPlaces} />}
               raw
             />
           </Col>
@@ -125,7 +125,7 @@ export default function Summary({ data: pod, timeConfig }) {
                 timeConfig={timeConfig}
                 y1={{
                   formatter: resourceQuotaNumber,
-                  metrics: ['cpu.user_usage', 'cpuRequests', 'cpuLimits'],
+                  metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
                   labels: ['Usage', 'Requests', 'Limits'],
                   type: 'line',
                   colors: [usage, requests, limits]
