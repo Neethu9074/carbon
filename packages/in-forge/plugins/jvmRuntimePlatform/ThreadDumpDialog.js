@@ -2,13 +2,14 @@ import React from 'react';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import CenterAlignment from 'in-components/layout/CenterAlignment';
 import DashboardNotification from 'in-components/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+
+import locals from './ThreadDumpDialog.mless';
 
 export default connectTo(
   props => {
@@ -31,22 +32,21 @@ export default connectTo(
       header = `Failed to retrieve thread dump`;
     } else {
       header = (
-        <CenterAlignment>
+        <div className={locals.headerWrapper}>
           Thread dump
           <CopyToClipboardButton targetId={codeTargetId} />
-        </CenterAlignment>
+        </div>
       );
     }
 
     return (
       <Dialog header={header} onClose={close}>
-        {!response ? <LoadingIndicator type="dark" /> : null}
+        {!response && <LoadingIndicator type="dark" />}
 
-        {response && response.error ? (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
-        ) : null}
+        {response &&
+          response.error && <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>}
 
-        {response && response.data ? <Code code={response.data} id={codeTargetId} /> : null}
+        {response && response.data && <Code code={response.data} id={codeTargetId} />}
       </Dialog>
     );
   }
