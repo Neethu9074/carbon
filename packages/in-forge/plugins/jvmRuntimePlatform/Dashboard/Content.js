@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
@@ -11,10 +12,11 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
-import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-components/Button';
+import { getCodeView } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
@@ -33,6 +35,11 @@ export default connectTo({
         {isInternalVisible && (
           <Button onClick={() => getSource(snapshot)} kind="secondary">
             Get source for arbitrary class
+          </Button>
+        )}
+        {isInternalVisible && (
+          <Button onClick={() => getPackage(snapshot)} kind="secondary">
+            Get classes for arbitrary package
           </Button>
         )}
       </KpiSection>
@@ -134,9 +141,34 @@ export default connectTo({
 });
 
 function getSource(snapshot) {
-  const classname = prompt('Please provide the fully qualified class name');
-  if (!classname) {
+  const className = prompt('Please provide the fully qualified class name');
+  if (!className) {
     return;
   }
-  setActiveDialog(getCodeView(snapshot, classname));
+  setActiveDialog(getCodeView(snapshot, className));
+}
+
+function getPackage(snapshot) {
+  const packageName = prompt('Please provide the fully qualified package name');
+  if (!packageName) {
+    return;
+  }
+  setActiveDialog(getPackageView(snapshot, packageName));
+}
+
+function getPackageView(snapshot, packageName) {
+  return (
+    <PackageRetrievalDialog
+      snapshot={snapshot}
+      packageName={packageName}
+      agentResponse$={createAgentResponseObservable({
+        action: 'java.package',
+        target: snapshot.get('volatileId'),
+        args: {
+          packageName: packageName
+        }
+      })}
+      lang="java"
+    />
+  );
 }

@@ -17,7 +17,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot 
       'Please note: Source code can only be retrieved for processes which are still under monitoring by Instana.';
   } else if (!snapshot) {
     noCodeLinkMessage =
-      'Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastucture.';
+      'Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastructure.';
   }
 
   return (

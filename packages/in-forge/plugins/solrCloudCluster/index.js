@@ -1,8 +1,9 @@
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
+
 import iconSvgPath from 'in-forge/plugins/solr/iconPath';
 import metricDefinitions from './metricDefinitions';
-import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.solrCloudCluster,
