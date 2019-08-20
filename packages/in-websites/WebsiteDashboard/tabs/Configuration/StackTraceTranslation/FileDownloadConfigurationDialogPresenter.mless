@@ -5,10 +5,6 @@
     width: 59rem;
   }
 
-  .help {
-    font-size: 1rem;
-  }
-
   .removableRow {
     display: flex;
     justify-content: space-between;
@@ -24,5 +20,9 @@
     flex-grow: 0;
     flex-shrink: 0;
     margin-top: 1.6rem;
+  }
+
+  .addButton {
+    margin-bottom: 1rem;
   }
 }

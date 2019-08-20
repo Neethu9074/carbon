@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import TemporaryMessage from 'in-components/TemporaryMessage';
+import SectionHelp from 'in-settings/components/SectionHelp';
 import { close } from 'in-components/DialogPresenter/store';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -15,6 +16,7 @@ import Dialog from 'in-new-components/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 
@@ -30,11 +32,6 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
     >
       <form onSubmit={onSubmit}>
         <fieldset disabled={disabled}>
-          <p className={locals.help}>
-            Define what kind of credentials (HTTP basic authentication) and/or HTTP headers we should include in HTTP
-            requests to download JavaScript and source map files.
-          </p>
-
           {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
           <MatchingRules {...props} disabled={disabled} />
@@ -51,7 +48,19 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
 function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, disabled }) {
   return (
     <Fragment>
-      <SectionHeading>Matching Rules</SectionHeading>
+      <SectionHeading withoutTopSpacing>Matching Rules</SectionHeading>
+      <SectionHelp>
+        <p>
+          You can define multiple matching rules to describe when we should include your configuration in HTTP requests.
+          We make use of your configured HTTP basic authentication and custom HTTP headers when at least one matching
+          rule matches the file
+          {`'`}s URL.
+        </p>
+        <p>
+          We recommend only to match files for the <code>https://</code> scheme as your configuration will otherwise be
+          transmitted in plain text!
+        </p>
+      </SectionHelp>
       <TouchedMessages field={form.get('matchingRules')} />
 
       {form.get('matchingRules').map((rule, i) => (
@@ -136,7 +145,13 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
         </Fragment>
       ))}
 
-      <Button kind="secondary" icon="lib_openclose_add" type="button" onClick={addMatchingRule}>
+      <Button
+        kind="secondary"
+        icon="lib_openclose_add"
+        type="button"
+        onClick={addMatchingRule}
+        className={locals.addButton}
+      >
         Add Matching Rule
       </Button>
     </Fragment>
@@ -147,6 +162,19 @@ function BasicAuth({ form, onChange }) {
   return (
     <Fragment>
       <SectionHeading>HTTP Basic Authentication</SectionHeading>
+      <SectionHelp>
+        <p>
+          We recommend authentication via{' '}
+          <Link
+            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme"
+            external
+          >
+            HTTP basic authentication
+          </Link>
+          . HTTP basic authentication can be easily added to most HTTP servers and proxies, e.g. Apache Httpd and Nginx.
+        </p>
+      </SectionHelp>
+
       <Row>
         <Col md={6}>
           {form.get('basicAuthUserName').map(field => (
@@ -192,6 +220,13 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
   return (
     <Fragment>
       <SectionHeading>Custom HTTP Request Headers</SectionHeading>
+      <SectionHelp>
+        <p>
+          Custom HTTP headers are useful to support authentication mechanisms other than HTTP basic authentication or to
+          circumvent security mechanisms commonly available in content-delivery networks, e.g. bot detection.
+        </p>
+      </SectionHelp>
+
       {form.get('headers').map((header, i) => (
         <Fragment key={i}>
           <TouchedMessages field={header} />
@@ -243,7 +278,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
         </Fragment>
       ))}
 
-      <Button kind="secondary" icon="lib_openclose_add" type="button" onClick={addHeader}>
+      <Button kind="secondary" icon="lib_openclose_add" type="button" onClick={addHeader} className={locals.addButton}>
         Add Header
       </Button>
     </Fragment>

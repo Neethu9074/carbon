@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
+import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { isNotBlank } from 'in-services/util/string';
 import List from 'in-settings/components/List';
@@ -22,6 +23,14 @@ const columnDefinitions = [
   }
 ];
 
+const explanation = (
+  <Fragment>
+    To make JavaScript stack traces more readable, e.g. to show references to non minified files and lines, Instana
+    needs to access JavaScript and source map files. Adding a configuration here allows Instana
+    {`'`}s server to authenticate and download these files in order to provide more insights into JavaScript errors.
+  </Fragment>
+);
+
 export default compose(withState('message', 'setMessage', null))(function StackTraceTranslationConfigurationPresenter({
   websiteId,
   setMessage,
@@ -34,6 +43,13 @@ export default compose(withState('message', 'setMessage', null))(function StackT
   return (
     <Fragment>
       {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
+
+      <LearnMoreCard
+        title="JavaScript Stack Trace Translation"
+        explanation={explanation}
+        learnMoreHref="https://docs.instana.io/products/website_monitoring/faq/#javascript-stack-trace-translation"
+        learnMoreLabel="Learn more about JavaScript Stack Trace Translation"
+      />
 
       <List
         title="File Download Configurations"
@@ -51,6 +67,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
         loadEntities={() => getSourceMapConfigurations(websiteId)}
         pageSize={15}
         searchAttributes={[toLabel]}
+        noDataMessage="No file download configurations available."
         rightHeader={
           <Button
             className={locals.button}

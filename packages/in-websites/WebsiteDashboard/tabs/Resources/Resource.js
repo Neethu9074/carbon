@@ -8,7 +8,6 @@ import {
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import { getLinkToWebsite, resourcesTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
-import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
@@ -24,6 +23,7 @@ import AggregationSelector from 'in-new-components/AggregationSelector';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -189,8 +189,8 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
         {!hasDetailedTimings && (
           <Row>
             <Col xs={12}>
-              <LimitedCapabilitiesCard
-                cardTitle="Resource Timings Not Available"
+              <LearnMoreCard
+                title="Resource Timings Not Available"
                 explanation={explanation}
                 learnMoreHref={learnMoreHref}
                 learnMoreLabel={learnMoreLabel}

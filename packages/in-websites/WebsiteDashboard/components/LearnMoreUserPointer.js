@@ -2,8 +2,8 @@ import { compose, pure } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
-import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './LearnMoreUserPointer.mless';
@@ -59,9 +59,9 @@ function LearnMoreUserPointer({ totalBeaconsResult, totalBeaconsWithUserResult }
   }
 
   return (
-    <LimitedCapabilitiesCard
+    <LearnMoreCard
       className={locals.wrapper}
-      cardTitle="No User Information Defined"
+      title="No User Information Defined"
       explanation={explanation}
       learnMoreHref="https://docs.instana.io/products/website_monitoring/api/#identifying-users"
       learnMoreLabel="Learn how to add user data"

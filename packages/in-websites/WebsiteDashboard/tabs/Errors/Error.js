@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
-import LimitedCapabilitiesCard from 'in-websites/WebsiteDashboard/components/LimitedCapabilitiesCard';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import DefaultLoadingDashboard from 'in-applications/Dashboards/DefaultLoadingDashboard';
@@ -19,6 +18,7 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
@@ -127,8 +127,8 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         {isScriptError(result.data.message) && (
           <Row>
             <Col lg={12}>
-              <LimitedCapabilitiesCard
-                cardTitle="Script Error"
+              <LearnMoreCard
+                title="Script Error"
                 explanation={explanation}
                 learnMoreHref={learnMoreHref}
                 learnMoreLabel={learnMoreLabel}

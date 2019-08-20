@@ -1,7 +1,18 @@
 import React from 'react';
 
-import locals from './SectionHeading.mless';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
-export default function SectionHeading({ children }) {
-  return <h3 className={locals.heading}>{children}</h3>;
+import locals from './typography.mless';
+
+export default function SectionHeading({ children, withoutTopSpacing }) {
+  return (
+    <h3
+      className={evaluateClassNames({
+        [locals.sectionHeading]: true,
+        [locals.sectionHeadingWithoutTopPadding]: withoutTopSpacing
+      })}
+    >
+      {children}
+    </h3>
+  );
 }
