@@ -1,7 +1,9 @@
-import { create } from 'reactive-observables';
+import { combineLatest } from 'reactive-observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
+import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';
 import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import timeLineRenderer from 'in-components/Chart/renderer/timeLine';
@@ -10,14 +12,23 @@ import { toServerTime } from 'in-stores/timeOffset';
 import { copyCanvasInto } from 'in-charts/canvas';
 import { offset$ } from 'in-stores/timeOffset';
 
+const STEADY_FRAMERATE = 1000 / 30; // max FPS in ms the render scheduler renders
+
 export default class RenderScheduler {
   constructor(chart) {
     this.chart = chart;
     this.config = chart.config;
 
     this.serverTimeOffset = 0;
-    this.timeOffsetSubscrtiption = offset$.subscribe(serverTimeOffset => (this.serverTimeOffset = serverTimeOffset));
-    this.animateSignal$ = create();
+
+    this.combinedSubscriptions = combineLatest([
+      offset$,
+      highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
+    ]).subscribe(([serverTimeOffset, highlightedTimeframe]) => {
+      this.serverTimeOffset = serverTimeOffset;
+      this.highlightedTimeframe = highlightedTimeframe;
+      chart.requestRender();
+    });
   }
 
   atomicRender() {
@@ -89,12 +100,13 @@ export default class RenderScheduler {
 
   render() {
     const config = this.config;
-
     clearRender(config);
     renderTickLines(config);
 
     this.renderAxisMetrics('y1', config);
     this.renderAxisMetrics('y2', config);
+
+    renderHighlightedTimeframe(config, this.highlightedTimeframe);
 
     this.clearOverdraw(config);
 
@@ -228,9 +240,9 @@ export default class RenderScheduler {
   }
 
   dispose() {
-    this.stopLiveMode();
+    this.combinedSubscriptions.dispose();
+    this.combinedSubscriptions = null;
 
-    this.timeOffsetSubscrtiption.dispose();
-    this.timeOffsetSubscrtiption = null;
+    this.stopLiveMode();
   }
 }

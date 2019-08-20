@@ -6,12 +6,12 @@ import {
   setHighlightedTimeframe,
   clearHighlightedTimeframe
 } from 'in-stores/timeline/highlightedTimeframe';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './HighlightedTimeframe.mless';
 
 export default connectTo(
   {
+    timeConfig: timeConfig$,
     highlightedTimeframe: highlightedTimeframe$
   },
   class extends React.Component {
@@ -25,6 +25,7 @@ export default connectTo(
 
     shouldComponentUpdate(nextProps) {
       if (
+        this.props.timeConfig.autoRefresh ||
         this.props.glassPane !== nextProps.glassPane ||
         this.props.highlightedTimeframe !== nextProps.highlightedTimeframe
       ) {
@@ -75,27 +76,8 @@ export default connectTo(
     };
 
     render() {
-      const { highlightedTimeframe, xScale } = this.props;
-      if (!highlightedTimeframe) {
-        return null;
-      }
-
-      const from = Math.max(xScale.getRangeFrom(), xScale.getRange(highlightedTimeframe[0]));
-      const to = Math.min(xScale.getRangeTo(), xScale.getRange(highlightedTimeframe[1]));
-
-      if (from === to) {
-        return null;
-      }
-
-      return (
-        <div
-          style={{
-            left: from,
-            width: to - from
-          }}
-          className={locals.highlightedTimeframe}
-        />
-      );
+      // rendering logic is handlered inside RenderScheduler while this component serves as event handler for mouse moves
+      return null;
     }
 
     onMouseDown(e) {
