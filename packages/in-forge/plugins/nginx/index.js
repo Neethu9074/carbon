@@ -9,7 +9,7 @@ registerSnapshotDefinition({
   iconSvgPath,
   metricDefinitions,
   pluginName: {
-    singular: 'Nginx',
-    plural: 'Nginx'
+    singular: 'Nginx Server',
+    plural: 'Nginx Servers'
   }
 });
