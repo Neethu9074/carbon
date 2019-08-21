@@ -1,14 +1,14 @@
 import React from 'react';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import { getEumSnippet } from 'in-services/eum';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Code from 'in-components/Code';
 
 export default function TrackingScript({ websiteId }) {
-  const eumSnippet = getEumSnippet({ key: websiteId });
+  const eumSnippet = getTrackingSnippet({ key: websiteId });
 
   return (
     <Card

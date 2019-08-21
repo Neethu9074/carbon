@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import React from 'react';
 
 import ErrorCounter from 'in-components/ErrorBoundary/ErrorCounter';
-import { ineum } from 'in-services/eum';
+import { ineum } from 'in-services/tracking/ineum';
 
 const logger = createLogger('in-component.ErrorBoundary');
 

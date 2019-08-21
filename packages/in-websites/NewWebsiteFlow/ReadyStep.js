@@ -1,16 +1,16 @@
 import React from 'react';
 
+import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Header from 'in-websites/NewWebsiteFlow/Header';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
-import { getEumSnippet } from 'in-services/eum';
 import Button from 'in-new-components/Button';
 import Code from 'in-components/Code';
 
 export default function ReadyStep({ websiteId, websiteName, websiteLink$ }) {
-  const eumSnippet = getEumSnippet({ key: websiteId });
+  const eumSnippet = getTrackingSnippet({ key: websiteId });
 
   return (
     <Frame>

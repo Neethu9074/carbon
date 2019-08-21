@@ -1,13 +1,7 @@
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { region } from 'in-services/config';
 
-export function ineum() {
-  if (typeof window !== 'undefined' && window.ineum) {
-    window.ineum.apply(window, arguments);
-  }
-}
-
-export function getEumSnippet({ key, additionalScript = null }) {
+export function getTrackingSnippet({ key, additionalScript = null }) {
   const lines = [`<script>`];
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {

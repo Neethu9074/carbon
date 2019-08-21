@@ -4,8 +4,8 @@ import { get } from 'lodash';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isInstanaEngineer } from 'in-stores/user';
+import { ineum } from 'in-services/tracking/ineum';
 import { config } from 'in-services/config';
-import { ineum } from 'in-services/eum';
 
 const unhandledLogger = createLogger('in-services/unhandledErrors');
 

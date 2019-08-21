@@ -3,7 +3,7 @@
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 
-describe('in-services/eum', () => {
+describe('in-websites/trackingSnippet', () => {
   let mod;
 
   beforeEach(() => {
@@ -11,17 +11,17 @@ describe('in-services/eum', () => {
   });
 
   function loadWithFeatureFlags(useInstanaSaasEumTrackingUrlEnabled) {
-    mod = proxyquire('in-services/eum/eum', {
+    mod = proxyquire('in-websites/trackingSnippet/trackingSnippet', {
       'in-services/featureFlags': {
         useInstanaSaasEumTrackingUrlEnabled: useInstanaSaasEumTrackingUrlEnabled
       }
     });
   }
 
-  describe('getEumSnippet', () => {
+  describe('getTrackingSnippet', () => {
     it('must provide regular SAAS eum snippet', () => {
       loadWithFeatureFlags(true);
-      expect(mod.getEumSnippet({ key: '123' })).to.equal(
+      expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
         `
 <script>
   (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
@@ -37,7 +37,7 @@ describe('in-services/eum', () => {
 
     it('must support additional lines', () => {
       loadWithFeatureFlags(true);
-      expect(mod.getEumSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
+      expect(mod.getTrackingSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
         `
 <script>
   (function(c,e,f,k,g,h,b,a,d){c[g]||(c[g]=h,b=c[h]=function(){
@@ -55,7 +55,7 @@ describe('in-services/eum', () => {
 
     it('must provide onprem eum snippet', () => {
       loadWithFeatureFlags(false);
-      expect(mod.getEumSnippet({ key: '123' })).to.equal(
+      expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
         `
 <script>
   // Note: Replace the <trackingBaseUrl> with the base URL under

@@ -1,4 +1,4 @@
-import { ineum } from 'in-services/eum';
+import { ineum } from 'in-services/tracking/ineum';
 
 let totalNumberOfReportedEvents = 0;
 

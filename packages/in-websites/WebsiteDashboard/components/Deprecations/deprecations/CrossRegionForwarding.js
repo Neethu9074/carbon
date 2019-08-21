@@ -5,8 +5,8 @@ import Deprecation from 'in-websites/WebsiteDashboard/components/Deprecations/De
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, percentage } from 'in-services/formatters/number';
+import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { getEumSnippet } from 'in-services/eum';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import Code from 'in-components/Code';
@@ -88,7 +88,7 @@ function CrossRegionForwarding({ websiteId, websiteLabel, totalBeaconsResult, de
         Please correct the JavaScript snippet by defining the <code>reportingUrl</code>. It can be defined next to the
         key definition like the following snippet shows.
       </p>
-      <Code code={getEumSnippet({ key: websiteId })} lang="html" showLineNumbers={false} />
+      <Code code={getTrackingSnippet({ key: websiteId })} lang="html" showLineNumbers={false} />
     </Deprecation>
   );
 }

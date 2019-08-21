@@ -9,7 +9,17 @@
 // Closure compiler web services exist which can be used:
 // https://closure-compiler.appspot.com/home
 
-(function(win, doc, scriptTagName, scriptSourceUrl, longGlobalName, shortGlobalName, globalApi, scriptTag, prevScriptTag) {
+(function(
+  win,
+  doc,
+  scriptTagName,
+  scriptSourceUrl,
+  longGlobalName,
+  shortGlobalName,
+  globalApi,
+  scriptTag,
+  prevScriptTag
+) {
   if (win[longGlobalName]) {
     return;
   }

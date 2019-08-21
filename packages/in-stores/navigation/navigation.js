@@ -5,8 +5,8 @@ import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { onRouteChange } from 'in-services/tracking/appcues';
 import history from 'in-stores/navigation/history';
+import { ineum } from 'in-services/tracking/ineum';
 import { createStore } from 'in-stores/store';
-import { ineum } from 'in-services/eum';
 
 const store = createStore({
   name: 'navigation',

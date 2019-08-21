@@ -1,8 +1,13 @@
 import { registerTracker } from 'in-services/tracking/trackers';
-import { ineum } from 'in-services/eum';
 
 export function init() {
   registerTracker(track);
+}
+
+export function ineum() {
+  if (typeof window !== 'undefined' && window.ineum) {
+    window.ineum.apply(window, arguments);
+  }
 }
 
 function track(event, meta) {
