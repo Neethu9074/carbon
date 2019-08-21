@@ -35,7 +35,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
           <code>/etc/nginx/nginx.conf</code>.
         </p>
         <p>
-          This file needs to be accessible in order to identify the URL under which nginx is exposing status{' '}
+          This file needs to be accessible in order to identify the URL under which nginx is exposing status
           information.
         </p>
       </DashboardNotification>
@@ -58,7 +58,6 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
     return (
       <DashboardNotification type="warning">
         <strong>Status URL not accessible.</strong>
-
         <p>
           Based on the nginx config, the status URL <code>{statusUrl}</code> was identified but this address could not
           be accessed. This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, port
@@ -80,7 +79,6 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
     return (
       <DashboardNotification type="warning">
         <strong>NgnixPlus API URL not accessible.</strong>
-
         <p>
           Based on the nginx config, we identified the nginx-plus API which is inaccessible on it
           {`'`}s specified location. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}

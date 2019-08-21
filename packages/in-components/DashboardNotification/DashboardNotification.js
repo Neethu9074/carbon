@@ -5,5 +5,5 @@ import './DashboardNotification.less';
 const block = 'in-dashboard-nofitication';
 
 export default function DashboardNotification({ children, type }) {
-  return <p className={`${block} ${block}__${type}`}>{children}</p>;
+  return <div className={`${block} ${block}__${type}`}>{children}</div>;
 }

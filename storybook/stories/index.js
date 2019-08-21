@@ -48,6 +48,7 @@ import './components/CardStory';
 import './components/ChartStory';
 import './components/CheckboxStory';
 import './components/DashboardHeaderStory';
+import './components/DashboardNotificationStory';
 import './components/DialogStory';
 import './components/EntityVersionListStory';
 import './components/EntityWithTypeAndIconStory';

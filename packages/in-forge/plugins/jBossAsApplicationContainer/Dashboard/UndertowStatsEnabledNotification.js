@@ -13,7 +13,6 @@ export default function UndertowStatsEnabledNotification({ snapshot }) {
   return (
     <DashboardNotification type="warning">
       <strong>Statistics are not enabled for undertow subsystem</strong>
-
       <p>
         This means that we can not collect servlet statistics from JBoss. To enable statistics, set{' '}
         <code>statistics-enabled</code> attribute to <code>true</code> for undertow subsystem configuration in server

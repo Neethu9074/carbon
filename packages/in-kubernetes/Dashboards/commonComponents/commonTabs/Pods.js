@@ -222,7 +222,8 @@ function createTable(columnDefinitions) {
       pathSegment,
       matrixPrefix
     }),
-    columnDefinitions
+    columnDefinitions,
+    entityName: 'pods'
   });
 }
 

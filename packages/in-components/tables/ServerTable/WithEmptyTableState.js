@@ -8,14 +8,8 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getPlural } from 'in-sdk/pluginName';
 
-export default function withEmptyTableState({ Component, entityName, columnDefinitions }) {
-  return compose(
-    withProps({
-      Component,
-      columnDefinitions,
-      entityName
-    })
-  )(ServerTableWithEmptyState);
+export default function withEmptyTableState(props) {
+  return compose(withProps(props))(ServerTableWithEmptyState);
 }
 
 function ServerTableWithEmptyState(props) {
@@ -50,7 +44,7 @@ function NoDataAvailable({ icon, entityName, plugin }) {
   );
 }
 
-// TODO: as an enhancement, we  can add "isXYZDataAvailable" subscriptions. Meanwhile we are checking the result of the data subscription
+// TODO: as an enhancement, we can add "isXYZDataAvailable" subscriptions. Meanwhile we are checking the result of the data subscription
 function isPaginatedResultEmpty(paginatedResult$) {
   return paginatedResult$
     .map(result => result.data)
