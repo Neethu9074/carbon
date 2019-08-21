@@ -31,12 +31,17 @@ export default withState('forceRawStackTrace', 'setForceRawStackTrace', false)(f
           <ButtonGroup
             className={locals.buttonGroup}
             buttonPropsList={[
-              { text: 'Raw Stack Trace', key: 'raw', size: buttonSize, onClick: () => setForceRawStackTrace(true) },
               {
                 text: 'Parsed Stack Trace',
                 key: 'parsed',
                 size: buttonSize,
                 onClick: () => setForceRawStackTrace(false)
+              },
+              {
+                text: 'Raw Stack Trace',
+                key: 'raw',
+                size: buttonSize,
+                onClick: () => setForceRawStackTrace(true)
               }
             ]}
             activeKey={showParsedStackTrace ? 'parsed' : 'raw'}
