@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .indicator {
+    color: @lib__colors__orange800;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 2px dotted @lib__colors__orange800;
+    border-radius: @lib__shapes__radius_small;
+    flex-shrink: 0;
+    padding: .063rem .288rem;
+    margin: 0 0.4rem 0 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .content {
+    line-height: 1.4;
+  }
+}

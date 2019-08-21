@@ -10,11 +10,12 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
-import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { shorten, isNotBlank, removeBlankLines } from 'in-services/util/string';
+import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -102,26 +103,36 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         </Row>
 
         {!isScriptError(result.data.message) && (
-          <Row>
-            <Col lg={6}>
-              <Card title="Details">
-                <Dl>
-                  <Di title="Type">{result.data.type}</Di>
-                  <Di title="Message">{result.data.message}</Di>
-                </Dl>
-              </Card>
-            </Col>
-            <Col lg={6}>
-              <Card title="Stack Trace" withoutPadding>
-                <Code
-                  code={result.data.stackTrace}
-                  showLineNumbers={false}
-                  wrapperClassName={locals.code}
-                  lang="plain"
-                />
-              </Card>
-            </Col>
-          </Row>
+          <Fragment>
+            <Row>
+              <Col lg={12}>
+                <Card title="Details">
+                  <Dl>
+                    <Di title="Type">{result.data.type}</Di>
+                    <Di title="Message">{result.data.message}</Di>
+                  </Dl>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col lg={12}>
+                <StackTrace
+                  websiteId={websiteId}
+                  stackTrace={result.data.stackTrace}
+                  parsedStackTrace={result.data.parsedStackTrace}
+                  stackTraceParsingStatus={result.data.stackTraceParsingStatus}
+                  buttonSize="normal"
+                >
+                  {({ actions, content }) => (
+                    <Card title="Stack Trace" header={<div className={locals.stackTraceActions}>{actions}</div>}>
+                      {content}
+                    </Card>
+                  )}
+                </StackTrace>
+              </Col>
+            </Row>
+          </Fragment>
         )}
 
         {isScriptError(result.data.message) && (
@@ -140,8 +151,8 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         {isNotBlank(result.data.componentStack) && (
           <Row>
             <Col lg={12}>
-              <Card title="Component Stack" withoutPadding>
-                <Code code={removeBlankLines(result.data.componentStack)} lang="plain" />
+              <Card title="Component Stack">
+                <Code showLineNumbers={false} code={removeBlankLines(result.data.componentStack)} lang="plain" />
               </Card>
             </Col>
           </Row>

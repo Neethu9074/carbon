@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import { StackTraceLines, StackTraceLine } from 'in-new-components/StackTrace';
+import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
 
 import Root from '../_helpers/Root';
 
@@ -18,6 +18,12 @@ function NormalData() {
           name="throwSimulatedError"
           line={36}
           column={9}
+          indicator={
+            <InfoIndicator href="https://instana.com">
+              Could not download JavaScript source file because of missing authentication (HTTP response code 401).
+              <strong>Click to configure JS Stack Trace Download.</strong>
+            </InfoIndicator>
+          }
         />
         <StackTraceLine
           file="webpack:///./packages/in-internal/monitoringUnit/eum/ErrorSimulator.js"

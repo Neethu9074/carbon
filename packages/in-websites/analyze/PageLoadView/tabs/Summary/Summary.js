@@ -8,12 +8,16 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
-import { latencyFixed, number } from 'in-services/formatters/number';
 import ProblemIndicator from 'in-new-components/ProblemIndicator';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { number } from 'in-services/formatters/number';
 import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-new-components/KpiCard';
+import Link from 'in-components/Link';
+
+import locals from './Summary.mless';
 
 // avoid potential high-refrequency updates when the user is just flicking through
 // views very quickly.
@@ -45,11 +49,6 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         <Col lg={2}>
           <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />
         </Col>
-        {pageLoad && (
-          <Col lg={2}>
-            <KpiCard title="onLoad Time" value={latencyFixed.compact(pageLoad.duration)} />
-          </Col>
-        )}
         <Col lg={2}>
           <KpiCard title="JS Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
         </Col>
@@ -58,6 +57,17 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         </Col>
         <Col lg={2}>
           <KpiCard title="HTTP Requests" value={number.compact(getBeaconCount(beacons, 'httpRequest'))} />
+        </Col>
+        <Col lg={4}>
+          <KpiCard
+            title="Website"
+            raw
+            value={
+              <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
+                {firstBeacon.websiteLabel}
+              </Link>
+            }
+          />
         </Col>
       </Row>
 

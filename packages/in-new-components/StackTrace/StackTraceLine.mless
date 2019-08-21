@@ -2,17 +2,16 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .line {
+  .wrapper {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     color: @lib__colors__N500;
-    font-family: @font-family-monospace;
-    padding: .5rem .625rem;
+    font-family: @font-family-sans-serif;
 
     border: 1px solid @lib__colors__N500;
     border-top: 0;
-    background: @lib__colors__N200;
-    overflow-wrap: break-word;
+    background: #fff;
 
     &:first-child {
       border-top: 1px solid @lib__colors__N500;
@@ -24,6 +23,13 @@
       border-bottom-left-radius: @lib__shapes__radius_small;
       border-bottom-right-radius: @lib__shapes__radius_small;
     }
+  }
+
+  .line {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: .5rem .625rem;
   }
 
   .filler {
@@ -49,6 +55,7 @@
   }
 
   .name {
-    flex-shrink: 1;
+    flex-shrink: 0.5;
+    font-weight: 600;
   }
 }

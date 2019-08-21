@@ -38,6 +38,7 @@
   .icon {
     fill: @lib__colors__teal800;
     margin-top: 0.5625rem;
+    margin-bottom: 0.5625rem;
     margin-right: 0.75rem;
     min-width: 1.125rem;
   }

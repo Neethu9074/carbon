@@ -73,13 +73,14 @@ export const Body = ({ beacon }) => {
       <Row>
         {!isScriptError(beacon.errorMessage) &&
           isNotBlank(beacon.stackTrace) && (
-            <Col lg={6}>
+            <Col lg={12}>
               <Stack beacon={beacon} />
             </Col>
           )}
-
+      </Row>
+      <Row>
         {isNotBlank(beacon.componentStack) && (
-          <Col lg={6}>
+          <Col lg={12}>
             <BodyHeader>Component Stack</BodyHeader>
             <RawStack stack={beacon.componentStack} />
           </Col>

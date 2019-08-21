@@ -12,7 +12,7 @@ export default class extends React.PureComponent {
   static displayName = 'Tooltip';
 
   static propTypes = {
-    content: rpt.oneOfType([rpt.element.isRequired, rpt.string.isRequired]),
+    content: rpt.node.isRequired,
     themeStyle: rpt.string,
     children: rpt.any.isRequired,
     align: rpt.oneOf([

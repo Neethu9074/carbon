@@ -9,7 +9,12 @@ export default function ButtonGroup(props) {
   const { buttonPropsList, activeKey } = props;
 
   return (
-    <div className={locals.buttonGroup}>
+    <div
+      className={evaluateClassNames({
+        [locals.buttonGroup]: true,
+        [props.className]: props.className
+      })}
+    >
       {buttonPropsList.map((buttonProps, i) => (
         <Button
           key={buttonProps.key}
