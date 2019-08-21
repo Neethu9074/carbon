@@ -4,6 +4,7 @@ import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
 
@@ -41,6 +42,10 @@ function LoadingStory() {
 
       <Section title="Infinite Circle small">
         <InfiniteCircle width={72} height={24} />
+      </Section>
+
+      <Section title="Page Loading">
+        <LoadingIndicator type="dark" />
       </Section>
     </Root>
   );
