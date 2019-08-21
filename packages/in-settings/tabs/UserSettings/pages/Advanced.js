@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -7,7 +7,6 @@ import { unmonitoredHostsEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
 import Label from 'in-components/form/Label';
@@ -160,22 +159,17 @@ export default class extends React.Component {
           </HorizontalFormGroup>
         </div>
 
-        {kubernetesEnabled && (
-          <Fragment>
-            <SectionHeading>Pod Map</SectionHeading>
-
-            <div style={{ marginBottom: '1rem' }}>
-              <HorizontalFormGroup>
-                <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
-                <Toggle
-                  id="kubernetes_ungrouped-pods"
-                  checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
-                  onChange={e => this.saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
-                />
-              </HorizontalFormGroup>
-            </div>
-          </Fragment>
-        )}
+        <SectionHeading>Pod Map</SectionHeading>
+        <div style={{ marginBottom: '1rem' }}>
+          <HorizontalFormGroup>
+            <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
+            <Toggle
+              id="kubernetes_ungrouped-pods"
+              checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
+              onChange={e => this.saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
+            />
+          </HorizontalFormGroup>
+        </div>
 
         <SectionHeading>Infrastructure</SectionHeading>
         <div>

@@ -8,7 +8,6 @@ module.exports = {
   tenantSwitcherEnabled: true,
   isUsageInfoPopupEnabled: false,
   onPremLicenseInformationEnabled: false,
-  isKubernetesV2Enabled: true,
   customEventsInWebsiteMonitoringEnabled: true,
   lastSevenDaysTimePresetEnabled: true,
   ruleDeprecationValidationChecksEnabled: true,

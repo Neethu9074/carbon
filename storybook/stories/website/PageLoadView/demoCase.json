@@ -1097,7 +1097,6 @@
       "featureFlag.onPremLicenseInformationEnabled": "false",
       "featureFlag.customEventsInWebsiteMonitoringEnabled": "false",
       "tenant": "instana",
-      "featureFlag.isKubernetesV2Enabled": "true",
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
       "featureFlag.trackUrlPathChanges": "true",
       "featureFlag.containerInfoEnabled": "true",

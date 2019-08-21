@@ -9,7 +9,6 @@ import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-sdk/components/dashboard/breadcrumb/Breadcrumb';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
-import { kubernetesEnabled } from 'in-services/featureFlags';
 import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -20,12 +19,7 @@ import locals from './DashboardBreadcrumb.mless';
 
 export default connectTo(
   props => ({
-    physicalHierarchy: getPhysicalHierarchy({
-      snapshotId: props.snapshotId,
-      // When Kuberentes is enabled, then our story is a bit different. We deliberately
-      // do not want to include it within the breadcrumb
-      includeKubernetes: !kubernetesEnabled
-    }).map(_physicalHierarchy => {
+    physicalHierarchy: getPhysicalHierarchy({ snapshotId: props.snapshotId }).map(_physicalHierarchy => {
       _physicalHierarchy = _physicalHierarchy.toArray();
       _physicalHierarchy.reverse();
       return _physicalHierarchy;

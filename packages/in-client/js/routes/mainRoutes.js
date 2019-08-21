@@ -19,7 +19,7 @@ import EventView from 'promise-loader?global!in-views/eventView/EventView';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 
-import { pcfEnabled, kubernetesEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
 import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
@@ -51,7 +51,7 @@ export default (
 
     {hasApplicationsAccess && applicationRoutes}
     {hasAnalyzeAccess && analyzeRoutes}
-    {kubernetesEnabled && hasKubernetesAccess && kubernetesRoutes}
+    {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}

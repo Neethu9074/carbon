@@ -16,13 +16,13 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
-import { kubernetesEnabled, pcfEnabled } from 'in-services/featureFlags';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { pcfEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
@@ -356,8 +356,7 @@ function getColumnDefinitions(type) {
         if (
           item.kubernetesPhysicalContext &&
           item.kubernetesPhysicalContext.pod &&
-          item.kubernetesPhysicalContext.namespace &&
-          kubernetesEnabled
+          item.kubernetesPhysicalContext.namespace
         ) {
           return (
             <WithKubernetesPhysicalContext
@@ -396,7 +395,7 @@ function getColumnDefinitions(type) {
           <UnmonitoredEntity />
         );
 
-        if (item.kubernetesPhysicalContext && kubernetesEnabled) {
+        if (item.kubernetesPhysicalContext) {
           return (
             <WithKubernetesPhysicalContext
               inEntity={item.kubernetesPhysicalContext.node}

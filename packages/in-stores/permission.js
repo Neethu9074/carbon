@@ -1,4 +1,4 @@
-import { isRbacEnabled, kubernetesEnabled } from 'in-services/featureFlags';
+import { isRbacEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
@@ -21,9 +21,9 @@ export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess;
 export const productAreaPermissions = getProductAreaPermissions();
 
 function getProductAreaPermissions() {
-  let areas = [{ value: ACCESS_WEBSITES, label: 'Websites' }, { value: ACCESS_APPLICATIONS, label: 'Applications' }];
-  if (kubernetesEnabled) {
-    areas.push({ value: ACCESS_KUBERNETES, label: 'Kubernetes' });
-  }
-  return areas;
+  return [
+    { value: ACCESS_WEBSITES, label: 'Websites' },
+    { value: ACCESS_APPLICATIONS, label: 'Applications' },
+    { value: ACCESS_KUBERNETES, label: 'Kubernetes' }
+  ];
 }

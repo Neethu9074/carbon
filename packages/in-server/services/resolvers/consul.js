@@ -26,7 +26,6 @@ exports.getFeatureFlags = (tenant, unit) =>
     return Promise.all([
       getBooleanSetting(`settings/${tenant}-${unit}/JAVASCRIPT_STACK_TRACE_TRANSLATION_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_SELFSERVICE`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_KUBERNETES_V2_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/LAST_SEVEN_DAYS_TIME_PRESET_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_EVENTS_WEBSITE_MONITORING_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`, true),
@@ -44,7 +43,6 @@ exports.getFeatureFlags = (tenant, unit) =>
       ([
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
-        isKubernetesV2Enabled,
         lastSevenDaysTimePresetEnabled,
         customEventsInWebsiteMonitoringEnabled,
         ruleDeprecationValidationChecksEnabled,
@@ -61,7 +59,6 @@ exports.getFeatureFlags = (tenant, unit) =>
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
-        isKubernetesV2Enabled,
         lastSevenDaysTimePresetEnabled,
         releaseNotesEnabled: true,
         maintenanceNotesEnabled: true,
