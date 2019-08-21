@@ -3,7 +3,7 @@ import React from 'react';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
-import CenterAlignment from 'in-components/layout/CenterAlignment';
+import FlexHeader from 'in-components/Dialog/components/FlexHeader';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog';
@@ -31,10 +31,10 @@ export default connectTo(
       header = `Failed to retrieve container info`;
     } else {
       header = (
-        <CenterAlignment>
+        <FlexHeader>
           Container Info
           <CopyToClipboardButton targetId={codeTargetId} />
-        </CenterAlignment>
+        </FlexHeader>
       );
     }
 
