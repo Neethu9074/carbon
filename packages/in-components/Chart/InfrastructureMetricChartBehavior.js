@@ -11,6 +11,11 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import createDataHolder from 'in-charts/data/dataHolder';
 import createQueue from 'in-charts/data/queue';
 
+// we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
+// needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
+// componentDidUpdate call. There we can create subscriptions. Bar charts for instance rely on having a proper width
+// defined. Also this reduces the number of unneeded backend subscriptions because of this missing information
+// inside the componentDidMount
 export default getElementDimensions(
   class InfrastructureMetricChartBehavior extends React.Component {
     static displayName = 'InfrastructureMetricChartBehavior';
@@ -26,10 +31,6 @@ export default getElementDimensions(
       this.createQueuesAndDataHolders();
 
       this.state = {};
-    }
-
-    componentDidMount() {
-      this.setupMetricSubscriptions(this.queues);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -136,7 +137,6 @@ export default getElementDimensions(
             })
           );
         }
-
         this.subscriptions.push(
           getMetricsForTimeframe({
             snapshotId,
@@ -235,7 +235,8 @@ function mapAxis(axis) {
 }
 
 function getChartCanvasWidth(props) {
-  let wholeChartWidth = props.width || 0;
-  const chartWidth = wholeChartWidth - (props.y2 ? 2 : 1) * WIDTH;
+  const axisWidth = (props.y2 ? 2 : 1) * WIDTH;
+  let wholeChartWidth = props.width || axisWidth;
+  const chartWidth = wholeChartWidth - axisWidth;
   return chartWidth;
 }
