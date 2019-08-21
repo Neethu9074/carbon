@@ -353,15 +353,13 @@ function getColumnDefinitions(type) {
           <UnmonitoredEntity />
         );
 
-        if (
-          item.kubernetesPhysicalContext &&
-          item.kubernetesPhysicalContext.pod &&
-          item.kubernetesPhysicalContext.namespace
+        if (item.physicalContext.kubernetes &&
+          (item.physicalContext.kubernetes.pod || item.physicalContext.kubernetes.namespace)
         ) {
           return (
             <WithKubernetesPhysicalContext
-              inEntity={item.kubernetesPhysicalContext.pod}
-              ofEntity={item.kubernetesPhysicalContext.namespace}
+              inEntity={item.physicalContext.kubernetes.pod}
+              ofEntity={item.physicalContext.kubernetes.namespace}
               inIcon="lib_kubernetes_pod"
               onIcon="lib_kubernetes_namespace"
               getInEntityDashboard={getPodDashboard}
@@ -372,9 +370,9 @@ function getColumnDefinitions(type) {
           );
         }
 
-        if (item.cloudfoundryPhysicalContext) {
+        if (item.physicalContext.cloudfoundry) {
           return (
-            <WithCloudfoundryPhysicalContext {...item.cloudfoundryPhysicalContext}>
+            <WithCloudfoundryPhysicalContext {...item.physicalContext.cloudfoundry}>
               {link}
             </WithCloudfoundryPhysicalContext>
           );
@@ -395,11 +393,11 @@ function getColumnDefinitions(type) {
           <UnmonitoredEntity />
         );
 
-        if (item.kubernetesPhysicalContext) {
+        if (item.physicalContext.kubernetes) {
           return (
             <WithKubernetesPhysicalContext
-              inEntity={item.kubernetesPhysicalContext.node}
-              ofEntity={item.kubernetesPhysicalContext.cluster}
+              inEntity={item.physicalContext.kubernetes.node}
+              ofEntity={item.physicalContext.kubernetes.cluster}
               inIcon="lib_kubernetes_node"
               onIcon="lib_kubernetes_cluster"
               getInEntityDashboard={getNodeDashboard}
