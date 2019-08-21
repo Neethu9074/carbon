@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { megaBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 
@@ -27,9 +28,11 @@ export default function NomadInfo({ snapshot }) {
             <DescriptionItem title="CPU Limit">
               {nomad.get('cpuLimit') ? `${nomad.get('cpuLimit')} MHz` : null}
             </DescriptionItem>
-            <DescriptionItem title="Memory Limit">
-              {nomad.get('memoryLimit') ? `${nomad.get('memoryLimit')} MB` : null}
-            </DescriptionItem>
+            {nomad.get('memoryLimit') && (
+              <DescriptionItem title="Memory Limit">
+                {megaBytesTwoDecimalPlaces(nomad.get('memoryLimit'))}
+              </DescriptionItem>
+            )}
           </DescriptionList>
 
           {ports && ports.size > 0 ? <KeyValueOverlay header="Port Names" data={ports} /> : null}
