@@ -50,10 +50,13 @@ function HealthStatus({ time, incidents, health, name, pointerDirection }) {
   return (
     <div>
       <div className={locals.healthStatus}>
-        <SvgIcon className={locals.icon} type={`lib_arrow_expand_${pointerDirection}`} />
-        <span className={locals.numberOfIncidentsLabel}>{incidents} Incidents</span>
-        <span className={locals.healthIndicator}>{percentageTwoDecimalPlaces(health)} Healthy</span>
+        <span className={locals.headingRow}>
+          <SvgIcon className={locals.icon} type={`lib_arrow_expand_${pointerDirection}`} />
+          <span className={locals.incidentsHeadline}>Incidents</span>
+          <span className={locals.healthIndicator}>{percentageTwoDecimalPlaces(health)} Healthy</span>
+        </span>
       </div>
+      <div className={locals.numberOfIncidentsLabel}>{incidents} Ongoing</div>
       <div className={locals.timespan}>{`${name} ${formatDateTime(time)}`}</div>
     </div>
   );
