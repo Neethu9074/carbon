@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { expandNestedSerializedJson } from 'in-services/util/json';
 import { DescriptionItem } from 'in-components/DescriptionList';
 
 import Code from 'in-sdk/components/traceDetails/Code';
@@ -13,7 +14,7 @@ export default function CustomDataDescriptionItem({ span }) {
 
   return (
     <DescriptionItem title="Data">
-      <Code code={JSON.stringify(custom.toJS(), 0, 2)} lang="json" />
+      <Code code={JSON.stringify(expandNestedSerializedJson(custom.toJS()), 0, 2)} lang="json" />
     </DescriptionItem>
   );
 }
