@@ -126,6 +126,7 @@ export default connectTo(
       const {
         roles: { data: userRoles }
       } = this.props;
+
       return event => {
         event.preventDefault();
 
@@ -137,11 +138,17 @@ export default connectTo(
         }
 
         // use default role when user is not allowed to choose a role
-        const roleId = canSelectRole ? this.state.form.get('roleId').value : defaultRoleId;
+        let roleId;
 
-        const role = userRoles.length ? userRoles.find(role => role.get('id') === roleId) : null;
-        const roleName = role && role.get('name');
-        submitInviteUserTracker({ role: roleName });
+        if (canSelectRole) {
+          roleId = this.state.form.get('roleId').value;
+          const role = userRoles.length ? userRoles.find(role => role.get('id') === roleId) : null;
+          const roleName = role && role.get('name') ? role.get('name') : 'default';
+          submitInviteUserTracker({ role: roleName });
+        } else {
+          roleId = defaultRoleId;
+          submitInviteUserTracker({ role: 'default' });
+        }
         this.props.onSubmit(this.state.form.get('email').value, roleId);
       };
     };
