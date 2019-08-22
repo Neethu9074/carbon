@@ -7,6 +7,8 @@ import './aiohttp-client';
 import './aiohttp-server';
 import './akka.http.client';
 import './akka.http.server';
+import './akka-remote-entry';
+import './akka-remote-exit';
 import './android.error';
 import './asp.net';
 import './aspnetmvccontroller';

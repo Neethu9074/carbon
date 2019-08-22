@@ -19,6 +19,7 @@
   .button {
     padding: 0.25rem 0.675rem;
     width: 100%;
+    margin-top: 0.5rem;
   }
 
   .dialog {
@@ -35,7 +36,6 @@
     margin-top: 0.25rem;
     padding: 0.25rem;
     line-height: 1.5rem;
-
   }
 
   .leftColumn {
@@ -50,12 +50,10 @@
 
   .releases {
     a {
-        width: 100%;
-        display: inline-block;
-        .ellipsis();
-        vertical-align:top;
-     }
+      width: 100%;
+      display: inline-block;
+      .ellipsis();
+      vertical-align: top;
+    }
   }
-
-
 }

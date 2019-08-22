@@ -1,5 +1,4 @@
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
   .container {
@@ -12,6 +11,8 @@
 
     padding: 0.25rem 0.5rem;
     color: @lib__colors__N050;
+
+    min-height: 4.875rem;
   }
 
   .releaseInfo {
@@ -42,11 +43,12 @@
 
   .healthStatus {
     display: flex;
-    align-items: center;
+    flex-direction: column;
   }
 
   .numberOfIncidentsLabel {
     white-space: nowrap;
+    margin-left: 1.75rem;
   }
 
   .healthIndicator {
@@ -57,16 +59,26 @@
     font-weight: 600;
     margin-left: 0.75rem;
     padding: 1px 0.3125rem;
-    min-width: 100px;
+    min-width: 6.25rem;
   }
 
   .timespan {
     font-style: italic;
-    margin-left: 28px;
+    margin-left: 1.75rem;
+    margin-top: 0.5rem;
   }
 
   .loading {
     color: transparent;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .incidentsHeadline {
+    .releaseName();
+  }
+
+  .headingRow {
+    display: flex;
+    align-items: center;
   }
 }

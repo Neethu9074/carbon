@@ -26,13 +26,13 @@ export default function MongoDbReplicaSetSidebar({ snapshot }) {
           {
             metric: 'connections',
             label: 'Connections',
-            formatter: number,
-            aggregation: 'sum'
+            formatter: number.forcedCompact,
+            aggregation: 'mean'
           },
           {
             metric: 'repl.replication_lag',
             label: 'Replication Lag',
-            formatter: millis.compact,
+            formatter: millis,
             aggregation: 'mean'
           }
         ]}

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { toConsumableJson } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { expandNestedSerializedJson } from 'in-services/util/json';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -63,7 +63,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           {hasMeta && (
             <Code
               showLineNumbers={false}
-              code={JSON.stringify(toConsumableJson(beacon.meta), 0, 2)}
+              code={JSON.stringify(expandNestedSerializedJson(beacon.meta), 0, 2)}
               lang="json"
               wrapperClassName={locals.meta}
             />
