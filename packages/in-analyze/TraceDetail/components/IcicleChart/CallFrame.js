@@ -57,7 +57,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
         }}
         onClick={isFakeRoot ? null : () => onCallClicked(callFrame)}
       >
-        <ErrorIndicator className={locals.errorIndicator} erroneous={errorCount} />
+        <ErrorIndicator className={locals.errorIndicator} erroneous={errorCount} inChart />
         <span className={locals.label}>{label}</span>
       </div>
       <div
