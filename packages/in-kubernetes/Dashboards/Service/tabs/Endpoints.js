@@ -6,8 +6,8 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { serviceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import { serviceId } from 'in-kubernetes/navigation/matrix';
 import EntityLink from 'in-new-components/EntityLink';
 import WithIcon from 'in-new-components/WithIcon';
 
@@ -65,7 +65,7 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceId],
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, serviceIdUrlParameter],
     columnDefinitions,
     defaultOrderBy: 'address',
     defaultOrderDirection: 'ASC',

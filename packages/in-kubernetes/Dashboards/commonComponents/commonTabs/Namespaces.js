@@ -11,10 +11,10 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
-import { clusterId } from 'in-kubernetes/navigation/matrix';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -156,7 +156,7 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
     columnDefinitions,
     defaultOrderBy: 'label',
     defaultOrderDirection: 'ASC',

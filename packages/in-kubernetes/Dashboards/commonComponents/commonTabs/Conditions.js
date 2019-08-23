@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { clusterId, podId, deploymentId, deploymentConfigId } from 'in-kubernetes/navigation/matrix';
+import {
+  clusterIdUrlParameter,
+  podIdUrlParameter,
+  deploymentIdUrlParameter,
+  deploymentConfigIdUrlParameter
+} from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesConditions';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -50,7 +55,13 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId, deploymentId, deploymentConfigId, podId],
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      clusterIdUrlParameter,
+      podIdUrlParameter,
+      deploymentIdUrlParameter,
+      deploymentConfigIdUrlParameter
+    ],
     columnDefinitions,
     defaultOrderBy: 'type',
     defaultOrderDirection: 'ASC',

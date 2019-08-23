@@ -7,8 +7,8 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import getKubernetesHostsByCluster from 'in-subscription/kubernetes/getKubernetesHostsByCluster';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { clusterId } from 'in-kubernetes/navigation/matrix';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 
@@ -71,7 +71,7 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
     columnDefinitions,
     defaultOrderBy: 'label',
     defaultOrderDirection: 'ASC',

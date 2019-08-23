@@ -7,10 +7,10 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/Entit
 import getCloudfoundryContainers from 'in-cloudfoundry/subscriptions/getCloudfoundryContainers';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { applicationIdUrlParameter } from 'in-cloudfoundry/navigation/urlParameters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { bytes, percentage } from 'in-services/formatters/number';
-import { applicationId } from 'in-cloudfoundry/navigation/matrix';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';
@@ -85,7 +85,7 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, applicationId],
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, applicationIdUrlParameter],
     defaultOrderBy: 'label',
     defaultOrderDirection: 'ASC',
     columnDefinitions,

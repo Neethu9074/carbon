@@ -11,11 +11,11 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
+import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
-import { clusterId } from 'in-kubernetes/navigation/matrix';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -137,7 +137,7 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId],
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
     columnDefinitions,
     defaultOrderBy: 'name',
     defaultOrderDirection: 'ASC',
