@@ -3,14 +3,15 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import {
-  clusterId,
-  serviceId,
-  namespaceId,
-  podId,
-  nodeId,
-  deploymentId,
-  deploymentConfigId
-} from 'in-kubernetes/navigation/matrix';
+  clusterIdUrlParameter,
+  serviceIdUrlParameter,
+  namespaceIdUrlParameter,
+  podIdUrlParameter,
+  nodeIdUrlParameter,
+  deploymentIdUrlParameter,
+  deploymentConfigIdUrlParameter,
+  phasePodListUrlParameter
+} from 'in-kubernetes/navigation/urlParameters';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -19,7 +20,6 @@ import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
@@ -206,13 +206,14 @@ function createTable(columnDefinitions) {
     Component: createServerTableWithUrlState({
       paginationResettingUrlParameters: [
         ...timeConfigUrlParameters,
-        clusterId,
-        serviceId,
-        namespaceId,
-        podId,
-        nodeId,
-        deploymentId,
-        deploymentConfigId
+        clusterIdUrlParameter,
+        serviceIdUrlParameter,
+        namespaceIdUrlParameter,
+        podIdUrlParameter,
+        nodeIdUrlParameter,
+        deploymentIdUrlParameter,
+        deploymentConfigIdUrlParameter,
+        phasePodListUrlParameter
       ],
       columnDefinitions,
       defaultOrderBy: 'name',
@@ -233,28 +234,9 @@ export function PodsWithNamespaces({ ...props }) {
 const Pods = compose(
   withUrlState({
     reducerName: 'setPhase',
-    bind: [
-      {
-        path: pathSegment,
-        name: 'phase',
-        initialState: null,
-        parser: buildJsonParser(null),
-        serializer: buildJsonSerializer()
-      }
-    ]
+    bind: [phasePodListUrlParameter]
   })
 )(function Pods(props) {
-  const rightHeader = (
-    <ComboBox
-      placeholder="Phase…"
-      value={phase}
-      searchable={false}
-      onChange={t => setPhase({ phase: t ? t.value : null })}
-      options={podPhases}
-      className={locals.filter}
-    />
-  );
-
   const {
     phase,
     setPhase,
@@ -268,6 +250,17 @@ const Pods = compose(
     nodeId,
     Table = ServerTableWithUrlStateWithoutNamespace
   } = props;
+
+  const rightHeader = (
+    <ComboBox
+      placeholder="Phase…"
+      value={phase}
+      searchable={false}
+      onChange={t => setPhase({ phase: t ? t.value : null })}
+      options={podPhases}
+      className={locals.filter}
+    />
+  );
 
   return (
     <Table

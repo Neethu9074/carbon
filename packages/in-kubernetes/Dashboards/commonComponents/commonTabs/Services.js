@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { namespaceId, clusterId, deploymentId, deploymentConfigId } from 'in-kubernetes/navigation/matrix';
+import {
+  clusterIdUrlParameter,
+  namespaceIdUrlParameter,
+  deploymentIdUrlParameter,
+  deploymentConfigIdUrlParameter
+} from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
@@ -93,10 +98,10 @@ const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,
-      namespaceId,
-      clusterId,
-      deploymentId,
-      deploymentConfigId
+      clusterIdUrlParameter,
+      namespaceIdUrlParameter,
+      deploymentIdUrlParameter,
+      deploymentConfigIdUrlParameter
     ],
     columnDefinitions,
     defaultOrderBy: 'name',

@@ -1,6 +1,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  clusterIdUrlParameter,
+  serviceIdUrlParameter,
+  namespaceIdUrlParameter
+} from 'in-kubernetes/navigation/urlParameters';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
@@ -9,7 +14,6 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { clusterId, namespaceId, serviceId } from 'in-kubernetes/navigation/matrix';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
@@ -97,7 +101,12 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = withEmptyTableState({
   Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterId, namespaceId, serviceId],
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      clusterIdUrlParameter,
+      serviceIdUrlParameter,
+      namespaceIdUrlParameter
+    ],
     columnDefinitions,
     defaultOrderBy: 'name',
     defaultOrderDirection: 'ASC',
