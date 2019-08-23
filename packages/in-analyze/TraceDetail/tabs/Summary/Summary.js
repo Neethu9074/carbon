@@ -18,12 +18,12 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { number, latency } from 'in-services/formatters/number';
 import { scrollIntoViewIfNeeded } from 'in-services/util/dom';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { traceDetail } from 'in-analyze/navigation/paths';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -126,31 +126,31 @@ class Summary extends React.Component {
             </Row>
           ) : null}
           <Row>
-            <Col lg={2}>
+            <Col xs>
               <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
             </Col>
-            <Col lg={2}>
+            <Col xs>
               <KpiCard
                 title="Erroneous Calls"
                 color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalErrorCount)}
               />
             </Col>
-            <Col lg={2}>
+            <Col xs>
               <KpiCard
                 title="Error Logs"
                 color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalErrorLogCount)}
               />
             </Col>
-            <Col lg={2}>
+            <Col xs>
               <KpiCard
                 title="Warn Logs"
                 color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalWarnLogCount)}
               />
             </Col>
-            <Col lg={2}>
+            <Col xs>
               <KpiCard
                 title="Latency"
                 value={

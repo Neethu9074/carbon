@@ -8,9 +8,9 @@ import { number, millis, meanLatency, latency } from 'in-services/formatters/num
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import AggregationSelector from 'in-new-components/AggregationSelector';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 
@@ -20,7 +20,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
   return (
     <Fragment>
       <Row>
-        <Col lg={2}>
+        <Col xs>
           <WebsiteMetricsKpiCard
             title={'Page Loads'}
             formatter={number.compact}
@@ -36,7 +36,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <WebsiteMetricsKpiCard
             title={'Page Transitions'}
             formatter={number.compact}
@@ -52,7 +52,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <WebsiteMetricsKpiCard
             title="onLoad Time (mean)"
             formatter={meanLatency.detailed}
@@ -68,7 +68,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <WebsiteMetricsKpiCard
             title="onLoad Time (90th)"
             formatter={latency.detailed}
@@ -84,7 +84,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             }}
           />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <WebsiteMetricsKpiCard
             title="onLoad Time (95th)"
             formatter={latency.detailed}
