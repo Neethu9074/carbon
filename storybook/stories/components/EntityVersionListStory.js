@@ -23,7 +23,7 @@ function getItems(numItems) {
   const now = Date.now();
   let gap = 0;
   for (let i = 1; i < numItems + 1; i++) {
-    if (i > 3) {
+    if (i > 2) {
       gap = 1000;
     }
     items.push({ from: gap + (now - (i + 1) * oneMinute), to: gap + (i === 1 ? null : now - i * oneMinute) });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -20,28 +20,42 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
     >
       <div className={locals.listHeading}>Available time ranges</div>
       <ul className={locals.list}>
-        {versions.map(({ from, to }, i) => {
-          const windowSize = (to || Date.now()) - from;
-
+        {clusters.map((clusterVersions, iC) => {
           return (
-            <li key={i} size="compact" className={locals.item}>
-              <Link
-                className={locals.link}
-                href$={getFixedTimeframeUrl({
-                  windowSize,
-                  to,
-                  focusedMoment: to ? to - windowSize / 2 : ''
-                })}
-              >
-                <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
-                <span className={locals.toSpan}>to</span>
-                <span className={locals.toTimestamp}>{to ? formatDateTime(to) : 'Now'}</span>
-              </Link>
-            </li>
+            <Fragment key={iC}>
+              {clusterVersions.length > 1 && (
+                <li key={'cluster' + iC} size="compact" className={locals.headerItem}>
+                  <VersionLink from={clusterVersions[clusterVersions.length - 1].from} to={clusterVersions[0].to} />
+                </li>
+              )}
+              {clusterVersions.map(version => (
+                <li key={version.from} size="compact" className={locals.item}>
+                  <VersionLink {...version} />
+                </li>
+              ))}
+            </Fragment>
           );
         })}
       </ul>
     </EntityPageMainNotification>
+  );
+}
+
+function VersionLink({ from, to }) {
+  const windowSize = (to || Date.now()) - from;
+  return (
+    <Link
+      className={locals.link}
+      href$={getFixedTimeframeUrl({
+        windowSize,
+        to,
+        focusedMoment: to ? to - windowSize / 2 : ''
+      })}
+    >
+      <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
+      <span className={locals.toSpan}>to</span>
+      <span className={locals.toTimestamp}>{to ? formatDateTime(to) : 'Now'}</span>
+    </Link>
   );
 }
 
@@ -58,10 +72,20 @@ function sortByTo(versionA, versionB) {
 
 // exports for test
 export function cluster(versions) {
+  let currentCluster = [];
   const clusters = [];
-
+  let prevVersion = null;
   for (let i = 0; i < versions.length; i++) {
-    const element = versions[i];
+    if (i === 0) {
+      clusters.push(currentCluster);
+    }
+    const version = versions[i];
+    if (prevVersion && prevVersion.from !== version.to) {
+      currentCluster = [];
+      clusters.push(currentCluster);
+    }
+    currentCluster.push(version);
+    prevVersion = version;
   }
 
   return clusters;
