@@ -7,8 +7,9 @@ import Link from 'in-components/Link';
 
 import locals from './EntityVersionListPresenter.mless';
 
-export default function EntityVersionListPresenter({ plugin, snapshotVersions }) {
-  snapshotVersions.sort(sortByTo);
+export default function EntityVersionListPresenter({ plugin, versions }) {
+  versions.sort(sortByTo);
+  const clusters = cluster(versions);
 
   return (
     <EntityPageMainNotification
@@ -19,7 +20,7 @@ export default function EntityVersionListPresenter({ plugin, snapshotVersions })
     >
       <div className={locals.listHeading}>Available time ranges</div>
       <ul className={locals.list}>
-        {snapshotVersions.map(({ from, to }, i) => {
+        {versions.map(({ from, to }, i) => {
           const windowSize = (to || Date.now()) - from;
 
           return (
@@ -53,4 +54,15 @@ function sortByTo(versionA, versionB) {
   }
 
   return versionB.to - versionA.to;
+}
+
+// exports for test
+export function cluster(versions) {
+  const clusters = [];
+
+  for (let i = 0; i < versions.length; i++) {
+    const element = versions[i];
+  }
+
+  return clusters;
 }
