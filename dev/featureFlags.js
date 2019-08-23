@@ -21,5 +21,6 @@ module.exports = {
   unmonitoredHostsEnabled: true,
   javaScriptStackTraceTranslationEnabled: true,
   releasesEnabled: true,
-  pcfEnabled: true
+  pcfEnabled: true,
+  humioEnabled: true
 };

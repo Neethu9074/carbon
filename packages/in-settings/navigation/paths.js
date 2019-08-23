@@ -69,6 +69,9 @@ export const teamSettingsAlertingIntegrationEdit = `${alerting}/integrations/:id
 export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`;
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
+const logManagement = `${teamSettings}/logManagement`;
+export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
+
 const audit = `${teamSettings}/audit`;
 export const teamSettingsAuditLog = `${audit}/log`;
 

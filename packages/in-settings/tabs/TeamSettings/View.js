@@ -30,7 +30,8 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAuditLog
+  teamSettingsAuditLog,
+  teamSettingsLogManagementHumio
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -44,12 +45,12 @@ import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import type { NavigationTree, Page } from 'in-new-components/layout/SideNavigationAndContent';
-import { isRbacEnabled } from 'in-services/featureFlags';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
 import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
@@ -57,6 +58,7 @@ import TeamsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/T
 import TeamPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Teams/Team';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
+import { isRbacEnabled, humioEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import { role } from 'in-stores/user';
 
@@ -236,6 +238,25 @@ function navigationTreeForRole(role): NavigationTree {
       title: 'Events & Alerts',
       pages: eventsAndAlertsPages
     });
+  }
+
+  if (role.canConfigureLogManagement) {
+    const logManagementPages = [];
+
+    if (humioEnabled) {
+      logManagementPages.push({
+        path: teamSettingsLogManagementHumio,
+        label: 'Humio',
+        component: HumioPage
+      });
+    }
+
+    if (logManagementPages.length > 0) {
+      navigationTree.push({
+        title: 'Log Management',
+        pages: logManagementPages
+      });
+    }
   }
 
   if (role.canViewAuditLog) {

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { addLabelFinder, getLabel } from 'in-sdk/snapshot/legacy';
 
@@ -138,4 +140,13 @@ export function getContext(snapshot) {
   result = result.set('Tags', snapshot.get('processorTags'));
 
   return result.filter(v => v && v.size > 0);
+}
+
+export function getDashboardHeaderActions(snapshot, timeConfig) {
+  const DashboardHeaderActions = getSnapshotDefinition(snapshot.get('plugin')).DashboardHeaderActions;
+  if (!DashboardHeaderActions) {
+    return null;
+  }
+
+  return <DashboardHeaderActions snapshot={snapshot} timeConfig={timeConfig} />;
 }

@@ -1,5 +1,6 @@
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import React from 'react';
 
+import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
@@ -8,6 +9,7 @@ import tableDefinition from 'in-forge/plugins/host/tableDefinition.js';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import zosIconSvgPath from 'in-forge/plugins/host/icons/zosIconPath';
 import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import 'in-forge/plugins/host/metrics';
 
@@ -59,5 +61,9 @@ registerSnapshotDefinition({
   getPower(snapshot) {
     const data = snapshot.get('data');
     return data.get('memory.total', 1) * data.get('cpu.count', 1);
+  },
+
+  DashboardHeaderActions({ snapshot, timeConfig }) {
+    return <LoggingIntegrationButtons hostFqdn={snapshot.getIn(['data', 'fqdn'])} timeConfig={timeConfig} />;
   }
 });
