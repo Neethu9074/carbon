@@ -46,19 +46,19 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
       />
 
       <Row>
-        <Col lg={2}>
+        <Col xs>
           <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <KpiCard title="JS Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <KpiCard title="Resources" value={number.compact(getBeaconCount(beacons, 'resourceLoad'))} />
         </Col>
-        <Col lg={2}>
+        <Col xs>
           <KpiCard title="HTTP Requests" value={number.compact(getBeaconCount(beacons, 'httpRequest'))} />
         </Col>
-        <Col lg={4}>
+        <Col xs>
           <KpiCard
             title="Website"
             raw

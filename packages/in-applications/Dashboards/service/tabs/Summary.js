@@ -22,7 +22,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
   return (
     <Fragment>
       <Row>
-        <Col lg={4}>
+        <Col xs>
           <AppDataKpiCard
             title="Inbound Calls"
             formatter={number.compact}
@@ -37,7 +37,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
             }}
           />
         </Col>
-        <Col lg={4}>
+        <Col xs>
           <AppDataKpiCard
             title="Error Rate"
             formatter={percentage.detailed}
@@ -52,7 +52,7 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
             }}
           />
         </Col>
-        <Col lg={4}>
+        <Col xs>
           <AppDataKpiCard
             title="Mean Latency"
             formatter={meanLatency.detailed}
