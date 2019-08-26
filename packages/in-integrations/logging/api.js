@@ -11,10 +11,9 @@ export function get() {
 }
 
 export function save(configuration) {
-  const id = configuration.get('id');
   return http({
     method: 'PUT',
-    url: `/api/settings/logging-integration/${encodeURIComponent(id)}`,
+    url: `/api/settings/logging-integration/${encodeURIComponent(configuration.type)}`,
     data: configuration,
     maxRetries: 3,
     headers: getCsrfHeader()

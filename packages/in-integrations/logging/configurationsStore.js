@@ -13,6 +13,6 @@ export function refresh() {
   refreshSignal$.emit(true);
 }
 
-export function getIntegrationConfiguration(name) {
-  return integrations$.map(integrations => integrations.find(i => i.name === name));
+export function getIntegrationConfiguration(type) {
+  return integrations$.map(integrations => integrations.find(i => i.type === type));
 }

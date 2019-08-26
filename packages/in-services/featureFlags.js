@@ -41,6 +41,7 @@ export const releasesEnabled = isFeatureFlagEnabled('releasesEnabled');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
 export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
+export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

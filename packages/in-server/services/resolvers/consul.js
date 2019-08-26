@@ -39,7 +39,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/RELEASES_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -57,7 +58,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         unmonitoredHostsEnabled,
         releasesEnabled,
         pcfEnabled,
-        humioEnabled
+        humioEnabled,
+        logDnaEnabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -79,7 +81,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         customDashboardsEnabled,
         releasesEnabled,
         pcfEnabled,
-        humioEnabled
+        humioEnabled,
+        logDnaEnabled
       })
     );
   });

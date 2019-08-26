@@ -7,7 +7,6 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { generateUniqueShortId } from 'in-services/util/id';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
 import { isBlank } from 'in-services/util/string';
@@ -16,7 +15,6 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { createLogger } from 'instalog';
-import { fromJS } from 'immutable';
 const block = 'in-ui-config';
 
 const logger = createLogger('humioConfig');
@@ -50,7 +48,7 @@ export default class Humio extends React.Component {
     const result$ = get();
 
     this.responseSubscription = result$.once(integrations => {
-      const integration = integrations.find(i => i.name === integrationKey);
+      const integration = integrations.find(i => i.type === integrationKey);
       this.setState({
         loading: false,
         error: false,
@@ -141,16 +139,7 @@ export default class Humio extends React.Component {
       return;
     }
 
-    const result$ = save(
-      fromJS({
-        id: this.state.integration && this.state.integration.id ? this.state.integration.id : generateUniqueShortId(),
-        url: this.state.form.get('url').value,
-        repository: this.state.form.get('repository').value,
-        enabled: this.state.form.get('enabled').value,
-        name: integrationKey
-      })
-    );
-
+    const result$ = save(this.state.form.toJS());
     this.disposeAsyncAction();
     this.setState({
       loading: true,
@@ -179,6 +168,12 @@ export default class Humio extends React.Component {
 
 function createForm(integration) {
   return createMapForm()
+    .put(
+      'type',
+      createField({
+        value: integrationKey
+      })
+    )
     .put(
       'url',
       createField({

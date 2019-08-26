@@ -30,7 +30,7 @@ function addZendeskStyles() {
 }
 
 export function shouldShowFloatingFooter() {
-  return getUsageInfo().map(usageInfo => usageInfo.activeLicenseType === 'selfService');
+  return getUsageInfo().map(usageInfo => usageInfo && usageInfo.activeLicenseType === 'selfService');
 }
 
 function addZendeskSnippet() {

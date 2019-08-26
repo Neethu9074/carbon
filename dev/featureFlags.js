@@ -22,5 +22,6 @@ module.exports = {
   javaScriptStackTraceTranslationEnabled: true,
   releasesEnabled: true,
   pcfEnabled: true,
-  humioEnabled: true
+  humioEnabled: true,
+  logDnaEnabled: true
 };
