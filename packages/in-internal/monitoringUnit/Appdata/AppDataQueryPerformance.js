@@ -1,223 +1,130 @@
 import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, percentage, millis } from 'in-services/formatters/number';
-import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { emptyList } from 'in-services/fixedImmutables';
-import Table from 'in-sdk/components/dashboard/Table';
+import CallGroupsChartWrapper from 'in-applications/analyze/CallGroupsChartWrapper';
+import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { number, millis } from 'in-services/formatters/number';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-
-const cols = [
-  {
-    title: 'Method',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.method;
-      }
-    }
-  },
-  {
-    title: 'Calls',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName(row) {
-        return `metrics.meters.grpc.outgoing.perMethod.${row.method}.calls`;
-      },
-      getContent: number.compact,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'sum';
-      }
-    }
-  },
-  {
-    title: 'Error Rate',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName(row) {
-        return `metrics.gauges.grpc.outgoing.perMethod.${row.method}.error_rate`;
-      },
-      getContent: percentage.detailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Latency 50th',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName(row) {
-        return `metrics.timers.grpc.outgoing.perMethod.${row.method}.timer.50th`;
-      },
-      getContent: millis.fixedDetailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: 'Latency 99th',
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.dropwizard.get('id');
-      },
-      getMetricName(row) {
-        return `metrics.timers.grpc.outgoing.perMethod.${row.method}.timer.99th`;
-      },
-      getContent: millis.fixedDetailed,
-      forceTimeWindowAggregation: true,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  }
-];
 
 export default connectTo({
-  timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-reader"')
-})(function AppdataWriterStatistics({ rows, timeConfig }) {
-  if (rows.length === 0) {
-    return <LoadingIndicator type="dark" />;
-  }
-
-  const process = rows[0];
-  rows = process.dropwizard
-    .getIn(['data', 'metrics.timers'], emptyList)
-    .toJS()
-    .filter(k => k.indexOf('grpc.outgoing.perMethod.') === 0)
-    .map(k => {
-      const method = k.replace(/^grpc\.outgoing\.perMethod\.(.+)\.timer/, '$1');
-      return {
-        ...process,
-        key: method,
-        method
-      };
-    })
-    .sort(compareIgnoreCase);
-
-  return (
-    <div>
-      <h1>appdata-reader</h1>
-
-      <p>
-        All the columns within the table show sums/averages across the selected time window, i.e. total number of calls
-        in time window or average 99th percentile in time window.
-      </p>
-
-      <p>
-        <strong>
-          Warning: This dashboard only works as long as there is one appdata-reader deployed per region (it only shows
-          the metric for the first appdata-reader).
-        </strong>
-      </p>
-
-      <DashboardSection title="ClickHouse Calls">
-        <Chart
-          snapshotId={process.dropwizard.get('id')}
-          timeConfig={timeConfig}
-          minRollup={5000}
-          y1={{
-            min: 0,
-            formatter: number.detailed,
-            metrics: ['metrics.meters.clickHouse.clustered.calls'],
-            labels: ['ClickHouse Calls'],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: number.detailed,
-            metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
-            labels: ['ClickHouse Call Queue Size'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
-
-      <DashboardSection title={`Methods (${rows.length})`}>
-        <Table
-          cols={cols}
-          rows={rows}
-          getRowDetails={getRowDetails}
-          initialSortColumn={1}
-          initialSortDirection="desc"
-          maxItemsPerPage={25}
-        />
-      </DashboardSection>
-    </div>
-  );
-});
-
-function getRowDetails(row) {
+  timeConfig: timeConfig$
+})(function AppdataWriterStatistics({ timeConfig }) {
   return (
     <Fragment>
-      <DashboardSection title="Calls">
-        <Chart
-          snapshotId={row.dropwizard.get('id')}
-          timeConfig={row.timeConfig}
-          minRollup={5000}
-          y1={{
-            min: 0,
-            formatter: number.detailed,
-            metrics: [`metrics.meters.grpc.outgoing.perMethod.${row.method}.calls`],
-            labels: ['Calls'],
-            type: 'stackedArea'
-          }}
-        />
-      </DashboardSection>
+      <h1>appdata-reader</h1>
 
-      <DashboardSection title="Errors">
-        <Chart
-          snapshotId={row.dropwizard.get('id')}
-          timeConfig={row.timeConfig}
-          minRollup={5000}
-          y1={{
-            min: 0,
-            max: 1,
-            formatter: percentage.detailed,
-            metrics: [`metrics.gauges.grpc.outgoing.perMethod.${row.method}.error_rate`],
-            labels: ['Error Rate'],
-            type: 'stackedArea'
-          }}
-        />
-      </DashboardSection>
+      <Row>
+        <Col lg>
+          <CallGroupsChartWrapper
+            cardTitle="Most Active Units"
+            cardHeader={
+              <Fragment>
+                <Button
+                  href$={getLinkToAnalyze({
+                    dataSource: 'calls',
+                    timeConfig,
+                    filters: [{ name: 'service.name', operator: 'EQUALS', value: 'clickhouse' }],
+                    groupByTag: { name: 'call.tag', value: 'tenantUnit' },
+                    metrics: [
+                      {
+                        metric: 'latency',
+                        aggregation: 'SUM'
+                      }
+                    ],
+                    orderBy: 'latency_SUM_Agg',
+                    orderDirection: 'DESC'
+                  })}
+                >
+                  Analyze
+                </Button>
+                &nbsp;
+              </Fragment>
+            }
+            timeConfig={timeConfig}
+            tagFilters={[{ name: 'service.name', operator: 'EQUALS', stringValue: 'clickhouse' }]}
+            group={{ groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'tenantUnit' }}
+            orderByMetric={0}
+            metrics={[
+              {
+                label: 'Latency (sum)',
+                metric: 'latency',
+                aggregation: 'SUM',
+                formatter: millis,
+                renderer: Renderer.stackedArea
+              },
+              {
+                label: 'Calls',
+                metric: 'calls',
+                aggregation: 'SUM',
+                formatter: number,
+                renderer: Renderer.stackedArea
+              }
+            ]}
+          />
+        </Col>
+      </Row>
 
-      <DashboardSection title="Latency">
-        <Chart
-          snapshotId={row.dropwizard.get('id')}
-          timeConfig={row.timeConfig}
-          minRollup={5000}
-          y1={{
-            min: 0,
-            formatter: millis.fixedDetailed,
-            metrics: [
-              `metrics.timers.grpc.outgoing.perMethod.${row.method}.timer.mean`,
-              `metrics.timers.grpc.outgoing.perMethod.${row.method}.timer.50th`,
-              `metrics.timers.grpc.outgoing.perMethod.${row.method}.timer.99th`
-            ],
-            labels: ['Mean', '50th', '90th'],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
+      <Row>
+        <Col lg>
+          <CallGroupsChartWrapper
+            cardTitle="Most Common Queries"
+            cardHeader={
+              <Fragment>
+                <Button
+                  href$={getLinkToAnalyze({
+                    dataSource: 'calls',
+                    timeConfig,
+                    filters: [
+                      { name: 'service.name', operator: 'CONTAINS', value: 'ui-backend' },
+                      { name: 'call.tag', operator: 'NOT_EMPTY', value: 'eventClass' },
+                      { name: 'call.is_synthetic', value: 'false' }
+                    ],
+                    groupByTag: { name: 'call.tag', value: 'eventClass' },
+                    metrics: [
+                      {
+                        metric: 'latency',
+                        aggregation: 'SUM'
+                      }
+                    ],
+                    orderBy: 'latency_SUM_Agg',
+                    orderDirection: 'DESC'
+                  })}
+                >
+                  Analyze
+                </Button>
+                &nbsp;
+              </Fragment>
+            }
+            timeConfig={timeConfig}
+            tagFilters={[
+              { name: 'service.name', operator: 'CONTAINS', stringValue: 'ui-backend' },
+              { name: 'call.tag', operator: 'NOT_EMPTY', stringValue: 'eventClass=' },
+              { name: 'call.is_synthetic', booleanValue: 'false' }
+            ]}
+            group={{ groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'eventClass' }}
+            orderByMetric
+            metrics={[
+              {
+                label: 'Latency (sum)',
+                metric: 'latency',
+                aggregation: 'SUM',
+                formatter: millis,
+                renderer: Renderer.stackedArea
+              },
+              {
+                label: 'Calls',
+                metric: 'calls',
+                aggregation: 'SUM',
+                formatter: number,
+                renderer: Renderer.stackedArea
+              }
+            ]}
+          />
+        </Col>
+      </Row>
     </Fragment>
   );
-}
+});

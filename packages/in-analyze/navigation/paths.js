@@ -5,7 +5,9 @@ import {
   dataSource as dataSourceMatrixParameter,
   callId as callIdMatrixParameter,
   orderBy as orderByMatrixParameter,
-  orderDirection as orderDirectionMatrixParameter
+  orderDirection as orderDirectionMatrixParameter,
+  metrics as metricsMatrixParameter,
+  serializeMetrics
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -33,7 +35,8 @@ export function getLinkToAnalyze({
   groupByTag, // use an empty object to prevent default grouping
   orderBy,
   orderDirection,
-  timeConfig
+  timeConfig,
+  metrics
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -94,6 +97,10 @@ export function getLinkToAnalyze({
         `${orderMatrixParameterPrefix}${orderDirectionMatrixParameter}`,
         orderDirection
       );
+    }
+
+    if (metrics) {
+      setOrDeleteMatrixKey(params, analyze, `groups.${metricsMatrixParameter}`, serializeMetrics(metrics));
     }
 
     if (timeConfig) {
