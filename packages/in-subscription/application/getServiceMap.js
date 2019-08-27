@@ -2,5 +2,6 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export default createResultSubscriptionFactory({
   eventId: 'getServiceMap',
-  disposeSubscriptionOnDocumentHidden: false
+  disposeSubscriptionOnDocumentHidden: false,
+  trackSubscriptionStatistics: true
 });

@@ -1,5 +1,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getMetrics'
+  eventId: 'getMetrics',
+  trackSubscriptionStatistics: true
 });

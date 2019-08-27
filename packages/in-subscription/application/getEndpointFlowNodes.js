@@ -2,5 +2,6 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export default createResultSubscriptionFactory({
   eventId: 'getEndpointFlowNodes',
-  memoizeFor: 100
+  memoizeFor: 100,
+  trackSubscriptionStatistics: true
 });

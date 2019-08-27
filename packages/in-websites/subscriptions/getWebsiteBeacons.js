@@ -2,5 +2,6 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export default createResultSubscriptionFactory({
   eventId: 'getWebsiteBeacons',
-  disposeSubscriptionOnDocumentHidden: false
+  disposeSubscriptionOnDocumentHidden: false,
+  trackSubscriptionStatistics: true
 });
