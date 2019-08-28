@@ -94,8 +94,8 @@ const cols = [
         return `log.counts.byLevel.ERROR.total`;
       },
       getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row) {
+        return row.snapshot.get('logAsRate') ? 'sum' : 'mean';
       }
     }
   },
@@ -110,8 +110,8 @@ const cols = [
         return `log.counts.byLevel.WARN.total`;
       },
       getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row) {
+        return row.snapshot.get('logAsRate') ? 'sum' : 'mean';
       }
     }
   }
@@ -205,7 +205,7 @@ function getRowDetails(row) {
           formatter: number.detailed,
           metrics: [`log.counts.byLevel.ERROR.total`],
           labels: ['Error Count'],
-          type: 'stackedArea'
+          type: 'area'
         }}
       />
       <Chart
@@ -216,7 +216,7 @@ function getRowDetails(row) {
           formatter: number.detailed,
           metrics: [`log.counts.byLevel.WARN.total`],
           labels: ['Warning Count'],
-          type: 'stackedArea'
+          type: 'area'
         }}
       />
     </Fragment>
