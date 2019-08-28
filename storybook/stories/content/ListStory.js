@@ -25,9 +25,9 @@ function SimpleList() {
 function ListWithAction() {
   return (
     <Ul>
-      <Li renderActions={'Action'}>Item 1</Li>
-      <Li renderActions={'Action'}>Item 2</Li>
-      <Li renderActions={'Action'}>Item 3</Li>
+      <Li renderActions={renderActions}>Item 1</Li>
+      <Li renderActions={renderActions}>Item 2</Li>
+      <Li renderActions={renderActions}>Item 3</Li>
     </Ul>
   );
 }
@@ -45,11 +45,19 @@ function ClickableList() {
 function CollapsibleList() {
   return (
     <Ul>
-      <Li renderActions={'Action'} nestedContent={<div>Nested Content</div>}>
+      <Li renderActions={renderActions} renderNestedContent={renderNestedContent}>
         Item 1
       </Li>
-      <Li nestedContent={<div>Nested Content</div>}>Item 2</Li>
-      <Li nestedContent={<div>Nested Content</div>}>Item 3</Li>
+      <Li renderNestedContent={renderNestedContent}>Item 2</Li>
+      <Li renderNestedContent={renderNestedContent}>Item 3</Li>
     </Ul>
   );
+}
+
+function renderActions() {
+  return 'Action';
+}
+
+function renderNestedContent() {
+  return 'Nested Content';
 }

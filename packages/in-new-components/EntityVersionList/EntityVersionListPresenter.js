@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import { formatDateTime } from 'in-services/formatters/date';
+import { Ul, Li } from 'in-new-components/lists/List/List';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import Link from 'in-components/Link';
 
@@ -19,24 +20,24 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
     ranges:"
     >
       <div className={locals.listHeading}>Available time ranges</div>
-      <ul className={locals.list}>
+      <Ul className={locals.list}>
         {clusters.map((clusterVersions, iC) => {
           return (
             <Fragment key={iC}>
               {clusterVersions.length > 1 && (
-                <li key={'cluster' + iC} size="compact" className={locals.headerItem}>
+                <Li key={'cluster' + iC} size="compact" className={locals.headerItem}>
                   <VersionLink from={clusterVersions[clusterVersions.length - 1].from} to={clusterVersions[0].to} />
-                </li>
+                </Li>
               )}
               {clusterVersions.map(version => (
-                <li key={version.from} size="compact" className={locals.item}>
+                <Li key={version.from} size="compact" className={locals.item}>
                   <VersionLink {...version} />
-                </li>
+                </Li>
               ))}
             </Fragment>
           );
         })}
-      </ul>
+      </Ul>
     </EntityPageMainNotification>
   );
 }

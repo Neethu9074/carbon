@@ -35,6 +35,14 @@
     border-right: 1px solid @lib__colors__N400;
   }
 
+  .itemContentWithNestedContent {
+    padding: 0.5rem 1rem;
+  }
+
+  .compact {
+    padding: 0.25rem 0.75rem;
+  }
+
   .actions {
     display: flex;
     justify-content: flex-end;
@@ -47,6 +55,10 @@
     &:hover {
       background: @lib__colors__faded-blue800;
     }
+  }
+
+  .expandIcon {
+    margin-left: 0.5rem;
   }
 
   .nestedContent {
