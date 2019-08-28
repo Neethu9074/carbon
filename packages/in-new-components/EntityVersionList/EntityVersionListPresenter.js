@@ -22,9 +22,16 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
       <div className={locals.listHeading}>Available time ranges</div>
       <Ul>
         {clusters.map((clusterVersions, iC) => {
+          const clusterFrom = clusterVersions[clusterVersions.length - 1].from;
+          const clusterTo = clusterVersions[0].to;
+
           return (
             <Fragment key={iC}>
-              {clusterVersions.length > 1 ? <Cluster clusterVersions={clusterVersions} /> : <SimpleVersion />}
+              {clusterVersions.length > 1 ? (
+                <Cluster from={clusterFrom} to={clusterTo} clusterVersions={clusterVersions} />
+              ) : (
+                <SimpleVersion from={clusterFrom} to={clusterTo} />
+              )}
             </Fragment>
           );
         })}
@@ -33,10 +40,7 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
   );
 }
 
-function Cluster({ clusterVersions }) {
-  const from = clusterVersions[clusterVersions.length - 1].from;
-  const to = clusterVersions[0].to;
-
+function Cluster({ from, to, clusterVersions }) {
   return (
     <Li
       key={'cluster' + from}
