@@ -4,32 +4,35 @@
   .list {
     margin: 0;
     padding: 0;
+    width: 100%;
   }
 
   .listItem {
-    padding: 0.75rem 1rem;
-
-    font-size: 0.875rem;
-    color: @lib__colors__N900Primary;
-    background: #fff;
-
-    border-bottom: 1px solid @lib__colors__N400;
-    border-left: 1px solid @lib__colors__N400;
-    border-right: 1px solid @lib__colors__N400;
-
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    list-style: none;
 
     &:first-child {
       border-top: 1px solid @lib__colors__N400;
     }
 
-    &:nth-child(even) {
-      background: @lib__colors__N050;
+    &:nth-child(2) {
+      background: #fafbfc;
     }
+  }
 
-    list-style: none;
+  .itemContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+
+    font-size: 0.875rem;
+    color: @lib__colors__N900Primary;
+
+    border-bottom: 1px solid @lib__colors__N400;
+    border-left: 1px solid @lib__colors__N400;
+    border-right: 1px solid @lib__colors__N400;
   }
 
   .actions {
@@ -44,5 +47,12 @@
     &:hover {
       background: @lib__colors__faded-blue800;
     }
+  }
+
+  .nestedContent {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid @lib__colors__N400;
+    border-left: 1px solid @lib__colors__N400;
+    border-right: 1px solid @lib__colors__N400;
   }
 }

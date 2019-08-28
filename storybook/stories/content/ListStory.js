@@ -9,7 +9,8 @@ const onClick = action('click');
 storiesOf('Content/Lists', module)
   .add('Simple List', () => <SimpleList />)
   .add('List with action', () => <ListWithAction />)
-  .add('Clickable List', () => <ClickableList />);
+  .add('Clickable List', () => <ClickableList />)
+  .add('Collapsible List', () => <CollapsibleList />);
 
 function SimpleList() {
   return (
@@ -37,6 +38,18 @@ function ClickableList() {
       <Li onClick={onClick}>Item 1</Li>
       <Li onClick={onClick}>Item 2</Li>
       <Li onClick={onClick}>Item 3</Li>
+    </Ul>
+  );
+}
+
+function CollapsibleList() {
+  return (
+    <Ul>
+      <Li renderActions={'Action'} nestedContent={<div>Nested Content</div>}>
+        Item 1
+      </Li>
+      <Li nestedContent={<div>Nested Content</div>}>Item 2</Li>
+      <Li nestedContent={<div>Nested Content</div>}>Item 3</Li>
     </Ul>
   );
 }
