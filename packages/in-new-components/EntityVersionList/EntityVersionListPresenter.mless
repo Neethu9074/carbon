@@ -48,12 +48,11 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     color: @lib__colors__N700Medium;
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__faded-blue800;
       text-decoration: none;
     }
   }

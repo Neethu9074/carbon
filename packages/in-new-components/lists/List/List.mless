@@ -16,7 +16,9 @@
       border-top: 1px solid @lib__colors__N400;
     }
 
-    &:nth-child(2) {
+    transition: background 0.2s ease-in-out;
+    background: #fff;
+    &:nth-child(even) {
       background: #fafbfc;
     }
   }
@@ -53,6 +55,13 @@
     cursor: pointer;
 
     &:hover {
+      background: @lib__colors__faded-blue800;
+    }
+  }
+
+  .expanded {
+    background: @lib__colors__faded-blue800;
+    &:nth-child(even) {
       background: @lib__colors__faded-blue800;
     }
   }

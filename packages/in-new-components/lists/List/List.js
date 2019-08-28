@@ -25,7 +25,8 @@ export function Li(props) {
         style={props.style ? props.style : null}
         className={evaluateClassNames({
           [locals.listItem]: true,
-          [locals.clickable]: onClick
+          [locals.clickable]: onClick,
+          [locals.expanded]: open
         })}
         onClick={onClick}
         onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
