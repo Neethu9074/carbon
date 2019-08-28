@@ -74,14 +74,6 @@ const necessaryLoaders = [
     ]
   },
   {
-    test: /\.md$/,
-    use: [
-      {
-        loader: 'html-loader!markdown-loader'
-      }
-    ]
-  },
-  {
     test: /\.woff?$/,
     use: [
       {
@@ -93,10 +85,12 @@ const necessaryLoaders = [
 
 module.exports = async ({ config }) => {
   config.module.rules = necessaryLoaders;
-  config.plugins.push(new webpack.DefinePlugin({
-    __DEV__: 'false',
-    __HOT_RELOAD__: 'false'
-  }));
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      __DEV__: 'false',
+      __HOT_RELOAD__: 'false'
+    })
+  );
   config.plugins.push(cssIdentWebpackPlugin);
   return config;
 };
