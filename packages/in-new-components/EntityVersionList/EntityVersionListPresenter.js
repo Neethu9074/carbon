@@ -46,7 +46,7 @@ function Cluster({ from, to, clusterVersions }) {
       key={'cluster' + from}
       size="compact"
       renderNestedContent={() => (
-        <Ul>
+        <Ul framed={false}>
           {clusterVersions.map(version => (
             <Li key={version.from} size="compact">
               <VersionLink {...version} />

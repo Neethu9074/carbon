@@ -6,10 +6,15 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
 
-export function Ul(props) {
+export function Ul({ framed = true, children }) {
   return (
-    <ul style={props.style ? props.style : null} className={locals.list}>
-      {props.children}
+    <ul
+      className={evaluateClassNames({
+        [locals.list]: true,
+        [locals.framed]: framed
+      })}
+    >
+      {children}
     </ul>
   );
 }
@@ -36,6 +41,7 @@ export function Li(props) {
           className={evaluateClassNames({
             [locals.itemContent]: true,
             [locals.itemContentWithNestedContent]: renderNestedContent,
+            [locals.itemContentExpanded]: open,
             [locals[size]]: size
           })}
         >
