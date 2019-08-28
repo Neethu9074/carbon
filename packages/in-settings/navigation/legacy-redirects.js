@@ -80,6 +80,10 @@ const redirects = [
     to: paths.teamSettingsAlertingMaintenanceConfigurationEdit,
     params: { id: 'id' }
   },
+  {
+    from: `${settingsPath}/loggingIntegrations`,
+    to: paths.teamSettingsLogManagementHumio
+  },
   // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
   // we keep this re-directs for a while, so that e.g. existing bookmarks are still working
   { from: `${settingsPath}/auditlog`, to: paths.teamSettingsAuditLog },

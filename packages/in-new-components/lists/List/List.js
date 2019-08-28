@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
 
@@ -14,20 +15,39 @@ export function Ul(props) {
 }
 
 export function Li(props) {
-  const { renderActions, children, onClick } = props;
+  const { renderActions, children, onClick, nestedContent } = props;
+
+  const [open, setOpen] = useState(false);
+
   return (
-    <li
-      style={props.style ? props.style : null}
-      className={evaluateClassNames({
-        [locals.listItem]: true,
-        [locals.clickable]: onClick
-      })}
-      onClick={onClick}
-      onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
-      tabIndex="0"
-    >
-      {children}
-      {renderActions && <div className={locals.actions}>{renderActions}</div>}
-    </li>
+    <Fragment>
+      <li
+        style={props.style ? props.style : null}
+        className={evaluateClassNames({
+          [locals.listItem]: true,
+          [locals.clickable]: onClick
+        })}
+        onClick={onClick}
+        onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
+        tabIndex="0"
+      >
+        <div className={locals.itemContent}>
+          {children}
+          <div className={locals.actions}>
+            {renderActions && <div>{renderActions}</div>}
+            {nestedContent && (
+              <SvgIcon
+                className={locals.expandIcon}
+                type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+                aria-label="Expand button for row"
+                tabIndex={0}
+                onClick={() => setOpen(!open)}
+              />
+            )}
+          </div>
+        </div>
+        {nestedContent && open && <div className={locals.nestedContent}>{nestedContent}</div>}
+      </li>
+    </Fragment>
   );
 }

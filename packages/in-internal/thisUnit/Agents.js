@@ -84,8 +84,8 @@ const cols = [
         return `log.counts.byLevel.ERROR`;
       },
       getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row) {
+        return row.snapshot.get('logAsRate') ? 'sum' : 'mean';
       }
     }
   },
@@ -100,8 +100,8 @@ const cols = [
         return `log.counts.byLevel.WARN`;
       },
       getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row) {
+        return row.snapshot.get('logAsRate') ? 'sum' : 'mean';
       }
     }
   }
@@ -187,6 +187,30 @@ function getRowDetails(row) {
           metrics: [`cpu.load`],
           labels: ['CPU Load'],
           type: 'stackedArea'
+        }}
+      />
+
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.detailed,
+          metrics: [`log.counts.byLevel.ERROR.total`],
+          labels: ['Error Count'],
+          type: 'area'
+        }}
+      />
+
+      <Chart
+        snapshotId={row.snapshot.get('id')}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          formatter: number.detailed,
+          metrics: [`log.counts.byLevel.WARN.total`],
+          labels: ['Warning Count'],
+          type: 'area'
         }}
       />
     </Fragment>

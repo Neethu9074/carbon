@@ -20,7 +20,10 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
   // A value < 1 will indicate that memoization should be disabled.
   memoizeFor?: number | Function,
   disposeSubscriptionOnDocumentHidden?: boolean,
-  transform?: (Observable<any>, PARAM) => Observable<RESULT>
+  transform?: (Observable<any>, PARAM) => Observable<RESULT>,
+  onStart?: Function,
+  onStop?: Function,
+  onData?: Function
 };
 
 /**
@@ -36,14 +39,20 @@ export default function<PARAM, RESULT>({
   getData = defaultGetData,
   memoizeFor,
   disposeSubscriptionOnDocumentHidden = true,
-  transform
+  transform,
+  onStart,
+  onStop,
+  onData
 }: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
   const observableCreator = createObservable.bind(
     null,
     eventId,
     getData,
     disposeSubscriptionOnDocumentHidden,
-    transform
+    transform,
+    onStart,
+    onStop,
+    onData
   );
   if (memoizeFor != null && typeof memoizeFor === 'number' && memoizeFor < 1) {
     return observableCreator;
@@ -57,6 +66,9 @@ function createObservable<PARAM, RESULT>(
   getData: (subscriptionId: number, param: PARAM) => any,
   disposeSubscriptionOnDocumentHidden?: boolean,
   transform?: (Observable<any>, PARAM) => Observable<RESULT>,
+  onStart?: Function,
+  onStop?: Function,
+  onDataSideEffect?: Function,
   opts: PARAM
 ): Observable<RESULT> {
   const subscriptionId = connection.getNewSubscriptionId();
@@ -71,10 +83,16 @@ function createObservable<PARAM, RESULT>(
 
   const observable = create({
     start() {
+      if (onStart) {
+        onStart(subscriptionDescription);
+      }
       connection.subscribe(subscriptionDescription);
     },
 
     stop() {
+      if (onStop) {
+        onStop(subscriptionDescription);
+      }
       connection.unsubscribe(subscriptionId);
     }
   });
@@ -87,6 +105,9 @@ function createObservable<PARAM, RESULT>(
   return (observable: Observable<RESULT>);
 
   function onData(data) {
+    if (onDataSideEffect) {
+      onDataSideEffect(subscriptionDescription, data);
+    }
     observable.emit(data);
   }
 }

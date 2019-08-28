@@ -25,11 +25,11 @@ export function getOptionalSnapshotDefinition(plugin) {
 }
 
 export function getSnapshotDefinition(plugin) {
-  const defintion = getOptionalSnapshotDefinition(plugin);
-  if (!defintion) {
+  const definition = getOptionalSnapshotDefinition(plugin);
+  if (!definition) {
     throw new Error(`Unknown snapshot type: ${plugin}`);
   }
-  return defintion;
+  return definition;
 }
 
 function enrichTableDefinition(snapshotDefinition) {

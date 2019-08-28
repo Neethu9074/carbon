@@ -5,6 +5,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import AnalyzeCallsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
@@ -90,6 +91,7 @@ function Header(props) {
 function Actions({ podId, timeConfig, result }) {
   return (
     <Fragment>
+      <LoggingIntegrationButtons kubernetesPodId={podId} timeConfig={timeConfig} />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterId'])}
         namespaceName={get(result, ['data', 'namespace'])}

@@ -18,6 +18,12 @@
     font-size: 1rem;
   }
 
+  .inChart {
+    max-width: 1.375rem;
+    height: 1.375rem;
+    font-size: 1rem;
+  }
+
   .errorIconSmall {
     width: 1rem;
     height: 1rem;

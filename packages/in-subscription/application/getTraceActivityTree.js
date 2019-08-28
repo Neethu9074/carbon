@@ -1,5 +1,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getTraceActivityTree'
+  eventId: 'getTraceActivityTree',
+  trackSubscriptionStatistics: true
 });

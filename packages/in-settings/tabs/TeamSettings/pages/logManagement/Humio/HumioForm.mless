@@ -1,0 +1,38 @@
+@import '~in-themes/active.less';
+
+:local {
+  .valueFormatText {
+    display: block;
+    margin-left: -16px;
+    padding-top: 24pt;
+  }
+
+  .helpified {
+    width: 100%;
+  }
+
+  .issuePreview {
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    border-radius: 3px;
+    background: #203036;
+  }
+
+  .toggle {
+    width: 3rem;
+    transform: scale(0.75);
+  }
+
+  .queryLoading {
+    height: 13px;
+    margin: 0.5rem 0;
+  }
+
+  .subTextFormField {
+    color: @lib__colors__N600Light;
+    margin: 0.5rem 0 0 0.5rem;
+  }
+
+  .subErrorTextFormField {
+    margin-left: 0.5rem;
+  }
+}

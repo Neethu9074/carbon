@@ -4,7 +4,8 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 const getSamplingLevel = createResultSubscriptionFactory({
   eventId: 'getSamplingLevel',
-  memoizeFor: 1000
+  memoizeFor: 1000,
+  trackSubscriptionStatistics: true
 });
 
 export default getSamplingLevel;

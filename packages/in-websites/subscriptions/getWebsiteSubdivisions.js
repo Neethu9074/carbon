@@ -1,5 +1,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'getWebsiteSubdivisions'
+  eventId: 'getWebsiteSubdivisions',
+  trackSubscriptionStatistics: true
 });

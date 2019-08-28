@@ -199,6 +199,15 @@ export default function RoleForm({ form, onChange, roleId }) {
           label="Configuration of applications"
           helpText="Permits creation and configuration of applications."
         />
+
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureLogManagement"
+          label="Configuration of log management"
+          helpText="Permits configuration of log management."
+        />
       </FormGroup>
     </fieldset>
   );

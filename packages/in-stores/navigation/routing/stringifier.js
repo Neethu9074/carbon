@@ -10,7 +10,7 @@ export function stringify(location) {
   return href + toParams(location.query, '?', '&');
 }
 
-function toParams(params, firstSeparator, followUpSeparator) {
+export function toParams(params, firstSeparator, followUpSeparator) {
   if (!params) {
     return '';
   }

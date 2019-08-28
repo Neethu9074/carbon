@@ -134,6 +134,7 @@
     "clear-module": "^3.0.0",
     "css-loader": "^1.0.0",
     "del": "^2.0.2",
+    "downshift": "^3.2.12",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "es6-map": "^0.1.5",
