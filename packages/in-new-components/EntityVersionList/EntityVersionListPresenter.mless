@@ -15,34 +15,6 @@
     border-bottom: 0;
   }
 
-  .list {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  .item,
-  .headerItem {
-    list-style: none;
-
-    border: 1px solid @lib__colors__N400;
-    border-bottom: 0;
-  }
-
-  .item {
-    &:nth-child(even) {
-      background: @lib__colors__N050;
-    }
-
-    &:last-child {
-      border-bottom: 1px solid @lib__colors__N400;
-    }
-  }
-
-  .headerItem {
-    background: @lib__colors__N200;
-  }
-
   .link {
     display: flex;
     justify-content: space-between;

@@ -20,25 +20,47 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
     ranges:"
     >
       <div className={locals.listHeading}>Available time ranges</div>
-      <Ul className={locals.list}>
+      <Ul>
         {clusters.map((clusterVersions, iC) => {
           return (
             <Fragment key={iC}>
-              {clusterVersions.length > 1 && (
-                <Li key={'cluster' + iC} size="compact" className={locals.headerItem}>
-                  <VersionLink from={clusterVersions[clusterVersions.length - 1].from} to={clusterVersions[0].to} />
-                </Li>
-              )}
-              {clusterVersions.map(version => (
-                <Li key={version.from} size="compact" className={locals.item}>
-                  <VersionLink {...version} />
-                </Li>
-              ))}
+              {clusterVersions.length > 1 ? <Cluster clusterVersions={clusterVersions} /> : <SimpleVersion />}
             </Fragment>
           );
         })}
       </Ul>
     </EntityPageMainNotification>
+  );
+}
+
+function Cluster({ clusterVersions }) {
+  const from = clusterVersions[clusterVersions.length - 1].from;
+  const to = clusterVersions[0].to;
+
+  return (
+    <Li
+      key={'cluster' + from}
+      size="compact"
+      renderNestedContent={() => (
+        <Ul>
+          {clusterVersions.map(version => (
+            <Li key={version.from} size="compact">
+              <VersionLink {...version} />
+            </Li>
+          ))}
+        </Ul>
+      )}
+    >
+      <VersionLink from={from} to={to} />
+    </Li>
+  );
+}
+
+function SimpleVersion({ from, to }) {
+  return (
+    <Li key={from} size="compact">
+      <VersionLink from={from} to={to} />
+    </Li>
   );
 }
 
