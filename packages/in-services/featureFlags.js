@@ -38,7 +38,7 @@ export const unmonitoredHostsEnabled = isFeatureFlagEnabled('unmonitoredHostsEna
 export const trackUrlPathChanges = isFeatureFlagEnabled('trackUrlPathChanges', true);
 export const javaScriptStackTraceTranslationEnabled = isFeatureFlagEnabled('javaScriptStackTraceTranslationEnabled');
 export const isSelfService = isFeatureFlagEnabled('isSelfService');
-export const releasesEnabled = isFeatureFlagEnabled('releasesEnabled');
+export const releasesEnabled = isFeatureFlagEnabled('releasesEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
 
