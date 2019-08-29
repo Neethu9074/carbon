@@ -2,7 +2,7 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import ParentProcess from 'in-forge/plugins/process/ParentProcess';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -30,7 +30,7 @@ export default connectTo(
         <ParentProcess snapshotId={snapshotId} />
 
         {hostSnapshot &&
-          !(isWindows(hostSnapshot) || isZos(hostSnapshot)) &&
+          supportsOpenFiles(hostSnapshot) &&
           openFilesMax != null && (
             <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
           )}
