@@ -211,7 +211,7 @@ class Summary extends React.Component {
             )}
 
           {(!isLargeTrace || showLargeTrace) && (
-            <Row>
+            <Row singleRowTopMargin>
               <Col lg={12}>
                 <Card title="Calls" header={<ColorCodingToggleButtons {...this.props} />}>
                   <CallTree
