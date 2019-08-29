@@ -100,8 +100,8 @@ export default getElementDimensions(
     };
 
     setupMetricSubscriptions = queues => {
-      this.setupMetricSubscriptionsForAxis(this.props.y1, queues.y1);
-      this.setupMetricSubscriptionsForAxis(this.props.y2, queues.y2);
+      this.setupMetricSubscriptionsForAxis(this.y1, queues.y1);
+      this.setupMetricSubscriptionsForAxis(this.y2, queues.y2);
 
       this.subscriptions.push(
         this.queues$.throttle(1000).subscribe(({ queues, dataHolders }) => {
@@ -123,7 +123,7 @@ export default getElementDimensions(
       for (let i = 0, len = metrics.length; i < len; i++) {
         const snapshotId = this.props.snapshotId || this.props.snapshotIds[i];
 
-        const isDynamicAggregated = !!(axis.maxDataPoints || axis.minPixelsPerBlock || axis.aggregation);
+        const isDynamicAggregated = !!(axis.maxDataPoints || axis.aggregation);
         let blockSizeMillis;
         if (isDynamicAggregated) {
           blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
@@ -222,13 +222,13 @@ function mapAxis(axis) {
   if (!axis) {
     return undefined;
   }
-
   return {
     ...axis,
     numberOfSeries: axis.metrics.length,
     min: axis.min || 0,
     metricIds: axis.metrics,
-    renderer: Renderer[axis.type] || Renderer.point
+    renderer: Renderer[axis.type] || Renderer.point,
+    minPixelsPerBlock: axis.minPixelsPerBlock || 5
   };
 }
 
