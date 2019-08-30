@@ -3,7 +3,6 @@ import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
-
 import locals from './AutocompleteInput.mless';
 
 export default function AutocompleteInput({ options, placeholder, onChange, resultsToShow = 50 }) {
@@ -20,8 +19,10 @@ export default function AutocompleteInput({ options, placeholder, onChange, resu
         getToggleButtonProps,
         openMenu
       }) => {
-        const filteredOptions = options.filter(item => !inputValue || item.label.includes(inputValue));
-
+        let filteredOptions = options.filter(item => !inputValue || item.label.includes(inputValue));
+        if (options.length > 0 && filteredOptions.length === 0) {
+          filteredOptions = [{ label: inputValue, value: inputValue }];
+        }
         return (
           <div className={locals.wrapper}>
             <div
@@ -44,12 +45,6 @@ export default function AutocompleteInput({ options, placeholder, onChange, resu
               })}
               {...getMenuProps()}
             >
-              {isOpen &&
-                filteredOptions.length === 0 && (
-                  <li key="noresult" className={locals.listItemNoResult}>
-                    No results found
-                  </li>
-                )}
               {isOpen
                 ? filteredOptions.slice(0, resultsToShow).map((item, index) => (
                     <li
