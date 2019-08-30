@@ -4,6 +4,7 @@ import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { settings$, set } from 'in-services/settings/settings';
+import { urlShortenerEnabled } from 'in-services/featureFlags';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -68,6 +69,16 @@ export default class extends React.Component {
             onChange={e => this.saveSetting('showMaintenanceNotes', e.target.checked)}
           />
         </HorizontalFormGroup>
+        {urlShortenerEnabled && (
+          <HorizontalFormGroup helpText="Whether we should prompt you to generate a shortened URL when using the CTRL+L/CMD+L shortcut.">
+            <Heading text="Prompt for URL shortener" htmlFor="urlShortener" />
+            <Toggle
+              id="urlShortener"
+              checked={settings['promptForUrlShortener'] == null ? true : settings['promptForUrlShortener']}
+              onChange={e => this.saveSetting('promptForUrlShortener', e.target.checked)}
+            />
+          </HorizontalFormGroup>
+        )}
         <HorizontalFormGroup helpText="Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.">
           <Heading text="High quality chart rendering" htmlFor="chart-quality" />
           <Toggle

@@ -1,0 +1,15 @@
+:local {
+  .wrapper {
+    min-width: 21rem;
+  }
+
+  .loadingIndicator {
+    background: #fff;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0.6rem;
+  }
+}

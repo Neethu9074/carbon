@@ -19,6 +19,7 @@ export default {
   d: 68,
   p: 80,
   c: 67,
+  l: 76,
   isModifierPressed: e => !!(e.ctrlKey || e.shiftKey || e.altKey || e.metaKey),
   isLeftClick: e => e.button === 0
 };

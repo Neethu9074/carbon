@@ -23,5 +23,6 @@ module.exports = {
   releasesEnabled: true,
   pcfEnabled: true,
   humioEnabled: true,
-  logDnaEnabled: true
+  logDnaEnabled: true,
+  urlShortenerEnabled: true
 };

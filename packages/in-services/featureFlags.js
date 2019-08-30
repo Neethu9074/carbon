@@ -42,6 +42,7 @@ export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled', false);
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled', false);
 export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
+export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
