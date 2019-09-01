@@ -151,6 +151,7 @@ gulp.task('webpack:dev', () => {
     inline: hotReload,
     hot: hotReload,
     liveReload: hotReload,
+    disableHostCheck: hotReload,
     watchOptions: {
       ignored: /node_modules/
     },
