@@ -17,9 +17,9 @@
     list-style: none;
 
     transition: background 0.2s ease-in-out;
-    background: #fff;
+    background: @lib__colors__white;
     &:nth-child(even) {
-      background: #fafbfc;
+      background: @lib__colors__N050;
     }
 
     &:nth-child(n + 2) {
