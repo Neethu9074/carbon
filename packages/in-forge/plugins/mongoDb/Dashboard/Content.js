@@ -51,7 +51,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['documents.returned', 'documents.inserted', 'documents.updated', 'documents.deleted'],
             labels: ['Read', 'Inserted', 'Updated', 'Deleted'],
-            type: 'bar',
+            type: 'stackedBar',
             aggregation: 'sum',
             formatter: number.compact
           }}
