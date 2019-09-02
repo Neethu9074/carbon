@@ -34,11 +34,7 @@ export default function Info({ snapshot }) {
         <DescriptionItem title="VPC">{data.get('vpc-ids', []).join(', ')}</DescriptionItem>
       </DescriptionList>
 
-      {tags.size > 0 ? (
-        <KeyValueOverlay title="Tags" data={tags}>
-          Tags
-        </KeyValueOverlay>
-      ) : null}
+      {tags.size > 0 && <KeyValueOverlay header="Tags" data={tags} />}
 
       <EbsList snapshotId={snapshot.get('id')} />
     </div>
