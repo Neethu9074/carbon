@@ -11,12 +11,18 @@ const now = Date.now();
 function VersionTimelineStory() {
   const [selectedVersion, setSelectedVersion] = useState(null);
 
-  const from = now - 1000 * 60 * 60;
+  const min = 1000 * 60;
+  const from = now - min * 60;
 
   return (
     <Root>
       <VersionTimeline
-        versions={[{ from: from + 1000 * 60, to: now - 1000 * 60 }]}
+        versions={[
+          { from: from + min, to: from + 2 * min },
+          { from: from + 3 * min, to: from + 4 * min },
+          { from: from + 5 * min, to: from + 6 * min },
+          { from: from + 6 * min, to: from + 50 * min }
+        ]}
         from={from}
         to={now}
         onVersionClick={version =>
