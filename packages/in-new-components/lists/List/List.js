@@ -6,16 +6,21 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
 
-export function Ul(props) {
+export function Ul({ framed = true, children }) {
   return (
-    <ul style={props.style ? props.style : null} className={locals.list}>
-      {props.children}
+    <ul
+      className={evaluateClassNames({
+        [locals.list]: true,
+        [locals.framed]: framed
+      })}
+    >
+      {children}
     </ul>
   );
 }
 
 export function Li(props) {
-  const { renderActions, children, onClick, nestedContent } = props;
+  const { renderActions, children, onClick, size, renderNestedContent } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -25,17 +30,25 @@ export function Li(props) {
         style={props.style ? props.style : null}
         className={evaluateClassNames({
           [locals.listItem]: true,
-          [locals.clickable]: onClick
+          [locals.clickable]: onClick,
+          [locals.expanded]: open
         })}
         onClick={onClick}
         onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
         tabIndex="0"
       >
-        <div className={locals.itemContent}>
+        <div
+          className={evaluateClassNames({
+            [locals.itemContent]: true,
+            [locals.itemContentWithNestedContent]: renderNestedContent,
+            [locals.itemContentExpanded]: open,
+            [locals[size]]: size
+          })}
+        >
           {children}
           <div className={locals.actions}>
-            {renderActions && <div>{renderActions}</div>}
-            {nestedContent && (
+            {renderActions && renderActions()}
+            {renderNestedContent && (
               <SvgIcon
                 className={locals.expandIcon}
                 type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
@@ -46,7 +59,7 @@ export function Li(props) {
             )}
           </div>
         </div>
-        {nestedContent && open && <div className={locals.nestedContent}>{nestedContent}</div>}
+        {renderNestedContent && open && <div className={locals.nestedContent}>{renderNestedContent()}</div>}
       </li>
     </Fragment>
   );

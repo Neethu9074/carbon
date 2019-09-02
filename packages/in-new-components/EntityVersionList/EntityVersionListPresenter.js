@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import { formatDateTime } from 'in-services/formatters/date';
+import { Ul, Li } from 'in-new-components/lists/List/List';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import Link from 'in-components/Link';
 
 import locals from './EntityVersionListPresenter.mless';
 
-export default function EntityVersionListPresenter({ plugin, snapshotVersions }) {
-  snapshotVersions.sort(sortByTo);
+export default function EntityVersionListPresenter({ plugin, versions }) {
+  versions.sort(sortByTo);
+  const clusters = cluster(versions);
 
   return (
     <EntityPageMainNotification
@@ -18,29 +20,69 @@ export default function EntityVersionListPresenter({ plugin, snapshotVersions })
     ranges:"
     >
       <div className={locals.listHeading}>Available time ranges</div>
-      <ul className={locals.list}>
-        {snapshotVersions.map(({ from, to }, i) => {
-          const windowSize = (to || Date.now()) - from;
+      <Ul>
+        {clusters.map((clusterVersions, iC) => {
+          const clusterFrom = clusterVersions[clusterVersions.length - 1].from;
+          const clusterTo = clusterVersions[0].to;
 
           return (
-            <li key={i} size="compact" className={locals.item}>
-              <Link
-                className={locals.link}
-                href$={getFixedTimeframeUrl({
-                  windowSize,
-                  to,
-                  focusedMoment: to ? to - windowSize / 2 : ''
-                })}
-              >
-                <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
-                <span className={locals.toSpan}>to</span>
-                <span className={locals.toTimestamp}>{to ? formatDateTime(to) : 'Now'}</span>
-              </Link>
-            </li>
+            <Fragment key={iC}>
+              {clusterVersions.length > 1 ? (
+                <Cluster from={clusterFrom} to={clusterTo} clusterVersions={clusterVersions} />
+              ) : (
+                <SimpleVersion from={clusterFrom} to={clusterTo} />
+              )}
+            </Fragment>
           );
         })}
-      </ul>
+      </Ul>
     </EntityPageMainNotification>
+  );
+}
+
+function Cluster({ from, to, clusterVersions }) {
+  return (
+    <Li
+      key={'cluster' + from}
+      size="compact"
+      renderNestedContent={() => (
+        <Ul framed={false}>
+          {clusterVersions.map(version => (
+            <Li key={version.from} size="compact">
+              <VersionLink {...version} />
+            </Li>
+          ))}
+        </Ul>
+      )}
+    >
+      <VersionLink from={from} to={to} />
+    </Li>
+  );
+}
+
+function SimpleVersion({ from, to }) {
+  return (
+    <Li key={from} size="compact">
+      <VersionLink from={from} to={to} />
+    </Li>
+  );
+}
+
+function VersionLink({ from, to }) {
+  const windowSize = (to || Date.now()) - from;
+  return (
+    <Link
+      className={locals.link}
+      href$={getFixedTimeframeUrl({
+        windowSize,
+        to,
+        focusedMoment: to ? to - windowSize / 2 : ''
+      })}
+    >
+      <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
+      <span className={locals.toSpan}>to</span>
+      <span className={locals.toTimestamp}>{to ? formatDateTime(to) : 'Now'}</span>
+    </Link>
   );
 }
 
@@ -53,4 +95,25 @@ function sortByTo(versionA, versionB) {
   }
 
   return versionB.to - versionA.to;
+}
+
+// exports for test
+export function cluster(versions) {
+  let currentCluster = [];
+  const clusters = [];
+  let prevVersion = null;
+  for (let i = 0; i < versions.length; i++) {
+    if (i === 0) {
+      clusters.push(currentCluster);
+    }
+    const version = versions[i];
+    if (prevVersion && prevVersion.from !== version.to) {
+      currentCluster = [];
+      clusters.push(currentCluster);
+    }
+    currentCluster.push(version);
+    prevVersion = version;
+  }
+
+  return clusters;
 }

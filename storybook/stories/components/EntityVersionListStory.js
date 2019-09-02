@@ -11,7 +11,7 @@ storiesOf('Components/Entity Version List', module).add('Entity Version List', (
 function DefaultStory() {
   return (
     <Root>
-      <EntityVersionListPresenter plugin={plugins.kubernetesCluster} snapshotVersions={getItems(6)} />
+      <EntityVersionListPresenter plugin={plugins.kubernetesCluster} versions={getItems(6)} />
     </Root>
   );
 }
@@ -21,8 +21,12 @@ function getItems(numItems) {
 
   const oneMinute = 1000 * 60;
   const now = Date.now();
+  let gap = 0;
   for (let i = 1; i < numItems + 1; i++) {
-    items.push({ from: now - (i + 1) * oneMinute, to: i === 1 ? null : now - i * oneMinute });
+    if (i > 2) {
+      gap = 1000;
+    }
+    items.push({ from: gap + (now - (i + 1) * oneMinute), to: gap + (i === 1 ? null : now - i * oneMinute) });
   }
 
   return items;

@@ -22,7 +22,7 @@ export default connectTo(
 
     const snapshotVersions = mergeVersionLists(versionsForFocusedMoment, versionsForLive);
 
-    return <EntityVersionListPresenter plugin={plugin} snapshotVersions={snapshotVersions} />;
+    return <EntityVersionListPresenter plugin={plugin} versions={snapshotVersions} />;
   }
 );
 
