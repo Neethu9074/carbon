@@ -10,12 +10,14 @@ import locals from './SelectableItem.mless';
 
 export default connectTo(
   props => ({
-    containsPastLiveData: containsPastLiveData$(
-      { windowSize: props.newTimeframe.windowSize, to: props.newTimeframe.to, focusedMoment: props.newTimeframe.to },
-      false
-    )
+    containsPastLiveData:
+      !props.hideTimeIcon &&
+      containsPastLiveData$(
+        { windowSize: props.newTimeframe.windowSize, to: props.newTimeframe.to, focusedMoment: props.newTimeframe.to },
+        false
+      )
   }),
-  function SelectableItem({ timeConfig, newTimeframe, onChange, containsPastLiveData }) {
+  function SelectableItem({ timeConfig, newTimeframe, onChange, containsPastLiveData, hideTimeIcon = false }) {
     const isActive = timeConfig.to === newTimeframe.to && timeConfig.windowSize === newTimeframe.windowSize;
     return (
       <a
@@ -31,9 +33,10 @@ export default connectTo(
         }}
       >
         {newTimeframe.label || format(newTimeframe)}
-        {containsPastLiveData && (
-          <TimeIcon theme={isActive ? 'dark' : 'light'} className={locals.timeIcon} containsPastLiveData />
-        )}
+        {containsPastLiveData &&
+          !hideTimeIcon && (
+            <TimeIcon theme={isActive ? 'dark' : 'light'} className={locals.timeIcon} containsPastLiveData />
+          )}
       </a>
     );
   }

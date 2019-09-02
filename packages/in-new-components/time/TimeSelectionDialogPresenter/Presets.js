@@ -96,7 +96,7 @@ function ReleaseTimePreset({ item, timeConfig, onChange }) {
 
   const selectable = (
     <div className={locals.releases}>
-      <SelectableItem timeConfig={timeConfig} newTimeframe={newTimeConfig} onChange={onChange} />
+      <SelectableItem timeConfig={timeConfig} newTimeframe={newTimeConfig} onChange={onChange} hideTimeIcon={true} />
     </div>
   );
 
