@@ -2,22 +2,20 @@
 
 :local {
   .view {
-    position: absolute;
-    top: 4rem;
-    left: 2.5rem;
-    right: 2.5rem;
+    position: relative;
+    padding-top: 3rem;
   }
 
-  .snapshot,
+  .version,
   .gap {
     position: absolute;
-    bottom: ~'calc(50% + 2rem)';
+    bottom: 50%;
 
     min-height: 1rem;
     min-width: 1px;
   }
 
-  .snapshot {
+  .version {
     background: @lib__colors__light-blue800;
     cursor: pointer;
 
@@ -26,29 +24,21 @@
     }
   }
 
-  .selectedSnapshot {
-    background: @lib__colors__indigo800;
+  .selected {
+    background: @lib__colors__deep-purple800;
+
+    &:hover {
+      background: @lib__colors__indigo800;
+    }
   }
 
   .even {
-    bottom: ~'calc(50% + 2.5rem)';
+    bottom: ~'calc(50% + 0.5rem)';
   }
 
   .gap {
     min-height: 2rem;
     background: #ff404044;
-  }
-
-  .gapIcon {
-    position: absolute;
-    top: 100%;
-    left: ~'calc(50% - 6px)';
-    fill: @lib__colors__red800;
-  }
-
-  .fullSnapshot {
-    position: absolute;
-    top: 4rem;
   }
 
   .header {

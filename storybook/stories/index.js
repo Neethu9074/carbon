@@ -81,6 +81,7 @@ import './components/time/TimeSelectionDialogPresenterStory';
 import './components/ToggleStory';
 import './components/TopListCardStory';
 import './components/TreeMap';
+import './components/VersionTimelineStory';
 import './components/ViewSwitcherStory';
 
 import './content/ListStory';

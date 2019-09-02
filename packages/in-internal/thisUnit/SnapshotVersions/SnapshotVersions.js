@@ -3,17 +3,19 @@ import diff from 'deep-diff';
 import React from 'react';
 
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
-import SnapshotTimeline from 'in-internal/thisUnit/SnapshotVersions/SnapshotTimeline';
+import VersionTimeline from 'in-new-components/VersionTimeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
 
 import locals from './SnapshotVersions.mless';
 
 export default compose(
+  withState('selectedSnapshot', 'setSelectedSnapshot', null),
   withUrlState({
     bind: [
       {
@@ -45,7 +47,14 @@ export default compose(
   }))
 )(SnapshotVersions);
 
-function SnapshotVersions({ snapshotId, setSnapshotId, setSignal, snapshotVersionsResponse }) {
+function SnapshotVersions({
+  selectedSnapshot,
+  setSelectedSnapshot,
+  snapshotId,
+  setSnapshotId,
+  setSignal,
+  snapshotVersionsResponse
+}) {
   return (
     <div className={locals.view}>
       <div className={locals.header}>
@@ -66,10 +75,21 @@ function SnapshotVersions({ snapshotId, setSnapshotId, setSignal, snapshotVersio
 
       <div className={locals.content}>
         {snapshotVersionsResponse && (
-          <SnapshotTimeline
-            snapshots={snapshotVersionsResponse.snapshotVersions}
-            timeConfig={snapshotVersionsResponse.timeConfig}
+          <VersionTimeline
+            versions={snapshotVersionsResponse.snapshotVersions}
+            from={
+              (snapshotVersionsResponse.timeConfig.to || Date.now()) - snapshotVersionsResponse.timeConfig.windowSize
+            }
+            to={snapshotVersionsResponse.timeConfig.to || Date.now()}
+            onVersionClick={version => setSelectedSnapshot(selectedSnapshot === version ? null : version)}
+            selectedVersion={selectedSnapshot}
+            getTooltip={snapshot => <DiffTootltipContent snapshot={snapshot} />}
           />
+        )}
+        {selectedSnapshot && (
+          <div className={locals.codeWrapper}>
+            <Code code={JSON.stringify(selectedSnapshot, 0, 2)} lang="json" />
+          </div>
         )}
       </div>
     </div>
@@ -97,4 +117,11 @@ function enrichDiffs(snapshots) {
 function difference(lhs, rhs) {
   const mask = ['timestamp', 'from', 'to'];
   return diff(lhs, rhs, (path, key) => path.length === 0 && ~mask.indexOf(key));
+}
+
+function DiffTootltipContent({ snapshot }) {
+  if (!snapshot.__difference) {
+    return null;
+  }
+  return <Code code={JSON.stringify(snapshot.__difference, 0, 2)} lang="json" />;
 }
