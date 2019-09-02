@@ -1,7 +1,7 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
-import AutocompleteInput from 'in-analyze/components/EditTagFilterDialog/AutocompleteInput';
+import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -119,8 +119,8 @@ export default function EditTagFilterDialogPresenter({
                 {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
               </Label>
               {(selectedTagType === 'STRING' || selectedTagType === 'KEY_VALUE_PAIR') && (
-                <AutocompleteInput
-                  options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
+                <Typeahead
+                  options={(valueSuggestions || emptyArray).map(s => ({
                     value: s,
                     label: s
                   }))}
