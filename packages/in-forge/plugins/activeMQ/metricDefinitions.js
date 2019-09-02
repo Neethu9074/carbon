@@ -52,7 +52,7 @@ export default [
       getMetricMatch('queues', 'memoryPercentage'),
       getMetricMatch('dlqueues', 'memoryPercentage')
     ],
-    labels: ['Memory Usage', 'Store Usage'],
+    labels: ['Memory Usage', 'Store Usage', 'Topics Memory Usage', 'Queues Memory Usage', 'DL Queues Memory Usage'],
     min: 0,
     max: 1,
     formatter: percentage
