@@ -16,7 +16,6 @@ import { sortBy$, setSortBy } from 'in-views/eventView/stores/sortBy';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
-import { releasesEnabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 import { selectedEventId$ } from 'in-stores/events';
 import PluginIcon from 'in-components/PluginIcon';
@@ -130,10 +129,6 @@ export default connectTo(
 
 const LazyTableWithHealthData = connectTo(props => {
   const observables = {};
-  if (!releasesEnabled) {
-    return observables;
-  }
-
   let startTimeStamps = [];
   props.sortBy$.once(sortBy => {
     if (sortBy === 'start' && props.rows && props.rows.length > 0) {
@@ -171,10 +166,9 @@ const LazyTableWithHealthData = connectTo(props => {
     selectedEventId
   } = props;
 
-  const rowsWithHealthData =
-    releasesEnabled && health
-      ? rows.map(row => (row.rawEvent.type === 'release' ? { ...row, healthStatus: health[row.rawEvent.start] } : row))
-      : rows;
+  const rowsWithHealthData = health
+    ? rows.map(row => (row.rawEvent.type === 'release' ? { ...row, healthStatus: health[row.rawEvent.start] } : row))
+    : rows;
 
   return (
     <LazyTable

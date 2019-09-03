@@ -6,7 +6,6 @@ import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/time
 import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { fromNowAccurately } from 'in-services/formatters/date';
-import { releasesEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import Dialog from 'in-new-components/Dialog';
@@ -41,8 +40,7 @@ function Presets({ timeConfig, onChange, result, closeOverlay }) {
           {getFixedTimePresets().map((preset, i) => (
             <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
           ))}
-          {releasesEnabled &&
-            result.data &&
+          {result.data &&
             result.data.totalHits > 0 && (
               <ReleasesPresets
                 onChange={onChange}

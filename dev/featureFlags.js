@@ -20,7 +20,6 @@ module.exports = {
   customDashboardsEnabled: true,
   unmonitoredHostsEnabled: true,
   javaScriptStackTraceTranslationEnabled: true,
-  releasesEnabled: true,
   pcfEnabled: true,
   humioEnabled: true,
   logDnaEnabled: true,

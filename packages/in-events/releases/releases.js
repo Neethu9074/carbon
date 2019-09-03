@@ -3,11 +3,8 @@ import React from 'react';
 import getReleaseNotification from 'in-events/subscriptions/getReleaseNotification';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ReleaseOccurredMessage from './ReleaseOccuredMessage';
-import { releasesEnabled } from 'in-services/featureFlags';
 
 export function init() {
-  if (!releasesEnabled) return;
-
   getReleaseNotification()
     .map(({ data }) => data)
     .filter(Boolean)

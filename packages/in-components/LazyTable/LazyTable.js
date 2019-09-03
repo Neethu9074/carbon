@@ -3,7 +3,6 @@ import React from 'react';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import Column from 'in-components/LazyTable/components/Column';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import { releasesEnabled } from 'in-services/featureFlags';
 import Row from 'in-components/LazyTable/components/Row';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -27,7 +26,7 @@ export default class extends React.Component {
         <div className={`${block}__content`}>
           {rows.map(
             row =>
-              row.rawEvent.type === 'release' && releasesEnabled ? (
+              row.rawEvent.type === 'release' ? (
                 <ReleaseStatusRow key={row.key} row={row} {...props} />
               ) : (
                 <Row key={row.key} row={row} {...props} />
