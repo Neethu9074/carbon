@@ -1,0 +1,35 @@
+import React from 'react';
+
+import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
+import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunctionLink';
+import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
+import { formatDateTime } from 'in-services/formatters/date';
+
+export default function Info({ snapshot }) {
+  const data = snapshot.get('data');
+
+  return (
+    <DescriptionList>
+      <DescriptionItem title="ARN">{data.get('arn')}</DescriptionItem>
+      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
+      <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
+      {data.get('npmPackageName') && (
+        <DescriptionItem title="Node.js Package Name">{data.get('npmPackageName')}</DescriptionItem>
+      )}
+      {data.get('npmPackageVersion') && (
+        <DescriptionItem title="Node.js Package Version">{data.get('npmPackageVersion')}</DescriptionItem>
+      )}
+      {data.get('npmPackageDescription') && (
+        <DescriptionItem title="Node.js Package Description">{data.get('npmPackageDescription')}</DescriptionItem>
+      )}
+      <DescriptionItem title="Runtime">{data.get('runtime')}</DescriptionItem>
+      <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
+      <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
+      <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
+      <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
+      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <LambdaFunctionLink snapshotId={snapshot.get('id')} />
+    </DescriptionList>
+  );
+}

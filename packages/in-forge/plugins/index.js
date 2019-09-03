@@ -11,6 +11,8 @@ import './awsEs';
 import './awsElb';
 import './awsEmr';
 import './awsKinesis';
+import './awsLambdaFunction';
+import './awsLambdaVersion';
 import './awsLambda';
 import './awsMq';
 import './awsRds';

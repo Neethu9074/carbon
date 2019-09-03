@@ -1,3 +1,5 @@
+import { compareIgnoreCase } from 'in-services/util/string';
+
 const UNKNOWN_LABEL = 'Unknown';
 
 // {
@@ -35,4 +37,8 @@ export function getLabel(snapshot, fallback) {
     return fallback;
   }
   return UNKNOWN_LABEL;
+}
+
+export function sortByLabel(a, b) {
+  return compareIgnoreCase(getLabel(a), getLabel(b));
 }

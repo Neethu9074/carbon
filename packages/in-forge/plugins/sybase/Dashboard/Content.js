@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
-import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
-import Chart from '../../../../in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
 
 import DatabasesTable from '../Dashboard/DatabasesTable';
