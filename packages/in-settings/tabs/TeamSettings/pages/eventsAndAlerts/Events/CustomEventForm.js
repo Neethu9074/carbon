@@ -46,6 +46,7 @@ import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import FormGroup from 'in-settings/components/FormGroup';
+import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import { getCustom } from 'in-api/metricsCatalog';
@@ -241,7 +242,7 @@ function EventForm({
                           name="event-grace-period"
                           value={field.value}
                           className={locals.helpified}
-                          options={gracePeriodOptions}
+                          options={getOptionsWithAdditionalValueIfMissing(gracePeriodOptions, field.value)}
                           onChange={e => onChange('gracePeriod', (e = e ? e.value : ''))}
                         />
                         <TouchedMessages field={field} />
@@ -677,7 +678,7 @@ function ThresholdsFormGroup(isPercentileMetric, form, onChange) {
                 <ComboBox
                   name="event-window"
                   value={field.value}
-                  options={windowOptions}
+                  options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
                   onChange={e => onChange('window', e ? e.value : '')}
                 />
                 <TouchedMessages field={field} />
@@ -888,9 +889,31 @@ function systemRuleOptions(systemRules) {
   return systemRules.map(({ id, name }) => ({ value: id, label: name }));
 }
 
+/**
+ * Gets the given options but extends it with the selected value if it is missing.
+ * This is needed for options where there has not always been a backend validation,
+ * and therefore there could still be a some Custom Events using these values that
+ * are not listed in possible options.
+ * Therefore we include this custom value in the dropdown, instead of selecting
+ * nothing.
+ */
+function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValueMillis) {
+  const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValueMillis);
+
+  return optionsContainTimeValue
+    ? options
+    : [
+        {
+          value: selectedTimeValueMillis.toString(),
+          label: millis.fixedCompact(selectedTimeValueMillis)
+        },
+        ...options
+      ];
+}
+
 const gracePeriodOptions = [
   { value: '5000', label: '5 s' },
-  { value: '10000', label: '10s' },
+  { value: '10000', label: '10 s' },
   { value: '60000', label: '1 min' },
   { value: '300000', label: '5 min' },
   { value: '3600000', label: '60 min' }
@@ -915,7 +938,7 @@ const rollupOptions = [
   { value: '5000', label: '5 s' },
   { value: '60000', label: '1 min' },
   { value: '300000', label: '5 min' },
-  { value: '3600000', label: '1 hour' }
+  { value: '3600000', label: '60 min' }
 ];
 
 const aggregationOptions = [
