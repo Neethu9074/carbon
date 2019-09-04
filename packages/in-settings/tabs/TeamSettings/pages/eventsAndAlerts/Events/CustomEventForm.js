@@ -950,17 +950,20 @@ function systemRuleOptions(systemRules) {
  * nothing.
  */
 function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValueMillis) {
-  const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValueMillis);
-
-  return optionsContainTimeValue
-    ? options
-    : [
-        {
-          value: selectedTimeValueMillis.toString(),
-          label: millis.fixedCompact(selectedTimeValueMillis)
-        },
-        ...options
-      ];
+  if (selectedTimeValueMillis !== null) {
+    const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValueMillis);
+    return optionsContainTimeValue
+      ? options
+      : [
+          {
+            value: selectedTimeValueMillis.toString(),
+            label: millis.fixedCompact(selectedTimeValueMillis)
+          },
+          ...options
+        ];
+  } else {
+    return options;
+  }
 }
 
 const gracePeriodOptions = [
