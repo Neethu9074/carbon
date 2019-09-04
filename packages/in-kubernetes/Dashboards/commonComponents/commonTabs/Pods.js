@@ -1,4 +1,4 @@
-import { get, filter, some } from 'lodash';
+import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 import React from 'react';
 
@@ -16,7 +16,6 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import KubernetesResources from 'in-kubernetes/Dashboards/commonComponents/KubernetesResources';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -122,24 +121,6 @@ const allColumnDefinitions = [
     optional: true,
     getContent(item) {
       return item.pod.age && formatDuration(item.pod.age);
-    }
-  },
-  {
-    id: 'resources',
-    label: 'Resources',
-    optional: true,
-    sortable: false,
-    getContent(item) {
-      return (
-        <KubernetesResources
-          snapshotId={item.pod.id}
-          quotasPresent={quotasPresentForPod(item.pod)}
-          cpuReqMetric="cpuRequests"
-          cpuLimitsMetric="cpuLimits"
-          memReqMetric="memoryRequests"
-          memLimitsMetric="memoryLimits"
-        />
-      );
     }
   },
   {
@@ -317,18 +298,6 @@ function getTableData({
     },
     granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
   });
-}
-
-function quotasPresentForPod(pod) {
-  return [podHasMemoryQuotas(pod) && 'memory', podHasCpuQuotas(pod) && 'cpu'].filter(Boolean).join(', ');
-}
-
-function podHasMemoryQuotas(pod) {
-  return pod.resources && some(pod.resources, c => c.memoryLimits >= 0 || c.memoryRequests >= 0);
-}
-
-function podHasCpuQuotas(pod) {
-  return pod.resources && some(pod.resources, c => c.cpuLimits >= 0 || c.cpuRequests >= 0);
 }
 
 export default Pods;
