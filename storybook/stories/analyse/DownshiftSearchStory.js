@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import AutocompleteInput from 'in-analyze/components/EditTagFilterDialog/AutocompleteInput';
+import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
 import Root from '../_helpers/Root';
 
 const options = [];
@@ -9,12 +9,17 @@ for (let i = 0; i < 10000; i = i + 1) {
   options.push({ value: i, label: `${i}` });
 }
 
-storiesOf('Analyse/Autocomplete Input', module).add('Default', () => <AutocompleteStory options={options} />);
+storiesOf('Analyse/Typeahead Input', module).add('Default', () => <TypeaheadStory options={options} />);
 
-function AutocompleteStory() {
+function TypeaheadStory() {
   return (
     <Root>
-      <AutocompleteInput options={options} resultsToShow={100} placeholder="Type to filter the results..." />
+      <Typeahead
+        options={options}
+        resultsToShow={100}
+        onChange={e => e.value}
+        placeholder="Type to filter the results..."
+      />
     </Root>
   );
 }
