@@ -35,11 +35,11 @@ function WithCustomCloseBehaviour() {
     <DialogRoot>
       <Dialog
         title={text('Title', 'Some title')}
-        customCloseBehaviour={
+        renderCustomCloseBehaviour={() => (
           <span style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
             Custom close
           </span>
-        }
+        )}
       >
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
         dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
