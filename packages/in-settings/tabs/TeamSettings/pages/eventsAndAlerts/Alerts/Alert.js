@@ -144,7 +144,9 @@ function createForm(alertEntity, isCreate) {
   }
 
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
-  const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
+  const { applyOn, applicationName, applicationIds } = isCreate
+    ? { applyOn: null, applicationName: null, applicationIds: [] }
+    : parseQuery(query);
 
   let staticJsonPayload;
   if (addStaticJsonPayloadToEventsConfig) {
@@ -225,7 +227,12 @@ function createForm(alertEntity, isCreate) {
   if (applyOn === scopeDfq) {
     form = putQueryFields(form, query);
   } else if (applyOn === scopeApplication) {
-    form = putApplicationField(form, applicationName);
+    if (applicationName) {
+      form = putApplicationField(form, applicationName);
+      form = putApplicationIdField(form, []);
+    } else {
+      form = putApplicationIdField(form, applicationIds);
+    }
   }
 
   return form;
@@ -287,12 +294,20 @@ export function putApplicationField(form, applicationName) {
   return form.put(
     'application',
     createField({
-      value: applicationName,
-      validator: notBlankValidator
+      value: applicationName
     })
   );
 }
 
+export function putApplicationIdField(form, applicationIds) {
+  return form.put(
+    'applicationIds',
+    createField({
+      value: applicationIds ? applicationIds : [],
+      validator: selectedApplicationsValidator
+    })
+  );
+}
 function onChangeEventSelectionMode(form, eventSelectionMode) {
   if (!eventSelectionMode) {
     return;
@@ -324,11 +339,13 @@ function onChangeApplyOn(form, applyOn) {
     updatedForm = putQueryFields(updatedForm, '');
   } else if (applyOn === scopeApplication) {
     updatedForm = removeQueryFields(updatedForm);
-    updatedForm = putApplicationField(updatedForm, null);
+    updatedForm = putApplicationField(updatedForm, '');
+    updatedForm = putApplicationIdField(updatedForm, []);
   } else {
     // scope "everything" or no apply-on value selected
     updatedForm = removeQueryFields(updatedForm);
     updatedForm = updatedForm.remove('application');
+    updatedForm = updatedForm.remove('applicationIds');
   }
 
   return updatedForm;
@@ -359,6 +376,17 @@ function selectedEventsValidator(selectedEvents) {
       {
         severity: 'error',
         message: `Please select at most ${limitForConnectedEvents} events.`
+      }
+    ];
+  }
+}
+
+function selectedApplicationsValidator(selectedApplications) {
+  if (selectedApplications.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please select at least one application.'
       }
     ];
   }

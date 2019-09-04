@@ -1,5 +1,12 @@
 import React, { Fragment } from 'react';
 
+import Applications, {
+  getSelectedApplicationConfigsByName,
+  applicationSelectionTableActions,
+  getSelectedApplicationsForAlert,
+  submitApplicationSelection,
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
   applyOnOptions,
   scopeApplication,
@@ -7,7 +14,7 @@ import {
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
-import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -15,13 +22,35 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/Grid/Grid';
+import { isBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './Step3.mless';
 
-export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
+export default connectTo(props => {
+  const selectedApplicationName = props.form.get('application') ? props.form.get('application').value : '';
+  if (selectedApplicationName === null || isBlank(selectedApplicationName)) {
+    return {
+      existingApplication: null
+    };
+  }
+  return {
+    existingApplication: getSelectedApplicationConfigsByName(selectedApplicationName)
+  };
+})(Step3);
+
+function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }) {
+  let selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
+
+  if (existingApplication) {
+    existingApplication.forEach(app => {
+      selectedApplicationIds.push(app.id);
+    });
+  }
+
   return (
     <Fragment>
       <SectionHeading>3. Scope</SectionHeading>
@@ -83,19 +112,38 @@ export default function Step3({ form, setForm, onChange, onChangeApplyOn }) {
                 </DescriptionText>
               </FormGroup>
             ))}
-          {form.get('applyOn').value === scopeApplication &&
-            form.get('application').map(field => (
-              <FormGroup>
-                <Label hasError={!field.valid && field.touched}>Application</Label>
-                <ApplicationSelect
-                  applicationName={field.value}
-                  onSelectApplicationName={applicationName => onChange('application', applicationName)}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
         </Col>
       </Row>
+      {form.get('applyOn').value === scopeApplication && (
+        <FormGroup>
+          <Applications
+            setTitle={false}
+            loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
+            hasRowNavigation={false}
+            noDataMessage="No Application Perspectives Selected"
+            tableActions={applicationSelectionTableActions(form, setForm)}
+            rightHeader={
+              <SelectListDialogButton
+                form={form}
+                onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
+                title="Add Application Perspectives"
+                label="Add Application Perspectives"
+                listComponent={Applications}
+                listComponentRightHeader={noRightHeader}
+                limit={10}
+                hiddenIds={selectedApplicationIds}
+                createSubmitLabel={numberOfItems =>
+                  numberOfItems > 0
+                    ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
+                    : 'Add'
+                }
+                requiresAtLeastOneMessage="Please select at least one application perspectives."
+              />
+            }
+          />
+          <TouchedMessages field={form.get('applicationIds')} />
+        </FormGroup>
+      )}
       <MatchingEntitiesIndicator form={form} />
     </Fragment>
   );

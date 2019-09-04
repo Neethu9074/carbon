@@ -20,6 +20,13 @@ import {
   entityVerification,
   systemRules
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import Applications, {
+  getSelectedApplicationConfigsByName,
+  applicationSelectionTableActions,
+  getSelectedApplicationsForAlert,
+  submitApplicationSelection,
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
   applyOnOptions,
   scopeApplication,
@@ -31,9 +38,10 @@ import {
   formatterTypeToDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
+import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import MetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MetricSelector';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { containsMetricInList, createMetricListItem, getPlainMetricList } from 'in-sdk/metrics';
-import ApplicationSelect from 'in-settings/tabs/TeamSettings/components/ApplicationSelect';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
@@ -110,6 +118,17 @@ export default compose(
       })
       .tap(() => queryValidationFinished.emit(true))
   }),
+  connectTo(props => {
+    const selectedApplicationName = props.form.get('application') ? props.form.get('application').value : '';
+    if (selectedApplicationName === null || isBlank(selectedApplicationName)) {
+      return {
+        existingApplication: null
+      };
+    }
+    return {
+      existingApplication: getSelectedApplicationConfigsByName(selectedApplicationName)
+    };
+  }),
   withState('queryValidationInProgress', 'setQueryValidationInProgress', false),
   connectTo(({ setQueryValidationInProgress, setSaveEnabled }) => ({
     queryValidationFinished: queryValidationFinished.distinct().tap(finished => {
@@ -132,13 +151,15 @@ export default compose(
 
 function EventForm({
   form,
+  setForm,
   entity,
   onChange,
   customMetrics,
   queryValidationResult,
   queryValidationInProgress,
   setQueryValidationInProgress,
-  setSaveEnabled
+  setSaveEnabled,
+  existingApplication
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -153,6 +174,13 @@ function EventForm({
     updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form);
   }
 
+  let selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
+
+  if (existingApplication) {
+    existingApplication.forEach(app => {
+      selectedApplicationIds.push(app.id);
+    });
+  }
   const isPercentileMetric = isPercentile(form);
 
   return (
@@ -365,19 +393,39 @@ function EventForm({
                 </DescriptionText>
               </FormGroup>
             ))}
-          {form.get('applyOn').value === scopeApplication &&
-            form.get('application').map(field => (
-              <FormGroup>
-                <Label hasError={!field.valid && field.touched}>Application</Label>
-                <ApplicationSelect
-                  applicationName={field.value}
-                  onSelectApplicationName={applicationName => onChange('application', applicationName)}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
         </Col>
       </Row>
+      {form.get('applyOn').value === scopeApplication &&
+        form.get('applicationIds').map(field => (
+          <FormGroup>
+            <Applications
+              setTitle={false}
+              loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
+              hasRowNavigation={false}
+              noDataMessage="No Application Perspectives Selected"
+              tableActions={applicationSelectionTableActions(form, setForm)}
+              rightHeader={
+                <SelectListDialogButton
+                  form={form}
+                  onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
+                  title="Add Application Perspectives"
+                  label="Add Application Perspectives"
+                  listComponent={Applications}
+                  listComponentRightHeader={noRightHeader}
+                  limit={10}
+                  hiddenIds={selectedApplicationIds}
+                  createSubmitLabel={numberOfItems =>
+                    numberOfItems > 0
+                      ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
+                      : 'Add'
+                  }
+                  requiresAtLeastOneMessage="Please select at least one application perspectives."
+                />
+              }
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
     </fieldset>
   );
 }
@@ -850,13 +898,17 @@ function onChangeApplyOn(applyOn, onChange) {
   } else if (applyOn === scopeApplication) {
     updateFormDefinition = form => {
       form = removeQueryFields(form);
-      return putApplicationField(form, null);
+      form = putApplicationField(form, null);
+      form = putApplicationIdField(form, []);
+      return form;
     };
   } else {
     // applyOn === scopeEverything or not selected
     updateFormDefinition = form => {
       form = removeQueryFields(form);
-      return form.remove('application');
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      return form;
     };
   }
   onChange('applyOn', applyOn, updateFormDefinition);

@@ -194,17 +194,18 @@ function renderScope(entity) {
   if (!entity.eventFilteringConfiguration || !entity.eventFilteringConfiguration.query) {
     return '';
   }
-  const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
+  const { applyOn } = parseQuery(entity.eventFilteringConfiguration.query);
   if (applyOn === scopeDfq) {
     return (
       <Tooltip content={entity.eventFilteringConfiguration.query} delay={500}>
         <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />
       </Tooltip>
     );
-  } else if (applyOn === scopeApplication && applicationName) {
+  } else if (applyOn === scopeApplication) {
+    const applications = concatApplicationNames(entity);
     return (
-      <Tooltip content={applicationName} delay={500}>
-        <PropertyInTable label="Application" value={applicationName} />
+      <Tooltip content={applications} delay={500}>
+        <PropertyInTable label={getApplicationLabel(entity)} value={applications} />
       </Tooltip>
     );
   } else {
@@ -216,16 +217,24 @@ function scopeToString(entity) {
   if (!entity.eventFilteringConfiguration || !entity.eventFilteringConfiguration.query) {
     return '';
   }
-  const { applyOn, applicationName } = parseQuery(entity.eventFilteringConfiguration.query);
+  const { applyOn } = parseQuery(entity.eventFilteringConfiguration.query);
   if (applyOn === scopeDfq) {
     return entity.eventFilteringConfiguration.query;
-  } else if (applyOn === scopeApplication && applicationName) {
-    return applicationName;
+  } else if (applyOn === scopeApplication) {
+    return entity.eventFilteringConfiguration.query;
   } else {
     return '';
   }
 }
 
+function getApplicationLabel(entity) {
+  return entity.applicationNames.length === 1 ? 'APPLICATION' : `APPLICATIONS (${entity.applicationNames.length})`;
+}
+
 function concatChannelNames(entity) {
   return entity.alertChannelNames ? entity.alertChannelNames.join(', ') : '';
+}
+
+function concatApplicationNames(entity) {
+  return entity.applicationNames ? entity.applicationNames.join(', ') : '';
 }

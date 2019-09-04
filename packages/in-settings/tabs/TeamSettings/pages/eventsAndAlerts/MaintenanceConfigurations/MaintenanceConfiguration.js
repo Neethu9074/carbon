@@ -10,6 +10,7 @@ import {
 } from 'in-api/maintenanceConfiguration';
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
+import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
@@ -20,7 +21,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
-import { isNotBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import entityForm from 'in-hoc/entityForm';
@@ -101,7 +101,7 @@ function save(config, form) {
 
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
-  const query = form.containsKey('query') ? form.get('query').value : '';
+  const query = getQueryFromFormField(form);
 
   return saveMaintenanceConfig(
     fromJS(
@@ -126,6 +126,8 @@ function onChangeApplyOn(form, applyOn) {
   let updatedForm = form.updateIn(['applyOn'], field => field.setValue(applyOn).setTouched(true));
   if (applyOn === 'all') {
     updatedForm = updatedForm.remove('query');
+  } else if (applyOn === 'application') {
+    updatedForm = updatedForm.remove('query');
   } else {
     updatedForm = putQueryFields(updatedForm, '');
   }
@@ -137,9 +139,12 @@ function createForm(config, isCreate) {
   const firstWindow = windows.size > 0 ? windows.get(0).toJS() : createMaintenanceWindow();
 
   const query = config.get('query');
+
   // always set to 'Dynamic Focus Query' per default for new configs, so that
   // the user manually has to select 'All' in case he really want that
-  const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
+  //const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
+
+  const { applyOn, applicationIds } = isCreate ? { applyOn: 'dfq', applicationIds: [] } : parseQuery(query);
 
   let form = createMapForm()
     .put(
@@ -156,13 +161,35 @@ function createForm(config, isCreate) {
         value: applyOn,
         validator: notBlankValidator
       })
+    )
+    .put(
+      'applicationIds',
+      createField({
+        value: applicationIds ? applicationIds : [],
+        validator: selectedApplicationsValidator
+      })
     );
 
   if (applyOn === 'dfq') {
     form = putQueryFields(form, query);
   }
 
+  if (applyOn === 'application') {
+    form = putQueryFields(form, '');
+  }
+
   return form;
+}
+
+function selectedApplicationsValidator(selectedApplications) {
+  if (selectedApplications.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please select at least one application.'
+      }
+    ];
+  }
 }
 
 function putQueryFields(form, query) {
@@ -188,6 +215,16 @@ function putQueryFields(form, query) {
     })
   );
   return updatedForm;
+}
+
+function getQueryFromFormField(form) {
+  if (form.containsKey('applicationIds')) {
+    return applicationIdsToDfq(form.get('applicationIds').value);
+  } else if (form.containsKey('query')) {
+    return form.get('query').value;
+  } else {
+    return '';
+  }
 }
 
 function getWindowSubForm(window) {

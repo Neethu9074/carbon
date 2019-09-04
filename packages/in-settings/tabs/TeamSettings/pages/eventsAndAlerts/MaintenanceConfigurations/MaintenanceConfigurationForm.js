@@ -1,8 +1,15 @@
-import React from 'react';
 import moment from 'moment-timezone/builds/moment-timezone-with-data-10-year-range';
+import React from 'react';
 
+import Applications, {
+  applicationSelectionTableActions,
+  getSelectedApplicationsForAlert,
+  submitApplicationSelection,
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
 import FormDataEnrichment from './components/FormDataEnrichment';
@@ -29,6 +36,7 @@ const IconErrorOutline = <SvgIcon type={'lib_help_error_error_outline'} size="s"
 
 export default function MaintenanceConfigurationForm(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;
+  const selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
 
   return (
     <fieldset>
@@ -63,6 +71,7 @@ export default function MaintenanceConfigurationForm(props) {
             name="maintenance-applyOn"
             value={field.value}
             options={[
+              { value: 'application', label: 'Application Perspective' },
               { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
               { value: 'all', label: 'All available entities' }
             ]}
@@ -113,6 +122,38 @@ export default function MaintenanceConfigurationForm(props) {
               </Link>
               .
             </DescriptionText>
+          </FormGroup>
+        ))}
+
+      {form.get('applyOn').value === 'application' &&
+        form.get('applicationIds').map(field => (
+          <FormGroup>
+            <Applications
+              setTitle={false}
+              loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
+              hasRowNavigation={false}
+              noDataMessage="No Application Perspectives Selected"
+              tableActions={applicationSelectionTableActions(form, setForm)}
+              rightHeader={
+                <SelectListDialogButton
+                  form={form}
+                  onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
+                  title="Add Application Perspectives"
+                  label="Add Application Perspectives"
+                  listComponent={Applications}
+                  listComponentRightHeader={noRightHeader}
+                  limit={10}
+                  hiddenIds={selectedApplicationIds}
+                  createSubmitLabel={numberOfItems =>
+                    numberOfItems > 0
+                      ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
+                      : 'Add'
+                  }
+                  requiresAtLeastOneMessage="Please select at least one application perspectives."
+                />
+              }
+            />
+            <TouchedMessages field={field} />
           </FormGroup>
         ))}
       <FormGroup noFlex>

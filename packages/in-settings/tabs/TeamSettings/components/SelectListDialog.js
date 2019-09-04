@@ -189,9 +189,7 @@ function setAllInternal(
       } else if (limit === 1) {
         setErrorMessage('You can only add one item.');
       } else {
-        setErrorMessage(
-          `You can add at most ${limit} items more items. Please narrow down your selection by using the filters.`
-        );
+        setErrorMessage(`You can add at most ${limit} items. Please narrow down your selection by using the filters.`);
       }
       return;
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  applicationNameToDfq,
+  applicationIdsToDfq,
   scopeApplication,
   scopeDfq,
   scopeEverything
@@ -31,7 +31,7 @@ export default class FormDataEnrichment extends React.Component {
   selectedEventsInput = create();
   applyOnInput = create();
   queryInput = create();
-  applicationInput = create();
+  applicationIdsInput = create();
 
   matchingEntitesSubscription = null;
   validationResultSubscription = null;
@@ -49,7 +49,7 @@ export default class FormDataEnrichment extends React.Component {
     this.selectedEventsInput.emit(getValueOrDefault(form, 'selectedEvents', ''));
     this.applyOnInput.emit(getValueOrDefault(form, 'applyOn', ''));
     this.queryInput.emit(getValueOrDefault(form, 'query', ''));
-    this.applicationInput.emit(getValueOrDefault(form, 'application', ''));
+    this.applicationIdsInput.emit(getValueOrDefault(form, 'applicationIds', ''));
   }
 
   setUpMatchingEntitesSubscription(debouncedQuery) {
@@ -62,9 +62,9 @@ export default class FormDataEnrichment extends React.Component {
       debouncedSelectedEvents,
       this.applyOnInput,
       debouncedQuery,
-      this.applicationInput
+      this.applicationIdsInput
     ])
-      .flatMap(([eventSelectionMode, eventTypes, selectedEvents, applyOn, query, application]) => {
+      .flatMap(([eventSelectionMode, eventTypes, selectedEvents, applyOn, query, applicationIds]) => {
         const timeOpened = this.props.form.get('timeOpened').value;
         this.props.onChange('matchingEntitiesQueryInProgress', true);
         let searchFn;
@@ -80,8 +80,8 @@ export default class FormDataEnrichment extends React.Component {
         }
 
         let queryForSearch;
-        if (applyOn === scopeApplication && application) {
-          queryForSearch = applicationNameToDfq(application);
+        if (applyOn === scopeApplication && applicationIds) {
+          queryForSearch = applicationIdsToDfq(applicationIds);
         } else if (applyOn === scopeDfq) {
           queryForSearch = query ? query : '';
         } else if (applyOn === scopeEverything) {
@@ -124,8 +124,8 @@ export default class FormDataEnrichment extends React.Component {
     const nextApplyOn = getValueOrDefault(nextProps.form, 'applyOn', '');
     const prevQuery = getValueOrDefault(this.props.form, 'query', '');
     const nextQuery = getValueOrDefault(nextProps.form, 'query', '');
-    const prevApplication = getValueOrDefault(this.props.form, 'application', '');
-    const nextApplication = getValueOrDefault(nextProps.form, 'application', '');
+    const prevApplicationIds = getValueOrDefault(this.props.form, 'applicationIds', '');
+    const nextApplicationIds = getValueOrDefault(nextProps.form, 'applicationIds', '');
 
     return (
       prevEventSelectionMode !== nextEventSelectionMode ||
@@ -133,7 +133,7 @@ export default class FormDataEnrichment extends React.Component {
       prevSelectedEvents !== nextSelectedEvents ||
       prevApplyOn !== nextApplyOn ||
       prevQuery !== nextQuery ||
-      prevApplication !== nextApplication
+      prevApplicationIds !== nextApplicationIds
     );
   }
 

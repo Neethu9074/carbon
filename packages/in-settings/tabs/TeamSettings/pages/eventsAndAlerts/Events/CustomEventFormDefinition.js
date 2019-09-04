@@ -34,7 +34,9 @@ export function createEventFormDefinition(event, isCreate) {
   const { ruleType, metricName, severity } = ruleAttributes;
 
   const dataSource = getDataSourceFromEventSpecification(ruleType, entityType, metricName);
-  const { applyOn, applicationName } = isCreate ? { applyOn: null, applicationName: null } : parseQuery(query);
+  const { applyOn, applicationName, applicationIds } = isCreate
+    ? { applyOn: null, applicationName: null, applicationIds: [] }
+    : parseQuery(query);
 
   let form = createMapForm()
     .put(
@@ -107,6 +109,7 @@ export function createEventFormDefinition(event, isCreate) {
 
   if (applyOn === scopeApplication) {
     form = putApplicationField(form, applicationName);
+    form = putApplicationIdField(form, applicationIds);
   } else if (applyOn === scopeDfq) {
     form = putQueryFields(form, event);
   }
@@ -369,12 +372,32 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   return form;
 }
 
+function selectedApplicationsValidator(selectedApplications) {
+  if (selectedApplications.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please select at least one application.'
+      }
+    ];
+  }
+}
+
 export function putApplicationField(form, applicationName) {
   return form.put(
     'application',
     createField({
-      value: applicationName,
-      validator: notBlankValidator
+      value: applicationName
+    })
+  );
+}
+
+export function putApplicationIdField(form, applicationIds) {
+  return form.put(
+    'applicationIds',
+    createField({
+      value: applicationIds,
+      validator: selectedApplicationsValidator
     })
   );
 }

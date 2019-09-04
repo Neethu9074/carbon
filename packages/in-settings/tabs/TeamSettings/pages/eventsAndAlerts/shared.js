@@ -14,24 +14,49 @@ export const applyOnOptions = [
 // entity.application.name:"<applicationName>". This regex checks if the query matches this and it also parses out the
 // application name as a capturing group.
 export const applicationScopeQueryRegex = /^entity.application.name:"([^"]*)"$/;
+export const applicationIdScopeQueryRegex = /^entity.application.id:"([^"]*)"$/;
 
 export function parseQuery(query) {
   if (isBlank(query)) {
     return { applyOn: scopeEverything };
   }
-  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
-  if (!applicationScopeMatch || applicationScopeMatch.length < 2) {
-    return { applyOn: scopeDfq };
+
+  const splittedQuery = query.split(' OR ');
+  let applicationIds = [];
+  if (splittedQuery.length >= 1) {
+    splittedQuery.map(q => {
+      const applicationIdScopeMatch = applicationIdScopeQueryRegex.exec(q);
+      if (applicationIdScopeMatch) {
+        applicationIds.push(applicationIdScopeMatch[1]);
+      }
+    });
   }
-  return { applyOn: scopeApplication, applicationName: applicationScopeMatch[1] };
+  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
+
+  if (applicationIds.length > 0) {
+    return {
+      applyOn: scopeApplication,
+      applicationName: '',
+      applicationIds: applicationIds
+    };
+  }
+
+  if (applicationScopeMatch) {
+    return {
+      applyOn: scopeDfq,
+      applicationName: applicationScopeMatch,
+      applicationIds: []
+    };
+  }
+  return { applyOn: scopeDfq };
 }
 
 export function serializeQuery(form) {
   const applyOn = form.get('applyOn') ? form.get('applyOn').value : null;
   const query = form.get('query') ? form.get('query').value : null;
-  const application = form.get('application') ? form.get('application').value : null;
+  const applicationIds = form.get('applicationIds') ? form.get('applicationIds').value : null;
   if (applyOn === scopeApplication) {
-    return applicationNameToDfq(application);
+    return applicationIdsToDfq(applicationIds);
   } else if (applyOn === scopeDfq) {
     return query;
   } else {
@@ -39,6 +64,10 @@ export function serializeQuery(form) {
   }
 }
 
-export function applicationNameToDfq(applicationName) {
-  return `entity.application.name:"${applicationName}"`;
+export function applicationIdsToDfq(applicationIds) {
+  let applicationIdsQueryPart = null;
+  if (applicationIds && applicationIds.length > 0) {
+    applicationIdsQueryPart = applicationIds.map(appId => `entity.application.id:"${appId}"`).join(' OR ');
+  }
+  return applicationIdsQueryPart;
 }
