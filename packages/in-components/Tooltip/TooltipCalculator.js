@@ -152,12 +152,12 @@ const TooltipCalculator = {
   // B: Bottom
   // L: Left
   // T: Top
-  calculate(bounds, tooltip, reference) {
+  calculate(bounds, tooltip, reference, forceConfiguredAlignment = false) {
     let data = createElement();
     const mask = this.retreiveMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
     const clipped = this.clipMask(mask, data, bounds, tooltip);
-    if (clipped !== mask) {
+    if (clipped !== mask && !forceConfiguredAlignment) {
       data = createElement();
       this.calculateInternally(data, clipped, bounds, tooltip, reference);
       if (tooltip.align !== 'undefined') {

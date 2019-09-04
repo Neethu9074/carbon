@@ -41,6 +41,7 @@ function ConfigureButton({ availableColumnDefinitions, columnDefinitions, childr
       <Overlay
         withoutWrapper
         align="bottomRight"
+        forceConfiguredAlignment
         content={Content}
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >

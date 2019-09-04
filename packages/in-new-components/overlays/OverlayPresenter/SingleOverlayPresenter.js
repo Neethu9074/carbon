@@ -60,7 +60,7 @@ export default connectTo(
         bottom: focusedElementBox.top + focusedElementBox.height
       };
 
-      const result = TooltipCalculator.calculate(bounds, tooltip, reference);
+      const result = TooltipCalculator.calculate(bounds, tooltip, reference, this.props.forceConfiguredAlignment);
       set(tooltipElement, 'left', result.left);
       set(tooltipElement, 'right', result.right !== null ? windowWidth - result.right : null);
       if (this.props.inContentArea) {
