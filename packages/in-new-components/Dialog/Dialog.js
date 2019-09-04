@@ -12,7 +12,7 @@ export default function Dialog({
   onClose,
   children,
   className,
-  customCloseBehaviour,
+  renderCustomCloseBehaviour,
   withoutBodyPadding,
   showOverflow,
   headless = false
@@ -23,8 +23,8 @@ export default function Dialog({
         {!headless && (
           <div className={locals.header}>
             <h1 className={locals.title}>{title}</h1>
-            {customCloseBehaviour ? (
-              <Fragment>{customCloseBehaviour}</Fragment>
+            {renderCustomCloseBehaviour ? (
+              <Fragment>{renderCustomCloseBehaviour()}</Fragment>
             ) : (
               <SvgIcon className={locals.closeIcon} type="lib_openclose_cancel" size="l" onClick={onClose} />
             )}
@@ -47,7 +47,7 @@ export default function Dialog({
 Dialog.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  customCloseBehaviour: PropTypes.node,
+  renderCustomCloseBehaviour: PropTypes.func,
   headless: PropTypes.bool,
   onClose: PropTypes.func,
   showOverflow: PropTypes.bool,
