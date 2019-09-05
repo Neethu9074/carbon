@@ -7,10 +7,11 @@ export default function AuditLogDownloadView({ offset, query }) {
   return (
     <DownloadView
       data
-      jsonLink={`${baseUrl}/api/auditlog?pretty`}
+      jsonLink={`${baseUrl}/api/auditlog`}
       queryParams={{
         offset,
-        query
+        query,
+        pretty: true
       }}
     />
   );
