@@ -48,6 +48,7 @@ gulp.task('minifyCss', () => {
     .src(paths.allCssAssets)
     .pipe(
       nano({
+        reduceIdents: false,
         zindex: false
       })
     )
