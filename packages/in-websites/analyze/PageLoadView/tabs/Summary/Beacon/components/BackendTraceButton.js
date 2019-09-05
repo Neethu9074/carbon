@@ -26,7 +26,10 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
     <Button
       className={locals.button}
       href$={getLinkToTraceDetail(result.data)}
-      onClick={() => navigateToBackendTraceFromPageLoad()}
+      onClick={e => {
+        e.stopPropagation();
+        navigateToBackendTraceFromPageLoad();
+      }}
       size="compact"
     >
       View Backend Trace

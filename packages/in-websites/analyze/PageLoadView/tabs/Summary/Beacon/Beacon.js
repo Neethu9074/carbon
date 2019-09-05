@@ -5,8 +5,10 @@ import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Be
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './Beacon.mless';
 
@@ -29,16 +31,24 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
             [locals.highlighted]: highlighted
           })}
         >
-          <div className={locals.header}>
-            <div className={locals.leftHeader}>
-              <TypeHeader beacon={beacon} />
-              <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
+          <Tooltip content={expanded ? 'Show less' : 'Show more'} align="topMiddle">
+            <div
+              className={locals.header}
+              {...toInteractiveElement({
+                ariaLabel: expanded ? 'Show less' : 'Show more',
+                onDefaultInteraction: () => setExpanded(!expanded)
+              })}
+            >
+              <div className={locals.leftHeader}>
+                <TypeHeader beacon={beacon} />
+                <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
+              </div>
+              <div className={locals.rightHeader}>
+                <BackendTraceButton beacon={beacon} />
+                <HeaderToggleIcon {...props} />
+              </div>
             </div>
-            <div className={locals.rightHeader}>
-              <BackendTraceButton beacon={beacon} />
-              <HeaderToggleIcon {...props} />
-            </div>
-          </div>
+          </Tooltip>
 
           {expanded && (
             <div className={locals.body}>

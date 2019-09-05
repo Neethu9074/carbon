@@ -28,7 +28,7 @@ export const getExtraTooltipFields = beacon => ({
   'Retrieval Time': latencyFixed.compact(beacon.duration)
 });
 
-export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
+export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader
       label={
@@ -37,7 +37,6 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
-      onClick={toggleExpanded}
       value={getLabel(beacon)}
     />
     <KeyValueHeader

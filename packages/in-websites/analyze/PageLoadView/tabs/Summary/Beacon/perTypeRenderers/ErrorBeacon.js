@@ -18,7 +18,7 @@ export const getLabel = beacon => beacon.errorMessage;
 
 export const getExtraTooltipFields = () => ({});
 
-export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
+export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader
       label={
@@ -27,7 +27,6 @@ export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
-      onClick={toggleExpanded}
       value={getLabel(beacon)}
     />
     <KeyValueHeader

@@ -25,9 +25,9 @@ export const getExtraTooltipFields = beacon => ({
   'Retrieval Time': latencyFixed.compact(beacon.duration)
 });
 
-export const LeftHeader = ({ beacon, earliestTimestamp, toggleExpanded }) => (
+export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
-    <KeyValueHeader label="Page Resource" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader label="Page Resource" value={getLabel(beacon)} />
     <KeyValueHeader
       label="Start Time"
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}

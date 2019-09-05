@@ -17,9 +17,9 @@ export const getExtraTooltipFields = beacon => ({
   'onLoad Time': latencyFixed.compact(beacon.duration)
 });
 
-export const LeftHeader = ({ beacon, toggleExpanded }) => (
+export const LeftHeader = ({ beacon }) => (
   <Fragment>
-    <KeyValueHeader label="Page Load" onClick={toggleExpanded} value={getLabel(beacon)} />
+    <KeyValueHeader label="Page Load" value={getLabel(beacon)} />
     <KeyValueHeader label="onLoad Time" value={latencyFixed.compact(beacon.duration)} />
   </Fragment>
 );
