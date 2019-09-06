@@ -1,6 +1,8 @@
 import { withState, compose, pure } from 'recompose';
+import { get } from 'lodash';
 import React from 'react';
 
+import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
@@ -83,6 +85,18 @@ function Wait() {
 }
 
 function Ready({ result }) {
+  if (get(window, ['navigator', 'clipboard', 'writeText'])) {
+    window.navigator.clipboard.writeText(result.data.shortUrl).then(
+      () => {
+        addCopiedToClipboardMessage('Copied short URL to clipboard!');
+        removeMessage(messageId);
+      },
+      () => {
+        /* ignore */
+      }
+    );
+  }
+
   return (
     <div className={locals.wrapper}>
       <p>Your short URL is ready!</p>

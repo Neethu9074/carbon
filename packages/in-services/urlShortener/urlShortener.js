@@ -14,10 +14,13 @@ export function showPrompt() {
     return;
   }
 
-  addMessage({
-    id: messageId,
-    icon: 'lib_actions_interface_link',
-    title: 'URL Shortener',
-    content: <UrlShortenerPrompt />
-  });
+  addMessage(
+    {
+      id: messageId,
+      icon: 'lib_actions_interface_link',
+      title: 'URL Shortener',
+      content: <UrlShortenerPrompt />
+    },
+    messageId
+  );
 }

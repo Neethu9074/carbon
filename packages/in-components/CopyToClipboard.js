@@ -45,14 +45,7 @@ export default class extends React.Component {
     }
 
     this.clipboard.on('success', e => {
-      addMessage(
-        {
-          type: 'info',
-          timeout: 2000,
-          content: 'Copied!'
-        },
-        'copyToClipboard'
-      );
+      addCopiedToClipboardMessage();
       e.clearSelection();
     });
 
@@ -77,4 +70,15 @@ export default class extends React.Component {
   render() {
     return this.props.children(this.setButton);
   }
+}
+
+export function addCopiedToClipboardMessage(content = 'Copied!') {
+  addMessage(
+    {
+      type: 'info',
+      timeout: 2000,
+      content
+    },
+    'copyToClipboard'
+  );
 }
