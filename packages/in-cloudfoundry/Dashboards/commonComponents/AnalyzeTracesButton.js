@@ -13,16 +13,16 @@ export default connect(({ applicationId, timeConfig }) => ({
       timeConfig
     }
   }).map(result => result.data)
-}))(function AnalyzeTracesButton({ applicationId, application }) {
+}))(function AnalyzeTracesButton({ application }) {
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
+      disabled={!application}
       href$={getLinkToAnalyze({
-        applicationId,
         dataSource: 'calls',
         filters: [
-          { name: 'cf.app.id', value: applicationId },
+          { name: 'cf.app.id', value: application ? application.guid : '' },
           { name: 'cf.app.name', value: application ? application.label : '' }
         ],
         groupByTag: getConfigByDataSource('calls').defaultGrouping
