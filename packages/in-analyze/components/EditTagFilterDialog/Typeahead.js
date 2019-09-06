@@ -2,7 +2,6 @@ import Downshift from 'downshift';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { containsIgnoreCase } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './Typeahead.mless';
@@ -30,7 +29,7 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
         getToggleButtonProps,
         openMenu
       }) => {
-        const filteredOptions = options.filter(item => !inputValue || containsIgnoreCase(item.label, inputValue));
+        const filteredOptions = options.filter(item => !inputValue || item.label.includes(inputValue));
 
         return (
           <div className={locals.wrapper}>
