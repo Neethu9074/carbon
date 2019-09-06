@@ -92,7 +92,7 @@
     & > .td,
     & > .th {
       padding: @padding;
-      padding-left: 0.75rem;
+      padding-left: 1rem;
     }
 
     & > .td > .severityIndicatorCellContentWrapper > .severityIndicatorCellContentWrapperIndicator {
