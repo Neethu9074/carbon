@@ -1,4 +1,5 @@
 import { withState, compose, pure } from 'recompose';
+import { fromPromise, just } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -13,6 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './UrlShortenerPrompt.mless';
 
+const supportsAsyncClipboardApi = get(window, ['navigator', 'clipboard', 'writeText']);
 export const messageId = 'url-shortener';
 
 export default compose(
@@ -22,7 +24,23 @@ export default compose(
   connectTo(({ generate }) => {
     if (generate) {
       return {
-        result: generateShortUrl(window.location.href).filter(result => !result.progress.loading)
+        result: generateShortUrl(window.location.href)
+          .filter(result => !result.progress.loading)
+          .flatMap(result => {
+            if (!result.data || !supportsAsyncClipboardApi) {
+              return just(result);
+            }
+
+            return fromPromise(
+              window.navigator.clipboard.writeText(result.data.shortUrl).then(() => true, () => false)
+            ).map(successullyCopiedToClipboard => ({
+              ...result,
+              data: {
+                ...result.data,
+                successullyCopiedToClipboard
+              }
+            }));
+          })
       };
     }
 
@@ -35,7 +53,14 @@ function UrlShortenerPrompt(props) {
   if (generate) {
     if (result) {
       if (result.data) {
-        return <Ready {...props} />;
+        if (result.data.successullyCopiedToClipboard) {
+          addCopiedToClipboardMessage('URL copied to clipboard!');
+          removeMessage(messageId);
+          // continue to show the waiting indicator to avoid flashing new content
+          return <Wait {...props} />;
+        } else {
+          return <Ready {...props} />;
+        }
       } else if (result.errors.length > 0) {
         return <Error {...props} />;
       }
@@ -49,7 +74,7 @@ function UrlShortenerPrompt(props) {
 function Ask({ setGenerate }) {
   return (
     <div className={locals.wrapper}>
-      <p>Shall we generate a short URL for you that is easier to share/read in your tools of choice?</p>
+      <p>Generate a short URL to the current view in Instana?</p>
 
       <div className={locals.actions}>
         <Button
@@ -60,7 +85,7 @@ function Ask({ setGenerate }) {
             setGenerate(true);
           }}
         >
-          Generate short URL
+          Generate URL
         </Button>
         <Button
           kind="subtle"
@@ -69,7 +94,7 @@ function Ask({ setGenerate }) {
             setSingle('promptForUrlShortener', false);
           }}
         >
-          Do not show this again
+          {`Don't`} show this again
         </Button>
       </div>
     </div>
@@ -85,18 +110,6 @@ function Wait() {
 }
 
 function Ready({ result }) {
-  if (get(window, ['navigator', 'clipboard', 'writeText'])) {
-    window.navigator.clipboard.writeText(result.data.shortUrl).then(
-      () => {
-        addCopiedToClipboardMessage('Copied short URL to clipboard!');
-        removeMessage(messageId);
-      },
-      () => {
-        /* ignore */
-      }
-    );
-  }
-
   return (
     <div className={locals.wrapper}>
       <p>Your short URL is ready!</p>

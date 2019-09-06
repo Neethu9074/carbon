@@ -10,6 +10,7 @@
   .actions {
     display: flex;
     align-items: center;
-    margin: 0 0 0.6rem;
+    justify-content: space-between;
+    margin: 0 1rem 0.6rem 0;
   }
 }

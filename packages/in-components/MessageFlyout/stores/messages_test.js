@@ -13,59 +13,59 @@ describe('in-components/MessageFlyout/stores/messages', () => {
     mod = proxyquire('in-components/MessageFlyout/stores/messages', {});
   });
 
-  it('must start without any messages', () => {
-    withLatestMessages(messages => {
+  it('must start without any messages', done => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(0);
     });
   });
 
-  it('must add messages without IDs', () => {
+  it('must add messages without IDs', done => {
     const id = mod.addMessage({ type: 'warning', content: <div /> });
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal(id);
       expect(messages[0].type).to.equal('warning');
     });
   });
 
-  it('must update messages that were added without IDs', () => {
+  it('must update messages that were added without IDs', done => {
     const id = mod.addMessage({ type: 'warning', content: <div /> });
     mod.addMessage({ type: 'error', content: <div /> }, id);
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal(id);
       expect(messages[0].type).to.equal('error');
     });
   });
 
-  it('must add messages with IDs', () => {
+  it('must add messages with IDs', done => {
     const id = mod.addMessage({ type: 'warning', content: <div /> }, 'foo');
     expect(id).to.equal('foo');
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal('foo');
       expect(messages[0].type).to.equal('warning');
     });
   });
 
-  it('must update messages that were added with IDs', () => {
+  it('must update messages that were added with IDs', done => {
     mod.addMessage({ type: 'warning', content: <div /> }, 'foo');
     mod.addMessage({ type: 'error', content: <div /> }, 'foo');
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(1);
       expect(messages[0].id).to.equal('foo');
       expect(messages[0].type).to.equal('error');
     });
   });
 
-  it('must not remove existing messages when updating', () => {
+  it('must not remove existing messages when updating', done => {
     mod.addMessage({ type: 'info', content: <div /> }, 1);
     mod.addMessage({ type: 'error', content: <div /> }, 2);
     mod.addMessage({ type: 'info', content: <div /> }, 3);
 
     mod.addMessage({ type: 'warning', content: <div /> }, 2);
 
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(3);
       expect(messages[0].id).to.equal(1);
       expect(messages[1].id).to.equal(2);
@@ -74,24 +74,24 @@ describe('in-components/MessageFlyout/stores/messages', () => {
     });
   });
 
-  it('must remove messages', () => {
+  it('must remove messages', done => {
     mod.addMessage({ type: 'info', content: <div /> }, 1);
     mod.addMessage({ type: 'error', content: <div /> }, 2);
     mod.addMessage({ type: 'info', content: <div /> }, 3);
 
     mod.removeMessage(2);
 
-    withLatestMessages(messages => {
+    withLatestMessages(done, messages => {
       expect(messages.length).to.equal(2);
       expect(messages[0].id).to.equal(1);
       expect(messages[1].id).to.equal(3);
     });
   });
 
-  function withLatestMessages(fn) {
-    let _messages;
-    // hack to clean up stacktraces and correct error reporting
-    mod.messages$.once(messages => (_messages = messages));
-    fn(_messages);
+  function withLatestMessages(done, fn) {
+    mod.messages$.once(messages => {
+      fn(messages);
+      done();
+    });
   }
 });

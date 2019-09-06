@@ -14,7 +14,7 @@ export default connectTo(
     messages: messages$
   },
   function MessageFlyout({ messages }) {
-    if (messages.length === 0) {
+    if (!messages || messages.length === 0) {
       return null;
     }
 

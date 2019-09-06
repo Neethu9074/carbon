@@ -18,7 +18,9 @@ const messagesStore = createStore({
   name: 'in-components/MessageFlyout/stores/messages',
   initialValue: []
 });
-export const messages$ = messagesStore.observable;
+export const messages$ = messagesStore.observable
+  // support state manipulate in render methods
+  .nextFrame();
 
 export function addMessage(messageParam, id = null) {
   id = id == null ? idCounter++ : id;
