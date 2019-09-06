@@ -1,6 +1,7 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
+import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -118,21 +119,15 @@ export default function EditTagFilterDialogPresenter({
                 {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
               </Label>
               {(selectedTagType === 'STRING' || selectedTagType === 'KEY_VALUE_PAIR') && (
-                <CreatableSelect
-                  id="filter-value"
-                  className={locals.loadingSelectPlaceholderInput}
-                  value={field.value || ''}
-                  options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
+                <Typeahead
+                  options={(valueSuggestions || emptyArray).map(s => ({
                     value: s,
                     label: s
                   }))}
-                  onChange={e => onValueChange(e ? e.value : '')}
-                  placeholder=""
-                  isClearable
-                  openOnFocus
-                  searchable
-                  menuIsOpen
-                  autoFocus={editMode}
+                  resultsToShow={100}
+                  value={field.value}
+                  placeholder="Type to filter the results…"
+                  onChange={e => onValueChange(e.value)}
                 />
               )}
               {selectedTagType === 'BOOLEAN' && (

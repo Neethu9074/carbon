@@ -1,0 +1,83 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: relative;
+  }
+  .inputGroup {
+    display: flex;
+    align-items: center;
+    color: #333;
+    background-color: @lib__colors__N050;
+    background-image: none;
+    border: 1px solid @lib__colors__N400;
+    border-radius: 0.1875rem;
+    font-size: 0.75rem;
+    position: relative;
+  }
+
+  .inputGroupOpen {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background: #fff;
+    border-color: #b3b3b3 #ccc #d9d9d9;
+    position: relative;
+  }
+
+  .input {
+    flex-grow: 1;
+    background: none transparent;
+    border: 0 none;
+    cursor: default;
+    display: inline-block;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    outline: none;
+    line-height: 1.0625rem;
+    padding: 0.5rem 0 0.5rem 0.625rem;
+  }
+
+  .list {
+    padding: 0;
+    margin: 0;
+    border: 1px solid @lib__colors__N400;
+    border-collapse: collapse;
+    max-height: 12.875rem;
+    overflow-y: scroll;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 1;
+  }
+
+  .listClosed {
+    background: none transparent;
+    border: 0 none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .listItem {
+    list-style: none;
+    padding: 0.5rem 0.625rem;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  .listItemNoResult {
+    list-style: none;
+    padding: 0.5rem 0.625rem;
+    color: #757575;
+  }
+
+  .toggleButton {
+    fill: #999;
+  }
+
+  .higlightedText {
+    background: #ffff66;
+  }
+}
