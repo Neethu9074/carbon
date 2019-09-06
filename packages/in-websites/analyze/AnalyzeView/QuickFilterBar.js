@@ -42,7 +42,7 @@ export default function QuickFilterBar(props) {
       <SelectBarItem {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />
       <SelectBarItem {...props} tag="beacon.geo.subdivision" singularLabel="subdivision" pluralLabel="subdivisions" />
       <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
-      <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Screen Width" showRange />
+      <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Window Width" showRange />
       {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );
