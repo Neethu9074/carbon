@@ -6,11 +6,6 @@ import http from 'in-services/http';
 
 export const localTag = build.tag;
 
-const timer$ = interval(1000 * 60)
-  .flatMap(getServerVersionTag)
-  .map(result => result.data)
-  .filter(Boolean);
-
 export function getServerVersionTag() {
   return http({
     method: 'GET',
@@ -25,5 +20,8 @@ export function getServerVersionTag() {
 
 export const uiNeedsRefresh$ = createTrackingStore({
   name: 'doesUIClientNeedRefresh',
-  observable: timer$.map(result => result.body.tag !== localTag)
+  observable: interval(1000 * 60)
+    .flatMap(getServerVersionTag)
+    .filter(result => result.data)
+    .map(result => result.data.tag !== localTag)
 }).observable;

@@ -4,8 +4,8 @@ import OsTopList from 'in-websites/WebsiteDashboard/components/OsTopList';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 
-const metrics = ['errors', 'uniqueUsers'];
-const labels = ['Occurrences', 'Affected Users'];
+const metrics = ['pageLoads', 'uniqueUsers'];
+const labels = ['Page Loads', 'Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 

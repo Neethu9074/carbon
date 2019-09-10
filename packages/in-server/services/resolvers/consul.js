@@ -40,7 +40,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -59,7 +60,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         pcfEnabled,
         humioEnabled,
         logDnaEnabled,
-        urlShortenerEnabled
+        urlShortenerEnabled,
+        websiteUserBreakdownEnabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -82,7 +84,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         pcfEnabled,
         humioEnabled,
         logDnaEnabled,
-        urlShortenerEnabled
+        urlShortenerEnabled,
+        websiteUserBreakdownEnabled
       })
     );
   });

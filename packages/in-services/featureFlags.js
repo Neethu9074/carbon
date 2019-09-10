@@ -42,6 +42,7 @@ export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabl
 export const humioEnabled = isFeatureFlagEnabled('humioEnabled');
 export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
+export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
