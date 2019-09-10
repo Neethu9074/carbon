@@ -33,25 +33,7 @@ export default compose(
         sortMode: 'DESC',
         offset: 0,
         size: 200
-      }).map(events =>
-        events.toArray().map(event => {
-          return {
-            // required for inifinity scroll and loading of additional events. see getMaxStartMillis()
-            startMillis: event.get('start'),
-
-            id: event.get('id'),
-            start: event.get('start'),
-            end: event.get('end'),
-            title: event.get('title'),
-            severity: event.get('severity'),
-            state: event.get('state'),
-            type: event.get('type'),
-            entityType: event.get('entityType'),
-            entityId: event.get('entityId'),
-            metricAccessId: event.get('metricAccessId')
-          };
-        })
-      )
+      })
     )
   }))
 )(EventTable);

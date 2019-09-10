@@ -44,7 +44,7 @@ export default connect({
           query: onlySlosQuery,
           offset: 0,
           size: 200
-        }).map(events => events.toJS().filter(e => e.entityType === 'Entity10'))
+        }).map(events => events.filter(e => e.entityType === 'Entity10'))
       )
   )
 })(SloViolations);
