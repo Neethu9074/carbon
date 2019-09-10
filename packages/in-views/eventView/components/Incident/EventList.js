@@ -1,8 +1,10 @@
+import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import { sortedRecentEvents$ } from 'in-views/eventView/stores/recentEventsStore';
 import EventListItem from 'in-views/eventView/components/Incident/EventListItem';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import { emptyList } from 'in-services/fixedImmutables';
+import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-views/eventView/components/Incident/EventList.less';
@@ -10,9 +12,24 @@ import 'in-views/eventView/components/Incident/EventList.less';
 const block = 'in-event-view-incident-event-list';
 
 export default connectTo(
-  {
-    events: sortedRecentEvents$
-  },
+  ({ incident }) => ({
+    events: combineLatest(
+      incident
+        .get('recentEvents', emptyList)
+        .toArray()
+        .map(getEvent)
+    )
+      .map(events =>
+        events
+          .filter(e => e && !e.isEmpty())
+          .sort(
+            (a, b) =>
+              incident.getIn(['issueOrderMap', a.get('id')], a.get('start')) -
+              incident.getIn(['issueOrderMap', b.get('id')], b.get('start'))
+          )
+      )
+      .throttle(250)
+  }),
   function IncidentEventList({ events, incident }) {
     if (!events) {
       return <LoadingIndicator type="dark" />;

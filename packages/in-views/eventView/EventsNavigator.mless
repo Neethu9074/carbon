@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .noEvents {
+    text-align: center;
+    font-style: italic;
+  }
+  .entityWrapper {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+  }
+  .entityIcon {
+    margin-right: 0.313rem;
+    flex-shrink: 0;
+    fill: black;
+  }
+
+  .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+  }
+}

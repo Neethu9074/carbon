@@ -5,6 +5,7 @@ import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigati
 import { enable, disable } from 'in-views/eventView/stores/rawEventListStore';
 import LifecycleObserver from 'in-components/LifecycleObserver';
 import ViewSwitcher from 'in-views/eventView/ViewSwitcher';
+import EventChart from 'in-views/eventView/EventChart';
 import EventTable from 'in-views/eventView/EventTable';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
@@ -29,8 +30,8 @@ function EventViewInternal() {
 
         <Sticky header={<ViewSwitcher darkTheme />}>
           <>
-            we need a Chart here for the events
             <EventTable />
+            <EventChart />
           </>
         </Sticky>
       </Sticky>
