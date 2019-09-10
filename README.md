@@ -1,4 +1,4 @@
-# 🚀 ui-client 🏂 &nbsp; [![Contribution Guidelines](https://img.shields.io/badge/contribution-guidelines-important.svg)](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf) [![Component Catalog](https://img.shields.io/badge/component-catalog-informational.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/)
+# 🚀 ui-client 🏂 &nbsp; [![Contribution Guidelines](https://img.shields.io/badge/contribution-guidelines-important.svg)](https://www.notion.so/instana/UI-Development-7218aadabb574f6aa1ae29e9324e74bf) [![Component Catalog](https://img.shields.io/badge/component-catalog-informational.svg)](http://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/develop/) [![Build Preview](https://img.shields.io/badge/build-preview-blueviolet.svg)](https://dev-jenkins.instana.io/job/ui-client-preview/)
 
 <!-- toc -->
 
