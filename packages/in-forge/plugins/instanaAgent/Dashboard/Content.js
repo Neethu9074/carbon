@@ -12,17 +12,18 @@ import {
   time
 } from 'in-services/formatters/number';
 
+import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
+import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
+import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
-import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
+import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { isInstanaEngineer } from 'in-stores/user';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
-import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
-import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import theme from 'in-themes';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
@@ -30,7 +31,10 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
   return (
     <Fragment>
       <DashboardSection title="Management">
-        <ButtonSection snapshot={snapshot} />
+        <ManagementButtonSection snapshot={snapshot} />
+      </DashboardSection>
+      <DashboardSection title="Info">
+        <InfoButtonSection snapshot={snapshot} />
       </DashboardSection>
 
       <Columize>

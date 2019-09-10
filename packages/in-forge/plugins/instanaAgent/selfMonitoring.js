@@ -75,3 +75,11 @@ export function listSensors(snapshot) {
     args: {}
   }).map(response => response.data.sensors);
 }
+
+export function loadRawAgentConfiguration(snapshot) {
+  return createAgentResponseObservable({
+    action: 'agent.config.raw',
+    target: snapshot.get('volatileId'),
+    args: {}
+  });
+}
