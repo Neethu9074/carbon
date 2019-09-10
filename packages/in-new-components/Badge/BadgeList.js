@@ -4,7 +4,7 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './BadgeList.mless';
 
-export default function BadgeList({ type, types, getColor }) {
+export default function BadgeList({ type, types, getColor, kind = 'light' }) {
   if (type && !types) {
     types = [type];
   }
@@ -18,7 +18,7 @@ export default function BadgeList({ type, types, getColor }) {
         .slice()
         .sort()
         .map(type => (
-          <Pill key={type} className={locals.badge} color={getColor(type)} kind="light">
+          <Pill key={type} className={locals.badge} color={getColor(type)} kind={kind}>
             {type}
           </Pill>
         ))}

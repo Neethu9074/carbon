@@ -64,7 +64,6 @@ function SloViolations({ events, timeConfig }) {
   return (
     <div className={locals.wrapper}>
       <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
-
       <Row>
         <Col lg={12}>
           <SloViolationsChart timeConfig={timeConfig} />
