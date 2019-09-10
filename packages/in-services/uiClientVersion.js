@@ -6,13 +6,17 @@ import http from 'in-services/http';
 
 export const localTag = build.tag;
 
-const timer$ = interval(1000 * 60).flatMap(getServerVersionTag);
+const timer$ = interval(1000 * 60)
+  .flatMap(getServerVersionTag)
+  .map(result => result.data)
+  .filter(Boolean);
 
 export function getServerVersionTag() {
   return http({
     method: 'GET',
     url: `/build.json`,
     maxRetries: 3,
+    mapToResultObject: true,
     queryParams: {
       noCache: Date.now()
     }
