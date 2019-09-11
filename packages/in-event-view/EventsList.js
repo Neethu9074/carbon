@@ -18,64 +18,80 @@ import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './EventsNavigator.mless';
+import locals from './EventsList.mless';
 
-export default function EventsNavigator({ eventId, onChange, rawEventList, furtherDataAvailable }) {
+export default function EventsList(props) {
+  const list = <List {...props} />;
+  if (!props.selectedEventId) {
+    return list;
+  }
+  return <HeightRestrictedView render={() => list} />;
+}
+
+function List({ selectedEventId, onItemClicked, rawEventList, furtherDataAvailable }) {
+  const isDenseList = !!selectedEventId;
   return (
-    <HeightRestrictedView
-      render={() => (
-        <Table tableInCard>
-          <Thead>
-            <Tr size="compact">
-              <Th />
-              <Th>Start</Th>
+    <Table>
+      <Thead>
+        <Tr size="compact">
+          <Th />
+          <Th>Title</Th>
+          <Th>Start</Th>
+          {!isDenseList && (
+            <>
               <Th>End</Th>
-              <Th>Title</Th>
               <Th>On</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {rawEventList.map(event => (
-              <Tr
-                key={event.id}
-                size="compact"
-                active={event.id === eventId}
-                onClick={() => {
-                  onChange({ eventId: event.id });
-                }}
-              >
+            </>
+          )}
+        </Tr>
+      </Thead>
+      <Tbody>
+        {rawEventList.map(event => (
+          <Tr
+            key={event.id}
+            size="compact"
+            active={event.id === selectedEventId}
+            onClick={() => onItemClicked(event.id)}
+          >
+            <Td>
+              <Icon
+                event={fromJS({
+                  ...event,
+                  problem: {
+                    severity: event.severity
+                  }
+                })}
+              />
+            </Td>
+            <Td>
+              <span className={locals.text}>{event.title}</span>
+            </Td>
+            <Td>
+              <span className={locals.text}>{formatDateTime(event.start)}</span>
+            </Td>
+            {!isDenseList && (
+              <>
                 <Td>
-                  <Icon
-                    event={fromJS({
-                      ...event,
-                      problem: {
-                        severity: event.severity
-                      }
-                    })}
-                  />
+                  <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(event.end)}</span>
                 </Td>
-                <Td>{formatDateTime(event.start)}</Td>
-                <Td>{event.state === 'open' ? 'active' : formatDateTime(event.end)}</Td>
-                <Td>
-                  <div className={locals.title}>{event.title}</div>
-                </Td>
+
                 <Td>
                   <On rawEvent={event} />
                 </Td>
-              </Tr>
-            ))}
+              </>
+            )}
+          </Tr>
+        ))}
 
-            {furtherDataAvailable && <LoadMoreRow loadMore={loadMoreRawEvents} size="compact" cols={1} />}
-          </Tbody>
-        </Table>
-      )}
-    />
+        {furtherDataAvailable && <LoadMoreRow loadMore={loadMoreRawEvents} size="compact" cols={1} />}
+      </Tbody>
+    </Table>
   );
 }
 
 const Icon = connectTo(
   props => ({
-    color: getColorForEventAtFocusedMomentAsStream(props.event)
+    color: getColorForEventAtFocusedMomentAsStream(props.event, 'day')
   }),
   function Icon({ event, color }) {
     const iconType = getIconTypeForEventType(getEventType(event), true);

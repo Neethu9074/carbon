@@ -1,27 +1,21 @@
 import { combineLatest } from 'reactive-observables';
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 import { findIndex } from 'lodash';
+import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
+import { eventIdUrlParameter } from 'in-event-view/navigation/urlParameters';
 import createRawEventsObservable from 'in-subscription/rawEvents';
-import EventsNavigator from 'in-views/eventView/EventsNavigator';
-import EventDetails from 'in-views/eventView/EventDetails';
+import EventDetails from 'in-event-view/EventDetails';
 import { timeConfig$ } from 'in-stores/time/config';
+import EventsList from 'in-event-view/EventsList';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
-import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
   withUrlState({
-    bind: [
-      {
-        path: '/events',
-        name: 'eventId'
-      }
-    ],
+    bind: [eventIdUrlParameter],
     reducerName: 'onChange'
   }),
   connectTo(({ eventType }) => ({
@@ -39,36 +33,31 @@ export default compose(
 )(EventTable);
 
 function EventTable(props) {
-  const { rawEventList, eventId, items, onChange } = props;
+  const { selectedEventId, rawEventList, items, onChange } = props;
   if (!rawEventList) {
     return null;
   }
+
+  function onItemClicked(eventId) {
+    onChange({ eventId: selectedEventId === eventId ? null : eventId });
+  }
+
+  if (!selectedEventId) {
+    return <EventsList rawEventList={rawEventList} onItemClicked={onItemClicked} />;
+  }
+
   return (
-    <Fragment>
-      <Sticky header={<BreadcrumbHeader useFullAvailableWidth />}>
-        <NavigatorSplitScreen
-          {...props}
-          items={rawEventList}
-          navigator={<EventsNavigator eventId={eventId} rawEventList={rawEventList} onChange={onChange} />}
-          typeLabel="event"
-          openItemIndex={findIndex(items, item => item.event.id === eventId)}
-          openItem={e => {
-            onChange({
-              eventId: e.event.id
-            });
-          }}
-        >
-          <EventDetails
-            eventId={eventId}
-            openItem={eventId => {
-              onChange({
-                eventId
-              });
-            }}
-          />
-        </NavigatorSplitScreen>
-      </Sticky>
-    </Fragment>
+    <NavigatorSplitScreen
+      {...props}
+      items={rawEventList}
+      navigator={
+        <EventsList selectedEventId={selectedEventId} rawEventList={rawEventList} onItemClicked={onItemClicked} />
+      }
+      typeLabel="event"
+      openItemIndex={findIndex(items, item => item.event.id === selectedEventId)}
+    >
+      <EventDetails selectedEventId={selectedEventId} />
+    </NavigatorSplitScreen>
   );
 }
 
