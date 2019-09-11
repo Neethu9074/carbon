@@ -64,7 +64,7 @@ function List({ selectedEventId, onItemClicked, rawEventList, furtherDataAvailab
               />
             </Td>
             <Td>
-              <span className={locals.text}>{event.title}</span>
+              <div className={locals.title}>{event.title}</div>
             </Td>
             <Td>
               <span className={locals.text}>{formatDateTime(event.start)}</span>

@@ -1,4 +1,5 @@
 @import '~in-themes/active.less';
+@import '~in-themes/mediaQueries.less';
 
 :local {
   .noEvents {
@@ -18,10 +19,21 @@
     fill: black;
   }
 
-  .text {
+  .text,
+  .title {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  .title {
+    max-width: 15rem;
+  }
+
+  @media @min-medium-screen {
+    .title {
+      max-width: 22rem;
+    }
   }
 
   .icon {
