@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -13,7 +14,6 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import { just } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';

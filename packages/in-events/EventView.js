@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { eventsPath } from 'in-event-view/navigation/paths';
-import ViewSwitcher from 'in-event-view/ViewSwitcher';
-import EventChart from 'in-event-view/EventChart';
-import EventTable from 'in-event-view/EventTable';
+import ViewSwitcher from 'in-events/components/ViewSwitcher';
+import EventChart from 'in-events/components/EventChart';
+import EventTable from 'in-events/components/EventTable';
+import { eventsPath } from 'in-events/navigation/paths';
 import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';

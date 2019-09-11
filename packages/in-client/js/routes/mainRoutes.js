@@ -18,9 +18,9 @@ import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
-import eventRoutes from 'in-event-view/navigation/routes';
 import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
+import eventRoutes from 'in-events/navigation/routes';
 import Map from 'in-map/index';
 
 export default (

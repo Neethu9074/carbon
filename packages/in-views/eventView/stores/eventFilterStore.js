@@ -1,6 +1,6 @@
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { eventsPath } from 'in-events/navigation/paths';
 import { createTrackingStore } from 'in-stores/store';
 
 export const eventFilter$ = createTrackingStore({

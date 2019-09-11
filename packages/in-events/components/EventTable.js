@@ -4,11 +4,11 @@ import { findIndex } from 'lodash';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import { eventIdUrlParameter } from 'in-event-view/navigation/urlParameters';
+import { eventIdUrlParameter } from 'in-events/navigation/urlParameters';
 import createRawEventsObservable from 'in-subscription/rawEvents';
-import EventDetails from 'in-event-view/EventDetails';
+import EventDetails from 'in-events/components/EventDetails';
+import EventsList from 'in-events/components/EventsList';
 import { timeConfig$ } from 'in-stores/time/config';
-import EventsList from 'in-event-view/EventsList';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';

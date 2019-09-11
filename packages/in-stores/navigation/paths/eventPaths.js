@@ -1,6 +1,6 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { eventsPath } from 'in-event-view/navigation/paths';
+import { eventsPath } from 'in-events/navigation/paths';
 
 export function focusEvent(eventId) {
   mutateUrl(params => {
