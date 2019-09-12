@@ -7,17 +7,16 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import locals from './Typeahead.mless';
 
 export default function Typeahead({ options, placeholder, value, onChange, resultsToShow = 50 }) {
-  value = value || '';
   const handleStateChange = changes => {
     if (changes.hasOwnProperty('selectedItem')) {
-      onChange({ value: changes.selectedItem.value || '' });
+      onChange({ value: changes.selectedItem || '' });
     } else if (changes.hasOwnProperty('inputValue')) {
       onChange({ value: changes.inputValue || '' });
     }
   };
 
   return (
-    <Downshift selectedItem={value} onStateChange={handleStateChange} itemToString={i => i}>
+    <Downshift selectedItem={value} onStateChange={handleStateChange}>
       {({
         getInputProps,
         getItemProps,
@@ -29,7 +28,8 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
         getToggleButtonProps,
         openMenu
       }) => {
-        const filteredOptions = options.filter(item => !inputValue || item.label.includes(inputValue));
+        const lowerCaseInputValue = inputValue.toLowerCase();
+        const filteredOptions = options.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
 
         return (
           <div className={locals.wrapper}>
@@ -59,7 +59,7 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
                       <li
                         className={locals.listItem}
                         {...getItemProps({
-                          key: item.value,
+                          key: item,
                           index,
                           item,
                           style: {
@@ -68,7 +68,7 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
                           }
                         })}
                       >
-                        {getHighlightedText(item.label, inputValue)}
+                        {getHighlightedText(item, inputValue)}
                       </li>
                     ))
                   : null}
