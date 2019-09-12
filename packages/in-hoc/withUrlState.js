@@ -151,7 +151,15 @@ export default ({
 
     reducer = change => {
       const newState = this.applyReducer(change);
-      mutateUrl(location => this.modifyLocation(newState, location), replaceHistory);
+      mutateUrl(location => {
+        // Synchronously update the state to ensure that quick user interaction will correctly
+        // be reflected within the React state tree. The successive URL update will
+        // (asynchronously) update the state again. This state update will be a noop in all interaction
+        // cases that happen via the Instana user interface. Cases in which this is not a noop are
+        // URL changes caused by the browser itself, e.g. browser back button.
+        this.setState(newState);
+        this.modifyLocation(newState, location);
+      }, replaceHistory);
     };
 
     getModifiedUrl = change => {
