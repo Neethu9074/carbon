@@ -120,10 +120,7 @@ export default function EditTagFilterDialogPresenter({
               </Label>
               {(selectedTagType === 'STRING' || selectedTagType === 'KEY_VALUE_PAIR') && (
                 <Typeahead
-                  options={(valueSuggestions || emptyArray).map(s => ({
-                    value: s,
-                    label: s
-                  }))}
+                  options={valueSuggestions || emptyArray}
                   resultsToShow={100}
                   value={field.value}
                   placeholder="Type to filter the results…"
