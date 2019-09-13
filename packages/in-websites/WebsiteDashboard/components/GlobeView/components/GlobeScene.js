@@ -12,9 +12,9 @@ import {
   MeshBasicMaterial,
   MeshPhongMaterial
 } from 'in-map/3DLibProvider';
-import HeatMapGlobe from 'in-new-components/GlobeView/components/HeatMapGlobe';
-import createControls from 'in-new-components/GlobeView/components/Controls';
-import Effects from 'in-new-components/GlobeView/components/Effects';
+import HeatMapGlobe from 'in-websites/WebsiteDashboard/components/GlobeView/components/HeatMapGlobe';
+import createControls from 'in-websites/WebsiteDashboard/components/GlobeView/components/Controls';
+import Effects from 'in-websites/WebsiteDashboard/components/GlobeView/components/Effects';
 import { loadImage } from 'in-map/services/imageLoader';
 
 export default class GlobeScene {
@@ -40,9 +40,9 @@ export default class GlobeScene {
     ));
     globe.renderOrder = 2;
     require([
-      'in-new-components/GlobeView/textures/diffuse.jpg',
-      'in-new-components/GlobeView/textures/specular.jpg',
-      'in-new-components/GlobeView/textures/normal.jpg'
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/diffuse.jpg',
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/specular.jpg',
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/normal.jpg'
     ], (worldDiffuseMapPath, worldSpecularMapPath, normalMapPath) => {
       globe.material.dispose();
       globe.material = new MeshPhongMaterial({

@@ -3,8 +3,8 @@ import { create } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 
-import countryMap from 'in-new-components/GlobeView/components/countryConfig.json';
-import CountryList from 'in-new-components/GlobeView/components/CountryList';
+import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
+import CountryList from 'in-websites/WebsiteDashboard/components/GlobeView/components/CountryList';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Button from 'in-new-components/MapControls/Button';

@@ -5,8 +5,8 @@ import { loadImage } from 'in-map/services/imageLoader';
 export default class Effects {
   constructor(parent) {
     require([
-      'in-new-components/GlobeView/textures/globeOverlayEffectMap.png',
-      'in-new-components/GlobeView/textures/globeOuterGlowEffectMap.png'
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/globeOverlayEffectMap.png',
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/globeOuterGlowEffectMap.png'
     ], (overlayMapPath, outerGlowMapPath) => {
       const planeGeometry = (this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1));
 

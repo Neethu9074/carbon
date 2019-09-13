@@ -1,20 +1,23 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import Button from 'in-new-components/MapControls/Button';
-import GlobeView from 'in-new-components/GlobeView';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
 import locals from './Geography.mless';
+
+const GlobeView = createAsyncViewComponent(GlobeViewLoader);
 
 export default function Geography(props) {
   const { tagFilters, timeConfig } = props;

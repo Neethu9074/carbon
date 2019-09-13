@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import GlobeView from 'in-new-components/GlobeView';
+import GlobeView from 'in-websites/WebsiteDashboard/components/GlobeView';
 
 import Root from '../_helpers/Root';
 

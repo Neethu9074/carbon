@@ -28,7 +28,7 @@ export default class BackgroundScene {
     plane.matrixAutoUpdate = false;
     plane.frustumCulled = false;
     plane.renderOrder = 1;
-    require(['in-new-components/GlobeView/textures/background.jpg'], worldDiffuseMapPath => {
+    require(['in-websites/WebsiteDashboard/components/GlobeView/textures/background.jpg'], worldDiffuseMapPath => {
       plane.material.map = loadImage(worldDiffuseMapPath, tex => {
         tex.minFilter = LinearFilter;
         tex.generateMipmaps = false;
