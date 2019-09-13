@@ -4,7 +4,8 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   bytesTwoDecimalPlaces,
-  bytesZeroDecimalPlaces
+  bytesZeroDecimalPlaces,
+  percentagePlain
 } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -46,9 +47,10 @@ export default function ClrDashboard({ snapshot, timeConfig }) {
             min: 0,
             max: 100,
             metrics: ['mem.time_in_gc'],
-            labels: ['Time spent in GC (%)'],
+            labels: ['Time spent in GC'],
             type: 'line',
-            formatter: twoDecimalPlaces
+            formatter: percentagePlain.compact,
+            tooltipFormatter: percentagePlain.detailed
           }}
         />
       </DashboardSection>
