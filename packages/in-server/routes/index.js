@@ -302,7 +302,7 @@ function sendIndex(
       prefetchItems,
       user: userStr,
       permissions: permissions,
-      config: parseClientConfig(req.clientConfig, termsAndPrivacy.allSupportAndResearchServices),
+      config: stringifyClientConfig(req.clientConfig, termsAndPrivacy.allSupportAndResearchServices),
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,
       settings: userSettings,
@@ -324,10 +324,9 @@ function findMaxNonces(indexHtmlTemplate) {
   return 0;
 }
 
-function parseClientConfig(clientConfig, zendeskAllowedByUser) {
-  const config = JSON.stringify(clientConfig, 0, 2);
+function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {
   if (!zendeskAllowedByUser) {
-    delete config.zendeskKey;
+    delete clientConfig.zendeskKey;
   }
-  return config;
+  return JSON.stringify(clientConfig);
 }
