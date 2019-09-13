@@ -44,9 +44,4 @@
       width: ~'calc(100% - 400px)';
     }
   }
-
-  .notFoundDialog {
-    padding: 1rem 1rem 1rem 18.75rem;
-    max-width: 50rem;
-  }
 }
