@@ -61,7 +61,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         humioEnabled,
         logDnaEnabled,
         urlShortenerEnabled,
-        websiteUserBreakdownEnabled
+        websiteUserBreakdownEnabled,
+        optInOptOutEnabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -85,7 +86,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         humioEnabled,
         logDnaEnabled,
         urlShortenerEnabled,
-        websiteUserBreakdownEnabled
+        websiteUserBreakdownEnabled,
+        optInOptOutEnabled
       })
     );
   });

@@ -24,5 +24,6 @@ module.exports = {
   humioEnabled: true,
   logDnaEnabled: true,
   urlShortenerEnabled: true,
-  websiteUserBreakdownEnabled: true
+  websiteUserBreakdownEnabled: true,
+  optInOptOutEnabled: true
 };

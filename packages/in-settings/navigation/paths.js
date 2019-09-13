@@ -8,6 +8,8 @@ export const userSettings = `${settingsBasePath}/user`;
 
 export const userSettingsGeneral = `${userSettings}/general`;
 export const userSettingsAdvanced = `${userSettings}/advanced`;
+export const userSettingsPrivacy = `${userSettings}/privacy`;
+export const userSettingsCommunication = `${userSettings}/communications`;
 
 export const teamSettings = `${settingsPath}/team`;
 

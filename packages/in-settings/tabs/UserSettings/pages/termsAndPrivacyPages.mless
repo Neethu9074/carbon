@@ -1,0 +1,44 @@
+@import '~in-themes/active.less';
+
+:local {
+  .form {
+    display: flex;
+    flex-direction: column;
+    color: @lib__colors__N700Medium;
+    font-size: @lib__typography__body-bold__font-size;
+  }
+
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .role {
+    margin: 2rem 0;
+  }
+
+  .comboBox {
+    width: 21.25rem;
+  }
+
+  .errorText {
+    align-items: center;
+    color: @lib__colors__failure;
+    display: flex;
+    font-size: @lib__typography__body-small__font-size;
+    font-weight: normal;
+    margin: 2rem 0 0 0.1875rem;
+
+    span {
+      margin-left: 0.25rem;
+    }
+
+    svg {
+      fill: @lib__colors__failure;
+    }
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+}

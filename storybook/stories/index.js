@@ -118,3 +118,5 @@ import './x_old_components/sdk/CollapsibleStory';
 import './x_old_components/sdk/Descriptions';
 
 import './releases/ReleaseStatusRowStory';
+
+import './terms/TermsStory';
