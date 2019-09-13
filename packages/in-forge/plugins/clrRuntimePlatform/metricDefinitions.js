@@ -1,4 +1,4 @@
-import { number, bytes, millis } from 'in-services/formatters/number';
+import { number, bytes, percentagePlain } from 'in-services/formatters/number';
 
 export default [
   {
@@ -23,6 +23,6 @@ export default [
   {
     metric: 'mem.time_in_gc',
     label: 'GC time',
-    formatter: millis
+    formatter: percentagePlain
   }
 ];
