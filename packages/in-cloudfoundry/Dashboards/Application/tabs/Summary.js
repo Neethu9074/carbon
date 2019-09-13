@@ -31,9 +31,13 @@ export default function Summary({ data: application, timeConfig }) {
         <KpiCard
           title="Buildpack"
           value={
-            <Tooltip themeStyle="light" align="bottomLeft" content={application.buildpack}>
-              <span>{application.buildpack}</span>
-            </Tooltip>
+            application.buildpack ? (
+              <Tooltip themeStyle="light" align="bottomLeft" content={application.buildpack}>
+                <span>{application.buildpack}</span>
+              </Tooltip>
+            ) : (
+              valueMissingPlaceholder
+            )
           }
           borderless
           raw
