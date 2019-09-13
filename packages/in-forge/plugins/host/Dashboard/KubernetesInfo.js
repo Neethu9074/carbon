@@ -1,39 +1,38 @@
-import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import getKubernetesClusterByNode from 'in-subscription/kubernetes/getKubernetesClusterByNode';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
-import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';
 import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import createNodeForHostSubscription from 'in-subscription/nodeForHost';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshot } from 'in-stores/snapshot';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ snapshotId }) => {
-    const node$ = timeConfig$.flatMap(timeConfig =>
-      getKubernetesNodeByHost({
-        filter: {
-          hostId: snapshotId,
-          timeConfig
-        }
-      }).map(result => result.data)
+  props => {
+    const nodeSnapshotId = timeConfig$.flatMap(timeConfig =>
+      createNodeForHostSubscription({ snapshotId: props.snapshotId, timeConfig })
     );
+
     return {
-      node: node$,
-      cluster: combineLatest([timeConfig$, node$]).flatMap(([timeConfig, node]) =>
-        getKubernetesClusterByNode({
-          filter: {
-            nodeId: node.id,
-            timeConfig
-          }
-        }).map(result => result.data)
+      nodeSnapshot: nodeSnapshotId.flatMap(getSnapshot),
+
+      clusterSnapshot: nodeSnapshotId.flatMap(
+        nodeSnapshotId =>
+          nodeSnapshotId
+            ? timeConfig$
+                .flatMap(timeConfig => createClusterForPodSubscription({ snapshotId: nodeSnapshotId, timeConfig }))
+                .flatMap(getSnapshot)
+            : alwaysNull
       )
     };
   },
-  function NodeAndClusterInformation({ node, cluster }) {
-    if (!node && !cluster) {
+  function NodeAndClusterInformation({ nodeSnapshot, clusterSnapshot }) {
+    if (!nodeSnapshot) {
       return null;
     }
 
@@ -42,17 +41,21 @@ export default connectTo(
         <Collapsible.Header>Kubernetes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            {node && (
-              <DescriptionItem title="Node">
-                <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getNodeDashboard} snapshotId={node.id}>
-                  {node.name}
-                </KubernetesSnapshotLink>
-              </DescriptionItem>
-            )}
-            {cluster && (
+            <DescriptionItem title="Node">
+              <KubernetesSnapshotLink
+                getKubernetesViewEntityDashboard={getNodeDashboard}
+                snapshotId={nodeSnapshot.get('id')}
+              >
+                {getLabel(nodeSnapshot)}
+              </KubernetesSnapshotLink>
+            </DescriptionItem>
+            {clusterSnapshot && (
               <DescriptionItem title="Cluster">
-                <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getClusterDashboard} snapshotId={cluster.id}>
-                  {cluster.label}
+                <KubernetesSnapshotLink
+                  getKubernetesViewEntityDashboard={getClusterDashboard}
+                  snapshotId={clusterSnapshot.get('id')}
+                >
+                  {getLabel(clusterSnapshot)}
                 </KubernetesSnapshotLink>
               </DescriptionItem>
             )}
