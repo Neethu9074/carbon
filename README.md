@@ -3,29 +3,29 @@
 <!-- toc -->
 
 - [Getting Started](#getting-started)
-  * [Installation of required software](#installation-of-required-software)
-    + [Node.js and Yarn](#nodejs-and-yarn)
-    + [Nginx](#nginx)
-    + [Additional UI Engineer Software](#additional-ui-engineer-software)
-  * [Setting up local domains](#setting-up-local-domains)
-  * [Executing tasks](#executing-tasks)
-    + [Preferences/Environment Variables](#preferencesenvironment-variables)
+  - [Installation of required software](#installation-of-required-software)
+    - [Node.js and Yarn](#nodejs-and-yarn)
+    - [Nginx](#nginx)
+    - [Additional UI Engineer Software](#additional-ui-engineer-software)
+  - [Setting up local domains](#setting-up-local-domains)
+  - [Executing tasks](#executing-tasks)
+    - [Preferences/Environment Variables](#preferencesenvironment-variables)
 - [Branching Model](#branching-model)
 - [Pull Requests (PR)](#pull-requests-pr)
 - [Code Style](#code-style)
-  * [Simon Sort](#simon-sort)
-  * [Running Prettier On Save](#running-prettier-on-save)
-    + [VIM](#vim)
-    + [VS Code](#vs-code)
-    + [IntelliJ & Co](#intellij--co)
+  - [Simon Sort](#simon-sort)
+  - [Running Prettier On Save](#running-prettier-on-save)
+    - [VIM](#vim)
+    - [VS Code](#vs-code)
+    - [IntelliJ & Co](#intellij--co)
 - [Upgrading Node.js](#upgrading-nodejs)
 - [Troubleshooting](#troubleshooting)
-  * [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
-  * [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
-  * [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
-  * [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
-  * [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
-  * [Problem with pngquant on Ubuntu?](#problem-with-pngquant-on-ubuntu)
+  - [I cannot access the local development domain in Chrome due to HSTS!](#i-cannot-access-the-local-development-domain-in-chrome-due-to-hsts)
+  - [I cannot access the local development domain in Firefox due to HSTS!](#i-cannot-access-the-local-development-domain-in-firefox-due-to-hsts)
+  - [Instana dev extensions are saying that no stores could be found](#instana-dev-extensions-are-saying-that-no-stores-could-be-found)
+  - [How can I get a list of metrics?](#how-can-i-get-a-list-of-metrics)
+  - [I am getting flow type checking errors even though everything should be fine?](#i-am-getting-flow-type-checking-errors-even-though-everything-should-be-fine)
+  - [Problem with pngquant on Ubuntu?](#problem-with-pngquant-on-ubuntu)
 - [The Node.js Front End Server](#the-nodejs-front-end-server)
 - [VSCode Debugger](#vscode-debugger)
 
@@ -132,6 +132,7 @@ We are using the [a variation of the Git flow branching model](https://miro.com/
 ## Pull Requests (PR)
 
 According to our braching model, we create several PRs. When doing so, the description is prefilled with a template. It describes how and why it's filled. Please make sure, you also set proper labels to mark your PR:
+
 - "depends on backend changes": This is set when your PR depends on changes in the backend, so they need to get merged together. If this is the case, please also link the corresponding PR in your description.
 - "do not merged": Work-in-progress branches are usually marked with the "WIP" label. This is only used to really mark, that the current PR is very experimental.
 - "master": Obsolete. It was used to mark, that the PR is configured to be merged against the master branch.
@@ -293,6 +294,8 @@ $ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/l
 During development you will mostly work with `yarn run dev`, but in production the assets are served by a small Node.js app which you can find in `packages/in-server`. This component also makes a few preliminary requests, for example to `/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these requests will be injected into the Handlebars template for index.html (`packages/in-server/templates/index.hbs`, which is also only used in production while `packages/in-client/index.html` is used during development).
 
 It is rather rare, but if need to start `in-server` locally, here's how:
+
+_Note: you need to start the tunnel script. `backend/dev/scripts/tunnel.sh`_
 
 - `yarn run build`
 - `yarn run try-build` can also be used after the first successful Gulp/Webpack build
