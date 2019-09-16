@@ -12,6 +12,7 @@ storiesOf('Components/Dashboard Notification', module)
 function KindsStory() {
   return (
     <Root>
+      <DashboardNotification type="netrual">this is a neutral message</DashboardNotification>
       <DashboardNotification type="info">this is an info</DashboardNotification>
       <DashboardNotification type="warning">this is a warning</DashboardNotification>
       <DashboardNotification type="danger">this is an error</DashboardNotification>

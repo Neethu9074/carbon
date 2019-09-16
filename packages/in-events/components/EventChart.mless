@@ -1,0 +1,14 @@
+:local {
+  .wrapper {
+    width: 100%;
+  }
+
+  .chart {
+    margin-top: 1rem;
+  }
+
+  .buttonPanel {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

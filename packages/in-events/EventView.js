@@ -1,8 +1,10 @@
 import React from 'react';
 
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
-import EventChart from 'in-events/components/EventChart';
+import EventsChart from 'in-events/components/EventsChart';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import SearchBar from 'in-components/SearchBar';
@@ -17,10 +19,22 @@ export default function EventViewInternal({ location }) {
     <Sticky header={<SearchBar />}>
       <Title title="Events" />
       <Sticky header={<ViewSwitcher selectedEventType={eventType} darkTheme />}>
-        <>
-          {!eventId && <EventChart />}
+        {eventId ? (
           <EventTable eventType={eventType} selectedEventId={eventId} />
-        </>
+        ) : (
+          <MaxWidthFullscreenContainer>
+            <Row>
+              <Col lg={12}>
+                <EventsChart />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <EventTable eventType={eventType} />
+              </Col>
+            </Row>
+          </MaxWidthFullscreenContainer>
+        )}
       </Sticky>
     </Sticky>
   );

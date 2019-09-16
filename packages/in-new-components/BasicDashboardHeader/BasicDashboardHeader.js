@@ -45,20 +45,28 @@ function LoadingState() {
 }
 
 function SuccessState(props) {
-  const { icon, result, renderSubTypes, getLabel = defaultGetLabel, pluginIcon } = props;
+  const { result, renderSubTypes, getLabel = defaultGetLabel } = props;
   return (
     <Fragment>
       <div className={locals.labelAligned}>
-        {pluginIcon ? (
-          <PluginIcon className={locals.icon} snapshot={pluginIcon} size="s" />
-        ) : (
-          <SvgIcon className={locals.icon} type={icon} size="l" />
-        )}
+        <Icon {...props} />
         <h1 className={locals.label}>{getLabel(result, props)}</h1>
         {renderSubTypes && renderSubTypes(props)}
       </div>
     </Fragment>
   );
+}
+
+function Icon({ renderIcon, icon, pluginIcon }) {
+  if (renderIcon) {
+    return renderIcon();
+  }
+  if (pluginIcon) {
+    return <PluginIcon className={locals.icon} snapshot={pluginIcon} size="s" />;
+  } else if (icon) {
+    return <SvgIcon className={locals.icon} type={icon} size="l" />;
+  }
+  return null;
 }
 
 function defaultGetLabel(result, { title }) {

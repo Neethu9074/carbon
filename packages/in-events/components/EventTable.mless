@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    height: 4.5rem;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    display: block;
+    margin: 0 0 0 0.5rem;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .headingIcon {
+    margin-right: 0.5rem;
+  }
+}

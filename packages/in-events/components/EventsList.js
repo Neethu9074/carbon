@@ -6,7 +6,6 @@ import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntity
 import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { Table, Thead, Tbody, Tr, Th, Td, LoadMoreRow } from 'in-components/tables/sharedComponents';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
-import { loadMoreRawEvents } from 'in-views/eventView/stores/rawEventListStore';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -28,7 +27,7 @@ export default function EventsList(props) {
   return <HeightRestrictedView render={() => list} />;
 }
 
-function List({ selectedEventId, onItemClicked, rawEventList, furtherDataAvailable }) {
+function List({ selectedEventId, onItemClicked, rawEventList, canLoadMore, loadMore }) {
   const isDenseList = !!selectedEventId;
   return (
     <Table>
@@ -36,7 +35,7 @@ function List({ selectedEventId, onItemClicked, rawEventList, furtherDataAvailab
         <Tr size="compact">
           <Th />
           <Th>Title</Th>
-          <Th>Start</Th>
+          <Th>Started</Th>
           {!isDenseList && (
             <>
               <Th>End</Th>
@@ -83,7 +82,7 @@ function List({ selectedEventId, onItemClicked, rawEventList, furtherDataAvailab
           </Tr>
         ))}
 
-        {furtherDataAvailable && <LoadMoreRow loadMore={loadMoreRawEvents} size="compact" cols={1} />}
+        {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={isDenseList ? 3 : 5} />}
       </Tbody>
     </Table>
   );
