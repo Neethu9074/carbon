@@ -24,6 +24,7 @@ export default getElementDimensions(
 
     static propTypes = {
       incidentId: rpt.string.isRequired,
+      getRecentEvents$: rpt.func,
       width: rpt.number
     };
 
@@ -64,7 +65,7 @@ export default getElementDimensions(
           <ToggleChangesButton />
           <div className={`${block}__chart-wrapper`}>
             <TimeAxis scale={scale} />
-            <Events scale={scale} />
+            <Events scale={scale} getRecentEvents$={this.props.getRecentEvents$} />
           </div>
           <ExpandChangesButton />
         </div>

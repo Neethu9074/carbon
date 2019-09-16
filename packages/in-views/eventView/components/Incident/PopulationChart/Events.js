@@ -13,11 +13,11 @@ import './Events.less';
 const block = 'in-event-view-detail-chart-events';
 
 export default connectTo(
-  {
+  ({ getRecentEvents$ }) => ({
     changesAreVisible: changesAreVisible$,
-    events: sortedRecentEvents$,
+    events: getRecentEvents$ ? getRecentEvents$() : sortedRecentEvents$,
     isExpanded: isExpanded$
-  },
+  }),
   function Events({ scale, events, isExpanded, changesAreVisible }) {
     if (!events) {
       return (
@@ -28,7 +28,6 @@ export default connectTo(
     }
 
     events = changesAreVisible ? events : events.filter(_event => getEventType(_event) !== EVENT_TYPES.CHANGE);
-
     events = isExpanded ? events : events.slice(0, maxEventsOnCollapsed);
 
     return (

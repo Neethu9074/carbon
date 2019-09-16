@@ -1,4 +1,3 @@
-import { combineLatest } from 'reactive-observables';
 import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
@@ -9,6 +8,8 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import createRawEventsObservable from 'in-subscription/rawEvents';
+import { isAppDataEntityType } from 'in-services/entityUtils';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import { getIconTypeForEvent } from 'in-stores/events';
@@ -21,11 +22,15 @@ import withUrlState from 'in-hoc/withUrlState';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { getEvent } from 'in-stores/events';
+import Pill from 'in-new-components/Pill';
+import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 import locals from './EventTable.mless';
 
 export default compose(
+  connect({ timeConfig: timeConfig$, query: query$ }),
   withUrlState({
     bind: [
       {
@@ -46,22 +51,20 @@ export default compose(
     reducerName: 'onChange'
   }),
   cursorPaginated({
-    getResettingProps: () => ['orderBy', 'orderDirection', 'eventType'],
-    get: ({ cursor, orderBy, orderDirection, eventType }) =>
-      combineLatest([timeConfig$, query$]).flatMap(([timeConfig, query]) =>
-        createRawEventsObservable({
-          timeConfig,
-          query: concatQueries(query, eventType),
-          sortByField: orderBy,
-          sortMode: orderDirection,
-          offset: cursor,
-          size: 20
-        }).map(items => ({
-          progress: { loading: false },
-          errors: [],
-          data: { items, canLoadMore: items.length === 20 }
-        }))
-      )
+    getResettingProps: () => ['orderBy', 'orderDirection', 'eventType', 'timeConfig', 'query'],
+    get: ({ cursor, orderBy, orderDirection, timeConfig, query, eventType }) =>
+      createRawEventsObservable({
+        timeConfig,
+        query: concatQueries(query, eventType),
+        sortByField: orderBy,
+        sortMode: orderDirection,
+        offset: cursor,
+        size: 20
+      }).map(items => ({
+        progress: { loading: false },
+        errors: [],
+        data: { items, canLoadMore: items.length === 20 }
+      }))
   })
 )(EventTable);
 
@@ -130,21 +133,35 @@ function Header(props) {
           title="Event"
           renderIcon={() => renderIcon(props.result.data)}
           getLabel={() => props.result.data.getIn(['problem', 'problemText'], '')}
-          renderActions={Actions}
+          renderActions={() => renderActions(props.result.data)}
         />
       )}
     </div>
   );
 }
 
-function Actions() {
+function renderActions(event) {
   return (
-    <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
-      <Tooltip content="Close event detail">
-        <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
-      </Tooltip>
-    </Link>
+    <>
+      <TriggeredMarker event={event} />
+      <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
+        <Tooltip content="Close event detail">
+          <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
+        </Tooltip>
+      </Link>
+    </>
   );
+}
+
+function TriggeredMarker({ event }) {
+  return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
+    <Pill color={theme.lib.colors.cyan800}>Service impact</Pill>
+  ) : null;
+}
+
+function hasServiceImpact(event) {
+  const entityType = event.get('entityType');
+  return isAppDataEntityType(entityType);
 }
 
 function renderIcon(event) {
