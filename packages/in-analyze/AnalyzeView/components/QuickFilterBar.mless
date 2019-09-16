@@ -8,7 +8,6 @@
   }
 
   .itemText {
-    display: inline-block;
     line-height: 1.5rem;
     color: @lib__colors__N700Medium;
     .ellipsis();
