@@ -27,12 +27,15 @@
   }
 
   .itemText {
-    max-width: 70%;
     font-size: 0.75rem;
     display: block;
     color: @lib__colors__N700Medium;
     margin: 0;
     .ellipsis();
+  }
+
+  :not(.descriptionListItemVertical) > .itemText {
+    max-width: 70%;
   }
 
   .descriptionList:empty + .descriptionListNoDetails {

@@ -1,0 +1,6 @@
+:local {
+  .header {
+    padding: 0.75rem 0;
+    font-size: 1rem;
+  }
+}
