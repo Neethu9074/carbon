@@ -1,22 +1,13 @@
 import { combineLatest } from 'reactive-observables';
 import { compose, withState } from 'recompose';
-import React from 'react';
 
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
-import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
-import { joinClassNames } from 'in-services/util/classnames';
-import { stopPropagation } from 'in-services/util/function';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import HierarchicalLinkPresenter from 'in-components/Link/HierarchicalLinkPresenter';
 import { alwaysNull } from 'in-services/fixedStreams';
-import Hierarchy from 'in-components/Link/Hierarchy';
-import SvgIcon from 'in-components/SvgIcon';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
-
-import locals from './HierarchicalLink.mless';
 
 export default compose(
   connect(({ snapshot, timeConfig }) => ({
@@ -48,74 +39,4 @@ export default compose(
     }
   ),
   withState('isExpanded', 'setExpanded', false)
-)(HierarchicalLink);
-
-function HierarchicalLink({
-  useSnapshotFromHierarchyCallback,
-  getLabel,
-  hierarchySnapshots,
-  hierarchy,
-  className,
-  href,
-  kind,
-  linkClassName: customLinkClassName,
-  pathname,
-  timeConfig,
-  setExpanded,
-  isExpanded,
-  snapshot,
-  onClick: onClickProp,
-  useSnapshotLink
-}) {
-  const linkClassName = `${locals.link} ${kind === 'dark' ? locals.dark : locals.light}`;
-  if (useSnapshotFromHierarchyCallback) {
-    snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
-  }
-  const label = getSnapshotLabel(snapshot);
-
-  const link = (
-    <Link
-      href={href}
-      onClick={stopPropagation}
-      className={joinClassNames(linkClassName, className, customLinkClassName)}
-    >
-      <HealthyPluginIcon className={locals.pluginIcon} size="xxs" snapshot={snapshot} />
-      {getLabel ? getLabel(label) : label}
-    </Link>
-  );
-
-  if (!hierarchy || hierarchy.size < 2) {
-    return link;
-  }
-
-  return (
-    <div className={locals.link}>
-      <SvgIcon
-        className={`${locals.infoIcon} ${locals.infoIcon}--${kind}`}
-        onClick={e => {
-          stopPropagation(e);
-          setExpanded(!isExpanded);
-
-          if (onClickProp) {
-            onClickProp();
-          }
-        }}
-        type={isExpanded ? 'timeline_close' : 'timeline_open'}
-        size="xxs"
-      />
-      {isExpanded ? (
-        <Hierarchy
-          hierarchy={hierarchy}
-          kind={kind}
-          hierarchySnapshots={hierarchySnapshots}
-          useSnapshotLink={useSnapshotLink}
-          linkClassName={customLinkClassName}
-          pathname={pathname}
-          timeConfig={timeConfig}
-        />
-      ) : (
-        link
-      )}
-    </div>
-  );
-}
+)(HierarchicalLinkPresenter);

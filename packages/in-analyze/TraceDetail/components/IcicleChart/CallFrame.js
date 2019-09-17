@@ -21,7 +21,8 @@ export default connect(
               hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
           )
           .distinct()
-      : false
+      : false,
+    isOpened: props.openedCall$.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
   }),
   CallFrame
 );
@@ -34,7 +35,7 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
   }
 }
 
-function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot }) {
+function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened }) {
   const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
@@ -45,6 +46,7 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
       <div
         className={evaluateClassNames({
           [locals.frame]: true,
+          [locals.isOpened]: isOpened,
           [locals.unhighlightedFrame]: isUnhighlighted,
           [locals.fakeRoot]: isFakeRoot
         })}

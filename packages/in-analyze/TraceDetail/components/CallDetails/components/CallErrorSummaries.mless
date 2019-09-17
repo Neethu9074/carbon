@@ -9,6 +9,8 @@
 
     background: @lib__colors__N050;
     color: @lib__colors__N900Primary;
+    margin-bottom: 1rem;
+    height: 3.125rem;
   }
 
   .errorIndicator,

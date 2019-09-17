@@ -15,6 +15,10 @@
     overflow-y: hidden;
   }
 
+  .noPadding {
+    padding: 0;
+  }
+
   .method {
     font-weight: bold;
   }

@@ -1,42 +1,31 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import locals from './DescriptionList.mless';
+import Tooltip from 'in-components/Tooltip';
 
-import './DescriptionList.less';
-
-const block = 'in-detail-pane';
-const listClassName = `${block}__description-list`;
-const itemClassName = `${block}__description-item`;
-const noDetailClassName = `${block}__description-no-details`;
-
-export function DescriptionList({ children, className }) {
+export function DescriptionList({ children }) {
   return (
     <Fragment>
-      <dl className={joinClassNames(listClassName, className)}>{children}</dl>
-      <div className={noDetailClassName}>No details available.</div>
+      <dl className={locals.descriptionList}>{children}</dl>
+      <div className={locals.descriptionListNoDetails}>No details available.</div>
     </Fragment>
   );
 }
 
-export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
-  // return null;
+export function DescriptionItem({ title, children, onClick }) {
   if (isItemEmpty(children)) {
     return null;
   }
 
   return (
-    <div
-      className={evaluateClassNames({
-        [itemClassName]: true,
-        [`${itemClassName}--with-separator`]: addSeparator,
-        [className]: className
-      })}
-    >
-      <dt className={block + '__description-title'}>{title}</dt>
-      <dd className={`${block}__description-text`} onClick={onClick}>
-        {children}
-      </dd>
+    <div className={locals.descriptionListItem}>
+      <dt className={locals.itemTitle}>{title}</dt>
+      <Tooltip content={children}>
+        <dd className={locals.itemText} onClick={onClick}>
+          {children}
+        </dd>
+      </Tooltip>
     </div>
   );
 }
