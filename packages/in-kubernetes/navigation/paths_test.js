@@ -3,14 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { setHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
-import { setFocusedMoment } from 'in-components/timeline/timelineStore';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { kubernetesPlugins } from 'in-kubernetes/constants';
 import { setSelectedSnapshotId } from 'in-stores/snapshot';
 
 describe('in-kubernetes/navigation/paths', () => {
   beforeEach(() => {
-    setFocusedMoment(null);
     setSelectedSnapshotId(null);
     setHighlightedEntityId(null);
   });

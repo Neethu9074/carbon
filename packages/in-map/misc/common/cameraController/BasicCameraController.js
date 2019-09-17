@@ -3,20 +3,17 @@ import RoEmitter from 'roemitter';
 import { getSnapshot, setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
 import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';
 import { goToDashboard } from 'in-stores/navigation/paths/dashboardPaths';
-import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { requestRendering } from 'in-map/stores/renderingStore';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { Object3D, Vector3 } from 'in-map/3DLibProvider';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import Camera from 'in-map/misc/OrthographicCamera';
-import { height } from 'in-map/stores/indexStore';
 import Subscriber from 'in-map/misc/Subscriber';
 import { ZERO } from 'in-map/misc/fixedVectors';
 
 const MIN_ZOOM_IN_FOR_FOCUS = 100;
 const FOCUS_MARGIN = 0.02;
-let BOTTOM_MARGIN_IN_PX = 0;
 
 export default class BasicCameraController extends Subscriber {
   constructor(factoryIdForFocusCalculation, yaw = -40) {
@@ -77,8 +74,7 @@ export default class BasicCameraController extends Subscriber {
         if (this.lastHitten.object) {
           goToDashboard(this.lastHitten.object.dashboardId);
         }
-      }),
-      timelineHeight$.subscribe(timelineHeight => (BOTTOM_MARGIN_IN_PX = timelineHeight))
+      })
     ]);
   }
 
@@ -110,7 +106,7 @@ export default class BasicCameraController extends Subscriber {
     let minY = Number.MAX_VALUE;
     let maxX = -1 * Number.MAX_VALUE;
     let maxY = -1 * Number.MAX_VALUE;
-    const yOffset = Math.min(BOTTOM_MARGIN_IN_PX / (height / 2), 1);
+    const yOffset = 1;
 
     const vertices = this.getFactoryVertices();
     if (!vertices || vertices.length === 0) {

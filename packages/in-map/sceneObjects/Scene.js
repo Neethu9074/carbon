@@ -8,7 +8,6 @@ import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullSer
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
 import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
-import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
@@ -36,7 +35,6 @@ export default class MainScene extends SceneObject {
     this.enableContinousRenderingEach30Frame = chromeVersion && chromeVersion >= 53 && chromeVersion <= 54;
     this.frameCounter = 0;
 
-    this.timelineHeight = theme.footer.height;
     this.isDisposed = false;
     this.canvas = params.canvas;
     this.shouldRenderScene = false;
@@ -65,9 +63,7 @@ export default class MainScene extends SceneObject {
 
     this.handleLostContext();
     this.handleAnimationFrames(0);
-
-    // will emit initially and therefore cause an emit window resize
-    this.addSubscriptions([timelineHeight$.subscribe(this.onTimelineHeightChange)]);
+    this.onResize();
   }
 
   handleAnimationFrames(highResTimestamp) {
@@ -126,14 +122,9 @@ export default class MainScene extends SceneObject {
     this.scene = new Scene();
   }
 
-  onTimelineHeightChange = newHeight => {
-    this.timelineHeight = newHeight;
-    this.onResize();
-  };
-
   onResize() {
     const canvas = this.canvas;
-    const height = window.innerHeight - this.timelineHeight - theme.header.height * 2;
+    const height = window.innerHeight - theme.header.height * 2;
     const width = document.body.clientWidth - 72;
 
     this.renderer.setSize(width, height);

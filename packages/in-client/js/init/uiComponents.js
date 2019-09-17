@@ -3,7 +3,6 @@
 require('in-map/singleMeshFactories/pluginIconsGlyphTexture').init();
 require('in-services/browser').init();
 require('in-stores/timeOffset').init();
-require('in-components/timeline/timelineStore').init();
 require('in-components/MessageDialog/MessageDialogStores').init();
 require('in-services/shortcuts').init();
 require('in-services/security/csrf').init();

@@ -4,13 +4,14 @@ import React from 'react';
 import { highlightedTimeframe$, clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import { track, TIME_WINDOW_SIZE_VIA_ZOOM } from 'in-services/tracking/tracking';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
-import { MAX_ZOOM_LEVEL } from 'in-components/timeline/timelineStore';
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 1; // 1 minute
 
 import locals from './ApplyButton.mless';
 

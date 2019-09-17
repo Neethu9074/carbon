@@ -1,18 +1,16 @@
 import React from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
-import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-views/eventView/services/timeframe';
-import OfflineEventDescription from 'in-views/eventView/components/Event/OfflineEventDescription';
-import EventSpecificationLink from 'in-views/eventView/components/Event/EventSpecificationLink';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
-import AnalyzeIssueCallsButton from 'in-views/eventView/components/AnalyzeIssueCallsButton';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
-import PopulationChart from 'in-views/eventView/components/Incident/PopulationChart';
-import EventDependecyGraph from 'in-views/eventView/components/EventDependecyGraph';
-import ProblemDescription from 'in-views/eventView/components/ProblemDescription';
-import EventList from 'in-views/eventView/components/Incident/EventList';
+import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
+import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import LoadingIndicator from 'in-components/LoadingIndicator';
+import EventList from 'in-events/components/legacy/EventList';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventChart from 'in-events/components/EventChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -58,7 +56,6 @@ function EventContent({ event }) {
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
-            <EventSpecificationLink event={event} />
           </Card>
         </Col>
       </Row>
@@ -85,11 +82,6 @@ function EventContent({ event }) {
               </Col>
             </Row>
           )}
-          <Row>
-            <Col xs>
-              <EventDependecyGraph event={event} sectionized />
-            </Col>
-          </Row>
         </>
       )}
     </>

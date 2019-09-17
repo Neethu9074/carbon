@@ -25,7 +25,12 @@ import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Chart from 'in-components/Chart';
 
-import locals from './EventChart.mless';
+import './EventChart.less';
+
+// Our current chart implementation can't handle dynamic windowSizes (dynamic = 1change/sec)
+// If an event is open, we will subscribe to live metrics which causes moving timewindows.
+// To avoid the chart running out of scope we add an offset to the windowSize.
+const block = 'in-event-detail-chart';
 
 export default connectTo(
   props => {
@@ -46,7 +51,7 @@ export default connectTo(
       .sort((a, b) => a.get('metricName').localeCompare(b.get('metricName')));
 
     return (
-      <div className={locals.wrapper}>
+      <div className={block}>
         {triggeringMetrics.map(metric => {
           const metricName = metric.get('metricName');
           const timeConfig = getChartTimeConfigByEvent({ event, to });
@@ -122,9 +127,9 @@ const ChartWrapper = connectTo(
     }
 
     return (
-      <div className={locals.chart}>
+      <div className={`${block}__chart`}>
         {allowDownloadMetricsFromCharts && (
-          <div className={locals.buttonPanel}>
+          <div className={`${block}__button-panel`}>
             <DownloadButton>
               <EventMetricChartDownloadView
                 metric={metric}
