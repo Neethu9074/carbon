@@ -1,7 +1,7 @@
 import { combineLatest } from 'reactive-observables';
 import React from 'react';
 
-import createHistoricMetricObservable from 'in-subscription/historicMetric';
+import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import BasicWrapper from 'in-new-components/Errors/BasicWrapper';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -12,7 +12,7 @@ export default connectTo(
   ({ snapshotId, timeConfig, metrics }) => ({
     containsResourceQuotaMetrics: combineLatest(
       metrics.map(metric =>
-        createHistoricMetricObservable({
+        createLatestMetricsObservable({
           snapshotId,
           metric,
           rollup: 5000,

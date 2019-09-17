@@ -2,8 +2,8 @@ import { combineLatest } from 'reactive-observables';
 import moment from 'moment';
 import React from 'react';
 
-import createHistoricMetricsSubscription from 'in-subscription/historicMetrics';
-import createSingleHistoricMetricSubscription from 'in-subscription/historicMetric';
+import createLatestMetricsSubscription from 'in-subscription/latestMetrics';
+import createMetricsSubscription from 'in-subscription/metrics';
 import connectTo from 'in-hoc/connectTo';
 
 export const DROPWIZARD_STATS = [
@@ -66,7 +66,7 @@ function getDropwizardStats(props) {
 
   return combineLatest(
     DROPWIZARD_STATS.map(stat =>
-      createHistoricMetricsSubscription({
+      createMetricsSubscription({
         snapshotId,
         metric: METER_METRIC_PREFIX + stat.metric,
         timeConfig,
@@ -95,7 +95,7 @@ function getEsIndexSize(props) {
     getDateStrings(timeConfig)
       .map(dateStr => getESIndexSizeMetric(tuName, dateStr))
       .map(metric =>
-        createSingleHistoricMetricSubscription({
+        createLatestMetricsSubscription({
           snapshotId: esSnapshotId,
           metric: metric,
           timeConfig,
@@ -110,7 +110,7 @@ function getEsIndexSize(props) {
 function getCassandraDiskSize(props) {
   const { cassandraSnapshotId, timeConfig, tuName } = props;
 
-  return createHistoricMetricsSubscription({
+  return createMetricsSubscription({
     snapshotId: cassandraSnapshotId,
     metric: getCassandraDiskSizeMetric(tuName),
     timeConfig,

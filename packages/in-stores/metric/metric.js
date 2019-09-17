@@ -1,10 +1,9 @@
 import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
-import createHistoricMetricsObservable from 'in-subscription/historicMetrics';
-import createHistoricMetricObservable from 'in-subscription/historicMetric';
-import createLiveMetricObservable from 'in-subscription/liveMetric';
+import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import createMetricsObservable from 'in-subscription/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 
@@ -75,36 +74,28 @@ const rollupDurationThresholds = [
   }
 ];
 
-function getLiveMetrics({ snapshotId, metric, timeConfig = null, rollup }) {
-  if (rollup === undefined) {
-    rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
-  }
+const getLatestMetrics = resolveTimeConfig(createLatestMetricsObservable);
 
-  return createLiveMetricObservable({
-    snapshotId,
-    metric,
-    rollup
-  });
-}
+const getMetrics = resolveTimeConfig(createMetricsObservable);
 
-function getHistoricMetrics({ snapshotId, metric, timeConfig, rollup }) {
-  if (timeConfig) {
-    return createHistoricMetricsObservable({
-      snapshotId,
-      metric,
-      timeConfig,
-      rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup
-    });
-  }
+function resolveTimeConfig(f) {
+  return ({ timeConfig, rollup, ...rest }) => {
+    if (timeConfig) {
+      return f({
+        timeConfig,
+        rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup,
+        ...rest
+      });
+    }
 
-  return timeConfig$.flatMap(timeConfig =>
-    createHistoricMetricsObservable({
-      snapshotId,
-      metric,
-      timeConfig,
-      rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup
-    })
-  );
+    return timeConfig$.flatMap(timeConfig =>
+      f({
+        timeConfig,
+        rollup: rollup === undefined ? getDefaultMetricRollupDuration(timeConfig).rollup : rollup,
+        ...rest
+      })
+    );
+  };
 }
 
 export const getMetric = memoize(
@@ -133,12 +124,9 @@ export const getMetric = memoize(
 
 export const getMetricForFocusedMoment = memoize(
   ({ snapshotId, metric }) => {
-    return timeConfig$.flatMap(timeConfig => {
-      if (timeConfig.autoRefresh) {
-        return getLiveMetrics({ snapshotId, metric, rollup: getDefaultMetricRollupDuration(timeConfig).rollup });
-      }
-
-      return getHistoricMetric({ snapshotId, metric, timeConfig });
+    return getLatestMetrics({
+      snapshotId,
+      metric
     });
   },
   ({ snapshotId, metric }) => snapshotId + metric,
@@ -148,7 +136,7 @@ export const getMetricForFocusedMoment = memoize(
 export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
   const rollup = getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP;
 
-  return createHistoricMetricObservable({
+  return getLatestMetrics({
     snapshotId,
     metric,
     rollup,
@@ -156,23 +144,12 @@ export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
   });
 }
 
-function getHistoricMetricsWithLiveUpdates(opts) {
-  const live$ = getLiveMetrics(opts)
-    // bring the two streams into the same format
-    .map(update => [update]);
-  const historic$ = getHistoricMetrics(opts);
-  return live$.merge(historic$);
-}
-
 export function getMetricsForTimeframe(opts) {
   if (opts.isDynamicAggregated) {
     // live or not is done in the backend
     return getDynamicAggregatedMetricsForTimeframe(opts);
   }
-  if (opts.timeConfig.autoRefresh) {
-    return getHistoricMetricsWithLiveUpdates(opts);
-  }
-  return getHistoricMetrics(opts);
+  return getMetrics(opts);
 }
 
 export function getDynamicAggregatedMetricsForTimeframe(opts) {
