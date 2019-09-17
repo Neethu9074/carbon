@@ -24,7 +24,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     );
     withoutPadding = true;
   } else {
-    if (!timeConfig || !y1 || !y1.metrics) {
+    if (!timeConfig || !y1 || !y1.metrics || containsOnlyEmptyData(y1.metrics)) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
       content = <Chart renderLegend={renderLegend} {...config} />;
@@ -40,4 +40,14 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       {content}
     </Card>
   );
+}
+
+function containsOnlyEmptyData(metrics) {
+  const keys = Object.keys(metrics);
+  for (let i = 0; i < keys.length; i++) {
+    if (metrics[keys[i]] && metrics[keys[i]].length > 0) {
+      return false;
+    }
+  }
+  return true;
 }
