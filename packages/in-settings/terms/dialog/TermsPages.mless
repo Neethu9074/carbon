@@ -1,0 +1,91 @@
+@import '~in-themes/active.less';
+
+:local {
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pullRight {
+    float: right;
+  }
+
+  .flexRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  .container {
+    .flexColumn();
+    justify-content: space-between;
+    height: 100%;
+    color: @lib__colors__N700Medium;
+    font-size: @lib__typography__body-bold__font-size;
+  }
+
+  .indentedImage {
+    .pullRight();
+    margin-right: 1.25rem;
+  }
+
+  .heading {
+    font-size: @lib__typography__h400__font-size;
+    font-weight: @lib__typography__h400__font-weight;
+    margin-top: 0.75rem;
+  }
+
+  .comboBox {
+    width: 21.25rem;
+  }
+
+  .warningText {
+    display: flex;
+    align-items: center;
+    color: @lib__colors__warning;
+    font-weight: normal;
+    font-size: @lib__typography__body-small__font-size;
+    margin-left: 0.1875rem;
+
+    span {
+      margin-left: 0.25rem;
+    }
+
+    svg {
+      fill: @lib__colors__warning;
+    }
+  }
+
+  .errorText {
+    .warningText();
+    color: @lib__colors__failure;
+
+    svg {
+      fill: @lib__colors__failure;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 6.25rem;
+    }
+
+    button:nth-of-type(2) {
+      margin-left: 1.5rem;
+    }
+  }
+
+  .disabled,
+  .disabled:focus,
+  .disabled:hover {
+    cursor: not-allowed;
+    outline: 0;
+    background: rgba(244, 169, 160, 0.48);
+  }
+}

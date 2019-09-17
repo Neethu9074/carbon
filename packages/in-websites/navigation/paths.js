@@ -48,6 +48,8 @@ export const resourcesTab = '/resources';
 export const resourcesTabFullyQualified = `${websitePathFullyQualified}${resourcesTab}`;
 export const ajaxTab = '/ajax';
 export const ajaxTabFullyQualified = `${websitePathFullyQualified}${ajaxTab}`;
+export const usersTab = '/users';
+export const usersTabFullyQualified = `${websitePathFullyQualified}${usersTab}`;
 
 export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${websitePathFullyQualified}${configurationTab}`;

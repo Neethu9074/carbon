@@ -5,6 +5,13 @@ html {
   overflow-y: scroll;
 }
 
+body {
+  // The Instana UI is not responsive. We should define a minimum width so that
+  // the UI is somewhat usable for our mobile users. Without this, the device
+  // width would be the minimum width :(.
+  min-width: 64rem;
+}
+
 label {
   margin-bottom: 0;
 }

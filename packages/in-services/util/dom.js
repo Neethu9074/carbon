@@ -57,3 +57,21 @@ export function findParentNodeByClassName(node, className) {
   }
   return null;
 }
+
+// lazy load this calculation because getComputedStyle is unknown under node environment (which is used for tests)
+let defaultFontSize = null;
+function getDefaultFontSize() {
+  if (!defaultFontSize) {
+    defaultFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  }
+
+  return defaultFontSize;
+}
+
+export function getFactor() {
+  return 16 / getDefaultFontSize();
+}
+
+export function convertRemToPx(rem) {
+  return rem * getDefaultFontSize();
+}

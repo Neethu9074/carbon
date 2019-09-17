@@ -3,7 +3,7 @@
 <head profile="http://www.w3.org/2005/10/profile">
   <meta charset="UTF-8"
         name="viewport"
-        content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        content="initial-scale=1">
   <meta name="google" content="notranslate">
 
   <link rel="icon"
@@ -25,6 +25,8 @@
     window.instana.settings = <!--#include virtual="/api/ui/settings" -->;
     window.instana.permissions = <!--#include virtual="/api/permissions" -->;
     window.instana.tags = <!--#include virtual="/api/tags" -->;
+    window.instana.termsAndPrivacyAccepted = <!--#include virtual = "/api/tos-privacy-agreement/checkUserAcceptance" -->;
+    window.instana.termsAndPrivacySettings = <!--#include virtual = "/api/user-settings" -->;
     // de locale for testing purposes. Main difference to en-US: Decimal and thousands separator are swapped
     // window.instana.numberLocale = {
     //   "decimal": ",",
@@ -32,7 +34,6 @@
     //   "grouping": [3],
     //   "currency": ["", "\u00a0€"]
     // };
-
   </script>
   <script>
   if (!window.instana.user || window.instana.user.errors) {

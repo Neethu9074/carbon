@@ -1,8 +1,8 @@
 import { create } from 'reactive-observables';
 
-import BackgroundScene from 'in-new-components/GlobeView/components/BackgroundScene';
-import GlobeScene from 'in-new-components/GlobeView/components/GlobeScene';
-import Overlays from 'in-new-components/GlobeView/components/Overlays';
+import BackgroundScene from 'in-websites/WebsiteDashboard/components/GlobeView/components/BackgroundScene';
+import GlobeScene from 'in-websites/WebsiteDashboard/components/GlobeView/components/GlobeScene';
+import Overlays from 'in-websites/WebsiteDashboard/components/GlobeView/components/Overlays';
 import { update as updateTime } from 'in-map/misc/time';
 import { debouncedResize$ } from 'in-services/browser';
 import { WebGLRenderer } from 'in-map/3DLibProvider';

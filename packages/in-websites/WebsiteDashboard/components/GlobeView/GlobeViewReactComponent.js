@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GlobeView from 'in-new-components/GlobeView/components/GlobeView';
+import GlobeView from 'in-websites/WebsiteDashboard/components/GlobeView/components/GlobeView';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import Title from 'in-components/Title';
 

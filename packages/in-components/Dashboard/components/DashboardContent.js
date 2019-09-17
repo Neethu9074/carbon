@@ -55,13 +55,11 @@ export default connectTo(
     } else if (!snapshot && showVersionSelector) {
       return (
         <div className="in-dashboard">
-          <div className={locals.notFoundDialog}>
-            <NotFoundDialog
-              snapshotId={snapshotId}
-              versionsForFocusedMoment={versionsForFocusedMoment}
-              versionsForLive={versionsForLive}
-            />
-          </div>
+          <NotFoundDialog
+            snapshotId={snapshotId}
+            versionsForFocusedMoment={versionsForFocusedMoment}
+            versionsForLive={versionsForLive}
+          />
         </div>
       );
     }

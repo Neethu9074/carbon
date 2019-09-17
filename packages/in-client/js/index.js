@@ -40,6 +40,9 @@ const initializationSteps = [
   // various components used in the UI
   'uiComponents',
 
+  // accept terms and privacy settings
+  'termsAndPrivacy',
+
   // Rendering of the UI. This must come last!
   'rendering'
 ];

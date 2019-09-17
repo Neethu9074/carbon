@@ -1,5 +1,6 @@
 /* eslint-env node */
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
@@ -36,8 +37,9 @@ const plugins = [
     ignoreOrder: true
   }),
   new CaseSensitivePathsPlugin(),
-  cssIdentWebpackPlugin
-];
+  cssIdentWebpackPlugin,
+  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
+].filter(Boolean);
 
 if (hotReload) {
   plugins.push(new webpack.HotModuleReplacementPlugin());

@@ -1,17 +1,16 @@
 import React from 'react';
 
 import { resetAgent, resetSensors, updateAgent, rebootAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import SensorsInfo from 'in-forge/plugins/instanaAgent/Dashboard/SensorsInfo';
+import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
 import { setActiveDialog } from 'in-components/DialogPresenter/store';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import { isInstanaEngineer } from 'in-stores/user';
-import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 
-import locals from './ButtonSection.mless';
+import locals from './ManagementButtonSection.mless';
 
-export default function ButtonSection({ snapshot }) {
+export default function ManagementButtonSection({ snapshot }) {
   return (
     <div className={locals.wrapper}>
       {role.canConfigureAgentRunMode ? (
@@ -41,18 +40,6 @@ export default function ButtonSection({ snapshot }) {
       <ImageButton iconType="refresh" onClick={() => rebootAgent(snapshot)}>
         Reboot Agent
       </ImageButton>
-
-      <ImageButton iconType="popup" onClick={() => setActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
-        Sensors Info
-      </ImageButton>
     </div>
-  );
-}
-
-function ImageButton({ children, iconType, onClick }) {
-  return (
-    <Button icon={iconType} kind="secondary" onClick={onClick}>
-      {children}
-    </Button>
   );
 }

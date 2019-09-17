@@ -46,6 +46,14 @@ exports.askQuestions = cb => {
 };
 
 function getTargetSelectedViaEnvironmentVariables() {
+  if (process.env.DEV_BASE_DOMAIN) {
+    return {
+      tenant: process.env.DEV_TENANT,
+      unit: process.env.DEV_UNIT,
+      baseDomain: process.env.DEV_BASE_DOMAIN
+    };
+  }
+
   if (/^test$/i.test(process.env.TARGET)) {
     return environments['Test'];
   } else if (/^local$/i.test(process.env.TARGET)) {

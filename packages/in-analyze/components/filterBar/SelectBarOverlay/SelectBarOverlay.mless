@@ -33,6 +33,8 @@
 
   .itemText {
     color: @lib__colors__N700Medium;
+    display: flex;
+    overflow: hidden;
     .ellipsis();
   }
 

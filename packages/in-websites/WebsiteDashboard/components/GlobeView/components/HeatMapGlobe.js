@@ -3,7 +3,7 @@ import { create } from 'reactive-observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
-import countryMap from 'in-new-components/GlobeView/components/countryConfig.json';
+import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 import { rgbToHex } from 'in-services/formatters/color';
 import { copyCanvasIntoShort } from 'in-charts/canvas';
 
@@ -14,7 +14,9 @@ export default class HeatMapGlobe {
 
     this.initScene();
 
-    require(['in-new-components/GlobeView/textures/diffuseGrayScale.jpg'], worldDiffuseGrayScaleMapPath => {
+    require([
+      'in-websites/WebsiteDashboard/components/GlobeView/textures/diffuseGrayScale.jpg'
+    ], worldDiffuseGrayScaleMapPath => {
       const image = new Image();
       image.onload = () => {
         var texture = new Texture(this.canvas);

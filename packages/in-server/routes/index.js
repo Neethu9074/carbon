@@ -78,9 +78,31 @@ router.get('/', (req, res) => {
         getSearchFields(req),
         getFilterTags(req),
         getCsrfToken(req),
-        getUserPermissions(req)
-      ]).then(([userSettings, searchFieldsStr, filterTags, csrf, permissions]) =>
-        sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf, permissions)
+        getUserPermissions(req),
+        getTermsAndPrivacySettings(req),
+        getLatestTermsAndPrivacyAcceptance(req)
+      ]).then(
+        ([
+          userSettings,
+          searchFieldsStr,
+          filterTags,
+          csrf,
+          permissions,
+          termsAndPrivacySettings,
+          termsAndPrivacyAccepted
+        ]) =>
+          sendIndex(
+            req,
+            res,
+            userStr,
+            userSettings,
+            searchFieldsStr,
+            filterTags,
+            csrf,
+            permissions,
+            termsAndPrivacySettings,
+            termsAndPrivacyAccepted
+          )
       );
     })
     .catch(err => {
@@ -88,6 +110,48 @@ router.get('/', (req, res) => {
       errorPages.send500(req, res);
     });
 });
+
+function getTermsAndPrivacySettings(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/api/user-settings',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 15000
+      },
+      (error, response, termsAndPrivacySettings) => {
+        if (error) {
+          reject(new Error('Failed to retrieve user settings form tos and privacy from ui-backend: ' + String(error)));
+        } else {
+          resolve(termsAndPrivacySettings);
+        }
+      }
+    );
+  });
+}
+
+function getLatestTermsAndPrivacyAcceptance(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/api/tos-privacy-agreement/checkUserAcceptance',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 15000
+      },
+      (error, response, termsAndPrivacyAcceptance) => {
+        if (error) {
+          reject(new Error('Failed to retrieve latest tos acceptance from ui-backend: ' + String(error)));
+        } else {
+          resolve(termsAndPrivacyAcceptance);
+        }
+      }
+    );
+  });
+}
 
 function getUserPermissions(req) {
   return new Promise((resolve, reject) => {
@@ -198,10 +262,23 @@ function getCsrfToken(req) {
   });
 }
 
-function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags, csrf, permissions) {
+function sendIndex(
+  req,
+  res,
+  userStr,
+  userSettings,
+  searchFieldsStr,
+  filterTags,
+  csrf,
+  permissions,
+  termsAndPrivacySettings,
+  termsAndPrivacyAccepted
+) {
   const nonces = Array(maxNonces)
     .fill(maxNonces)
     .map(() => uuid.v4());
+
+  const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
 
   res.set(
     'Content-Security-Policy',
@@ -215,9 +292,9 @@ function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags,
       indexJsChecksum,
       indexCssChecksum,
       nonces,
-      googleAnalyticsTrackingId: serverConfig.googleAnalyticsTrackingId,
-      appcuesId: serverConfig.appcuesId,
-      mixpanelToken: serverConfig.mixpanelToken,
+      googleAnalyticsTrackingId: termsAndPrivacy.allAnalyticsServices && serverConfig.googleAnalyticsTrackingId,
+      appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
+      mixpanelToken: termsAndPrivacy.allAnalyticsServices && serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
@@ -225,13 +302,15 @@ function sendIndex(req, res, userStr, userSettings, searchFieldsStr, filterTags,
       prefetchItems,
       user: userStr,
       permissions: permissions,
-      config: JSON.stringify(req.clientConfig, 0, 2),
+      config: stringifyClientConfig(req.clientConfig, termsAndPrivacy.allSupportAndResearchServices),
       build: stringifiedBuildInformation,
       searchFields: searchFieldsStr,
       settings: userSettings,
       tags: filterTags,
       csrf,
-      numberLocale: getNumberLocaleDefinition(req)
+      numberLocale: getNumberLocaleDefinition(req),
+      termsAndPrivacySettings,
+      termsAndPrivacyAccepted
     })
   );
 }
@@ -243,4 +322,11 @@ function findMaxNonces(indexHtmlTemplate) {
     return Math.max(...nonceIndices) + 1;
   }
   return 0;
+}
+
+function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {
+  if (!zendeskAllowedByUser) {
+    delete clientConfig.zendeskKey;
+  }
+  return JSON.stringify(clientConfig);
 }
