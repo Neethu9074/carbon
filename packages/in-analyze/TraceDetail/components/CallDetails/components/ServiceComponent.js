@@ -85,7 +85,7 @@ export default function ServiceComponent({ call }) {
                   >
                     <SpanDetails call={call} span={exitSpan} />
                     {exitSpan.stackTrace.length > 0 && (
-                      <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.destination} noPadding />
+                      <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
                     )}
                   </ExpandableGroup>
                 )}
