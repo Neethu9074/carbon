@@ -21,7 +21,7 @@ export function DescriptionItem({ title, children, onClick }) {
   return (
     <div className={locals.descriptionListItem}>
       <dt className={locals.itemTitle}>{title}</dt>
-      <Tooltip content={children}>
+      <Tooltip content={children} themeStyle="light">
         <dd className={locals.itemText} onClick={onClick}>
           {children}
         </dd>

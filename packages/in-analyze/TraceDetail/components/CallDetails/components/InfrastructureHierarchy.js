@@ -3,6 +3,7 @@ import React from 'react';
 
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
 import connectTo from 'in-hoc/connectTo';
@@ -24,8 +25,11 @@ export default compose(
 )(HierarchicalLink);
 
 function HierarchicalLink({ hierarchySnapshots, hierarchy, kind, pathname, timeConfig, useSnapshotLink }) {
+  if (!hierarchy) {
+    return <Skeleton />;
+  }
   if (!hierarchy || hierarchy.size < 2) {
-    return null;
+    return <div>No other relations found.</div>;
   }
 
   return (

@@ -32,12 +32,13 @@ export default function ServiceComponent({ call }) {
 
   const entrySpan = getSpan(call, 'ENTRY');
   const exitSpan = getSpan(call, 'EXIT');
+  const intermediateSpan = getSpan(call, 'INTERMEDIATE');
 
   const sourcePhysicalContext = get(call, ['source', 'physicalContext']);
   const destinationPhysicalContext = get(call, ['destination', 'physicalContext']);
 
-  const sourceEntity = get(call, ['source', 'physicalContext', 'process']);
-  const destinationEntity = get(call, ['destination', 'physicalContext', 'process']);
+  const sourceEntity = getEntity(call, 'source');
+  const destinationEntity = getEntity(call, 'destination');
 
   const sourceSnapshotId = getSnapshotId(call, 'source');
   const destinationSnapshotId = getSnapshotId(call, 'destination');
@@ -53,6 +54,54 @@ export default function ServiceComponent({ call }) {
           <Skeleton className={locals.skeleton} />
         </div>
       </div>
+    );
+  }
+
+  if (intermediateSpan) {
+    return (
+      service &&
+      endpoint && (
+        <Fragment>
+          <DestinationLocation
+            location={'destination'}
+            endpoint={endpoint}
+            service={service}
+            snapshotId={destinationSnapshotId}
+            entity={destinationEntity}
+            span={intermediateSpan}
+          />
+          <ExpandableGroup
+            title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+            defaultExpanded
+          >
+            <SpanDetails call={call} span={intermediateSpan} />
+            {intermediateSpan.stackTrace.length > 0 && (
+              <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
+            )}
+          </ExpandableGroup>
+          <ExpandableGroup
+            title={
+              <div className={locals.infraTitle}>
+                <span>Infrastructure</span>
+                <InfrastructureEntityLink
+                  entity={destinationEntity}
+                  plugin={destinationEntity && destinationEntity.plugin}
+                  snapshotId={destinationSnapshotId}
+                  physicalContext={destinationPhysicalContext}
+                />
+              </div>
+            }
+          >
+            {destinationEntity && (
+              <InfrastructureHierarchy
+                snapshotId={destinationSnapshotId}
+                calculateHierarchy
+                pathname={physicalDashboardPath}
+              />
+            )}
+          </ExpandableGroup>
+        </Fragment>
+      )
     );
   }
 
@@ -97,7 +146,7 @@ export default function ServiceComponent({ call }) {
                         {sourceEntity && (
                           <InfrastructureEntityLink
                             entity={sourceEntity}
-                            plugin={get(call, ['source', 'physicalContext', 'process', 'plugin'])}
+                            plugin={sourceEntity && sourceEntity.plugin}
                             snapshotId={sourceSnapshotId}
                             physicalContext={sourcePhysicalContext}
                           />
@@ -123,6 +172,7 @@ export default function ServiceComponent({ call }) {
                 snapshotId={destinationSnapshotId}
                 entity={destinationEntity}
                 span={entrySpan}
+                intermediateSpan={intermediateSpan}
               />
             </div>
             <div className={locals.destinationChildren}>
@@ -143,7 +193,7 @@ export default function ServiceComponent({ call }) {
                     <span>Infrastructure</span>
                     <InfrastructureEntityLink
                       entity={destinationEntity}
-                      plugin={get(call, ['destination', 'physicalContext', 'process', 'plugin'])}
+                      plugin={destinationEntity && destinationEntity.plugin}
                       snapshotId={destinationSnapshotId}
                       physicalContext={destinationPhysicalContext}
                     />
@@ -235,6 +285,16 @@ function getSnapshotId(call, location) {
     get(call, [location, 'physicalContext', 'host', 'id']);
 
   return snapshotId;
+}
+
+function getEntity(call, location) {
+  const entity =
+    get(call, [location, 'physicalContext', 'process']) ||
+    get(call, [location, 'physicalContext', 'cluster']) ||
+    get(call, [location, 'physicalContext', 'container']) ||
+    get(call, [location, 'physicalContext', 'host']);
+
+  return entity;
 }
 
 function getSpan(call, kind) {

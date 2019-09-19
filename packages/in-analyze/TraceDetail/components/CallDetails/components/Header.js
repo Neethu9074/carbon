@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import ErroneousCallIndicator from 'in-analyze/TraceDetail/components/CallDetails/components/ErroneousCallIndicator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
@@ -18,7 +19,7 @@ export default function Header({ call, onClose }) {
   return (
     <Fragment>
       <div className={locals.title}>
-        {call && (
+        {call ? (
           <div className={locals.entityInformation}>
             <SvgIcon type="lib_application_call" />
             <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
@@ -30,6 +31,8 @@ export default function Header({ call, onClose }) {
                 </Pill>
               )}
           </div>
+        ) : (
+          <Skeleton className={locals.skeleton} />
         )}
         <CloseButton onClick={onClose} />
       </div>
