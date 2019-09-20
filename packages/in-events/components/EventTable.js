@@ -31,7 +31,10 @@ import theme from 'in-themes';
 import locals from './EventTable.mless';
 
 export default compose(
-  connect({ timeConfig: timeConfig$, query: query$ }),
+  connect({
+    timeConfig: timeConfig$,
+    query: query$
+  }),
   withUrlState({
     bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
     reducerName: 'onChange'

@@ -5,6 +5,7 @@ import React from 'react';
 import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
 import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { Table, SortableTh, Thead, Tbody, Tr, Th, Td, LoadMoreRow } from 'in-components/tables/sharedComponents';
+import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
@@ -29,8 +30,17 @@ export default function EventsList(props) {
   return <HeightRestrictedView render={() => list} />;
 }
 
-function List(props) {
-  const { selectedEventId, onItemClicked, items: rawEventList, canLoadMore, loadMore, orderBy, orderDirection } = props;
+const List = connectTo(props => getHealthStream(props), function List(props) {
+  const {
+    selectedEventId,
+    onItemClicked,
+    items: rawEventList,
+    health,
+    canLoadMore,
+    loadMore,
+    orderBy,
+    orderDirection
+  } = props;
   const isDenseList = !!selectedEventId;
 
   return (
@@ -64,6 +74,7 @@ function List(props) {
                 orderBy={orderBy}
                 cols={isDenseList ? 3 : 5}
                 orderDirection={orderDirection}
+                health={health}
               />
             ) : (
               <EventRow
@@ -80,10 +91,17 @@ function List(props) {
       </Tbody>
     </Table>
   );
-}
+});
 
-function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols }) {
-  return orderBy === 'start' ? <ReleaseStatusRow rawEvent={event} orderDirection={orderDirection} cols={cols} /> : null;
+function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols, health }) {
+  return orderBy === 'start' ? (
+    <ReleaseStatusRow
+      rawEvent={event}
+      orderDirection={orderDirection}
+      cols={cols}
+      healthStatus={health && health[event.start]}
+    />
+  ) : null;
 }
 
 function EventRow({ selectedEventId, onItemClicked, isDenseList, event }) {
@@ -208,3 +226,19 @@ const On = connectTo(
     );
   }
 );
+
+function getHealthStream({ orderBy, items, timeConfig, query }) {
+  let startTimeStamps = [];
+  if (orderBy === 'start' && items && items.length > 0) {
+    startTimeStamps = items.filter(rawEvent => rawEvent.type === 'release').map(rawEvent => rawEvent.start);
+  }
+
+  const eventType = 'event.type:incident';
+  return {
+    health: getIncidentBasedHealthInTimeFrame({
+      timeConfig,
+      query: query ? `(${query}) AND (${eventType})` : eventType,
+      timestamps: startTimeStamps
+    }).map(({ data }) => data || null)
+  };
+}
