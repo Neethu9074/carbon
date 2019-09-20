@@ -2,6 +2,7 @@ import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
 
+import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -32,22 +33,7 @@ import locals from './EventTable.mless';
 export default compose(
   connect({ timeConfig: timeConfig$, query: query$ }),
   withUrlState({
-    bind: [
-      {
-        path: eventsPath,
-        name: eventId
-      },
-      {
-        path: eventsPath,
-        name: 'orderDirection',
-        initialState: 'DESC'
-      },
-      {
-        path: eventsPath,
-        name: 'orderBy',
-        initialState: 'start'
-      }
-    ],
+    bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
     reducerName: 'onChange'
   }),
   cursorPaginated({
@@ -69,7 +55,7 @@ export default compose(
 )(EventTable);
 
 function EventTable(props) {
-  const { selectedEventId, items: rawEventList, items, onChange, canLoadMore, loadMore } = props;
+  const { selectedEventId, items: rawEventList, items, onChange } = props;
 
   if (!rawEventList) {
     return null;
@@ -80,28 +66,13 @@ function EventTable(props) {
   }
 
   if (!selectedEventId) {
-    return (
-      <EventsList
-        rawEventList={rawEventList}
-        onItemClicked={onItemClicked}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
-      />
-    );
+    return <EventsList {...props} onItemClicked={onItemClicked} />;
   }
   return (
     <NavigatorSplitScreen
       {...props}
       items={rawEventList}
-      navigator={
-        <EventsList
-          selectedEventId={selectedEventId}
-          rawEventList={rawEventList}
-          onItemClicked={onItemClicked}
-          canLoadMore={canLoadMore}
-          loadMore={loadMore}
-        />
-      }
+      navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
     >

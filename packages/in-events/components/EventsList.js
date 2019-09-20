@@ -4,8 +4,9 @@ import React from 'react';
 
 import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
 import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
-import { Table, Thead, Tbody, Tr, Th, Td, LoadMoreRow } from 'in-components/tables/sharedComponents';
+import { Table, SortableTh, Thead, Tbody, Tr, Th, Td, LoadMoreRow } from 'in-components/tables/sharedComponents';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -27,18 +28,26 @@ export default function EventsList(props) {
   return <HeightRestrictedView render={() => list} />;
 }
 
-function List({ selectedEventId, onItemClicked, rawEventList, canLoadMore, loadMore }) {
+function List(props) {
+  const { selectedEventId, onItemClicked, items: rawEventList, canLoadMore, loadMore } = props;
   const isDenseList = !!selectedEventId;
+
   return (
     <Table>
       <Thead>
         <Tr size="compact">
           <Th />
-          <Th>Title</Th>
-          <Th>Started</Th>
+          <SortableColumn {...props} technicalName="problem.problemText">
+            Title
+          </SortableColumn>
+          <SortableColumn {...props} technicalName="start">
+            Started
+          </SortableColumn>
           {!isDenseList && (
             <>
-              <Th>End</Th>
+              <SortableColumn {...props} technicalName="end">
+                End
+              </SortableColumn>
               <Th>On</Th>
             </>
           )}
@@ -85,6 +94,24 @@ function List({ selectedEventId, onItemClicked, rawEventList, canLoadMore, loadM
         {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={isDenseList ? 3 : 5} />}
       </Tbody>
     </Table>
+  );
+}
+
+function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName }) {
+  return (
+    <SortableTh
+      isSortedByThisColumn={orderBy === technicalName}
+      sortDirection={orderDirection}
+      onClick={e => {
+        stopPropagationAndPreventDefault(e);
+        onChange({
+          orderBy: technicalName,
+          orderDirection: orderBy === technicalName ? (orderDirection === 'ASC' ? 'DESC' : 'ASC') : 'ASC'
+        });
+      }}
+    >
+      {children}
+    </SortableTh>
   );
 }
 
