@@ -45,11 +45,11 @@ export default compose(
         sortByField: orderBy,
         sortMode: orderDirection,
         offset: cursor,
-        size: 10
+        size: 100
       }).map(items => ({
         progress: { loading: false },
         errors: [],
-        data: { items, canLoadMore: items.length === 10 }
+        data: { items, canLoadMore: items.length === 100 }
       }))
   })
 )(EventTable);
