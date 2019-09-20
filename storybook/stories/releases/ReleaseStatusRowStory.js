@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import ReleaseStatusRowPresenter from 'in-events/releases/ReleaseStatusRowPresenter';
+import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import Root from '../_helpers/Root';
 
 storiesOf('Releases/Release Status Row', module).add('sortDirection ASC', () => <MarkerRowAsc />);
@@ -10,7 +10,7 @@ storiesOf('Releases/Release Status Row', module).add('sortDirection DESC', () =>
 function MarkerRowAsc() {
   return (
     <Root>
-      <ReleaseStatusRowPresenter rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="asc" />
+      <ReleaseStatusRow rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="asc" />
     </Root>
   );
 }
@@ -18,7 +18,7 @@ function MarkerRowAsc() {
 function MarkerRowDsc() {
   return (
     <Root>
-      <ReleaseStatusRowPresenter rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="desc" />
+      <ReleaseStatusRow rawEvent={getRawEvent()} healthStatus={getHealthData()} sortDirection="desc" />
     </Root>
   );
 }

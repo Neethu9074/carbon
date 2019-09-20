@@ -6,10 +6,10 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #6b8088;
-    border: 1px solid #b5bdc1;
+    background-color: @lib__colors__N800Dark;
 
     padding: 0.25rem 0.5rem;
+    margin-left: -1rem;
     color: @lib__colors__N050;
 
     min-height: 4.875rem;

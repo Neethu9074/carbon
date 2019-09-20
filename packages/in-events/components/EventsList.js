@@ -10,6 +10,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import PluginIcon from 'in-components/PluginIcon';
@@ -29,7 +30,7 @@ export default function EventsList(props) {
 }
 
 function List(props) {
-  const { selectedEventId, onItemClicked, items: rawEventList, canLoadMore, loadMore } = props;
+  const { selectedEventId, onItemClicked, items: rawEventList, canLoadMore, loadMore, orderBy, orderDirection } = props;
   const isDenseList = !!selectedEventId;
 
   return (
@@ -54,46 +55,68 @@ function List(props) {
         </Tr>
       </Thead>
       <Tbody>
-        {rawEventList.map(event => (
-          <Tr
-            key={event.id}
-            size="compact"
-            active={event.id === selectedEventId}
-            onClick={() => onItemClicked(event.id)}
-          >
-            <Td>
-              <Icon
-                event={fromJS({
-                  ...event,
-                  problem: {
-                    severity: event.severity
-                  }
-                })}
+        {rawEventList.map(
+          event =>
+            event.type === 'release' ? (
+              <ReleaseStatusRowPresenter
+                key={event.id}
+                event={event}
+                orderBy={orderBy}
+                cols={isDenseList ? 3 : 5}
+                orderDirection={orderDirection}
               />
-            </Td>
-            <Td>
-              <div className={locals.title}>{event.title}</div>
-            </Td>
-            <Td>
-              <span className={locals.text}>{formatDateTime(event.start)}</span>
-            </Td>
-            {!isDenseList && (
-              <>
-                <Td>
-                  <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(event.end)}</span>
-                </Td>
-
-                <Td>
-                  <On rawEvent={event} />
-                </Td>
-              </>
-            )}
-          </Tr>
-        ))}
+            ) : (
+              <EventRow
+                key={event.id}
+                selectedEventId={selectedEventId}
+                onItemClicked={onItemClicked}
+                isDenseList={isDenseList}
+                event={event}
+              />
+            )
+        )}
 
         {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={isDenseList ? 3 : 5} />}
       </Tbody>
     </Table>
+  );
+}
+
+function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols }) {
+  return orderBy === 'start' ? <ReleaseStatusRow rawEvent={event} orderDirection={orderDirection} cols={cols} /> : null;
+}
+
+function EventRow({ selectedEventId, onItemClicked, isDenseList, event }) {
+  return (
+    <Tr size="compact" active={event.id === selectedEventId} onClick={() => onItemClicked(event.id)}>
+      <Td>
+        <Icon
+          event={fromJS({
+            ...event,
+            problem: {
+              severity: event.severity
+            }
+          })}
+        />
+      </Td>
+      <Td>
+        <div className={locals.title}>{event.title}</div>
+      </Td>
+      <Td>
+        <span className={locals.text}>{formatDateTime(event.start)}</span>
+      </Td>
+      {!isDenseList && (
+        <>
+          <Td>
+            <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(event.end)}</span>
+          </Td>
+
+          <Td>
+            <On rawEvent={event} />
+          </Td>
+        </>
+      )}
+    </Tr>
   );
 }
 
