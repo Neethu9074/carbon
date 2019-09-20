@@ -104,6 +104,74 @@ const cols = [
         return row.snapshot.get('logAsRate') ? 'sum' : 'mean';
       }
     }
+  },
+  {
+    title: 'Spans Opened',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `spans.opened`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
+    }
+  },
+  {
+    title: 'Spans Closed',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `spans.closed`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
+    }
+  },
+  {
+    title: 'Spans Filtered',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `spans.filtered`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
+    }
+  },
+  {
+    title: 'Spans Dropped',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshot.get('id');
+      },
+      getMetricName() {
+        return `spans.dropped`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
+    }
   }
 ];
 
@@ -164,7 +232,6 @@ function getRowDetails(row) {
           type: 'stackedArea'
         }}
       />
-
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeConfig={row.timeConfig}
@@ -176,7 +243,6 @@ function getRowDetails(row) {
           type: 'stackedArea'
         }}
       />
-
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeConfig={row.timeConfig}
@@ -189,28 +255,26 @@ function getRowDetails(row) {
           type: 'stackedArea'
         }}
       />
-
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: number.detailed,
-          metrics: [`log.counts.byLevel.ERROR.total`],
-          labels: ['Error Count'],
-          type: 'area'
+          formatter: number.compact,
+          metrics: [`log.counts.byLevel.ERROR.total`, `log.counts.byLevel.WARN.total`],
+          labels: ['Error Count', 'Warning Count'],
+          type: 'line'
         }}
       />
-
       <Chart
         snapshotId={row.snapshot.get('id')}
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: number.detailed,
-          metrics: [`log.counts.byLevel.WARN.total`],
-          labels: ['Warning Count'],
-          type: 'area'
+          formatter: number.compact,
+          metrics: [`spans.opened`, `spans.closed`, `spans.filtered`, `spans.dropped`],
+          labels: ['Spans Opened', 'Spans Closed', 'Spans Filtered', 'Spans Dropped'],
+          type: 'line'
         }}
       />
     </Fragment>

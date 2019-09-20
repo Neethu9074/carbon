@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dialogContent {
+    height: 32.5rem;
+    width: 40.625rem;
+  }
+  .customDialogClose {
+    cursor: pointer;
+    color: @lib__colors__N800Dark;
+  }
+}

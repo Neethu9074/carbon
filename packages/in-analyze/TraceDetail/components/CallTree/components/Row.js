@@ -56,9 +56,7 @@ function Row(props) {
           [locals.rootRow]: depth === 0,
           [locals.row]: true,
           [locals.selectedRow]: isSelected,
-          [locals.openedRow]: isOpened,
-          // hasErrors is for the background color of a row. If the row is isOpened and contains errors, the background color will be red.
-          [locals.hasErrors]: call.errorCount > 0 && isOpened
+          [locals.openedRow]: isOpened
         })}
       >
         <CallInformation

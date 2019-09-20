@@ -2,7 +2,6 @@
 
 :local {
   .nav {
-    font-weight: lighter;
     overflow: hidden;
   }
 

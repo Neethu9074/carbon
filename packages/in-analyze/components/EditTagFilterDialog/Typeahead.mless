@@ -78,6 +78,6 @@
   }
 
   .higlightedText {
-    background: #ffff66;
+    color: @lib__colors__primary1;
   }
 }

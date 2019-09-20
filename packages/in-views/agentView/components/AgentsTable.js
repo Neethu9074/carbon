@@ -65,12 +65,42 @@ const cols = [
     }
   },
   {
+    title: 'Agent Version',
+    type: 'string',
+    width: 100,
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'agentVersion']);
+      }
+    }
+  },
+  {
     title: 'Boot Version',
     type: 'string',
     width: 100,
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'boot']);
+      }
+    }
+  },
+  {
+    title: 'Origin',
+    type: 'string',
+    width: 100,
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'origin']);
+      }
+    }
+  },
+  {
+    title: 'Update Mode',
+    type: 'string',
+    width: 100,
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'updateMode']);
       }
     }
   },

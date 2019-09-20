@@ -52,5 +52,5 @@ Dialog.propTypes = {
   onClose: PropTypes.func,
   showOverflow: PropTypes.bool,
   title: PropTypes.string,
-  withoutBodyPadding: PropTypes.string
+  withoutBodyPadding: PropTypes.bool
 };

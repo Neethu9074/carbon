@@ -172,6 +172,7 @@ class Summary extends React.Component {
                       getColor={getColor}
                       onCallClicked={this.onCallClicked}
                       hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
+                      openedCall$={this.openedCall$}
                     />
                   </div>
                 </Card>

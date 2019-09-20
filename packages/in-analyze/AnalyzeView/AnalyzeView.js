@@ -20,7 +20,10 @@ import { activeDialog$ } from 'in-components/DialogPresenter/store';
 import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import getCalls from 'in-subscription/application/getCalls';
+import RawTraces from 'in-analyze/components/RawTraces';
+import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
 import Footer from 'in-new-components/Footer';
@@ -86,7 +89,16 @@ export default compose(
 
 function AnalyzeView(props) {
   const { activeDialog, isRawView, dataSource, filters } = props;
-  const dataSourceConfig = getConfigByDataSource(filters.dataSource);
+  // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views
+  // in the index bundle.
+  let View = GroupedTraces;
+  if (isRawView) {
+    if (filters.dataSource === 'traces') {
+      View = RawTraces;
+    } else {
+      View = RawCalls;
+    }
+  }
   return (
     <WithEmptyStateFallback
       center={false}
@@ -95,7 +107,7 @@ function AnalyzeView(props) {
       type={dataSource}
     >
       {activeDialog && <DisabledBodyScroll />}
-      {isRawView ? <dataSourceConfig.RawView {...props} /> : <dataSourceConfig.GroupedView {...props} />}
+      {<View {...props} />}
 
       <Footer />
     </WithEmptyStateFallback>

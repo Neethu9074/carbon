@@ -1,5 +1,6 @@
 import { navigationParameters$ } from 'in-stores/navigation';
 import getUsageInfo from 'in-subscription/getUsageInfo';
+import { convertRemToPx } from 'in-services/util/dom';
 import { config } from 'in-services/config';
 
 export function init() {
@@ -69,18 +70,18 @@ function hideZEndeskChat(pathname) {
 function getZendeskOffset(pathname) {
   switch (pathname) {
     case '/physical':
-      return { vertical: '90px', mobile: { vertical: '90px' } };
+      return { vertical: convertRemToPx(5.625), mobile: { vertical: convertRemToPx(5.625) } }; // 90px
     case '/events':
-      return { vertical: '70px', mobile: { vertical: '70px' } };
+      return { vertical: convertRemToPx(4.375), mobile: { vertical: convertRemToPx(4.375) } }; // 70px
     case '/websiteMonitoring/website/geography':
-      return { vertical: '180px', mobile: { vertical: '180px' } };
+      return { vertical: convertRemToPx(11.25), mobile: { vertical: convertRemToPx(11.25) } }; // 180px
     case '/websiteMonitoring/website/geography/globe':
-      return { vertical: '170px', mobile: { vertical: '170px' } };
+      return { vertical: convertRemToPx(10.625), mobile: { vertical: convertRemToPx(10.625) } }; // 170px
     case '/application/map':
-      return { vertical: '130px', mobile: { vertical: '130px' } };
+      return { vertical: convertRemToPx(8.125), mobile: { vertical: convertRemToPx(8.125) } }; // 130px
     case '/service/flowMap':
     case '/endpoint/flowMap':
-      return { vertical: '80px', mobile: { vertical: '80px' } };
+      return { vertical: convertRemToPx(5), mobile: { vertical: convertRemToPx(5) } }; // 80px
     default:
       return { vertical: '0', mobile: { vertical: '0' } };
   }

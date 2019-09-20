@@ -1,7 +1,4 @@
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
-import GroupedTraces from 'in-analyze/components/GroupedTraces';
-import RawTraces from 'in-analyze/components/RawTraces';
-import RawCalls from 'in-analyze/components/RawCalls';
 
 let configs;
 export default function getByDataSource(dataSource) {
@@ -21,9 +18,7 @@ export default function getByDataSource(dataSource) {
         getMatcher: traceId => item => item.trace.id === traceId,
         typeLabel: 'Trace',
         getTraceIdByItem: item => item.trace.id,
-        getCallIdByItem: () => undefined,
-        RawView: RawTraces,
-        GroupedView: GroupedTraces
+        getCallIdByItem: () => undefined
       },
       calls: {
         groupTagKeys: getCallGroupTagKeys(),
@@ -39,9 +34,7 @@ export default function getByDataSource(dataSource) {
         getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,
         typeLabel: 'Call',
         getTraceIdByItem: item => item.call.traceId,
-        getCallIdByItem: item => item.call.id,
-        RawView: RawCalls,
-        GroupedView: GroupedTraces
+        getCallIdByItem: item => item.call.id
       }
     };
   }

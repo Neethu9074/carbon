@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { getFactor } from 'in-services/util/dom';
 
 import icons from 'in-components/SvgIcon/registry.json';
 
@@ -17,15 +18,6 @@ export const sizes = {
   xl: 48,
   xxl: 56
 };
-
-// lazy load this calculation because getComputedStyle is unknown under node environment (which is used for tests)
-let factor = null;
-function getFactor() {
-  if (!factor) {
-    factor = 16 / (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
-  }
-  return factor;
-}
 
 export default function SvgIcon({
   className,

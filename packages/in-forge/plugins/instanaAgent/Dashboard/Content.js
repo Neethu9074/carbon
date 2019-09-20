@@ -12,17 +12,19 @@ import {
   time
 } from 'in-services/formatters/number';
 
+import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
+import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
+import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
+import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
-import ButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ButtonSection';
+import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
+import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { isInstanaEngineer } from 'in-stores/user';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
-import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
-import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import theme from 'in-themes';
 
 export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
@@ -30,7 +32,10 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
   return (
     <Fragment>
       <DashboardSection title="Management">
-        <ButtonSection snapshot={snapshot} />
+        <ManagementButtonSection snapshot={snapshot} />
+      </DashboardSection>
+      <DashboardSection title="Info">
+        <InfoButtonSection snapshot={snapshot} />
       </DashboardSection>
 
       <Columize>
@@ -106,6 +111,26 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Discovery">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['discovery.time'],
+            labels: ['Discovery time'],
+            type: 'line',
+            formatter: millis.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['discovery.count'],
+            labels: ['Discovery Count'],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
       <DashboardSection title="Sensors">
         <Chart
           snapshotId={snapshotId}
@@ -169,28 +194,23 @@ export default function InstanaAgentDashboard({ snapshot, timeConfig }) {
           <SensorTimingList snapshot={snapshot} />
           <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
           <BundleList snapshot={snapshot} />
+
+          <DashboardSection title="Spans">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['spans.opened', 'spans.closed', 'spans.filtered', 'spans.dropped'],
+                labels: ['Opened', 'Closed', 'Filtered', 'Dropped'],
+                type: 'line',
+                formatter: number.compact
+              }}
+            />
+          </DashboardSection>
+          <SpanMetrics snapshot={snapshot} timeConfig={timeConfig} />
         </Fragment>
       )}
-      <DashboardSection title="Discovery">
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['discovery.time'],
-            labels: ['Discovery time'],
-            type: 'line',
-            formatter: millis.compact
-          }}
-          y2={{
-            min: 0,
-            metrics: ['discovery.count'],
-            labels: ['Discovery Count'],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection>
 
       <DashboardSection title="Log Output">
         <LogStreamer snapshot={snapshot} />

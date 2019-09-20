@@ -3,12 +3,10 @@
 
 :local {
   .title {
-    font-size: 1.1rem;
-    color: @lib__colors__N900Primary;
-    font-weight: 400;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1rem;
   }
 
   .closeIcon {
@@ -23,9 +21,12 @@
   .entityInformation {
     display: flex;
     align-items: center;
+    padding: 0 1rem;
+    overflow: hidden;
 
-    margin-bottom: 1rem;
-    padding-right: 1.5rem;
+    svg {
+      margin-right: 0.5rem;
+    }
   }
 
   .callLabel {
@@ -35,7 +36,8 @@
     .ellipsis();
   }
 
-  .serviceLabel, .infraLabel {
+  .serviceLabel,
+  .infraLabel {
     font-size: 0.75rem;
     color: @lib__colors__N900Primary;
   }
@@ -45,14 +47,16 @@
     display: block;
   }
 
-  .serviceLine, .infraLine {
+  .serviceLine,
+  .infraLine {
     display: flex;
     align-items: center;
     margin-top: 0.5rem;
     color: @lib__colors__blue800;
   }
 
-  .infraLink, .infraLink:hover {
+  .infraLink,
+  .infraLink:hover {
     color: @lib__colors__blue800;
     margin: 0.1rem 0;
 
@@ -64,8 +68,8 @@
   }
 
   .rect {
-    min-width: 0.75rem;
-    min-height: 0.75rem;
+    min-width: 1.375rem;
+    min-height: 1.375rem;
 
     margin-right: 0.5rem;
   }
@@ -82,5 +86,12 @@
   .text {
     margin: 0 0.5rem;
     color: @lib__colors__N600Light;
+  }
+
+  .skeleton {
+    width: 70%;
+    height: 1rem;
+    margin: 0 0 0.25rem;
+    display: block;
   }
 }

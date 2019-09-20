@@ -1,13 +1,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { shorten } from 'in-services/util/string';
+import { find } from 'in-services/arrayUtils';
 
 import locals from './CallErrorSummaries.mless';
 
-export default function CallErrorSummaries({ call }) {
+export default function CallErrorSummaries({ call, kind }) {
+  let span = find(call.spans, _span => _span.kind === kind);
   if (call.errorCount < 1) {
     return null;
   }
@@ -16,9 +17,7 @@ export default function CallErrorSummaries({ call }) {
 
   // The back end provides an unordered list of span excerpts due to TraceActivityTreeNodeDetailsItemConverter.java
   // using an unordered HashSet, so we examine both spans for the call.
-  const statusCode0 = get(call.spans[0], ['data', 'http', 'status']) || 0;
-  const statusCode1 = get(call.spans[1], ['data', 'http', 'status']) || 0;
-  const statusCode = Math.max(statusCode0, statusCode1);
+  const statusCode = get(span, ['data', 'http', 'status']) || 0;
   if (statusCode && statusCode >= 500) {
     errorDetails.push(`HTTP Status ${statusCode}`);
   }
@@ -39,14 +38,10 @@ export default function CallErrorSummaries({ call }) {
     return null;
   }
 
-  return (
-    <Group title={errorDetails.length > 1 ? 'Errors' : 'Error'}>
-      {errorDetails.map((errorDetail, idx) => (
-        <div className={locals.callErrorDetailsWrapper} key={idx}>
-          <ErrorIndicator erroneous={call.errorCount} />
-          <div className={locals.callErrorDetails}>{errorDetail}</div>
-        </div>
-      ))}
-    </Group>
-  );
+  return errorDetails.map((errorDetail, idx) => (
+    <div className={locals.callErrorDetailsWrapper} key={idx}>
+      <ErrorIndicator erroneous={call.errorCount} />
+      <div className={locals.callErrorDetails}>{errorDetail}</div>
+    </div>
+  ));
 }

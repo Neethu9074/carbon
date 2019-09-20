@@ -25,11 +25,6 @@
     border-radius: 4px;
   }
 
-  .hasErrors {
-    background: #fdf4f9;
-    border-radius: 4px;
-  }
-
   .detailGroup {
     display: flex;
     align-items: center;

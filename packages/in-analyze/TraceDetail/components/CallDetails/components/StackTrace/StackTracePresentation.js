@@ -1,12 +1,13 @@
 import React from 'react';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './StackTracePresentation.mless';
 
 const STRIP_QUOTES_REGEX = /`|'/g;
 
-export default function StackTracePresentation({ stackTrace, isOnline, snapshot }) {
+export default function StackTracePresentation({ stackTrace, isOnline, snapshot, noPadding }) {
   if (!stackTrace) {
     return null;
   }
@@ -22,7 +23,12 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot 
 
   return (
     <div className={locals.stackTrace}>
-      <ol className={locals.list}>
+      <ol
+        className={evaluateClassNames({
+          [locals.list]: true,
+          [locals.noPadding]: noPadding
+        })}
+      >
         {stackTrace.map((st, i) => {
           const fileLine = combine(st.file, st.line);
           return (

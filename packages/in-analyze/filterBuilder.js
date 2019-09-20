@@ -1,4 +1,8 @@
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+
+const jsonSerializer = buildJsonSerializer();
+const jsonParser = buildJsonParser(null);
 
 export function getTagFilterFromUrlString(urlString) {
   const parsedTagFilter = parsedUrlOrDefault(urlString, []);
@@ -31,18 +35,24 @@ export function getGroupToUrlString(group) {
 }
 
 function parsedUrlOrDefault(urlString, defaultValue) {
-  let parsedValue;
   try {
-    parsedValue = JSON.parse(urlString);
-  } catch (error) {
-    parsedValue = defaultValue;
+    return JSON.parse(urlString);
+  } catch (e) {
+    // ignore
   }
-  return parsedValue;
+
+  try {
+    return jsonParser(urlString) || defaultValue;
+  } catch (e) {
+    // ignore
+  }
+
+  return defaultValue;
 }
 
 function stringifyIfTrue(value, condition) {
   if (condition) {
-    return JSON.stringify(value);
+    return jsonSerializer(value);
   }
   return null;
 }

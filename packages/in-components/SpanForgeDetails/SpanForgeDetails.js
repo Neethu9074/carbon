@@ -6,10 +6,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import { getType, getSpanDetailView } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 
-import './SpanForgeDetails.less';
-
-const block = 'in-span-forge-details';
-
 export default class extends React.PureComponent {
   static displayName = 'SpanForgeDetails';
 
@@ -57,6 +53,6 @@ export default class extends React.PureComponent {
       return <LoadingIndicator type="dark" />;
     }
 
-    return <Jail key={this.props.span} component={this.state.Component} props={this.props} className={block} />;
+    return <Jail key={this.props.span} component={this.state.Component} props={this.props} />;
   }
 }

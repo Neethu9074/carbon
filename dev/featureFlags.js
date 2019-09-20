@@ -23,5 +23,7 @@ module.exports = {
   pcfEnabled: true,
   humioEnabled: true,
   logDnaEnabled: true,
-  urlShortenerEnabled: true
+  urlShortenerEnabled: true,
+  websiteUserBreakdownEnabled: true,
+  optInOptOutEnabled: true
 };

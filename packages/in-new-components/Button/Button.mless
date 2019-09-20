@@ -48,7 +48,7 @@
     outline: 0;
 
     svg {
-      fill: @lib__colors__N300 ! important;
+      fill: @lib__colors__N300 !important;
     }
   }
 
@@ -72,7 +72,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: rgba(244,169,160,0.48);
+      background: rgba(244, 169, 160, 0.48);
     }
   }
 
@@ -152,7 +152,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: rgba(44,169,160,0.48);
+      color: rgba(44, 169, 160, 0.48);
       background: @lib__colors__white;
     }
   }
@@ -177,7 +177,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: rgba(98,117,125,0.48);
+      color: rgba(98, 117, 125, 0.48);
       background: @lib__colors__white;
     }
   }
@@ -202,7 +202,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: rgba(98,117,125,0.48);
+      color: rgba(98, 117, 125, 0.48);
       background: @lib__colors__white;
     }
   }
@@ -251,7 +251,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      background: rgba(220,75,65,0.48);
+      background: rgba(220, 75, 65, 0.48);
     }
   }
 
