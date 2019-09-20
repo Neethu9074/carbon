@@ -2,7 +2,7 @@ import React from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyMap } from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -83,23 +83,19 @@ const cols = [
 ];
 
 export default function ThreadPoolsTable({ snapshot, timeConfig }) {
-  const threadPools = snapshot.getIn(['data', 'threadPools'], emptyMap);
-  if (threadPools.size === 0) {
+  const threadPoolIds = snapshot.getIn(['data', 'threadPoolIds'], emptyList);
+  if (threadPoolIds.size === 0) {
     return null;
   }
 
-  const rows = threadPools
-    .keySeq()
-    .toArray()
-    .map(key => {
-      const threadPool = threadPools.get(key);
-      return {
-        key,
-        timeConfig,
-        snapshotId: snapshot.get('id'),
-        threadPool: threadPool
-      };
-    });
+  const snapshotId = snapshot.get('id');
+  const rows = threadPoolIds.toArray().map(key => {
+    return {
+      key,
+      timeConfig,
+      snapshotId
+    };
+  });
 
   return (
     <Table
