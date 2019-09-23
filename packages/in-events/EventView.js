@@ -20,7 +20,7 @@ export default function LegacyEventViewMigration(props) {
     return (
       <RedirectWithHash
         to$={getEventsViewFilteredBy({
-          eventTypeFilter: getMatrixParameter(location, eventsPath, 'view'),
+          eventTypeFilter: getMatrixParameter(props.location, eventsPath, 'view'),
           eventId: legacyEventIdQueryParam
         })}
       />
