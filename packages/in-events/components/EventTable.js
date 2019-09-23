@@ -13,7 +13,7 @@ import { isAppDataEntityType } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
-import { getIconTypeForEvent } from 'in-stores/events';
+import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -139,7 +139,7 @@ function hasServiceImpact(event) {
 }
 
 function renderIcon(event) {
-  return <SvgIcon className={locals.headingIcon} type={getIconTypeForEvent(event)} size="xs" />;
+  return <EventIcon className={locals.icon} event={event} size="s" />;
 }
 
 function concatQueries(userQuery, eventFilter) {

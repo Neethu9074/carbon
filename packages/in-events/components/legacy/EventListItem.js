@@ -28,7 +28,7 @@ const block = 'in-event-view-incident-event-list-item';
 export default connectTo(
   props => {
     return {
-      background: getColorForEventAtFocusedMomentAsStream(props.event, 'day')
+      background: getColorForEventAtFocusedMomentAsStream(props.event, { defaultColor: '#bababa' })
     };
   },
   class extends React.Component {

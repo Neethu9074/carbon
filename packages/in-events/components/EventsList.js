@@ -3,7 +3,6 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
-import { getIconTypeForEventType, getEventType, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { Table, SortableTh, Thead, Tbody, Tr, Th, Td, LoadMoreRow } from 'in-components/tables/sharedComponents';
 import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
@@ -14,6 +13,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
+import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
@@ -108,7 +108,7 @@ function EventRow({ selectedEventId, onItemClicked, isDenseList, event }) {
   return (
     <Tr size="compact" active={event.id === selectedEventId} onClick={() => onItemClicked(event.id)}>
       <Td>
-        <Icon
+        <EventIcon
           event={fromJS({
             ...event,
             problem: {
@@ -155,25 +155,6 @@ function SortableColumn({ children, orderBy, orderDirection, onChange, technical
     </SortableTh>
   );
 }
-
-const Icon = connectTo(
-  props => ({
-    color: getColorForEventAtFocusedMomentAsStream(props.event, 'day')
-  }),
-  function Icon({ event, color }) {
-    const iconType = getIconTypeForEventType(getEventType(event), true);
-    return (
-      <SvgIcon
-        className={locals.icon}
-        style={{
-          fill: color
-        }}
-        type={iconType}
-        size="xxs"
-      />
-    );
-  }
-);
 
 const On = connectTo(
   props => {

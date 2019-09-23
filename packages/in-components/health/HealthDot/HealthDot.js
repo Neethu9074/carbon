@@ -10,7 +10,7 @@ import './HealthDot.less';
 
 const block = 'in-health-dot';
 
-const severityOpts = { theme: 'day' };
+const severityOpts = { defaultColor: '#bababa' };
 
 export default connectTo(
   props => ({
