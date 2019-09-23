@@ -1,6 +1,9 @@
+import { get } from 'lodash';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import EventsChart from 'in-events/components/EventsChart';
@@ -11,7 +14,23 @@ import SearchBar from 'in-components/SearchBar';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 
-export default function EventViewInternal({ location }) {
+export default function LegacyEventViewMigration(props) {
+  const legacyEventIdQueryParam = get(props, ['location', 'query', 'eventId']);
+  if (legacyEventIdQueryParam) {
+    return (
+      <RedirectWithHash
+        to$={getEventsViewFilteredBy({
+          eventTypeFilter: getMatrixParameter(location, eventsPath, 'view'),
+          eventId: legacyEventIdQueryParam
+        })}
+      />
+    );
+  }
+
+  return <EventView {...props} />;
+}
+
+function EventView({ location }) {
   const eventType = getMatrixParameter(location, eventsPath, 'view');
   const eventId = getMatrixParameter(location, eventsPath, 'eventId');
 

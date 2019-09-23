@@ -73,8 +73,9 @@ export function getEventsViewFilteredBy({
       params.query.q = query;
     }
 
-    if (eventId) {
-      setOrDeleteMatrixKey(params, eventsPath, eventIdMatricParam, eventId);
+    if (eventId || params.query.eventId) {
+      setOrDeleteMatrixKey(params, eventsPath, eventIdMatricParam, eventId || params.query.eventId);
+      delete params.query.eventId;
     }
 
     if (eventTypeFilter) {
