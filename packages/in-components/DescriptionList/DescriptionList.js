@@ -13,16 +13,18 @@ export function DescriptionList({ children }) {
   );
 }
 
-export function DescriptionItem({ title, children, onClick }) {
+export function DescriptionItem({ title, children, onClick, style }) {
   if (isItemEmpty(children)) {
     return null;
   }
 
   return (
     <div className={locals.descriptionListItem}>
-      <dt className={locals.itemTitle}>{title}</dt>
+      <dt className={locals.itemTitle} style={style}>
+        {title}
+      </dt>
       <Tooltip content={children} themeStyle="light">
-        <dd className={locals.itemText} onClick={onClick}>
+        <dd className={locals.itemText} onClick={onClick} style={style}>
           {children}
         </dd>
       </Tooltip>

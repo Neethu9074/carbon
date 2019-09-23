@@ -127,6 +127,7 @@ export default function ServiceComponent({ call }) {
                 physicalContext={sourcePhysicalContext}
               />
               <div className={locals.sourceChildren}>
+                <CallErrorSummaries call={call} kind="EXIT" />
                 {exitSpan && (
                   <ExpandableGroup
                     title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -140,6 +141,7 @@ export default function ServiceComponent({ call }) {
                 )}
                 {(exitSpan || sourceSnapshotId) && (
                   <ExpandableGroup
+                    expandedTitle="Infrastructure"
                     title={
                       <div className={locals.infraTitle}>
                         <span>Infrastructure</span>
@@ -161,8 +163,6 @@ export default function ServiceComponent({ call }) {
                     />
                   </ExpandableGroup>
                 )}
-
-                <CallErrorSummaries call={call} kind="EXIT" />
               </div>
 
               <DestinationLocation
@@ -176,6 +176,7 @@ export default function ServiceComponent({ call }) {
               />
             </div>
             <div className={locals.destinationChildren}>
+              <CallErrorSummaries call={call} kind="ENTRY" />
               {entrySpan && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -187,27 +188,30 @@ export default function ServiceComponent({ call }) {
                   )}
                 </ExpandableGroup>
               )}
-              <ExpandableGroup
-                title={
-                  <div className={locals.infraTitle}>
-                    <span>Infrastructure</span>
-                    <InfrastructureEntityLink
-                      entity={destinationEntity}
-                      plugin={destinationEntity && destinationEntity.plugin}
+              {(entrySpan || destinationSnapshotId) && (
+                <ExpandableGroup
+                  expandedTitle="Infrastructure"
+                  title={
+                    <div className={locals.infraTitle}>
+                      <span>Infrastructure</span>
+                      <InfrastructureEntityLink
+                        entity={destinationEntity}
+                        plugin={destinationEntity && destinationEntity.plugin}
+                        snapshotId={destinationSnapshotId}
+                        physicalContext={destinationPhysicalContext}
+                      />
+                    </div>
+                  }
+                >
+                  {destinationEntity && (
+                    <InfrastructureHierarchy
                       snapshotId={destinationSnapshotId}
-                      physicalContext={destinationPhysicalContext}
+                      calculateHierarchy
+                      pathname={physicalDashboardPath}
                     />
-                  </div>
-                }
-              >
-                {destinationEntity && (
-                  <InfrastructureHierarchy
-                    snapshotId={destinationSnapshotId}
-                    calculateHierarchy
-                    pathname={physicalDashboardPath}
-                  />
-                )}
-              </ExpandableGroup>
+                  )}
+                </ExpandableGroup>
+              )}
               {logs.length > 0 && (
                 <ExpandableGroup
                   title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : null} ${
@@ -217,7 +221,6 @@ export default function ServiceComponent({ call }) {
                   <CallLogs call={call} />
                 </ExpandableGroup>
               )}
-              <CallErrorSummaries call={call} kind="ENTRY" />
             </div>
           </Fragment>
         )}
@@ -243,38 +246,31 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     );
   }
 
-  if (!entity && !snapshotId) {
-    return (
-      <div className={locals.noLink}>
-        <PluginIcon className={locals.simplePluginIcon} size="xs" /> Unmonitored
-      </div>
-    );
-  } else if (!entity && snapshotId && !snapshot) {
+  if (!entity && snapshotId && !snapshot) {
     return (
       <div className={locals.noLink}>
         <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
       </div>
     );
-  } else {
-    return (
-      <EntityLink
-        plugin={plugin}
-        snapshot={snapshot}
-        label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-        href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-          stay =>
-            stay
-              ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-              : getDashboardLink(entity.id, {
-                  pathname: '/physical/dashboard',
-                  to: entity.time,
-                  focusedMoment: entity.time,
-                  autoRefresh: false
-                })
-        )}
-      />
-    );
   }
+  return (
+    <EntityLink
+      plugin={plugin}
+      snapshot={snapshot}
+      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
+        stay =>
+          stay
+            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+            : getDashboardLink(entity.id, {
+                pathname: '/physical/dashboard',
+                to: entity.time,
+                focusedMoment: entity.time,
+                autoRefresh: false
+              })
+      )}
+    />
+  );
 });
 
 function getSnapshotId(call, location) {

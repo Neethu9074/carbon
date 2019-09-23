@@ -46,7 +46,7 @@ export default function HttpSpanDetailView({ span }) {
         )}
         <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
         {status != null && (
-          <DescriptionItem title="Status Code">
+          <DescriptionItem title="Status Code" style={status >= 500 ? { color: 'red' } : null}>
             {status}
             {statusCodes[status] != null && ` – ${statusCodes[status]}`}
           </DescriptionItem>
