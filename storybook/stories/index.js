@@ -51,6 +51,7 @@ import './components/CheckboxStory';
 import './components/DashboardHeaderStory';
 import './components/DashboardNotificationStory';
 import './components/DialogStory';
+import './components/Dialog2Story';
 import './components/EntityVersionListStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';

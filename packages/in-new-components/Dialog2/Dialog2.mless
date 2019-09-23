@@ -1,0 +1,91 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: rgba(0, 0, 0, 0.8);
+    z-index: @z-index__dialog;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+  }
+
+  .dialog {
+    min-width: 25rem;
+    max-width: 90vw;
+    cursor: auto;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 5rem;
+    padding: 1.5rem;
+    background: @lib__colors__white;
+    border-radius: @lib__shapes__radius_small @lib__shapes__radius_small 0 0;
+  }
+
+  .title {
+    color: @lib__colors__N900Primary;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 32px;
+    margin: 0;
+    padding: 0;
+    .ellipsis();
+  }
+
+  .body {
+    background: #fff;
+    padding: 0 1.5rem 1.5rem;
+    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
+    // 5rem to account for header height and to leave some space above/below
+    max-height: ~'calc(100vh - 5rem)';
+    overflow-y: auto;
+  }
+
+  .withoutPadding {
+    padding: 0;
+  }
+
+  .showOverflow {
+    overflow: visible;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .customCloseBehaviour {
+    font-size: @lib__typography__body__font-size;
+  }
+
+  .customTitle {
+    align-items: center;
+    display: flex;
+    line-height: 2rem;
+
+    h1 {
+      margin-left: 0.5rem;
+    }
+
+    svg {
+      fill: @lib__colors__N800Dark;
+    }
+  }
+}
