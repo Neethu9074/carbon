@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { yesOrNo } from 'in-services/formatters/boolean';
 
@@ -20,6 +21,7 @@ export default function MemcacheSpanDetailView({ span }) {
         <DescriptionItem title="Hit Count">{span.getIn(['data', 'memcache', 'hits'])}</DescriptionItem>
         <DescriptionItem title="Namespace">{span.getIn(['data', 'memcache', 'namespace'])}</DescriptionItem>
         <DescriptionItem title="Server">{span.getIn(['data', 'memcache', 'server'])}</DescriptionItem>
+        <ErrorDescriptionItem error={span.getIn(['data', 'memcache', 'error'])} />
       </DescriptionList>
     </div>
   );
