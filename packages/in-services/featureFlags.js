@@ -44,6 +44,7 @@ export const logDnaEnabled = isFeatureFlagEnabled('logDnaEnabled');
 export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', true);
+export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
 
 // ########################################################################################
 // Dynamic focus keywords

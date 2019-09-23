@@ -13,6 +13,7 @@ storiesOf('Terms', module).add('ProgressIndicator', () => <ProgessIndicator />);
 storiesOf('Terms', module).add('Page 1', () => <Page1 />);
 storiesOf('Terms', module).add('Page 2', () => <Page2 />);
 storiesOf('Terms', module).add('Dialog', () => <Dialog />);
+storiesOf('Terms', module).add('Running on OnPrem', () => <DialogOnPrem />);
 
 const userSettings = {
   allAnalyticsServices: true,
@@ -76,6 +77,25 @@ function Dialog() {
         unsetSaveError={() => action('unsetSaveError')}
         onChange={onChange(setForm)}
         form={form}
+      />
+    </Root>
+  );
+}
+
+// value for isOnPrem is taken from feature flag in UI-Client
+// import { isOnPrem } from 'in-services/featureFlags';
+function DialogOnPrem() {
+  const [form, setForm] = useState(termsFormDefinition(userSettings));
+  return (
+    <Root>
+      <TermsDialogPresenter
+        userSettings={userSettings}
+        onSave={action('onSwitchMetricPosition')}
+        saveError={false}
+        unsetSaveError={() => action('unsetSaveError')}
+        onChange={onChange(setForm)}
+        form={form}
+        isOnPrem
       />
     </Root>
   );

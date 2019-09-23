@@ -42,7 +42,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true)
+      getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -63,7 +64,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
-        optInOptOutEnabled
+        optInOptOutEnabled,
+        isOnPrem
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -88,7 +90,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
-        optInOptOutEnabled
+        optInOptOutEnabled,
+        isOnPrem
       })
     );
   });

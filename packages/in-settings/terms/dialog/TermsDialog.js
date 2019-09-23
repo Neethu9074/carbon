@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 
 import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter.js';
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
-import connectTo from 'in-hoc/connectTo';
-import { createLogger } from 'instalog';
-import termsFormDefinition from '../termsFormDefinition';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { formUserSettingsObject } from '../termsAndPrivaySettings';
+import termsFormDefinition from '../termsFormDefinition';
+import { isOnPrem } from 'in-services/featureFlags';
+import connectTo from 'in-hoc/connectTo';
+import { createLogger } from 'instalog';
 
 const logger = createLogger('in-settings/terms/dialog/TermsDialog');
 
@@ -30,6 +31,7 @@ function TermsDialog({ termsAndPrivacySettings }) {
       userSettings={termsAndPrivacySettings}
       onChange={onChange(setForm)}
       form={form}
+      isOnPrem={isOnPrem}
     />
   ) : null;
 }
