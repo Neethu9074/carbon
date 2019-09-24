@@ -12,7 +12,7 @@ export default function ActiveRecordSpanGroupingDetailView({ span }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="SQL">
+      <DescriptionItem title="SQL" verticalDisplay>
         <Code code={formatSql(sql)} lang="sql" />
       </DescriptionItem>
     </DescriptionList>

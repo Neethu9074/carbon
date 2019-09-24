@@ -6,6 +6,7 @@ import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList'
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
+import theme from 'in-themes';
 
 export default function HttpSpanDetailView({ span }) {
   const url = span.getIn(['data', 'http', 'url']);
@@ -46,7 +47,7 @@ export default function HttpSpanDetailView({ span }) {
         )}
         <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
         {status != null && (
-          <DescriptionItem title="Status Code" style={status >= 500 ? { color: 'red' } : null}>
+          <DescriptionItem title="Status Code" style={status >= 500 ? { color: theme.lib.colors.failure } : null}>
             {status}
             {statusCodes[status] != null && ` – ${statusCodes[status]}`}
           </DescriptionItem>
@@ -61,7 +62,7 @@ export default function HttpSpanDetailView({ span }) {
 
         {traceContextState &&
           traceContextState.size > 0 && (
-            <DescriptionItem title="Trace Context State">
+            <DescriptionItem title="Trace Context State" verticalDisplay>
               <Code
                 code={JSON.stringify(
                   traceContextState.toJS().reduce((agg, { k, v }) => {

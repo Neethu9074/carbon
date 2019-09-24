@@ -11,7 +11,7 @@ export default function IbmDb2SpanDetailView({ span }) {
     <div>
       <DescriptionList>
         {statement ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

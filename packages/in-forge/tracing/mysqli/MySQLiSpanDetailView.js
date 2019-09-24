@@ -13,7 +13,7 @@ export default function MySQLiSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="DSN">{span.getIn(['data', 'mysqli', 'dsn'])}</DescriptionItem>
         {statement ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

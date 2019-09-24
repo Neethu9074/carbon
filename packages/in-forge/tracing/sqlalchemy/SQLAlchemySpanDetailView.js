@@ -15,7 +15,7 @@ export default function SQLAlchemySpanDetailView({ span }) {
       <ErrorDescriptionItem error={span.getIn(['data', 'sqlalchemy', 'err'])} />
 
       {sql ? (
-        <DescriptionItem title="SQL">
+        <DescriptionItem title="SQL" verticalDisplay>
           <Code code={formatSql(sql)} lang="sql" />
         </DescriptionItem>
       ) : null}

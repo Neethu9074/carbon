@@ -9,7 +9,7 @@ export default function ZipkinSpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="Service">{span.getIn(['data', 'service'])}</DescriptionItem>
         <DescriptionItem title="Operation">{span.getIn(['data', 'operation'])}</DescriptionItem>
-        <DescriptionItem title="Tags">
+        <DescriptionItem title="Tags" verticalDisplay>
           <Code code={JSON.stringify(span.getIn(['data', 'tags']).toJS(), 0, 2)} lang="json" />
         </DescriptionItem>
       </DescriptionList>

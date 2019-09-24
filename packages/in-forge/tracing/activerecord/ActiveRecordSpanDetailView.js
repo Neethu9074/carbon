@@ -17,7 +17,7 @@ export default function ActiveRecordSpanDetailView({ span }) {
       <ErrorDescriptionItem error={span.getIn(['data', 'activerecord', 'error'])} />
 
       {sql ? (
-        <DescriptionItem title="SQL">
+        <DescriptionItem title="SQL" verticalDisplay>
           <Code code={formatSql(sql)} lang="sql" />
         </DescriptionItem>
       ) : null}

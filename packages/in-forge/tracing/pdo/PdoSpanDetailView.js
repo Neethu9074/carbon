@@ -15,7 +15,7 @@ export default function PdoSpanDetailView({ span }) {
         <DescriptionItem title="DSN">{span.getIn(['data', 'pdo', 'dsn'])}</DescriptionItem>
 
         {statement ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

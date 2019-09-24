@@ -46,7 +46,7 @@ function Statement({ span }) {
   }
 
   return (
-    <DescriptionItem title="Statement">
+    <DescriptionItem title="Statement" verticalDisplay>
       <Code code={code} lang={lang} />
     </DescriptionItem>
   );

@@ -14,7 +14,7 @@ export default function JdbcSpanDetailView({ span }) {
         <DescriptionItem title="Connection">{span.getIn(['data', 'ado', 'connection'])}</DescriptionItem>
         <DescriptionItem title="Command-Type">{span.getIn(['data', 'ado', 'type'])}</DescriptionItem>
         {statement ? (
-          <DescriptionItem title="Statement">
+          <DescriptionItem title="Statement" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

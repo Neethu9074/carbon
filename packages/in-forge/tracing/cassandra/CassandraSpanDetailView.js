@@ -40,7 +40,7 @@ function Query({ span }) {
   let code = formatSql(statement);
 
   return (
-    <DescriptionItem title="Query">
+    <DescriptionItem title="Query" verticalDisplay>
       <Code code={code} lang={lang} />
     </DescriptionItem>
   );

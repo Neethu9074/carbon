@@ -12,7 +12,7 @@ export default function JdbcSpanDetailView({ span }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Statement">
+      <DescriptionItem title="Statement" verticalDisplay>
         <Code code={formatSql(statement)} lang="sql" />
       </DescriptionItem>
     </DescriptionList>
