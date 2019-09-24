@@ -54,5 +54,5 @@ function formatCounter(nb, unit) {
   if (nb != null) {
     return `${number.compact(nb)} ${unit}${nb === 1 ? '' : 's'}`;
   }
-  return '';
+  return 'Loading…';
 }

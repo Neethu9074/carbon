@@ -66,6 +66,7 @@ import './components/HeatMap';
 import './components/KpiCardStory';
 import './components/KpiGridRowStory';
 import './components/Loading';
+import './components/LoadingTracesStory';
 import './components/MapControlsStory';
 import './components/MessageStory';
 import './components/overlays/OverlayStory';

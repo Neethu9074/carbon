@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { ErrorRows, HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
-
 const maximumDataSeriesInChart = 5;
 
 export default function Groups({
@@ -10,16 +8,13 @@ export default function Groups({
   filters,
   onChangeAnalyzeConfig,
   onChangeAnalyzeConfigAndGetAsUrlObservable,
-  errors,
-  progress,
   orderBy,
   orderDirection,
   groupColors,
   groupComponent: Group,
   isChartSectionExpanded,
   metrics,
-  availableMetrics,
-  columnCount = 5
+  availableMetrics
 }) {
   return (
     <Fragment>
@@ -39,10 +34,6 @@ export default function Groups({
           availableMetrics={availableMetrics}
         />
       ))}
-
-      <HorizontalIndicatorRow cols={columnCount} progress={progress} />
-      <ErrorRows cols={columnCount} errors={errors} size="compact" />
-      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
     </Fragment>
   );
 }
