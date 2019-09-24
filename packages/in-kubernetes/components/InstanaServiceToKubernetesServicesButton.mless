@@ -12,7 +12,7 @@
 
   .tableWrapper {
     max-height: 20rem; // allows to have 5 1/2 services visible before scrolling
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .labelColumn {
