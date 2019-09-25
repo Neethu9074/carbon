@@ -131,6 +131,14 @@ function getRowDetails(row) {
         labels: ['Opened', 'Closed', 'Filtered', 'Dropped'],
         type: 'line'
       }}
+      y2={{
+        min: 0,
+        max: 1,
+        formatter: number.detailed,
+        metrics: ['pid.' + row.key + '.fr'],
+        labels: ['Filter Rate'],
+        type: 'line'
+      }}
     />
   );
 }
