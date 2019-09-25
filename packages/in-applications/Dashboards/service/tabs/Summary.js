@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
@@ -113,18 +112,6 @@ export default function Summary({ timeConfig, endpointId, applicationId, service
         </Col>
         <Col lg={4}>
           <TechnologyBreakdown applicationId={applicationId} serviceId={serviceId} timeConfig={timeConfig} />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg={12}>
-          <LatencyDistributionHistogram
-            cardTitle="Latency Distribution"
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            timeConfig={timeConfig}
-          />
         </Col>
       </Row>
     </Fragment>
