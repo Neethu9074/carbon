@@ -1,0 +1,7 @@
+@import '~in-themes/mixins.less';
+:local {
+  .label {
+    .ellipsis();
+    word-break: break-word;
+  }
+}
