@@ -1,13 +1,13 @@
 import React from 'react';
 
-import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
+import LoggingIntegrationButtons from 'in-forge/plugins/host/Dashboard/LogggingIntegrationButtons';
 import windowsIconSvgPath from 'in-forge/plugins/host/icons/windowsIconPath';
 import solarisIconPath from 'in-forge/plugins/host/icons/solarisIconPath';
 import linuxIconSvgPath from 'in-forge/plugins/host/icons/linuxIconPath';
 import appleIconSvgPath from 'in-forge/plugins/host/icons/appleIconPath';
-import tableDefinition from 'in-forge/plugins/host/tableDefinition.js';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import zosIconSvgPath from 'in-forge/plugins/host/icons/zosIconPath';
+import tableDefinition from 'in-forge/plugins/host/tableDefinition';
 import aixIconPath from 'in-forge/plugins/host/icons/aixIconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -64,6 +64,11 @@ registerSnapshotDefinition({
   },
 
   DashboardHeaderActions({ snapshot, timeConfig }) {
-    return <LoggingIntegrationButtons hostFqdn={snapshot.getIn(['data', 'fqdn'])} timeConfig={timeConfig} />;
+    let hostFqdn = snapshot.getIn(['data', 'fqdn']);
+    if (!hostFqdn) {
+      hostFqdn = snapshot.getIn(['data', 'hostname']);
+    }
+
+    return <LoggingIntegrationButtons snapshotId={snapshot.get('id')} hostFqdn={hostFqdn} timeConfig={timeConfig} />;
   }
 });

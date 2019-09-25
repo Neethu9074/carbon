@@ -49,16 +49,20 @@ function constructHumioLink(integration, props) {
 function serializeQuery({ hostFqdn, kubernetesPodId, dockerContainerId, isWithinKubernetes }) {
   const query = {};
 
-  if (hostFqdn) {
-    query['kubernetes.host'] = hostFqdn;
-  }
-
   if (kubernetesPodId) {
     query['kubernetes.pod_id'] = kubernetesPodId;
-  }
-
-  if (dockerContainerId && isWithinKubernetes) {
-    query['kubernetes.docker_id'] = dockerContainerId;
+  } else if (dockerContainerId) {
+    if (isWithinKubernetes) {
+      query['kubernetes.docker_id'] = dockerContainerId;
+    } else {
+      query['docker.container_id'] = dockerContainerId;
+    }
+  } else if (hostFqdn) {
+    if (isWithinKubernetes) {
+      query['kubernetes.host'] = hostFqdn;
+    } else {
+      query['host'] = hostFqdn;
+    }
   }
 
   return (
