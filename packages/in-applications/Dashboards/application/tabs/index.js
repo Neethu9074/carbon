@@ -4,6 +4,7 @@ import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMe
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
+import LatencyTab from 'in-applications/Dashboards/commonTabs/latency/Latency';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
@@ -32,6 +33,11 @@ export default [
     label: 'Performance',
     path: `${applicationDashboard}/performance`,
     component: PerformanceTab
+  },
+  {
+    label: 'Latency',
+    path: `${applicationDashboard}/latency`,
+    component: LatencyTab
   },
   {
     label: 'Error Messages',
