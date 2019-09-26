@@ -76,6 +76,7 @@ import './components/ProblemIndicatorStory';
 import './components/SearchInputStory';
 import './components/SparkChart';
 import './components/StackTraceStory';
+import './components/StepProgressBarStory';
 import './components/TechnologyIndicator';
 import './components/time/TimePresenterStory';
 import './components/time/TimeCountStory';
