@@ -259,7 +259,10 @@ const IncidentsMenuPoint = connectTo(
           onMouseLeave={onMouseLeave}
         />
         {numIncidents > 0 && (
-          <div className={locals.issueIndicator} style={{ background: color }}>
+          <div
+            className={numIncidents > 99 ? locals.issueIndicatorSmall : locals.issueIndicator}
+            style={{ background: color }}
+          >
             {numIncidents}
           </div>
         )}
