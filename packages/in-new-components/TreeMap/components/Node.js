@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -10,7 +11,8 @@ export default function Node({ node, nodeProps = {} }) {
   const y = node.y0 - node.parent.y0;
   const width = node.x1 - node.x0;
   const height = node.y1 - node.y0;
-  const showLabel = width > 100 && height > 48;
+  const isRestrictedHeight = height < 100;
+  const isRestrictedWidth = width < 100;
   const showMetricValue = width > 50 && height > (node.data.label ? 48 : 36);
 
   let content = (
@@ -22,10 +24,21 @@ export default function Node({ node, nodeProps = {} }) {
         height,
         background: nodeProps.getColor && nodeProps.getColor(node)
       }}
-      className={locals.node}
+      className={evaluateClassNames({
+        [locals.node]: true,
+        [locals.nodeSmallHeight]: isRestrictedHeight,
+        [locals.nodeSmallWidth]: isRestrictedWidth
+      })}
       onClick={() => nodeProps.onClick && nodeProps.onClick(node)}
     >
-      <span className={locals.label}>{showLabel ? node.data.label : node.data.label && '...'}</span>
+      <span
+        className={evaluateClassNames({
+          [locals.label]: true,
+          [locals.fullLabel]: !isRestrictedHeight
+        })}
+      >
+        {node.data.label}
+      </span>
       {showMetricValue && <span className={locals.value}>{node.data.valueLabel}</span>}
     </div>
   );
