@@ -6,8 +6,6 @@ import { lighten } from 'in-services/formatters/color';
 
 import locals from './Pill.mless';
 
-export const kinds = ['bold', 'light', 'lighter', 'inverted'];
-
 export default function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold' }) {
   let style;
   if (kind == 'inverted') {
@@ -41,4 +39,10 @@ Pill.propTypes = {
   className: rpt.string,
   children: rpt.node.isRequired,
   lightenOpacity: rpt.number
+};
+
+Pill.defaultProps = {
+  kind: 'bold',
+  color: '#000000',
+  lightenOpacity: 0.1
 };

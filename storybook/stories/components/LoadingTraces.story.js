@@ -28,7 +28,9 @@ const failedProgress = {
   loading: false,
   percentage: null
 };
+
 storiesOf('Components/Loading/Analyze Loading States', module)
-  .add('Preparing', () => <LoadingStates progress={prepProgress} />)
+  .addParameters({ component: LoadingStates })
+  .add('Default', () => <LoadingStates progress={prepProgress} />)
   .add('Query Running', () => <LoadingStates progress={runningProgress} />)
   .add('Query Failed', () => <LoadingStates progress={failedProgress} errors={errors} />);
