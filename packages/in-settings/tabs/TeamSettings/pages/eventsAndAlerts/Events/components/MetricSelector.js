@@ -1,7 +1,8 @@
-import React from 'react';
 import Downshift from 'downshift';
+import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { escapeSpecialChars } from 'in-services/util/regex';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
@@ -9,12 +10,20 @@ import locals from './MetricSelector.mless';
 
 export default function MetricSelector({ plugin, onChange, value, metrics }) {
   const metricsList = Array.isArray(metrics) ? metrics.slice() : getPlainMetricList(plugin);
+  const parentItemForValue = metricsList.find(it => it.value === value);
 
-  return <AutoComplete value={value} resultsToShow={100} options={metricsList} onChange={onChange} />;
+  return (
+    <AutoComplete
+      value={value}
+      resultsToShow={100}
+      options={metricsList}
+      onChange={onChange}
+      item={parentItemForValue}
+    />
+  );
 }
-
-const AutoComplete = ({ options, resultsToShow, placeholder, onChange }) => (
-  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange}>
+const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) => (
+  <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} initialSelectedItem={item}>
     {({
       getInputProps,
       getItemProps,
@@ -80,18 +89,20 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange }) => (
   </Downshift>
 );
 
-function getHighlightedText(text, higlight) {
-  if (!higlight) {
+function getHighlightedText(text, highlight) {
+  if (!highlight) {
     return text;
   }
-  const parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+
+  const parts = text.split(new RegExp(`(${escapeSpecialChars(highlight)})`, 'gi'));
+
   return (
     <span>
       {parts.map((part, i) => (
         <span
           key={i}
           className={evaluateClassNames({
-            [locals.higlightedText]: part.toLowerCase() === higlight.toString().toLowerCase()
+            [locals.higlightedText]: part.toLowerCase() === highlight.toString().toLowerCase()
           })}
         >
           {part}
