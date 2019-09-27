@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import {
@@ -13,14 +12,11 @@ import {
   ErrorRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import { getResponsiveNavigatorMode } from 'in-analyze/components/getResponsiveNavigatorMode';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 
 import locals from './BeaconsNavigator.mless';
 
-export default compose(getResponsiveNavigatorMode)(BeaconsNavigator);
-
-function BeaconsNavigator(props) {
+export default function BeaconsNavigator(props) {
   const { items, errors, progress, loadMore, canLoadMore, ListItemHeader, ListItem, beaconId } = props;
 
   return (

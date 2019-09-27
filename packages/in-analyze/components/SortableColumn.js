@@ -2,20 +2,13 @@ import React from 'react';
 
 import { SortableTh } from 'in-components/tables/sharedComponents';
 
-export default function SortableColumn({
-  orderBy,
-  orderDirection,
-  defaultDirection,
-  technicalName,
-  label,
-  onChangeOrder,
-  noWrap
-}) {
+export default function SortableColumn(props) {
+  const { orderBy, orderDirection, defaultDirection, technicalName, label, onChangeOrder } = props;
+
   return (
     <SortableTh
+      {...props}
       isSortedByThisColumn={orderBy === technicalName}
-      sortDirection={orderDirection}
-      noWrap={noWrap}
       onClick={e => {
         e.preventDefault();
         e.stopPropagation();
