@@ -78,6 +78,7 @@ function EventTable(props) {
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
+      openItem={e => onChange({ eventId: e.id })}
     >
       <TabView
         HeaderComponent={Header}
