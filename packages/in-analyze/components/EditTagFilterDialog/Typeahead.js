@@ -2,6 +2,7 @@ import Downshift from 'downshift';
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { escapeSpecialChars } from 'in-services/util/regex';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './Typeahead.mless';
@@ -81,18 +82,18 @@ export default function Typeahead({ options, placeholder, value, onChange, resul
   );
 }
 
-function getHighlightedText(text, higlight) {
-  if (!higlight) {
+function getHighlightedText(text, highlight) {
+  if (!highlight) {
     return text;
   }
-  const parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+  const parts = text.split(new RegExp(`(${escapeSpecialChars(highlight)})`, 'gi'));
   return (
     <span>
       {parts.map((part, i) => (
         <span
           key={i}
           className={evaluateClassNames({
-            [locals.higlightedText]: part.toLowerCase() === higlight.toString().toLowerCase()
+            [locals.higlightedText]: part.toLowerCase() === highlight.toString().toLowerCase()
           })}
         >
           {part}
