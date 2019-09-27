@@ -1,0 +1,14 @@
+:local {
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 80vw;
+    padding: 0 1rem;
+  }
+
+  .details {
+    padding: 2rem 0 1rem;
+  }
+}

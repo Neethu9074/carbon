@@ -32,17 +32,7 @@ export default compose(
   connectTo(({ snapshotId, signal }) => ({
     snapshotVersionsResponse: timeConfig$
       .debounce(100)
-      .flatMap(timeConfig => {
-        if (!signal || !snapshotId) {
-          return alwaysNull;
-        }
-        return createSnapshotVersionsInTimeframeObservable({ snapshotId, timeConfig })
-          .map(enrichDiffs)
-          .map(_snapshotVersions => ({
-            timeConfig: { ...timeConfig, to: timeConfig.to || Date.now() },
-            snapshotVersions: _snapshotVersions
-          }));
-      })
+      .flatMap(timeConfig => (!signal || !snapshotId ? alwaysNull : getSnapshotVersions(snapshotId, timeConfig)))
       .filter(res => res && res.snapshotVersions)
   }))
 )(SnapshotVersions);
@@ -94,6 +84,15 @@ function SnapshotVersions({
       </div>
     </div>
   );
+}
+
+export function getSnapshotVersions(snapshotId, timeConfig) {
+  return createSnapshotVersionsInTimeframeObservable({ snapshotId, timeConfig })
+    .map(enrichDiffs)
+    .map(_snapshotVersions => ({
+      timeConfig: { ...timeConfig, to: timeConfig.to || Date.now() },
+      snapshotVersions: _snapshotVersions
+    }));
 }
 
 function enrichDiffs(snapshots) {

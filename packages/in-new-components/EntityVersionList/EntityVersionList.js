@@ -11,7 +11,13 @@ export default connectTo(
     versionsForFocusedMoment: getSnapshotVersions(snapshotId, timeConfig).startWith(null),
     versionsForLive: getSnapshotVersions(snapshotId, getTimeConfigAtMoment(null)).startWith(null)
   }),
-  function EntityVersionList({ errors, plugin, versionsForFocusedMoment, versionsForLive }) {
+  function EntityVersionList({
+    errors,
+    plugin,
+    versionsForFocusedMoment,
+    versionsForLive,
+    Presenter = EntityVersionListPresenter
+  }) {
     const hasRbacErrors = errors && errors[0].code === 'AUTH';
     if (
       hasRbacErrors ||
@@ -20,9 +26,9 @@ export default connectTo(
       return <ErroneousResultPresenter errors={errors} />;
     }
 
-    const snapshotVersions = mergeVersionLists(versionsForFocusedMoment, versionsForLive);
+    const versions = mergeVersionLists(versionsForFocusedMoment, versionsForLive);
 
-    return <EntityVersionListPresenter plugin={plugin} versions={snapshotVersions} />;
+    return <Presenter plugin={plugin} versions={versions} />;
   }
 );
 

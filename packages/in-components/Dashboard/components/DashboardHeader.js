@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-components/Dashboard/components/DashboardBreadcrumb';
+import EntityVersionButton from 'in-components/Dashboard/components/EntityVersionButton';
 import { getShowZoneInSidebarHeader, getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
@@ -40,6 +41,7 @@ export default connectTo(
 function Actions({ snapshot, timeConfig }) {
   return (
     <Fragment>
+      <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityHealthIndicator
         showOkayOnNoIssues={false}
