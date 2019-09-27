@@ -18,6 +18,7 @@ import './camel';
 import './cassandra';
 import './corba';
 import './corba.client';
+import './cosmos';
 import './couchbase';
 import './cxf.client';
 import './cxf.server';
