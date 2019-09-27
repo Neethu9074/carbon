@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'CosmosSpanDetailView',
 
   getLabel(span) {
-    return shortenSqlStatement(span.getIn(['data', 'cosmos', 'cmd']));
+    return shortenSqlStatement(span.getIn(['data', 'cosmos', 'cmd'], ''));
   }
 });
