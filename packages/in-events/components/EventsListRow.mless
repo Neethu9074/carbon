@@ -2,11 +2,6 @@
 @import '~in-themes/mediaQueries.less';
 
 :local {
-  .noEvents {
-    text-align: center;
-    font-style: italic;
-  }
-
   .entityWrapper {
     display: flex;
     align-items: center;
@@ -34,9 +29,5 @@
     .title {
       max-width: 22rem;
     }
-  }
-
-  .icon {
-    fill: @lib__colors__N700Medium;
   }
 }
