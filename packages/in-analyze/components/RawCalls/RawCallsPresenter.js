@@ -7,15 +7,13 @@ import {
   Tr,
   Th,
   Td,
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
-  ErrorRows,
   LoadMoreRow,
   Link,
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeCallsWorkspace from 'in-analyze/components/AnalyzeCallsWorkspace';
+import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -104,12 +102,10 @@ export default function RawCallsPresenter(props) {
             </Tr>
           ))}
 
-          <HorizontalIndicatorRow cols={5} progress={progress} />
-          <ErrorRows cols={5} errors={errors} size="compact" />
-          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={5} />}
         </Tbody>
       </Table>
+      <LoadingStates progress={progress} errors={errors} />
     </AnalyzeCallsWorkspace>
   );
 }

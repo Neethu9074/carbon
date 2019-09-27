@@ -25,5 +25,6 @@ module.exports = {
   logDnaEnabled: true,
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
-  optInOptOutEnabled: true
+  optInOptOutEnabled: true,
+  isOnPrem: false
 };

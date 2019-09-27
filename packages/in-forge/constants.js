@@ -15,6 +15,9 @@ export const nonServicePlugins = {
   awsElb: 'awsElb',
   awsEmr: 'awsEmr',
   awsKinesis: 'awsKinesis',
+  awsLambdaFunction: 'awsLambdaFunction',
+  awsLambdaVersion: 'awsLambdaVersion',
+  // legacy AWS Lambda plug-in
   awsLambda: 'awsLambda',
   awsMq: 'awsMq',
   awsRds: 'awsRds',
@@ -172,6 +175,11 @@ export const fullyQualifiedPlugins = {
   awsElb: 'com.instana.forge.hardware.virtual.aws.elb.AwsElb',
   awsEmr: 'com.instana.forge.hardware.virtual.aws.emr.AwsEmr',
   awsKinesis: 'com.instana.forge.hardware.virtual.aws.kinesis.AwsKinesis',
+  awsLambdaVersion: 'com.instana.forge.hardware.virtual.aws.lambda.version.AwsLambdaVersion',
+  awsLambdaFunction: 'com.instana.forge.hardware.virtual.aws.lambda.function.AwsLambdaFunction',
+  // The legacy AWS Lambda plug-in, replaced by awsLambdaVersion. This plug-in was removed in release 163. We need to
+  // keep it until the last entity with plugin ID com.instana.forge.hardware.virtual.aws.lambda.AwsLambda has been
+  // removed due to data retention (that is, it can be deleted approximately November 2020).
   awsLambda: 'com.instana.forge.hardware.virtual.aws.lambda.AwsLambda',
   awsMq: 'com.instana.forge.hardware.virtual.aws.mq.AwsMq',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
-export { addLabelFinder, getLabel } from 'in-sdk/snapshot/legacy';
+export { addLabelFinder, getLabel, sortByLabel } from 'in-sdk/snapshot/legacy';
 
 import { getSnapshotDefinition, getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { emptyMap } from 'in-services/fixedImmutables';

@@ -18,7 +18,7 @@ export default function JdbcSpanDetailView({ span }) {
         <ErrorDescriptionItem error={span.getIn(['data', 'jdbc', 'error'])} />
 
         {statement ? (
-          <DescriptionItem title="Statement">
+          <DescriptionItem title="Statement" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

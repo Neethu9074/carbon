@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/sidebar/ClickableList';
-import getTriggersForLambda from 'in-subscription/getTriggersForLambda';
+import getTriggersForLambdaVersion from 'in-subscription/getTriggersForLambdaVersion';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -12,7 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => ({
     triggers: timeConfig$
-      .flatMap(timeConfig => getTriggersForLambda({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(timeConfig => getTriggersForLambdaVersion({ snapshotId: props.snapshotId, timeConfig }))
       .flatMap(getSnapshots)
       .debounce(1000)
       .map(snapshots => snapshots.slice().sort(sorter))

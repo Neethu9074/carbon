@@ -17,7 +17,7 @@ export default function PostgresSpanDetailView({ span }) {
       <ErrorDescriptionItem error={span.getIn(['data', 'pg', 'error'])} />
 
       {statement ? (
-        <DescriptionItem title="Query">
+        <DescriptionItem title="Query" verticalDisplay>
           <Code code={formatSql(statement)} lang="sql" />
         </DescriptionItem>
       ) : null}

@@ -8,7 +8,7 @@
     height: 3px;
     width: 100%;
 
-    background: #dbd1f5;
+    background: @lib__colors__N300;
   }
 
   .rounded {

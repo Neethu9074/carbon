@@ -14,6 +14,7 @@ import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
+import { isOnPrem } from 'in-services/featureFlags';
 
 const navigationTree: NavigationTree = [
   {
@@ -33,18 +34,7 @@ const navigationTree: NavigationTree = [
   },
   {
     title: 'Preferences',
-    pages: [
-      {
-        path: userSettingsPrivacy,
-        label: 'Privacy',
-        component: Privacy
-      },
-      {
-        path: userSettingsCommunication,
-        label: 'Communication',
-        component: Communication
-      }
-    ]
+    pages: getPreferencesRoutes(isOnPrem)
   }
 ];
 
@@ -58,4 +48,20 @@ export default function View(props: any) {
       {...props}
     />
   );
+}
+
+function getPreferencesRoutes(isOnPrem) {
+  const privacy = {
+    path: userSettingsPrivacy,
+    label: 'Privacy',
+    component: Privacy
+  };
+
+  const communication = {
+    path: userSettingsCommunication,
+    label: 'Communication',
+    component: Communication
+  };
+
+  return isOnPrem ? [communication] : [privacy, communication];
 }

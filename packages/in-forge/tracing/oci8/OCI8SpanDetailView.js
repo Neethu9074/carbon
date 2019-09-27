@@ -13,7 +13,7 @@ export default function OCI8SpanDetailView({ span }) {
       <DescriptionList>
         <DescriptionItem title="Connection">{span.getIn(['data', 'oci8', 'conn'])}</DescriptionItem>
         {statement ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
           </DescriptionItem>
         ) : null}

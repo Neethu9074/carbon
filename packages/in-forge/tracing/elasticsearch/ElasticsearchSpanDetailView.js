@@ -17,7 +17,7 @@ export default function ElasticsearchSpanDetailView({ span }) {
         <ErrorDescriptionItem error={span.getIn(['data', 'elasticsearch', 'error'])} />
 
         {query ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={prettyPrintQuery(query)} lang="json" />
           </DescriptionItem>
         ) : null}

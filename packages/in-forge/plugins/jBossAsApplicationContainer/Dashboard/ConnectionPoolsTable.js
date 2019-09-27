@@ -2,7 +2,7 @@ import React from 'react';
 
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { emptyMap } from 'in-services/fixedImmutables';
+import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -66,21 +66,19 @@ const cols = [
 ];
 
 export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
-  const connectionPools = snapshot.getIn(['data', 'connectionPools'], emptyMap);
-  if (connectionPools.size === 0) {
+  const connectionPoolIds = snapshot.getIn(['data', 'connectionPoolIds'], emptyList);
+  if (connectionPoolIds.size === 0) {
     return null;
   }
 
-  const rows = connectionPools
-    .keySeq()
-    .toArray()
-    .map(key => {
-      return {
-        key,
-        timeConfig,
-        snapshotId: snapshot.get('id')
-      };
-    });
+  const snapshotId = snapshot.get('id');
+  const rows = connectionPoolIds.toArray().map(key => {
+    return {
+      key,
+      timeConfig,
+      snapshotId
+    };
+  });
 
   return (
     <Table

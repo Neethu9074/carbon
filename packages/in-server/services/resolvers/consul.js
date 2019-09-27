@@ -32,17 +32,18 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/INTERNAL_MONITORING_UNIT`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_RBAC_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ADHOC_METRIC_AGGREGATION_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_ADHOC_METRIC_AGGREGATION_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/CUSTOM_DASHBOARDS_ENABLED`, false),
       getBooleanSetting(`settings/TRACK_URL_PATH_CHANGES`, true),
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true)
+      getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -63,7 +64,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
-        optInOptOutEnabled
+        optInOptOutEnabled,
+        isOnPrem
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -88,7 +90,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
-        optInOptOutEnabled
+        optInOptOutEnabled,
+        isOnPrem
       })
     );
   });

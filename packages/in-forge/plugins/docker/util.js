@@ -8,5 +8,12 @@ export function hasMemoryMetrics(snapshot) {
 }
 
 export function isWithinKubernetes(snapshot) {
-  return Boolean(snapshot.getIn(['data', 'Labels', 'io.kubernetes.pod.uid']));
+  const labels = snapshot.getIn(['data', 'Labels']);
+  if (!labels || labels.size === 0) {
+    return false;
+  }
+
+  return labels.some(
+    (value, key) => key.indexOf('io.kubernetes.') !== -1 || key.indexOf('annotation.io.kubernetes') === 0
+  );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { DescriptionItem } from '../../../in-sdk/components/sidebar/DescriptionList';
-import SnapshotLink from '../../../in-components/Link/SnapshotLink';
+import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import getParentProcess from 'in-subscription/getParentProcess';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';

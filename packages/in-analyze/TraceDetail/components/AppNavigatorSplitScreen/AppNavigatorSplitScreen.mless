@@ -21,16 +21,6 @@
     }
   }
 
-  @media @min-medium-screen {
-    .navigator {
-      width: 37.5rem;
-    }
-
-    .traceDetail {
-      width: ~'calc(100% - 37.5rem)';
-    }
-  }
-
   .header {
     background: @lib__colors__N050;
     border-bottom: 1px solid @lib__colors__N300;

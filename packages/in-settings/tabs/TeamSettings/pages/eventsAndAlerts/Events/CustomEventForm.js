@@ -594,6 +594,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
     'application',
     'awsEbs',
     'awsLambda',
+    'awsLambdaVersion',
     'cassandraCluster',
     'cockroachDBCluster',
     'consulCluster',

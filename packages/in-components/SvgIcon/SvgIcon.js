@@ -16,7 +16,8 @@ export const sizes = {
   regular: 24,
   l: 32,
   xl: 48,
-  xxl: 56
+  xxl: 56,
+  xxxl: 96
 };
 
 export default function SvgIcon({

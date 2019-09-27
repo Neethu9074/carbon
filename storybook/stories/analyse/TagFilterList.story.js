@@ -62,22 +62,26 @@ function Default() {
     });
   }
 
-    if (boolean('With Key/Value Filters?', true)) {
-      tagFilters.push({
-        name: 'docker.label',
-        operator: 'EQUALS',
-        stringValue: 'environment=production'
-      });
-      tagFilters.push({
-        name: 'docker.label',
-        operator: 'NOT_EMPTY',
-        stringValue: 'beta'
-      });
-    }
+  if (boolean('With Key/Value Filters?', true)) {
+    tagFilters.push({
+      name: 'docker.label',
+      operator: 'EQUALS',
+      stringValue: 'environment=production'
+    });
+    tagFilters.push({
+      name: 'docker.label',
+      operator: 'NOT_EMPTY',
+      stringValue: 'beta'
+    });
+  }
 
   return (
     <Root>
-      <TagFilterListPresenter tagFilters={tagFilters} onTagFilterClick={action('onTagFilterClick')} onRemoveTagFilter={action('onRemoveTagFilter')} />
+      <TagFilterListPresenter
+        tagFilters={tagFilters}
+        onTagFilterClick={action('onTagFilterClick')}
+        onRemoveTagFilter={action('onRemoveTagFilter')}
+      />
     </Root>
   );
 }

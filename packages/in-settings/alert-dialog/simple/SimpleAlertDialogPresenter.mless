@@ -1,0 +1,19 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dialog {
+    height: 37.5rem;
+    width: 66.25rem;
+  }
+
+  .dialogTitle {
+    display: flex;
+    justify-content: center;
+    color: @lib__colors__N900Primary;
+
+    h1 {
+      font-size: @lib__typography__h300__font-size;
+      margin-left: 0.5rem;
+    }
+  }
+}

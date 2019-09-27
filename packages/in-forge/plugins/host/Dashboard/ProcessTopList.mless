@@ -1,8 +1,7 @@
 @import '~in-themes/mixins.less';
-
 :local {
-  .labelColumn {
-    max-width: 16rem;
+  .label {
     .ellipsis();
+    word-break: break-word;
   }
 }

@@ -1,4 +1,4 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
@@ -15,6 +15,7 @@ import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { createLogger } from 'instalog';
+
 const block = 'in-ui-config';
 
 const logger = createLogger('humioConfig');
@@ -25,7 +26,7 @@ export default class Humio extends React.Component {
   state = {
     loading: true,
     error: false,
-    message: null,
+    message: 'Loading…',
     integration: null,
     form: null
   };
@@ -39,7 +40,7 @@ export default class Humio extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading configuration…',
+      message: 'Loading…',
       id: id,
       form: null,
       integration: null
@@ -83,41 +84,38 @@ export default class Humio extends React.Component {
 
   render() {
     const { form, message, loading } = this.state;
-    if (!form) {
-      return null;
-    }
-
-    const enabled = form.get('enabled').value;
+    const enabled = form ? form.get('enabled').value : null;
 
     return (
       <SettingsDetailPage>
         <Title title="Humio" />
-
         <SubViewHeader>{'Configure your Humio settings'}</SubViewHeader>
-        <form onSubmit={this.onSubmit}>
-          <Fragment>
-            <div style={{ marginBottom: '1rem' }}>
-              <HorizontalFormGroup helpText="Enable/Disable Humio integration for Instana">
-                <Heading text="Show Humio link on Hosts, Containers and Pods" htmlFor="humio-enabled" />
-                <Toggle
-                  id="humio-enabled"
-                  checked={enabled}
-                  onChange={e => this.onChange('enabled', e.target.checked)}
-                />
-              </HorizontalFormGroup>
-            </div>
-          </Fragment>
+        {form && (
+          <form onSubmit={this.onSubmit}>
+            <Fragment>
+              <div style={{ marginBottom: '1rem' }}>
+                <HorizontalFormGroup helpText="Enable/Disable Humio integration for Instana">
+                  <Heading text="Show Humio link on Hosts, Containers and Pods" htmlFor="humio-enabled" />
+                  <Toggle
+                    id="humio-enabled"
+                    checked={enabled}
+                    onChange={e => this.onChange('enabled', e.target.checked)}
+                  />
+                </HorizontalFormGroup>
+              </div>
+            </Fragment>
 
-          <HumioForm form={form} onChange={this.onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+            <HumioForm form={form} onChange={this.onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
 
-          <SaveCancel
-            form={form}
-            message={message}
-            loading={loading}
-            saveEnabled={!enabled || !areFieldsBlank(form)}
-            hasCancelButton={false}
-          />
-        </form>
+            <SaveCancel
+              form={form}
+              message={message}
+              loading={loading}
+              hasCancelButton={false}
+              saveEnabled={!enabled || !areFieldsBlank(form)}
+            />
+          </form>
+        )}
       </SettingsDetailPage>
     );
   }
@@ -177,15 +175,13 @@ function createForm(integration) {
     .put(
       'url',
       createField({
-        value: integration ? integration['url'] : '',
-        validator: notBlankValidator
+        value: integration ? integration['url'] : ''
       })
     )
     .put(
       'repository',
       createField({
-        value: integration ? integration['repository'] : '',
-        validator: notBlankValidator
+        value: integration ? integration['repository'] : ''
       })
     )
     .put(

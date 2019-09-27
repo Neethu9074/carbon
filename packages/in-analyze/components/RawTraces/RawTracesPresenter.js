@@ -6,15 +6,13 @@ import {
   Tbody,
   Tr,
   Td,
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
-  ErrorRows,
   LoadMoreRow,
   Link,
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import AnalyzeTracesWorkspace from 'in-analyze/components/AnalyzeTracesWorkspace';
+import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
@@ -96,13 +94,10 @@ export default function RawTracesPresenter(props) {
               <Td>{latencyFixed.compact(item.trace.duration)}</Td>
             </Tr>
           ))}
-
-          <HorizontalIndicatorRow cols={5} progress={progress} />
-          <ErrorRows cols={5} errors={errors} size="compact" />
-          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={5} />}
           {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={5} />}
         </Tbody>
       </Table>
+      <LoadingStates progress={progress} errors={errors} />
     </AnalyzeTracesWorkspace>
   );
 }

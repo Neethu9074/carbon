@@ -44,8 +44,7 @@ function Default() {
       }
       return null;
     }
-  })
-  .setTouched(boolean('Form Touched?', false), { recurse: true });
+  }).setTouched(boolean('Form Touched?', false), { recurse: true });
 
   return (
     <DialogRoot>

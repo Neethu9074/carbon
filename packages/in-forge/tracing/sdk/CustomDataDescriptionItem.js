@@ -13,7 +13,7 @@ export default function CustomDataDescriptionItem({ span }) {
   }
 
   return (
-    <DescriptionItem title="Data">
+    <DescriptionItem title="Data" verticalDisplay>
       <Code code={JSON.stringify(expandNestedSerializedJson(custom.toJS()), 0, 2)} lang="json" />
     </DescriptionItem>
   );

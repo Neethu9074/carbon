@@ -5,13 +5,13 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ExpandableGroup.mless';
 
-export default function ExpandableGroup({ title, children, defaultExpanded }) {
+export default function ExpandableGroup({ title, expandedTitle, children, defaultExpanded }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded ? true : false);
 
   return (
     <div className={locals.wrapper}>
       <div className={locals.header}>
-        <div className={locals.headerContent}>{title}</div>
+        <div className={locals.headerContent}>{isExpanded && expandedTitle ? expandedTitle : title}</div>
         {children && (
           <div className={locals.headerActions}>
             <Tooltip content="Show content">

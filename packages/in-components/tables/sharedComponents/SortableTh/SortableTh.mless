@@ -12,7 +12,7 @@
   }
 
   .column:hover {
-    .test {
+    .ghostIcon {
       opacity: 1;
     }
   }
@@ -26,7 +26,7 @@
     }
   }
 
-  .test {
+  .ghostIcon {
     opacity: 0;
     fill: @lib__colors__N600Light;
     margin-left: 0.5rem;
@@ -34,5 +34,21 @@
 
   .icon {
     margin-left: 0.5rem;
+  }
+
+  .rightAligned {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .rightAlignedLink {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .ghostIcon,
+    .icon {
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
   }
 }

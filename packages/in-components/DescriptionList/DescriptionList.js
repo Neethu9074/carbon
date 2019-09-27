@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 
+import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './DescriptionList.mless';
 import Tooltip from 'in-components/Tooltip';
 
@@ -13,16 +14,23 @@ export function DescriptionList({ children }) {
   );
 }
 
-export function DescriptionItem({ title, children, onClick }) {
+export function DescriptionItem({ title, children, onClick, style, verticalDisplay }) {
   if (isItemEmpty(children)) {
     return null;
   }
 
   return (
-    <div className={locals.descriptionListItem}>
-      <dt className={locals.itemTitle}>{title}</dt>
+    <div
+      className={evaluateClassNames({
+        [locals.descriptionListItem]: true,
+        [locals.descriptionListItemVertical]: verticalDisplay
+      })}
+    >
+      <dt className={locals.itemTitle} style={style}>
+        {title}
+      </dt>
       <Tooltip content={children} themeStyle="light">
-        <dd className={locals.itemText} onClick={onClick}>
+        <dd className={locals.itemText} onClick={onClick} style={style}>
           {children}
         </dd>
       </Tooltip>

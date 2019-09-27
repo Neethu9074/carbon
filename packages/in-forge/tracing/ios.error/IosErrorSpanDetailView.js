@@ -48,7 +48,7 @@ export default function IosErrorSpanDetailView({ span }) {
         </DescriptionItem>
 
         {report ? (
-          <DescriptionItem title="Crash Report">
+          <DescriptionItem title="Crash Report" verticalDisplay>
             <Code code={report} />
           </DescriptionItem>
         ) : null}

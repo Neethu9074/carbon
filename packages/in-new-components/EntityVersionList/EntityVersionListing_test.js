@@ -2,9 +2,9 @@
 
 import { expect } from 'chai';
 
-import { cluster } from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
+import { cluster } from 'in-new-components/EntityVersionList/EntityVersionListing';
 
-describe('in-new-components/EntityVersionList/EntityVersionListPresenter#cluster', () => {
+describe('in-new-components/EntityVersionList/EntityVersionListing#cluster', () => {
   it('should cluster versions', () => {
     let clusters = cluster([]);
     expect(clusters).to.have.length(0);

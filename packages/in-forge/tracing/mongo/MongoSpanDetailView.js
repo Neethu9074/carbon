@@ -15,7 +15,7 @@ export default function MongoSpanDetailView({ span }) {
         <DescriptionItem title="Service">{span.getIn(['data', 'mongo', 'service'])}</DescriptionItem>
         <DescriptionItem title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</DescriptionItem>
         {query ? (
-          <DescriptionItem title="Query">
+          <DescriptionItem title="Query" verticalDisplay>
             <Code code={query} lang="json" />
           </DescriptionItem>
         ) : null}

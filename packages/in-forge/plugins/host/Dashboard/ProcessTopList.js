@@ -7,6 +7,8 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 
+import locals from './ProcessTopList.mless';
+
 const cols = [
   {
     title: 'PID',
@@ -32,7 +34,7 @@ const cols = [
       },
       withHierarchy: true,
       getFallbackContent(row) {
-        return row.process.get('name');
+        return <span className={locals.label}>{row.process.get('name')}</span>;
       },
       useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
         if (hierarchy && hierarchy.length > 0) {

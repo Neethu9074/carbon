@@ -7,7 +7,7 @@ import TermsPage2 from './TermsPage2';
 
 import locals from './TermsDialogPresenter.mless';
 
-export default function TermsDialogPresenter({ form, onChange, onSave, saveError, unsetSaveError }) {
+export default function TermsDialogPresenter({ form, onChange, onSave, saveError, unsetSaveError, isOnPrem = false }) {
   const [pageNumber, setPageNumber] = useState(1);
 
   return (
@@ -30,6 +30,7 @@ export default function TermsDialogPresenter({ form, onChange, onSave, saveError
             form={form}
             hasErrorOnSave={saveError}
             unsetSaveError={unsetSaveError}
+            isOnPrem={isOnPrem}
           />
         )}
       </form>
@@ -52,5 +53,6 @@ TermsDialogPresenter.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   saveError: PropTypes.bool,
-  unsetSaveError: PropTypes.func
+  unsetSaveError: PropTypes.func,
+  isOnPrem: PropTypes.bool
 };

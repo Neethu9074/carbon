@@ -1,0 +1,31 @@
+@import '~in-themes/active.less';
+
+:local {
+  .bar {
+    border-radius: @lib__shapes__radius_small;
+  }
+
+  .barBg {
+    .bar();
+    background-color: @lib__colors__N200;
+    height: 4px;
+  }
+
+  .barInner {
+    .bar();
+    height: 100%;
+    transition: 0.5s ease-out;
+  }
+
+  .stepTitles {
+    display: flex;
+    justify-content: space-around;
+    color: @lib__colors__N600Light;
+    font-size: @lib__typography__body__font-size;
+    margin-top: 0.5rem;
+  }
+
+  .titleSelectedStep {
+    font-weight: 600;
+  }
+}

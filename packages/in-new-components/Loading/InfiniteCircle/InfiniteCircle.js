@@ -26,7 +26,7 @@ export default function InfiniteCircle({ width, height, percentage, customText, 
   );
 }
 
-function describeArc(x, y, radius, arcWidth, startAngle, endAngle) {
+export function describeArc(x, y, radius, arcWidth, startAngle, endAngle) {
   const startOuter = polarToCartesian(x, y, radius, endAngle);
   const endOuter = polarToCartesian(x, y, radius, startAngle);
   const startInner = polarToCartesian(x, y, radius - arcWidth, startAngle);

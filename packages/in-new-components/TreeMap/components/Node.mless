@@ -19,12 +19,26 @@
     cursor: pointer;
   }
 
+  .nodeSmallHeight {
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+  }
+
+  .nodeSmallWidth {
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
+  }
+
   .label,
   .value {
     max-width: 100%;
 
     text-align: center;
     .ellipsis();
+  }
+
+  .fullLabel {
+    white-space: normal;
   }
 
   .label {

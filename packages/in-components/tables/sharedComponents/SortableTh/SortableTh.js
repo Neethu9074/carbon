@@ -13,15 +13,25 @@ export default function SortableTh({
   children,
   className,
   wrapContent,
+  rightAligned,
   noWrap,
   width
 }) {
   return (
-    <Th className={className} noWrap={noWrap} width={width} wrapContent={wrapContent}>
+    <Th
+      className={evaluateClassNames({
+        [className]: className,
+        [locals.rightAligned]: rightAligned
+      })}
+      noWrap={noWrap}
+      width={width}
+      wrapContent={wrapContent}
+    >
       <a
         href=""
         className={evaluateClassNames({
           [locals.column]: true,
+          [locals.rightAlignedLink]: rightAligned,
           [locals.activeColumn]: isSortedByThisColumn
         })}
         onClick={onClick}
@@ -35,7 +45,7 @@ export default function SortableTh({
           />
         )}
 
-        {!isSortedByThisColumn && <SvgIcon className={locals.test} type="lib_arrow_short_down" size="xs" />}
+        {!isSortedByThisColumn && <SvgIcon className={locals.ghostIcon} type="lib_arrow_short_down" size="xs" />}
       </a>
     </Th>
   );

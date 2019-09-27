@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumnHeaders';
+import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import Groups from 'in-analyze/components/GroupedTraces/Groups';
 import Group from 'in-analyze/components/GroupedTraces/Group';
@@ -9,7 +10,7 @@ import Group from 'in-analyze/components/GroupedTraces/Group';
 import locals from './TraceGroupsTable.mless';
 
 export default function TraceGroupsTable(props) {
-  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;
+  const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics, progress, errors } = props;
   const columnCount = 3 + metrics.length;
 
   return (
@@ -53,6 +54,7 @@ export default function TraceGroupsTable(props) {
           {canLoadMore && <LoadMoreRow loadMore={loadMore} cols={columnCount} size="compact" />}
         </Tbody>
       </Table>
+      <LoadingStates progress={progress} errors={errors} />
     </Fragment>
   );
 }

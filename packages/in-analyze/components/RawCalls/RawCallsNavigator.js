@@ -5,37 +5,25 @@ import {
   Thead,
   Tbody,
   Tr,
-  Th,
   Td,
   HorizontalIndicatorRow,
   LoadingSkeletonRows,
   ErrorRows,
   LoadMoreRow,
-  Link,
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import {
-  getResponsiveNavigatorMode,
-  showAllColumns as showAllColumnsKey
-} from 'in-analyze/components/getResponsiveNavigatorMode';
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
-import NavigatorMinifiedExtraData from 'in-analyze/components/NavigatorMinifiedExtraData';
+import ListItemPresenter from 'in-analyze/components/RawTraces/ListItemPresenter';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { formatDateTime } from 'in-services/formatters/date';
-import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
-import locals from './RawCallsNavigator.mless';
-
-export default getResponsiveNavigatorMode(RawCallsNavigator);
-
-function RawCallsNavigator({
+export default function RawCallsNavigator({
   items,
   errors,
   progress,
@@ -44,13 +32,10 @@ function RawCallsNavigator({
   orderBy,
   orderDirection,
   onChangeOrder,
-  location,
-  navigatorMode
+  location
 }) {
   const selectedTraceId = getMatrixParameter(location, traceDetail, traceIdMatrixParameter);
   const selectedCallId = getMatrixParameter(location, traceDetail, callIdMatrixParameter);
-  const showAllColumns = navigatorMode === showAllColumnsKey;
-  const columnCount = showAllColumns ? 4 : 2;
 
   return (
     <HeightRestrictedView
@@ -59,29 +44,25 @@ function RawCallsNavigator({
           <Thead>
             <Tr size="compact">
               <ErroneousRowTh />
-              <Th>Call</Th>
 
-              {showAllColumns && (
-                <SortableColumn
-                  orderBy={orderBy}
-                  orderDirection={orderDirection}
-                  onChangeOrder={onChangeOrder}
-                  defaultDirection="DESC"
-                  technicalName="timestamp"
-                  label="Timestamp"
-                />
-              )}
+              <SortableColumn
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onChangeOrder={onChangeOrder}
+                defaultDirection="DESC"
+                technicalName="timestamp"
+                label="Timestamp"
+              />
 
-              {showAllColumns && (
-                <SortableColumn
-                  orderBy={orderBy}
-                  orderDirection={orderDirection}
-                  onChangeOrder={onChangeOrder}
-                  defaultDirection="DESC"
-                  technicalName="latency"
-                  label="Latency"
-                />
-              )}
+              <SortableColumn
+                rightAligned
+                orderBy={orderBy}
+                orderDirection={orderDirection}
+                onChangeOrder={onChangeOrder}
+                defaultDirection="DESC"
+                technicalName="latency"
+                label="Latency"
+              />
             </Tr>
           </Thead>
           <Tbody>
@@ -92,49 +73,39 @@ function RawCallsNavigator({
                 active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
               >
                 <ErroneousRowTd isErroneous={item.call.errorCount > 0} />
-                <Td
-                  className={locals.labelColumn}
-                  active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
-                >
-                  <Link
+                <Td active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId} colSpan={3}>
+                  <ListItemPresenter
+                    item={item}
+                    active={item.call.traceId === selectedTraceId && item.call.id === selectedCallId}
+                    label={
+                      <>
+                        {item.call.label}
+                        {item.call.batchCount > 1 && (
+                          <Fragment>
+                            {' '}
+                            <Tooltip
+                              themeStyle="light"
+                              content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                            >
+                              <Pill kind="lighter">{item.call.batchCount}</Pill>
+                            </Tooltip>
+                          </Fragment>
+                        )}
+                      </>
+                    }
                     href$={getLinkToTraceDetail(item.call.traceId, { callId: item.call.id })}
                     onClick={() => callClickedTracker()}
-                  >
-                    {item.call.label}
-                    {item.call.batchCount > 1 && (
-                      <Fragment>
-                        {' '}
-                        <Tooltip
-                          themeStyle="light"
-                          content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-                        >
-                          <Pill kind="lighter">{item.call.batchCount}</Pill>
-                        </Tooltip>
-                      </Fragment>
-                    )}
-                  </Link>
-
-                  {!showAllColumns && (
-                    <NavigatorMinifiedExtraData
-                      extras={[formatDateTime(item.call.started), latencyFixed.compact(item.call.duration)]}
-                    />
-                  )}
+                    time={item.call.started}
+                    duration={item.call.duration}
+                  />
                 </Td>
-
-                {showAllColumns && <Td>{formatDateTime(item.call.started)}</Td>}
-
-                {showAllColumns && (
-                  <Td>
-                    <span>{latencyFixed.compact(item.call.duration)}</span>
-                  </Td>
-                )}
               </Tr>
             ))}
 
-            <HorizontalIndicatorRow cols={columnCount} progress={progress} />
-            <ErrorRows cols={columnCount} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={columnCount} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
+            <HorizontalIndicatorRow cols={3} progress={progress} />
+            <ErrorRows cols={3} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={3} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={3} />}
           </Tbody>
         </Table>
       )}

@@ -17,7 +17,7 @@ export default function MySqlSpanDetailView({ span }) {
       <ErrorDescriptionItem error={span.getIn(['data', 'mysql', 'error'])} />
 
       {statement ? (
-        <DescriptionItem title="Query">
+        <DescriptionItem title="Query" verticalDisplay>
           <Code code={formatSql(statement)} lang="sql" />
         </DescriptionItem>
       ) : null}
