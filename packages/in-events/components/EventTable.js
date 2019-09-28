@@ -45,10 +45,14 @@ export default compose(
       createRawEventsObservable({
         timeConfig,
         query: concatQueries(query, eventType),
-        sortByField: orderBy,
-        sortMode: orderDirection,
-        offset: cursor,
-        size: 100
+        pagination: {
+          cursor,
+          retrievalSize: 100
+        },
+        order: {
+          by: orderBy,
+          direction: orderDirection
+        }
       }).map(items => ({
         progress: { loading: false },
         errors: [],

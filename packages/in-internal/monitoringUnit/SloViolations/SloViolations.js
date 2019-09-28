@@ -37,13 +37,15 @@ export default connect({
       .flatMap(() =>
         getRawEvents({
           timeConfig,
-          maxTimestamp: timeConfig.to || Date.now(),
-          minTimestamp: (timeConfig.to || Date.now()) - timeConfig.windowSize,
-          sortByField: 'start',
-          sortMode: 'desc',
           query: onlySlosQuery,
-          offset: 0,
-          size: 200
+          pagination: {
+            cursor: null,
+            retrievalSize: 200
+          },
+          order: {
+            by: 'start',
+            direction: 'DESC'
+          }
         }).map(events => events.filter(e => e.entityType === 'Entity10'))
       )
   )

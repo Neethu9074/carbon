@@ -4,17 +4,15 @@ import { generateStableHash } from 'in-services/util/id';
 export default createSubscription({
   eventId: 'subscribe-raw-events',
 
-  getId({ timeConfig, maxTimestamp, minTimestamp, sortByField, sortMode, query, offset, size }) {
+  getId({ timeConfig, query, pagination, order }) {
     return (
       generateStableHash(timeConfig) +
-      maxTimestamp +
-      minTimestamp +
-      sortByField +
-      sortMode +
+      order.by +
+      order.direction +
       Math.round(Date.now() / 2000) +
       query +
-      offset +
-      size
+      pagination.cursor +
+      pagination.retrievalSize
     );
   },
 
