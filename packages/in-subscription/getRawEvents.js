@@ -2,7 +2,7 @@ import createSubscription from 'in-subscription/subscription';
 import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({
-  eventId: 'subscribe-raw-events',
+  eventId: 'getRawEvents',
 
   getId({ timeConfig, query, pagination, order }) {
     return (
