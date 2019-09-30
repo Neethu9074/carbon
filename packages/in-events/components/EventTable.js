@@ -47,16 +47,16 @@ export default compose(
         query: concatQueries(query, eventType),
         pagination: {
           cursor,
-          retrievalSize: 100
+          retrievalSize: 30
         },
         order: {
           by: orderBy,
           direction: orderDirection
         }
-      }).map(items => ({
+      }).map(data => ({
         progress: { loading: false },
         errors: [],
-        data: { items, canLoadMore: items.length === 100 }
+        data
       }))
   })
 )(EventTable);

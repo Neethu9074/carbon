@@ -24,11 +24,11 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
   const onClick = () => onItemClicked(event.id);
 
   if (isDenseList) {
-    return <EventsListRowDense event={event} active={active} onClick={onClick} />;
+    return <EventsListRowDense key={event.id} event={event} active={active} onClick={onClick} />;
   }
 
   return (
-    <Tr size="compact" active={active} onClick={onClick}>
+    <Tr key={event.id} size="compact" active={active} onClick={onClick}>
       <Td>
         <EventIcon
           event={fromJS({
