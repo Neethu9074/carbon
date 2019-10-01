@@ -15,6 +15,7 @@ const releaseNotesBaseUrl = '/notifications/release-notes';
 const localStorageKeyVersion = 'in-read-release-notes-version';
 let noBuildInformationWarningHasBeenLogged = false;
 let noReleaseNotesWarningHasBeenLogged = false;
+let fetchLaterHandle;
 
 const noReleaseNotesContent = {
   version: null,
@@ -114,7 +115,10 @@ function retrieveLatestReleaseNotes() {
 }
 
 function tryFetchingReleaseNotesLater() {
-  setInterval(retrieveLatestReleaseNotes, 10 * 60 * 1000 /* try again ten minutes later */);
+  if (fetchLaterHandle) {
+    clearTimeout(fetchLaterHandle);
+  }
+  fetchLaterHandle = setTimeout(retrieveLatestReleaseNotes, 10 * 60 * 1000 /* try again ten minutes later */);
 }
 
 function processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor) {
