@@ -65,7 +65,7 @@ export function serializeQuery(form) {
 }
 
 export function applicationIdsToDfq(applicationIds) {
-  let applicationIdsQueryPart = null;
+  let applicationIdsQueryPart = '';
   if (applicationIds && applicationIds.length > 0) {
     applicationIdsQueryPart = applicationIds.map(appId => `entity.application.id:"${appId}"`).join(' OR ');
   }
