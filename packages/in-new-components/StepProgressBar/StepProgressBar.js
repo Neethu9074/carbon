@@ -46,7 +46,7 @@ function getWidthInPercent(step, stepTitles) {
 function validateStep(stepTitles, step) {
   if (__DEV__) {
     const maxLen = stepTitles.length - 1;
-    invariant(step < 0 || step > maxLen, `step with value "${step}" is out of range. I must be >=0 and <=${maxLen}`);
+    invariant(step >= 0 || step <= maxLen, `step with value "${step}" is out of range. I must be >=0 and <=${maxLen}`);
   }
 }
 
