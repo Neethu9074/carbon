@@ -17,12 +17,13 @@ import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
+import { getVSphereDashboard } from 'in-vsphere/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
-import { pcfEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
@@ -140,6 +141,25 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
         {organization && (
           <MetaEntityLink entity={organization} icon="lib_cloudfoundry_organization">
             of
+          </MetaEntityLink>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WithVSpherePhysicalContext({ children, cluster }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {cluster && (
+          <MetaEntityLink
+            entity={cluster}
+            icon="lib_cloudfoundry_application"
+            getDashboard={vsphereEnabled && getVSphereDashboard}
+          >
+            instance of
           </MetaEntityLink>
         )}
       </div>
@@ -353,7 +373,8 @@ function getColumnDefinitions(type) {
           <UnmonitoredEntity />
         );
 
-        if (item.physicalContext.kubernetes &&
+        if (
+          item.physicalContext.kubernetes &&
           (item.physicalContext.kubernetes.pod || item.physicalContext.kubernetes.namespace)
         ) {
           return (
@@ -376,6 +397,10 @@ function getColumnDefinitions(type) {
               {link}
             </WithCloudfoundryPhysicalContext>
           );
+        }
+
+        if (item.physicalContext.vsphere) {
+          return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
         }
 
         return link;
