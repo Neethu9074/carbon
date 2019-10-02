@@ -7,7 +7,6 @@ import {
 } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
-import CallErrorSummaries from 'in-analyze/TraceDetail/components/CallDetails/components/CallErrorSummaries';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
@@ -21,6 +20,7 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import { pendingResult } from 'in-services/fixedObjects';
 import PluginIcon from 'in-components/PluginIcon';
 import { find } from 'in-services/arrayUtils';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServiceComponent.mless';
@@ -127,7 +127,6 @@ export default function ServiceComponent({ call }) {
                 physicalContext={sourcePhysicalContext}
               />
               <div className={locals.sourceChildren}>
-                <CallErrorSummaries call={call} kind="EXIT" />
                 {exitSpan && (
                   <ExpandableGroup
                     title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -176,7 +175,6 @@ export default function ServiceComponent({ call }) {
               />
             </div>
             <div className={locals.destinationChildren}>
-              <CallErrorSummaries call={call} kind="ENTRY" />
               {entrySpan && (
                 <ExpandableGroup
                   title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
@@ -188,7 +186,8 @@ export default function ServiceComponent({ call }) {
                   )}
                 </ExpandableGroup>
               )}
-              {(entrySpan || destinationSnapshotId) && (
+
+              {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
                 <ExpandableGroup
                   expandedTitle="Infrastructure"
                   title={
@@ -212,6 +211,28 @@ export default function ServiceComponent({ call }) {
                   )}
                 </ExpandableGroup>
               )}
+              {destinationPhysicalContext &&
+                destinationPhysicalContext.cluster && (
+                  <ExpandableGroup
+                    expandedTitle="Infrastructure"
+                    title={
+                      <Tooltip
+                        content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
+                        align="bottomLeft"
+                      >
+                        <div className={locals.infraTitle}>
+                          <span>Infrastructure</span>
+                          <InfrastructureEntityLink
+                            entity={destinationEntity}
+                            plugin={destinationEntity && destinationEntity.plugin}
+                            snapshotId={destinationSnapshotId}
+                            physicalContext={destinationPhysicalContext}
+                          />
+                        </div>
+                      </Tooltip>
+                    }
+                  />
+                )}
               {logs.length > 0 && (
                 <ExpandableGroup
                   title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : null} ${
