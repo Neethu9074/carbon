@@ -46,11 +46,11 @@ function constructHumioLink(integration, props) {
   return `${integration.url}/${integration.repository}/search${toParams(queryParameters, '?', '&')}`;
 }
 
-function serializeQuery({ hostFqdn, kubernetesPodId, dockerContainerId, isWithinKubernetes }) {
+function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
   const query = {};
 
-  if (kubernetesPodId) {
-    query['kubernetes.pod_id'] = kubernetesPodId;
+  if (kubernetesPodName) {
+    query['kubernetes.pod_name'] = kubernetesPodName;
   } else if (dockerContainerId) {
     if (isWithinKubernetes) {
       query['kubernetes.docker_id'] = dockerContainerId;
