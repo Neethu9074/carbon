@@ -1,6 +1,8 @@
+@import '~in-themes/active.less';
+
 :local {
   .header {
     padding: 0.75rem 0;
-    font-size: 1rem;
+    font-size: @lib__typography__body-large__font-size;
   }
 }

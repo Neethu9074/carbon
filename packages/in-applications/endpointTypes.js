@@ -17,16 +17,16 @@ export const endpointNameTranslations = {
 
 export const colorTranslation = {
   BATCH: '#4fd3f8',
-  SHELL: '#FFC600',
+  SHELL: theme.lib.colors.yellow800,
   DATABASE: '#ef914d',
   HTTP: '#549ef8',
   MESSAGING: '#69b116',
   RPC: '#93bedc',
   EVENT: '#69b116',
   GRAPHQL: theme.lib.colors.lime800,
-  INTERNAL: '#D4D8DB',
-  UNDEFINED: '#D4D8DB',
-  SELF: '#D4D8DB'
+  INTERNAL: theme.lib.colors.N400,
+  UNDEFINED: theme.lib.colors.N400,
+  SELF: theme.lib.colors.N400
 };
 
 export function getColor(type) {
