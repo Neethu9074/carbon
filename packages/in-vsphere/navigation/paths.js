@@ -11,13 +11,13 @@ export const clusterListFullyQualified = `${cloudfoundry}${clusterList}`;
 export const clusterDashboard = `/cluster`;
 export const clusterDashboardFullyQualified = `${cloudfoundry}${clusterDashboard}`;
 
-export function getVSphereDashboard(clusterId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getVSphereClusterDashboard(clusterId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
-    base: clusterListFullyQualified,
+    base: clusterDashboardFullyQualified,
     tab,
     tabMatrix,
     timeConfig,
-    matrixSegment: clusterDashboardFullyQualified,
+    matrixSegment: clusterDashboard,
     matrixParam: matrixClusterId,
     id: clusterId
   });
