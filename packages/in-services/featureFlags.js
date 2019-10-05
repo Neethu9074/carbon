@@ -55,7 +55,7 @@ export function getBlackListedSearchFieldKeywords() {
 export const blackListedSearchFieldValues = {
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
   'entity.type': ['agent'],
-  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics']
+  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics', 'region']
 };
 
 // ########################################################################################

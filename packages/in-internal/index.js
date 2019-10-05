@@ -42,6 +42,7 @@ import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
 import Cassandra from 'in-internal/monitoringUnit/sre/Cassandra';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
+import Region from 'in-internal/monitoringUnit/Region';
 
 export default function Internal() {
   return (
@@ -56,6 +57,7 @@ export default function Internal() {
             <Route path="/internal/monitoringUnit/unit" component={Unit} />
             <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />
 
+            <Route path="/internal/monitoringUnit/region" component={wrapIninternalView(Region)} />
             <Route path="/internal/monitoringUnit/tuStatistics" component={wrapIninternalView(TuStatistics)} />
             <Route path="/internal/monitoringUnit/sloViolations" component={wrapIninternalView(SloViolations)} />
             <Route path="/internal/monitoringUnit/eum/eum-acceptor" component={wrapIninternalView(EumAcceptor)} />
@@ -71,7 +73,10 @@ export default function Internal() {
             />
             <Route path="/internal/monitoringUnit/eum" component={wrapIninternalView(EumOverview)} />
             <Route path="/internal/monitoringUnit/fillerStats" component={wrapIninternalView(FillerStats)} />
-            <Route path="/internal/monitoringUnit/appdataBatchingInsights" component={wrapIninternalView(BatchingInsights)} />
+            <Route
+              path="/internal/monitoringUnit/appdataBatchingInsights"
+              component={wrapIninternalView(BatchingInsights)}
+            />
             <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
             <Route
               path="/internal/monitoringUnit/appdataProcessing"
