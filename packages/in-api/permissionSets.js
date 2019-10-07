@@ -43,7 +43,7 @@ export function getK8sNamespaces() {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: '/api/kubernetes/namespaces',
-    data: defaultQuery()
+    data: defaultLargerQuery()
   }).map(response => response.body.items);
 }
 
@@ -51,6 +51,13 @@ function defaultQuery() {
   return {
     filter: { timeConfig: {} },
     pagination: { page: 1, pageSize: 200 },
+    order: { by: 'name', direction: 'ASC' }
+  };
+}
+function defaultLargerQuery() {
+  return {
+    filter: { timeConfig: {} },
+    pagination: { page: 1, pageSize: 400 },
     order: { by: 'name', direction: 'ASC' }
   };
 }
