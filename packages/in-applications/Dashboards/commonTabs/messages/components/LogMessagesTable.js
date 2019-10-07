@@ -156,7 +156,7 @@ function getTableData({
 function Message({ message, applicationName, serviceName, endpointName }) {
   const logMessageFilter = message
     ? { name: 'log.message', value: message }
-    : { name: 'log.message', operator: 'is not present' };
+    : { name: 'log.message', operator: 'IS_EMPTY' };
 
   return (
     <Link
