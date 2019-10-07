@@ -9,4 +9,8 @@
   .analyzeButton {
     margin-right: 0.5rem;
   }
+
+  .italic {
+    font-style: italic;
+  }
 }

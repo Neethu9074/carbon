@@ -154,7 +154,9 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName }) {
-  const logMessageFilter = { name: 'log.message', value: message };
+  const logMessageFilter = message
+    ? { name: 'log.message', value: message }
+    : { name: 'log.message', operator: 'is not present' };
 
   return (
     <Link
@@ -167,7 +169,7 @@ function Message({ message, applicationName, serviceName, endpointName }) {
         filters: [logMessageFilter]
       })}
     >
-      {message}
+      {message ? message : <div className={locals.italic}>No log message available</div>}
     </Link>
   );
 }
