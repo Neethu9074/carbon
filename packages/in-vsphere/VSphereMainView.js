@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { datacenterListFullyQualified } from 'in-vsphere/navigation/paths';
 import ViewSwitcher from 'in-vsphere/lists/components/ViewSwitcher';
-import DatacenterList from 'in-vsphere/lists/ClusterList';
+import DatacenterList from 'in-vsphere/lists/DatacenterList';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
