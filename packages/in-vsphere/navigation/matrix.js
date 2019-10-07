@@ -1,1 +1,1 @@
-export const clusterId = 'clusterId';
+export const datacenterId = 'datacenterId';

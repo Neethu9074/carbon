@@ -20,10 +20,11 @@ import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import InternalViews from 'promise-loader?global,internal!in-internal';
 import Map from 'promise-loader?global,infrastructure!in-map/index';
 
-import { pcfEnabled, customDashboardsEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, customDashboardsEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import customDashboardRoutes from 'in-custom-dashboards/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import vsphereRoutes from 'in-vsphere/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
@@ -53,6 +54,7 @@ export default (
     {hasAnalyzeAccess && analyzeRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
+    {vsphereEnabled && vsphereRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {customDashboardsEnabled && customDashboardRoutes}
 

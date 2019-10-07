@@ -17,7 +17,7 @@ import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { getVSphereClusterDashboard } from 'in-vsphere/navigation/paths';
+import { getVSphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -148,16 +148,16 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
   );
 }
 
-function WithVSpherePhysicalContext({ children, cluster }) {
+function WithVSpherePhysicalContext({ children, datacenter }) {
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}
       <div className={locals.metaRow}>
-        {cluster && (
+        {datacenter && (
           <MetaEntityLink
-            entity={cluster}
+            entity={datacenter}
             icon="lib_cloudfoundry_application"
-            getDashboard={vsphereEnabled && getVSphereClusterDashboard}
+            getDashboard={vsphereEnabled && getVSphereDatacenterDashboard}
           >
             instance of
           </MetaEntityLink>
