@@ -11,7 +11,7 @@ export const datacenterListFullyQualified = `${vsphere}${datacenterList}`;
 export const datacenterDashboard = `/datacenter`;
 export const datacenterDashboardFullyQualified = `${vsphere}${datacenterDashboard}`;
 
-export function getVSphereDatacenterDashboard(datacenterId, { tab, tabMatrix, timeConfig } = emptyObject) {
+export function getVsphereDatacenterDashboard(datacenterId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
     base: datacenterDashboardFullyQualified,
     tab,

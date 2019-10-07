@@ -17,7 +17,7 @@ import getInfrastructure from 'in-subscription/application/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { getVSphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -157,7 +157,7 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
           <MetaEntityLink
             entity={datacenter}
             icon="lib_cloudfoundry_application"
-            getDashboard={vsphereEnabled && getVSphereDatacenterDashboard}
+            getDashboard={vsphereEnabled && getVsphereDatacenterDashboard}
           >
             instance of
           </MetaEntityLink>
@@ -398,12 +398,13 @@ function getColumnDefinitions(type) {
             </WithCloudfoundryPhysicalContext>
           );
         }
+        return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
 
-        if (item.physicalContext.vsphere) {
-          return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
-        }
-
-        return link;
+        // if (item.physicalContext.vsphere) {
+        //   return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
+        // }
+        //
+        // return link;
       }
     };
   } else if (type == 'HOST') {

@@ -4,12 +4,13 @@ import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
+import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasKubernetesAccess, hasAnalyzeAccess } from 'in-stores/permission';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { eventsPath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { websiteMonitoringPath, isAnalyzeView as isWebsiteAnalyzeView } from 'in-websites/navigation/paths';
-import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { pcfEnabled, releaseNotesEnabled, tenantSwitcherEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
@@ -81,6 +82,17 @@ export default function ViewSwitcher({
           icon="lib_cloudfoundry_inverted"
           href$={getView(cloudfoundryApplicationList)}
           isActive$={isView(cloudfoundry)}
+          {...commonProps}
+        />
+      )}
+
+      {vsphereEnabled && (
+        <View
+          id="main-nav-vsphere"
+          label="VSphere"
+          icon="lib_vsphere_inverted"
+          href$={getView(datacenterListFullyQualified)}
+          isActive$={isView(vsphere)}
           {...commonProps}
         />
       )}

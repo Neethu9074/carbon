@@ -4,8 +4,8 @@ import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoData
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
-import getVSphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
-import { datacenterList, getVSphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
+import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
@@ -25,7 +25,7 @@ const columnDefinitions = [
       return (
         <EntityLink
           label={item.label}
-          href$={getVSphereDatacenterDashboard(item.id)}
+          href$={getVsphereDatacenterDashboard(item.id)}
           icon="lib_cloudfoundry_application"
         />
       );
@@ -109,7 +109,7 @@ function getVSphereDatacentersSubscribeEvent({
   orderDirection = 'ASC',
   timeConfig
 }) {
-  return getVSphereDatacenters({
+  return getVsphereDatacenters({
     pagination: {
       page,
       pageSize
