@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 
 import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -43,21 +41,6 @@ const columnDefinitions = [
     label: 'Virtual Machines',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_node" count={item.services} />;
-    }
-  },
-  {
-    id: 'health',
-    label: 'Health',
-    getContent(item, { timeConfig }) {
-      return (
-        <EntityHealthIndicator
-          openIssues={item.entityHealthInfo.openIssues.length}
-          maxSeverity={item.entityHealthInfo.maxSeverity}
-          IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={timeConfig}
-          snapshotId={item.cluster.id}
-        />
-      );
     }
   }
 ];
