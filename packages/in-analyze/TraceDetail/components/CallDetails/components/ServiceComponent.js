@@ -267,7 +267,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     );
   }
 
-  if (!entity && snapshotId && !snapshot) {
+  if ((!entity && snapshotId) || !snapshot) {
     return (
       <div className={locals.noLink}>
         <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
