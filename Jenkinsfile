@@ -110,7 +110,7 @@ stage('Deployment') {
   milestone label: "deployment"
 
   if ( env.BRANCH_NAME == 'develop' ) {
-    build job: '/deployment/k8s-deploy', parameters: [
+    build job: '/deployment/k8s-redeploy', parameters: [
       string(name: 'BRANCH', value: env.BRANCH_NAME),
       string(name: 'MESSAGE', value: 'ui-client: ' + gitMessage)
     ]
