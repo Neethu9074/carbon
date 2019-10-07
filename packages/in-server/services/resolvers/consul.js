@@ -38,7 +38,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),

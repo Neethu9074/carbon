@@ -104,13 +104,13 @@ function retrieveLatestReleaseNotes() {
       url: `${releaseNotesBaseUrl}/index.json?cacheBust=${Date.now()}`,
       responseType: 'text'
     });
-    indexObservable.once(indexResponse => {
-      processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor);
-    });
-    indexObservable.errors().once(() => {
+    indexObservable.once(
+      indexResponse => {
+        processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMinor);
+      },
       // ignore HTTP errors silently and try again later
-      tryFetchingReleaseNotesLater();
-    });
+      tryFetchingReleaseNotesLater
+    );
   });
 }
 
@@ -145,11 +145,11 @@ function processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMin
       responseType: 'text'
     });
 
-    releaseNotesObservable.once(processReleaseNotesMarkdown);
-    releaseNotesObservable.errors().once(() => {
+    releaseNotesObservable.once(
+      processReleaseNotesMarkdown,
       // ignore HTTP errors silently and try again later
-      tryFetchingReleaseNotesLater();
-    });
+      tryFetchingReleaseNotesLater
+    );
   } catch (e) {
     logger.warn('Could not parse release notes index.');
     tryFetchingReleaseNotesLater();
