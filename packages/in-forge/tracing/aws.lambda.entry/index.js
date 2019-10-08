@@ -1,7 +1,6 @@
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
-
   // we do not define a category since Lambda entries can belong to different categories depending on the trigger - they
   // can be HTTP entries, or messaging entries, or event entries or batch entries.
 

@@ -278,6 +278,54 @@
       background: #ffd86d;
     }
   }
+
+  .warning {
+    .buttonStyle(
+        // bg
+          @lib__colors__warning,
+        // hover bg
+          #f0bc00,
+        // font
+          @lib__colors__N900Primary,
+        // hover font
+          @lib__colors__N900Primary,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: #ffd86d;
+    }
+  }
+
+  .info {
+    .buttonStyle(
+        // bg
+          @lib__colors__chart__self100,
+        // hover bg
+          @lib__colors__navy800,
+        // font
+          @lib__colors__white,
+        // hover font
+          @lib__colors__white,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          @lib__typography__button__font-weight
+      )
+      ;;
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      background: @lib__colors__N400;
+    }
+  }
 }
 
 .buttonStyle(@bg, @hoverBg, @font, @hoverFont, @fontSize, @fontWeight) {

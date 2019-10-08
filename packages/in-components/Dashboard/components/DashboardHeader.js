@@ -9,6 +9,8 @@ import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import PluginBadge from 'in-components/Dashboard/components/PluginBadge';
 import ZoneTag from 'in-components/MapSidebar/components/ZoneTag';
+import { contextGuideEnabled } from 'in-services/featureFlags';
+import StackButton from 'in-new-components/Stack/StackButton';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './DashboardHeader.mless';
@@ -42,6 +44,9 @@ function Actions({ snapshot, timeConfig }) {
   return (
     <Fragment>
       <EntityVersionButton snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      {contextGuideEnabled && (
+        <StackButton id={snapshot.get('id')} timeConfig={timeConfig} plugin={snapshot.get('plugin')} />
+      )}
       {getDashboardHeaderActions(snapshot, timeConfig)}
       <EntityHealthIndicator
         showOkayOnNoIssues={false}

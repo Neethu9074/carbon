@@ -46,6 +46,8 @@ export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBrea
 export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', true);
 export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
 
+export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

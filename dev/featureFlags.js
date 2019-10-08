@@ -26,5 +26,6 @@ module.exports = {
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
   optInOptOutEnabled: true,
-  isOnPrem: false
+  isOnPrem: false,
+  contextGuideEnabled: false
 };

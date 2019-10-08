@@ -15,7 +15,8 @@ export const kinds = [
   'subtle',
   'create',
   'danger',
-  'warning'
+  'warning',
+  'info'
 ];
 export const sizes = ['normal', 'compact'];
 

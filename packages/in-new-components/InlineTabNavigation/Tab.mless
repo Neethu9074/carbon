@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tab {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    color: @lib__colors__N600Light;
+    font-size: 0.875rem;
+    font-weight: 400;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+
+    &:hover,
+    &.active {
+      color: @lib__colors__N900Primary;
+    }
+
+    &:hover {
+      border-bottom-color: @lib__colors__N600Light;
+    }
+
+    &.active {
+      cursor: default;
+      border-bottom-color: @lib__colors__teal800;
+      font-weight: 600;
+    }
+  }
+
+  .tabInner {
+    display: flex;
+    align-items: center;
+  }
+
+  .tabIcon {
+    margin-right: 0.5em;
+  }
+}
