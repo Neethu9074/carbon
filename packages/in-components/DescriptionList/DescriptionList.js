@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
 import locals from './DescriptionList.mless';
-import Tooltip from 'in-components/Tooltip';
 
 export function DescriptionList({ children }) {
   return (
@@ -29,11 +28,9 @@ export function DescriptionItem({ title, children, onClick, style, verticalDispl
       <dt className={locals.itemTitle} style={style}>
         {title}
       </dt>
-      <Tooltip content={children} themeStyle="light">
-        <dd className={locals.itemText} onClick={onClick} style={style}>
-          {children}
-        </dd>
-      </Tooltip>
+      <dd className={locals.itemText} onClick={onClick} style={style}>
+        {children}
+      </dd>
     </div>
   );
 }
