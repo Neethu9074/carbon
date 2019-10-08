@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 import { identity } from 'in-services/util/function';
@@ -146,6 +147,7 @@ function CommonFaasDescriptionItems({ span }) {
       <DescriptionItem title="Function Name">{span.getIn(['data', 'lambda', 'functionName'])}</DescriptionItem>
       <DescriptionItem title="Version">{span.getIn(['data', 'lambda', 'functionVersion'])}</DescriptionItem>
       <DescriptionItem title="Trigger">{span.getIn(['data', 'lambda', 'trigger'])}</DescriptionItem>
+      <ErrorDescriptionItem error={span.getIn(['data', 'lambda', 'error'])} />
     </Fragment>
   );
 }
