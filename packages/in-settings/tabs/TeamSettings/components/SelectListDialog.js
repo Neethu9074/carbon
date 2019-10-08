@@ -44,7 +44,8 @@ function SelectListDialog({
   return (
     <Dialog title={title} onClose={close} className={locals.dialog}>
       <form
-        onSubmit={() => {
+        onSubmit={e => {
+          e.preventDefault();
           onSubmit(selectedItems);
           close();
         }}
@@ -93,7 +94,7 @@ function SelectListDialog({
         </FormGroup>
 
         <div className={locals.actions}>
-          <Button type="submit" kind={'secondary'} onClick={close} classNam>
+          <Button type="submit" kind={'secondary'} onClick={close}>
             Cancel
           </Button>
           <Button type="submit" kind={'primary'} disabled={requiresAtLeastOneMessage && numberOfItems === 0}>
