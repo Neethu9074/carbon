@@ -138,6 +138,7 @@ export const nonServicePlugins = {
   tomcatApplicationContainer: 'tomcatApplicationContainer',
   unmonitoredHost: 'unmonitoredHost',
   varnish: 'varnish',
+  vsphereDatacenter: 'vsphereDatacenter',
   webLogicApplicationContainer: 'webLogicApplicationContainer',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
@@ -308,6 +309,7 @@ export const fullyQualifiedPlugins = {
   tomcatApplicationContainer: 'com.instana.forge.infrastructure.application.tomcat.TomcatApplicationContainer',
   unmonitoredHost: 'com.instana.forge.infrastructure.UnmonitoredHost',
   varnish: 'com.instana.forge.infrastructure.cache.varnish.Varnish',
+  vsphereDatacenter: 'com.instana.forge.infrastructure.paas.vsphere.VsphereDatacenter',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer:

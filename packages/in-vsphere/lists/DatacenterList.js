@@ -21,11 +21,7 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <EntityLink
-          label={item.label}
-          href$={getVsphereDatacenterDashboard(item.id)}
-          icon="lib_cloudfoundry_application"
-        />
+        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_kubernetes_cluster" />
       );
     }
   },
@@ -33,14 +29,14 @@ const columnDefinitions = [
     id: 'hosts',
     label: 'vSphere Hosts',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={item.namespaces} />;
+      return <EntityCounter icon="lib_kubernetes_node" count={item.hosts} />;
     }
   },
   {
     id: 'vms',
     label: 'Virtual Machines',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={item.services} />;
+      return <EntityCounter icon="lib_kubernetes_node" count={item.vms} />;
     }
   }
 ];
@@ -61,7 +57,7 @@ export default connectTo(
   function DatacenterList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="Datacenters" />
+        <Title title="vSphere Datacenters" />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
