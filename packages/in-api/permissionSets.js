@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -38,13 +39,34 @@ export function getK8sClusters() {
 }
 
 export function getK8sNamespaces() {
-  return http({
-    method: 'POST',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: '/api/kubernetes/namespaces',
-    data: defaultQuery()
-  }).map(response => response.body.items);
+  return getK8sNamespacesBunch(1, 200);
+}
+
+function getK8sNamespacesBunch(page, pageSize) {
+  return (
+    http({
+      method: 'POST',
+      maxRetries: 3,
+      headers: getCsrfHeader(),
+      url: '/api/kubernetes/namespaces',
+      data: {
+        filter: { timeConfig: {} },
+        pagination: { page, pageSize },
+        order: { by: 'name', direction: 'ASC' }
+      }
+    })
+      .map(response => response.body.items)
+      // the API is restricted to return 200 items max. There are sometimes more than 200 namespaces available.
+      // the handling component does not support a load more mechanism and refactoring to a server side table is yet
+      // too expensive. As a fix, we load all the namespaces from the API by sending one query after the other with
+      // an increasing page size until we retrieved less than 200 items.
+      .flatMap(
+        items =>
+          items.length === pageSize
+            ? getK8sNamespacesBunch(page + 1, pageSize).map(_moreItems => [...items, ..._moreItems])
+            : just(items)
+      )
+  );
 }
 
 function defaultQuery() {
