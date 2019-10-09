@@ -256,7 +256,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     entity.id &&
     entity.time &&
     getSnapshot(entity.id, getTimeConfigAtMoment(entity.time)).startWith(pendingResult)
-}))(function InfrastructureEntityLink({ entity, snapshot, plugin, snapshotId, physicalContext }) {
+}))(function InfrastructureEntityLink({ entity, snapshot, plugin, physicalContext }) {
   const isLoading = get(snapshot, ['progress', 'loading']);
 
   if (isLoading || physicalContext === null) {
@@ -267,13 +267,14 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     );
   }
 
-  if ((!entity && snapshotId) || !snapshot) {
+  if (!entity && !snapshot) {
     return (
       <div className={locals.noLink}>
         <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
       </div>
     );
   }
+
   return (
     <EntityLink
       plugin={plugin}
