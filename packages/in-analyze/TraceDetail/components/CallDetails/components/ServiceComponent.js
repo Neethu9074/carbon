@@ -235,7 +235,7 @@ export default function ServiceComponent({ call }) {
                 )}
               {logs.length > 0 && (
                 <ExpandableGroup
-                  title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : null} ${
+                  title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
                     warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
                   } )`}
                 >
