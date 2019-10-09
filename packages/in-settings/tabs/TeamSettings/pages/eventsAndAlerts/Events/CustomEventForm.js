@@ -949,15 +949,15 @@ function systemRuleOptions(systemRules) {
  * Therefore we include this custom value in the dropdown, instead of selecting
  * nothing.
  */
-function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValueMillis) {
-  if (selectedTimeValueMillis !== null) {
-    const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValueMillis);
+function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
+  if (selectedTimeValue && selectedTimeValue !== '0') {
+    const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValue);
     return optionsContainTimeValue
       ? options
       : [
           {
-            value: selectedTimeValueMillis.toString(),
-            label: millis.fixedCompact(selectedTimeValueMillis)
+            value: selectedTimeValue,
+            label: millis.fixedCompact(selectedTimeValue)
           },
           ...options
         ];
