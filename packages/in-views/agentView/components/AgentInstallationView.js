@@ -18,6 +18,7 @@ export default connectTo(
     return (
       <div className={locals.wrapper}>
         <InstallDocumentation
+          contentClassName={locals.installationContent}
           agentKey={agentKey || 'AGENT_KEY'}
           tenant={config.tenant}
           tenantUnit={config.tenantUnit}

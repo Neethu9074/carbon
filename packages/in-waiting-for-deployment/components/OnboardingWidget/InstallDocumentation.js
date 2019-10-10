@@ -5,6 +5,7 @@ import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidge
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import entries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
+import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './InstallDocumentation.mless';
 
@@ -31,7 +32,12 @@ export default function InstallDocumentation(props) {
           </SideNavigation>
         </div>
 
-        <div className={locals.content}>
+        <div
+          className={evaluateClassNames({
+            [locals.content]: true,
+            [props.contentClassName]: props.contentClassName
+          })}
+        >
           <EntryContent {...props} entry={entries[props.selectedEntryIndex]} />
 
           {/* need to wrap this to have all the content inside the div bottom aligned */}
