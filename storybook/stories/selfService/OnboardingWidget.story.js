@@ -80,7 +80,10 @@ function Wrapper(props) {
           tenantUnit="test"
           region="us-west-2"
           selectedEntryIndex={selectedEntryIndex}
-          onEntrySelected={onEntrySelected}
+          onEntrySelected={index => {
+            onEntrySelected(index);
+            onSubEntrySelected(undefined);
+          }}
           selectedSubEntryIndex={selectedSubEntryIndex}
           onSubEntrySelected={onSubEntrySelected}
         />

@@ -30,7 +30,7 @@ function OnboardingWidget(props) {
       {...props}
       selectedSubEntryIndex={props.selectedSubEntry}
       selectedEntryIndex={props.selectedEntry}
-      onEntrySelected={index => props.onChange({ selectedEntry: index })}
+      onEntrySelected={index => props.onChange({ selectedEntry: index, selectedSubEntry: null })}
       onSubEntrySelected={index => props.onChange({ selectedSubEntry: index })}
     />
   );

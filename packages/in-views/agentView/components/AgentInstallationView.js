@@ -24,7 +24,10 @@ export default connectTo(
           tenantUnit={config.tenantUnit}
           region={config.region}
           selectedEntryIndex={selectedEntryIndex}
-          onEntrySelected={onEntrySelected}
+          onEntrySelected={index => {
+            onEntrySelected(index);
+            onSubEntrySelected(undefined);
+          }}
           selectedSubEntryIndex={selectedSubEntryIndex}
           onSubEntrySelected={onSubEntrySelected}
         />
