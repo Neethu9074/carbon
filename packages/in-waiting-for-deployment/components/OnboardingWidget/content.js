@@ -148,7 +148,7 @@ function AwsSensorContent({ agentKey, region }) {
     <>
       <HelpBox title="The Instana AWS agent is a must-have for AWS setups!">
         <TextWithLink
-          text="The Instana AWS Agent monitors in one single package a lot of different AWS technologies. For the full listy, refer to the "
+          text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full listy, refer to the "
           linkText="supported AWS Services list."
           href="https://docs.instana.io/ecosystem/aws/#aws-services"
         />
