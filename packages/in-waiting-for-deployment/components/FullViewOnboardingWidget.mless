@@ -8,16 +8,12 @@
     left: 0;
     right: 0;
 
-    background: @lib__colors__N900Primary;
-    overflow-y: auto;
-  }
-
-  .widgetWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin: 5rem 4rem 2rem;
+    background: @lib__colors__N900Primary;
+    overflow-y: auto;
   }
 
   .maxWidth {
