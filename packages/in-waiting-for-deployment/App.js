@@ -3,6 +3,7 @@ import React from 'react';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -21,6 +22,7 @@ function App({ apiCallSatisfied }) {
   return (
     <ErrorBoundary name="app">
       <DialogPresenter />
+      <DisabledBodyScroll />
       <FullViewOnboardingWidget
         isRestricted
         isAgentDeployed={false}

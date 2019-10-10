@@ -2,6 +2,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
+import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -21,6 +22,7 @@ function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) 
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <DialogPresenter />
+      <DisabledBodyScroll />
       <FullViewOnboardingWidget
         isAgentDeployed={apiCallSatisfied}
         isBackendAvailable
