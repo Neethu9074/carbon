@@ -58,7 +58,7 @@ export default function DatacenterDashboard({ location }) {
 function Header(props) {
   return (
     <BasicDashboardHeader
-      title="Datacenter"
+      title="Cluster"
       icon="lib_kubernetes_cluster"
       {...props}
       // renderActions={Actions} to be implemented

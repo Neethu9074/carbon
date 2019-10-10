@@ -57,7 +57,7 @@ export default connectTo(
   function DatacenterList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="vSphere Datacenters" />
+        <Title title="vSphere Clusters" />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
