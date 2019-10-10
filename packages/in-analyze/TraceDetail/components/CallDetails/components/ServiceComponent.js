@@ -138,30 +138,31 @@ export default function ServiceComponent({ call }) {
                     )}
                   </ExpandableGroup>
                 )}
-                {(exitSpan || sourceSnapshotId) && (
-                  <ExpandableGroup
-                    expandedTitle="Infrastructure"
-                    title={
-                      <div className={locals.infraTitle}>
-                        <span>Infrastructure</span>
-                        {sourceEntity && (
-                          <InfrastructureEntityLink
-                            entity={sourceEntity}
-                            plugin={sourceEntity && sourceEntity.plugin}
-                            snapshotId={sourceSnapshotId}
-                            physicalContext={sourcePhysicalContext}
-                          />
-                        )}
-                      </div>
-                    }
-                  >
-                    <InfrastructureHierarchy
-                      snapshotId={sourceSnapshotId}
-                      calculateHierarchy
-                      pathname={physicalDashboardPath}
-                    />
-                  </ExpandableGroup>
-                )}
+                {exitSpan &&
+                  sourceSnapshotId && (
+                    <ExpandableGroup
+                      expandedTitle="Infrastructure"
+                      title={
+                        <div className={locals.infraTitle}>
+                          <span>Infrastructure</span>
+                          {sourceEntity && (
+                            <InfrastructureEntityLink
+                              entity={sourceEntity}
+                              plugin={sourceEntity && sourceEntity.plugin}
+                              snapshotId={sourceSnapshotId}
+                              physicalContext={sourcePhysicalContext}
+                            />
+                          )}
+                        </div>
+                      }
+                    >
+                      <InfrastructureHierarchy
+                        snapshotId={sourceSnapshotId}
+                        calculateHierarchy
+                        pathname={physicalDashboardPath}
+                      />
+                    </ExpandableGroup>
+                  )}
               </div>
 
               <DestinationLocation
@@ -267,7 +268,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     );
   }
 
-  if (!entity && !snapshot) {
+  if (!entity || !snapshot) {
     return (
       <div className={locals.noLink}>
         <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
