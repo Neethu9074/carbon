@@ -30,8 +30,8 @@ const plugins = [
   new MiniCssExtractPlugin({
     // Options similar to the same options in webpackOptions.output
     // all options are optional
-    filename: 'index.css',
-    chunkFilename: '[id].[contenthash].css',
+    filename: '[name].css',
+    chunkFilename: '[name].[contenthash].css',
     // This is not completely sufficient. We also need to configure an ignore rule in
     // our custom Webpack dev mode output build/gulp/dev.js
     ignoreOrder: true
@@ -52,7 +52,10 @@ const entry = hotReload
       'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
       './packages/in-client/js/index.js'
     ]
-  : './packages/in-client/js/index.js';
+  : {
+      index: './packages/in-client/js/index.js',
+      waiting: './packages/in-waiting-for-deployment/index.js'
+    };
 
 const miniCssLoader = {
   loader: MiniCssExtractPlugin.loader,
@@ -84,7 +87,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',
-    filename: 'index.js',
+    filename: '[name].js',
     chunkFilename: '[name].[contenthash].js'
   },
   devtool: isDevModeBuild ? 'eval' : 'source-map',

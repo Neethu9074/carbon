@@ -1,0 +1,48 @@
+@import '~in-themes/active.less';
+
+:local {
+  .section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5rem 1rem 0.75rem 0.5rem;
+
+    background: @lib__colors__teal800;
+  }
+
+  .leftContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .stanWrapper {
+    position: relative;
+
+    width: 3.5rem;
+    height: 3.5rem;
+
+    margin-right: 0.5rem;
+
+    background: @lib__colors__N050;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .stan {
+    position: absolute;
+
+    bottom: 0;
+    left: calc(50% - 1.375rem);
+
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: @lib__colors__white;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,10 @@
+/* eslint-disable no-console */
+import { build } from 'in-services/config';
+
+if (!__DEV__) {
+  console.log(
+    '%cQuestions about Instana? Contact us via support@instana.com!',
+    'font-size: 14px; color: #172429; font-weight: bold;'
+  );
+  console.log('Build information: %s', JSON.stringify(build));
+}

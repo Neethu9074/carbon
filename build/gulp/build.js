@@ -138,6 +138,7 @@ gulp.task('writeTryBuildServerConfigFile', () => {
       butlerUrl: 'https://test-instana.instana.io',
       tenant: 'instana',
       tenantUnit: 'test',
+      region: 'us-west-2',
       environment: 'saas',
       butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
     })

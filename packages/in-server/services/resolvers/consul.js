@@ -43,6 +43,7 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false)
@@ -67,6 +68,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
+        isInitialOnboardingCheckEnabled,
         contextGuideEnabled,
         isOnPrem,
         eumAlertingEnabled
@@ -95,6 +97,7 @@ exports.getFeatureFlags = (tenant, unit) =>
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
+        isInitialOnboardingCheckEnabled,
         contextGuideEnabled,
         isOnPrem,
         eumAlertingEnabled

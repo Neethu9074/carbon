@@ -5,7 +5,7 @@
 
 var path = require('path');
 
-var paths = module.exports = {};
+var paths = (module.exports = {});
 
 paths.rootDir = path.join(__dirname, '..', '..');
 paths.targetDir = path.join(paths.rootDir, 'target');
@@ -18,6 +18,7 @@ paths.devDir = path.join(paths.rootDir, 'dev');
 paths.packageDir = path.join(paths.rootDir, 'packages');
 paths.themeDir = path.join(paths.packageDir, 'in-themes');
 paths.devIndexHtmlSrc = path.join(paths.packageDir, 'in-client', 'index.html');
+paths.devWaitingHtmlSrc = path.join(paths.packageDir, 'in-client', 'waiting.html');
 paths.faviconSrc = path.join(paths.packageDir, 'in-client', 'favicon.png');
 paths.allServerSourcesSelector = path.join(paths.packageDir, 'in-server', '**/*');
 paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');

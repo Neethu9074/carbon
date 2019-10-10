@@ -126,7 +126,7 @@
     &.disabled,
     &.disabled:hover,
     &.disabled:focus {
-      color: @lib__colors__N700Medium;
+      color: @lib__colors__N400;
       border: 1px solid #e2e4e6;
       background: #fcfcfd;
     }
@@ -276,6 +276,7 @@
     &.disabled:hover,
     &.disabled:focus {
       background: #ffd86d;
+      color: @lib__colors__N600Light;
     }
   }
 

@@ -53,11 +53,12 @@ import './components/ChartStory';
 import './components/CheckboxStory';
 import './components/DashboardHeaderStory';
 import './components/DashboardNotificationStory';
-import './components/DialogStory';
 import './components/Dialog2Story';
+import './components/DialogStory';
 import './components/EntityVersionListStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/ExpandableCard.story';
 import './components/ExpandableCardStory';
 import './components/flyouts/UsageStory';
 import './components/GeoHeatMapStory';
@@ -128,3 +129,5 @@ import './x_old_components/sdk/Descriptions';
 import './releases/ReleaseStatusRowStory';
 
 import './terms/TermsStory';
+
+import './selfService/OnboardingWidget.story.js';

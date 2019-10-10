@@ -1,0 +1,32 @@
+@import '~in-themes/active.less';
+
+:local {
+  .card {
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: @lib__colors__N900Primary;
+  }
+
+  .drownDownWrapper {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .dropDownLabel {
+    margin-right: 0.5rem;
+
+    font-size: 1rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .dropDown {
+    min-width: 20rem;
+  }
+}

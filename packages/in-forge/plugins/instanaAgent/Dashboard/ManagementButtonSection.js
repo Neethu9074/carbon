@@ -14,30 +14,30 @@ export default function ManagementButtonSection({ snapshot }) {
   return (
     <div className={locals.wrapper}>
       {role.canConfigureAgentRunMode ? (
-        <ImageButton iconType="gear" onClick={() => setActiveDialog(<Mode snapshot={snapshot} />)}>
+        <ImageButton iconType="lib_actions_settings" onClick={() => setActiveDialog(<Mode snapshot={snapshot} />)}>
           Change Agent Mode
         </ImageButton>
       ) : null}
 
-      <ImageButton iconType="gear" onClick={() => setActiveDialog(<LogLevel snapshot={snapshot} />)}>
+      <ImageButton iconType="lib_actions_settings" onClick={() => setActiveDialog(<LogLevel snapshot={snapshot} />)}>
         Change Log Level
       </ImageButton>
 
-      <ImageButton iconType="refresh" onClick={() => updateAgent(snapshot)}>
+      <ImageButton iconType="lib_actions_refresh" onClick={() => updateAgent(snapshot)}>
         Update Agent
       </ImageButton>
       {isInstanaEngineer ? (
         // Resetting the sensors is a feature that we almost never use, restrict it to instana engineer
-        <ImageButton iconType="refresh" onClick={() => resetSensors(snapshot)}>
+        <ImageButton iconType="lib_actions_refresh" onClick={() => resetSensors(snapshot)}>
           Reset Sensors
         </ImageButton>
       ) : null}
 
-      <ImageButton iconType="refresh" onClick={() => resetAgent(snapshot)}>
+      <ImageButton iconType="lib_actions_refresh" onClick={() => resetAgent(snapshot)}>
         Reset Agent
       </ImageButton>
 
-      <ImageButton iconType="refresh" onClick={() => rebootAgent(snapshot)}>
+      <ImageButton iconType="lib_actions_refresh" onClick={() => rebootAgent(snapshot)}>
         Reboot Agent
       </ImageButton>
     </div>

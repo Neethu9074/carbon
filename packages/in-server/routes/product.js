@@ -5,6 +5,7 @@ const uuid = require('node-uuid');
 const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
+const { getCsp, findMaxNonces } = require('../services/csp');
 const buildInformation = require('../assets/build.json');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
@@ -80,7 +81,8 @@ router.get('/', (req, res) => {
         getCsrfToken(req),
         getUserPermissions(req),
         getTermsAndPrivacySettings(req),
-        getLatestTermsAndPrivacyAcceptance(req)
+        getLatestTermsAndPrivacyAcceptance(req),
+        getIsMonitoring(req)
       ]).then(
         ([
           userSettings,
@@ -89,7 +91,8 @@ router.get('/', (req, res) => {
           csrf,
           permissions,
           termsAndPrivacySettings,
-          termsAndPrivacyAccepted
+          termsAndPrivacyAccepted,
+          reportingData
         ]) =>
           sendIndex(
             req,
@@ -101,7 +104,8 @@ router.get('/', (req, res) => {
             csrf,
             permissions,
             termsAndPrivacySettings,
-            termsAndPrivacyAccepted
+            termsAndPrivacyAccepted,
+            reportingData
           )
       );
     })
@@ -262,6 +266,27 @@ function getCsrfToken(req) {
   });
 }
 
+function getIsMonitoring(req) {
+  return new Promise((resolve, reject) => {
+    sendRequest(
+      {
+        url: req.uiBackendBaseUrl + '/api/infrastructure-monitoring/monitoring-state',
+        headers: {
+          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+        },
+        timeout: 15000
+      },
+      (error, response, monitoringResult) => {
+        if (error) {
+          reject(new Error('Failed to retrieve monitoring state from ui-backend: ' + String(error)));
+        } else {
+          resolve(monitoringResult);
+        }
+      }
+    );
+  });
+}
+
 function sendIndex(
   req,
   res,
@@ -272,20 +297,15 @@ function sendIndex(
   csrf,
   permissions,
   termsAndPrivacySettings,
-  termsAndPrivacyAccepted
+  termsAndPrivacyAccepted,
+  reportingData
 ) {
   const nonces = Array(maxNonces)
     .fill(maxNonces)
     .map(() => uuid.v4());
+  res.set('Content-Security-Policy', getCsp(nonces));
 
   const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-
-  res.set(
-    'Content-Security-Policy',
-    "script-src 'self' " +
-      nonces.map(n => "'nonce-" + n + "'").join(' ') +
-      ' https://www.google-analytics.com https://cdn.mxpnl.com https://static.zdassets.com https://ekr.zdassets.com https://instana.zendesk.com wss://instana.zendesk.com https://fast.appcues.com *.instana.io'
-  );
 
   res.send(
     compiledTemplate({
@@ -310,18 +330,10 @@ function sendIndex(
       csrf,
       numberLocale: getNumberLocaleDefinition(req),
       termsAndPrivacySettings,
-      termsAndPrivacyAccepted
+      termsAndPrivacyAccepted,
+      reportingData
     })
   );
-}
-
-function findMaxNonces(indexHtmlTemplate) {
-  const nonceMatches = indexHtmlTemplate.match(/nonces\.\[\d+\]/gi);
-  if (nonceMatches) {
-    const nonceIndices = nonceMatches.map(match => parseInt(/nonces\.\[(\d+)\]/i.exec(match)[1]));
-    return Math.max(...nonceIndices) + 1;
-  }
-  return 0;
 }
 
 function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {

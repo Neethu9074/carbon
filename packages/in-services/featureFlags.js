@@ -45,6 +45,7 @@ export const urlShortenerEnabled = isFeatureFlagEnabled('urlShortenerEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', true);
 export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
+export const isInitialOnboardingCheckEnabled = isFeatureFlagEnabled('isInitialOnboardingCheckEnabled', true);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
 
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
