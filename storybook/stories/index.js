@@ -36,12 +36,17 @@ import './website/NewWebsiteStory';
 import './website/OverviewChart';
 import './website/PageLoadView/PageLoadViewStory';
 import './website/StackTraceTranslationConfigurationStory';
+import './website/AlertConfigDialog/componets/MenuStory';
+import './website/AlertConfigDialog/componets/TabSwitchStory';
+import './website/AlertConfigDialog/componets/CreateAlertButtonStory';
+import './website/AlertConfigDialog/SimpleAlertDialogStory';
 
 import './components/Axis';
 import './components/Badge.story';
 import './components/ButtonGroupStory';
 import './components/ButtonSegmentedControlStory';
 import './components/ButtonStory';
+import './components/ButtonRoundedStory';
 import './components/CapitalizeStory';
 import './components/CardStory';
 import './components/ChartStory';

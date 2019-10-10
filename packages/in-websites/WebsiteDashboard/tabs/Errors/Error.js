@@ -16,6 +16,7 @@ import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import CreateAlert from 'in-websites/AlertConfigDialog/CreateAlert';
 import ErrorBreadcrumb from 'in-websites/breadcrumbs/ErrorBreadcrumb';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -298,6 +299,19 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
       </div>
 
       {content}
+      {result &&
+        result.data && (
+          <CreateAlert
+            error={result.data}
+            {...{
+              websiteId,
+              websiteLabel,
+              pageId,
+              tagFilters,
+              timeConfig
+            }}
+          />
+        )}
     </Fragment>
   );
 }

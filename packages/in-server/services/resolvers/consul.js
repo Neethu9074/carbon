@@ -44,7 +44,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -67,7 +68,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
         contextGuideEnabled,
-        isOnPrem
+        isOnPrem,
+        eumAlertingEnabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -94,7 +96,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
         contextGuideEnabled,
-        isOnPrem
+        isOnPrem,
+        eumAlertingEnabled
       })
     );
   });

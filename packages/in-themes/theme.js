@@ -18,10 +18,10 @@ module.exports = {
     stickyHeader: (zIndex += 20),
     detailPopupPresenter: ++zIndex,
     graphView: ++zIndex,
-    overlays: ++zIndex,
     mainNavigationBackground: ++zIndex,
     mainNavigation: ++zIndex,
     dialog: ++zIndex,
+    overlays: ++zIndex,
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
   },

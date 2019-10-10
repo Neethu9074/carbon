@@ -27,5 +27,6 @@ module.exports = {
   websiteUserBreakdownEnabled: true,
   optInOptOutEnabled: true,
   isOnPrem: false,
-  contextGuideEnabled: false
+  contextGuideEnabled: false,
+  eumAlertingEnabled: true
 };

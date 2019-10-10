@@ -1,5 +1,6 @@
 import { create, just, timeout } from 'reactive-observables';
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
 
 import OverlayMounter from 'in-new-components/overlays/OverlayMounter';
@@ -81,7 +82,6 @@ export default class Overlay extends React.Component {
     const {
       autoOpen,
       inContentArea,
-      align,
       forceConfiguredAlignment,
       wrapperStyle,
       wrapperClassName,
@@ -90,6 +90,7 @@ export default class Overlay extends React.Component {
       kind,
       children: Content,
       props = emptyObject,
+      align = props.align,
       content: OverlayContent
     } = this.props;
     const { isOpen, id } = this.state;
@@ -153,3 +154,34 @@ export default class Overlay extends React.Component {
     );
   }
 }
+
+Overlay.propTypes = {
+  Content: PropTypes.any,
+  OverlayContent: PropTypes.any,
+  align: PropTypes.oneOf([
+    'leftBottom',
+    'leftMiddle',
+    'leftTop',
+    'topLeft',
+    'topMiddle',
+    'topRight',
+    'rightTop',
+    'rightMiddle',
+    'rightBottom',
+    'bottomLeft',
+    'bottomMiddle',
+    'bottomRight',
+    'auto',
+    'mousePosition'
+  ]),
+  autoClose: PropTypes.bool,
+  autoOpen: PropTypes.bool,
+  forceConfiguredAlignment: PropTypes.bool,
+  inContentArea: PropTypes.bool,
+  kind: PropTypes.string,
+  onToggle: PropTypes.func,
+  withoutArrow: PropTypes.bool,
+  withoutWrapper: PropTypes.bool,
+  wrapperClassName: PropTypes.string,
+  wrapperStyle: PropTypes.object
+};

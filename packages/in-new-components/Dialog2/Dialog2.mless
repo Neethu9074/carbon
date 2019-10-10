@@ -88,4 +88,8 @@
       fill: @lib__colors__N800Dark;
     }
   }
+
+  .cursorDefault {
+    cursor: default;
+  }
 }

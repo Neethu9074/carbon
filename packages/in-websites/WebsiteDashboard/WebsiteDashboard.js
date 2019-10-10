@@ -117,7 +117,13 @@ function WebsiteDashboard({
   );
 
   let content = (
-    <StickyQuickFilterBar {...props} tagFilters={tagFilters} showClearFilters={customTagFilters.length > 0}>
+    <StickyQuickFilterBar
+      {...props}
+      tagFilters={tagFilters}
+      showClearFilters={customTagFilters.length > 0}
+      showSubdivisionSelector
+      showWindowWidthSelector
+    >
       {tabView}
     </StickyQuickFilterBar>
   );

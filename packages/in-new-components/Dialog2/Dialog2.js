@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import { stopPropagation } from 'in-services/util/function';
+import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Dialog2.mless';
@@ -16,10 +16,17 @@ export default function Dialog2({
   renderCustomCloseBehaviour,
   withoutBodyPadding,
   showOverflow,
-  headless = false
+  headless = false,
+  doNotCloseOnOutsideClick
 }) {
   return (
-    <div className={locals.wrapper} onClick={onClose}>
+    <div
+      className={evaluateClassNames({
+        [locals.wrapper]: true,
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
+      })}
+      onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
+    >
       <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
         {!headless && (
           <div className={locals.header}>
@@ -63,5 +70,6 @@ Dialog2.propTypes = {
   showOverflow: PropTypes.bool,
   title: PropTypes.string,
   titleIconType: PropTypes.string,
-  withoutBodyPadding: PropTypes.bool
+  withoutBodyPadding: PropTypes.bool,
+  doNotCloseOnOutsideClick: PropTypes.bool
 };

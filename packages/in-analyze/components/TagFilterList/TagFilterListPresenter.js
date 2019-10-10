@@ -3,6 +3,7 @@ import React from 'react';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
+import evaluateClassNames from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -16,7 +17,8 @@ export default function TagFilterListPresenter({
   implicitTagFilters = emptyArray,
   tagFilters,
   onTagFilterClick,
-  onRemoveTagFilter
+  onRemoveTagFilter,
+  readonly
 }) {
   if (tagFilters.length === 0) {
     return null;
@@ -30,13 +32,14 @@ export default function TagFilterListPresenter({
           tagFilter={tagFilter}
           onTagFilterClick={onTagFilterClick}
           onRemoveTagFilter={onRemoveTagFilter}
+          readonly={readonly}
         />
       ))}
     </ul>
   );
 }
 
-function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) {
+function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly }) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
   const tagType = (node && node.type) || 'STRING';
 
@@ -46,9 +49,14 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
         href=""
         onClick={e => {
           stopPropagationAndPreventDefault(e);
-          onTagFilterClick(tagFilter);
+          if (!readonly) {
+            onTagFilterClick(tagFilter);
+          }
         }}
-        className={locals.itemBlock}
+        className={evaluateClassNames({
+          [locals.itemBlock]: true,
+          [locals.readOnly]: readonly
+        })}
       >
         <SvgIcon className={locals.icon} type={getIcon(tagFilter)} />
         <Tag tagFilter={tagFilter} tagType={tagType} /> <Operator tagFilter={tagFilter} tagType={tagType} />{' '}
@@ -61,16 +69,19 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter }) 
         </Pill>
       </div>
 
-      <Tooltip content="Remove filter">
-        <SvgIcon
-          className={locals.removeIcon}
-          type="lib_openclose_cancel"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onRemoveTagFilter(tagFilter);
-          }}
-        />
-      </Tooltip>
+      {!readonly &&
+        onRemoveTagFilter && (
+          <Tooltip content="Remove filter">
+            <SvgIcon
+              className={locals.removeIcon}
+              type="lib_openclose_cancel"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                onRemoveTagFilter(tagFilter);
+              }}
+            />
+          </Tooltip>
+        )}
     </li>
   );
 }
