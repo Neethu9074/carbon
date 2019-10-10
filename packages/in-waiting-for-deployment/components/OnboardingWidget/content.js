@@ -476,7 +476,7 @@ function CfAndBoshContent({ agentKey, region }) {
       <HelpBox title="Dynamic agents">
         <TextWithLink
           text="The BOSH release will by default install static agents, but can be configure to install dynamic ones instead. For more information, consult the "
-          href="https://docs.instana.io/ecosystem/cloudfoundry/bosh-configuration.md"
+          href="https://docs.instana.io/ecosystem/cloudfoundry/"
           linkText="Instana Cloud Foundry documentation."
         />
       </HelpBox>
