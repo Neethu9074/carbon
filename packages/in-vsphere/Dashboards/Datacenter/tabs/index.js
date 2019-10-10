@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getVsphereDatacenterItemCounters from 'in-vsphere/subscriptions/getVsphereDatacenterItemC';
+import getVsphereDatacenterItemCounters from 'in-vsphere/subscriptions/getVsphereDatacenterItemCounters';
 import VirtualMachines from 'in-vsphere/Dashboards/Datacenter/tabs/VirtualMachines';
 import TabLabelWithCounter from 'in-vsphere/commonComponents/TabLabelWithCounter';
 import Infrastructure from 'in-vsphere/Dashboards/Datacenter/tabs/Infrastructure';
