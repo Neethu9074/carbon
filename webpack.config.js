@@ -47,11 +47,13 @@ if (hotReload) {
 }
 
 const entry = hotReload
-  ? [
-      'webpack-dev-server/client?https://local-instana.instana.io:4000', // WebpackDevServer host and port
-      'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-      './packages/in-client/js/index.js'
-    ]
+  ? {
+      // the 'webpack/hot/only-dev-server' part prevents reload on syntax errors
+      index: ['./packages/in-client/js/index.js', 'webpack/hot/only-dev-server'],
+      waiting: ['./packages/in-waiting-for-deployment/index.js', 'webpack/hot/only-dev-server'],
+      // WebpackDevServer host and port
+      devServerClient: 'webpack-dev-server/client?https://local-instana.instana.io:4000'
+    }
   : {
       index: './packages/in-client/js/index.js',
       waiting: './packages/in-waiting-for-deployment/index.js'
