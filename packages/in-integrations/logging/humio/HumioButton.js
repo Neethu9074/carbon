@@ -4,8 +4,8 @@ import { getIntegrationConfiguration } from 'in-integrations/logging/configurati
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
-import { isBlank, isNotBlank } from 'in-services/util/string';
 import { humioEnabled } from 'in-services/featureFlags';
+import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -47,30 +47,19 @@ function constructHumioLink(integration, props) {
 }
 
 function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWithinKubernetes }) {
-  const query = {};
+  let query = '';
 
   if (kubernetesPodName) {
-    query['kubernetes.pod_name'] = kubernetesPodName;
+    query = `kubernetes.pod_name=${kubernetesPodName}`;
   } else if (dockerContainerId) {
-    if (isWithinKubernetes) {
-      query['kubernetes.docker_id'] = dockerContainerId;
-    } else {
-      query['docker.container_id'] = dockerContainerId;
-    }
+    query = `kubernetes.docker_id=${dockerContainerId} or docker.container_id=${dockerContainerId}`;
   } else if (hostFqdn) {
     if (isWithinKubernetes) {
-      query['kubernetes.host'] = hostFqdn;
+      query = `kubernetes.host=${hostFqdn}`;
     } else {
-      query['host'] = hostFqdn;
+      query = `host=${hostFqdn}`;
     }
   }
 
-  return (
-    Object.keys(query)
-      .filter(key => isNotBlank(key) && query[key] != null && isNotBlank(String(query[key])))
-      // Note: Technically incomplete as quotes are not escaped, though the input data should
-      // never contain them (only IDs).
-      .reduce((agg, key) => `${agg} "${key}"="${query[key]}"`, '')
-      .trim()
-  );
+  return query.trim();
 }
