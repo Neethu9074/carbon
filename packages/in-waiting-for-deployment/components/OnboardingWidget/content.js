@@ -44,6 +44,8 @@ export default [
   },
   {
     label: 'Linux',
+    icon: 'lib_linux',
+
     subTechnologies: [
       {
         label: 'Automatic Installation',
@@ -62,6 +64,7 @@ export default [
   },
   {
     label: 'AWS',
+    icon: 'lib_aws',
     fullLabel: 'Amazon Web Services',
     subTechnologies: [
       {
@@ -72,6 +75,7 @@ export default [
   },
   {
     label: 'Azure',
+    icon: 'lib_azure',
     fullLabel: 'Microsoft Azure',
     subTechnologies: [
       {
@@ -82,6 +86,7 @@ export default [
   },
   {
     label: 'Google Cloud',
+    icon: 'lib_google_cloud',
     fullLabel: 'Google Cloud Platform',
     subTechnologies: [
       {
@@ -93,6 +98,7 @@ export default [
 
   {
     label: 'Pivotal Platform',
+    icon: 'lib_pivotal_platform',
     fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
     Content: PcfContent
   },
@@ -105,6 +111,7 @@ export default [
 
   {
     label: 'Windows',
+    icon: 'lib_windows',
     Content: WindowsInstallerContent
   }
 ];
