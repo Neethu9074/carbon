@@ -6,6 +6,7 @@ import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import Code from 'in-components/Code/Code';
 
 import locals from './ExpandableStackTrace.mless';
 
@@ -16,13 +17,8 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
   setIsExpanded
 }) {
   const logData = log.data.log;
-
-  function logLabel(log) {
-    if (!logData) {
-      return log.name;
-    }
-    return isExpanded ? logData.message : shorten(logData.message, 32);
-  }
+  const msg = logData && logData.message;
+  const isString = typeof msg === 'string';
 
   return (
     <div className={locals.wrapper}>
@@ -33,7 +29,15 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
             <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
               {log.errorCount > 0 ? 'Error' : 'Warning'}
             </div>
-            <div className={isExpanded ? locals.labelExpanded : locals.label}>{logLabel(log)}</div>
+            {msg ? (
+              isExpanded ? (
+                <div className={locals.labelExpanded}>
+                  {isString ? msg : <Code code={JSON.stringify(msg, 0, 2)} lang="json" showLineNumbers={false} />}
+                </div>
+              ) : (
+                <div className={locals.label}>{shorten(isString ? msg : JSON.stringify(msg), 32)}</div>
+              )
+            ) : null}
           </div>
         </div>
         <div className={locals.headerActions}>
