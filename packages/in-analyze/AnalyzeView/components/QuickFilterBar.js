@@ -70,7 +70,7 @@ export default function QuickFilterBar(props) {
         {...props}
         timeConfig={timeConfig}
         tagFilters={tagFilters}
-        tag="technology"
+        tag="call.technology"
         singularLabel="Technology"
         pluralLabel="Technologies"
         selectedItemRenderer={getTechnologyLabel}
