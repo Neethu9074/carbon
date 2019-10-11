@@ -34,7 +34,9 @@ export const operators = {
   NOT_EQUAL: 'NOT_EQUAL',
   NOT_CONTAIN: 'NOT_CONTAIN',
   NOT_BLANK: 'NOT_BLANK',
-  IS_BLANK: 'IS_BLANK'
+  IS_BLANK: 'IS_BLANK',
+  STARTS_WITH: 'STARTS_WITH',
+  ENDS_WITH: 'ENDS_WITH'
 };
 
 export const operatorBlacklists = {
@@ -56,7 +58,9 @@ export const TAG_TYPES = {
       operators.CONTAINS,
       operators.NOT_CONTAIN,
       operators.NOT_EMPTY,
-      operators.IS_EMPTY
+      operators.IS_EMPTY,
+      operators.STARTS_WITH,
+      operators.ENDS_WITH
     ]
   },
   NUMBER: {
@@ -76,6 +80,8 @@ export const TAG_TYPES = {
       operators.NOT_CONTAIN,
       operators.NOT_EMPTY,
       operators.IS_EMPTY,
+      operators.STARTS_WITH,
+      operators.ENDS_WITH,
       operators.NOT_BLANK,
       operators.IS_BLANK
     ],
@@ -104,7 +110,9 @@ const operatorLabelLUT = {
     CONTAINS: 'contains',
     NOT_CONTAIN: 'does not contain',
     NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present'
+    IS_EMPTY: 'is not present',
+    STARTS_WITH: 'starts with',
+    ENDS_WITH: 'ends with'
   },
   NUMBER: {
     EQUALS: '=',
@@ -125,7 +133,9 @@ const operatorLabelLUT = {
     NOT_EMPTY: 'is present',
     IS_EMPTY: 'is not present',
     IS_BLANK: 'does not have value',
-    NOT_BLANK: 'has value'
+    NOT_BLANK: 'has value',
+    STARTS_WITH: 'starts with',
+    ENDS_WITH: 'ends with'
   }
 };
 
