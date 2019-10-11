@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { timeout, combineLatest } from 'reactive-observables';
 
 import createSnapshotsInTimeframeObservable from 'in-subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-subscription/highlightedMapEntity';
@@ -17,6 +17,7 @@ import createRawPayloadObservable from 'in-subscription/rawPayload';
 import { debouncedQuery$, query$ } from 'in-stores/search/query';
 import createSnapshotObservable from 'in-subscription/snapshot';
 import createSearchObservable from 'in-subscription/search';
+import { pendingResult } from 'in-services/fixedObjects';
 import { createTrackingStore } from 'in-stores/store';
 import { timeConfig$ } from 'in-stores/time/config';
 
@@ -98,6 +99,19 @@ export function getSnapshot(snapshotId, timeConfig) {
     return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }));
   }
   return createSnapshotObservable({ snapshotId, timeConfig });
+}
+
+export function getSnapshotOrDefaultOnTimeout(snapshotId, defaultValue, t, timeConfig) {
+  const timeoutSignal = 'signal';
+
+  return combineLatest([
+    getSnapshot(snapshotId, timeConfig).startWith(pendingResult),
+    timeout(t)
+      .map(() => timeoutSignal)
+      .startWith(null)
+  ])
+    .map(([snapshot, signal]) => (snapshot === pendingResult && signal === timeoutSignal ? defaultValue : snapshot))
+    .distinct();
 }
 
 export function getSnapshots(snapshotIds, { waitForCompletion = false } = {}) {

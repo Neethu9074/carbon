@@ -9,21 +9,21 @@ import Link from 'in-components/Link';
 
 import locals from './LocationComponents.mless';
 
-export const SourceLocation = ({ location, sourceService, snapshotId, entity, span }) => {
+export const SourceLocation = ({ location, service, snapshotId, entity, span }) => {
   return (
     <div
       className={evaluateClassNames({
         [locals.serviceLine]: true,
-        [locals.unmonitored]: !snapshotId,
+        [locals.unmonitored]: snapshotId === null || service.id === 'ROOT',
         [locals.hasError]: span && span.errorCount > 0
       })}
     >
       <div className={locals.serviceLineInfo}>
         <span className={locals.locationText}>{location}</span>
-        {snapshotId ? (
-          <Link className={locals.link} href$={getServiceDashboard(sourceService.id)}>
+        {snapshotId === null || service.id !== 'ROOT' ? (
+          <Link className={locals.link} href$={getServiceDashboard(service.id)}>
             <SvgIcon className={locals.entityIcon} type="lib_application_service" />
-            {sourceService.label}
+            {service.label}
           </Link>
         ) : (
           <span className={locals.unmonitoredText}>
@@ -41,7 +41,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
     <div
       className={evaluateClassNames({
         [locals.serviceLine]: true,
-        [locals.unmonitored]: !snapshotId,
+        [locals.unmonitored]: snapshotId === null,
         [locals.hasError]: span && span.errorCount > 0
       })}
     >
@@ -63,7 +63,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
 };
 
 function correctTooltip(location, entity, snapshotId) {
-  if (!entity && !snapshotId) {
+  if (!entity && snapshotId === null) {
     return (
       <Tooltip content={`Instana does not monitor the ${location} of this call`}>
         <SvgIcon className={locals.infoIcon} type="lib_help_error_info_circle" />

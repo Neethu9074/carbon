@@ -5,23 +5,16 @@ import {
   SourceLocation,
   DestinationLocation
 } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
+import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
-import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { formatDateTime } from 'in-services/formatters/date';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { pendingResult } from 'in-services/fixedObjects';
-import PluginIcon from 'in-components/PluginIcon';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServiceComponent.mless';
 
@@ -120,7 +113,7 @@ export default function ServiceComponent({ call }) {
               </div>
               <SourceLocation
                 location={'source'}
-                sourceService={sourceService}
+                service={sourceService}
                 snapshotId={sourceSnapshotId}
                 entity={sourceEntity}
                 span={exitSpan}
@@ -249,52 +242,6 @@ export default function ServiceComponent({ call }) {
     </Fragment>
   );
 }
-
-const InfrastructureEntityLink = connectTo(({ entity }) => ({
-  // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
-  snapshot:
-    entity &&
-    entity.id &&
-    entity.time &&
-    getSnapshot(entity.id, getTimeConfigAtMoment(entity.time)).startWith(pendingResult)
-}))(function InfrastructureEntityLink({ entity, snapshot, plugin, physicalContext }) {
-  const isLoading = get(snapshot, ['progress', 'loading']);
-
-  if (isLoading || physicalContext === null) {
-    return (
-      <div className={locals.skeleton}>
-        <Skeleton className={locals.skeleton} />
-      </div>
-    );
-  }
-
-  if (!entity || !snapshot) {
-    return (
-      <div className={locals.noLink}>
-        <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
-      </div>
-    );
-  }
-
-  return (
-    <EntityLink
-      plugin={plugin}
-      snapshot={snapshot}
-      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-        stay =>
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
-      )}
-    />
-  );
-});
 
 function getSnapshotId(call, location) {
   const snapshotId =

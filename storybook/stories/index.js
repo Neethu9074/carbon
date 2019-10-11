@@ -13,6 +13,8 @@ import 'in-forge';
 // structuring and order is inspired by (see navigation)
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
+import './analyse/CallDetail/InfraEntityLink.story';
+import './analyse/CallDetail/LocationComponent.story';
 import './analyse/CallTree.story';
 import './analyse/DownshiftSearch.story';
 import './analyse/EditGroupDialog.story';
