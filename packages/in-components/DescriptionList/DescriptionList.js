@@ -1,19 +1,26 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
-import locals from './DescriptionList.mless';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 
-export function DescriptionList({ children }) {
+import './DescriptionList.less';
+
+const block = 'in-detail-pane';
+const listClassName = `${block}__description-list`;
+const itemClassName = `${block}__description-item`;
+const noDetailClassName = `${block}__description-no-details`;
+
+export function DescriptionList({ children, className }) {
   return (
     <Fragment>
-      <dl className={locals.descriptionList}>{children}</dl>
-      <div className={locals.descriptionListNoDetails}>No details available.</div>
+      <dl className={joinClassNames(listClassName, className)}>{children}</dl>
+      <div className={noDetailClassName}>No details available.</div>
     </Fragment>
   );
 }
 
-export function DescriptionItem({ title, children, onClick, style, verticalDisplay }) {
+export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
+  // return null;
   if (isItemEmpty(children)) {
     return null;
   }
@@ -21,14 +28,13 @@ export function DescriptionItem({ title, children, onClick, style, verticalDispl
   return (
     <div
       className={evaluateClassNames({
-        [locals.descriptionListItem]: true,
-        [locals.descriptionListItemVertical]: verticalDisplay
+        [itemClassName]: true,
+        [`${itemClassName}--with-separator`]: addSeparator,
+        [className]: className
       })}
     >
-      <dt className={locals.itemTitle} style={style}>
-        {title}
-      </dt>
-      <dd className={locals.itemText} onClick={onClick} style={style}>
+      <dt className={block + '__description-title'}>{title}</dt>
+      <dd className={`${block}__description-text`} onClick={onClick}>
         {children}
       </dd>
     </div>
