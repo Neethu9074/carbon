@@ -53,6 +53,7 @@ function ExpandableCard({
       header={rightSide}
       withoutPadding={!expanded}
       framed={framed}
+      onHeaderBackgroundClicked={() => setExpanded(!expanded)}
       className={className}
     >
       {expanded && children}

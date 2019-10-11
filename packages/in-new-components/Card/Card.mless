@@ -12,6 +12,15 @@
     border-top-right-radius: @lib__shapes__radius_small;
   }
 
+  .clickableHeader {
+    cursor: pointer;
+  }
+
+  .titleSubText,
+  .nonClickable {
+    cursor: default;
+  }
+
   .framed {
     border: 1px solid @lib__colors__N200;
     border-radius: @lib__shapes__radius_small;
