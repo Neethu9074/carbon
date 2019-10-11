@@ -5,6 +5,7 @@ import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPr
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
+import { googleAnalyticsDisabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -37,7 +38,9 @@ function Privacy({ termsAndPrivacySettings }) {
       <form className={locals.form}>
         {form.get('allAnalyticsServices').map(({ value }) => (
           <CheckboxFancy
-            label="Allow all Analytics (Google Analytics & Mixpanel)"
+            label={
+              googleAnalyticsDisabled ? 'Allow Mixpanel Analytics' : 'Allow all Analytics (Google Analytics & Mixpanel)'
+            }
             checked={value}
             onChange={() => onChange('allAnalyticsServices', !value)}
             size="large"
