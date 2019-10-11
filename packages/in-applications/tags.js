@@ -63,6 +63,7 @@ const blacklists = {
       'container.snapshotId': !isInstanaEngineer,
       'process.snapshotId': !isInstanaEngineer,
       'cluster.snapshotId': !isInstanaEngineer,
+      'cloud.snapshotId': !isInstanaEngineer,
       'call.span_type': !isInstanaEngineer,
       'call.processing_errors': !isInstanaEngineer,
       'service.rule_id': !isInstanaEngineer,
