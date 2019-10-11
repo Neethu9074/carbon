@@ -99,6 +99,95 @@ export default function ServiceComponent({ call, beacon }) {
       )
     );
   }
+
+  if (!beacon && sourceService.id === 'ROOT') {
+    return (
+      service &&
+      endpoint && (
+        <Fragment>
+          <DestinationLocation
+            location={'destination'}
+            endpoint={endpoint}
+            service={service}
+            snapshotId={destinationSnapshotId}
+            entity={destinationEntity}
+            span={entrySpan}
+            intermediateSpan={intermediateSpan}
+          />
+          <div className={locals.destinationChildren}>
+            {entrySpan && (
+              <ExpandableGroup
+                title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                defaultExpanded
+              >
+                <SpanDetails call={call} span={entrySpan} />
+                {entrySpan.stackTrace.length > 0 && (
+                  <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
+                )}
+              </ExpandableGroup>
+            )}
+
+            {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
+              <ExpandableGroup
+                expandedTitle="Infrastructure"
+                title={
+                  <div className={locals.infraTitle}>
+                    <span>Infrastructure</span>
+                    <InfrastructureEntityLink
+                      entity={destinationEntity}
+                      plugin={destinationEntity && destinationEntity.plugin}
+                      snapshotId={destinationSnapshotId}
+                      physicalContext={destinationPhysicalContext}
+                    />
+                  </div>
+                }
+              >
+                {destinationEntity && (
+                  <InfrastructureHierarchy
+                    snapshotId={destinationSnapshotId}
+                    calculateHierarchy
+                    pathname={physicalDashboardPath}
+                  />
+                )}
+              </ExpandableGroup>
+            )}
+            {destinationPhysicalContext &&
+              destinationPhysicalContext.cluster && (
+                <ExpandableGroup
+                  expandedTitle="Infrastructure"
+                  title={
+                    <Tooltip
+                      content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
+                      align="bottomLeft"
+                    >
+                      <div className={locals.infraTitle}>
+                        <span>Infrastructure</span>
+                        <InfrastructureEntityLink
+                          entity={destinationEntity}
+                          plugin={destinationEntity && destinationEntity.plugin}
+                          snapshotId={destinationSnapshotId}
+                          physicalContext={destinationPhysicalContext}
+                        />
+                      </div>
+                    </Tooltip>
+                  }
+                />
+              )}
+            {logs.length > 0 && (
+              <ExpandableGroup
+                title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
+                  warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
+                } )`}
+              >
+                <CallLogs call={call} />
+              </ExpandableGroup>
+            )}
+          </div>
+        </Fragment>
+      )
+    );
+  }
+
   return (
     <Fragment>
       {service &&
