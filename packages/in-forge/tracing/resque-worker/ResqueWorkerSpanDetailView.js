@@ -1,14 +1,14 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function ResqueWorkerSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Job">{span.getIn(['data', 'resque-worker', 'job'])}</DescriptionItem>
-      <DescriptionItem title="Queue">{span.getIn(['data', 'resque-worker', 'queue'])}</DescriptionItem>
+    <Dl>
+      <Di title="Job">{span.getIn(['data', 'resque-worker', 'job'])}</Di>
+      <Di title="Queue">{span.getIn(['data', 'resque-worker', 'queue'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'resque-worker', 'error'])} />
-    </DescriptionList>
+    </Dl>
   );
 }

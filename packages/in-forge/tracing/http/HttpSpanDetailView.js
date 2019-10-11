@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
@@ -10,9 +10,9 @@ import theme from 'in-themes';
 
 export default function HttpSpanDetailView({ span }) {
   return (
-    <DescriptionList>
+    <Dl>
       <HttpSpanDetailViewDescriptionList span={span} />
-    </DescriptionList>
+    </Dl>
   );
 }
 
@@ -36,40 +36,34 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
 
   return (
     <Fragment>
-      <DescriptionItem title="Host">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
-      <DescriptionItem title="Request Path">{path}</DescriptionItem>
-      <DescriptionItem title="Path Template">{span.getIn(['data', 'http', 'path_tpl'])}</DescriptionItem>
-      {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
-      <DescriptionItem title="WSDL Service">{span.getIn(['data', 'http', 'wsdl_srv'])}</DescriptionItem>
-      <DescriptionItem title="WSDL Operation">{span.getIn(['data', 'http', 'wsdl_op'])}</DescriptionItem>
-      <DescriptionItem title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</DescriptionItem>
-      <DescriptionItem title="Route ID">{span.getIn(['data', 'http', 'route_id'])}</DescriptionItem>
-      <DescriptionItem title="Route URI">{span.getIn(['data', 'http', 'route_uri'])}</DescriptionItem>
-      <DescriptionItem title="Hystrix Name">{span.getIn(['data', 'http', 'hystrix_name'])}</DescriptionItem>
-      <DescriptionItem title="Hystrix Fallback URI">
-        {span.getIn(['data', 'http', 'hystrix_fallback_uri'])}
-      </DescriptionItem>
-      {params != null && (
-        <DescriptionItem title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</DescriptionItem>
-      )}
-      <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
+      <Di title="Host">{span.getIn(['data', 'http', 'host'])}</Di>
+      <Di title="Request Path">{path}</Di>
+      <Di title="Path Template">{span.getIn(['data', 'http', 'path_tpl'])}</Di>
+      {url && url !== path ? <Di title="URL">{url}</Di> : null}
+      <Di title="WSDL Service">{span.getIn(['data', 'http', 'wsdl_srv'])}</Di>
+      <Di title="WSDL Operation">{span.getIn(['data', 'http', 'wsdl_op'])}</Di>
+      <Di title="SOAP Action">{span.getIn(['data', 'soap', 'action'])}</Di>
+      <Di title="Route ID">{span.getIn(['data', 'http', 'route_id'])}</Di>
+      <Di title="Route URI">{span.getIn(['data', 'http', 'route_uri'])}</Di>
+      <Di title="Hystrix Name">{span.getIn(['data', 'http', 'hystrix_name'])}</Di>
+      <Di title="Hystrix Fallback URI">{span.getIn(['data', 'http', 'hystrix_fallback_uri'])}</Di>
+      {params != null && <Di title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</Di>}
+      <Di title="Method">{span.getIn(['data', 'http', 'method'])}</Di>
       {status != null && (
-        <DescriptionItem title="Status Code" style={status >= 500 ? { color: theme.lib.colors.failure } : null}>
+        <Di title="Status Code" style={status >= 500 ? { color: theme.lib.colors.failure } : null}>
           {status}
           {statusCodes[status] != null && ` – ${statusCodes[status]}`}
-        </DescriptionItem>
+        </Di>
       )}
-      <DescriptionItem title="Content Length">
-        {span.getIn(['data', 'http', 'size'], span.getIn(['data', 'net', 'in']))}
-      </DescriptionItem>
-      <DescriptionItem title="Request Header Length">{span.getIn(['data', 'net', 'out'])}</DescriptionItem>
-      <DescriptionItem title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</DescriptionItem>
-      <DescriptionItem title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</DescriptionItem>
+      <Di title="Content Length">{span.getIn(['data', 'http', 'size'], span.getIn(['data', 'net', 'in']))}</Di>
+      <Di title="Request Header Length">{span.getIn(['data', 'net', 'out'])}</Di>
+      <Di title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</Di>
+      <Di title="Remote Port">{span.getIn(['data', 'peer', 'port'])}</Di>
       {getCustomHeaders(span)}
 
       {traceContextState &&
         traceContextState.size > 0 && (
-          <DescriptionItem title="Trace Context State" verticalDisplay>
+          <Di title="Trace Context State" verticalDisplay>
             <Code
               code={JSON.stringify(
                 traceContextState.toJS().reduce((agg, { k, v }) => {
@@ -81,7 +75,7 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
               )}
               lang="json"
             />
-          </DescriptionItem>
+          </Di>
         )}
 
       <ErrorDescriptionItem error={error} />
@@ -95,9 +89,9 @@ function getCustomHeaders(span) {
     .getIn(['data', 'http', 'header'], emptyMap)
     .map((v, k) => {
       return (
-        <DescriptionItem title={`Header: ${k}`} key={`header-${k}`}>
+        <Di title={`Header: ${k}`} key={`header-${k}`}>
           {v}
-        </DescriptionItem>
+        </Di>
       );
     })
     .valueSeq()

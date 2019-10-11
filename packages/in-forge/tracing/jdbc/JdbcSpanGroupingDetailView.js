@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -11,10 +11,10 @@ export default function JdbcSpanDetailView({ span }) {
   }
 
   return (
-    <DescriptionList>
-      <DescriptionItem title="Statement" verticalDisplay>
+    <Dl>
+      <Di title="Statement" verticalDisplay>
         <Code code={formatSql(statement)} lang="sql" />
-      </DescriptionItem>
-    </DescriptionList>
+      </Di>
+    </Dl>
   );
 }

@@ -1,43 +1,35 @@
 import React from 'react';
 import Code from 'in-components/Code';
 import GeoLocation from 'in-sdk/components/traceDetails/GeoLocation';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 
 export default function AndroidErrorSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="App Version Name">
-          {span.getIn(['data', 'android_error', 'report', 'app_version_name'])}
-        </DescriptionItem>
+      <Dl>
+        <Di title="App Version Name">{span.getIn(['data', 'android_error', 'report', 'app_version_name'])}</Di>
 
-        <DescriptionItem title="Android Version">
-          {span.getIn(['data', 'android_error', 'report', 'android_version'])}
-        </DescriptionItem>
+        <Di title="Android Version">{span.getIn(['data', 'android_error', 'report', 'android_version'])}</Di>
 
-        <DescriptionItem title="Phone Model">{span.getIn(['data', 'android_error', 'phone_model'])}</DescriptionItem>
+        <Di title="Phone Model">{span.getIn(['data', 'android_error', 'phone_model'])}</Di>
 
-        <DescriptionItem title="Carrier">{span.getIn(['data', 'android_error', 'report', 'provider'])}</DescriptionItem>
+        <Di title="Carrier">{span.getIn(['data', 'android_error', 'report', 'provider'])}</Di>
 
-        <DescriptionItem title="Network Type">
-          {span.getIn(['data', 'android_error', 'report', 'networkType'])}
-        </DescriptionItem>
+        <Di title="Network Type">{span.getIn(['data', 'android_error', 'report', 'networkType'])}</Di>
 
-        <DescriptionItem title="Crash Date">
-          {formatDateTime(span.getIn(['data', 'android_error', 'crashTimestamp']))}
-        </DescriptionItem>
+        <Di title="Crash Date">{formatDateTime(span.getIn(['data', 'android_error', 'crashTimestamp']))}</Di>
 
-        <DescriptionItem title="IP">{span.getIn(['data', 'android_error', 'ip'])}</DescriptionItem>
+        <Di title="IP">{span.getIn(['data', 'android_error', 'ip'])}</Di>
 
-        <DescriptionItem title="Location">
+        <Di title="Location">
           <GeoLocation geo={span.getIn(['data', 'android_error', 'geo'])} />
-        </DescriptionItem>
+        </Di>
 
-        <DescriptionItem title="Stacktrace">
+        <Di title="Stacktrace" verticalDisplay>
           <Code lang="json" code={span.getIn(['data', 'android_error', 'report', 'stack_trace'])} />
-        </DescriptionItem>
-      </DescriptionList>
+        </Di>
+      </Dl>
     </div>
   );
 }

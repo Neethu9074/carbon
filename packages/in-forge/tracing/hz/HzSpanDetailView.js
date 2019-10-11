@@ -1,17 +1,17 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function HzSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Operation">{span.getIn(['data', 'hz', 'op'])}</DescriptionItem>
-        <DescriptionItem title="Connection">{span.getIn(['data', 'hz', 'conn'])}</DescriptionItem>
-        <DescriptionItem title="Name">{span.getIn(['data', 'hz', 'name'])}</DescriptionItem>
+      <Dl>
+        <Di title="Operation">{span.getIn(['data', 'hz', 'op'])}</Di>
+        <Di title="Connection">{span.getIn(['data', 'hz', 'conn'])}</Di>
+        <Di title="Name">{span.getIn(['data', 'hz', 'name'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'hz', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

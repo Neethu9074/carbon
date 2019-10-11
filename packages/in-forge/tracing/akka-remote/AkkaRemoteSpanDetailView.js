@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function AkkaRemoteSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Path">{span.getIn(['data', 'akka', 'path'])}</DescriptionItem>
-      <DescriptionItem title="Message">{span.getIn(['data', 'akka', 'msg'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Path">{span.getIn(['data', 'akka', 'path'])}</Di>
+      <Di title="Message">{span.getIn(['data', 'akka', 'msg'])}</Di>
+    </Dl>
   );
 }

@@ -1,16 +1,16 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function KafkaSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Access Type">{span.getIn(['data', 'kafka', 'access'])}</DescriptionItem>
-        <DescriptionItem title="Topic">{span.getIn(['data', 'kafka', 'service'])}</DescriptionItem>
+      <Dl>
+        <Di title="Access Type">{span.getIn(['data', 'kafka', 'access'])}</Di>
+        <Di title="Topic">{span.getIn(['data', 'kafka', 'service'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'kafka', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

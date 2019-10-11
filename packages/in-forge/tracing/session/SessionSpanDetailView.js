@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function SessionSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Session Handler">{span.getIn(['data', 'session', 'save_handler'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Session Handler">{span.getIn(['data', 'session', 'save_handler'])}</Di>
+      </Dl>
     </div>
   );
 }

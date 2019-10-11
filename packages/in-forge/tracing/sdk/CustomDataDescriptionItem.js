@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { expandNestedSerializedJson } from 'in-services/util/json';
-import { DescriptionItem } from 'in-components/DescriptionList';
+import { Di } from 'in-new-components/HorizontalDescriptionList';
 
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -13,8 +13,8 @@ export default function CustomDataDescriptionItem({ span }) {
   }
 
   return (
-    <DescriptionItem title="Data" verticalDisplay>
+    <Di title="Data" verticalDisplay>
       <Code code={JSON.stringify(expandNestedSerializedJson(custom.toJS()), 0, 2)} lang="json" />
-    </DescriptionItem>
+    </Di>
   );
 }

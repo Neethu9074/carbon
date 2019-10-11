@@ -3,11 +3,13 @@ import { get } from 'lodash';
 
 import {
   SourceLocation,
-  DestinationLocation
+  DestinationLocation,
+  EumSourceLocation
 } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
 import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
+import BeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/BeaconDetails';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -18,7 +20,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call }) {
+export default function ServiceComponent({ call, beacon }) {
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
@@ -97,7 +99,6 @@ export default function ServiceComponent({ call }) {
       )
     );
   }
-
   return (
     <Fragment>
       {service &&
@@ -111,15 +112,24 @@ export default function ServiceComponent({ call }) {
                   <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
                 </svg>
               </div>
-              <SourceLocation
-                location={'source'}
-                service={sourceService}
-                snapshotId={sourceSnapshotId}
-                entity={sourceEntity}
-                span={exitSpan}
-                physicalContext={sourcePhysicalContext}
-              />
+              {beacon && sourceService.id === 'ROOT' ? (
+                <EumSourceLocation location={'source'} beacon={beacon} />
+              ) : (
+                <SourceLocation
+                  location={'source'}
+                  service={sourceService}
+                  snapshotId={sourceSnapshotId}
+                  entity={sourceEntity}
+                  span={exitSpan}
+                  physicalContext={sourcePhysicalContext}
+                />
+              )}
               <div className={locals.sourceChildren}>
+                {beacon && (
+                  <ExpandableGroup title="Details" defaultExpanded>
+                    <BeaconDetails beacon={beacon} />
+                  </ExpandableGroup>
+                )}
                 {exitSpan && (
                   <ExpandableGroup
                     title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}

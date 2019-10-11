@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function MemcacheSpanDetailView({ span }) {
@@ -9,20 +9,18 @@ export default function MemcacheSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Command">{command}</DescriptionItem>
-        <DescriptionItem title="Key">{span.getIn(['data', 'memcache', 'key'])}</DescriptionItem>
+      <Dl>
+        <Di title="Command">{command}</Di>
+        <Di title="Key">{span.getIn(['data', 'memcache', 'key'])}</Di>
 
-        {command === 'get' ? (
-          <DescriptionItem title="Hit">{yesOrNo(span.getIn(['data', 'memcache', 'hit']) == 1)}</DescriptionItem>
-        ) : null}
+        {command === 'get' ? <Di title="Hit">{yesOrNo(span.getIn(['data', 'memcache', 'hit']) == 1)}</Di> : null}
 
-        <DescriptionItem title="Keys">{span.getIn(['data', 'memcache', 'keys'])}</DescriptionItem>
-        <DescriptionItem title="Hit Count">{span.getIn(['data', 'memcache', 'hits'])}</DescriptionItem>
-        <DescriptionItem title="Namespace">{span.getIn(['data', 'memcache', 'namespace'])}</DescriptionItem>
-        <DescriptionItem title="Server">{span.getIn(['data', 'memcache', 'server'])}</DescriptionItem>
+        <Di title="Keys">{span.getIn(['data', 'memcache', 'keys'])}</Di>
+        <Di title="Hit Count">{span.getIn(['data', 'memcache', 'hits'])}</Di>
+        <Di title="Namespace">{span.getIn(['data', 'memcache', 'namespace'])}</Di>
+        <Di title="Server">{span.getIn(['data', 'memcache', 'server'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'memcache', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

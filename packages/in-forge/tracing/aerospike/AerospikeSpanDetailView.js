@@ -1,15 +1,15 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function AerospikeSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</DescriptionItem>
+      <Dl>
+        <Di title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

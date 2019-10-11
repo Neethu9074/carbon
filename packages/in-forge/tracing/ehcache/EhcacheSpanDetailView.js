@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function EhcacheSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Elements">{span.getIn(['data', 'elements'])}</DescriptionItem>
-        <DescriptionItem title="Hits">{span.getIn(['data', 'hits'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Elements">{span.getIn(['data', 'elements'])}</Di>
+        <Di title="Hits">{span.getIn(['data', 'hits'])}</Di>
+      </Dl>
     </div>
   );
 }

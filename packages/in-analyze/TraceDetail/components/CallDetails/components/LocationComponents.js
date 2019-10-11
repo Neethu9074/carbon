@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -58,6 +59,35 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
         </Link>
       </div>
       {correctTooltip(location, entity, snapshotId)}
+    </div>
+  );
+};
+
+export const EumSourceLocation = ({ location, beacon }) => {
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals.serviceLine]: true
+      })}
+    >
+      <div className={locals.serviceLineInfo}>
+        <span className={locals.locationText}>{location}</span>
+        {beacon.page ? (
+          <Fragment>
+            <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId, { pageId: beacon.page })}>
+              <SvgIcon type="lib_document" size="s" className={locals.icon} />
+              {beacon.page}
+            </Link>
+            <span className={locals.text}>on</span>
+          </Fragment>
+        ) : (
+          ''
+        )}
+        <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
+          <SvgIcon className={locals.entityIcon} type="lib_website" />
+          {beacon.websiteLabel}
+        </Link>
+      </div>
     </div>
   );
 };

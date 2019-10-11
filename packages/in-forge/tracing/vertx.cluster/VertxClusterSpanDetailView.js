@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function VertxClusterSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Sort">{span.getIn(['data', 'vertx', 'cluster', 'sort'])}</DescriptionItem>
-        <DescriptionItem title="Address">{span.getIn(['data', 'vertx', 'cluster', 'address'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Sort">{span.getIn(['data', 'vertx', 'cluster', 'sort'])}</Di>
+        <Di title="Address">{span.getIn(['data', 'vertx', 'cluster', 'address'])}</Di>
+      </Dl>
     </div>
   );
 }

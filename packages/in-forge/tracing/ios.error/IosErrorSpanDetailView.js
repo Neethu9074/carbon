@@ -5,7 +5,7 @@ import { convert_json } from 'in-forge/tracing/ios.error/formatter';
 import Code from 'in-components/Code';
 import { formatDateTime } from 'in-services/formatters/date';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function IosErrorSpanDetailView({ span }) {
   let report;
@@ -20,39 +20,29 @@ export default function IosErrorSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="App-Name">
-          {span.getIn(['data', 'ios_error', 'report', 'system', 'CFBundleName'])}
-        </DescriptionItem>
+      <Dl>
+        <Di title="App-Name">{span.getIn(['data', 'ios_error', 'report', 'system', 'CFBundleName'])}</Di>
 
-        <DescriptionItem title="Device">
-          {span.getIn(['data', 'ios_error', 'report', 'system', 'machine'])}
-        </DescriptionItem>
+        <Di title="Device">{span.getIn(['data', 'ios_error', 'report', 'system', 'machine'])}</Di>
 
-        <DescriptionItem title="Model">
-          {span.getIn(['data', 'ios_error', 'report', 'system', 'model'])}
-        </DescriptionItem>
+        <Di title="Model">{span.getIn(['data', 'ios_error', 'report', 'system', 'model'])}</Di>
 
-        <DescriptionItem title="Crash Date">
-          {formatDateTime(span.getIn(['data', 'ios_error', 'crashTimestamp']))}
-        </DescriptionItem>
+        <Di title="Crash Date">{formatDateTime(span.getIn(['data', 'ios_error', 'crashTimestamp']))}</Di>
 
-        <DescriptionItem title="OS Version">
-          {span.getIn(['data', 'ios_error', 'report', 'system', 'system_version'])}
-        </DescriptionItem>
+        <Di title="OS Version">{span.getIn(['data', 'ios_error', 'report', 'system', 'system_version'])}</Di>
 
-        <DescriptionItem title="IP">{span.getIn(['data', 'ios_error', 'ip'])}</DescriptionItem>
+        <Di title="IP">{span.getIn(['data', 'ios_error', 'ip'])}</Di>
 
-        <DescriptionItem title="Location">
+        <Di title="Location">
           <GeoLocation geo={span.getIn(['data', 'ios_error', 'geo'])} />
-        </DescriptionItem>
+        </Di>
 
         {report ? (
-          <DescriptionItem title="Crash Report" verticalDisplay>
+          <Di title="Crash Report" verticalDisplay>
             <Code code={report} />
-          </DescriptionItem>
+          </Di>
         ) : null}
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

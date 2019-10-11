@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 
@@ -11,10 +11,10 @@ export default function CosmosSpanDetailView({ span }) {
   }
 
   return (
-    <DescriptionList>
-      <DescriptionItem title="Statement">
+    <Dl>
+      <Di title="Statement" verticalDisplay>
         <Code code={formatSql(statement)} lang="sql" />
-      </DescriptionItem>
-    </DescriptionList>
+      </Di>
+    </Dl>
   );
 }

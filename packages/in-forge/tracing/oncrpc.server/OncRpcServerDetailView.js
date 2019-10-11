@@ -1,15 +1,15 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function OncRpcSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Program">{span.getIn(['data', 'oncrpc', 'program'])}</DescriptionItem>
-      <DescriptionItem title="Procedure">{span.getIn(['data', 'oncrpc', 'procedure'])}</DescriptionItem>
-      <DescriptionItem title="Version">{span.getIn(['data', 'oncrpc', 'version'])}</DescriptionItem>
+    <Dl>
+      <Di title="Program">{span.getIn(['data', 'oncrpc', 'program'])}</Di>
+      <Di title="Procedure">{span.getIn(['data', 'oncrpc', 'procedure'])}</Di>
+      <Di title="Version">{span.getIn(['data', 'oncrpc', 'version'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'oncrpc', 'error'])} />
-    </DescriptionList>
+    </Dl>
   );
 }

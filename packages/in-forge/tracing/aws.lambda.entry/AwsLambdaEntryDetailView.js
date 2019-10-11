@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 import { identity } from 'in-services/util/function';
 
@@ -20,10 +20,10 @@ const HTTP_TYPES = [TRIGGER_AWS_API_GATEWAY, TRIGGER_AWS_APPLICATION_LOAD_BALANC
 
 export default function AwsLambdaEntryDetailView({ span }) {
   return (
-    <DescriptionList>
+    <Dl>
       <TriggerTypeSpecificFields span={span} />
       <CommonFaasDescriptionItems span={span} />
-    </DescriptionList>
+    </Dl>
   );
 }
 
@@ -50,7 +50,7 @@ export function TriggerTypeSpecificFields({ span }) {
 function CloudWatchEventsDetails({ span }) {
   return (
     <Fragment>
-      <DescriptionItem title="Event Type">CloudWatch Event(s)</DescriptionItem>
+      <Di title="Event Type">CloudWatch Event(s)</Di>
       <ListWithMore
         title="Event Resources"
         span={span}
@@ -65,9 +65,9 @@ function CloudWatchEventsDetails({ span }) {
 function CloudWatchLogsDetails({ span }) {
   return (
     <Fragment>
-      <DescriptionItem title="Event Type">CloudWatch Event(s)</DescriptionItem>
-      <DescriptionItem title="Log Group">{span.getIn(['data', 'lambda', 'cw', 'logs', 'group'])}</DescriptionItem>
-      <DescriptionItem title="Log Stream">{span.getIn(['data', 'lambda', 'cw', 'logs', 'stream'])}</DescriptionItem>
+      <Di title="Event Type">CloudWatch Event(s)</Di>
+      <Di title="Log Group">{span.getIn(['data', 'lambda', 'cw', 'logs', 'group'])}</Di>
+      <Di title="Log Stream">{span.getIn(['data', 'lambda', 'cw', 'logs', 'stream'])}</Di>
       <ListWithMore
         title="Log Events"
         span={span}
@@ -82,7 +82,7 @@ function CloudWatchLogsDetails({ span }) {
 function S3EventDetails({ span }) {
   return (
     <Fragment>
-      <DescriptionItem title="Event Type">AWS S3 Event(s)</DescriptionItem>
+      <Di title="Event Type">AWS S3 Event(s)</Di>
       <ListWithMore
         title="Event Details"
         span={span}
@@ -98,7 +98,7 @@ function S3EventDetails({ span }) {
 function SqsDetails({ span }) {
   return (
     <Fragment>
-      <DescriptionItem title="Event Type">AWS SQS Message(s)</DescriptionItem>
+      <Di title="Event Type">AWS SQS Message(s)</Di>
       <ListWithMore
         title="Queues"
         span={span}
@@ -114,10 +114,10 @@ function SqsDetails({ span }) {
 function UnknownTriggerDetails() {
   return (
     <Fragment>
-      <DescriptionItem title="Event Type">AWS Event</DescriptionItem>
-      <DescriptionItem title="Event Details">
+      <Di title="Event Type">AWS Event</Di>
+      <Di title="Event Details">
         An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger.
-      </DescriptionItem>
+      </Di>
     </Fragment>
   );
 }
@@ -133,9 +133,9 @@ function ListWithMore({ title, span, pathToItems, itemMapper = identity, pathToM
   }
 
   return listItems.length > 0 ? (
-    <DescriptionItem title={title} verticalDisplay>
+    <Di title={title} verticalDisplay>
       <ul>{listItems}</ul>
-    </DescriptionItem>
+    </Di>
   ) : null;
 }
 
@@ -143,10 +143,10 @@ function CommonFaasDescriptionItems({ span }) {
   return (
     <Fragment>
       <div className={locals.header}>Lambda Attributes</div>
-      <DescriptionItem title="ARN">{span.getIn(['data', 'lambda', 'arn'])}</DescriptionItem>
-      <DescriptionItem title="Function Name">{span.getIn(['data', 'lambda', 'functionName'])}</DescriptionItem>
-      <DescriptionItem title="Version">{span.getIn(['data', 'lambda', 'functionVersion'])}</DescriptionItem>
-      <DescriptionItem title="Trigger">{span.getIn(['data', 'lambda', 'trigger'])}</DescriptionItem>
+      <Di title="ARN">{span.getIn(['data', 'lambda', 'arn'])}</Di>
+      <Di title="Function Name">{span.getIn(['data', 'lambda', 'functionName'])}</Di>
+      <Di title="Version">{span.getIn(['data', 'lambda', 'functionVersion'])}</Di>
+      <Di title="Trigger">{span.getIn(['data', 'lambda', 'trigger'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'lambda', 'error'])} />
     </Fragment>
   );
