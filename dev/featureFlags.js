@@ -29,5 +29,6 @@ module.exports = {
   isOnPrem: false,
   isInitialOnboardingCheckEnabled: true,
   contextGuideEnabled: false,
-  eumAlertingEnabled: true
+  eumAlertingEnabled: true,
+  googleAnalyticsDisabled: false
 };

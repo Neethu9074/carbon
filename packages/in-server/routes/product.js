@@ -312,7 +312,7 @@ function sendIndex(
       indexJsChecksum,
       indexCssChecksum,
       nonces,
-      googleAnalyticsTrackingId: termsAndPrivacy.allAnalyticsServices && serverConfig.googleAnalyticsTrackingId,
+      googleAnalyticsTrackingId: googleAnalyticsEnabled(req, termsAndPrivacy) && serverConfig.googleAnalyticsTrackingId,
       appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
       mixpanelToken: termsAndPrivacy.allAnalyticsServices && serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
@@ -334,6 +334,10 @@ function sendIndex(
       reportingData
     })
   );
+}
+
+function googleAnalyticsEnabled(req, termsAndPrivacy) {
+  return !req.clientConfig.featureFlags.googleAnalyticsDisabled && termsAndPrivacy.allAnalyticsServices;
 }
 
 function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {

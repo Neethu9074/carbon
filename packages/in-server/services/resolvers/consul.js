@@ -46,7 +46,8 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/GOOGLE_ANALYTICS_DISABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -71,7 +72,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         isInitialOnboardingCheckEnabled,
         contextGuideEnabled,
         isOnPrem,
-        eumAlertingEnabled
+        eumAlertingEnabled,
+        googleAnalyticsDisabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -100,7 +102,8 @@ exports.getFeatureFlags = (tenant, unit) =>
         isInitialOnboardingCheckEnabled,
         contextGuideEnabled,
         isOnPrem,
-        eumAlertingEnabled
+        eumAlertingEnabled,
+        googleAnalyticsDisabled
       })
     );
   });

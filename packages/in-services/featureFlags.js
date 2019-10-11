@@ -47,8 +47,8 @@ export const optInOptOutEnabled = isFeatureFlagEnabled('optInOptOutEnabled', tru
 export const isOnPrem = isFeatureFlagEnabled('isOnPrem', false);
 export const isInitialOnboardingCheckEnabled = isFeatureFlagEnabled('isInitialOnboardingCheckEnabled', true);
 export const eumAlertingEnabled = isFeatureFlagEnabled('eumAlertingEnabled', false);
-
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled', false);
+export const googleAnalyticsDisabled = isFeatureFlagEnabled('googleAnalyticsDisabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords
