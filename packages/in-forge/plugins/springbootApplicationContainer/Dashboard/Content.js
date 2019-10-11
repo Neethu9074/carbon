@@ -49,14 +49,7 @@ export default function SpringbootDashboard({ snapshot, timeConfig }) {
               'metrics.statusCode.4xx',
               'metrics.statusCode.5xx'
             ],
-            labels: [
-              'All Requests',
-              'Requests with Status Code 1xx',
-              'Requests with Status Code 2xx',
-              'Requests with Status Code 3xx',
-              'Requests with Status Code 4xx',
-              'Requests with Status Code 5xx'
-            ],
+            labels: ['All Requests', '1xx', '2xx', '3xx', '4xx', '5xx'],
             colors: [
               theme.lib.colors.indigo800,
               theme.lib.colors.lightBlue800,

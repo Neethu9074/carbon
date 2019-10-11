@@ -91,13 +91,7 @@ function getDetails(row) {
             'azMetrics.' + id + '.target_4XX_count',
             'azMetrics.' + id + '.target_5XX_count'
           ],
-          labels: [
-            'All Requests',
-            'Requests with Status Code 2xx',
-            'Requests with Status Code 3xx',
-            'Requests with Status Code 4xx',
-            'Requests with Status Code 5xx'
-          ],
+          labels: ['All Requests', '2xx', '3xx', '4xx', '5xx'],
           type: 'line',
           formatter: number.compact
         }}
