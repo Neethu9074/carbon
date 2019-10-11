@@ -4,33 +4,66 @@ import {
   Bash,
   Description,
   DropDown,
-  DownloadButton,
   CheckBox,
   SmallSpacer,
   LargeSpacer,
   HelpBox,
   Listing,
   TextWithLink,
-  Row,
   Script,
-  YAML,
-  JSON
+  YAML
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
 export default [
   {
+    label: 'Kubernetes',
+    icon: 'lib_kubernetes',
+    subTechnologies: [
+      {
+        label: 'Helm chart',
+        Content: K8sHelmChartContent
+      },
+      {
+        label: 'Daemon set',
+        Content: K8sDaemonSetContent
+      },
+      {
+        label: 'Azure Kubernetes Service (AKS)',
+        Content: K8sDaemonSetContent
+      },
+      {
+        label: 'AWS Elastic Container Service for Kubernetes (EKS)',
+        Content: K8sDaemonSetContent
+      },
+      {
+        label: 'Google Kubernetes Engine (GKE)',
+        Content: K8sGoogleKubernetesEngineContent
+      }
+    ]
+  },
+  {
+    label: 'Linux',
+    subTechnologies: [
+      {
+        label: 'Automatic Installation',
+        Content: OneLinerContent
+      },
+      {
+        label: 'Packages (DEB, RPM)',
+        Content: PackagesContent
+      }
+    ]
+  },
+  {
+    label: 'Docker',
+    icon: 'lib_container_docker',
+    Content: DockerContent
+  },
+  {
     label: 'AWS',
     fullLabel: 'Amazon Web Services',
     subTechnologies: [
-      {
-        label: 'Instana AWS Sensor',
-        Content: AwsSensorContent
-      },
-      {
-        label: 'Elastic Cloud (EC2)',
-        Content: EC2Content
-      },
       {
         label: 'Elastic Container Service for Kubernetes (EKS)',
         Content: K8sDaemonSetContent
@@ -57,39 +90,9 @@ export default [
       }
     ]
   },
+
   {
-    label: 'Docker',
-    icon: 'lib_container_docker',
-    Content: DockerContent
-  },
-  {
-    label: 'Kubernetes (all flavours)',
-    icon: 'lib_kubernetes',
-    subTechnologies: [
-      {
-        label: 'Helm chart',
-        Content: K8sHelmChartContent
-      },
-      {
-        label: 'Daemon set',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'Azure Kubernetes Service (AKS)',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'AWS Elastic Container Service for Kubernetes (EKS)',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'Google Kubernetes Engine (GKE)',
-        Content: K8sGoogleKubernetesEngineContent
-      }
-    ]
-  },
-  {
-    label: 'Pivotal Platform (formerly PCF)',
+    label: 'Pivotal Platform',
     fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
     Content: PcfContent
   },
@@ -99,21 +102,10 @@ export default [
     icon: 'lib_cloudfoundry',
     Content: CfAndBoshContent
   },
+
   {
-    label: 'Linux',
-    Content: OneLinerContent
-  },
-  {
-    label: 'Linux Packages (DEB, RPM)',
-    Content: PackagesContent
-  },
-  {
-    label: 'Windows Installer',
+    label: 'Windows',
     Content: WindowsInstallerContent
-  },
-  {
-    label: 'Static tarballs (all OSes and architectures)',
-    Content: ManualContent
   }
 ];
 
@@ -143,6 +135,7 @@ function DockerContent({ agentKey, region }) {
     </>
   );
 }
+<<<<<<< Updated upstream
 function AwsSensorContent({ agentKey, region }) {
   return (
     <>
@@ -311,6 +304,8 @@ function EC2Content({ agentKey, regionShort }) {
     </>
   );
 }
+=======
+>>>>>>> Stashed changes
 
 function OneLinerContent({ agentKey, regionShort }) {
   const jvmModeOptions = ['Dynamic agent with Zulu JVM', 'Static agent with Zulu JVM'];
@@ -558,54 +553,6 @@ function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
           )}&agentKey=${decodeURIComponent(agentKey)}&type=${decodeURIComponent('exe64')}`
         ]}
       />
-    </>
-  );
-}
-
-function ManualContent({ agentKey, region, tenant, tenantUnit }) {
-  const agentOptions = [
-    { key: 'linux64', label: 'Linux (64Bit)' },
-    { key: 'linux32', label: 'Linux (32Bit)' },
-    { key: 'linuxarm64', label: 'Linux (64Bit - ARM)' },
-    { key: 'linuxarm32', label: 'Linux (32Bit - ARM)' },
-    { key: 'linuxppc64', label: 'Linux (64Bit - PowerPC)' },
-    { key: 'linuxppc32', label: 'Linux (32Bit - PowerPC)' },
-    { key: 'linuxs390x', label: 'Linux (s390x)' },
-    { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
-    { key: 'win64', label: 'Windows Zip (64bit)' },
-    { key: 'win32', label: 'Windows Zip (32bit)' },
-    { key: 'mac', label: 'Mac OS (64bit - Intel)' },
-    { key: 'sparc64', label: 'Solaris (64bit - SPARC)' },
-    { key: 'sparc32', label: 'Solaris (32bit - SPARC)' },
-    { key: 'aix64', label: 'AIX (64bit - PowerPC)' },
-    { key: 'aix32', label: 'AIX (32bit - PowerPC)' }
-  ];
-  const [option, setOption] = useState(agentOptions[0].key);
-
-  return (
-    <>
-      <Row>
-        <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton
-          href={`https://www.instana.io/assets/agent/${tenant}/${tenantUnit}?region=${decodeURIComponent(
-            region
-          )}&agentKey=${decodeURIComponent(agentKey)}&type=${decodeURIComponent(option)}`}
-        />
-      </Row>
-      <SmallSpacer />
-      <HelpBox title="Requires a Java 8 Runtime">
-        <Listing
-          items={[
-            'Azul Zulu JDK 8 (Preferred)',
-            'Oracle Hotspot JDK 8',
-            'IBM J9 8',
-            'OpenJDK 8',
-            'Amazon Corretto JDK 8'
-          ]}
-        />
-        <SmallSpacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
-      </HelpBox>
     </>
   );
 }

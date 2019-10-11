@@ -84,7 +84,7 @@ export function TextWithLink({ text, linkText, href }) {
   );
 }
 
-export function Row({ children }) {
+function Row({ children }) {
   return (
     <div className={locals.row}>
       {React.Children.map(children, child => (
@@ -96,10 +96,6 @@ export function Row({ children }) {
 
 export function YAML({ title, content }) {
   return <RichCode title={title} content={content} language="yaml" />;
-}
-
-export function JSON({ title, content }) {
-  return <RichCode title={title} content={content} language="json" />;
 }
 
 export function RichCode({ title, content, language }) {
@@ -146,13 +142,5 @@ export function Script({ pre = [], lines }) {
       </pre>
       <CopyToClipboardButton getText={() => lines.join('\n')} />
     </>
-  );
-}
-
-export function DownloadButton({ href }) {
-  return (
-    <Button href={href} target="_blank" rel="noopener noreferrer">
-      Download
-    </Button>
   );
 }
