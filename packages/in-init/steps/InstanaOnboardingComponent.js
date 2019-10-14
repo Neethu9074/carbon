@@ -26,6 +26,7 @@ function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) 
       <FullViewOnboardingWidget
         isAgentDeployed={apiCallSatisfied}
         isBackendAvailable
+        disableAwsSensorDocumentation
         agentKey={agentKey || 'AGENT_KEY'}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}

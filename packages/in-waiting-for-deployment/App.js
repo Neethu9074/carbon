@@ -25,6 +25,7 @@ function App({ apiCallSatisfied }) {
       <DisabledBodyScroll />
       <FullViewOnboardingWidget
         isRestricted
+        disableAwsSensorDocumentation
         isAgentDeployed={false}
         isBackendAvailable={apiCallSatisfied}
         agentKey={config.agentKey}

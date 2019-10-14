@@ -98,6 +98,10 @@ export function YAML({ title, content }) {
   return <RichCode title={title} content={content} language="yaml" />;
 }
 
+export function JSON({ title, content }) {
+  return <RichCode title={title} content={content} language="json" />;
+}
+
 export function RichCode({ title, content, language }) {
   title = title || `Configuration.${language}`;
   return (
