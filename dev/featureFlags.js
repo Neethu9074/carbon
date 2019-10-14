@@ -22,6 +22,7 @@ module.exports = {
   javaScriptStackTraceTranslationEnabled: true,
   pcfEnabled: true,
   humioEnabled: true,
+  splunkEnabled: true,
   logDnaEnabled: true,
   urlShortenerEnabled: true,
   websiteUserBreakdownEnabled: true,
