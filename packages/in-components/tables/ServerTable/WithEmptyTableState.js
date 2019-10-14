@@ -20,6 +20,7 @@ function ServerTableWithEmptyState(props) {
       FallbackComponent={() => (
         <ServerTablePresenter
           {...props}
+          onChange={() => {}}
           result={{ errors: [], progress: { loading: false }, data: { items: [] } }}
           renderNoDataAvailable={() => NoDataAvailable(props)}
         />
