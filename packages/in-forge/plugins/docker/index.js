@@ -6,6 +6,7 @@ import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegratio
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import ContainerInfoButton from 'in-forge/plugins/docker/ContainerInfoButton';
 import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
+import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { hasRestrictedAccess } from 'in-stores/permission';
@@ -35,7 +36,11 @@ registerSnapshotDefinition({
   DashboardHeaderActions({ snapshot, timeConfig }) {
     return (
       <Fragment>
-        <LoggingIntegrationButtons dockerContainerId={snapshot.getIn(['data', 'Id'])} timeConfig={timeConfig} />
+        <LoggingIntegrationButtons
+          isWithinKubernetes={isWithinKubernetes(snapshot)}
+          dockerContainerId={snapshot.getIn(['data', 'Id'])}
+          timeConfig={timeConfig}
+        />
         {containerInfoEnabled && !hasRestrictedAccess && <ContainerInfoButton snapshot={snapshot} />}
       </Fragment>
     );
