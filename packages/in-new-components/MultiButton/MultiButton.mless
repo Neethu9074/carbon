@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .button {
+    margin-left: 0.5rem;
+  }
+
+  .icon {
+    fill: @lib__colors__white;
+    margin: -0.25rem 0 -0.25rem 0.25rem;
+  }
+
+  .buttonWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .integrationButton {
+    width: 100%;
+    border-radius: 0;
+
+    & + .integrationButton {
+      margin-left: 0;
+    }
+  }
+}
+
