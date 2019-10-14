@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getTriggersForLambdaVersion from 'in-subscription/getTriggersForLambdaVersion';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsLambdaVersion/Info';
@@ -20,6 +21,8 @@ export default function AwsLambdaVersionSidebar({ snapshot }) {
       <TagList snapshot={snapshot} />
 
       <SidebarSnapshotItemList snapshotId={snapshotId} subscription={getTriggersForLambdaVersion} label="Triggers" />
+
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

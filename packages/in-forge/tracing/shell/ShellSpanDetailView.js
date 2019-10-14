@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function ShellSpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Shell Command">{span.getIn(['data', 'shell', 'cmd'])}</DescriptionItem>
-    </DescriptionList>
+    <Dl>
+      <Di title="Shell Command">{span.getIn(['data', 'shell', 'cmd'])}</Di>
+    </Dl>
   );
 }

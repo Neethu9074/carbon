@@ -1,22 +1,13 @@
-/* global require:false */
-/* eslint-disable no-console */
+import initialiseSteps from 'in-init/initialiseSteps';
 
-import 'core-js/stable';
-
-import { build } from 'in-services/config';
-
-if (!__DEV__) {
-  console.log(
-    '%cQuestions about Instana? Contact us via support@instana.com!',
-    'font-size: 14px; color: #172429; font-weight: bold;'
-  );
-  console.log('Build information: %s', JSON.stringify(build));
-}
-
-const initializationSteps = [
+initialiseSteps([
   // polyfills
+  'coreJsPolyfills',
   'perfNowPolyfill',
   'mapPolyfill',
+
+  // console concat and build information
+  'consoleBuildInformation',
 
   // manipulation of built-in globals
   'defaultTimeout',
@@ -43,31 +34,9 @@ const initializationSteps = [
   // accept terms and privacy settings
   'termsAndPrivacy',
 
+  // if there is no agent deployed, force the onboarding dialog
+  'instanaOnboarding',
+
   // Rendering of the UI. This must come last!
-  'rendering'
-];
-
-nextStep(0);
-
-function nextStep(index) {
-  if (index >= initializationSteps.length) {
-    // initialization process finished. yay!
-    return;
-  }
-
-  // Using simple concatenation so that Webpack can properly analyze
-  // this require statement for require.context creation.
-  const mod = require('./init/' + initializationSteps[index] + '.js');
-  if (!mod || !mod.init) {
-    nextStep(index + 1);
-    return;
-  }
-
-  const result = mod.init();
-  if (!result || !result.once) {
-    nextStep(index + 1);
-    return;
-  }
-
-  result.once(() => nextStep(index + 1));
-}
+  'productRendering'
+]);

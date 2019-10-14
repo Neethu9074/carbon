@@ -15,18 +15,23 @@ export default function SloViolationsChart({ timeConfig, query, cardTitle = 'SLO
       y1={{
         renderer: Renderer.stackedArea,
         formatter: number.forcedCompact,
-        labels: ['SLOs', 'Experimental SLOs'],
-        metricIds: ['slo', 'experimentalSlo']
+        labels: ['SLOs', 'Experimental SLOs', 'Development SLOs'],
+        metricIds: ['slo', 'experimentalSlo', 'developmentSlo']
       }}
       metricsConfiguration={{
         timeConfig,
         metrics: {
           slo: {
-            query: `event.text:"[SLO]" ${query || ''}`.trim(),
+            query: `event.text:"[SLO]" NOT event.text:"[Development SLO]" NOT event.text:"[experimental SLO]" ${query ||
+              ''}`.trim(),
             granularity
           },
           experimentalSlo: {
             query: `event.text:"[experimental SLO]" ${query || ''}`.trim(),
+            granularity
+          },
+          developmentSlo: {
+            query: `event.text:"[Development SLO]" ${query || ''}`.trim(),
             granularity
           }
         }

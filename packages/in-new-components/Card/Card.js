@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 import locals from './Card.mless';
 
@@ -10,11 +12,18 @@ export default function Card({
   children,
   withoutPadding,
   header,
+  onHeaderBackgroundClicked,
   className,
   bodyClassName,
   framed = true,
   useMaxAvailableHeight
 }) {
+  const headerProps = onHeaderBackgroundClicked
+    ? toInteractiveElement({
+        onDefaultInteraction: onHeaderBackgroundClicked
+      })
+    : {};
+
   return (
     <div
       className={evaluateClassNames({
@@ -23,12 +32,29 @@ export default function Card({
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
-      <div className={locals.header}>
+      <div
+        className={evaluateClassNames({
+          [locals.header]: true,
+          [locals.clickableHeader]: onHeaderBackgroundClicked
+        })}
+        {...headerProps}
+      >
         <div className={locals.title}>
-          {title}
-          {titleSubText && <span className={locals.titleSubText}>{titleSubText}</span>}
+          <span className={locals.nonClickable} onClick={stopPropagationAndPreventDefault}>
+            {title}
+          </span>
+          {titleSubText && (
+            <span
+              className={joinClassNames(locals.titleSubText, locals.nonClickable)}
+              onClick={stopPropagationAndPreventDefault}
+            >
+              {titleSubText}
+            </span>
+          )}
         </div>
-        {header}
+        <div className={locals.nonClickable} onClick={stopPropagationAndPreventDefault}>
+          {header}
+        </div>
       </div>
 
       <div

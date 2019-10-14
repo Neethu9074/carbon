@@ -14,14 +14,13 @@ export default connectTo({
 })(function InfoButtonSection({ snapshot, isInternalVisible }) {
   return (
     <div className={locals.wrapper}>
-      <ImageButton iconType="popup" onClick={() => setActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
+      <ImageButton iconType="lib_views_popup" onClick={() => setActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
         Sensors Info
       </ImageButton>
       {isInternalVisible && (
         <ImageButton
           iconType="lib_kubernetes_spec"
           onClick={() => setActiveDialog(<AgentConfiguration snapshot={snapshot} />)}
-          iconSize="l"
         >
           Agent Configuration
         </ImageButton>

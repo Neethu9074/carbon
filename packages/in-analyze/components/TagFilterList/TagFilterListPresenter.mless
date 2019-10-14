@@ -125,6 +125,10 @@
     color: @lib__colors__N500;
     padding: 0.125rem 0.25rem;
     z-index: 2; // raise above connecting lines
-    position: relative;  // raise above connecting lines
+    position: relative; // raise above connecting lines
+  }
+
+  .readOnly {
+    cursor: not-allowed;
   }
 }

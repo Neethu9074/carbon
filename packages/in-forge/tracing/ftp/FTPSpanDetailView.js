@@ -1,19 +1,19 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function FTPSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Host">{span.getIn(['data', 'ftp', 'host'])}</DescriptionItem>
-        <DescriptionItem title="Port">{span.getIn(['data', 'ftp', 'port'])}</DescriptionItem>
-        <DescriptionItem title="Command">{span.getIn(['data', 'ftp', 'command'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'ftp', 'type'])}</DescriptionItem>
-        <DescriptionItem title="File">{span.getIn(['data', 'ftp', 'file'])}</DescriptionItem>
+      <Dl>
+        <Di title="Host">{span.getIn(['data', 'ftp', 'host'])}</Di>
+        <Di title="Port">{span.getIn(['data', 'ftp', 'port'])}</Di>
+        <Di title="Command">{span.getIn(['data', 'ftp', 'command'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'ftp', 'type'])}</Di>
+        <Di title="File">{span.getIn(['data', 'ftp', 'file'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'ftp', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

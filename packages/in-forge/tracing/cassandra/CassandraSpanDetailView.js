@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 
@@ -9,23 +9,21 @@ export default function CassandraSpanDetailView({ span }) {
   const fullyFetched = span.getIn(['data', 'cassandra', 'fullyFetched']);
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Keyspace">{span.getIn(['data', 'cassandra', 'keyspace'])}</DescriptionItem>
+      <Dl>
+        <Di title="Keyspace">{span.getIn(['data', 'cassandra', 'keyspace'])}</Di>
         {span.getIn(['data', 'cassandra', 'fetchSize']) != null && (
-          <DescriptionItem title="Fetch Size">
+          <Di title="Fetch Size">
             {span.getIn(['data', 'cassandra', 'fetchSize'])}
 
             {/* Support string and boolean as possible types in the JSON */}
             {fullyFetched != null && ' (' + (String(fullyFetched) === 'false' ? 'not ' : '') + 'fully fetched)'}
-          </DescriptionItem>
+          </Di>
         )}
-        <DescriptionItem title="Achieved Consistency">
-          {span.getIn(['data', 'cassandra', 'achievedConsistency'])}
-        </DescriptionItem>
-        <DescriptionItem title="Tried Hosts">{span.getIn(['data', 'cassandra', 'triedHosts'])}</DescriptionItem>
+        <Di title="Achieved Consistency">{span.getIn(['data', 'cassandra', 'achievedConsistency'])}</Di>
+        <Di title="Tried Hosts">{span.getIn(['data', 'cassandra', 'triedHosts'])}</Di>
         <Query span={span} />
         <ErrorDescriptionItem error={span.getIn(['data', 'cassandra', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }
@@ -40,8 +38,8 @@ function Query({ span }) {
   let code = formatSql(statement);
 
   return (
-    <DescriptionItem title="Query" verticalDisplay>
+    <Di title="Query" verticalDisplay>
       <Code code={code} lang={lang} />
-    </DescriptionItem>
+    </Di>
   );
 }

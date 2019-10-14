@@ -14,9 +14,10 @@ const configEnrichment = require('./middleware/configEnrichment');
 const unitCoordinates = require('./middleware/unitCoordinates');
 const errorPagesRoutes = require('./routes/errorPages');
 const serverConfig = require('./serverConfig.js');
+const productRoutes = require('./routes/product');
+const waitingRoutes = require('./routes/waiting');
 const assetRoutes = require('./routes/assets');
 const errorPages = require('./errorPages.js');
-const indexRoutes = require('./routes/index');
 const pingRoutes = require('./routes/ping');
 
 require('./admin');
@@ -38,11 +39,16 @@ app.use((req, res, next) => {
 app.use(unitCoordinates);
 app.use(errorPagesRoutes);
 app.use(assetRoutes);
+
+// we need to place the waiting resource middleware before we enrich the config because
+// we don't have a deployed backend for now. Therefore the config cannot work correctly
+app.use(waitingRoutes);
+
 // Do not execute configEnrichment before the asset routes. This would otherwise break
 // CSS retrieval for cases in which the ui-backend cannot be located in consul.
 app.use(configEnrichment);
 app.use(pingRoutes);
-app.use(indexRoutes);
+app.use(productRoutes);
 
 app.use((req, res) => errorPages.send404(req, res));
 

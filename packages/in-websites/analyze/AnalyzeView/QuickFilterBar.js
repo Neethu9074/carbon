@@ -14,11 +14,20 @@ export default function QuickFilterBar(props) {
     clearTagFilters,
     onMoreClick,
     showWebsiteSelector,
-    showPageSelector
+    showPageSelector,
+    showSubdivisionSelector,
+    showWindowWidthSelector,
+    removeBarPadding,
+    removeBarBackgroundColor
   } = props;
 
   return (
-    <Bar showClearFilters={tagFilters.length - implicitTagFilters.length > 0} onClearFilters={clearTagFilters}>
+    <Bar
+      showClearFilters={tagFilters.length - implicitTagFilters.length > 0}
+      onClearFilters={clearTagFilters}
+      removePadding={removeBarPadding}
+      removeBackgroundColor={removeBarBackgroundColor}
+    >
       {showWebsiteSelector && (
         <SelectBarItem
           {...props}
@@ -40,9 +49,13 @@ export default function QuickFilterBar(props) {
       <SelectBarItem {...props} tag="beacon.browser.name" singularLabel="browser" pluralLabel="browsers" />
       <SelectBarItem {...props} tag="beacon.os.name" singularLabel="OS" pluralLabel="OSs" />
       <SelectBarItem {...props} tag="beacon.geo.country" singularLabel="country" pluralLabel="countries" />
-      <SelectBarItem {...props} tag="beacon.geo.subdivision" singularLabel="subdivision" pluralLabel="subdivisions" />
       <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
-      <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Window Width" showRange />
+      {showSubdivisionSelector && (
+        <SelectBarItem {...props} tag="beacon.geo.subdivision" singularLabel="subdivision" pluralLabel="subdivisions" />
+      )}
+      {showWindowWidthSelector && (
+        <NumberBarItem {...props} tag="beacon.window.width" singularLabel="Window Width" showRange />
+      )}
       {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );

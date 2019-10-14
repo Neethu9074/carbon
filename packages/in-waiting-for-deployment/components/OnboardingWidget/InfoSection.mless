@@ -1,0 +1,50 @@
+@import '~in-themes/active.less';
+
+:local {
+  .section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0.5rem 1rem 0.5rem 0.75rem;
+
+    background: @lib__colors__blue800;
+  }
+
+  .leftContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .rightContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: 0.75rem;
+    fill: @lib__colors__white;
+  }
+
+  .description {
+    margin-right: 2rem;
+
+    font-size: 1rem;
+    color: @lib__colors__white;
+    white-space: nowrap;
+  }
+
+  .subText {
+    margin-right: 0.75rem;
+
+    font-size: 0.875rem;
+    font-style: italic;
+    font-weight: 200;
+    color: @lib__colors__white;
+  }
+
+  .button {
+    width: 12.5rem;
+    justify-content: flex-start;
+  }
+}

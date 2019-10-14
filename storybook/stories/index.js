@@ -13,6 +13,8 @@ import 'in-forge';
 // structuring and order is inspired by (see navigation)
 // https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
+import './analyse/CallDetail/InfraEntityLink.story';
+import './analyse/CallDetail/LocationComponent.story';
 import './analyse/CallTree.story';
 import './analyse/DownshiftSearch.story';
 import './analyse/EditGroupDialog.story';
@@ -36,23 +38,29 @@ import './website/NewWebsiteStory';
 import './website/OverviewChart';
 import './website/PageLoadView/PageLoadViewStory';
 import './website/StackTraceTranslationConfigurationStory';
+import './website/AlertConfigDialog/componets/MenuStory';
+import './website/AlertConfigDialog/componets/TabSwitchStory';
+import './website/AlertConfigDialog/componets/CreateAlertButtonStory';
+import './website/AlertConfigDialog/SimpleAlertDialogStory';
 
 import './components/Axis';
 import './components/Badge.story';
 import './components/ButtonGroupStory';
 import './components/ButtonSegmentedControlStory';
 import './components/ButtonStory';
+import './components/ButtonRoundedStory';
 import './components/CapitalizeStory';
 import './components/CardStory';
 import './components/ChartStory';
 import './components/CheckboxStory';
 import './components/DashboardHeaderStory';
 import './components/DashboardNotificationStory';
-import './components/DialogStory';
 import './components/Dialog2Story';
+import './components/DialogStory';
 import './components/EntityVersionListStory';
 import './components/EntityWithTypeAndIconStory';
 import './components/Errors';
+import './components/ExpandableCard.story';
 import './components/ExpandableCardStory';
 import './components/flyouts/UsageStory';
 import './components/GeoHeatMapStory';
@@ -61,6 +69,7 @@ import './components/health/HealthIndicatorStory';
 import './components/health/OpenIssuesListPresenterStory';
 import './components/health/WithHealthIndicationStory';
 import './components/HeatMap';
+import './components/InlineTabNavigationStory';
 import './components/KpiCardStory';
 import './components/KpiGridRowStory';
 import './components/Loading';
@@ -73,6 +82,7 @@ import './components/Pill.story';
 import './components/ProblemIndicatorStory';
 import './components/SearchInputStory';
 import './components/SparkChart';
+import './components/StackStory';
 import './components/StackTraceStory';
 import './components/StepProgressBarStory';
 import './components/TechnologyIndicator';
@@ -121,3 +131,5 @@ import './x_old_components/sdk/Descriptions';
 import './releases/ReleaseStatusRowStory';
 
 import './terms/TermsStory';
+
+import './selfService/OnboardingWidget.story.js';

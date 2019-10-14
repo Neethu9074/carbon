@@ -14,6 +14,10 @@
     }
   }
 
+  .verticalDisplay {
+    flex-direction: column;
+  }
+
   .title {
     width: 10rem;
     flex-grow: 0;

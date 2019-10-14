@@ -1,0 +1,16 @@
+import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+
+const InfrastructureEntityLink = connectTo(({ entity }) => ({
+  // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
+  snapshot:
+    entity &&
+    entity.id &&
+    entity.time &&
+    getSnapshotOrDefaultOnTimeout(entity.id, null, 5000, getTimeConfigAtMoment(entity.time)).startWith(pendingResult)
+}))(InfrastructureEntityLinkPresenter);
+
+export default InfrastructureEntityLink;

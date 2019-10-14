@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .group {
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .head {
+    color: @lib__colors__blue800;
+    padding: 1.2rem 1rem 0.2rem;
+  }
+}

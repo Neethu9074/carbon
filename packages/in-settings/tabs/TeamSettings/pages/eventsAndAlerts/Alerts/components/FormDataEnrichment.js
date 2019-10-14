@@ -174,7 +174,7 @@ function searchWithSelectedEvents(timeOpened, selectedEvents, query) {
   if (selectedEvents && selectedEvents.size > 0) {
     selectedEventsQueryPart = selectedEvents
       .toArray()
-      .map(eventSpecificationId => `event.specification.id:${eventSpecificationId}`)
+      .map(eventSpecificationId => `event.specification.id:"${eventSpecificationId}"`)
       .join(' OR ');
   }
   return search(timeOpened, query, selectedEventsQueryPart);

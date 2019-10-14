@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -10,16 +10,16 @@ export default function JdbcSpanDetailView({ span }) {
   const error = span.getIn(['data', 'ado', 'error']);
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Connection">{span.getIn(['data', 'ado', 'connection'])}</DescriptionItem>
-        <DescriptionItem title="Command-Type">{span.getIn(['data', 'ado', 'type'])}</DescriptionItem>
+      <Dl>
+        <Di title="Connection">{span.getIn(['data', 'ado', 'connection'])}</Di>
+        <Di title="Command-Type">{span.getIn(['data', 'ado', 'type'])}</Di>
         {statement ? (
-          <DescriptionItem title="Statement" verticalDisplay>
+          <Di title="Statement" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
-          </DescriptionItem>
+          </Di>
         ) : null}
         <ErrorDescriptionItem error={error} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

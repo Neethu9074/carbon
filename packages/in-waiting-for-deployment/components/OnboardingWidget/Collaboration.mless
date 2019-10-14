@@ -1,0 +1,27 @@
+:local {
+  .card {
+    margin-bottom: 1.5rem;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .disabledUserInvideFormGroup {
+    opacity: 0.5;
+  }
+
+  .userInvideFormGroup {
+    margin-right: 3.5rem;
+    height: 4rem;
+  }
+
+  .input {
+    width: 17rem;
+    height: 2.125rem;
+
+    margin-right: 0.5rem;
+  }
+}

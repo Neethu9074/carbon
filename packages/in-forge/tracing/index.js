@@ -12,6 +12,7 @@ import './akka-remote-exit';
 import './android.error';
 import './asp.net';
 import './aspnetmvccontroller';
+import './aws.lambda.entry';
 import './axis.client';
 import './axis.server';
 import './camel';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function HttpSpanGroupingDetailView({ span }) {
   const url = span.getIn(['data', 'http', 'url']);
@@ -13,11 +13,11 @@ export default function HttpSpanGroupingDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Host">{span.getIn(['data', 'http', 'host'])}</DescriptionItem>
-        {url && url !== path ? <DescriptionItem title="URL">{url}</DescriptionItem> : null}
-        <DescriptionItem title="Method">{span.getIn(['data', 'http', 'method'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Host">{span.getIn(['data', 'http', 'host'])}</Di>
+        {url && url !== path ? <Di title="URL">{url}</Di> : null}
+        <Di title="Method">{span.getIn(['data', 'http', 'method'])}</Di>
+      </Dl>
     </div>
   );
 }

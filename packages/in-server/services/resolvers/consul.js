@@ -38,12 +38,17 @@ exports.getFeatureFlags = (tenant, unit) =>
       getBooleanSetting(`settings/SAMPLING_INDICATOR_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/UNMONITORED_HOSTS_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/PCF_ENABLED`, false),
-      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/HUMIO_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/SPLUNK_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/LOG_DNA_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/URL_SHORTENER_ENABLED`, true),
       getBooleanSetting(`settings/${tenant}-${unit}/WEBSITE_USER_BREAKDOWN_ENABLED`, false),
       getBooleanSetting(`settings/${tenant}-${unit}/OPT_IN_OPT_OUT_ENABLED`, true),
-      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false)
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_INITIAL_ONBOARDING_CHECK_ENABLED`, true),
+      getBooleanSetting(`settings/${tenant}-${unit}/CONTEXT_GUIDE_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/IS_ON_PREM`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/EUM_ALERTING_ENABLED`, false),
+      getBooleanSetting(`settings/${tenant}-${unit}/GOOGLE_ANALYTICS_DISABLED`, false)
     ]).then(
       ([
         javaScriptStackTraceTranslationEnabled,
@@ -61,11 +66,16 @@ exports.getFeatureFlags = (tenant, unit) =>
         unmonitoredHostsEnabled,
         pcfEnabled,
         humioEnabled,
+        splunkEnabled,
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
-        isOnPrem
+        isInitialOnboardingCheckEnabled,
+        contextGuideEnabled,
+        isOnPrem,
+        eumAlertingEnabled,
+        googleAnalyticsDisabled
       ]) => ({
         javaScriptStackTraceTranslationEnabled,
         isSelfService,
@@ -87,11 +97,16 @@ exports.getFeatureFlags = (tenant, unit) =>
         customDashboardsEnabled,
         pcfEnabled,
         humioEnabled,
+        splunkEnabled,
         logDnaEnabled,
         urlShortenerEnabled,
         websiteUserBreakdownEnabled,
         optInOptOutEnabled,
-        isOnPrem
+        isInitialOnboardingCheckEnabled,
+        contextGuideEnabled,
+        isOnPrem,
+        eumAlertingEnabled,
+        googleAnalyticsDisabled
       })
     );
   });

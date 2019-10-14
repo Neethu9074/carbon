@@ -27,20 +27,19 @@ export default {
 export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i], i, barWidth, color);
+    const block = blocks[i];
+    drawBlock(metricMap, config, scale, block, barWidth, color);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color) {
+function drawBlock(metricMap, config, scale, block, barWidth, color) {
   const chartHeight = scale.getRangeFrom();
 
   config.backBufferCtx.beginPath();
   config.backBufferCtx.globalAlpha = 1.0;
   config.backBufferCtx.fillStyle = color;
 
-  // For the very first set of blocks, skip the first (which would be half a bar), but for next sets start from 0
-  // as otherwise full bars are skipped, resulting in a partial graph
-  const startIndex = blockIndex === 0 ? 1 : 0;
+  const startIndex = shouldSkipFirstDataPoint(block[0], config.scales.xBackBuffer, barWidth) ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
     const dataPoint = block[i];
     if (!dataPoint) {
@@ -65,4 +64,10 @@ function drawBlock(metricMap, config, scale, block, blockIndex, barWidth, color)
 
   config.backBufferCtx.fill();
   config.backBufferCtx.closePath();
+}
+
+// For the very first set of blocks, skip the first (which would be half a bar), but for next sets start from 0
+// as otherwise full bars are skipped, resulting in a partial graph
+export function shouldSkipFirstDataPoint(firstDataPoint, xScale, barWidth) {
+  return xScale.getRange(firstDataPoint[0]) - barWidth / 2 < 0;
 }

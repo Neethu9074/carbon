@@ -1,4 +1,5 @@
 import { combineLatest } from 'reactive-observables';
+import { get } from 'lodash';
 
 import { deepFreeze } from 'in-services/util/object';
 
@@ -9,7 +10,9 @@ export default function createObservable(observableHttpRequest) {
   ]).map(([response, error]) => {
     return deepFreeze({
       data: response ? response.body : null,
-      errors: error ? [{ code: mapResponseStatusCode(error.response), message: error.message }] : [],
+      errors: error
+        ? [{ code: mapResponseStatusCode(get(error, ['response', 'status'], 500)), message: error.message }]
+        : [],
       progress: {
         loading: !response && !error
       },
@@ -20,8 +23,7 @@ export default function createObservable(observableHttpRequest) {
   return observable;
 }
 
-function mapResponseStatusCode(response) {
-  const statusCode = response.status || 500;
+function mapResponseStatusCode(statusCode) {
   if (statusCode === 403 || statusCode === 401) {
     return 'AUTH';
   }

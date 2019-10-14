@@ -3,6 +3,9 @@
 :local {
   .wrapper {
     padding: 0.75rem 0.7rem;
+  }
+
+  .backgroundColor {
     background: @lib__colors__N300;
   }
 
@@ -10,5 +13,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .removePadding {
+    padding: 0;
+  }
+
+  .removeBackgroundColor {
+    background-color: transparent;
   }
 }

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function HangfireSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Id">{span.getIn(['data', 'hangfire', 'jobid'])}</DescriptionItem>
-        <DescriptionItem title="Name">{span.getIn(['data', 'hangfire', 'jobname'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'hangfire', 'jobtype'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Id">{span.getIn(['data', 'hangfire', 'jobid'])}</Di>
+        <Di title="Name">{span.getIn(['data', 'hangfire', 'jobname'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'hangfire', 'jobtype'])}</Di>
+      </Dl>
     </div>
   );
 }

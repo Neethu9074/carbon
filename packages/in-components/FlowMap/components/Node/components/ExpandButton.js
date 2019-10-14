@@ -19,24 +19,27 @@ export default connectTo(
       return null;
     }
     const hasErrors = errors && errors.length > 0;
-    return (
-      <Tooltip content={hasErrors ? <ErroneousResultPresenter errors={errors} /> : null}>
-        <div
-          className={evaluateClassNames({
-            [locals.expandButtonRight]: direction === 'outgoing',
-            [locals.expandButtonLeft]: direction === 'incoming',
-            [locals.errorneousExpandIcon]: errors && errors.length > 0,
-            [className]: className
-          })}
-          onClick={onClick}
-        >
-          <SvgIcon
-            className={locals.expandIcon}
-            type={isLoading ? 'lib_actions_loading' : 'lib_openclose_add'}
-            spinning={isLoading}
-          />
-        </div>
-      </Tooltip>
+    const content = (
+      <div
+        className={evaluateClassNames({
+          [locals.expandButtonRight]: direction === 'outgoing',
+          [locals.expandButtonLeft]: direction === 'incoming',
+          [locals.errorneousExpandIcon]: errors && errors.length > 0,
+          [className]: className
+        })}
+        onClick={onClick}
+      >
+        <SvgIcon
+          className={locals.expandIcon}
+          type={isLoading ? 'lib_actions_loading' : 'lib_openclose_add'}
+          spinning={isLoading}
+        />
+      </div>
     );
+
+    if (hasErrors) {
+      return <Tooltip content={<ErroneousResultPresenter errors={errors} />}>{content}</Tooltip>;
+    }
+    return content;
   }
 );

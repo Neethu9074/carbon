@@ -235,7 +235,13 @@ class Summary extends React.Component {
 
     const callDetails = (
       <ErrorBoundary name="call tree sidebar">
-        <CallDetails callId={callId} traceId={traceId} getColor={getColor} onClose={this.clearSelectedCall} />
+        <CallDetails
+          callId={callId}
+          traceId={traceId}
+          getColor={getColor}
+          onClose={this.clearSelectedCall}
+          startTime={trace.startTime}
+        />
       </ErrorBoundary>
     );
 

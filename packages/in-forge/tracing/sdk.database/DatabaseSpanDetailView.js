@@ -1,21 +1,21 @@
 import React from 'react';
 
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
 export default function DatabaseSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Instance">{span.getIn(['data', 'db', 'instance'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'db', 'type'])}</DescriptionItem>
-        <DescriptionItem title="User">{span.getIn(['data', 'db', 'user'])}</DescriptionItem>
+      <Dl>
+        <Di title="Instance">{span.getIn(['data', 'db', 'instance'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'db', 'type'])}</Di>
+        <Di title="User">{span.getIn(['data', 'db', 'user'])}</Di>
 
         <Statement span={span} />
         <CustomDataDescriptionItem span={span} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }
@@ -46,8 +46,8 @@ function Statement({ span }) {
   }
 
   return (
-    <DescriptionItem title="Statement" verticalDisplay>
+    <Di title="Statement" verticalDisplay>
       <Code code={code} lang={lang} />
-    </DescriptionItem>
+    </Di>
   );
 }

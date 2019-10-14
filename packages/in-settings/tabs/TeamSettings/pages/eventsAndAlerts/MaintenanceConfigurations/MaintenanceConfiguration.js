@@ -126,8 +126,10 @@ function onChangeApplyOn(form, applyOn) {
   let updatedForm = form.updateIn(['applyOn'], field => field.setValue(applyOn).setTouched(true));
   if (applyOn === 'all') {
     updatedForm = updatedForm.remove('query');
+    updatedForm = updatedForm.remove('applicationIds');
   } else if (applyOn === 'application') {
     updatedForm = updatedForm.remove('query');
+    updatedForm = putApplicationIdFields(updatedForm, []);
   } else {
     updatedForm = putQueryFields(updatedForm, '');
   }
@@ -161,13 +163,6 @@ function createForm(config, isCreate) {
         value: applyOn,
         validator: notBlankValidator
       })
-    )
-    .put(
-      'applicationIds',
-      createField({
-        value: applicationIds ? applicationIds : [],
-        validator: selectedApplicationsValidator
-      })
     );
 
   if (applyOn === 'dfq') {
@@ -175,7 +170,7 @@ function createForm(config, isCreate) {
   }
 
   if (applyOn === 'application') {
-    form = putQueryFields(form, '');
+    form = putApplicationIdFields(form, applicationIds);
   }
 
   return form;
@@ -190,6 +185,17 @@ function selectedApplicationsValidator(selectedApplications) {
       }
     ];
   }
+}
+
+function putApplicationIdFields(form, applicationIds) {
+  let updatedForm = form.put(
+    'applicationIds',
+    createField({
+      value: applicationIds ? applicationIds : [],
+      validator: selectedApplicationsValidator
+    })
+  );
+  return updatedForm;
 }
 
 function putQueryFields(form, query) {

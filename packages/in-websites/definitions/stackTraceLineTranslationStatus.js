@@ -70,5 +70,16 @@ export const status = {
       'Could not find original mapping for a combination of line and column number via the source map. This can happen after releases for users that are running outdated versions of your JavaScript files.',
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
+  },
+  15: {
+    explanation: 'Translation is only possible when a reference to a line number is included in the stack trace line.',
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
+  },
+  16: {
+    explanation:
+      "This stack trace line's file reference does not point to a JavaScript file. Source map based stack trace line translation only works when the source is a JavaScript file.",
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
   }
 };

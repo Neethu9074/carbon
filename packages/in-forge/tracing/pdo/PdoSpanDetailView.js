@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Code from 'in-sdk/components/traceDetails/Code';
 
@@ -10,19 +10,19 @@ export default function PdoSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Driver">{span.getIn(['data', 'pdo', 'driver'])}</DescriptionItem>
-        <DescriptionItem title="DSN">{span.getIn(['data', 'pdo', 'dsn'])}</DescriptionItem>
+      <Dl>
+        <Di title="Driver">{span.getIn(['data', 'pdo', 'driver'])}</Di>
+        <Di title="DSN">{span.getIn(['data', 'pdo', 'dsn'])}</Di>
 
         {statement ? (
-          <DescriptionItem title="Query" verticalDisplay>
+          <Di title="Query" verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" />
-          </DescriptionItem>
+          </Di>
         ) : null}
 
         <ErrorDescriptionItem error={span.getIn(['data', 'pdo', 'error'])} />
-        <DescriptionItem title="Error Code">{span.getIn(['data', 'pdo', 'error_code'])}</DescriptionItem>
-      </DescriptionList>
+        <Di title="Error Code">{span.getIn(['data', 'pdo', 'error_code'])}</Di>
+      </Dl>
     </div>
   );
 }

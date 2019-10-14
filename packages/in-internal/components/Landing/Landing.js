@@ -85,6 +85,12 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                 </LinkListItem>
 
                 <LinkListItem
+                  label="Region Statistics"
+                  href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/region'))}
+                  description="Statistics across the whole monitoring unit, i.e. all units and shared components."
+                />
+
+                <LinkListItem
                   label="Units"
                   description="Gather insights how the various units are performing and identify which unit is having problems."
                 >
@@ -125,7 +131,9 @@ export default connectTo({ timeConfig: timeConfig$ }, function Landing({ timeCon
                         />
                         <LinkListItem
                           label="Batching & Writing"
-                          href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights'))}
+                          href$={getModifiedUrlStream(
+                            params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights')
+                          )}
                         />
                         <LinkListItem
                           label="Writing & Reading"

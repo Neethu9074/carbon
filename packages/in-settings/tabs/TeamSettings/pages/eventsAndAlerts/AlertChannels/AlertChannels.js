@@ -91,7 +91,7 @@ function columnDefinitions(hasRowNavigation) {
         return (
           <div className={locals.allProperties}>
             {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-              <Tooltip key={key} content={`${key}: ${label}`} delay={500}>
+              <Tooltip key={key} content={`${label}: ${entity[key]}`} delay={500}>
                 <Property attribute={key} label={label} entity={entity} />
               </Tooltip>
             ))}

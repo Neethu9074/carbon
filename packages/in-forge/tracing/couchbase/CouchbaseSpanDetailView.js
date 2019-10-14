@@ -1,18 +1,18 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function CouchbaseSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Hostname">{span.getIn(['data', 'couchbase', 'hostname'])}</DescriptionItem>
-        <DescriptionItem title="Bucket">{span.getIn(['data', 'couchbase', 'bucket'])}</DescriptionItem>
-        <DescriptionItem title="Type">{span.getIn(['data', 'couchbase', 'type'])}</DescriptionItem>
+      <Dl>
+        <Di title="Hostname">{span.getIn(['data', 'couchbase', 'hostname'])}</Di>
+        <Di title="Bucket">{span.getIn(['data', 'couchbase', 'bucket'])}</Di>
+        <Di title="Type">{span.getIn(['data', 'couchbase', 'type'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'couchbase', 'error'])} />
-        <DescriptionItem title="Error Code">{span.getIn(['data', 'couchbase', 'error_code'])}</DescriptionItem>
-      </DescriptionList>
+        <Di title="Error Code">{span.getIn(['data', 'couchbase', 'error_code'])}</Di>
+      </Dl>
     </div>
   );
 }

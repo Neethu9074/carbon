@@ -1,3 +1,4 @@
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
 
@@ -27,9 +28,11 @@ export function init() {
       script.addEventListener('load', onAppcuesLoaded, false);
     }
   }
+
+  navigationParameters$.subscribe(onRouteChange);
 }
 
-export function onRouteChange() {
+function onRouteChange() {
   if (Appcues) {
     // appcues need to be informed about SPA navigations. See:
     // https://docs.appcues.com/article/161-javascript-api

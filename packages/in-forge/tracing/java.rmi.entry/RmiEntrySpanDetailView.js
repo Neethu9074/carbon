@@ -1,13 +1,13 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function RmiEntrySpanDetailView({ span }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title="Method">{span.getIn(['data', 'rmi', 'method'])}</DescriptionItem>
+    <Dl>
+      <Di title="Method">{span.getIn(['data', 'rmi', 'method'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'rmi', 'error'])} />
-    </DescriptionList>
+    </Dl>
   );
 }

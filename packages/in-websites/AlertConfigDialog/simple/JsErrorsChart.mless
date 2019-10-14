@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    margin: 0.5rem;
+    width: 25rem;
+  }
+
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: @lib__colors__N200;
+    color: @lib__colors__N600Light;
+    height: 14.375rem;
+    margin-top: 1.5rem;
+
+    > span {
+      margin-left: 0.5rem;
+    }
+
+    > svg {
+      fill: @lib__colors__N600Light;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function WebApiSpanDetailView({ span }) {
   const binding = span.getIn(['data', 'wcfclient', 'binding']);
@@ -11,15 +11,15 @@ export default function WebApiSpanDetailView({ span }) {
 
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Url">{span.getIn(['data', 'wcfclient', 'url'])}</DescriptionItem>
-        <DescriptionItem title="Contract-Type">{span.getIn(['data', 'wcfclient', 'service'])}</DescriptionItem>
-        <DescriptionItem title="Method">{span.getIn(['data', 'wcfclient', 'method'])}</DescriptionItem>
-        <DescriptionItem title="Binding">{binding ? binding : 'unknown'}</DescriptionItem>
-        <DescriptionItem title="Oneway">{oneway ? oneway : 'no'}</DescriptionItem>
-        <DescriptionItem title="Channel">{channeltype ? channeltype : 'unknown'}</DescriptionItem>
+      <Dl>
+        <Di title="Url">{span.getIn(['data', 'wcfclient', 'url'])}</Di>
+        <Di title="Contract-Type">{span.getIn(['data', 'wcfclient', 'service'])}</Di>
+        <Di title="Method">{span.getIn(['data', 'wcfclient', 'method'])}</Di>
+        <Di title="Binding">{binding ? binding : 'unknown'}</Di>
+        <Di title="Oneway">{oneway ? oneway : 'no'}</Di>
+        <Di title="Channel">{channeltype ? channeltype : 'unknown'}</Di>
         <ErrorDescriptionItem error={error} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

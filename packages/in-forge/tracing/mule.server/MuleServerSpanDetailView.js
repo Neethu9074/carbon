@@ -1,18 +1,18 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function MuleServerSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Protocol">{span.getIn(['data', 'mule', 'protocol'])}</DescriptionItem>
-        <DescriptionItem title="Address">{span.getIn(['data', 'mule', 'address'])}</DescriptionItem>
-        <DescriptionItem title="Flow">{span.getIn(['data', 'mule', 'flow'])}</DescriptionItem>
-        <DescriptionItem title="Pattern">{span.getIn(['data', 'mule', 'pattern'])}</DescriptionItem>
+      <Dl>
+        <Di title="Protocol">{span.getIn(['data', 'mule', 'protocol'])}</Di>
+        <Di title="Address">{span.getIn(['data', 'mule', 'address'])}</Di>
+        <Di title="Flow">{span.getIn(['data', 'mule', 'flow'])}</Di>
+        <Di title="Pattern">{span.getIn(['data', 'mule', 'pattern'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'mule', 'error'])} />
-      </DescriptionList>
+      </Dl>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import ErroneousCallIndicator from 'in-analyze/TraceDetail/components/CallDetails/components/ErroneousCallIndicator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import ProblemIndicator from 'in-new-components/ProblemIndicator';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -36,7 +36,7 @@ export default function Header({ call, onClose }) {
         )}
         <CloseButton onClick={onClose} />
       </div>
-      {call && call.errorCount > 0 && <ErroneousCallIndicator />}
+      {call && call.errorCount > 0 && <ProblemIndicator kind="danger" title="Erroneous Call" />}
     </Fragment>
   );
 }

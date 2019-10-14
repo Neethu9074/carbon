@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function HornetQSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Address">{span.getIn(['data', 'hornetq', 'address'])}</DescriptionItem>
-        <DescriptionItem title="User ID">{span.getIn(['data', 'hornetq', 'userId'])}</DescriptionItem>
-        <DescriptionItem title="Size">{span.getIn(['data', 'hornetq', 'size'])}</DescriptionItem>
-        <DescriptionItem title="Large">{span.getIn(['data', 'hornetq', 'large'])}</DescriptionItem>
-        <DescriptionItem title="Durable">{span.getIn(['data', 'hornetq', 'durable'])}</DescriptionItem>
-        <DescriptionItem title="Blocking">{span.getIn(['data', 'hornetq', 'blocking'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Address">{span.getIn(['data', 'hornetq', 'address'])}</Di>
+        <Di title="User ID">{span.getIn(['data', 'hornetq', 'userId'])}</Di>
+        <Di title="Size">{span.getIn(['data', 'hornetq', 'size'])}</Di>
+        <Di title="Large">{span.getIn(['data', 'hornetq', 'large'])}</Di>
+        <Di title="Durable">{span.getIn(['data', 'hornetq', 'durable'])}</Di>
+        <Di title="Blocking">{span.getIn(['data', 'hornetq', 'blocking'])}</Di>
+      </Dl>
     </div>
   );
 }

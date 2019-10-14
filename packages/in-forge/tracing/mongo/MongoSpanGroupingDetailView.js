@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function MongoSpanGroupingDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</DescriptionItem>
-        <DescriptionItem title="Command">{span.getIn(['data', 'mongo', 'command'])}</DescriptionItem>
-      </DescriptionList>
+      <Dl>
+        <Di title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</Di>
+        <Di title="Command">{span.getIn(['data', 'mongo', 'command'])}</Di>
+      </Dl>
     </div>
   );
 }

@@ -37,6 +37,7 @@ gulp.task('dev', cb => {
       'writeBuildInfo',
       'translateTheme',
       'copyDevIndexHtml',
+      'copyDevWaitingHtml',
       'writeDevConfigFile',
       'startDevProxy',
       'openDevUrlInBrowser'
@@ -62,9 +63,14 @@ gulp.task('copyDevIndexHtml', () => {
   return gulp.src(paths.devIndexHtmlSrc).pipe(gulp.dest(paths.assetDir));
 });
 
+gulp.task('copyDevWaitingHtml', () => {
+  return gulp.src(paths.devWaitingHtmlSrc).pipe(gulp.dest(paths.assetDir));
+});
+
 gulp.task('enableDevWatches', () => {
   gulp.watch(path.join(paths.themeDir, 'theme.js'), ['translateTheme']);
   gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
+  gulp.watch(paths.devWaitingHtmlSrc, ['copyDevWaitingHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
   gulp.watch(paths.featureFlags, ['writeDevConfigFile']);
 });
@@ -78,6 +84,7 @@ gulp.task('startDevProxy', function startDevProxy() {
 
   const httpProxy = {
     '/': 'http://127.0.0.1:3000',
+    '/waiting/': 'http://127.0.0.1:3000/waiting/',
     '/api/': `${uiBackendUrl}/api/`,
     '/auth/': butlerUrl + '/auth/',
     '/ump/': butlerUrl + '/ump/',

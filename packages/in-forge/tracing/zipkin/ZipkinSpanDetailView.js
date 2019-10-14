@@ -1,18 +1,18 @@
 import React from 'react';
 
 import Code from 'in-sdk/components/traceDetails/Code';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 
 export default function ZipkinSpanDetailView({ span }) {
   return (
     <div>
-      <DescriptionList>
-        <DescriptionItem title="Service">{span.getIn(['data', 'service'])}</DescriptionItem>
-        <DescriptionItem title="Operation">{span.getIn(['data', 'operation'])}</DescriptionItem>
-        <DescriptionItem title="Tags" verticalDisplay>
+      <Dl>
+        <Di title="Service">{span.getIn(['data', 'service'])}</Di>
+        <Di title="Operation">{span.getIn(['data', 'operation'])}</Di>
+        <Di title="Tags" verticalDisplay>
           <Code code={JSON.stringify(span.getIn(['data', 'tags']).toJS(), 0, 2)} lang="json" />
-        </DescriptionItem>
-      </DescriptionList>
+        </Di>
+      </Dl>
     </div>
   );
 }
