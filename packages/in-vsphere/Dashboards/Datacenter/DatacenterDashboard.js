@@ -3,7 +3,6 @@ import { get } from 'lodash';
 
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
-import DatacenterBreadcrumb from 'in-vsphere/breadcrumbs/DatacenterBreadcrumb';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-sdk/components/dashboard/breadcrumb/Breadcrumbs';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
@@ -12,6 +11,7 @@ import EntityVersionList from 'in-new-components/EntityVersionList';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-vsphere/Dashboards/Datacenter/tabs/index';
+import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
@@ -25,7 +25,7 @@ export default function DatacenterDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs items={DatacenterBreadcrumb(props)} />
+      <Breadcrumbs items={DatacenterBreadcrumbs(props)} />
 
       <TabView
         result$={getVsphereDatacenter({

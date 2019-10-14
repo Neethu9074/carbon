@@ -9,7 +9,7 @@ export default connectTo(
   props => ({
     datacenter: getVsphereDatacenter({
       filter: {
-        applicationId: props.datacenterId,
+        datacenterId: props.datacenterId,
         timeConfig: props.timeConfig
       }
     }).map(result => result.data)
