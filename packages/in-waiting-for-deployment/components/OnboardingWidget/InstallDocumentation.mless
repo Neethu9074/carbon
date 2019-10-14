@@ -28,6 +28,7 @@
 
     width: 100%;
     max-height: 41rem;
+    min-height: 41rem;
 
     padding: 0 1rem 0 2rem;
 
