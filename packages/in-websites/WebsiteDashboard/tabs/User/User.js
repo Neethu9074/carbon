@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/tabs/User/EffectiveConnectionTypeTopList';
+import WindowWidthBreakdown from 'in-websites/WebsiteDashboard/tabs/User/WindowWidthBreakdown';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/User/BrowserTopList';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/User/OsTopList';
@@ -57,7 +58,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
       </Row>
 
       <Row>
-        <Col lg={4}>
+        <Col lg={6}>
           <BrowserTopList
             timeConfig={timeConfig}
             tagFilters={tagFilters}
@@ -65,7 +66,18 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteLabel={websiteLabel}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg={6}>
+          <WindowWidthBreakdown
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            websiteId={websiteId}
+            websiteLabel={websiteLabel}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
           <OsTopList
             timeConfig={timeConfig}
             tagFilters={tagFilters}
@@ -73,7 +85,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteLabel={websiteLabel}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg={6}>
           <EffectiveConnectionTypeTopList
             timeConfig={timeConfig}
             tagFilters={tagFilters}
