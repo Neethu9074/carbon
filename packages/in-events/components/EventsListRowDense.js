@@ -8,9 +8,9 @@ import EventIcon from 'in-events/components/EventIcon';
 
 import locals from './EventsListRowDense.mless';
 
-export default function EventRow({ event, active, onClick }) {
+export default function EventRow({ event, active, onClick, rowStyle }) {
   return (
-    <Tr size="compact" active={active} onClick={onClick}>
+    <Tr size="compact" style={rowStyle} active={active} onClick={onClick}>
       <Td>
         <EventIcon
           event={fromJS({

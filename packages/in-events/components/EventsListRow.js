@@ -9,6 +9,7 @@ import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import getApplication from 'in-subscription/application/getApplication';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
@@ -16,19 +17,30 @@ import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 import locals from './EventsListRow.mless';
 
-export default function EventRow({ selectedEventId, onItemClicked, isDenseList, event }) {
+export default function EventRow({ selectedEventId, onItemClicked, isDenseList, event, timeScale }) {
+  const eventType = getEventType(event);
+  const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
+  const start = event.start;
+  const end = event.end || Date.now();
+  const color = theme.lib.colors.N200;
+  const fromP = `${Math.max(0, timeScale.getRange(start))}%`;
+  const toP = isChangeEvent ? `calc(${fromP} + 5px)` : `${Math.min(100, timeScale.getRange(end))}%`;
+  const rowStyle = {
+    backgroundImage: `linear-gradient(90deg, transparent, transparent ${fromP}, ${color} ${fromP}, ${color} ${toP}, transparent ${toP}, transparent 100%)`
+  };
 
   if (isDenseList) {
-    return <EventsListRowDense key={event.id} event={event} active={active} onClick={onClick} />;
+    return <EventsListRowDense key={event.id} rowStyle={rowStyle} event={event} active={active} onClick={onClick} />;
   }
 
   return (
-    <Tr key={event.id} size="compact" active={active} onClick={onClick}>
+    <Tr key={event.id} style={rowStyle} size="compact" active={active} onClick={onClick}>
       <Td>
         <EventIcon
           event={fromJS({
@@ -43,11 +55,11 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
         <div className={locals.title}>{event.title}</div>
       </Td>
       <Td>
-        <span className={locals.text}>{formatDateTime(event.start)}</span>
+        <span className={locals.text}>{formatDateTime(start)}</span>
       </Td>
       <>
         <Td>
-          <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(event.end)}</span>
+          <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(end)}</span>
         </Td>
 
         <Td>

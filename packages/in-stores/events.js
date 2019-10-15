@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { get } from 'lodash';
 
 import { setHighlightedEntityId, clearHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
@@ -317,14 +318,14 @@ export function getIconTypeForEvent(event, useAlternativeChangeIcon = false) {
 }
 
 export function getEventType(event) {
-  const eventType = event.get('type');
+  const eventType = event.get ? event.get('type') : event.type;
   switch (eventType) {
     case 'incident':
       return EVENT_TYPES.INCIDENT;
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'issue': {
-      const severity = event.getIn(['problem', 'severity'], 0);
+      const severity = event.getIn ? event.getIn(['problem', 'severity'], 0) : get(event, ['problem', 'severity'], 0);
       if (severity > 8) {
         return EVENT_TYPES.ISSUE_CRITICAL;
       } else if (severity > 4) {

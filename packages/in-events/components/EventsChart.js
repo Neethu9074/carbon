@@ -7,6 +7,7 @@ import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
 import locals from './EventsChart.mless';
 
@@ -28,7 +29,12 @@ export default connectTo(
             renderer: Renderer.stackedArea,
             formatter: number.forcedCompact,
             labels: ['Incidents', 'Issues', 'Changes'],
-            metricIds: ['incidents', 'issues', 'changes']
+            metricIds: ['incidents', 'issues', 'changes'],
+            colors: [
+              theme.lib.colors.chart.strokeColors25[6],
+              theme.lib.colors.chart.strokeColors25[2],
+              theme.lib.colors.chart.strokeColors25[0]
+            ]
           }}
           metricsConfiguration={{
             timeConfig,
