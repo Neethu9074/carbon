@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
+import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
@@ -42,7 +43,9 @@ export default function BeaconDetails({ beacon }) {
             </a>
           </Di>
         )}
-        <Di title="Beacon Type">{typeDefinition.long}</Di>
+        <Di title="Beacon Type">
+          {typeDefinition.long} <TypeHeader beacon={beacon} />
+        </Di>
       </Dl>
 
       {hasNetworkInsights && (

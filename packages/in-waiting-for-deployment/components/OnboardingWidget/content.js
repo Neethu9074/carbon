@@ -11,110 +11,233 @@ import {
   Listing,
   TextWithLink,
   Script,
-  YAML
+  YAML,
+  JSON
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
-export default [
-  {
-    label: 'Kubernetes',
-    icon: 'lib_kubernetes',
-    subTechnologies: [
-      {
-        label: 'Helm chart',
-        Content: K8sHelmChartContent
-      },
-      {
-        label: 'Daemon set',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'Azure Kubernetes Service (AKS)',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'AWS Elastic Container Service for Kubernetes (EKS)',
-        Content: K8sDaemonSetContent
-      },
-      {
-        label: 'Google Kubernetes Engine (GKE)',
-        Content: K8sGoogleKubernetesEngineContent
-      }
-    ]
-  },
-  {
-    label: 'Linux',
-    icon: 'lib_linux',
+export default function getEntries({ disableAwsSensorDocumentation }) {
+  return [
+    {
+      label: 'Kubernetes',
+      icon: 'lib_kubernetes',
+      subTechnologies: [
+        {
+          label: 'Helm chart',
+          Content: K8sHelmChartContent
+        },
+        {
+          label: 'Daemon set',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'Azure Kubernetes Service (AKS)',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'AWS Elastic Container Service for Kubernetes (EKS)',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'Google Kubernetes Engine (GKE)',
+          Content: K8sGoogleKubernetesEngineContent
+        }
+      ]
+    },
+    {
+      label: 'Linux',
+      icon: 'lib_linux',
 
-    subTechnologies: [
-      {
-        label: 'Automatic Installation',
-        Content: OneLinerContent
-      },
-      {
-        label: 'Packages (DEB, RPM)',
-        Content: PackagesContent
-      }
-    ]
-  },
-  {
-    label: 'Docker',
-    icon: 'lib_container_docker',
-    Content: DockerContent
-  },
-  {
-    label: 'AWS',
-    icon: 'lib_aws',
-    fullLabel: 'Amazon Web Services',
-    subTechnologies: [
-      {
-        label: 'Elastic Container Service for Kubernetes (EKS)',
-        Content: K8sDaemonSetContent
-      }
-    ]
-  },
-  {
-    label: 'Azure',
-    icon: 'lib_azure',
-    fullLabel: 'Microsoft Azure',
-    subTechnologies: [
-      {
-        label: 'Azure Kubernetes Service (AKS)',
-        Content: K8sDaemonSetContent
-      }
-    ]
-  },
-  {
-    label: 'Google Cloud',
-    icon: 'lib_google_cloud',
-    fullLabel: 'Google Cloud Platform',
-    subTechnologies: [
-      {
-        label: 'Google Kubernetes Engine (GKE)',
-        Content: K8sGoogleKubernetesEngineContent
-      }
-    ]
-  },
+      subTechnologies: [
+        {
+          label: 'Automatic Installation',
+          Content: OneLinerContent
+        },
+        {
+          label: 'Packages (DEB, RPM)',
+          Content: PackagesContent
+        }
+      ]
+    },
+    {
+      label: 'Docker',
+      icon: 'lib_container_docker',
+      Content: DockerContent
+    },
+    {
+      label: 'AWS',
+      icon: 'lib_aws',
+      fullLabel: 'Amazon Web Services',
+      subTechnologies: [
+        {
+          label: 'Instana AWS Sensor',
+          Content: AwsSensorContent
+        },
+        {
+          label: 'Elastic Container Service for Kubernetes (EKS)',
+          Content: K8sDaemonSetContent
+        }
+      ].filter(subTechnology => (disableAwsSensorDocumentation ? subTechnology.label !== 'Instana AWS Sensor' : true))
+    },
+    {
+      label: 'Azure',
+      icon: 'lib_azure',
+      fullLabel: 'Microsoft Azure',
+      subTechnologies: [
+        {
+          label: 'Azure Kubernetes Service (AKS)',
+          Content: K8sDaemonSetContent
+        }
+      ]
+    },
+    {
+      label: 'Google Cloud',
+      icon: 'lib_google_cloud',
+      fullLabel: 'Google Cloud Platform',
+      subTechnologies: [
+        {
+          label: 'Google Kubernetes Engine (GKE)',
+          Content: K8sGoogleKubernetesEngineContent
+        }
+      ]
+    },
 
-  {
-    label: 'Pivotal Platform',
-    icon: 'lib_pivotal_platform',
-    fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
-    Content: PcfContent
-  },
-  {
-    label: 'Cloud Foundry and BOSH',
-    fullLabel: 'Cloud Foundry and other BOSH-based deployments',
-    icon: 'lib_cloudfoundry',
-    Content: CfAndBoshContent
-  },
+    {
+      label: 'Pivotal Platform',
+      icon: 'lib_pivotal_platform',
+      fullLabel: 'Pivotal Platform (formerly known as Pivotal Cloud Foundry)',
+      Content: PcfContent
+    },
+    {
+      label: 'Cloud Foundry and BOSH',
+      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
+      icon: 'lib_cloudfoundry',
+      Content: CfAndBoshContent
+    },
 
-  {
-    label: 'Windows',
-    icon: 'lib_windows',
-    Content: WindowsInstallerContent
-  }
-];
+    {
+      label: 'Windows',
+      icon: 'lib_windows',
+      Content: WindowsInstallerContent
+    }
+  ];
+}
+
+function AwsSensorContent({ agentKey, region }) {
+  return (
+    <>
+      <HelpBox title="The Instana AWS agent is a must-have for AWS setups!">
+        <TextWithLink
+          text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full listy, refer to the "
+          linkText="supported AWS Services list."
+          href="https://docs.instana.io/ecosystem/aws/#aws-services"
+        />
+      </HelpBox>
+      <LargeSpacer />
+      <Description
+        lines={[
+          'Use the following as "User Data" when spinning up a dedicated EC2 Virtual Machine. We advise to run the Instana AWS sensor on an "Current Generation General Purpose" machine running Linux. The m4.large instances, for example, are perfectly suited to the task.'
+        ]}
+      />
+      <Bash
+        lines={[
+          'curl -o setup_agent.sh https://setup.instana.io/agent',
+          'chmod 700 ./setup_agent.sh',
+          `sudo ./setup_agent.sh -a ${agentKey} -m aws -t dynamic -l ${region} -s`
+        ]}
+      />
+      <LargeSpacer />
+      <Description lines={['The EC2 Virtual Machine running the Instana AWS Sensor needs the following IAM Roles.']} />
+      <JSON
+        content={
+          '{\n  "Version": "2012-10-17",\n  "Statement": [{\n' +
+          '    "Action": [\n' +
+          '      "elasticbeanstalk:DescribeEnvironments",\n' +
+          '      "elasticbeanstalk:ListTagsForResource",\n' +
+          '      "elasticbeanstalk:DescribeInstancesHealth",\n' +
+          '      "dynamodb:ListTables",\n' +
+          '      "dynamodb:DescribeTable",\n' +
+          '      "dynamodb:ListTagsOfResource",\n' +
+          '      "rds:DescribeDBInstances",\n' +
+          '      "rds:DescribeEvents",\n' +
+          '      "rds:ListTagsForResource",\n' +
+          '      "sqs:ListQueues",\n' +
+          '      "sqs:GetQueueAttributes",\n' +
+          '      "sqs:ListQueueTags",\n' +
+          '      "elasticache:ListTagsForResource",\n' +
+          '      "elasticache:DescribeCacheClusters",\n' +
+          '      "elasticache:DescribeEvents",\n' +
+          '      "elasticloadbalancing:DescribeLoadBalancers",\n' +
+          '      "elasticloadbalancing:DescribeTags",\n' +
+          '      "elasticmapreduce:ListClusters",\n' +
+          '      "elasticmapreduce:DescribeCluster",\n' +
+          '      "es:ListDomainNames",\n' +
+          '      "es:DescribeElasticsearchDomain",\n' +
+          '      "es:ListTags",\n' +
+          '      "ec2:DescribeInstances",\n' +
+          '      "ec2:DescribeTags",\n' +
+          '      "ec2:DescribeVolumes",\n' +
+          '      "kinesis:ListStreams",\n' +
+          '      "kinesis:DescribeStream",\n' +
+          '      "kinesis:ListTagsForStream",\n' +
+          '      "lambda:ListTags",\n' +
+          '      "lambda:ListFunctions",\n' +
+          '      "lambda:ListEventSourceMappings",\n' +
+          '      "lambda:GetFunctionConfiguration",\n' +
+          '      "mq:ListBrokers",\n' +
+          '      "mq:DescribeBroker",\n' +
+          '      "s3:GetBucketTagging",\n' +
+          '      "s3:ListAllMyBuckets",\n' +
+          '      "s3:GetBucketLocation",\n' +
+          '      "xray:BatchGetTraces",\n' +
+          '      "xray:GetTraceSummaries",\n' +
+          '      "tag:GetResources"\n' +
+          '    ],\n' +
+          '    "Effect": "Allow",\n' +
+          '    "Resource": "*"\n' +
+          '  },{\n' +
+          '    "Action": [\n' +
+          '      "cloudwatch:GetMetricStatistics",\n' +
+          '      "cloudwatch:GetMetricData",\n' +
+          '      "cloudwatch:ListMetrics"\n' +
+          '    ],\n' +
+          '    "Effect": "Allow",\n' +
+          '    "Resource": "*"\n' +
+          '  }]\n' +
+          '}\n'
+        }
+      />
+      <LargeSpacer />
+      <Description
+        lines={[
+          'The role above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
+        ]}
+      />
+      <JSON
+        content={
+          '{\n' +
+          '  "Version": "2012-10-17",\n' +
+          '  "Statement": [{\n' +
+          '    "Effect": "Allow",\n' +
+          '    "Principal": {\n' +
+          '      "Service": "ec2.amazonaws.com"\n' +
+          '    },\n' +
+          '    "Action": "sts:AssumeRole"\n' +
+          '  }]\n' +
+          '}\n'
+        }
+      />
+      <LargeSpacer />
+      <HelpBox title="User Data in AWS EC2">
+        <TextWithLink
+          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
+          linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
+          href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
+        />
+      </HelpBox>
+    </>
+  );
+}
 
 function DockerContent({ agentKey, region }) {
   return (

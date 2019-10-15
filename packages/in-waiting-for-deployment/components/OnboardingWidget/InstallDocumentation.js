@@ -4,12 +4,14 @@ import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNaviga
 import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidget/HelpAndSupport';
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
-import entries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
+import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
 import { evaluateClassNames } from 'in-services/util/classnames';
 
 import locals from './InstallDocumentation.mless';
 
 export default function InstallDocumentation(props) {
+  const entries = getEntries(props);
+
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>Installing the Instana agent</div>
