@@ -18,13 +18,18 @@ export default connectTo({
     return null;
   }
 
-  const query = serializeQuery(props);
-  if (isBlank(query)) {
+  if (!shouldShowButton(props)) {
     return null;
   }
 
   return (
-    <Button kind="primary" icon="lib_humio" target="_blank" href={constructHumioLink(integration, props)}>
+    <Button
+      className={props.className}
+      kind="secondary"
+      icon="lib_humio"
+      target="_blank"
+      href={constructHumioLink(integration, props)}
+    >
       Go to Humio
     </Button>
   );
@@ -62,4 +67,9 @@ function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWith
   }
 
   return query.trim();
+}
+
+export function shouldShowButton(props) {
+  const query = serializeQuery(props);
+  return !isBlank(query);
 }
