@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentage, number } from 'in-services/formatters/number';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -12,6 +12,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
+import MetricValue from 'in-components/MetricValue';
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
@@ -28,6 +29,12 @@ export default function Summary({ timeConfig, data: cluster }) {
         />
         <KpiCard title="ESXi hosts" value={cluster.hosts} raw borderless />
         <KpiCard title="Virtual machines" value={cluster.vms} raw borderless />
+        <KpiCard
+          title="abc"
+          renderValue={() => (
+            <MetricValue snapshotId={snapshotId} metric="cpu.ready.summation.milliseconds" formatter={number} />
+          )}
+        />
         <EntityHealthIndicator
           openIssues={cluster.entityHealthInfo.openIssues.length}
           maxSeverity={cluster.entityHealthInfo.maxSeverity}
@@ -41,8 +48,8 @@ export default function Summary({ timeConfig, data: cluster }) {
           <InfraMetricKpiCard
             title="CPU Usage"
             snapshotId={snapshotId}
-            metric="cpuUsage"
-            formatter={percentage.detailed}
+            metric="cpu.ready.summation.milliseconds"
+            formatter={number}
           />
         </Col>
         <Col lg={3}>
@@ -79,7 +86,7 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: twoDecimalPlaces,
-                metrics: ['cpuUsage', 'cpuAllocation'].filter(Boolean),
+                metrics: ['cpu.ready.summation.milliseconds', 'cpuAllocation'].filter(Boolean),
                 labels: ['Usage', 'Allocation'].filter(Boolean),
                 type: 'line',
                 colors: [usage, allocated]
