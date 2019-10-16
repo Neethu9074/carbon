@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react';
 
-import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
+import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import getVsphereDatacenters from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -37,6 +39,48 @@ const columnDefinitions = [
     label: 'Virtual Machines',
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_node" count={item.vms} />;
+    }
+  },
+  {
+    id: 'cpuUsage',
+    label: 'CPU Usage',
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="cpu.ready.summation.milliseconds"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryUsage',
+    label: 'Memory Usage',
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="cpu.ready.summation.milliseconds"
+        />
+      );
+    }
+  },
+  {
+    id: 'networkUtilization',
+    label: 'Network Utilization',
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="cpu.ready.summation.milliseconds"
+        />
+      );
     }
   }
 ];
