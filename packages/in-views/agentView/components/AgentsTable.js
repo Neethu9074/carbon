@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
@@ -183,15 +183,19 @@ export default connectTo(
     });
 
     return (
-      <Fragment>
-        {isInternalVisible && (
+      <>
+        {(isInternalVisible || role.canConfigureAgents) && (
           <DashboardSection title="Administration">
-            <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
-              Update All Agents
-            </Button>
-            <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
-              Reset All Agents
-            </Button>
+            {isInternalVisible && (
+              <>
+                <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
+                  Update All Agents
+                </Button>
+                <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
+                  Reset All Agents
+                </Button>
+              </>
+            )}
             {role.canConfigureAgents && (
               <Button
                 kind="primary"
@@ -206,7 +210,7 @@ export default connectTo(
         )}
 
         <Table cardTitle="Agent Details" maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />
-      </Fragment>
+      </>
     );
   }
 );

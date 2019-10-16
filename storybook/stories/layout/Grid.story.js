@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import {Row, Col} from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-new-components/layout/Grid';
 
 storiesOf('layout/Grid', module)
   .add('Grid', () => <MixedGrid />)
@@ -82,7 +82,7 @@ function ResponsiveGrid() {
 }
 
 function ExampleCol(props) {
-  const {lg, lgOffset, xs, xsOffset} = props;
+  const { lg, lgOffset, xs, xsOffset } = props;
   const label = Object.keys(props)
     .filter(k => props[k] != null)
     .sort()
@@ -90,12 +90,14 @@ function ExampleCol(props) {
     .join(' ');
   return (
     <Col lg={lg} lgOffset={lgOffset} xs={xs} xsOffset={xsOffset}>
-      <div style={{
+      <div
+        style={{
           background: '#a8ecff',
           fontWeight: 'bold',
           textAlign: 'center',
           padding: '10px'
-        }}>
+        }}
+      >
         {label}
       </div>
     </Col>

@@ -7,15 +7,14 @@ import Root from '../_helpers/Root';
 
 const sizes = ['default', 'large', 'larger', 'largest'];
 
-storiesOf('Components/Checkbox', module)
-  .add('styled', () => <CheckBoxStory/>);
-
+storiesOf('Components/Checkbox', module).add('styled', () => <CheckBoxStory />);
 
 function CheckBoxStory() {
   return (
     <Root>
-      <StatefulCheckboxStory/>
-    </Root>);
+      <StatefulCheckboxStory />
+    </Root>
+  );
 }
 
 const StatefulCheckboxStory = withState('value', 'setValue', true)(Foobar);
@@ -25,7 +24,7 @@ function Foobar({ value, setValue }) {
     <Fragment>
       <p>
         <label>
-          <input type="checkbox" checked={value} onChange={() => setValue(!value)} style={{ marginRight: '1rem' }}/>
+          <input type="checkbox" checked={value} onChange={() => setValue(!value)} style={{ marginRight: '1rem' }} />
           This is a standard browser checkbox.
         </label>
       </p>
@@ -42,7 +41,7 @@ function Foobar({ value, setValue }) {
         </label>
       </p>
 
-      <hr/>
+      <hr />
 
       {sizes.map((size, i) => (
         <Fragment key={i}>
