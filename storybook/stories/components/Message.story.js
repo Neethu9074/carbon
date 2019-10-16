@@ -11,26 +11,20 @@ storiesOf('Components/Message', module)
   .add('Dismissible message', () => <DismissibleMessage />);
 
 function DefaultMessage() {
-
   return (
     <Root>
       <Section title="default">
-        <Message>
-          This is a message.
-        </Message>
+        <Message>This is a message.</Message>
       </Section>
     </Root>
   );
 }
 
 function DismissibleMessage() {
-
   return (
     <Root>
       <Section title="dismissible">
-        <Message dismissible>
-          This is a dismissible message.
-        </Message>
+        <Message dismissible>This is a dismissible message.</Message>
       </Section>
     </Root>
   );

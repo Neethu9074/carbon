@@ -101,7 +101,7 @@ const necessaryLoaders = [
     ]
   },
   {
-    test: /\.(stories|story)\.[tj]sx?$/,
+    test: /\.story.js?$/,
     loader: require.resolve('@storybook/source-loader'),
     exclude: [/node_modules/],
     enforce: 'pre'
