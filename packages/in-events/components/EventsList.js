@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Table, SortableTh, Thead, Tbody, Tr, Th, LoadMoreRow } from 'in-components/tables/sharedComponents';
 import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
@@ -6,7 +6,6 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import EventListRow from 'in-events/components/EventsListRow';
-import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 
 export default function EventsList(props) {
@@ -26,19 +25,9 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
     canLoadMore,
     loadMore,
     orderBy,
-    orderDirection,
-    timeConfig
+    orderDirection
   } = props;
   const isDenseList = !!selectedEventId;
-
-  const [timeScale] = useState(createScale());
-  useEffect(() => {
-    const to = timeConfig.to || Date.now();
-    timeScale.setDomainFrom(to - timeConfig.windowSize);
-    timeScale.setDomainTo(to);
-    timeScale.setRangeFrom(0);
-    timeScale.setRangeTo(100);
-  });
 
   return (
     <Table>
@@ -84,7 +73,6 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
                 onItemClicked={onItemClicked}
                 isDenseList={isDenseList}
                 event={event}
-                timeScale={timeScale}
               />
             )
         )}
