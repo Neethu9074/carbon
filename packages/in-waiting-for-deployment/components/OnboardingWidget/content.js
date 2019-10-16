@@ -126,9 +126,9 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
 function AwsSensorContent({ agentKey, region }) {
   return (
     <>
-      <HelpBox title="The Instana AWS agent is a must-have for AWS setups!">
+      <HelpBox>
         <TextWithLink
-          text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full listy, refer to the "
+          text="The Instana AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
           linkText="supported AWS Services list."
           href="https://docs.instana.io/ecosystem/aws/#aws-services"
         />
