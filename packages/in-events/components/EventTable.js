@@ -75,10 +75,16 @@ function EventTable(props) {
   if (!selectedEventId) {
     return <EventsList {...props} onItemClicked={onItemClicked} />;
   }
+
   return (
     <NavigatorSplitScreen
       {...props}
-      items={rawEventList}
+      items={rawEventList.map(rawEvent => {
+        if (rawEvent.type === 'release') {
+          rawEvent.isDisabledForOpen = true;
+        }
+        return rawEvent;
+      })}
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}

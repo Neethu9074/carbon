@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
 
-    background-color: @lib__colors__N800Dark;
+    background-color: @lib__colors__N500;
 
     padding: 0.25rem 0.5rem;
     margin-left: -1rem;

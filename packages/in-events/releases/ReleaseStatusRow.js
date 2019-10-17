@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ReleaseStatusRowDense from 'in-events/releases/ReleaseStatusRowDense';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -8,8 +9,12 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './ReleaseStatusRow.mless';
 
-export default function ReleaseStatusRow({ healthStatus, rawEvent, orderDirection, cols }) {
-  const { title, start } = rawEvent;
+export default function ReleaseStatusRow({ healthStatus, rawEvent, orderDirection, isDenseList, cols }) {
+  const { id, title, start } = rawEvent;
+
+  if (isDenseList) {
+    return <ReleaseStatusRowDense key={id} rawEvent={rawEvent} />;
+  }
 
   return (
     <Tr size="minimal">

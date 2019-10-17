@@ -60,8 +60,10 @@ function NavigatorSplitScreen({
   expanded,
   setExpanded
 }) {
-  const hasNext = openItemIndex + 1 < items.length;
-  const hasPrev = openItemIndex > 0;
+  const nextOpenItemIndex = findNextIndexToOpen(openItemIndex, items);
+  const prevOpenItemIndex = findPrevIndexToOpen(openItemIndex, items);
+  const hasNext = openItemIndex < nextOpenItemIndex;
+  const hasPrev = openItemIndex > prevOpenItemIndex;
 
   return (
     <div className={locals.navigatorSplitScreen}>
@@ -88,7 +90,7 @@ function NavigatorSplitScreen({
                         className={locals.prev}
                         id={leftArrowId}
                         onClick={e =>
-                          openItem(e, openItemIndex - 1, items, canLoadMore, loadMore, progress, customOpenItem)
+                          openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
                         }
                       />
                     </Tooltip>
@@ -103,7 +105,7 @@ function NavigatorSplitScreen({
                         className={locals.next}
                         id={rightArrowId}
                         onClick={e =>
-                          openItem(e, openItemIndex + 1, items, canLoadMore, loadMore, progress, customOpenItem)
+                          openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
                         }
                       />
                     </Tooltip>
@@ -159,6 +161,26 @@ function NavigatorSplitScreen({
       </div>
     </div>
   );
+}
+
+// export for test
+export function findNextIndexToOpen(currentIndex, items) {
+  for (let i = currentIndex + 1; i < items.length; i++) {
+    if (!items[i].isDisabledForOpen) {
+      return i;
+    }
+  }
+  return currentIndex;
+}
+
+// export for test
+export function findPrevIndexToOpen(currentIndex, items) {
+  for (let i = currentIndex - 1; i >= 0; i--) {
+    if (!items[i].isDisabledForOpen) {
+      return i;
+    }
+  }
+  return currentIndex;
 }
 
 function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, customOpenItem) {

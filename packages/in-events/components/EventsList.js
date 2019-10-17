@@ -64,6 +64,7 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
                 orderBy={orderBy}
                 cols={isDenseList ? 2 : 5}
                 orderDirection={orderDirection}
+                isDenseList={isDenseList}
                 health={health}
               />
             ) : (
@@ -83,12 +84,13 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
   );
 });
 
-function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols, health }) {
+function ReleaseStatusRowPresenter({ event, orderBy, orderDirection, cols, isDenseList, health }) {
   return orderBy === 'start' ? (
     <ReleaseStatusRow
       rawEvent={event}
       orderDirection={orderDirection}
       cols={cols}
+      isDenseList={isDenseList}
       healthStatus={health && health[event.start]}
     />
   ) : null;
