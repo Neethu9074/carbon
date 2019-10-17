@@ -117,7 +117,7 @@ export function getApplicationCreationTagKeys() {
     'log.level': true,
     'log.message': true,
     'call.error.message': true,
-    'cf.container.garden.id': true
+    'cloudfoundry.container.garden.id': true
   };
   getTagTree();
   let tagKeys = [];

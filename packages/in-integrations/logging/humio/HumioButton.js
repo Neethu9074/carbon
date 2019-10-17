@@ -62,7 +62,7 @@ function serializeQuery({ hostFqdn, kubernetesPodName, dockerContainerId, isWith
     if (isWithinKubernetes) {
       query = `kubernetes.host=${hostFqdn}`;
     } else {
-      query = `host=${hostFqdn}`;
+      query = `host=${hostFqdn} or @host=${hostFqdn}`;
     }
   }
 

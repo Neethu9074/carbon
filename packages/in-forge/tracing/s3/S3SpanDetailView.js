@@ -11,6 +11,7 @@ export default function S3SpanDetailView({ span }) {
         <Di title="Bucket">{span.getIn(['data', 's3', 'bucket'])}</Di>
         <Di title="Operation">{span.getIn(['data', 's3', 'op'])}</Di>
         <Di title="Key">{span.getIn(['data', 's3', 'key'])}</Di>
+        <Di title="Exists">{span.getIn(['data', 's3', 'exists'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 's3', 'error'])} />
       </Dl>
     </div>
