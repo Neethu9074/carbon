@@ -3,7 +3,7 @@
 
 :local {
   .row {
-    background: @lib__colors__N500 !important;
+    background: @lib__colors__N200 !important;
   }
 
   .item {
@@ -20,11 +20,11 @@
   }
 
   .icon {
-    fill: @lib__colors__white;
+    fill: @lib__colors__N500;
   }
 
   .label {
-    color: @lib__colors__white;
+    color: @lib__colors__N500;
     display: block;
     max-width: 100%;
     .ellipsis();
@@ -34,6 +34,6 @@
     display: flex;
     justify-content: space-between;
     margin: 0.3rem 0 0;
-    color: @lib__colors__N400;
+    color: @lib__colors__N500;
   }
 }
