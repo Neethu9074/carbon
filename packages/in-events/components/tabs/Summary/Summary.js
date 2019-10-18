@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -16,6 +16,7 @@ import EventChart from 'in-events/components/EventChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
+import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 
 import locals from './Summary.mless';
@@ -88,25 +89,88 @@ function EventContent({ event }) {
   );
 }
 
-function IncidentContent({ incident }) {
-  return (
-    <>
-      <Row>
-        <Col xs>
-          <Card title="Population">
-            <PopulationChart incidentId={incident.get('id')} getRecentEvents$={() => getRecentEvents$(incident)} />
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <Card title="Events">
-            <EventList incident={incident} />
-          </Card>
-        </Col>
-      </Row>
-    </>
-  );
+import connectTo from 'in-hoc/connectTo';
+
+const IncidentContent = connectTo(
+  ({ incident }) => ({
+    recentEvents: getRecentEvents$(incident)
+  }),
+  function IncidentContent({ incident, recentEvents }) {
+    const [changesAreVisible, setChangesAreVisible] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const numChanges = getNumberOfChanges(recentEvents);
+
+    const header = (
+      <>
+        {shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) && (
+          <Button
+            type="button"
+            kind={isExpanded ? 'primaryv2' : 'secondary'}
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? 'Collapse' : `Expand (${recentEvents.length})`}
+          </Button>
+        )}
+        {shouldRenderShowChangesButton(numChanges) && (
+          <Button
+            type="button"
+            kind={changesAreVisible ? 'primaryv2' : 'secondary'}
+            onClick={() => setChangesAreVisible(!changesAreVisible)}
+          >
+            {changesAreVisible ? 'Hide Changes' : 'Show Changes'}
+          </Button>
+        )}
+      </>
+    );
+
+    return (
+      <>
+        <Row>
+          <Col xs>
+            <Card title="Population" header={header}>
+              <PopulationChart
+                incidentId={incident.get('id')}
+                recentEvents={recentEvents}
+                changesAreVisible={changesAreVisible}
+                isExpanded={isExpanded}
+              />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs>
+            <Card title="Events">
+              <EventList incident={incident} />
+            </Card>
+          </Col>
+        </Row>
+      </>
+    );
+  }
+);
+
+function getNumberOfChanges(recentEvents) {
+  if (!recentEvents) {
+    return 0;
+  }
+
+  let counter = 0;
+  for (let i = 0, length = recentEvents.length; i < length; i++) {
+    const event = recentEvents[i];
+    if (getEventType(event) === EVENT_TYPES.CHANGE) {
+      counter++;
+    }
+  }
+  return counter;
+}
+
+function shouldRenderShowChangesButton(numChanges) {
+  return numChanges > 0;
+}
+
+function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
+  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
 function isOfflineEvent(event) {

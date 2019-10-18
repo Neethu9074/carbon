@@ -52,7 +52,7 @@ const IncidentKPIs = connectTo(
   },
   function IncidentKPIs({ event, recentEvents, openEvents }) {
     const changes = recentEvents.filter(e => getEventType(e) === EVENT_TYPES.CHANGE);
-    const numOpenEvents = openEvents ? openEvents.filter(e => e).length : '';
+    const numOpenEvents = openEvents ? openEvents.filter(Boolean).length : '';
     const affectedEnties = {};
     recentEvents.forEach(e => (affectedEnties[e.getIn(['entityId'])] = true));
 

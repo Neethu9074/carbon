@@ -14,8 +14,7 @@ export default function getRecentEvents$(incident) {
     incident
       .get('recentEvents', emptyList)
       .toArray()
-      .map(getEvent),
-    false
+      .map(getEvent)
   )
     .nextFrame()
     .map(events =>

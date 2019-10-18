@@ -19,8 +19,10 @@ export default getElementDimensions(
     scale = createScale();
 
     static propTypes = {
+      changesAreVisible: rpt.bool.isRequired,
       incidentId: rpt.string.isRequired,
-      getRecentEvents$: rpt.func,
+      isExpanded: rpt.bool.isRequired,
+      recentEvents: rpt.array,
       width: rpt.number
     };
 
@@ -57,7 +59,12 @@ export default getElementDimensions(
         <div className={block}>
           <div className={`${block}__chart-wrapper`}>
             <TimeAxis scale={scale} />
-            <Events scale={scale} getRecentEvents$={this.props.getRecentEvents$} />
+            <Events
+              scale={scale}
+              recentEvents={this.props.recentEvents}
+              changesAreVisible={this.props.changesAreVisible}
+              isExpanded={this.props.isExpanded}
+            />
           </div>
         </div>
       );
