@@ -171,16 +171,12 @@ export default function Namespaces(props) {
   return (
     <ServerTableWithUrlState
       get={getTableData}
-      filterColumnDefinitionsByResult={result => {
-        return columnDefinition => {
-          if (
-            result.data &&
-            result.data.items &&
-            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
-          )
-            return true;
-          else return columnDefinition.id !== 'deploymentConfigs';
-        };
+      filterColumnDefinitions={({ result }) => {
+        const isOpenshift =
+          result.data &&
+          result.data.items &&
+          Boolean(find(result.data.items, item => get(item, ['namespace', 'distributionType']) === 'OpenShift'));
+        return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
       }}
       timeConfig={props.timeConfig}
       clusterId={props.clusterId}
