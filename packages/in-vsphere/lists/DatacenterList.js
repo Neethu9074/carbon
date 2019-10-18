@@ -31,14 +31,14 @@ const columnDefinitions = [
     id: 'hosts',
     label: 'vSphere Hosts',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={item.hosts} />;
+      return <EntityCounter icon="lib_vsphere_host" count={item.hosts} />;
     }
   },
   {
     id: 'vms',
     label: 'Virtual Machines',
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_node" count={item.vms} />;
+      return <EntityCounter icon="lib_vsphere_vm" count={item.vms} />;
     }
   },
   {

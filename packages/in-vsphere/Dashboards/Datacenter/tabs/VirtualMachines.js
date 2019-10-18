@@ -43,7 +43,7 @@ const columnDefinitions = [
     label: 'CPU Resources',
     sortable: canSortByMetricColumns,
     getContent(item) {
-      return <EntityCounter icon="lib_vsphere_vm" count={item.cpuTotal} />;
+      return <EntityCounter count={item.cpuTotal} />;
     }
   },
   {
@@ -66,7 +66,7 @@ const columnDefinitions = [
     label: 'Memory Resources',
     sortable: canSortByMetricColumns,
     getContent(item) {
-      return <EntityCounter icon="lib_vsphere_vm" count={item.memTotal} />;
+      return <EntityCounter count={item.memTotal} />;
     }
   }
 ];
