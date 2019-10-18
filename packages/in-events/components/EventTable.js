@@ -53,11 +53,7 @@ export default compose(
           by: orderBy,
           direction: orderDirection
         }
-      }).map(data => ({
-        progress: { loading: false },
-        errors: [],
-        data
-      }))
+      })
   })
 )(EventTable);
 
