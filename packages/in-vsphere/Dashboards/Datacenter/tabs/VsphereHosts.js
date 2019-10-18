@@ -1,17 +1,16 @@
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
-import { resourceQuotaPercentage } from 'in-vsphere/formatters';
+import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
@@ -21,7 +20,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <SeverityAwareEntityLink icon="lib_vsphere_host" label={get(item, ['vsphereHost', 'label'])} />;
+      return <SeverityAwareEntityLink icon="lib_vsphere_host" label={item.label} />;
     }
   },
   {
@@ -38,10 +37,10 @@ const columnDefinitions = [
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={item.cpuUsage}
-          metric={columnId}
+          snapshotId={item.id}
+          metric="cpu.usage.percent.maximum.*"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={resourceQuotaPercentage}
+          formatter={d => zeroDecimalPlaces(d / 10) + '%'}
         />
       );
     }
@@ -50,15 +49,8 @@ const columnDefinitions = [
     id: 'cpuAllocation',
     label: 'CPU Resources',
     sortable: canSortByMetricColumns,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.cpuAllocation}
-          metric={columnId}
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={resourceQuotaPercentage}
-        />
-      );
+    getContent(item) {
+      return <EntityCounter icon="lib_vsphere_vm" count={item.cpuTotal} />;
     }
   },
   {
@@ -68,10 +60,10 @@ const columnDefinitions = [
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={item.memoryUsage}
-          metric={columnId}
+          snapshotId={item.id}
+          metric="mem.usage.average.percent"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={resourceQuotaPercentage}
+          formatter={d => zeroDecimalPlaces(d / 100) + '%'}
         />
       );
     }
@@ -80,15 +72,8 @@ const columnDefinitions = [
     id: 'memoryAllocation',
     label: 'Memory Resources',
     sortable: canSortByMetricColumns,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.memoryAllocation}
-          metric={columnId}
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={resourceQuotaPercentage}
-        />
-      );
+    getContent(item) {
+      return <EntityCounter icon="lib_vsphere_vm" count={item.memTotal} />;
     }
   }
 ];
