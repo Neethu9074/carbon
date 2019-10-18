@@ -9,7 +9,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { percentage, number, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -49,8 +49,8 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={percentage.compact}
-          metric="cpu.usage.percent.maximum"
+          formatter={d => zeroDecimalPlaces(d / 10) + '%'}
+          metric="cpu.usage.percent.maximum.*"
         />
       );
     }
