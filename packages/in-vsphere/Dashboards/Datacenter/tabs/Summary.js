@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentage, number } from 'in-services/formatters/number';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { timeBySecondsTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -12,7 +10,6 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
 import theme from 'in-themes';
-import MetricValue from 'in-components/MetricValue';
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
@@ -20,60 +17,35 @@ export default function Summary({ timeConfig, data: cluster }) {
 
   return (
     <Fragment>
-      <KpiGridRow sizes={[3, 3, 3, 3]}>
+      <KpiGridRow sizes={[6, 6]}>
         <KpiCard
           title="Overall Status"
           value={<Capitalize>{cluster.overallStatus || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
-        <KpiCard title="ESXi hosts" value={cluster.hosts} raw borderless />
-        <KpiCard title="Virtual machines" value={cluster.vms} raw borderless />
-        <KpiCard
-          title="abc"
-          renderValue={() => (
-            <MetricValue snapshotId={snapshotId} metric="cpu.ready.summation.milliseconds" formatter={number} />
-          )}
-        />
-        <EntityHealthIndicator
-          openIssues={cluster.entityHealthInfo.openIssues.length}
-          maxSeverity={cluster.entityHealthInfo.maxSeverity}
-          IndicatorPresenter={HealthIndicatorPresenter}
-          timeConfig={timeConfig}
+        <InfraMetricKpiCard
+          title="Uptime in seconds"
           snapshotId={snapshotId}
+          metric="uptime.seconds"
+          formatter={timeBySecondsTwoDecimalPlaces}
         />
       </KpiGridRow>
       <Row>
-        <Col lg={3}>
+        <Col lg={6}>
           <InfraMetricKpiCard
             title="CPU Usage"
             snapshotId={snapshotId}
-            metric="cpu.ready.summation.milliseconds"
-            formatter={number}
+            metric="cpu.usage.percent.maximum.*"
+            formatter={d => zeroDecimalPlaces(d / 10) + '%'}
           />
         </Col>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="CPU Alloc."
-            snapshotId={snapshotId}
-            metric="cpuAllocation"
-            formatter={percentage.detailed}
-          />
-        </Col>
-        <Col lg={3}>
+        <Col lg={6}>
           <InfraMetricKpiCard
             title="Memory Usage"
             snapshotId={snapshotId}
-            metric="memoryUsage"
-            formatter={percentage.detailed}
-          />
-        </Col>
-        <Col lg={3}>
-          <InfraMetricKpiCard
-            title="Memory Alloc."
-            snapshotId={snapshotId}
-            metric="memoryAllocation"
-            formatter={percentage.detailed}
+            metric="mem.usage.average.percent"
+            formatter={d => zeroDecimalPlaces(d / 100) + '%'}
           />
         </Col>
       </Row>
@@ -85,8 +57,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: twoDecimalPlaces,
-                metrics: ['cpu.ready.summation.milliseconds', 'cpuAllocation'].filter(Boolean),
+                formatter: d => zeroDecimalPlaces(d / 10) + '%',
+                metrics: ['cpu.usage.percent.maximum.*', 'cpuAllocation'].filter(Boolean),
                 labels: ['Usage', 'Allocation'].filter(Boolean),
                 type: 'line',
                 colors: [usage, allocated]
@@ -100,8 +72,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytesTwoDecimalPlaces,
-                metrics: ['memoryUsage', 'memoryAllocation'].filter(Boolean),
+                formatter: d => zeroDecimalPlaces(d / 100) + '%',
+                metrics: ['mem.usage.average.percent', 'memoryAllocation'].filter(Boolean),
                 labels: ['Usage', 'Allocation'].filter(Boolean),
                 type: 'line',
                 colors: [usage, allocated]
