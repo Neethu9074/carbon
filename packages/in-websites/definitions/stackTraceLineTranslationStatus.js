@@ -81,5 +81,15 @@ export const status = {
       "This stack trace line's file reference does not point to a JavaScript file. Source map based stack trace line translation only works when the source is a JavaScript file.",
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
+  },
+  17: {
+    explanation: 'Could not establish a TCP / TLS connection to the host serving the JavaScript file.',
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
+  },
+  18: {
+    explanation: 'Could not establish a TCP / TLS connection to the host serving the source map file.',
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
   }
 };
