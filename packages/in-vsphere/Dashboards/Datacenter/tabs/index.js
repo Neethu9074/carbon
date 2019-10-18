@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getVsphereDatacenterItemCounters from 'in-vsphere/subscriptions/getVsphereDatacenterItemCounters';
+import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import VirtualMachines from 'in-vsphere/Dashboards/Datacenter/tabs/VirtualMachines';
 import TabLabelWithCounter from 'in-vsphere/commonComponents/TabLabelWithCounter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
@@ -17,7 +17,7 @@ export default [
     label: 'vSphere hosts',
     path: `${datacenterDashboardFullyQualified}/vsphere-hosts`,
     component: VSphereHosts,
-    header: props => getCounterComponent(props, 'vsphereHosts')
+    header: props => getCounterComponent(props, 'hosts')
   },
   {
     label: 'Virtual Machines',
@@ -32,7 +32,12 @@ function getCounterComponent(props, resultPropName) {
     <TabLabelWithCounter
       label={props.tab.label}
       getCounters={() =>
-        getVsphereDatacenterItemCounters({ datacenterId: props.datacenterId, timeConfig: props.timeConfig })
+        getVsphereDatacenter({
+          filter: {
+            datacenterId: props.datacenterId,
+            timeConfig: props.timeConfig
+          }
+        })
       }
       resultPropName={resultPropName}
     />

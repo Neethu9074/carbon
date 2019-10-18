@@ -1,4 +1,4 @@
-import { get, find } from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -21,7 +21,7 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <SeverityAwareEntityLink icon="lib_linux_host" label={get(item, ['vsphereHost', 'label'])} />;
+      return <SeverityAwareEntityLink icon="lib_vsphere_host" label={get(item, ['vsphereHost', 'label'])} />;
     }
   },
   {
@@ -32,13 +32,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'required_cpu_percentage',
+    id: 'cpuUsage',
     label: 'CPU Usage',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={get(item, ['vsphereHost', 'id'])}
+          snapshotId={item.cpuUsage}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
@@ -47,13 +47,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'limit_cpu_percentage',
-    label: 'CPU Total',
+    id: 'cpuAllocation',
+    label: 'CPU Resources',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={get(item, ['vsphereHost', 'id'])}
+          snapshotId={item.cpuAllocation}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
@@ -62,13 +62,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'required_mem_percentage',
+    id: 'memoryUsage',
     label: 'Memory Usage',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={get(item, ['vsphereHost', 'id'])}
+          snapshotId={item.memoryUsage}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
@@ -77,13 +77,13 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'limit_mem_percentage',
-    label: 'Memory Total',
+    id: 'memoryAllocation',
+    label: 'Memory Resources',
     sortable: canSortByMetricColumns,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
-          snapshotId={get(item, ['vsphereHost', 'id'])}
+          snapshotId={item.memoryAllocation}
           metric={columnId}
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={resourceQuotaPercentage}
@@ -107,24 +107,7 @@ const ServerTableWithUrlState = withEmptyTableState({
 });
 
 export default function VsphereHosts(props) {
-  return (
-    <ServerTableWithUrlState
-      get={getTableData}
-      filterColumnDefinitionsByResult={result => {
-        return columnDefinition => {
-          if (
-            result.data &&
-            result.data.items &&
-            find(result.data.items, item => get(item, ['namespace', 'distributionType'], 'Kubernetes') === 'OpenShift')
-          )
-            return true;
-          else return columnDefinition.id !== 'deploymentConfigs';
-        };
-      }}
-      timeConfig={props.timeConfig}
-      datacenterId={props.datacenterId}
-    />
-  );
+  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} datacenterId={props.datacenterId} />;
 }
 
 function getTableData({
