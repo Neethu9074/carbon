@@ -1,12 +1,7 @@
 import React from 'react';
 
-import {
-  getEventType,
-  EVENT_TYPES,
-  fireCallbacksForEventAtFocusedMomentAsStream,
-  getColorByEvent
-} from 'in-stores/events';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import EventIcon from 'in-components/EventIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -17,15 +12,11 @@ const block = 'in-event-view-detail-chart-event';
 export default connectTo(
   props => {
     return {
-      color: fireCallbacksForEventAtFocusedMomentAsStream(
-        props.event,
-        e => getColorByEvent({ event: e.event, timeConfig: getTimeConfigAtMoment(e.focusedMoment) }),
-        () => '#40535b'
-      ),
+      background: getColorForEventAtFocusedMomentAsStream(props.event, { defaultColor: '#bababa' }),
       isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
     };
   },
-  function Event({ event, scale, color, isOpen }) {
+  function Event({ event, scale, isOpen, background }) {
     // clamp events so that they are not going beyond the borders of the chart.
     // If they would do, the incident start and end properties are wrongly calculated
     const left = scale.getRange(event.get('start'));
@@ -49,7 +40,6 @@ export default connectTo(
       );
     }
 
-    const barOffset = 12;
     const end = event.get('end');
     const right =
       end || isOpen
@@ -63,10 +53,10 @@ export default connectTo(
       <div
         className={block}
         style={{
-          marginLeft: left - barOffset,
+          marginLeft: left,
 
           // use full width to make event small events clickable over the hole line
-          width: scale.getRangeTo() - left + barOffset
+          width: scale.getRangeTo() - left
         }}
         onClick={() => onEventClick(event)}
       >
@@ -78,7 +68,7 @@ export default connectTo(
           className={`${block}__bar`}
           style={{
             width: barWidth,
-            background: color
+            background
           }}
         />
       </div>
