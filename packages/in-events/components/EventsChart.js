@@ -68,6 +68,7 @@ export default getElementDimensions(
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
+              defaultDisabledMetrics: ['offline', 'online'],
               labels,
               metricIds,
               colors
