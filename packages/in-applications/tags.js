@@ -24,7 +24,7 @@ export const customServiceMappingTagKeys = [
   'nova.zone',
   'jvm.app.name',
   'kafka.cluster.name',
-  'mongodb.cluster.name',
+  'mongo.replicatSetName',
   'kubernetes.container.name',
   'kubernetes.namespace',
   'kubernetes.label',
