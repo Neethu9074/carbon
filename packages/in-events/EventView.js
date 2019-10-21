@@ -44,7 +44,7 @@ function EventView({ location }) {
           <MaxWidthFullscreenContainer>
             <Row>
               <Col lg={12}>
-                <EventsChart />
+                <EventsChart eventType={eventType} />
               </Col>
             </Row>
             <Row>

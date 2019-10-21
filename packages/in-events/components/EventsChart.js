@@ -19,7 +19,7 @@ export default getElementDimensions(
       timeConfig: timeConfig$,
       query: query$
     },
-    function EventChart({ width, timeConfig, query, cardTitle = 'Open events' }) {
+    function EventsChart({ width, timeConfig, query, eventType }) {
       if (!width) {
         return <div />;
       }
@@ -35,55 +35,38 @@ export default getElementDimensions(
       );
       granularity = getDefaultMetricRollupDuration(timeConfig, blockSizeMillis).rollup || MINIMUM_ROLLUP;
 
+      const labels = [];
+      const metricIds = [];
+      const colors = [];
+      const metricsConfiguration = {};
+
+      if (!eventType || eventType === 'incident') {
+        getIncidentConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+      }
+      if (!eventType || eventType === 'issue') {
+        getIssueConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+      }
+      if (!eventType || eventType === 'change') {
+        getChangeConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+      }
+
       return (
         <>
           <div className={locals.spacer} />
           <OpenEventsCountChartWrapper
-            cardTitle={cardTitle}
+            cardTitle="Open events"
             timeConfig={timeConfig}
             granularity={granularity}
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Incidents', 'Critical', 'Warning', 'Offline', 'Online', 'Changes'],
-              metricIds: ['incidents', 'critical', 'warning', 'offline', 'online', 'changes'],
-              colors: [
-                theme.lib.colors.orange800,
-                theme.lib.colors.red800,
-                theme.lib.colors.yellow800,
-                '#9aa5a9',
-                '#99e1e1',
-                '#a2d9f5'
-              ]
+              labels,
+              metricIds,
+              colors
             }}
             metricsConfiguration={{
               timeConfig,
-              metrics: {
-                incidents: {
-                  query: `event.type:incident ${query || ''}`.trim(),
-                  granularity
-                },
-                critical: {
-                  query: `event.type:critical ${query || ''}`.trim(),
-                  granularity
-                },
-                warning: {
-                  query: `event.type:warning ${query || ''}`.trim(),
-                  granularity
-                },
-                offline: {
-                  query: `event.type:offline ${query || ''}`.trim(),
-                  granularity
-                },
-                online: {
-                  query: `event.type:online ${query || ''}`.trim(),
-                  granularity
-                },
-                changes: {
-                  query: `event.type:change ${query || ''}`.trim(),
-                  granularity
-                }
-              }
+              metrics: metricsConfiguration
             }}
           />
         </>
@@ -91,3 +74,45 @@ export default getElementDimensions(
     }
   )
 );
+
+function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push('Incidents');
+  metrics.push('incidents');
+  colors.push(theme.lib.colors.orange800);
+  metricsConfiguration.incidents = {
+    query: `event.type:incident ${query || ''}`.trim(),
+    granularity
+  };
+}
+
+function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push('Critical', 'Warning');
+  metrics.push('critical', 'warning');
+  colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
+  metricsConfiguration.critical = {
+    query: `event.type:critical ${query || ''}`.trim(),
+    granularity
+  };
+  metricsConfiguration.warning = {
+    query: `event.type:warning ${query || ''}`.trim(),
+    granularity
+  };
+}
+
+function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push('Offline', 'Online', 'Changes');
+  metrics.push('offline', 'online', 'changes');
+  colors.push('#9aa5a9', '#99e1e1', '#a2d9f5');
+  metricsConfiguration.offline = {
+    query: `event.type:offline ${query || ''}`.trim(),
+    granularity
+  };
+  metricsConfiguration.online = {
+    query: `event.type:online ${query || ''}`.trim(),
+    granularity
+  };
+  metricsConfiguration.changes = {
+    query: `event.type:change ${query || ''}`.trim(),
+    granularity
+  };
+}
