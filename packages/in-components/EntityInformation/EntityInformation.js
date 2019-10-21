@@ -64,7 +64,8 @@ function EntityInformation10({
   label,
   useSnapshotLink = false,
   kind = 'dark',
-  getLabelCallback = label => label
+  getLabelCallback = label => label,
+  pathname
 }) {
   return (
     <div className={block}>
@@ -72,6 +73,7 @@ function EntityInformation10({
       <HierarchicalLink
         snapshot={entity}
         className={`${block}__link`}
+        pathname={pathname}
         useSnapshotLink={useSnapshotLink}
         kind={kind}
         calculateHierarchy

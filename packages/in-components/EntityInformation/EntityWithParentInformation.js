@@ -1,14 +1,16 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import EntityInformation from './EntityInformation';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+
 import { isEndpointEntity } from 'in-services/entityUtils';
+import EntityInformation from './EntityInformation';
 
 export default function EntityWithParentInformation(props) {
   const { entityType, entityId, metadata, timeConfig } = props;
   return (
     <div>
-      <EntityInformation {...props} />
+      <EntityInformation {...props} pathname={physicalDashboardPath} />
 
       {isEndpointEntity(entityType) &&
         metadata && (
@@ -16,6 +18,7 @@ export default function EntityWithParentInformation(props) {
             entityId={metadata.get('app20ServiceId')}
             entityType="Service20"
             label="Of Service:"
+            pathname={physicalDashboardPath}
             metadata={fromJS({
               entityLabel: metadata.get('app20EndpointServiceLabel'),
               app20EndpointId: entityId
