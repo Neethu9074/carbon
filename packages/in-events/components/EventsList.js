@@ -43,8 +43,10 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
   const isDenseList = !!selectedEventId;
 
   if (!progress.loading && rawEventList.length === 0) {
-    return <EmptyEventList eventType={eventType} />;
+    return <EmptyEventList eventType={eventType} isDenseList={isDenseList} />;
   }
+
+  const cols = isDenseList ? 2 : 5;
 
   return (
     <Table>
@@ -79,7 +81,7 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
                 key={event.id}
                 event={event}
                 orderBy={orderBy}
-                cols={isDenseList ? 2 : 5}
+                cols={cols}
                 orderDirection={orderDirection}
                 isDenseList={isDenseList}
                 health={health}
@@ -95,9 +97,9 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
             )
         )}
 
-        {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={isDenseList ? 2 : 5} />}
-        <HorizontalIndicatorRow cols={5} progress={progress} />
-        {progress.loading && <LoadingSkeletonRows cols={5} />}
+        {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+        <HorizontalIndicatorRow cols={cols} progress={progress} />
+        {progress.loading && <LoadingSkeletonRows cols={cols} />}
       </Tbody>
     </Table>
   );
