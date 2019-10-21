@@ -35,7 +35,10 @@ export default function LegacyEventViewMigration(props) {
     );
   }
 
-  return <EventView {...props} />;
+  const eventType = getMatrixParameter(props.location, eventsPath, 'view');
+  const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
+
+  return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
 
 const EventView = compose(
@@ -65,8 +68,7 @@ const EventView = compose(
   })
 )(EventViewComponent);
 function EventViewComponent(props) {
-  const eventType = getMatrixParameter(props.location, eventsPath, 'view');
-  const eventId = getMatrixParameter(props.location, eventsPath, 'eventId');
+  const { time, eventType, eventId } = props;
 
   return (
     <Sticky header={<SearchBar />}>
@@ -78,7 +80,7 @@ function EventViewComponent(props) {
           <MaxWidthFullscreenContainer>
             <Row>
               <Col lg={12}>
-                <EventsChart eventType={eventType} time={props.time} />
+                <EventsChart eventType={eventType} time={time} />
               </Col>
             </Row>
             <Row>
