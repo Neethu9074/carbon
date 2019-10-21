@@ -11,6 +11,7 @@ import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MemoryTotal from './MemoryTotal';
 
 const pathSegment = '/vms';
 const matrixPrefix = 'vm.';
@@ -33,7 +34,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="cpu.usage.percent.maximum.*"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={d => zeroDecimalPlaces(d / 10) + '%'}
+          formatter={d => zeroDecimalPlaces(d / 100) + '%'}
         />
       );
     }
@@ -56,7 +57,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="mem.usage.average.percent"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={d => zeroDecimalPlaces(d / 100) + '%'}
+          formatter={d => zeroDecimalPlaces(d / 1000) + '%'}
         />
       );
     }
@@ -66,7 +67,7 @@ const columnDefinitions = [
     label: 'Memory Resources',
     sortable: canSortByMetricColumns,
     getContent(item) {
-      return <EntityCounter count={item.memTotal} />;
+      return <MemoryTotal count={item.memTotal} />;
     }
   }
 ];

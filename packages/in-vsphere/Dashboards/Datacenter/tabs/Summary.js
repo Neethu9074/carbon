@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { timeBySecondsTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { timeBySecondsTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -37,7 +37,7 @@ export default function Summary({ timeConfig, data: cluster }) {
             title="CPU Usage"
             snapshotId={snapshotId}
             metric="cpu.usage.percent.maximum.*"
-            formatter={d => zeroDecimalPlaces(d / 10) + '%'}
+            formatter={d => twoDecimalPlaces(d / 100) + '%'}
           />
         </Col>
         <Col lg={6}>
@@ -45,7 +45,7 @@ export default function Summary({ timeConfig, data: cluster }) {
             title="Memory Usage"
             snapshotId={snapshotId}
             metric="mem.usage.average.percent"
-            formatter={d => zeroDecimalPlaces(d / 100) + '%'}
+            formatter={d => twoDecimalPlaces(d / 1000) + '%'}
           />
         </Col>
       </Row>
@@ -57,9 +57,9 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: d => zeroDecimalPlaces(d / 10) + '%',
-                metrics: ['cpu.usage.percent.maximum.*', 'cpuAllocation'].filter(Boolean),
-                labels: ['Usage', 'Allocation'].filter(Boolean),
+                formatter: d => twoDecimalPlaces(d / 100) + '%',
+                metrics: ['cpu.usage.percent.maximum.*'].filter(Boolean),
+                labels: ['Usage'].filter(Boolean),
                 type: 'line',
                 colors: [usage, allocated]
               }}
@@ -72,9 +72,9 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: d => zeroDecimalPlaces(d / 100) + '%',
-                metrics: ['mem.usage.average.percent', 'memoryAllocation'].filter(Boolean),
-                labels: ['Usage', 'Allocation'].filter(Boolean),
+                formatter: d => twoDecimalPlaces(d / 1000) + '%',
+                metrics: ['mem.usage.average.percent'].filter(Boolean),
+                labels: ['Usage'].filter(Boolean),
                 type: 'line',
                 colors: [usage, allocated]
               }}
