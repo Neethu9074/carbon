@@ -58,7 +58,7 @@ export default compose(
 )(EventTable);
 
 function EventTable(props) {
-  const { selectedEventId, items: rawEventList, items, onChange } = props;
+  const { selectedEventId, items: rawEventList, items, onChange, progress } = props;
 
   if (!rawEventList) {
     return null;
@@ -69,7 +69,7 @@ function EventTable(props) {
   }
 
   if (!selectedEventId) {
-    return <EventsList {...props} onItemClicked={onItemClicked} />;
+    return <EventsList {...props} onItemClicked={onItemClicked} progress={progress} />;
   }
 
   return (

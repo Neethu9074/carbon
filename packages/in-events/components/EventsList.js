@@ -1,10 +1,21 @@
 import React from 'react';
 
-import { Table, SortableTh, Thead, Tbody, Tr, Th, LoadMoreRow } from 'in-components/tables/sharedComponents';
+import {
+  Table,
+  HorizontalIndicatorRow,
+  LoadingSkeletonRows,
+  SortableTh,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  LoadMoreRow
+} from 'in-components/tables/sharedComponents';
 import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
+import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
 import connectTo from 'in-hoc/connectTo';
 
@@ -25,9 +36,15 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
     canLoadMore,
     loadMore,
     orderBy,
+    progress,
+    eventType,
     orderDirection
   } = props;
   const isDenseList = !!selectedEventId;
+
+  if (!progress.loading && rawEventList.length === 0) {
+    return <EmptyEventList eventType={eventType} />;
+  }
 
   return (
     <Table>
@@ -79,6 +96,8 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
         )}
 
         {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={isDenseList ? 2 : 5} />}
+        <HorizontalIndicatorRow cols={5} progress={progress} />
+        {progress.loading && <LoadingSkeletonRows cols={5} />}
       </Tbody>
     </Table>
   );
