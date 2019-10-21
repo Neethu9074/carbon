@@ -13,7 +13,8 @@ export default {
       config.scales.xBackBuffer.getRange(config.scales.xBackBuffer.getDomainTo() - blockSizeMillis);
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric]);
+      const isLastSeries = iMetric === metrics.length - 1;
+      renderDataSeries(config, metrics[iMetric], metricMap, scale, barWidth, colors100[iMetric], isLastSeries);
     }
   },
 
@@ -24,20 +25,19 @@ export default {
   }
 };
 
-export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color) {
+export function renderDataSeries(config, dataSeries, metricMap, scale, barWidth, color, isLastSeries) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
-    drawBlock(metricMap, config, scale, block, barWidth, color);
+    drawBlock(metricMap, config, scale, block, barWidth, color, isLastSeries);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, barWidth, color) {
+function drawBlock(metricMap, config, scale, block, barWidth, color, isLastSeries) {
   const chartHeight = scale.getRangeFrom();
 
   config.backBufferCtx.beginPath();
   config.backBufferCtx.globalAlpha = 1.0;
-  config.backBufferCtx.fillStyle = color;
 
   const startIndex = shouldSkipFirstDataPoint(block[0], config.scales.xBackBuffer, barWidth) ? 1 : 0;
   for (let i = startIndex; i < block.length; i++) {
@@ -59,10 +59,17 @@ function drawBlock(metricMap, config, scale, block, barWidth, color) {
     const yPos = scale.getRange(value);
     const barHeight = Math.max(MIN_HEIGHT_IN_PX, chartHeight - yPos);
 
+    config.backBufferCtx.fillStyle = color;
     config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, barHeight);
+    config.backBufferCtx.fill();
+
+    if (!isLastSeries) {
+      config.backBufferCtx.fillStyle = '#fff';
+      config.backBufferCtx.fillRect(xPos, chartHeight - barHeight, barWidth - MARGIN_BETWEEN_BARS * 2, 1);
+      config.backBufferCtx.fill();
+    }
   }
 
-  config.backBufferCtx.fill();
   config.backBufferCtx.closePath();
 }
 

@@ -1,0 +1,32 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+@import '~in-themes/mediaQueries.less';
+
+:local {
+  .entityWrapper {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .entityIcon {
+    margin-right: 0.313rem;
+    flex-shrink: 0;
+    fill: black;
+  }
+
+  .text,
+  .title {
+    .ellipsis();
+  }
+
+  .title {
+    max-width: 15rem;
+  }
+
+  @media @min-medium-screen {
+    .title {
+      max-width: 22rem;
+    }
+  }
+}

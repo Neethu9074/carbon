@@ -3,7 +3,6 @@ import React from 'react';
 import SidebarBreadcrumb from 'in-components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
-import { timelineHeight$ } from 'in-components/timeline/timelineStore';
 import getForgeComponent from 'in-services/getForgeComponent';
 import { debouncedResize$ } from 'in-services/browser';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
@@ -17,10 +16,9 @@ export default connectTo(
   {
     snapshot: selectedSnapshot$,
     windowHeight: debouncedResize$.map(() => window.innerHeight).startWithFn(() => window.innerHeight),
-    timelineHeight: timelineHeight$,
     timeConfig: timeConfig$
   },
-  function MapSidebar({ snapshot, windowHeight, timelineHeight, timeConfig }) {
+  function MapSidebar({ snapshot, windowHeight, timeConfig }) {
     if (!snapshot) {
       return null;
     }
@@ -32,7 +30,7 @@ export default connectTo(
       <div
         className={locals.mapSidebar}
         style={{
-          maxHeight: toPx(windowHeight - timelineHeight - 120)
+          maxHeight: toPx(windowHeight - 120)
         }}
       >
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
@@ -41,7 +39,7 @@ export default connectTo(
         <div
           className={locals.scrollWrapper}
           style={{
-            maxHeight: toPx(windowHeight - timelineHeight - 300)
+            maxHeight: toPx(windowHeight - 300)
           }}
         >
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
