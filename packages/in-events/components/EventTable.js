@@ -1,8 +1,6 @@
-import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
 
-import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import BasicDashboardHeader from 'in-new-components/BasicDashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -11,53 +9,20 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
-import getRawEvents from 'in-subscription/getRawEvents';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
-import cursorPaginated from 'in-hoc/cursorPaginated';
-import { timeConfig$ } from 'in-stores/time/config';
 import tabs from 'in-events/components/tabs/index';
-import { query$ } from 'in-stores/search/query';
-import withUrlState from 'in-hoc/withUrlState';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { getEvent } from 'in-stores/events';
 import Pill from 'in-new-components/Pill';
-import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
 
 import locals from './EventTable.mless';
 
-export default compose(
-  connect({
-    timeConfig: timeConfig$,
-    query: query$
-  }),
-  withUrlState({
-    bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
-    reducerName: 'onChange'
-  }),
-  cursorPaginated({
-    getResettingProps: () => ['orderBy', 'orderDirection', 'eventType', 'timeConfig', 'query'],
-    get: ({ cursor, orderBy, orderDirection, timeConfig, query, eventType }) =>
-      getRawEvents({
-        timeConfig,
-        query: concatQueries(query, eventType),
-        pagination: {
-          cursor,
-          retrievalSize: 30
-        },
-        order: {
-          by: orderBy,
-          direction: orderDirection
-        }
-      })
-  })
-)(EventTable);
-
-function EventTable(props) {
+export default function EventTable(props) {
   const { selectedEventId, items: rawEventList, items, onChange, progress } = props;
 
   if (!rawEventList) {
@@ -148,15 +113,4 @@ function hasServiceImpact(event) {
 
 function renderIcon(event) {
   return <EventIcon className={locals.icon} event={event} size="s" />;
-}
-
-function concatQueries(userQuery, eventFilter) {
-  if (userQuery && eventFilter) {
-    return `(${userQuery}) AND (event.type:${eventFilter})`;
-  } else if (!userQuery && eventFilter) {
-    return `event.type:${eventFilter}`;
-  } else if (userQuery && !eventFilter) {
-    return userQuery;
-  }
-  return '';
 }

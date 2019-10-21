@@ -15,16 +15,18 @@ import locals from './EventsChart.mless';
 
 export default getElementDimensions(
   connectTo(
-    {
+    ({ time }) => ({
       timeConfig: timeConfig$.map(timeConfig => {
         // auto refresh mode is not supported in analyze.
         return {
-          ...timeConfig,
-          autoRefresh: false
+          to: time,
+          focusedMoment: time,
+          autoRefresh: false,
+          windowSize: timeConfig.windowSize
         };
       }),
       query: query$
-    },
+    }),
     function EventsChart({ width, timeConfig, query, eventType }) {
       if (!width) {
         return <div />;
