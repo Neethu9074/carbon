@@ -30,6 +30,14 @@ function GroupMetricsChart({
     return null;
   }
 
+  // auto refresh mode is not supported in analyze.
+  timeConfig = {
+    to: time,
+    focusedMoment: time,
+    autoRefresh: false,
+    windowSize: timeConfig.windowSize
+  };
+
   const metricsAvailableForPresentation = intersection(Object.keys(items[0].metrics), chartDefinitions.map(d => d.key));
 
   if (metricsAvailableForPresentation.length === 0) {
