@@ -102,7 +102,7 @@ function renderActions(event) {
 
 function TriggeredMarker({ event }) {
   return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
-    <Pill color={theme.lib.colors.cyan800}>Service impact</Pill>
+    <Pill color={theme.lib.colors.cyan800}>SERVICE IMPACT</Pill>
   ) : null;
 }
 
