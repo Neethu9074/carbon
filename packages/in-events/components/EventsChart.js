@@ -111,7 +111,7 @@ function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granular
 function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push('Offline', 'Online', 'Changes');
   metrics.push('offline', 'online', 'changes');
-  colors.push('#9aa5a9', '#99e1e1', '#a2d9f5');
+  colors.push('#9aa5a9', '#99e1e1', '#cdbcf0');
   metricsConfiguration.offline = {
     query: `event.type:offline ${query || ''}`.trim(),
     granularity
