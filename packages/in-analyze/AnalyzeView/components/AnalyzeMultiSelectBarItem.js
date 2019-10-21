@@ -2,8 +2,8 @@ import { withProps } from 'recompose';
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import MultiSelectBarItem from 'in-analyze/components/filterBar/MultiSelectBarItem';
+import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Tooltip from 'in-components/Tooltip';
 
