@@ -14,6 +14,8 @@ import EntityLink from 'in-new-components/EntityLink';
 import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
 
+const unknownPlugin = 'com.instana.plugins.Unknown';
+
 const allColumns = [
   {
     id: 'type',
@@ -52,6 +54,7 @@ const allColumns = [
     label: 'Involved Object',
     getContent(item, { clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
       const isLinkableEntity =
+        item.sourcePlugin !== unknownPlugin &&
         [clusterId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(item.sourceId) === -1 &&
         translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin) !== plugins.kubernetesReplicaSet;
 
