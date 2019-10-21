@@ -2,6 +2,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
@@ -11,15 +12,14 @@ import EventsChart from 'in-events/components/EventsChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
+import getRawEvents from 'in-subscription/getRawEvents';
+import cursorPaginated from 'in-hoc/cursorPaginated';
+import { timeConfig$ } from 'in-stores/time/config';
 import SearchBar from 'in-components/SearchBar';
+import { query$ } from 'in-stores/search/query';
+import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { timeConfig$ } from 'in-stores/time/config';
-import { query$ } from 'in-stores/search/query';
-import cursorPaginated from 'in-hoc/cursorPaginated';
-import withUrlState from 'in-hoc/withUrlState';
-import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
-import getRawEvents from 'in-subscription/getRawEvents';
 import connect from 'in-hoc/connectTo';
 
 export default function LegacyEventViewMigration(props) {
