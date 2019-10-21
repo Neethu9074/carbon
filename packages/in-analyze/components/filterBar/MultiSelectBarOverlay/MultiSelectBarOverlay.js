@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
@@ -115,3 +116,17 @@ function newItemList(items, selectedItems) {
   });
   return filteredItems;
 }
+
+MultiSelectBarOverlay.propTypes = {
+  query: PropTypes.string,
+  loading: PropTypes.bool,
+  onQueryChange: PropTypes.func,
+  filterSuggestionsClientSide: PropTypes.bool,
+  selectedItems: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string, label: PropTypes.string })),
+  items: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string, label: PropTypes.string })),
+  onSelectItem: PropTypes.func,
+  moreDataAvailable: PropTypes.bool,
+  moreDataMessage: PropTypes.string,
+  itemLabelRenderer: PropTypes.func,
+  onRemoveItem: PropTypes.func
+};

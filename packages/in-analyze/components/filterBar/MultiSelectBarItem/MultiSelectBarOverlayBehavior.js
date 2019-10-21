@@ -7,6 +7,7 @@ import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import connect from 'in-hoc/connectTo';
+import { operators } from 'in-analyze/applicationFilter';
 
 export default compose(
   withState('query', 'setQuery', ''),
@@ -19,7 +20,7 @@ export default compose(
       tagFilters.push({
         name: props.tag,
         stringValue: props.query,
-        operator: 'CONTAINS'
+        operator: operators.CONTAINS
       });
     }
 
@@ -76,7 +77,7 @@ function MultiSelectBarOverlayBehavior({
 
   items.sort((a, b) => compareIgnoreCase(a.label, b.label));
 
-  const existingTagFilters = tagFilters.filter(filter => filter.name === tag && filter.operator === 'EQUALS');
+  const existingTagFilters = tagFilters.filter(filter => filter.name === tag && filter.operator === operators.EQUALS);
 
   let selectedItems;
 
@@ -96,12 +97,12 @@ function MultiSelectBarOverlayBehavior({
       loading={result == null || result.progress.loading}
       query={query}
       onQueryChange={setQuery}
-      onRemoveItem={item => removeTagFilter(tag, 'EQUALS', null, item.label)}
+      onRemoveItem={item => removeTagFilter(tag, operators.EQUALS, null, item.label)}
       onSelectItem={newItem => {
         addTagFilter({
           name: tag,
           stringValue: newItem.key,
-          operator: 'EQUALS'
+          operator: operators.EQUALS
         });
       }}
       moreDataAvailable={result.data && result.data.canLoadMore}
