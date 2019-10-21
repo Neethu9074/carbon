@@ -4,7 +4,19 @@ import { Table, Th, Thead, Td, Tbody, Tr } from 'in-components/tables/sharedComp
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 
-export default function EventsList({ eventType }) {
+export default function EventsList({ eventType, isDenseList }) {
+  if (isDenseList) {
+    return (
+      <Table>
+        <Thead>
+          <Tr size="compact">
+            <Th>Started</Th>
+          </Tr>
+        </Thead>
+        <Tbody />
+      </Table>
+    );
+  }
   const entityType = eventType ? eventType + 's' : 'events';
   return (
     <Table>
