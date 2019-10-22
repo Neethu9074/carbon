@@ -68,7 +68,7 @@ const EventView = compose(
   })
 )(EventViewComponent);
 function EventViewComponent(props) {
-  const { time, eventType, eventId } = props;
+  const { time, eventType, eventId, progress } = props;
 
   return (
     <Sticky header={<SearchBar />}>
@@ -80,7 +80,7 @@ function EventViewComponent(props) {
           <MaxWidthFullscreenContainer>
             <Row>
               <Col lg={12}>
-                <EventsChart eventType={eventType} time={time} />
+                <EventsChart eventType={eventType} time={time} isLoadingData={progress && progress.loading} />
               </Col>
             </Row>
             <Row>

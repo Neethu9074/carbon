@@ -27,8 +27,8 @@ export default getElementDimensions(
       }),
       query: query$
     }),
-    function EventsChart({ width, timeConfig, query, eventType }) {
-      if (!width) {
+    function EventsChart({ width, timeConfig, query, eventType, isLoadingData }) {
+      if (!width || isLoadingData) {
         return <div />;
       }
 
@@ -68,7 +68,6 @@ export default getElementDimensions(
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              defaultDisabledMetrics: ['offline', 'online'],
               labels,
               metricIds,
               colors
