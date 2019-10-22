@@ -3,6 +3,7 @@ import React from 'react';
 import { fieldNames } from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -12,16 +13,16 @@ import locals from './ProvideManualPattern.mless';
 export function ProvideManualPattern({ form, onChange }) {
   return (
     <div className={locals.container}>
-      {form.get(fieldNames.matchingOperator).map(field => (
+      {form.get(fieldNames.operator).map(field => (
         <FormGroup>
-          <Label htmlFor={fieldNames.matchingOperator} hasError={!field.valid && field.touched}>
+          <Label htmlFor={fieldNames.operator} hasError={!field.valid && field.touched}>
             Error Message
           </Label>
           <ComboBox
-            name={fieldNames.matchingOperator}
+            name={fieldNames.operator}
             value={field.value}
-            options={operators()}
-            onChange={e => onChange(form, fieldNames.matchingOperator, (e && e.value) || '')}
+            options={getOperators()}
+            onChange={e => onChange(form, fieldNames.operator, (e && e.value) || '')}
             searchable
             autoFocus
           />
@@ -48,6 +49,11 @@ export function ProvideManualPattern({ form, onChange }) {
   );
 }
 
-function operators() {
-  return Object.freeze([{ value: 'EQUALS', label: 'equals' }, { value: 'CONTAINS', label: 'contains' }]);
+function getOperators() {
+  return Object.freeze([
+    { value: operators.EQUALS, label: operators.EQUALS },
+    { value: operators.CONTAINS, label: operators.CONTAINS },
+    { value: operators.STARTS_WITH, label: operators.STARTS_WITH },
+    { value: operators.ENDS_WITH, label: operators.ENDS_WITH }
+  ]);
 }

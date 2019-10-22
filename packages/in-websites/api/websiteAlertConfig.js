@@ -1,7 +1,7 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-const baseUrl = `api/events/settings/alert-event-configs`;
+const baseUrl = 'api/events/settings/website-alert-configs';
 
 export function createAlertConfig(data) {
   return http({
@@ -23,11 +23,14 @@ export function updateAlertConfig(data, id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigs() {
+export function getAllAlertConfigs(websiteId) {
   return http({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
+    queryParams: {
+      websiteId
+    },
     url: baseUrl
   }).map(response => response.body);
 }

@@ -7,7 +7,9 @@ import { eumAlertingEnabled } from 'in-services/featureFlags';
 
 import locals from './CreateAlert.mless';
 
-export default function CreateAlert({ error, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
+const implicitTagFilters = ['beacon.website.id'];
+
+export default function CreateAlert({ error, tagFilters, websiteLabel, websiteId }) {
   if (!eumAlertingEnabled) {
     return null;
   }
@@ -24,7 +26,8 @@ export default function CreateAlert({ error, websiteId, websiteLabel, pageId, ta
       {dialogOpen && (
         <SimpleAlertDialog
           onClose={() => setDialogOpen(false)}
-          filterConfig={{ error, pageId, tagFilters, websiteId, websiteLabel, timeConfig }}
+          formData={generateFormData(error, tagFilters, websiteId)}
+          websiteLabel={websiteLabel}
         />
       )}
     </>
@@ -33,9 +36,23 @@ export default function CreateAlert({ error, websiteId, websiteLabel, pageId, ta
 
 CreateAlert.propTypes = {
   error: PropTypes.object.isRequired,
-  pageId: PropTypes.string,
   tagFilters: PropTypes.array,
-  websiteId: PropTypes.string,
   websiteLabel: PropTypes.string,
   timeConfig: PropTypes.object
 };
+
+function generateFormData(error, tagFilters, websiteId) {
+  return {
+    tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
+    rule: {
+      alertType: 'specificJsError',
+      operator: 'CONTAINS',
+      value: error.message
+    },
+    threshold: {
+      type: 'staticThreshold',
+      value: 0.0
+    },
+    websiteId
+  };
+}

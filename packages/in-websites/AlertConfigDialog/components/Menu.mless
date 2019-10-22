@@ -15,20 +15,20 @@
 
   .item.selected {
     background-color: @lib__colors__N600Light;
-    border-radius: @lib__shapes__radius_small;
     color: @lib__colors__white;
   }
 
   .item {
-    height: 2rem;
-    display: flex;
     align-items: center;
-    font-size: @lib__typography__body__font-size;
+    border-radius: @lib__shapes__radius_small;
     color: @lib__colors__N700Medium;
+    display: flex;
+    font-size: @lib__typography__body__font-size;
+    height: 2rem;
     padding: 0.5rem;
 
     &:hover {
-      color: @lib__colors__teal800;
+      background: @lib__colors__N300;
       cursor: pointer;
     }
 

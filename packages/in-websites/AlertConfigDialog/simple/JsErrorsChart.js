@@ -11,15 +11,7 @@ import theme from 'in-themes';
 
 import locals from './JsErrorsChart.mless';
 
-const twelfHours = 1000 * 60 * 60 * 12;
-
-export default function JsErrorsChart({ form }) {
-  const timeConfig = {
-    windowSize: twelfHours
-  };
-
-  const tagFilters = form.get(fieldNames.tagFilters).value;
-
+export default function JsErrorsChart({ form, timeConfig }) {
   return (
     <div className={locals.container}>
       {hasJsErrorSelected(form) ? (
@@ -34,7 +26,14 @@ export default function JsErrorsChart({ form }) {
           }}
           metricsConfiguration={{
             timeConfig,
-            tagFilters,
+            tagFilters: [
+              {
+                name: 'beacon.error.message',
+                operator: form.get(fieldNames.operator).value,
+                stringValue: form.get(fieldNames.value).value
+              },
+              ...form.get(fieldNames.tagFilters).value
+            ],
             metrics: {
               errors: {
                 metric: 'errors',
@@ -55,7 +54,8 @@ export default function JsErrorsChart({ form }) {
 }
 
 JsErrorsChart.propTypes = {
-  form: PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  timeConfig: PropTypes.object.isRequired
 };
 
 function hasJsErrorSelected(form) {

@@ -2,7 +2,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 
 export const fieldNames = Object.freeze({
   alertType: 'alertType',
-  matchingOperator: 'matchingOperator',
+  operator: 'operator',
   value: 'value',
   tagFilters: 'tagFilters',
   alertChannelIds: 'alertChannelIds',
@@ -11,7 +11,9 @@ export const fieldNames = Object.freeze({
   severity: 'severity',
   description: 'description',
   name: 'name',
-  threshold: 'threshold'
+  threshold: 'threshold',
+  websiteId: 'websiteId',
+  id: 'id'
 });
 
 export default function alertFormDefinition(alertFormValues = {}) {
@@ -24,7 +26,9 @@ export default function alertFormDefinition(alertFormValues = {}) {
     severity = 5,
     description = '',
     name = '',
-    threshold = ''
+    threshold = '',
+    websiteId = '',
+    id = ''
   } = alertFormValues;
 
   let form = createMapForm()
@@ -36,9 +40,9 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.matchingOperator,
+      fieldNames.operator,
       createField({
-        value: rule && rule[fieldNames.matchingOperator],
+        value: rule && rule[fieldNames.operator],
         validator: notBlankValidator
       })
     )
@@ -52,8 +56,7 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.tagFilters,
       createField({
-        value: tagFilters,
-        validator: arrayNotEmptyValiadator
+        value: tagFilters
       })
     )
     .put(
@@ -90,14 +93,25 @@ export default function alertFormDefinition(alertFormValues = {}) {
     .put(
       fieldNames.name,
       createField({
-        value: name,
-        validator: notBlankValidator
+        value: name
       })
     )
     .put(
       fieldNames.threshold,
       createField({
         value: threshold
+      })
+    )
+    .put(
+      fieldNames.websiteId,
+      createField({
+        value: websiteId
+      })
+    )
+    .put(
+      fieldNames.id,
+      createField({
+        value: id
       })
     );
 
@@ -110,16 +124,6 @@ function alertChannelsNotEmptyValiadator(array) {
       {
         severity: 'error',
         message: 'Please select at least one Alert Channel'
-      }
-    ];
-  }
-}
-
-function arrayNotEmptyValiadator(array) {
-  if (!array || array.length === 0) {
-    return [
-      {
-        severity: 'error'
       }
     ];
   }

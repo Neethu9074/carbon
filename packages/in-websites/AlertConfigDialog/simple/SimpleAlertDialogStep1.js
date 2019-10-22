@@ -9,18 +9,19 @@ import locals from './SimpleAlertDialogStep.mless';
 
 const itemLabels = ['Specific JS Error(s)'];
 
-export default function SimpleAlertDialogStep1({ form, onChange }) {
+export default function SimpleAlertDialogStep1({ form, onChange, timeConfig }) {
   return (
     <>
       <h1 className={locals.headline}>What do you want to be alerted on?</h1>
       <Menu itemLabels={itemLabels} itemClickTracker={() => {}} addRightSeperator />
       <SelectAlertForJsError form={form} onChange={onChange} />
-      <JsErrorsChart form={form} />
+      <JsErrorsChart form={form} timeConfig={timeConfig} />
     </>
   );
 }
 
 SimpleAlertDialogStep1.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  timeConfig: PropTypes.object.isRequired
 };

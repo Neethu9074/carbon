@@ -12,5 +12,17 @@
 
   .filterList {
     padding: 0 1rem;
+    // TODO: the position rule is onle for first iteration and must be removed in iteration
+    position: relative;
+  }
+
+  // TODO: this class is onle for first iteration and must be removed in iteration 2
+  .disableHover {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
   }
 }

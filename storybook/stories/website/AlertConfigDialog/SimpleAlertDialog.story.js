@@ -5,12 +5,15 @@ import React, { useState } from 'react';
 import SimpleAlertDialogPresenter from 'in-websites/AlertConfigDialog/simple/SimpleAlertDialogPresenter';
 import alertFormDefinition from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
 
-storiesOf('websites/AlertConfigDialog/simple-dialog', module).add('Simple Dialog', () => <SimpleDialog />);
+storiesOf('websites/AlertConfigDialog/simple-dialog', module)
+  .add('Simple Dialog', () => <SimpleDialog />)
+  .add('Simple Dialog: Edit Mode', () => <SimpleDialogEditMode />);
+
+const twelfHours = 1000 * 60 * 60 * 12;
 
 function onChange(setForm) {
   return (form, fieldName, fieldValue) => {
     setForm(form.updateIn([fieldName], field => field.setValue(fieldValue).setTouched(true, { recurse: true })));
-    // setForm(form.updateIn([fieldName], field => field.setValue(fieldValue)));
   };
 }
 
@@ -23,12 +26,31 @@ function SimpleDialog() {
       onChange={onChange(setForm)}
       onClose={action('close')}
       onCreate={action('create')}
+      timeConfig={{
+        windowSize: twelfHours
+      }}
+      websiteLabel={'shop'}
     />
   );
 }
 
-// .setTouched(true, { recurse: true })
-// TODO: set form touched on submit
+function SimpleDialogEditMode() {
+  const [form, setForm] = useState(alertFormDefinition(getFormData()));
+
+  return (
+    <SimpleAlertDialogPresenter
+      form={form}
+      onChange={onChange(setForm)}
+      onClose={action('close')}
+      onCreate={action('create')}
+      timeConfig={{
+        windowSize: twelfHours
+      }}
+      websiteLabel={'shop'}
+      editMode
+    />
+  );
+}
 
 function getFormData() {
   return {

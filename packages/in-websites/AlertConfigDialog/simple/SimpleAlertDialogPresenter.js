@@ -17,12 +17,20 @@ const steps = {
   selectAlertingChannel: 2
 };
 
-export default function SimpleAlertDialogPresenter({ form, timeConfig, onChange, onClose, onCreate }) {
+export default function SimpleAlertDialogPresenter({
+  form,
+  timeConfig,
+  onChange,
+  onClose,
+  onCreate,
+  websiteLabel,
+  editMode
+}) {
   const [step, setStep] = useState(steps.selectAlert);
 
   return (
     <Dialog2
-      title="Create New Alert"
+      title={`${editMode ? 'Edit' : 'Create New'} Alert`}
       titleIconType="lib_alerts_create"
       className={locals.dialog}
       onClose={onClose}
@@ -31,8 +39,12 @@ export default function SimpleAlertDialogPresenter({ form, timeConfig, onChange,
       <StepProgressBar stepTitles={stepTitles} step={step} />
 
       <form className={locals.form}>
-        {step === steps.selectAlert && <SimpleAlertDialogStep1 form={form} onChange={onChange} />}
-        {step === steps.confirmDomain && <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} />}
+        {step === steps.selectAlert && (
+          <SimpleAlertDialogStep1 form={form} onChange={onChange} timeConfig={timeConfig} />
+        )}
+        {step === steps.confirmDomain && (
+          <SimpleAlertDialogStep2 form={form} timeConfig={timeConfig} websiteLabel={websiteLabel} />
+        )}
         {step === steps.selectAlertingChannel && <SimpleAlertDialogStep3 form={form} onChange={onChange} />}
       </form>
 
@@ -49,7 +61,7 @@ export default function SimpleAlertDialogPresenter({ form, timeConfig, onChange,
           onClick={() => (isLastStep(step, steps) ? onCreate() : handleNextClick(setStep, step))}
           disabled={isLastStep(step, steps) && form.touched && !form.hierarchyValid}
         >
-          {isLastStep(step, steps) ? 'Create' : 'Next'}
+          {isLastStep(step, steps) ? (editMode ? 'Save' : 'Create') : 'Next'}
         </Button>
       </nav>
     </Dialog2>
@@ -61,7 +73,9 @@ SimpleAlertDialogPresenter.propTypes = {
   timeConfig: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired
+  onCreate: PropTypes.func.isRequired,
+  websiteLabel: PropTypes.string.isRequired,
+  editMode: PropTypes.bool
 };
 
 function isLastStep(step, steps) {

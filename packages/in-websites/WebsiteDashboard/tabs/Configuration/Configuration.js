@@ -4,14 +4,16 @@ import React from 'react';
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import {
   configurationOptionsFullyQualified,
-  configurationJsStackTraceTranslationFullyQualified
+  configurationJsStackTraceTranslationFullyQualified,
+  configurationAlertsFullyQualified
 } from 'in-websites/navigation/paths';
+import { javaScriptStackTraceTranslationEnabled, eumAlertingEnabled } from 'in-services/featureFlags';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
-import { javaScriptStackTraceTranslationEnabled } from 'in-services/featureFlags';
+import Alerts from 'in-websites/WebsiteDashboard/tabs/Configuration/Alerts/Alerts';
 import connectTo from 'in-hoc/connectTo';
 
 const NavigationItem = connectTo(({ path }) => ({
@@ -30,6 +32,7 @@ export default function Configuration(props) {
     <SideNavigation title="Configuration">
       <NavigationItem label="Options" path={configurationOptionsFullyQualified} />
       <NavigationItem label="JS Stack Trace Translation" path={configurationJsStackTraceTranslationFullyQualified} />
+      {eumAlertingEnabled && <NavigationItem label="Alerts" path={configurationAlertsFullyQualified} />}
     </SideNavigation>
   );
   return (
@@ -40,6 +43,7 @@ export default function Configuration(props) {
           path={configurationJsStackTraceTranslationFullyQualified}
           render={() => <StackTraceTranslation {...props} />}
         />
+        <Route path={configurationAlertsFullyQualified} render={() => <Alerts {...props} />} />
         <RedirectWithHash
           to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
         />
