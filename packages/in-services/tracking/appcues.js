@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { config } from 'in-services/config';
 import { user, role } from 'in-stores/user';
@@ -48,6 +50,20 @@ function onAppcuesLoaded() {
 function identify() {
   if (!Appcues) {
     return;
+  }
+
+  // We are only able and allowed to add user sensitive data like the email when the user accepted the ToS.
+  const accepted = window.instana.termsAndPrivacyAccepted;
+  if (accepted) {
+    const allSupportAndResearchServicesAllowed = get(
+      window.instana,
+      ['termsAndPrivacySettings', 'allSupportAndResearchServices'],
+      false
+    );
+    extraTargetingProperties.allSupportAndResearchServicesAllowed = allSupportAndResearchServicesAllowed;
+    if (allSupportAndResearchServicesAllowed === true) {
+      extraTargetingProperties.email = user.email;
+    }
   }
 
   const targetingProperties = {
