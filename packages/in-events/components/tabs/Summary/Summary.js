@@ -5,6 +5,7 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
@@ -43,6 +44,10 @@ export default function Summary({ selectedEventId, data: event }) {
 
 function EventContent({ event }) {
   const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
+
+  if (isWebsiteEvent(event)) {
+    return <WebsiteEventContent event={event} timeConfigFromEvent={timeConfigFromEvent} />;
+  }
 
   return (
     <>
@@ -175,6 +180,10 @@ function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
 
 function isOfflineEvent(event) {
   return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
+}
+
+function isWebsiteEvent(event) {
+  return event.hasIn(['metadata', 'websiteId']);
 }
 
 function hasEvents(event) {

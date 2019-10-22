@@ -57,7 +57,11 @@ export function hasErrors(entity) {
 }
 
 export function isInfraEntityType(entityType) {
-  return !isAppDataEntityType(entityType);
+  return !isAppDataEntityType(entityType) && !isWebsiteEntityType(entityType);
+}
+
+export function isWebsiteEntityType(entityType) {
+  return entityType === 'Website';
 }
 
 export function isAppDataEntityType(entityType) {

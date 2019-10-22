@@ -2,7 +2,13 @@ import { just } from 'reactive-observables';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { isApplicationEntity, isServiceEntity, isEndpointEntity, isAppDataEntityType } from 'in-services/entityUtils';
+import {
+  isApplicationEntity,
+  isServiceEntity,
+  isEndpointEntity,
+  isAppDataEntityType,
+  isWebsiteEntityType
+} from 'in-services/entityUtils';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
@@ -10,6 +16,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
+import getWebsite from 'in-subscription/website/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -79,6 +86,13 @@ const On = connectTo(
         }),
         app20IconType: just('app_endpoint')
       };
+    } else if (isWebsiteEntityType(props.rawEvent.entityType)) {
+      return {
+        entity: getWebsite({
+          id: props.rawEvent.entityId
+        }),
+        app20IconType: just('lib_website')
+      };
     } else {
       return {
         entity: getSnapshot(
@@ -94,7 +108,7 @@ const On = connectTo(
     }
 
     let label;
-    if (isAppDataEntityType(rawEvent.entityType)) {
+    if (isAppDataEntityType(rawEvent.entityType) || isWebsiteEntityType(rawEvent.entityType)) {
       label = entity.data.label;
     } else {
       label = getLabel(entity);
