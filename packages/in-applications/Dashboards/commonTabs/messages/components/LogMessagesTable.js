@@ -60,23 +60,23 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      applicationDashboardUrlParameters.applicationId,
-      applicationDashboardUrlParameters.serviceId,
-      applicationDashboardUrlParameters.endpointId
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'logsAgg',
-    defaultOrderDirection: 'DESC',
-    defaultPageSize: 10,
-    pathSegment,
-    matrixPrefix
+    entityName: 'log messages'
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    applicationDashboardUrlParameters.applicationId,
+    applicationDashboardUrlParameters.serviceId,
+    applicationDashboardUrlParameters.endpointId
+  ],
   columnDefinitions,
-  entityName: 'log messages'
+  defaultOrderBy: 'logsAgg',
+  defaultOrderDirection: 'DESC',
+  defaultPageSize: 10,
+  pathSegment,
+  matrixPrefix
 });
 
 export default function LogMessagesTable({

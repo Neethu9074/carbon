@@ -93,18 +93,18 @@ const pathSegment = '/events';
 const matrixPrefix = 'events.';
 
 function eventsTable(columnDefinitions) {
-  const ServerTableWithUrlState = withEmptyTableState({
-    Component: createServerTableWithUrlState({
-      paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  const ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
       columnDefinitions,
-      defaultOrderBy: 'time',
-      defaultOrderDirection: 'DESC',
-      defaultPageSize: 10,
-      pathSegment,
-      matrixPrefix
+      entityName: 'events'
     }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions,
-    entityName: 'events'
+    defaultOrderBy: 'time',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment,
+    matrixPrefix
   });
 
   return function Events({ clusterId, deploymentId, deploymentConfigId, namespaceId, podId, serviceId, ...props }) {

@@ -15,6 +15,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
+import changeExplanation from 'in-websites/emptyListExplanation';
 import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
@@ -89,23 +90,22 @@ const filterUrlParameter = {
   initialState: null
 };
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      websiteIdUrlParameter,
-      tagFiltersInDashboardUrlParameter,
-      pageIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'beaconCountAgg',
-    defaultOrderDirection: 'DESC',
-    pathSegment: resourcesTab
+    entityName: 'resources',
+    changeExplanation
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    websiteIdUrlParameter,
+    tagFiltersInDashboardUrlParameter,
+    pageIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'resources',
-  changeExplanation: (explanation, props) =>
-    props.tagFilters && props.tagFilters.length > 2 ? `${explanation}  matching your filters` : explanation
+  defaultOrderBy: 'beaconCountAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment: resourcesTab
 });
 
 export default compose(

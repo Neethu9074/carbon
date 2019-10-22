@@ -41,22 +41,22 @@ const tablesByType = {
 
 function getTable(type) {
   const columnDefinitions = getColumnDefinitions(type);
-  return withEmptyTableState({
-    Component: createServerTableWithUrlState({
-      paginationResettingUrlParameters: [
-        {
-          path: '/infrastructure',
-          name: `selectedType`
-        }
-      ],
-      columnDefinitions,
-      defaultOrderBy: 'callsAgg',
-      defaultOrderDirection: 'DESC',
-      defaultPageSize: 10,
-      pathSegment: '/infrastructure',
-      matrixPrefix: ''
+  return createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions
     }),
-    columnDefinitions
+    paginationResettingUrlParameters: [
+      {
+        path: '/infrastructure',
+        name: 'selectedType'
+      }
+    ],
+    columnDefinitions,
+    defaultOrderBy: 'callsAgg',
+    defaultOrderDirection: 'DESC',
+    defaultPageSize: 10,
+    pathSegment: '/infrastructure',
+    matrixPrefix: ''
   });
 }
 
@@ -353,7 +353,8 @@ function getColumnDefinitions(type) {
           <UnmonitoredEntity />
         );
 
-        if (item.physicalContext.kubernetes &&
+        if (
+          item.physicalContext.kubernetes &&
           (item.physicalContext.kubernetes.pod || item.physicalContext.kubernetes.namespace)
         ) {
           return (

@@ -21,7 +21,8 @@ export default function createServerTableWithUrlState({
   defaultDisabledColumns,
   settingsKey,
   pathSegment,
-  matrixPrefix = ''
+  matrixPrefix = '',
+  Renderer = ServerTablePresenter
 }) {
   return compose(
     withUrlState({
@@ -116,7 +117,7 @@ export default function createServerTableWithUrlState({
     withPropsOnChange(['columnDefinitions'], ({ columnDefinitions }) => ({
       optionalColumns: columnDefinitions.filter(columnDefinition => columnDefinition.optional)
     }))
-  )(ServerTablePresenter);
+  )(Renderer);
 }
 
 function getInitialDisabledColumns(settingsKey, defaultDisabledColumns) {

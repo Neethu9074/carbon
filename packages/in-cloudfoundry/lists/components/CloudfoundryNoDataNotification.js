@@ -8,7 +8,7 @@ export default function CloudfoundryNoDataNotification(props) {
     <EntityPageMainNotification
       icon="lib_cloudfoundry"
       title="No Monitoring Data Found"
-      renderExplanation={() => <ArticleContent id="cloudfoundryNoData" />}
+      explanation={() => <ArticleContent id="cloudfoundryNoData" />}
       {...props}
     />
   );

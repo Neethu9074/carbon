@@ -153,24 +153,24 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      applicationDashboardUrlParameters.applicationId,
-      applicationDashboardUrlParameters.serviceId,
-      applicationDashboardUrlParameters.endpointId,
-      'endpointTypes',
-      'technologies'
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'callsAgg',
-    defaultOrderDirection: 'DESC',
-    pathSegment,
-    matrixPrefix
+    entityName: 'endpoints'
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    applicationDashboardUrlParameters.applicationId,
+    applicationDashboardUrlParameters.serviceId,
+    applicationDashboardUrlParameters.endpointId,
+    'endpointTypes',
+    'technologies'
+  ],
   columnDefinitions,
-  entityName: 'endpoints'
+  defaultOrderBy: 'callsAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment,
+  matrixPrefix
 });
 
 function Endpoints(props) {

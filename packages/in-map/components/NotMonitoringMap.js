@@ -35,16 +35,14 @@ export default connectTo(
 );
 
 function MapNotMonitoring(props) {
-  return (
-    <MapMessage title="Not Monitoring" renderExplanation={() => <ArticleContent id="mapNotMonitoring" />} {...props} />
-  );
+  return <MapMessage title="Not Monitoring" explanation={() => <ArticleContent id="mapNotMonitoring" />} {...props} />;
 }
 
 function MapNoDataForTimerange(props) {
   return (
     <MapMessage
       title="No Monitoring Data Found"
-      renderExplanation={() => <ArticleContent id="mapNoDataForTimerange" />}
+      explanation={() => <ArticleContent id="mapNoDataForTimerange" />}
       {...props}
     />
   );

@@ -11,6 +11,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import changeExplanation from 'in-websites/emptyListExplanation';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
@@ -93,24 +94,22 @@ const columnDefinitions = [
   }
 ];
 
-const ServerTableWithUrlState = withEmptyTableState({
-  Component: createServerTableWithUrlState({
-    paginationResettingUrlParameters: [
-      ...timeConfigUrlParameters,
-      websiteIdUrlParameter,
-      tagFiltersInDashboardUrlParameter,
-      pageIdUrlParameter
-    ],
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  Renderer: withEmptyTableState({
     columnDefinitions,
-    defaultOrderBy: 'pageViewsAgg',
-    defaultOrderDirection: 'DESC',
-    pathSegment: '/pages'
+    entityName: 'pages',
+    changeExplanation
   }),
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    websiteIdUrlParameter,
+    tagFiltersInDashboardUrlParameter,
+    pageIdUrlParameter
+  ],
   columnDefinitions,
-  entityName: 'pages',
-  changeExplanation: (explanation, props) => {
-    return props.tagFilters && props.tagFilters.length > 1 ? `${explanation}  matching your filters` : explanation;
-  }
+  defaultOrderBy: 'pageViewsAgg',
+  defaultOrderDirection: 'DESC',
+  pathSegment: '/pages'
 });
 
 export default function Pages({ timeConfig, tagFilters, websiteId }) {

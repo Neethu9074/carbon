@@ -16,7 +16,7 @@ export default function ApplicationsNoDataNotification() {
     <EntityPageMainNotification
       plugin={applicationPlugins.application}
       title="No Application Perspectives yet"
-      renderExplanation={() => (
+      explanation={() => (
         <Fragment>
           <ArticleContent id="applicationsNoData" />
           {role.canConfigureApplications ? (
