@@ -7,7 +7,16 @@ import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
-export default function EntityLink({ label, plugin, snapshot, icon, tooltip, href$, specialIndicator }) {
+export default function EntityLink({
+  label,
+  plugin,
+  snapshot,
+  icon,
+  tooltip,
+  href$,
+  specialIndicator,
+  subscriptComponent
+}) {
   const iconColor = href$ && theme.lib.colors.blue800;
 
   const innerContent = (
@@ -17,7 +26,10 @@ export default function EntityLink({ label, plugin, snapshot, icon, tooltip, hre
           <Link href$={href$}>{label}</Link>
         </Tooltip>
       ) : (
-        <Link href$={href$}>{label}</Link>
+        <>
+          <Link href$={href$}>{label}</Link>
+          {subscriptComponent}
+        </>
       )}
     </WithIcon>
   );

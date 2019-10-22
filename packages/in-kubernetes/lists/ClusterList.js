@@ -11,9 +11,13 @@ import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { capitalize } from 'in-services/formatters/string';
 import { timeConfig$ } from 'in-stores/time/config';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+
+import locals from './ClusterList.mless';
 
 const pathSegment = clusterList;
 const matrixPrefix = 'k8Cluster.';
@@ -25,13 +29,14 @@ const columnDefinitions = [
     getContent(item) {
       const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
       const clusterIcon = `lib_${clusterDistribution}`;
-
+      const clusterManagedBy = get(item, ['cluster', 'clusterManagedBy']);
       return (
         <SeverityAwareEntityLink
           icon={clusterIcon}
           label={get(item, ['cluster', 'label'])}
           href$={getClusterDashboard(get(item, ['cluster', 'id']))}
           severity={item.entityHealthInfo.maxSeverity}
+          subscriptComponent={<ClusterManagedByWithIcon clusterManagedBy={clusterManagedBy} />}
         />
       );
     }
@@ -173,4 +178,20 @@ function getKubernetesClustersSubscribeEvent({
       timeConfig
     }
   });
+}
+
+function ClusterManagedByWithIcon({ clusterManagedBy }) {
+  if (clusterManagedBy && clusterManagedBy !== 'none') {
+    return (
+      <div className={locals.clusterItem}>
+        <div className={locals.clusterManagedBy}>
+          <Fragment>
+            <span className={locals.clusterManagedByLabel}>Managed by {capitalize(clusterManagedBy)}</span>
+            <SvgIcon className={locals.clusterManagedByIcon} type={`lib_${clusterManagedBy}`} />
+          </Fragment>
+        </div>
+      </div>
+    );
+  }
+  return null;
 }
