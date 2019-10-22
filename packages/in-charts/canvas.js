@@ -1,4 +1,7 @@
 export function updateCanvasDimensions(canvas, ctx, width, height, devicePixelRatio) {
+  if (!ctx) {
+    return;
+  }
   if (devicePixelRatio === undefined) {
     devicePixelRatio = window.devicePixelRatio || 1;
   }

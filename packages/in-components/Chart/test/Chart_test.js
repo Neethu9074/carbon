@@ -6,19 +6,17 @@ describe('in-components/Chart/Chart', () => {
   let chart;
 
   beforeEach(() => {
-    const Config = proxyquire('in-components/Chart/Configuration', {
-      'in-charts/canvas': {
-        updateCanvasDimensions: () => {}
-      },
-      'in-components/Chart/canvasHelper': {
-        createCanvas: () => ({
-          getContext: () => {}
-        })
-      }
-    }).default;
-
-    const Chart = proxyquire('in-components/Chart/Chart.js', {
-      'in-components/Chart/Configuration': Config
+    const Chart = proxyquire('in-components/Chart/Chart', {
+      'in-components/Chart/Configuration': proxyquire('in-components/Chart/Configuration', {
+        'in-charts/canvas': {
+          updateCanvasDimensions: () => {}
+        },
+        'in-components/Chart/canvasHelper': {
+          createCanvas: () => ({
+            getContext: () => {}
+          })
+        }
+      }).default
     }).default;
     chart = new Chart(getCanvasMock(), {
       y1: { metrics: [] },
