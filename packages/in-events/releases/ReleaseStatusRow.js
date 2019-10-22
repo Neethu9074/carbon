@@ -9,7 +9,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import locals from './ReleaseStatusRow.mless';
 
 export default function ReleaseStatusRow({ healthStatus, rawEvent, orderDirection, cols }) {
-  const { id, title, start } = rawEvent;
+  const { title, start } = rawEvent;
 
   return (
     <Tr size="minimal">
