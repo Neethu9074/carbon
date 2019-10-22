@@ -4,14 +4,18 @@ import AlertingConfigurationButton from 'in-events/components/legacy/AlertingCon
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AnalyzeJsErrorsButton from 'in-events/components/legacy/AnalyzeJsErrorsButton';
+import EumAlertingBarChart from 'in-websites/eum-alerting/chart/EumAlertingBarChart';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './WebsiteEventContent.mless';
+
+const twelveHours = 1000 * 60 * 60 * 12;
 
 export default connectTo(
   ({ event }) => {
@@ -31,6 +35,9 @@ export default connectTo(
     const metadata = event.get('metadata');
     const websiteLabel = metadata.get('websiteLabel');
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...alertConfig.tagFilters];
+    const thresholdValue = alertConfig.threshold.value;
+    const timeConfig = getChartTimeConfigByEvent({ event });
+    timeConfig.windowSize = twelveHours;
 
     return (
       <Row>
@@ -54,9 +61,8 @@ export default connectTo(
                   tagFilters: tagFiltersWithWebsiteId,
                   websiteLabel
                 })}
-                readonly
+                disabled
               />
-              <div className={locals.disableHover} />
             </div>
           </Card>
 
@@ -68,6 +74,11 @@ export default connectTo(
                 websiteLabel={websiteLabel}
               />
             </div>
+            <EumAlertingBarChart
+              threshold={thresholdValue}
+              timeConfig={timeConfig}
+              tagFilters={[getErrorMessageTagFilter(alertConfig.rule), ...tagFiltersWithWebsiteId]}
+            />
           </Card>
         </Col>
       </Row>

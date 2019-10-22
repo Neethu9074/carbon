@@ -51,9 +51,9 @@ export function ProvideManualPattern({ form, onChange }) {
 
 function getOperators() {
   return Object.freeze([
-    { value: operators.EQUALS, label: operators.EQUALS },
-    { value: operators.CONTAINS, label: operators.CONTAINS },
-    { value: operators.STARTS_WITH, label: operators.STARTS_WITH },
-    { value: operators.ENDS_WITH, label: operators.ENDS_WITH }
+    { value: operators.EQUALS, label: 'Equals' },
+    { value: operators.CONTAINS, label: 'Contains' },
+    { value: operators.STARTS_WITH, label: 'Starts with' },
+    { value: operators.ENDS_WITH, label: 'Ends with' }
   ]);
 }

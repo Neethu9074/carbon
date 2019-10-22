@@ -18,7 +18,8 @@ export default function TagFilterListPresenter({
   tagFilters,
   onTagFilterClick,
   onRemoveTagFilter,
-  readonly
+  readonly,
+  disabled
 }) {
   if (tagFilters.length === 0) {
     return null;
@@ -33,13 +34,14 @@ export default function TagFilterListPresenter({
           onTagFilterClick={onTagFilterClick}
           onRemoveTagFilter={onRemoveTagFilter}
           readonly={readonly}
+          disabled={disabled}
         />
       ))}
     </ul>
   );
 }
 
-function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly }) {
+function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, readonly, disabled }) {
   const node = findSubTreeByFullyQualifiedName(tagFilter.name);
   const tagType = (node && node.type) || 'STRING';
 
@@ -55,7 +57,8 @@ function TagFilterPresenter({ tagFilter, onTagFilterClick, onRemoveTagFilter, re
         }}
         className={evaluateClassNames({
           [locals.itemBlock]: true,
-          [locals.readOnly]: readonly
+          [locals.readOnly]: readonly,
+          [locals.disabled]: disabled
         })}
       >
         <SvgIcon className={locals.icon} type={getIcon(tagFilter)} />

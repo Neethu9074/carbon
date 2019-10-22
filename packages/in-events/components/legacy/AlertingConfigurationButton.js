@@ -1,10 +1,10 @@
 import React from 'react';
 
-import SimpleAlertDialog from 'in-websites/AlertConfigDialog/simple/SimpleAlertDialog';
+import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
+import Button from 'in-new-components/Button';
 
 import locals from './AlertingConfigurationButton.mless';
-import Button from 'in-new-components/Button';
 
 export default function AlertingConfigurationButton({ alertConfig, websiteLabel }) {
   return (

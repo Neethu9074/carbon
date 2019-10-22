@@ -132,4 +132,8 @@
   .readOnly {
     cursor: not-allowed;
   }
+
+  .disabled {
+    pointer-events: none;
+  }
 }

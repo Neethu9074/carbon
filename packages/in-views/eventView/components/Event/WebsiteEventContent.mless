@@ -4,19 +4,10 @@
   .analyzeButtonWrapper {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 0.5rem;
   }
 
   .filterList {
     padding: 0 1rem;
-    position: relative;
-  }
-
-  .disableHover {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: @z-index__timeline;
   }
 }

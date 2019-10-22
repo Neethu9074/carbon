@@ -22,9 +22,8 @@ export default function AlertLocationFilters({ form, websiteLabel }) {
                 },
                 ...form.get(fieldNames.tagFilters).value
               ]}
-              readonly
+              disabled
             />
-            <div className={locals.disableHover} />
           </div>
         </div>
         {/* TODO: HelpText is only for first, minimal, scope of this feature and needs to be removed in next iteration */}

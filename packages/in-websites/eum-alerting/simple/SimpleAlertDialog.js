@@ -7,7 +7,7 @@ import SimpleAlertDialogPresenter from 'in-websites/eum-alerting/simple/SimpleAl
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 
 const logger = createLogger('in-websites/eum-alerting/simple/SimpleAlertDialog');
-const twelfHours = 1000 * 60 * 60 * 12;
+const twelveHours = 1000 * 60 * 60 * 12;
 
 export default function SimpleAlertDialog({ onClose, formData, websiteLabel, editMode }) {
   const [form, setForm] = useState(() => alertFormDefinition(formData));
@@ -19,7 +19,7 @@ export default function SimpleAlertDialog({ onClose, formData, websiteLabel, edi
       onClose={onClose}
       onCreate={() => createAlert(form, setForm, onClose, editMode)}
       timeConfig={{
-        windowSize: twelfHours
+        windowSize: twelveHours
       }}
       websiteLabel={websiteLabel}
       editMode={editMode}
