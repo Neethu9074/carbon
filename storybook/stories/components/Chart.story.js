@@ -1,14 +1,19 @@
 import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import { just, interval } from 'reactive-observables';
 import { compare } from 'in-services/util/number';
+import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
 
+import Section from '../_helpers/Section';
 import Root from '../_helpers/Root';
 
 const oneSecond = 1000;
@@ -26,6 +31,7 @@ storiesOf('Components/Chart', module)
   .add('Dual Axis Different Rollup', () => <DualAxisDifferentMetricCount />)
   .add('Gaps', () => <Gaps />)
   .add('Bar', () => <Bar />)
+  .add('Bar width baseline/threshold', () => <BarWithBaseline />)
   .add('Area', () => <Area />)
   .add('StackedArea', () => <StackedArea />)
   .add('StackedBar', () => <StackedBar />)
@@ -35,7 +41,8 @@ storiesOf('Components/Chart', module)
   .add('MissingMetrics', () => <MissingMetrics />)
   .add('MissingDataPoint', () => <MissingDataPoint />)
   .add('SharedAxis', () => <SharedAxis />)
-  .add('Resize', () => <Resize />);
+  .add('Resize', () => <Resize />)
+  .add('With custom icons in legend', () => <WithCustomIconsInLegend />);
 
 function MissingData() {
   return (
@@ -231,6 +238,43 @@ function Bar() {
           }
         }}
       />
+    </Root>
+  );
+}
+
+const metricsBarWithBaseline = [generateMetrics(12, 100, oneMinute)];
+function BarWithBaseline() {
+  const [threshold, setThreshold] = useState(32);
+  return (
+    <Root>
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            threshold,
+            colors: [
+              theme.lib.colors.blue800,
+              theme.lib.colors.pink800,
+              theme.lib.colors.red800,
+              theme.lib.colors.lightBlue800
+            ],
+            renderer: Renderer.errorsBarWithBaseline,
+            metrics: metricsBarWithBaseline,
+            labels: ['Data']
+          }
+        }}
+      />
+      <FormGroup>
+        <Label>Threshold</Label>
+        <Input
+          type="number"
+          min={0}
+          name="threshold"
+          value={threshold}
+          onChange={e => setThreshold(Number(e && e.target.value))}
+        />
+      </FormGroup>
     </Root>
   );
 }
@@ -561,6 +605,46 @@ function SharedAxis() {
         }}
       />
     </Root>
+  );
+}
+
+function WithCustomIconsInLegend() {
+  return (
+    <>
+      <Section title="Icons with defined chart colors">
+        <ResultAwareChart
+          result={constructResult(null, false)}
+          config={{
+            timeConfig: generateTimeframe(oneMinute),
+            y1: {
+              renderer: Renderer.stackedBar,
+              labels: ['foo', 'bar', 'baz'],
+              icons: {
+                types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
+              },
+              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+            }
+          }}
+        />
+      </Section>
+      <Section title="Icons with custom colors">
+        <ResultAwareChart
+          result={constructResult(null, false)}
+          config={{
+            timeConfig: generateTimeframe(oneMinute),
+            y1: {
+              renderer: Renderer.stackedBar,
+              labels: ['foo', 'bar', 'baz'],
+              icons: {
+                types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
+                colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
+              },
+              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+            }
+          }}
+        />
+      </Section>
+    </>
   );
 }
 

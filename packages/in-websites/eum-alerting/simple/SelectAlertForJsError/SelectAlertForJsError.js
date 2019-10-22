@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import TabSwitch from 'in-websites/AlertConfigDialog/components/TabSwitch';
+import TabSwitch from 'in-websites/eum-alerting/components/TabSwitch';
 import { ProvideManualPattern } from './ProvideManualPattern';
 
 import locals from './SelectAlertForJsError.mless';

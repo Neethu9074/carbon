@@ -38,10 +38,10 @@ import './website/NewWebsite.story';
 import './website/OverviewChart.story';
 import './website/PageLoadView/PageLoadView.story';
 import './website/StackTraceTranslationConfiguration.story';
-import './website/AlertConfigDialog/componets/Menu.story';
-import './website/AlertConfigDialog/componets/TabSwitch.story';
-import './website/AlertConfigDialog/componets/CreateAlertButton.story';
-import './website/AlertConfigDialog/SimpleAlertDialog.story';
+import './website/eum-alerting/componets/Menu.story';
+import './website/eum-alerting/componets/TabSwitch.story';
+import './website/eum-alerting/componets/CreateAlertButton.story';
+import './website/eum-alerting/SimpleAlertDialog.story';
 
 import './components/Axis.story';
 import './components/Badge.story';

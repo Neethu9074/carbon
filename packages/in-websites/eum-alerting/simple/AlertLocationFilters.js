@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { fieldNames } from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import HelpText from 'in-components/form/HelpText/HelpText';
 
 import locals from './AlertLocationFilters.mless';

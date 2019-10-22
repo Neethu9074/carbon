@@ -11,9 +11,10 @@ export const fieldNames = Object.freeze({
   severity: 'severity',
   description: 'description',
   name: 'name',
-  threshold: 'threshold',
   websiteId: 'websiteId',
-  id: 'id'
+  id: 'id',
+  thresholdValue: 'thresholdValue',
+  thresholdType: 'thresholdType'
 });
 
 export default function alertFormDefinition(alertFormValues = {}) {
@@ -26,9 +27,9 @@ export default function alertFormDefinition(alertFormValues = {}) {
     severity = 5,
     description = '',
     name = '',
-    threshold = '',
     websiteId = '',
-    id = ''
+    id = '',
+    threshold = ''
   } = alertFormValues;
 
   let form = createMapForm()
@@ -97,12 +98,6 @@ export default function alertFormDefinition(alertFormValues = {}) {
       })
     )
     .put(
-      fieldNames.threshold,
-      createField({
-        value: threshold
-      })
-    )
-    .put(
       fieldNames.websiteId,
       createField({
         value: websiteId
@@ -112,6 +107,18 @@ export default function alertFormDefinition(alertFormValues = {}) {
       fieldNames.id,
       createField({
         value: id
+      })
+    )
+    .put(
+      fieldNames.thresholdValue,
+      createField({
+        value: (threshold && threshold[fieldNames.value]) || 0
+      })
+    )
+    .put(
+      fieldNames.thresholdType,
+      createField({
+        value: (threshold && threshold[fieldNames.thresholdType]) || 'staticThreshold'
       })
     );
 

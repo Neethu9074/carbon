@@ -8,7 +8,7 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import SimpleAlertDialog from 'in-websites/AlertConfigDialog/simple/SimpleAlertDialog';
+import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import List, { reload } from 'in-settings/components/List';
@@ -23,15 +23,15 @@ export default function Alerts({ websiteLabel, websiteId }) {
   return (
     <List
       getHeader={() => `Configured Alerts (${alertsSize})`}
-      getEntityName={entity => entity.name}
+      getEntityName={config => config.name}
       columnDefinitions={getColumnDefinitions(websiteLabel)}
       tableActions={{
         delete: {
-          deleteEntity: entity => deleteAlertConfig(entity.id)
+          deleteEntity: config => deleteAlertConfig(config.id)
         },
         toggleEnabled: {
-          get: entity => entity.enabled,
-          toggle: entity => (entity.enabled ? disableAlertConfig(entity.id) : enableAlertConfig(entity.id))
+          get: config => config.enabled,
+          toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
         }
       }}
       loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
@@ -75,13 +75,21 @@ function getColumnDefinitions(websiteLabel) {
   ];
 }
 
-function getNameContent(entity) {
+function getNameContent(config) {
   return (
     <div className={joinClassNames(locals.centered, locals.fullWidth)}>
-      <SvgIcon className={locals.alertIcon} size="xxxs" type="lib_alerts_alert" />
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.alertIcon]: true,
+          [locals.alertIconSeverityLow]: config.severity <= 5,
+          [locals.alertIconSeverityHigh]: config.severity > 5
+        })}
+        size="xxxs"
+        type="lib_alerts_alert"
+      />
       <div className={joinClassNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={entity.name} align="topMiddle">
-          <div className={joinClassNames(locals.name, locals.fullWidth)}>{entity.name}</div>
+        <Tooltip themeStyle="light" content={config.name} align="topMiddle">
+          <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
         <div className={locals.nameSubtext}>Specific JS Error, string pattern</div>
       </div>
@@ -89,8 +97,8 @@ function getNameContent(entity) {
   );
 }
 
-function getFiltersContent(entity, websiteLabel) {
-  const pages = entity.tagFilters.filter(filter => filter.name === 'beacon.page.name');
+function getFiltersContent(config, websiteLabel) {
+  const pages = config.tagFilters.filter(filter => filter.name === 'beacon.page.name');
 
   return (
     <div className={locals.filters}>
@@ -113,12 +121,12 @@ function getFiltersContent(entity, websiteLabel) {
             {page.stringValue}
           </span>
         ))}
-      {entity.tagFilters.length > 1 && (
+      {config.tagFilters.length > 1 && (
         <Tooltip
           themeStyle="light"
           content={
             <TagFilterListPresenter
-              tagFilters={entity.tagFilters.filter(({ name }) => name !== 'beacon.page.name')}
+              tagFilters={config.tagFilters.filter(({ name }) => name !== 'beacon.page.name')}
               readonly
             />
           }
@@ -126,7 +134,7 @@ function getFiltersContent(entity, websiteLabel) {
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} size="xxxs" type="lib_actions_filter" />
-            {entity.tagFilters.length - pages.length} filter(s)
+            {config.tagFilters.length - pages.length} filter(s)
           </span>
         </Tooltip>
       )}

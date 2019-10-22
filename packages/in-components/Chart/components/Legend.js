@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Legend.mless';
@@ -34,6 +35,8 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
     return null;
   }
 
+  const icons = axis.icons;
+
   return (
     <ul className={locals.metricList}>
       {axis.labels.map((label, i) => {
@@ -50,15 +53,27 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
               chart.requestRender();
             }}
           >
-            <div
-              className={evaluateClassNames({
-                [locals.dot]: true,
-                [locals.disabledDot]: isDisabled
-              })}
-              style={{
-                background: axis.colors100[i]
-              }}
-            />
+            {icons ? (
+              <SvgIcon
+                className={evaluateClassNames({
+                  [locals.disabledIcon]: isDisabled
+                })}
+                size="xs"
+                style={{ fill: icons.colors ? icons.colors[i] : axis.colors100[i] }}
+                type={icons.types[i]}
+              />
+            ) : (
+              <div
+                className={evaluateClassNames({
+                  [locals.dot]: true,
+                  [locals.disabledDot]: isDisabled
+                })}
+                style={{
+                  background: axis.colors100[i]
+                }}
+              />
+            )}
+
             {label}
           </li>
         );

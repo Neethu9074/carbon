@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
-import TabSwitch from 'in-websites/AlertConfigDialog/components/TabSwitch';
+import TabSwitch from 'in-websites/eum-alerting/components/TabSwitch';
 import Root from '../../../_helpers/Root';
 
-storiesOf('websites/AlertConfigDialog/components', module)
+storiesOf('websites/eum-alerting/components', module)
   .add('TabSwitcher', () => <TabSwitcher />)
   .add('TabSwitcher with initial active tab set', () => <TabSwitcherWithInitialActiveTab />)
   .add('TabSwitcher with active tab tracking', () => <WithActiveTabTracker />);

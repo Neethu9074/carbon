@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 
-import Menu from 'in-websites/AlertConfigDialog/components/Menu';
+import Menu from 'in-websites/eum-alerting/components/Menu';
 import Root from '../../../_helpers/Root';
 
-storiesOf('websites/AlertConfigDialog/components', module)
+storiesOf('websites/eum-alerting/components', module)
   .add('Menu', () => <MenuStory />)
   .add('Menu with right seperator', () => <MenuWithSeperatorStory />);
 

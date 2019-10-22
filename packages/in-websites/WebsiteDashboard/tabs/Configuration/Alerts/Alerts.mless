@@ -27,6 +27,14 @@
 
   .alertIcon {
     margin-right: 1.5rem;
+
+    &SeverityLow {
+      fill: @lib__colors__warning;
+    }
+
+    &SeverityHigh {
+      fill: @lib__colors__failure;
+    }
   }
 
   .filterIcon {

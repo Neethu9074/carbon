@@ -7,7 +7,7 @@ import AlertChannels, {
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { fieldNames } from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -26,7 +26,7 @@ export default function SimpleAlertDialogStep3({ form, onChange }) {
                 setTitle={false}
                 loadEntities={() => getSelectedAlertChannels(field.value)}
                 hasRowNavigation={false}
-                noDataMessage="No Alert Channels Selected"
+                noDataMessage="In order to receive alerts, you need to select at least 1 Alert Channel."
                 tableActions={alertChannelSelectionTableActions(form, onChange)}
                 rightHeader={
                   <SelectListDialogButton

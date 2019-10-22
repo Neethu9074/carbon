@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .legend {
     display: flex;
@@ -46,6 +48,10 @@
   }
 
   .disabledDot {
-    background: #ccc !important;
+    background: @lib__colors__N400 !important;
+  }
+
+  .disabledIcon {
+    fill: @lib__colors__N400 !important;
   }
 }

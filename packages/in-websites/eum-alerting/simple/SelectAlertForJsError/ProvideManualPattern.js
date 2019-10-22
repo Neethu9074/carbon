@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fieldNames } from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
+import { fieldNames } from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';

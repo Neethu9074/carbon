@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SelectAlertForJsError from './SelectAlertForJsError/SelectAlertForJsError';
-import JsErrorsChart from 'in-websites/AlertConfigDialog/simple/JsErrorsChart';
-import Menu from 'in-websites/AlertConfigDialog/components/Menu';
+import JsErrorsChart from 'in-websites/eum-alerting/simple/JsErrorsChart';
+import Menu from 'in-websites/eum-alerting/components/Menu';
 
 import locals from './SimpleAlertDialogStep.mless';
 
@@ -15,7 +15,7 @@ export default function SimpleAlertDialogStep1({ form, onChange, timeConfig }) {
       <h1 className={locals.headline}>What do you want to be alerted on?</h1>
       <Menu itemLabels={itemLabels} itemClickTracker={() => {}} addRightSeperator />
       <SelectAlertForJsError form={form} onChange={onChange} />
-      <JsErrorsChart form={form} timeConfig={timeConfig} />
+      <JsErrorsChart form={form} onChange={onChange} timeConfig={timeConfig} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import SimpleAlertDialog from 'in-websites/AlertConfigDialog/simple/SimpleAlertDialog';
+import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
 import ButtonRounded from 'in-new-components/ButtonRounded/ButtonRounded';
 import { eumAlertingEnabled } from 'in-services/featureFlags';
 

@@ -7,6 +7,7 @@
     font-size: @lib__typography__h700__font-size;
     line-height: 2.5rem;
     margin: 8px;
+    font-weight: normal;
   }
 
   .alertChannelsContainer {

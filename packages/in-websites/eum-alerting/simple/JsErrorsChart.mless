@@ -24,4 +24,8 @@
       fill: @lib__colors__N600Light;
     }
   }
+
+  .thresholdInput {
+    margin-left: 3.75rem;
+  }
 }

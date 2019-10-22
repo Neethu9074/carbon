@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React, { useState } from 'react';
 
-import SimpleAlertDialogPresenter from 'in-websites/AlertConfigDialog/simple/SimpleAlertDialogPresenter';
-import alertFormDefinition from 'in-websites/AlertConfigDialog/form/alertDialogFormDefinition';
+import SimpleAlertDialogPresenter from 'in-websites/eum-alerting/simple/SimpleAlertDialogPresenter';
+import alertFormDefinition from 'in-websites/eum-alerting/form/alertDialogFormDefinition';
 
-storiesOf('websites/AlertConfigDialog/simple-dialog', module)
+storiesOf('websites/eum-alerting/simple-dialog', module)
   .add('Simple Dialog', () => <SimpleDialog />)
   .add('Simple Dialog: Edit Mode', () => <SimpleDialogEditMode />);
 
