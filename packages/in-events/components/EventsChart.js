@@ -2,86 +2,72 @@ import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
-import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
-import { timeConfig$ } from 'in-stores/time/config';
-import { query$ } from 'in-stores/search/query';
-import connectTo from 'in-hoc/connectTo';
+import { MINIMUM_ROLLUP } from 'in-stores/metric';
 import theme from 'in-themes';
 
 import locals from './EventsChart.mless';
 
-export default getElementDimensions(
-  connectTo(
-    ({ time }) => ({
-      timeConfig: timeConfig$.map(timeConfig => {
-        // auto refresh mode is not supported in analyze.
-        return {
-          to: time,
-          focusedMoment: time,
-          autoRefresh: false,
-          windowSize: timeConfig.windowSize
-        };
-      }),
-      query: query$
-    }),
-    function EventsChart({ width, timeConfig, query, eventType, isLoadingData }) {
-      if (!width || isLoadingData) {
-        return <div />;
-      }
+export default getElementDimensions(function EventsChart({
+  width,
+  staticTimeConfigToUseForCharts,
+  query,
+  eventType,
+  isLoadingData
+}) {
+  if (!width || isLoadingData) {
+    return <div />;
+  }
 
-      let granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
-      const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: timeConfig.windowSize,
-          minPixelsPerBlock: 5,
-          width,
-          rollup: granularity
-        })
-      );
-      granularity = getDefaultMetricRollupDuration(timeConfig, blockSizeMillis).rollup || MINIMUM_ROLLUP;
+  const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
+    getBlockSizeMillis({
+      windowSize: staticTimeConfigToUseForCharts.windowSize,
+      minPixelsPerBlock: 5,
+      width,
+      rollup: MINIMUM_ROLLUP
+    })
+  );
+  const granularity = getNextValidRollup(blockSizeMillis);
 
-      const labels = [];
-      const metricIds = [];
-      const colors = [];
-      const metricsConfiguration = {};
+  const labels = [];
+  const metricIds = [];
+  const colors = [];
+  const metricsConfiguration = {};
 
-      if (!eventType || eventType === 'incident') {
-        getIncidentConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
-      }
-      if (!eventType || eventType === 'issue') {
-        getIssueConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
-      }
-      if (!eventType || eventType === 'change') {
-        getChangeConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
-      }
+  if (!eventType || eventType === 'incident') {
+    getIncidentConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
+  if (!eventType || eventType === 'issue') {
+    getIssueConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
+  if (!eventType || eventType === 'change') {
+    getChangeConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
 
-      return (
-        <>
-          <div className={locals.spacer} />
-          <OpenEventsCountChartWrapper
-            cardTitle="Open events"
-            timeConfig={timeConfig}
-            granularity={granularity}
-            y1={{
-              renderer: Renderer.stackedBar,
-              formatter: number.forcedCompact,
-              labels,
-              metricIds,
-              colors
-            }}
-            metricsConfiguration={{
-              timeConfig,
-              metrics: metricsConfiguration
-            }}
-          />
-        </>
-      );
-    }
-  )
-);
+  return (
+    <>
+      <div className={locals.spacer} />
+      <OpenEventsCountChartWrapper
+        cardTitle="Open events"
+        timeConfig={staticTimeConfigToUseForCharts}
+        granularity={granularity}
+        y1={{
+          renderer: Renderer.stackedBar,
+          formatter: number.forcedCompact,
+          labels,
+          metricIds,
+          colors
+        }}
+        metricsConfiguration={{
+          timeConfig: staticTimeConfigToUseForCharts,
+          metrics: metricsConfiguration
+        }}
+      />
+    </>
+  );
+});
 
 function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
   labels.push('Incidents');
@@ -123,4 +109,23 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
     query: `event.type:change ${query || ''}`.trim(),
     granularity
   };
+}
+
+// export for testing
+export const validRollups = [1000, 1000 * 5, 1000 * 60, 1000 * 60 * 5, 1000 * 60 * 60];
+export function getNextValidRollup(granularity) {
+  if (granularity < validRollups[0]) {
+    return validRollups[0];
+  } else if (granularity > validRollups[validRollups.length - 1]) {
+    return validRollups[validRollups.length - 1];
+  }
+
+  for (let i = 0; i < validRollups.length; i++) {
+    if (granularity < validRollups[i]) {
+      return validRollups[i];
+    } else if (granularity === validRollups[i]) {
+      return granularity;
+    }
+  }
+  return validRollups[validRollups.length - 1];
 }

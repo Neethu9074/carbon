@@ -1,4 +1,4 @@
-import { compose } from 'recompose';
+import { compose, withPropsOnChange } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -41,8 +41,10 @@ export default function LegacyEventViewMigration(props) {
   return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
 
+import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 const EventView = compose(
   connect({
+    eventsCount: timeConfig$.flatMap(timeConfig => createTotalRawEventsSubscription({ timeConfig })),
     timeConfig: timeConfig$,
     query: query$
   }),
@@ -65,10 +67,19 @@ const EventView = compose(
           direction: orderDirection
         }
       })
-  })
+  }),
+  withPropsOnChange(['time', 'timeConfig'], ({ time, timeConfig }) => ({
+    staticTimeConfigToUseForCharts: {
+      to: time,
+      focusedMoment: time,
+      autoRefresh: false,
+      windowSize: timeConfig.windowSize
+    }
+  }))
 )(EventViewComponent);
+
 function EventViewComponent(props) {
-  const { time, eventType, eventId, progress } = props;
+  const { staticTimeConfigToUseForCharts, eventType, query, eventId } = props;
 
   return (
     <Sticky header={<SearchBar />}>
@@ -80,7 +91,11 @@ function EventViewComponent(props) {
           <MaxWidthFullscreenContainer>
             <Row>
               <Col lg={12}>
-                <EventsChart eventType={eventType} time={time} isLoadingData={progress && progress.loading} />
+                <EventsChart
+                  eventType={eventType}
+                  query={query}
+                  staticTimeConfigToUseForCharts={staticTimeConfigToUseForCharts}
+                />
               </Col>
             </Row>
             <Row>
