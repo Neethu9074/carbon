@@ -17,6 +17,9 @@ export default class Chart {
   }
 
   update(props) {
+    // we need to check if the windowSize has changed in order to adjust the scale during live mode
+    const hasWindowSizeChanged = this.config.timeConfig.windowSize !== props.timeConfig.windowSize;
+
     this.config.update(props);
 
     const isLive = props.timeConfig.autoRefresh;
@@ -31,7 +34,7 @@ export default class Chart {
         this.renderScheduler.atomicRender();
       }
     } else {
-      this.forceUpdateRendering();
+      this.forceUpdateRendering(hasWindowSizeChanged);
     }
 
     this.isLive = isLive;
@@ -114,11 +117,14 @@ export default class Chart {
     this.chartEventsManager.renderEvents(this.events, config);
   }
 
-  forceUpdateRendering() {
+  forceUpdateRendering(hasWindowSizeChanged = false) {
     if (!this.isLive) {
       this.renderScheduler.atomicRender();
     } else {
-      this.renderScheduler.intermediateRenderDuringUpdate();
+      if (hasWindowSizeChanged) {
+        this.renderScheduler.updateWindowSizeDuringAnimation();
+      }
+      this.renderScheduler.intermediateRenderDuringAnimation();
     }
   }
 

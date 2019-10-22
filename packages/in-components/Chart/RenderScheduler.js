@@ -94,8 +94,14 @@ export default class RenderScheduler {
     this.tickPositions = null;
   }
 
-  intermediateRenderDuringUpdate() {
+  intermediateRenderDuringAnimation() {
     this.render();
+  }
+
+  updateWindowSizeDuringAnimation() {
+    // in order to get a clean state update, we can just call startLiveMode. It will take care that the current animation progress
+    // is stopped and the scales are all refreshed to they reflect the current config state.
+    this.startLiveMode();
   }
 
   render() {
