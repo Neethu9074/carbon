@@ -23,8 +23,9 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent(item) {
-      const distributionType = get(item, ['cluster', 'distributionType'], 'Kubernetes');
-      const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+      const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
+      const clusterIcon = `lib_${clusterDistribution}`;
+
       return (
         <SeverityAwareEntityLink
           icon={clusterIcon}
@@ -125,7 +126,7 @@ export default connectTo(
                   result.data.items &&
                   find(
                     result.data.items,
-                    item => get(item, ['cluster', 'distributionType'], 'Kubernetes') === 'OpenShift'
+                    item => get(item, ['cluster', 'clusterDistribution'], 'kubernetes') === 'openshift'
                   )
                 )
                   return true;

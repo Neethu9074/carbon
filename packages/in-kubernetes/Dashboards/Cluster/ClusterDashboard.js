@@ -45,7 +45,7 @@ export default function ClusterDashboard({ location }) {
         tabChangeTracker={clusterTabChange}
         filterTabByResult={result => {
           return tab => {
-            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            if (get(result, ['data', 'clusterDistribution'], 'kubernetes') === 'openshift') return true;
             else return tab.label !== 'Deployment Configs';
           };
         }}
@@ -68,8 +68,8 @@ export default function ClusterDashboard({ location }) {
 }
 
 function Header(props) {
-  const distributionType = get(props, ['result', 'data', 'distributionType'], 'Kubernetes');
-  const clusterIcon = `lib_${distributionType.toLowerCase()}`;
+  const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
+  const clusterIcon = `lib_${clusterDistribution}`;
 
   return (
     <BasicDashboardHeader

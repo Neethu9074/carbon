@@ -56,7 +56,7 @@ export default function ServiceDashboard({ location }) {
         tabChangeTracker={serviceTabChange}
         filterTabByResult={result => {
           return tab => {
-            if (get(result, ['data', 'distributionType'], 'Kubernetes') === 'OpenShift') return true;
+            if (get(result, ['data', 'clusterDistribution'], 'kubernetes') === 'openshift') return true;
             else return tab.label !== 'Deployment Configs';
           };
         }}

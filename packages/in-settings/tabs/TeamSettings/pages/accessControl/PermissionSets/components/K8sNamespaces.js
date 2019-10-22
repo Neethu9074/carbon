@@ -3,6 +3,7 @@ import React from 'react';
 
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { capitalize } from 'in-services/formatters/string';
 import { getK8sNamespaces } from 'in-api/permissionSets';
 
 import locals from './K8sNamespaces.mless';
@@ -36,7 +37,7 @@ export default function K8sNamespaces({
       initialOrderBy="namespace.label"
       rightHeader={rightHeader}
       isSearchable={isSearchable}
-      searchAttributes={['namespace.label', 'namespace.distributionType', 'namespace.clusterName']}
+      searchAttributes={['namespace.label', 'namespace.clusterDistribution', 'namespace.clusterName']}
       extraFilters={createFilters(hiddenIds)}
       searchPlaceholder="Filter…"
       onRowClick={onRowClick}
@@ -65,9 +66,9 @@ function columnDefinitions() {
       width: 30,
       ellipsis: true,
       getContent(entity) {
-        const distributionType = get(entity, ['namespace', 'distributionType'], 'Kubernetes');
+        const clusterDistribution = capitalize(get(entity, ['namespace', 'clusterDistribution'], 'kubernetes'));
         return (
-          <WithSubscript subscript={distributionType}>
+          <WithSubscript subscript={clusterDistribution}>
             <span className={locals.ellipsis}>{get(entity, ['namespace', 'clusterName'], '-')}</span>
           </WithSubscript>
         );

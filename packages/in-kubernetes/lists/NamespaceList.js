@@ -113,7 +113,9 @@ export default connectTo(
               const isOpenshift =
                 result.data &&
                 result.data.items &&
-                Boolean(find(result.data.items, item => get(item, ['namespace', 'distributionType']) === 'OpenShift'));
+                Boolean(
+                  find(result.data.items, item => get(item, ['namespace', 'clusterDistribution']) === 'openshift')
+                );
               return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}
             timeConfig={timeConfig}

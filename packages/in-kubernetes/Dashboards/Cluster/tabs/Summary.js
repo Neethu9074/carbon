@@ -155,7 +155,7 @@ export default function Summary({ timeConfig, data: cluster }) {
                 tab: '/deploymentconfigs'
               })
             }}
-            showDeploymentConfigs={get(cluster, ['distributionType'], 'Kubernetes') === 'OpenShift'}
+            showDeploymentConfigs={get(cluster, ['clusterDistribution'], 'kubernetes') === 'openshift'}
           />
         </Col>
       </Row>

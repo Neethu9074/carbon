@@ -180,7 +180,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 tab: '/deploymentconfigs'
               })
             }}
-            showDeploymentConfigs={get(namespace, ['distributionType'], 'Kubernetes') === 'OpenShift'}
+            showDeploymentConfigs={get(namespace, ['clusterDistribution'], 'kubernetes') === 'openshift'}
           />
         </Col>
         <Col lg={6}>
