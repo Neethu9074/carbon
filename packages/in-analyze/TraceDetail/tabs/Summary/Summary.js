@@ -1,5 +1,5 @@
 import { just, create } from 'reactive-observables';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
@@ -241,6 +241,7 @@ class Summary extends React.Component {
           getColor={getColor}
           onClose={this.clearSelectedCall}
           startTime={trace.startTime}
+          rootCall={callTreeResult.data}
         />
       </ErrorBoundary>
     );
@@ -313,5 +314,9 @@ export default compose(
   }),
   connect(props => ({
     callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
+  })),
+  withProps(props => ({
+    ...props,
+    callId: props.callId === 'ROOT' && props.callTreeResult.data ? props.callTreeResult.data.id : props.callId
   }))
 )(Summary);

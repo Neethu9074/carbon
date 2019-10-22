@@ -17,9 +17,10 @@ import locals from './CallDetails.mless';
 
 export default compose(
   connectTo(props => ({
-    callResult: getTraceActivityTreeNodeDetails({ traceId: props.traceId, nodeId: props.callId }).startWith(
-      pendingResult
-    )
+    callResult: getTraceActivityTreeNodeDetails({
+      traceId: props.traceId,
+      nodeId: props.callId
+    }).startWith(pendingResult)
   })),
   connectTo(({ traceId, startTime }) => {
     return {
