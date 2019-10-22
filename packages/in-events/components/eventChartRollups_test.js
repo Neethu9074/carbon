@@ -1,9 +1,9 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { validRollups, getNextValidRollup } from 'in-events/components/EventsChart';
+import { validRollups, getNextValidRollup } from 'in-events/components/eventChartRollups';
 
-describe('in-events/components/EventsChart#getNextValidRollup', () => {
+describe('in-events/components/eventChartRollups#getNextValidRollup', () => {
   it('should return the rollup on equal match', () => {
     for (let i = 0; i < validRollups.length; i++) {
       const rollup = validRollups[i];

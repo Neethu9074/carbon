@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
+import { getNextValidRollup } from 'in-events/components/eventChartRollups';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
@@ -109,23 +110,4 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
     query: `event.type:change ${query || ''}`.trim(),
     granularity
   };
-}
-
-// export for testing
-export const validRollups = [1000, 1000 * 5, 1000 * 60, 1000 * 60 * 5, 1000 * 60 * 60];
-export function getNextValidRollup(granularity) {
-  if (granularity < validRollups[0]) {
-    return validRollups[0];
-  } else if (granularity > validRollups[validRollups.length - 1]) {
-    return validRollups[validRollups.length - 1];
-  }
-
-  for (let i = 0; i < validRollups.length; i++) {
-    if (granularity < validRollups[i]) {
-      return validRollups[i];
-    } else if (granularity === validRollups[i]) {
-      return granularity;
-    }
-  }
-  return validRollups[validRollups.length - 1];
 }
