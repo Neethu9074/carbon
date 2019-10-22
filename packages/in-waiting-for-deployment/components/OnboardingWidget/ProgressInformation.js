@@ -21,9 +21,10 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
           />
           <div className={locals.stepSpacer} />
           <Step
-            text="1 Agent deployed"
-            disabled={!isBackendAvailable}
-            icon={isAgentDeployed ? 'lib_check' : 'lib_actions_settings'}
+            text="Agent deployed"
+            disabled={!isAgentDeployed}
+            spinning={isBackendAvailable && !isAgentDeployed}
+            icon={isBackendAvailable ? (isAgentDeployed ? 'lib_check' : 'lib_actions_loading') : 'lib_actions_settings'}
           />
         </div>
         <div className={locals.progressBarWrapper}>
