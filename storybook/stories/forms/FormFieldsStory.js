@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
@@ -12,7 +13,8 @@ import Root from '../_helpers/Root';
 
 storiesOf('Forms/Form Fields', module)
   .add('Input', () => <InputStory />)
-  .add('Select', () => <SelectStory />);
+  .add('Select', () => <SelectStory />)
+  .add('ComboBox', () => <ComboBoxStory />);
 
 function InputStory() {
   const p = { type: 'text', onChange: () => {} };
@@ -79,6 +81,40 @@ function SelectStory() {
             <option value="bar">bar</option>
             <option value="baz">baz</option>
           </Select>
+        </FormGroup>
+      </Section>
+    </Root>
+  );
+}
+
+function ComboBoxStory() {
+  const [value, setValue] = useState(null);
+  const options = [{ value: 'foo', label: 'foo' }, { value: 'bar', label: 'bar' }, { value: 'baz', label: 'baz' }];
+
+  return (
+    <Root>
+      <Section title="Default">
+        <FormGroup>
+          <Label>Field label</Label>
+          <ComboBox
+            value={value}
+            options={options}
+            onChange={e => (e ? setValue(e.value) : setValue(null))}
+            placeholder="Type…"
+          />
+        </FormGroup>
+      </Section>
+
+      <Section title="Disabled">
+        <FormGroup>
+          <Label>Field label</Label>
+          <ComboBox
+            disabled
+            value={value}
+            options={options}
+            onChange={e => (e ? setValue(e.value) : setValue(null))}
+            placeholder="Type…"
+          />
         </FormGroup>
       </Section>
     </Root>
