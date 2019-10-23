@@ -507,7 +507,7 @@ function WindowsInstallerContent({ agentKey, region, tenant, tenantUnit }) {
       <Description lines={['We make available the latest Windows installer (64Bit) at following address']} />
       <Script
         lines={[
-          `https://www.instana.io/assets/agent/${tenant}/${tenantUnit}?region=${decodeURIComponent(
+          `https://instana.io/assets/agent/${tenant}/${tenantUnit}?region=${decodeURIComponent(
             region
           )}&agentKey=${decodeURIComponent(agentKey)}&type=${decodeURIComponent('exe64')}`
         ]}
