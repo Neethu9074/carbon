@@ -114,7 +114,10 @@ export default connectTo(
                 result.data &&
                 result.data.items &&
                 Boolean(
-                  find(result.data.items, item => get(item, ['namespace', 'clusterDistribution']) === 'openshift')
+                  find(
+                    result.data.items,
+                    item => get(item, ['namespace', 'clusterDistribution'], 'kubernetes') === 'openshift'
+                  )
                 );
               return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}

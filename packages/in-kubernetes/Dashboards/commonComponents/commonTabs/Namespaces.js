@@ -175,7 +175,12 @@ export default function Namespaces(props) {
         const isOpenshift =
           result.data &&
           result.data.items &&
-          Boolean(find(result.data.items, item => get(item, ['namespace', 'clusterDistribution']) === 'openshift'));
+          Boolean(
+            find(
+              result.data.items,
+              item => get(item, ['namespace', 'clusterDistribution'], 'kubernetes') === 'openshift'
+            )
+          );
         return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
       }}
       timeConfig={props.timeConfig}

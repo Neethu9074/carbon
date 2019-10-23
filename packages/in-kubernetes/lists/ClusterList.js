@@ -124,19 +124,17 @@ export default connectTo(
         >
           <ServerTableWithUrlState
             get={getTableData}
-            filterColumnDefinitionsByResult={result => {
-              return columnDefinition => {
-                if (
-                  result.data &&
-                  result.data.items &&
+            filterColumnDefinitions={({ result }) => {
+              const isOpenshift =
+                result.data &&
+                result.data.items &&
+                Boolean(
                   find(
                     result.data.items,
                     item => get(item, ['cluster', 'clusterDistribution'], 'kubernetes') === 'openshift'
                   )
-                )
-                  return true;
-                else return columnDefinition.id !== 'deploymentConfigs';
-              };
+                );
+              return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}
             timeConfig={timeConfig}
           />
