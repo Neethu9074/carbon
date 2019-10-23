@@ -42,7 +42,7 @@ export default connectTo(
         entity: just({
           data: {
             id: entityId,
-            label: metadata.get('websiteLabel'),
+            label: metadata.get('entityLabel'),
             configId: metadata.get('eventSpecificationId'),
             configCreated: metadata.get('alertConfigCreated')
           }

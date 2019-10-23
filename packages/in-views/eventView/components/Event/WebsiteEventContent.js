@@ -33,7 +33,7 @@ export default connectTo(
     const entityId = event.get('entityId');
     const entityType = event.get('entityType');
     const metadata = event.get('metadata');
-    const websiteLabel = metadata.get('websiteLabel');
+    const websiteLabel = metadata.get('entityLabel');
     const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...alertConfig.tagFilters];
     const thresholdValue = alertConfig.threshold.value;
     const timeConfig = getChartTimeConfigByEvent({ event });
