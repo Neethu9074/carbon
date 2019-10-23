@@ -11,15 +11,23 @@ export const tagKeys = tagDefinitions.map(t => t.name);
 
 export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }) {
   let tagFiltersForAnalyze = tagFilters;
-  if (websiteLabel) {
-    // replace website ID filter with something more understandable by users.
-    tagFiltersForAnalyze = tagFiltersForAnalyze.filter(f => f.name !== 'beacon.website.id').concat({
-      name: 'beacon.website.name',
-      operator: 'EQUALS',
-      stringValue: websiteLabel
-    });
+  if (!websiteLabel) {
+    return tagFiltersForAnalyze;
   }
-  return tagFiltersForAnalyze;
+  // replace website ID filter with something more understandable by users.
+  if (tagFiltersForAnalyze.some(f => f.name === 'beacon.website.id')) {
+    return tagFiltersForAnalyze.map(f => (f.name !== 'beacon.website.id' ? f : getWebsiteLabelTagFilter(websiteLabel)));
+  }
+  // or add the website label tag filter to the end if website ID is filter is not present
+  return tagFiltersForAnalyze.concat(getWebsiteLabelTagFilter(websiteLabel));
+}
+
+function getWebsiteLabelTagFilter(websiteLabel) {
+  return {
+    name: 'beacon.website.name',
+    operator: 'EQUALS',
+    stringValue: websiteLabel
+  };
 }
 
 export const dataSourceTitles = {
