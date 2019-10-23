@@ -6,7 +6,8 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
-import theme from 'in-themes';
+
+import locals from './HttpSpanDetailView.mless';
 
 export default function HttpSpanDetailView({ span }) {
   return (
@@ -50,7 +51,7 @@ export function HttpSpanDetailViewDescriptionList({ span }) {
       {params != null && <Di title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</Di>}
       <Di title="Method">{span.getIn(['data', 'http', 'method'])}</Di>
       {status != null && (
-        <Di title="Status Code" style={status >= 500 ? { color: theme.lib.colors.failure } : null}>
+        <Di title="Status Code" rowClassName={status >= 500 ? locals.error : ''}>
           {status}
           {statusCodes[status] != null && ` – ${statusCodes[status]}`}
         </Di>
