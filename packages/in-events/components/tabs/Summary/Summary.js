@@ -6,6 +6,7 @@ import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestr
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-views/eventView/components/Event/WebsiteEventContent';
+import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
@@ -62,6 +63,7 @@ function EventContent({ event }) {
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
+            <EventSpecificationLink event={event} />
           </Card>
         </Col>
       </Row>
