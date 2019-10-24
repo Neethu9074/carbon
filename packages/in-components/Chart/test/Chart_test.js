@@ -34,7 +34,7 @@ describe('in-components/Chart/Chart', () => {
         metrics: [[[0], [1], [2], [3], [4]], [[0], [11], [2], [-13], [4]]]
       };
       chart.config.y2 = {
-        metrics: [[[0], [-1], [-2], [-3], [4]], [[0], [1001], [-2], [-13], [4]]]
+        metrics: [[[0], [-1], [-2], [-3], [4]], [[0], [15], [1001], [-2], [-13], [4]]]
       };
 
       expect(chart.getNearestDataPointDomainForTimestamp(-100000)).to.equal(-13);
@@ -42,8 +42,35 @@ describe('in-components/Chart/Chart', () => {
       expect(chart.getNearestDataPointDomainForTimestamp(0)).to.equal(0);
       expect(chart.getNearestDataPointDomainForTimestamp(1)).to.equal(1);
       expect(chart.getNearestDataPointDomainForTimestamp(2)).to.equal(2);
-      expect(chart.getNearestDataPointDomainForTimestamp(42)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(11)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(12)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(13)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(14)).to.equal(15);
+      expect(chart.getNearestDataPointDomainForTimestamp(15)).to.equal(15);
+      expect(chart.getNearestDataPointDomainForTimestamp(42)).to.equal(15);
       expect(chart.getNearestDataPointDomainForTimestamp(100000)).to.equal(1001);
+    });
+
+    it('should return the nearest data point domains floored down', () => {
+      chart.config.y1 = {
+        metrics: [[[0], [1], [2], [3], [4]], [[0], [11], [2], [-13], [4]]]
+      };
+      chart.config.y2 = {
+        metrics: [[[0], [-1], [-2], [-3], [4]], [[0], [15], [1001], [-2], [-13], [4]]]
+      };
+
+      expect(chart.getNearestDataPointDomainForTimestamp(-1, true)).to.equal(-1);
+      expect(chart.getNearestDataPointDomainForTimestamp(0, true)).to.equal(0);
+      expect(chart.getNearestDataPointDomainForTimestamp(1, true)).to.equal(1);
+      expect(chart.getNearestDataPointDomainForTimestamp(2, true)).to.equal(2);
+      expect(chart.getNearestDataPointDomainForTimestamp(11, true)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(12, true)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(13, true)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(14, true)).to.equal(11);
+      expect(chart.getNearestDataPointDomainForTimestamp(15, true)).to.equal(15);
+      expect(chart.getNearestDataPointDomainForTimestamp(42, true)).to.equal(15);
+      expect(chart.getNearestDataPointDomainForTimestamp(1000, true)).to.equal(15);
+      expect(chart.getNearestDataPointDomainForTimestamp(100000, true)).to.equal(1001);
     });
   });
 

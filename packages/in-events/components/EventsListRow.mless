@@ -29,4 +29,20 @@
       max-width: 22rem;
     }
   }
+
+  .timelineWrapper {
+    position: relative;
+
+    height: 10px;
+
+    overflow: hidden;
+  }
+
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: @lib__colors__N600Light;
+    border-radius: 5px;
+  }
 }

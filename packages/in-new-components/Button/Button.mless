@@ -135,7 +135,7 @@
   .action {
     .buttonStyle(
         // bg
-          @lib__colors__white,
+          transparent,
         // hover bg
           #e8f6f8,
         // font

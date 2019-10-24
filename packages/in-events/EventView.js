@@ -1,10 +1,12 @@
-import { compose, withPropsOnChange } from 'recompose';
+import { compose, withPropsOnChange, withProps } from 'recompose';
+import { create, just, interval } from 'reactive-observables';
 import { get } from 'lodash';
 import React from 'react';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
@@ -41,22 +43,66 @@ export default function LegacyEventViewMigration(props) {
   return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
 
-import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 const EventView = compose(
-  connect({
-    eventsCount: timeConfig$.flatMap(timeConfig => createTotalRawEventsSubscription({ timeConfig })),
-    timeConfig: timeConfig$,
+  withProps(props => ({
+    ...props,
+    mouseMoveSignal$: create()
+  })),
+  connect(({ mouseMoveSignal$ }) => ({
+    timeConfig: timeConfig$
+      .flatMap(
+        timeConfig =>
+          timeConfig.autoRefresh
+            ? mouseMoveSignal$
+                .throttle(1000)
+                .flatMap(() => interval(1000 * 10))
+                .map(() => timeConfig)
+                .startWith(timeConfig)
+            : just(timeConfig)
+      )
+      .startWith(timeConfig$)
+      .map(timeConfig => {
+        // make sure, the event view is not updating any data automatically
+        const to = timeConfig.to || Date.now();
+        return {
+          to,
+          focusedMoment: to,
+          autoRefresh: false,
+          windowSize: timeConfig.windowSize
+        };
+      }),
+    highlightedTimeframe: highlightedTimeframe$.debounce(500),
     query: query$
+  })),
+  withPropsOnChange(['highlightedTimeframe'], ({ highlightedTimeframe }) => {
+    if (highlightedTimeframe) {
+      return {
+        staticTimeConfigToUseForTable: {
+          to: highlightedTimeframe[1],
+          focusedMoment: highlightedTimeframe[1],
+          autoRefresh: false,
+          windowSize: highlightedTimeframe[1] - highlightedTimeframe[0]
+        },
+        isPresentingHighlightedTimeframe: true
+      };
+    }
   }),
   withUrlState({
     bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
     reducerName: 'onChange'
   }),
   cursorPaginated({
-    getResettingProps: () => ['orderBy', 'orderDirection', 'eventType', 'timeConfig', 'query'],
-    get: ({ cursor, orderBy, orderDirection, timeConfig, query, eventType }) =>
+    getResettingProps: () => [
+      'orderBy',
+      'orderDirection',
+      'eventType',
+      'timeConfig',
+      'staticTimeConfigToUseForTable',
+      'query'
+    ],
+    get: ({ cursor, orderBy, orderDirection, timeConfig, staticTimeConfigToUseForTable, query, eventType }) =>
       getRawEvents({
-        timeConfig,
+        timeConfig: staticTimeConfigToUseForTable || timeConfig,
         query: concatQueries(query, eventType),
         pagination: {
           cursor,
@@ -67,19 +113,11 @@ const EventView = compose(
           direction: orderDirection
         }
       })
-  }),
-  withPropsOnChange(['time', 'timeConfig'], ({ time, timeConfig }) => ({
-    staticTimeConfigToUseForCharts: {
-      to: time,
-      focusedMoment: time,
-      autoRefresh: false,
-      windowSize: timeConfig.windowSize
-    }
-  }))
+  })
 )(EventViewComponent);
 
 function EventViewComponent(props) {
-  const { staticTimeConfigToUseForCharts, eventType, query, eventId } = props;
+  const { eventType, query, eventId, timeConfig } = props;
 
   return (
     <Sticky header={<SearchBar />}>
@@ -91,11 +129,7 @@ function EventViewComponent(props) {
           <MaxWidthFullscreenContainer>
             <Row>
               <Col lg={12}>
-                <EventsChart
-                  eventType={eventType}
-                  query={query}
-                  staticTimeConfigToUseForCharts={staticTimeConfigToUseForCharts}
-                />
+                <EventsChart eventType={eventType} query={query} timeConfig={timeConfig} />
               </Col>
             </Row>
             <Row>

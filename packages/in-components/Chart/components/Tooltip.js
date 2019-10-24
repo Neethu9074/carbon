@@ -62,6 +62,7 @@ export default connectTo(
           })}
         >
           <HighlightedTimeframe
+            {...this.props}
             xScale={this.xScale}
             glassPane={this.glassPane}
             shouldRenderButtons={this.shouldRenderButtons}

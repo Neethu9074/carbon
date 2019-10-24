@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   Table,
@@ -12,12 +12,16 @@ import {
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
 import getIncidentBasedHealthInTimeFrame from 'in-events/subscriptions/getIncidentBasedHealthInTimeFrame';
+import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ReleaseStatusRow from 'in-events/releases/ReleaseStatusRow';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
+import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
+
+import locals from './EventsList.mless';
 
 export default function EventsList(props) {
   const list = <List {...props} />;
@@ -38,15 +42,29 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
     orderBy,
     progress,
     eventType,
-    orderDirection
+    orderDirection,
+    isPresentingHighlightedTimeframe
   } = props;
   const isDenseList = !!selectedEventId;
+  const cols = isDenseList ? 2 : 6;
+
+  const [timeScale] = useState(() => {
+    const scale = createScale();
+    updateScale(scale, props.timeConfig);
+    return scale;
+  });
+  useEffect(() => updateScale(timeScale, props.timeConfig));
 
   if (!progress.loading && rawEventList.length === 0) {
-    return <EmptyEventList eventType={eventType} isDenseList={isDenseList} />;
+    return (
+      <EmptyEventList
+        eventType={eventType}
+        isDenseList={isDenseList}
+        isPresentingHighlightedTimeframe={isPresentingHighlightedTimeframe}
+        cols={cols}
+      />
+    );
   }
-
-  const cols = isDenseList ? 2 : 5;
 
   return (
     <Table>
@@ -62,18 +80,20 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
               <SortableColumn {...props} technicalName="problem.problemText">
                 Title
               </SortableColumn>
+              <Th>On</Th>
               <SortableColumn {...props} technicalName="start">
                 Started
               </SortableColumn>
               <SortableColumn {...props} technicalName="end">
                 End
               </SortableColumn>
-              <Th>On</Th>
+              <Th className={locals.timelineColumn}>Timeline</Th>
             </>
           )}
         </Tr>
       </Thead>
       <Tbody>
+        {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
         {rawEventList.map(
           event =>
             event.type === 'release' ? (
@@ -93,6 +113,7 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
                 onItemClicked={onItemClicked}
                 isDenseList={isDenseList}
                 event={event}
+                timeScale={timeScale}
               />
             )
         )}
@@ -152,4 +173,11 @@ function getHealthStream({ orderBy, items, timeConfig, query }) {
       timestamps: startTimeStamps
     }).map(({ data }) => data || null)
   };
+}
+
+function updateScale(scale, timeConfig) {
+  scale.setDomainFrom(timeConfig.to - timeConfig.windowSize);
+  scale.setDomainTo(timeConfig.to);
+  scale.setRangeFrom(0);
+  scale.setRangeTo(100);
 }

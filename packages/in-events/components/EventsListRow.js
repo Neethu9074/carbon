@@ -15,6 +15,7 @@ import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import getApplication from 'in-subscription/application/getApplication';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import getWebsite from 'in-subscription/website/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
@@ -26,15 +27,20 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './EventsListRow.mless';
 
-export default function EventRow({ selectedEventId, onItemClicked, isDenseList, event }) {
+export default function EventRow({ selectedEventId, onItemClicked, isDenseList, timeScale, event }) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
-  const start = event.start;
-  const end = event.end || Date.now();
 
   if (isDenseList) {
     return <EventsListRowDense key={event.id} event={event} active={active} onClick={onClick} />;
   }
+
+  const start = event.start;
+  const end = event.end || Date.now();
+  const eventType = getEventType(event);
+  const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
+  const left = `${Math.max(0, timeScale.getRange(start))}%`;
+  const width = isChangeEvent ? 10 : Math.max(12, timeScale.getRange(end) - timeScale.getRange(start));
 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={onClick}>
@@ -52,17 +58,19 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
         <div className={locals.title}>{event.title}</div>
       </Td>
       <Td>
+        <On rawEvent={event} />
+      </Td>
+      <Td>
         <span className={locals.text}>{formatDateTime(start)}</span>
       </Td>
-      <>
-        <Td>
-          <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(end)}</span>
-        </Td>
-
-        <Td>
-          <On rawEvent={event} />
-        </Td>
-      </>
+      <Td>
+        <span className={locals.text}>{event.state === 'open' ? 'active' : formatDateTime(end)}</span>
+      </Td>
+      <Td>
+        <div className={locals.timelineWrapper}>
+          <div style={{ left, width }} className={locals.line} />
+        </div>
+      </Td>
     </Tr>
   );
 }

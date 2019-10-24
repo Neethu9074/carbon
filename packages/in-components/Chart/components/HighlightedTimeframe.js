@@ -52,7 +52,9 @@ export default connectTo(
       }
       this.onMouseDownSubscription = on(glassPane, 'mousedown').subscribe(this.onMouseDown.bind(this));
       this.onMouseUpSubscription = on(glassPane, 'mouseup').subscribe(this.onMouseUp.bind(this));
-      this.onMouseMoveSubscription = on(glassPane, 'mousemove').subscribe(this.onMouseMove.bind(this));
+      this.onMouseMoveSubscription = on(glassPane, 'mousemove')
+        .throttle(50)
+        .subscribe(this.onMouseMove.bind(this));
       this.onMouseLeaveSubscription = on(glassPane, 'mouseleave').subscribe(this.onMouseLeave.bind(this));
     };
 
@@ -84,7 +86,7 @@ export default connectTo(
       e.preventDefault();
 
       clearHighlightedTimeframe();
-      this.timeframeHighlightDraggingStart = this.getTimeAtPosition(e.offsetX);
+      this.timeframeHighlightDraggingStart = this.snapLeft(this.getTimeAtPosition(e.offsetX));
     }
 
     onMouseUp() {
@@ -93,7 +95,10 @@ export default connectTo(
 
     onMouseMove = e => {
       if (this.timeframeHighlightDraggingStart != null) {
-        setHighlightedTimeframe(this.timeframeHighlightDraggingStart, this.getTimeAtPosition(e.offsetX));
+        setHighlightedTimeframe(
+          this.timeframeHighlightDraggingStart,
+          this.snapRight(this.getTimeAtPosition(e.offsetX))
+        );
       }
       if (this.props.highlightedTimeframe) {
         const cursorPosition = this.getTimeAtPosition(e.offsetX);
@@ -116,6 +121,31 @@ export default connectTo(
 
     getTimeAtPosition = xPos => {
       return this.props.xScale.getDomain(xPos);
+    };
+
+    snapLeft = time => {
+      return this.snap(time, true);
+    };
+
+    snapRight = time => {
+      return this.snap(time, false);
+    };
+
+    snap = (time, left) => {
+      const config = this.props.chart.config;
+      if (!config.snapHighlightingToMetrics && !config.snapHighlightingToMetricBars) {
+        return time;
+      }
+
+      const nearestTimeInMetrics = this.getNearestDomain(time, left);
+      if (config.snapHighlightingToMetricBars) {
+        return left ? nearestTimeInMetrics - config.granularity / 2 : nearestTimeInMetrics + config.granularity / 2;
+      }
+      return nearestTimeInMetrics;
+    };
+
+    getNearestDomain = (time, floor) => {
+      return this.props.chart.getNearestDataPointDomainForTimestamp(time, floor);
     };
   }
 );

@@ -11,20 +11,14 @@ import theme from 'in-themes';
 
 import locals from './EventsChart.mless';
 
-export default getElementDimensions(function EventsChart({
-  width,
-  staticTimeConfigToUseForCharts,
-  query,
-  eventType,
-  isLoadingData
-}) {
-  if (!width || isLoadingData) {
+export default getElementDimensions(function EventsChart({ width, timeConfig, query, eventType }) {
+  if (!width) {
     return <div />;
   }
 
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
     getBlockSizeMillis({
-      windowSize: staticTimeConfigToUseForCharts.windowSize,
+      windowSize: timeConfig.windowSize,
       minPixelsPerBlock: 5,
       width,
       rollup: MINIMUM_ROLLUP
@@ -52,8 +46,9 @@ export default getElementDimensions(function EventsChart({
       <div className={locals.spacer} />
       <OpenEventsCountChartWrapper
         cardTitle="Open events"
-        timeConfig={staticTimeConfigToUseForCharts}
+        timeConfig={timeConfig}
         granularity={granularity}
+        snapHighlightingToMetricBars
         y1={{
           renderer: Renderer.stackedBar,
           formatter: number.forcedCompact,
@@ -62,7 +57,7 @@ export default getElementDimensions(function EventsChart({
           colors
         }}
         metricsConfiguration={{
-          timeConfig: staticTimeConfigToUseForCharts,
+          timeConfig: timeConfig,
           metrics: metricsConfiguration
         }}
       />

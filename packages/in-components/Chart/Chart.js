@@ -40,17 +40,21 @@ export default class Chart {
     this.isLive = isLive;
   }
 
-  getNearestDataPointDomainForTimestamp(timestamp) {
+  getNearestDataPointDomainForTimestamp(timestamp, floor = false) {
     if (this.timeIsNotDefined(timestamp)) {
       return null;
     }
 
     const allDomainValues = this.config.getAllDomainValues();
+    let domainValues = allDomainValues;
+    if (floor) {
+      domainValues = allDomainValues.filter(domain => domain <= timestamp);
+    }
     let distanceToNearestDataPoint = Number.MAX_VALUE;
     let nearestDomain = null;
 
-    for (let i = 0; i < allDomainValues.length; i++) {
-      const domain = allDomainValues[i];
+    for (let i = 0; i < domainValues.length; i++) {
+      const domain = domainValues[i];
       const distanceToDataPoint = Math.abs(timestamp - domain);
       if (distanceToDataPoint < distanceToNearestDataPoint) {
         nearestDomain = domain;

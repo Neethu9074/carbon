@@ -1,3 +1,4 @@
+import { on } from 'reactive-observables';
 import { findIndex } from 'lodash';
 import React from 'react';
 
@@ -22,7 +23,49 @@ import theme from 'in-themes';
 
 import locals from './EventTable.mless';
 
-export default function EventTable(props) {
+export default class extends React.Component {
+  static displayName = 'EventTableWithMouseEvent';
+
+  componentDidMount() {
+    this.setupSubsriptions();
+  }
+
+  componentDidUpdate() {
+    this.disposeSubscriptions();
+    this.setupSubsriptions();
+  }
+
+  componentWillUnmount() {
+    this.disposeSubscriptions();
+  }
+
+  setupSubsriptions = () => {
+    if (!this.table) {
+      return;
+    }
+
+    this.onMouseMoveSubscription = on(this.table, 'mousemove').subscribe(() =>
+      this.props.mouseMoveSignal$.emit(Date.now())
+    );
+  };
+
+  disposeSubscriptions = () => {
+    if (this.onMouseMoveSubscription) {
+      this.onMouseMoveSubscription.dispose();
+      this.onMouseMoveSubscription = null;
+    }
+  };
+
+  render() {
+    return (
+      <div ref={table => (this.table = table)}>
+        <EventTable {...this.props} />
+      </div>
+    );
+  }
+}
+
+function EventTable(props) {
   const { selectedEventId, items: rawEventList, items, onChange, progress } = props;
 
   if (!rawEventList) {
