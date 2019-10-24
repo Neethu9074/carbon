@@ -20,7 +20,7 @@ export default connectTo(
     timeframeHighlightDraggingStart = null;
 
     componentDidMount() {
-      this.setupSubsriptions();
+      this.setupSubscriptions();
     }
 
     shouldComponentUpdate(nextProps) {
@@ -37,7 +37,7 @@ export default connectTo(
     componentDidUpdate(nextProps) {
       if (this.props.glassPane !== nextProps.glassPane) {
         this.disposeSubscriptions();
-        this.setupSubsriptions();
+        this.setupSubscriptions();
       }
     }
 
@@ -45,7 +45,7 @@ export default connectTo(
       this.disposeSubscriptions();
     }
 
-    setupSubsriptions = () => {
+    setupSubscriptions = () => {
       const glassPane = this.props.glassPane;
       if (!glassPane) {
         return;

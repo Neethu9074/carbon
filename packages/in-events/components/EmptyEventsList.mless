@@ -1,5 +1,7 @@
+@import '~in-themes/active.less';
+
 :local {
   .row {
-    background: white !important;
+    background: @lib__colors__white !important;
   }
 }

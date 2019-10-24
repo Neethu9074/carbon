@@ -12,7 +12,7 @@ export default function HighlightedTimeframeMarkerRow({ cols }) {
     <Tr className={locals.row} size="compact">
       <Td colSpan={cols}>
         <div className={locals.wrapper}>
-          <div className={locals.notificatioNWrapper}>
+          <div className={locals.notificationWrapper}>
             <SvgIcon className={locals.icon} type="lib_help_error_info_outline" />
             Showing events for selection
           </div>

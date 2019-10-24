@@ -53,7 +53,7 @@ const List = connectTo(props => getHealthStream(props), function List(props) {
     updateScale(scale, props.timeConfig);
     return scale;
   });
-  useEffect(() => updateScale(timeScale, props.timeConfig));
+  useEffect(() => updateScale(timeScale, props.timeConfig), [props.timeConfig]);
 
   if (!progress.loading && rawEventList.length === 0) {
     return (

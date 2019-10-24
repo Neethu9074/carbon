@@ -27,19 +27,19 @@ export default class extends React.Component {
   static displayName = 'EventTableWithMouseEvent';
 
   componentDidMount() {
-    this.setupSubsriptions();
+    this.setupSubscriptions();
   }
 
   componentDidUpdate() {
     this.disposeSubscriptions();
-    this.setupSubsriptions();
+    this.setupSubscriptions();
   }
 
   componentWillUnmount() {
     this.disposeSubscriptions();
   }
 
-  setupSubsriptions = () => {
+  setupSubscriptions = () => {
     if (!this.table) {
       return;
     }

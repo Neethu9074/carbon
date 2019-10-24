@@ -41,7 +41,7 @@ export default connectTo(
     };
 
     componentDidMount() {
-      this.setupSubsriptions();
+      this.setupSubscriptions();
     }
 
     componentWillUnmount() {
@@ -87,7 +87,7 @@ export default connectTo(
       );
     }
 
-    setupSubsriptions = () => {
+    setupSubscriptions = () => {
       this.onMouseMoveSubscription = on(this.glassPane, 'mousemove')
         .throttle(userInteractionThrottlingMillis)
         .subscribe(this.onMouseMove.bind(this));
