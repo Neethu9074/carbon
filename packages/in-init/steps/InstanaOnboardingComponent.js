@@ -6,6 +6,7 @@ import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import MessageFlyout from 'in-components/MessageFlyout';
 import { getAgentKey } from 'in-api/agentKey';
 import config from 'in-services/config';
 import connect from 'in-hoc/connectTo';
@@ -22,7 +23,11 @@ function InstanaOnboardingComponent({ observable, apiCallSatisfied, agentKey }) 
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <DialogPresenter />
+
       <DisabledBodyScroll />
+
+      <MessageFlyout filterRegularMessages />
+
       <FullViewOnboardingWidget
         isAgentDeployed={apiCallSatisfied}
         isBackendAvailable
