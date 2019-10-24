@@ -181,13 +181,11 @@ function getKubernetesClustersSubscribeEvent({
 function ClusterManagedByWithIcon({ clusterManagedBy }) {
   if (clusterManagedBy && clusterManagedBy !== 'none') {
     return (
-      <div className={locals.clusterItem}>
-        <div className={locals.clusterManagedBy}>
-          <Fragment>
-            <span className={locals.clusterManagedByLabel}>Managed by {capitalize(clusterManagedBy)}</span>
-            <SvgIcon className={locals.clusterManagedByIcon} type={`lib_${clusterManagedBy}`} />
-          </Fragment>
-        </div>
+      <div className={locals.clusterManagedBy}>
+        <Fragment>
+          <span className={locals.clusterManagedByLabel}>Managed by {capitalize(clusterManagedBy)}</span>
+          <SvgIcon className={locals.clusterManagedByIcon} type={`lib_${clusterManagedBy}`} />
+        </Fragment>
       </div>
     );
   }
