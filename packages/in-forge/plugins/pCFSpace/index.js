@@ -6,7 +6,7 @@ registerSnapshotDefinition({
   plugin: plugins.pCFSpace,
   iconSvgPath,
   pluginName: {
-    singular: 'PCF Space',
-    plural: 'PCF Spaces'
+    singular: 'Cloud Foundry Space',
+    plural: 'Cloud Foundry Spaces'
   }
 });
