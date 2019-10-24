@@ -36,7 +36,7 @@ import theme from 'in-themes';
 
 import locals from './Error.mless';
 
-export default connectTo(({ location, timeConfig }) => {
+export default connectTo(({ location, timeConfig, websiteId }) => {
   const observables = {};
 
   const errorId = getMatrixParameter(location, '/details', 'errorId');
@@ -44,7 +44,8 @@ export default connectTo(({ location, timeConfig }) => {
   if (errorId) {
     observables.result = getWebsiteError({
       timeConfig,
-      errorId
+      errorId,
+      websiteId
     });
   }
   return observables;
