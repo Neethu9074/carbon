@@ -14,7 +14,8 @@ import connect from 'in-hoc/connectTo';
 export default compose(
   getResultFromApiPing({
     url: `/api/infrastructure-monitoring/monitoring-state`,
-    checkResult: result => result.hostCount > 0
+    // users who ever had something monitoring can skip the dialog
+    checkResult: result => result.firstKnownReportingTime > 0
   }),
   connect({ agentKey: getAgentKey() })
 )(InstanaOnboardingComponent);
