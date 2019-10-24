@@ -36,7 +36,9 @@ export default function JsErrorsChart({ form, timeConfig, onChange }) {
                 name={fieldNames.thresholdValue}
                 value={form.get(fieldNames.thresholdValue).value}
                 step="0.1"
-                onChange={e => onChange(form, fieldNames.thresholdValue, Number(e && e.target.value))}
+                onChange={e =>
+                  onChange(form, fieldNames.thresholdValue, e.target.value !== '' ? Number(e.target.value) : '')
+                }
               />
             </FormGroup>
           )}

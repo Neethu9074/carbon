@@ -42,7 +42,8 @@ storiesOf('Components/Chart', module)
   .add('MissingDataPoint', () => <MissingDataPoint />)
   .add('SharedAxis', () => <SharedAxis />)
   .add('Resize', () => <Resize />)
-  .add('With custom icons in legend', () => <WithCustomIconsInLegend />);
+  .add('With custom icons in legend', () => <WithCustomIconsInLegend />)
+  .add('With Legend aligned to left side of chart', () => <WithLegendAlignedToLeftSideOfChart />);
 
 function MissingData() {
   return (
@@ -607,7 +608,6 @@ function SharedAxis() {
     </Root>
   );
 }
-
 function WithCustomIconsInLegend() {
   return (
     <>
@@ -638,6 +638,30 @@ function WithCustomIconsInLegend() {
               icons: {
                 types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
                 colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
+              },
+              metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+            }
+          }}
+        />
+      </Section>
+    </>
+  );
+}
+
+function WithLegendAlignedToLeftSideOfChart() {
+  return (
+    <>
+      <Section title="Icons with defined chart colors">
+        <ResultAwareChart
+          result={constructResult(null, false)}
+          config={{
+            alignLegendToLeftSideOfChart: true,
+            timeConfig: generateTimeframe(oneMinute),
+            y1: {
+              renderer: Renderer.stackedBar,
+              labels: ['foo', 'bar', 'baz'],
+              icons: {
+                types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
               },
               metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
             }

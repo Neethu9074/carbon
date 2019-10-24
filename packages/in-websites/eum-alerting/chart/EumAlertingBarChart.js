@@ -9,9 +9,14 @@ import theme from 'in-themes';
 export default function EumAlertingBarChart({ threshold, timeConfig, tagFilters }) {
   return (
     <WebsiteChartWrapper
+      alignLegendToLeftSideOfChart
+      releaseMarkersDisabled
       timeConfig={timeConfig}
       y1={{
         threshold,
+        getMax: metricsMaxValue => {
+          return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, Math.trunc(threshold) + 1) : metricsMaxValue;
+        },
         colors: [
           theme.lib.colors.blue800,
           theme.lib.colors.pink800,
