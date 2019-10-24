@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
 import { status } from 'in-websites/definitions/stackTraceLineTranslationStatus';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import { isNotBlank } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 
 export default function ParsedStackTrace({ websiteId, lines }) {
@@ -31,6 +32,13 @@ function getIndicator(websiteId, line) {
   return (
     <InfoIndicator href$={href$}>
       {translationStatus.explanation}
+      {isNotBlank(translationStatus.translationExplanation) &&
+        translationStatus.translationExplanation !== 'null' && (
+          <Fragment>
+            <br />
+            <strong>translationStatus.translationExplanation</strong>
+          </Fragment>
+        )}
       {href$ && (
         <Fragment>
           <br />

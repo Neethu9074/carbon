@@ -91,5 +91,15 @@ export const status = {
     explanation: 'Could not establish a TCP / TLS connection to the host serving the source map file.',
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
+  },
+  19: {
+    explanation: 'A request timeout occurred when trying to retrieve the JavaScript file.',
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
+  },
+  20: {
+    explanation: 'A request timeout occurred when trying to retrieve the JavaScript file. source map file.',
+    shouldShowExplanation: true,
+    linkToConfigurationDialog: false
   }
 };
