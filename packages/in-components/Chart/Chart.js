@@ -106,7 +106,7 @@ export default class Chart {
   getFilteredMetricIndices(axis) {
     const filteredIndices = [];
     for (let i = 0; i < axis.metrics.length; i++) {
-      if (this.isLabelFilteredByUser(axis.labels[i])) {
+      if (this.isLabelFiltered(axis.labels[i])) {
         filteredIndices.push(i);
       }
     }
@@ -132,8 +132,8 @@ export default class Chart {
     }
   }
 
-  isLabelFilteredByUser(label) {
-    return this.config.filteredDataSeries.has(label);
+  isLabelFiltered(label) {
+    return this.config.isLabelFiltered(label);
   }
 
   timeIsNotDefined(timestamp) {

@@ -8,10 +8,10 @@ export default connectTo(
   props => ({
     filteredDataSeries: props.chart.config.filteredDataSeries$
   }),
-  function MetricAwareAxis({ chart, axisName, height, align }) {
+  function MetricAwareAxis({ chart, axisName, height, align, filteredDataSeries }) {
     const axis = chart.config[axisName];
 
-    if (!axis.labels || axis.labels.filter(v => !chart.config.filteredDataSeries.get(v)).length == 0) {
+    if (!axis.labels || axis.labels.filter(v => !filteredDataSeries.has(v)).length == 0) {
       return <div style={{ minWidth: `${WIDTH}px`, height: `${height || HEIGHT}px` }} />;
     }
 

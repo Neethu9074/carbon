@@ -3,6 +3,7 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { WIDTH } from 'in-new-components/Axis/VerticalAxis';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Legend.mless';
@@ -42,16 +43,20 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
     <ul className={locals.metricList}>
       {axis.labels.map((label, i) => {
         const isDisabled = filteredDataSeries && filteredDataSeries.has(label);
-        return (
+        const isToggleable = !axis.nonToggleableSeries || !axis.nonToggleableSeries.has(axis.metricIds[i]);
+        const content = (
           <li
             key={label}
             className={evaluateClassNames({
               [locals.metric]: true,
-              [locals.disabledMetric]: isDisabled
+              [locals.disabledMetric]: isDisabled,
+              [locals.toggleable]: isToggleable
             })}
             onClick={() => {
-              config.toggleDataSeries(label);
-              chart.requestRender();
+              if (isToggleable) {
+                config.toggleDataSeries(label);
+                chart.requestRender();
+              }
             }}
           >
             {icons ? (
@@ -77,6 +82,13 @@ function MetricSeries({ chart, axis, config, filteredDataSeries }) {
 
             {label}
           </li>
+        );
+        return isToggleable ? (
+          content
+        ) : (
+          <Tooltip key={label} content={axis.nonToggleableSeries.get(axis.metricIds[i])}>
+            {content}
+          </Tooltip>
         );
       })}
     </ul>

@@ -27,7 +27,6 @@
     align-items: center;
 
     margin-right: 1rem;
-    cursor: pointer;
 
     &:last-child {
       margin-right: 0;
@@ -36,6 +35,10 @@
 
   .disabledMetric {
     color: rgb(156, 156, 156);
+  }
+
+  .toggleable {
+    cursor: pointer;
   }
 
   .dot {

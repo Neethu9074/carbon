@@ -34,9 +34,9 @@ describe('in-components/Chart/Configuration', () => {
         timeConfig: { windowSize: 60000, to: null }
       };
       const config = new Config(getCanvasMock(), props);
-      expect(config.filteredDataSeries).to.be.an.instanceof(Map);
+      expect(config.filteredDataSeries).to.be.an.instanceof(Set);
       expect(config.filteredDataSeries.size).to.equal(1);
-      expect(config.filteredDataSeries.keys().next().value).to.equal('b');
+      expect(config.filteredDataSeries.values().next().value).to.equal('b');
     });
   });
 
@@ -76,6 +76,28 @@ describe('in-components/Chart/Configuration', () => {
         minValue: 0,
         maxValue: 1
       });
+    });
+
+    it('should allow force disabling metrics', () => {
+      const props = {
+        y1: {
+          labels: ['a', 'b'],
+          metricIds: ['idA', 'idB'],
+          forceDisabledMetrics: ['idB']
+        },
+        timeConfig: { windowSize: 60000, to: null }
+      };
+
+      const config = new Config(getCanvasMock(), props);
+
+      expect(config.filteredDataSeries.size).to.equal(1);
+      expect(config.filteredDataSeries.keys().next().value).to.equal('b');
+
+      props.y1.forceDisabledMetrics = [];
+
+      config.update(props);
+
+      expect(config.filteredDataSeries.size).to.equal(0);
     });
 
     describe('enrichConfig', () => {

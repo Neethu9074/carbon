@@ -29,28 +29,41 @@ export default class Config {
     this.backBufferCtx = this.backBufferCanvas.getContext('2d');
 
     this.filteredDataSeries$ = create();
-    this.filteredDataSeries = new Map();
-    this.initDefaultDisabledMetrics(props);
-    this.filteredDataSeries$.emit(this.filteredDataSeries);
+    this.filteredDataSeries = new Set();
+    this.userFilteredDataSeries = this.getFilteredMetrics(props, 'defaultDisabledMetrics');
 
     this.update(props);
   }
 
-  initDefaultDisabledMetrics(props) {
-    this.initDefaultDisabledMetricsForAxis(props.y1);
-    if (props.y2) {
-      this.initDefaultDisabledMetricsForAxis(props.y2);
-    }
+  getFilteredMetrics(props, key) {
+    return new Set([props.y1, props.y2].filter(Boolean).flatMap(axis => this.getMetricsForAxis(axis, key)));
   }
 
-  initDefaultDisabledMetricsForAxis(axis) {
-    if (axis.defaultDisabledMetrics) {
+  getMetricsForAxis(axis, key) {
+    const disabledLabels = [];
+    if (axis[key]) {
       for (let mId = 0; mId < axis.metricIds.length; mId++) {
-        if (axis.defaultDisabledMetrics.indexOf(axis.metricIds[mId]) >= 0) {
-          this.filteredDataSeries.set(axis.labels[mId], true);
+        if (axis[key].indexOf(axis.metricIds[mId]) >= 0) {
+          disabledLabels.push(axis.labels[mId]);
         }
       }
     }
+    return disabledLabels;
+  }
+
+  updateFilteredDataSeries() {
+    this.filteredDataSeries.clear();
+    for (const label of this.userFilteredDataSeries) {
+      this.filteredDataSeries.add(label);
+    }
+    for (const label of this.forceFilteredDataSeries) {
+      this.filteredDataSeries.add(label);
+    }
+    this.filteredDataSeries$.emit(this.filteredDataSeries);
+  }
+
+  isLabelFiltered(label) {
+    return this.filteredDataSeries.has(label);
   }
 
   update(props) {
@@ -61,6 +74,9 @@ export default class Config {
 
     assign(this, props);
     this.enrichConfig();
+
+    this.forceFilteredDataSeries = this.getFilteredMetrics(props, 'forceDisabledMetrics');
+    this.updateFilteredDataSeries();
 
     if (!this.scales) {
       this.scales = new Scales(this, this.filteredDataSeries);
@@ -296,12 +312,12 @@ export default class Config {
   }
 
   toggleDataSeries(label) {
-    if (this.filteredDataSeries.has(label)) {
-      this.filteredDataSeries.delete(label);
+    if (this.userFilteredDataSeries.has(label)) {
+      this.userFilteredDataSeries.delete(label);
     } else {
-      this.filteredDataSeries.set(label, true);
+      this.userFilteredDataSeries.add(label);
     }
-    this.filteredDataSeries$.emit(this.filteredDataSeries);
+    this.updateFilteredDataSeries();
     this.scales.update();
   }
 }
