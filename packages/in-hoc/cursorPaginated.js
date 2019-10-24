@@ -93,6 +93,7 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       } else {
         this.setState(({ items }) => ({
           progress: result.progress,
+          adjustedWindowSize: result.adjustedWindowSize,
           errors: result.errors,
           time: result.time,
           canLoadMore: result.data.canLoadMore,
