@@ -16,6 +16,7 @@ import { isAdhocMetricAggregationEnabled } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -180,7 +181,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 tab: '/deploymentconfigs'
               })
             }}
-            showDeploymentConfigs={get(namespace, ['clusterDistribution'], 'kubernetes') === 'openshift'}
+            showDeploymentConfigs={isOpenshift(get(namespace, ['clusterDistribution'], 'kubernetes'))}
           />
         </Col>
         <Col lg={6}>

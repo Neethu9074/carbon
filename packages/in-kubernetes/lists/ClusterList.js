@@ -11,6 +11,7 @@ import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { capitalize } from 'in-services/formatters/string';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
@@ -125,16 +126,15 @@ export default connectTo(
           <ServerTableWithUrlState
             get={getTableData}
             filterColumnDefinitions={({ result }) => {
-              const isOpenshift =
+              const anyOpenshift =
                 result.data &&
                 result.data.items &&
                 Boolean(
-                  find(
-                    result.data.items,
-                    item => get(item, ['cluster', 'clusterDistribution'], 'kubernetes') === 'openshift'
+                  find(result.data.items, item =>
+                    isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes'))
                   )
                 );
-              return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
+              return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}
             timeConfig={timeConfig}
           />

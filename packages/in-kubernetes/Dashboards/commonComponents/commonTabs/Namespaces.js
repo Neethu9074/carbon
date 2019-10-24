@@ -15,6 +15,7 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { canSortByMetricColumns } from 'in-services/featureFlags';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 
 const pathSegment = '/namespaces';
 const matrixPrefix = 'namespace.';
@@ -172,16 +173,13 @@ export default function Namespaces(props) {
     <ServerTableWithUrlState
       get={getTableData}
       filterColumnDefinitions={({ result }) => {
-        const isOpenshift =
+        const anyOpenshift =
           result.data &&
           result.data.items &&
           Boolean(
-            find(
-              result.data.items,
-              item => get(item, ['namespace', 'clusterDistribution'], 'kubernetes') === 'openshift'
-            )
+            find(result.data.items, item => isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes')))
           );
-        return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
+        return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
       }}
       timeConfig={props.timeConfig}
       clusterId={props.clusterId}

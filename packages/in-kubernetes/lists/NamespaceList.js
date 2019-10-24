@@ -11,6 +11,7 @@ import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/p
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -110,16 +111,15 @@ export default connectTo(
           <ServerTableWithUrlState
             get={getTableData}
             filterColumnDefinitions={({ result }) => {
-              const isOpenshift =
+              const anyOpenshift =
                 result.data &&
                 result.data.items &&
                 Boolean(
-                  find(
-                    result.data.items,
-                    item => get(item, ['namespace', 'clusterDistribution'], 'kubernetes') === 'openshift'
+                  find(result.data.items, item =>
+                    isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
                   )
                 );
-              return columnDefinition => isOpenshift || columnDefinition.id !== 'deploymentConfigs';
+              return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
             }}
             timeConfig={timeConfig}
           />
