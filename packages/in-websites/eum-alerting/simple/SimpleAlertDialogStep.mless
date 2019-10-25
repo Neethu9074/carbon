@@ -13,6 +13,6 @@
   .alertChannelsContainer {
     grid-column: 1 / span 3;
     height: 400px;
-    overflow: scroll;
+    overflow: auto;
   }
 }

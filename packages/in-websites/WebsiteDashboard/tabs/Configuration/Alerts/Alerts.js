@@ -10,7 +10,6 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SimpleAlertDialog from 'in-websites/eum-alerting/simple/SimpleAlertDialog';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
-import { setActiveDialog, close } from 'in-components/DialogPresenter/store';
 import List, { reload } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -19,39 +18,41 @@ import locals from './Alerts.mless';
 
 export default function Alerts({ websiteLabel, websiteId }) {
   const [alertsSize, setAlertsSize] = useState('');
+  const [config, setConfig] = useState(null);
 
   return (
-    <List
-      getHeader={() => `Configured Alerts (${alertsSize})`}
-      getEntityName={config => config.name}
-      columnDefinitions={getColumnDefinitions(websiteLabel)}
-      tableActions={{
-        delete: {
-          deleteEntity: config => deleteAlertConfig(config.id)
-        },
-        toggleEnabled: {
-          get: config => config.enabled,
-          toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
-        }
-      }}
-      loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
-      pageSize={15}
-      searchAttributes={[entity => entity.name]}
-      noDataMessage="No alert configured."
-      onRowClick={config =>
-        setActiveDialog(
-          <SimpleAlertDialog
-            onClose={() => {
-              close();
-              reload();
-            }}
-            formData={config}
-            websiteLabel={websiteLabel}
-            editMode
-          />
-        )
-      }
-    />
+    <>
+      <List
+        getHeader={() => `Configured Alerts (${alertsSize})`}
+        getEntityName={config => config.name}
+        columnDefinitions={getColumnDefinitions(websiteLabel)}
+        tableActions={{
+          delete: {
+            deleteEntity: config => deleteAlertConfig(config.id)
+          },
+          toggleEnabled: {
+            get: config => config.enabled,
+            toggle: config => (config.enabled ? disableAlertConfig(config.id) : enableAlertConfig(config.id))
+          }
+        }}
+        loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
+        pageSize={15}
+        searchAttributes={[entity => entity.name]}
+        noDataMessage="No alert configured."
+        onRowClick={config => setConfig(config)}
+      />
+      {config && (
+        <SimpleAlertDialog
+          onClose={() => {
+            setConfig(null);
+            reload();
+          }}
+          formData={config}
+          websiteLabel={websiteLabel}
+          editMode
+        />
+      )}
+    </>
   );
 }
 
